@@ -56,7 +56,7 @@
  *   TOUCHBAR_Update  0x021B63D0  thumb  ov067
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   KEY_GetTrg  0x020362DC  arm
  *   CLACT_IsActorAnimActive  0x0204B98C  arm
  *   CLACT_GetActorAnimSeq  0x0204B898  arm
@@ -283,7 +283,7 @@ extern void CLACT_ReleasePalette(unsigned);
 extern void TOUCHBAR_Update(void *buttons);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern u32 KEY_GetTrg(void);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern u16 CLACT_GetActorAnimSeq(struct Actor *p);
@@ -775,10 +775,10 @@ void TOWNMAP_BackButtonUpdate(TownMapButtonBar *bar, void *scroll)
         if (TOUCHPANEL_GetPointTrg(&touchX, &touchY)) {
             if (touchX - spritePos.x <= 0x18 && touchY - spritePos.y <= 0x18) {
                 hit = 1;
-                func_020355D8(1);
+                UI_SetInputMode(1);
             }
         } else if (KEY_GetTrg() & 4) {
-            func_020355D8(hit);
+            UI_SetInputMode(hit);
             hit = 1;
         }
         if (hit && CLACT_IsActorAnimActive((void *)bar->sprite) == 0 && TOWNMAP_IsScrollZooming(scroll) == 0) {
@@ -870,22 +870,22 @@ void TOWNMAP_CursorUpdate(TownMapCursor *cursor, TownMapMap *map)
     moved = 0;
     cursor->pressed = 0;
     if (KEY_GetCont() & 0x40) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         keyDir.y -= 0x1000;
         moved = 1;
     }
     if (KEY_GetCont() & 0x80) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         keyDir.y += 0x1000;
         moved = 1;
     }
     if (KEY_GetCont() & 0x20) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         keyDir.x -= 0x1000;
         moved = 1;
     }
     if (KEY_GetCont() & 0x10) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         keyDir.x += 0x1000;
         moved = 1;
     }
@@ -933,11 +933,11 @@ void TOWNMAP_CursorUpdate(TownMapCursor *cursor, TownMapMap *map)
         CLACT_AddActorSurfacePos((struct Actor *)cursor->arrowSprite, (const struct Vec2 *)(&cursor->x), 0);
     }
     if (KEY_GetTrg() & 1) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         cursor->pressed = 1;
     }
     if (TOUCHPANEL_GetPointTrg(&touchX, &touchY)) {
-        func_020355D8(1);
+        UI_SetInputMode(1);
         if (touchX <= 0xf8 && touchY - 8 <= 0xa0) {
             cursor->pressed = 1;
             cursor->x = touchX;

@@ -595,7 +595,7 @@ int FIELD_CLOCK_GetCounter(GameData *gameData);
  *
  * lever: named temporaries keep the list parameter address live across the
  * regulation load; bounded permuter47 compiles found byte-correct192.
- * Interface evidence: ov019_func_0217BA10.c records r0->r2, r1->r0, r1=0x69, jump via02048F4C. Original caller supplies d in r0 and p->buf in r1.
+ * Interface evidence: UNION_ONESELF_LoadRegulation.c records r0->r2, r1->r0, r1=0x69, jump via02048F4C. Original caller supplies d in r0 and p->buf in r1.
  * TU: MATCH192,9/10 relocations; suggest-split leaves sole function OUT.
  * checks: 1 020124E8 takes live hd from122C0, own matched accessor reads+0xc; 2 family/neighbours reread, no full twin; 3 unsigned b/c each retain31 before search; 4 pointer-copy idiom read; 5 neighbours/idioms reread, frame is scalar spills, no stack aggregate.
  * permuter: once budget300 types, emitted baseline agreed31/192; stopped at47 with MATCH; fixed one confirmsMATCH192.

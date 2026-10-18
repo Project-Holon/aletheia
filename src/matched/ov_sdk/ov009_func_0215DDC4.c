@@ -15,7 +15,7 @@
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_SleepThread  0x020857B0  arm
  *   func_0215F3D0  0x0215F3D0  arm  ov009
- *   func_02082EA4  0x02082EA4  arm
+ *   MI_CpuCopy  0x02082EA4  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   gSoclConfig  0x021A1CD8  data
  */
@@ -54,7 +54,7 @@ struct SOCLSocket {
 extern unsigned long OS_DisableInterrupts(void);
 extern void OS_SleepThread(void *queue);
 extern int func_0215F3D0(struct SOCLSocket *socket);
-extern void func_02082EA4(void *srcp, void *destp, unsigned long size);
+extern void MI_CpuCopy(void *srcp, void *destp, unsigned long size);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern struct G_021A1CD8 *gSoclConfig;
 
@@ -96,7 +96,7 @@ static int func_0215DDC4(struct SOCLSocket *socket, void *buffer, int buffer_len
     if (udpdata != 0) {
         if (buffer_len > udpdata->size)
             buffer_len = udpdata->size;
-        func_02082EA4(udpdata + 1, buffer, buffer_len);
+        MI_CpuCopy(udpdata + 1, buffer, buffer_len);
         if (remote_port)
             *remote_port = udpdata->remote_port;
         if (remote_ip)

@@ -21,7 +21,7 @@
  *   DWCi_NodeInfoList_Clear  0x0217601C  arm  ov009
  *   DWCi_TempNewNodeInfo_Clear  0x0217653C  arm  ov009
  *   DWCi_ClearGameMatchKeys  0x02173B18  arm  ov009
- *   func_0216F388  0x0216F388  arm  ov009
+ *   DWCi_ResetMatchParam  0x0216F388  arm  ov009
  */
 
 extern void  DWCi_SetMatchCnt(int a0);
@@ -31,7 +31,7 @@ extern void  MI_CpuFill8(void *p, int v, int n);
 extern void  DWCi_NodeInfoList_Clear(void);
 extern void  DWCi_TempNewNodeInfo_Clear(void);
 extern void  DWCi_ClearGameMatchKeys(void);
-extern int   func_0216F388(int a0);
+extern int   DWCi_ResetMatchParam(int a0);
 
 int DWCi_MatchInit(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7)
 {
@@ -76,5 +76,5 @@ int DWCi_MatchInit(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a
     DWCi_NodeInfoList_Clear();
     DWCi_TempNewNodeInfo_Clear();
     DWCi_ClearGameMatchKeys();
-    return func_0216F388(0);
+    return DWCi_ResetMatchParam(0);
 }

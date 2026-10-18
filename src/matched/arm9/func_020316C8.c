@@ -28,7 +28,7 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_02082A7C  0x02082A7C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
  *   MATHi_CRC16InitTable  0x020819B8  arm
  *   FLASH_ACCESS_Identify  0x02033534  arm
  *   str_020A7848   0x020A7848  data
@@ -46,7 +46,7 @@ typedef unsigned int   u32;
 
 extern void *func_02030734(u32 heap, u32 size, int align, const char *file,
                          u16 line);
-extern void func_02082A7C(u32 a, void *p, u32 n);
+extern void MIi_CpuClear32(u32 a, void *p, u32 n);
 struct MATHCRC16Table;
 extern void MATHi_CRC16InitTable(struct MATHCRC16Table *table, u16 poly);
 extern int FLASH_ACCESS_Identify(u32 a);
@@ -58,7 +58,7 @@ void BACKUP_SYSTEM_Init(u32 a0, u32 a1, u32 a2)
     u8 *p = func_02030734((u16)a0, 0x210, 0, (const char *)str_020A7848, 0xdf);
 
     svsys = p;
-    func_02082A7C(0, p, 0x210);
+    MIi_CpuClear32(0, p, 0x210);
     MATHi_CRC16InitTable((struct MATHCRC16Table *)(svsys + 4), 0x1100 - 0xdf);
     *(u32 *)(svsys + 0x204) = a1;
     p = svsys;

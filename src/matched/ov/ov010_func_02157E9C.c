@@ -18,7 +18,7 @@
  * Prior recorded evidence (retained):
  * MYSTERY_GIFT_CreateMon (ov010, Thumb, 1148 bytes), tree_ov010_2, 2026-09-28
  *
- * Best source: src/pending/ov010_func_02157E9C.c (DIFF, size right, 54 of 54
+ * Best source: src/pending/MYSTERY_GIFT_CreateMon.c (DIFF, size right, 54 of 54
  * relocations resolved, 10 instructions out). The residue is the argument
  * setup of the first and third POKE_TOOL_CreatePersonalRnd calls:
  *

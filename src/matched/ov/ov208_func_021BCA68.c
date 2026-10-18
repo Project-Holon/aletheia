@@ -26,7 +26,7 @@
  *   ZUKAN_DETAIL_MAIN_SwitchScreen 0x021BCC84 thumb
  *   FADE_Start 0x0204E720 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
- * 2026-10-02: only ZUKAN_DETAIL_MAIN_NoOp (unlabelled bx lr stub, filed as ov208_func_021BCC80.c) lacks a witness; bytes match.
+ * 2026-10-02: only ZUKAN_DETAIL_MAIN_NoOp (unlabelled bx lr stub, filed as ZUKAN_DETAIL_MAIN_NoOp.c) lacks a witness; bytes match.
  * Callee ZUKAN_DETAIL_COMMON_CreateContext is declared void in its matched file but returns the new object (caller stores r0).
  */
 typedef unsigned short u16;

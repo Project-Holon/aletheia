@@ -9,18 +9,18 @@
  * status: EXACT
  * symbols:
  *   KEY_GetTrg 0x020362DC arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  */
 #include "../include/Obj00251.h"
 
 typedef unsigned int u32;
 extern u32 KEY_GetTrg(void);
 typedef unsigned char  u8;
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 static inline int poll(void)
 {
     int v=KEY_GetTrg();
-    if(v) func_020355D8(0);
+    if(v) UI_SetInputMode(0);
     return v;
 }
 int POKETRADE_NEGO_PollOfferCursorKeys(char *p)

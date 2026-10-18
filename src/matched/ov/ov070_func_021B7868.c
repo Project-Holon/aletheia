@@ -14,7 +14,7 @@
  *   ITEMMENU_HandleQuantityInput  0x021B7DF4  thumb  ov070
  *   ITEMMENU_CheckTouchRelease  0x021B8DAC  thumb  ov070
  *   KEY_GetTrg  0x020362DC  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   ITEMMENU_HideQuantityWindows  0x021B7DD0  thumb  ov070
  *   MSGDATA_ReadString  0x02045CAC  arm
@@ -49,7 +49,7 @@ extern int ITEMMENU_CheckTouchRelease(void);
 extern u32 KEY_GetTrg(void);
 typedef unsigned char  u8;
 struct WordSet;
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned int id);
 extern void ITEMMENU_HideQuantityWindows(u8 *p);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
@@ -74,9 +74,9 @@ void ITEMMENU_TaskTossQuantityInput(Obj *o)
     if (r == -1) {
         if (KEY_GetTrg() & 1) {
             r = 0;
-            func_020355D8(0);
+            UI_SetInputMode(0);
         } else if (KEY_GetTrg() & 2) {
-            func_020355D8(0);
+            UI_SetInputMode(0);
             r = 1;
         }
     }

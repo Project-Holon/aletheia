@@ -14,7 +14,7 @@
  *   G3D_CAMERA_GetTarget  0x02048B0C  arm
  *   G3D_CAMERA_GetUp  0x02048B30  arm
  *   MTX_LookAt  0x0207BCA0  arm
- *   func_02082B60  0x02082B60  arm
+ *   MI_Copy36B  0x02082B60  arm
  *   func_0207B0A4  0x0207B0A4  arm
  *   MTX_MultVec33  0x0207B51C  arm
  */
@@ -27,7 +27,7 @@ extern void G3D_CAMERA_GetEye(int, V *);
 extern void G3D_CAMERA_GetTarget(int, V *);
 extern void G3D_CAMERA_GetUp(int, V *);
 extern void MTX_LookAt(V *, V *, V *, M43 *);
-extern void func_02082B60(M43 *, M *);
+extern void MI_Copy36B(M43 *, M *);
 extern void func_0207B0A4(M *, M *);
 extern void MTX_MultVec33(M *, M *, M *);
 
@@ -41,7 +41,7 @@ void SCRCMD_MSGWIN_RotateOffsetByCamera(M *a, int b)
     G3D_CAMERA_GetTarget(b, &v2);
     G3D_CAMERA_GetUp(b, &v3);
     MTX_LookAt(&v1, &v2, &v3, &m1);
-    func_02082B60(&m1, &m2);
+    MI_Copy36B(&m1, &m2);
     func_0207B0A4(&m2, &m2);
     MTX_MultVec33(a, &m2, a);
 }

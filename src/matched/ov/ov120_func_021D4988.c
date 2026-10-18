@@ -24,7 +24,7 @@
  *   KEY_GetTrg  0x020362DC  arm
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   GFL_NET_STATE_WifiDisconnect  0x0203C554  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   GFL_NET_STATE_GetWifiState  0x0203C3EC  arm
  *   GFL_NET_SetAutoExit  0x0203D7B0  arm
  *   GFL_NET_SetLoginOption  0x0203D7BC  arm
@@ -40,7 +40,7 @@ extern void GTSNEGO_MSG_SetDecide(unsigned char *p);
 extern int GFL_NET_GetRunState(void);
 typedef unsigned char  u8;
 extern void GFL_NET_STATE_WifiDisconnect(u32 a);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void GTSNEGO_DISP_SetStateCallback(int *p, int v, int a2);
 extern int GFL_NET_STATE_GetWifiState(void);
@@ -57,7 +57,7 @@ void GTSNEGO_DISP_HandleTradeKeys(int *a)
         GTSNEGO_MSG_SetDecide((unsigned char *)(((struct Obj05343 *)a)->f40));
         if (GFL_NET_GetRunState() != 0)
             GFL_NET_STATE_WifiDisconnect(1);
-        func_020355D8(0);
+        UI_SetInputMode(0);
         GFL_USE_PlaySeDefaultVolume(0x551);
         GTSNEGO_DISP_SetStateCallback(a, 0x021D4FF5, 0x360);
     }

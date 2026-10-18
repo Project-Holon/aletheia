@@ -26,7 +26,7 @@
  *   GAME_DATA_GetField114  0x020127A4  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   GFL_HEAP_Alloc  0x02030734  arm
- *   func_02082A7C  0x02082A7C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
  *   GFL_HEAP_Free  0x020307B0  arm
  *   MAP_MATRIX_Load  0x02159B94  thumb  ov010
  *   ZONEDATA_SetDirectLocation 0x02014184 thumb
@@ -358,7 +358,7 @@ extern void *SCRCMD_NETWORK_CreateCommProcEvent(struct GameSystem *gameSystem);
 /* system */
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 GFL_HEAP_Free(void *p);
-extern void func_02082A7C(int value, void *dest, int size);
+extern void MIi_CpuClear32(int value, void *dest, int size);
 extern void MI_CpuFill8(void *dest, int value, int size);
 extern u32 KEY_GetTrg(void);
 extern u32 GFL_USE_GetRandom(u32 range);
@@ -652,7 +652,7 @@ void SCRCMD_WORK_InitMenu(ScrcmdWork *work, unsigned short x, unsigned short y,
     menu->result = result;
     menu->wordSet = wordSet;
     menu->msgData = msgData;
-    func_02082A7C(0, menu->itemHelp, 0x80);
+    MIi_CpuClear32(0, menu->itemHelp, 0x80);
     if (menu->msgData == NULL) {
         menu->ownsMsgData = 1;
         menu->msgData = MSGDATA_CreateFromArchive(0, 3, 0x80 + 0x86, work->heapId);

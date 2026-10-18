@@ -11,7 +11,7 @@
  * symbols:
  *   KEY_GetTrg 0x020362DC arm
  *   func_020355C4 0x020355C4 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   NAMEIN_GRAPHIC_PickerGetBox 0x021F2818 thumb ov194
  *   NAMEIN_GRAPHIC_PickerToChar 0x021F2614 thumb ov194
@@ -24,7 +24,7 @@ typedef struct {int x,y;} Pair;
 typedef struct {int left,top,right,bottom;} Rect;
 extern unsigned KEY_GetTrg(void),NAMEIN_GRAPHIC_PickerToChar(char *,int *,unsigned short *);
 extern u8 func_020355C4(void);
-extern void func_020355D8(u8),GFL_USE_PlaySeDefaultVolume(unsigned);
+extern void UI_SetInputMode(u8),GFL_USE_PlaySeDefaultVolume(unsigned);
 extern int NAMEIN_GRAPHIC_PickerGetBox(char *,int,int);
 extern void NAMEIN_GRAPHIC_PickerMove(char *,int,int);
 struct Rect;
@@ -47,7 +47,7 @@ int NAMEIN_GRAPHIC_SymbolKeyMove(char *p,int *out)
         if(NAMEIN_GRAPHIC_PickerToChar(p,&point.x,0)-2<=3){
             if(func_020355C4()==1){
                 if(NAMEIN_GRAPHIC_PickerGetBox(p,(int)(p+0xD8),(int)&rect)){
-                    GFL_USE_PlaySeDefaultVolume(1352);func_020355D8(0);
+                    GFL_USE_PlaySeDefaultVolume(1352);UI_SetInputMode(0);
                     NAMEIN_GRAPHIC_SetupCursor(p+0x24,1,(const struct Rect *)(&rect),((struct Obj00117 *)p)->f104,((struct Obj00117 *)p)->f100);
                 }
             }else{

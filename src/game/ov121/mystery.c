@@ -1856,7 +1856,7 @@ void MYSTERY_DeletePartyMenu(char *p) {
  *   arm is a written-out copy of the failure block, `if(H(74)==0){GFL_HEAP_Free(allocated);mon=0;
  *   goto image;}`, not `goto failed` (the copy is cross-jumped into the b stub, the ability
  *   default arm then also becomes the b stub, as in the original; matched twin
- *   ov010_func_02157E9C does the same for its nick and OT-name arms). Also id is now a u64 local
+ *   MYSTERY_GIFT_CreateMon does the same for its nick and OT-name arms). Also id is now a u64 local
  *   with a separate u32 otId (`id = otId;` before 020173F0), day is u8, as in that twin.
  *   Residue (all instruction-order, no register or slot difference): (1) 020173F0 loads r1 (level)
  *   before r2 (id); (2) 0186C8 arms: ldrb r2,[desc+0x1c] and the str [sp,4]/[sp,0x34] order;

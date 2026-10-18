@@ -12,7 +12,7 @@
  * Sets the +0x194 flag, refills the +0x1a4 block and returns it.
  *
  * symbols:
- *   func_02082A7C  0x02082A7C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -23,11 +23,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_02082A7C(int a, int b, int c);
+extern void MIi_CpuClear32(int a, int b, int c);
 
 int CTVT_COMM_ResetVoiceRecord(void *p, char *q)
 {
     ((struct Obj10663 *)q)->f194 = 1;
-    func_02082A7C(0, ((struct Obj10663 *)q)->f1A4, 0x208);
+    MIi_CpuClear32(0, ((struct Obj10663 *)q)->f1A4, 0x208);
     return ((struct Obj10663 *)q)->f1A4;
 }

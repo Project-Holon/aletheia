@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT*
- * trailing: larger follower filed as ov197_func_0220D358.c (parent cleared).
+ * trailing: larger follower filed as B_BAG_MAIN_StateWaitKey.c (parent cleared).
  * symbols:
  *   B_BAG_MAIN_CheckCancel 0x0220D884 thumb ov197
  *   KEY_GetTrg 0x020362DC arm

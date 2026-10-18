@@ -22,7 +22,7 @@
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   TCB_DeleteTask 0x02030EAC arm
  *   GAME_DATA_SetSaveFlag 0x02012BE0 thumb
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   GFL_HEAP_Free 0x020307B0 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
@@ -317,7 +317,7 @@ extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 extern void TCB_DeleteTask(struct Tcb *n);
 extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
-extern void func_020355D8(u8);
+extern void UI_SetInputMode(u8);
 extern u32 GFL_HEAP_Free(void *p);
 extern u32 TOUCHPANEL_GetPointCont(u32 *,u32 *);
 extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
@@ -673,7 +673,7 @@ int P_STATUS_ExitWork(PStatusWork *wk)
         wk->param->mode=3;
         wk->restoreModeAll=0;
     }
-    func_020355D8(wk->inputType);
+    UI_SetInputMode(wk->inputType);
     if(wk->tempPP) GFL_HEAP_Free(wk->tempPP);
     return 1;
 }
@@ -2189,7 +2189,7 @@ int P_STATUS_ProcInit(void *proc,int *seq,PStatusParam *pwk,PStatusWork *mywk)
                 param->mode=1;
                 param->canUseButtons=0;
             }
-            func_020355D8(1);
+            UI_SetInputMode(1);
         }
         wk->param=param;
         *seq=1;

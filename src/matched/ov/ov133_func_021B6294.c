@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   MUSICAL_SAVE_ClearNewProps 0x0200A6F8 thumb
  *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  *   DUP_FITTING_DeleteText 0x021B9BD0 thumb ov133
@@ -38,7 +38,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Big;struct Obj;struct Descriptor;struct Bank;struct Node;
-extern void func_020355D8(u8);
+extern void UI_SetInputMode(u8);
 extern void MUSICAL_SAVE_ClearNewProps(struct Big *);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void DUP_FITTING_DeleteText(unsigned char *p);
@@ -64,7 +64,7 @@ extern u32 func_020307B0(void *p);
 void DUP_FITTING_Delete(char *p)
 {
     u8 i;
-    func_020355D8(1);
+    UI_SetInputMode(1);
     MUSICAL_SAVE_ClearNewProps(*(struct Big * *)&((struct Obj23308 *)(*(char * *)&((struct Obj01941 *)p)->f4))->f8);
     GFL_USE_CancelChangeAndStopBgm();
     DUP_FITTING_DeleteText((unsigned char *)p);

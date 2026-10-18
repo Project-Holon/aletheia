@@ -38,7 +38,7 @@
  *   ZUKAN_INFO_Start 0x021BA544 thumb ov206
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   KEY_GetTrg 0x020362DC arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   ZUKAN_INFO_NotifyMoveDone 0x021BA514 thumb ov206
  *   ZUKAN_INFO_IsMoving 0x021BA524 thumb ov206
  *   ZUKAN_INFO_IsDone 0x021BA534 thumb ov206
@@ -177,7 +177,7 @@ extern int FADE_IsActive(void);
 extern void ZUKAN_INFO_Start(char *);
 extern int TOUCHPANEL_GetTrg(void);
 extern u32 KEY_GetTrg(void);
-extern void func_020355D8(u8);
+extern void UI_SetInputMode(u8);
 extern void ZUKAN_INFO_NotifyMoveDone(char *);
 extern int ZUKAN_INFO_IsMoving(char *);
 extern int ZUKAN_INFO_IsDone(char *);
@@ -328,8 +328,8 @@ int ZUKAN_TOROKU_GRAPHIC_Main(void *unused,int unused2,u32 *args,ZukanTorokuWork
         case 1:
             flag=0;
             input=TOUCHPANEL_GetTrg();
-            if(KEY_GetTrg()&3) { func_020355D8(0); flag=1; }
-            if(input!=0) { func_020355D8(1); flag=1; }
+            if(KEY_GetTrg()&3) { UI_SetInputMode(0); flag=1; }
+            if(input!=0) { UI_SetInputMode(1); flag=1; }
             if(flag!=0) { ZUKAN_INFO_NotifyMoveDone((char *)work->menu); work->step=2; }
             break;
         case 2:

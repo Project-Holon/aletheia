@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   PLIST_MENU_BuildCommandList  0x021BBC04  thumb  ov091
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   APP_TASKMENU_OpenMenu  0x02027778  thumb
  */
 #include "../include/Obj09933.h"
@@ -29,7 +29,7 @@ typedef struct Req {
 } Req;
 
 extern void PLIST_MENU_BuildCommandList(u8 *a, u8 *b, int *items);
-extern void func_020355D8(u32 a);
+extern void UI_SetInputMode(u32 a);
 struct TaskMenu;
 struct TaskMenuTmpl;
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
@@ -47,6 +47,6 @@ void PLIST_MENU_Open(u8 *a, u8 *b, int *items)
     r.c[1] = 0x18;
     r.c[2] = 0xd;
     r.c[3] = 3;
-    func_020355D8(((struct Obj09933 *)a)->f8);
+    UI_SetInputMode(((struct Obj09933 *)a)->f8);
     ((struct Obj13254 *)b)->f74 = (int)APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&r), (void *)(((struct Obj09933 *)a)->f254));
 }

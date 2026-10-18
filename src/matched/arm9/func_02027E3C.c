@@ -16,7 +16,7 @@
  *
  * symbols:
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   APP_TASKMENU_SetWinActive  0x02027B30  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  */
@@ -27,7 +27,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern int  TOUCHPANEL_HitTrg(const void *key);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 struct S;
 extern void APP_TASKMENU_SetWinActive(u32 a0, struct S *s, int mode);
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
@@ -62,7 +62,7 @@ void APP_TASKMENU_UpdateTouch(u8 *m)
         return;
     }
     one = 1;
-    func_020355D8(one);
+    UI_SetInputMode(one);
     APP_TASKMENU_SetWinActive(((u32 *)*(u32 * *)&((struct Obj00104 *)m)->f18)[m[0]], (struct S *)(*(u32 *)&((struct Obj00104 *)m)->f34), 0);
     m[0] = (u8)hit;
     *(int *)&((struct Obj00104 *)m)->fC = one;

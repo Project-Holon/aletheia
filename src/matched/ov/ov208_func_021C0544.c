@@ -12,7 +12,7 @@
  *   as in its matched definition; the 0x10 field read is passed as the second one. The image
  *   copies the result to r1 for that call, which was the old "sentinel compare" residue.
  * symbols:
- *   ov208_func_021BC3A4  0x021BC3A4  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_GetSource  0x021BC3A4  thumb  ov208
  *   TOWNMAP_GRH_GetTownInfoValue  0x021BBB3C  thumb  ov072
  *   SYMBOL_MAP_CheckEventFlag  0x02166CD0  thumb
  *   CLACT_CreateActor  0x0204B294  arm
@@ -35,7 +35,7 @@ typedef struct {
     u8 f7;
 } ObjPos;
 
-extern int  ov208_func_021BC3A4(int key);
+extern int  ZUKAN_DETAIL_COMMON_GetSource(int key);
 struct Actor;
 struct Obj;
 extern unsigned short TOWNMAP_GRH_GetTownInfoValue(char *p, int a, int b);
@@ -55,7 +55,7 @@ void ZUKAN_DETAIL_AREA_CreateTownMarkerActors(u16 *heap, u8 *p, int key)
     u16 msg;
     ObjPos pos;
 
-    k = ov208_func_021BC3A4(key);
+    k = ZUKAN_DETAIL_COMMON_GetSource(key);
     for (i = 0; i < 0x3d; i++) {
         msg = TOWNMAP_GRH_GetTownInfoValue((char *)W(0x3c8), i, 0x10);
         if (msg != 0xffff) {

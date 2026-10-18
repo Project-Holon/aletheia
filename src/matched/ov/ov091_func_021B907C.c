@@ -13,7 +13,7 @@
  *   G2x_SetBlendBrightness_  0x0207D658  arm
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   func_02041B6C  0x02041B6C  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  */
 
 typedef unsigned char u8;
@@ -25,7 +25,7 @@ extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void func_02041B6C(u32 bit);
-extern void func_020355D8(int a);
+extern void UI_SetInputMode(int a);
 
 #define reg_G2_WIN0H  (*(volatile u16 *)0x04000040)
 #define reg_G2_WIN0V  (*(volatile u16 *)0x04000044)
@@ -78,5 +78,5 @@ void POKELIST_EnterMenuPhase(u8 *p)
     CLACT_SetActorDrawEnable((struct Obj *)W(0x1e4), 0);
     CLACT_SetActorDrawEnable((struct Obj *)W(0x1e0), 0);
     func_02041B6C(0);
-    func_020355D8(W(8));
+    UI_SetInputMode(W(8));
 }

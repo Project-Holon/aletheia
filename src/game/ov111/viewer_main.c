@@ -56,7 +56,7 @@
  *   VIEWER_TEXT_Exit  0x021C60A0  thumb  ov111
  *   TCB_DeleteTask  0x02030EAC  arm
  *   TCBL_Destroy  0x02031140  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   PROCSYS_FreeProcWork  0x020315D4  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
@@ -406,7 +406,7 @@ extern u32 GFL_HEAP_Free(void *p);
 extern void VIEWER_TEXT_Exit(ViewerWork *p);
 extern void TCB_DeleteTask(struct Node *n);
 extern void TCBL_Destroy(struct S02031140 *p);
-extern void func_020355D8(u32 v);
+extern void UI_SetInputMode(u32 v);
 extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
@@ -797,7 +797,7 @@ int VIEWER_MAIN_Delete(void *man, int *state, ViewerArgs *args, ViewerWork *p)
     VIEWER_MAIN_ExitBg();
     TCB_DeleteTask(p->vblankTask);
     TCBL_Destroy((struct S02031140 *)p->tcbl);
-    func_020355D8(p->mode);
+    UI_SetInputMode(p->mode);
     PROCSYS_FreeProcWork(man);
     GFL_HEAP_DeleteChecked(0x27);
     return 1;
@@ -1526,7 +1526,7 @@ int VIEWER_MAIN_HandleKey(ViewerWork *p)
         if (p->inputMode == 0) {
             VIEWER_TEXT_SetActorAnim(&p->anim, 0, 9, 1);
             GFL_USE_PlaySeDefaultVolume(0x551);
-            func_020355D8((u32)0);
+            UI_SetInputMode((u32)0);
             return 4;
         }
     } else if (key & 0x400) {
@@ -1655,7 +1655,7 @@ int VIEWER_MAIN_HandleRowTouch(ViewerWork *p, int hit)
     case 0:
         VIEWER_TEXT_SetActorAnim((ViewerAnim *)((ViewerAnim *)((ViewerAnim *)(&p->anim))), 0, 9, 1);
         GFL_USE_PlaySeDefaultVolume(0x551);
-        func_020355D8((u32)1);
+        UI_SetInputMode((u32)1);
         return 4;
     case 1:
         VIEWER_TEXT_SetActorAnim((ViewerAnim *)((ViewerAnim *)((ViewerAnim *)(&p->anim))), 1, 8, 1);

@@ -17,6 +17,7 @@
  *   OS_Terminate  0x02088234  arm  arm9
  *   MSL_C_LIB_TwlCall1  0x020911D8  thumb  arm9
  *   MSL_C_LIB_TwlCall3  0x02091200  thumb  arm9
+ *   MIi_CpuClear32  0x02082A7C  arm  arm9
  *
  * Built with IRO common-subexpression elimination off for this function
  * (#pragma opt_common_subs off ... reset). With CSE on, m + i * 20 in the
@@ -70,7 +71,7 @@ struct Obj {
 };
 
 extern void OS_Terminate(void);
-extern void func_02082A7C(u32 v, void *dst, u32 n);
+extern void MIi_CpuClear32(u32 v, void *dst, u32 n);
 extern void MSL_C_LIB_TwlCall1(void *ctx);
 extern void MSL_C_LIB_TwlCall3(void *ctx, void *data, u32 len);
 extern void CARDi_CompareHash(const u32 *expect, void *data, u32 len);
@@ -105,7 +106,7 @@ void CARD_InitRomHashContext(struct Obj *obj, const struct Hdr *hdr, u32 base, u
         OS_Terminate();
         return;
     }
-    func_02082A7C(0, start, l3 + 0x60 - start);
+    MIi_CpuClear32(0, start, l3 + 0x60 - start);
     obj->f0 = hdr->f1e0;
     obj->f4 = hdr->f1e4;
     obj->f8 = hdr->f1e8;

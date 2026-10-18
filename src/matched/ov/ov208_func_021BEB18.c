@@ -31,7 +31,7 @@
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   func_021BDAD0 0x021BDAD0 thumb
  *   func_021BC3BC 0x021BC3BC thumb
- *   func_021BDAAC 0x021BDAAC thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_SetMode 0x021BDAAC thumb
  *   func_021BDAD4 0x021BDAD4 thumb
  *   func_021BDBB8 0x021BDBB8 thumb
  *   ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled 0x021BDC48 thumb
@@ -99,7 +99,7 @@ extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 extern void BG_SYS_FreeSlot(u8 a);
 extern int func_021BDAD0(void *s);
 extern u16 func_021BC3BC(int *ctx);
-extern void func_021BDAAC(void *s, u32 a, u32 b, u32 c);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetMode(void *s, u32 a, u32 b, u32 c);
 extern void func_021BDAD4(void *s, int a);
 extern void func_021BDBB8(void *s, u32 a);
 extern void ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(void *s, u32 a);
@@ -160,7 +160,7 @@ int ZUKAN_DETAIL_INFO_Main(void *unused, int *state, struct Ov208Heap *h, struct
             }
         }
         if (func_021BDAD0(scn) != 2) {
-            func_021BDAAC(scn, 0, 0, func_021BC3BC(ctx) > 1);
+            ZUKAN_DETAIL_TOUCHBAR_SetMode(scn, 0, 0, func_021BC3BC(ctx) > 1);
             func_021BDAD4(scn, 0);
         } else {
             func_021BDBB8(scn, 0);

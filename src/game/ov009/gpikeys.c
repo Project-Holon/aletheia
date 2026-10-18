@@ -1,7 +1,7 @@
 /*
  * file:     gpikeys.c
  * unit:     yes
- * function: gpiStatusInfoKeyFree, gpiStatusInfoKeysInit, gpiStatusInfoKeysDestroy, func_0218D864, gpiStatusInfoAddKey, gpiStatusInfoSetKey, gpiStatusInfoCheckKey, gpiSaveKeysToBuffer
+ * function: gpiStatusInfoKeyFree, gpiStatusInfoKeysInit, gpiStatusInfoKeysDestroy, gpiStatusInfoKeyCompFunc, gpiStatusInfoAddKey, gpiStatusInfoSetKey, gpiStatusInfoCheckKey, gpiSaveKeysToBuffer
  * address:  0x0218D7CC
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -23,7 +23,7 @@
  *   ArrayInsertSorted  0x021842D0  arm  ov009
  *   gGpiKeysErrorInvalidName  0x021A4D90  data
  *   gGpiKeysErrorInvalidValue  0x021A4DA4  data
- *   func_0218D864  0x0218D864  arm  ov009
+ *   gpiStatusInfoKeyCompFunc  0x0218D864  arm  ov009
  *   ArraySearch  0x021843E8  arm  ov009
  *   ArrayNth  0x02184208  arm  ov009
  *   ArrayLength  0x02184200  arm   ov009

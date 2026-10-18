@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Sibling of src/matched/ov170_func_021E5E68.c and ov170_func_021E376C.c.
+ * Sibling of src/matched/BOX2_SEQ_StateItemMenuE.c and BOX2_SEQ_StateMoveMove.c.
  *
  * symbols:
  *   KEY_GetTrg 0x020362DC arm

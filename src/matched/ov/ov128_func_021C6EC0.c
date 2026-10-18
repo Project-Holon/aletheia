@@ -10,7 +10,7 @@
  * status: EXACT*
  * note: 2026-10-05 lane P24L6. Bytes equal to the original (632 B function, 640 B listing
  * extent includes the 8 B stub Wf2dmapFriend_Exit). Only the two Wf2dmapFriend_Exit relocations
- * lack a witness: the stub is now filed as src/matched/ov/ov128_func_021C7138.c (EXACT),
+ * lack a witness: the stub is now filed as src/matched/ov/Wf2dmapFriend_Exit.c (EXACT),
  * so this file should become EXACT after the next manifest refresh. Recoup trail: the
  * condition chain on *p (3,4,1) is an if/else-if chain with q[8]=5 repeated in each arm
  * (bne over b); the shared finish block (Wf2dmapFriend_ResetListWindow with ctx as 2nd argument,

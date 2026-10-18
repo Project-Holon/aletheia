@@ -73,7 +73,7 @@
  *   CTVT_CAMVIEW_IsLayoutChanging 0x021B77B4 thumb ov172
  *   COMM_TVT_SYS_ToggleHalfRes 0x021BE08C thumb ov172
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   d_021C6F83 0x021C6F83 data a1
  *   d_021C6F77 0x021C6F77 data a1
  *   CTVT_ADPCM_ResetEncoder 0x021B69E0 thumb ov172
@@ -82,8 +82,8 @@
  *   GFL_USE_PlaySeInSlot 0x0200616C thumb
  *   GFL_USE_SetSeSlotParams 0x02006268 thumb
  *   d_021C6F8F 0x021C6F8F data a1
- *   func_0209BDBC 0x0209BDBC arm
- *   func_0209C95C 0x0209C95C arm
+ *   _s32_to_float 0x0209BDBC arm
+ *   __fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
  *   func_0209C0A4 0x0209C0A4 arm
@@ -223,7 +223,7 @@ extern u32 CTVT_CAMVIEW_IsLayoutChanging(int unused, void *p);
 
 extern int TOUCHPANEL_HitTrg(const void *);
 
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 
 extern void CTVT_ADPCM_ResetEncoder(void);
 
@@ -235,9 +235,9 @@ extern void GFL_USE_PlaySeInSlot(void *, int);
 
 extern void GFL_USE_SetSeSlotParams(int i, u32 a, u32 b, u32 c);
 
-extern int func_0209BDBC(int a);
+extern int _s32_to_float(int a);
 
-extern int func_0209C95C(int a, int b);
+extern int __fadd(int a, int b);
 
 extern int _fsub(int a, int b);
 
@@ -789,7 +789,7 @@ void CTVT_TALK_HandleInput(u8 *c, u8 *q)
     if (((CtvtTalk *)q)->state == 5) {
         r6 = TOUCHPANEL_HitTrg(d_021C6F77);
         if (r6 == 0 || (KEY_GetTrg() & 2)) {
-            if (r6 == 0) func_020355D8(1); else func_020355D8(0);
+            if (r6 == 0) UI_SetInputMode(1); else UI_SetInputMode(0);
             ((CtvtTalk *)q)->state = 9;
             GFL_USE_PlaySeDefaultVolume(0x551);
             CLACT_SetActorAnimSeq(((CtvtTalk *)q)->cancelActor, 9);
@@ -1004,15 +1004,15 @@ void CTVT_TALK_DrawLine(int a0, char *a1, u8 *p, u8 x0, u8 y0, u8 x1, u8 y1, u8 
     n = dx + 1;
     d = x1 - x0;
     if (d > 0)
-        r = func_0209C95C(0x3f000000, func_0209BDBC(d << 12));
+        r = __fadd(0x3f000000, _s32_to_float(d << 12));
     else
-        r = _fsub(func_0209BDBC(d << 12), 0x3f000000);
+        r = _fsub(_s32_to_float(d << 12), 0x3f000000);
     stepx = _ffix(r) / n;
     d = by - ay;
     if (d > 0)
-        r = func_0209C95C(0x3f000000, func_0209BDBC(d << 12));
+        r = __fadd(0x3f000000, _s32_to_float(d << 12));
     else
-        r = _fsub(func_0209BDBC(d << 12), 0x3f000000);
+        r = _fsub(_s32_to_float(d << 12), 0x3f000000);
     stepy = _ffix(r) / n;
     accx = 0;
     accy = 0;

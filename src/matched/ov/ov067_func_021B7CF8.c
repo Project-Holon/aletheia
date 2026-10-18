@@ -15,7 +15,7 @@
  * symbols:
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   func_020355C4  0x020355C4  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  */
 
 typedef unsigned char u8;
@@ -49,7 +49,7 @@ typedef struct S {
 
 extern int TOUCHPANEL_HitTrg(const void *p);
 extern u8 func_020355C4(void);
-extern void func_020355D8(int a);
+extern void UI_SetInputMode(int a);
 
 int FRAME_LIST_ReadTouch(S *p)
 {
@@ -62,7 +62,7 @@ int FRAME_LIST_ReadTouch(S *p)
     if (idx == -1)
         return 14;
     save = func_020355C4();
-    func_020355D8(1);
+    UI_SetInputMode(1);
     switch (p->f1c[idx].f4) {
     case 8:
         if (idx >= p->f5e)
@@ -82,7 +82,7 @@ int FRAME_LIST_ReadTouch(S *p)
             p->f60 = p->f5c;
             return 10;
         }
-        func_020355D8(save);
+        UI_SetInputMode(save);
         break;
     case 2:
         if (p->f62 != 0) {

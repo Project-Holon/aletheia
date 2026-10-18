@@ -800,7 +800,7 @@ int MUS_COMM_FUNC_SendBoxData(char *p)
 }
 
 /*
- * follower: loop leaf filed as ov132_func_021FD328.c.
+ * follower: loop leaf filed as MUS_COMM_FUNC_ResetBoxFlags.c.
  */
 void MUS_COMM_FUNC_ReceiveBoxData(int a,int b,int c,char *p)
 {

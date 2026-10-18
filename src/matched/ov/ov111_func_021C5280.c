@@ -13,7 +13,7 @@
  *   VIEWER_MAIN_HitRow  0x021C5264  thumb  ov111
  *   VIEWER_TEXT_SetActorAnim  0x021C6FA0  thumb  ov111
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   VIEWER_MAIN_SetRowDrawEnable  0x021C51E4  thumb  ov111
  *   VIEWER_MAIN_SetBgSlotKind  0x021C4754  thumb  ov111
@@ -72,7 +72,7 @@ typedef struct {
 extern void VIEWER_TEXT_SetActorAnim(Anim *a, int idx, u8 x, u8 y);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int VIEWER_MAIN_HitRow(Work *p, int hit);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern void VIEWER_MAIN_SetRowDrawEnable(Work *p, int flag);
 extern void VIEWER_MAIN_SetBgSlotKind(Work *p, int kind);
@@ -88,7 +88,7 @@ int VIEWER_MAIN_HandleRowTouch(Work *p, int hit)
     case 0:
         VIEWER_TEXT_SetActorAnim(&p->anim, 0, 9, 1);
         GFL_USE_PlaySeDefaultVolume(0x551);
-        func_020355D8(1);
+        UI_SetInputMode(1);
         return 4;
     case 1:
         VIEWER_TEXT_SetActorAnim(&p->anim, 1, 8, 1);

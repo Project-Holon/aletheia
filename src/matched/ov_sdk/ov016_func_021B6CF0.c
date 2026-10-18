@@ -15,7 +15,7 @@
  *
  * SDK: TwlDWC libdwcutil.TWL.HYB.a(aoss.o), symbol aoss_release (name from the vendor object).
  * aoss.o was built by Metrowerks C/C++ for ARM 3.0.0.126 (its .comment), which is
- * the 2.0/sp1p2 front end; see aoss_release (ov016_func_021B6CF0.c) for the byte tell.
+ * the 2.0/sp1p2 front end; see aoss_release (aoss_release.c) for the byte tell.
  *
  * Pin tell: the image reloads the .bss pool word before each of the three
  * accesses (ldr r0, [pc] at 0x021B6CF2, 0x021B6CFE, 0x021B6D04, 0x021B6D10 against
@@ -24,7 +24,7 @@
  * C is 44 bytes, 0 mismatches.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov016_func_021B6CF0.c \
+ *   python tools/match.py one --src src/matched/aoss_release.c \
  *       --func aoss_release --addr 0x021B6CF0 --region ov016 --cc ../2.0/sp1p2 --thumb
  */
 

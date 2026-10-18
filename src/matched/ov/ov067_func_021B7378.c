@@ -16,7 +16,7 @@
  *   KEY_GetTrg  0x020362DC  arm
  *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   func_020355C4  0x020355C4  arm
  *   YESNO_MENU_GetButtonPos  0x021B76C8  thumb  ov067
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
@@ -81,7 +81,7 @@ struct Descriptor;
 struct Obj;
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern u8 func_020355C4(void);
 extern u8 YESNO_MENU_GetButtonPos(u32 a, u32 b, u32 c);
 struct Ctx;
@@ -128,7 +128,7 @@ void YESNO_MENU_Update(S *p)
             GFL_USE_PlaySeDefaultVolume(0x552);
             p->f9c = 0;
             handled = 1;
-            func_020355D8(0);
+            UI_SetInputMode(0);
         }
         if (!handled && func_020355C4() == 0 && keys != 0) {
             changed = 0;
@@ -174,7 +174,7 @@ void YESNO_MENU_Update(S *p)
                     p->f9c = 0;
                 }
                 handled = 1;
-                func_020355D8(1);
+                UI_SetInputMode(1);
             }
         }
         if (!handled && func_020355C4() == 1 && keys != 0) {
@@ -183,7 +183,7 @@ void YESNO_MENU_Update(S *p)
                 CLACT_SetActorAutoAnim(p->fa0[i], 1);
             }
             GFL_USE_PlaySeDefaultVolume(0x548);
-            func_020355D8(0);
+            UI_SetInputMode(0);
         }
         if (handled) {
             for (i = 0; i < 4; i++) {

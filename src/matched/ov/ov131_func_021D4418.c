@@ -20,7 +20,7 @@
  *   P_STA_SUB_Delete 0x021D6608 thumb ov131
  *   P_STATUS_ExitGraphics 0x021D48E4 thumb ov131
  *   GAME_DATA_SetSaveFlag 0x02012BE0 thumb
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj01255.h"
@@ -40,7 +40,7 @@ extern void P_STA_INFO_FreeWork(int,char *);
 extern void P_STA_SUB_Delete(void *,void *);
 extern void P_STATUS_ExitGraphics(char *);
 extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
-extern void func_020355D8(u8);
+extern void UI_SetInputMode(u8);
 extern u32 func_020307B0(void *p);
 int P_STATUS_ExitWork(char *p)
 {
@@ -63,7 +63,7 @@ int P_STATUS_ExitWork(char *p)
         (*(u8 **)(p+8))[13]=3;
         ((struct Obj01255 *)p)->f14=0;
     }
-    func_020355D8(((struct Obj01255 *)p)->f1C);
+    UI_SetInputMode(((struct Obj01255 *)p)->f1C);
     if(((struct Obj01255 *)p)->f258) func_020307B0(((struct Obj01255 *)p)->f258);
     return 1;
 }

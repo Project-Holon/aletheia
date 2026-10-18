@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * note:     enum-k spelling as ov038_func_021F3F40.  Case 1 keeps the pressed
+ * note:     enum-k spelling as FIELD_GIMMICK_PLATE_DOORS_EventBumpDoorSide.  Case 1 keeps the pressed
  *           path in the if body (the release path, a task swap to
  *           FIELD_GIMMICK_PLATE_DOORS_EventReturnDoor, is the else) so case 0's two failed tests reuse
  *           its `b` to the shared tail; d = (u32)s[5] >> 1 gives the plain lsrs.

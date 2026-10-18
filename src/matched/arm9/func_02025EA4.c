@@ -12,7 +12,7 @@
  * symbols:
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   CURSOR_MOVE_TestSkipBit  0x020261C4  thumb
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   gCursorMoveTouchTag     0x0209FB58  data
  *
  * field_sound_system.c.  Scan the entry table hanging off the object for a
@@ -72,7 +72,7 @@ struct Sound {
 
 extern int TOUCHPANEL_HitTrg(const void *key);
 extern int CURSOR_MOVE_TestSkipBit(const u32 *bitmap, u32 bit);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern const u8 gCursorMoveTouchTag[4];
 
 int CURSOR_MOVE_PollTouch(struct Sound *obj, int *out)
@@ -114,7 +114,7 @@ int CURSOR_MOVE_PollTouch(struct Sound *obj, int *out)
                 obj->field_E = 0xff;
                 obj->field_F = 0xff;
                 *out = i;
-                func_020355D8(1);
+                UI_SetInputMode(1);
                 break;
             }
         }

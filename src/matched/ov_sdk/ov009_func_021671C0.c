@@ -12,7 +12,7 @@
  * The `clz r0,r0; rsb r0,r0,#0x20` bit scan is an inline-asm `clz32` (the
  * idiom doc "a clz means hand-written asm" is about the BODY being asm; a
  * `static inline` wrapper inlines the bare `clz` for free, as in
- * ov013_func_021B11E8.c).  The trailing wmResult switch must be NESTED in
+ * VCT_AUDIO_SendFrameStep.c).  The trailing wmResult switch must be NESTED in
  * errcode case 0: every other errcode returns, so it is semantically the
  * same, and nesting is what puts that switch ahead of the errcode case 1
  * and default blocks.

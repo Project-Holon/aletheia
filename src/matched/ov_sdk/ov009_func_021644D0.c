@@ -15,11 +15,11 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   count_digits  0x02163F24  arm  ov009
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_021644A0  0x021644A0  arm  ov009
- *   func_02164490  0x02164490  arm  ov009
+ *   get48bits_3  0x021644A0  arm  ov009
+ *   get48bits_2  0x02164490  arm  ov009
  *   get48bits_1  0x02164484  arm  ov009
  *   memmove  0x02092364  arm
- *   func_021644B4  0x021644B4  arm  ov009
+ *   get64bits  0x021644B4  arm  ov009
  *   _ll_udiv  0x0209C00C  arm
  *   func_021642E0  0x021642E0  arm  ov009
  *   CPSi_big_compare  0x021641C4  arm  ov009
@@ -33,11 +33,11 @@ typedef unsigned long long u64;
 extern void MI_CpuFill8(void *dstp, unsigned char data, u32 size);
 extern int count_digits(const unsigned short *p, int n);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
-extern u64 func_021644A0(u16 *s);
-extern u64 func_02164490(u16 *s);
+extern u64 get48bits_3(u16 *s);
+extern u64 get48bits_2(u16 *s);
 extern u64 get48bits_1(u16 *s);
 extern void *memmove(void *dst, const void *src, u32 n);
-extern u64 func_021644B4(u16 *s);
+extern u64 get64bits(u16 *s);
 extern void func_021642E0(u16 *c, u16 *a, u16 b, int digits);
 extern int CPSi_big_compare(u16 *a, u16 *b, int digits);
 extern void CPSi_big_sub(u16 *c, u16 *a, u16 *b, int digits);
@@ -64,14 +64,14 @@ void CPSi_big_div(u16 *c, u16 *a, u16 *b, u16 *r, int digits, u16 *work)
         } else {
             MI_CpuCopy8(a, ca + i, digits_a * 2);
             if (digits_b > 2)
-                msd = func_021644A0(b + digits_b - 1);
+                msd = get48bits_3(b + digits_b - 1);
             else if (digits_b > 1)
-                msd = func_02164490(b + digits_b - 1);
+                msd = get48bits_2(b + digits_b - 1);
             else
                 msd = get48bits_1(b + digits_b - 1);
             for (; i < digits; i++) {
                 memmove(ca + 1, ca, (digits * 2 - 1) * 2);
-                guess = func_021644B4(cca + digits_b) / msd;
+                guess = get64bits(cca + digits_b) / msd;
                 if (guess > 0xffff)
                     guess = 0xffff;
                 while (1) {

@@ -110,7 +110,7 @@
  *   UI_SCENE_LoadActorGfx 0x021B6208 thumb ov067
  *   UI_SCENE_CreateActor 0x021B629C thumb ov067
  *   UI_SCENE_FreeActorGfx 0x021B6284 thumb ov067
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
  *   ARC_UTIL_LoadPaletteDataFromHandle 0x02049EF4 arm
@@ -278,7 +278,7 @@ extern void BRIGHTNESS_Set(u32, u32, u32);
 extern void FADE_Start(u32, int, int, int);
 extern int FADE_IsActive(void);
 extern u8 UI_GetInputMode(void);
-extern void func_020355D8(u8 isTouch);
+extern void UI_SetInputMode(u8 isTouch);
 extern u32 TOUCHPANEL_GetPointCont(u32 *x, u32 *y);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *x, u32 *y);
 extern short FX_SinCosTable_[];
@@ -610,7 +610,7 @@ void PMS_SELECT_GRAPHIC_Teardown(struct PmsSelectGraphic *p)
     PMS_SELECT_GRAPHIC_DeleteBg(&p->bg);
     PMS_SELECT_GRAPHIC_DeleteScene(p->scene);
     if (p->isTouch) zero = 1;
-    func_020355D8(zero);
+    UI_SetInputMode(zero);
 }
 
 /*
@@ -1133,8 +1133,8 @@ int PMS_SELECT_GRAPHIC_StepList(void *unused, struct PmsSelectGraphic *p)
     if (!p->bg.decided) {
         input = 0;
         if (!p->touchScrolling) {
-            if (p->isTouch) func_020355D8(1);
-            else func_020355D8(0);
+            if (p->isTouch) UI_SetInputMode(1);
+            else UI_SetInputMode(0);
             PMS_SELECT_GRAPHIC_UpdateTouchBar(p->touchBar);
             if (TOUCHBAR_GetPressedButtonIdIfPressing(p->touchBar) != -1) p->touchBarActive = 0;
             result = TOUCHBAR_GetPressedButtonIdIfDone(p->touchBar);
@@ -1174,8 +1174,8 @@ int PMS_SELECT_GRAPHIC_HideTouchBar(void *unused, struct PmsSelectGraphic *p)
 
 int PMS_SELECT_GRAPHIC_StepOpenRowMenu(void *unused, struct PmsSelectGraphic *p)
 {
-    if (p->isTouch) func_020355D8(1);
-    else func_020355D8(0);
+    if (p->isTouch) UI_SetInputMode(1);
+    else UI_SetInputMode(0);
     p->taskMenu = PMS_SELECT_GRAPHIC_OpenRowMenu(p->taskMenuRes, p->msgBank, p->heapId);
     BRIGHTNESS_Set(-8, 30, 1);
     return 1;

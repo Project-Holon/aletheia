@@ -15,7 +15,7 @@
  * house string.h prototype, so mwccarm expands memcpy as the two-byte loop and
  * colours the destination r4 and the source r3, exactly as the object does.
  * The struct assignment form colours the mirror image (destination r3, source
- * r4).  Same close as gsUdpReceivedRoutingCB (0x02180A64) and ov009_func_0217ECA4.
+ * r4).  Same close as gsUdpReceivedRoutingCB (0x02180A64) and sendto.
  *
  * symbols:
  *   gsUdpEngineContext                  0x02180404  arm ov009

@@ -10,7 +10,7 @@
  * symbols:
  *   KEY_GetCont 0x0203630C arm
  *   TOUCHPANEL_GetCont 0x02035C38 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -29,7 +29,7 @@ extern void PRINTSYS_PrintStreamShortWait(struct Rec *p, s32 v);
 extern void PRINTSYS_PrintStreamReleasePause(void*);
 extern unsigned int KEY_GetCont(void);
 extern int TOUCHPANEL_GetCont(void);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned);
@@ -40,21 +40,21 @@ int BTL_REC_SEL_PrintStep(int unused,char*p)
     case 0:
         if((KEY_GetCont()&3)||TOUCHPANEL_GetCont()){
             PRINTSYS_PrintStreamShortWait(*(void* *)&((struct Obj04632 *)p)->f5C,0);
-            if(KEY_GetCont()&3)func_020355D8(0);else func_020355D8(1);
+            if(KEY_GetCont()&3)UI_SetInputMode(0);else UI_SetInputMode(1);
         }
         break;
     case 1:
         if((KEY_GetTrg()&3)||TOUCHPANEL_GetTrg()){
             GFL_USE_PlaySeDefaultVolume(0x547);
             PRINTSYS_PrintStreamReleasePause(*(void* *)&((struct Obj04632 *)p)->f5C);
-            if(KEY_GetTrg()&3)func_020355D8(0);else func_020355D8(1);
+            if(KEY_GetTrg()&3)UI_SetInputMode(0);else UI_SetInputMode(1);
         }
         break;
     case 2:
         if(((struct Obj04632 *)p)->f64)--((struct Obj04632 *)p)->f64;
         else if(((struct Obj04632 *)p)->f60){
             if((KEY_GetTrg()&3)||TOUCHPANEL_GetTrg()){
-                if(KEY_GetTrg()&3)func_020355D8(0);else func_020355D8(1);
+                if(KEY_GetTrg()&3)UI_SetInputMode(0);else UI_SetInputMode(1);
                 ((struct Obj04632 *)p)->f60=0;
                 result=1;
             }

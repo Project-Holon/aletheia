@@ -30,6 +30,7 @@
  *   OSi_EnterNDmaCallback  0x020848EC  arm
  *   MIi_GetControlData  0x0272F804  arm twl
  *   MSL_C_LIB_TwlCall1  0x020911D8  thumb  arm9
+ *   MIi_CpuClear32  0x02082A7C  arm  arm9
  */
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -104,7 +105,7 @@ extern IdSrc data_02150FEC;
 extern u32 data_02732E98[], data_02732E34[];
 extern u8 data_0272EB9C[];
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
-extern void func_02082A7C(u32 v, void *dst, u32 n);
+extern void MIi_CpuClear32(u32 v, void *dst, u32 n);
 extern void MSL_C_LIB_TwlCall3(void *ctx, void *data, u32 len);
 extern void MSL_C_LIB_TwlCall2(void *ctx, void *out);
 extern void MSL_C_LIB_TwlCall1(void *ctx);
@@ -368,7 +369,7 @@ void CARD_InitRomHashContext(CardHash *obj, const RomHdr *hdr, u32 base, u32 siz
         OS_Terminate();
         return;
     }
-    func_02082A7C(0, start, l3 + 0x60 - start);
+    MIi_CpuClear32(0, start, l3 + 0x60 - start);
     obj->f0 = hdr->f1e0;
     obj->f4 = hdr->f1e4;
     obj->f8 = hdr->f1e8;

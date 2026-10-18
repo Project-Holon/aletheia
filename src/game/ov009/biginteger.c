@@ -1,7 +1,7 @@
 /*
  * file:     biginteger.c
  * unit:     yes
- * function: count_digits, CPSi_big_sign, CPSi_big_add, CPSi_big_add_small, CPSi_big_negate, CPSi_big_sub, CPSi_big_sub_small, CPSi_big_compare, CPSi_big_add_part, CPSi_big_mult, CPSi_big_mult_small, CPSi_big_sqr, get48bits_1, func_02164490, func_021644A0, func_021644B4, CPSi_big_div, CPSi_big_power, CPSi_big_modinv, CPSi_big_montmult, CPSi_big_montpower, CPSi_big_from_char, CPSi_char_from_big
+ * function: count_digits, CPSi_big_sign, CPSi_big_add, CPSi_big_add_small, CPSi_big_negate, CPSi_big_sub, CPSi_big_sub_small, CPSi_big_compare, CPSi_big_add_part, CPSi_big_mult, CPSi_big_mult_small, CPSi_big_sqr, get48bits_1, get48bits_2, get48bits_3, get64bits, CPSi_big_div, CPSi_big_power, CPSi_big_modinv, CPSi_big_montmult, CPSi_big_montpower, CPSi_big_from_char, CPSi_char_from_big
  * address:  0x02163F24
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -18,10 +18,10 @@
  *   CPSi_big_add_part  0x021641FC  arm  ov009
  *   MI_CpuFill8                      0x02082bcc arm
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_021644A0  0x021644A0  arm  ov009
- *   func_02164490  0x02164490  arm  ov009
+ *   get48bits_3  0x021644A0  arm  ov009
+ *   get48bits_2  0x02164490  arm  ov009
  *   memmove  0x02092364  arm
- *   func_021644B4  0x021644B4  arm  ov009
+ *   get64bits  0x021644B4  arm  ov009
  *   _ll_udiv  0x0209C00C  arm
  *   CPSi_big_mult_small  0x021642E0  arm  ov009
  *   CPSiAlloc     0x021A8280  data
@@ -42,10 +42,10 @@ typedef unsigned char  u8;
 
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
-extern u64 func_021644A0(u16 *s);
-extern u64 func_02164490(u16 *s);
+extern u64 get48bits_3(u16 *s);
+extern u64 get48bits_2(u16 *s);
 extern void *memmove(void *dst, const void *src, u32 n);
-extern u64 func_021644B4(u16 *s);
+extern u64 get64bits(u16 *s);
 extern void CPSi_big_modinv(unsigned short *c, unsigned short *a, unsigned short *n, int digits, unsigned short *tmp_var);
 extern void CPSi_big_mult(unsigned short *c, unsigned short *a, unsigned short *b, int digits);
 extern void CPSi_big_div(unsigned short *c, unsigned short *a, unsigned short *b, unsigned short *r, int digits, unsigned short *work);
@@ -425,14 +425,14 @@ void CPSi_big_div(u16 *c, u16 *a, u16 *b, u16 *r, int digits, u16 *work)
         } else {
             MI_CpuCopy8(a, ca + i, digits_a * 2);
             if (digits_b > 2)
-                msd = func_021644A0(b + digits_b - 1);
+                msd = get48bits_3(b + digits_b - 1);
             else if (digits_b > 1)
-                msd = func_02164490(b + digits_b - 1);
+                msd = get48bits_2(b + digits_b - 1);
             else
                 msd = get48bits_1(b + digits_b - 1);
             for (; i < digits; i++) {
                 memmove(ca + 1, ca, (digits * 2 - 1) * 2);
-                guess = func_021644B4(cca + digits_b) / msd;
+                guess = get64bits(cca + digits_b) / msd;
                 if (guess > 0xffff)
                     guess = 0xffff;
                 while (1) {

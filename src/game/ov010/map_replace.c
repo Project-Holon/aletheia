@@ -330,7 +330,7 @@ u16 MAP_REPLACE_GetWarpFlagId(int warpId) { return *(u16 *)((unsigned)d_02170FF4
 
 
 /*
- * extent: followed by independently matched ov010_func_02159FE0.c.
+ * extent: followed by independently matched MAP_REPLACE_FindFlyTargetIndex.c.
  * lever: const table declarations hoist the second table load before the stack argument.
  * prototype: both payload bytes come out of the halfword as bit fields, so the
  * u16 fifth input needs no extra truncation.

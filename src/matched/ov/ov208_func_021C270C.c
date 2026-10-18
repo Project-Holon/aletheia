@@ -29,7 +29,7 @@
  *   ZUKAN_DETAIL_VOICE_SetActorsNormalMode 0x021C3AA8 thumb ov208
  *   ZUKAN_DETAIL_COMMON_StartFadeOut 0x021BC6D8 thumb ov208
  *   func_021BDAD0 0x021BDAD0 thumb ov208
- *   func_021BDAAC 0x021BDAAC thumb ov208
+ *   ZUKAN_DETAIL_TOUCHBAR_SetMode 0x021BDAAC thumb ov208
  *   func_021BDAD4 0x021BDAD4 thumb ov208
  *   func_021BDBB8 0x021BDBB8 thumb ov208
  *   ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled 0x021BDC48 thumb ov208
@@ -90,7 +90,7 @@ extern void ZUKAN_DETAIL_COMMON_SetBrightnessFull(int flag, int *p);
 extern void ZUKAN_DETAIL_VOICE_SetActorsNormalMode(void *,u8 *,int);
 extern void ZUKAN_DETAIL_COMMON_StartFadeOut(char *p);
 extern int func_021BDAD0(struct Ov208Fade *);
-extern void func_021BDAAC(struct Ov208Scene *,u32,u32,u32);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetMode(struct Ov208Scene *,u32,u32,u32);
 extern void func_021BDAD4(struct Ov208Fade *,int);
 extern void func_021BDBB8(struct Ov208Scene *,u32);
 extern void ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(struct Ov208Scene *,u32);
@@ -165,7 +165,7 @@ int ZUKAN_DETAIL_VOICE_Main(void *unused,int *seq,u16 *heap,u8 *p,int key)
         *seq=3;
         ZUKAN_DETAIL_COMMON_StartFadeOut((char *)W(0xc8));
         if(func_021BDAD0(scene)!=2){
-            func_021BDAAC(scene,0,2,func_021BC3BC((char *)key)>1);
+            ZUKAN_DETAIL_TOUCHBAR_SetMode(scene,0,2,func_021BC3BC((char *)key)>1);
             func_021BDAD4(scene,0);
         }else func_021BDBB8(scene,2);
         ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(scene,0);

@@ -956,7 +956,7 @@ void MICTEST_InitSpriteTask(int owner, void *handle, MictestSprite *entry, s16 x
 
 /*
  * extent: two-byte alignment padding at 0x02184816.
- * Verified blocker C copied from ov137_func_021E09C0.c;
+ * Verified blocker C copied from GURU2_MAIN_UpdateRecordPosition.c;
  * the 0203F5FC blocker log reports EXACT, 64 bytes:
  */
 void MICTEST_UpdateSpriteTask(void *task, MictestMotion *p)

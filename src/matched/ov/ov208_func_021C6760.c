@@ -11,12 +11,12 @@
  * note: 2026-10-05 (D4-11): EXACT. The rect offset is a local (`k = 0x604`, then c[k],
  *   c[k + 1], c[k + 2], c[k + 3]); the byte load then evaluates before x, as in the image.
  * symbols:
- *   ov208_func_021BC3B4 0x021BC3B4 thumb ov208
+ *   ZUKAN_DETAIL_COMMON_GetWorkPtr 0x021BC3B4 thumb ov208
  *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
  *   KEY_GetTrg 0x020362DC arm
  *   KEY_GetRepeat 0x0203633C arm
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   ov208_func_021BDC48 0x021BDC48 thumb ov208
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -28,13 +28,13 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *ov208_func_021BC3B4(int key);
+extern void *ZUKAN_DETAIL_COMMON_GetWorkPtr(int key);
 struct Obj;
 extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 extern u32 KEY_GetTrg(void);
 extern u32 KEY_GetRepeat(void);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
-extern void func_020355D8(int v);
+extern void UI_SetInputMode(int v);
 extern void ov208_func_021BDC48(void *scene, u32 on);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void GFL_USE_PlaySeDefaultVolume(u32 v);
@@ -58,7 +58,7 @@ int ZUKAN_DETAIL_FORM_HandleTouchArrows(void *unused, u8 *p, int key)
     int o;
     u8 *q;
     int k;
-    sys = ov208_func_021BC3B4(key);
+    sys = ZUKAN_DETAIL_COMMON_GetWorkPtr(key);
     hit = HIT_NONE;
     if (hit == 5) {
         for (i = 0; i < 4; i++) {
@@ -99,7 +99,7 @@ int ZUKAN_DETAIL_FORM_HandleTouchArrows(void *unused, u8 *p, int key)
         if (F32(p, 0x694) != 5) {
             hit = 6;
         } else {
-            func_020355D8(type);
+            UI_SetInputMode(type);
             ov208_func_021BDC48(sys, 0);
             o = hit * 0x28;
             *(u32 *)(p + 0x614 + o) = 1;

@@ -184,7 +184,7 @@
  *   TCB_DeleteTask 0x02030EAC arm
  *   TCBL_Destroy 0x02031140 arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
- *   func_02082A7C  0x02082A7C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
  *   PALANM_LoadHandlePaletteToSlot  0x020216B4  thumb
  *   PALANM_LoadArcPaletteToSlot  0x02021640  thumb
  *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm
@@ -515,7 +515,7 @@ extern u32 PALANM_Delete(void *a0);
 extern void TCB_DeleteTask(struct Node *n);
 extern void TCBL_Destroy(struct Tcbl *p);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_02082A7C(u32 fill, void *dst, u32 size);
+extern void MIi_CpuClear32(u32 fill, void *dst, u32 size);
 extern void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -3828,7 +3828,7 @@ void BEACON_VIEW_InitBackgrounds(BeaconViewWork *work, void *h)
     BG_SYS_InitBgLayer(5, (const struct BgTemplate *)d_021F3628, 0);
     BG_SYS_InitBgLayer(6, (const struct BgTemplate *)d_021F3648, 0);
     BG_SYS_InitBgLayer(7, (const struct BgTemplate *)d_021F3668, 0);
-    func_02082A7C(0, (void *)0x06200000, 0x20000);
+    MIi_CpuClear32(0, (void *)0x06200000, 0x20000);
     REG_DB_DISPCNT_SUB &= 0xFFFF1FFF;
     REG_DB_BLDCNT_SUB = 0;
     PALANM_LoadHandlePaletteToSlot((struct PalAnmSlot *)(work->paletteAnim), (void *)h, 0x13, work->uiHeapId, 1, 0x1a0, 0);
@@ -4004,7 +4004,7 @@ void BEACON_VIEW_FreeGraphics(BeaconViewWork *work)
 
 
 /*
- * note:     CLACT_SetUnitRenderer takes two arguments (twin ov029_func_021F1DE8): the
+ * note:     CLACT_SetUnitRenderer takes two arguments (twin C_GEAR_LoadGraphics): the
  *           0x12C result still in r1 at that call is its second argument.
  */
 void BEACON_VIEW_CreateActors(BeaconViewWork *work, void *a)

@@ -59,7 +59,7 @@
  *   _fsub  0x0209CB8C  arm
  *   _fmul  0x0209C77C  arm
  *   _ffix  0x0209C494  arm
- *   func_02082A7C 0x02082A7C arm
+ *   MIi_CpuClear32 0x02082A7C arm
  *   GFL_USE_GetSeSlot  0x02006148  thumb
  *   GFL_USE_IsSeSlotBusy  0x02006224  thumb
  *   GFL_USE_StopSeSlot  0x020061F8  thumb
@@ -324,7 +324,7 @@ void FIELD_GIMMICK_SOUND_OBJS_LowerBgmVolume(FieldGimmickSoundObjsWork *work, in
 /* Clears the state of the sliding sound. */
 void FIELD_GIMMICK_SOUND_OBJS_ClearSlideSe(FieldGimmickSoundObjsSlideSe *slideSe)
 {
-    func_02082A7C(0, slideSe, sizeof(FieldGimmickSoundObjsSlideSe));
+    MIi_CpuClear32(0, slideSe, sizeof(FieldGimmickSoundObjsSlideSe));
 }
 
 /*

@@ -17,7 +17,7 @@
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   FIELD_MENU_MoveCursor  0x021A8E80  thumb  ov021
  *   FIELD_MENU_GetSlotIndex  0x021A8E78  thumb  ov021
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  */
 
 typedef unsigned char u8;
@@ -57,7 +57,7 @@ extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 struct W;
 extern u32 FIELD_MENU_MoveCursor(struct W *w, u32 dir);
 extern int FIELD_MENU_GetSlotIndex(u32 a, u32 b);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 
 void FIELD_MENU_HandleKeys(Obj *p)
 {
@@ -103,7 +103,7 @@ void FIELD_MENU_HandleKeys(Obj *p)
     } else if (trg & 1) {
         if (p->items[FIELD_MENU_GetSlotIndex(p->f1E, p->f1F)].f08 != 7) {
             FIELD_MENU_StartLeave(p, 0);
-            func_020355D8(0);
+            UI_SetInputMode(0);
         }
     }
 }

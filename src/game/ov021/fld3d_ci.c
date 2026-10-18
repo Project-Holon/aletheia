@@ -107,7 +107,7 @@
  *   ARC_UTIL_LoadScreenDataFromArchive  0x02049E34  arm
  *   ARC_UTIL_LoadPaletteBlockFromArchive  0x02049F34  arm
  *   BMP_GetPixels  0x020437D4  arm
- *   func_02082A7C  0x02082A7C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
  *   MIi_CpuCopy32  0x02082A90  arm
  *   BMP_ConvertToLinear  0x02044F64  arm
  *   NNS_GfdRegisterNewVramTransferTask  0x02061CA4  arm
@@ -341,7 +341,7 @@ extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3
 
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 
-extern void func_02082A7C(u32 fill, void *dst, u32 size);
+extern void MIi_CpuClear32(u32 fill, void *dst, u32 size);
 
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 
@@ -1019,7 +1019,7 @@ void FLD3D_CI_EndSequence(Fld3dCi *ci, Fld3dCiSeq *seq)
 
 /*
  * EXACT*: the 72-byte listing extent runs on into the unlabelled leaf
- * FLD3D_CI_FollowTargetCallback (ov021_func_021C24BC.c), whose EXACT entry attests the
+ * FLD3D_CI_FollowTargetCallback (FLD3D_CI_FollowTargetCallback.c), whose EXACT entry attests the
  * pool word 0x021C24BD as matched.
  */
 void FLD3D_CI_StartTrack(Fld3dCi *ci, int track)
@@ -1308,7 +1308,7 @@ void FLD3D_CI_LoadPokemonIconTexture(Fld3dCi *ci)
     ci->plttRes = ARC_UTIL_LoadPaletteBlockFromArchive(POKEGRA_GetArcID(), plttFile, (u32)(&ci->pltt), heapId);
     chrSrc = ci->chr->raw;
     tileBuf = BMP_GetPixels(ci->canvas);
-    func_02082A7C(0, tileBuf, 0x2000);
+    MIi_CpuClear32(0, tileBuf, 0x2000);
     for (j = 0; j < 8; j++) {
         for (i = 0; i < 8; i++) {
             MIi_CpuCopy32(chrSrc + tile * 32, tileBuf + 0x440 + (i + j * 16) * 32, 32);
@@ -1432,7 +1432,7 @@ void FLD3D_CI_LoadNameTexture(Fld3dCi *ci, const char *texName, const char *pltt
     ci->plttRes = ARC_UTIL_LoadPaletteBlockFromArchive(0xb4, plttFile, (u32)(&ci->pltt), heapId);
     chrSrc = ci->chr->raw;
     tileBuf = BMP_GetPixels(ci->canvas);
-    func_02082A7C(0, tileBuf, 0x2000);
+    MIi_CpuClear32(0, tileBuf, 0x2000);
     for (j = 0; j < 16; j++) {
         for (i = 0; i < 16; i++) {
             MIi_CpuCopy32(chrSrc + tile * 32, tileBuf + (i + j * 16) * 32, 32);

@@ -12,18 +12,18 @@
  * but the original retains its r0 result in r4 and returns it.
  * symbols:
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   d_021BB978 0x021BB978 data a4
  */
 extern const char d_021BB978[];
 extern int TOUCHPANEL_HitTrg(const void *p);
 typedef unsigned char  u8;
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 int ITEMMENU_CheckTouchRelease(void)
 {
     int result;
     result = TOUCHPANEL_HitTrg(d_021BB978);
     if (result != -1)
-        func_020355D8(1);
+        UI_SetInputMode(1);
     return result;
 }

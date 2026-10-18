@@ -73,7 +73,7 @@
  *   PALANM_IsOutsideReservedIdRange  0x020213E0  thumb
  *   FILE_UTIL_Check136C  0x0202136C  thumb
  *   BUTTON_MAN_UpdateSlots  0x02051C88  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   GFL_USE_IsAnySeBusy  0x02006238  thumb
  *   FILE_UTIL_Get_12B0  0x020212B0  thumb
@@ -472,7 +472,7 @@ extern s32 BUTTON_MAN_UpdateSlots(struct ButtonTask *task);
 extern s32 BLINK_PALANM_Update(struct BlinkPalAnm *p);
 extern u32 KEY_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned int se);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern void CLACT_SetActorAnimSeq(struct Actor *p, u16 value);
 extern unsigned int KEY_GetRepeat(void);
@@ -1698,7 +1698,7 @@ void ITEMMENU_TaskBagMain(ItemMenuWork *work)
     if (KEY_GetTrg() & 2) {
         work->nextState = 1;
         work->selectedItemId = 0;
-        func_020355D8(0);
+        UI_SetInputMode(0);
         ITEMMENU_StartSideButtonPress(work, 4, 0);
         return;
     }
@@ -1707,7 +1707,7 @@ void ITEMMENU_TaskBagMain(ItemMenuWork *work)
             return;
         work->nextState = 0;
         work->selectedItemId = 0;
-        func_020355D8(0);
+        UI_SetInputMode(0);
         ITEMMENU_StartSideButtonPress(work, 3, 0);
         return;
     }
@@ -1760,7 +1760,7 @@ void ITEMMENU_TaskBagMain(ItemMenuWork *work)
         work->currentPocket = previousPocket + 1;
         if (work->currentPocket >= 5)
             work->currentPocket = 0;
-        func_020355D8(0);
+        UI_SetInputMode(0);
         ITEMMENU_StartPocketTabPress(work, previousPocket, 1, ITEMMENU_ReturnToBagMainAlias);
         return;
     }
@@ -1769,7 +1769,7 @@ void ITEMMENU_TaskBagMain(ItemMenuWork *work)
         work->currentPocket = previousPocket - 1;
         if (work->currentPocket < 0)
             work->currentPocket = 4;
-        func_020355D8(0);
+        UI_SetInputMode(0);
         ITEMMENU_StartPocketTabPress(work, previousPocket, 0, ITEMMENU_ReturnToBagMainAlias);
     }
 }
@@ -1962,9 +1962,9 @@ void ITEMMENU_TaskTossQuantityInput(ItemMenuWork *work)
     if (choice == -1) {
         if (KEY_GetTrg() & 1) {
             choice = 0;
-            func_020355D8(0);
+            UI_SetInputMode(0);
         } else if (KEY_GetTrg() & 2) {
-            func_020355D8(0);
+            UI_SetInputMode(0);
             choice = 1;
         }
     }
@@ -2042,9 +2042,9 @@ void ITEMMENU_TaskSellQuantityInput(ItemMenuWork *work)
     if (choice == -1) {
         if (KEY_GetTrg() & 1) {
             choice = 0;
-            func_020355D8(0);
+            UI_SetInputMode(0);
         } else if (KEY_GetTrg() & 2) {
-            func_020355D8(0);
+            UI_SetInputMode(0);
             choice = 1;
         }
     }
@@ -2361,9 +2361,9 @@ void ITEMMENU_SetCursorActive(ItemMenuWork *work, int flag)
     if (work->usingWorkCopy == 1)
         flag = 1;
     if (flag)
-        func_020355D8(0);
+        UI_SetInputMode(0);
     else
-        func_020355D8(1);
+        UI_SetInputMode(1);
     if (ITEMMENU_GetItemCount(work) == 0)
         flag = 0;
     if (flag == 0) {
@@ -2585,13 +2585,13 @@ void ITEMMENU_HandleTouchTarget(u32 idx, int flag, ItemMenuWork *work)
             work->nextState = 0;
             work->selectedItemId = 0;
             ITEMMENU_StartSideButtonPress(work, 3, 0);
-            func_020355D8(1);
+            UI_SetInputMode(1);
         }
     } else if (idx == 10) {
         work->nextState = 1;
         work->selectedItemId = 0;
         ITEMMENU_StartSideButtonPress(work, 4, 0);
-        func_020355D8(1);
+        UI_SetInputMode(1);
     } else if (idx >= 11 && idx < 17) {
         if (work->taskFn != (ItemMenuTaskFn)ITEMMENU_TaskBagMain)
             return;
@@ -3007,7 +3007,7 @@ int ITEMMENU_CheckTouchRelease(void)
     int result;
     result = TOUCHPANEL_HitTrg(sBackButtonHitRect);
     if (result != -1)
-        func_020355D8(1);
+        UI_SetInputMode(1);
     return result;
 }
 

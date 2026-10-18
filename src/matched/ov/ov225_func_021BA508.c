@@ -11,7 +11,7 @@
  * symbols:
  *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
  *   KEY_GetRepeat 0x0203633C arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -27,7 +27,7 @@ struct Entry { u32 first; u16 normal,pad6; u8 left,right,top,bottom; u32 active,
 extern const struct Entry gManualCommonActorEntries[];
 extern u32 CLACT_GetActorDrawEnable(struct Obj *);
 extern u32 KEY_GetRepeat(void);
-extern void func_020355D8(u8);
+extern void UI_SetInputMode(u8);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *,u32 *);
 extern void CLACT_SetActorAnimSeq(struct Obj *,u16);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
@@ -45,7 +45,7 @@ void MANUAL_COMMON_UpdateTouchbarActors(char *p)
     row=&gManualCommonActorEntries[i];
     if(KEY_GetRepeat()&row->mask) {
      ((struct Obj00367 *)p)->f40=i;
-     func_020355D8(0);
+     UI_SetInputMode(0);
      found=1;
      break;
     }
@@ -53,7 +53,7 @@ void MANUAL_COMMON_UpdateTouchbarActors(char *p)
      if(row->left<=x && x<=row->right && row->top<=y && y<=row->bottom) {
       ((struct Obj00367 *)p)->f40=i;
       found=1;
-      func_020355D8(1);
+      UI_SetInputMode(1);
       break;
      }
     }

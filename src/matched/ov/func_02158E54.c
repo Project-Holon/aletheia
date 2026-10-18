@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
- *   func_02082A7C  0x02082A7C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb
  */
 #include "../include/Obj00020.h"
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 
 struct Ctx;
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
-extern int func_02082A7C();
+extern int MIi_CpuClear32();
 extern int FIELDMAP_GetMsgBg();
 
 int SCRIPT_WORK_InitFieldParam(int a0, int a1)
@@ -38,7 +38,7 @@ loc_02158E5E:
 a0 = 0;
 a1 = t5 + 0;
 a2 = 8;
-    a0 = func_02082A7C(a0, a1, a2);
+    a0 = MIi_CpuClear32(a0, a1, a2);
 loc_02158E6A:
 ((struct Obj00020 *)t5)->f4 = t4;
     if (t4 == 0) goto loc_02158E78;

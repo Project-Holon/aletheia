@@ -12,7 +12,7 @@
  * is u8: with the callees' own prototypes (02046440 s16 heap, 02048A24 u16
  * heap, 02048BC4 u32 heap) a u8 converts to all three with no code, matching
  * the original's unnarrowed full-word stack stores; u16/s16/u32 each add a
- * lsls/asr|lsr pair (156-160 bytes). Twin: ov204_func_021BE03C.c.
+ * lsls/asr|lsr pair (156-160 bytes). Twin: INTRO_GRAPHIC_InitCamera7.c.
  * symbols:
  *   G3D_SYSTEM_Init 0x02046440 arm
  *   G3D_CAMERA_Create 0x02048A24 arm

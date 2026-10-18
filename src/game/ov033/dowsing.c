@@ -94,7 +94,7 @@
  *   CLACT_SetActorAutoAnimSpeed 0x0204B954 arm
  *   INFOWIN_Exit 0x02024DCC thumb
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   KEY_GetTrg 0x020362DC arm
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   FIELD_SUBSCREEN_RequestMode 0x021A0F30 thumb ov021
@@ -219,7 +219,7 @@ extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, 
 extern void CLACT_SetActorAutoAnimSpeed(struct ClactActor *actor, u32 value);
 extern int INFOWIN_Exit(void);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outX, u32 *outY);
-extern void func_020355D8(u8 touchMode);
+extern void UI_SetInputMode(u8 touchMode);
 extern u32 KEY_GetTrg(void);
 extern u32 CLACT_IsActorAnimActive(struct ClactActor *actor);
 extern int FIELD_SUBSCREEN_RequestMode(FieldSubscreen *subscreen, u32 mode);
@@ -860,13 +860,13 @@ void DOWSING_UpdateCloseButton(DowsingWork *work)
         pressed = 0;
         if (TOUCHPANEL_GetPointTrg(&touchX, &touchY) != 0) {
             if (touchX >= 0xE8 && touchX < 0x100 && touchY >= 0xA8 && touchY < 0xC0) {
-                func_020355D8(1);
+                UI_SetInputMode(1);
                 pressed = 1;
             }
         }
         if (pressed == 0) {
             if (KEY_GetTrg() & DOWSING_KEY_CLOSE) {
-                func_020355D8(0);
+                UI_SetInputMode(0);
                 pressed = 1;
             }
         }

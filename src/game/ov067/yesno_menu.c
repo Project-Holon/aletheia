@@ -26,7 +26,7 @@
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   KEY_GetTrg  0x020362DC  arm
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_SetActorBgPriority  0x0204B84C  arm
@@ -88,7 +88,7 @@ typedef signed int s32;
 #define YESNO_MENU_KEY_UP 0x40
 #define YESNO_MENU_KEY_DOWN 0x80
 
-/* Input mode of UI_GetInputMode / func_020355D8. */
+/* Input mode of UI_GetInputMode / UI_SetInputMode. */
 #define YESNO_MENU_INPUT_KEYS 0
 #define YESNO_MENU_INPUT_TOUCH 1
 
@@ -113,7 +113,7 @@ extern void BG_SYS_PushTile(u8 layer);
 extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 value);
 extern void CLACT_DeleteActor(struct Actor *actor);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *touchX, u32 *touchY);
-extern void func_020355D8(u8 inputMode);
+extern void UI_SetInputMode(u8 inputMode);
 extern u32 KEY_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern struct CharBuf *BMP_WIN_GetBmp(struct TextWindow *window);
@@ -377,7 +377,7 @@ void YESNO_MENU_Update(YesNoMenu *menu)
             GFL_USE_PlaySeDefaultVolume(YESNO_MENU_SE_CANCEL);
             menu->answer = YESNO_MENU_ANSWER_NO;
             handled = 1;
-            func_020355D8(YESNO_MENU_INPUT_KEYS);
+            UI_SetInputMode(YESNO_MENU_INPUT_KEYS);
         }
         if (!handled && UI_GetInputMode() == YESNO_MENU_INPUT_KEYS && keys != 0) {
             cursorMoved = 0;
@@ -423,7 +423,7 @@ void YESNO_MENU_Update(YesNoMenu *menu)
                     menu->answer = YESNO_MENU_ANSWER_NO;
                 }
                 handled = 1;
-                func_020355D8(YESNO_MENU_INPUT_TOUCH);
+                UI_SetInputMode(YESNO_MENU_INPUT_TOUCH);
             }
         }
         if (!handled && UI_GetInputMode() == YESNO_MENU_INPUT_TOUCH && keys != 0) {
@@ -432,7 +432,7 @@ void YESNO_MENU_Update(YesNoMenu *menu)
                 CLACT_SetActorAutoAnim(menu->buttonActors[i], 1);
             }
             GFL_USE_PlaySeDefaultVolume(YESNO_MENU_SE_CURSOR);
-            func_020355D8(YESNO_MENU_INPUT_KEYS);
+            UI_SetInputMode(YESNO_MENU_INPUT_KEYS);
         }
         if (handled) {
             for (i = 0; i < YESNO_MENU_BUTTON_COUNT; i++) {

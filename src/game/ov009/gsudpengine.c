@@ -1,7 +1,7 @@
 /*
  * file:     gsudpengine.c
  * unit:     yes
- * function: func_02180410, gsUdpMsgHandlerCompare, gsUdpMsgHandlerCompare2, gsUdpRemotePeerCompare, gsUdpRemotePeerCompare2, gsUdpSocketError, gsUdpClosedRoutingCB, gsUdpConnectedRoutingCB, gsUdpPingRoutingCB, gsUdpReceivedRoutingCB, gsUdpUnrecognizedMsgCB, gsUdpConnAttemptCB, gsUdpEngineIsInitialized, gsUdpEngineInitialize, gsUdpEngineGetPeerState, gsUdpEngineStartTalkingToPeer, gsUdpEngineSendMessage, gsUdpEngineThink, gsUdpEngineShutdown, gsUdpEngineGetLocalPort, gsUdpEngineAddMsgHandler, gsUdpEngineRemoveMsgHandler, gsUdpEngineNoMoreMsgHandlers, gsUdpEngineNoApp, gsUdpEngineGetPeerOutBufferFreeSpace
+ * function: gsUdpMsgHandlerFree, gsUdpMsgHandlerCompare, gsUdpMsgHandlerCompare2, gsUdpRemotePeerCompare, gsUdpRemotePeerCompare2, gsUdpSocketError, gsUdpClosedRoutingCB, gsUdpConnectedRoutingCB, gsUdpPingRoutingCB, gsUdpReceivedRoutingCB, gsUdpUnrecognizedMsgCB, gsUdpConnAttemptCB, gsUdpEngineIsInitialized, gsUdpEngineInitialize, gsUdpEngineGetPeerState, gsUdpEngineStartTalkingToPeer, gsUdpEngineSendMessage, gsUdpEngineThink, gsUdpEngineShutdown, gsUdpEngineGetLocalPort, gsUdpEngineAddMsgHandler, gsUdpEngineRemoveMsgHandler, gsUdpEngineNoMoreMsgHandlers, gsUdpEngineNoApp, gsUdpEngineGetPeerOutBufferFreeSpace
  * address:  0x02180410
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -53,7 +53,7 @@
  *   gt2Listen                  0x02195B20  arm ov009
  *   gt2GetLocalIP                  0x02195E38  arm ov009
  *   gt2GetLocalPort                  0x02195E40  arm ov009
- *   func_02180410                  0x02180410  arm ov009
+ *   gsUdpMsgHandlerFree                  0x02180410  arm ov009
  *   g_021A3B44                     0x021A3B44  data
  *   g_021A3B7C                     0x021A3B7C  data
  *   gt2GetConnectionState                  0x02195E00  arm ov009
@@ -378,7 +378,7 @@ void gsUdpPingRoutingCB(void *theConnection, int theLatency)
  * The intrinsic expansion colours the destination r4 and the source r3, exactly
  * as the object does; the struct assignment `aHandler.mHeader = *(GSUdpHdr *)
  * theMessage` gives the mirror image (destination r3, source r4).  Same close as
- * ov009_func_0217ECA4 (sendto) and gsUdpConnAttemptCB (0x02180C94).
+ * sendto (sendto) and gsUdpConnAttemptCB (0x02180C94).
  */
 void gsUdpReceivedRoutingCB(void *theConnection, unsigned char *theMessage, int theMessageLen, int reliable)
 {

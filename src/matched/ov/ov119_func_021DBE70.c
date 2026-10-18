@@ -15,7 +15,7 @@
  *
  * symbols:
  *   TOUCHPANEL_GetCont 0x02035C38 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   KEY_GetCont 0x0203630C arm
  *   func_020355C4 0x020355C4 arm
  *   KEY_GetTrg 0x020362DC arm
@@ -67,7 +67,7 @@ extern int TOUCHPANEL_GetCont(void);
 typedef unsigned char  u8;
 struct MsgBank;
 struct S;
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern unsigned int KEY_GetCont(void);
 extern u8 func_020355C4(void);
 extern u32 KEY_GetTrg(void);
@@ -120,7 +120,7 @@ static inline int poll_a(void)
 {
     int r = KEY_GetTrg();
     if (r)
-        func_020355D8(0);
+        UI_SetInputMode(0);
     return r;
 }
 
@@ -128,7 +128,7 @@ static inline int poll_b(void)
 {
     int r = TOUCHPANEL_GetTrg();
     if (r)
-        func_020355D8(1);
+        UI_SetInputMode(1);
     return r;
 }
 
@@ -138,12 +138,12 @@ void POKETRADE_PROC_StepBrowseGrid(char *p)
     int e;
     p[0x11EA] = 1;
     if (TOUCHPANEL_GetCont()) {
-        func_020355D8(1);
+        UI_SetInputMode(1);
         if (KEY_GetCont())
             return;
     }
     if (func_020355C4() && poll_a()) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         if (POKETRADE_2D_GetVisibleColumnRange(p, &n) == 0) {
             int v = n;
             I(p, 0xF74) = v;
@@ -190,7 +190,7 @@ void POKETRADE_PROC_StepBrowseGrid(char *p)
     POKETRADE_PROC_PollGridKeys(p);
     POKETRADE_NEGO_PollMarkerTouch(p);
     if (poll_a() == 1) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         if (POKETRADE_2D_GetVisibleColumnRange(p, &n) == 0) {
             int v = n;
             I(p, 0xF74) = v;
@@ -210,7 +210,7 @@ void POKETRADE_PROC_StepBrowseGrid(char *p)
             }
             I(p, 0xF98) = POKETRADE_PROC_GetBoxIndexForSlot(I(p, 0xF74), p);
             I(p, 0xF94) = POKETRADE_PROC_GetSlotIndexInBox(I(p, 0xF74), I(p, 0xF78));
-            func_020355D8(0);
+            UI_SetInputMode(0);
             if (POKETRADE_PROC_IsHostSide(p) && POKETRADE_NEGO_FindOfferIndex(p, I(p, 0xF98), I(p, 0xF94)) != -1) {
                 GFL_USE_PlaySeDefaultVolume(0x626);
                 POKETRADE_PROC_SetStep(p, (int)POKETRADE_NEGO_StepSendOfferRemoval);
@@ -229,7 +229,7 @@ void POKETRADE_PROC_StepBrowseGrid(char *p)
     case 2:
         break;
     case 1:
-        func_020355D8(1);
+        UI_SetInputMode(1);
         I(p, 0xF70) = 1;
     default:
         if (!TOUCHPANEL_GetCont()) {

@@ -20,7 +20,7 @@
  *
  * symbols:
  *   G2_GetBG1CharPtr  0x0207E24C  arm
- *   func_02082A7C  0x02082A7C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
  *   ARC_UTIL_LoadMember  0x0204A1BC  arm
  *   NNS_G2dGetUnpackedCharacterDataEx  0x02062A4C  arm
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
@@ -53,7 +53,7 @@ typedef struct Pal {
 } Pal;
 
 extern void *G2_GetBG1CharPtr(void);
-extern void func_02082A7C(u32 v, void *dst, u32 size);
+extern void MIi_CpuClear32(u32 v, void *dst, u32 size);
 extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
 struct NitroFileHeader;
 extern signed int NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out);
@@ -80,7 +80,7 @@ void ERROR_SCREEN_LoadBackground(void)
     void *cmp;
     void *file;
 
-    func_02082A7C(0, G2_GetBG1CharPtr(), 0x4000);
+    MIi_CpuClear32(0, G2_GetBG1CharPtr(), 0x4000);
 
     file = (void *)ARC_UTIL_LoadMember(0x16, 1, 0, 1);
     if (NNS_G2dGetUnpackedCharacterDataEx(file, (void **)(&chr))) {

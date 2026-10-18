@@ -16,7 +16,7 @@
  *   abs_id_20      0x00000020  data
  *   abs_id_21      0x00000021  data
  *   abs_id_22      0x00000022  data
- *   ov035_func_021EFEC0  0x021EFEC0  thumb  ov035
+ *   C_GEAR_POWER_ONOFF_Create  0x021EFEC0  thumb  ov035
  *   abs_id_23      0x00000023  data
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   g_Field3dbgSourceName     0x021DDE5C  data
@@ -83,7 +83,7 @@ typedef enum { GX_TEXFLIP_NONE = 0, GX_TEXFLIP_ST = 3 } GXTexFlip;
 
 typedef enum { GX_TEXPLTTCOLOR0_USE = 0, GX_TEXPLTTCOLOR0_TRNS = 1 } GXTexPlttColor0;
 
-extern void *ov035_func_021EFEC0(void *work, void *gameSystem, u32 heapId);
+extern void *C_GEAR_POWER_ONOFF_Create(void *work, void *gameSystem, u32 heapId);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern u32 GFL_HEAP_Free(void *p);
 extern void NNS_G3dGeFlushBuffer(void);

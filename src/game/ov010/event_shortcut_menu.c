@@ -29,7 +29,7 @@
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
  *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
@@ -209,7 +209,7 @@ extern void *GAME_DATA_GetMyParty(const struct GameData *gameData);
 extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
 extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 a, u32 b, u32 c, u32 d, u32 e);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern void *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 extern void FLDMMDL_SysPauseMove(void *map);
 extern u32 *FLDMMDL_SysResumeMove(void *map);
@@ -318,7 +318,7 @@ struct GameEvent *EVENT_SHORTCUT_MENU_Create(struct GameSystem *gameSystem, stru
         work->link->hookArg = work;
     }
     FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys(work->fieldMap));
-    func_020355D8(0);
+    UI_SetInputMode(0);
     return event;
 }
 

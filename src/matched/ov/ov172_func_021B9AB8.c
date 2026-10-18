@@ -18,8 +18,8 @@
  *   `if (n > 0)` do/while, stepy declared before stepx.
  * symbols:
  *   CTVT_TALK_PlotPixel 0x021B9B88 thumb ov172
- *   func_0209BDBC 0x0209BDBC arm
- *   func_0209C95C 0x0209C95C arm
+ *   _s32_to_float 0x0209BDBC arm
+ *   __fadd 0x0209C95C arm
  *   func_0209CB8C 0x0209CB8C arm
  *   func_0209C494 0x0209C494 arm
  *   func_0209C0A4 0x0209C0A4 arm
@@ -27,8 +27,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_0209BDBC(int a);
-extern int func_0209C95C(int a, int b);
+extern int _s32_to_float(int a);
+extern int __fadd(int a, int b);
 extern int func_0209CB8C(int a, int b);
 extern int func_0209C494(int a);
 extern int func_0209C0A4(int a, int b);
@@ -54,15 +54,15 @@ void CTVT_TALK_DrawLine(int a0, int a1, u8 *p, u8 x0, u8 y0, u8 x1, u8 y1, u8 va
     n = dx + 1;
     d = x1 - x0;
     if (d > 0)
-        r = func_0209C95C(0x3f000000, func_0209BDBC(d << 12));
+        r = __fadd(0x3f000000, _s32_to_float(d << 12));
     else
-        r = func_0209CB8C(func_0209BDBC(d << 12), 0x3f000000);
+        r = func_0209CB8C(_s32_to_float(d << 12), 0x3f000000);
     stepx = func_0209C0A4(func_0209C494(r), n);
     d = by - ay;
     if (d > 0)
-        r = func_0209C95C(0x3f000000, func_0209BDBC(d << 12));
+        r = __fadd(0x3f000000, _s32_to_float(d << 12));
     else
-        r = func_0209CB8C(func_0209BDBC(d << 12), 0x3f000000);
+        r = func_0209CB8C(_s32_to_float(d << 12), 0x3f000000);
     stepy = func_0209C0A4(func_0209C494(r), n);
     accx = 0;
     accy = 0;

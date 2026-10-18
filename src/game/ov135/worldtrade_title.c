@@ -71,7 +71,7 @@
  *   WORLDTRADE_ClearBusyFlag  0x021F4EC8  thumb  ov135
  *   WORLDTRADE_SetStateAndReturn  0x021F4EC0  thumb
  *   WORLDTRADE_SetActorPos  0x021F4FF4  thumb
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm  arm9
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   WORLDTRADE_SetNextState 0x021F4E98 thumb ov135
@@ -164,7 +164,7 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
 extern void CLACT_RestartActorAnim(struct Actor *a);
 
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 
 extern u32 KEY_GetTrg(void);
 
@@ -714,7 +714,7 @@ int WORLDTRADE_TITLE_StateMainInput(Work *p)
         CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
         CLACT_SetActorAnimSeq((struct Obj *)p->cursor, 1);
         p->state_i = 0xE;
-        func_020355D8(1);
+        UI_SetInputMode(1);
         if (p->sel == 2) {
             GFL_USE_PlaySeDefaultVolume(0x551);
         } else {
@@ -724,7 +724,7 @@ int WORLDTRADE_TITLE_StateMainInput(Work *p)
     }
     if (KEY_GetTrg() != 0 && UI_GetInputMode() == 1) {
         CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
-        func_020355D8(0);
+        UI_SetInputMode(0);
         GFL_USE_PlaySeDefaultVolume(0x548);
         return 2;
     }

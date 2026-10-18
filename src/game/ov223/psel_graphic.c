@@ -82,7 +82,7 @@
  *   PSEL_SetAnimTarget 0x021B9AE4 thumb ov223
  *   PSEL_StepAnim 0x021B9B80 thumb ov223
  *   PSEL_IsAnimTargetReached 0x021B9B4C thumb ov223
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   UI_GetInputMode 0x020355C4 arm
  *   PSEL_UpdateSubWindow 0x021BB134 thumb ov223
  *   PSEL_SetAnimTargetIndex 0x021B9C00 thumb ov223
@@ -263,7 +263,7 @@ extern void PSEL_ShowTaskRes(char *),PSEL_UpdateTaskResWin(char *),PSEL_SetTaskR
 extern u32 PSEL_IsTaskResFinished(char *);
 extern void PSEL_SetAnimTarget(char *,int,int),PSEL_StepAnim(char *);
 extern int PSEL_IsAnimTargetReached(char *);
-extern void func_020355D8(u32);
+extern void UI_SetInputMode(u32);
 extern void PSEL_UpdateSubWindow(char *);
 extern void PSEL_SetAnimTargetIndex(char *,u32);
 extern void PSEL_ClearWin(char *);
@@ -977,7 +977,7 @@ int PSEL_GRAPHIC_Main(char *work,u32 *state)
     case 7:PSEL_UpdateTaskResWin(work);if(PSEL_IsTaskResFinished(work)){PSEL_DeleteTaskRes(work);BG_SYS_SetFlagField06(3);*state=8;}break;
     case 8:PSEL_SetMode(work,(u32)20);PSEL_SetAnimTarget(work,*(int *)&((struct PselWork *)work)->fade.state.menuSelected,0);*state=9;break;
     case 9:PSEL_StepAnim(work);if(PSEL_IsModeDone(work)&&PSEL_IsAnimTargetReached(work))*state=10;break;
-    case 10:func_020355D8(*(u32 *)&((struct PselWork *)work)->fadeSpeed);PSEL_GRAPHIC_OpenMenu(work);*state=11;break;
+    case 10:UI_SetInputMode(*(u32 *)&((struct PselWork *)work)->fadeSpeed);PSEL_GRAPHIC_OpenMenu(work);*state=11;break;
     case 11:PSEL_GRAPHIC_UpdateMenu(work);if(PSEL_GRAPHIC_IsMenuFinished(work)){choice=PSEL_GRAPHIC_GetMenuChoice((int *)work);PSEL_GRAPHIC_CloseMenu(work);*(u32 *)&((struct PselWork *)work)->fadeSpeed=UI_GetInputMode();if(choice){((struct PselWork *)work)->flags|=8;PSEL_UpdateSubWindow(work);*state=14;}else{PSEL_SetMode(work,(u32)19);*state=12;}}break;
     case 12:PSEL_SetAnimTarget(work,*(int *)&((struct PselWork *)work)->fade.state.menuSelected,1);*state=13;break;
     case 13:PSEL_StepAnim(work);if(PSEL_IsAnimTargetReached(work))*state=3;break;

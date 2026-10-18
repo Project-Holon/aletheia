@@ -19,7 +19,7 @@
  *   CLACT_RestartActorAnim 0x0204B9A0 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  */
@@ -41,7 +41,7 @@ extern void STA_ACTING_RequestAction(char *p, int value);
 extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_020355D8(u8);
+extern void UI_SetInputMode(u8);
 extern int STA_ACTING_GetCurrentAction(char *p);
 extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
@@ -70,7 +70,7 @@ void STA_ACT_BUTTON_Update(char *p)
             CLACT_RestartActorAnim(((struct Obj00914 *)p)->f5C);
             CLACT_SetActorDrawEnable(((struct Obj00914 *)p)->f5C,1);
             CLACT_AddActorSurfacePos(((struct Obj00914 *)p)->f5C,(const struct Vec2 *)(&pos),1);
-            func_020355D8(1);
+            UI_SetInputMode(1);
         }
     }
     if(((struct Obj00914 *)p)->f14!=2) {

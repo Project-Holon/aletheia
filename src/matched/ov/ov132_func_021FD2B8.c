@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT*
- * follower: loop leaf filed as ov132_func_021FD328.c.
+ * follower: loop leaf filed as MUS_COMM_FUNC_ResetBoxFlags.c.
  * symbols:
  *   POKE_TOOL_GetBoxParamSize 0x020173E8 thumb
  *   MI_CpuCopy8 0x02082D44 arm

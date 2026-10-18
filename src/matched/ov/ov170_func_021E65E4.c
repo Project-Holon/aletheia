@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Sibling of src/matched/ov170_func_021E3E84.c.
+ * Sibling of src/matched/BOX2_SEQ_StateMoveInput.c.
  *
  * symbols:
  *   BOX2_SEQ_ReturnAfterClear 0x021E8F50 thumb

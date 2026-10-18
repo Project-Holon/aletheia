@@ -157,7 +157,7 @@ void FIELD_GIMMICK_LIFT_CallEvent(void *gameSystem, int isDescending)
 
 /*
  * Once filed EXACT* because the extent ran into the unlabelled leaf FIELD_GIMMICK_LIFT_IsLiftArrived
- * (filed as ov044_func_021F390C.c).
+ * (filed as FIELD_GIMMICK_LIFT_IsLiftArrived.c).
  */
 int FIELD_GIMMICK_LIFT_LiftEventMain(void *event, int *seq)
 {

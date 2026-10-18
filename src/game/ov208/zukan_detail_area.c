@@ -64,7 +64,7 @@
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   KEY_GetTrg 0x020362DC arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
@@ -181,7 +181,7 @@
  *   BUTTON_MAN_ScaleVec 0x020520A4 arm
  *   ZUKAN_DETAIL_AREA_HandleModeEvent  0x021C1920  thumb  ov208
  *   ZUKAN_DETAIL_AREA_BeginHideOverlay  0x021C1FE0  thumb  ov208
- *   ov208_func_021C2090  0x021C2090  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_FinishHideOverlay  0x021C2090  thumb  ov208
  *   ZUKAN_DETAIL_AREA_DrawNoDataMessage  0x021C20C0  thumb  ov208
  *   ZUKAN_DETAIL_AREA_ClearOverlayWindow  0x021C21D0  thumb  ov208
  *   ZUKAN_DETAIL_TOUCHBAR_SetButtonDrawEnable  0x021BDBAC  thumb  ov208
@@ -497,7 +497,7 @@ extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 
 extern u32 KEY_GetTrg(void);
 
@@ -680,7 +680,7 @@ extern void BUTTON_MAN_ScaleVec(const struct Vec3 *v, int s, struct Vec3 *dst);
 
 
 
-extern void ov208_func_021C2090(u16 *heap, u8 *p, int key);
+extern void ZUKAN_DETAIL_AREA_FinishHideOverlay(u16 *heap, u8 *p, int key);
 
 
 
@@ -1890,7 +1890,7 @@ void ZUKAN_DETAIL_AREA_HandleCursorInput(u16 *heap, u8 *p, int key)
             }
         }
         if (hit) {
-            func_020355D8(0);
+            UI_SetInputMode(0);
             if (touch)
                 W(0x7c) = 0;
         }
@@ -1920,7 +1920,7 @@ void ZUKAN_DETAIL_AREA_HandleCursorInput(u16 *heap, u8 *p, int key)
             }
             if (hit) {
                 hit = 1;
-                func_020355D8(1);
+                UI_SetInputMode(1);
                 if (touch) {
                     W(0x7c) = hit;
                     p[0x80] = x;
@@ -1959,7 +1959,7 @@ void ZUKAN_DETAIL_AREA_HandleCursorInput(u16 *heap, u8 *p, int key)
             }
         }
         if (moved)
-            func_020355D8(0);
+            UI_SetInputMode(0);
         if (moved == 0) {
             if (TOUCHPANEL_GetPointTrg(&tx, &ty)) {
                 if (W(0x8c) == 0) {
@@ -1988,7 +1988,7 @@ void ZUKAN_DETAIL_AREA_HandleCursorInput(u16 *heap, u8 *p, int key)
                 }
             }
             if (moved)
-                func_020355D8(1);
+                UI_SetInputMode(1);
         }
         if (done)
             ZUKAN_DETAIL_AREA_HandleTownTouchInput(heap, p, key);
@@ -2018,11 +2018,11 @@ void ZUKAN_DETAIL_AREA_HandleTownTouchInput(u16 *heap, u8 *p, int key)
         return;
     if (UI_GetInputMode() == 0) {
         if (TOUCHPANEL_GetPointTrg(&tx, &ty)) {
-            func_020355D8(1);
+            UI_SetInputMode(1);
             CLACT_SetActorDrawEnable((struct Obj *)W(0xcc), 0);
         }
     } else if (KEY_GetTrg()) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         ZUKAN_DETAIL_AREA_MoveCursorToSelectedTown(heap, p, key);
         ZUKAN_DETAIL_AREA_DrawTownName(heap, p, key);
         ZUKAN_DETAIL_AREA_UpdateTerrainIcons(heap, p, key);
@@ -2125,7 +2125,7 @@ void ZUKAN_DETAIL_AREA_UpdateMode(u16 *heap, u8 *p, int key)
             W(0x84) = 2;
             break;
         case 2:
-            ov208_func_021C2090(heap, p, key);
+            ZUKAN_DETAIL_AREA_FinishHideOverlay(heap, p, key);
             W(0x84) = 3;
             break;
         case 3:
@@ -2164,7 +2164,7 @@ void ZUKAN_DETAIL_AREA_UpdateMode(u16 *heap, u8 *p, int key)
             W(0x84) = 2;
             break;
         case 2:
-            ov208_func_021C2090(heap, p, key);
+            ZUKAN_DETAIL_AREA_FinishHideOverlay(heap, p, key);
             W(0x84) = 3;
             break;
         case 3:

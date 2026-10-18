@@ -13,7 +13,7 @@
  * symbols:
  *   BEACON_VIEW_InitBackgrounds  0x021F2A8C  thumb
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
- *   func_02082A7C  0x02082A7C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
  *   PALANM_LoadHandlePaletteToSlot  0x020216B4  thumb
  *   PALANM_LoadArcPaletteToSlot  0x02021640  thumb
  *   func_02049658  0x02049658  arm
@@ -33,7 +33,7 @@ typedef unsigned int   u32;
 
 struct BgTemplate;
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_02082A7C(u32 fill, void *dst, u32 size);
+extern void MIi_CpuClear32(u32 fill, void *dst, u32 size);
 struct PalAnmSlot;
 extern void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
@@ -56,7 +56,7 @@ void BEACON_VIEW_InitBackgrounds(u8 *p, void *h)
     BG_SYS_InitBgLayer(5, (const struct BgTemplate *)d_021F3628, 0);
     BG_SYS_InitBgLayer(6, (const struct BgTemplate *)d_021F3648, 0);
     BG_SYS_InitBgLayer(7, (const struct BgTemplate *)d_021F3668, 0);
-    func_02082A7C(0, (void *)0x06200000, 0x20000);
+    MIi_CpuClear32(0, (void *)0x06200000, 0x20000);
     REG_DB_DISPCNT_SUB &= 0xFFFF1FFF;
     REG_DB_BLDCNT_SUB = 0;
     PALANM_LoadHandlePaletteToSlot((struct PalAnmSlot *)(((struct Obj00007 *)p)->fAC), (void *)h, 0x13, ((struct Obj00007 *)p)->f96, 1, 0x1a0, 0);

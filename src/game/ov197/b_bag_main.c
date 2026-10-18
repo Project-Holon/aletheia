@@ -1968,7 +1968,7 @@ int B_BAG_MAIN_StateChooseItem(char *p)
 
 /*
  * Owner unit_02045C44.c omits MSGDATA_ReadString in function:. Verified EXACT344 C
- * below copied from ov173_func_021B71C4.c, prior ov070 fixed-flag --arm one.
+ * below copied from POKE_SUMMARY_MAIN_DrawMoveDetail.c, prior ov070 fixed-flag --arm one.
  * abi: BBD8 returns a zero-extended u16; int extern preserves the original signed bge against the u8 field, unlike older unsigned caller externs.
  * typedef unsigned char u8;
  * typedef unsigned short u16;
@@ -2136,7 +2136,7 @@ int B_BAG_MAIN_StateMessageInput(char *p)
 
 
 /*
- * trailing: larger follower filed as ov197_func_0220D358.c (parent cleared).
+ * trailing: larger follower filed as B_BAG_MAIN_StateWaitKey.c (parent cleared).
  */
 int B_BAG_MAIN_StateMessageDone(char *p)
 {

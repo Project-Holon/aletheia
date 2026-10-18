@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082A7C 0x02082A7C arm
+ *   MIi_CpuClear32 0x02082A7C arm
  */
 
-extern void func_02082A7C(int, void *, unsigned int);
-void FIELD_GIMMICK_SOUND_OBJS_ClearSlideSe(void *p) { func_02082A7C(0,p,0x90); }
+extern void MIi_CpuClear32(int, void *, unsigned int);
+void FIELD_GIMMICK_SOUND_OBJS_ClearSlideSe(void *p) { MIi_CpuClear32(0,p,0x90); }

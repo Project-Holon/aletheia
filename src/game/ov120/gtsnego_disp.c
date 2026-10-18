@@ -17,7 +17,7 @@
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  *   MI_CpuCopy8 0x02082D44 arm
  *   MYSTATUS_GetSize 0x02008468 thumb
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   GTSNEGO_MSG_RedrawRowA 0x021D7E88 thumb ov120
  *   GTSNEGO_MSG_RedrawRowB 0x021D7E9C thumb ov120
@@ -430,7 +430,7 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_GetHandleNetID(struct Link *);
 extern void MI_CpuCopy8(const void *,void *,u32);
 extern int MYSTATUS_GetSize(void);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void GTSNEGO_MSG_RedrawRowA(char *p, int i);
 extern void GTSNEGO_MSG_RedrawRowB(char *p, int i);
@@ -783,7 +783,7 @@ void GTSNEGO_DISP_OnRecordSync(u32 id,int b,const void *src,u8 *p,struct Entry *
 int GTSNEGO_DISP_StartTrade(int n, u8 *p)
 {
     ((struct GtsnegoDispCtx *)p)->f138 = n;
-    func_020355D8(1);
+    UI_SetInputMode(1);
     if (((struct GtsnegoDispCtx *)p)->f184 == 1) {
         GFL_USE_PlaySeDefaultVolume(0x551);
         return 1;
@@ -1133,7 +1133,7 @@ void GTSNEGO_DISP_HandleTradeKeys(struct GtsnegoDispCtx *a)
         GTSNEGO_MSG_SetDecide((unsigned char *)(*(int *)&a->f40));
         if (GFL_NET_GetRunState() != 0)
             GFL_NET_STATE_WifiDisconnect(1);
-        func_020355D8(0);
+        UI_SetInputMode(0);
         GFL_USE_PlaySeDefaultVolume(0x551);
         GTSNEGO_DISP_SetStateCallback(a, GTSNEGO_DISP_OnDisconnect, 0x360);
     }
@@ -1274,7 +1274,7 @@ void GTSNEGO_DISP_StartMatchmaking(u8 *p)
 
 
 
-void GTSNEGO_DISP_OnMenuCallback(void *p,int n,u8 *s) { if (n==0 && ((struct GtsnegoDispCtx *)s)->f4) { GTSNEGO_DISP_SetCursorState(*(u8 * *)&((struct GtsnegoDispCtx *)s)->f3C,((struct GtsnegoDispCtx *)s)->f34,9); func_020355D8(1); if ((*(int (**)(void *,void *))(s+4))(p,s)==0) return; } }
+void GTSNEGO_DISP_OnMenuCallback(void *p,int n,u8 *s) { if (n==0 && ((struct GtsnegoDispCtx *)s)->f4) { GTSNEGO_DISP_SetCursorState(*(u8 * *)&((struct GtsnegoDispCtx *)s)->f3C,((struct GtsnegoDispCtx *)s)->f34,9); UI_SetInputMode(1); if ((*(int (**)(void *,void *))(s+4))(p,s)==0) return; } }
 
 
 
@@ -1314,7 +1314,7 @@ void GTSNEGO_DISP_HandleConfirmKeys(u8 *p)
             GTSNEGO_MSG_UpdateButtons((char *)(*(int *)&((struct GtsnegoDispCtx *)p)->f40));
             if (KEY_GetTrg() != 0 && UI_GetInputMode() == 1) {
                 GTSNEGO_DISP_SetCursorState(((struct GtsnegoDispCtx *)p)->f3C, ((struct GtsnegoDispCtx *)p)->f34, ((struct GtsnegoDispCtx *)p)->f160);
-                func_020355D8(changed);
+                UI_SetInputMode(changed);
                 return;
             }
             if (KEY_GetTrg() == 0x20) GTSNEGO_DISP_MoveCursorVertical(0, (char *)p);
@@ -1339,7 +1339,7 @@ void GTSNEGO_DISP_HandleConfirmKeys(u8 *p)
             if (changed)
                 GTSNEGO_DISP_SetCursorState(((struct GtsnegoDispCtx *)p)->f3C, ((struct GtsnegoDispCtx *)p)->f34, ((struct GtsnegoDispCtx *)p)->f160);
             if (TOUCHPANEL_HitTrg(d_021D88D0) == 0) {
-                func_020355D8(1);
+                UI_SetInputMode(1);
                 GFL_USE_PlaySeDefaultVolume(0x54c);
                 APP_TASKMENU_WIN_SetDecide(((struct GtsnegoDispCtx *)p)->f34, 1);
                 GTSNEGO_DISP_SetStateCallback(((int *)p), GTSNEGO_DISP_OnConfirmDone, 0x4f2);
@@ -1469,7 +1469,7 @@ void GTSNEGO_DISP_OnDisconnectCallback(int a, int b, int *p)
     if (b == 0 && *(void **)p == GTSNEGO_DISP_HandleTradeKeys) {
         GTSNEGO_MSG_SetDecide(*(u8 * *)&((struct GtsnegoDispCtx *)p)->f40);
         GFL_NET_STATE_WifiDisconnect(1);
-        func_020355D8(1);
+        UI_SetInputMode(1);
         GFL_USE_PlaySeDefaultVolume(0x551);
         GTSNEGO_DISP_SetStateCallback(p, GTSNEGO_DISP_OnDisconnect, 0x5f5);
     }
@@ -1697,7 +1697,7 @@ void GTSNEGO_DISP_HandleListInput(Ctx *p)
         return;
     if (UI_GetInputMode() == 1 && KEY_GetTrg() != 0) {
         GTSNEGO_DISP_SetCursorState(p->f3C, 0, p->f164);
-        func_020355D8(0);
+        UI_SetInputMode(0);
         return;
     }
     if (KEY_GetRepeat() == 0x100) {
@@ -1776,7 +1776,7 @@ void GTSNEGO_DISP_HandleListInput(Ctx *p)
         if (p->f150 < 2)
             break;
     case 0:
-        func_020355D8(1);
+        UI_SetInputMode(1);
         p->f164 = sel + 6;
         GTSNEGO_DISP_SetCursorState(p->f3C, 0, p->f164);
         GTSNEGO_MSG_SetCursorAnimSeq(p->f3C, p->f164);
@@ -2025,7 +2025,7 @@ void GTSNEGO_DISP_HandlePartyInput(u8 *p)
         if (TOUCHBAR_IsBusy(q) == 0) {
             if (KEY_GetTrg() != 0 && UI_GetInputMode() == 1) {
                 GTSNEGO_DISP_SetCursorState(((struct GtsnegoDispCtx *)p)->f3C, 0, ((struct GtsnegoDispCtx *)p)->f15C);
-                func_020355D8(changed);
+                UI_SetInputMode(changed);
                 return;
             }
             if (KEY_GetTrg() == 1) {

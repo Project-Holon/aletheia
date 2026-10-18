@@ -21,7 +21,7 @@
  *   POKE_TOOL_ClearBoxParam       0x02017550  thumb
  *   func_02030734      0x02030734  arm
  *   func_020307B0      0x020307B0  arm
- *   func_02082A7C      0x02082A7C  arm
+ *   MIi_CpuClear32      0x02082A7C  arm
  *
  * The two block lookups everything above goes through, the page clear, and
  * a constructor.  PERAPVOICE_Create passes 0x020A707C to the debug allocator at
@@ -58,7 +58,7 @@ struct Sav;
 extern void POKE_TOOL_ClearBoxParam(struct Sav *entry);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern void func_02082A7C(u32 value, void *dest, u32 size);
+extern void MIi_CpuClear32(u32 value, void *dest, u32 size);
 
 void PERAPVOICE_Init(void *p);
 
@@ -93,7 +93,7 @@ u32 PERAPVOICE_GetSize(void)
 
 void PERAPVOICE_Init(void *p)
 {
-    func_02082A7C(0, p, 0x3EC);
+    MIi_CpuClear32(0, p, 0x3EC);
     ((struct Obj16869 *)p)->f0 = 0;
 }
 

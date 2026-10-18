@@ -1250,7 +1250,7 @@ void BR_CODEIN_ButtonLoadFadePalettes(int a0, struct CodeinWorkF *p)
 /*
  * note 2026-10-05: re-run, bytes identical to the original; the only unresolved relocation is the BL to arm9 0x0200B98C (Thumb, 64 bytes, no code-start label, no asm/arm9 witness). Integrator: seed a label at 0x0200B98C; no source change needed.
  * lever: shared state-flag store and distinct case-5 null path preserve the original switch layout.
- * blocker-C: copied prior verified Thumb EXACT from ov183_func_021DF838.c header, blocker-r2.log; table 0x0209DDCC data a4.
+ * blocker-C: copied prior verified Thumb EXACT from BR_CODEIN_SearchBuildHeader.c header, blocker-r2.log; table 0x0209DDCC data a4.
  * typedef unsigned char u8;
  * typedef unsigned short u16;
  * typedef unsigned long long u64;
@@ -1505,7 +1505,7 @@ void BR_CODEIN_RecordStepDeleteProfile(int *task,int b,char *p) { if(((struct Co
 /*
  * note 2026-10-05: re-run, bytes identical to the original; the only unresolved relocation is the BL to arm9 0x0200B98C (Thumb, 64 bytes, no code-start label, no asm/arm9 witness). Integrator: seed a label at 0x0200B98C; no source change needed.
  * lever: decode each callback literal from its actual PC-relative pool slot; repeated shared loads obscure distinct callback targets.
- * blocker-C: copied prior verified Thumb EXACT from ov183_func_021DF838.c header, blocker-r2.log; table 0x0209DDCC data a4.
+ * blocker-C: copied prior verified Thumb EXACT from BR_CODEIN_SearchBuildHeader.c header, blocker-r2.log; table 0x0209DDCC data a4.
  * typedef unsigned char u8;
  * typedef unsigned short u16;
  * typedef unsigned long long u64;
@@ -1613,7 +1613,7 @@ void BR_CODEIN_RecordStepProfileText(int *task,int *state,char *p)
 
 
 /*
- * note 2026-10-05: shape copied from matched twin ov183_func_021DC228.c (same state machine, same callees). v1 was 4 bytes off (stack slots of source and index swapped); declaring source before index fixed it. Older draft docs/notes/pkt_ov183_021DBFB0.c.txt (167 B off) superseded.
+ * note 2026-10-05: shape copied from matched twin BR_CODEIN_RecordStepReceive.c (same state machine, same callees). v1 was 4 bytes off (stack slots of source and index swapped); declaring source before index fixed it. Older draft docs/notes/pkt_ov183_021DBFB0.c.txt (167 B off) superseded.
  */
 void BR_CODEIN_RecordStepRequest(int *a,int *state,char *p)
 {
@@ -1689,7 +1689,7 @@ void BR_CODEIN_RecordStepRequest(int *a,int *state,char *p)
 /*
  * note 2026-10-05: re-run, bytes identical to the original; the only unresolved relocation is the BL to arm9 0x0200B98C (Thumb, 64 bytes, no code-start label, no asm/arm9 witness). Integrator: seed a label at 0x0200B98C; no source change needed.
  * diagnostic: ov186 0x021FF648 +013C resolved through a sibling's new shard in the TU; only ARM9 remains. TU --suggest-split leaves caller out.
- * blocker-C: prior verified Thumb EXACT from ov183_func_021DF838.c header, blocker-r2.log, dsi/1.1p1 -O4,p; table 0x0209DDCC data a4.
+ * blocker-C: prior verified Thumb EXACT from BR_CODEIN_SearchBuildHeader.c header, blocker-r2.log, dsi/1.1p1 -O4,p; table 0x0209DDCC data a4.
  * typedef unsigned char u8;
  * typedef unsigned short u16;
  * typedef unsigned long long u64;
@@ -1784,7 +1784,7 @@ void BR_CODEIN_RecordStepReceive(int *a,int *state,char *p)
 
 /*
  * note 2026-10-05: re-run, bytes identical to the original; the only unresolved relocation is the BL to arm9 0x0200B98C (Thumb, 64 bytes, no code-start label, no asm/arm9 witness). Integrator: seed a label at 0x0200B98C; no source change needed.
- * blocker-C: prior verified Thumb EXACT from ov183_func_021DF838.c header, blocker-r2.log, dsi/1.1p1 -O4,p; table 0x0209DDCC data a4.
+ * blocker-C: prior verified Thumb EXACT from BR_CODEIN_SearchBuildHeader.c header, blocker-r2.log, dsi/1.1p1 -O4,p; table 0x0209DDCC data a4.
  * typedef unsigned char u8;
  * typedef unsigned short u16;
  * typedef unsigned long long u64;
@@ -1901,7 +1901,7 @@ void BR_CODEIN_RecordStepConfirm(int *a,int *state,char *p)
 
 /*
  * note 2026-10-05: re-run, bytes identical to the original; the only unresolved relocation is the BL to arm9 0x0200B98C (Thumb, 64 bytes, no code-start label, no asm/arm9 witness). Integrator: seed a label at 0x0200B98C; no source change needed.
- * blocker-C: prior verified Thumb EXACT from ov183_func_021DF838.c header, blocker-r2.log, dsi/1.1p1 -O4,p; table 0x0209DDCC data a4.
+ * blocker-C: prior verified Thumb EXACT from BR_CODEIN_SearchBuildHeader.c header, blocker-r2.log, dsi/1.1p1 -O4,p; table 0x0209DDCC data a4.
  * typedef unsigned char u8;
  * typedef unsigned short u16;
  * typedef unsigned long long u64;

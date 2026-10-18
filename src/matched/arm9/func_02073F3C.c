@@ -11,7 +11,7 @@
  *
  * Shutdown of the global sequence object gNNSSndSystem: clear +0x1C, unbind both
  * channel handles (+0x0C and +0x10) from the owner at +0x14 through
- * func_02082A7C then DWCi_ScreenDC_FlushRange, and finally release the channel mask built
+ * MIi_CpuClear32 then DWCi_ScreenDC_FlushRange, and finally release the channel mask built
  * from +0x2C with SND_StartTimer.
  *
  * PINNED ../2.0/sp2, the pin six cluster siblings now carry (NNS_SndStrmInit,
@@ -32,7 +32,7 @@
  *
  * symbols:
  *   gNNSSndSystem     0x0214E9FC  data
- *   func_02082A7C  0x02082A7C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   SND_StartTimer  0x020894B4  arm
  *
@@ -62,7 +62,7 @@ struct G {
 };
 
 extern struct St gNNSSndSystem;
-extern void func_02082A7C(u32 a, u32 b, u32 c);
+extern void MIi_CpuClear32(u32 a, u32 b, u32 c);
 extern void DWCi_ScreenDC_FlushRange(u32 a, u32 b);
 extern void SND_StartTimer(u32 a, u32 b, u32 c, u32 d);
 
@@ -73,8 +73,8 @@ void NNSi_SndCaptureReset(void)
 
     if (g->f00 == 0) return;
     g->f1c = 0;
-    func_02082A7C(0, g->f0c, g->f14);
-    func_02082A7C(0, g->f10, g->f14);
+    MIi_CpuClear32(0, g->f0c, g->f14);
+    MIi_CpuClear32(0, g->f10, g->f14);
     DWCi_ScreenDC_FlushRange(g->f0c, g->f14);
     DWCi_ScreenDC_FlushRange(g->f10, g->f14);
     if (g->f2c >= 0) m = 1u << g->f2c;

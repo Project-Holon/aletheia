@@ -62,7 +62,7 @@
  *   UI_GetInputMode 0x020355C4  arm
  *   KEY_GetTrg  0x020362DC  arm
  *   KEY_GetRepeat  0x0203633C  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   ARC_UTIL_LoadBgCharDataFromArchive   0x02049DB4  arm
@@ -255,7 +255,7 @@ extern s32 NNS_GfdRegisterNewVramTransferTask(u32 transType, u32 offset, const v
 extern u8 UI_GetInputMode(void);
 extern u32 KEY_GetTrg(void);
 extern unsigned int KEY_GetRepeat(void);
-extern void func_020355D8(u8 isTouch);
+extern void UI_SetInputMode(u8 isTouch);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern int TOUCHPANEL_HitTrg(const void *hitTbl);
 extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 arcId, u32 datId, u32 compressed, TaskMenuChrData **chrData, u16 heapId);
@@ -1064,7 +1064,7 @@ void APP_TASKMENU_SetDisableKey(TaskMenuWork *menu, int isDisable)
 {
     menu->isDisableKey = isDisable;
     if (isDisable == 1) {
-        func_020355D8(1);
+        UI_SetInputMode(1);
         APP_TASKMENU_SetWinActive(menu->winWork[menu->cursorPos], menu->res, 0);
     }
 }
@@ -1114,7 +1114,7 @@ void APP_TASKMENU_UpdateKey(TaskMenuWork *menu)
                 return;
             }
             APP_TASKMENU_SetWinActive(menu->winWork[menu->cursorPos], menu->res, 1);
-            func_020355D8(0);
+            UI_SetInputMode(0);
             GFL_USE_PlaySeDefaultVolume(0x548);
             return;
         }
@@ -1148,7 +1148,7 @@ void APP_TASKMENU_UpdateKey(TaskMenuWork *menu)
             menu->cursorPos = (u8)(menu->init.itemNum - 1);
             menu->isDecide = 1;
             GFL_USE_PlaySeDefaultVolume(0x551);
-            func_020355D8(0);
+            UI_SetInputMode(0);
         }
     }
     if (prev == menu->cursorPos) {
@@ -1189,7 +1189,7 @@ void APP_TASKMENU_UpdateTouch(TaskMenuWork *menu)
     if (hit == ~0) {
         return;
     }
-    func_020355D8(1);
+    UI_SetInputMode(1);
     APP_TASKMENU_SetWinActive(menu->winWork[menu->cursorPos], menu->res, 0);
     menu->cursorPos = (u8)hit;
     menu->isDecide = 1;

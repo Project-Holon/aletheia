@@ -11,7 +11,7 @@
  *
  * symbols:
  *   CLACT_SetActorObjMode  0x0204B688  arm
- *   ov208_func_021BC518  0x021BC518  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_InitBrightnessTarget  0x021BC518  thumb  ov208
  */
 #include "../include/Obj10905.h"
 
@@ -22,7 +22,7 @@ typedef int            s32;
 
 struct Actor;
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
-extern void ov208_func_021BC518(u32 blend);
+extern void ZUKAN_DETAIL_COMMON_InitBrightnessTarget(u32 blend);
 
 void ZUKAN_DETAIL_AREA_SetIconsAlphaMode(u16 *heap, u8 *p, int key)
 {
@@ -32,5 +32,5 @@ void ZUKAN_DETAIL_AREA_SetIconsAlphaMode(u16 *heap, u8 *p, int key)
         if (((u32 *)(p + 0x5c))[i] != 0)
             CLACT_SetActorObjMode((struct Actor *)(((u32 *)(p + 0x5c))[i]), 1);
     }
-    ov208_func_021BC518(((struct Obj10905 *)p)->f41C);
+    ZUKAN_DETAIL_COMMON_InitBrightnessTarget(((struct Obj10905 *)p)->f41C);
 }

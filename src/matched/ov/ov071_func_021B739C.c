@@ -65,7 +65,7 @@
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   func_020355D8x 0x020355D8 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   INTRUDE_COMM_IsSessionActive 0x02175B14 thumb ov011
@@ -104,7 +104,7 @@ extern void MONOLITH_TOOL_SLOT_SELECT_HideMessage(void **p);
 extern int TOUCHPANEL_GetTrg(void);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_HitTrg(const void *);
-extern void func_020355D8(int);
+extern void UI_SetInputMode(int);
 extern void func_020355D8x(int);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern int INTRUDE_COMM_IsSessionActive(u8 *);
@@ -166,14 +166,14 @@ int MONOLITH_TOOL_SLOT_SELECT_Main(int a,int *state,C *c,D *d)
   }
   if(res>=0 && res<6) {*c->f8=res;d->f83=1;MONOLITH_TOOL_HighlightButtonPulse(c,(int *)((u8 *)d+0x2c),1,0xff,3);GFL_USE_PlaySeDefaultVolume(0x548);break;}
   if(res==6 || (keys&1)) {
-   func_020355D8(res==6);
+   UI_SetInputMode(res==6);
    if(INTRUDE_COMM_HasUnlockFlags(GAMESYSTEM_GetGameData(*c->f0))==0) {
     t=d_021BAA4C[*c->f8];
     if(t!=2 && t!=1) {*state=9;break;}
    }
    MONOLITH_TOOL_HighlightButtonFlash(c,(int *)((u8 *)d+0x2c),1,0,3);GFL_USE_PlaySeDefaultVolume(0x736);*state=5;
   } else if(res==7 || (keys&2)) {
-   MONOLITH_TOOL_StartBlink((u8 *)d+0x24);func_020355D8(res==7);GFL_USE_PlaySeDefaultVolume(0x551);*state=11;
+   MONOLITH_TOOL_StartBlink((u8 *)d+0x24);UI_SetInputMode(res==7);GFL_USE_PlaySeDefaultVolume(0x551);*state=11;
   }
   break;
  case 4: {

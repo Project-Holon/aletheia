@@ -52,7 +52,7 @@
  *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   BG_SYS_Create  0x0203F8F4  arm
  *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
- *   func_02082A7C  0x02082A7C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
  *   d_021BA7D4     0x021BA7D4  data  ov071  a4
  *   d_021BA764     0x021BA764  data  a4
  *   BG_SYS_Delete  0x0203F9B4  arm
@@ -160,7 +160,7 @@
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   func_020355D8x 0x020355D8 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   INTRUDE_COMM_IsSessionActive 0x02175B14 thumb ov011
@@ -433,7 +433,7 @@ extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_Create(u16 heapId);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
-extern void func_02082A7C(int, int, int);
+extern void MIi_CpuClear32(int, int, int);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *, u32);
 extern u32 PALANM_Delete(void *a0);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
@@ -526,7 +526,7 @@ extern int INTRUDE_COMM_HasUnlockFlags(void *);
 extern int TOUCHPANEL_GetTrg(void);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_HitTrg(const void *);
-extern void func_020355D8(int);
+extern void UI_SetInputMode(int);
 extern void func_020355D8x(int);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern int INTRUDE_COMM_IsSessionActive(u8 *);
@@ -981,10 +981,10 @@ void MONOLITH_TOOL_InitDisplay(void)
     BG_SYS_SetVramBanks((const struct DispVram *)(&d_021BA7D4));
     BG_SYS_Create(0x61);
     BG_SYS_SetGraphicsMode((struct DispConfig *)(&d_021BA764));
-    func_02082A7C(0, 0x06000000, 0x80000);
-    func_02082A7C(0, 0x06200000, 0x20000);
-    func_02082A7C(0, 0x06400000, 0x40000);
-    func_02082A7C(0, 0x06600000, 0x20000);
+    MIi_CpuClear32(0, 0x06000000, 0x80000);
+    MIi_CpuClear32(0, 0x06200000, 0x20000);
+    MIi_CpuClear32(0, 0x06400000, 0x40000);
+    MIi_CpuClear32(0, 0x06600000, 0x20000);
 }
 
 
@@ -2064,14 +2064,14 @@ int MONOLITH_TOOL_SLOT_SELECT_Main(int unused, int *state, MonolithToolProcArgs 
   }
   if(touchResult>=0 && touchResult<6) {args->param->slot=touchResult;screen->buttonHighlight=1;MONOLITH_TOOL_HighlightButtonPulse(args,&screen->button[0],1,0xff,3);GFL_USE_PlaySeDefaultVolume(0x548);break;}
   if(touchResult==6 || (keyState&1)) {
-   func_020355D8(touchResult==6);
+   UI_SetInputMode(touchResult==6);
    if(INTRUDE_COMM_HasUnlockFlags(ICA_ANIME_GetField1C(args->setup->gameCtx))==0) {
     result=d_021BAA4C[args->param->slot];
     if(result!=2 && result!=1) {*state=9;break;}
    }
    MONOLITH_TOOL_HighlightButtonFlash(args,&screen->button[0],1,0,3);GFL_USE_PlaySeDefaultVolume(0x736);*state=5;
   } else if(touchResult==7 || (keyState&2)) {
-   MONOLITH_TOOL_StartBlink(&screen->cursorBlink);func_020355D8(touchResult==7);GFL_USE_PlaySeDefaultVolume(0x551);*state=11;
+   MONOLITH_TOOL_StartBlink(&screen->cursorBlink);UI_SetInputMode(touchResult==7);GFL_USE_PlaySeDefaultVolume(0x551);*state=11;
   }
   break;
  case 4: {
@@ -2364,7 +2364,7 @@ void MONOLITH_TOOL_SLOT_SELECT_CreateCursor(MonolithToolProcArgs *args, Monolith
 /*
  * Tail call to MONOLITH_TOOL_DeleteBlink with the pointer advanced by 0x24.  The callee
  * is an unlabelled leaf in this overlay; it is reproduced in
- * src/matched/ov071_func_021B70B8.c, whose EXACT entry attests this pool-word
+ * src/matched/MONOLITH_TOOL_DeleteBlink.c, whose EXACT entry attests this pool-word
  * site (`matched`).
  */
 void MONOLITH_TOOL_SLOT_SELECT_FreeCursor(MonolithToolSlotSelect *screen)
@@ -2593,7 +2593,7 @@ int MONOLITH_TOOL_MENU_Update(int unused, int *state, MonolithToolProcArgs *args
         if (touchResult != -1) {
             screen->selected = touchResult;
             screen->result = d_021BA9C8[screen->kind][touchResult];
-            func_020355D8(1);
+            UI_SetInputMode(1);
             screen->touchArmed = 0;
             (*state)++;
             break;
@@ -2601,7 +2601,7 @@ int MONOLITH_TOOL_MENU_Update(int unused, int *state, MonolithToolProcArgs *args
         keys = KEY_GetRepeat();
         touch = KEY_GetTrg();
         if (touch > 0 && screen->touchArmed == 1) {
-            func_020355D8(0);
+            UI_SetInputMode(0);
             screen->touchArmed = 0;
             MONOLITH_TOOL_HighlightButtonPulse(args, &screen->button[0], d_021BA978[screen->kind], screen->selected, 3);
             GFL_USE_PlaySeDefaultVolume(0x548);
@@ -3188,7 +3188,7 @@ int MONOLITH_TOOL_STATS_Create(struct Proc *ctx, int *state, MonolithToolProcArg
 
 
 /*
- * `func_020355D8(0)`/`func_020355D8(1)` in the arms of `if (t & 2)`: the
+ * `UI_SetInputMode(0)`/`UI_SetInputMode(1)` in the arms of `if (t & 2)`: the
  * two calls tail-merge into one `blx` with the then-arm's `movs r0, #0`
  * falling through; every ternary or `!` spelling of the argument emits
  * `bne` to the 1 instead (same size, polarity flipped).
@@ -3217,9 +3217,9 @@ int MONOLITH_TOOL_STATS_Update(int unused, int *state, MonolithToolProcArgs *arg
         if (TOUCHPANEL_HitTrg(d_021BAAA4) != -1 || (touch & 2) != 0) {
             MONOLITH_TOOL_StartBlink(&screen->cursorBlink);
             if (touch & 2) {
-                func_020355D8(0);
+                UI_SetInputMode(0);
             } else {
-                func_020355D8(1);
+                UI_SetInputMode(1);
             }
             GFL_USE_PlaySeDefaultVolume(0x551);
             *state = *state + 1;
@@ -3420,7 +3420,7 @@ void MONOLITH_TOOL_STATS_CreateCursor(MonolithToolProcArgs *args, MonolithToolSt
 /*
  * Tail call to MONOLITH_TOOL_DeleteBlink with the pointer advanced by 0x48.  The callee
  * is an unlabelled leaf in this overlay; it is reproduced in
- * src/matched/ov071_func_021B70B8.c, whose EXACT entry attests this pool-word
+ * src/matched/MONOLITH_TOOL_DeleteBlink.c, whose EXACT entry attests this pool-word
  * site (`matched`).
  */
 void MONOLITH_TOOL_STATS_FreeCursor(MonolithToolStats *screen)
@@ -3565,8 +3565,8 @@ int MONOLITH_TOOL_LIST_Main(int unused, int *state, MonolithToolProcArgs *args, 
         active = TOUCHPANEL_HitTrg(d_021BAAFC);
         if (active == 0 || (mask & 2)) {
             MONOLITH_TOOL_StartBlink(&work->marker);
-            if (active == 0) func_020355D8(TRUE);
-            else func_020355D8(FALSE);
+            if (active == 0) UI_SetInputMode(TRUE);
+            else UI_SetInputMode(FALSE);
             GFL_USE_PlaySeDefaultVolume(0x551);
             *state = 17;
             break;
@@ -4062,7 +4062,7 @@ void MONOLITH_TOOL_UpdateScrollArrows(MonolithListWork *work)
 
 /*
  * `touching = 0` in the key branch is what keeps r7 as the zero stored to
- * scrollVelocity/touchFrames and passed to func_020355D8; `work->scrollRequest
+ * scrollVelocity/touchFrames and passed to UI_SetInputMode; `work->scrollRequest
  * = chosen` (not 0) reloads the spilled result as in the image.
  */
 int MONOLITH_TOOL_ProcessListInput(MonolithToolProcArgs *args, MonolithListWork *work)
@@ -4111,7 +4111,7 @@ int MONOLITH_TOOL_ProcessListInput(MonolithToolProcArgs *args, MonolithListWork 
         }
         if (KEY_GetTrg() & MONOLITH_KEY_A) {
             MONOLITH_TOOL_SetCursor(work, work->cursor, MONOLITH_INPUT_KEY);
-            func_020355D8(0);
+            UI_SetInputMode(0);
             if (work->entryDisabled[work->cursor] == 0) {
                 GFL_USE_PlaySeDefaultVolume(MONOLITH_SE_CONFIRM);
             }
@@ -4151,7 +4151,7 @@ int MONOLITH_TOOL_ProcessListInput(MonolithToolProcArgs *args, MonolithListWork 
                        && touchX >= 0x10 && touchX <= 0x70 && touchY >= 0xac && touchY <= 0xbc) {
                 chosen = 1;
                 selectedRow = work->cursor;
-                func_020355D8(1);
+                UI_SetInputMode(1);
             }
         } else if (work->scrollVelocity != 0) {
             if (work->scrollVelocity > 0) {

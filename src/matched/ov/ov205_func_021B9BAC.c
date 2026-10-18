@@ -12,12 +12,12 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082A7C 0x02082A7C arm
+ *   MIi_CpuClear32 0x02082A7C arm
  */
 #include "../include/Obj10885.h"
 #include "../include/Obj14634.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-struct Proc;extern void GFL_HEAP_CreateChildHeap(u32 src,u32 dst,u32 size);extern void *PROCSYS_AllocProcWork(struct Proc *,u32,u32);extern void func_02082A7C(u32,void *,u32);
-int SAVE_SCREEN_NoticeInit(struct Proc *obj,u32 unused,char *ctx) { char *p;GFL_HEAP_CreateChildHeap(1,84,0x40000);p=PROCSYS_AllocProcWork(obj,28,84);func_02082A7C(0,p,28);((struct Obj10885 *)p)->f0=84;((struct Obj10885 *)p)->f4=((struct Obj14634 *)ctx)->f4;((struct Obj10885 *)p)->f8=((struct Obj14634 *)ctx)->f8;return 1; }
+struct Proc;extern void GFL_HEAP_CreateChildHeap(u32 src,u32 dst,u32 size);extern void *PROCSYS_AllocProcWork(struct Proc *,u32,u32);extern void MIi_CpuClear32(u32,void *,u32);
+int SAVE_SCREEN_NoticeInit(struct Proc *obj,u32 unused,char *ctx) { char *p;GFL_HEAP_CreateChildHeap(1,84,0x40000);p=PROCSYS_AllocProcWork(obj,28,84);MIi_CpuClear32(0,p,28);((struct Obj10885 *)p)->f0=84;((struct Obj10885 *)p)->f4=((struct Obj14634 *)ctx)->f4;((struct Obj10885 *)p)->f8=((struct Obj14634 *)ctx)->f8;return 1; }

@@ -22,7 +22,7 @@
  * GFL_USE_PopBgm 0x02005E9C thumb
  * GFL_USE_FadeInBgmFull 0x02005DF8 thumb
  * KEY_GetTrg 0x020362DC arm
- * func_020355D8 0x020355D8 arm
+ * UI_SetInputMode 0x020355D8 arm
  * TOUCHPANEL_GetPointTrg 0x02035D20 arm
  * PRINTSYS_QUE_Main 0x0201C4E4 thumb
  * BMP_WIN_TransferChars 0x02045334 arm
@@ -50,7 +50,7 @@ extern u32 KEY_GetTrg(void);
 extern u32 TOUCHPANEL_GetPointTrg(u32*,u32*);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 struct Descriptor;
-extern void func_020355D8(u8);
+extern void UI_SetInputMode(u8);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32);
@@ -88,8 +88,8 @@ int TH_AWARD_Main(void *unused, u32 *state, void *unused2, char *p)
         break;
     case 3:
         flag=0;
-        if (KEY_GetTrg()&3) {func_020355D8(0);flag=1;}
-        else if (TOUCHPANEL_GetPointTrg(&x,&y)) {func_020355D8(1);flag=1;}
+        if (KEY_GetTrg()&3) {UI_SetInputMode(0);flag=1;}
+        else if (TOUCHPANEL_GetPointTrg(&x,&y)) {UI_SetInputMode(1);flag=1;}
         if (flag) {*state=4;FADE_Start(3,0,16,0);}
         break;
     case 4:

@@ -788,7 +788,7 @@ int NAMEIN_GRAPHIC_SymbolGetBox(Pair *p,Box *out)
 
 
 /*
- * tail: 320-byte lead including padding, followed by existing matched 920-byte ov194_func_021F2BC8.
+ * tail: 320-byte lead including padding, followed by existing matched 920-byte NAMEIN_GRAPHIC_SymbolMove.
  */
 void NAMEIN_GRAPHIC_KanaMove(int *p,int *delta,u8 *saved)
 {

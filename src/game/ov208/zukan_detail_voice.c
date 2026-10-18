@@ -45,7 +45,7 @@
  *   CLACT_CreateActor  0x0204B294  arm
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   KEY_GetTrg 0x020362DC arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
@@ -83,7 +83,7 @@
  *   ZUKAN_DETAIL_COMMON_GetFont 0x021BC3AC thumb ov208
  *   ZUKAN_DETAIL_COMMON_FreeBgPalette 0x021BC97C thumb ov208
  *   ZUKAN_DETAIL_COMMON_DeletePaletteAnim 0x021BC61C thumb ov208
- *   ov208_func_021BC3A4  0x021BC3A4  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_GetSource  0x021BC3A4  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_SetBrightnessFull 0x021BC4F4 thumb ov208
  *   ZUKAN_DETAIL_COMMON_TransferPalettes 0x021BC6BC thumb ov208
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
@@ -154,13 +154,13 @@
  *   ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive 0x021BDC2C thumb ov208
  *   gSpeciesNameBank 0x020A7370 data a4
  *   OS_GetTick 0x020870D0 arm
- *   ov208_func_021C3208 0x021C3208 thumb ov208
+ *   ZUKAN_DETAIL_VOICE_FinishScaleAnim 0x021C3208 thumb ov208
  *   ZUKAN_DETAIL_VOICE_NoOpC 0x021C337C thumb ov208
  *   ZUKAN_DETAIL_VOICE_NoOpB 0x021C3378 thumb ov208
  *   ZUKAN_DETAIL_VOICE_SetNumberDigits 0x021C2DE0 thumb ov208
- *   ov208_func_021BC3C0 0x021BC3C0 thumb ov208
+ *   ZUKAN_DETAIL_COMMON_GetCurrentEntry 0x021BC3C0 thumb ov208
  *   PM_VOICE_Play 0x02006984 thumb
- *   ov208_func_021C31CC 0x021C31CC thumb ov208
+ *   ZUKAN_DETAIL_VOICE_ResetPokemonTransform 0x021C31CC thumb ov208
  *   BMP_Create 0x02043678 arm
  *   data_021C8E28 0x021C8E28 data ov208 a1
  *   ZUKAN_DETAIL_VOICE_ScrollWaveform 0x021C36CC thumb ov208
@@ -236,7 +236,7 @@ extern void CLACT_DeleteActor(struct Obj *p);
 
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 
 extern u32 KEY_GetTrg(void);
 
@@ -308,7 +308,7 @@ extern void ZUKAN_DETAIL_COMMON_FreeBgPalette(void *p);
 
 extern void ZUKAN_DETAIL_COMMON_DeletePaletteAnim(void *p);
 
-extern int  ov208_func_021BC3A4(int key);
+extern int  ZUKAN_DETAIL_COMMON_GetSource(int key);
 
 extern void ZUKAN_DETAIL_COMMON_SetBrightnessFull(int flag, void *p);
 
@@ -418,7 +418,7 @@ extern void BMP_Clear(struct CharBuf *p, u8 v);
 
 extern u64 OS_GetTick(void);
 
-extern u16 ov208_func_021BC3C0(int key);
+extern u16 ZUKAN_DETAIL_COMMON_GetCurrentEntry(int key);
 
 extern u32 PM_VOICE_Play(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 
@@ -451,8 +451,8 @@ extern struct MsgBank *gSpeciesNameBank;
 
 extern const char data_021C8E28[];
 
-extern void ov208_func_021C3208(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx);
-extern void ov208_func_021C31CC(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx);
+extern void ZUKAN_DETAIL_VOICE_FinishScaleAnim(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx);
+extern void ZUKAN_DETAIL_VOICE_ResetPokemonTransform(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx);
 void ZUKAN_DETAIL_VOICE_SetHeapId(u16 *dst, u16 value);
 u32 ZUKAN_DETAIL_VOICE_Init(void *workAlloc, u32 unused, u16 *heapIdPtr, u32 unused2, int *ctx);
 u32 ZUKAN_DETAIL_VOICE_Exit(void *workAlloc, u32 unused, void *heapIdPtr, struct ZukanDetailVoice *voice, void *ctx);
@@ -1072,7 +1072,7 @@ void ZUKAN_DETAIL_VOICE_UpdatePlaybackTimer(u16 *heapIdPtr, struct ZukanDetailVo
         if (voice->elapsedMs >= voice->voiceLengthMs) {
             voice->elapsedMs = voice->voiceLengthMs;
             voice->voicePlaying = 0;
-            ov208_func_021C3208(heapIdPtr, voice, ctx);
+            ZUKAN_DETAIL_VOICE_FinishScaleAnim(heapIdPtr, voice, ctx);
         }
     }
     cur = voice->elapsedMs;
@@ -1129,25 +1129,25 @@ void ZUKAN_DETAIL_VOICE_HandlePlayInput(u16 *heapIdPtr, struct ZukanDetailVoice 
     hit = 0;
     if (voice->inputEnabled != 0) {
         if (KEY_GetTrg() & 1) {
-            func_020355D8(0);
+            UI_SetInputMode(0);
             hit = 1;
         } else if (TOUCHPANEL_GetPointTrg(&touchX, &touchY) != 0) {
             if (touchX < 0x100 && touchY < 0xa8) {
                 hit = 1;
-                func_020355D8(1);
+                UI_SetInputMode(1);
             }
         }
     }
     if (hit != 0) {
-        zukanSave = ZUKAN_SAVE_GetFromGameData((void *)ov208_func_021BC3A4(ctx));
-        species = ov208_func_021BC3C0(ctx);
+        zukanSave = ZUKAN_SAVE_GetFromGameData((void *)ZUKAN_DETAIL_COMMON_GetSource(ctx));
+        species = ZUKAN_DETAIL_COMMON_GetCurrentEntry(ctx);
         ZUKAN_SAVE_GetViewGenderAndForm(zukanSave, species, &gender, &shiny, &formNo, *heapIdPtr);
         voice->voiceHandle = PM_VOICE_Play(species, formNo, 0x40, 0, 0, 0, 0, 0);
         voice->elapsedMs = 0;
         *(u64 *)&voice->startTick[0] = OS_GetTick();
         voice->voicePlaying = 1;
         ZUKAN_DETAIL_VOICE_DrawWaveform(heapIdPtr, voice, ctx, species, formNo);
-        ov208_func_021C31CC(heapIdPtr, voice, ctx);
+        ZUKAN_DETAIL_VOICE_ResetPokemonTransform(heapIdPtr, voice, ctx);
     }
 }
 

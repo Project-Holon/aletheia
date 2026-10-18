@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT*
  * Padding: two zero alignment bytes after the 74-byte function.
- * Lever: c and d are u8, as in matched caller ov010_func_02161B90.c;
+ * Lever: c and d are u8, as in matched caller EVENT_FIELD_PROCLINK_CreateCommExitEvent.c;
  * this puts the c home store before r0 is assigned b for the first call.
  * symbols:
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb

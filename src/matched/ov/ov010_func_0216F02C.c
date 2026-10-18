@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082A7C 0x02082A7C arm
+ *   MIi_CpuClear32 0x02082A7C arm
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  */
 
-extern void func_02082A7C(int,void *,int);
+extern void MIi_CpuClear32(int,void *,int);
 struct Ctx;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
-void EVENT_BATTLE_InitTaskWork(void **p,void *a,void *b) { int zero=0; func_02082A7C(0,p,40); p[0]=a; p[1]=GAMESYSTEM_GetGameData(a); p[2]=b; p[5]=(void *)zero; p[6]=(void *)zero; p[7]=(void *)zero; }
+void EVENT_BATTLE_InitTaskWork(void **p,void *a,void *b) { int zero=0; MIi_CpuClear32(0,p,40); p[0]=a; p[1]=GAMESYSTEM_GetGameData(a); p[2]=b; p[5]=(void *)zero; p[6]=(void *)zero; p[7]=(void *)zero; }

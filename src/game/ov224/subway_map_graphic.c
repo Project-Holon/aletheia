@@ -48,7 +48,7 @@
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   FADE_IsActive 0x0204E804 arm
  *   KEY_GetTrg 0x020362DC arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
@@ -165,7 +165,7 @@ extern void PROCSYS_FreeProcWork(struct Proc *);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern int FADE_IsActive(void);
 extern u32 KEY_GetTrg(void);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32);
@@ -320,8 +320,8 @@ int SUBWAY_MAP_GRAPHIC_Main(void *a,unsigned *state,int b,char *p)
     case 1: if(!FADE_IsActive()) *state=2; break;
     case 2:
         flag=0;
-        if(KEY_GetTrg()&3) { func_020355D8(0); flag=1; }
-        else if(TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y))) { func_020355D8(1); flag=1; }
+        if(KEY_GetTrg()&3) { UI_SetInputMode(0); flag=1; }
+        else if(TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y))) { UI_SetInputMode(1); flag=1; }
         if(flag) { *state=3; FADE_Start(3,0,16,0); }
         break;
     case 3: if(!FADE_IsActive()) *state=4; break;

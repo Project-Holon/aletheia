@@ -19,7 +19,7 @@
  *
  * SDK: TwlDWC libdwcutil.TWL.HYB.a(aoss.o), symbol AOSS_seq_data_copy (name from the vendor object).
  * aoss.o was built by Metrowerks C/C++ for ARM 3.0.0.126 (its .comment), which is
- * the 2.0/sp1p2 front end; see aoss_release (ov016_func_021B6CF0.c) for the byte tell.
+ * the 2.0/sp1p2 front end; see aoss_release (aoss_release.c) for the byte tell.
  *
  * SecurityInfo is the vendor static inside aoss_bss (+0x6C0); this function addresses it by
  * its own symbol (pool words SecurityInfo+0x8 and so on), so it is declared by name here.

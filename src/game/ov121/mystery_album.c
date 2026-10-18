@@ -39,7 +39,7 @@
  *   KEY_GetTrg 0x020362DC arm
  *   KEY_GetRepeat 0x0203633C arm
  *   _u32_div_f 0x0209C2B0 arm
- *   func_02082A7C 0x02082A7C arm
+ *   MIi_CpuClear32 0x02082A7C arm
  *   GFL_HEAP_GetHeapHeadChecked 0x0203084C arm
  *   BG_SYS_FillScrollArea 0x02040618 arm
  *   MYSTERY_ALBUM_RequestSetup 0x021DE0AC thumb ov121
@@ -495,7 +495,7 @@ extern u32 KEY_GetRepeat(void);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
-extern void func_02082A7C(int, void *,int);
+extern void MIi_CpuClear32(int, void *,int);
 
 extern void *GFL_HEAP_GetHeapHeadChecked(u32 heapId);
 
@@ -857,9 +857,9 @@ char *MYSTERY_ALBUM_Create(const MysteryAlbumCreateInput *src,u16 heap)
     ((MysteryAlbumWork *)out)->flipFlag=1;
     *(MysteryAlbumCreateInput *)out=*src;
     ((MysteryAlbumWork *)out)->heapId=heap;
-    func_02082A7C(-1,out+0xb48,32);
-    func_02082A7C(-1,out+0xb88,32);
-    func_02082A7C(-1,out+0xb68,32);
+    MIi_CpuClear32(-1,out+0xb48,32);
+    MIi_CpuClear32(-1,out+0xb88,32);
+    MIi_CpuClear32(-1,out+0xb68,32);
     for(i=0;i<MYSTERY_DATA_GetCardSlotNum(((MysteryAlbumWork *)out)->cardList);i++) {
         if(MYSTERY_DATA_IsCardExist(((MysteryAlbumWork *)out)->cardList,i)) {
             count++;

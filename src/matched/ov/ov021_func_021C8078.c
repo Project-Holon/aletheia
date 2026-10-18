@@ -15,7 +15,7 @@
  *   VEC_Normalize  0x0207CCA4  arm
  *   _ll_mul        0x0209C054  arm
  *   NNS_G3dGlbGetInvCameraMtx  0x0206AAD4  arm
- *   func_02082B60  0x02082B60  arm
+ *   MI_Copy36B  0x02082B60  arm
  *   G3D_SYSTEM_GetObjectRender  0x02047788  arm
  *   G3D_SYSTEM_GetRenderObj  0x0204755C  arm
  *   NNS_G3dMdlSetMdlLightEnableFlag  0x0206E394  arm
@@ -42,7 +42,7 @@ extern void G3D_SYSTEM_GetLookAt(u8 *dst);
 extern void VEC_Subtract(V *, V *, V *);
 extern void VEC_Normalize(V *, V *);
 extern u32 *NNS_G3dGlbGetInvCameraMtx(void);
-extern void func_02082B60(M43 *, M *);
+extern void MI_Copy36B(M43 *, M *);
 extern int G3D_SYSTEM_GetObjectRender(int *p);
 extern Q *G3D_SYSTEM_GetRenderObj(void *);
 extern void NNS_G3dMdlSetMdlLightEnableFlag(void *, int, int);
@@ -74,7 +74,7 @@ void FLD_WIPE_3DOBJ_Draw(Obj *p, int b, int c)
     srt.s.x = b;
     srt.s.y = (int)(((long long)b * y + 0x800) >> 12);
     srt.s.z = 0x4000;
-    func_02082B60((M43 *)NNS_G3dGlbGetInvCameraMtx(), &srt.r);
+    MI_Copy36B((M43 *)NNS_G3dGlbGetInvCameraMtx(), &srt.r);
     q = G3D_SYSTEM_GetRenderObj((void *)G3D_SYSTEM_GetObjectRender(p->f4))->f4;
     NNS_G3dMdlSetMdlLightEnableFlag(q, 0, 0);
     NNS_G3dMdlSetMdlPolygonID(q, 0, 0);

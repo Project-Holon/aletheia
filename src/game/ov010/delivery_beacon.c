@@ -139,7 +139,7 @@ int DELIVERY_BEACON_IsEqual(int lhs, int rhs) { return lhs == rhs; }
 
 /*
  * Recursive MATCH unblocker: matched so the ABS32 site in
- * ov010_func_021576C4 attests as `matched`.
+ * DELIVERY_BEACON_SetStepAtLine attests as `matched`.
  */
 void DELIVERY_BEACON_SetStep(DeliveryBeacon *work, DeliveryBeaconStepFunc step)
 {
@@ -280,7 +280,7 @@ void DELIVERY_BEACON_DecodePieces(DeliveryBeacon *work)
 
 
 /*
- * extent: 28-byte lead followed by existing matched ov010_func_0215788C.c.
+ * extent: 28-byte lead followed by existing matched DELIVERY_BEACON_OnSessionStarted.c.
  */
 void DELIVERY_BEACON_StepStartScan(DeliveryBeacon *work) { GFL_NET_BeaconScanStart(); DELIVERY_BEACON_SetStepAtLine(work, DELIVERY_BEACON_StepCollectPieces, 0x1d7); }
 

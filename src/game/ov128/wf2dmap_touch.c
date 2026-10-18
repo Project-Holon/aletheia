@@ -18,7 +18,7 @@
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   Wf2dmapFriend_SetState 0x021C6438 thumb ov128
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   KEY_GetTrg 0x020362DC arm
  *   gWf2dmapFriendKeyHitRects 0x021CA529 data a1
  *   Wf2dmapFriend_CreateWindow 0x021C63AC thumb ov128
@@ -159,7 +159,7 @@ extern void Wf2dmapFriend_SetState(u8 *p, u8 a, u8 b);
 extern void WIPE_SYS_Start(void *, u32, u32, u32, u32, u32, u32);
 extern u32 WIPE_SYS_EndCheck(void);
 extern int TOUCHPANEL_HitTrg(const void *);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern u32 KEY_GetTrg(void);
 extern void Wf2dmapFriend_CreateWindow(void *, u32 *, u32, u32, u8, u8, u8, u8, u32, u8);
 extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
@@ -398,9 +398,9 @@ void WF2DMAP_TOUCH_DeleteScreenThunk(void *p, void *q, void *r)
 
 int WF2DMAP_TOUCH_GetFriendKeyInput(void *unused,int *q) {
  int v=TOUCHPANEL_HitTrg(gWf2dmapFriendKeyHitRects);
- if(v!=-1) {func_020355D8(1);*q=1;return v;}
- if(KEY_GetTrg()&2) {func_020355D8(0);*q=0;return 0;}
- if(KEY_GetTrg()&1024) {func_020355D8(0);*q=0;return 1;}
+ if(v!=-1) {UI_SetInputMode(1);*q=1;return v;}
+ if(KEY_GetTrg()&2) {UI_SetInputMode(0);*q=0;return 0;}
+ if(KEY_GetTrg()&1024) {UI_SetInputMode(0);*q=0;return 1;}
  return -1;
 }
 
@@ -621,7 +621,7 @@ int WF2DMAP_TOUCH_SelectMenu(char *p,void *q,void *r,int n) {
 
 
 int WF2DMAP_TOUCH_GetMenuKeyInput(void *p,int *q,void *r) {
- if(*q==1 && (KEY_GetTrg()&0xcf3)) {func_020355D8(0);*q=0;}
+ if(*q==1 && (KEY_GetTrg()&0xcf3)) {UI_SetInputMode(0);*q=0;}
  if(KEY_GetTrg()&2)return WF2DMAP_TOUCH_SelectMenu(p,q,r,0);
  if(KEY_GetTrg()&1024)return WF2DMAP_TOUCH_SelectMenu(p,q,r,1);
  if(KEY_GetCont()&64)return WF2DMAP_TOUCH_SelectMenu(p,q,r,2);
@@ -651,7 +651,7 @@ int WF2DMAP_TOUCH_GetMenuInput(void *p,int *q,char *r) {
  int flag=0; int ret;
  if(!PRINTSYS_QUE_IsFinished(((Wf2dmapTouchGfx *)r)->printWin)) return 2;
  ret=WF2DMAP_TOUCH_GetMenuTouchInput(p,q,r,&flag);
- if(flag) {func_020355D8(1); *q=1; return ret;}
+ if(flag) {UI_SetInputMode(1); *q=1; return ret;}
  return WF2DMAP_TOUCH_GetMenuKeyInput(p,q,r);
 }
 
@@ -1133,7 +1133,7 @@ done:
 /*
  * extent: two trailing bytes of zero alignment padding.
  */
-int WF2DMAP_TOUCH_GetConfirmInput(int *p) { if(TOUCHPANEL_GetTrg()==1) {func_020355D8(1);*p=1;return 1;} if(KEY_GetTrg()&3) {func_020355D8(0);*p=0;return 1;} return 0; }
+int WF2DMAP_TOUCH_GetConfirmInput(int *p) { if(TOUCHPANEL_GetTrg()==1) {UI_SetInputMode(1);*p=1;return 1;} if(KEY_GetTrg()&3) {UI_SetInputMode(0);*p=0;return 1;} return 0; }
 
 
 

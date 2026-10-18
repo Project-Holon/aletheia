@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT*
- * extent: alignment at 02175ED6 then existing filed leaf ov011_func_02175ED8.c.
+ * extent: alignment at 02175ED6 then existing filed leaf INTRUDE_COMM_GetLeaveFlag.c.
  * interface: BCC matched caller returns int; body returns original object +0xac or null.
  * symbols:
  *   INTRUDE_COMM_GetSessionResult 0x02175BCC thumb ov011

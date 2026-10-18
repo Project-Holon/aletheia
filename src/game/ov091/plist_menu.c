@@ -15,7 +15,7 @@
  * symbols:
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   BG_SYS_SetFlagField06  0x02041B6C  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   UI_GetInputMode  0x020355C4  arm
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
@@ -152,7 +152,7 @@ struct Bank;
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern void BG_SYS_SetFlagField06(u32 bit);
-extern void func_020355D8(int mode);
+extern void UI_SetInputMode(int mode);
 extern u8 UI_GetInputMode(void);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 param, u32 extra);
 extern u32 GFL_HEAP_Free(void *p);
@@ -334,7 +334,7 @@ void PLIST_MENU_Open(PokelistWork *work, PlistMenu *menu, int *items)
     tmpl.y = 0x18;
     tmpl.width = 0xd;
     tmpl.bgFrame = 3;
-    func_020355D8(work->touchMode);
+    UI_SetInputMode(work->touchMode);
     menu->taskMenu = APP_TASKMENU_OpenMenu(&tmpl, (void *)work->taskMenu);
 }
 
@@ -352,7 +352,7 @@ void PLIST_MENU_OpenFixed(PokelistWork *work, PlistMenu *menu)
     tmpl.y = 0x12;
     tmpl.width = 8;
     tmpl.bgFrame = 3;
-    func_020355D8(work->touchMode);
+    UI_SetInputMode(work->touchMode);
     menu->taskMenu = APP_TASKMENU_OpenMenu(&tmpl, (void *)work->taskMenu);
 }
 

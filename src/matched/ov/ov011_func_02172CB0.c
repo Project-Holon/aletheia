@@ -13,7 +13,7 @@
  * b as a struct with the byte at 0x0E, c as a struct with the step byte at 0x8FD (written
  * c->step = 3 / 4 in each arm, no local v), callee types from matched twins (GAME_COMM_GetGameData and
  * func_02030734 return u32, GAME_DATA_IsSaving takes const u8 *). The only open item is the pool
- * word INTRUDE_COMM_OnSessionStarted: the leaf is filed at src/matched/ov/ov011_func_02173568.c (EXACT);
+ * word INTRUDE_COMM_OnSessionStarted: the leaf is filed at src/matched/ov/INTRUDE_COMM_OnSessionStarted.c (EXACT);
  * the integrator needs a shard for it, then this file is EXACT.
  *
  * symbols:

@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * `func_020355D8(0)`/`func_020355D8(1)` in the arms of `if (t & 2)`: the
+ * `UI_SetInputMode(0)`/`UI_SetInputMode(1)` in the arms of `if (t & 2)`: the
  * two calls tail-merge into one `blx` with the then-arm's `movs r0, #0`
  * falling through; every ternary or `!` spelling of the argument emits
  * `bne` to the 1 instead (same size, polarity flipped).
@@ -22,7 +22,7 @@
  *   KEY_GetTrg  0x020362DC  arm
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   MONOLITH_TOOL_StartBlink  0x021B7108  thumb  ov071
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   MONOLITH_TOOL_IsBlinking  0x021B7114  thumb  ov071
  *   d_021BAAA4     0x021BAAA4  data  a4
@@ -59,7 +59,7 @@ int MONOLITH_TOOL_STATS_Update(int a, int *b, C *c, u8 *d)
     extern u32 KEY_GetTrg(void);
     extern int TOUCHPANEL_HitTrg(const void *p);
     extern void MONOLITH_TOOL_StartBlink(void *);
-    extern void func_020355D8(u8 v);
+    extern void UI_SetInputMode(u8 v);
     extern void GFL_USE_PlaySeDefaultVolume(unsigned int);
     extern int MONOLITH_TOOL_IsBlinking(void *p);
     int i;
@@ -85,9 +85,9 @@ int MONOLITH_TOOL_STATS_Update(int a, int *b, C *c, u8 *d)
         if (TOUCHPANEL_HitTrg(d_021BAAA4) != -1 || (t & 2) != 0) {
             MONOLITH_TOOL_StartBlink(d + 0x48);
             if (t & 2) {
-                func_020355D8(0);
+                UI_SetInputMode(0);
             } else {
-                func_020355D8(1);
+                UI_SetInputMode(1);
             }
             GFL_USE_PlaySeDefaultVolume(0x551);
             *b = *b + 1;

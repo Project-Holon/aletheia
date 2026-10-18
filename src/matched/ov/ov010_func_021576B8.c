@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Recursive MATCH unblocker: matched so the ABS32 site in
- * ov010_func_021576C4 attests as `matched`.
+ * DELIVERY_BEACON_SetStepAtLine attests as `matched`.
  */
 #include "../include/Obj18736.h"
 

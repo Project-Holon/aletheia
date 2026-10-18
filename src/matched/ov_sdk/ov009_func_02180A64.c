@@ -18,7 +18,7 @@
  * The intrinsic expansion colours the destination r4 and the source r3, exactly
  * as the object does; the struct assignment `aHandler.mHeader = *(GSUdpHdr *)
  * theMessage` gives the mirror image (destination r3, source r4).  Same close as
- * ov009_func_0217ECA4 (sendto) and gsUdpConnAttemptCB (0x02180C94).
+ * sendto (sendto) and gsUdpConnAttemptCB (0x02180C94).
  *
  * symbols:
  *   gsUdpEngineContext                  0x02180404  arm ov009

@@ -17,7 +17,7 @@
  *   GFL_HEAP_Free 0x020307B0 arm
  *   BG_SYS_DrawTileEx  0x020410D0  arm
  *   BG_SYS_FillTileMap  0x020413B0  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   KEY_GetTrg  0x020362DC  arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
@@ -74,7 +74,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u
 extern u32 GFL_HEAP_Free(void *ptr);
 extern void BG_SYS_DrawTileEx(u8 layer, u32 dstX, u32 dstY, u32 width, u8 height, u32 src, u8 srcX, u8 srcY, u8 srcWidth, u8 srcHeight);
 extern void BG_SYS_FillTileMap(u8 layer, u8 x, u8 y, u8 width, u8 height, u8 pltt);
-extern void func_020355D8(u8 value);
+extern void UI_SetInputMode(u8 value);
 extern u32 KEY_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern struct Bitmap *BMP_WIN_GetBmp(struct BmpWin *win);
@@ -437,7 +437,7 @@ int FRAME_LIST_ReadTouch(FrameList *list)
     if (hitIndex == -1)
         return FRAME_LIST_EVENT_NONE;
     savedTouchMode = UI_GetInputMode();
-    func_020355D8(1);
+    UI_SetInputMode(1);
     switch (list->params.hitEntries[hitIndex].kind) {
     case FRAME_LIST_HIT_ROW_CONFIRM:
         if (hitIndex >= list->visibleCount)
@@ -457,7 +457,7 @@ int FRAME_LIST_ReadTouch(FrameList *list)
             list->prevCursor = list->cursor;
             return FRAME_LIST_EVENT_SCROLL_BAR;
         }
-        func_020355D8(savedTouchMode);
+        UI_SetInputMode(savedTouchMode);
         break;
     case FRAME_LIST_HIT_ARROW_UP:
         if (list->scrollPos != 0) {
@@ -513,7 +513,7 @@ int FRAME_LIST_ReadKeys(FrameList *list)
     int lastRow;
 
     if ((KEY_GetTrg() & 0x3f1) && UI_GetInputMode() == 1) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         list->prevCursor = 0xff;
         list->repeatDelay = 8;
         return FRAME_LIST_EVENT_KEY_MODE;
@@ -523,7 +523,7 @@ int FRAME_LIST_ReadKeys(FrameList *list)
         list->holdStage = 6;
     }
     if (KEY_GetCont() & 0x40) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         if (list->cursor != 0) {
             list->prevCursor = list->cursor;
             list->cursor--;
@@ -538,7 +538,7 @@ int FRAME_LIST_ReadKeys(FrameList *list)
         return FRAME_LIST_EVENT_NONE;
     }
     if (KEY_GetCont() & 0x80) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         lastRow = list->visibleCount - 1;
         if (list->cursor < lastRow) {
             list->prevCursor = list->cursor;
@@ -554,7 +554,7 @@ int FRAME_LIST_ReadKeys(FrameList *list)
         return FRAME_LIST_EVENT_NONE;
     }
     if (KEY_GetCont() & 0x20) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         if (list->scrollPos != 0) {
             list->repeatDelay = 4;
             return FRAME_LIST_EVENT_PAGE_UP;
@@ -568,7 +568,7 @@ int FRAME_LIST_ReadKeys(FrameList *list)
         return FRAME_LIST_EVENT_NONE;
     }
     if (KEY_GetCont() & 0x10) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         if (list->scrollPos < list->scrollMax) {
             list->repeatDelay = 4;
             return FRAME_LIST_EVENT_PAGE_DOWN;
@@ -584,13 +584,13 @@ int FRAME_LIST_ReadKeys(FrameList *list)
     if (KEY_GetTrg() & 1)
         return FRAME_LIST_EVENT_CONFIRM;
     if (KEY_GetTrg() & 0x200) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         if (list->cursor != 0 || list->scrollPos != 0)
             return FRAME_LIST_EVENT_JUMP_TOP;
         return FRAME_LIST_EVENT_NONE;
     }
     if (KEY_GetTrg() & 0x100) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         if (list->cursor != list->visibleCount - 1 || list->scrollPos != list->scrollMax)
             return FRAME_LIST_EVENT_JUMP_BOTTOM;
         return FRAME_LIST_EVENT_NONE;

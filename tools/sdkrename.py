@@ -40,8 +40,8 @@ name from another TU) or when the name is a type, variable or field.  After
 the rename, the definition and its file-scope prototypes in the files that
 define the function at this address get `static` (an `extern` is replaced).
 
-A row whose `old` is itself a vendor-style name (not func_/sub_/unit_ plus
-its own address) is a byte-equality misname: the same name stays right at
+A row whose `old` is itself a vendor-style name (not func_/sub_/unit_, or
+ovNNN_func_/ovNNN_sub_, plus its own address) is a byte-equality misname: the same name stays right at
 other addresses.  Such a row is applied only to the files that mean this
 address (scoped): the src/matched file whose header names `old` at the
 address, files whose `symbols:` row gives `old` this address, the src/game
@@ -330,7 +330,7 @@ def local_ok(rows, bad, files, texts, scopes=None):
     return ok
 
 
-ADDR_NAME = re.compile(r'^(?:func|sub|unit)_([0-9A-Fa-f]{8})(?:_p\d+)?$')
+ADDR_NAME = re.compile(r'^(?:ov\d{3}_)?(?:func|sub|unit)_([0-9A-Fa-f]{8})(?:_p\d+)?$')
 
 
 def is_scoped(r):

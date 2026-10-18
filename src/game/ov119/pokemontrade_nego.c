@@ -46,7 +46,7 @@
  *   POKETRADE_3D_AddUnitAndInit 0x021E3208 thumb ov119
  *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   KEY_GetTrg 0x020362DC arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   TOUCHBAR_Update 0x021B63D0 thumb ov067
@@ -297,7 +297,7 @@ extern int TOUCHBAR_GetPressedButtonIdIfDone(u8 *);
 
 extern u32 KEY_GetTrg(void);
 
-extern void func_020355D8(u8);
+extern void UI_SetInputMode(u8);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
@@ -926,7 +926,7 @@ void POKETRADE_NEGO_StepSendSync25(unsigned char *p)
 
 void POKETRADE_NEGO_StepWaitReplyKey(unsigned char *p)
 {
-    int v;GFL_NET_HANDLE_GetCurrentHandle();if(POKETRADE_SAVE_IsMessagePrintDone((char *)p)){v=KEY_GetTrg();if(v)func_020355D8(0);if(v==0){v=TOUCHPANEL_GetTrg();if(v)func_020355D8(1);if(v==0)return;}MSGDATA_ReadString((struct MsgBank *)(((TradeWork *)p)->messageBank),0x88,(void *)(((TradeWork *)p)->messageText));POKETRADE_SAVE_OpenMessageWindowTop(p);POKETRADE_SAVE_ShowTimeIcon((char *)p);POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepSendSync25);}
+    int v;GFL_NET_HANDLE_GetCurrentHandle();if(POKETRADE_SAVE_IsMessagePrintDone((char *)p)){v=KEY_GetTrg();if(v)UI_SetInputMode(0);if(v==0){v=TOUCHPANEL_GetTrg();if(v)UI_SetInputMode(1);if(v==0)return;}MSGDATA_ReadString((struct MsgBank *)(((TradeWork *)p)->messageBank),0x88,(void *)(((TradeWork *)p)->messageText));POKETRADE_SAVE_OpenMessageWindowTop(p);POKETRADE_SAVE_ShowTimeIcon((char *)p);POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepSendSync25);}
 }
 
 void POKETRADE_NEGO_StepResolveReplies(char *p)
@@ -1111,7 +1111,7 @@ void POKETRADE_NEGO_ShowOfferSummary(TradeWork *p,int index)
     }
 }
 
-static inline int poll(void) { int v=KEY_GetTrg(); if(v)func_020355D8(0); return v; }
+static inline int poll(void) { int v=KEY_GetTrg(); if(v)UI_SetInputMode(0); return v; }
 
 int POKETRADE_NEGO_PollOfferCursorKeys(char *p)
 {
@@ -1199,7 +1199,7 @@ void POKETRADE_NEGO_StepBrowseOffers(char *p)
         if(TOUCHBAR_GetPressedButtonIdIfPressing(*(u8 * *)&((TradeWork *)p)->touchbar)==-1) {
             idx=TOUCHPANEL_HitTrg(gBrowseOffersHitArea);
             if(idx!=-1) {
-                func_020355D8(1);
+                UI_SetInputMode(1);
                 ((TradeWork *)p)->cursorIndex=idx;
                 POKETRADE_2D_MovePickedIconActor((int)p,-1);
                 POKETRADE_NEGO_ShowOfferSummary((TradeWork *)p,((TradeWork *)p)->cursorIndex);
@@ -1209,7 +1209,7 @@ void POKETRADE_NEGO_StepBrowseOffers(char *p)
                 return;
             }
             if(UI_GetInputMode() && poll()) {
-                func_020355D8(0);
+                UI_SetInputMode(0);
                 POKETRADE_2D_MovePickedIconActor((int)p,((TradeWork *)p)->cursorIndex);
                 GFL_USE_PlaySeDefaultVolume(0x548);
                 ((TradeWork *)p)->waitCounter=0;
@@ -1667,7 +1667,7 @@ void POKETRADE_NEGO_StepBrowseOffersMain(char *p)
     if(TOUCHBAR_GetPressedButtonIdIfPressing(*(u8 * *)&((TradeWork *)p)->touchbar)==sentinel) {
         idx=TOUCHPANEL_HitTrg(gBrowseOffersHitArea);
         if(idx!=sentinel) {
-            func_020355D8(1);
+            UI_SetInputMode(1);
             GFL_USE_PlaySeDefaultVolume(0x548);
             POKETRADE_2D_MovePickedIconActor((int)p,sentinel);
             if(POKETRADE_NEGO_TrySelectOffer(p,idx)) return;
@@ -1694,10 +1694,10 @@ void POKETRADE_NEGO_StepWaitInputAfterMessage(void *p)
     int v;
     if(POKETRADE_PROC_TickWifiTimer(p) && POKETRADE_SAVE_IsMessagePrintDone(p)) {
         v=KEY_GetTrg();
-        if(v) func_020355D8(0);
+        if(v) UI_SetInputMode(0);
         if(v==0) {
             v=TOUCHPANEL_GetTrg();
-            if(v) func_020355D8(1);
+            if(v) UI_SetInputMode(1);
             if(v==0) return;
         }
         if(UI_GetInputMode()) POKETRADE_2D_MovePickedIconActor((int)p,-1);

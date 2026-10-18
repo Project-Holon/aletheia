@@ -120,7 +120,7 @@
  *   KEY_GetTrg  0x020362DC  arm
  *   KEY_GetCont  0x0203630C  arm
  *   UI_GetInputMode  0x020355C4  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   PRINTSYS_CTRL_Init  0x02028470  thumb
@@ -326,7 +326,7 @@ extern u32 TOUCHPANEL_GetPointCont(int *x, int *y);
 extern u32 KEY_GetTrg(void);
 extern unsigned int KEY_GetCont(void);
 extern u8 UI_GetInputMode(void);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern struct StringBuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void PRINTSYS_CTRL_Init(PrintWaitState *waitState, u32 v);
@@ -960,7 +960,7 @@ void OPTION_MENU_ReadInput(OptionMenuInput *input)
     trigger = KEY_GetTrg();
     held = KEY_GetCont();
     if (trigger != 0 && UI_GetInputMode() == 1 && (trigger & (OPTION_KEY_X | OPTION_KEY_Y | OPTION_KEY_B)) == 0) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         input->command = OPTION_INPUT_KEY_ACTIVATE;
         GFL_USE_PlaySeDefaultVolume(OPTION_SE_CURSOR);
         return;
@@ -994,17 +994,17 @@ void OPTION_MENU_ReadInput(OptionMenuInput *input)
         return;
     }
     if (trigger & OPTION_KEY_B) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         input->command = OPTION_INPUT_CANCEL;
         return;
     }
     if (trigger & OPTION_KEY_X) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         input->command = OPTION_INPUT_SHORTCUT_X;
         return;
     }
     if (trigger & OPTION_KEY_Y) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         input->command = OPTION_INPUT_SHORTCUT_Y;
     }
 }
@@ -1199,7 +1199,7 @@ void OPTION_MENU_UpdateButtons(OptionMenuButtons *buttons, const OptionMenuInput
             buttons->decided = 1;
             buttons->focusChanged = 1;
             if (UI_GetInputMode() == 0)
-                func_020355D8(1);
+                UI_SetInputMode(1);
         } else if (OPTION_MENU_IsPointInRect(&gOptionMenuCancelRect, &touch) && buttons->choice != OPTION_BUTTON_CANCEL) {
             BG_SYS_SetPlaneVisible(4, 0);
             GFL_USE_PlaySeDefaultVolume(OPTION_SE_CANCEL);
@@ -1207,7 +1207,7 @@ void OPTION_MENU_UpdateButtons(OptionMenuButtons *buttons, const OptionMenuInput
             buttons->decided = 1;
             buttons->focusChanged = 1;
             if (UI_GetInputMode() == 0)
-                func_020355D8(1);
+                UI_SetInputMode(1);
         } else if (buttons->choice != OPTION_BUTTON_NONE) {
             buttons->choice = OPTION_BUTTON_NONE;
         }
@@ -1449,7 +1449,7 @@ void OPTION_MENU_UpdateList(OptionMenuList *list, const OptionMenuInput *input, 
         OPTION_MENU_RestartScreenBlink(screen);
         list->redraw = 1;
         if (UI_GetInputMode() == 0)
-            func_020355D8(1);
+            UI_SetInputMode(1);
         break;
     case OPTION_INPUT_RIGHT:
         if (list->cursor < OPTION_COUNT) {

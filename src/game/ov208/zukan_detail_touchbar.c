@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Cut from zukan_detail_common.c, zukan_detail_graphic.c, zukan_detail_form.c, ov208_func_021C80CC.c by tools/splitfile.py.
+ * Cut from zukan_detail_common.c, zukan_detail_graphic.c, zukan_detail_form.c, ZUKAN_DETAIL_FORM_CopyModelPosition.c by tools/splitfile.py.
  *
  * symbols:
  *   GFL_HEAP_Alloc 0x02030734 arm

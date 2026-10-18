@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * The five unlabelled leaf callees are filed as their own shards
- * (matched witnesses): ov010_func_02166658.c, ov021_func_021C87A0.c,
+ * (matched witnesses): SYMBOL_MAP_GetEventStateEntryValue.c, ov021_func_021C87A0.c,
  * ov021_func_021C87AC.c, ov021_func_021C87B8.c, ov021_func_021C87C8.c.
  * (ov128_func_021C87A0.c is a different overlay's function at that
  * address; ov010 runs with ov021 loaded.)

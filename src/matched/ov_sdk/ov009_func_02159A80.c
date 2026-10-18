@@ -19,7 +19,7 @@
  *   find_socket  0x02159244  arm  ov009
  *   _tcp_send_rst  0x021594A4  arm  ov009
  *   OS_DisableInterrupts  0x02087988  arm
- *   func_02082EA4  0x02082EA4  arm
+ *   MI_CpuCopy  0x02082EA4  arm
  *   mark_rwin_chunk  0x021598EC  arm  ov009
  *   merge_rwin_chunks  0x0215993C  arm  ov009
  *   push_rwin_chunks  0x02159A30  arm  ov009
@@ -110,7 +110,7 @@ typedef struct _CPSSoc {
 extern CPSSoc *find_socket(u8 *iphdr, u8 *tcphdr);
 extern void _tcp_send_rst(u8 *iphdr, u8 *tcphdr, u32 len);
 extern u32 OS_DisableInterrupts(void);
-extern void func_02082EA4(void *srcp, void *destp, u32 size);
+extern void MI_CpuCopy(void *srcp, void *destp, u32 size);
 struct Soc;
 struct soc;
 extern void mark_rwin_chunk(struct soc *soc, long chunk);
@@ -184,7 +184,7 @@ void dt_ack(u8 *iphdr, u8 *tcphdr, u32 len)
                             {
                                 if (((CPSSocRcvBuf *)(e + 0x70))->start == 0)
                                 {
-                                    func_02082EA4(TCPDATA(tcphdr), soc->rcvbuf.data + disconp, len);
+                                    MI_CpuCopy(TCPDATA(tcphdr), soc->rcvbuf.data + disconp, len);
                                     soc->chunks[ci].start = disconp;
                                     soc->chunks[ci].len = len;
                                     mark_rwin_chunk((struct soc *)soc, ci);
@@ -194,7 +194,7 @@ void dt_ack(u8 *iphdr, u8 *tcphdr, u32 len)
                                 reorder_nextp = ((CPSSocRcvBuf *)(e + 0x70))->start + ((CPSSocRcvBuf *)(e + 0x70))->len;
                                 if (disconp < soc->chunks[ci].start && soc->chunks[ci].start <= wend)
                                 {
-                                    func_02082EA4(TCPDATA(tcphdr), soc->rcvbuf.data + disconp, soc->chunks[ci].start - disconp);
+                                    MI_CpuCopy(TCPDATA(tcphdr), soc->rcvbuf.data + disconp, soc->chunks[ci].start - disconp);
                                     soc->chunks[ci].len += soc->chunks[ci].start - disconp;
                                     soc->chunks[ci].start = disconp;
                                     mark_rwin_chunk((struct soc *)soc, ci);
@@ -203,7 +203,7 @@ void dt_ack(u8 *iphdr, u8 *tcphdr, u32 len)
                                 }
                                 if (disconp <= reorder_nextp && reorder_nextp < wend)
                                 {
-                                    func_02082EA4(TCPDATA(tcphdr) + reorder_nextp - disconp, soc->rcvbuf.data + reorder_nextp, wend - reorder_nextp);
+                                    MI_CpuCopy(TCPDATA(tcphdr) + reorder_nextp - disconp, soc->rcvbuf.data + reorder_nextp, wend - reorder_nextp);
                                     soc->chunks[ci].len += wend - reorder_nextp;
                                     merge_rwin_chunks((struct Soc *)soc);
                                     mark_rwin_chunk((struct soc *)soc, ci);
@@ -268,19 +268,19 @@ void dt_ack(u8 *iphdr, u8 *tcphdr, u32 len)
             {
                 if (!(flag & 1))
                 {
-                    func_02082EA4(TCPDATA(tcphdr) + dup, soc->rcvbuf.data + soc->rcvbufp, soc->chunks[0].start - soc->rcvbufp);
+                    MI_CpuCopy(TCPDATA(tcphdr) + dup, soc->rcvbuf.data + soc->rcvbufp, soc->chunks[0].start - soc->rcvbufp);
                     len = soc->chunks[0].start + soc->chunks[0].len - soc->rcvbufp;
                 }
                 else
                 {
-                    func_02082EA4(TCPDATA(tcphdr) + dup, soc->rcvbuf.data + soc->rcvbufp, len);
+                    MI_CpuCopy(TCPDATA(tcphdr) + dup, soc->rcvbuf.data + soc->rcvbufp, len);
                 }
                 soc->chunks[0].start = 0;
                 pull_rwin_chunks((char *)soc);
             }
             else
             {
-                func_02082EA4(TCPDATA(tcphdr) + dup, soc->rcvbuf.data + soc->rcvbufp, len);
+                MI_CpuCopy(TCPDATA(tcphdr) + dup, soc->rcvbuf.data + soc->rcvbufp, len);
             }
             soc->rcvbufp += len;
             soc->ackno += len;

@@ -114,7 +114,7 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   FIELD_SUBSCREEN_GetMode  0x021A0F90  thumb  ov021
  *   FIELD_SUBSCREEN_ResolveMode  0x021A0EE4  thumb  ov021
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   FIELDMAP_GetZoneId 0x02188C9C thumb ov021
  *   ZONEDATA_IsZone96Pair 0x02013CE0 thumb
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
@@ -424,7 +424,7 @@ extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
 extern u32 ZONEDATA_IsZone96Pair(u32 zoneId);
 extern u32 FIELD_SUBSCREEN_GetMode(struct FieldCommLink *link);
 extern int FIELD_SUBSCREEN_ResolveMode(struct FieldCommLink *link, int a);
-extern void func_020355D8(u8 value);
+extern void UI_SetInputMode(u8 value);
 extern int FIELD_SUBSCREEN_IsIdle(struct FieldCommLink *link);
 extern int FIELD_SUBSCREEN_RequestMode(struct FieldCommLink *link, u32 a);
 extern int FIELD_SUBSCREEN_GetPanelResult(struct FieldCommLink *link);
@@ -1307,7 +1307,7 @@ struct GameEvent *SCRCMD_NETWORK_CreateBattleRecordLinkEvent(struct GameSystem *
         break;
     }
     work->linkMode = linkMode;
-    func_020355D8(1);
+    UI_SetInputMode(1);
     return event;
 }
 

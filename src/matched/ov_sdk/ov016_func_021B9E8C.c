@@ -14,7 +14,7 @@
  *
  * SDK: TwlDWC libdwcutil.TWL.HYB.a(atermset.o), symbol SendFrameViaInterface (name from the vendor object).
  * atermset.o was built by Metrowerks C/C++ for ARM 3.0.0.126 (its .comment), which is
- * the 2.0/sp1p2 front end; see aoss_release (ov016_func_021B6CF0.c) for the byte tell.
+ * the 2.0/sp1p2 front end; see aoss_release (aoss_release.c) for the byte tell.
  *
  * DWARF leaves out the unused third parameter; SendBroadcast passes its ipaddr there.
  *

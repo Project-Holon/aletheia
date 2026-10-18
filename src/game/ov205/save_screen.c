@@ -15,7 +15,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082A7C 0x02082A7C arm
+ *   MIi_CpuClear32 0x02082A7C arm
  *   ICA_ANIME_GetField1C 0x020120F4 thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
@@ -193,7 +193,7 @@ typedef signed short   s16;
 
 extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
 extern void *PROCSYS_AllocProcWork(struct ProcOwner *obj, u32 size, u32 heap);
-extern void func_02082A7C(unsigned,void *,unsigned);
+extern void MIi_CpuClear32(unsigned,void *,unsigned);
 extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
@@ -310,7 +310,7 @@ int SAVE_SCREEN_Init(void *owner,int unused,void **args)
     context=*args;
     GFL_HEAP_CreateChildHeap(1,84,1<<18);
     p=(SaveScreenWork *) PROCSYS_AllocProcWork(owner,76,84);
-    func_02082A7C(0,p,76);
+    MIi_CpuClear32(0,p,76);
     p->heapId=84;
     p->arcId=36;
     p->ctx=ICA_ANIME_GetField1C(context);
@@ -507,7 +507,7 @@ void SAVE_SCREEN_AppendPartyRecord(SaveScreenWork *p)
 void SAVE_SCREEN_PartSaveMain(SaveScreenWork *p) { void *save; u32 n;save=GAME_DATA_GetSaveControl(*(struct Big * *)&p->ctx);if(SAVE_CONTROL_WouldOverwriteSave(save)==0) { n=GAME_DATA_PartSaveMain(*(char * *)&p->ctx,8);if(n-2<=1) { SAVE_CONTROL_DeleteExtraSave(save,8);p->saveDoneFlag=1; } } }
 
 
-int SAVE_SCREEN_NoticeInit(struct ProcOwner *obj,u32 unused,SaveScreenContext *ctx) { SaveScreenNoticeWork *p;GFL_HEAP_CreateChildHeap(1,84,0x40000);p=(SaveScreenNoticeWork *) PROCSYS_AllocProcWork(obj,28,84);func_02082A7C(0,p,28);p->heapId=84;p->mode=ctx->mode;p->textSrc=ctx->textSrc;return 1; }
+int SAVE_SCREEN_NoticeInit(struct ProcOwner *obj,u32 unused,SaveScreenContext *ctx) { SaveScreenNoticeWork *p;GFL_HEAP_CreateChildHeap(1,84,0x40000);p=(SaveScreenNoticeWork *) PROCSYS_AllocProcWork(obj,28,84);MIi_CpuClear32(0,p,28);p->heapId=84;p->mode=ctx->mode;p->textSrc=ctx->textSrc;return 1; }
 
 
 int SAVE_SCREEN_NoticeMain(void *input,u32 *state,u32 unused,SaveScreenNoticeWork *p)

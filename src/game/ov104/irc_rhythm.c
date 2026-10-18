@@ -918,7 +918,7 @@ static inline u16 blend(int angle,u16 from,u16 to) {
 /*
  * lever: Byte RGB endpoints and named signed deltas, with the
  * cosine factor computed after green extraction, retain channel lifetimes.
- * Evidence: ov105_func_021B8734 blend spelling and own ARM9 queue body.
+ * Evidence: IRC_RESULT_BlendPaletteEntry blend spelling and own ARM9 queue body.
  */
 int IRC_RHYTHM_BlendPaletteEntry(u32 target,u16 *color,int angle,int paletteBank,u8 colorIndex,u16 from,u16 to) {
  *color=blend(angle,from,to);
@@ -1059,7 +1059,7 @@ static inline int convert(int v)
 }
 
 /*
- * Evidence: 44-byte particle layout from ov104_func_021B8D20; float
+ * Evidence: 44-byte particle layout from IRC_RHYTHM_UpdateParticle; float
  * runtime identities from matched CLACT_ApplyActorTransform; object callees from
  * their own matched units. Unsigned shifts preserve 32-bit wrapping;
  * explicit runtime conversion retains all signed input values.

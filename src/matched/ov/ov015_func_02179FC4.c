@@ -17,7 +17,7 @@
  *           BOOL flg_connect}), timeout +0x28. So the guards are sStatus.flg_connect (line 150) and isTry
  *           (line 154), line 158 is isTry = TRUE and line 166 is sStatus.status = IRC_ST_WAIT_RESPONSE. With
  *           isTry as its own object the scheduler places the argument setup before the isTry store, as in the
- *           game. No pragma is needed. The statics are declared as in ov_sdk/ov015_func_02179F74.c (mwcc .data
+ *           game. No pragma is needed. The statics are declared as in ov_sdk/IRC_Init.c (mwcc .data
  *           in reverse order, .bss by size class), except that isTry and flg_restore change places: the DWARF
  *           puts isTry at +0x1c and flg_restore at +0x14 (02179F74 has these two names swapped; it does not
  *           use either, so its bytes do not change). `u8 command` is a C99 mid-block declaration as in the

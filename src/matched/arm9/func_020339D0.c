@@ -9,12 +9,12 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_02082A7C  0x02082A7C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
  */
 
 typedef unsigned int u32;
 
-extern void func_02082A7C(u32 fill, void *dst, u32 size);
+extern void MIi_CpuClear32(u32 fill, void *dst, u32 size);
 
 typedef struct {
     u32 f00;
@@ -43,10 +43,10 @@ void SAVEDATA_InitBuffer(u32 a, T *sb)
     u32 n = sb->f04;
     int i;
 
-    func_02082A7C(0, (void *)a, sb->f10);
+    MIi_CpuClear32(0, (void *)a, sb->f10);
     for (i = 0; i < n; i++) {
         u32 off = ((Ent *)sb->f14)[i].off;
-        func_02082A7C(0, (void *)(a + off), ((Ent *)sb->f14)[i].size);
+        MIi_CpuClear32(0, (void *)(a + off), ((Ent *)sb->f14)[i].size);
         ((void (*)(u32))ptrs[i].fn)(a + off);
     }
 }

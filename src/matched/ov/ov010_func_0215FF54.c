@@ -20,7 +20,7 @@
  *   func_02030734  0x02030734  arm
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   EVENT_SHORTCUT_MENU_ReturnEvent  0x0216025C  thumb  ov010
  *   EVENT_SHORTCUT_MENU_MainEvent  0x02160018  thumb  ov010
  *   d_02172960     0x02172960  data  a4
@@ -48,7 +48,7 @@ extern void MI_CpuFill8();
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void *FIELDMAP_GetMmdlSys(unsigned char *p);
 extern void FLDMMDL_SysPauseMove(void *map);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern int EVENT_SHORTCUT_MENU_ReturnEvent(void *evt, u32 *state, struct Ctx *c);
 extern int EVENT_SHORTCUT_MENU_MainEvent(void *evt, u32 *state, struct Work *w);
 extern u8 d_02172960[];
@@ -112,6 +112,6 @@ struct Desc *EVENT_SHORTCUT_MENU_Create(int a0, int a1, u16 a2)
         p->sub->rec = p;
     }
     FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys((unsigned char *)p->field));
-    func_020355D8(0);
+    UI_SetInputMode(0);
     return r5;
 }

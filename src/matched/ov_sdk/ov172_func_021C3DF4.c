@@ -51,6 +51,7 @@
  *   gExifRelatedImageFormat 0x021C88C0 data ov172
  *   write_exif_ifd_tables 0x021C3A28 arm ov172
  *   STD_CopyLString  0x0208CB10  arm  arm9
+ *   MI_CpuCopy  0x02082EA4  arm  arm9
  */
 
 #include "../include/G_Ae90.h"
@@ -281,7 +282,7 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
   s->fieldC = 0;
   s->field10 = 0;
   s->field14 = 0;
-  func_02082EA4(gExifVersion, s->field18, 4);
+  MI_CpuCopy(gExifVersion, s->field18, 4);
   s->field54 = 0;
   sb->count1++;
   s = &sb->ptrC[sb->count1];
@@ -347,7 +348,7 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
   s->fieldC = 0;
   s->field10 = 0;
   s->field14 = 0;
-  func_02082EA4(gExifFlashpixVersion, s->field18, 4);
+  MI_CpuCopy(gExifFlashpixVersion, s->field18, 4);
   s->field54 = 0;
   sb->count1++;
   s = &sb->ptrC[sb->count1];
@@ -446,7 +447,7 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
   s->fieldC = 0;
   s->field10 = 0;
   s->field14 = 0;
-  func_02082EA4(gExifFlashpixVersion, s->field18, 4);
+  MI_CpuCopy(gExifFlashpixVersion, s->field18, 4);
   s->field54 = 0;
   sb->count3++;
   s = &sb->ptr24[sb->count3];

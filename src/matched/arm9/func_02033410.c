@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082A7C  0x02082A7C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
  *   SAVEDATA_GetTableMax   0x02033BF0  arm
  *
  * backup_system.c.  Fills the whole packed 2-bit-per-slot bitmap at offset
- * 0x138 with one repeated value: MIi_CpuClear32 (func_02082A7C) wipes
+ * 0x138 with one repeated value: MIi_CpuClear32 (MIi_CpuClear32) wipes
  * p->nbytes bytes of it, then `val` is OR'd in two bits at a time for
  * SAVEDATA_GetTableMax(p->unk2c) + 2 slots.  The getter/setter for one slot of the
  * same bitmap are src/matched/unit_020332FC.c and
@@ -52,7 +52,7 @@ struct Obj02033410 {
     u32  nbytes;
 };
 
-extern void func_02082A7C(u32 fill, void *dst, u32 size);
+extern void MIi_CpuClear32(u32 fill, void *dst, u32 size);
 struct Obj02033BF0;
 extern u32 SAVEDATA_GetTableMax(struct Obj02033BF0 *p);
 
@@ -64,7 +64,7 @@ void BACKUP_SYSTEM_FillBlockAreas(struct Obj02033410 *p, u32 val)
     u32 n_;
     u32 i;
 
-    func_02082A7C(0, p->slots, p->nbytes);
+    MIi_CpuClear32(0, p->slots, p->nbytes);
     n = SAVEDATA_GetTableMax(p->unk2c) + 2;
     w = 0;
     sh = 0;

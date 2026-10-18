@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT*
- * extent: followed by existing ov029_func_021F1000.c.
+ * extent: followed by existing C_GEAR_GetFadeRequestBits.c.
  * symbols:
  *   PALANM_ForceStopFade 0x02021B18 thumb
  */

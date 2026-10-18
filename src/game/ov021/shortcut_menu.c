@@ -68,7 +68,7 @@
  *   BMP_WIN_Delete  0x020452E8  arm
  *   BMP_MENULIST_GetPos  0x020202FC  thumb
  *   BMP_MENULIST_GetRowY  0x02020324  thumb
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   BMP_MENULIST_GetListIndex 0x020202EC thumb
  *   BMP_MENULIST_GetAttr 0x02020350 thumb
  *   KEY_GetRepeat 0x0203633C arm
@@ -289,7 +289,7 @@ extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 BMP_MENULIST_GetAttr(struct Obj *obj, u32 what);
 extern void BMP_MENULIST_GetPos(struct Obj *obj, u16 *a, u16 *b);
 extern u16 BMP_MENULIST_GetRowY(struct Obj *obj, u32 n);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern void BMP_MENULIST_GetListIndex(struct Obj *obj, u16 *out);
 extern unsigned int KEY_GetRepeat(void);
 extern u32 KEY_GetTrg(void);
@@ -637,7 +637,7 @@ void SHORTCUT_MENU_UpdateInput(ShortcutMenu *menu)
     selection = -1;
     toggleMode = 0;
     wrapped = 0;
-    func_020355D8(0);
+    UI_SetInputMode(0);
     BMP_MENULIST_GetListIndex(menu->list, &pickCursor[1]);
     itemCount = BMP_MENULIST_GetAttr(menu->list, 2);
     if (KEY_GetRepeat() & 0x40) {

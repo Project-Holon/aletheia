@@ -12,7 +12,7 @@
  * sdk:      DWCi_CEINlSet (libdwcutil.TWL.HYB.a(cellinfo.o))
  *
  * symbols:
- *   func_02082A7C  0x02082a7c  arm
+ *   MIi_CpuClear32  0x02082a7c  arm
  *   MIi_CpuCopy16  0x02082a60  arm
  *   MIi_CpuCopy32  0x02082a90  arm
  *   gCellinfoWork  0x021de674  data
@@ -28,7 +28,7 @@ typedef struct tagSELLINFO { u16 num; u16 attr; u32 offset; } SELLINFO;
 
 extern void *gCellinfoWork[2];
 
-extern void func_02082A7C(unsigned long data, void *destp, unsigned long size);
+extern void MIi_CpuClear32(unsigned long data, void *destp, unsigned long size);
 extern void MIi_CpuCopy16(void *srcp, void *destp, unsigned long size);
 extern void MIi_CpuCopy32(void *srcp, void *destp, unsigned long size);
 
@@ -43,7 +43,7 @@ void DWCi_CEINlSet(int lcd, int idx, GXOamAttr *obj)
     info = (SELLINFO *)gCellinfoWork[lcd];
     num = info[idx].num;
     attr = (OAMATTR *)((u8 *)info + info[idx].offset);
-    func_02082A7C(0, &oam, 8);
+    MIi_CpuClear32(0, &oam, 8);
     for (i = 0; i < num; i++) {
         MIi_CpuCopy16(attr, &oam, 6);
         MIi_CpuCopy32(&oam, obj, 8);

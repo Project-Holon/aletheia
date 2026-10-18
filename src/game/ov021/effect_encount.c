@@ -45,8 +45,8 @@
  *   sSearchAreaOffsets     0x021D8E76  data  a1
  *   FIELD_G3D_MAPPER_GetFocusSlot  0x0218D168  thumb  ov021
  *   FIELD_G3D_MAPPER_CheckSlotReady  0x0218DBD4  thumb  ov021
- *   func_0209BDBC  0x0209BDBC  arm
- *   func_0209C95C  0x0209C95C  arm
+ *   _s32_to_float  0x0209BDBC  arm
+ *   __fadd  0x0209C95C  arm
  *   _fsub  0x0209CB8C  arm
  *   _ffix  0x0209C494  arm
  *   FIELD_G3D_MAPPER_QuerySlotPlane  0x0218DBAC  thumb  ov021
@@ -141,8 +141,8 @@ extern int FIELD_PLAYER_CheckGridMoving(struct FieldPlayer *player);
 extern void FIELD_PLAYER_FinishGridMove(struct FieldPlayer *player);
 extern int FIELD_G3D_MAPPER_GetFocusSlot(struct FieldG3dMapper *mapper);
 extern int FIELD_G3D_MAPPER_CheckSlotReady(struct FieldG3dMapper *mapper, int blockIndex);
-extern int func_0209BDBC(int a);
-extern int func_0209C95C(int a, int b);
+extern int _s32_to_float(int a);
+extern int __fadd(int a, int b);
 extern int _fsub(int a, int b);
 extern int _ffix(int a);
 extern int FIELD_G3D_MAPPER_QuerySlotPlane(struct FieldG3dMapper *mapper, int blockIndex, VecFx32 *pos, MapCellInfo *out);
@@ -522,14 +522,14 @@ void EFFECT_ENCOUNT_CollectCandidates(FieldEncount *encount, EffectEncount *effe
     EFFECT_ENCOUNT_MakeSearchArea(encount, effectEncount, &area);
     z = area.minZ;
     if ((z << 4) > 0)
-        fixed = func_0209C95C(0x3f000000, func_0209BDBC(z << 16));
+        fixed = __fadd(0x3f000000, _s32_to_float(z << 16));
     else
-        fixed = _fsub(func_0209BDBC(z << 16), 0x3f000000);
+        fixed = _fsub(_s32_to_float(z << 16), 0x3f000000);
     cellPos.z = _ffix(fixed) + 0x8000;
     if ((area.minX << 4) > 0)
-        fixed = func_0209C95C(0x3f000000, func_0209BDBC(area.minX << 16));
+        fixed = __fadd(0x3f000000, _s32_to_float(area.minX << 16));
     else
-        fixed = _fsub(func_0209BDBC(area.minX << 16), 0x3f000000);
+        fixed = _fsub(_s32_to_float(area.minX << 16), 0x3f000000);
     startX = _ffix(fixed) + 0x8000;
     for (; z <= area.maxZ; z++) {
         cellPos.x = startX;

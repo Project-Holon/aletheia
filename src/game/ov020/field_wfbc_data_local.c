@@ -182,7 +182,7 @@
  *   _ffltu  0x0209BE04  arm
  *   __fdiv  0x0209CE10  arm
  *   __fmul  0x0209C77C  arm
- *   func_0209C95C  0x0209C95C  arm
+ *   __fadd  0x0209C95C  arm
  *   _fsub  0x0209CB8C  arm
  *   _ffix  0x0209C494  arm
  *   COMM_PLAYER_SUPPORT_NextSeason  0x0202E8A4  thumb

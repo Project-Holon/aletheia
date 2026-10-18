@@ -17,7 +17,7 @@
  *   BACKUP_SYSTEM_GetAreaAddr  0x02031EAC  arm
  *   FLASH_ACCESS_Read  0x020335E8  arm
  *   BACKUP_SYSTEM_FillBlockAreas  0x02033410  arm
- *   func_02082A7C  0x02082A7C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
  *   func_020307B0  0x020307B0  arm
  *   MIi_CpuCopy16  0x02082A60  arm
  *   BACKUP_SYSTEM_GetFooterInfo  0x02031F9C  arm
@@ -85,7 +85,7 @@ struct Obj02033BF0;
 extern u32 BACKUP_SYSTEM_GetAreaAddr(u32 *p, u32 sel);
 extern int FLASH_ACCESS_Read(u32 a0, u32 a1, u32 a2, void (*a3)(void));
 extern void BACKUP_SYSTEM_FillBlockAreas(struct Obj02033410 *p, u32 val);
-extern void  func_02082A7C(u32 v, void *dst, u32 size);
+extern void  MIi_CpuClear32(u32 v, void *dst, u32 size);
 extern u32 func_020307B0(void *p);
 extern void  MIi_CpuCopy16(const void *src, void *dst, u32 size);
 extern void BACKUP_SYSTEM_GetFooterInfo(u32 *out, void *p, void *buf, u32 sel);
@@ -126,7 +126,7 @@ int BACKUP_SYSTEM_LoadDoubleCopy(Save *self, u32 heap, u32 mode, u32 gen)
     okB = FLASH_ACCESS_Read(BACKUP_SYSTEM_GetAreaAddr((u32 *)self, 2), (u32)buf, self->f30, (void (*)(void))svsys->unk204);
     if (okA == 0 && okB == 0) {
         BACKUP_SYSTEM_FillBlockAreas((struct Obj02033410 *)self, 1);
-        func_02082A7C(0, h, self->f30);
+        MIi_CpuClear32(0, h, self->f30);
         func_020307B0(buf);
         return 0;
     }

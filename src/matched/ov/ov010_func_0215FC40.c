@@ -20,7 +20,7 @@
  *   SCRCMD_NETWORK_RecordLinkOnFinish  0x0215FEF4  thumb  ov010
  *   FIELD_SUBSCREEN_GetMode  0x021A0F90  thumb  ov021
  *   func_021A0EE4  0x021A0EE4  thumb  ov021
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  */
 
 typedef unsigned char  u8;
@@ -41,7 +41,7 @@ extern int SCRCMD_NETWORK_RecordLinkOnClose(void);
 extern int SCRCMD_NETWORK_RecordLinkOnFinish(u32 *a0, u32 *a1);
 extern u32 FIELD_SUBSCREEN_GetMode(u8 *p);
 extern int func_021A0EE4();
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 
 /* the 0x5C-byte record behind the descriptor */
 struct Rec {
@@ -102,6 +102,6 @@ struct Desc *SCRCMD_NETWORK_CreateBattleRecordLinkEvent(int a0, int a1, u16 a2)
         break;
     }
     p->f18 = r;
-    func_020355D8(1);
+    UI_SetInputMode(1);
     return r7;
 }

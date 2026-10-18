@@ -15,7 +15,7 @@
  *   KEY_GetTrg 0x020362DC arm
  *   func_020355C4 0x020355C4 arm
  *   GTSNEGO_DISP_SetCursorState 0x021D69F4 thumb ov120
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   GTSNEGO_DISP_MoveCursorVertical 0x021D4474 thumb ov120
  *   GTSNEGO_MSG_SetCursorAnimSeq 0x021D6A9C thumb ov120
  *   GTSNEGO_DISP_SetStateCallback 0x021D4244 thumb ov120
@@ -43,7 +43,7 @@ extern int GTSNEGO_MSG_UpdateButtons(char *p);
 extern u32 KEY_GetTrg(void);
 extern u8 func_020355C4(void);
 extern void GTSNEGO_DISP_SetCursorState(u8 *p, void *q, u32 n);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 struct S;
 extern void GTSNEGO_DISP_MoveCursorVertical(int n, char *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
@@ -71,7 +71,7 @@ void GTSNEGO_DISP_HandleConfirmKeys(u8 *p)
             GTSNEGO_MSG_UpdateButtons((char *)(*(int *)&((struct Obj00495 *)p)->f40));
             if (KEY_GetTrg() != 0 && func_020355C4() == 1) {
                 GTSNEGO_DISP_SetCursorState(((struct Obj00495 *)p)->f3C, ((struct Obj00495 *)p)->f34, ((struct Obj00495 *)p)->f160);
-                func_020355D8(changed);
+                UI_SetInputMode(changed);
                 return;
             }
             if (KEY_GetTrg() == 0x20) GTSNEGO_DISP_MoveCursorVertical(0, (char *)p);
@@ -96,7 +96,7 @@ void GTSNEGO_DISP_HandleConfirmKeys(u8 *p)
             if (changed)
                 GTSNEGO_DISP_SetCursorState(((struct Obj00495 *)p)->f3C, ((struct Obj00495 *)p)->f34, ((struct Obj00495 *)p)->f160);
             if (TOUCHPANEL_HitTrg(d_021D88D0) == 0) {
-                func_020355D8(1);
+                UI_SetInputMode(1);
                 GFL_USE_PlaySeDefaultVolume(0x54c);
                 APP_TASKMENU_WIN_SetDecide(((struct Obj00495 *)p)->f34, 1);
                 GTSNEGO_DISP_SetStateCallback((int *)p, (int)GTSNEGO_DISP_OnConfirmDone, 0x4f2);

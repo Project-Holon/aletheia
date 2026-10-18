@@ -11,15 +11,15 @@
  *
  * symbols:
  *   d_021469BC   0x021469BC  data  a4
- *   func_02035188 0x02035188  arm
+ *   UI_ClearFlags39 0x02035188  arm
  */
 
 typedef unsigned int u32;
 
 extern u32 d_021469BC[];
-extern int func_02035188(void *p, u32 v);
+extern int UI_ClearFlags39(void *p, u32 v);
 
 int UI_ClearFlags39Global(u32 v)
 {
-    return func_02035188((void *)d_021469BC[0], v);
+    return UI_ClearFlags39((void *)d_021469BC[0], v);
 }

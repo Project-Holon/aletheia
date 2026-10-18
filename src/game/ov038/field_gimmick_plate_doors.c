@@ -370,7 +370,7 @@ int FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent(int gameSystem, int cellX, int cell
 
 /*
  * Event: the player slides an open door by holding up or down, then lets go.
- * note:     u8 side and u8 j locals as in ov038_func_021F3F40.  Case 1 keeps the pressed
+ * note:     u8 side and u8 j locals as in FIELD_GIMMICK_PLATE_DOORS_EventBumpDoorSide.  Case 1 keeps the pressed
  *           path in the if body (the release path, a task swap to
  *           FIELD_GIMMICK_PLATE_DOORS_EventReturnDoor, is the else) so case 0's two failed tests reuse
  *           its `b` to the shared tail; slideUnits = (u32)slideFrames >> 1 gives the plain lsrs.
@@ -496,7 +496,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventSlideDoor(int event, int *state)
 
 /*
  * Event: the open door slides back to its home position.
- * note:     same u8 side spelling as ov038_func_021F3F40 (side++ on a u8 local;
+ * note:     same u8 side spelling as FIELD_GIMMICK_PLATE_DOORS_EventBumpDoorSide (side++ on a u8 local;
  *           the 0x021BE6xx callees take u16 parameters).
  */
 int FIELD_GIMMICK_PLATE_DOORS_EventReturnDoor(int event, int *state)

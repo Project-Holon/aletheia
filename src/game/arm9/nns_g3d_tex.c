@@ -31,7 +31,7 @@
  *   gNNSiG3dFuncBlendVisDefault     0x020A8234  data
  *   gNNSiG3dFuncBlendJntDefault     0x020A8238  data
  *   gNNSiG3dFuncBlendMatDefault     0x020A823C  data
- *   func_02082A7C  0x02082A7C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
  *   GX_BeginLoadTex  0x0207F7A0  arm
  *   GX_LoadTex       0x0207F7FC  arm
  *   GX_EndLoadTex    0x0207F9B4  arm
@@ -148,7 +148,7 @@ typedef struct {
 
 typedef struct { u8 name[16]; } NNSG3dResName;
 
-extern void func_02082A7C(u32 val, void *dst, u32 len);
+extern void MIi_CpuClear32(u32 val, void *dst, u32 len);
 extern void GX_BeginLoadTex(void);
 extern void GX_LoadTex(void *src, u32 off, u32 n);
 extern void GX_EndLoadTex(void);
@@ -231,7 +231,7 @@ next:
  */
 void NNS_G3dRenderObjInit(NNSG3dRenderObj *rndObj, u32 resMdl)
 {
-    func_02082A7C(0, rndObj, 0x54);
+    MIi_CpuClear32(0, rndObj, 0x54);
     rndObj->funcBlendMat = (void *)gNNSiG3dFuncBlendMatDefault;
     rndObj->funcBlendJnt = (void *)gNNSiG3dFuncBlendJntDefault;
     rndObj->funcBlendVis = (void *)gNNSiG3dFuncBlendVisDefault;

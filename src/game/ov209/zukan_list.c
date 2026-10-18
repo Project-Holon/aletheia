@@ -109,7 +109,7 @@
  *   FRAME_LIST_GetSelectedIndex 0x021B93A4 thumb ov067
  *   FRAME_LIST_SetCursor 0x021B93D4 thumb ov067
  *   UI_GetInputMode 0x020355C4 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   ZUKAN_SAVE_GetViewMode 0x0200CA70 thumb
  *   ZUKAN_SAVE_SetViewMode 0x0200CA5C thumb
@@ -522,7 +522,7 @@ extern void FRAME_LIST_SetCursor(struct FrameList *s, int v);
 
 extern u8 UI_GetInputMode(void);
 
-extern void func_020355D8(u8);
+extern void UI_SetInputMode(u8);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 
@@ -1346,7 +1346,7 @@ int ZUKAN_LIST_StateMain(struct ZukanList *p)
         case 0:
             selected=FRAME_LIST_GetSelectedIndex(p->frameList);
             if(ZUKAN_LIST_IsSpeciesEntryValid(p,selected)==1){GFL_USE_PlaySeDefaultVolume(1356);return ZUKAN_LIST_StateSelectSpecies(p,selected);}
-            func_020355D8(old);break;
+            UI_SetInputMode(old);break;
         case 1:case 2:case 3:case 4:case 5:case 6:case 7:
             selected=action+FRAME_LIST_GetScrollPos(p->frameList)-1;
             if(ZUKAN_LIST_IsSpeciesEntryValid(p,selected)==1){
@@ -2043,24 +2043,24 @@ int ZUKAN_LIST_HandleTouchInput(struct ZukanList *p)
             if (p->args->mode == 1)
                 return -1;
             if (UI_GetInputMode() == 0) {
-                func_020355D8(1);
+                UI_SetInputMode(1);
                 FRAME_LIST_HideCursor((u32)p->frameList);
             }
         }
-        func_020355D8(1);
+        UI_SetInputMode(1);
         return hit;
     } else {
         if (KEY_GetTrg() & 2) {
-            func_020355D8(0);
+            UI_SetInputMode(0);
             return 0xc;
         }
         if (KEY_GetTrg() & 0x400) {
-            func_020355D8(0);
+            UI_SetInputMode(0);
             return 0xb;
         }
         if (KEY_GetTrg() & 8) {
             if (ZUKAN_SAVE_GetDexObtained(p->args->save) == 1) {
-                func_020355D8(0);
+                UI_SetInputMode(0);
                 return 8;
             }
         }
@@ -2069,17 +2069,17 @@ int ZUKAN_LIST_HandleTouchInput(struct ZukanList *p)
                 return -1;
             if (p->args->mode == 1)
                 return -1;
-            func_020355D8(0);
+            UI_SetInputMode(0);
             return 9;
         }
         if (KEY_GetTrg() & 0x800) {
             if (p->args->mode == 1)
                 return -1;
             if (UI_GetInputMode() == 1) {
-                func_020355D8(0);
+                UI_SetInputMode(0);
                 DUP_FITTING_HandleTouch((u8 *)((u32)p->frameList));
             } else {
-                func_020355D8(0);
+                UI_SetInputMode(0);
             }
             return 0xa;
         }

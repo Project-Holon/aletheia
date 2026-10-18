@@ -17,7 +17,7 @@
  *   gJntMtxFuncTable        0x020A8290  data
  *   gMatTexMtxFuncTable        0x020A82A8  data
  *   gCurrentRS      0x02148DB0  data
- *   func_02082A7C   0x02082A7C  arm
+ *   MIi_CpuClear32   0x02082A7C  arm
  *   NNS_G3dGeBufferOP_N  0x0206DDA4  arm
  *   gMatAnmResultScratch     0x02148DB4  data
  *   gMatColorMaskTable     0x020A1954  data
@@ -74,7 +74,7 @@ typedef struct TexImageParamCmd {
 } TexImageParamCmd;
 
 extern void MIi_CpuClearFast(u32 value, void *pDst, u32 size);
-extern void func_02082A7C(u32 value, void *pDst, u32 size);
+extern void MIi_CpuClear32(u32 value, void *pDst, u32 size);
 extern void MI_Zero36B(void *pDst);
 extern void VEC_Normalize(const VecFx32 *pSrc, VecFx32 *pDst);
 extern void VEC_CrossProduct(const VecFx32 *pA, const VecFx32 *pB, VecFx32 *pAxB);
@@ -255,9 +255,9 @@ void NNS_G3dDraw(NNSG3dRenderObj *pRenderObj)
     NNSG3dRS work;
 
     if ((pRenderObj->flag & NNS_G3D_RENDEROBJ_FLAG_RESET_ANMEXIST) == NNS_G3D_RENDEROBJ_FLAG_RESET_ANMEXIST) {
-        func_02082A7C(0, pRenderObj->matAnmExist, 8);
-        func_02082A7C(0, pRenderObj->jntAnmExist, 8);
-        func_02082A7C(0, pRenderObj->visAnmExist, 8);
+        MIi_CpuClear32(0, pRenderObj->matAnmExist, 8);
+        MIi_CpuClear32(0, pRenderObj->jntAnmExist, 8);
+        MIi_CpuClear32(0, pRenderObj->visAnmExist, 8);
         if (pRenderObj->anmMat != 0)
             NNSi_G3dAnmObjMarkExistMap(pRenderObj->matAnmExist, pRenderObj->anmMat);
         if (pRenderObj->anmJnt != 0)

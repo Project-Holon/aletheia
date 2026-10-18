@@ -16,7 +16,7 @@
  *   gNNSiG3dFuncBlendVisDefault     0x020A8234  data
  *   gNNSiG3dFuncBlendJntDefault     0x020A8238  data
  *   gNNSiG3dFuncBlendMatDefault     0x020A823C  data
- *   func_02082A7C  0x02082A7C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
  */
 
 typedef unsigned char u8;
@@ -25,7 +25,7 @@ typedef unsigned int u32;
 extern u32 gNNSiG3dFuncBlendVisDefault;
 extern u32 gNNSiG3dFuncBlendJntDefault;
 extern u32 gNNSiG3dFuncBlendMatDefault;
-extern void func_02082A7C(u32 val, void *dst, u32 len);
+extern void MIi_CpuClear32(u32 val, void *dst, u32 len);
 
 typedef struct {
     u8  pad00[4];
@@ -40,7 +40,7 @@ typedef struct {
 
 void NNS_G3dRenderObjInit(S *p, u32 b)
 {
-    func_02082A7C(0, p, 0x54);
+    MIi_CpuClear32(0, p, 0x54);
     p->f0c = gNNSiG3dFuncBlendMatDefault;
     p->f14 = gNNSiG3dFuncBlendJntDefault;
     p->f1c = gNNSiG3dFuncBlendVisDefault;

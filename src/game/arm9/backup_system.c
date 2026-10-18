@@ -15,7 +15,7 @@
  *
  * symbols:
  *   GFL_HEAP_Alloc  0x02030734  arm
- *   func_02082A7C  0x02082A7C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
  *   MATHi_CRC16InitTable  0x020819B8  arm
  *   str_020A7848   0x020A7848  data
  *   svsys     0x02146994  data
@@ -136,7 +136,7 @@ typedef struct SaveRecordFooter {
 
 extern void *GFL_HEAP_Alloc(u16 heap_id, u32 size, int align, const char *file,
                          u16 line);
-extern void func_02082A7C(u32 value, void *dst, u32 size);
+extern void MIi_CpuClear32(u32 value, void *dst, u32 size);
 extern void MATHi_CRC16InitTable(struct MATHCRC16Table *table, u16 poly);
 extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr);
 extern u32 GFL_HEAP_Free(void *mem);
@@ -249,7 +249,7 @@ void BACKUP_SYSTEM_Init(u32 heap_id, u32 read_error_func, u32 write_error_func)
     BackupSystem *work = GFL_HEAP_Alloc((u16)heap_id, 0x210, 0, str_020A7848, 0xdf);
 
     svsys = work;
-    func_02082A7C(0, work, 0x210);
+    MIi_CpuClear32(0, work, 0x210);
     MATHi_CRC16InitTable((struct MATHCRC16Table *)svsys->crc_table, 0x1100 - 0xdf);
     svsys->read_error_func = (void (*)(void))read_error_func;
     work = svsys;
@@ -442,7 +442,7 @@ void BACKUP_SYSTEM_GetDiffSize(BackupSaveData *sv, u32 *diff_size, u32 *total_si
  * Erase the whole backup device in 0x1000-byte pages.  A 0x1000-byte scratch
  * page is allocated on the heap named by the u16 second argument (the
  * __FILE__ is "backup_system.c" at 0x020A7848 and the __LINE__ is 0x1e8),
- * filled with 0xff by func_02082A7C, and written over every page of the
+ * filled with 0xff by MIi_CpuClear32, and written over every page of the
  * device: the job's +8 word is the total length, its +0 word the destination
  * base, and the device handle comes from the +0x208 field of the object
  * behind the global at 0x02146994, re-read once per page along with the base.
@@ -486,7 +486,7 @@ int BACKUP_SYSTEM_Erase(BackupSaveData *sv, u32 heap_id)
     if (sv->area_addr[0] != sv->area_addr[1])
         BACKUP_SYSTEM_EraseFooter(sv, 2);
 
-    func_02082A7C(0xFFFFFFFF, page, 0x1000);
+    MIi_CpuClear32(0xFFFFFFFF, page, 0x1000);
 
     for (off = 0; off < sv->savearea_size; off += 0x1000)
         FLASH_ACCESS_Write(off + sv->area_addr[0], (u32)page, 0x1000, svsys->write_error_func);
@@ -1003,7 +1003,7 @@ int BACKUP_SYSTEM_LoadDoubleCopy(BackupSaveData *sv, u32 heap_id, u32 mode, u32 
     read2 = FLASH_ACCESS_Read(BACKUP_SYSTEM_GetAreaAddr(sv, 2), (u32)work2, sv->data_size, svsys->read_error_func);
     if (read1 == 0 && read2 == 0) {
         BACKUP_SYSTEM_FillBlockAreas(sv, 1);
-        func_02082A7C(0, work1, sv->data_size);
+        MIi_CpuClear32(0, work1, sv->data_size);
         GFL_HEAP_Free(work2);
         return 0;
     }
@@ -1180,7 +1180,7 @@ int BACKUP_SYSTEM_LoadSingleCopy(BackupSaveData *sv, int mode, int link_count)
     if (FLASH_ACCESS_Read(BACKUP_SYSTEM_GetAreaAddr(sv, 1), (u32)work, sv->data_size,
                       svsys->read_error_func) == 0) {
         BACKUP_SYSTEM_FillBlockAreas(sv, 1);
-        func_02082A7C(0, work, sv->data_size);
+        MIi_CpuClear32(0, work, sv->data_size);
         return 0;
     }
     BACKUP_SYSTEM_GetFooterInfo(info, sv, work, 0);
@@ -1910,13 +1910,13 @@ void BACKUP_SYSTEM_SwapBlockAreas(BackupSaveData *sv)
 
 void BACKUP_SYSTEM_ClearBlockAreas(BackupSaveData *sv)
 {
-    func_02082A7C(0, sv->block_area, sv->block_area_size);
+    MIi_CpuClear32(0, sv->block_area, sv->block_area_size);
 }
 
 
 /*
  * backup_system.c.  Fills the whole packed 2-bit-per-slot bitmap at offset
- * 0x138 with one repeated value: MIi_CpuClear32 (func_02082A7C) wipes
+ * 0x138 with one repeated value: MIi_CpuClear32 (MIi_CpuClear32) wipes
  * p->block_area_size bytes of it, then `val` is OR'd in two bits at a time for
  * SAVEDATA_GetTableMax(p->table) + 2 slots.  The getter/setter for one slot of the
  * same bitmap are src/matched/unit_020332FC.c and
@@ -1951,7 +1951,7 @@ void BACKUP_SYSTEM_FillBlockAreas(BackupSaveData *sv, u32 area)
     u32 count_copy;
     u32 block;
 
-    func_02082A7C(0, sv->block_area, sv->block_area_size);
+    MIi_CpuClear32(0, sv->block_area, sv->block_area_size);
     count = SAVEDATA_GetTableMax(sv->table) + 2;
     word = 0;
     shift = 0;

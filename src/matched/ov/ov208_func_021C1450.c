@@ -24,7 +24,7 @@
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   func_020355C4 0x020355C4 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   KEY_GetTrg 0x020362DC arm
  *   KEY_GetCont 0x0203630C arm
@@ -43,7 +43,7 @@ struct Vec { int x, y, z; };
 struct PtS { s16 x, y; };
 
 extern u8 func_020355C4(void);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern u32 KEY_GetTrg(void);
 extern unsigned int KEY_GetCont(void);
@@ -91,11 +91,11 @@ void ZUKAN_DETAIL_AREA_HandleTownTouchInput(u16 *heap, u8 *p, int key)
         return;
     if (func_020355C4() == 0) {
         if (TOUCHPANEL_GetPointTrg(&tx, &ty)) {
-            func_020355D8(1);
+            UI_SetInputMode(1);
             CLACT_SetActorDrawEnable((struct Obj *)W(0xcc), 0);
         }
     } else if (KEY_GetTrg()) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         ZUKAN_DETAIL_AREA_MoveCursorToSelectedTown(heap, p, key);
         ZUKAN_DETAIL_AREA_DrawTownName(heap, p, key);
         ZUKAN_DETAIL_AREA_UpdateTerrainIcons(heap, p, key);

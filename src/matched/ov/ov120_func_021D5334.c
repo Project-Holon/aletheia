@@ -22,7 +22,7 @@
  *   func_020355C4 0x020355C4 arm
  *   KEY_GetTrg 0x020362DC arm
  *   GTSNEGO_DISP_SetCursorState 0x021D69F4 thumb ov120
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   KEY_GetRepeat 0x0203633C arm
  *   GTSNEGO_DISP_ListCursorDown 0x021D5284 thumb ov120
  *   GTSNEGO_DISP_ListCursorUp 0x021D5230 thumb ov120
@@ -86,7 +86,7 @@ extern void GTSNEGO_MSG_ScrollListDown(u8 *p, void *q);
 extern u8 func_020355C4(void);
 extern u32 KEY_GetTrg(void);
 extern void GTSNEGO_DISP_SetCursorState(u8 *p, void *q, u32 n);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern u32 KEY_GetRepeat(void);
 extern int GTSNEGO_DISP_ListCursorDown(u8 *p);
 extern int GTSNEGO_DISP_ListCursorUp(u8 *p);
@@ -143,7 +143,7 @@ void GTSNEGO_DISP_HandleListInput(Ctx *p)
         return;
     if (func_020355C4() == 1 && KEY_GetTrg() != 0) {
         GTSNEGO_DISP_SetCursorState(p->f3C, 0, p->f164);
-        func_020355D8(0);
+        UI_SetInputMode(0);
         return;
     }
     if (KEY_GetRepeat() == 0x100) {
@@ -222,7 +222,7 @@ void GTSNEGO_DISP_HandleListInput(Ctx *p)
         if (p->f150 < 2)
             break;
     case 0:
-        func_020355D8(1);
+        UI_SetInputMode(1);
         p->f164 = sel + 6;
         GTSNEGO_DISP_SetCursorState(p->f3C, 0, p->f164);
         GTSNEGO_MSG_SetCursorAnimSeq(p->f3C, p->f164);

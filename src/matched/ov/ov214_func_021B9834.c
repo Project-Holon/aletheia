@@ -22,7 +22,7 @@
  * BTL_REC_SEL_CreateYesNo 0x021BA3A0 thumb ov214
  * BMP_MENU_ProcessYesNo 0x0201FEBC thumb
  * BMP_MENU_DeleteYesNo 0x0201FEF4 thumb
- * func_020355D8 0x020355D8 arm
+ * UI_SetInputMode 0x020355D8 arm
  * BATTLE_REC_CheckSaved 0x0200B5CC thumb
  * BTL_REC_SEL_StartFade 0x021B9EB8 thumb ov214
  * BTL_REC_SEL_ResetTimer 0x021BA6F0 thumb ov214
@@ -84,7 +84,7 @@ extern int BTL_REC_SEL_WaitPrint(int,char*);
 extern void BTL_REC_SEL_CreateYesNo(int unused, u8 *p);
 extern u32 BMP_MENU_ProcessYesNo(u8*);
 extern void BMP_MENU_DeleteYesNo(u8 *o);
-extern void func_020355D8(u8);
+extern void UI_SetInputMode(u8);
 extern u32 BATTLE_REC_CheckSaved(void*,u32,u32*,u32);
 extern void BTL_REC_SEL_StartFade(char*,int,char*,int,int,int,int,int,int);
 extern void BTL_REC_SEL_ResetTimer(void*,char*);
@@ -147,7 +147,7 @@ int BTL_REC_SEL_Main(void *unused,u32 *state,const char *obj,char *p)
     case 5:
         result=BMP_MENU_ProcessYesNo((u8*)(*(u32*)(p+0x88)));
         if(result!=0xffffffff){
-            func_020355D8(0);
+            UI_SetInputMode(0);
             if(result==0){
                 if(BATTLE_REC_CheckSaved(owner,*(u16*)p,&status0,0)){
                     (*(u32*)(p+0xb4))=1;BTL_REC_SEL_StartFade((char*)state,(int)obj,p,8,1,0,16,-2,1);break;
@@ -158,7 +158,7 @@ int BTL_REC_SEL_Main(void *unused,u32 *state,const char *obj,char *p)
     case 6:
         result=BMP_MENU_ProcessYesNo((u8*)(*(u32*)(p+0x88)));
         if(result!=0xffffffff){
-            func_020355D8(0);
+            UI_SetInputMode(0);
             if(result==0){BTL_REC_SEL_ResetTimer((void*)obj,p);*state=15;}
             else BTL_REC_SEL_StartEntryA(state,(void*)obj,p,5,0,1);
         }else if((*(u32*)(p+0xb8))){BMP_MENU_DeleteYesNo((void*)(*(u32*)(p+0x88)));*state=15;}
@@ -166,7 +166,7 @@ int BTL_REC_SEL_Main(void *unused,u32 *state,const char *obj,char *p)
     case 7:
         result=BMP_MENU_ProcessYesNo((u8*)(*(u32*)(p+0x88)));
         if(result!=0xffffffff){
-            func_020355D8(0);
+            UI_SetInputMode(0);
             if(result==0)(*(u32*)(p+0x48))=10;else (*(u32*)(p+0x48))=15;
             BTL_REC_SEL_ResetTimer((void*)obj,p);
             BTL_REC_SEL_StartFade((char*)state,(int)obj,p,9,1,0,16,-2,1);break;

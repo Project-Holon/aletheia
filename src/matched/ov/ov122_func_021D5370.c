@@ -36,7 +36,7 @@
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   INTRUDE_COMM_VIEW_StorePeerRecord 0x021D5278 thumb ov122
  *   NET_WHPIPE_SetNotifyCallback 0x02178118 thumb ov014
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   data_021D58B0 0x021D58B0 data a4
  *   data_021D5770 0x021D5770 data a4
  *   data_021D5740 0x021D5740 data a4
@@ -95,7 +95,7 @@ extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
 extern int GFL_NET_GetRunState(void);
 extern void INTRUDE_COMM_VIEW_StorePeerRecord(void *, const char *, int, int);
 extern void NET_WHPIPE_SetNotifyCallback(u32, u32);
-extern void func_020355D8(u8);
+extern void UI_SetInputMode(u8);
 int INTRUDE_COMM_VIEW_Create(void *owner, void *unused, char *args)
 {
     char *p;
@@ -136,6 +136,6 @@ int INTRUDE_COMM_VIEW_Create(void *owner, void *unused, char *args)
     ((struct Obj22935 *)(*(char * *)&((struct Obj00073 *)p)->f344))->fC = ((struct Obj00073 *)p)->f350;
     GFL_NET_RestartWithDefaultTimeout(0, ((struct Obj00073 *)p)->fC);
     if (GFL_NET_GetRunState()) NET_WHPIPE_SetNotifyCallback((u32)INTRUDE_COMM_VIEW_StorePeerRecord, (u32)p);
-    func_020355D8(1);
+    UI_SetInputMode(1);
     return 1;
 }

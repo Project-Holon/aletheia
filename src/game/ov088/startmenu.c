@@ -2872,7 +2872,7 @@ void STARTMENU_SetRowActorY(StartMenuWork *work, u32 actorIndex, s16 y)
 /*
  * Lays out the up-to-eight menu rows listed at +0x120 (8 terminates),
  * stacking them by the heights in gStartMenuRowInfo and positioning the row
- * sprites.  Row order is filled in by ov088_func_021BB4B4.c.
+ * sprites.  Row order is filled in by STARTMENU_BuildRowList.c.
  */
 void STARTMENU_LayoutRows(StartMenuWork *work)
 {

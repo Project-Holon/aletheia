@@ -79,7 +79,7 @@
  *   GX_SetBankForBG    0x0207FDCC  arm
  *   GX_SetGraphicsMode    0x0207D4B0  arm
  *   G2_GetBG1CharPtr    0x0207E24C  arm
- *   func_02082A7C    0x02082A7C  arm
+ *   MIi_CpuClear32    0x02082A7C  arm
  *   ARC_UTIL_LoadMember    0x0204A1BC  arm
  *   NNS_G2dGetUnpackedCharacterDataEx    0x02062A4C  arm
  *   DWCi_ScreenDC_FlushRange    0x020862F0  arm
@@ -338,7 +338,7 @@ extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0Is3d);
 
 extern void *G2_GetBG1CharPtr(void);
 
-extern void func_02082A7C(u32 value, u32 dest, u32 size);
+extern void MIi_CpuClear32(u32 value, u32 dest, u32 size);
 
 extern int ARC_UTIL_LoadMember(int arcId, int memberId, int compressed, int heapId);
 
@@ -1557,7 +1557,7 @@ void APP_POWER_LoadShutdownScreen(void)
     u32 charSize;
     u32 screenSize;
 
-    func_02082A7C(0, (u32)G2_GetBG1CharPtr(), 0x4000);
+    MIi_CpuClear32(0, (u32)G2_GetBG1CharPtr(), 0x4000);
     res = ARC_UTIL_LoadMember(0x16, 1, 0, 7);
     if (NNS_G2dGetUnpackedCharacterDataEx((struct ArchiveRecord *)res, (void **)(&chars)) != 0) {
         DWCi_ScreenDC_FlushRange(chars[5], chars[4]);

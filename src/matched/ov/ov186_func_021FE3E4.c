@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * note: pass 2 2026-10-06 P2L30: EXACT (c and c99). The twin shape of
- *   ov186_func_021FE2F8 (x, y products, then x += f0, y += f4, then the two
+ *   BR_UTIL_StepOrbit (x, y products, then x += f0, y += f4, then the two
  *   stores) gives the original tail; with common subexpressions on, the
  *   front end turns the two radius reads into one temp and hoists it to
  *   right after the angle load. #pragma opt_common_subs off keeps the read

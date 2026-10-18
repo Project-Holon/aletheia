@@ -15,7 +15,7 @@
  *   _fsub          0x0209CB8C  arm
  *   _ffix          0x0209C494  arm
  *   KEY_GetCont  0x0203630C  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   func_020355C4  0x020355C4  arm
  *   TOWNMAP_MapFindNearestTown  0x021BA710  thumb  ov072
  *   TOWNMAP_MapGetScroll  0x021BA69C  thumb  ov072
@@ -52,7 +52,7 @@ typedef struct {
 
 extern unsigned int KEY_GetCont(void);
 typedef unsigned char  u8;
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern u8 func_020355C4(void);
 extern char *TOWNMAP_MapFindNearestTown(void *p, Cur *c);
 extern void TOWNMAP_MapGetScroll(char *p, int *o);
@@ -87,22 +87,22 @@ void TOWNMAP_CursorUpdate(Cur *c, void *q)
     moved = 0;
     c->fc = 0;
     if (KEY_GetCont() & 0x40) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         dir.y -= 0x1000;
         moved = 1;
     }
     if (KEY_GetCont() & 0x80) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         dir.y += 0x1000;
         moved = 1;
     }
     if (KEY_GetCont() & 0x20) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         dir.x -= 0x1000;
         moved = 1;
     }
     if (KEY_GetCont() & 0x10) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         dir.x += 0x1000;
         moved = 1;
     }
@@ -150,11 +150,11 @@ void TOWNMAP_CursorUpdate(Cur *c, void *q)
         CLACT_AddActorSurfacePos((struct Obj *)c->obj, (const struct Vec2 *)(&c->pt), 0);
     }
     if (KEY_GetTrg() & 1) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         c->fc = 1;
     }
     if (TOUCHPANEL_GetPointTrg(&tx, &ty)) {
-        func_020355D8(1);
+        UI_SetInputMode(1);
         if (tx <= 0xf8 && ty - 8 <= 0xa0) {
             c->fc = 1;
             c->pt.x = tx;

@@ -37,7 +37,7 @@
  *   TableLookup                      0x0218482C arm
  *   gGpiProfileResponseDpr     0x021a5224  data
  *   TableRemove                      0x021847BC arm
- *   func_021847BC  0x021847BC  arm
+ *   TableRemove  0x021847BC  arm
  *   strcmp                           0x020948E0 arm
  *   TableMapSafe2                    0x021848E4 arm
  *   gpiProfileMapCallback            0x0218FFE0 arm
@@ -70,7 +70,7 @@ extern int gpiGetProfile(void **connection, int profileid, GPIProfile **pProfile
 extern void TableEnter(void *table, void *newElem);
 extern void * TableLookup(void * table, void * elemKey);
 extern int TableRemove(void * table, void * delElem);
-extern void func_021847BC(int v);
+extern void TableRemove(int v);
 extern int strcmp(const char * a, const char * b);
 extern void * TableMapSafe2(void * table, int (*cb)(void *, void *), void * udata);
 extern int gpiCheckForBlock(void * unused, GPIProfile * profile, void * udata);
@@ -359,7 +359,7 @@ void gpiRemoveProfileByID(void ** connection, int profileid)
  */
 void gpiRemoveProfile(const int *p, void *profile)
 {
-    func_021847BC(*(const int *)(*p + 0x5c8));
+    TableRemove(*(const int *)(*p + 0x5c8));
 }
 
 

@@ -275,7 +275,7 @@ void FLDEFF_ENCOUNT_LoadKind(EncountModelSet *set, u32 kind)
 }
 
 /*
- * Lever: G3D_SYSTEM_CreateObject takes three arguments (see ov019_func_0217FA10); the
+ * Lever: G3D_SYSTEM_CreateObject takes three arguments (see UNION_EFF_CreateAnimObj); the
  * third is set->desc.animeCount, which is what keeps the loop bound in r2.
  */
 /* Builds the render, animations and object of one model. */

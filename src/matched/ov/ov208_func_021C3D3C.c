@@ -11,7 +11,7 @@
  *
  * symbols:
  *   ov208_func_021BC3A8  0x021BC3A8  thumb  ov208
- *   ov208_func_021BC3B4  0x021BC3B4  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_GetWorkPtr  0x021BC3B4  thumb  ov208
  *   ov208_func_021BC3B8  0x021BC3B8  thumb  ov208
  *   BG_SYS_FillScrollArea  0x02040618  arm
  *   BG_SYS_FreeSlot  0x020414AC  arm
@@ -42,9 +42,9 @@
  *   ZUKAN_DETAIL_TOUCHBAR_SetEnabled  0x021BDAD4  thumb  ov208
  *   ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind  0x021BDBB8  thumb  ov208
  *   ov208_func_021BDC48  0x021BDC48  thumb  ov208
- *   ov208_func_021BC3A4  0x021BC3A4  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_GetSource  0x021BC3A4  thumb  ov208
  *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
- *   ov208_func_021BDC14  0x021BDC14  thumb  ov208
+ *   ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq  0x021BDC14  thumb  ov208
  *   ZUKAN_DETAIL_HEADBAR_GetIconKind  0x021BE840  thumb  ov208
  *   ZUKAN_DETAIL_HEADBAR_SetIconKind  0x021BE82C  thumb  ov208
  *   ZUKAN_DETAIL_HEADBAR_SetIconSpecies  0x021BE844  thumb  ov208
@@ -80,7 +80,7 @@ typedef unsigned int   u32;
 typedef int            s32;
 
 extern void *ov208_func_021BC3A8(int key);
-extern void *ov208_func_021BC3B4(int key);
+extern void *ZUKAN_DETAIL_COMMON_GetWorkPtr(int key);
 extern void *ov208_func_021BC3B8(int key);
 extern void BG_SYS_FillScrollArea(u32 bgId, u32 which, u32 value);
 extern void BG_SYS_FreeSlot(u32 bgId);
@@ -115,9 +115,9 @@ extern void ZUKAN_DETAIL_TOUCHBAR_SetMode(void *s, u32 mode, u32 kind, u32 flag)
 extern void ZUKAN_DETAIL_TOUCHBAR_SetEnabled(void *s, int v);
 extern void ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(void *s, u32 kind);
 extern void ov208_func_021BDC48(void *s, u32 on);
-extern int  ov208_func_021BC3A4(int key);
+extern int  ZUKAN_DETAIL_COMMON_GetSource(int key);
 extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
-extern void ov208_func_021BDC14(void *s, int b);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(void *s, int b);
 extern int  ZUKAN_DETAIL_HEADBAR_GetIconKind(void *icon);
 extern void ZUKAN_DETAIL_HEADBAR_SetIconKind(void *icon, int kind);
 extern void ZUKAN_DETAIL_HEADBAR_SetIconSpecies(void *icon);
@@ -161,7 +161,7 @@ int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, u8 *p, int key)
     int idle;
 
     res = ov208_func_021BC3A8(key);
-    scene = ov208_func_021BC3B4(key);
+    scene = ZUKAN_DETAIL_COMMON_GetWorkPtr(key);
     icon = ov208_func_021BC3B8(key);
     switch (*seq) {
     case 0:
@@ -226,7 +226,7 @@ int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, u8 *p, int key)
                 ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(scene, 3);
             }
             ov208_func_021BDC48(scene, 0);
-            ov208_func_021BDC14(scene, GAME_DATA_CheckSaveFlag(ov208_func_021BC3A4(key), 20));
+            ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scene, GAME_DATA_CheckSaveFlag(ZUKAN_DETAIL_COMMON_GetSource(key), 20));
             if (ZUKAN_DETAIL_HEADBAR_GetIconKind(icon) != 2) {
                 ZUKAN_DETAIL_HEADBAR_SetIconKind(icon, 3);
                 ZUKAN_DETAIL_HEADBAR_SetIconSpecies(icon);

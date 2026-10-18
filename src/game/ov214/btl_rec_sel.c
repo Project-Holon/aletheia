@@ -45,7 +45,7 @@
  *   FADE_IsActive 0x0204E804 arm
  *   BMP_MENU_ProcessYesNo 0x0201FEBC thumb
  *   BMP_MENU_DeleteYesNo 0x0201FEF4 thumb
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   BATTLE_REC_CheckSaved 0x0200B5CC thumb
  *   BATTLE_REC_LoadAlloc 0x0200B5A4 thumb
  *   BATTLE_REC_GetHeaderOf 0x0200B934 thumb
@@ -324,7 +324,7 @@ extern u32 KEY_GetTrg(void);
 extern int FADE_IsActive(void);
 extern u32 BMP_MENU_ProcessYesNo(u8*);
 extern void BMP_MENU_DeleteYesNo(u8 *o);
-extern void func_020355D8(u8);
+extern void UI_SetInputMode(u8);
 extern u32 BATTLE_REC_CheckSaved(void*,u32,u32*,u32);
 extern struct BattleRec *BATTLE_REC_LoadAlloc(void *a, u32 heap, u32 *dp, u32 id);
 extern u8 *BATTLE_REC_GetHeaderOf(struct ObjC4 *p);
@@ -598,7 +598,7 @@ int BTL_REC_SEL_Delete(void *mgr,int unused,int state,char *work)
  * BTL_REC_SEL_CreateYesNo 0x021BA3A0 thumb ov214
  * BMP_MENU_ProcessYesNo 0x0201FEBC thumb
  * BMP_MENU_DeleteYesNo 0x0201FEF4 thumb
- * func_020355D8 0x020355D8 arm
+ * UI_SetInputMode 0x020355D8 arm
  * BATTLE_REC_CheckSaved 0x0200B5CC thumb
  * BTL_REC_SEL_StartFade 0x021B9EB8 thumb ov214
  * BTL_REC_SEL_ResetTimer 0x021BA6F0 thumb ov214
@@ -671,7 +671,7 @@ int BTL_REC_SEL_Main(void *unused,u32 *state,const char *mgr,char *work)
     case 5:
         result=BMP_MENU_ProcessYesNo((u8*)(((struct BtlRecSel *)work)->yesNoMenu));
         if(result!=0xffffffff){
-            func_020355D8(0);
+            UI_SetInputMode(0);
             if(result==0){
                 if(BATTLE_REC_CheckSaved(owner,((struct BtlRecSel *)work)->heap,&status0,0)){
                     (((struct BtlRecSel *)work)->busy)=1;BTL_REC_SEL_StartFade((char*)state,(int)mgr,work,8,1,0,16,-2,1);break;
@@ -682,7 +682,7 @@ int BTL_REC_SEL_Main(void *unused,u32 *state,const char *mgr,char *work)
     case 6:
         result=BMP_MENU_ProcessYesNo((u8*)(((struct BtlRecSel *)work)->yesNoMenu));
         if(result!=0xffffffff){
-            func_020355D8(0);
+            UI_SetInputMode(0);
             if(result==0){BTL_REC_SEL_ResetTimer((void*)mgr,work);*state=15;}
             else BTL_REC_SEL_StartEntryA(state,(void*)mgr,work,5,0,1);
         }else if((((struct BtlRecSel *)work)->menuOpen)){BMP_MENU_DeleteYesNo((void*)(((struct BtlRecSel *)work)->yesNoMenu));*state=15;}
@@ -690,7 +690,7 @@ int BTL_REC_SEL_Main(void *unused,u32 *state,const char *mgr,char *work)
     case 7:
         result=BMP_MENU_ProcessYesNo((u8*)(((struct BtlRecSel *)work)->yesNoMenu));
         if(result!=0xffffffff){
-            func_020355D8(0);
+            UI_SetInputMode(0);
             if(result==0)(((struct BtlRecSel *)work)->menuMode)=10;else (((struct BtlRecSel *)work)->menuMode)=15;
             BTL_REC_SEL_ResetTimer((void*)mgr,work);
             BTL_REC_SEL_StartFade((char*)state,(int)mgr,work,9,1,0,16,-2,1);break;
@@ -1002,21 +1002,21 @@ int BTL_REC_SEL_PrintStep(int unused,char*work)
     case 0:
         if((KEY_GetCont()&3)||TOUCHPANEL_GetCont()){
             PRINTSYS_PrintStreamShortWait(*(void* *)&((struct BtlRecSel *)work)->printStream,0);
-            if(KEY_GetCont()&3)func_020355D8(0);else func_020355D8(1);
+            if(KEY_GetCont()&3)UI_SetInputMode(0);else UI_SetInputMode(1);
         }
         break;
     case 1:
         if((KEY_GetTrg()&3)||TOUCHPANEL_GetTrg()){
             GFL_USE_PlaySeDefaultVolume(0x547);
             PRINTSYS_PrintStreamReleasePause(*(void* *)&((struct BtlRecSel *)work)->printStream);
-            if(KEY_GetTrg()&3)func_020355D8(0);else func_020355D8(1);
+            if(KEY_GetTrg()&3)UI_SetInputMode(0);else UI_SetInputMode(1);
         }
         break;
     case 2:
         if(((struct BtlRecSel *)work)->waitTimer)--((struct BtlRecSel *)work)->waitTimer;
         else if(((struct BtlRecSel *)work)->streamWait){
             if((KEY_GetTrg()&3)||TOUCHPANEL_GetTrg()){
-                if(KEY_GetTrg()&3)func_020355D8(0);else func_020355D8(1);
+                if(KEY_GetTrg()&3)UI_SetInputMode(0);else UI_SetInputMode(1);
                 ((struct BtlRecSel *)work)->streamWait=0;
                 result=1;
             }

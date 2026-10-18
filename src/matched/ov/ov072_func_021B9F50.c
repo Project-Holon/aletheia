@@ -19,7 +19,7 @@
  *   TOUCHBAR_Update  0x021B63D0  thumb  ov067
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   KEY_GetTrg  0x020362DC  arm
  *   CLACT_IsActorAnimActive  0x0204B98C  arm
  *   TOWNMAP_IsScrollZooming  0x021BB0E0  thumb  ov072
@@ -43,7 +43,7 @@ extern void TOUCHBAR_Update(struct S *p);
 struct PtS;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern u32 KEY_GetTrg(void);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern int TOWNMAP_IsScrollZooming(void *p);
@@ -67,10 +67,10 @@ void TOWNMAP_BackButtonUpdate(u32 *p, void *q)
         if (TOUCHPANEL_GetPointTrg(&x, &y)) {
             if (x - pt.x <= 0x18 && y - pt.y <= 0x18) {
                 hit = 1;
-                func_020355D8(1);
+                UI_SetInputMode(1);
             }
         } else if (KEY_GetTrg() & 4) {
-            func_020355D8(hit);
+            UI_SetInputMode(hit);
             hit = 1;
         }
         if (hit && CLACT_IsActorAnimActive((void *)p[5]) == 0 && TOWNMAP_IsScrollZooming(q) == 0) {

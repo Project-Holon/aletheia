@@ -14,7 +14,7 @@
  *   BMP_GetPixels  0x020437D4  arm  arm9
  *   ARC_UTIL_LoadMember  0x0204A1BC  arm  arm9
  *   NNS_G2dGetUnpackedCharacterDataEx  0x02062A4C  arm  arm9
- *   func_02082EA4  0x02082EA4  arm  arm9
+ *   MI_CpuCopy  0x02082EA4  arm  arm9
  * Addresses are Black-image addresses.
  */
 
@@ -34,7 +34,7 @@ extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
 typedef signed int     s32;
 struct NitroFileHeader;
 extern s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out);
-extern void func_02082EA4(void *dst, void *src, u32 n);
+extern void MI_CpuCopy(void *dst, void *src, u32 n);
 extern u32 func_020307B0(void *p);
 
 void FIELD_MSGBG_LoadFrameTile(u32 a, u32 unused, u32 heap, u32 idx)
@@ -47,6 +47,6 @@ void FIELD_MSGBG_LoadFrameTile(u32 a, u32 unused, u32 heap, u32 idx)
     src = BMP_GetPixels((const struct Bmp *)a);
     buf = (void *)ARC_UTIL_LoadMember(5, 8, 0, heap);
     NNS_G2dGetUnpackedCharacterDataEx(buf, (void **)(&cd));
-    func_02082EA4(cd->raw + i * 32 + idx * 32, src, 0x20);
+    MI_CpuCopy(cd->raw + i * 32 + idx * 32, src, 0x20);
     func_020307B0(buf);
 }

@@ -13,7 +13,7 @@
  * three resource-slot indices).  The table must be `const`: a non-const
  * table lets the stores into the stack record alias it, and the index loads
  * are then scheduled after the stack-argument stores (42 bytes of DIFF).
- * Twin: ov111_func_021C75E4.
+ * Twin: VIEWER_ACTOR_CreateObjects.
  *
  * symbols:
  *   CLACT_CreateActor  0x0204B294  arm

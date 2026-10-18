@@ -15,7 +15,7 @@
  *   MONOLITH_TOOL_MENU_UpdateButtons  0x021B82A4  thumb  ov071
  *   MONOLITH_TOOL_MENU_UpdateCursor  0x021B82FC  thumb  ov071
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   KEY_GetRepeat  0x0203633C  arm
  *   KEY_GetTrg  0x020362DC  arm
  *   MONOLITH_TOOL_HighlightButtonPulse  0x021B6B98  thumb  ov071
@@ -70,7 +70,7 @@ extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
 extern void MONOLITH_TOOL_MENU_UpdateButtons(int *a, char *p);
 extern void MONOLITH_TOOL_MENU_UpdateCursor(void *p);
 extern int TOUCHPANEL_HitTrg(const void *p);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern unsigned int KEY_GetRepeat(void);
 extern u32 KEY_GetTrg(void);
 extern void MONOLITH_TOOL_HighlightButtonPulse(void *p, int *tbl, int n, int sel, int c);
@@ -104,7 +104,7 @@ int MONOLITH_TOOL_MENU_Update(int a, int *state, C *c, D *d)
         if (res != -1) {
             d->sel = res;
             d->res = d_021BA9C8[d->kind][res];
-            func_020355D8(1);
+            UI_SetInputMode(1);
             d->armed = 0;
             (*state)++;
             break;
@@ -112,7 +112,7 @@ int MONOLITH_TOOL_MENU_Update(int a, int *state, C *c, D *d)
         keys = KEY_GetRepeat();
         t = KEY_GetTrg();
         if (t > 0 && d->armed == 1) {
-            func_020355D8(0);
+            UI_SetInputMode(0);
             d->armed = 0;
             MONOLITH_TOOL_HighlightButtonPulse(c, (int *)d, d_021BA978[d->kind], d->sel, 3);
             GFL_USE_PlaySeDefaultVolume(0x548);

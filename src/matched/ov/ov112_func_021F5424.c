@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Recursive MATCH unblocker: unresolved callee named by the parked
- * ov112_func_021F80B0.  The +8 word is loaded once and shared by both arms
+ * STA_ACT_LIGHT_CallElemB.  The +8 word is loaded once and shared by both arms
  * (the two identical loads CSE, which schedules the load before the branch).
  *
  * symbols:

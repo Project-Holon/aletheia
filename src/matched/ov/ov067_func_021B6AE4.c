@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * note:     b and c are u16 as the matched caller ov067_func_021B6B2C passes
+ * note:     b and c are u16 as the matched caller TOUCHBAR_PrintYesNoCancelLabels passes
  *           them; the difference is written back into the parameter
  *           (`b = b - f()`): a separate u16 local y swapped p and b between
  *           r4/r5, and `b -= f()` truncates the call result first (worse).

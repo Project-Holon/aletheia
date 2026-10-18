@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   BMP_MENULIST_GetListIndex 0x020202EC thumb
  *   BMP_MENULIST_GetAttr 0x02020350 thumb
  *   KEY_GetRepeat 0x0203633C arm
@@ -35,7 +35,7 @@ typedef unsigned int   u32;
 
 typedef signed int     s32;
 struct Obj;
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern void BMP_MENULIST_GetListIndex(struct Obj *obj, u16 *out);
 extern u32 BMP_MENULIST_GetAttr(struct Obj *obj, u32 what);
 extern unsigned int KEY_GetRepeat(void);
@@ -66,7 +66,7 @@ void SHORTCUT_MENU_UpdateInput(char *p)
     sel = -1;
     redraw = 0;
     flag = 0;
-    func_020355D8(0);
+    UI_SetInputMode(0);
     BMP_MENULIST_GetListIndex(((struct Obj00523 *)p)->f4, &c[1]);
     n = BMP_MENULIST_GetAttr(((struct Obj00523 *)p)->f4, 2);
     if (KEY_GetRepeat() & 0x40) {

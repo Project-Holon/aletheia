@@ -123,7 +123,7 @@
  *   gFieldMenuSlotRow     0x021D8B27  data  ov021  a1
  *   KEY_GetTrg  0x020362DC  arm
  *   KEY_GetRepeat  0x0203633C  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   gFieldMenuTouchTable     0x021D8C2C  data  ov021  a1
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
@@ -426,7 +426,7 @@ extern short GF_STANDARD_Get_F684(unsigned short x);
 extern void GXS_LoadOBJPltt(void *src, u32 off, u32 n);
 extern u32 KEY_GetTrg(void);
 extern unsigned int KEY_GetRepeat(void);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern int TOUCHPANEL_HitTrg(const void *touchTable);
 extern void CLACT_AddActorSurfacePos(void *actor, const FieldMenuScreenPos *delta, u32 which);
 extern u32 FIELD_MSGBG_GetFont(u32 mapInfo);
@@ -1049,7 +1049,7 @@ void FIELD_MENU_HandleKeys(FieldMenu *menu)
     } else if (pressed & FIELD_MENU_PAD_A) {
         if (menu->items[FIELD_MENU_GetSlotIndex(menu->cursorCol, menu->cursorRow)].buttonId != FIELD_MENU_BUTTON_EMPTY) {
             FIELD_MENU_StartLeave(menu, 0);
-            func_020355D8(0);
+            UI_SetInputMode(0);
         }
     }
 }
@@ -1073,7 +1073,7 @@ void FIELD_MENU_HandleTouch(FieldMenu *menu)
         }
         menu->cursorDirty = 1;
         FIELD_MENU_StartLeave(menu, zero);
-        func_020355D8(1);
+        UI_SetInputMode(1);
     }
 }
 

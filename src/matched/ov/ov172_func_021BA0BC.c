@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082A7C 0x02082A7C arm
+ *   MIi_CpuClear32 0x02082A7C arm
  *   MIC_StartLimitedSampling 0x0208B500 arm
  * extent: Callback at 021BA114 stores zero at r1+8 and 51200 at r1.
  */
@@ -24,7 +24,7 @@ typedef struct MICAutoParam {
     void (*callback)(MICResult, void *);
     void *arg;
 } MICAutoParam;
-extern void func_02082A7C(u32, void *, u32);
+extern void MIi_CpuClear32(u32, void *, u32);
 extern MICResult MIC_StartLimitedSampling(MICAutoParam *);
 void CTVT_MIC_OnCaptureComplete(MICResult, void *);
 int CTVT_MIC_StartCapture(u32 *p)
@@ -33,7 +33,7 @@ int CTVT_MIC_StartCapture(u32 *p)
     param.type = 3;
     param.size = 51200;
     param.buffer = (void *)p[1];
-    func_02082A7C(0, param.buffer, param.size);
+    MIi_CpuClear32(0, param.buffer, param.size);
     if (param.size & 31) param.size &= ~31;
     param.callback = CTVT_MIC_OnCaptureComplete;
     param.loop = 0;

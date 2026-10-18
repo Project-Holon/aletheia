@@ -11,7 +11,7 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02082A7C 0x02082A7C arm
+ *   MIi_CpuClear32 0x02082A7C arm
  *   func_0203084C 0x0203084C arm
  *   BG_SYS_FillScrollArea 0x02040618 arm
  *   MYSTERY_ALBUM_SetupEntry 0x021DBDF4 thumb ov121
@@ -44,7 +44,7 @@ typedef struct {u32 w[12];} Desc;
 extern char d_021DFBB0[],d_021DF8FC[],d_021DF890[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *,int,int);
-extern void func_02082A7C(int,void *,int);
+extern void MIi_CpuClear32(int,void *,int);
 extern void *func_0203084C(u32 heapId);
 extern void BG_SYS_FillScrollArea(u32,u32,u32);
 struct Obj;
@@ -80,9 +80,9 @@ char *MYSTERY_ALBUM_Create(const Input *src,u16 heap)
     ((struct Obj00910 *)out)->fAD0=1;
     *(Input *)out=*src;
     ((struct Obj00910 *)out)->f24=heap;
-    func_02082A7C(-1,out+0xb48,32);
-    func_02082A7C(-1,out+0xb88,32);
-    func_02082A7C(-1,out+0xb68,32);
+    MIi_CpuClear32(-1,out+0xb48,32);
+    MIi_CpuClear32(-1,out+0xb88,32);
+    MIi_CpuClear32(-1,out+0xb68,32);
     for(i=0;i<MYSTERY_DATA_GetCardSlotNum(((struct Obj00910 *)out)->fC);i++) {
         if(MYSTERY_DATA_IsCardExist(((struct Obj00910 *)out)->fC,i)) {
             count++;

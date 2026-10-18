@@ -23,7 +23,7 @@
  *
  * SDK: TwlDWC libdwcutil.TWL.HYB.a(aoss.o), symbol AOSSi_Init (name from the vendor object).
  * aoss.o was built by Metrowerks C/C++ for ARM 3.0.0.126 (its .comment), which is
- * the 2.0/sp1p2 front end; see aoss_release (ov016_func_021B6CF0.c) for the byte tell.
+ * the 2.0/sp1p2 front end; see aoss_release (aoss_release.c) for the byte tell.
  *
  * AOSSi_Alloc and AOSSi_Free are aosslink.o's globals (0x021DCE20, 0x021DCE2C). The names of
  * struct product_info's members are placeholders (DWARF here gives only its size).

@@ -16,7 +16,7 @@
  *   G3D_SYSTEM_GetLookAt 0x02046AFC arm
  *   MTX_Identity33_ 0x0207ADC4 arm
  *   NNS_G3dGlbBaseTrans 0x0206A9DC arm
- *   func_02082B60 0x02082B60 arm
+ *   MI_Copy36B 0x02082B60 arm
  *   NNS_G3dGlbBaseScale 0x0206AA0C arm
  *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
@@ -74,7 +74,7 @@ struct Light;
 extern void G3D_SYSTEM_GetLookAt(u8 *dst);
 extern void MTX_Identity33_(MtxFx33 *m);
 extern void NNS_G3dGlbBaseTrans(const VecFx32 *trans);
-extern void func_02082B60(const MtxFx33 *src, MtxFx33 *dst);
+extern void MI_Copy36B(const MtxFx33 *src, MtxFx33 *dst);
 extern void NNS_G3dGlbBaseScale(const VecFx32 *scale);
 extern void G3D_CAMERA_Reset(struct Light *l);
 extern void G3D_SYSTEM_ApplyLookAt(void);
@@ -102,7 +102,7 @@ void SHINKA_DEMO_VIEW_Draw3d(Owner *o)
 
         MTX_Identity33_(&rot);
         NNS_G3dGlbBaseTrans(&trans);
-        func_02082B60(&rot, &d_02148BCC.baseRot);
+        MI_Copy36B(&rot, &d_02148BCC.baseRot);
         d_02148BCC.flag &= ~0xa4;
         NNS_G3dGlbBaseScale(&scale);
     }

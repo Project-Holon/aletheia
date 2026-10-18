@@ -19,7 +19,7 @@
  *   POKETRADE_NEGO_StepReturnFromSummary 0x021DE2C4 thumb ov119
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   gBrowseOffersHitArea 0x021E80C4 data a4
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   POKETRADE_2D_MovePickedIconActor 0x021E68F4 thumb ov119
  *   POKETRADE_NEGO_ShowOfferSummary 0x021DE1B4 thumb ov119
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -44,14 +44,14 @@ extern void POKETRADE_NEGO_StepReturnFromSummary(char *);
 extern void POKETRADE_NEGO_StepWaitSelectionDelay(char *p);
 extern int TOUCHPANEL_HitTrg(const void *);
 extern const char gBrowseOffersHitArea[];
-extern void func_020355D8(u8);
+extern void UI_SetInputMode(u8);
 extern void POKETRADE_2D_MovePickedIconActor(int,int);
 extern void POKETRADE_NEGO_ShowOfferSummary(State *,int);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern u8 func_020355C4(void);
 extern u32 KEY_GetTrg(void);
 extern int POKETRADE_NEGO_PollOfferCursorKeys(char *);
-static inline int poll(void) { int v=KEY_GetTrg(); if(v)func_020355D8(0); return v; }
+static inline int poll(void) { int v=KEY_GetTrg(); if(v)UI_SetInputMode(0); return v; }
 void POKETRADE_NEGO_StepBrowseOffers(char *p)
 {
     int idx;
@@ -66,7 +66,7 @@ void POKETRADE_NEGO_StepBrowseOffers(char *p)
         if(TOUCHBAR_GetPressedButtonIdIfPressing(*(u8 * *)&((struct Obj00251 *)p)->f9C0)==-1) {
             idx=TOUCHPANEL_HitTrg(gBrowseOffersHitArea);
             if(idx!=-1) {
-                func_020355D8(1);
+                UI_SetInputMode(1);
                 ((struct Obj00251 *)p)->f10A0=idx;
                 POKETRADE_2D_MovePickedIconActor((int)p,-1);
                 POKETRADE_NEGO_ShowOfferSummary((State *)p,((struct Obj00251 *)p)->f10A0);
@@ -76,7 +76,7 @@ void POKETRADE_NEGO_StepBrowseOffers(char *p)
                 return;
             }
             if(func_020355C4() && poll()) {
-                func_020355D8(0);
+                UI_SetInputMode(0);
                 POKETRADE_2D_MovePickedIconActor((int)p,((struct Obj00251 *)p)->f10A0);
                 GFL_USE_PlaySeDefaultVolume(0x548);
                 ((struct Obj00251 *)p)->fF2C=0;

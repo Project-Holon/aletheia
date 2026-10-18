@@ -1,7 +1,7 @@
 /*
  * file:     ui.c
  * unit:     yes
- * function: UI_Create, UI_Main, UI_Update, UI_SetKeepAwakeFlags, UI_SetKeepAwakeFlagsGlobal, UI_ClearKeepAwakeFlags, UI_ClearKeepAwakeFlagsGlobal, UI_TestKeepAwakeFlags, UI_TestKeepAwakeFlagsGlobal, UI_SetSleepHook, UI_SetSleepHookGlobal, UI_SetWakeHook, UI_SetWakeHookGlobal, UI_SetKeepAwakePred, UI_SetSuspendHook, UI_SetResumeAndSuspendHooks, UI_GetSuspendHook, UI_GetSuspendHookGlobal, UI_SetResumeHook, UI_SetWakePoweredHook, UI_SetWakePoweredHookGlobal, UI_SetFlags39, UI_SetFlags39Global, func_02035188, UI_ClearFlags39Global, UI_TestFlags39, UI_TestFlags39Global, UI_SetIntrData, UI_SetIntrDataGlobal, UI_GetPointerValue, UI_GetContext, UI_RunSleepHook, UI_RunWakeHook, UI_RunSuspendHook, UI_RunResumeHook, UI_PollPower, DWCi_IsFold, UI_IsPowerConnected, UI_RunWakePoweredHook, UI_IsSleepInhibited, UI_SetBottomBackLight, UI_ServiceLidSleep, UI_SoftReset, UI_GetInputMode, UI_SetInputMode, UI_ClearPendingInputFlagOf, UI_SetFrameRateOf, UI_ChangeFrameRate, UI_GetPowerState, UI_ApplyInputBounds
+ * function: UI_Create, UI_Main, UI_Update, UI_SetKeepAwakeFlags, UI_SetKeepAwakeFlagsGlobal, UI_ClearKeepAwakeFlags, UI_ClearKeepAwakeFlagsGlobal, UI_TestKeepAwakeFlags, UI_TestKeepAwakeFlagsGlobal, UI_SetSleepHook, UI_SetSleepHookGlobal, UI_SetWakeHook, UI_SetWakeHookGlobal, UI_SetKeepAwakePred, UI_SetSuspendHook, UI_SetResumeAndSuspendHooks, UI_GetSuspendHook, UI_GetSuspendHookGlobal, UI_SetResumeHook, UI_SetWakePoweredHook, UI_SetWakePoweredHookGlobal, UI_SetFlags39, UI_SetFlags39Global, UI_ClearFlags39, UI_ClearFlags39Global, UI_TestFlags39, UI_TestFlags39Global, UI_SetIntrData, UI_SetIntrDataGlobal, UI_GetPointerValue, UI_GetContext, UI_RunSleepHook, UI_RunWakeHook, UI_RunSuspendHook, UI_RunResumeHook, UI_PollPower, DWCi_IsFold, UI_IsPowerConnected, UI_RunWakePoweredHook, UI_IsSleepInhibited, UI_SetBottomBackLight, UI_ServiceLidSleep, UI_SoftReset, UI_GetInputMode, UI_SetInputMode, UI_ClearPendingInputFlagOf, UI_SetFrameRateOf, UI_ChangeFrameRate, UI_GetPowerState, UI_ApplyInputBounds
  * address:  0x02034E24
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -33,7 +33,7 @@
  *   UI_SetSuspendHook 0x02035080  arm
  *   UI_SetResumeHook 0x02035120  arm
  *   UI_SetFlags39 0x0203515C arm
- *   func_02035188 0x02035188  arm
+ *   UI_ClearFlags39 0x02035188  arm
  *   UI_TestFlags39 0x020351BC arm
  *   OS_Terminate  0x02088234  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm
@@ -129,7 +129,7 @@ extern void UI_SoftReset(u32 x);
 extern void UI_SetSuspendHook(struct UiCtx *p, UiCb fn, void *arg);
 extern void UI_SetResumeHook(struct UiCtx *p, UiCb fn, void *arg);
 extern void UI_SetFlags39(struct UiCtx *p, u8 mask);
-extern int func_02035188(struct UiCtx *p, u32 v);
+extern int UI_ClearFlags39(struct UiCtx *p, u32 v);
 extern u32 UI_TestFlags39(struct UiCtx *p, u32 mask);
 extern void OS_Terminate(void);
 extern int OS_IsRunOnTwl(void);
@@ -699,7 +699,7 @@ void UI_ClearFlags39(struct UiCtx *p, u8 mask)
 
 int UI_ClearFlags39Global(u32 v)
 {
-    return func_02035188(gUiState.ctx, v);
+    return UI_ClearFlags39(gUiState.ctx, v);
 }
 
 

@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * 2026-10-04 (D2-16): callback ZUKAN_DETAIL_INFO_NoOp filed EXACT as src/matched/ov/ov208_func_021BEF9C.c (empty void function, bx lr). Still MATCH only
+ * 2026-10-04 (D2-16): callback ZUKAN_DETAIL_INFO_NoOp filed EXACT as src/matched/ov/ZUKAN_DETAIL_INFO_NoOp.c (empty void function, bx lr). Still MATCH only
  * because no shard witnesses it yet; the integrator manifest run should make this EXACT. Symbols line now carries the ov208 hint.
  * symbols:
  *   func_02034AC4 0x02034AC4 arm

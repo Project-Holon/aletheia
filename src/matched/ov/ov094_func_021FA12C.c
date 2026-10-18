@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * witness: arm9 PARTICLE_SetupSystemNoHandlers filed as src/matched/arm9/PARTICLE_SetupSystemNoHandlers.c.
- * witness: BTLV_EFFVM_WaitParticleCallback filed as src/matched/ov/ov094_func_021FC9F4.c.
+ * witness: BTLV_EFFVM_WaitParticleCallback filed as src/matched/ov/BTLV_EFFVM_WaitParticleCallback.c.
  * symbols:
  *   VM_GetU32 0x0201134C thumb
  *   VM_SetWait 0x020113D0 thumb

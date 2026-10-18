@@ -44,7 +44,7 @@
  *   EGG_DEMO_MENU_WaitText 0x021F6228 thumb ov215
  *   EGG_DEMO_MENU_CreateDialog 0x021F62FC thumb ov215
  *   EGG_DEMO_MENU_GetDialogResult 0x021F6324 thumb ov215
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   BEACON_GetBlock 0x0200C0F0 thumb
  *   NAMEIN_SETUP_CreateMonArgs 0x0216C028 thumb ov010
@@ -162,7 +162,7 @@ extern void EGG_DEMO_VIEW_SetSpecies(char *p, int a);
 extern int EGG_DEMO_VIEW_IsFadeDone(char *),EGG_DEMO_VIEW_IsFinished(char *);
 extern void EGG_DEMO_MENU_SetText(char *,char *,u32);
 extern int EGG_DEMO_MENU_WaitText(void *,char *),EGG_DEMO_MAIN_IsBgm2Loading(void *,char *),EGG_DEMO_MENU_CreateDialog(int,char *),EGG_DEMO_MENU_GetDialogResult(int,char *);
-extern void EGG_DEMO_MAIN_StopBgm(void *,char *),func_020355D8(u8);
+extern void EGG_DEMO_MAIN_StopBgm(void *,char *),UI_SetInputMode(u8);
 extern void *GAME_DATA_GetSaveControl(struct Big *),*BEACON_GetBlock(void *);
 extern int *NAMEIN_SETUP_CreateMonArgs(u16,int,int,int,int);
 extern void PROCSYS_Push(void *,u32,u32,u32);
@@ -324,8 +324,8 @@ int EGG_DEMO_MAIN_Update(u32 unused0,u32 unused1,u32 *args,u32 *work)
     case 12:if(EGG_DEMO_MENU_WaitText(args,(char *)work)){((struct EggDemoWork *)work)->state=13;EGG_DEMO_MENU_CreateDialog((int)args,(char *)work);}break;
     case 13:
         active=EGG_DEMO_MENU_GetDialogResult((int)args,(char *)work);
-        if(active==0){((struct EggDemoWork *)work)->state=18;FADE_Start(3,0,16,2);EGG_DEMO_MAIN_StopBgm(args,(char *)work);func_020355D8(0);}
-        else if(active==1){((struct EggDemoWork *)work)->state=14;FADE_Start(3,0,16,0);func_020355D8(0);}break;
+        if(active==0){((struct EggDemoWork *)work)->state=18;FADE_Start(3,0,16,2);EGG_DEMO_MAIN_StopBgm(args,(char *)work);UI_SetInputMode(0);}
+        else if(active==1){((struct EggDemoWork *)work)->state=14;FADE_Start(3,0,16,0);UI_SetInputMode(0);}break;
     case 14:
         if(!FADE_IsActive()){
             block=BEACON_GetBlock(GAME_DATA_GetSaveControl((struct Big *)args[0]));

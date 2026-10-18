@@ -14,7 +14,7 @@
  *   KEY_GetTrg  0x020362DC  arm
  *   KEY_GetRepeat  0x0203633C  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled  0x021BDC48  thumb  ov208
  *   ZUKAN_DETAIL_AREA_SwitchAreaSet  0x021C1E10  thumb  ov208
@@ -30,7 +30,7 @@ extern int ZUKAN_DETAIL_COMMON_GetWorkPtr(int *p);
 extern u32  KEY_GetTrg(void);
 extern unsigned int KEY_GetRepeat(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern void ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(void *s, u32 on);
 extern void ZUKAN_DETAIL_AREA_SwitchAreaSet(u16 *heap, u8 *p, int key, int dir, int touch);
@@ -73,7 +73,7 @@ void ZUKAN_DETAIL_AREA_HandleCursorInput(u16 *heap, u8 *p, int key)
             }
         }
         if (hit) {
-            func_020355D8(0);
+            UI_SetInputMode(0);
             if (touch)
                 W(0x7c) = 0;
         }
@@ -103,7 +103,7 @@ void ZUKAN_DETAIL_AREA_HandleCursorInput(u16 *heap, u8 *p, int key)
             }
             if (hit) {
                 hit = 1;
-                func_020355D8(1);
+                UI_SetInputMode(1);
                 if (touch) {
                     W(0x7c) = hit;
                     p[0x80] = x;
@@ -142,7 +142,7 @@ void ZUKAN_DETAIL_AREA_HandleCursorInput(u16 *heap, u8 *p, int key)
             }
         }
         if (moved)
-            func_020355D8(0);
+            UI_SetInputMode(0);
         if (moved == 0) {
             if (TOUCHPANEL_GetPointTrg(&tx, &ty)) {
                 if (W(0x8c) == 0) {
@@ -171,7 +171,7 @@ void ZUKAN_DETAIL_AREA_HandleCursorInput(u16 *heap, u8 *p, int key)
                 }
             }
             if (moved)
-                func_020355D8(1);
+                UI_SetInputMode(1);
         }
         if (done)
             ZUKAN_DETAIL_AREA_HandleTownTouchInput(heap, p, key);

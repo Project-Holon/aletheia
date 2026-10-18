@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * `touch = 0` in the key branch is what keeps r7 as the zero stored to
- * f2e0/f2dc and passed to func_020355D8; `p->f2e4 = ret` (not 0) reloads
+ * f2e0/f2dc and passed to UI_SetInputMode; `p->f2e4 = ret` (not 0) reloads
  * the spilled result as in the image.
  *
  * symbols:
@@ -18,7 +18,7 @@
  *   KEY_GetCont  0x0203630C  arm
  *   KEY_GetTrg  0x020362DC  arm
  *   KEY_GetRepeat  0x0203633C  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
  *   MONOLITH_TOOL_SetCursor  0x021B9F2C  thumb  ov071
@@ -47,7 +47,7 @@ extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern unsigned int KEY_GetCont(void);
 extern u32 KEY_GetTrg(void);
 extern unsigned int KEY_GetRepeat(void);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern int TOUCHPANEL_GetTrg(void);
 extern int MONOLITH_TOOL_SetCursor(u8 *p, int i, int v);
@@ -99,7 +99,7 @@ int MONOLITH_TOOL_ProcessListInput(void *a, S *p)
         }
         if (KEY_GetTrg() & 1) {
             MONOLITH_TOOL_SetCursor((u8 *)p, p->f2f4, 1);
-            func_020355D8(0);
+            UI_SetInputMode(0);
             if (p->f1b4[p->f2f4] == 0) {
                 GFL_USE_PlaySeDefaultVolume(0x54c);
             }
@@ -139,7 +139,7 @@ int MONOLITH_TOOL_ProcessListInput(void *a, S *p)
                        && x >= 0x10 && x <= 0x70 && y >= 0xac && y <= 0xbc) {
                 ret = 1;
                 sel = p->f2f4;
-                func_020355D8(1);
+                UI_SetInputMode(1);
             }
         } else if (p->f2e0 != 0) {
             if (p->f2e0 > 0) {

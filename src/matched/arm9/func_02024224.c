@@ -12,7 +12,7 @@
  * Tiny Thumb leaf that blocks an ov110 caller; filed by wave D2 lane 06.
  *
  * symbols:
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  */
-extern void func_020355D8(void *);
-void PMSI_PARAM_SetUiInputMode(void *a,void *b) { func_020355D8(b); }
+extern void UI_SetInputMode(void *);
+void PMSI_PARAM_SetUiInputMode(void *a,void *b) { UI_SetInputMode(b); }

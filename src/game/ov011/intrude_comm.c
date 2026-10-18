@@ -801,7 +801,7 @@ IntrudeCommSys *INTRUDE_COMM_Create(void *proc, IntrudeCommParam *param)
  * param as a struct with the byte at 0x0E, work as a struct with the step byte at 0x8FD (written
  * work->step = 3 / 4 in each arm, no local), callee types from matched twins (GAME_COMM_GetGameData and
  * GFL_HEAP_Alloc return u32, GAME_DATA_IsSaving takes const u8 *). The only open item is the pool
- * word INTRUDE_COMM_OnSessionStarted: the leaf is filed at src/matched/ov/ov011_func_02173568.c (EXACT);
+ * word INTRUDE_COMM_OnSessionStarted: the leaf is filed at src/matched/ov/INTRUDE_COMM_OnSessionStarted.c (EXACT);
  * the integrator needs a shard for it, then this file is EXACT.
  */
 int INTRUDE_COMM_StartSession(int *state, IntrudeCommParam *param, IntrudeCommSys *work)
@@ -3974,7 +3974,7 @@ int INTRUDE_COMM_HasResultReward(IntrudeCommSys *w, IntrudeSession *session)
 
 
 /*
- * extent: alignment at 02175ED6 then existing filed leaf ov011_func_02175ED8.c.
+ * extent: alignment at 02175ED6 then existing filed leaf INTRUDE_COMM_GetLeaveFlag.c.
  * interface: BCC matched caller returns int; body returns original object +0xac or null.
  */
 int INTRUDE_COMM_IsResultConfirmed(IntrudeSession *session)

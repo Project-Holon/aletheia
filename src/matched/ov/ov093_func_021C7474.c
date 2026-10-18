@@ -9,7 +9,7 @@
  * status: EXACT
  * blocker: 0x0201C1E8, unlabelled ARM9 tail-call wrapper owned by the integrator;
  *   no witness outside this caller (7474-r1.log). Verified blocker C copied
- *   from ov093_func_021C1E74.c, whose header records its EXACT compile:
+ *   from BTL_SERVER_FLOW_CalcMoveDamage.c, whose header records its EXACT compile:
  *   typedef unsigned short u16; typedef unsigned int u32;
  *   extern u32 WAZA_TOOL_GetParam(u16, u32);
  *   symbols: WAZA_TOOL_GetParam 0x0201BD28 thumb

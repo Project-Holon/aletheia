@@ -15,7 +15,7 @@
  *
  * symbols:
  *   C_GEAR_HandleButton  0x021F1758  thumb  ov029
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   C_GEAR_HitTestTile  0x021F020C  thumb  ov029
  *   C_GEAR_CountCellsOfKind  0x021F0D80  thumb  ov029
@@ -37,7 +37,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern int C_GEAR_HitTestTile(const void *p, int a, int b, int *c, int *d);
 extern int C_GEAR_CountCellsOfKind(void *p, int k);
@@ -67,7 +67,7 @@ void C_GEAR_HandleButton(u8 *p, int key)
         return;
     if (((struct Obj00042 *)p)->f214 != 0)
         return;
-    func_020355D8(1);
+    UI_SetInputMode(1);
     switch (key) {
     case 0:
         (int)TOUCHPANEL_GetPointCont((u32 *)(&x), (u32 *)(&y));

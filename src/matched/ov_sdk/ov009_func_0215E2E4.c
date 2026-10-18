@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_0215CE3C  0x0215CE3C  arm  ov009
- *   func_02082EA4  0x02082EA4  arm
+ *   MI_CpuCopy  0x02082EA4  arm
  *   CPS_SocGetEport  0x0215A970  arm  ov009
  *   SOCLi_ExecCommandPacketInSendPipe  0x0215CF98  arm  ov009
  *   func_0215E450  0x0215E450  arm  ov009
@@ -65,7 +65,7 @@ struct SOCLiSocketSendCommandPipe {
 };
 
 extern struct SOCLiCommandPacket *func_0215CE3C(int (*handler)(void *), struct SOCLSocket *socket, long flag);
-extern void func_02082EA4(void *srcp, void *destp, unsigned long size);
+extern void MI_CpuCopy(void *srcp, void *destp, unsigned long size);
 extern unsigned short CPS_SocGetEport(void);
 extern int SOCLi_ExecCommandPacketInSendPipe(struct SOCLSocket *socket, struct SOCLiCommandPacket *command);
 extern int func_0215E450(void *arg);
@@ -101,9 +101,9 @@ static int func_0215E2E4(struct SOCLSocket *socket, unsigned char *buffer, long 
         wrtbuf_in = buffer_len - command->len1;
         command->buf2 = wrtbuf;
         command->len2 = wrtbuf_in;
-        func_02082EA4(buffer + command->len1, command->buf2, command->len2);
+        MI_CpuCopy(buffer + command->len1, command->buf2, command->len2);
     }
-    func_02082EA4(buffer, command->buf1, command->len1);
+    MI_CpuCopy(buffer, command->buf1, command->len1);
     saved_send_buffer_in = send_pipe->buffer.in;
     command->buffer_in = wrtbuf_in;
     send_pipe->buffer.in = command->buffer_in;

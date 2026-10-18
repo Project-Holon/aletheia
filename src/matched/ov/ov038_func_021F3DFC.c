@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * note:     same enum-k spelling as ov038_func_021F3F40 (k = (u8)(k + 1)
+ * note:     same enum-k spelling as FIELD_GIMMICK_PLATE_DOORS_EventBumpDoorSide (k = (u8)(k + 1)
  *           on an enum local, int fourth parameter on the 0x021BE6xx calls).
  *
  * symbols:

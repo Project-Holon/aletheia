@@ -14,7 +14,7 @@
  *
  * symbols:
  *   GFL_HEAP_Alloc  0x02030734  arm
- *   func_02082A7C  0x02082A7C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
  *   d_021728AC  0x021728AC  data
  *   ARC_TOOL_LoadMember  0x02048F60  arm
  *   MAP_MATRIX_SetupFromFile  0x02159D04  thumb  ov010
@@ -67,7 +67,7 @@ struct MatrixFile {
 struct MapReplace;
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082A7C(int, void *, int);
+extern void MIi_CpuClear32(int, void *, int);
 extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
 void MAP_MATRIX_SetupFromFile(struct MapMatrix *matrix, const struct MatrixFile *file, u32 matrixId, u16 zoneId);
 extern u32 GFL_HEAP_Free(void *p);
@@ -90,8 +90,8 @@ struct MapMatrix *MAP_MATRIX_Create(int heapId)
 {
     struct MapMatrix *matrix = GFL_HEAP_Alloc(heapId, sizeof(struct MapMatrix), 1, d_021728AC, 0x4b);
     matrix->heapId = heapId;
-    func_02082A7C(-1, matrix->mapGrid, sizeof(matrix->mapGrid));
-    func_02082A7C(0xffff, matrix->zoneGrid, sizeof(matrix->zoneGrid));
+    MIi_CpuClear32(-1, matrix->mapGrid, sizeof(matrix->mapGrid));
+    MIi_CpuClear32(0xffff, matrix->zoneGrid, sizeof(matrix->zoneGrid));
     return matrix;
 }
 

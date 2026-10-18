@@ -9,7 +9,7 @@
  * status: EXACT*
  * extent: existing matched followers 021D435C, 021D437C, 021D439C remain separate.
  * symbols:
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   GTSNEGO_DISP_SetCursorState 0x021D69F4 thumb ov120
  *   GTSNEGO_DISP_SelectParty 0x021D593C thumb ov120
@@ -19,7 +19,7 @@
 #include "../include/Obj02830.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void GTSNEGO_DISP_SetCursorState(u8 *, void *, u32);
 extern int GTSNEGO_DISP_SelectParty(u8 *, int);
@@ -28,7 +28,7 @@ extern void GTSNEGO_DISP_OnPartySelected(u8 *);
 int GTSNEGO_DISP_StartTrade(int n, u8 *p)
 {
     ((struct Obj02830 *)p)->f138 = n;
-    func_020355D8(1);
+    UI_SetInputMode(1);
     if (((struct Obj02830 *)p)->f184 == 1) {
         GFL_USE_PlaySeDefaultVolume(0x551);
         return 1;

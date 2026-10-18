@@ -12,7 +12,7 @@
  * symbols:
  *   GFL_HEAP_RegisterBlockHeapImpl  0x0202FE68  arm
  *   sub_02030524  0x02030524  arm
- *   sub_020306A0  0x020306A0  arm
+ *   GFL_HEAP_FatalError  0x020306A0  arm
  *
  * The same guard-then-forward shape as GFL_HEAP_CreateChildHeap beside it, over the other
  * binder: if 0x0202FE68 already accounted for the pair the function returns,
@@ -36,12 +36,12 @@ typedef unsigned int u32;
 extern int   GFL_HEAP_RegisterBlockHeapImpl(void *a, u32 b, u32 c);
 typedef unsigned short u16;
 extern u16 sub_02030524(void);
-extern void  sub_020306A0(void *obj, void *a, u32 b);
+extern void  GFL_HEAP_FatalError(void *obj, void *a, u32 b);
 
 void GFL_HEAP_RegisterBlockHeap(void *a, u32 b, u32 c)
 {
     if (GFL_HEAP_RegisterBlockHeapImpl(a, b, c) != 0) {
         return;
     }
-    sub_020306A0((void *)sub_02030524(), 0, c);
+    GFL_HEAP_FatalError((void *)sub_02030524(), 0, c);
 }

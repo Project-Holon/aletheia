@@ -19,7 +19,7 @@
  *   ARC_UTIL_LoadScreenDataFromArchive  0x02049E34  arm
  *   ARC_UTIL_LoadPaletteBlockFromArchive  0x02049F34  arm
  *   BMP_GetPixels  0x020437D4  arm
- *   func_02082A7C  0x02082A7C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
  *   MIi_CpuCopy32  0x02082A90  arm
  *   BMP_ConvertToLinear  0x02044F64  arm
  *   func_02061CA4  0x02061CA4  arm
@@ -70,7 +70,7 @@ extern s32 POKEGRA_GetPalArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6
 extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
-extern void func_02082A7C(u32 fill, void *dst, u32 size);
+extern void MIi_CpuClear32(u32 fill, void *dst, u32 size);
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 extern struct Bmp *BMP_ConvertToLinear(struct Bmp *src, u32 keep, u16 heap);
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
@@ -110,7 +110,7 @@ void FLD3D_CI_LoadPokemonIconTexture(Obj *p)
     p->plttRes = ARC_UTIL_LoadPaletteBlockFromArchive(POKEGRA_GetArcID(), plttFile, (u32)(&p->pltt), heap);
     src = p->chr->raw;
     buf = BMP_GetPixels(p->canvas);
-    func_02082A7C(0, buf, 0x2000);
+    MIi_CpuClear32(0, buf, 0x2000);
     for (j = 0; j < 8; j++) {
         for (i = 0; i < 8; i++) {
             MIi_CpuCopy32(src + k * 32, buf + 0x440 + (i + j * 16) * 32, 32);

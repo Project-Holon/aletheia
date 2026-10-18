@@ -11,7 +11,7 @@
  *
  * symbols:
  *   G2_GetBG1CharPtr    0x0207E24C  arm
- *   func_02082A7C    0x02082A7C  arm
+ *   MIi_CpuClear32    0x02082A7C  arm
  *   ARC_UTIL_LoadMember    0x0204A1BC  arm
  *   NNS_G2dGetUnpackedCharacterDataEx    0x02062A4C  arm
  *   DWCi_ScreenDC_FlushRange    0x020862F0  arm
@@ -54,7 +54,7 @@ typedef unsigned int u32;
 typedef signed int     s32;
 struct NitroFileHeader;
 extern void *G2_GetBG1CharPtr(void);
-extern void func_02082A7C(u32 a, u32 b, u32 c);
+extern void MIi_CpuClear32(u32 a, u32 b, u32 c);
 extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
 extern s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out);
 extern void DWCi_ScreenDC_FlushRange(u32 a, u32 b);
@@ -75,7 +75,7 @@ void APP_POWER_LoadShutdownScreen(void)
     u32 v1;
     u32 v2;
 
-    func_02082A7C(0, (u32)G2_GetBG1CharPtr(), 0x4000);
+    MIi_CpuClear32(0, (u32)G2_GetBG1CharPtr(), 0x4000);
     h = ARC_UTIL_LoadMember(0x16, 1, 0, 7);
     if (NNS_G2dGetUnpackedCharacterDataEx((struct NitroFileHeader *)h, (void **)(&p1)) != 0) {
         DWCi_ScreenDC_FlushRange(p1[5], p1[4]);

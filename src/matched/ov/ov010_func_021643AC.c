@@ -10,7 +10,7 @@
  * interface: FIELDMAP_GetZoneId reads the u16 field at +0xD8;
  * MOVE_POKEMON_SetCommonArea forwards its second argument to MOVE_POKEMON_SAVE_SetCommonArea,
  * whose matched ARM9 body takes u16 and stores only that halfword.
- * The legacy ov010_func_021643E8 declaration uses a pointer for this ID.
+ * The legacy FIELD_MAP_CHANGE_SetupZone declaration uses a pointer for this ID.
  * symbols:
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   MOVE_POKEMON_SAVE_GetBlock 0x0200D418 thumb

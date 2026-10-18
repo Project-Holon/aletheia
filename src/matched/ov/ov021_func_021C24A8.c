@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * EXACT*: the 72-byte listing extent runs on into the unlabelled leaf
- * FLD3D_CI_FollowTargetCallback (ov021_func_021C24BC.c), whose EXACT entry attests the
+ * FLD3D_CI_FollowTargetCallback (FLD3D_CI_FollowTargetCallback.c), whose EXACT entry attests the
  * pool word 0x021C24BD as matched.
  * symbols:
  *   PARTICLE_StartEffectWithCallback  0x020515CC  arm

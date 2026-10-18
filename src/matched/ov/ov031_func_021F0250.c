@@ -12,7 +12,7 @@
  *
  * symbols:
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
- *   func_02082A7C  0x02082A7C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
  *   BG_SYS_GetBuf  0x0204162C  arm
@@ -33,7 +33,7 @@ typedef unsigned int   u32;
 
 struct BgTemplate;
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_02082A7C(u32 fill, void *dst, u32 size);
+extern void MIi_CpuClear32(u32 fill, void *dst, u32 size);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 BG_SYS_GetBuf(int channel);
@@ -60,7 +60,7 @@ void UNION_SUBDISP_InitBgs(void *p, u32 h)
     BG_SYS_InitBgLayer(5, (const struct BgTemplate *)sUnionSubdispBgTemplate5, 0);
     BG_SYS_InitBgLayer(6, (const struct BgTemplate *)sUnionSubdispBgTemplate6, 0);
     BG_SYS_InitBgLayer(7, (const struct BgTemplate *)sUnionSubdispBgTemplate7, 0);
-    func_02082A7C(0, (void *)0x06200000, 0x20000);
+    MIi_CpuClear32(0, (void *)0x06200000, 0x20000);
     REG_DB_DISPCNT_SUB &= 0xFFFF1FFF;
     REG_DB_BLDCNT_SUB = 0;
     func_02049658((void *)h, 0xF, 7, 0, 0, 0, 0x15);

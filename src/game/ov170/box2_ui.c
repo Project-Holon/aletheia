@@ -60,7 +60,7 @@
  *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
  *   CURSOR_MOVE_PollRepeatInput 0x02025DE8 thumb
  *   KEY_GetTrg 0x020362DC arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   d_021F0188  0x021F0188  data
  *   d_021F0DCC  0x021F0DCC  data
  *   d_021F0370  0x021F0370  data
@@ -195,7 +195,7 @@ extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
 extern int CURSOR_MOVE_PollRepeatInput(struct Sound *obj);
 extern u32 KEY_GetTrg(void);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern unsigned int KEY_GetRepeat(void);
 extern void BOX2_MAIN_PlayCursorSound(BoxTask *p);
 extern unsigned BOX2_MAIN_GetPartyValueAt(void ***p, unsigned short a, int box, unsigned id, unsigned v);
@@ -1088,11 +1088,11 @@ unsigned BOX2_UI_UpdateCursorInputA(BoxTask *p)
             return -1;
         }
         if (KEY_GetTrg() & 0x400) {
-            func_020355D8(0);
+            UI_SetInputMode(0);
             return 6;
         }
         if (r == 6) {
-            func_020355D8(1);
+            UI_SetInputMode(1);
             return 6;
         }
         if (r == 7) {
@@ -1168,11 +1168,11 @@ unsigned BOX2_UI_UpdateCursorInputB(BoxTask *p)
             return -1;
         }
         if (KEY_GetTrg() & 0x400) {
-            func_020355D8(0);
+            UI_SetInputMode(0);
             return 0x21;
         }
         if (r == 0x21) {
-            func_020355D8(1);
+            UI_SetInputMode(1);
             return 0x21;
         }
         if (r == 0x22) {
@@ -1226,11 +1226,11 @@ unsigned BOX2_UI_UpdateCursorInputC(BoxTask *p)
             return -1;
         }
         if (KEY_GetTrg() & 0x400) {
-            func_020355D8(0);
+            UI_SetInputMode(0);
             return 0x22;
         }
         if (r == 0x22) {
-            func_020355D8(1);
+            UI_SetInputMode(1);
             return 0x22;
         }
         if (r == 0x23) {
@@ -1410,11 +1410,11 @@ unsigned BOX2_UI_UpdateCursorInputD(BoxTask *p)
             return -1;
         }
         if (KEY_GetTrg() & 0x400) {
-            func_020355D8(0);
+            UI_SetInputMode(0);
             return 7;
         }
         if (r == 7) {
-            func_020355D8(1);
+            UI_SetInputMode(1);
             return 7;
         }
         if (r == 8) {
@@ -1557,11 +1557,11 @@ unsigned BOX2_UI_UpdateCursorInputE(BoxTask *p)
             return -1;
         }
         if (KEY_GetTrg() & 0x400) {
-            func_020355D8(0);
+            UI_SetInputMode(0);
             return 0x22;
         }
         if (r == 0x22) {
-            func_020355D8(1);
+            UI_SetInputMode(1);
             return 0x22;
         }
         if (r == 0x23) {
@@ -1630,7 +1630,7 @@ void BOX2_UI_CursorTagE(void *a, int tag)
 
 
 /*
- * Twin of src/matched/ov170_func_021EE8A8.c.  The image tests the first
+ * Twin of src/matched/BOX2_UI_UpdateCursorInputD.c.  The image tests the first
  * range as subs/cmp #2, which only the `r - 9 <= 2` spelling gives; the
  * two-compare form r >= 9 && r <= 11 keeps two branches.
  */
@@ -1646,11 +1646,11 @@ unsigned BOX2_UI_UpdateCursorInputF(BoxTask *p)
             return -1;
         }
         if (KEY_GetTrg() & 0x400) {
-            func_020355D8(0);
+            UI_SetInputMode(0);
             return 7;
         }
         if (r == 7) {
-            func_020355D8(1);
+            UI_SetInputMode(1);
             return 7;
         }
         if (r == 8) {
@@ -1799,11 +1799,11 @@ unsigned BOX2_UI_UpdateCursorInputG(BoxTask *p)
             return -1;
         }
         if (KEY_GetTrg() & 0x400) {
-            func_020355D8(0);
+            UI_SetInputMode(0);
             return 0x22;
         }
         if (r == 0x22) {
-            func_020355D8(1);
+            UI_SetInputMode(1);
             return 0x22;
         }
         if (r == 0x23) {
@@ -1875,11 +1875,11 @@ unsigned BOX2_UI_UpdateCursorInputH(BoxTask *p)
             return -1;
         }
         if (KEY_GetTrg() & 0x400) {
-            func_020355D8(0);
+            UI_SetInputMode(0);
             return 7;
         }
         if (r == 7) {
-            func_020355D8(1);
+            UI_SetInputMode(1);
             return 7;
         }
         if (r == 8) {

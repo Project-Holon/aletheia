@@ -13,7 +13,7 @@
  *   STA_ACT_LIGHT_SetActorAngle   0x021F8068  thumb  ov112
  *
  * note: unlabelled leaf in ov112 (the listing emits it as a .word run), filed
- * to witness the bl from src/pending/ov132_func_021FBA14.c.  The first
+ * to witness the bl from src/pending/SCRIPT_COMMAND_TaskRotate.c.  The first
  * argument is ignored; the original moves r1 into r0, so the pointer is the
  * second parameter.
  */

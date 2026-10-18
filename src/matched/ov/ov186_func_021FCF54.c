@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT*
- * extent: 80-byte scrolling follower filed as ov186_func_021FCF90.c.
+ * extent: 80-byte scrolling follower filed as BR_UTIL_ScrollRows.c.
  * lever: width-first multiply preserves the stack load and register order.
  * symbols:
  *   BMP_GetPixels 0x020437D4 arm

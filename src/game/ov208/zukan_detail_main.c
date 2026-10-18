@@ -151,7 +151,7 @@ void ZUKAN_DETAIL_MAIN_NoOp(void);
 void ZUKAN_DETAIL_MAIN_SwitchScreen(struct Ov208Args *m, struct Ov208Main *s);
 
 /*
- * 2026-10-02: only ZUKAN_DETAIL_MAIN_NoOp (unlabelled bx lr stub, filed as ov208_func_021BCC80.c) lacks a witness; bytes match.
+ * 2026-10-02: only ZUKAN_DETAIL_MAIN_NoOp (unlabelled bx lr stub, filed as ZUKAN_DETAIL_MAIN_NoOp.c) lacks a witness; bytes match.
  * Callee ZUKAN_DETAIL_COMMON_CreateContext is declared void in its matched file but returns the new object (caller stores r0).
  */
 int ZUKAN_DETAIL_MAIN_Init(void *owner, int unused, struct Ov208Args *args)

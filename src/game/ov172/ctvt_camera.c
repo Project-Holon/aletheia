@@ -44,7 +44,7 @@
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   GX_LoadBG3Scr 0x0207ECF0 arm
  *   G2_GetBG3ScrPtr 0x0207E100 arm
- *   func_02082A7C 0x02082A7C arm
+ *   MIi_CpuClear32 0x02082A7C arm
  *   APP_ENV_HasParentalControlBits 0x0202EB14 thumb
  *   CTVT_CAMERA_StopCapture  0x021B6868  thumb  ov172
  *   CTVT_CAMERA_IsShutterSoundIdle  0x021B688C  thumb  ov172
@@ -112,7 +112,7 @@ extern u8 CTVT_COMM_GetSlotReady(void *unused, char *base, int i);
 extern void DWCi_ScreenDC_FlushRange(void *p, u32 n);
 extern void GX_LoadBG3Scr(const void *src, u32 off, u32 size);
 extern void *G2_GetBG3ScrPtr(void);
-extern void func_02082A7C(u32 fill, void *dst, u32 size);
+extern void MIi_CpuClear32(u32 fill, void *dst, u32 size);
 extern int APP_ENV_HasParentalControlBits(void);
 extern void CTVT_CAMERA_StopCapture(struct Camera *p);
 extern int CTVT_CAMERA_IsShutterSoundIdle(struct Camera *p);
@@ -329,7 +329,7 @@ void CTVT_CAMVIEW_UploadWindows(void *work, CtvtCamView *view)
                 view->clearPending = 0;
                 COMM_TVT_SYS_ClearAndTransferNameWindows(work);
             }
-            func_02082A7C(0, G2_GetBG3ScrPtr(), 0x18000);
+            MIi_CpuClear32(0, G2_GetBG3ScrPtr(), 0x18000);
             view->layoutDirty = 0;
             if (view->halfRes != COMM_TVT_SYS_GetHalfRes(work)) {
                 view->halfRes = COMM_TVT_SYS_GetHalfRes(work);

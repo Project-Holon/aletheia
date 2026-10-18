@@ -34,7 +34,7 @@
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
  *   KEY_GetRepeat 0x0203633C arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   gManualCommonListWorkAllocFile 0x021BC028 data ov225 a1
@@ -158,7 +158,7 @@ extern u32 CLACT_GetActorDrawEnable(struct Obj *);
 
 extern u32 KEY_GetRepeat(void);
 
-extern void func_020355D8(u8);
+extern void UI_SetInputMode(u8);
 
 extern u32 TOUCHPANEL_GetPointTrg(u32 *,u32 *);
 
@@ -435,12 +435,12 @@ int MANUAL_COMMON_UpdateListWorkInput(char *work)
     last=MANUAL_COMMON_GetLastVisible((u16 **)work);
     if(UI_GetInputMode()==0) {
         if(hit>=0 && hit<count) {
-            func_020355D8(1);
+            UI_SetInputMode(1);
             APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),0);
         }
     } else {
         if(KEY_GetTrg()!=0 && !(KEY_GetTrg()&2)) {
-            func_020355D8(0);
+            UI_SetInputMode(0);
             APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),1);
             ((struct ManualListWork *)work)->dirty=0;
             GFL_USE_PlaySeDefaultVolume(0x548);
@@ -557,7 +557,7 @@ int MANUAL_COMMON_UpdateListWorkDrag(char *work)
         if(TOUCHPANEL_GetPointCont(&dragx,&dragy)) {
             int offset;
             u16 selection,end;
-            func_020355D8(1);
+            UI_SetInputMode(1);
             APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),0);
             offset=0;
             drag.x=240;
@@ -583,7 +583,7 @@ int MANUAL_COMMON_UpdateListWorkDrag(char *work)
         if(TOUCHPANEL_GetPointTrg(&clickx,&clicky) && clickx>=240 && clickx<=247 && clicky>=17 && clicky<=150) {
             int offset;
             u16 selection,end;
-            func_020355D8(1);
+            UI_SetInputMode(1);
             APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),0);
             offset=0;
             GFL_USE_PlaySeDefaultVolume(0x548);

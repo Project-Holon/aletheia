@@ -14550,7 +14550,7 @@ int BTL_SERVER_FLOW_QueryTargetableEvent(BtlServerFlow *flow, u8 *poke)
 
 /*
  *   no witness outside this caller (7374-r2.log). Verified blocker C copied
- *   from ov093_func_021C1E74.c, whose header records its EXACT compile:
+ *   from BTL_SERVER_FLOW_CalcMoveDamage.c, whose header records its EXACT compile:
  *   typedef unsigned short u16; typedef unsigned int u32;
  *   extern u32 WAZA_TOOL_GetParam(u16, u32);
  * lever: bind the category call result before initialising k to prevent
@@ -14599,7 +14599,7 @@ u16 BTL_SERVER_FLOW_CalcAttackStat(BtlServerFlow *flow, u8 *attacker, u8 *defend
 
 /*
  *   no witness outside this caller (7474-r1.log). Verified blocker C copied
- *   from ov093_func_021C1E74.c, whose header records its EXACT compile:
+ *   from BTL_SERVER_FLOW_CalcMoveDamage.c, whose header records its EXACT compile:
  *   typedef unsigned short u16; typedef unsigned int u32;
  *   extern u32 WAZA_TOOL_GetParam(u16, u32);
  */

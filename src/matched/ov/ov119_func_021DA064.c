@@ -10,7 +10,7 @@
  * symbols:
  *   POKETRADE_SAVE_IsMessagePrintDone 0x021E12AC thumb ov119
  *   KEY_GetTrg 0x020362DC arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   POKETRADE_SAVE_CloseMessageWindowClear 0x021E1098 thumb ov119
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
@@ -24,7 +24,7 @@ typedef unsigned int u32;
 typedef unsigned char  u8;
 extern int POKETRADE_SAVE_IsMessagePrintDone(char *p);
 extern u32 KEY_GetTrg(void);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern int TOUCHPANEL_GetTrg(void);
 extern void POKETRADE_SAVE_CloseMessageWindowClear(char *p);
 extern void POKETRADE_PROC_SetStep(void *,int);
@@ -34,10 +34,10 @@ void POKETRADE_PROC_StepWaitKeyAfterMessage(char *p) {
     int v;
     if (POKETRADE_SAVE_IsMessagePrintDone(p)) {
         v=KEY_GetTrg();
-        if(v) func_020355D8(0);
+        if(v) UI_SetInputMode(0);
         if(!v) {
             v=TOUCHPANEL_GetTrg();
-            if(v) func_020355D8(1);
+            if(v) UI_SetInputMode(1);
             if(!v) return;
         }
         ((struct Obj00001 *)p)->fF80=-1;

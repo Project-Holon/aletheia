@@ -818,7 +818,7 @@ void SYMBOL_MAP_StoreResult(SymbolMapProgress *progress, int value) {
  * others answer 0) and writes the answer to a script variable.
  *
  * The five unlabelled leaf callees are filed as their own shards
- * (matched witnesses): ov010_func_02166658.c, ov021_func_021C87A0.c,
+ * (matched witnesses): SYMBOL_MAP_GetEventStateEntryValue.c, ov021_func_021C87A0.c,
  * PLEASURE_BOAT_GetPassengerType.c, PLEASURE_BOAT_GetPassengerExtra.c, PLEASURE_BOAT_GetPassengerOccupied.c.
  * (ov128_func_021C87A0.c is a different overlay's function at that
  * address; ov010 runs with ov021 loaded.)
@@ -1304,7 +1304,7 @@ int SYMBOL_MAP_ScrCmdStartPmsInput(void *vm, void *work)
  *     0x02024134 (a .word run in asm/arm9/main.s after PMSI_PARAM_Delete) and
  *     0x0200E714: no witness outside this range; each needs its own EXACT
  *     arm9 entry (matched class).
- * Same blocker family as ov010_func_02166908 / ov010_func_0216B004.
+ * Same blocker family as SYMBOL_MAP_PickerTaskMain / SCRCMD_SYMBOL_ViewEventMain.
  *
  * 2026-10-05 (D8 lane 15): overlay id sites now resolve; all relocations resolved, EXACT.
  */

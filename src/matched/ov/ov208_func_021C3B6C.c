@@ -20,9 +20,9 @@
  *   ov208_func_021BC3AC 0x021BC3AC thumb ov208
  *   func_020056A0 0x020056A0 thumb
  *   ZUKAN_DETAIL_FORM_ApplyPendingDisplay 0x021C47B4 thumb ov208
- *   ov208_func_021C4AC4 0x021C4AC4 thumb ov208
+ *   ZUKAN_DETAIL_FORM_CreatePrintQueues 0x021C4AC4 thumb ov208
  *   ov208_func_021BC448 0x021BC448 thumb ov208
- *   ov208_func_021BC518 0x021BC518 thumb ov208
+ *   ZUKAN_DETAIL_COMMON_InitBrightnessTarget 0x021BC518 thumb ov208
  *   ov208_func_021BC508 0x021BC508 thumb ov208
  *   ov208_func_021BC610 0x021BC610 thumb ov208
  */
@@ -38,9 +38,9 @@ extern void *ov208_func_021BCF4C(int a);
 extern void *ov208_func_021BC3AC(int key);
 extern void *func_020056A0(void (*fn)(void), void *p, u32 c);
 extern void ZUKAN_DETAIL_FORM_ApplyPendingDisplay(void);
-extern void ov208_func_021C4AC4(u16 *heap, u8 *p, int key);
+extern void ZUKAN_DETAIL_FORM_CreatePrintQueues(u16 *heap, u8 *p, int key);
 extern void *ov208_func_021BC448(u32 heap);
-extern void ov208_func_021BC518(void *a);
+extern void ZUKAN_DETAIL_COMMON_InitBrightnessTarget(void *a);
 extern void ov208_func_021BC508(int flag, void *a);
 extern void *ov208_func_021BC610(u32 heap);
 
@@ -65,11 +65,11 @@ int ZUKAN_DETAIL_FORM_Init(void *proc, int *seq, u16 *heap, u8 *unused, int key)
     W(0x144) = 0;
     W(0x124) = 1;
     PW(0x6a0) = func_020056A0(ZUKAN_DETAIL_FORM_ApplyPendingDisplay, p, 1);
-    ov208_func_021C4AC4(heap, p, key);
+    ZUKAN_DETAIL_FORM_CreatePrintQueues(heap, p, key);
     PW(0x6a4) = ov208_func_021BC448(*heap);
     PW(0x6a8) = ov208_func_021BC448(*heap);
-    ov208_func_021BC518(PW(0x6a4));
-    ov208_func_021BC518(PW(0x6a8));
+    ZUKAN_DETAIL_COMMON_InitBrightnessTarget(PW(0x6a4));
+    ZUKAN_DETAIL_COMMON_InitBrightnessTarget(PW(0x6a8));
     ov208_func_021BC508(0, PW(0x6a4));
     ov208_func_021BC508(1, PW(0x6a8));
     PW(0x6ac) = ov208_func_021BC610(*heap);

@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   PLIST_MENU_BuildCommandList  0x021BBC04  thumb  ov091
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   APP_TASKMENU_OpenMenu  0x02027778  thumb
  *   gPlistMenuFixedItems     0x021BEC80  data  a4
  */
@@ -37,7 +37,7 @@ typedef struct Tbl {
 
 extern Tbl gPlistMenuFixedItems;
 extern void PLIST_MENU_BuildCommandList(u8 *p, u8 *s, int *items);
-extern void func_020355D8(u32 a);
+extern void UI_SetInputMode(u32 a);
 struct TaskMenu;
 struct TaskMenuTmpl;
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
@@ -56,6 +56,6 @@ void PLIST_MENU_OpenFixed(u8 *a, u8 *b)
     r.c[1] = 0x12;
     r.c[2] = 8;
     r.c[3] = 3;
-    func_020355D8(((struct Obj07734 *)a)->f8);
+    UI_SetInputMode(((struct Obj07734 *)a)->f8);
     ((struct Obj13255 *)b)->f74 = (int)APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&r), (void *)(((struct Obj07734 *)a)->f254));
 }

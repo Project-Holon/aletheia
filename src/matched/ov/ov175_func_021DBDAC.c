@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT*
  * lever: PC-relative slot audit binds error/cancel/timeout lines to 0x11a0,0x11be,0x11ca; fixing source constants removes three pool-byte mismatches.
- * extent: existing matched ov175_func_021DBFA4.c covers the final16 bytes; keep this504-byte lead alone.
+ * extent: existing matched WIFIBATTLEMATCH_NET_GdbClearRecord.c covers the final16 bytes; keep this504-byte lead alone.
  * symbols:
  *   DWC_GdbInitialize 0x021E10CC arm ov175
  *   DWC_GdbUpdateRecordAsync 0x021E1540 arm ov175

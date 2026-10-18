@@ -373,7 +373,7 @@
  * symbols:
  *   G3i_LookAt_ 0x0207D7C4 arm
  *   func_0207B67C 0x0207B67C arm
- *   func_02082B60 0x02082B60 arm
+ *   MI_Copy36B 0x02082B60 arm
  *   MTX_Copy33To44_ 0x0207ADE8 arm
  *   MTX_Copy43To44_ 0x0207B5C0 arm
  *   func_0207BE14 0x0207BE14 arm
@@ -471,7 +471,7 @@ extern const Mtx44 d_02148B54;
 
 extern void G3i_LookAt_(const Vec *a, const Vec *b, const Vec *c, int d, void *e);
 extern void func_0207B67C(const Mtx43 *a, Mtx43 *m);
-extern void func_02082B60(Mtx43 *a, Mtx33 *b);
+extern void MI_Copy36B(Mtx43 *a, Mtx33 *b);
 extern void MTX_Copy33To44_(Mtx33 *a, Mtx44 *b);
 extern void MTX_Copy43To44_(const Mtx43 *src, Mtx44 *dst);
 extern void func_0207BE14(const Mtx44 *a, const Mtx44 *b, Mtx44 *ab);
@@ -594,7 +594,7 @@ void MUSICAL_MCSS_DrawMC(int *p, void (*arg)(u8, Vec *, u32))
     else
         G3i_LookAt_(&d_021F8310, &d_021F831C, &d_021F8304, 1, 0);
     func_0207B67C(&d_02148B98, &m1);
-    func_02082B60(&m1, &m2);
+    MI_Copy36B(&m1, &m2);
     MTX_Copy33To44_(&m2, &m3);
 
     for (i = 0; i < p[0]; i++) {

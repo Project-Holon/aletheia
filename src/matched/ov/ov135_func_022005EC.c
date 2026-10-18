@@ -15,7 +15,7 @@
  *   WORLDTRADE_SetActorPos  0x021F4FF4  thumb
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   KEY_GetTrg  0x020362DC  arm
  *   func_020355C4  0x020355C4  arm
  *   CLACT_RestartActorAnim  0x0204B9A0  arm
@@ -51,7 +51,7 @@ struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 struct Actor;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern u32 KEY_GetTrg(void);
 extern u8 func_020355C4(void);
 extern void CLACT_RestartActorAnim(struct Actor *a);
@@ -68,7 +68,7 @@ int WORLDTRADE_TITLE_StateMainInput(Work *p)
         CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
         CLACT_SetActorAnimSeq((struct Obj *)p->cursor, 1);
         p->state = 0xE;
-        func_020355D8(1);
+        UI_SetInputMode(1);
         if (p->sel == 2) {
             GFL_USE_PlaySeDefaultVolume(0x551);
         } else {
@@ -78,7 +78,7 @@ int WORLDTRADE_TITLE_StateMainInput(Work *p)
     }
     if (KEY_GetTrg() != 0 && func_020355C4() == 1) {
         CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
-        func_020355D8(0);
+        UI_SetInputMode(0);
         GFL_USE_PlaySeDefaultVolume(0x548);
         return 2;
     }

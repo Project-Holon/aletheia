@@ -16,7 +16,7 @@
  *   BOX2_UI_IsListOpen 0x021EF5E8 thumb
  *   BOX2_UI_UpdateCursor 0x021EE408 thumb
  *   KEY_GetTrg 0x020362DC arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  */
 
 typedef unsigned int u32;
@@ -30,7 +30,7 @@ extern int CURSOR_MOVE_PollRepeatInput(struct Sound *obj);
 extern int BOX2_UI_IsListOpen(struct WinMgr *mgr);
 extern void BOX2_UI_UpdateCursor(char *p, int v);
 extern u32 KEY_GetTrg(void);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 
@@ -46,11 +46,11 @@ unsigned BOX2_UI_UpdateCursorInputA(char *p)
             return -1;
         }
         if (KEY_GetTrg() & 0x400) {
-            func_020355D8(0);
+            UI_SetInputMode(0);
             return 6;
         }
         if (r == 6) {
-            func_020355D8(1);
+            UI_SetInputMode(1);
             return 6;
         }
         if (r == 7) {

@@ -32,7 +32,7 @@
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   KEY_GetTrg 0x020362DC arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
@@ -235,7 +235,7 @@ extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 
 extern u32 KEY_GetTrg(void);
 
@@ -411,7 +411,7 @@ extern const u8 d_021C851C[];
 extern s16 FX_SinCosTable_[];
 
 /*
- * 2026-10-04 (D2-16): callback ZUKAN_DETAIL_INFO_NoOp filed EXACT as src/matched/ov/ov208_func_021BEF9C.c (empty void function, bx lr). Still MATCH only
+ * 2026-10-04 (D2-16): callback ZUKAN_DETAIL_INFO_NoOp filed EXACT as src/matched/ov/ZUKAN_DETAIL_INFO_NoOp.c (empty void function, bx lr). Still MATCH only
  * because no shard witnesses it yet; the integrator manifest run should make this EXACT. Symbols line now carries the ov208 hint.
  * 2026-10-02: only ZUKAN_DETAIL_INFO_NoOp (task callback, no witness yet) blocks EXACT; bytes match.
  */
@@ -694,7 +694,7 @@ int ZUKAN_DETAIL_INFO_HandleTouchLanguageButton(void *a0, struct Ov208InfoWork *
         e = (struct ZukanDetailInfoLangSlot *)((u8 *)st + st->f94 * 0x14);
         CLACT_SetActorAnimSeq((struct Obj *)e->h1c, e->f26);
         GFL_USE_PlaySeDefaultVolume(0x54a);
-        func_020355D8(1);
+        UI_SetInputMode(1);
         ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled((void *)sc, 0);
     }
     return res;
@@ -740,7 +740,7 @@ int ZUKAN_DETAIL_INFO_HandleKeyLanguageSelect(void *first,char *p,int key)
         *(u32 *)((u32)p+*(u32 *)&((struct Ov208InfoWork *)p)->f94*20+0x2c)=1;
         CLACT_SetActorAnimSeq(*(struct Obj **)((u32)p+*(u32 *)&((struct Ov208InfoWork *)p)->f94*20+0x1c),*(u16 *)((u32)p+*(u32 *)&((struct Ov208InfoWork *)p)->f94*20+0x26));
         GFL_USE_PlaySeDefaultVolume(0x54a);
-        func_020355D8(0);
+        UI_SetInputMode(0);
         ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled((void *)((int)scene), 0);
     }
     return changed;

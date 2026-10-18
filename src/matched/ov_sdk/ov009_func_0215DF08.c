@@ -13,7 +13,7 @@
  *
  * symbols:
  *   OS_DisableInterrupts  0x02087988  arm
- *   func_02082EA4  0x02082EA4  arm
+ *   MI_CpuCopy  0x02082EA4  arm
  *   OS_WakeupThread  0x02085800  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   gSoclConfig     0x021A1CD8  data
@@ -60,7 +60,7 @@ extern unsigned long gSoclUdpDropCounts[2];
 
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern void func_02082EA4(void *srcp, void *destp, unsigned long size);
+extern void MI_CpuCopy(void *srcp, void *destp, unsigned long size);
 extern void OS_WakeupThread(void *queue);
 
 int SOCLi_UdpRecvCallback(unsigned char *data, unsigned long len, struct CPSSoc *soc)
@@ -78,7 +78,7 @@ int SOCLi_UdpRecvCallback(unsigned char *data, unsigned long len, struct CPSSoc 
 			udpheader->len = len;
 			udpheader->remote_port = soc->remote_port;
 			udpheader->remote_ip = soc->remote_ip;
-			func_02082EA4(data, udpheader->data, len);
+			MI_CpuCopy(data, udpheader->data, len);
 			if (pipe->last != 0)
 				pipe->last->next = udpheader;
 			pipe->last = udpheader;

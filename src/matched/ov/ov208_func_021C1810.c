@@ -12,7 +12,7 @@
  * symbols:
  *   ov208_func_021C1920  0x021C1920  thumb  ov208
  *   ov208_func_021C1FE0  0x021C1FE0  thumb  ov208
- *   ov208_func_021C2090  0x021C2090  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_FinishHideOverlay  0x021C2090  thumb  ov208
  *   ov208_func_021C20C0  0x021C20C0  thumb  ov208
  *   ov208_func_021C21D0  0x021C21D0  thumb  ov208
  *   ZUKAN_DETAIL_AREA_RequestBlendRestore  0x021C2228  thumb  ov208
@@ -27,7 +27,7 @@ typedef int            s32;
 
 extern void ov208_func_021C1920(u16 *heap, u8 *p, int key, int mode);
 extern void ov208_func_021C1FE0(u16 *heap, u8 *p, int key);
-extern void ov208_func_021C2090(u16 *heap, u8 *p, int key);
+extern void ZUKAN_DETAIL_AREA_FinishHideOverlay(u16 *heap, u8 *p, int key);
 extern void ov208_func_021C20C0(u16 *heap, u8 *p, int key);
 extern void ov208_func_021C21D0(u16 *heap, u8 *p, int key);
 extern void ZUKAN_DETAIL_AREA_RequestBlendRestore(u16 *heap, u8 *p, int key);
@@ -51,7 +51,7 @@ void ZUKAN_DETAIL_AREA_UpdateMode(u16 *heap, u8 *p, int key)
             W(0x84) = 2;
             break;
         case 2:
-            ov208_func_021C2090(heap, p, key);
+            ZUKAN_DETAIL_AREA_FinishHideOverlay(heap, p, key);
             W(0x84) = 3;
             break;
         case 3:
@@ -90,7 +90,7 @@ void ZUKAN_DETAIL_AREA_UpdateMode(u16 *heap, u8 *p, int key)
             W(0x84) = 2;
             break;
         case 2:
-            ov208_func_021C2090(heap, p, key);
+            ZUKAN_DETAIL_AREA_FinishHideOverlay(heap, p, key);
             W(0x84) = 3;
             break;
         case 3:

@@ -53,7 +53,7 @@
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   KEY_GetTrg 0x020362DC arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
@@ -64,7 +64,7 @@
  *   FX_SinCosTable_ 0x020A1B38 data
  *   ZUKAN_DETAIL_COMMON_InitBrightnessTarget 0x021BC518 thumb
  *   ZUKAN_DETAIL_COMMON_GetWorkPtr 0x021BC3B4 thumb
- *   func_021BDAAC 0x021BDAAC thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_SetMode 0x021BDAAC thumb
  *   ZUKAN_DETAIL_COMMON_GetSource 0x021BC3A4 thumb
  *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
  *   ZUKAN_DETAIL_HEADBAR_SetIconKind 0x021BE82C thumb
@@ -76,7 +76,7 @@
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   ZUKAN_SAVE_GetViewGenderAndForm 0x0200CC40 thumb
  *   ZUKAN_SAVE_GetSpindaPersonality 0x0200D288 thumb
- *   ov208_func_021BC3B4  0x021BC3B4  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_GetWorkPtr  0x021BC3B4  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_GetCursorValue  0x021BC3B8  thumb  ov208
  *   GX_SetGraphicsMode  0x0207D4B0  arm
  *   ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc  0x021BC844  thumb  ov208
@@ -85,8 +85,8 @@
  *   ZUKAN_DETAIL_COMMON_SetBrightnessFull  0x021BC4F4  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_StartFadeOut  0x021BC6D8  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_GetMaxValue  0x021BC3BC  thumb  ov208
- *   ov208_func_021BC3A4  0x021BC3A4  thumb  ov208
- *   ov208_func_021BDC14  0x021BDC14  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_GetSource  0x021BC3A4  thumb  ov208
+ *   ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq  0x021BDC14  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_IsFadeBusy  0x021BC6C8  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_StartFadeOutAlt  0x021BC6F8  thumb  ov208
  *   ZUKAN_DETAIL_TOUCHBAR_SetButtonEnabled  0x021BDAE8  thumb  ov208
@@ -116,7 +116,7 @@
  *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
  *   BMP_GetWidth  0x020437DC  arm
  *   G2x_SetBlendAlpha_ 0x0207D63C  arm
- *   ov208_func_021BC518  0x021BC518  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_InitBrightnessTarget  0x021BC518  thumb  ov208
  *   ZUKAN_DETAIL_GRAPHIC_Reset3dState  0x021BCF4C  thumb  ov208
  *   POKEGRA_GetArcID 0x0202D060 thumb
  *   ZUKAN_DETAIL_TOUCHBAR_GetMode  0x021BDAD0  thumb  ov208
@@ -133,19 +133,19 @@
  *   ZUKAN_DETAIL_PROCSYS_AllocBuffer 0x021BC32C thumb ov208
  *   ZUKAN_DETAIL_COMMON_GetDisplay 0x021BC3A8 thumb ov208
  *   ZUKAN_DETAIL_COMMON_GetFont 0x021BC3AC thumb ov208
- *   ov208_func_021C4AC4 0x021C4AC4 thumb ov208
+ *   ZUKAN_DETAIL_FORM_CreatePrintQueues 0x021C4AC4 thumb ov208
  *   ZUKAN_DETAIL_COMMON_AllocBlendWork 0x021BC448 thumb ov208
  *   ZUKAN_DETAIL_COMMON_CreatePaletteAnimDefault 0x021BC610 thumb ov208
  *   ZUKAN_DETAIL_COMMON_FreeBgPalette 0x021BC97C thumb ov208
  *   ZUKAN_DETAIL_COMMON_SetBgScrollPacked 0x021BCA54 thumb ov208
- *   ov208_func_021C66C8 0x021C66C8 thumb ov208
+ *   ZUKAN_DETAIL_FORM_DeleteArrowActors 0x021C66C8 thumb ov208
  *   ZUKAN_DETAIL_FORM_DeleteIconActor 0x021C53E0 thumb ov208
- *   ov208_func_021C533C 0x021C533C thumb ov208
- *   ov208_func_021C4A48 0x021C4A48 thumb ov208
+ *   ZUKAN_DETAIL_FORM_ReleaseIconResources 0x021C533C thumb ov208
+ *   ZUKAN_DETAIL_FORM_DeleteTextWindows 0x021C4A48 thumb ov208
  *   ZUKAN_DETAIL_TOUCHBAR_SetBgPriority 0x021BDCA4 thumb ov208
  *   ZUKAN_DETAIL_COMMON_DeletePaletteAnim 0x021BC61C thumb ov208
  *   ZUKAN_DETAIL_COMMON_FreeBlendWork 0x021BC464 thumb ov208
- *   ov208_func_021C4AF4 0x021C4AF4 thumb ov208
+ *   ZUKAN_DETAIL_FORM_DeletePrintQueues 0x021C4AF4 thumb ov208
  *   ZUKAN_DETAIL_PROCSYS_FreeBuffer 0x021BC34C thumb ov208
  *   ZUKAN_DETAIL_GRAPHIC_Init3dSystem  0x021BCF58  thumb  ov208
  *   MCSS_SetVanishFlag  0x02015EA0  thumb
@@ -232,7 +232,7 @@
  *   data_021C87A0  0x021C87A0  data
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   ZUKAN_DETAIL_FORM_CopyModelPosition        0x021C80CC  thumb
- *   func_021C7D80        0x021C7D80  thumb
+ *   ZUKAN_DETAIL_FORM_SwapItems        0x021C7D80  thumb
  *   ZUKAN_DETAIL_FORM_SwapIconActor        0x021C5CF0  thumb
  *   ZUKAN_DETAIL_FORM_DrawFormLabelMain        0x021C4E54  thumb
  *   ZUKAN_SAVE_UpdateViewFlags        0x0200CA98  thumb
@@ -288,7 +288,7 @@ extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 
 extern u32 KEY_GetTrg(void);
 
@@ -308,7 +308,7 @@ extern void ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(void *s);
 
 extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
 
-extern void *ov208_func_021BC3B4(int key);
+extern void *ZUKAN_DETAIL_COMMON_GetWorkPtr(int key);
 
 extern void *ZUKAN_DETAIL_COMMON_GetCursorValue(int key);
 
@@ -326,9 +326,9 @@ extern void ZUKAN_DETAIL_COMMON_StartFadeOut(u32 fade);
 
 extern u16  ZUKAN_DETAIL_COMMON_GetMaxValue(char *p);
 
-extern int  ov208_func_021BC3A4(int key);
+extern int  ZUKAN_DETAIL_COMMON_GetSource(int key);
 
-extern void ov208_func_021BDC14(void *s, int b);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(void *s, int b);
 
 extern int  ZUKAN_DETAIL_COMMON_IsFadeBusy(u32 fade);
 
@@ -449,11 +449,11 @@ extern void *ZUKAN_DETAIL_COMMON_GetFont(int key);
 
 extern void *GFL_USE_AddMainTask(void (*fn)(int, char *), void *p, u32 c);
 
-extern void ov208_func_021C4AC4(u16 *heap, struct Ov208Form *p, int key);
+extern void ZUKAN_DETAIL_FORM_CreatePrintQueues(u16 *heap, struct Ov208Form *p, int key);
 
 extern void *ZUKAN_DETAIL_COMMON_AllocBlendWork(u32 heap);
 
-extern void ov208_func_021BC518(void *a);
+extern void ZUKAN_DETAIL_COMMON_InitBrightnessTarget(void *a);
 
 extern void ZUKAN_DETAIL_COMMON_SetBrightnessNone(int flag, void *a);
 
@@ -463,13 +463,13 @@ extern void ZUKAN_DETAIL_COMMON_FreeBgPalette(u32 a);
 
 extern void ZUKAN_DETAIL_COMMON_SetBgScrollPacked(u32 a, u32 packed);
 
-extern void ov208_func_021C66C8(u16 *heap, struct Ov208Form *p, int key);
+extern void ZUKAN_DETAIL_FORM_DeleteArrowActors(u16 *heap, struct Ov208Form *p, int key);
 
 void ZUKAN_DETAIL_FORM_DeleteIconActor(int a, int b);
 
-extern void ov208_func_021C533C(u16 *heap, struct Ov208Form *p, int key);
+extern void ZUKAN_DETAIL_FORM_ReleaseIconResources(u16 *heap, struct Ov208Form *p, int key);
 
-extern void ov208_func_021C4A48(u16 *heap, struct Ov208Form *p, int key);
+extern void ZUKAN_DETAIL_FORM_DeleteTextWindows(u16 *heap, struct Ov208Form *p, int key);
 
 extern void ZUKAN_DETAIL_TOUCHBAR_SetBgPriority(void *s, u8 v);
 
@@ -477,7 +477,7 @@ extern void ZUKAN_DETAIL_COMMON_DeletePaletteAnim(u32 a);
 
 extern void ZUKAN_DETAIL_COMMON_FreeBlendWork(u32 a);
 
-extern void ov208_func_021C4AF4(u16 *heap, struct Ov208Form *p, int key);
+extern void ZUKAN_DETAIL_FORM_DeletePrintQueues(u16 *heap, struct Ov208Form *p, int key);
 
 extern void ZUKAN_DETAIL_PROCSYS_FreeBuffer(void *proc);
 
@@ -647,11 +647,11 @@ int ZUKAN_DETAIL_FORM_Init(void *proc, int *seq, u16 *heap, u8 *unused, int key)
     W(0x144) = 0;
     W(0x124) = 1;
     PW(0x6a0) = GFL_USE_AddMainTask(ZUKAN_DETAIL_FORM_ApplyPendingDisplay, p, 1);
-    ov208_func_021C4AC4(heap, p, key);
+    ZUKAN_DETAIL_FORM_CreatePrintQueues(heap, p, key);
     PW(0x6a4) = ZUKAN_DETAIL_COMMON_AllocBlendWork(*heap);
     PW(0x6a8) = ZUKAN_DETAIL_COMMON_AllocBlendWork(*heap);
-    ov208_func_021BC518(PW(0x6a4));
-    ov208_func_021BC518(PW(0x6a8));
+    ZUKAN_DETAIL_COMMON_InitBrightnessTarget(PW(0x6a4));
+    ZUKAN_DETAIL_COMMON_InitBrightnessTarget(PW(0x6a8));
     ZUKAN_DETAIL_COMMON_SetBrightnessNone(0, PW(0x6a4));
     ZUKAN_DETAIL_COMMON_SetBrightnessNone(1, PW(0x6a8));
     PW(0x6ac) = ZUKAN_DETAIL_COMMON_CreatePaletteAnimDefault(*heap);
@@ -669,23 +669,23 @@ int ZUKAN_DETAIL_FORM_Exit(void *proc, int *seq, u16 *heap, struct Ov208Form *p,
 {
     void *sys;
     u8 i;
-    sys = ov208_func_021BC3B4(key);
+    sys = ZUKAN_DETAIL_COMMON_GetWorkPtr(key);
     ZUKAN_DETAIL_COMMON_FreeBgPalette(p->w5bc);
     ZUKAN_DETAIL_COMMON_FreeBgPalette(p->w5b8);
     ZUKAN_DETAIL_COMMON_SetBgScrollPacked(7, p->w5b4);
-    ov208_func_021C66C8(heap, p, key);
+    ZUKAN_DETAIL_FORM_DeleteArrowActors(heap, p, key);
     for (i = 0; i < 2; i++) {
         if (((struct Ov208Form *)p)->obj[i] != 0)
             ZUKAN_DETAIL_FORM_DeleteIconActor((int)(((struct Ov208Form *)p)->res[i]), (int)(((struct Ov208Form *)p)->obj[i]));
         ((struct Ov208Form *)p)->obj[i] = 0;
     }
-    ov208_func_021C533C(heap, p, key);
-    ov208_func_021C4A48(heap, p, key);
+    ZUKAN_DETAIL_FORM_ReleaseIconResources(heap, p, key);
+    ZUKAN_DETAIL_FORM_DeleteTextWindows(heap, p, key);
     ZUKAN_DETAIL_TOUCHBAR_SetBgPriority(sys, 0);
     ZUKAN_DETAIL_COMMON_DeletePaletteAnim(p->w6ac);
     ZUKAN_DETAIL_COMMON_FreeBlendWork(p->w6a8);
     ZUKAN_DETAIL_COMMON_FreeBlendWork(p->w6a4);
-    ov208_func_021C4AF4(heap, p, key);
+    ZUKAN_DETAIL_FORM_DeletePrintQueues(heap, p, key);
     TCB_DeleteTask((struct Node *)p->w6a0);
     ZUKAN_DETAIL_PROCSYS_FreeBuffer(proc);
     return 1;
@@ -703,7 +703,7 @@ int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, struct Ov208Form *p,
     int idle;
 
     res = ZUKAN_DETAIL_COMMON_GetDisplay(key);
-    scene = ov208_func_021BC3B4(key);
+    scene = ZUKAN_DETAIL_COMMON_GetWorkPtr(key);
     icon = ZUKAN_DETAIL_COMMON_GetCursorValue(key);
     switch (*seq) {
     case 0:
@@ -768,7 +768,7 @@ int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, struct Ov208Form *p,
                 ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(scene, 3);
             }
             ov208_func_021BDC48(scene, 0);
-            ov208_func_021BDC14(scene, GAME_DATA_CheckSaveFlag(ov208_func_021BC3A4(key), 20));
+            ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scene, GAME_DATA_CheckSaveFlag(ZUKAN_DETAIL_COMMON_GetSource(key), 20));
             if (ZUKAN_DETAIL_HEADBAR_GetIconKind(icon) != 2) {
                 ZUKAN_DETAIL_HEADBAR_SetIconKind(icon, 3);
                 ZUKAN_DETAIL_HEADBAR_SetIconSpecies(icon);
@@ -895,7 +895,7 @@ void ZUKAN_DETAIL_FORM_HandleKeyEvent(void *proc, int *seq, u16 *heap, struct Ov
     u32 k;
     if (p == 0)
         return;
-    sys = ov208_func_021BC3B4(key);
+    sys = ZUKAN_DETAIL_COMMON_GetWorkPtr(key);
     flag = 0;
     W(0x698) = flag;
     W(0x6d4) = flag;
@@ -1032,7 +1032,7 @@ void ZUKAN_DETAIL_FORM_HandleKeyEvent(void *proc, int *seq, u16 *heap, struct Ov
         ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(sys);
         return;
     case 5:
-        GAME_DATA_SetSaveFlag((void *)ov208_func_021BC3A4(key), 0x14, ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive(sys));
+        GAME_DATA_SetSaveFlag((void *)ZUKAN_DETAIL_COMMON_GetSource(key), 0x14, ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive(sys));
         ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(sys);
         return;
     case 22:
@@ -1519,7 +1519,7 @@ extern void ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(void *s, u32 on);
 
 extern void ZUKAN_DETAIL_TOUCHBAR_SetButtonDrawEnable(void *s, int v);
 
-extern void func_021BDAAC(void *s, u32 mode, u32 kind, u32 flag);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetMode(void *s, u32 mode, u32 kind, u32 flag);
 
 
 
@@ -1535,7 +1535,7 @@ extern u32  TOUCHPANEL_GetPointCont(u32 *x, u32 *y);
 
 extern void ZUKAN_DETAIL_FORM_CopyModelPosition(struct Ov208Mdl *u, int k, VecF *v);
 
-extern void func_021C7D80(u16 *a0, struct Ov208Form *p, int ctx);
+extern void ZUKAN_DETAIL_FORM_SwapItems(u16 *a0, struct Ov208Form *p, int ctx);
 
 
 
@@ -2260,7 +2260,7 @@ void ZUKAN_DETAIL_FORM_UpdateState(u16 *heap, struct Ov208Form *p, int key)
                 }
                 ZUKAN_DETAIL_FORM_HandleStateEvent(heap, p, key, 2);
                 GFL_USE_PlaySeDefaultVolume(0x54c);
-                func_020355D8(touch);
+                UI_SetInputMode(touch);
                 ov208_func_021BDC48(scene, 0);
                 return;
             }
@@ -2297,7 +2297,7 @@ void ZUKAN_DETAIL_FORM_HandleStateEvent(u16 *a0, struct Ov208Form *p, int ctx, i
     Vec v;
     Vec v2;
 
-    scene = ov208_func_021BC3B4(ctx);
+    scene = ZUKAN_DETAIL_COMMON_GetWorkPtr(ctx);
     icon = ZUKAN_DETAIL_COMMON_GetCursorValue(ctx);
     flag = 0;
     switch (p->state) {
@@ -2349,7 +2349,7 @@ void ZUKAN_DETAIL_FORM_HandleStateEvent(u16 *a0, struct Ov208Form *p, int ctx, i
                     MCSS_SetPosition((void *)p->item[3].obj, (u32 *)(&v));
                 }
             }
-            func_021BDAAC(scene, 2, 3, ZUKAN_DETAIL_COMMON_GetMaxValue((char *)ctx) > 1);
+            ZUKAN_DETAIL_TOUCHBAR_SetMode(scene, 2, 3, ZUKAN_DETAIL_COMMON_GetMaxValue((char *)ctx) > 1);
             if (p->count >= 3)
                 ZUKAN_DETAIL_TOUCHBAR_SetButtonVisible(scene, 1);
             else
@@ -2407,8 +2407,8 @@ void ZUKAN_DETAIL_FORM_HandleStateEvent(u16 *a0, struct Ov208Form *p, int ctx, i
                     MCSS_SetPosition((void *)p->item[3].obj, (u32 *)(&v2));
                 }
             }
-            func_021BDAAC(scene, 0, 3, ZUKAN_DETAIL_COMMON_GetMaxValue((char *)ctx) > 1);
-            ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scene, GAME_DATA_CheckSaveFlag(ov208_func_021BC3A4(ctx), 0x14));
+            ZUKAN_DETAIL_TOUCHBAR_SetMode(scene, 0, 3, ZUKAN_DETAIL_COMMON_GetMaxValue((char *)ctx) > 1);
+            ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scene, GAME_DATA_CheckSaveFlag(ZUKAN_DETAIL_COMMON_GetSource(ctx), 0x14));
             ZUKAN_DETAIL_HEADBAR_SetIconKind(icon, 3);
             if (p->count >= 2) {
                 p->w6c8 = 1;
@@ -2570,7 +2570,7 @@ int ZUKAN_DETAIL_FORM_HandleTouchArrows(u16 *unused, struct Ov208Form *p, int ke
     int o;
     u32 *q;
     int k;
-    sys = ov208_func_021BC3B4(key);
+    sys = ZUKAN_DETAIL_COMMON_GetWorkPtr(key);
     hit = HIT_NONE;
     if (hit == 5) {
         for (i = 0; i < 4; i++) {
@@ -2611,7 +2611,7 @@ int ZUKAN_DETAIL_FORM_HandleTouchArrows(u16 *unused, struct Ov208Form *p, int ke
         if (p->w694 != 5) {
             hit = 6;
         } else {
-            func_020355D8(type);
+            UI_SetInputMode(type);
             ov208_func_021BDC48(sys, 0);
             o = hit * 0x28;
             *(u32 *)((u8 *)&p->row[0].st + o) = 1;
@@ -2660,7 +2660,7 @@ void ZUKAN_DETAIL_FORM_UpdateArrowAnim(u16 *heap, struct Ov208Form *p, int key)
     void *scene;
     u32 other;
 
-    scene = ov208_func_021BC3B4(key);
+    scene = ZUKAN_DETAIL_COMMON_GetWorkPtr(key);
     if (p->w694 == 5)
         return;
     switch (p->row[p->w694].st) {
@@ -2786,7 +2786,7 @@ u32 ZUKAN_DETAIL_FORM_HandleScrollTouch(u16 *a0, struct Ov208Form *p, int key)
     int moved;
     u16 old;
 
-    scene = ov208_func_021BC3B4(key);
+    scene = ZUKAN_DETAIL_COMMON_GetWorkPtr(key);
     moved = 0;
     if (p->w69c != 0) {
         if (TOUCHPANEL_GetPointCont(&x, &y) == 0) {
@@ -2816,7 +2816,7 @@ u32 ZUKAN_DETAIL_FORM_HandleScrollTouch(u16 *a0, struct Ov208Form *p, int key)
     if (moved)
         GFL_USE_PlaySeDefaultVolume(0x645);
     if (p->w69c != 0)
-        func_020355D8(1);
+        UI_SetInputMode(1);
     return p->w69c;
 }
 
@@ -2956,13 +2956,13 @@ void ZUKAN_DETAIL_FORM_UpdateSlideLeft(u16 *a0, struct Ov208Form *p, int ctx)
                     ZUKAN_DETAIL_FORM_SelectModelPosition((int)&p->item[1], 2, (int)(&u));
                     MCSS_SetPosition((void *)p->item[1].obj, (u32 *)(&u));
                 }
-                func_021C7D80(a0, p, ctx);
+                ZUKAN_DETAIL_FORM_SwapItems(a0, p, ctx);
                 ZUKAN_DETAIL_FORM_SwapIconActor(a0, p, ctx);
                 ZUKAN_DETAIL_FORM_DrawFormLabelMain(a0, p, ctx);
                 ZUKAN_DETAIL_FORM_DrawFormLabelSub(a0, p, ctx);
                 ZUKAN_DETAIL_FORM_UpdateCursorMarkers(a0, p, ctx);
                 id = ZUKAN_DETAIL_COMMON_GetCurrentEntry(ctx);
-                obj = ZUKAN_SAVE_GetFromGameData((void *)ov208_func_021BC3A4(ctx));
+                obj = ZUKAN_SAVE_GetFromGameData((void *)ZUKAN_DETAIL_COMMON_GetSource(ctx));
                 f = p->ents[p->sel].gender;
                 sh = p->ents[p->sel].shiny != 0 ? 1 : 0;
                 ZUKAN_SAVE_UpdateViewFlags(obj, id, f, sh, p->ents[p->sel].form);
@@ -3133,7 +3133,7 @@ void ZUKAN_DETAIL_FORM_UpdateSlideRight(u16 *a0, struct Ov208Form *p, int ctx)
     } else if (p->w6c4 == 2) {
         sh = 0;
         ZUKAN_DETAIL_FORM_HandleStateEvent(a0, p, ctx, 0);
-        func_021C7D80(a0, p, ctx);
+        ZUKAN_DETAIL_FORM_SwapItems(a0, p, ctx);
         ZUKAN_DETAIL_FORM_SignalAnimDone((int *)&p->item[2]);
         ZUKAN_DETAIL_FORM_SignalAnimDone((int *)&p->item[3]);
         ZUKAN_DETAIL_FORM_SwapIconActor(a0, p, ctx);
@@ -3141,7 +3141,7 @@ void ZUKAN_DETAIL_FORM_UpdateSlideRight(u16 *a0, struct Ov208Form *p, int ctx)
         ZUKAN_DETAIL_FORM_DrawFormLabelSub(a0, p, ctx);
         ZUKAN_DETAIL_FORM_UpdateCursorMarkers(a0, p, ctx);
         id = ZUKAN_DETAIL_COMMON_GetCurrentEntry(ctx);
-        obj = ZUKAN_SAVE_GetFromGameData((void *)ov208_func_021BC3A4(ctx));
+        obj = ZUKAN_SAVE_GetFromGameData((void *)ZUKAN_DETAIL_COMMON_GetSource(ctx));
         f = p->ents[p->sel].gender;
         if (p->ents[p->sel].shiny != 0)
             sh = 1;

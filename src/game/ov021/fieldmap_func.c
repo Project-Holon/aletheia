@@ -432,7 +432,7 @@ void FLDEFF_GYOE_UpdateTask(void *task, FldeffGyoeTaskWork *work)
 }
 
 /*
- * Twin of ov021_func_02189810 (save/modify/restore of the projection matrix
+ * Twin of FIELDMAP_Draw3dNormal (save/modify/restore of the projection matrix
  * g_DefaultProjectionMtx).  Here the matrix is read through a pointer local initialised
  * at its declaration, which is what loads its address before the soft-float
  * conversion; `saved = g_DefaultProjectionMtx` loads it after (22 bytes off with the

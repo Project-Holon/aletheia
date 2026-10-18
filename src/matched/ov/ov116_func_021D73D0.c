@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT*
- * extent: two-byte zero alignment padding, then already matched getter ov116_func_021D73D4.c.
+ * extent: two-byte zero alignment padding, then already matched getter WIFI_BSUBWAY_GRAPHIC_GetSaveState.c.
  */
 typedef unsigned char u8;
 typedef unsigned short u16;

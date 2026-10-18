@@ -16,7 +16,7 @@
  * symbols:
  *   KEY_GetTrg  0x020362DC  arm
  *   func_020355C4  0x020355C4  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   KEY_GetCont  0x0203630C  arm
  *   FRAME_LIST_UpdateHoldStage  0x021B83A0  thumb  ov067
  */
@@ -41,7 +41,7 @@ typedef struct S {
 
 extern u32 KEY_GetTrg(void);
 extern u8 func_020355C4(void);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern unsigned int KEY_GetCont(void);
 extern void FRAME_LIST_UpdateHoldStage(S *p);
 
@@ -50,7 +50,7 @@ int FRAME_LIST_ReadKeys(S *p)
     int n;
 
     if ((KEY_GetTrg() & 0x3f1) && func_020355C4() == 1) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         p->f60 = 0xff;
         p->f96 = 8;
         return 0;
@@ -60,7 +60,7 @@ int FRAME_LIST_ReadKeys(S *p)
         p->f95 = 6;
     }
     if (KEY_GetCont() & 0x40) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         if (p->f5c != 0) {
             p->f60 = p->f5c;
             p->f5c--;
@@ -75,7 +75,7 @@ int FRAME_LIST_ReadKeys(S *p)
         return 14;
     }
     if (KEY_GetCont() & 0x80) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         n = p->f5e - 1;
         if (p->f5c < n) {
             p->f60 = p->f5c;
@@ -91,7 +91,7 @@ int FRAME_LIST_ReadKeys(S *p)
         return 14;
     }
     if (KEY_GetCont() & 0x20) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         if (p->f62 != 0) {
             p->f96 = 4;
             return 4;
@@ -105,7 +105,7 @@ int FRAME_LIST_ReadKeys(S *p)
         return 14;
     }
     if (KEY_GetCont() & 0x10) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         if (p->f62 < p->f64) {
             p->f96 = 4;
             return 5;
@@ -121,13 +121,13 @@ int FRAME_LIST_ReadKeys(S *p)
     if (KEY_GetTrg() & 1)
         return 12;
     if (KEY_GetTrg() & 0x200) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         if (p->f5c != 0 || p->f62 != 0)
             return 8;
         return 14;
     }
     if (KEY_GetTrg() & 0x100) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         if (p->f5c != p->f5e - 1 || p->f62 != p->f64)
             return 9;
         return 14;

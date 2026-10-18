@@ -18,7 +18,7 @@
  * 021C0AC0 forwarder; its unused input is retained at this caller.
  * symbols:
  *   PMS_SELECT_GRAPHIC_UpdateBgBlink 0x021C098C thumb ov110
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   PMS_SELECT_GRAPHIC_UpdateTouchBar 0x021C0AC0 thumb ov110
  *   TOUCHBAR_GetPressedButtonIdIfPressing 0x021B6470 thumb ov067
  *   TOUCHBAR_GetPressedButtonIdIfDone 0x021B6448 thumb ov067
@@ -32,7 +32,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { u8 bit:1; u8 rest:7; } Flag;
 extern void PMS_SELECT_GRAPHIC_UpdateBgBlink(char *);
-extern void func_020355D8(u8);
+extern void UI_SetInputMode(u8);
 extern void PMS_SELECT_GRAPHIC_UpdateTouchBar(void *);
 extern int TOUCHBAR_GetPressedButtonIdIfPressing(u8 *);
 extern int TOUCHBAR_GetPressedButtonIdIfDone(u8 *);
@@ -52,8 +52,8 @@ int PMS_SELECT_GRAPHIC_StepList(void *unused,u8 *p)
     if(!*(int *)(p+0x40)) {
         input=0;
         if(!((Flag *)(p+0x99))->bit) {
-            if(*(int *)(p+0xa8)) func_020355D8(1);
-            else func_020355D8(0);
+            if(*(int *)(p+0xa8)) UI_SetInputMode(1);
+            else UI_SetInputMode(0);
             PMS_SELECT_GRAPHIC_UpdateTouchBar(*(void **)(p+0x54));
             if(TOUCHBAR_GetPressedButtonIdIfPressing(*(u8 **)(p+0x54))!=-1) *(int *)(p+0xa4)=0;
             result=TOUCHBAR_GetPressedButtonIdIfDone(*(u8 **)(p+0x54));

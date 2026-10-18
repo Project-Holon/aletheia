@@ -11,7 +11,7 @@
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_02082A7C  0x02082A7C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
  *   func_02045B38  0x02045B38  arm
  *   FIELD_MSGBG_CreateMenuItems  0x02190A20  thumb  ov021
  */
@@ -39,7 +39,7 @@ typedef struct {
 } P;
 
 extern void MI_CpuFill8(void *, int, int);
-extern void func_02082A7C(int, void *, int);
+extern void MIi_CpuClear32(int, void *, int);
 typedef unsigned int   u32;
 struct MsgBank;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -61,7 +61,7 @@ void SCRCMD_WORK_InitMenu(unsigned short *p, unsigned short a, unsigned short b,
     q->f = f;
     q->g = g;
     q->i = h;
-    func_02082A7C(0, (char *)q + 0x20, 0x80);
+    MIi_CpuClear32(0, (char *)q + 0x20, 0x80);
     if (q->i == 0) {
         q->h = 1;
         q->i = (int)func_02045B38(0, 3, 0x80 + 0x86, *p);

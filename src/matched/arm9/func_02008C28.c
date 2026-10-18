@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082A7C  0x02082A7C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
  *   func_02008C64  0x02008C64  thumb
  *
  * The block constructor: MIi_CpuClear32 wipes 0x1E0 bytes, then the checksum
@@ -34,7 +34,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02082A7C(u32 fill, void *dst, u32 size);
+extern void MIi_CpuClear32(u32 fill, void *dst, u32 size);
 struct Sub02008C20Obj;
 extern void func_02008C64(struct Sub02008C20Obj *obj, int commit);
 
@@ -45,7 +45,7 @@ void RECORD_Init(void *obj)
     u32 a;
     u32 b;
 
-    func_02082A7C(0, obj, 0x1e0);
+    MIi_CpuClear32(0, obj, 0x1e0);
     a = unk_02FFFC3C;
     b = unk_02FFFC3C;
     ((struct Obj02635 *)obj)->f1DE = a << 8 | b;

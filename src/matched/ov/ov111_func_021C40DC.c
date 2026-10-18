@@ -28,7 +28,7 @@
  *   VIEWER_MAIN_ExitBg  0x021C46F0  thumb  ov111
  *   func_02030EAC  0x02030EAC  arm
  *   TCBL_Destroy  0x02031140  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   func_020315D4  0x020315D4  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *
@@ -110,7 +110,7 @@ extern void VIEWER_MAIN_ExitBg(void);
 extern void func_02030EAC(struct Node *n);
 struct S02031140;
 extern void TCBL_Destroy(struct S02031140 *p);
-extern void func_020355D8(u32 v);
+extern void UI_SetInputMode(u32 v);
 extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
 
@@ -141,7 +141,7 @@ int VIEWER_MAIN_Delete(void *man, int *state, Args *args, Work *p)
     VIEWER_MAIN_ExitBg();
     func_02030EAC(p->f31F4);
     TCBL_Destroy((struct S02031140 *)p->f31F8);
-    func_020355D8(p->f3060);
+    UI_SetInputMode(p->f3060);
     func_020315D4(man);
     GFL_HEAP_DeleteChecked(0x27);
     return 1;

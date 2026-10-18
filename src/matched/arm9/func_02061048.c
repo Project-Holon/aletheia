@@ -9,9 +9,12 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   MIi_CpuClear32  0x02082A7C  arm
  */
 
-extern void func_02082A7C(int a, int b, int c);
+extern void MIi_CpuClear32(int a, int b, int c);
 unsigned int NNSi_FndAllocFromFrmHeapTail(unsigned int *p, unsigned int a, unsigned int b)
 {
     unsigned int v = (p[1] - a) & ~(b - 1);
@@ -22,7 +25,7 @@ unsigned int NNSi_FndAllocFromFrmHeapTail(unsigned int *p, unsigned int a, unsig
     r2 = p[1] - v;
     c = (unsigned char)p[-1];
     if (c & 1)
-        func_02082A7C(0, (int)v, (int)r2);
+        MIi_CpuClear32(0, (int)v, (int)r2);
     p[1] = v;
     return v;
 }

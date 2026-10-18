@@ -10,7 +10,7 @@
  * symbols:
  *   WF2DMAP_TOUCH_GetMenuTouchInput 0x021C94DC thumb ov128
  *   WF2DMAP_TOUCH_GetMenuKeyInput 0x021C9450 thumb ov128
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb  arm9
  */
 #include "../include/Obj23105.h"
@@ -22,11 +22,11 @@ struct PrintSys;
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern int WF2DMAP_TOUCH_GetMenuTouchInput(void *p, void *q, void *r, int *flag);
 extern int WF2DMAP_TOUCH_GetMenuKeyInput(void *, int *, void *);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 int WF2DMAP_TOUCH_GetMenuInput(void *p,int *q,char *r) {
  int flag=0; int ret;
  if(!PRINTSYS_QUE_IsFinished(((struct Obj23105 *)r)->f34)) return 2;
  ret=WF2DMAP_TOUCH_GetMenuTouchInput(p,q,r,&flag);
- if(flag) {func_020355D8(1); *q=1; return ret;}
+ if(flag) {UI_SetInputMode(1); *q=1; return ret;}
  return WF2DMAP_TOUCH_GetMenuKeyInput(p,q,r);
 }

@@ -27,7 +27,7 @@
  *   POKE_TOOL_SetupBoxParam 0x02017600 thumb
  *   POKE_TOOL_SetBoxValue 0x02017E64 thumb
  *   GAME_DATA_Create 0x020124F4 thumb
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   P_STATUS_InitWork 0x021D4240 thumb ov131
  *   d_021DC80C 0x021DC80C data a1
  *   d_021DC138 0x021DC138 data a2
@@ -62,7 +62,7 @@ typedef unsigned long long u64;
 extern void POKE_TOOL_SetupBoxParam(void *obj,u16 species,u16 level,u64 id);
 extern void POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v);
 extern void *GAME_DATA_Create(u16);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern int P_STATUS_InitWork(char *);
 extern const char d_021DC80C[];
 extern const Moves d_021DC138,d_021DC144;
@@ -134,7 +134,7 @@ int P_STATUS_ProcInit(u32 heap,int *st,u8 *obj,char *d) {
                 c[0xd]=1;
                 ((struct Obj00830 *)c)->f20=0;
             }
-            func_020355D8(1);
+            UI_SetInputMode(1);
         }
         *(u8 * *)&((struct Obj14064 *)o)->f8=c;
         *st=1;

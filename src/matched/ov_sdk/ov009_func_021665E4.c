@@ -13,13 +13,14 @@
  *
  * symbols:
  *   gWcmCpsifMac  0x021AA80C  data
+ *   MI_CpuCopy  0x02082EA4  arm  arm9
  */
 
 extern char gWcmCpsifMac[];
-extern void func_02082EA4(char *p, int a, int n);
+extern void MI_CpuCopy(char *p, int a, int n);
 
 void WCM_GetMacAddress(int a)
 {
-    func_02082EA4(gWcmCpsifMac, a, 6);
+    MI_CpuCopy(gWcmCpsifMac, a, 6);
 }
 

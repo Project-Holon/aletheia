@@ -15,7 +15,7 @@
  * SDK: TwlDWC libdwcutil.TWL.HYB.a(atermset.o), symbol alarmCallback (name from the vendor
  * object; a 12-byte local with no label in function_starts.txt, witnessed by the ABS32 at
  * ConnectAP+0x118). atermset.o was built by Metrowerks C/C++ for ARM 3.0.0.126 (its
- * .comment), which is the 2.0/sp1p2 front end; see aoss_release (ov016_func_021B6CF0.c).
+ * .comment), which is the 2.0/sp1p2 front end; see aoss_release (aoss_release.c).
  * AtermApc_callback is installed as the APC user callback (event, arg); DWARF drops the
  * unused arg, and this caller passes it as zero.
  *

@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT*
- * extent: followed by independently matched ov010_func_02159FE0.c.
+ * extent: followed by independently matched MAP_REPLACE_FindFlyTargetIndex.c.
  * lever: const table declarations hoist the second table load before the stack argument.
  * prototype: fifth input stays word-wide; u16 adds an absent redundant truncation.
  * symbols:

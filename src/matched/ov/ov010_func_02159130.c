@@ -9,11 +9,11 @@
  * status: EXACT
  * symbols:
  *   gScriptCheckFlags 0x02172BA0 data a4
- *   func_02082A7C 0x02082A7C arm
+ *   MIi_CpuClear32 0x02082A7C arm
  */
 extern int gScriptCheckFlags;
-extern void func_02082A7C(int, void *, int);
+extern void MIi_CpuClear32(int, void *, int);
 void SCRIPT_WORK_ClearCheckFlags(void)
 {
-    func_02082A7C(0, &gScriptCheckFlags, 4);
+    MIi_CpuClear32(0, &gScriptCheckFlags, 4);
 }

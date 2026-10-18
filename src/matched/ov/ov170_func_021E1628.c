@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Twin of src/matched/ov170_func_021E0ABC.c.
+ * Twin of src/matched/BOX2_MAIN_StateMachineCoin.c.
  *
  * symbols:
  *   BOX2_UI_UpdateListPacks 0x021EF5C4 thumb

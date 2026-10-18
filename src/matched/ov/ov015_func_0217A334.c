@@ -16,7 +16,7 @@
  *           (onDone is void (*)(u8, int)). The dead `n = 1` in the 0xFA arm was not needed (the literal 1 is pooled in r5
  *           by itself) and was dropped. Pragma opt_common_subs off reproduces the three separate loads of the packet
  *           command byte. Callee types: A7AC(u8 *) returns u32, A178(u32) int, A1FC() int, A280(u32) int, 020870D0
- *           returns u64, A034 four ints. IRCi_Nop is an empty leaf (bx lr), filed as ov015_func_0217A174.c.
+ *           returns u64, A034 four ints. IRCi_Nop is an empty leaf (bx lr), filed as IRCi_Nop.c.
  *
  * symbols:
  *   IRCi_Read  0x0217A7AC  arm    ov015

@@ -24,7 +24,7 @@
  *   GXi_DmaId     0x020A84C0  data  a4
  *   DC_InvalidateRange  0x020862B8  arm
  *   MIi_DmaFill32  0x020821C0  arm
- *   func_02082A7C  0x02082A7C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
  *   DC_FlushRange   0x020862F0  arm
  *   GX_BeginLoadTex 0x0207F7A0  arm
  *   GX_LoadTex      0x0207F7FC  arm
@@ -183,7 +183,7 @@ extern void GX_LoadOAM(const void *pSrc, u32 offset, u32 szByte);  /* GX_LoadOAM
 extern void GXS_LoadOAM(const void *pSrc, u32 offset, u32 szByte);  /* GXS_LoadOAM */
 extern void DC_InvalidateRange(const void *startAddr, u32 nBytes);          /* DC_InvalidateRange */
 extern void MIi_DmaFill32(u32 dmaNo, void *dest, u32 data, u32 size, BOOL flag);  /* MIi_DmaFill32 */
-extern void func_02082A7C(u32 data, void *dest, u32 size);            /* MIi_CpuClear32 */
+extern void MIi_CpuClear32(u32 data, void *dest, u32 size);            /* MIi_CpuClear32 */
 extern void DC_FlushRange(void *p, u32 n);
 extern void GX_BeginLoadTex(void);
 extern void GX_LoadTex(void *src, u32 off, u32 n);
@@ -766,7 +766,7 @@ static inline void MI_DmaFill32(u32 dmaNo, void *dest, u32 data, u32 size)
 
 static inline void MI_CpuFill32(void *dest, u32 data, u32 size)
 {
-    func_02082A7C(data, dest, size);
+    MIi_CpuClear32(data, dest, size);
 }
 
 
@@ -823,7 +823,7 @@ static inline void ResetOam_(NNSG2dOamType type, u16 fromIdx, u16 toIdx)
  * managers: DC_InvalidateRange (DC_InvalidateRange) over the managed OAM span,
  * then NNSi_G2dDmaFill32(NNS_G2D_DMA_NO, span, 0xC0, size) -- MIi_DmaFill32
  * (MIi_DmaFill32, five arguments, the fifth on the stack) on the default
- * DMA channel, MIi_CpuClear32 (func_02082A7C) when GX_GetDefaultDMA()
+ * DMA channel, MIi_CpuClear32 (MIi_CpuClear32) when GX_GetDefaultDMA()
  * reports GX_DMA_NOT_USE; otherwise ResetOam_ writes 0xC0 into attr0 of
  * each entry.  Both cursors are then rewound to fromIdx.
  *

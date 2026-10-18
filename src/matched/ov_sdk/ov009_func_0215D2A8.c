@@ -29,7 +29,7 @@
  * The last byte is a struct offset, not code: `spipe->f10a` is at +0x10a, so
  * the run between the u16 at +0xfc and it is 0xc bytes, not 0xa. The 0xf8
  * command pipe behind that header is the one
- * src/matched/ov_sdk/ov009_func_0215D3C8.c already pins (queue +0x00,
+ * src/matched/ov_sdk/SOCLi_InitCommandPipe.c already pins (queue +0x00,
  * thread +0x20, mutex +0xe0), which is why +0x10c and +0x110 land on the two
  * word stores that follow.
  *

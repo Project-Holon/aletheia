@@ -16,7 +16,7 @@
  *   GX_SendFifo64B   0x02080CA8  arm
  *   GX_SendFifo48B   0x02080C84  arm
  *   MI_Copy36B   0x02082B60  arm
- *   func_02082B60   0x02082B60  arm
+ *   MI_Copy36B   0x02082B60  arm
  */
 typedef long fx32;
 
@@ -64,7 +64,7 @@ typedef union {
 
 extern void GX_SendFifo64B(const void *src);
 extern void GX_SendFifo48B(const void *src);
-extern void func_02082B60(const void *src);
+extern void MI_Copy36B(const void *src);
 extern void MI_Copy36B(const void *pSrc, void *pDest);
 void G3_LoadMtx44(const void *m);
 void G3_LoadMtx43(const void *m);
@@ -105,7 +105,7 @@ void G3_MultMtx43(const void *m)
 void G3_MultMtx33(const void *m)
 {
     *(volatile unsigned int *)0x04000400 = 0x1a;
-    func_02082B60(m);
+    MI_Copy36B(m);
 }
 
 

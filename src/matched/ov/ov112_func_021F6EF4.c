@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT*
- * extent: two zero padding bytes then existing ov112_func_021F6F04, 021F6F14, 021F6F1C sources and shards.
+ * extent: two zero padding bytes then existing STA_ACT_LIGHT_GetElemPos, 021F6F14, 021F6F1C sources and shards.
  */
 typedef unsigned char u8;
 typedef unsigned short u16;

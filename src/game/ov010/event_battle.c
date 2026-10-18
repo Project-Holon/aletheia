@@ -110,7 +110,7 @@
  *   GAME_DATA_GetMyPlayerWork 0x020127A4 thumb
  *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
  *   ISS_SWITCH_ApplySubscreenMode 0x0202C83C thumb
- *   func_02082A7C 0x02082A7C arm
+ *   MIi_CpuClear32 0x02082A7C arm
  *   BTL_SETUP_Delete  0x020130B4  thumb
  *   GF_STANDARD_Rand  0x0203F0A8  arm
  */
@@ -277,7 +277,7 @@ extern void MOVE_POKEMON_HandleBattleResult(void *a0, struct BtlSetup *w);
 extern void *GAME_DATA_GetMyPlayerWork(struct SaveData *p);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *p);
 extern int ISS_SWITCH_ApplySubscreenMode(int,int);
-extern void func_02082A7C(int,void *,int);
+extern void MIi_CpuClear32(int,void *,int);
 extern int BTL_SETUP_Delete(int a0);
 extern u32 GF_STANDARD_Rand(void);
 int EVENT_BATTLE_CallAndInvert(void (*fn)(void));
@@ -930,7 +930,7 @@ void EVENT_BATTLE_InitTaskWork(BattleTask *task, void *gameSystem, void *btlSetu
 {
     int zero = 0;
 
-    func_02082A7C(0, task, 40);
+    MIi_CpuClear32(0, task, 40);
     task->gameSystem = gameSystem;
     task->gameData = GAMESYSTEM_GetGameData(gameSystem);
     task->btlSetup = btlSetup;

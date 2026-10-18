@@ -16,7 +16,7 @@
  *   ZUKAN_DETAIL_INFO_SelectLanguageButton 0x021BF280 thumb ov208
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled 0x021BDC48 thumb ov208
  */
 #include "../include/Obj00442.h"
@@ -32,7 +32,7 @@ extern u32 CLACT_GetActorDrawEnable(struct Obj *);
 extern void ZUKAN_DETAIL_INFO_SelectLanguageButton(void *,char *,void *,int);
 extern void CLACT_SetActorAnimSeq(struct Obj *,u16);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
-extern void func_020355D8(u8);
+extern void UI_SetInputMode(u8);
 extern void ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(struct Ov208Scene *,u32);
 int ZUKAN_DETAIL_INFO_HandleKeyLanguageSelect(void *first,char *p,int key)
 {
@@ -74,7 +74,7 @@ int ZUKAN_DETAIL_INFO_HandleKeyLanguageSelect(void *first,char *p,int key)
         *(u32 *)((u32)p+*(u32 *)&((struct Obj00442 *)p)->f94*20+0x2c)=1;
         CLACT_SetActorAnimSeq(*(struct Obj **)((u32)p+*(u32 *)&((struct Obj00442 *)p)->f94*20+0x1c),*(u16 *)((u32)p+*(u32 *)&((struct Obj00442 *)p)->f94*20+0x26));
         GFL_USE_PlaySeDefaultVolume(0x54a);
-        func_020355D8(0);
+        UI_SetInputMode(0);
         ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(scene,0);
     }
     return changed;

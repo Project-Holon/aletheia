@@ -42,7 +42,7 @@
  *   EGG_DEMO_MENU_CreateDialog 0x021F62FC thumb ov215
  *   EGG_DEMO_MENU_GetDialogResult 0x021F6324 thumb ov215
  *   EGG_DEMO_MAIN_StopBgm 0x021F602C thumb ov215
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   BEACON_GetBlock 0x0200C0F0 thumb
  *   EGG_DEMO_MAIN_DeleteResources 0x021F5CFC thumb ov215
@@ -103,7 +103,7 @@ extern int EGG_DEMO_VIEW_IsFadeDone(char *),EGG_DEMO_VIEW_IsFinished(char *);
 extern void EGG_DEMO_VIEW_ResetAnimState(char *),EGG_DEMO_MENU_Draw(void *,char *),EGG_DEMO_MAIN_LoadBgm2(void *,char *);
 extern void EGG_DEMO_MENU_SetText(char *,char *,u32);
 extern int EGG_DEMO_MENU_WaitText(void *,char *),EGG_DEMO_MAIN_IsBgm2Loading(void *,char *),EGG_DEMO_MENU_CreateDialog(int,char *),EGG_DEMO_MENU_GetDialogResult(int,char *);
-extern void EGG_DEMO_MAIN_StopBgm(void *,char *),func_020355D8(u8);
+extern void EGG_DEMO_MAIN_StopBgm(void *,char *),UI_SetInputMode(u8);
 extern void *GAME_DATA_GetSaveControl(struct Big *),*BEACON_GetBlock(void *);
 extern void EGG_DEMO_MAIN_DeleteResources(u32,char *);
 extern int *NAMEIN_SETUP_CreateMonArgs(u16,int,int,int,int);
@@ -156,8 +156,8 @@ int EGG_DEMO_MAIN_Update(u32 unused0,u32 unused1,u32 *a,u32 *p)
     case 12:if(EGG_DEMO_MENU_WaitText(a,(char *)p)){p[4]=13;EGG_DEMO_MENU_CreateDialog((int)a,(char *)p);}break;
     case 13:
         active=EGG_DEMO_MENU_GetDialogResult((int)a,(char *)p);
-        if(active==0){p[4]=18;FADE_Start(3,0,16,2);EGG_DEMO_MAIN_StopBgm(a,(char *)p);func_020355D8(0);}
-        else if(active==1){p[4]=14;FADE_Start(3,0,16,0);func_020355D8(0);}break;
+        if(active==0){p[4]=18;FADE_Start(3,0,16,2);EGG_DEMO_MAIN_StopBgm(a,(char *)p);UI_SetInputMode(0);}
+        else if(active==1){p[4]=14;FADE_Start(3,0,16,0);UI_SetInputMode(0);}break;
     case 14:
         if(!FADE_IsActive()){
             block=BEACON_GetBlock(GAME_DATA_GetSaveControl((struct Big *)a[0]));

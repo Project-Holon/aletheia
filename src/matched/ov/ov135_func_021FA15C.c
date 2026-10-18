@@ -22,6 +22,7 @@
  *   KEY_GetTrg  0x020362DC  arm  arm9
  *   KEY_GetRepeat  0x0203633C  arm  arm9
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
+ *   UI_SetInputMode  0x020355D8  arm  arm9
  */
 
 typedef signed char s8;
@@ -50,7 +51,7 @@ extern u32 KEY_GetTrg(void);
 extern u8 func_020355C4(void);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern unsigned int KEY_GetRepeat(void);
 extern void WORLDTRADE_SetActorPos(u32 a, u32 b, u32 c);
@@ -64,7 +65,7 @@ int WORLDTRADE_INPUT_UpdateThreeOptionMenu(Obj *p)
 
     if (KEY_GetTrg() != 0 && func_020355C4() == 1) {
         CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
-        func_020355D8(0);
+        UI_SetInputMode(0);
         GFL_USE_PlaySeDefaultVolume(0x548);
         return -1;
     }
@@ -92,7 +93,7 @@ int WORLDTRADE_INPUT_UpdateThreeOptionMenu(Obj *p)
     }
     r = WORLDTRADE_INPUT_CheckTouch(p, 1);
     if (r != -1) {
-        func_020355D8(1);
+        UI_SetInputMode(1);
         WORLDTRADE_SetActorPos(p->cursor, tbl_0220320E[r].x, tbl_0220320E[r].y);
         if (r == 3) {
             CLACT_SetActorAnimSeq((struct Obj *)p->cursor, 5);

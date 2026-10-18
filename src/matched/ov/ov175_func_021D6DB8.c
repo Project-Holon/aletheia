@@ -10,7 +10,7 @@
  * status: EXACT
  * note: The listing stops at the epilogue label 021D76B8; the full body
  *       ends at 021D76D4 after its epilogue and pools, followed by our
- *       separately matched ov175_func_021D76D4.c.
+ *       separately matched WIFIBATTLEMATCH_NET_CompStepD.c.
  * lever: Enum context offset keeps 0x104 in r7; reload aux by literal 0x108.
  *        Distinct Request locals preserve the three eight-byte stack objects.
  *        The masked byte decrement is spelled as addition of 0xfc.

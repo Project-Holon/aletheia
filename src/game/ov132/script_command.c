@@ -55,7 +55,7 @@
  *   STA_ACTING_GetRecordScore 0x021F9E20 thumb ov132
  *   STA_ACTING_GetBonus 0x021F9E34 thumb ov132
  *   STA_ACTING_SetField10 0x021F9E3C thumb ov132
- *   func_0209BDBC 0x0209BDBC arm
+ *   _s32_to_float 0x0209BDBC arm
  *   _ffix 0x0209C494 arm
  *   _fsub 0x0209CB8C arm
  *   __fdiv 0x0209CE10 arm
@@ -197,7 +197,7 @@ extern u16 STA_ACTING_GetBonus(char *p, u32 i);
 
 extern void STA_ACTING_SetField10(char *p, u32 v);
 
-extern int func_0209BDBC(int a);
+extern int _s32_to_float(int a);
 
 extern u32 _ffix(u32 a);
 
@@ -1046,7 +1046,7 @@ int SCRIPT_COMMAND_CmdCompareScores(int unused, Msg *m)
         c->f00 = o->f34;
         c->f0E = 0;
         c->f04 = STA_ACTING_GetCameraTarget((u8 *)o->f34);
-        f = func_0209BDBC((int)total / 4);
+        f = _s32_to_float((int)total / 4);
         f = __fdiv(f, 0x45800000);
         f = _fsub(f, 0x43000000);
         c->f08 = _ffix(f);

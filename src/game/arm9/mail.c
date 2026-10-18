@@ -22,7 +22,7 @@
  *   OS_GetOwnerInfo       0x02087C88  arm
  *   OS_GetOwnerRtcOffset  0x02087D08  arm
  *   RTC_ConvertDateToDay         0x02088F58  arm
- *   func_02082A7C  0x02082A7C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
  *   GF_STANDARD_Checksum  0x0203F2FC  arm
  *   GF_STANDARD_Shuffle  0x0203F328  arm
  *   GF_STANDARD_ShuffleEx  0x0203F37C  arm
@@ -211,7 +211,7 @@ extern void OS_GetMacAddress(u8 *mac);
 extern void OS_GetOwnerInfo(struct OSOwnerInfo *info);
 extern s64  OS_GetOwnerRtcOffset(void);
 extern void MIi_CpuClearFast(u32 value, void *dest, u32 size);
-extern void func_02082A7C(u32 value, void *dest, u32 size);
+extern void MIi_CpuClear32(u32 value, void *dest, u32 size);
 
 extern void *SAVE_CONTROL_GetBlock(struct SaveControl *control, u32 blockId);
 extern void GF_STANDARD_CopyCachedRtc(struct RTCDate *date, struct RTCTime *time);
@@ -547,7 +547,7 @@ void RECORD_Init(struct RecordBlock *record)
     u32 first;
     u32 second;
 
-    func_02082A7C(0, record, sizeof(struct RecordBlock));
+    MIi_CpuClear32(0, record, sizeof(struct RecordBlock));
     first = SHARED_VBLANK_COUNT;
     second = SHARED_VBLANK_COUNT;
     record->cryptSeed = first << 8 | second;

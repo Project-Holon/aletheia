@@ -16,7 +16,7 @@
  *   get_targetip  0x021578C8  arm  ov009
  *   inq_arpcache  0x02157D8C  arm  ov009
  *   arprequest  0x02157F60  arm  ov009
- *   func_02082EA4  0x02082EA4  arm
+ *   MI_CpuCopy  0x02082EA4  arm
  *   send_packet  0x021579E8  arm  ov009
  *   CPSMyMac  0x021A82D4  data
  */
@@ -25,7 +25,7 @@ extern int is_multicast(unsigned v);
 extern unsigned long get_targetip(unsigned long ip);
 extern unsigned char (*inq_arpcache(unsigned long ip))[6];
 extern unsigned char (*arprequest(unsigned long ip))[6];
-extern void func_02082EA4(void *src, void *dst, unsigned long size);
+extern void MI_CpuCopy(void *src, void *dst, unsigned long size);
 extern void send_packet(unsigned char *hdr, unsigned long hdr_len, unsigned char *body, unsigned long body_len);
 extern unsigned char CPSMyMac[6];
 
@@ -43,7 +43,7 @@ void send_ether(unsigned char *hdr, unsigned long hdr_len, unsigned char *body, 
 			mac_to = arprequest(ip_to);
 		if (mac_to == 0)
 			return;
-		func_02082EA4(mac_to, hdr - 0xe, 6);
+		MI_CpuCopy(mac_to, hdr - 0xe, 6);
 	} else {
 		hdr[-0xe] = 1;
 		hdr[-0xd] = 0;
@@ -52,6 +52,6 @@ void send_ether(unsigned char *hdr, unsigned long hdr_len, unsigned char *body, 
 		hdr[-0xa] = ip_to >> 8;
 		hdr[-9] = ip_to;
 	}
-	func_02082EA4(CPSMyMac, hdr - 8, 6);
+	MI_CpuCopy(CPSMyMac, hdr - 8, 6);
 	send_packet(hdr - 0xe, hdr_len + 0xe, body, body_len);
 }

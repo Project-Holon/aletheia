@@ -16,7 +16,7 @@
  * symbols:
  *   APP_TASKMENU_IsDecide 0x02027A20 thumb
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   POKETRADE_PROC_ShowDragIcon 0x021D8C84 thumb ov119
  *   TOUCHBAR_Update 0x021B63D0 thumb ov067
  *   TOUCHBAR_GetPressedButtonIdIfPressing 0x021B6470 thumb ov067
@@ -65,7 +65,7 @@ extern unsigned APP_TASKMENU_IsDecide(char *p);
 extern int TOUCHPANEL_GetTrg(void);
 extern int TOUCHPANEL_GetCont(void);
 extern u8 func_020355C4(void);
-extern void func_020355D8(u8),POKETRADE_PROC_ShowDragIcon(void *),TOUCHBAR_Update(struct S *);
+extern void UI_SetInputMode(u8),POKETRADE_PROC_ShowDragIcon(void *),TOUCHBAR_Update(struct S *);
 extern int TOUCHBAR_GetPressedButtonIdIfPressing(u8 *),TOUCHBAR_GetPressedButtonIdIfDone(u8 *);
 extern u32 APP_TASKMENU_SetCursorActive(struct TaskMenu *,u32),TOUCHPANEL_GetPointTrg(u32 *,u32 *),APP_TASKMENU_IsFinish(struct TaskMenu *);
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *);
@@ -105,7 +105,7 @@ void POKETRADE_PROC_StepPeerSummaryMenu(char *p)
     int n;
     if(!APP_TASKMENU_IsDecide(P(0x64c))) {
         n=TOUCHPANEL_GetTrg();
-        if(n) func_020355D8(keep);
+        if(n) UI_SetInputMode(keep);
         if(n) POKETRADE_PROC_ShowDragIcon(p);
         TOUCHBAR_Update(P(0x9c0));
         if(TOUCHBAR_GetPressedButtonIdIfPressing(P(0x9c0))==9 && func_020355C4()) APP_TASKMENU_SetCursorActive(P(0x64c),0);
@@ -114,7 +114,7 @@ void POKETRADE_PROC_StepPeerSummaryMenu(char *p)
             ((struct Obj04475 *)p)->f10A0=1U-((struct Obj04475 *)p)->f10A0;
         }
         if(TOUCHPANEL_GetPointTrg(&x,&y)==1) {
-            func_020355D8(1);
+            UI_SetInputMode(1);
             APP_TASKMENU_SetCursorActive(P(0x64c),0);
             if(POKETRADE_PROC_PollGridTouch(p,(int *)(p+0xf98),(int *)(p+0xf94),&slot,&column)) {
                 I(0xf78)=column;

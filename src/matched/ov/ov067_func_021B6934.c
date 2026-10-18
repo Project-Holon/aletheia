@@ -12,7 +12,7 @@
  * symbols:
  *   CLACT_GetActorDrawEnable  0x0204B3F4  arm
  *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   KEY_GetTrg  0x020362DC  arm
  */
 
@@ -36,7 +36,7 @@ typedef struct S {
 struct Obj;
 extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern u32 KEY_GetTrg(void);
 
 int TOUCHBAR_CheckButtonPressed(S *p)
@@ -49,11 +49,11 @@ int TOUCHBAR_CheckButtonPressed(S *p)
         if (TOUCHPANEL_GetPointTrg(&x, &y)) {
             if (x - p->f1c <= 0x18 && y - p->f1e <= 0x18) {
                 hit = 1;
-                func_020355D8(1);
+                UI_SetInputMode(1);
             }
         }
         if (p->f30 != 0 && (KEY_GetTrg() & p->f30)) {
-            func_020355D8(0);
+            UI_SetInputMode(0);
             hit = 1;
         }
         if (hit) {

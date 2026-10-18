@@ -11,7 +11,7 @@
  *
  * symbols:
  *   WORLDTRADE_SEARCH_HitTestButtons  0x021FE254  thumb
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   WORLDTRADE_SEARCH_SelectButton  0x021FEAE0  thumb
  *   WORLDTRADE_SEARCH_GetSelectedButton  0x021FE9B0  thumb
  *   POKE_PERSONAL_Create  0x0201ADE4  thumb
@@ -84,7 +84,7 @@ typedef struct {
 extern const CurPos tbl_02203D46[];
 
 extern int WORLDTRADE_SEARCH_HitTestButtons(void);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern void WORLDTRADE_SEARCH_SelectButton(Work *p, int i);
 extern int WORLDTRADE_SEARCH_GetSelectedButton(Work *p);
 extern void *POKE_PERSONAL_Create(u32 a, int b, u32 heap);
@@ -107,7 +107,7 @@ int WORLDTRADE_SEARCH_StateMainInput(Work *p)
     int sel = WORLDTRADE_SEARCH_HitTestButtons();
 
     if (sel != -1) {
-        func_020355D8(1);
+        UI_SetInputMode(1);
         WORLDTRADE_SEARCH_SelectButton(p, sel);
         sel = WORLDTRADE_SEARCH_GetSelectedButton(p);
         switch (sel) {
@@ -165,7 +165,7 @@ int WORLDTRADE_SEARCH_StateMainInput(Work *p)
         }
     } else if (KEY_GetTrg() != 0 && func_020355C4() == 1) {
         CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
-        func_020355D8(0);
+        UI_SetInputMode(0);
         GFL_USE_PlaySeDefaultVolume(0x548);
         return 2;
     } else {

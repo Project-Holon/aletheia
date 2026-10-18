@@ -18,7 +18,7 @@
  *   func_02184208  0x02184208  arm  ov009
  *   gsifree  0x0217EAE0  arm  ov009
  *   gGpiKeysErrorInvalidName  0x021A4D90  data
- *   func_0218D864  0x0218D864  arm  ov009
+ *   gpiStatusInfoKeyCompFunc  0x0218D864  arm  ov009
  */
 
 struct GPIKey {
@@ -31,7 +31,7 @@ extern char *goastrdup(char *src);
 extern int func_021843E8(void *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
 extern void *func_02184208(void *array, int n);
 extern void gsifree(void *ptr);
-extern int func_0218D864(void *elem1, void *elem2);
+extern int gpiStatusInfoKeyCompFunc(void *elem1, void *elem2);
 extern char gGpiKeysErrorInvalidName[];
 
 int gpiStatusInfoCheckKey(void **connection, void *keys, char *keyName, char **keyValue)
@@ -45,7 +45,7 @@ int gpiStatusInfoCheckKey(void **connection, void *keys, char *keyName, char **k
         return 2;
     }
     aKey.name = goastrdup(keyName);
-    anIndex = func_021843E8(keys, &aKey, func_0218D864, 0, 1);
+    anIndex = func_021843E8(keys, &aKey, gpiStatusInfoKeyCompFunc, 0, 1);
     if (anIndex != -1) {
         aKeyFound = (struct GPIKey *)func_02184208(keys, anIndex);
         *keyValue = aKeyFound->value;

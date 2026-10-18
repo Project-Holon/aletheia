@@ -22,7 +22,7 @@
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   d_021BA600 0x021BA600 data a4
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   MUSICAL_SAVE_ClearNewProps 0x0200A6F8 thumb
  *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  *   CLACT_DeleteActor 0x0204B3B4 arm
@@ -381,7 +381,7 @@ extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 
-extern void func_020355D8(u8);
+extern void UI_SetInputMode(u8);
 
 extern void MUSICAL_SAVE_ClearNewProps(struct Big *);
 
@@ -1009,7 +1009,7 @@ u8 *DUP_FITTING_Create(u8 *parent, int heap)
 void DUP_FITTING_Delete(char *p)
 {
     u8 i;
-    func_020355D8(1);
+    UI_SetInputMode(1);
     MUSICAL_SAVE_ClearNewProps(*(struct Big * *)&((struct DupFittingOwner *)(*(char * *)&((struct DupFittingWork *)p)->parent))->saveData);
     GFL_USE_CancelChangeAndStopBgm();
     DUP_FITTING_DeleteText((unsigned char *)p);

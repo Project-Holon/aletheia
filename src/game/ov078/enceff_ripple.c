@@ -86,7 +86,7 @@ void *ENCEFF_BuildRippleKind02(void *gameSystem, struct FieldMap *fieldMap) {
 
 /*
  * note (2026-10-05, wD4 lane17): still MATCH, only the ov021 callee 021CF59C (12-byte thunk, no label) is unresolved. Nothing to change in the source.
- * note (2026-10-04, wD2 lane07): re-verified MATCH: the only wildcard is the ov021 callee 021CF59C (no label witness). It is a 12-byte ARM-style thunk inside the ov021_func_021CF580 extent (ldr r1,[pc]; ldr r3,[pc]; bx r3 with r1 = 0x4B, target ENCEFF_LoadOverlay): veneer-like, not C. Needs a label in layout.
+ * note (2026-10-04, wD2 lane07): re-verified MATCH: the only wildcard is the ov021 callee 021CF59C (no label witness). It is a 12-byte ARM-style thunk inside the ENCEFF_LoadOverlays4B4D extent (ldr r1,[pc]; ldr r3,[pc]; bx r3 with r1 = 0x4B, target ENCEFF_LoadOverlay): veneer-like, not C. Needs a label in layout.
  */
 void *ENCEFF_BuildRippleKind36(void *gameSystem, struct FieldMap *fieldMap) {
     VecFx32 cameraPos = gRippleBurstCameraPos;

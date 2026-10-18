@@ -2153,7 +2153,7 @@ u8 TR_AI_GetPosition(TrAiWork *ai, int kind) {
 }
 
 /*
- * 2026-10-04 (wave D2 lane 08): re-tested, still MATCH: 11 of 12 relocations resolve; the only open site is BTLV_EFFECT_GetPokeEffectValue (+002E). The symbols line already carries 'thumb ov094', but the sole witness src/matched/ov/ov094_func_021F8AE8.c lists four 'function:' keys and the parser keeps only the last, so 0x021F8AFC has no witness. Fix belongs in that unit's header or the parser (outside this lane's write set); bytes are correct.
+ * 2026-10-04 (wave D2 lane 08): re-tested, still MATCH: 11 of 12 relocations resolve; the only open site is BTLV_EFFECT_GetPokeEffectValue (+002E). The symbols line already carries 'thumb ov094', but the sole witness src/matched/ov/BTLV_EFFECT_SetPokeEffectValue.c lists four 'function:' keys and the parser keeps only the last, so 0x021F8AFC has no witness. Fix belongs in that unit's header or the parser (outside this lane's write set); bytes are correct.
  * its parsed function list: four repeated keys leave only BTLV_EFFECT_ResumeVmWait.
  * Concrete bytes correct; caller-only tu suggest-split has no viable cut.
  * lever: advance p itself before indexed store; random draw helper owns

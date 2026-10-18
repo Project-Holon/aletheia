@@ -11,8 +11,8 @@
  *
  * symbols:
  *   FIELD_EFFECT_GetResource  0x021ABEA0  thumb  ov021
- *   func_0209BDBC  0x0209BDBC  arm
- *   func_0209C95C  0x0209C95C  arm
+ *   _s32_to_float  0x0209BDBC  arm
+ *   __fadd  0x0209C95C  arm
  *   func_0209CB8C  0x0209CB8C  arm
  *   func_0209C494  0x0209C494  arm
  *   FIELD_EFFECT_AddObject  0x021ABFA8  thumb  ov021
@@ -31,8 +31,8 @@ extern u8 sFishingFuncs[];
 
 typedef unsigned int   u32;
 extern int FIELD_EFFECT_GetResource(u32 a, u32 b);
-extern int func_0209BDBC(int a);
-extern int func_0209C95C(int a, int b);
+extern int _s32_to_float(int a);
+extern int __fadd(int a, int b);
 extern int func_0209CB8C(int a, int b);
 extern int func_0209C494(int a);
 extern void FIELD_EFFECT_AddObject(int a, u8 *b, int c, int d, Arg *e, int f);
@@ -48,9 +48,9 @@ void FLDEFF_FISHING_Start(int a, V *b, int c, int d)
     s.v = *b;
     v = (t.b + d * 4)[c];
     if (v != 0) {
-        r = func_0209C95C(0x3f000000, func_0209BDBC(v << 12));
+        r = __fadd(0x3f000000, _s32_to_float(v << 12));
     } else {
-        r = func_0209CB8C(func_0209BDBC(v << 12), 0x3f000000);
+        r = func_0209CB8C(_s32_to_float(v << 12), 0x3f000000);
     }
     s.v.z +=func_0209C494(r);
     FIELD_EFFECT_AddObject(a, sFishingFuncs, 0, 0, &s, 0);

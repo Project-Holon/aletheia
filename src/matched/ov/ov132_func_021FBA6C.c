@@ -63,7 +63,7 @@
  *   CLACT_RestartActorAnim 0x0204B9A0 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   STA_ACTING_GetActorCount 0x021F9E0C thumb ov132
@@ -135,7 +135,7 @@
  *   STA_ACTING_GetRecordScore 0x021F9E20 thumb ov132
  *   STA_ACTING_GetBonus 0x021F9E34 thumb ov132
  *   STA_ACTING_SetField10 0x021F9E3C thumb ov132
- *   func_0209BDBC 0x0209BDBC arm
+ *   _s32_to_float 0x0209BDBC arm
  *   func_0209C494 0x0209C494 arm
  *   func_0209CB8C 0x0209CB8C arm
  *   func_0209CE10 0x0209CE10 arm
@@ -513,7 +513,7 @@ extern void STA_ACTING_RequestAction(char *p, int value);
 extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void CLACT_SetActorDrawEnable(struct Obj_021F9E40 *,unsigned int);
 extern void CLACT_AddActorSurfacePos(struct Obj_021F9E40 *p, const struct Vec2 *delta, u32 which);
-extern void func_020355D8(u8);
+extern void UI_SetInputMode(u8);
 extern int STA_ACTING_GetCurrentAction(char *p);
 extern u32 CLACT_GetActorDrawEnable(struct Obj_021F9E40 *p);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
@@ -577,7 +577,7 @@ extern void STA_ACT_LIGHT_SetActorAngle(int self, char *p, u16 v);
 extern u16 STA_ACTING_GetRecordScore(char *p, u32 i);
 extern u16 STA_ACTING_GetBonus(char *p, u32 i);
 extern void STA_ACTING_SetField10(char *p, u32 v);
-extern int func_0209BDBC(int a);
+extern int _s32_to_float(int a);
 extern u32 func_0209C494(u32 a);
 extern u32 func_0209CB8C(u32 a, u32 b);
 extern u32 func_0209CE10(u32 a, u32 b);
@@ -897,7 +897,7 @@ int SCRIPT_COMMAND_CmdCompareScores(int unused, Msg *m)
         c->f00 = o->f34;
         c->f0E = 0;
         c->f04 = STA_ACTING_GetCameraTarget((u8 *)o->f34);
-        f = func_0209BDBC((int)total / 4);
+        f = _s32_to_float((int)total / 4);
         f = func_0209CE10(f, 0x45800000);
         f = func_0209CB8C(f, 0x43000000);
         c->f08 = func_0209C494(f);

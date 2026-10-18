@@ -10,7 +10,7 @@
  * symbols:
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_02082A7C 0x02082A7C arm
+ *   MIi_CpuClear32 0x02082A7C arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
@@ -31,7 +31,7 @@ extern void BG_SYS_ClearMainPlanes(void);
 struct BgTemplate;
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_02082A7C(u32,void *,u32);
+extern void MIi_CpuClear32(u32,void *,u32);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_ClearSlot(u32);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32);
@@ -43,10 +43,10 @@ void WF2DMAP_SCENE_InitBg(void)
     SubTemplates sub;
     BG_SYS_ClearMainPlanes();
     BG_SYS_SetVramBanks((const struct DispVram *)d_021DA800);
-    func_02082A7C(0,(void *)0x06000000,0x80000);
-    func_02082A7C(0,(void *)0x06200000,0x20000);
-    func_02082A7C(0,(void *)0x06400000,0x40000);
-    func_02082A7C(0,(void *)0x06600000,0x20000);
+    MIi_CpuClear32(0,(void *)0x06000000,0x80000);
+    MIi_CpuClear32(0,(void *)0x06200000,0x20000);
+    MIi_CpuClear32(0,(void *)0x06400000,0x40000);
+    MIi_CpuClear32(0,(void *)0x06600000,0x20000);
     main=d_021DA638;
     BG_SYS_InitBgLayer(1,(const struct BgTemplate *)(&main.rows[0]),0);
     BG_SYS_InitBgLayer(2,(const struct BgTemplate *)(&main.rows[1]),0);

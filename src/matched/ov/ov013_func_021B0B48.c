@@ -24,7 +24,7 @@
  *   VCT_SESSION_ReadChannel  0x021B0904  arm  ov013
  *   VCT_DSP_MixSaturated  0x021B3624  arm  ov013
  *   VCT_DSP_SetEchoReference  0x021B33E0  arm  ov013
- *   func_02082AC0  0x02082AC0  arm
+ *   MIi_CpuClearFast  0x02082AC0  arm
  *   MIi_CpuClearFast  0x02082AC0  arm
  */
 
@@ -46,7 +46,7 @@ typedef signed short   s16;
 extern int VCT_SESSION_ReadChannel(void *dst, u32 size, u32 idx, u32 *mask);
 extern void VCT_DSP_MixSaturated(s16 *a, s16 *b, s16 *d, u32 len);
 extern void VCT_DSP_SetEchoReference(void *a, u32 b);
-extern void func_02082AC0(int x, void *a, u32 b);
+extern void MIi_CpuClearFast(int x, void *a, u32 b);
 extern void MIi_CpuClearFast(int x, void *a, u32 b);
 
 int VCT_SESSION_MixVoices(void *a, u32 b, int *out)
@@ -81,7 +81,7 @@ int VCT_SESSION_MixVoices(void *a, u32 b, int *out)
         }
     } else {
         ret = 0;
-        func_02082AC0(ret, a, b);
+        MIi_CpuClearFast(ret, a, b);
     }
 
     if (gVctSendState.f18 != 0)

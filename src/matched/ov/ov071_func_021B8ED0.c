@@ -11,7 +11,7 @@
  *
  * Tail call to MONOLITH_TOOL_DeleteBlink with the pointer advanced by 0x48.  The callee
  * is an unlabelled leaf in this overlay; it is reproduced in
- * src/matched/ov071_func_021B70B8.c, whose EXACT entry attests this pool-word
+ * src/matched/MONOLITH_TOOL_DeleteBlink.c, whose EXACT entry attests this pool-word
  * site (`matched`).
  *
  * symbols:

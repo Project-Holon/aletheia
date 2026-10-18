@@ -30,7 +30,7 @@
  *   MSGDATA_Delete 0x02045C04 arm
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   CURSOR_MOVE_GetState 0x020260F0 thumb
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   BOX2_SEQ_SetActorAutoAnim 0x021EBFCC thumb
  *   BOX2_SEQ_IsActorAnimActive 0x021EBFEC thumb
  *   BGWINFRM_GetPos 0x0202CF98 thumb
@@ -449,7 +449,7 @@ extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern u32 CURSOR_MOVE_GetState(struct Sound *obj);
 
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 
 extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
 
@@ -2659,12 +2659,12 @@ int BOX2_SEQ_StateWaitInput(BoxTask *p)
 {
     if (TOUCHPANEL_GetTrg() == 1) {
         GFL_USE_PlaySeDefaultVolume(0x54C);
-        func_020355D8(1);
+        UI_SetInputMode(1);
         return p->state;
     }
     if (KEY_GetTrg() & 3) {
         GFL_USE_PlaySeDefaultVolume(0x54C);
-        func_020355D8(0);
+        UI_SetInputMode(0);
         return p->state;
     }
     return 6;
@@ -3698,7 +3698,7 @@ int BOX2_SEQ_StateSwapFinish(BoxTask *p)
 
 
 /*
- * Sibling of src/matched/ov170_func_021E2650.c.  The image computes r + 0x1E
+ * Sibling of src/matched/BOX2_SEQ_StateBoxMenu.c.  The image computes r + 0x1E
  * separately for BOX2_MAIN_ChangeBoxFormPreserve and for the call after it; the (int) cast on
  * the first keeps the two expressions apart so they are not CSEd.
  */
@@ -4516,7 +4516,7 @@ int BOX2_SEQ_StateSwapMenuB(BoxTask *p)
 
 
 /*
- * Sibling of src/matched/ov170_func_021E2650.c and ov170_func_021E376C.c.
+ * Sibling of src/matched/BOX2_SEQ_StateBoxMenu.c and BOX2_SEQ_StateMoveMove.c.
  * The image computes r + 0x1E
  * separately for BOX2_MAIN_ChangeBoxFormPreserve and for the call after it; the (int) cast on
  * the first keeps the two expressions apart so they are not CSEd.
@@ -5739,7 +5739,7 @@ int BOX2_SEQ_StateSummaryD(BoxTask *p)
 
 
 /*
- * Sibling of src/matched/ov170_func_021E3E84.c.
+ * Sibling of src/matched/BOX2_SEQ_StateMoveInput.c.
  */
 int BOX2_SEQ_StateItemMenuF(BoxTask *p)
 {
@@ -6078,7 +6078,7 @@ int BOX2_SEQ_StatePlaceItem(BoxTask *p)
 
 
 /*
- * Sibling of src/matched/ov170_func_021E5E68.c and ov170_func_021E376C.c.
+ * Sibling of src/matched/BOX2_SEQ_StateItemMenuE.c and BOX2_SEQ_StateMoveMove.c.
  */
 int BOX2_SEQ_StateCursorMoveB(BoxTask *p)
 {
@@ -7748,9 +7748,9 @@ int BOX2_SEQ_GotoBox2MainWithSlot(BoxTask *p, int id, int lo, int arg)
 int BOX2_SEQ_GotoBox2Ui(BoxTask *p, unsigned char v)
 {
     if (CURSOR_MOVE_GetState(*(void **)(((char *)((BoxTask *)(p))->work) + 0x70)) == 1)
-        func_020355D8(0);
+        UI_SetInputMode(0);
     else
-        func_020355D8(1);
+        UI_SetInputMode(1);
     p->state = 9;
     p->pad_12 = v;
     return BOX2_SEQ_StartWipeBlack((void *)p, 1);
@@ -10337,7 +10337,7 @@ static inline void setup(Desc *dp, void **res)
 }
 
 /*
- * Sibling of src/matched/ov/ov170_func_021ED594.c: builds (or moves) the
+ * Sibling of src/matched/ov/BOX2_SEQ_MoveCursorActor.c: builds (or moves) the
  * eight frame pieces around window 10 while the count at 0xA16C is nonzero.
  * The index is an int compared against 8u (docs/idioms/a-signed-index-under-an-unsigned-bound-keeps-the-window-sum-uncached.md).
  */

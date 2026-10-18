@@ -11,7 +11,7 @@
  *
  * symbols:
  *   CURSOR_MOVE_GetState 0x020260F0 thumb
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   APP_TASKMENU_OpenMenu 0x02027778 thumb
  *   APP_TASKMENU_SetCursorPos 0x02027CFC thumb
  *
@@ -35,7 +35,7 @@ typedef struct {
 
 struct Sound;
 extern u32 CURSOR_MOVE_GetState(struct Sound *obj);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 struct TaskMenu;
 struct TaskMenuTmpl;
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
@@ -55,9 +55,9 @@ void BOX2_MAIN_OpenTaskMenu(unsigned char *p, int sel)
     t.w = 8;
     t.h = 3;
     if (CURSOR_MOVE_GetState(*(void **)(WORK(p) + 0x70)) == 1)
-        func_020355D8(0);
+        UI_SetInputMode(0);
     else
-        func_020355D8(1);
+        UI_SetInputMode(1);
     *(void **)(WORK(p) + 0x1A0) = APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&t), *(void **)(WORK(p) + 0x19C));
     APP_TASKMENU_SetCursorPos(*(void **)(WORK(p) + 0x1A0), sel);
 }

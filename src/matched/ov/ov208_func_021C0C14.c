@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   ov208_func_021BC3A4  0x021BC3A4  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_GetSource  0x021BC3A4  thumb  ov208
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   SYMBOL_MAP_ResolveZoneId  0x02166C7C  thumb
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int  ov208_func_021BC3A4(int key);
+extern int  ZUKAN_DETAIL_COMMON_GetSource(int key);
 struct SaveBlock;
 extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 struct Rec44;
@@ -37,7 +37,7 @@ u8 ZUKAN_DETAIL_AREA_FindPlayerTownIndex(u16 *heap, u8 *p, int key)
     int v;
     u8 r;
 
-    a = ov208_func_021BC3A4(key);
+    a = ZUKAN_DETAIL_COMMON_GetSource(key);
     m = GAME_DATA_GetPlayerZoneId((const struct Rec44 *)GAME_DATA_GetMyPlayerWork((struct SaveBlock *)a));
     r = 0xff;
     v = TOWNMAP_GRH_FindRecordIndex(((struct Obj25500 *)p)->f3C8, SYMBOL_MAP_ResolveZoneId(a, m));

@@ -16,7 +16,7 @@
  *   VIEWER_ACTOR_FindNearestPreset  0x021C7EF8  thumb
  *   VIEWER_ACTOR_ToggleFavorite  0x021C8078  thumb
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   d_021C88B4  0x021C88B4  data
  *
  * Addresses are Black-image addresses.
@@ -103,7 +103,7 @@ extern void VIEWER_ACTOR_FlushBgWindow(Work *p);
 extern int VIEWER_ACTOR_FindNearestPreset(int v);
 extern void VIEWER_ACTOR_ToggleFavorite(Work *p);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern const int d_021C88B4[8];
 
 void VIEWER_ACTOR_SelectActor(Work *p, int sel, int flag)
@@ -169,9 +169,9 @@ void VIEWER_ACTOR_SelectActor(Work *p, int sel, int flag)
         p->f110 = sel;
         CLACT_SetActorAnimSeq(p->f50, 9);
         if (flag) {
-            func_020355D8(0);
+            UI_SetInputMode(0);
         } else {
-            func_020355D8(1);
+            UI_SetInputMode(1);
         }
         return;
     }

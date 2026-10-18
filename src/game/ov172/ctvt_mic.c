@@ -17,7 +17,7 @@
  *   GFL_NET_AllocAligned 0x0203D7C8 arm
  *   GFL_NET_FreeAligned  0x0203D7FC  arm
  *   GFL_HEAP_Free  0x020307B0  arm
- *   func_02082A7C 0x02082A7C arm
+ *   MIi_CpuClear32 0x02082A7C arm
  *   SAVEDATA_PanicFail 0x02034714 arm
  *   CTVT_MIC_Create 0x021B9F9C thumb ov172
  *   CTVT_MIC_Delete 0x021BA01C thumb ov172
@@ -90,7 +90,7 @@ extern void *GFL_NET_AllocAligned(u32 heap, u32 size, const char *file, u16 line
 
 extern void GFL_NET_FreeAligned(void *);
 
-extern void func_02082A7C();
+extern void MIi_CpuClear32();
 
 extern void MIC_Init(void);
 
@@ -213,7 +213,7 @@ int CTVT_MIC_StartCapture(CtvtMic *mic)
     param.type = 3;
     param.size = 51200;
     param.buffer = mic->buffer;
-    func_02082A7C(0, param.buffer, param.size);
+    MIi_CpuClear32(0, param.buffer, param.size);
     if (param.size & 31) param.size &= ~31;
     param.callback = CTVT_MIC_OnCaptureComplete;
     param.loop = 0;
@@ -310,7 +310,7 @@ int CTVT_MIC_EncodeAdpcm(int unused, void *a, void *buf, unsigned n)
 
 int CTVT_MIC_DecodeAdpcm(int unused, int a, void *buf, unsigned n)
 {
-    func_02082A7C(0, buf, n << 2);
+    MIi_CpuClear32(0, buf, n << 2);
     return CTVT_ADPCM_Decode(a, (int)n, (int)buf);
 }
 

@@ -62,7 +62,7 @@
  *   KEY_GetTrg 0x020362DC arm
  *   KEY_GetCont 0x0203630C arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   func_02034714 0x02034714 arm
  *   d_021BAAFC 0x021BAAFC data a4
  *   d_021BABFC 0x021BABFC data a4
@@ -98,7 +98,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern int MONOLITH_TOOL_SetCursor(u8 *p, int i, int v);
 extern int TOUCHPANEL_HitTrg(const void *);
 extern void MONOLITH_TOOL_StartBlink(void *);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern void MONOLITH_TOOL_ProcessListInput(void *,void *);
 extern void MONOLITH_TOOL_ClearPrevHighlight(char *p);
 extern int MONOLITH_TOOL_ScrollBy(u8 *p, int d);
@@ -168,8 +168,8 @@ int MONOLITH_TOOL_LIST_Main(int unused,int *state,u8 *c,u8 *o)
         mask=KEY_GetTrg(); active=TOUCHPANEL_HitTrg(d_021BAAFC);
         if (active==0 || (mask&2)) {
             MONOLITH_TOOL_StartBlink(o+0x298);
-            if (active==0) func_020355D8(TRUE);
-            else func_020355D8(FALSE);
+            if (active==0) UI_SetInputMode(TRUE);
+            else UI_SetInputMode(FALSE);
             GFL_USE_PlaySeDefaultVolume(0x551); *state=17; break;
         }
         MONOLITH_TOOL_ProcessListInput(c,o); MONOLITH_TOOL_ClearPrevHighlight((char *)o);

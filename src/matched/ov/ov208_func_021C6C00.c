@@ -19,7 +19,7 @@
  *   ZUKAN_DETAIL_FORM_GetEntryIndex  0x021C6E60  thumb
  *   ZUKAN_DETAIL_FORM_RebuildSideModels  0x021C5C64  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  */
 
 typedef unsigned char  u8;
@@ -38,7 +38,7 @@ extern u16  ZUKAN_DETAIL_FORM_GetScrollSlotAtX(u16 n, u8 x);
 extern u16  ZUKAN_DETAIL_FORM_GetEntryIndex(void *a0, u8 *p, int key, u16 skip, u16 want);
 extern void ZUKAN_DETAIL_FORM_RebuildSideModels(void *a0, u8 *p, int key);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 
 #define W(o) (*(u32 *)(p + (o)))
 #define H(o) (*(u16 *)(p + (o)))
@@ -82,6 +82,6 @@ u32 ZUKAN_DETAIL_FORM_HandleScrollTouch(void *a0, u8 *p, int key)
     if (moved)
         GFL_USE_PlaySeDefaultVolume(0x645);
     if (W(0x69c) != 0)
-        func_020355D8(1);
+        UI_SetInputMode(1);
     return W(0x69c);
 }

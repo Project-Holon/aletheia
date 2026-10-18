@@ -10,7 +10,7 @@
  * note 2026-10-05: re-run, bytes identical to the original; the only unresolved relocation is the BL to arm9 0x0200B98C (Thumb, 64 bytes, no code-start label, no asm/arm9 witness). Integrator: seed a label at 0x0200B98C; no source change needed.
  * lever: decode each callback literal from its actual PC-relative pool slot; repeated shared loads obscure distinct callback targets.
  * blocker: ARM9 0200B98C lacks outside code-start witness, call +00B6 wildcard; TU --suggest-split leaves caller out.
- * blocker-C: copied prior verified Thumb EXACT from ov183_func_021DF838.c header, blocker-r2.log; table 0x0209DDCC data a4.
+ * blocker-C: copied prior verified Thumb EXACT from BR_CODEIN_SearchBuildHeader.c header, blocker-r2.log; table 0x0209DDCC data a4.
  * typedef unsigned char u8;
  * typedef unsigned short u16;
  * typedef unsigned long long u64;

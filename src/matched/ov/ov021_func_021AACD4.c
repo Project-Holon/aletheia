@@ -15,8 +15,8 @@
  *   FIELD_G3D_MAPPER_GetFocusSlot  0x0218D168  thumb  ov021
  *   FIELD_G3D_MAPPER_CheckSlotReady  0x0218DBD4  thumb  ov021
  *   EFFECT_ENCOUNT_MakeSearchArea  0x021AABF4  thumb  ov021
- *   func_0209BDBC  0x0209BDBC  arm
- *   func_0209C95C  0x0209C95C  arm
+ *   _s32_to_float  0x0209BDBC  arm
+ *   __fadd  0x0209C95C  arm
  *   func_0209CB8C  0x0209CB8C  arm
  *   func_0209C494  0x0209C494  arm
  *   FIELD_G3D_MAPPER_QuerySlotPlane  0x0218DBAC  thumb  ov021
@@ -76,8 +76,8 @@ extern int FIELD_G3D_MAPPER_GetFocusSlot(char *p);
 extern int FIELD_G3D_MAPPER_CheckSlotReady(char *p, int i);
 struct Ctx;
 extern void EFFECT_ENCOUNT_MakeSearchArea(struct Ctx *ctx, void *unused, struct Area *a);
-extern int func_0209BDBC(int a);
-extern int func_0209C95C(int a, int b);
+extern int _s32_to_float(int a);
+extern int __fadd(int a, int b);
 extern int func_0209CB8C(int a, int b);
 extern int func_0209C494(int a);
 extern int FIELD_G3D_MAPPER_QuerySlotPlane(u8 *a, int idx, u32 c, u8 *d);
@@ -105,14 +105,14 @@ void EFFECT_ENCOUNT_CollectCandidates(void **ctx, struct Enc *e)
     EFFECT_ENCOUNT_MakeSearchArea((struct Ctx *)ctx, e, &a);
     y = a.y0;
     if ((y << 4) > 0)
-        r = func_0209C95C(0x3f000000, func_0209BDBC(y << 16));
+        r = __fadd(0x3f000000, _s32_to_float(y << 16));
     else
-        r = func_0209CB8C(func_0209BDBC(y << 16), 0x3f000000);
+        r = func_0209CB8C(_s32_to_float(y << 16), 0x3f000000);
     v.z = func_0209C494(r) + 0x8000;
     if ((a.x0 << 4) > 0)
-        r = func_0209C95C(0x3f000000, func_0209BDBC(a.x0 << 16));
+        r = __fadd(0x3f000000, _s32_to_float(a.x0 << 16));
     else
-        r = func_0209CB8C(func_0209BDBC(a.x0 << 16), 0x3f000000);
+        r = func_0209CB8C(_s32_to_float(a.x0 << 16), 0x3f000000);
     xs = func_0209C494(r) + 0x8000;
     for (; y <= a.y1; y++) {
         v.x = xs;

@@ -12,7 +12,7 @@
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   ov208_func_021BC3C0 0x021BC3C0 thumb ov208
+ *   ZUKAN_DETAIL_COMMON_GetCurrentEntry 0x021BC3C0 thumb ov208
  *   func_02045EC0 0x02045EC0 arm
  *   func_0201D304 0x0201D304 thumb
  *   BMP_GetWidth 0x020437DC arm
@@ -49,7 +49,7 @@ extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void *BMP_WIN_GetBmp(struct Descriptor *d);
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern u16 ov208_func_021BC3C0(int key);
+extern u16 ZUKAN_DETAIL_COMMON_GetCurrentEntry(int key);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
@@ -81,7 +81,7 @@ void ZUKAN_DETAIL_FORM_DrawSpeciesLabels(u16 *heap, struct Ov208Menu *p, int key
         PRINTSYS_QUE_Clear((struct PrintSys *)p->print[i]);
         BMP_Clear(BMP_WIN_GetBmp(p->win[i]), 0);
     }
-    species = ov208_func_021BC3C0(key);
+    species = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
     bmp = BMP_WIN_GetBmp(p->win[0]);
     text = func_02045EC0(data_020A7370, species);
     width = func_0201D304(text, p->font, 0);

@@ -23,7 +23,7 @@
  *   func_021BDBAC  0x021BDBAC  thumb
  *   ZUKAN_DETAIL_FORM_SelectModelPosition  0x021C80AC  thumb
  *   MCSS_SetPosition  0x02015C48  thumb
- *   func_021BDAAC  0x021BDAAC  thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_SetMode  0x021BDAAC  thumb
  *   func_021BDBEC  0x021BDBEC  thumb
  *   func_021BE82C  0x021BE82C  thumb
  *   func_021BDBA0  0x021BDBA0  thumb
@@ -57,7 +57,7 @@ extern void ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(void *s, u32 on);
 extern void func_021BDBAC(void *s, int v);
 extern void ZUKAN_DETAIL_FORM_SelectModelPosition(int a, int b, int c);
 extern void MCSS_SetPosition(void *p, u32 *src);
-extern void func_021BDAAC(void *s, u32 mode, u32 kind, u32 flag);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetMode(void *s, u32 mode, u32 kind, u32 flag);
 extern void func_021BDBEC(void *s, int v);
 extern void func_021BE82C(void *icon, int kind);
 extern void func_021BDBA0(void *s);
@@ -139,7 +139,7 @@ void ZUKAN_DETAIL_FORM_HandleStateEvent(void *a0, u8 *p, void *ctx, int ev)
                     MCSS_SetPosition((void *)W(0xd8), (u32 *)(&v));
                 }
             }
-            func_021BDAAC(scene, 2, 3, func_021BC3BC(ctx) > 1);
+            ZUKAN_DETAIL_TOUCHBAR_SetMode(scene, 2, 3, func_021BC3BC(ctx) > 1);
             if (H(0x548) >= 3)
                 func_021BDBEC(scene, 1);
             else
@@ -197,7 +197,7 @@ void ZUKAN_DETAIL_FORM_HandleStateEvent(void *a0, u8 *p, void *ctx, int ev)
                     MCSS_SetPosition((void *)W(0xd8), (u32 *)(&v2));
                 }
             }
-            func_021BDAAC(scene, 0, 3, func_021BC3BC(ctx) > 1);
+            ZUKAN_DETAIL_TOUCHBAR_SetMode(scene, 0, 3, func_021BC3BC(ctx) > 1);
             ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scene, GAME_DATA_CheckSaveFlag(ZUKAN_DETAIL_COMMON_GetSource(ctx), 0x14));
             func_021BE82C(icon, 3);
             if (H(0x548) >= 2) {

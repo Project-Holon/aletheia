@@ -12,7 +12,7 @@
  *   POKETRADE_PROC_IsNetSession 0x021D8A24 thumb ov119
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   POKETRADE_SAVE_CloseMessageWindowClear 0x021E1098 thumb ov119
  *   POKETRADE_SAVE_OpenMessageWindowTop 0x021E1024 thumb ov119
  *   POKETRADE_SAVE_ShowTimeIcon 0x021E1030 thumb ov119
@@ -29,7 +29,7 @@ extern int POKETRADE_PROC_IsNetSession(void *);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 typedef unsigned char  u8;
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern void POKETRADE_SAVE_CloseMessageWindowClear(char *p);
 extern void POKETRADE_SAVE_OpenMessageWindowTop(void *);
 extern void POKETRADE_SAVE_ShowTimeIcon(char *p);
@@ -38,8 +38,8 @@ extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void POKETRADE_PROC_SetStep(void *,int);
 extern void POKETRADE_PROC_StepWaitMessageThenClear(void *);
 extern void POKETRADE_PROC_StepResetGrid(char *p);
-static inline int poll_a(void) {int r=KEY_GetTrg();if(r)func_020355D8(0);return r;}
-static inline int poll_b(void) {int r=TOUCHPANEL_GetTrg();if(r)func_020355D8(1);return r;}
+static inline int poll_a(void) {int r=KEY_GetTrg();if(r)UI_SetInputMode(0);return r;}
+static inline int poll_b(void) {int r=TOUCHPANEL_GetTrg();if(r)UI_SetInputMode(1);return r;}
 void POKETRADE_PROC_StepShowWaitMessageA(char *p) {
  if(POKETRADE_SAVE_IsMessagePrintDone(p)) {
   if(poll_a() || poll_b()) {

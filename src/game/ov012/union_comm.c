@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Cut from union_comm.c, unit_0217422C.c, colosseum.c, ov012_func_02175358.c by tools/splitfile.py.
+ * Cut from union_comm.c, unit_0217422C.c, colosseum.c, COLOSSEUM_SetupBattleMember.c by tools/splitfile.py.
  *
  * symbols:
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm

@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Sibling of src/matched/ov170_func_021E0ABC.c.
+ * Sibling of src/matched/BOX2_MAIN_StateMachineCoin.c.
  *
  * symbols:
  *   BOX2_SEQ_SetActorAffineMode 0x021ED108 thumb

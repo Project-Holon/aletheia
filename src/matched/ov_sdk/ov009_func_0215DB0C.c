@@ -14,7 +14,7 @@
  * symbols:
  *   CPS_SocRead  0x0215AEB0  arm  ov009
  *   OS_Sleep  0x02085A38  arm
- *   func_02082EA4  0x02082EA4  arm
+ *   MI_CpuCopy  0x02082EA4  arm
  *   CPS_SocConsume  0x0215B064  arm  ov009
  *   func_0215D92C  0x0215D92C  arm  ov009
  *   SOCLi_ConsumeCPSBuffer  0x0215DD88  arm  ov009
@@ -52,7 +52,7 @@ struct SOCLiCommandRead {
 
 extern unsigned char *CPS_SocRead(unsigned long *len);
 extern void OS_Sleep(unsigned long msec);
-extern void func_02082EA4(void *srcp, void *destp, unsigned long size);
+extern void MI_CpuCopy(void *srcp, void *destp, unsigned long size);
 extern void CPS_SocConsume(unsigned long len);
 extern int func_0215D92C(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
                          unsigned long *remote_ip);
@@ -106,7 +106,7 @@ static int func_0215DB0C(void *arg)
             return 0;
         if (buffer_len > cpsbuffer_len)
             buffer_len = cpsbuffer_len;
-        func_02082EA4(cpsbuffer, buffer, buffer_len);
+        MI_CpuCopy(cpsbuffer, buffer, buffer_len);
         CPS_SocConsume(buffer_len);
         return buffer_len;
     }

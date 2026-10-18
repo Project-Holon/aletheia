@@ -59,7 +59,7 @@
  *   tbl_02203270   0x02203270  data  a1
  *   tbl_022032FE   0x022032FE  data  a1
  *   tbl_02203284   0x02203284  data  a1
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   KEY_GetRepeat  0x0203633C  arm
  *   tbl_02203348   0x02203348  data  a1
  *   tbl_022032C6   0x022032C6  data  a1
@@ -179,7 +179,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern u32 KEY_GetTrg(void);
 extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 extern u32 BMP_MENUWORK_Delete(void *p);
@@ -560,7 +560,7 @@ int WORLDTRADE_INPUT_UpdateCategoryGrid(Menu *p, u8 *enable)
     }
     if (KEY_GetTrg() != 0 && UI_GetInputMode() == 1) {
         CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)p->cursor), 1);
-        func_020355D8(0);
+        UI_SetInputMode(0);
         GFL_USE_PlaySeDefaultVolume(0x548);
         return -1;
     }
@@ -615,7 +615,7 @@ int WORLDTRADE_INPUT_UpdateCategoryGrid(Menu *p, u8 *enable)
         if (ret == -1 && UI_GetInputMode() == 0) {
             CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)p->cursor), 0);
         }
-        func_020355D8(1);
+        UI_SetInputMode(1);
         return ret;
     }
     if (KEY_GetTrg() & 1) {
@@ -677,7 +677,7 @@ int WORLDTRADE_INPUT_UpdateButtonRow(Menu *p, int base)
     }
     if (KEY_GetTrg() != 0 && UI_GetInputMode() == 1) {
         CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)p->cursor), 1);
-        func_020355D8(0);
+        UI_SetInputMode(0);
         GFL_USE_PlaySeDefaultVolume(0x548);
         return -1;
     }
@@ -724,7 +724,7 @@ int WORLDTRADE_INPUT_UpdateButtonRow(Menu *p, int base)
                 CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)p->cursor), 0);
             }
         }
-        func_020355D8(1);
+        UI_SetInputMode(1);
         return r;
     }
     if (KEY_GetTrg() & 1) {
@@ -828,7 +828,7 @@ int WORLDTRADE_INPUT_UpdatePagedList4(Menu *m)
     old = m->pos;
     if (KEY_GetTrg() != 0 && UI_GetInputMode() == 1) {
         CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)m->cursor), 1);
-        func_020355D8(0);
+        UI_SetInputMode(0);
         GFL_USE_PlaySeDefaultVolume(0x548);
         return -1;
     }
@@ -873,7 +873,7 @@ int WORLDTRADE_INPUT_UpdatePagedList4(Menu *m)
         if (r == -1 && UI_GetInputMode() == 0) {
             CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)m->cursor), 0);
         }
-        func_020355D8(1);
+        UI_SetInputMode(1);
         return r;
     }
     if (KEY_GetTrg() & 1) {
@@ -896,7 +896,7 @@ int WORLDTRADE_INPUT_UpdateThreeOptionMenu(Menu *p)
 
     if (KEY_GetTrg() != 0 && UI_GetInputMode() == 1) {
         CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)p->cursor), 1);
-        func_020355D8(0);
+        UI_SetInputMode(0);
         GFL_USE_PlaySeDefaultVolume(0x548);
         return -1;
     }
@@ -924,7 +924,7 @@ int WORLDTRADE_INPUT_UpdateThreeOptionMenu(Menu *p)
     }
     r = WORLDTRADE_INPUT_CheckTouch(p, 1);
     if (r != -1) {
-        func_020355D8(1);
+        UI_SetInputMode(1);
         WORLDTRADE_SetActorPos(p->cursor, tbl_0220320E[r].x, tbl_0220320E[r].y);
         if (r == 3) {
             CLACT_SetActorAnimSeq((struct Obj *)((struct Obj *)p->cursor), 5);
@@ -1015,7 +1015,7 @@ int WORLDTRADE_INPUT_UpdatePagedList4Alt(Menu *m)
     old = m->pos;
     if (KEY_GetTrg() != 0 && UI_GetInputMode() == 1) {
         CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)m->cursor), 1);
-        func_020355D8(0);
+        UI_SetInputMode(0);
         GFL_USE_PlaySeDefaultVolume(0x548);
         return -1;
     }
@@ -1060,7 +1060,7 @@ int WORLDTRADE_INPUT_UpdatePagedList4Alt(Menu *m)
         if (r == -1 && UI_GetInputMode() == 0) {
             CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)m->cursor), 0);
         }
-        func_020355D8(1);
+        UI_SetInputMode(1);
         return r;
     }
     if (KEY_GetTrg() & 1) {
@@ -1109,7 +1109,7 @@ int WORLDTRADE_INPUT_UpdateCategoryGridAlt(Menu *p, u8 *enable)
     }
     if (KEY_GetTrg() != 0 && UI_GetInputMode() == 1) {
         CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)p->cursor), 1);
-        func_020355D8(0);
+        UI_SetInputMode(0);
         GFL_USE_PlaySeDefaultVolume(0x548);
         return -1;
     }
@@ -1176,7 +1176,7 @@ int WORLDTRADE_INPUT_UpdateCategoryGridAlt(Menu *p, u8 *enable)
         if (r == -1 && UI_GetInputMode() == 0) {
             CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)p->cursor), 0);
         }
-        func_020355D8(1);
+        UI_SetInputMode(1);
         return r;
     }
     if (KEY_GetTrg() & 1) {
@@ -1263,7 +1263,7 @@ int WORLDTRADE_INPUT_UpdatePagedList5(Menu *m)
     old = m->pos;
     if (KEY_GetTrg() != 0 && UI_GetInputMode() == 1) {
         CLACT_SetActorDrawEnable((struct Obj *)m->cursor, 1);
-        func_020355D8(0);
+        UI_SetInputMode(0);
         GFL_USE_PlaySeDefaultVolume(0x548);
         return -1;
     }
@@ -1308,7 +1308,7 @@ int WORLDTRADE_INPUT_UpdatePagedList5(Menu *m)
         if (r == -1 && UI_GetInputMode() == 0) {
             CLACT_SetActorDrawEnable((struct Obj *)m->cursor, 0);
         }
-        func_020355D8(1);
+        UI_SetInputMode(1);
         return r;
     }
     if (KEY_GetTrg() & 1) {

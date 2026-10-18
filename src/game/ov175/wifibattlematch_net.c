@@ -4086,7 +4086,7 @@ void WIFIBATTLEMATCH_NET_CompStepB(u32 sys,int *state,u32 *comp)
 /*
  * note: The listing stops at the epilogue label 021D76B8; the full body
  *       ends at 021D76D4 after its epilogue and pools, followed by our
- *       separately matched ov175_func_021D76D4.c.
+ *       separately matched WIFIBATTLEMATCH_NET_CompStepD.c.
  * lever: Enum context offset keeps 0x104 in r7; reload aux by literal 0x108.
  *        Distinct Request locals preserve the three eight-byte stack objects.
  *        The masked byte decrement is spelled as addition of 0xfc.
@@ -6038,7 +6038,7 @@ int WIFIBATTLEMATCH_NET_GetSetCompStat(char *obj, u32 *rec)
  * lever: u16 heap fixes allocator spill order; 02009860 leaves r0 live,
  *   and caller stores that return word despite the callee's void declaration.
  * note 2026-10-04 (lane 20, D2): leaf WIFIBATTLEMATCH_NET_GetDownloadSize is now filed EXACT as
- * src/matched/ov/ov175_func_021DC5F8.c (24 bytes). The tool still says "no witness" for it until
+ * src/matched/ov/WIFIBATTLEMATCH_NET_GetDownloadSize.c (24 bytes). The tool still says "no witness" for it until
  * the integrator runs the manifest. The other blocker, ARM9 GFL_NET_SetWaitMode (veneer-like 12-byte
  * tail call), is the arm9 label lane's. Body is byte-correct; expect EXACT after manifest + label.
  */
@@ -7826,7 +7826,7 @@ void WIFIBATTLEMATCH_NET_SetupGdbUpload(u8 *ctx,u32 mode,struct Record *src)
 
 /*
  * lever: PC-relative slot audit binds error/cancel/timeout lines to 0x11a0,0x11be,0x11ca; fixing source constants removes three pool-byte mismatches.
- * extent: existing matched ov175_func_021DBFA4.c covers the final16 bytes; keep this504-byte lead alone.
+ * extent: existing matched WIFIBATTLEMATCH_NET_GdbClearRecord.c covers the final16 bytes; keep this504-byte lead alone.
  * prototype: Setters retain caller-loaded line in r2; shutdown receives live entry r0 in case 4 despite its unused parameter.
  */
 int WIFIBATTLEMATCH_NET_GdbUpdateRecord(char *ctx)
@@ -8372,7 +8372,7 @@ void WIFIBATTLEMATCH_NET_CreateHttpRap(char *ctx,unsigned heap)
 /*
  * checks: 1 copied own ov114/DC610 signatures and ARM9 blocker input reads; 2 existing DC8A0 Pair twin used; 3 Pair replaces scalar two-word copy; 4 aggregate-copy idioms applied; 5 fresh directory and ov175 neighbours read. Caller TU MATCH has no viable split; only ARM90200FB4C blocks it.
  * lever: Pair aggregate assignment fixes all four payload-copy register bytes; TU --suggest-split confirms MATCH, no viable cut.
- * extent: lead 292 bytes; following 20-byte DC8A0 is already B7's src/matched/ov/ov175_func_021DC8A0.c.
+ * extent: lead 292 bytes; following 20-byte DC8A0 is already B7's src/matched/ov/WIFIBATTLEMATCH_NET_GetRapPair.c.
  */
 int WIFIBATTLEMATCH_NET_HttpRapProcess(u8 *ctx)
 {

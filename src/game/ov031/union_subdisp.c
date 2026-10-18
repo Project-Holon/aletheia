@@ -58,7 +58,7 @@
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
- *   func_02082A7C  0x02082A7C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
  *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm
  *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm
  *   BG_SYS_GetBuf  0x0204162C  arm
@@ -168,7 +168,7 @@ extern void PRINTSYS_QUE_Clear(struct PrintSys *printSys);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *printSys);
 extern u32 CLACT_DeleteUnit(struct ClactUnit *unit);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_02082A7C(u32 fill, void *dst, u32 size);
+extern void MIi_CpuClear32(u32 fill, void *dst, u32 size);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
 extern u32 BG_SYS_GetBuf(int channel);
@@ -541,7 +541,7 @@ void UNION_SUBDISP_InitBgs(UnionSubdispWork *work, void *archive)
     BG_SYS_InitBgLayer(5, (const struct BgTemplate *)sUnionSubdispBgTemplate5, 0);
     BG_SYS_InitBgLayer(6, (const struct BgTemplate *)sUnionSubdispBgTemplate6, 0);
     BG_SYS_InitBgLayer(7, (const struct BgTemplate *)sUnionSubdispBgTemplate7, 0);
-    func_02082A7C(0, UNION_SUBDISP_VRAM_SUB_BG, 0x20000);
+    MIi_CpuClear32(0, UNION_SUBDISP_VRAM_SUB_BG, 0x20000);
     REG_DB_DISPCNT_SUB &= 0xFFFF1FFF;
     REG_DB_BLDCNT_SUB = 0;
     ARC_UTIL_UploadBgCharFromHandle(archive, 0xF, 7, 0, 0, 0, UNION_SUBDISP_HEAP_ID);

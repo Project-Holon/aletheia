@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT*
- * extent: 28-byte lead followed by existing matched ov010_func_0215788C.c.
+ * extent: 28-byte lead followed by existing matched DELIVERY_BEACON_OnSessionStarted.c.
  * symbols:
  *   GFL_NET_BeaconScanStart 0x0203D010 arm
  *   DELIVERY_BEACON_SetStepAtLine 0x021576C4 thumb ov010

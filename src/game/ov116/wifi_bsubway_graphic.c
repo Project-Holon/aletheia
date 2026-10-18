@@ -425,7 +425,7 @@ void WIFI_BSUBWAY_GRAPHIC_StartSaveProc(struct WifiBsubwayWork *p) {
 
 
 /*
- * extent: two-byte zero alignment padding, then already matched getter ov116_func_021D73D4.c.
+ * extent: two-byte zero alignment padding, then already matched getter WIFI_BSUBWAY_GRAPHIC_GetSaveState.c.
  */
 void WIFI_BSUBWAY_GRAPHIC_Noop(void *a0) { }
 

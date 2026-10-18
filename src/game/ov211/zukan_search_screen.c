@@ -67,7 +67,7 @@
  *   ZUKAN_StartWipeIn 0x021C93A8 thumb ov212
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   TOUCHPANEL_GetCont   0x02035C38  arm
- *   func_020355D8   0x020355D8  arm
+ *   UI_SetInputMode   0x020355D8  arm
  *   KEY_GetTrg   0x020362DC  arm
  *   ZUKAN_StartWipeOut   0x021C93C4  thumb ov212
  *   sound 0x020061E4 thumb
@@ -141,7 +141,7 @@ extern void ZUKAN_StartWipeIn(unsigned);
 extern void ZUKAN_SEARCH_SCREEN_UnregisterVBlank(struct ZukanSearchWork *),ZUKAN_SEARCH_SCREEN_DeleteBg(void),BG_SYS_SetMainVisiblePlanes(unsigned),BG_SYS_SetSubVisiblePlanes(unsigned);
 extern unsigned WIPE_SYS_EndCheck(void);
 extern int  TOUCHPANEL_GetCont(void);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern u32 KEY_GetTrg(void);
 extern void ZUKAN_StartWipeOut(u32 heap);
 extern void sound(int);
@@ -327,22 +327,22 @@ int ZUKAN_SEARCH_SCREEN_HandleInput(struct ZukanSearchWork *p)
         return 5;
     p->counter = p->counter + 1;
     if (TOUCHPANEL_GetCont() == 1) {
-        func_020355D8(1);
+        UI_SetInputMode(1);
         return 5;
     }
     if (KEY_GetTrg() & 1) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         return 5;
     }
     if (KEY_GetTrg() & 2) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         v = 0;
         p->owner->state = v;
         ZUKAN_StartWipeOut(0x7E);
         return 3;
     }
     if (KEY_GetTrg() & 0x400) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         p->owner->state = v;
         ZUKAN_StartWipeOut(0x7E);
         return 3;

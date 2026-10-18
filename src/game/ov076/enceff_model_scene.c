@@ -18,7 +18,7 @@
  * the f38 test is what loads it ahead of the compare (3 lines otherwise).
  * blocker:
  *   0x02047888 arm9 ARM, verified EXACT (--arm, no --region) by the ov021
- *   FLDEFF_BUBBLE_Update lane; copied from src/pending/ov/ov021_func_021D0750.c:
+ *   FLDEFF_BUBBLE_Update lane; copied from src/pending/ov/FLDEFF_BUBBLE_Update.c:
  *     typedef unsigned short u16;
  *     int G3D_SYSTEM_GetObjectAnimeFrameMax(int *a, int idx, int *out) {
  *         int *p = ((int **)a[2])[idx];

@@ -93,7 +93,7 @@
  *   d_021F33AC     0x021F33AC  data  a4
  *   d_021F336C     0x021F336C  data  ov029  a4
  *   G2x_SetBlendAlpha_ 0x0207D63C arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   BG_SYS_DeleteHalf  0x0203FB44  arm
@@ -293,7 +293,7 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type
 extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 extern void BG_SYS_SetTileEntry(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 extern void G2x_SetBlendAlpha_(u32, int, int, int, int);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern u32 TOUCHPANEL_GetPointCont(int *outX, int *outY);
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern int C_GEAR_IsAnyIndicatorShown(CGearWork *work);
@@ -1767,7 +1767,7 @@ void C_GEAR_StartFadeIn(CGearWork *work)
 
 
 /*
- * extent: followed by existing ov029_func_021F1000.c.
+ * extent: followed by existing C_GEAR_GetFadeRequestBits.c.
  */
 void C_GEAR_StopFade(CGearWork *work)
 {
@@ -2211,7 +2211,7 @@ void C_GEAR_HandleButton(CGearWork *work, int key)
         return;
     if (work->command != 0)
         return;
-    func_020355D8(1);
+    UI_SetInputMode(1);
     switch (key) {
     case 0:
         TOUCHPANEL_GetPointCont(&touchX, &touchY);

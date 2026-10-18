@@ -13,7 +13,7 @@
  *   G3D_SYSTEM_CreateObject  0x0204767C  arm
  *   G3D_SYSTEM_EnableObjectAnime  0x020477A4  arm
  *
- * Lever: G3D_SYSTEM_CreateObject takes three arguments (see ov019_func_0217FA10); the
+ * Lever: G3D_SYSTEM_CreateObject takes three arguments (see UNION_EFF_CreateAnimObj); the
  * third is b->f88, which is what keeps the loop bound in r2.
  */
 typedef unsigned char u8;

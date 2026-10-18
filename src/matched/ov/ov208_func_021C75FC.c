@@ -15,7 +15,7 @@
  *   MCSS_GetPosition        0x02015C30  thumb
  *   MCSS_SetPosition        0x02015C48  thumb
  *   ZUKAN_DETAIL_FORM_HandleStateEvent  0x021C5F34  thumb
- *   func_021C7D80        0x021C7D80  thumb
+ *   ZUKAN_DETAIL_FORM_SwapItems        0x021C7D80  thumb
  *   ZUKAN_DETAIL_FORM_SignalAnimDone        0x021C5200  thumb
  *   func_021C5CF0        0x021C5CF0  thumb
  *   func_021C4E54        0x021C4E54  thumb
@@ -59,7 +59,7 @@ extern void ZUKAN_DETAIL_FORM_SelectModelPosition(int a, int b, int c);
 extern void MCSS_GetPosition(void *p, u32 *out);
 extern void MCSS_SetPosition(void *p, u32 *src);
 extern void ZUKAN_DETAIL_FORM_HandleStateEvent(void *a0, u8 *p, void *ctx, int ev);
-extern void func_021C7D80(void *a0, u8 *p, void *ctx);
+extern void ZUKAN_DETAIL_FORM_SwapItems(void *a0, u8 *p, void *ctx);
 extern void ZUKAN_DETAIL_FORM_SignalAnimDone(int *p);
 extern void func_021C5CF0(void *a0, u8 *p, void *ctx);
 extern void func_021C4E54(void *a0, u8 *p, void *ctx);
@@ -136,7 +136,7 @@ void ZUKAN_DETAIL_FORM_UpdateSlideRight(void *a0, u8 *p, void *ctx)
     } else if (W(0x6c4) == 2) {
         sh = 0;
         ZUKAN_DETAIL_FORM_HandleStateEvent(a0, p, ctx, 0);
-        func_021C7D80(a0, p, ctx);
+        ZUKAN_DETAIL_FORM_SwapItems(a0, p, ctx);
         ZUKAN_DETAIL_FORM_SignalAnimDone((int *)(p + 0x94));
         ZUKAN_DETAIL_FORM_SignalAnimDone((int *)(p + 0xd8));
         func_021C5CF0(a0, p, ctx);

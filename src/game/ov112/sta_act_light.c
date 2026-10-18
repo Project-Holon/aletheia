@@ -272,7 +272,7 @@ u8 *STA_ACT_LIGHT_CreateActor(u8 *p, int v)
 void STA_ACT_LIGHT_DeleteActor(void *unused,u8 *p) { CLACT_DeleteActor(((LightActor *)p)->actor); ((LightActor *)p)->value=0; }
 
 /*
- * extent: two zero padding bytes then existing ov112_func_021F6F04, 021F6F14, 021F6F1C sources and shards.
+ * extent: two zero padding bytes then existing STA_ACT_LIGHT_GetElemPos, 021F6F14, 021F6F1C sources and shards.
  */
 void STA_ACT_LIGHT_CopyElemA(void *unused,u32 *p,const u32 *q) { p[2]=q[0]; p[3]=q[1]; p[4]=q[2]; }
 

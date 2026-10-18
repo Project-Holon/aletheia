@@ -12,7 +12,7 @@
  *   KEY_GetTrg  0x020362DC  arm
  *   KEY_GetRepeat  0x0203633C  arm
  *   func_020355C4  0x020355C4  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   APP_TASKMENU_SetWinActive  0x02027B30  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *
@@ -62,7 +62,7 @@ struct Menu {
 extern u32  KEY_GetTrg(void);
 extern unsigned int KEY_GetRepeat(void);
 extern u8 func_020355C4(void);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 struct S;
 extern void APP_TASKMENU_SetWinActive(u32 a0, struct S *s, int mode);
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
@@ -84,7 +84,7 @@ void APP_TASKMENU_UpdateKey(struct Menu *m)
                 return;
             }
             APP_TASKMENU_SetWinActive(m->f18[m->cursor], (struct S *)m->f34, 1);
-            func_020355D8(0);
+            UI_SetInputMode(0);
             GFL_USE_PlaySeDefaultVolume(0x548);
             return;
         }
@@ -118,7 +118,7 @@ void APP_TASKMENU_UpdateKey(struct Menu *m)
             m->cursor = (u8)(m->count - 1);
             m->f0C = 1;
             GFL_USE_PlaySeDefaultVolume(0x551);
-            func_020355D8(0);
+            UI_SetInputMode(0);
         }
     }
     if (prev == m->cursor) {

@@ -22,7 +22,7 @@
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   ITEMMENU_DrawMoveInfo  0x021B9850  thumb  ov070
  *   ITEMMENU_SetCursorActive  0x021B80C4  thumb  ov070
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   ITEMMENU_StartSideButtonPress  0x021B8C1C  thumb  ov070
  *   ITEMMENU_IsBrowseMode  0x021B811C  thumb  ov070
  *   ITEMMENU_ToggleRegisteredItem  0x021B8134  thumb  ov070
@@ -94,7 +94,7 @@ extern int ITEMMENU_GetItemCount(u8 *p);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned int se);
 extern void ITEMMENU_DrawMoveInfo(char *p);
 extern void ITEMMENU_SetCursorActive(struct Obj *o, int flag);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern void ITEMMENU_StartSideButtonPress(int p, int a, int b);
 extern int ITEMMENU_IsBrowseMode(u8 *p);
 extern int ITEMMENU_ToggleRegisteredItem(struct Obj *o, int k);
@@ -154,7 +154,7 @@ void ITEMMENU_TaskBagMain(Obj *o)
     if (KEY_GetTrg() & 2) {
         o->f844 = 1;
         o->f84C = 0;
-        func_020355D8(0);
+        UI_SetInputMode(0);
         ITEMMENU_StartSideButtonPress((int)o, 4, 0);
         return;
     }
@@ -163,7 +163,7 @@ void ITEMMENU_TaskBagMain(Obj *o)
             return;
         o->f844 = 0;
         o->f84C = 0;
-        func_020355D8(0);
+        UI_SetInputMode(0);
         ITEMMENU_StartSideButtonPress((int)o, 3, 0);
         return;
     }
@@ -216,7 +216,7 @@ void ITEMMENU_TaskBagMain(Obj *o)
         o->f80C = v + 1;
         if (o->f80C >= 5)
             o->f80C = 0;
-        func_020355D8(0);
+        UI_SetInputMode(0);
         ITEMMENU_StartPocketTabPress((int)o, v, 1, (int)((void *)ITEMMENU_ReturnToBagMainAlias));
         return;
     }
@@ -225,7 +225,7 @@ void ITEMMENU_TaskBagMain(Obj *o)
         o->f80C = v - 1;
         if (o->f80C < 0)
             o->f80C = 4;
-        func_020355D8(0);
+        UI_SetInputMode(0);
         ITEMMENU_StartPocketTabPress((int)o, v, 0, (int)((void *)ITEMMENU_ReturnToBagMainAlias));
     }
 }

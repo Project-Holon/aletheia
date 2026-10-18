@@ -34,7 +34,7 @@
  *   MYSTERY_DATA_DecryptBuffer 0x0200A50C thumb
  *   MYSTERY_DATA_EncryptBuffer 0x0200A4B8 thumb
  *   MI_CpuCopy8  0x02082D44  arm  arm9
- *   func_02082A7C 0x02082A7C arm
+ *   MIi_CpuClear32 0x02082A7C arm
  *   BACKUP_SYSTEM_WriteFlash 0x02033478 arm
  */
 
@@ -74,7 +74,7 @@ extern int BACKUP_SYSTEM_CheckFlashAsync(u16, u16 *);
 extern void *SAVE_CONTROL_GetBlock(struct HeapManager *ctrl, u32 id);
 extern void MYSTERY_DATA_DecryptBuffer(void *base, u32 kind);
 extern void MYSTERY_DATA_EncryptBuffer(void *base, u32 kind);
-extern void func_02082A7C(u32 data,void *dest,u32 size);
+extern void MIi_CpuClear32(u32 data,void *dest,u32 size);
 extern void BACKUP_SYSTEM_WriteFlash(int a,int b,int c);
 void *SAVE_OUTSIDE_Load(u32 heap);
 void SAVE_OUTSIDE_Free(void *p);
@@ -275,7 +275,7 @@ void SAVE_OUTSIDE_ClearFlash(u32 heap)
 {
     void *p;
     p=GFL_HEAP_Alloc(heap,2048,0,d_021DFF60,339);
-    func_02082A7C(0xFFFFFFFF,p,2048);
+    MIi_CpuClear32(0xFFFFFFFF,p,2048);
     BACKUP_SYSTEM_WriteFlash(0x7F800,(int)p,2048);
     GFL_HEAP_Free(p);
 }

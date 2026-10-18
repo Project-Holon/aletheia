@@ -14,7 +14,7 @@
  *   TOUCHBAR_IsBusy 0x021B6498 thumb ov067
  *   KEY_GetTrg 0x020362DC arm
  *   func_020355C4 0x020355C4 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   GTSNEGO_DISP_SetCursorState 0x021D69F4 thumb ov120
  *   GTSNEGO_DISP_SelectParty 0x021D593C thumb ov120
  *   GTSNEGO_DISP_SetStateCallback 0x021D4244 thumb ov120
@@ -35,7 +35,7 @@ extern void GTSNEGO_MSG_PrintWindow(u8 *p, u16 n);
 extern int TOUCHBAR_IsBusy(u8 *);
 extern u32 KEY_GetTrg(void);
 extern u8 func_020355C4(void);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern void GTSNEGO_DISP_SetCursorState(u8 *p, void *q, u32 n);
 extern int GTSNEGO_DISP_SelectParty(u8 *, int);
 extern void GTSNEGO_DISP_SetStateCallback(int *p, int v, int a2);
@@ -54,7 +54,7 @@ void GTSNEGO_DISP_HandlePartyInput(u8 *p)
         if (TOUCHBAR_IsBusy(q) == 0) {
             if (KEY_GetTrg() != 0 && func_020355C4() == 1) {
                 GTSNEGO_DISP_SetCursorState(((struct Obj01400 *)p)->f3C, 0, ((struct Obj01400 *)p)->f15C);
-                func_020355D8(changed);
+                UI_SetInputMode(changed);
                 return;
             }
             if (KEY_GetTrg() == 1) {

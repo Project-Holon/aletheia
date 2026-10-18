@@ -12,7 +12,7 @@
  * Byte-correct; the one wildcard is the arm9 call to 0x0201A354 (+0x10E).
  * blocker: POKE_REGULATION_Load (arm9, unlabelled Thumb thunk inside the listing's
  *   data run, the integrator's) has no witness outside this range. Verified C for it
- *   (from src/pending/ov/ov021_func_021B57CC.c, match.py one --thumb, EXACT,
+ *   (from src/pending/ov/SCRCMD_FLD_BATTLE_StoreAllowedSpeciesNames.c, match.py one --thumb, EXACT,
  *   16 bytes):
  *     extern int ARC_TOOL_LoadMember();  (symbols: ARC_TOOL_LoadMember 0x02048F60 arm)
  *     int POKE_REGULATION_Load(int a, int b) { return ARC_TOOL_LoadMember(0x69, a, b); }
@@ -34,7 +34,7 @@
  *   POKE_REGULATION_Load  0x0201A354  thumb
  *   func_02005728  0x02005728  thumb
  *   POKE_REGULATION_FindValidOrder  0x0201A59C  thumb
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   POKELIST_InitWork  0x021B660C  thumb  ov091
  *   d_021BED0C     0x021BED0C  data  a1
  *   d_021BEA78     0x021BEA78  data  a2
@@ -115,7 +115,7 @@ extern u32 KEY_GetCont(void);
 extern void *POKE_REGULATION_Load(int a, int b);
 extern u32 func_02005728(u32 range);
 extern int POKE_REGULATION_FindValidOrder(void *a0, void *a1, void *a2);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern int POKELIST_InitWork(u8 *p);
 
 extern const char d_021BED0C[];
@@ -203,7 +203,7 @@ int POKELIST_Init(struct Proc *a0, int *seq, Q *q, P *p)
             } else if (KEY_GetCont() & 0x800) {
                 q->v34 = 0x19;
             }
-            func_020355D8(1);
+            UI_SetInputMode(1);
         }
         p->q = q;
         *seq = 1;

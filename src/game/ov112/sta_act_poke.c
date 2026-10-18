@@ -909,7 +909,7 @@ void STA_ACT_LIGHT_SetActorPos(void *unused,u32 *p,const u32 *q) { p[6]=q[0]; p[
 
 /*
  * note: unlabelled leaf in ov112 (the listing emits it as a .word run), filed
- * to witness the bl from src/pending/ov132_func_021FBA14.c.  The first
+ * to witness the bl from src/pending/SCRIPT_COMMAND_TaskRotate.c.  The first
  * argument is ignored; the original moves r1 into r0, so the pointer is the
  * second parameter.
  */
@@ -956,7 +956,7 @@ void STA_ACT_LIGHT_SetSlotVisible(BillboardImage *p, Elem *q, int v) {
 }
 
 /*
- * extent: Existing matched follower ov112_func_021F812C.c follows.
+ * extent: Existing matched follower STA_ACT_LIGHT_SetActorFlagB.c follows.
  */
 int STA_ACT_LIGHT_GetRenderHandle(int a,u8 *p) { return MUSICAL_MCSS_GetRenderHandle(((Elem *)p)->renderElem); }
 

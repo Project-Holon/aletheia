@@ -37,7 +37,7 @@
  *   PSEL_SetAnimTarget 0x021B9AE4 thumb ov223
  *   PSEL_StepAnim 0x021B9B80 thumb ov223
  *   PSEL_IsAnimTargetReached 0x021B9B4C thumb ov223
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   PSEL_GRAPHIC_OpenMenu 0x021BB450 thumb ov223
  *   PSEL_GRAPHIC_UpdateMenu 0x021BB4E8 thumb ov223
  *   PSEL_GRAPHIC_IsMenuFinished 0x021BB4F8 thumb ov223
@@ -80,7 +80,7 @@ extern void PSEL_ShowTaskRes(char *),PSEL_UpdateTaskResWin(char *),PSEL_SetTaskR
 extern u32 PSEL_IsTaskResFinished(char *);
 extern void PSEL_SetAnimTarget(char *,int,int),PSEL_StepAnim(char *);
 extern int PSEL_IsAnimTargetReached(char *);
-extern void func_020355D8(u32);
+extern void UI_SetInputMode(u32);
 extern void PSEL_GRAPHIC_OpenMenu(char *);
 extern void PSEL_GRAPHIC_UpdateMenu(char *);
 extern void PSEL_GRAPHIC_CloseMenu(char *);
@@ -134,7 +134,7 @@ int PSEL_GRAPHIC_Main(char *p,u32 *state)
     case 7:PSEL_UpdateTaskResWin(p);if(PSEL_IsTaskResFinished(p)){PSEL_DeleteTaskRes(p);func_02041B6C(3);*state=8;}break;
     case 8:PSEL_SetMode(p,(u32)20);PSEL_SetAnimTarget(p,*(int *)&((struct Obj00084 *)p)->f228,0);*state=9;break;
     case 9:PSEL_StepAnim(p);if(PSEL_IsModeDone(p)&&PSEL_IsAnimTargetReached(p))*state=10;break;
-    case 10:func_020355D8(*(u32 *)&((struct Obj00084 *)p)->f8);PSEL_GRAPHIC_OpenMenu(p);*state=11;break;
+    case 10:UI_SetInputMode(*(u32 *)&((struct Obj00084 *)p)->f8);PSEL_GRAPHIC_OpenMenu(p);*state=11;break;
     case 11:PSEL_GRAPHIC_UpdateMenu(p);if(PSEL_GRAPHIC_IsMenuFinished(p)){choice=PSEL_GRAPHIC_GetMenuChoice((int *)p);PSEL_GRAPHIC_CloseMenu(p);*(u32 *)&((struct Obj00084 *)p)->f8=func_020355C4();if(choice){((struct Obj00084 *)p)->f24|=8;PSEL_UpdateSubWindow(p);*state=14;}else{PSEL_SetMode(p,(u32)19);*state=12;}}break;
     case 12:PSEL_SetAnimTarget(p,*(int *)&((struct Obj00084 *)p)->f228,1);*state=13;break;
     case 13:PSEL_StepAnim(p);if(PSEL_IsAnimTargetReached(p))*state=3;break;

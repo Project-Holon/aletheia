@@ -17,7 +17,7 @@
  *   KEY_GetTrg  0x020362DC  arm
  *   KEY_GetCont  0x0203630C  arm
  *   func_020355C4  0x020355C4  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  */
 
@@ -29,7 +29,7 @@ extern u32  KEY_GetTrg(void);
 extern unsigned int KEY_GetCont(void);
 typedef unsigned char  u8;
 extern u8 func_020355C4(void);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 
 void OPTION_MENU_ReadInput(int *p)
@@ -65,7 +65,7 @@ void OPTION_MENU_ReadInput(int *p)
     trg = KEY_GetTrg();
     cont = KEY_GetCont();
     if (trg != 0 && func_020355C4() == 1 && (trg & 0xc02) == 0) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         p[0] = 0xe;
         GFL_USE_PlaySeDefaultVolume(0x548);
         return;
@@ -99,17 +99,17 @@ void OPTION_MENU_ReadInput(int *p)
         return;
     }
     if (trg & 2) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         p[0] = 9;
         return;
     }
     if (trg & 0x800) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         p[0] = 0xc;
         return;
     }
     if (trg & 0x400) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         p[0] = 0xd;
     }
 }

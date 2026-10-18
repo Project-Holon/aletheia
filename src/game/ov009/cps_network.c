@@ -685,7 +685,7 @@ static unsigned long check_socket(unsigned char *iphdr, unsigned char *tcphdr, s
  * lane W8.3 (2026-10-01).  Confirmed this is the same list-scheduler tie the
  * sibling rand32 consumer in this very overlay already documents:
  * docs/idioms/a-pool-word-order-residue-is-a-list-scheduler-tie.md
- * (ov009_func_021685CC.c, DWCi_GetMathRand32, identical 64-bit LCG rand32
+ * (DWCi_GetMathRand32.c, DWCi_GetMathRand32, identical 64-bit LCG rand32
  * body).  The three residue slots (+0008 context ldr above mov r1,#0; +006c
  * orr above str r6; +007c mov sl above str r4) are all independent-issue
  * hoists around the inlined rand32 epilogue, i.e. the same scheduler

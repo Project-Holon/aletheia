@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   FADE_Start 0x0204E720 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   FADE_SetSpeed 0x0204E6F4 arm
  *   func_020315D4 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int s32;
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
-extern void func_020355D8(u32 v);
+extern void UI_SetInputMode(u32 v);
 struct Proc;
 extern void FADE_SetSpeed(s32 a);
 extern void func_020315D4(struct Proc *p);
@@ -29,7 +29,7 @@ int PSEL_Exit(void *a, int unused1, int unused2, u8 *ctx)
 {
     u16 v;
     FADE_Start(0xC, 0x10, 0x10, 0);
-    func_020355D8(*(u32 *)(ctx + 8));
+    UI_SetInputMode(*(u32 *)(ctx + 8));
     FADE_SetSpeed(*(u32 *)(ctx + 0x874));
     switch (*(u32 *)(ctx + 0x228)) {
     case 0:

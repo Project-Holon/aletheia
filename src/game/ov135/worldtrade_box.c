@@ -117,7 +117,7 @@
  *   WORLDTRADE_ClearBusyFlag  0x021F4EC8  thumb  ov135
  *   WORLDTRADE_SetStateAndReturn  0x021F4EC0  thumb
  *   WORLDTRADE_SetActorPos  0x021F4FF4  thumb
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   WORLDTRADE_SetNextState 0x021F4E98 thumb ov135
  *   WORLDTRADE_UpdateTaskMenuYesNo 0x021F4D14 thumb ov135
@@ -267,7 +267,7 @@ extern void WORLDTRADE_ADAPTER_CreateMonFromBox(u32 a, u32 b, u32 c);
 
 extern int TOUCHPANEL_HitTrg(const void *key);
 
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 
 extern u32 KEY_GetTrg(void);
 
@@ -878,7 +878,7 @@ int WORLDTRADE_BOX_CheckArrowTouch(Work *p)
 
     if (r != -1) {
         CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 0);
-        func_020355D8(1);
+        UI_SetInputMode(1);
     }
     return r;
 }
@@ -968,7 +968,7 @@ void WORLDTRADE_BOX_UpdateKeyCursor(Work *p)
 
     if (KEY_GetTrg() != 0 && UI_GetInputMode() == 1) {
         CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
-        func_020355D8(moved);
+        UI_SetInputMode(moved);
         GFL_USE_PlaySeDefaultVolume(0x548);
         return;
     }

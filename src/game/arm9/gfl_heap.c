@@ -40,9 +40,9 @@
  *   GFL_HEAP_GetLastError  0x02030524  arm
  *   OS_GetArenaLo  0x02086580  arm
  *   OS_GetArenaHi  0x0208656C  arm
- *   sub_02088234  0x02088234  arm
+ *   OS_Terminate  0x02088234  arm
  *   GFL_HEAP_CreateChildHeapImpl  0x0202FDC4  arm
- *   sub_020306A0  0x020306A0  arm
+ *   GFL_HEAP_FatalError  0x020306A0  arm
  *   GFL_HEAP_RegisterBlockHeapImpl  0x0202FE68  arm
  *   OS_Terminate  0x02088234  arm
  */
@@ -157,8 +157,8 @@ void *GFL_HEAP_AllocSystem(u32 size);
 extern int OS_FreeToHeap(u32 heapId, s32 heap, void *ptr);
 extern int GFL_HEAP_InitManager(const struct HeapSpec *specs, u16 staticCount, u16 heapIdCount, u32 extraSize);
 extern void  OS_GetArenaHi(u32 a);
-extern void  sub_02088234(void *obj);
-extern void  sub_020306A0(void *obj, void *a, u32 b);
+extern void  OS_Terminate(void *obj);
+extern void  GFL_HEAP_FatalError(void *obj, void *a, u32 b);
 extern void OS_Terminate(void);
 void *GFL_HEAP_GetHeap(u32 heapId);
 u32 GFL_HEAP_GetParentHeap(u32 heapId);
@@ -1371,7 +1371,7 @@ void GFL_HEAP_Init(u32 specs, u32 staticCount, u32 heapIdCount, u32 extraSize)
     if (success != 0) {
         return;
     }
-    sub_02088234((void *)GFL_HEAP_GetLastError());
+    OS_Terminate((void *)GFL_HEAP_GetLastError());
 }
 
 
@@ -1404,7 +1404,7 @@ void GFL_HEAP_CreateChildHeap(u32 parentHeapId, u32 newHeapId, u32 size)
     if (GFL_HEAP_CreateChildHeapImpl(parentHeapId, newHeapId, size) != 0) {
         return;
     }
-    sub_020306A0((void *)GFL_HEAP_GetLastError(), (void *)parentHeapId, newHeapId);
+    GFL_HEAP_FatalError((void *)GFL_HEAP_GetLastError(), (void *)parentHeapId, newHeapId);
 }
 
 
@@ -1432,7 +1432,7 @@ void GFL_HEAP_RegisterBlockHeap(void *block, u32 size, u32 newHeapId)
     if (GFL_HEAP_RegisterBlockHeapImpl(block, size, newHeapId) != 0) {
         return;
     }
-    sub_020306A0((void *)GFL_HEAP_GetLastError(), 0, newHeapId);
+    GFL_HEAP_FatalError((void *)GFL_HEAP_GetLastError(), 0, newHeapId);
 }
 
 

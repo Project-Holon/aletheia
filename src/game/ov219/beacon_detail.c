@@ -789,7 +789,7 @@ static inline void close_win(u8 *p, BeaconMessage *msg)
  *           merge into case 12's call by themselves. d_02185DE6 hint token dropped (contested).
  *           Remaining: three callees with no witness: arm9 BMP_OAM_Update5BE8 and GAME_BEACON_SetNationArea and ov219
  *           BEACON_DETAIL_Init3DParams. This lane filed all three EXACT (src/matched/arm9/BMP_OAM_Update5BE8.c,
- *           src/matched/arm9/GAME_BEACON_SetNationArea.c, src/matched/ov/ov219_func_021856CC.c); after the
+ *           src/matched/arm9/GAME_BEACON_SetNationArea.c, src/matched/ov/BEACON_DETAIL_Init3DParams.c); after the
  *           manifest picks them up this should verify EXACT.
  */
 int BEACON_DETAIL_Update(u8 *p, int *state)

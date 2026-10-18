@@ -113,7 +113,7 @@
  *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   GFL_NET_GetRunState 0x0203CD98 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   data_021D58B0 0x021D58B0 data a4
  *   data_021D5770 0x021D5770 data a4
  *   data_021D5740 0x021D5740 data a4
@@ -394,7 +394,7 @@ extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a
 extern void G2x_SetBlendAlpha_(void *, u32, u32, u32, u32);
 extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
 extern int GFL_NET_GetRunState(void);
-extern void func_020355D8(u8);
+extern void UI_SetInputMode(u8);
 extern void APP_TASKMENU_UpdateMenu(void *);
 extern void CLACT_DrawSystem(void);
 extern u32 WIH_DWC_PollStatus(void *);
@@ -1231,7 +1231,7 @@ int INTRUDE_COMM_VIEW_Create(void *owner, void *unused, char *args)
     ((IntrudeCommView *)p)->args->owner = ((IntrudeCommView *)p)->gameData;
     GFL_NET_RestartWithDefaultTimeout(0, ((IntrudeCommView *)p)->heapId);
     if (GFL_NET_GetRunState()) NET_WHPIPE_SetNotifyCallback((u32)INTRUDE_COMM_VIEW_StorePeerRecord, (u32)p);
-    func_020355D8(1);
+    UI_SetInputMode(1);
     return 1;
 }
 

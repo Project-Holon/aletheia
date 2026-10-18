@@ -11,7 +11,7 @@
  *
  * symbols:
  *   CURSOR_MOVE_GetState 0x020260F0 thumb
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   BOX2_SEQ_StartWipeBlack 0x021E8F90 thumb
  *
  * Enters state 9 with reason v.
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Sound;
 extern u32 CURSOR_MOVE_GetState(struct Sound *obj);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern int BOX2_SEQ_StartWipeBlack(void *p, int a);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
@@ -30,9 +30,9 @@ extern int BOX2_SEQ_StartWipeBlack(void *p, int a);
 int BOX2_SEQ_GotoBox2Ui(unsigned char *p, unsigned char v)
 {
     if (CURSOR_MOVE_GetState(*(void **)(WORK(p) + 0x70)) == 1)
-        func_020355D8(0);
+        UI_SetInputMode(0);
     else
-        func_020355D8(1);
+        UI_SetInputMode(1);
     ((struct Obj00000 *)p)->f28 = 9;
     p[0x12] = v;
     return BOX2_SEQ_StartWipeBlack(p, 1);

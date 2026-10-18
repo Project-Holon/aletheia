@@ -15,7 +15,7 @@
  *
  * SDK: TwlDWC libdwcutil.TWL.HYB.a(aoss.o), symbol AOSS_StatusExclusion (name from the vendor object).
  * aoss.o was built by Metrowerks C/C++ for ARM 3.0.0.126 (its .comment), which is
- * the 2.0/sp1p2 front end; see aoss_release (ov016_func_021B6CF0.c) for the byte tell.
+ * the 2.0/sp1p2 front end; see aoss_release (aoss_release.c) for the byte tell.
  * before is the function's own static (before$8610) at .data+4 of aoss.o's
  * 96-byte .data section (s_sFd, before, soconfig), declared as one object for the
  * same reason as aoss_bss.

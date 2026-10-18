@@ -14,13 +14,13 @@
  * symbols:
  *   func_0219DF64  0x0219DF64  arm  ov009
  *   func_0218482C  0x0218482C  arm  ov009
- *   func_021847BC  0x021847BC  arm  ov009
+ *   TableRemove  0x021847BC  arm  ov009
  */
 
 struct Ref { char *str; int refcount; };
 extern void *func_0219DF64(void *l);
 extern struct Ref *func_0218482C(void *t, void *k);
-extern int func_021847BC(void *t, void *k);
+extern int TableRemove(void *t, void *k);
 void SBReleaseStr(void *slist, char *str)
 {
 	struct Ref ref;
@@ -30,5 +30,5 @@ void SBReleaseStr(void *slist, char *str)
 	if (val == 0)
 		return;
 	if (--val->refcount == 0)
-		func_021847BC(func_0219DF64(slist), &ref);
+		TableRemove(func_0219DF64(slist), &ref);
 }

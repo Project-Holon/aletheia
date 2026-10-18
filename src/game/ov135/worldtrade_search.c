@@ -89,7 +89,7 @@
  *   BG_SYS_Init  0x02040C14  arm
  *   BG_SYS_SetTileUnit  0x02040DA8  arm
  *   WORLDTRADE_SetActorPos  0x021F4FF4  thumb
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm  arm9
  *   WORLDTRADE_ADAPTER_QueueMessagePrint  0x02202B20  thumb
  *   WORLDTRADE_DEPOSIT_GetConditionIndex 0x021F886C thumb ov135
@@ -201,7 +201,7 @@ extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 
 extern u32 KEY_GetTrg(void);
 
@@ -874,7 +874,7 @@ int WORLDTRADE_SEARCH_StateMainInput(Work *p)
     int sel = WORLDTRADE_SEARCH_HitTestButtons();
 
     if (sel != -1) {
-        func_020355D8(1);
+        UI_SetInputMode(1);
         WORLDTRADE_SEARCH_SelectButton(p, sel);
         sel = WORLDTRADE_SEARCH_GetSelectedButton(p);
         switch (sel) {
@@ -932,7 +932,7 @@ int WORLDTRADE_SEARCH_StateMainInput(Work *p)
         }
     } else if (KEY_GetTrg() != 0 && UI_GetInputMode() == 1) {
         CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
-        func_020355D8(0);
+        UI_SetInputMode(0);
         GFL_USE_PlaySeDefaultVolume(0x548);
         return 2;
     } else {

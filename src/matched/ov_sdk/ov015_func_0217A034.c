@@ -29,7 +29,7 @@
  *           spelling tried reaches.
  * lane 6 (wave 10): named hi/lo/u16 byte temporaries (declared before or after i, five shapes) are inert, still 10 B.
  * lane 8 (wave 8): residue is exactly docs/idioms/a-hoisted-loop-invariant-zero-takes-the-freshly-dead-register-from-the-scratch.md
- *           (found in ov009_func_02163E40): dsi/1.1p1 hands the freshly-dead asr result r1 to loop 2's hoisted zero,
+ *           (found in CPSi_rc4_init): dsi/1.1p1 hands the freshly-dead asr result r1 to loop 2's hoisted zero,
  *           the image keeps the zero in ip (so the two strb stay in source order). A batch of 10 spellings all pin
  *           at 10 B: hi-first source order, named hi / lo+hi, byte-pointer header, enum zero, named-zero copy,
  *           plain `i < size` loop2 (65 B), `sum / 256` (11 B), `unsigned char i` (124 B). Confirms the idiom's park.

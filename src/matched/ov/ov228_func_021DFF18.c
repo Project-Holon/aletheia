@@ -10,7 +10,7 @@
  * arity: 033478 overwrites incoming r3 from global +520 before forwarding to 0335AC; caller sets only r0-r2, so omit legacy fourth argument.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082A7C 0x02082A7C arm
+ *   MIi_CpuClear32 0x02082A7C arm
  *   BACKUP_SYSTEM_WriteFlash 0x02033478 arm
  *   func_020307B0 0x020307B0 arm
  *   d_021DFF60 0x021DFF60 data a1
@@ -19,7 +19,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_02030734(u32 heap,u32 size,int clear,const char *site,u16 tag);
-extern void func_02082A7C(u32 data,void *dest,u32 size);
+extern void MIi_CpuClear32(u32 data,void *dest,u32 size);
 extern void BACKUP_SYSTEM_WriteFlash(int a,int b,int c);
 extern u32 func_020307B0(void *p);
 extern const char d_021DFF60[];
@@ -27,7 +27,7 @@ void SAVE_OUTSIDE_ClearFlash(u32 heap)
 {
     void *p;
     p=func_02030734(heap,2048,0,d_021DFF60,339);
-    func_02082A7C(0xFFFFFFFF,p,2048);
+    MIi_CpuClear32(0xFFFFFFFF,p,2048);
     BACKUP_SYSTEM_WriteFlash(0x7F800,(int)p,2048);
     func_020307B0(p);
 }

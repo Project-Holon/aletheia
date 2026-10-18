@@ -22,7 +22,7 @@
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   KEY_GetRepeat 0x0203633C arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   APP_TASKMENU_WIN_Update 0x02028178 thumb
  *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
@@ -90,7 +90,7 @@ extern void STRBUF_Delete(struct U16Vec *);
 
 extern u32 KEY_GetRepeat(void);
 
-extern void func_020355D8(u8);
+extern void UI_SetInputMode(u8);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 
@@ -273,12 +273,12 @@ int MANUAL_COMMON_UpdateDialogInput(char *dialog)
     int hit=TOUCHPANEL_HitTrg(gManualCommonDialogHitRects);
     if(UI_GetInputMode()==0) {
         if(hit>=0 && hit<=1) {
-            func_020355D8(1);
+            UI_SetInputMode(1);
             APP_TASKMENU_WIN_SetActive(*(void **)(dialog+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4+0xc),0);
         }
     } else {
         if(KEY_GetTrg()!=0 && !(KEY_GetTrg()&0x402)) {
-            func_020355D8(0);
+            UI_SetInputMode(0);
             APP_TASKMENU_WIN_SetActive(*(void **)(dialog+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4+0xc),1);
             GFL_USE_PlaySeDefaultVolume(0x548);
             return 0;

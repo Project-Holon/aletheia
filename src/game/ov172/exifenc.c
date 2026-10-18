@@ -198,7 +198,7 @@ struct Adf0 {
     u8  f37;
 };
 
-void func_02082EA4(const void *src, void *dst, u32 n);
+void MI_CpuCopy(const void *src, void *dst, u32 n);
 extern int RTC_GetDateTime(struct RTCDate *date, struct RTCTime *time);
 void STD_TSPrintf(char *dst, const char *fmt, ...);
 int STD_CopyLString(char *destp, const char *srcp, int siz);
@@ -269,7 +269,7 @@ static char SSPiSoftware[30] = {0};
  * SDK provenance: SSP_SetJpegEncoderDateTime (TwlSDK/libssp.TWL.HYB.a,
  * exifenc.o), ov172.
  *
- * Small leaf: copies 0x13 bytes (reversed-copy helper func_02082EA4) from the
+ * Small leaf: copies 0x13 bytes (reversed-copy helper MI_CpuCopy) from the
  * bss/string object dateTimeData into the caller's buffer, then raises the
  * dateTimeDataFlag at +0 and clears the byte at +0x37.
  *
@@ -277,7 +277,7 @@ static char SSPiSoftware[30] = {0};
  */
 void SSP_SetJpegEncoderDateTime(u8 *buf)
 {
-    func_02082EA4(buf, dateTimeData, 0x13);
+    MI_CpuCopy(buf, dateTimeData, 0x13);
     dateTimeData[19] = 0;
     dateTimeDataFlag = 1;
 }
@@ -852,7 +852,7 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
   s->fieldC = 0;
   s->field10 = 0;
   s->field14 = 0;
-  func_02082EA4(gExifVersion, s->field18, 4);
+  MI_CpuCopy(gExifVersion, s->field18, 4);
   s->field54 = 0;
   sb->count1++;
   s = &sb->ptrC[sb->count1];
@@ -918,7 +918,7 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
   s->fieldC = 0;
   s->field10 = 0;
   s->field14 = 0;
-  func_02082EA4(gExifFlashpixVersion, s->field18, 4);
+  MI_CpuCopy(gExifFlashpixVersion, s->field18, 4);
   s->field54 = 0;
   sb->count1++;
   s = &sb->ptrC[sb->count1];
@@ -1017,7 +1017,7 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
   s->fieldC = 0;
   s->field10 = 0;
   s->field14 = 0;
-  func_02082EA4(gExifFlashpixVersion, s->field18, 4);
+  MI_CpuCopy(gExifFlashpixVersion, s->field18, 4);
   s->field54 = 0;
   sb->count3++;
   s = &sb->ptr24[sb->count3];

@@ -132,7 +132,7 @@ extern FieldGimmickSoundObjsSave *GIMMICK_WORK_GetSaveArea(struct GimmickWork *g
 extern u32 SOUND_OBJ_GetAnimeFrame(struct SoundObj *obj);
 extern void SOUND_OBJ_SetAnimeFrame(struct SoundObj *obj, s32 frame);
 extern unsigned GFL_USE_GetRandomBelow(unsigned limit);
-extern void func_02082A7C(int value, void *dst, unsigned int size);
+extern void MIi_CpuClear32(int value, void *dst, unsigned int size);
 extern void func_021BE580(FldExpObjCnt *expObj);
 
 void FIELD_GIMMICK_SOUND_OBJS_UpdateSlideSe(FieldGimmickSoundObjsSlideSe *slideSe, struct FieldCamera *camera, struct FieldPlayer *fieldPlayer);

@@ -22,7 +22,7 @@
  *   GX_SetBankForBG  0x0207FDCC  arm
  *   GX_SetGraphicsMode  0x0207D4B0  arm
  *   G2_GetBG1CharPtr  0x0207E24C  arm
- *   func_02082A7C  0x02082A7C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
  *   ARC_UTIL_LoadMember  0x0204A1BC  arm
  *   NNS_G2dGetUnpackedCharacterDataEx  0x02062A4C  arm
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
@@ -97,7 +97,7 @@ extern int GX_ResetBankForSubBG(void);
 extern void GX_SetBankForBG(int mode);
 extern void GX_SetGraphicsMode(int layer, int x, int y);
 extern void *G2_GetBG1CharPtr(void);
-extern void func_02082A7C(u32 value, void *dst, u32 size);
+extern void MIi_CpuClear32(u32 value, void *dst, u32 size);
 extern int ARC_UTIL_LoadMember(int arcId, int fileId, int resident, int heapId);
 extern signed int NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out);
 extern void DWCi_ScreenDC_FlushRange(void *data, u32 size);
@@ -204,7 +204,7 @@ void ERROR_SCREEN_LoadBackground(void)
     void *unusedBlock;
     void *file;
 
-    func_02082A7C(0, G2_GetBG1CharPtr(), 0x4000);
+    MIi_CpuClear32(0, G2_GetBG1CharPtr(), 0x4000);
 
     file = (void *)ARC_UTIL_LoadMember(0x16, 1, 0, 1);
     if (NNS_G2dGetUnpackedCharacterDataEx(file, (void **)(&charData))) {

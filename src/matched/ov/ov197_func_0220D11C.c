@@ -10,7 +10,7 @@
  * status: EXACT
  * blocker: integrator-owned ARM9 02045CAC has six unresolved calls; singleton TU confirms no viable cut.
  * Owner unit_02045C44.c omits MSGDATA_ReadString in function:. Verified EXACT344 C
- * below copied from ov173_func_021B71C4.c, prior ov070 fixed-flag --arm one.
+ * below copied from POKE_SUMMARY_MAIN_DrawMoveDetail.c, prior ov070 fixed-flag --arm one.
  * abi: BBD8 returns a zero-extended u16; int extern preserves the original signed bge against the u8 field, unlike older unsigned caller externs.
  * typedef unsigned char u8;
  * typedef unsigned short u16;

@@ -22,7 +22,7 @@
  *   ov208_func_021C7CE8  0x021C7CE8  thumb
  *   ZUKAN_DETAIL_FORM_PlaceSideModels  0x021C7534  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   ov208_func_021BDC48  0x021BDC48  thumb
  */
 
@@ -48,7 +48,7 @@ extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern void ov208_func_021C7CE8(u16 *heap, u8 *p, int key);
 extern void ZUKAN_DETAIL_FORM_PlaceSideModels(u16 *heap, u8 *p, int key);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
-extern void func_020355D8(int v);
+extern void UI_SetInputMode(int v);
 extern void ov208_func_021BDC48(void *scene, u32 on);
 
 #define W(o) (*(u32 *)(p + (o)))
@@ -109,7 +109,7 @@ void ZUKAN_DETAIL_FORM_UpdateState(u16 *heap, u8 *p, int key)
                 }
                 ZUKAN_DETAIL_FORM_HandleStateEvent(heap, p, key, 2);
                 GFL_USE_PlaySeDefaultVolume(0x54c);
-                func_020355D8(touch);
+                UI_SetInputMode(touch);
                 ov208_func_021BDC48(scene, 0);
                 return;
             }

@@ -12,7 +12,7 @@
  * BTL_CLIENT_SetView takes two arguments (its own file: `p->v = v`), and the
  * value passed second is the BTLV_CORE_Create result just stored at p + 4:
  * that is the `adds r1, r0, #0` the one-argument prototype could not
- * produce (twin: ov093_func_021B835C).
+ * produce (twin: BTL_MAIN_SeqCreateView).
  *
  * symbols:
  *   BTL_MAIN_IsCommCompetitor  0x021B6818  thumb  ov093

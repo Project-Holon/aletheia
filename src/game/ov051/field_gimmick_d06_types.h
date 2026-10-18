@@ -157,7 +157,7 @@ extern void FLDEFF_D06DENKI_FollowFreezeLoop(struct FieldEffectObj *effect);
 extern void FLDEFF_D06DENKI_FollowStartEnding(struct FieldEffectObj *effect);
 extern int FLDEFF_D06DENKI_FollowIsEnded(struct FieldEffectObj *effect);
 
-/* Defined in unplaced/ov051_func_021F3D94.c. */
+/* Defined in unplaced/FIELD_GIMMICK_D06_GetGimmickId.c. */
 extern int FIELD_GIMMICK_D06_GetGimmickId(int zoneId);
 
 #endif

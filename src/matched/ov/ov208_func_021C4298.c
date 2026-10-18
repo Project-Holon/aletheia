@@ -17,11 +17,11 @@
  *   jump table entry is the shared epilogue) and the last switch's case order follows the image
  *   block order.
  * symbols:
- *   ov208_func_021BC3B4 0x021BC3B4 thumb ov208
- *   ov208_func_021BC3C0 0x021BC3C0 thumb ov208
+ *   ZUKAN_DETAIL_COMMON_GetWorkPtr 0x021BC3B4 thumb ov208
+ *   ZUKAN_DETAIL_COMMON_GetCurrentEntry 0x021BC3C0 thumb ov208
  *   ov208_func_021BC3CC 0x021BC3CC thumb ov208
  *   ov208_func_021BC40C 0x021BC40C thumb ov208
- *   ov208_func_021BC3A4 0x021BC3A4 thumb ov208
+ *   ZUKAN_DETAIL_COMMON_GetSource 0x021BC3A4 thumb ov208
  *   ZUKAN_DETAIL_FORM_BuildFormEntries 0x021C53F4 thumb ov208
  *   ZUKAN_DETAIL_FORM_RebuildModels 0x021C580C thumb ov208
  *   ZUKAN_DETAIL_FORM_RebuildSideModels 0x021C5C64 thumb ov208
@@ -45,11 +45,11 @@ struct Ov208Sel {
     u16 count;
 };
 
-extern void *ov208_func_021BC3B4(int key);
-extern u16 ov208_func_021BC3C0(int key);
+extern void *ZUKAN_DETAIL_COMMON_GetWorkPtr(int key);
+extern u16 ZUKAN_DETAIL_COMMON_GetCurrentEntry(int key);
 extern void ov208_func_021BC3CC(int key);
 extern void ov208_func_021BC40C(int key);
-extern int ov208_func_021BC3A4(int key);
+extern int ZUKAN_DETAIL_COMMON_GetSource(int key);
 extern void ZUKAN_DETAIL_FORM_BuildFormEntries(u16 *heap, int key, u8 *out, u16 *count, u16 *groups, u16 *twos, u16 *sel, u16 *next);
 extern void ZUKAN_DETAIL_FORM_RebuildModels(u16 *heap, u8 *p, int key);
 extern void ZUKAN_DETAIL_FORM_RebuildSideModels(u16 *heap, u8 *p, int key);
@@ -77,7 +77,7 @@ void ZUKAN_DETAIL_FORM_HandleKeyEvent(void *proc, int *seq, u16 *heap, u8 *p, in
     u32 k;
     if (p == 0)
         return;
-    sys = ov208_func_021BC3B4(key);
+    sys = ZUKAN_DETAIL_COMMON_GetWorkPtr(key);
     flag = 0;
     W(0x698) = flag;
     W(0x6d4) = flag;
@@ -98,20 +98,20 @@ void ZUKAN_DETAIL_FORM_HandleKeyEvent(void *proc, int *seq, u16 *heap, u8 *p, in
     case 0xc:
     case 0x1e:
         if (W(0x6b8) == 0) {
-            id = ov208_func_021BC3C0(key);
+            id = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
             ov208_func_021BC3CC(key);
-            if (id != ov208_func_021BC3C0(key))
+            if (id != ZUKAN_DETAIL_COMMON_GetCurrentEntry(key))
                 ZUKAN_DETAIL_FORM_RebuildModels(heap, p, key);
         } else if (W(0x6b8) == 4) {
-            id = ov208_func_021BC3C0(key);
+            id = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
             ov208_func_021BC3CC(key);
-            cur = ov208_func_021BC3C0(key);
+            cur = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
             while (id != cur) {
                 ZUKAN_DETAIL_FORM_BuildFormEntries(heap, key, bufA, &sA.count, &sA.groups, &sA.twos, &sA.sel, &sA.next);
                 if (sA.count >= 2)
                     break;
                 ov208_func_021BC3CC(key);
-                cur = ov208_func_021BC3C0(key);
+                cur = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
             }
             if (id != cur) {
                 ZUKAN_DETAIL_FORM_RebuildModels(heap, p, key);
@@ -125,20 +125,20 @@ void ZUKAN_DETAIL_FORM_HandleKeyEvent(void *proc, int *seq, u16 *heap, u8 *p, in
     case 0xd:
     case 0x1f:
         if (W(0x6b8) == 0) {
-            id = ov208_func_021BC3C0(key);
+            id = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
             ov208_func_021BC40C(key);
-            if (id != ov208_func_021BC3C0(key))
+            if (id != ZUKAN_DETAIL_COMMON_GetCurrentEntry(key))
                 ZUKAN_DETAIL_FORM_RebuildModels(heap, p, key);
         } else if (W(0x6b8) == 4) {
-            id = ov208_func_021BC3C0(key);
+            id = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
             ov208_func_021BC40C(key);
-            id2 = ov208_func_021BC3C0(key);
+            id2 = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
             while (id != id2) {
                 ZUKAN_DETAIL_FORM_BuildFormEntries(heap, key, bufB, &sB.count, &sB.groups, &sB.twos, &sB.sel, &sB.next);
                 if (sB.count >= 2)
                     break;
                 ov208_func_021BC40C(key);
-                id2 = ov208_func_021BC3C0(key);
+                id2 = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
             }
             if (id != id2) {
                 ZUKAN_DETAIL_FORM_RebuildModels(heap, p, key);
@@ -214,7 +214,7 @@ void ZUKAN_DETAIL_FORM_HandleKeyEvent(void *proc, int *seq, u16 *heap, u8 *p, in
         ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(sys);
         return;
     case 5:
-        GAME_DATA_SetSaveFlag((void *)ov208_func_021BC3A4(key), 0x14, ov208_func_021BDC2C(sys));
+        GAME_DATA_SetSaveFlag((void *)ZUKAN_DETAIL_COMMON_GetSource(key), 0x14, ov208_func_021BDC2C(sys));
         ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(sys);
         return;
     case 22:

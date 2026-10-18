@@ -179,7 +179,7 @@
  *   CURSOR_MOVE_Delete 0x02025D14 thumb
  *   CURSOR_MOVE_PollRepeatInput 0x02025DE8 thumb
  *   KEY_GetTrg 0x020362DC arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   CURSOR_MOVE_GetCurrent 0x020260E0 thumb
  *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
  *   BLINK_PALANM_ResetPhase 0x0202EB04 thumb
@@ -429,7 +429,7 @@ extern void CURSOR_MOVE_Delete(void);
 extern void *CURSOR_MOVE_GetEntry(void **obj, unsigned int idx);
 extern int CURSOR_MOVE_PollRepeatInput(struct Sound *obj);
 extern unsigned KEY_GetTrg(void);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
 extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern void BLINK_PALANM_ResetPhase(struct CodeIn *p);
@@ -3841,21 +3841,21 @@ u32 ZKNSEARCH_MAIN_PollMenuInput(int p)
         return r;
     k = KEY_GetTrg();
     if (k & 0x400) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         return 8;
     }
     k = KEY_GetTrg();
     if (k & 0x800) {
         if (UI_GetInputMode() == 1)
             CURSOR_MOVE_SetState((struct CursorMove *)q[0xac], 1);
-        func_020355D8(0);
+        UI_SetInputMode(0);
         return 7;
     }
     k = KEY_GetTrg();
     if (k & 8) {
         if (UI_GetInputMode() == 1)
             CURSOR_MOVE_SetState((struct CursorMove *)q[0xac], 1);
-        func_020355D8(0);
+        UI_SetInputMode(0);
         ZKNSEARCH_MAIN_MoveCursor(p, 5);
         return 5;
     }
@@ -3863,12 +3863,12 @@ u32 ZKNSEARCH_MAIN_PollMenuInput(int p)
     if (k & 4) {
         if (UI_GetInputMode() == 1)
             CURSOR_MOVE_SetState((struct CursorMove *)q[0xac], 1);
-        func_020355D8(0);
+        UI_SetInputMode(0);
         ZKNSEARCH_MAIN_MoveCursor(p, 6);
         return 6;
     }
     if (KEY_GetTrg() != 0 && UI_GetInputMode() == 1) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         CURSOR_MOVE_SetState((struct CursorMove *)q[0xac], 1);
         return -4;
     }
@@ -3939,12 +3939,12 @@ int ZKNSEARCH_MAIN_WaitConfirmInput(unsigned char *ctx)
     }
     ctx[0x2bb]++;
     if (TOUCHPANEL_GetTrg()) {
-        func_020355D8(1);
+        UI_SetInputMode(1);
         ctx[0x2bb] = 0;
         return 1;
     }
     if (KEY_GetTrg() & 3) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         ctx[0x2bb] = 0;
         return 1;
     }
@@ -3957,20 +3957,20 @@ int ZKNSEARCH_MAIN_PollListInput(char *ctx)
 {
     int result = TOUCHPANEL_HitTrg(d_021C0B3C);
     if (result != -1) {
-        func_020355D8(1);
+        UI_SetInputMode(1);
         return result;
     }
     if (KEY_GetTrg() & 2) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         return 8;
     }
     if (KEY_GetTrg() & 8) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         return 8;
     }
     if (KEY_GetTrg() & 4) {
         if (UI_GetInputMode() == 1) {
-            func_020355D8(0);
+            UI_SetInputMode(0);
             FRAME_LIST_ShowCursor(((ZknSearchWork *)ctx)->frameList);
         }
         return 9;
@@ -3983,12 +3983,12 @@ int ZKNSEARCH_MAIN_PollListInput(char *ctx)
 int ZKNSEARCH_MAIN_PollListInput2(char *ctx)
 {
     int result = TOUCHPANEL_HitTrg(d_021C0B24);
-    if (result != -1) { func_020355D8(1); return result; }
-    if (KEY_GetTrg() & 2) { func_020355D8(0); return 8; }
-    if (KEY_GetTrg() & 8) { func_020355D8(0); return 8; }
+    if (result != -1) { UI_SetInputMode(1); return result; }
+    if (KEY_GetTrg() & 2) { UI_SetInputMode(0); return 8; }
+    if (KEY_GetTrg() & 8) { UI_SetInputMode(0); return 8; }
     if (KEY_GetTrg() & 4) {
         if (UI_GetInputMode() == 1) {
-            func_020355D8(0);
+            UI_SetInputMode(0);
             FRAME_LIST_ShowCursor(((ZknSearchWork *)ctx)->frameList);
         }
         return 9;

@@ -41,7 +41,7 @@
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
- *   func_02082A7C 0x02082A7C arm
+ *   MIi_CpuClear32 0x02082A7C arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
@@ -243,7 +243,7 @@ extern void BG_SYS_Create(u16),BMP_WIN_Init(u16);
 
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
-extern void func_02082A7C(int,int,unsigned int);
+extern void MIi_CpuClear32(int,int,unsigned int);
 
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 
@@ -611,7 +611,7 @@ void LOCAL_TVT_SYS_SetupDisplay(u8 *p)
     LOCAL_TVT_SYS_SetupBgLayer((const struct BgTemplate *)d_021B7410,2,2);
     LOCAL_TVT_SYS_SetupBgLayer((const struct BgTemplate *)d_021B7430,3,2);
     LOCAL_TVT_SYS_SetupBgLayer((const struct BgTemplate *)d_021B73F0,7,0);
-    func_02082A7C(0,0x06000000,0x40000);
+    MIi_CpuClear32(0,0x06000000,0x40000);
     c=gClActorInitParam;
     CLACT_InitSystem((const struct Cfg *)(&c),(unsigned int)d_021B7450,((struct LocalTvtSys *)p)->heapId);
     BG_SYS_SetMainPlaneVisible(16,1);

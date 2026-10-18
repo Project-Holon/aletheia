@@ -23,7 +23,7 @@
  *   d_021EFCD0 0x021EFCD0 data a1
  *   d_021EFCC8 0x021EFCC8 data a1
  *
- * Sibling of src/matched/ov/ov170_func_021ED594.c: builds (or moves) the
+ * Sibling of src/matched/ov/BOX2_SEQ_MoveCursorActor.c: builds (or moves) the
  * eight frame pieces around window 10 while the count at 0xA16C is nonzero.
  * The index is an int compared against 8u (docs/idioms/a-signed-index-under-an-unsigned-bound-keeps-the-window-sum-uncached.md).
  */

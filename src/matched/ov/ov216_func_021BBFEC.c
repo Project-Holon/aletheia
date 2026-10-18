@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT*
- * Verified EXACT Thumb C copied from parked ov032_func_021F27D4 header:
+ * Verified EXACT Thumb C copied from parked BEACON_VIEW_InitWorkFromSave header:
  * u32 BEACON_STATUS_GetLog(u32 a) { return a; }
  * Singleton TU --suggest-split leaves caller out; no viable partition.
  * Trailing 021BC0B2..021BC0B4 is zero alignment padding.

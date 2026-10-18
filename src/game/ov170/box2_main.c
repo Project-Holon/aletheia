@@ -82,7 +82,7 @@
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   CURSOR_MOVE_GetState 0x020260F0 thumb
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   APP_TASKMENU_OpenMenu 0x02027778 thumb
  *   APP_TASKMENU_SetCursorPos 0x02027CFC thumb
  *   BOX2_SEQ_SetActorAutoAnim 0x021EBFCC thumb
@@ -783,7 +783,7 @@ extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 
 extern u32 CURSOR_MOVE_GetState(struct Sound *obj);
 
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
 
@@ -1532,9 +1532,9 @@ void BOX2_MAIN_OpenTaskMenu(BoxTask *p, int sel)
     t.w = 8;
     t.h = 3;
     if (CURSOR_MOVE_GetState(p->work->sound) == 1)
-        func_020355D8(0);
+        UI_SetInputMode(0);
     else
-        func_020355D8(1);
+        UI_SetInputMode(1);
     p->work->taskMenu = APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&t), p->work->taskMenuRes);
     APP_TASKMENU_SetCursorPos((u8 *)p->work->taskMenu, sel);
 }
@@ -1657,7 +1657,7 @@ int BOX2_MAIN_IsWrappedDistance(unsigned char *p, unsigned a, unsigned b)
  */
 void BOX2_MAIN_PlayCursorSound(BoxTask *p)
 {
-    func_020355D8(0);
+    UI_SetInputMode(0);
     if (CURSOR_MOVE_GetState(p->work->sound) == 0)
         CURSOR_MOVE_SetState(p->work->sound, 1);
 }
@@ -4645,7 +4645,7 @@ void BOX2_MAIN_MoveCursorTo(BoxWork *w, int x, int y)
 }
 
 /*
- * Sibling of src/matched/ov170_func_021E0ABC.c.
+ * Sibling of src/matched/BOX2_MAIN_StateMachineCoin.c.
  */
 int BOX2_MAIN_StateMachineSlide(BoxTask *p)
 {

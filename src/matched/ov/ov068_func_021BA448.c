@@ -93,7 +93,7 @@
  *   func_02040588  0x02040588  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_020355C4  0x020355C4  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   APP_TASKMENU_WIN_SetActive  0x02028218  thumb
  *   APP_TASKMENU_WIN_SetDecide  0x0202822C  thumb
  *   TOUCHBAR_Update  0x021B63D0  thumb  ov067
@@ -133,7 +133,7 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_020061E4_2(int id);
 extern u8 func_020355C4(void);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern void APP_TASKMENU_WIN_SetActive(struct Obj *obj, u32 a);
 extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 extern void TOUCHBAR_Update(struct S *p);
@@ -175,7 +175,7 @@ void OPTION_MENU_UpdateButtons(W *p, void *obj, void *arg)
             p->f10 = 1;
             p->f40 = 1;
             if (func_020355C4() == 0)
-                func_020355D8(1);
+                UI_SetInputMode(1);
         } else if (OPTION_MENU_IsPointInRect(gOptionMenuCancelRect, pt) && p->fC != 1) {
             func_02040588(4, 0);
             GFL_USE_PlaySeDefaultVolume(0x551);
@@ -183,7 +183,7 @@ void OPTION_MENU_UpdateButtons(W *p, void *obj, void *arg)
             p->f10 = 1;
             p->f40 = 1;
             if (func_020355C4() == 0)
-                func_020355D8(1);
+                UI_SetInputMode(1);
         } else if (p->fC != 3) {
             p->fC = 3;
         }

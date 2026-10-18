@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled leaf called only from GIMMICK43_ElevatorEventMain; the ov044 twin is
- * ov044_func_021F390C.c with every field one word lower.
+ * FIELD_GIMMICK_LIFT_IsLiftArrived.c with every field one word lower.
  */
 
 int FIELD_GIMMICK_LIFT_ELEVATOR_IsLiftArrived(int *p)

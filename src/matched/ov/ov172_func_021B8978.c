@@ -12,7 +12,7 @@
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  *   CTVT_ADPCM_ResetDecoder 0x021B69F0 thumb ov172
- *   func_02082A7C 0x02082A7C arm
+ *   MIi_CpuClear32 0x02082A7C arm
  *   CTVT_MIC_DecodeAdpcm 0x021BA194 thumb ov172
  *   gCtvtCommFreqTable 0x021C6EC0 data a2
  */
@@ -29,7 +29,7 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern void CTVT_ADPCM_ResetDecoder(void);
-extern void func_02082A7C(int, void *, int);
+extern void MIi_CpuClear32(int, void *, int);
 extern int CTVT_MIC_DecodeAdpcm(int unused, int a, void *buf, unsigned n);
 void CTVT_COMM_ReceiveVoicePacket(int a, int b, int c, char *q)
 {
@@ -42,7 +42,7 @@ void CTVT_COMM_ReceiveVoicePacket(int a, int b, int c, char *q)
     GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle()));
     if (((struct Obj05444 *)data)->f5 == 0) {
         CTVT_ADPCM_ResetDecoder();
-        func_02082A7C(0, ((struct Obj03854 *)q)->f1A8, 0xc800);
+        MIi_CpuClear32(0, ((struct Obj03854 *)q)->f1A8, 0xc800);
     }
     CTVT_MIC_DecodeAdpcm((int)p, (int)input, *(char * *)&((struct Obj03854 *)q)->f1A8 + (((struct Obj05444 *)data)->f5 << 11), ((struct Obj05444 *)data)->f0);
     if (((struct Obj05444 *)data)->f4 == 1) {

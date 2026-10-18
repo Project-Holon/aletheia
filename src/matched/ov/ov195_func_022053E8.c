@@ -14,7 +14,7 @@
  *   TOUCHPANEL_GetCont  0x02035C38  arm
  *   KEY_GetTrg  0x020362DC  arm
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb  arm9
  *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb  arm9
@@ -41,7 +41,7 @@ extern unsigned int KEY_GetCont(void);
 extern int TOUCHPANEL_GetCont(void);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 
 int SHINKA_DEMO_AdvanceText(char *a)
 {
@@ -52,9 +52,9 @@ int SHINKA_DEMO_AdvanceText(char *a)
         if ((KEY_GetCont() & 3) != 0 || TOUCHPANEL_GetCont() != 0) {
             PRINTSYS_PrintStreamShortWait((struct Rec *)(((struct Obj10819 *)a)->f64), 0);
             if ((KEY_GetCont() & 3) != 0)
-                func_020355D8(0);
+                UI_SetInputMode(0);
             else
-                func_020355D8(1);
+                UI_SetInputMode(1);
         }
         break;
     case 1:
@@ -62,9 +62,9 @@ int SHINKA_DEMO_AdvanceText(char *a)
             GFL_USE_PlaySeDefaultVolume(0x547);
             PRINTSYS_PrintStreamReleasePause((void *)(((struct Obj10819 *)a)->f64));
             if ((KEY_GetTrg() & 3) != 0)
-                func_020355D8(0);
+                UI_SetInputMode(0);
             else
-                func_020355D8(1);
+                UI_SetInputMode(1);
         }
         break;
     case 2:

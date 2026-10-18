@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Once filed EXACT* because the extent ran into the unlabelled leaf FIELD_GIMMICK_LIFT_IsLiftArrived
- * (filed as ov044_func_021F390C.c).
+ * (filed as FIELD_GIMMICK_LIFT_IsLiftArrived.c).
  *
  * symbols:
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb

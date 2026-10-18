@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Cut from zukan_detail_common.c, zukan_detail_graphic.c, zukan_detail_form.c, ov208_func_021C80CC.c by tools/splitfile.py.
+ * Cut from zukan_detail_common.c, zukan_detail_graphic.c, zukan_detail_form.c, ZUKAN_DETAIL_FORM_CopyModelPosition.c by tools/splitfile.py.
  *
  * symbols:
  *   GFL_HEAP_Alloc 0x02030734 arm
@@ -48,7 +48,7 @@
  *   data_021C8314  0x021C8314  data
  *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   KEY_GetTrg 0x020362DC arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
@@ -156,7 +156,7 @@ extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 
 extern u32 KEY_GetTrg(void);
 
@@ -557,14 +557,14 @@ int ZKND_TBAR_UpdateButtonTouch(char *p)
     if(CLACT_GetActorDrawEnable((struct Obj *)((struct Ov208Rec *)p)->f0)&((struct Ov208Rec *)p)->f4) {
         if(TOUCHPANEL_GetPointTrg(&x,&y) && x-((struct Ov208Rec *)p)->desc.x<=((struct Ov208Rec *)p)->desc.h8 && y-((struct Ov208Rec *)p)->desc.y<=24) {
             hit=1;
-            func_020355D8(1);
+            UI_SetInputMode(1);
         }
         if(((struct Ov208Rec *)p)->desc.f18 && (KEY_GetTrg()&((struct Ov208Rec *)p)->desc.f18)) {
-            func_020355D8(0);
+            UI_SetInputMode(0);
             hit=1;
         }
         if(((struct Ov208Rec *)p)->f34) {
-            func_020355D8(0);
+            UI_SetInputMode(0);
             hit=1;
         }
         if(hit) {

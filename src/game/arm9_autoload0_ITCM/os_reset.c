@@ -18,7 +18,7 @@
  *   OSi_ReloadRomData         0x01FF8540  arm
  *   OSi_VerifyStaticSegments  0x01FF836C  arm
  *   OSi_DoBoot                0x01FF8460  arm
- *   MIi_CpuClear32     0x01FF852C  arm
+ *   OSi_CpuClear32     0x01FF852C  arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;

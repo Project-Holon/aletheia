@@ -90,7 +90,7 @@
  *   ARC_UTIL_UploadBgPaletteAddFromHandle  0x02049990  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   FLD_VREQ_SetBgVisible  0x021D3244  thumb  ov021
- *   ov031_func_021EFEC0  0x021EFEC0  thumb  ov031
+ *   UNION_SUBDISP_Create  0x021EFEC0  thumb  ov031
  *   abs_id_1f      0x0000001F  data
  *   UNION_SUBDISP_Delete  0x021EFFE8  thumb  ov031
  *   UNION_MAIN_IsIdle  0x0217394C  thumb  ov012
@@ -119,7 +119,7 @@
  *   REPORT_IsSaveAnimDone  0x021F00F0  thumb  ov034
  *   REPORT_StopSaveAnim  0x021F0108  thumb  ov034
  *   REPORT_CheckSaveCounter  0x021F009C  thumb  ov034
- *   ov035_func_021EFEC0  0x021EFEC0  thumb  ov035
+ *   C_GEAR_POWER_ONOFF_Create  0x021EFEC0  thumb  ov035
  *   abs_id_23      0x00000023  data
  *   C_GEAR_POWER_ONOFF_Update 0x021EFF3C thumb ov035
  *   C_GEAR_POWER_ONOFF_Delete  0x021EFF2C  thumb  ov035
@@ -202,7 +202,7 @@ extern void ARC_UTIL_UploadBgCharFromHandle(struct ArchiveHandle *handle, u32 fi
 extern void ARC_UTIL_UploadBgPaletteAddFromHandle(struct ArchiveHandle *handle, u32 fileId, u32 bgId, u32 x, u32 y, u32 width, u32 height, u32 heapId);
 extern void ARC_TOOL_DeleteHandle(struct ArchiveHandle *handle);
 extern void FLD_VREQ_SetBgVisible(struct FieldVReq *vreq, int index, u8 value);
-extern void *ov031_func_021EFEC0(void *gameSystem);
+extern void *UNION_SUBDISP_Create(void *gameSystem);
 extern void UNION_SUBDISP_Delete(void *unionPanel);
 extern int UNION_MAIN_IsIdle(void *gameSystem);
 extern void UNION_SUBDISP_Draw(void *unionPanel, int isFieldIdle);
@@ -253,7 +253,7 @@ extern void REPORT_StartSaveAnim(void *report);
 extern int REPORT_IsSaveAnimDone(void *report);
 extern void REPORT_StopSaveAnim(void *report);
 extern unsigned REPORT_CheckSaveCounter(void *report);
-extern void *ov035_func_021EFEC0(void *work, void *gameSystem, u32 heapId);
+extern void *C_GEAR_POWER_ONOFF_Create(void *work, void *gameSystem, u32 heapId);
 extern int C_GEAR_POWER_ONOFF_Update(void *powerOnoff);
 extern void C_GEAR_POWER_ONOFF_Delete(void *powerOnoff);
 void FIELD_SUBSCREEN_InitBeaconView(FieldSubscreen *work);
@@ -695,7 +695,7 @@ void *FIELD_SUBSCREEN_GetCGear(FieldSubscreen *work)
 void FIELD_SUBSCREEN_InitUnion(FieldSubscreen *work)
 {
     GF_OVERLAY_Load(FIELD_SUBSCREEN_OVERLAY_UNION);
-    work->cgear = ov031_func_021EFEC0(FIELDMAP_GetGameSystem(work->fieldMap));
+    work->cgear = UNION_SUBDISP_Create(FIELDMAP_GetGameSystem(work->fieldMap));
 }
 
 /* Mode 2 exit. */
@@ -869,7 +869,7 @@ int FIELD_SUBSCREEN_CheckReportSaveCounter(FieldSubscreen *work)
 void FIELD_SUBSCREEN_InitPowerOnoff(FieldSubscreen *work)
 {
     GF_OVERLAY_Load((int)abs_id_23);
-    work->cgear = ov035_func_021EFEC0(work, FIELDMAP_GetGameSystem(work->fieldMap), 0x70);
+    work->cgear = C_GEAR_POWER_ONOFF_Create(work, FIELDMAP_GetGameSystem(work->fieldMap), 0x70);
 }
 
 /* Mode 9 update. */

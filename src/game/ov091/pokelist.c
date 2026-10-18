@@ -26,7 +26,7 @@
  *   POKE_REGULATION_Load  0x0201A354  thumb
  *   GFL_USE_GetRandomBelow  0x02005728  thumb
  *   POKE_REGULATION_FindValidOrder  0x0201A59C  thumb
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   d_021BED0C     0x021BED0C  data  a1
  *   d_021BEA78     0x021BEA78  data  a2
  *   d_021BEA84     0x021BEA84  data  a2
@@ -539,7 +539,7 @@ extern u32 KEY_GetCont(void);
 extern void *POKE_REGULATION_Load(int a, int b);
 extern u32 GFL_USE_GetRandomBelow(u32 range);
 extern int POKE_REGULATION_FindValidOrder(void *a0, void *a1, void *a2);
-extern void func_020355D8(int a);
+extern void UI_SetInputMode(int a);
 extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern u32 POKEPARTY_GetCount(void *);
@@ -886,7 +886,7 @@ extern const u8 d_021BEAAA[];
 /*
  * Byte-correct; the one wildcard is the arm9 call to 0x0201A354 (+0x10E).
  *   data run, the integrator's) has no witness outside this range. Verified C for it
- *   (from src/pending/ov/ov021_func_021B57CC.c, match.py one --thumb, EXACT,
+ *   (from src/pending/ov/SCRCMD_FLD_BATTLE_StoreAllowedSpeciesNames.c, match.py one --thumb, EXACT,
  *   16 bytes):
  *     extern int ARC_TOOL_LoadMember();  (symbols: ARC_TOOL_LoadMember 0x02048F60 arm)
  *     int POKE_REGULATION_Load(int a, int b) { return ARC_TOOL_LoadMember(0x69, a, b); }
@@ -973,7 +973,7 @@ int POKELIST_Init(struct Proc *procObj, int *seq, PokelistArg *arg, PokelistWork
             } else if (KEY_GetCont() & 0x800) {
                 arg->mode = 0x19;
             }
-            func_020355D8(1);
+            UI_SetInputMode(1);
         }
         work->arg = arg;
         *seq = 1;
@@ -1173,7 +1173,7 @@ int POKELIST_ExitWork(PokelistWork *work)
         work->arg->mode = 0x19;
     if (work->restoreMode1A == 1)
         work->arg->mode = 0x1a;
-    func_020355D8(work->touchMode);
+    UI_SetInputMode(work->touchMode);
     return 1;
 }
 
@@ -2810,7 +2810,7 @@ void POKELIST_EnterMenuPhase(PokelistWork *work)
     CLACT_SetActorDrawEnable(work->switchButtonActor, 0);
     CLACT_SetActorDrawEnable(work->backButtonActor, 0);
     BG_SYS_SetFlagField06(0);
-    func_020355D8(work->touchMode);
+    UI_SetInputMode(work->touchMode);
 }
 
 void POKELIST_CloseContextMenu(PokelistWork *work)

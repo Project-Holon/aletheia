@@ -12,16 +12,16 @@
  * sdk:      DWCi_SetMatchCommonParam (dwc_match.o)
  *
  * symbols:
- *   func_0216F388  0x0216F388  arm  ov009
+ *   DWCi_ResetMatchParam  0x0216F388  arm  ov009
  *   func_02175F3C  0x02175F3C  arm  ov009
  */
 
-extern void func_0216F388(int flag);
+extern void DWCi_ResetMatchParam(int flag);
 extern char *func_02175F3C(void);
 
 void DWCi_SetMatchCommonParam(unsigned char matchType, unsigned char numEntry, void *callback, void *param)
 {
-    func_0216F388(0);
+    DWCi_ResetMatchParam(0);
     *(unsigned char *)(func_02175F3C() + 0x14) = matchType;
     *(unsigned char *)(func_02175F3C() + 0x17) = numEntry;
     *(void **)(func_02175F3C() + 0x770) = callback;

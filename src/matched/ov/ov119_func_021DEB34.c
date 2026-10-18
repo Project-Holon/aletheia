@@ -11,7 +11,7 @@
  *   POKETRADE_PROC_TickWifiTimer 0x021DD140 thumb ov119
  *   POKETRADE_SAVE_IsMessagePrintDone 0x021E12AC thumb ov119
  *   KEY_GetTrg 0x020362DC arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_020355C4 0x020355C4 arm
  *   POKETRADE_2D_MovePickedIconActor 0x021E68F4 thumb ov119
@@ -26,7 +26,7 @@ typedef unsigned char  u8;
 extern int POKETRADE_PROC_TickWifiTimer(char *p);
 extern int POKETRADE_SAVE_IsMessagePrintDone(char *p);
 extern u32 KEY_GetTrg(void);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern int TOUCHPANEL_GetTrg(void);
 extern u8 func_020355C4(void);
 extern void POKETRADE_2D_MovePickedIconActor(int p, int i);
@@ -39,10 +39,10 @@ void POKETRADE_NEGO_StepWaitInputAfterMessage(void *p)
     int v;
     if(POKETRADE_PROC_TickWifiTimer(p) && POKETRADE_SAVE_IsMessagePrintDone(p)) {
         v=KEY_GetTrg();
-        if(v) func_020355D8(0);
+        if(v) UI_SetInputMode(0);
         if(v==0) {
             v=TOUCHPANEL_GetTrg();
-            if(v) func_020355D8(1);
+            if(v) UI_SetInputMode(1);
             if(v==0) return;
         }
         if(func_020355C4()) POKETRADE_2D_MovePickedIconActor((int)p,-1);

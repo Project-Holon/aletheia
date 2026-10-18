@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Cut from guru2.c, guru2_main.c, ov137_func_021E19C0.c by tools/splitfile.py.
+ * Cut from guru2.c, guru2_main.c, GURU2_MAIN_BroadcastResult.c by tools/splitfile.py.
  *
  * symbols:
  *   PROCSYS_AllocProcWork 0x0203159C arm

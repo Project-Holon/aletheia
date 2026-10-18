@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   KEY_GetTrg 0x020362DC arm
  *   gWf2dmapFriendKeyHitRects 0x021CA529 data a1
  */
@@ -18,13 +18,13 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 extern int TOUCHPANEL_HitTrg(const void *);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern u32 KEY_GetTrg(void);
 extern const u8 gWf2dmapFriendKeyHitRects[];
 int WF2DMAP_TOUCH_GetFriendKeyInput(void *unused,int *q) {
  int v=TOUCHPANEL_HitTrg(gWf2dmapFriendKeyHitRects);
- if(v!=-1) {func_020355D8(1);*q=1;return v;}
- if(KEY_GetTrg()&2) {func_020355D8(0);*q=0;return 0;}
- if(KEY_GetTrg()&1024) {func_020355D8(0);*q=0;return 1;}
+ if(v!=-1) {UI_SetInputMode(1);*q=1;return v;}
+ if(KEY_GetTrg()&2) {UI_SetInputMode(0);*q=0;return 0;}
+ if(KEY_GetTrg()&1024) {UI_SetInputMode(0);*q=0;return 1;}
  return -1;
 }

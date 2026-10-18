@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082B60   0x02082B60  arm
+ *   MI_Copy36B   0x02082B60  arm
  *
  * Original (28 bytes):
  *   ldr r1, [pc, #0xc]   ; 0x04000400
@@ -20,10 +20,10 @@
  *   bx  ip
  */
 
-extern void func_02082B60(const void *src);
+extern void MI_Copy36B(const void *src);
 
 void G3_MultMtx33(const void *m)
 {
     *(volatile unsigned int *)0x04000400 = 0x1a;
-    func_02082B60(m);
+    MI_Copy36B(m);
 }

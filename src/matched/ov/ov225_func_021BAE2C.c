@@ -12,7 +12,7 @@
  * symbols:
  *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   MANUAL_COMMON_GetCursorIndex 0x021BB034 thumb ov225
  *   APP_TASKMENU_WIN_SetActive 0x02028218 thumb
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
@@ -44,7 +44,7 @@ typedef unsigned u32;
 struct Obj;struct Vec2 {short x,y;};
 extern u32 CLACT_GetActorDrawEnable(struct Obj *);
 extern u32 TOUCHPANEL_GetPointCont(u32 *,u32 *),TOUCHPANEL_GetPointTrg(u32 *,u32 *);
-extern void func_020355D8(u8);
+extern void UI_SetInputMode(u8);
 extern u16 MANUAL_COMMON_GetCursorIndex(u16 **),MANUAL_COMMON_GetScrollTop(u16 **),MANUAL_COMMON_GetLastVisible(u16 **);
 extern void APP_TASKMENU_WIN_SetActive(struct Obj *obj, u32 a);
 extern void CLACT_AddActorSurfacePos(struct Obj *,const struct Vec2 *,u32);
@@ -62,7 +62,7 @@ int MANUAL_COMMON_UpdateListWorkDrag(char *p)
         if(TOUCHPANEL_GetPointCont(&dragx,&dragy)) {
             int offset;
             u16 selection,end;
-            func_020355D8(1);
+            UI_SetInputMode(1);
             APP_TASKMENU_WIN_SetActive(*(void **)(p+MANUAL_COMMON_GetCursorIndex((u16 **)p)*4+0xc),0);
             offset=0;
             drag.x=240;
@@ -88,7 +88,7 @@ int MANUAL_COMMON_UpdateListWorkDrag(char *p)
         if(TOUCHPANEL_GetPointTrg(&clickx,&clicky) && clickx>=240 && clickx<=247 && clicky>=17 && clicky<=150) {
             int offset;
             u16 selection,end;
-            func_020355D8(1);
+            UI_SetInputMode(1);
             APP_TASKMENU_WIN_SetActive(*(void **)(p+MANUAL_COMMON_GetCursorIndex((u16 **)p)*4+0xc),0);
             offset=0;
             GFL_USE_PlaySeDefaultVolume(0x548);

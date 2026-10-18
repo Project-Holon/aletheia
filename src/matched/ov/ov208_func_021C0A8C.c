@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   ov208_func_021BC3B4  0x021BC3B4  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_GetWorkPtr  0x021BC3B4  thumb  ov208
  *   CLACT_IsActorAnimActive  0x0204B98C  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 typedef short          s16;
 typedef int            s32;
 
-extern void *ov208_func_021BC3B4(int key);
+extern void *ZUKAN_DETAIL_COMMON_GetWorkPtr(int key);
 struct Actor;
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern void CLACT_SetActorAnimSeq(u32 obj, u32 anim);
@@ -42,7 +42,7 @@ void ZUKAN_DETAIL_AREA_UpdateSelectorAnim(u16 *heap, u8 *p, int key)
     u32 next;
     u32 nextAnim;
 
-    scene = ov208_func_021BC3B4(key);
+    scene = ZUKAN_DETAIL_COMMON_GetWorkPtr(key);
     sel = p[0xd8];
     if (sel == 2) {
         anim = 2;

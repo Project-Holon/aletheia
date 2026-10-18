@@ -24,7 +24,7 @@
  * symbols:
  *   OS_DisableInterrupts  0x02087988  arm
  *   SOCLi_ReadCPSBuffer  0x0215DA34  arm  ov009
- *   func_02082EA4  0x02082EA4  arm
+ *   MI_CpuCopy  0x02082EA4  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  */
 
@@ -49,7 +49,7 @@ extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern unsigned char *SOCLi_ReadCPSBuffer(struct SOCLSocket *socket, long *buffer_len, unsigned short *local_port,
 				    unsigned short *remote_port, unsigned long *remote_ip);
-extern void func_02082EA4(void *srcp, void *destp, unsigned long size);
+extern void MI_CpuCopy(void *srcp, void *destp, unsigned long size);
 
 static inline int SOCL_SocketIsTCP(struct SOCLSocket *socket)
 {
@@ -78,7 +78,7 @@ static int func_0215D92C(struct SOCLSocket *socket, void *buffer, int buffer_len
 		} else {
 			copy_len = (buffer_len <= cpsbuffer_len) ? buffer_len : cpsbuffer_len;
 			consume_len = SOCL_SocketIsTCP(socket) ? copy_len : cpsbuffer_len;
-			func_02082EA4(cpsbuffer, buffer, copy_len);
+			MI_CpuCopy(cpsbuffer, buffer, copy_len);
 			recv_pipe = socket->recv_pipe;
 			if (!recv_pipe->flag_noconsume)
 				recv_pipe->consumed += consume_len;

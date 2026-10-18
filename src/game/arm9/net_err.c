@@ -83,7 +83,7 @@
  *   GFL_NET_GetIrcParams             0x0203D828  arm
  *   GX_SetBankForSubBG        0x020806B0  arm
  *   OS_WaitIrq                0x0208459C  arm
- *   func_02082A7C  0x02082A7C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
  *   ARC_UTIL_LoadMember  0x0204A1BC  arm
  *   NNS_G2dGetUnpackedCharacterDataEx  0x02062A4C  arm
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
@@ -369,7 +369,7 @@ extern u32  BG_SYS_GetSubVisiblePlanes(void);
 extern void BG_SYS_SetSubVisiblePlanes(u32 visiblePlane);
 extern void GFL_NET_GetIrcParams(u32 *x, u32 *y);
 extern void GX_SetBankForSubBG(u32 bank);
-extern void func_02082A7C(u32 value, void *dst, u32 size);
+extern void MIi_CpuClear32(u32 value, void *dst, u32 size);
 extern int ARC_UTIL_LoadMember(int arcId, int fileId, int heapId, int flag);
 extern s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroResFile *file, void **out);
 extern void DWCi_ScreenDC_FlushRange(void *p, u32 size);
@@ -1398,7 +1398,7 @@ void GFL_NET_ERR_LoadScreenGraphics(u32 screenIndex)
     u32 unusedData;
     u16 arcId;
 
-    func_02082A7C(0, G2_GetBG1CharPtr(), NET_ERR_BG1_CHAR_SIZE);
+    MIi_CpuClear32(0, G2_GetBG1CharPtr(), NET_ERR_BG1_CHAR_SIZE);
 
     arcId = sNetErrScreenRes[screenIndex].arcId;
     file = (void *)ARC_UTIL_LoadMember(arcId, sNetErrScreenRes[screenIndex].charFileId, 0, 1);

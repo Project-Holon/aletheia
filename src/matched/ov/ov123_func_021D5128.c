@@ -32,7 +32,7 @@
  *   TCBL_Create 0x0203101C arm
  *   func_0207D63C 0x0207D63C arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   GSYNC_MENU_VBlank 0x021D5120 thumb ov123
  *   GSYNC_MENU_InitBgLayers 0x021D424C thumb ov123
  *   GSYNC_MENU_LoadResources 0x021D4884 thumb ov123
@@ -93,7 +93,7 @@ extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32
 extern void GSYNC_MENU_ChangeState(char *,void *,int);
 extern void GSYNC_MENU_StateSetupButtons(char *);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 int GSYNC_MENU_ProcInit(void *a,int b,u8 *q)
 {
     char *p;
@@ -129,6 +129,6 @@ int GSYNC_MENU_ProcInit(void *a,int b,u8 *q)
     *(u32 *)&((struct Obj06459 *)q)->f2C8=0; BG_SYS_SetSubVisiblePlanes(31);
     GSYNC_MENU_ChangeState(p,GSYNC_MENU_StateSetupButtons,0x5bf);
     ((struct Obj00590 *)p)->f258=q;
-    GFL_NET_RestartWithDefaultTimeout(0,((struct Obj00590 *)p)->fC); func_020355D8(1);
+    GFL_NET_RestartWithDefaultTimeout(0,((struct Obj00590 *)p)->fC); UI_SetInputMode(1);
     return 1;
 }

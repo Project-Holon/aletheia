@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Sibling of src/matched/ov170_func_021E2650.c and ov170_func_021E376C.c.
+ * Sibling of src/matched/BOX2_SEQ_StateBoxMenu.c and BOX2_SEQ_StateMoveMove.c.
  * The image computes r + 0x1E
  * separately for BOX2_MAIN_ChangeBoxFormPreserve and for the call after it; the (int) cast on
  * the first keeps the two expressions apart so they are not CSEd.

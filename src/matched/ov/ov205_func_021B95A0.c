@@ -10,7 +10,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082A7C 0x02082A7C arm
+ *   MIi_CpuClear32 0x02082A7C arm
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
@@ -22,7 +22,7 @@ extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
 typedef unsigned int   u32;
 struct Proc;
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
-extern void func_02082A7C(unsigned,void *,unsigned);
+extern void MIi_CpuClear32(unsigned,void *,unsigned);
 typedef unsigned char  u8;
 struct Big;
 struct Ctx;
@@ -38,7 +38,7 @@ int SAVE_SCREEN_Init(void *owner,int unused,void **args)
     context=*args;
     GFL_HEAP_CreateChildHeap(1,84,1<<18);
     p=PROCSYS_AllocProcWork(owner,76,84);
-    func_02082A7C(0,p,76);
+    MIi_CpuClear32(0,p,76);
     ((struct Obj04611 *)p)->f0=84;
     ((struct Obj04611 *)p)->f2=36;
     ((struct Obj04611 *)p)->f4=GAMESYSTEM_GetGameData(context);

@@ -9,8 +9,11 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   MIi_CpuClear32  0x02082A7C  arm
  */
 #include "../include/Obj11327.h"
 
-extern void func_02082A7C(int, int, int, int);
-void BACKUP_SYSTEM_ClearBlockAreas(int a0, int a1, int a2, int a3){ func_02082A7C((int)0, (int)((struct Obj11327 *)((char *)(a0)))->f138, (int)((struct Obj11327 *)((char *)(a0)))->f13C, (int)a3); }
+extern void MIi_CpuClear32(int, int, int, int);
+void BACKUP_SYSTEM_ClearBlockAreas(int a0, int a1, int a2, int a3){ MIi_CpuClear32((int)0, (int)((struct Obj11327 *)((char *)(a0)))->f138, (int)((struct Obj11327 *)((char *)(a0)))->f13C, (int)a3); }

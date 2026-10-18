@@ -25,7 +25,7 @@
  *   FADE_GetSpeed 0x0204E6E0 arm
  *   FADE_SetSpeed 0x0204E6F4 arm
  *   UI_GetInputMode 0x020355C4 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   callbacks 0x021BC84C data a4
@@ -255,7 +255,7 @@ extern void MI_CpuFill8(void *,u32,u32);
 extern u32 FADE_GetSpeed(void);
 extern void FADE_SetSpeed(int);
 extern u8 UI_GetInputMode(void);
-extern void func_020355D8(u32 v);
+extern void UI_SetInputMode(u32 v);
 extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
@@ -517,7 +517,7 @@ int PSEL_Exit(void *a, int unused1, int unused2, u8 *ctx)
 {
     u16 v;
     FADE_Start(0xC, 0x10, 0x10, 0);
-    func_020355D8(*(u32 *)(ctx + 8));
+    UI_SetInputMode(*(u32 *)(ctx + 8));
     FADE_SetSpeed(*(u32 *)(ctx + 0x874));
     switch (*(u32 *)(ctx + 0x228)) {
     case 0:

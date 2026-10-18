@@ -11,7 +11,7 @@
  *
  * symbols:
  *   NNS_G3dGlbBaseTrans  0x0206A9DC  arm
- *   func_02082B60  0x02082B60  arm
+ *   MI_Copy36B  0x02082B60  arm
  *   NNS_G3dGlbBaseScale  0x0206AA0C  arm
  *   NNS_G3dGlbFlush  0x0206A854  arm
  *   NNS_G3dGeBufferOP_N  0x0206DDA4  arm
@@ -33,7 +33,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void NNS_G3dGlbBaseTrans(void *p);
-extern void func_02082B60(void *a, void *b);
+extern void MI_Copy36B(void *a, void *b);
 extern void NNS_G3dGlbBaseScale(void *p);
 extern void NNS_G3dGlbFlush(void);
 struct P02047C8C;
@@ -57,7 +57,7 @@ int FIELD_G3D_MAP_Draw(u8 *p)
     r = 0;
     if (*(u16 *)&((struct Obj03541 *)p)->f0 != 0 && ((struct Obj19050 *)(*(u8 * *)&((struct Obj03541 *)p)->f2C))->f4 != 0) {
         NNS_G3dGlbBaseTrans(d_0217216C);
-        func_02082B60(d_02172178, d_02148C08);
+        MI_Copy36B(d_02172178, d_02148C08);
         d_02148BCC.f7c &= ~0xa4;
         NNS_G3dGlbBaseScale(d_02172160);
         NNS_G3dGlbFlush();

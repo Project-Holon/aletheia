@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   MIi_CpuClear32     0x01FF852C  arm
+ *   OSi_CpuClear32     0x01FF852C  arm
  *   OSi_DoBoot         0x01FF8460  arm
  *   OSi_ReloadRomData  0x01FF8540  arm
  */

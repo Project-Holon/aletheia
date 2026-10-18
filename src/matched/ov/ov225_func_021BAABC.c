@@ -15,7 +15,7 @@
  *   MANUAL_COMMON_GetVisibleCount 0x021BB05C thumb ov225
  *   MANUAL_COMMON_GetLastVisible 0x021BB044 thumb ov225
  *   func_020355C4 0x020355C4 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   MANUAL_COMMON_GetCursorIndex 0x021BB034 thumb ov225
  *   APP_TASKMENU_WIN_SetActive 0x02028218 thumb
  *   KEY_GetTrg 0x020362DC arm
@@ -37,7 +37,7 @@ extern void MANUAL_COMMON_BuildListRects(u8 *);
 extern int TOUCHPANEL_HitTrg(const void *);
 extern u16 MANUAL_COMMON_GetVisibleCount(u16 **),MANUAL_COMMON_GetLastVisible(u16 **),MANUAL_COMMON_GetCursorIndex(u16 **),MANUAL_COMMON_GetScrollTop(u16 **);
 extern u8 func_020355C4(void);
-extern void func_020355D8(u8);
+extern void UI_SetInputMode(u8);
 extern void APP_TASKMENU_WIN_SetActive(struct Obj *obj, u32 a);
 extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 extern u32 KEY_GetTrg(void),KEY_GetRepeat(void);
@@ -58,12 +58,12 @@ int MANUAL_COMMON_UpdateListWorkInput(char *p)
     last=MANUAL_COMMON_GetLastVisible((u16 **)p);
     if(func_020355C4()==0) {
         if(hit>=0 && hit<count) {
-            func_020355D8(1);
+            UI_SetInputMode(1);
             APP_TASKMENU_WIN_SetActive(*(void **)(p+MANUAL_COMMON_GetCursorIndex((u16 **)p)*4+0xc),0);
         }
     } else {
         if(KEY_GetTrg()!=0 && !(KEY_GetTrg()&2)) {
-            func_020355D8(0);
+            UI_SetInputMode(0);
             APP_TASKMENU_WIN_SetActive(*(void **)(p+MANUAL_COMMON_GetCursorIndex((u16 **)p)*4+0xc),1);
             ((struct Obj00074 *)p)->f8C=0;
             GFL_USE_PlaySeDefaultVolume(0x548);

@@ -12,7 +12,7 @@
  * FIELD_GIMMICK_ARC_EFFECT_StartPlayerEffect resolves in ov064 (2026-10-02, lane gA2). Starts exist at
  * 0x021F37B8 in ov041, ov050, ov060 and ov064. ov050 is void(void) and ov060
  * takes two arguments. ov041 is out on two counts: its body ends in a tail
- * call to FLD_EXP_OBJ_RemoveUnit, which is void (src/matched/ov/ov021_func_021BE418.c,
+ * call to FLD_EXP_OBJ_RemoveUnit, which is void (src/matched/ov/FLD_EXP_OBJ_RemoveUnit.c,
  * EXACT), so it returns no value for the `t == 0` test; and it hands its
  * argument straight to FIELDMAP_GetExpObj and FIELDMAP_FreeCommonWork, the type that
  * GAMESYSTEM_GetFieldMap returns, while this call passes SCRCMD_WORK_GetGameSystem(b), which the

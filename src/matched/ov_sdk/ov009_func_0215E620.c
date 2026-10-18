@@ -15,12 +15,15 @@
  * otherwise the tail is clamped to what is left.  Both segments copied with
  * the byte copier at 0x02082EA4, and the two cursors advanced in place.
  * Returns the number of bytes produced.
+ *
+ * symbols:
+ *   MI_CpuCopy  0x02082EA4  arm  arm9
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_02082EA4(void *a, u8 *b, int n);
+extern void MI_CpuCopy(void *a, u8 *b, int n);
 
 struct Ring {
     u8   pad_00[0x10];
@@ -44,12 +47,12 @@ int SOCLi_MemCpy(u8 *dst, int len, struct Ring *r)
         m = len - n;
     }
     if (n > 0) {
-        func_02082EA4(r->head, dst, n);
+        MI_CpuCopy(r->head, dst, n);
         r->head += n;
         r->head_len -= n;
     }
     if (m > 0) {
-        func_02082EA4(r->tail, dst + n, m);
+        MI_CpuCopy(r->tail, dst + n, m);
         r->tail += m;
         r->tail_len -= m;
     }

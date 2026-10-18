@@ -35,7 +35,7 @@
  *   STRBUF_Create 0x020457B0 arm
  *   UI_GetInputMode 0x020355C4 arm
  *   MSG_SPEED_GetWait 0x02012FFC thumb
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   STRBUF_Delete 0x02045808 arm
  *   STRBUF_Copy 0x02045838 arm
  *   GAME_DATA_GetField1A0 0x0201283C thumb
@@ -338,7 +338,7 @@ extern void WF2DMAP_TOUCH_AddSlot(char *p, void *q);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern u8 UI_GetInputMode(void);
 extern signed char MSG_SPEED_GetWait(void);
-extern void func_020355D8(int);
+extern void UI_SetInputMode(int);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void STRBUF_Copy(struct U16Vec *dst, struct U16Vec *src);
 extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
@@ -761,7 +761,7 @@ void Wf2dmapFriend_InitText(u8 *p, const u32 *q, int heap) {((Wf2dmapTouchFriend
 
 
 
-void Wf2dmapFriend_DeleteText(u8 *p, void *a1) { func_020355D8(((Wf2dmapTouchFriendData *)p)->textSpeed); STRBUF_Delete(((Wf2dmapTouchFriendData *)p)->textBufA); STRBUF_Delete(((Wf2dmapTouchFriendData *)p)->textBufB); }
+void Wf2dmapFriend_DeleteText(u8 *p, void *a1) { UI_SetInputMode(((Wf2dmapTouchFriendData *)p)->textSpeed); STRBUF_Delete(((Wf2dmapTouchFriendData *)p)->textBufA); STRBUF_Delete(((Wf2dmapTouchFriendData *)p)->textBufB); }
 
 
 
@@ -1324,7 +1324,7 @@ void Wf2dmapFriend_InitTopBar(u8 *p,u8 *q,u8 *r,u16 heap) {((Wf2dmapTouchFriendD
 /*
  * note: 2026-10-05 lane P24L6. Bytes equal to the original (632 B function, 640 B listing
  * extent includes the 8 B stub Wf2dmapFriend_Exit). Only the two Wf2dmapFriend_Exit relocations
- * lack a witness: the stub is now filed as src/matched/ov/ov128_func_021C7138.c (EXACT),
+ * lack a witness: the stub is now filed as src/matched/ov/Wf2dmapFriend_Exit.c (EXACT),
  * so this file should become EXACT after the next manifest refresh. Recoup trail: the
  * condition chain on *p (3,4,1) is an if/else-if chain with q[8]=5 repeated in each arm
  * (bne over b); the shared finish block (Wf2dmapFriend_ResetListWindow with ctx as 2nd argument,
@@ -1561,7 +1561,7 @@ int Wf2dmapFriend_ListKeyInput(u32 *p, int *q, u8 *ctx)
     if (KEY_GetTrg() & 2) {
         GFL_USE_PlaySeDefaultVolume(0x551);
         WF2DMAP_TOUCH_SetTopHighlight1(ctx, *p);
-        func_020355D8(0);
+        UI_SetInputMode(0);
         *q = 0;
         *p = 3;
         return 1;
@@ -1569,7 +1569,7 @@ int Wf2dmapFriend_ListKeyInput(u32 *p, int *q, u8 *ctx)
     if (KEY_GetTrg() & 1024) {
         GFL_USE_PlaySeDefaultVolume(0x556);
         WF2DMAP_TOUCH_SetTopHighlight1(ctx, *p);
-        func_020355D8(0);
+        UI_SetInputMode(0);
         *q = 0;
         *p = 4;
         return 1;
@@ -1578,7 +1578,7 @@ int Wf2dmapFriend_ListKeyInput(u32 *p, int *q, u8 *ctx)
         if (KEY_GetTrg() & 0xcf3) {
             GFL_USE_PlaySeDefaultVolume(0x548);
             WF2DMAP_TOUCH_SetTopHighlight(ctx, *p, *p);
-            func_020355D8(0);
+            UI_SetInputMode(0);
             *q = 0;
         }
         return 0;
@@ -1628,7 +1628,7 @@ int Wf2dmapFriend_ListTouchInput(int *p,int *q,u8 *ctx)
             WF2DMAP_TOUCH_SetTopHighlight(ctx,v,*p);
         }
         *p=v;
-        func_020355D8(1);
+        UI_SetInputMode(1);
         *q=1;
     }
     return v;
@@ -2050,12 +2050,12 @@ int Wf2dmapFriend_ItemKeyInput(s16 *p, u8 *a, u8 *ctx)
     int page;
     int dir;
     if(KEY_GetTrg() & 2) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         ((Wf2dmapTouchFriendData *)a)->textSpeed=0;
         return Wf2dmapFriend_ItemSelect(p,a,ctx,0);
     }
     if(KEY_GetTrg() & 1024) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         ((Wf2dmapTouchFriendData *)a)->textSpeed=0;
         return Wf2dmapFriend_ItemSelect(p,a,ctx,6);
     }
@@ -2063,7 +2063,7 @@ int Wf2dmapFriend_ItemKeyInput(s16 *p, u8 *a, u8 *ctx)
         if(KEY_GetTrg() & 0xcf3) {
             GFL_USE_PlaySeDefaultVolume(0x548);
             WF2DMAP_TOUCH_SetItemHighlight(ctx,p[2],p[2]);
-            func_020355D8(0);
+            UI_SetInputMode(0);
             ((Wf2dmapTouchFriendData *)a)->textSpeed=0;
         }
         return 0;
@@ -2173,7 +2173,7 @@ int Wf2dmapFriend_ItemTouchInput(s16 *p, void *a, void *b, int *changed)
 
 
 
-int Wf2dmapFriend_ItemInput(s16 *p,u8 *q,u8 *r) {int changed=0;int ret=Wf2dmapFriend_ItemTouchInput(p,q,r,&changed);if(changed) {func_020355D8(1);((Wf2dmapTouchFriendData *)q)->textSpeed=1;return ret;}return Wf2dmapFriend_ItemKeyInput(p,q,r);}
+int Wf2dmapFriend_ItemInput(s16 *p,u8 *q,u8 *r) {int changed=0;int ret=Wf2dmapFriend_ItemTouchInput(p,q,r,&changed);if(changed) {UI_SetInputMode(1);((Wf2dmapTouchFriendData *)q)->textSpeed=1;return ret;}return Wf2dmapFriend_ItemKeyInput(p,q,r);}
 
 
 

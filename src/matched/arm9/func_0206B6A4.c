@@ -13,7 +13,7 @@
  *
  * symbols:
  *   gCurrentRS      0x02148DB0  data
- *   func_02082A7C   0x02082A7C  arm
+ *   MIi_CpuClear32   0x02082A7C  arm
  *   NNSi_G3dAnmObjMarkExistMap   0x0206B63C  arm
  *   NNSi_G3dRenderObjRunSbc   0x0206B4A0  arm
  *
@@ -81,7 +81,7 @@ struct Obj0206B6A4 {
 
 extern struct Root *gCurrentRS;
 
-extern void func_02082A7C(u32 val, void *dst, u32 len);
+extern void MIi_CpuClear32(u32 val, void *dst, u32 len);
 extern void NNSi_G3dAnmObjMarkExistMap(void *p, u32 v);
 extern void NNSi_G3dRenderObjRunSbc(void *a, void *b);
 
@@ -90,9 +90,9 @@ void NNS_G3dDraw(struct Obj0206B6A4 *p)
     u8 work[0x188];
 
     if ((p->f00 & 0x10) == 0x10) {
-        func_02082A7C(0, (char *)p + 0x3c, 8);
-        func_02082A7C(0, (char *)p + 0x44, 8);
-        func_02082A7C(0, (char *)p + 0x4c, 8);
+        MIi_CpuClear32(0, (char *)p + 0x3c, 8);
+        MIi_CpuClear32(0, (char *)p + 0x44, 8);
+        MIi_CpuClear32(0, (char *)p + 0x4c, 8);
         if (p->f08 != 0)
             NNSi_G3dAnmObjMarkExistMap((char *)p + 0x3c, p->f08);
         if (p->f10 != 0)

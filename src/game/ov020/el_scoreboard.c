@@ -182,7 +182,7 @@
  *   _ffltu  0x0209BE04  arm
  *   __fdiv  0x0209CE10  arm
  *   __fmul  0x0209C77C  arm
- *   func_0209C95C  0x0209C95C  arm
+ *   __fadd  0x0209C95C  arm
  *   _fsub  0x0209CB8C  arm
  *   _ffix  0x0209C494  arm
  *   COMM_PLAYER_SUPPORT_NextSeason  0x0202E8A4  thumb
@@ -247,7 +247,7 @@ void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 u32 _ffltu(u32 x);
 u32 __fdiv(u32 a, u32 b);
 u32 __fmul(u32 a, u32 b);
-u32 func_0209C95C(u32 a, u32 b);
+u32 __fadd(u32 a, u32 b);
 u32 _fsub(u32 a, u32 b);
 u32 _ffix(u32 x);
 u8 COMM_PLAYER_SUPPORT_NextSeason(u8 x);
@@ -543,7 +543,7 @@ void EL_SCOREBOARD_UpdateFadeStandalone(ElScoreboardWork *work, int state)
         ratio = _ffltu(work->stateDuration);
         ratio = __fdiv(elapsed, ratio);
         ratio = __fmul(0x41800000, ratio);
-        ratio = func_0209C95C(0xC1800000, ratio);
+        ratio = __fadd(0xC1800000, ratio);
         G2x_SetBlendBrightness_(0x04000050, 8, _ffix(ratio));
     } else if (state == 4) {
         elapsed = _ffltu(work->stateTimer);

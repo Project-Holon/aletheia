@@ -1330,7 +1330,7 @@ int B_PLIST_MAIN_WaitPrintStream(struct B_PlistWork *a)
 
 
 /*
- * remainder: separate conditional follower ov198_func_0221039C.c (28 bytes).
+ * remainder: separate conditional follower B_PLIST_MAIN_CheckBusyFlag.c (28 bytes).
  */
 int B_PLIST_MAIN_HandleSkipKey(char *p)
 {

@@ -35,7 +35,7 @@
  *   d_021E2C90 0x021E2C90 data a4
   *
  * note 2026-10-04 (lane 20, D2): leaf WIFIBATTLEMATCH_NET_GetDownloadSize is now filed EXACT as
- * src/matched/ov/ov175_func_021DC5F8.c (24 bytes). The tool still says "no witness" for it until
+ * src/matched/ov/WIFIBATTLEMATCH_NET_GetDownloadSize.c (24 bytes). The tool still says "no witness" for it until
  * the integrator runs the manifest. The other blocker, ARM9 GFL_NET_SetWaitMode (veneer-like 12-byte
  * tail call), is the arm9 label lane's. Body is byte-correct; expect EXACT after manifest + label.
  */

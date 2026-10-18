@@ -15,7 +15,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082A7C 0x02082A7C arm
+ *   MIi_CpuClear32 0x02082A7C arm
  *   BTLV_CORE_LoadOverlays 0x021E8DC4 thumb ov093
  *   BTLV_CORE_LoadDsiOverlay 0x021E88CC thumb ov093
  *   GFL_USE_IsMuteHookActive 0x020057C4 thumb
@@ -281,7 +281,7 @@ struct ProcHandle
 
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 extern void *PROCSYS_AllocProcWork(struct ProcHandle *proc, u32 size, u32 heapId);
-extern void func_02082A7C(u32, void *, u32);
+extern void MIi_CpuClear32(u32, void *, u32);
 extern void BTLV_CORE_LoadOverlays(unsigned short heapId);
 extern void BTLV_CORE_LoadDsiOverlay(void);
 extern int GFL_USE_IsMuteHookActive(void);
@@ -708,7 +708,7 @@ int BTL_MAIN_ProcInit(struct ProcHandle *proc, u32 *step, struct BattleSetupPara
       GFL_HEAP_CreateChildHeap(1, 0x14, 0x8000);
       GFL_HEAP_CreateChildHeap(1, 0x13, 0xab100);
       main = PROCSYS_AllocProcWork(proc, 0x474, 0x12);
-      func_02082A7C(0, main, 0x474);
+      MIi_CpuClear32(0, main, 0x474);
       BTLV_CORE_LoadOverlays(0x13);
       BTLV_CORE_LoadDsiOverlay();
       if (!GFL_USE_IsMuteHookActive())
@@ -5974,7 +5974,7 @@ u8 BTL_MAIN_GetRelativeClientIndex(int ownClient, int client)
  * BTL_CLIENT_SetView takes two arguments (its own file: `p->v = v`), and the
  * value passed second is the BTLV_CORE_Create result just stored at p + 4:
  * that is the `adds r1, r0, #0` the one-argument prototype could not
- * produce (twin: ov093_func_021B835C).
+ * produce (twin: BTL_MAIN_SeqCreateView).
  */
 void BTL_MAIN_RestartBattle(struct BtlMain *main, u16 stepArg)
 {

@@ -36,7 +36,7 @@
  *   SND_CHANNEL_UnlockChannels  0x02072974  arm
  *   NNS_SndWaveOutFreeChannel  0x02072A08  arm
  *   SND_SetOutputSelector  0x0208972C  arm
- *   func_02082A7C  0x02082A7C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   SND_StartTimer  0x020894B4  arm
  *   gNNSSndCurrentArc   0x0214EA50  data
@@ -76,7 +76,7 @@ extern void SND_CHANNEL_ClearClaimedMask(u32 mask);
 extern void SND_CHANNEL_UnlockChannels(u32 chan);
 extern void NNS_SndWaveOutFreeChannel(u32 alarmNo);
 extern void SND_SetOutputSelector(s32 left, s32 right, s32 mix, s32 flags);
-extern void func_02082A7C(u32 value, u32 dst, u32 size);
+extern void MIi_CpuClear32(u32 value, u32 dst, u32 size);
 extern void DWCi_ScreenDC_FlushRange(u32 start, u32 size);
 extern u32  FS_ConvertPathToFileID(FSFileID *id, const char *path);
 extern void FS_InitFile(FSFile *file);
@@ -233,8 +233,8 @@ void NNSi_SndCaptureReset(void)
 
     if (sndSystem->initialized == 0) return;
     sndSystem->captureActive = 0;
-    func_02082A7C(0, sndSystem->effectBufferL, sndSystem->effectBufferSize);
-    func_02082A7C(0, sndSystem->effectBufferR, sndSystem->effectBufferSize);
+    MIi_CpuClear32(0, sndSystem->effectBufferL, sndSystem->effectBufferSize);
+    MIi_CpuClear32(0, sndSystem->effectBufferR, sndSystem->effectBufferSize);
     DWCi_ScreenDC_FlushRange(sndSystem->effectBufferL, sndSystem->effectBufferSize);
     DWCi_ScreenDC_FlushRange(sndSystem->effectBufferR, sndSystem->effectBufferSize);
     if (sndSystem->timerAlarmNo >= 0) alarmMask = 1u << sndSystem->timerAlarmNo;

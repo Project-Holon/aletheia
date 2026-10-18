@@ -21,7 +21,7 @@
  * the compared range and no cut can free it.  Needs a second referrer of
  * the table, or a matched neighbour that pools the same address.
  *   G2_GetBG1CharPtr  0x0207E24C  arm
- *   func_02082A7C  0x02082A7C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
  *   ARC_UTIL_LoadMember  0x0204A1BC  arm
  *   NNS_G2dGetUnpackedCharacterDataEx  0x02062A4C  arm
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
@@ -66,7 +66,7 @@ extern struct ent g0209DEA0[];
 
 extern void *G2_GetBG1CharPtr(void);
 extern void *G2_GetBG1ScrPtr(void);
-extern void func_02082A7C(u32 val, void *dst, u32 n);
+extern void MIi_CpuClear32(u32 val, void *dst, u32 n);
 typedef signed int     s32;
 struct NitroFileHeader;
 extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
@@ -87,7 +87,7 @@ void GFL_NET_ERR_LoadScreenGraphics(u32 a0)
     u32 sp0;
     u16 id;
 
-    func_02082A7C(0, G2_GetBG1CharPtr(), 0x4000);
+    MIi_CpuClear32(0, G2_GetBG1CharPtr(), 0x4000);
 
     id = g0209DEA0[a0].f0;
     h = (void *)ARC_UTIL_LoadMember(id, g0209DEA0[a0].f2, 0, 1);

@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT*
- * extent: Existing matched follower ov112_func_021F812C.c follows.
+ * extent: Existing matched follower STA_ACT_LIGHT_SetActorFlagB.c follows.
  * symbols:
  *   MUSICAL_MCSS_GetRenderHandle 0x021F5388 thumb ov112
  */

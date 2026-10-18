@@ -20,7 +20,7 @@
  *   POKETRADE_NEGO_StepOpenDeclineMenu 0x021DE9E8 thumb ov119
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   gBrowseOffersHitArea 0x021E80C4 data a4
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   POKETRADE_2D_MovePickedIconActor 0x021E68F4 thumb ov119
  *   POKETRADE_NEGO_TrySelectOffer 0x021DE754 thumb ov119
@@ -45,11 +45,11 @@ extern int TOUCHPANEL_HitTrg(const void *);
 extern u32 KEY_GetTrg(void);
 extern u8 func_020355C4(void);
 extern const char gBrowseOffersHitArea[];
-extern void func_020355D8(u8);
+extern void UI_SetInputMode(u8);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void POKETRADE_2D_MovePickedIconActor(int,int);
 extern int POKETRADE_NEGO_TrySelectOffer(char *,int),POKETRADE_NEGO_PollOfferCursorKeys(char *);
-static inline int poll(void) { int v=KEY_GetTrg(); if(v)func_020355D8(0); return v; }
+static inline int poll(void) { int v=KEY_GetTrg(); if(v)UI_SetInputMode(0); return v; }
 void POKETRADE_NEGO_StepBrowseOffersMain(char *p)
 {
     int idx,sentinel;
@@ -66,7 +66,7 @@ void POKETRADE_NEGO_StepBrowseOffersMain(char *p)
     if(TOUCHBAR_GetPressedButtonIdIfPressing(*(u8 * *)&((struct Obj00251 *)p)->f9C0)==sentinel) {
         idx=TOUCHPANEL_HitTrg(gBrowseOffersHitArea);
         if(idx!=sentinel) {
-            func_020355D8(1);
+            UI_SetInputMode(1);
             GFL_USE_PlaySeDefaultVolume(0x548);
             POKETRADE_2D_MovePickedIconActor((int)p,sentinel);
             if(POKETRADE_NEGO_TrySelectOffer(p,idx)) return;

@@ -71,7 +71,7 @@ Wf2dmapMapGrid *WF2DMAP_MAP_CreateGrid(u32 w,u32 h,u32 heap) { Wf2dmapMapGrid *p
 
 /*
  * Extent remainder: 2-byte zero padding, filed getters 021C47F8/47FC,
- * and separately filed follower ov127_func_021C4800.c.
+ * and separately filed follower WF2DMAP_MAP_CopyEntries.c.
  */
 void WF2DMAP_MAP_DeleteGrid(u8 *p) { GFL_HEAP_Free(((Wf2dmapMapGrid *)p)->entries);GFL_HEAP_Free(p); }
 

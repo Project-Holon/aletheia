@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Cut from pms_input_view.c, unit_021BB224.c, unit_021BB240.c, unit_021BB250.c, unit_021BB260.c, unit_021BB270.c, pmsiv_category.c, unit_021BBE80.c, pmsiv_menu.c, pmsiv_wordwin.c, pms_select_graphic.c, ov110_func_021C1848.c by tools/splitfile.py.
+ * Cut from pms_input_view.c, unit_021BB224.c, unit_021BB240.c, unit_021BB250.c, unit_021BB260.c, unit_021BB270.c, pmsiv_category.c, unit_021BBE80.c, pmsiv_menu.c, pmsiv_wordwin.c, pms_select_graphic.c, PMS_SELECT_GRAPHIC_ReadPointer.c by tools/splitfile.py.
  *
  * symbols:
  *   GFL_HEAP_Alloc 0x02030734 arm

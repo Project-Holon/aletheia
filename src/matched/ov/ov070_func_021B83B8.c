@@ -26,7 +26,7 @@
  *   ITEMMENU_IsBrowseMode  0x021B811C  thumb  ov070
  *   ITEMMENU_TogglePocketSortFlag  0x021B81B8  thumb  ov070
  *   ITEMMENU_StartSideButtonPress  0x021B8C1C  thumb  ov070
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   ITEMMENU_TaskBagMain  0x021B7250  thumb  ov070
  *   ITEMMENU_GetCursorIndex  0x021B61B8  thumb  ov070
  *   ITEMMENU_MoveSlot  0x021B624C  thumb  ov070
@@ -77,7 +77,7 @@ extern void ITEMMENU_TaskInputGuardMessage(int p);
 extern int ITEMMENU_IsBrowseMode(u8 *p);
 extern void ITEMMENU_TogglePocketSortFlag(u8 *p);
 extern void ITEMMENU_StartSideButtonPress(int p, int a, int b);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern void ITEMMENU_TaskBagMain(Obj *o);
 extern int ITEMMENU_GetCursorIndex(u8 *p);
 extern void ITEMMENU_MoveSlot(void *o, int a, int b);
@@ -143,13 +143,13 @@ void ITEMMENU_HandleTouchTarget(u32 idx, int flag, Obj *o)
             o->f844 = 0;
             o->f84C = 0;
             ITEMMENU_StartSideButtonPress((int)o, 3, 0);
-            func_020355D8(1);
+            UI_SetInputMode(1);
         }
     } else if (idx == 10) {
         o->f844 = 1;
         o->f84C = 0;
         ITEMMENU_StartSideButtonPress((int)o, 4, 0);
-        func_020355D8(1);
+        UI_SetInputMode(1);
     } else if (idx >= 11 && idx < 17) {
         if (o->f4F8 != ITEMMENU_TaskBagMain)
             return;

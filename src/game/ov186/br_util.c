@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Cut from br_proc_sys.c, br_btn.c, br_graphic.c, br_util.c, br_net.c, ov186_func_02200228.c by tools/splitfile.py.
+ * Cut from br_proc_sys.c, br_btn.c, br_graphic.c, br_util.c, br_net.c, BR_MEMBER_COUNT_GetU16Count.c by tools/splitfile.py.
  *
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
@@ -861,7 +861,7 @@ int BR_UTIL_PollScrollDrag(char *p)
 }
 
 /*
- * extent: 80-byte scrolling follower filed as ov186_func_021FCF90.c.
+ * extent: 80-byte scrolling follower filed as BR_UTIL_ScrollRows.c.
  * lever: width-first multiply preserves the stack load and register order.
  */
 void BR_UTIL_BlitRows(int dest,int src,int dx,int dy,unsigned short sx,unsigned short sy,unsigned short width,unsigned short height)
@@ -1904,7 +1904,7 @@ int BR_UTIL_InitSpiral(u8 *p,const Pair *origin,u16 a,u16 b,int duration)
 
 /*
  * note: pass 2 2026-10-06 P2L30: EXACT (c and c99). The twin shape of
- *   ov186_func_021FE2F8 (x, y products, then x += f0, y += f4, then the two
+ *   BR_UTIL_StepOrbit (x, y products, then x += f0, y += f4, then the two
  *   stores) gives the original tail; with common subexpressions on, the
  *   front end turns the two radius reads into one temp and hoists it to
  *   right after the angle load. #pragma opt_common_subs off keeps the read

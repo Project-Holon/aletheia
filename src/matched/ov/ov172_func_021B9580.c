@@ -30,7 +30,7 @@
  *   CTVT_TALK_HandleLevelSlider 0x021B99F4 thumb ov172
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
@@ -59,7 +59,7 @@ extern void COMM_TVT_SYS_ToggleHalfRes(void *);
 extern void CTVT_TALK_HandleLevelSlider(void *unused, u8 *q);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_HitTrg(const void *);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void CLACT_SetActorAnimSeq(struct Obj *, u16);
 extern void CLACT_SetActorAutoAnim(struct Obj *, u32);
@@ -120,7 +120,7 @@ void CTVT_TALK_HandleInput(u8 *c, u8 *q)
     if (*(int *)q == 5) {
         r6 = TOUCHPANEL_HitTrg(d_021C6F77);
         if (r6 == 0 || (KEY_GetTrg() & 2)) {
-            if (r6 == 0) func_020355D8(1); else func_020355D8(0);
+            if (r6 == 0) UI_SetInputMode(1); else UI_SetInputMode(0);
             *(int *)q = 9;
             GFL_USE_PlaySeDefaultVolume(0x551);
             CLACT_SetActorAnimSeq(*(struct Obj **)(q + 0x98), 9);

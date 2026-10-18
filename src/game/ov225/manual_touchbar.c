@@ -70,7 +70,7 @@
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
  *   KEY_GetRepeat 0x0203633C arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -231,7 +231,7 @@ extern u32 CLACT_GetActorDrawEnable(struct Obj *);
 
 extern u32 KEY_GetRepeat(void);
 
-extern void func_020355D8(u8);
+extern void UI_SetInputMode(u8);
 
 extern u32 TOUCHPANEL_GetPointTrg(u32 *,u32 *);
 
@@ -502,7 +502,7 @@ void MANUAL_COMMON_UpdateTouchbarActors(char *touchbar)
     row=&gManualCommonActorEntries[i];
     if(KEY_GetRepeat()&row->mask) {
      ((struct ManualTouchbar *)touchbar)->focusIndex=i;
-     func_020355D8(0);
+     UI_SetInputMode(0);
      found=1;
      break;
     }
@@ -510,7 +510,7 @@ void MANUAL_COMMON_UpdateTouchbarActors(char *touchbar)
      if(row->left<=x && x<=row->right && row->top<=y && y<=row->bottom) {
       ((struct ManualTouchbar *)touchbar)->focusIndex=i;
       found=1;
-      func_020355D8(1);
+      UI_SetInputMode(1);
       break;
      }
     }

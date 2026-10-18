@@ -23,7 +23,7 @@
  *   POKELIST_DeleteClactUnit  0x021B71B0  thumb  ov091
  *   POKELIST_FreeGraphics  0x021B7624  thumb  ov091
  *   POKELIST_ShutdownDisplay  0x021B6FEC  thumb  ov091
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  */
 
 typedef unsigned char u8;
@@ -45,7 +45,7 @@ extern void PLIST_MENU_ExitTimer(char *a);
 extern void POKELIST_DeleteClactUnit(unsigned p);
 extern void POKELIST_FreeGraphics(char *p);
 extern void POKELIST_ShutdownDisplay(int a);
-extern void func_020355D8(int a);
+extern void UI_SetInputMode(int a);
 
 #define W(o) (*(int *)(p + (o)))
 
@@ -79,6 +79,6 @@ int POKELIST_ExitWork(u8 *p)
         *(int *)(W(0x280) + 0x34) = 0x19;
     if (W(0x20) == 1)
         *(int *)(W(0x280) + 0x34) = 0x1a;
-    func_020355D8(W(8));
+    UI_SetInputMode(W(8));
     return 1;
 }

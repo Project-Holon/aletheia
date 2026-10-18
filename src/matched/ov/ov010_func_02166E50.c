@@ -25,7 +25,7 @@
  *     0x02024134 (a .word run in asm/arm9/main.s after PMSI_PARAM_Delete) and
  *     0x0200E714: no witness outside this range; each needs its own EXACT
  *     arm9 entry (matched class).
- * Same blocker family as ov010_func_02166908 / ov010_func_0216B004.
+ * Same blocker family as SYMBOL_MAP_PickerTaskMain / SCRCMD_SYMBOL_ViewEventMain.
  *
  * symbols:
  *   func_020124E8  0x020124E8  thumb

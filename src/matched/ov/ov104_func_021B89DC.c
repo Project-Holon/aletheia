@@ -9,7 +9,7 @@
  * status: EXACT
  * lever: Byte RGB endpoints and named signed db/dr/dg deltas, with the
  * cosine factor computed after green extraction, retain channel lifetimes.
- * Evidence: ov105_func_021B8734 blend spelling and own ARM9 queue body.
+ * Evidence: IRC_RESULT_BlendPaletteEntry blend spelling and own ARM9 queue body.
  * symbols:
  *   FX_SinCosTable_ 0x020A1B38 data a2
  *   func_02061CA4 0x02061CA4 arm

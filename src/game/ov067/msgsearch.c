@@ -20,7 +20,7 @@
  *   d_021B9558     0x021B9558  data  a1
  *   ENV_SetResourceSet  0x020307B0  arm
  *   STRBUF_GetLength 0x020458F8 arm
- *   func_02082A7C 0x02082A7C arm
+ *   MIi_CpuClear32 0x02082A7C arm
  *   MSGDATA_GetMessageCount 0x02045F50 arm
  *   MSGDATA_ReadString 0x02045CAC arm
  *   STRBUF_GetChars  0x02045A90  arm
@@ -37,7 +37,7 @@ extern struct StrBuf *STRBUF_Create(u32 capacity, u16 heapId);
 extern void STRBUF_Delete(struct StrBuf *str);
 extern void ENV_SetResourceSet(void *p);
 extern u16 STRBUF_GetLength(struct StrBuf *str);
-extern void func_02082A7C(u32 value, void *dest, u32 size);
+extern void MIi_CpuClear32(u32 value, void *dest, u32 size);
 extern u16 MSGDATA_GetMessageCount(const struct MsgBank *bank);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct StrBuf *dest);
 extern u16 *STRBUF_GetChars(struct StrBuf *str);
@@ -88,7 +88,7 @@ u32 MSGSEARCH_Search(MsgSearch *search, u32 bankIndex, u32 unused, struct StrBuf
 
     matchCount = 0;
     prefixLength = STRBUF_GetLength(prefix);
-    func_02082A7C(-1, hits, maxHits * sizeof(MsgSearchHit));
+    MIi_CpuClear32(-1, hits, maxHits * sizeof(MsgSearchHit));
     if (prefixLength) {
         messageCount = MSGDATA_GetMessageCount(search->bank[bankIndex]);
         bank = search->bank[bankIndex];

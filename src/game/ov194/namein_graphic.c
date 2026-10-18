@@ -45,7 +45,7 @@
  *   NAMEIN_GRAPHIC_LoadGrid 0x021F25F8 thumb ov194
  *   KEY_GetRepeat 0x0203633C arm
  *   KEY_GetTrg 0x020362DC arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   NAMEIN_GRAPHIC_PickerMove 0x021F26E0 thumb ov194
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
@@ -463,7 +463,7 @@ extern unsigned KEY_GetRepeat(void);
 
 extern unsigned KEY_GetTrg(void);
 
-extern void func_020355D8(u8);
+extern void UI_SetInputMode(u8);
 
 extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 
@@ -1100,7 +1100,7 @@ int NAMEIN_GRAPHIC_KanaKeyMove(char *p,int *out)
     if(changed){
         if(UI_GetInputMode()==1){
             if(NAMEIN_GRAPHIC_PickerGetBox(p, (Pair *)((int)(p+0xD8)), (Box *)((int)&rect))){
-                func_020355D8(0);
+                UI_SetInputMode(0);
                 NAMEIN_GRAPHIC_SetupCursor(p+0x24,1,(const struct Rect *)(&rect),((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
                 GFL_USE_PlaySeDefaultVolume(1352);
             }
@@ -1136,7 +1136,7 @@ int NAMEIN_GRAPHIC_KanaKeyAction(char *p,int *out)
     if(KEY_GetTrg()==256){((NameinGraphicGrid *)p)->action=10;changed=0;}
     if(changed && UI_GetInputMode()==1) {
         if(NAMEIN_GRAPHIC_PickerGetBox(p, (Pair *)((int)(p+0xD8)), (Box *)((int)&rect))) {
-            GFL_USE_PlaySeDefaultVolume(1352);func_020355D8(0);
+            GFL_USE_PlaySeDefaultVolume(1352);UI_SetInputMode(0);
             NAMEIN_GRAPHIC_SetupCursor(p+0x24,1,(const struct Rect *)(&rect),((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
             return 0;
         }
@@ -1149,7 +1149,7 @@ int NAMEIN_GRAPHIC_KanaTouch(char *p,int *out) {
  if(TOUCHPANEL_GetPointTrg(&x,&y)) {
  point[0]=x;point[1]=y;
  if(NAMEIN_GRAPHIC_FindCellAtPoint(p,point,(Pair *)(p+0xD8))) {
- u=((NameinGraphicGrid *)p)->selectionX;out[3]=((NameinGraphicGrid *)p)->selectionY;out[1]=1;out[2]=u;func_020355D8(1);return 1;
+ u=((NameinGraphicGrid *)p)->selectionX;out[3]=((NameinGraphicGrid *)p)->selectionY;out[1]=1;out[2]=u;UI_SetInputMode(1);return 1;
  }}return 0;
 }
 
@@ -1200,7 +1200,7 @@ int NAMEIN_GRAPHIC_SymbolKeyMove(char *p,int *out)
         if(NAMEIN_GRAPHIC_PickerToChar(p,&point.x,0)-2<=3){
             if(UI_GetInputMode()==1){
                 if(NAMEIN_GRAPHIC_PickerGetBox(p, (Pair *)((int)(p+0xD8)), (Box *)((int)&rect))){
-                    GFL_USE_PlaySeDefaultVolume(1352);func_020355D8(0);
+                    GFL_USE_PlaySeDefaultVolume(1352);UI_SetInputMode(0);
                     NAMEIN_GRAPHIC_SetupCursor(p+0x24,1,(const struct Rect *)(&rect),((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
                 }
             }else{
@@ -1232,7 +1232,7 @@ int NAMEIN_GRAPHIC_SymbolKeyAction(char *p,int *out) {
         }
         if (changed && UI_GetInputMode()==1) {
             if (NAMEIN_GRAPHIC_PickerGetBox(p,(Pair *)(p+0xd8),(Box *)rect)) {
-                GFL_USE_PlaySeDefaultVolume(1352); func_020355D8(0);
+                GFL_USE_PlaySeDefaultVolume(1352); UI_SetInputMode(0);
                 NAMEIN_GRAPHIC_SetupCursor(p+0x24,1,(const struct Rect *)rect,((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
                 return 0;
             }
@@ -1255,7 +1255,7 @@ int NAMEIN_GRAPHIC_SymbolTouch(char *p,int *out) {
                     u=((NameinGraphicGrid *)p)->selectionX;
                     out[3]=((NameinGraphicGrid *)p)->selectionY;
                     out[1]=1; out[2]=u;
-                    func_020355D8(1);
+                    UI_SetInputMode(1);
                     return 1;
                 }
             }

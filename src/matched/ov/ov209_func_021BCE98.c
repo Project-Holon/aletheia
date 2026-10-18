@@ -27,7 +27,7 @@
  *   ZUKAN_LIST_UpdateScrollBarActor 0x021BE588 thumb ov209
  *   ZUKAN_LIST_HideAllActors 0x021BE43C thumb ov209
  *   func_020355C4 0x020355C4 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   ZUKAN_SAVE_GetViewMode 0x0200CA70 thumb
  *   ZUKAN_SAVE_SetViewMode 0x0200CA5C thumb
@@ -55,7 +55,7 @@ extern void ZUKAN_LIST_ToggleSaveFlag15(char *p);
 extern void ZUKAN_LIST_UpdateScrollBarActor(char *p);
 extern void ZUKAN_LIST_HideAllActors(char *p);
 extern u8 func_020355C4(void);
-extern void func_020355D8(u8);
+extern void UI_SetInputMode(u8);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern u32 ZUKAN_SAVE_GetViewMode(struct Blk37 *p);
 extern void ZUKAN_SAVE_SetViewMode(struct Blk37 *p, u32 v);
@@ -87,7 +87,7 @@ int ZUKAN_LIST_StateMain(struct Context *p)
         case 0:
             selected=FRAME_LIST_GetSelectedIndex(p->list);
             if(ZUKAN_LIST_IsSpeciesEntryValid((char *)p,selected)==1){GFL_USE_PlaySeDefaultVolume(1356);return ZUKAN_LIST_StateSelectSpecies((char *)p,selected);}
-            func_020355D8(old);break;
+            UI_SetInputMode(old);break;
         case 1:case 2:case 3:case 4:case 5:case 6:case 7:
             selected=action+FRAME_LIST_GetScrollPos(p->list)-1;
             if(ZUKAN_LIST_IsSpeciesEntryValid((char *)p,selected)==1){

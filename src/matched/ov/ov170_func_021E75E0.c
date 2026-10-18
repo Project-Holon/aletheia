@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Sibling of src/matched/ov170_func_021E5E68.c (the switch tail without the preamble).
+ * Sibling of src/matched/BOX2_SEQ_StateItemMenuE.c (the switch tail without the preamble).
  *
  * symbols:
  *   BOX2_MAIN_GetPartyValueAt 0x021DD25C thumb

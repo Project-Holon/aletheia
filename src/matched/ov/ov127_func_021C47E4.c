@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT*
  * Extent remainder: 2-byte zero padding, filed getters 021C47F8/47FC,
- * and separately filed follower ov127_func_021C4800.c.
+ * and separately filed follower WF2DMAP_MAP_CopyEntries.c.
  * symbols:
  *   func_020307B0 0x020307B0 arm
  */

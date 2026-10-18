@@ -21,7 +21,7 @@
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   file_020A745C  0x020A745C  data
  *   unit_020355C4  0x020355C4  arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   FX_SinCosTable_   0x020A1B38  data
  *   Table_0209F724   0x0209F724  data
  *   WORDSET_CreateDefault    0x0201EC64  thumb
@@ -93,7 +93,7 @@ extern void *SAVE_CONTROL_GetBlock(struct WinPanel020071CCCtrl *ctrl, u32 id);
 extern void *GAME_DATA_GetEventWorkFromSave(struct WinPanel020071CCCtrl *a0);
 extern u32 ZONEDATA_CheckEventFlag(void *bitmap, int id);
 extern u32 unit_020355C4(void);
-extern void func_020355D8(void *);
+extern void UI_SetInputMode(void *);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void WORDSET_SetSlotPmsWord(struct WordSet *p, u32 i, u32 v);
@@ -380,7 +380,7 @@ void PMSI_PARAM_GetUiInputMode(void)
     unit_020355C4();
 }
 
-void PMSI_PARAM_SetUiInputMode(void *unused, void *inputMode) { func_020355D8(inputMode); }
+void PMSI_PARAM_SetUiInputMode(void *unused, void *inputMode) { UI_SetInputMode(inputMode); }
 
 /*
  * pmsi_param.c: fill table[0..count) with amplitude * sin(phase), phase advancing

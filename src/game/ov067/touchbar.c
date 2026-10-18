@@ -50,7 +50,7 @@
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_GetActorDrawEnable  0x0204B3F4  arm
  *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   KEY_GetTrg  0x020362DC  arm
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
@@ -129,7 +129,7 @@ extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
 extern void CLACT_DeleteActor(struct Actor *actor);
 extern u32 CLACT_GetActorDrawEnable(struct Actor *actor);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outX, u32 *outY);
-extern void func_020355D8(u8 usedTouch);
+extern void UI_SetInputMode(u8 usedTouch);
 extern u32 KEY_GetTrg(void);
 extern u32 CLACT_IsActorAnimActive(struct Actor *actor);
 extern void GFL_USE_PlaySeDefaultVolume(u32 soundId);
@@ -560,11 +560,11 @@ int TOUCHBAR_CheckButtonPressed(TouchBarButton *button)
         if (TOUCHPANEL_GetPointTrg(&touchX, &touchY)) {
             if (touchX - button->def.x <= 0x18 && touchY - button->def.y <= 0x18) {
                 hit = 1;
-                func_020355D8(1);
+                UI_SetInputMode(1);
             }
         }
         if (button->def.keyMask != 0 && (KEY_GetTrg() & button->def.keyMask)) {
-            func_020355D8(0);
+            UI_SetInputMode(0);
             hit = 1;
         }
         if (hit) {
@@ -713,7 +713,7 @@ void TOUCHBAR_SetEnabledToggle(TouchBarButton *button, u32 enabled)
 
 
 /*
- * note:     y and x are u16 as the matched caller ov067_func_021B6B2C passes
+ * note:     y and x are u16 as the matched caller TOUCHBAR_PrintYesNoCancelLabels passes
  *           them; the difference is written back into the parameter
  *           (`x = x - f()`): a separate u16 local swapped window and x
  *           between r4/r5, and `x -= f()` truncates the call result first

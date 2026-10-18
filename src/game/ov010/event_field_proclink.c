@@ -1720,7 +1720,7 @@ void EVENT_FIELD_PROCLINK_StartCommProc(CommProcParam *param, GameSystem *gameSy
 
 /*
  * Padding: two zero alignment bytes after the 74-byte function.
- * Lever: kind and sub are u8, as in matched caller ov010_func_02161B90.c;
+ * Lever: kind and sub are u8, as in matched caller EVENT_FIELD_PROCLINK_CreateCommExitEvent.c;
  * this puts the kind home store before r0 is assigned gameSystem for the first call.
  */
 void EVENT_FIELD_PROCLINK_StartSeasonCommProc(CommProcParam *param, GameSystem *gameSystem, u8 kind, u8 sub)

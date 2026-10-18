@@ -22,7 +22,7 @@
  *   sub_02030524  0x02030524  arm
  *   sub_02086580  0x02086580  arm
  *   sub_0208656C  0x0208656C  arm
- *   sub_02088234  0x02088234  arm
+ *   OS_Terminate  0x02088234  arm
  *
  * Bring the module up and, if that failed, hand the failure to the reporter.
  * The two notifications with a zero argument run either way; only the final
@@ -49,7 +49,7 @@ extern int GFL_HEAP_InitManager(const struct EnvRes *res, u16 count, u16 idCount
 extern u16 sub_02030524(void);
 extern void  sub_02086580(u32 a);
 extern void  sub_0208656C(u32 a);
-extern void  sub_02088234(void *obj);
+extern void  OS_Terminate(void *obj);
 
 void GFL_HEAP_Init(u32 a, u32 b, u32 c, u32 d)
 {
@@ -61,5 +61,5 @@ void GFL_HEAP_Init(u32 a, u32 b, u32 c, u32 d)
     if (ok != 0) {
         return;
     }
-    sub_02088234((void *)sub_02030524());
+    OS_Terminate((void *)sub_02030524());
 }

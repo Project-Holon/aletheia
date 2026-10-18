@@ -22,7 +22,7 @@
  *   gt2GetLocalIP                  0x02195E38  arm ov009
  *   gt2GetLocalPort                  0x02195E40  arm ov009
  *   gsUdpSocketError                  0x0218048C  arm ov009
- *   func_02180410                  0x02180410  arm ov009
+ *   gsUdpMsgHandlerFree                  0x02180410  arm ov009
  *   gsUdpUnrecognizedMsgCB                  0x02180BFC  arm ov009
  *   gsUdpConnAttemptCB                  0x02180C94  arm ov009
  *   g_021A3B44                     0x021A3B44  data
@@ -75,7 +75,7 @@ extern void gt2Listen(int *p, int v);
 extern int gt2GetLocalIP(const int *p);
 extern unsigned short gt2GetLocalPort(const unsigned short *p);
 extern void gsUdpSocketError(void);
-extern void func_02180410(void *theMsgHandler);
+extern void gsUdpMsgHandlerFree(void *theMsgHandler);
 extern int gsUdpUnrecognizedMsgCB(void *theSocket, unsigned int theIp, unsigned short thePort, unsigned char *theMessage, int theMsgLen);
 extern void gsUdpConnAttemptCB(void *socket, void *connection, unsigned int ip, unsigned short port, int latency, unsigned char *message, int len);
 extern char g_021A3B44[];
@@ -122,7 +122,7 @@ int gsUdpEngineInitialize(unsigned short thePort, int theIncomingBufSize, int th
         return 1;
     }
 
-    aUdp->mMsgHandlers = func_02184144(60, 1, func_02180410);
+    aUdp->mMsgHandlers = func_02184144(60, 1, gsUdpMsgHandlerFree);
     if (aUdp->mMsgHandlers == 0) {
         gsDebugFormat(12, (char *)2, 1, g_021A3B7C);
         return 1;

@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT*
- * remainder: separate conditional follower ov198_func_0221039C.c (28 bytes).
+ * remainder: separate conditional follower B_PLIST_MAIN_CheckBusyFlag.c (28 bytes).
  * symbols:
  *   B_PLIST_MAIN_CheckCancel 0x02211958 thumb ov198
  *   KEY_GetTrg 0x020362DC arm

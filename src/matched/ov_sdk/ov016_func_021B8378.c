@@ -16,7 +16,7 @@
  *
  * SDK: TwlDWC libdwcutil.TWL.HYB.a(aoss.o), symbol AOSS_Rand (name from the vendor object).
  * aoss.o was built by Metrowerks C/C++ for ARM 3.0.0.126 (its .comment), which is
- * the 2.0/sp1p2 front end; see aoss_release (ov016_func_021B6CF0.c) for the byte tell.
+ * the 2.0/sp1p2 front end; see aoss_release (aoss_release.c) for the byte tell.
  * initflg and randContext are AOSS_Rand's own function-scope statics
  * (initflg$9426, randContext$9425) at .bss+0x08 and .bss+0x18; the SDK's inline
  * MATH_InitRand16 / MATH_Rand16 are spelled out.

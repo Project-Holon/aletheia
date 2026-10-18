@@ -19,7 +19,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeapImpl  0x0202FDC4  arm
  *   sub_02030524  0x02030524  arm
- *   sub_020306A0  0x020306A0  arm
+ *   GFL_HEAP_FatalError  0x020306A0  arm
  *
  * Guard, then forward.  If the test at 0x0202FDC4 says the pair is already
  * accounted for the function returns without doing anything; otherwise the
@@ -42,12 +42,12 @@ typedef unsigned short u16;
 
 extern int   GFL_HEAP_CreateChildHeapImpl(u32 a, u32 b, u32 c);
 extern u16   sub_02030524(void);
-extern void  sub_020306A0(void *obj, void *a, u32 b);
+extern void  GFL_HEAP_FatalError(void *obj, void *a, u32 b);
 
 void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c)
 {
     if (GFL_HEAP_CreateChildHeapImpl(a, b, c) != 0) {
         return;
     }
-    sub_020306A0((void *)sub_02030524(), (void *)a, b);
+    GFL_HEAP_FatalError((void *)sub_02030524(), (void *)a, b);
 }

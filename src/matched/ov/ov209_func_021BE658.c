@@ -17,6 +17,7 @@
  *   TOUCHPANEL_HitTrg  0x02035C08  arm  arm9
  *   KEY_GetTrg  0x020362DC  arm  arm9
  *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb  arm9
+ *   UI_SetInputMode  0x020355D8  arm  arm9
  *
  * MATCH (byte-correct, 1 relocation site wildcarded).  All concrete bytes
  * reproduce exactly.
@@ -37,7 +38,7 @@ typedef unsigned int u32;
 extern int TOUCHPANEL_HitTrg(const void *p);
 struct Blk37;
 extern u32 KEY_GetTrg(void);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern u8 func_020355C4(void);
 extern u32 ZUKAN_SAVE_GetDexObtained(struct Blk37 *p);
 extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
@@ -64,24 +65,24 @@ int ZUKAN_LIST_HandleTouchInput(void *ctx_)
             if (*(u16 *)(*(u32 *)ctx + 8) == 1)
                 return -1;
             if (func_020355C4() == 0) {
-                func_020355D8(1);
+                UI_SetInputMode(1);
                 FRAME_LIST_HideCursor(*(u32 *)(ctx + 0xC2C));
             }
         }
-        func_020355D8(1);
+        UI_SetInputMode(1);
         return v;
     } else {
         if (KEY_GetTrg() & 2) {
-            func_020355D8(0);
+            UI_SetInputMode(0);
             return 0xc;
         }
         if (KEY_GetTrg() & 0x400) {
-            func_020355D8(0);
+            UI_SetInputMode(0);
             return 0xb;
         }
         if (KEY_GetTrg() & 8) {
             if (ZUKAN_SAVE_GetDexObtained((struct Blk37 *)(*(u32 *)(*(u32 *)ctx + 4))) == 1) {
-                func_020355D8(0);
+                UI_SetInputMode(0);
                 return 8;
             }
         }
@@ -90,17 +91,17 @@ int ZUKAN_LIST_HandleTouchInput(void *ctx_)
                 return -1;
             if (*(u16 *)(*(u32 *)ctx + 8) == 1)
                 return -1;
-            func_020355D8(0);
+            UI_SetInputMode(0);
             return 9;
         }
         if (KEY_GetTrg() & 0x800) {
             if (*(u16 *)(*(u32 *)ctx + 8) == 1)
                 return -1;
             if (func_020355C4() == 1) {
-                func_020355D8(0);
+                UI_SetInputMode(0);
                 DUP_FITTING_HandleTouch((u8 *)(*(u32 *)(ctx + 0xC2C)));
             } else {
-                func_020355D8(0);
+                UI_SetInputMode(0);
             }
             return 0xa;
         }

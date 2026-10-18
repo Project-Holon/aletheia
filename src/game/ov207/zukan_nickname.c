@@ -48,7 +48,7 @@
  *   TCBL_Main 0x020310C4 arm
  *   PRINTSYS_PrintStreamGetState 0x0201CE30 thumb
  *   KEY_GetCont 0x0203630C arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   TOUCHPANEL_GetCont 0x02035C38 arm
  *   PRINTSYS_PrintStreamShortWait 0x0201CE5C thumb
  *   KEY_GetTrg 0x020362DC arm
@@ -170,7 +170,7 @@ extern u32 GFL_HEAP_Free(void *p);
 extern void TCBL_Main(struct Tcbl *);
 extern u32 PRINTSYS_PrintStreamGetState(void *);
 extern u32 KEY_GetCont(void);
-extern void func_020355D8(int a);
+extern void UI_SetInputMode(int a);
 extern int TOUCHPANEL_GetCont(void);
 extern void PRINTSYS_PrintStreamShortWait(struct Rec *p, s32 v);
 extern u32 KEY_GetTrg(void);
@@ -296,14 +296,14 @@ int ZUKAN_NICKNAME_Main(ZukanNicknameWork *p)
         switch(value) {
         case 0:
             flag=0;
-            if(KEY_GetCont()&3) {func_020355D8(0);flag=1;}
-            else if(TOUCHPANEL_GetCont()!=0) {func_020355D8(1);flag=1;}
+            if(KEY_GetCont()&3) {UI_SetInputMode(0);flag=1;}
+            else if(TOUCHPANEL_GetCont()!=0) {UI_SetInputMode(1);flag=1;}
             if(flag!=0) PRINTSYS_PrintStreamShortWait(p->printStream,0);
             break;
         case 1:
             flag=0;
-            if(KEY_GetTrg()&3) {func_020355D8(0);flag=1;}
-            else if(TOUCHPANEL_GetTrg()!=0) {func_020355D8(1);flag=1;}
+            if(KEY_GetTrg()&3) {UI_SetInputMode(0);flag=1;}
+            else if(TOUCHPANEL_GetTrg()!=0) {UI_SetInputMode(1);flag=1;}
             if(flag!=0) {PRINTSYS_PrintStreamReleasePause(p->printStream);GFL_USE_PlaySeDefaultVolume(0x547);}
             break;
         }
@@ -332,14 +332,14 @@ int ZUKAN_NICKNAME_Main(ZukanNicknameWork *p)
         switch(value) {
         case 0:
             flag=0;
-            if(KEY_GetCont()&3) {func_020355D8(0);flag=1;}
-            else if(TOUCHPANEL_GetCont()!=0) {func_020355D8(1);flag=1;}
+            if(KEY_GetCont()&3) {UI_SetInputMode(0);flag=1;}
+            else if(TOUCHPANEL_GetCont()!=0) {UI_SetInputMode(1);flag=1;}
             if(flag!=0) PRINTSYS_PrintStreamShortWait(p->printStream,0);
             break;
         case 1:
             flag=0;
-            if(KEY_GetTrg()&3) {func_020355D8(0);flag=1;}
-            else if(TOUCHPANEL_GetTrg()!=0) {func_020355D8(1);flag=1;}
+            if(KEY_GetTrg()&3) {UI_SetInputMode(0);flag=1;}
+            else if(TOUCHPANEL_GetTrg()!=0) {UI_SetInputMode(1);flag=1;}
             if(flag!=0) {PRINTSYS_PrintStreamReleasePause(p->printStream);GFL_USE_PlaySeDefaultVolume(0x547);}
             break;
         }
@@ -421,7 +421,7 @@ void ZUKAN_NICKNAME_UpdateInfoWindow(ZukanNicknameWork *a)
                 a->mode = 1;
             else
                 a->mode = 0;
-            func_020355D8(a->soundEnabled ? 0 : 1);
+            UI_SetInputMode(a->soundEnabled ? 0 : 1);
         }
         break;
     }

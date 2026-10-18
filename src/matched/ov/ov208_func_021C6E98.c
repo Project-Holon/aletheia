@@ -22,7 +22,7 @@
  *   ZUKAN_DETAIL_FORM_CopyModelPosition        0x021C80CC  thumb
  *   MCSS_SetPosition        0x02015C48  thumb
  *   func_021C50F8        0x021C50F8  thumb
- *   func_021C7D80        0x021C7D80  thumb
+ *   ZUKAN_DETAIL_FORM_SwapItems        0x021C7D80  thumb
  *   func_021C5CF0        0x021C5CF0  thumb
  *   func_021C4E54        0x021C4E54  thumb
  *   func_021C4EAC        0x021C4EAC  thumb
@@ -64,7 +64,7 @@ extern void ZUKAN_DETAIL_FORM_SelectModelPosition(int a, int b, int c);
 extern void ZUKAN_DETAIL_FORM_CopyModelPosition(void *u, int k, VecF *v);
 extern void MCSS_SetPosition(void *p, u32 *src);
 extern void func_021C50F8(u32 obj, Vec *out);
-extern void func_021C7D80(void *a0, u8 *p, void *ctx);
+extern void ZUKAN_DETAIL_FORM_SwapItems(void *a0, u8 *p, void *ctx);
 extern void func_021C5CF0(void *a0, u8 *p, void *ctx);
 extern void func_021C4E54(void *a0, u8 *p, void *ctx);
 extern void func_021C4EAC(void *a0, u8 *p, void *ctx);
@@ -127,7 +127,7 @@ void ZUKAN_DETAIL_FORM_UpdateSlideLeft(void *a0, u8 *p, void *ctx)
                     ZUKAN_DETAIL_FORM_SelectModelPosition((int)(p + 0x50), 2, (int)(&u));
                     MCSS_SetPosition((void *)W(0x50), (u32 *)(&u));
                 }
-                func_021C7D80(a0, p, ctx);
+                ZUKAN_DETAIL_FORM_SwapItems(a0, p, ctx);
                 func_021C5CF0(a0, p, ctx);
                 func_021C4E54(a0, p, ctx);
                 func_021C4EAC(a0, p, ctx);

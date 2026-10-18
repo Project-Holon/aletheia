@@ -11,9 +11,9 @@
  * blocker: 0x02024224, Thumb ARM9, integrator-owned unlabelled tail forwarder.
  * No witness outside this caller; tu --suggest-split leaves it out.
  * Scratch one verdict EXACT (12 bytes), fixed compiler/flags, no region:
- * Blocker relocation: func_020355D8 0x020355D8 arm (matched).
- * extern void func_020355D8(void *);
- * void PMSI_PARAM_SetUiInputMode(void *a,void *b) { func_020355D8(b); }
+ * Blocker relocation: UI_SetInputMode 0x020355D8 arm (matched).
+ * extern void UI_SetInputMode(void *);
+ * void PMSI_PARAM_SetUiInputMode(void *a,void *b) { UI_SetInputMode(b); }
  * The caller visibly loads both r0 and r1, so its extern retains both arguments.
  * Extent remainder: two-byte zero alignment padding.
  * symbols:

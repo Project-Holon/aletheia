@@ -30,7 +30,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082A7C 0x02082A7C arm
+ *   MIi_CpuClear32 0x02082A7C arm
  *   BTLV_CORE_LoadOverlays 0x021E8DC4 thumb ov093
  *   BTLV_CORE_LoadDsiOverlay 0x021E88CC thumb ov093
  *   GFL_USE_IsMuteHookActive 0x020057C4 thumb
@@ -102,7 +102,7 @@ struct Proc
 };
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
-extern void func_02082A7C(u32, void *, u32);
+extern void MIi_CpuClear32(u32, void *, u32);
 struct S;
 extern void BTLV_CORE_LoadOverlays(unsigned short heap);
 extern void BTLV_CORE_LoadDsiOverlay(void);
@@ -141,7 +141,7 @@ int BTL_MAIN_ProcInit(struct Proc *owner, u32 *state, u8 *q, u8 *p)
       GFL_HEAP_CreateChildHeap(1, 0x14, 0x8000);
       GFL_HEAP_CreateChildHeap(1, 0x13, 0xab100);
       p = PROCSYS_AllocProcWork(owner, 0x474, 0x12);
-      func_02082A7C(0, p, 0x474);
+      MIi_CpuClear32(0, p, 0x474);
       BTLV_CORE_LoadOverlays(0x13);
       BTLV_CORE_LoadDsiOverlay();
       if (!GFL_USE_IsMuteHookActive())

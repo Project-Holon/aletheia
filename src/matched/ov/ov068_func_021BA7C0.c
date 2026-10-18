@@ -22,7 +22,7 @@
  *   OPTION_MENU_SelectChoiceAtTouch  0x021BAC70  thumb  ov068
  *   OPTION_MENU_RestartScreenBlink  0x021B9964  thumb  ov068
  *   func_020355C4  0x020355C4  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   OPTION_MENU_StepSelectedSetting  0x021BAD14  thumb  ov068
  *   OPTION_MENU_TakeLastChanged  0x021BB0D8  thumb  ov068
  *   OPTION_MENU_GetTextWait  0x021BB0D0  thumb  ov068
@@ -47,7 +47,7 @@ extern int  OPTION_MENU_GetRowAtTouch(u8 *p, int *pos);
 extern void OPTION_MENU_SelectChoiceAtTouch(u8 *p, void *b);
 extern void OPTION_MENU_RestartScreenBlink(char *p);
 extern u8 func_020355C4(void);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern void OPTION_MENU_StepSelectedSetting(u8 *p, u32 v);
 extern int  OPTION_MENU_TakeLastChanged(void *p);
 extern u32  OPTION_MENU_GetTextWait(void *p);
@@ -107,7 +107,7 @@ void OPTION_MENU_UpdateList(u8 *p, void *a1, void *a2, void *a3, void *a4)
         OPTION_MENU_RestartScreenBlink(a3);
         ((struct Obj00103 *)p)->f50 = 1;
         if (func_020355C4() == 0)
-            func_020355D8(1);
+            UI_SetInputMode(1);
         break;
     case 6:
         if (((struct Obj00103 *)p)->f4 < 5) {

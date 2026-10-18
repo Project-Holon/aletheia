@@ -13,7 +13,7 @@
  *   KEY_GetTrg  0x020362DC  arm
  *   func_020355C4  0x020355C4  arm
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   KEY_GetRepeat  0x0203633C  arm
  *   WORLDTRADE_SetActorPos  0x021F4FF4  thumb
@@ -63,7 +63,7 @@ extern u32 KEY_GetTrg(void);
 extern u8 func_020355C4(void);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern unsigned int KEY_GetRepeat(void);
 extern void WORLDTRADE_SetActorPos(u32 a, u32 b, u32 c);
@@ -81,7 +81,7 @@ int WORLDTRADE_INPUT_UpdateCategoryGridAlt(Obj *p, u8 *enable)
     }
     if (KEY_GetTrg() != 0 && func_020355C4() == 1) {
         CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
-        func_020355D8(0);
+        UI_SetInputMode(0);
         GFL_USE_PlaySeDefaultVolume(0x548);
         return -1;
     }
@@ -148,7 +148,7 @@ int WORLDTRADE_INPUT_UpdateCategoryGridAlt(Obj *p, u8 *enable)
         if (r == -1 && func_020355C4() == 0) {
             CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 0);
         }
-        func_020355D8(1);
+        UI_SetInputMode(1);
         return r;
     }
     if (KEY_GetTrg() & 1) {

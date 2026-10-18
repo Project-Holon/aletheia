@@ -17,7 +17,7 @@
  *   MSGDATA_Delete  0x02045C04  arm
  *   BTLV_INPUT_ChangeScreen  0x0220270C  thumb
  *   BTLV_INPUT_ProcessTouchInput  0x02202DC4  thumb
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   BTLV_INPUT_UpdateInfoWindow  0x02202228  thumb
  *   d_0220BBEC     0x0220BBEC  data  ov207
  *   d_0220BBF8     0x0220BBF8  data  ov207
@@ -44,7 +44,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void BTLV_INPUT_ChangeScreen(int *p, int n, S3 *s);
 extern int  BTLV_INPUT_ProcessTouchInput(int *p, void *a, void *b);
-extern void func_020355D8(int a);
+extern void UI_SetInputMode(int a);
 extern void BTLV_INPUT_UpdateInfoWindow(int *p);
 
 extern char d_0220BBEC[];
@@ -83,7 +83,7 @@ void ZUKAN_NICKNAME_UpdateInfoWindow(int *a)
                 a[16] = 1;
             else
                 a[16] = 0;
-            func_020355D8(((u8 *)a)[0x50] ? 0 : 1);
+            UI_SetInputMode(((u8 *)a)[0x50] ? 0 : 1);
         }
         break;
     }

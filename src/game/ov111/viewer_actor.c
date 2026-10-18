@@ -93,7 +93,7 @@
  *   d_021C898C  0x021C898C  data
  *   d_021C8808  0x021C8808  data
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
  *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
@@ -271,7 +271,7 @@ extern u32 KEY_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void VIEWER_ACTOR_HandleTouchDrag(ViewerTextWork *p, int idx);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
 extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
@@ -930,9 +930,9 @@ void VIEWER_ACTOR_SelectActor(ViewerTextWork *p, int sel, int flag)
         p->action = sel;
         CLACT_SetActorAnimSeq(p->actors.named.actorB, 9);
         if (flag) {
-            func_020355D8(0);
+            UI_SetInputMode(0);
         } else {
-            func_020355D8(1);
+            UI_SetInputMode(1);
         }
         return;
     }

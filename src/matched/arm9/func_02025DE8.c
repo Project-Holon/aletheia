@@ -16,7 +16,7 @@
  *   CURSOR_MOVE_MoveCursor  0x02026010  thumb
  *   KEY_GetRepeat  0x0203633C  arm
  *   KEY_GetTrg  0x020362DC  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *
  * field_sound_system.c.  The secondary-pad twin of CURSOR_MOVE_PollInput: identical shape, but the four direction bits come from KEY_GetRepeat while the two action bits still come from KEY_GetTrg.
  *
@@ -48,7 +48,7 @@ extern u32  CURSOR_MOVE_GetNeighbour(const u8 *ptr, u32 idx, u32 type);
 extern int CURSOR_MOVE_MoveCursor(struct Sound *obj, u32 dir, int sel);
 extern unsigned int KEY_GetRepeat(void);
 extern u32  KEY_GetTrg(void);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 
 int CURSOR_MOVE_PollRepeatInput(struct Sound *obj)
 {
@@ -83,12 +83,12 @@ int CURSOR_MOVE_PollRepeatInput(struct Sound *obj)
         return CURSOR_MOVE_MoveCursor(obj, dir, sel);
     }
     if (KEY_GetTrg() & 1) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         return obj->field_D;
     }
     if (KEY_GetTrg() & 2) {
         dir = 0;
-        func_020355D8(0);
+        UI_SetInputMode(0);
         return dir - 2;
     }
     return -1;

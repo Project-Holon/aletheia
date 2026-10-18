@@ -21,7 +21,7 @@
  *   COMM_TVT_SYS_GetHalfRes 0x021BE078 thumb ov172
  *   CTVT_COMM_GetSlotConnected 0x021B8B8C thumb ov172
  *   CTVT_COMM_GetSlotReady 0x021B8BAC thumb ov172
- *   func_02082A7C 0x02082A7C arm
+ *   MIi_CpuClear32 0x02082A7C arm
  *   COMM_TVT_SYS_GetCamView 0x021BDFDC thumb ov172
  *   COMM_TVT_SYS_GetMessageActive 0x021BE0AC thumb ov172
  *   MIi_CpuCopy32 0x02082A90 arm
@@ -258,7 +258,7 @@ extern void DRAW_SYSTEM_SetQueueIndex(void *p, u16 v);
 extern int CTVT_MIC_PlayVoice(int *self, char *buf, unsigned n, int vol, int freq);
 
 
-extern void func_02082A7C();
+extern void MIi_CpuClear32();
 
 extern void CTVT_ADPCM_ResetDecoder(void);
 
@@ -1063,7 +1063,7 @@ int CTVT_COMM_SendVoiceData(void *work, char *comm, u16 *packet)
 int CTVT_COMM_ResetVoiceRecord(void *work, char *comm)
 {
     ((CtvtComm *)comm)->postBusy = 1;
-    func_02082A7C(0, ((CtvtComm *)comm)->voiceRec, 0x208);
+    MIi_CpuClear32(0, ((CtvtComm *)comm)->voiceRec, 0x208);
     return (int)((CtvtComm *)comm)->voiceRec;
 }
 
@@ -1078,7 +1078,7 @@ void CTVT_COMM_ReceiveVoicePacket(int unused1, int unused2, int unused3, char *c
     GFL_NET_GetHandleNetID((struct GflNetLink *)((u32)GFL_NET_HANDLE_GetCurrentHandle()));
     if (((CtvtTalkPacket *)packet)->index == 0) {
         CTVT_ADPCM_ResetDecoder();
-        func_02082A7C(0, (int)(((CtvtComm *)comm)->decodeBuf), 0xc800);
+        MIi_CpuClear32(0, (int)(((CtvtComm *)comm)->decodeBuf), 0xc800);
     }
     CTVT_MIC_DecodeAdpcm((int)talk, (int)payload, ((CtvtComm *)comm)->decodeBuf + (((CtvtTalkPacket *)packet)->index << 11), ((CtvtTalkPacket *)packet)->length);
     if (((CtvtTalkPacket *)packet)->last == 1) {

@@ -74,7 +74,7 @@
  *   STRBUF_ToChars      0x02045A38  arm
  *   _BoxSavedataFileName  0x020A706C  data
  *   _PerapVoiceFileName  0x020A707C  data
- *   func_02082A7C      0x02082A7C  arm
+ *   MIi_CpuClear32      0x02082A7C  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   PERAPVOICE_IsRecorded   0x02007B50  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
@@ -258,7 +258,7 @@ extern void GF_OVERLAY_Unload(int overlayId);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern u32 GFL_HEAP_Free(void *memory);
 extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *message);
-extern void func_02082A7C(u32 value, void *dest, u32 size);
+extern void MIi_CpuClear32(u32 value, void *dest, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 
@@ -1568,7 +1568,7 @@ u32 PERAPVOICE_GetSize(void)
 
 void PERAPVOICE_Init(struct PerapVoice *voice)
 {
-    func_02082A7C(0, voice, sizeof(struct PerapVoice));
+    MIi_CpuClear32(0, voice, sizeof(struct PerapVoice));
     voice->isRecorded = 0;
 }
 

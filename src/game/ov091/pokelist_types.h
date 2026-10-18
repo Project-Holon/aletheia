@@ -78,7 +78,7 @@ typedef struct PokelistWork {
     u16 heapId;                       /* 0x000 */
     u8 pad02[2];
     int updateTask;                   /* 0x004 */
-    int touchMode;                    /* 0x008: input mode restored with func_020355D8 */
+    int touchMode;                    /* 0x008: input mode restored with UI_SetInputMode */
     u8 phase;                         /* 0x00C: Update switch state */
     u8 nextPhase;                     /* 0x00D */
     u8 inputStage;                    /* 0x00E */

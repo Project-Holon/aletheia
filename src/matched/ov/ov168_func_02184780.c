@@ -9,7 +9,7 @@
  * status: EXACT*
  * extent: two-byte alignment padding at 0x02184816.
  * blocker: ARM9 0x0203F5FC has no outside code witness.
- * Verified blocker C copied from ov137_func_021E09C0.c;
+ * Verified blocker C copied from GURU2_MAIN_UpdateRecordPosition.c;
  * S13/blocker_0203F5FC-r1.log reports EXACT, 64 bytes:
  *   symbols: FX_SinCosTable_ 0x020A1B38 data a2
  *   typedef unsigned short u16;

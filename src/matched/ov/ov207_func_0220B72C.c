@@ -13,7 +13,7 @@
  *   TCBL_Main 0x020310C4 arm
  *   PRINTSYS_PrintStreamGetState 0x0201CE30 thumb
  *   KEY_GetCont 0x0203630C arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   TOUCHPANEL_GetCont 0x02035C38 arm
  *   PRINTSYS_PrintStreamShortWait 0x0201CE5C thumb
  *   KEY_GetTrg 0x020362DC arm
@@ -46,7 +46,7 @@ struct U16Vec;
 extern void TCBL_Main(struct Tcbl *);
 extern u32 PRINTSYS_PrintStreamGetState(void *);
 extern u32 KEY_GetCont(void);
-extern void func_020355D8(u8);
+extern void UI_SetInputMode(u8);
 extern int TOUCHPANEL_GetCont(void);
 typedef signed int     s32;
 struct Rec;
@@ -83,14 +83,14 @@ int ZUKAN_NICKNAME_Main(char *p)
         switch(value) {
         case 0:
             flag=0;
-            if(KEY_GetCont()&3) {func_020355D8(0);flag=1;}
-            else if(TOUCHPANEL_GetCont()!=0) {func_020355D8(1);flag=1;}
+            if(KEY_GetCont()&3) {UI_SetInputMode(0);flag=1;}
+            else if(TOUCHPANEL_GetCont()!=0) {UI_SetInputMode(1);flag=1;}
             if(flag!=0) PRINTSYS_PrintStreamShortWait(((struct Obj00181 *)p)->f28,0);
             break;
         case 1:
             flag=0;
-            if(KEY_GetTrg()&3) {func_020355D8(0);flag=1;}
-            else if(TOUCHPANEL_GetTrg()!=0) {func_020355D8(1);flag=1;}
+            if(KEY_GetTrg()&3) {UI_SetInputMode(0);flag=1;}
+            else if(TOUCHPANEL_GetTrg()!=0) {UI_SetInputMode(1);flag=1;}
             if(flag!=0) {PRINTSYS_PrintStreamReleasePause(((struct Obj00181 *)p)->f28);GFL_USE_PlaySeDefaultVolume(0x547);}
             break;
         }
@@ -119,14 +119,14 @@ int ZUKAN_NICKNAME_Main(char *p)
         switch(value) {
         case 0:
             flag=0;
-            if(KEY_GetCont()&3) {func_020355D8(0);flag=1;}
-            else if(TOUCHPANEL_GetCont()!=0) {func_020355D8(1);flag=1;}
+            if(KEY_GetCont()&3) {UI_SetInputMode(0);flag=1;}
+            else if(TOUCHPANEL_GetCont()!=0) {UI_SetInputMode(1);flag=1;}
             if(flag!=0) PRINTSYS_PrintStreamShortWait(((struct Obj00181 *)p)->f28,0);
             break;
         case 1:
             flag=0;
-            if(KEY_GetTrg()&3) {func_020355D8(0);flag=1;}
-            else if(TOUCHPANEL_GetTrg()!=0) {func_020355D8(1);flag=1;}
+            if(KEY_GetTrg()&3) {UI_SetInputMode(0);flag=1;}
+            else if(TOUCHPANEL_GetTrg()!=0) {UI_SetInputMode(1);flag=1;}
             if(flag!=0) {PRINTSYS_PrintStreamReleasePause(((struct Obj00181 *)p)->f28);GFL_USE_PlaySeDefaultVolume(0x547);}
             break;
         }

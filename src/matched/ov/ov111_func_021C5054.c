@@ -13,7 +13,7 @@
  *   VIEWER_TEXT_SetActorAnim  0x021C6FA0  thumb  ov111
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   KEY_GetTrg  0x020362DC  arm
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   VIEWER_MAIN_ToggleFavorite  0x021C513C  thumb  ov111
  *
  * Addresses are Black-image addresses.
@@ -60,7 +60,7 @@ typedef struct {
 extern void VIEWER_TEXT_SetActorAnim(Anim *a, int idx, u8 x, u8 y);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern u32 KEY_GetTrg(void);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern void VIEWER_MAIN_ToggleFavorite(Work *p);
 
 int VIEWER_MAIN_HandleKey(Work *p)
@@ -71,7 +71,7 @@ int VIEWER_MAIN_HandleKey(Work *p)
         if (p->h305E == 0) {
             VIEWER_TEXT_SetActorAnim(&p->anim, 0, 9, 1);
             GFL_USE_PlaySeDefaultVolume(0x551);
-            func_020355D8(0);
+            UI_SetInputMode(0);
             return 4;
         }
     } else if (key & 0x400) {

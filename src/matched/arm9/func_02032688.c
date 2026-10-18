@@ -15,7 +15,7 @@
  *   BACKUP_SYSTEM_GetAreaAddr  0x02031EAC  arm
  *   FLASH_ACCESS_Read  0x020335E8  arm
  *   BACKUP_SYSTEM_FillBlockAreas  0x02033410  arm
- *   func_02082A7C  0x02082A7C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
  *   BACKUP_SYSTEM_GetFooterInfo  0x02031F9C  arm
  *   BACKUP_SYSTEM_SetBlockArea  0x0203331C  arm
  *   MATH_CalcCRC16CCITT  0x02081B8C  arm
@@ -77,7 +77,7 @@ extern u32 BACKUP_SYSTEM_GetAreaAddr(u32 *p, u32 sel);
 struct MATHCRC16Table;
 extern int FLASH_ACCESS_Read(u32 a0, u32 a1, u32 a2, void (*a3)(void));
 extern void BACKUP_SYSTEM_FillBlockAreas(struct Obj02033410 *p, u32 val);
-extern void func_02082A7C(int a, void *b, u32 c);
+extern void MIi_CpuClear32(int a, void *b, u32 c);
 extern void BACKUP_SYSTEM_GetFooterInfo(u32 *out, void *p, void *buf, u32 sel);
 extern void BACKUP_SYSTEM_SetBlockArea(struct Obj020332FC *p, u32 idx, u32 val);
 extern u16 MATH_CalcCRC16CCITT(struct MATHCRC16Table *table, void *data, u32 dataLength);
@@ -102,7 +102,7 @@ int BACKUP_SYSTEM_LoadSingleCopy(Save *self, int mode, int arg3)
     if (FLASH_ACCESS_Read(BACKUP_SYSTEM_GetAreaAddr((u32 *)self, 1), (u32)h, self->f30,
                       (void (*)(void))svsys->unk204) == 0) {
         BACKUP_SYSTEM_FillBlockAreas((struct Obj02033410 *)self, 1);
-        func_02082A7C(0, h, self->f30);
+        MIi_CpuClear32(0, h, self->f30);
         return 0;
     }
     BACKUP_SYSTEM_GetFooterInfo(pair, self, h, 0);

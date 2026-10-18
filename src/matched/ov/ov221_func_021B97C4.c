@@ -19,7 +19,7 @@
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
  *   KEY_GetTrg 0x020362DC arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
  *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
@@ -49,7 +49,7 @@ extern void GFL_USE_FadeInBgmFull(u32);
 extern void FADE_Start(u32,int,int,int);
 extern int FADE_IsActive(void);
 extern u32 KEY_GetTrg(void);
-extern void func_020355D8(unsigned char);
+extern void UI_SetInputMode(unsigned char);
 extern u32 TOUCHPANEL_GetPointTrg(u32*,u32*);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 int CHIHOU_ZUKAN_AWARD_Main(int unused, int *state, int unused2, unsigned char *p)
@@ -75,8 +75,8 @@ int CHIHOU_ZUKAN_AWARD_Main(int unused, int *state, int unused2, unsigned char *
   break;
  case 4:
   ready=0;
-  if(KEY_GetTrg()&3) {func_020355D8(0);ready=1;}
-  else if(TOUCHPANEL_GetPointTrg(&x,&y)) {func_020355D8(1);ready=1;}
+  if(KEY_GetTrg()&3) {UI_SetInputMode(0);ready=1;}
+  else if(TOUCHPANEL_GetPointTrg(&x,&y)) {UI_SetInputMode(1);ready=1;}
   if(ready) {*state=5;FADE_Start(3,0,16,0);}
   break;
  case 5: if(!FADE_IsActive()) *state=6; break;

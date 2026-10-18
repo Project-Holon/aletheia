@@ -12,7 +12,7 @@
  *   func_020870D0 0x020870D0 arm
  *   _ll_udiv 0x0209C00C arm
  *   _s32_div_f 0x0209C0A4 arm
- *   ov208_func_021C3208 0x021C3208 thumb ov208
+ *   ZUKAN_DETAIL_VOICE_FinishScaleAnim 0x021C3208 thumb ov208
  *   ov208_func_021C337C 0x021C337C thumb ov208
  *   ov208_func_021C3378 0x021C3378 thumb ov208
  *   ov208_func_021C2DE0 0x021C2DE0 thumb ov208
@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 typedef unsigned long long u64;
 
 extern u64 func_020870D0(void);
-extern void ov208_func_021C3208(u16 *heap, u8 *p, int key);
+extern void ZUKAN_DETAIL_VOICE_FinishScaleAnim(u16 *heap, u8 *p, int key);
 extern void ov208_func_021C337C(u16 *heap, u8 *p, int key);
 extern void ov208_func_021C3378(u16 *heap, u8 *p, int key, int first, u16 second);
 extern void ov208_func_021C2DE0(u16 *heap, u8 *p, int key, int first, u16 second);
@@ -54,7 +54,7 @@ void ZUKAN_DETAIL_VOICE_UpdatePlaybackTimer(u16 *heap, u8 *p, int key)
         if (((struct Obj02256 *)p)->f74 >= ((struct Obj02256 *)p)->f38) {
             ((struct Obj02256 *)p)->f74 = ((struct Obj02256 *)p)->f38;
             ((struct Obj02256 *)p)->f68 = 0;
-            ov208_func_021C3208(heap, p, key);
+            ZUKAN_DETAIL_VOICE_FinishScaleAnim(heap, p, key);
         }
     }
     cur = ((struct Obj02256 *)p)->f74;

@@ -12,7 +12,7 @@
  * Tail call with a zero first argument and a constant size.
  *
  * symbols:
- *   func_02082A7C  0x02082A7C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02082A7C(u32 a, u32 b, u32 c);
+extern void MIi_CpuClear32(u32 a, u32 b, u32 c);
 
 void FIELD_G3DOBJ_InitResDesc(u32 a)
 {
-    func_02082A7C(0, a, 0x24);
+    MIi_CpuClear32(0, a, 0x24);
 }

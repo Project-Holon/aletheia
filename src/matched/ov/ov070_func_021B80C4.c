@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   ITEMMENU_GetItemCount  0x021B61C8  thumb  ov070
  *   ITEMMENU_UpdateSlotActorPosition  0x021BB398  thumb  ov070
  *   BLINK_PALANM_ResetPhase  0x0202EB04  thumb
@@ -27,7 +27,7 @@ typedef struct Obj {
 } Obj;
 
 struct CodeIn;
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern int ITEMMENU_GetItemCount(u8 *p);
 typedef unsigned int   u32;
 extern void ITEMMENU_UpdateSlotActorPosition(int p, u32 val);
@@ -39,9 +39,9 @@ void ITEMMENU_SetCursorActive(Obj *o, int flag)
     if (o->f81C == 1)
         flag = 1;
     if (flag)
-        func_020355D8(0);
+        UI_SetInputMode(0);
     else
-        func_020355D8(1);
+        UI_SetInputMode(1);
     if (ITEMMENU_GetItemCount((u8 *)o) == 0)
         flag = 0;
     if (flag == 0) {

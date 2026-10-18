@@ -32,7 +32,7 @@
  *   VM_GetU32  0x0201134C  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   SCRCMD_WORK_GetGameSystem 0x0215A5DC thumb ov010
- *   func_02082A7C  0x02082A7C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb
  *   WORDSET_Create  0x0201EC74  thumb
  *   STRBUF_Create  0x020457B0  arm
@@ -88,7 +88,7 @@ extern u16 *ZONEDATA_GetEventWorkAddress(u32 eventWork, u32 id);
 extern u32 VM_GetU32(ScriptVm *vm);
 extern void *GAMESYSTEM_GetFieldMap(void *gameSystem);
 extern void *SCRCMD_WORK_GetGameSystem(ScriptVm *vm);
-extern int func_02082A7C();
+extern int MIi_CpuClear32();
 extern int FIELDMAP_GetMsgBg();
 extern void *WORDSET_Create(u32 count, u32 size, u16 heapId);
 extern void *STRBUF_Create(u32 capacity, u32 heapId);
@@ -167,7 +167,7 @@ int SCRIPT_WORK_CmdLoadRegValue(ScriptVm *vm);
 int SCRIPT_WORK_InitFieldParam(ScriptFieldParam *fieldParam, void *gameSystem)
 {
     void *fieldSystem = GAMESYSTEM_GetFieldMap(gameSystem);
-    int result = func_02082A7C(0, fieldParam, 8);
+    int result = MIi_CpuClear32(0, fieldParam, 8);
     fieldParam->fieldSystem = fieldSystem;
     if (fieldSystem != 0) {
         result = FIELDMAP_GetMsgBg(fieldSystem);
@@ -364,7 +364,7 @@ ScriptTrainerEntry *SCRIPT_WORK_GetTrainerEntry(ScriptWork *work, int index)
 
 void SCRIPT_WORK_ClearCheckFlags(void)
 {
-    func_02082A7C(0, &gScriptCheckFlags, 4);
+    MIi_CpuClear32(0, &gScriptCheckFlags, 4);
 }
 
 /*

@@ -15,7 +15,7 @@
  *   func_02030734  0x02030734  arm
  *   UI_SetKeepAwakeFlagsGlobal  0x02034F84  arm
  *   BACKUP_SYSTEM_EraseFooter  0x02033200  arm
- *   func_02082A7C  0x02082A7C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
  *   FLASH_ACCESS_Write  0x020335AC  arm
  *   func_020307B0  0x020307B0  arm
  *   BACKUP_SYSTEM_ClearWork  0x020319C0  arm
@@ -24,7 +24,7 @@
  * Erase the whole backup device in 0x1000-byte pages.  A 0x1000-byte scratch
  * page is allocated on the heap named by the u16 second argument (the
  * __FILE__ is "backup_system.c" at 0x020A7848 and the __LINE__ is 0x1e8),
- * filled with 0xff by func_02082A7C, and written over every page of the
+ * filled with 0xff by MIi_CpuClear32, and written over every page of the
  * device: the job's +8 word is the total length, its +0 word the destination
  * base, and the device handle comes from the +0x208 field of the object
  * behind the global at 0x02146994, re-read once per page along with the base.
@@ -76,7 +76,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void  UI_SetKeepAwakeFlagsGlobal(u32 a);
 struct SaveBackup;
 extern u32 BACKUP_SYSTEM_EraseFooter(struct SaveBackup *p, u32 id);
-extern void  func_02082A7C(u32 v, void *p, u32 n);
+extern void  MIi_CpuClear32(u32 v, void *p, u32 n);
 extern u32 FLASH_ACCESS_Write(u32 a, u32 b, u32 c, u32 d);
 extern u32 func_020307B0(void *p);
 extern void BACKUP_SYSTEM_ClearWork(u8 *p);
@@ -96,7 +96,7 @@ int BACKUP_SYSTEM_Erase(struct Job *job, u32 heap)
     if (job->f00 != job->f04)
         BACKUP_SYSTEM_EraseFooter((struct SaveBackup *)job, 2);
 
-    func_02082A7C(0xFFFFFFFF, page, 0x1000);
+    MIi_CpuClear32(0xFFFFFFFF, page, 0x1000);
 
     for (off = 0; off < job->f08; off += 0x1000)
         FLASH_ACCESS_Write(off + job->f00, (u32)page, 0x1000, svsys->unk208);

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   ZUKAN_DETAIL_FORM_HandleStateEvent  0x021C5F34  thumb  ov208
- *   ov208_func_021C80CC  0x021C80CC  thumb  ov208
+ *   ZUKAN_DETAIL_FORM_CopyModelPosition  0x021C80CC  thumb  ov208
  *   ZUKAN_DETAIL_FORM_ConvertModelPosition  0x021C7FF8  thumb  ov208
  *   MCSS_GetPosition  0x02015C30  thumb
  *   MCSS_SetPosition  0x02015C48  thumb
@@ -44,7 +44,7 @@ typedef struct {
 } VecF;
 
 extern void ZUKAN_DETAIL_FORM_HandleStateEvent(void *a0, u8 *p, void *ctx, int ev);
-extern void ov208_func_021C80CC(void *u, int k, VecF *v);
+extern void ZUKAN_DETAIL_FORM_CopyModelPosition(void *u, int k, VecF *v);
 extern void ZUKAN_DETAIL_FORM_ConvertModelPosition(void *u, int k, Vec *v);
 extern void MCSS_GetPosition(void *p, u32 *out);
 extern void MCSS_SetPosition(void *p, u32 *src);
@@ -86,7 +86,7 @@ void ZUKAN_DETAIL_FORM_UpdateSlideBoth(void *a0, u8 *p, void *ctx)
             idx = 0;
             if (W(0x124) == 0)
                 idx = 1;
-            ov208_func_021C80CC(p + 0xc + idx * 0x44, 3, &a1);
+            ZUKAN_DETAIL_FORM_CopyModelPosition(p + 0xc + idx * 0x44, 3, &a1);
             tx = a1.x;
             MCSS_GetPosition((void *)(*(u32 *)(p + 0xc + idx * 0x44)), (u32 *)(&v1));
             x = v1.x / 4096.0f - 0.5f;
@@ -114,7 +114,7 @@ void ZUKAN_DETAIL_FORM_UpdateSlideBoth(void *a0, u8 *p, void *ctx)
             idx = 2;
             if (W(0x124) == 0)
                 idx = 3;
-            ov208_func_021C80CC(p + 0xc + idx * 0x44, 4, &a2);
+            ZUKAN_DETAIL_FORM_CopyModelPosition(p + 0xc + idx * 0x44, 4, &a2);
             tx = a2.x;
             MCSS_GetPosition((void *)(*(u32 *)(p + 0xc + idx * 0x44)), (u32 *)(&v1));
             x = v1.x / 4096.0f - 1.5f;
@@ -150,7 +150,7 @@ void ZUKAN_DETAIL_FORM_UpdateSlideBoth(void *a0, u8 *p, void *ctx)
             idx = 0;
             if (W(0x124) == 0)
                 idx = 1;
-            ov208_func_021C80CC(p + 0xc + idx * 0x44, 0, &a3);
+            ZUKAN_DETAIL_FORM_CopyModelPosition(p + 0xc + idx * 0x44, 0, &a3);
             tx = a3.x;
             MCSS_GetPosition((void *)(*(u32 *)(p + 0xc + idx * 0x44)), (u32 *)(&v2));
             x = v2.x / 4096.0f;
@@ -179,7 +179,7 @@ void ZUKAN_DETAIL_FORM_UpdateSlideBoth(void *a0, u8 *p, void *ctx)
             idx = 2;
             if (W(0x124) == 0)
                 idx = 3;
-            ov208_func_021C80CC(p + 0xc + idx * 0x44, 2, &a4);
+            ZUKAN_DETAIL_FORM_CopyModelPosition(p + 0xc + idx * 0x44, 2, &a4);
             tx = (&a4)->x;
             MCSS_GetPosition((void *)(*(u32 *)(p + 0xc + idx * 0x44)), (u32 *)(&v2));
             x = v2.x / 4096.0f;

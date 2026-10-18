@@ -72,7 +72,7 @@ void FIELD_MAP_CHANGE_Empty(int system, u16 zoneId);
  * interface: FIELDMAP_GetZoneId reads the u16 field at +0xD8;
  * MOVE_POKEMON_SetCommonArea forwards its second argument to MOVE_POKEMON_SAVE_SetCommonArea,
  * whose matched ARM9 body takes u16 and stores only that halfword.
- * The legacy ov010_func_021643E8 declaration uses a pointer for this ID.
+ * The legacy FIELD_MAP_CHANGE_SetupZone declaration uses a pointer for this ID.
  */
 void FIELD_MAP_CHANGE_ApplyZoneHeader(struct GameData *gameData, void *zoneHeader) { void *saveWork=MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData)); MOVE_POKEMON_SetCommonArea((int)saveWork,FIELDMAP_GetZoneId((u8 *)zoneHeader)); MOVE_POKEMON_MoveActiveEntriesChecked(gameData); ZONEDATA_ResetEventFlag((char *)GAME_DATA_GetEventWork(gameData),0x964); FIELD_ENCOUNT_ST_GetEffectEncount((int)zoneHeader); }
 

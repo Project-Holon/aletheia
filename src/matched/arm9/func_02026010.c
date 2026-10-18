@@ -14,7 +14,7 @@
  * in the object's 32-bit-word skip bitmap, then notifies the owner.
  *
  * symbols:
- *   func_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   CURSOR_MOVE_GetNeighbour  0x02025F60  thumb
  *   CURSOR_MOVE_IsWrapNeighbour  0x02026178  thumb
  */
@@ -49,7 +49,7 @@ struct Sound {
     void *ctx;
 };
 
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern u32 CURSOR_MOVE_GetNeighbour(const u8 *ptr, u32 idx, u32 type);
 extern int CURSOR_MOVE_IsWrapNeighbour(const u8 *ptr, u32 type);
 
@@ -58,7 +58,7 @@ int CURSOR_MOVE_MoveCursor(struct Sound *obj, u32 dir, int sel)
     int direct;
     u32 n;
 
-    func_020355D8(0);
+    UI_SetInputMode(0);
 
     if (sel & 0x80) {
         if (obj->field_F != 0xff) {

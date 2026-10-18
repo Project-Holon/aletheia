@@ -20,7 +20,7 @@
  *           BOOL flg_connect}), timeout +0x28. So the guards are sStatus.flg_connect (line 150) and isTry
  *           (line 154), line 158 is isTry = TRUE and line 166 is sStatus.status = IRC_ST_WAIT_RESPONSE. With
  *           isTry as its own object the scheduler places the argument setup before the isTry store, as in the
- *           game. No pragma is needed. The statics are declared as in ov_sdk/ov015_func_02179F74.c (mwcc .data
+ *           game. No pragma is needed. The statics are declared as in ov_sdk/IRC_Init.c (mwcc .data
  *           in reverse order, .bss by size class), except that isTry and flg_restore change places: the DWARF
  *           puts isTry at +0x1c and flg_restore at +0x14 (02179F74 has these two names swapped; it does not
  *           use either, so its bytes do not change). `u8 command` is a C99 mid-block declaration as in the
@@ -229,7 +229,7 @@ unsigned int IRC_IsConnect(void)
  *           spelling tried reaches.
  * lane 6 (wave 10): named hi/lo/u16 byte temporaries (declared before or after i, five shapes) are inert, still 10 B.
  * lane 8 (wave 8): residue is exactly docs/idioms/a-hoisted-loop-invariant-zero-takes-the-freshly-dead-register-from-the-scratch.md
- *           (found in ov009_func_02163E40): dsi/1.1p1 hands the freshly-dead asr result r1 to loop 2's hoisted zero,
+ *           (found in CPSi_rc4_init): dsi/1.1p1 hands the freshly-dead asr result r1 to loop 2's hoisted zero,
  *           the image keeps the zero in ip (so the two strb stay in source order). A batch of 10 spellings all pin
  *           at 10 B: hi-first source order, named hi / lo+hi, byte-pointer header, enum zero, named-zero copy,
  *           plain `i < size` loop2 (65 B), `sum / 256` (11 B), `unsigned char i` (124 B). Confirms the idiom's park.
@@ -424,7 +424,7 @@ int IRCi_CheckPacket(unsigned long n)
  *           (onDone is void (*)(u8, int)). The dead `n = 1` in the 0xFA arm was not needed (the literal 1 is pooled in r5
  *           by itself) and was dropped. Pragma opt_common_subs off reproduces the three separate loads of the packet
  *           command byte. Callee types: A7AC(u8 *) returns u32, A178(u32) int, A1FC() int, A280(u32) int, 020870D0
- *           returns u64, A034 four ints. IRCi_Nop is an empty leaf (bx lr), filed as ov015_func_0217A174.c.
+ *           returns u64, A034 four ints. IRCi_Nop is an empty leaf (bx lr), filed as IRCi_Nop.c.
  */
 int IRC_Move(void)
 {

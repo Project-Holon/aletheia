@@ -11,7 +11,7 @@
  *
  * symbols:
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   KEY_GetTrg 0x020362DC arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 
 typedef unsigned char  u8;
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern u32 KEY_GetTrg(void);
 typedef unsigned short u16;
 struct Actor;
@@ -52,13 +52,13 @@ void DOWSING_UpdateCloseButton(T *p)
         hit = 0;
         if (TOUCHPANEL_GetPointTrg(&x, &y) != 0) {
             if (x >= 0xE8 && x < 0x100 && y >= 0xA8 && y < 0xC0) {
-                func_020355D8(1);
+                UI_SetInputMode(1);
                 hit = 1;
             }
         }
         if (hit == 0) {
             if (KEY_GetTrg() & 0x400) {
-                func_020355D8(0);
+                UI_SetInputMode(0);
                 hit = 1;
             }
         }

@@ -23,7 +23,7 @@
  *
  * SDK: TwlDWC libdwcutil.TWL.HYB.a(atermset.o), symbol APC_SearchStart (name from the vendor object).
  * atermset.o was built by Metrowerks C/C++ for ARM 3.0.0.126 (its .comment), which is
- * the 2.0/sp1p2 front end; see aoss_release (ov016_func_021B6CF0.c) for the byte tell.
+ * the 2.0/sp1p2 front end; see aoss_release (aoss_release.c) for the byte tell.
  *
  * Close to apc.o's copy (ov016_func_021B8D40.c): here the buffer pointers are set first,
  * the ESSID bound is < 32, and the search passes apci_bssid_buf itself, not apci_bssid_ptr.

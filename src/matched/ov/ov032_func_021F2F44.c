@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * isa:      thumb
  * status:   EXACT
- * note:     CLACT_SetUnitRenderer takes two arguments (twin ov029_func_021F1DE8): the
+ * note:     CLACT_SetUnitRenderer takes two arguments (twin C_GEAR_LoadGraphics): the
  *           0x12C result still in r1 at that call is its second argument.
  * symbols:
  *   BEACON_VIEW_CreateActors 0x021F2F44 thumb

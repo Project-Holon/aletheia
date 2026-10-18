@@ -61,7 +61,7 @@
  *   GF_OVERLAY_Load 0x02034AC4 arm
  *   GF_OVERLAY_Unload 0x02034A5C arm
  *   UI_GetInputMode 0x020355C4 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   KEY_GetTrg 0x020362DC arm
  *   FADE_IsActive 0x0204E804 arm
  *   YESNO_MENU_Create 0x021B6DC0 thumb ov067
@@ -368,7 +368,7 @@ extern void TCB_Noop(void *);
 extern int GF_OVERLAY_Load(int);
 extern void GF_OVERLAY_Unload(int);
 extern u8 UI_GetInputMode(void);
-extern void func_020355D8(u32);
+extern void UI_SetInputMode(u32);
 extern u32 KEY_GetTrg(void);
 extern int FADE_IsActive(void);
 extern void *YESNO_MENU_Create(u16,u32,u32,u32,u8,u32,u32,u32,u32);
@@ -649,7 +649,7 @@ int SHINKA_DEMO_Main(int unused0,int unused1,char *a,char *s)
             else if(W(0x2c)==0x2e4)GFL_USE_PlaySeDefaultVolume(0x7e0);
             W(0x2c)++;
         }
-        if(A(0x10)&&SHINKA_DEMO_IsBgmState4((int)a,(int *)s)&&!W(0x24)&&(keys&2)&&SHINKA_DEMO_VIEW_TrySecondForm(P(0x104))){W(0x24)=1;func_020355D8(0);SHINKA_DEMO_EFFECT_Trigger(P(0x108));}break;
+        if(A(0x10)&&SHINKA_DEMO_IsBgmState4((int)a,(int *)s)&&!W(0x24)&&(keys&2)&&SHINKA_DEMO_VIEW_TrySecondForm(P(0x104))){W(0x24)=1;UI_SetInputMode(0);SHINKA_DEMO_EFFECT_Trigger(P(0x108));}break;
     case 9:
         POKE_TOOL_ChangeSpecies(P(0x10),AH(8));
         if(A(0)){v=ZUKAN_SAVE_GetFromGameData((void *)A(0));ZUKAN_SAVE_RegisterSeen(v,P(0x10));ZUKAN_SAVE_RegisterCaught(v,P(0x10));}
@@ -701,7 +701,7 @@ int SHINKA_DEMO_Main(int unused0,int unused1,char *a,char *s)
     case 30:
         if(FADE_IsActive())break;
         B(0x1a)=B(0xfb);if(B(0x1a)==4)W(0x28)=36;else{H(0x18)=POKE_TOOL_GetPartyValue(P(0x10),B(0x1a)+0x36,0);W(0x28)=31;}
-        func_020355D8(B(0xac)?0:1);break;
+        UI_SetInputMode(B(0xac)?0:1);break;
     case 31:if(W(0x8c))W(0x28)=33;else{W(0x28)=32;SHINKA_DEMO_SetupMessageBox((int)a,(int *)s,1);}break;
     case 32:W(0x88)=1;W(0x28)=33;break;
     case 33:SHINKA_DEMO_PrintText(s,W(0x7c),5,(u32)SHINKA_DEMO_PrintStreamCallback,2,W(0x10),3,(u32)(s+0x18));W(0x28)=34;break;
@@ -1361,9 +1361,9 @@ int SHINKA_DEMO_AdvanceText(char *a)
         if ((KEY_GetCont() & 3) != 0 || TOUCHPANEL_GetCont() != 0) {
             PRINTSYS_PrintStreamShortWait((struct Rec *)(((struct Scene *)a)->printStream), 0);
             if ((KEY_GetCont() & 3) != 0)
-                func_020355D8(0);
+                UI_SetInputMode(0);
             else
-                func_020355D8(1);
+                UI_SetInputMode(1);
         }
         break;
     case 1:
@@ -1371,9 +1371,9 @@ int SHINKA_DEMO_AdvanceText(char *a)
             GFL_USE_PlaySeDefaultVolume(0x547);
             PRINTSYS_PrintStreamReleasePause((void *)(((struct Scene *)a)->printStream));
             if ((KEY_GetTrg() & 3) != 0)
-                func_020355D8(0);
+                UI_SetInputMode(0);
             else
-                func_020355D8(1);
+                UI_SetInputMode(1);
         }
         break;
     case 2:
@@ -1390,7 +1390,7 @@ int SHINKA_DEMO_AdvanceText(char *a)
 /*
  * Leaf of the SHINKA_DEMO_Main dependency tree: a confirm gate.  True once the
  * action key is held (KEY_GetTrg & 3) or the touch probe fires; it hands
- * the pressed/released flag to func_020355D8.  The two arms must be separate
+ * the pressed/released flag to UI_SetInputMode.  The two arms must be separate
  * call statements, not a selected value: only then does mwccarm tail-merge
  * them with the original's `beq`-to-true orientation.
  */
@@ -1398,9 +1398,9 @@ int SHINKA_DEMO_IsConfirmPressed(char *s)
 {
     if ((KEY_GetTrg() & 3) != 0 || TOUCHPANEL_GetTrg() != 0) {
         if ((KEY_GetTrg() & 3) != 0)
-            func_020355D8(0);
+            UI_SetInputMode(0);
         else
-            func_020355D8(1);
+            UI_SetInputMode(1);
         return 1;
     }
     return 0;

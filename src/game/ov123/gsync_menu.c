@@ -134,7 +134,7 @@
  *   TCBL_Create 0x0203101C arm
  *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   d_021DA9F0 0x021DA9F0 data a4
  *   d_021DA680 0x021DA680 data a4
  *   d_021DA658 0x021DA658 data a4
@@ -438,7 +438,7 @@ extern void G2x_SetBlendAlpha_(void *,int,int,int,int);
 
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 
 extern void APP_TASKMENU_UpdateMenu(void *);
 
@@ -1217,7 +1217,7 @@ int GSYNC_MENU_ProcInit(void *proc, int seq, GsyncProcParam *param)
     GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateSetupButtons, 0x5bf);
     work->param = param;
     GFL_NET_RestartWithDefaultTimeout(0, work->heapId);
-    func_020355D8(1);
+    UI_SetInputMode(1);
     return 1;
 }
 

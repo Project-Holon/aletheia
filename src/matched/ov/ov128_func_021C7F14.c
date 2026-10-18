@@ -11,7 +11,7 @@
  * symbols:
  *   KEY_GetTrg 0x020362DC arm
  *   KEY_GetRepeat 0x0203633C arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   Wf2dmapFriend_ItemSelect 0x021C7E78 thumb ov128
  *   WF2DMAP_TOUCH_SetItemHighlight 0x021CA2C4 thumb ov128
@@ -23,7 +23,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 extern u32 KEY_GetTrg(void);
 extern u32 KEY_GetRepeat(void);
-extern void func_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int Wf2dmapFriend_ItemSelect(s16 *,u8 *,void *,int);
 extern void WF2DMAP_TOUCH_SetItemHighlight(u8 *,int,int);
@@ -34,12 +34,12 @@ int Wf2dmapFriend_ItemKeyInput(s16 *p, u8 *a, u8 *ctx)
     int page;
     int dir;
     if(KEY_GetTrg() & 2) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         ((struct Obj03810 *)a)->f0=0;
         return Wf2dmapFriend_ItemSelect(p,a,ctx,0);
     }
     if(KEY_GetTrg() & 1024) {
-        func_020355D8(0);
+        UI_SetInputMode(0);
         ((struct Obj03810 *)a)->f0=0;
         return Wf2dmapFriend_ItemSelect(p,a,ctx,6);
     }
@@ -47,7 +47,7 @@ int Wf2dmapFriend_ItemKeyInput(s16 *p, u8 *a, u8 *ctx)
         if(KEY_GetTrg() & 0xcf3) {
             GFL_USE_PlaySeDefaultVolume(0x548);
             WF2DMAP_TOUCH_SetItemHighlight(ctx,p[2],p[2]);
-            func_020355D8(0);
+            UI_SetInputMode(0);
             ((struct Obj03810 *)a)->f0=0;
         }
         return 0;

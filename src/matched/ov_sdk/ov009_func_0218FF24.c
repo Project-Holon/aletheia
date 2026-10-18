@@ -12,13 +12,13 @@
  * Tail call on the word at +0x5c8 of the block the object points at.
  *
  * symbols:
- *   func_021847BC  0x021847BC  arm
+ *   TableRemove  0x021847BC  arm
  */
 
-extern void func_021847BC(int v);
+extern void TableRemove(int v);
 
 void gpiRemoveProfile(const int *p, void *profile)
 {
-    func_021847BC(*(const int *)(*p + 0x5c8));
+    TableRemove(*(const int *)(*p + 0x5c8));
 }
 

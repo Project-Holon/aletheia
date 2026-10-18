@@ -55,7 +55,7 @@
  *   OS_Terminate                 0x02088234  arm
  *   MBi_SetTask                  0x021F6658  arm  ov107
  *   MIi_CpuClear16  0x02082A48  arm
- *   func_021F276C  0x021F276C  arm  ov107
+ *   MBi_CommParentSendMsg  0x021F276C  arm  ov107
  *   MBi_CommParentSendBlock  0x021F2A44  arm  ov107
  */
 #include "mb_parent.h"
@@ -164,7 +164,7 @@ extern void OS_Terminate(void);
 extern void MBi_SetTask(MBiTaskInfo *pt, void (*task)(MBiTaskInfo *),
                         void (*callback)(MBiTaskInfo *), u32 priority);
 extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
-extern int func_021F276C(u8 type, u16 pollbmp);
+extern int MBi_CommParentSendMsg(u8 type, u16 pollbmp);
 void MB_CommSetParentStateCallback(MBParentStateCallback callback);
 void *MB_CommGetChildUser(unsigned short child_aid);
 int MB_CommIsBootable(unsigned short child_aid);
@@ -849,13 +849,13 @@ static int MBi_CommParentSendData(void)
     }
 
     if (bmp.boot)
-        errcode = func_021F276C(5, bmp.boot);
+        errcode = MBi_CommParentSendMsg(5, bmp.boot);
     else if (bmp.connected)
-        errcode = func_021F276C(1, bmp.connected);
+        errcode = MBi_CommParentSendMsg(1, bmp.connected);
     else if (bmp.mem_full)
-        errcode = func_021F276C(6, bmp.mem_full);
+        errcode = MBi_CommParentSendMsg(6, bmp.mem_full);
     else if (bmp.kick)
-        errcode = func_021F276C(2, bmp.kick);
+        errcode = MBi_CommParentSendMsg(2, bmp.kick);
     else if (bmp.req)
         errcode = MBi_CommParentSendDLFileInfo();
     else
@@ -863,7 +863,7 @@ static int MBi_CommParentSendData(void)
 
     if (errcode != 0x15)
         return errcode;
-    return func_021F276C(0, 0xffff);
+    return MBi_CommParentSendMsg(0, 0xffff);
 }
 
 

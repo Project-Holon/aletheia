@@ -19,7 +19,7 @@
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   func_0207ECF0 0x0207ECF0 arm
  *   G2_GetBG3ScrPtr 0x0207E100 arm
- *   func_02082A7C 0x02082A7C arm
+ *   MIi_CpuClear32 0x02082A7C arm
  *   FX_Inv 0x0207C778 arm
  *   G2x_SetBGyAffine_ 0x0207D59C arm
  *   APP_ENV_HasParentalControlBits 0x0202EB14 thumb
@@ -79,7 +79,7 @@ extern u8 CTVT_COMM_GetSlotReady(void *unused, char *base, int i);
 extern void DWCi_ScreenDC_FlushRange(void *p, u32 n);
 extern void func_0207ECF0(const void *src, u32 off, u32 size);
 extern void *G2_GetBG3ScrPtr(void);
-extern void func_02082A7C(u32 fill, void *dst, u32 size);
+extern void MIi_CpuClear32(u32 fill, void *dst, u32 size);
 extern int FX_Inv(int);
 extern void G2x_SetBGyAffine_(void *, int *, int, int, int, int);
 extern int APP_ENV_HasParentalControlBits(void);
@@ -139,7 +139,7 @@ void CTVT_CAMVIEW_UploadWindows(void *p, Q *q)
                 q->f1c = 0;
                 COMM_TVT_SYS_ClearAndTransferNameWindows(p);
             }
-            func_02082A7C(0, G2_GetBG3ScrPtr(), 0x18000);
+            MIi_CpuClear32(0, G2_GetBG3ScrPtr(), 0x18000);
             q->f14 = 0;
             if (q->f20 != COMM_TVT_SYS_GetHalfRes(p)) {
                 q->f20 = COMM_TVT_SYS_GetHalfRes(p);

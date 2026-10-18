@@ -43,7 +43,7 @@
  *   func_02034AC4 0x02034AC4 arm
  *   func_02034A5C 0x02034A5C arm
  *   func_020355C4 0x020355C4 arm
- *   func_020355D8 0x020355D8 arm
+ *   UI_SetInputMode 0x020355D8 arm
  *   KEY_GetTrg 0x020362DC arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   FADE_Start 0x0204E720 arm
@@ -164,7 +164,7 @@ extern void TCB_Noop(void *);
 extern int func_02034AC4(int);
 extern void func_02034A5C(int);
 extern u8 func_020355C4(void);
-extern void func_020355D8(u32);
+extern void UI_SetInputMode(u32);
 extern u32 KEY_GetTrg(void);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32),FADE_Start(u32,int,int,int);
 extern int FADE_IsActive(void);
@@ -266,7 +266,7 @@ int SHINKA_DEMO_Main(int unused0,int unused1,char *a,char *s)
             else if(W(0x2c)==0x2e4)GFL_USE_PlaySeDefaultVolume(0x7e0);
             W(0x2c)++;
         }
-        if(A(0x10)&&SHINKA_DEMO_IsBgmState4((int)a,(int *)s)&&!W(0x24)&&(keys&2)&&SHINKA_DEMO_VIEW_TrySecondForm(P(0x104))){W(0x24)=1;func_020355D8(0);SHINKA_DEMO_EFFECT_Trigger(P(0x108));}break;
+        if(A(0x10)&&SHINKA_DEMO_IsBgmState4((int)a,(int *)s)&&!W(0x24)&&(keys&2)&&SHINKA_DEMO_VIEW_TrySecondForm(P(0x104))){W(0x24)=1;UI_SetInputMode(0);SHINKA_DEMO_EFFECT_Trigger(P(0x108));}break;
     case 9:
         POKE_TOOL_ChangeSpecies(P(0x10),AH(8));
         if(A(0)){v=ZUKAN_SAVE_GetFromGameData((void *)A(0));ZUKAN_SAVE_RegisterSeen(v,P(0x10));ZUKAN_SAVE_RegisterCaught(v,P(0x10));}
@@ -318,7 +318,7 @@ int SHINKA_DEMO_Main(int unused0,int unused1,char *a,char *s)
     case 30:
         if(FADE_IsActive())break;
         B(0x1a)=B(0xfb);if(B(0x1a)==4)W(0x28)=36;else{H(0x18)=POKE_TOOL_GetPartyValue(P(0x10),B(0x1a)+0x36,0);W(0x28)=31;}
-        func_020355D8(B(0xac)?0:1);break;
+        UI_SetInputMode(B(0xac)?0:1);break;
     case 31:if(W(0x8c))W(0x28)=33;else{W(0x28)=32;SHINKA_DEMO_SetupMessageBox((int)a,(int *)s,1);}break;
     case 32:W(0x88)=1;W(0x28)=33;break;
     case 33:SHINKA_DEMO_PrintText(s,W(0x7c),5,(u32)SHINKA_DEMO_PrintStreamCallback,2,W(0x10),3,(u32)(s+0x18));W(0x28)=34;break;
