@@ -32,11 +32,13 @@ struct PlayerWork;
 typedef unsigned int u32;
 
 /* Field skill use flags (0x18 bytes): bit i of usableMask set when field
- * skill i can be used now (FIELD_SKILL_CHECK_CallHandler). */
+ * skill i can be used now (FIELD_SKILL_CHECK_CallHandler). func_02028748
+ * ORs the bit into the word at +0x14 and func_02028754 tests it there. */
 typedef struct FieldSkillUseFlags {
-    u32 usableMask;     /* 0x00 */
+    u32 reserved00;     /* 0x00: cleared, never read here */
     u32 playerObjCode;  /* 0x04 */
-    u8 reserved[0x10];  /* 0x08: cleared, never read here */
+    u8 reserved08[0xC]; /* 0x08: cleared, never read here */
+    u32 usableMask;     /* 0x14 */
 } FieldSkillUseFlags;
 
 typedef int (*SkillCheckHandler)(struct GameData *gameData, void *fieldMap, struct PlayerWork *player);
