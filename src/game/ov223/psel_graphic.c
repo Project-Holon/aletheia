@@ -150,7 +150,7 @@
  *   d_020A1EB8 0x020A1EB8 data a4
  *   G3D_CAMERA_Delete  0x02048AC4  arm
  *   G3D_SYSTEM_Exit  0x02046788  arm
- *   func_02047964  0x02047964  arm
+ *   G3D_SYSTEM_DrawStart  0x02047964  arm
  *   G3D_CAMERA_Reset    0x02048AD0  arm
  *   G3D_SYSTEM_ApplyLookAt    0x020479D8  arm
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
@@ -319,7 +319,7 @@ extern void G3D_SYSTEM_Init(int,int,int,int,int,int,void (*)(void));
 extern int G3D_CAMERA_Create(int,int,int,int,int,int,int,int,const int *,const int *,const int *,int);
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern int G3D_SYSTEM_Exit(int);
-extern void func_02047964(void);
+extern void G3D_SYSTEM_DrawStart(void);
 extern void G3D_CAMERA_Reset(struct Light *l);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void G3D_SYSTEM_DrawEnd(void);
@@ -1279,7 +1279,7 @@ void PSEL_GRAPHIC_ExitG3d(int *camera)
 
 void PSEL_GRAPHIC_ApplyLookAt(int *camera)
 {
-    func_02047964();
+    G3D_SYSTEM_DrawStart();
     G3D_CAMERA_Reset((struct Light *)(*camera));
     G3D_SYSTEM_ApplyLookAt();
 }

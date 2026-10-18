@@ -36,9 +36,9 @@ extern void *PARTICLE_CreateSystemDefault(int a, int b, int c, int d);
 
 extern void *BUTTON_MAN_GetBlock(void *effect);
 
-extern void func_02048B60(void *effect, const u32 *in);
+extern void G3D_CAMERA_SetNear(void *effect, const u32 *in);
 
-extern void func_02048B6C(void *effect, const u32 *in);
+extern void G3D_CAMERA_SetFar(void *effect, const u32 *in);
 
 extern void PARTICLE_DeleteSystem(void *effect);
 
@@ -96,8 +96,8 @@ void *FLD_PARTICLE_CreateEffect(FldParticle *particle)
     effect = BUTTON_MAN_GetBlock(particle->effect);
     effectScale = 1 << 12;
     effectRange = 0x384000;
-    func_02048B60(effect, &effectScale);
-    func_02048B6C(effect, &effectRange);
+    G3D_CAMERA_SetNear(effect, &effectScale);
+    G3D_CAMERA_SetFar(effect, &effectRange);
     return particle->effect;
 }
 

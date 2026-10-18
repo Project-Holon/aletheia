@@ -1,5 +1,5 @@
 /*
- * function: func_02014878
+ * function: FIELD_STATUS_SubProcListEvent
  * address:  0x02014878
  * packet:   pkt_02014808
  * region:   arm9
@@ -45,8 +45,8 @@
  * 0x020148D2 with the second test as `bne` rather than `beq`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02014878.c \
- *       --func func_02014878 --addr 0x02014878 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FIELD_STATUS_SubProcListEvent.c \
+ *       --func FIELD_STATUS_SubProcListEvent --addr 0x02014878 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -59,7 +59,7 @@ extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
 extern u8   ov091_id[];
 extern u8   ov131_id[];
 
-u32 func_02014878(u32 a0, u32 *mode, u32 *p)
+u32 FIELD_STATUS_SubProcListEvent(u32 a0, u32 *mode, u32 *p)
 {
     u32 v = p[0];
 

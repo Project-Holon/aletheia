@@ -16,7 +16,7 @@
  * symbols:
  *   SCRCMD_MSGWIN_CalcBalloonOffset  0x021B0808  thumb
  *   G3D_CAMERA_Reset  0x02048AD0  arm
- *   G3D_CAMERA_GetUp  0x02048B30  arm
+ *   G3D_CAMERA_GetCamTarget  0x02048B30  arm
  *   G3D_CAMERA_GetEye  0x02048AE8  arm
  *   VEC_Subtract  0x0207CA00  arm
  *   VEC_Normalize  0x0207CCA4  arm
@@ -34,7 +34,7 @@ typedef struct { s32 x, y, z; } VecFx32;
 
 struct Light;
 extern void G3D_CAMERA_Reset(struct Light *l);
-extern void G3D_CAMERA_GetUp(void *cam, VecFx32 *out);
+extern void G3D_CAMERA_GetCamTarget(void *cam, VecFx32 *out);
 extern void G3D_CAMERA_GetEye(void *cam, VecFx32 *out);
 extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
 extern void VEC_Normalize(const VecFx32 *a, VecFx32 *out);
@@ -60,7 +60,7 @@ void SCRCMD_MSGWIN_CalcBalloonOffset(const VecFx32 *src, VecFx32 *out, void *cam
 
     pos = *src;
     G3D_CAMERA_Reset(cam);
-    G3D_CAMERA_GetUp(cam, &a);
+    G3D_CAMERA_GetCamTarget(cam, &a);
     G3D_CAMERA_GetEye(cam, &b);
     VEC_Subtract(&a, &b, &c);
     d = c;

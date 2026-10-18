@@ -59,7 +59,7 @@
  *   G3D_CAMERA_Create 0x02048A24 arm
  *   G3D_CAMERA_Delete 0x02048AC4 arm
  *   G3D_SYSTEM_Exit 0x02046788 arm
- *   func_02047964 0x02047964 arm
+ *   G3D_SYSTEM_DrawStart 0x02047964 arm
  *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
@@ -176,7 +176,7 @@ extern u32 G3D_CAMERA_Delete(void *ptr);
 
 extern void G3D_SYSTEM_Exit(int);
 
-extern void func_02047964(void);
+extern void G3D_SYSTEM_DrawStart(void);
 
 extern void G3D_CAMERA_Reset(struct Light *l);
 
@@ -417,7 +417,7 @@ void SHINKA_DEMO_GRAPHIC_Exit3d(int *p)
 
 void SHINKA_DEMO_GRAPHIC_Update3d(char *a)
 {
-    func_02047964();
+    G3D_SYSTEM_DrawStart();
     G3D_CAMERA_Reset((struct Light *)((ShinkaG3d *)a)->camera);
     G3D_SYSTEM_ApplyLookAt();
 }

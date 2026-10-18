@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   G3D_CAMERA_SetScale  0x02048B60  arm  arm9
+ *   G3D_CAMERA_SetNear  0x02048B60  arm  arm9
  */
 #include "../include/Obj19562.h"
 
@@ -22,9 +22,9 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 struct Light;
-extern void G3D_CAMERA_SetScale(struct Light *l, const u32 *in);
+extern void G3D_CAMERA_SetNear(struct Light *l, const u32 *in);
 
 void FIELD_CAMERA_SetG3dScale(u8 *a, u32 first, ...)
 {
-    G3D_CAMERA_SetScale((struct Light *)(((struct Obj19562 *)a)->fC), &first);
+    G3D_CAMERA_SetNear((struct Light *)(((struct Obj19562 *)a)->fC), &first);
 }

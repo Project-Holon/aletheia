@@ -17,7 +17,7 @@
  * symbols:
  *   strlen                  0x0209477C  arm
  *   gsimalloc                  0x0217EAB0  arm ov009
- *   func_02092344  0x02092344  arm
+ *   memcpy  0x02092344  arm
  *   gGsUdpEngineContext  0x021AD188  data
  */
 typedef unsigned char  u8;
@@ -26,7 +26,7 @@ typedef unsigned short u16;
 
 extern int strlen(const u8 *s);
 extern void *gsimalloc(unsigned long size);
-extern void *func_02092344(void *dest, const void *src, unsigned int n);
+extern void *memcpy(void *dest, const void *src, unsigned int n);
 int _ReadUCS2CharFromUTF8String(char *theUTF8String, int theMaxBytes, unsigned short *theUnicodeCharOut);
 int _UCS2CharToUTF8String(unsigned short theUCS2Char, char *theUTF8String);
 int _UTF8ToUCS2ConversionLengthOnly(const char *s, int n);
@@ -209,7 +209,7 @@ int gsiSafeStrcpyA(char *dst, const char *src, unsigned int n)
 
     if (len > n - 1)
         len = n - 1;
-    func_02092344(dst, src, len);
+    memcpy(dst, src, len);
     dst[len] = 0;
     return len;
 }

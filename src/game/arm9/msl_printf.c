@@ -28,7 +28,7 @@
  *   sMslWideEmpty     0x020A8A70  data  a2
  *   sMslNarrowEmpty     0x020A8A74  data  a1
  *   MSL_C_LIB_WideToNarrow 0x020922CC arm arm9
- *   func_02092344 0x02092344 arm arm9
+ *   memcpy 0x02092344 arm arm9
  *   memchr 0x020923C4 arm arm9
  *   MSL_C_LIB_CallExitHook 0x02094750 arm arm9
  *   strlen 0x0209477C arm arm9
@@ -79,7 +79,7 @@ extern double fabs(double x);
 
 u32 MSL_C_LIB_WideToNarrow(u8 *dst, const u16 *src, u32 max);
 
-void *func_02092344(void *dest, const void *src, size_t n);
+void *memcpy(void *dest, const void *src, size_t n);
 
 u8 *memchr(u8 *s, u32 c, u32 n);
 
@@ -1284,7 +1284,7 @@ u32 MSL_C_LIB_SprintfWriteProc(u8 *sb, const void *src, u32 n)
 
     if (pos + n > cap)
         n = cap - pos;
-    func_02092344(*(u8 * *)&((MslStringBuf *)sb)->buf + pos, src, n);
+    memcpy(*(u8 * *)&((MslStringBuf *)sb)->buf + pos, src, n);
     ((MslStringBuf *)sb)->length += n;
     return 1;
 }

@@ -164,7 +164,7 @@
  *   d_021BDD8A 0x021BDD8A data a2
  *   BMP_FillRect 0x02043AF4 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   sub_0202DCC4 0x0202DCC4 thumb
+ *   PMS_DRAW_IsActive 0x0202DCC4 thumb
  *   PMS_DRAW_SetVisible 0x0202DCB0 thumb
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BG_SYS_FillScrollArea 0x02040618 arm
@@ -579,7 +579,7 @@ extern void MSGDATA_ReadString(struct MsgBank*,u32,void*);
 extern void WORDSET_CopyTaggedText(struct WordSet*,void*,void*);
 extern void CLACT_TransferCharacter(int,struct BeaconDetailGraTransfer*);
 extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
-extern u32 sub_0202DCC4(const struct BeaconDetailGraPmsDraw *, u32);
+extern u32 PMS_DRAW_IsActive(const struct BeaconDetailGraPmsDraw *, u32);
 extern void PMS_DRAW_SetVisible(struct BeaconDetailGraPmsDraw *, int, u32);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_FillScrollArea(u32,u32,u32);
@@ -1689,7 +1689,7 @@ void BEACON_DETAIL_GRA_SetSlotVisible(char *p, u8 index, u32 enable)
     CLACT_SetActorDrawEnable(*(struct ClactActor * *)&((struct BeaconDetailGraEntry *)entry)->actorB, enable);
     if (((struct BeaconDetailGraEntry *)entry)->hasSecondActor != 0)
         CLACT_SetActorDrawEnable(*(struct ClactActor * *)&((struct BeaconDetailGraEntry *)entry)->actorA, enable);
-    if (sub_0202DCC4(*(struct BeaconDetailGraPmsDraw * *)&((struct BeaconDetailGraWork *)p)->pmsDraw, index) != 0)
+    if (PMS_DRAW_IsActive(*(struct BeaconDetailGraPmsDraw * *)&((struct BeaconDetailGraWork *)p)->pmsDraw, index) != 0)
         PMS_DRAW_SetVisible(*(struct BeaconDetailGraPmsDraw * *)&((struct BeaconDetailGraWork *)p)->pmsDraw, index, enable);
     BG_SYS_SetPlaneVisible(((struct BeaconDetailGraEntry *)entry)->layer, (u8)enable);
 }

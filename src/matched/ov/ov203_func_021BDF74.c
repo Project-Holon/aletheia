@@ -11,11 +11,11 @@
  * blocker: ARM9 0x02048CDC has no outside witness. Existing src/matched/arm9/unit_02048C58.c defines it but omits it from function:. the integrator owns the unit; no ARM9 source filed.
  * blocker: verified EXACT by one --addr 0x02048CDC --arm without --region, fixed flags/c99; scratch blocker-02048CDC-one.log, exit 0.
  * blocker: typedef struct {unsigned short r,g,b,spare;} LightSlot;
- * blocker: void G3D_LIGHT_SetSlotFlags(LightSlot *p,unsigned i,unsigned short *v){p[i].spare=*v;}
+ * blocker: void G3D_LIGHT_SetColor(LightSlot *p,unsigned i,unsigned short *v){p[i].spare=*v;}
  * extent: true start 021BDF74 push home area; assigned 021BDF76 is its second label; complete code ends 021BDF88.
  * symbols:
- *   G3D_LIGHT_SetSlotFlags 0x02048CDC arm
+ *   G3D_LIGHT_SetColor 0x02048CDC arm
  */
 struct LightSlot;
-extern void G3D_LIGHT_SetSlotFlags(struct LightSlot *,unsigned,unsigned short *);
-void DEMO3D_GRAPHIC_SetLightSlot(char *p,unsigned i,unsigned short val){G3D_LIGHT_SetSlotFlags(*(struct LightSlot **)(p+12),i,&val);}
+extern void G3D_LIGHT_SetColor(struct LightSlot *,unsigned,unsigned short *);
+void DEMO3D_GRAPHIC_SetLightSlot(char *p,unsigned i,unsigned short val){G3D_LIGHT_SetColor(*(struct LightSlot **)(p+12),i,&val);}

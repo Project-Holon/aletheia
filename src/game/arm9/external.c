@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * Unlabelled 12-byte ARM pointer thunk in a .word run:
- *   ldr r0, [pc, #0]; bx lr; .word func_0215142C
+ *   ldr r0, [pc, #0]; bx lr; .word rtcWork
  * Same shape as MICEXi_GetLimitedSamplingCallback and, for the same reason, witnessable only as a
  * `matched` entry.  It unblocks the TWL park src/pending/RTCEXi_CommonCallback.c.
  * The pointer word resolves `literal x1` against the duplicate 0x0215142C
@@ -35,7 +35,7 @@
  *   RTC_GetTimeAsync             0x0208889C  arm
  *   RTCi_ReadRawDateTimeAsync      0x02088EEC  arm
  *   RTC_GetDateTimeAsync             0x02088944  arm
- *   func_0215142C  0x0215142C  arm
+ *   rtcWork  0x0215142C  arm
  *   RTC_GetDayOfWeek           0x02089274  arm
  *   RTCi_WriteRawStatus2Async  0x02088F1C  arm
  *   OS_IsRunOnTwl              0x02085D3C  arm
@@ -161,7 +161,7 @@ BOOL RTCi_ReadRawTimeAsync(void);
 RTCResult RTC_GetTimeAsync(RTCTime *time, RTCCallback callback, void *arg);
 BOOL RTCi_ReadRawDateTimeAsync(void);
 RTCResult RTC_GetDateTimeAsync(RTCDate *date, RTCTime *time, RTCCallback callback, void *arg);
-extern void func_0215142C(void);
+extern void rtcWork(void);
 extern RTCWeek RTC_GetDayOfWeek(RTCDate *date);
 extern int RTCi_WriteRawStatus2Async(void);
 extern int OS_IsRunOnTwl(void);
@@ -336,7 +336,7 @@ RTCResult RTC_GetDateTime(RTCDate *date, RTCTime *time)
 
 void *RTCEXi_GetCommonCallback(void)
 {
-    return (void *)func_0215142C;
+    return (void *)rtcWork;
 }
 
 

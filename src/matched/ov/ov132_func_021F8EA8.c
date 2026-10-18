@@ -8,10 +8,10 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * blocker: ARM9 G3D_CAMERA_SetEye and G3D_CAMERA_SetUp have no external witnesses; the integrator owns them.
+ * blocker: ARM9 G3D_CAMERA_SetEye and G3D_CAMERA_SetCamTarget have no external witnesses; the integrator owns them.
  * blocker C (read-only root show):
  *   void G3D_CAMERA_SetEye(char *p, const Vec *v) { *(Vec *)(p + 0x20) = *v; }
- *   void G3D_CAMERA_SetUp(char *p, const Vec *v) { *(Vec *)(p + 0x38) = *v; }
+ *   void G3D_CAMERA_SetCamTarget(char *p, const Vec *v) { *(Vec *)(p + 0x38) = *v; }
  * symbols:
  *   STA_ACT_LIGHT_CopyActorPos 0x021F8044 thumb ov112
  *   STA_ACT_LIGHT_GetElemPos 0x021F6F04 thumb ov112
@@ -21,7 +21,7 @@
  *   STA_ACT_AUDIENCE_SetBgScroll 0x021FA57C thumb ov132
  *   KEY_GetCont 0x0203630C arm
  *   G3D_CAMERA_SetEye 0x02048AFC arm
- *   G3D_CAMERA_SetUp 0x02048B44 arm
+ *   G3D_CAMERA_SetCamTarget 0x02048B44 arm
  *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   BG_SYS_FillScrollArea 0x02040618 arm
  *   d_021FDBEC 0x021FDBEC data a4
@@ -49,7 +49,7 @@ extern void STA_ACT_LIGHT_SetElemFrame(u8 *p, u16 v);
 extern void STA_ACT_OBJ_SetCount(void *, u16);
 extern void STA_ACT_AUDIENCE_SetBgScroll(void *unused, int x);
 extern void G3D_CAMERA_SetEye(void *, const Vec *);
-extern void G3D_CAMERA_SetUp(void *, const Vec *);
+extern void G3D_CAMERA_SetCamTarget(void *, const Vec *);
 extern void G3D_CAMERA_Reset(struct Light *l);
 extern void BG_SYS_FillScrollArea(u32, u32, u32);
 #define FX(x) ((int)(((x) > 0) ? ((x) * 4096.0f + 0.5f) : ((x) * 4096.0f - 0.5f)))
@@ -95,7 +95,7 @@ void STA_ACTING_UpdateCamera(u8 *p)
         scale.x = FX((float)*(u16 *)(p + 4) / 16.0f);
         translation.x = FX((float)*(u16 *)(p + 4) / 16.0f);
         G3D_CAMERA_SetEye(*(void **)(p + 0xA8), &scale);
-        G3D_CAMERA_SetUp(*(void **)(p + 0xA8), &translation);
+        G3D_CAMERA_SetCamTarget(*(void **)(p + 0xA8), &translation);
         G3D_CAMERA_Reset(*(void **)(p + 0xA8));
         BG_SYS_FillScrollArea(2, 0, *(u16 *)(p + 4));
         STA_ACT_LIGHT_SetModelFrame(*(void **)(p + 0x3C), *(u16 *)(p + 4));

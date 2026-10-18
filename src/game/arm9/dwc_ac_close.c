@@ -16,7 +16,7 @@
  *   DisConnectAP 0x0205B264 arm
  *   DWC_Netcheck_Abort 0x0217AA20 arm
  *   DWC_Netcheck_Destroy 0x0217A950 arm
- *   func_021656A0 0x021656A0 arm
+ *   WCM_GetPhase 0x021656A0 arm
  *   WCM_Finish 0x02164EE0 arm
  *   WCM_CleanupAsync 0x02165088 arm
  *   WCM_EndSearchAsync 0x02165204 arm
@@ -30,7 +30,7 @@
 extern int DisConnectAP(void);
 extern void DWC_Netcheck_Abort(void);
 extern void DWC_Netcheck_Destroy(void);
-extern int func_021656A0(void);
+extern int WCM_GetPhase(void);
 extern void WCM_Finish(void);
 extern void WCM_CleanupAsync(void);
 extern void WCM_EndSearchAsync(void);
@@ -75,7 +75,7 @@ int DWCi_AC_CloseNetwork(unsigned char *phase)
 
 int DisConnectAP(void)
 {
-    switch (func_021656A0()) {
+    switch (WCM_GetPhase()) {
     case 0:
         return 1;
     case 1:

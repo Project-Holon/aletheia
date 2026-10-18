@@ -262,12 +262,12 @@
  *   FIELD_LIGHT_Main  0x021A0458  thumb
  *   FIELD_G3D_MAPPER_UpdateStep  0x0218CB34  thumb
  *   GFL_NET_SetDeviceModeIfRunning  0x0203D12C  arm
- *   func_02047964  0x02047964  arm
+ *   G3D_SYSTEM_DrawStart  0x02047964  arm
  *   G3D_SYSTEM_ApplyLookAt  0x020479D8  arm
  *   sDrawStartFuncs     0x021D35D8  data  a4
  *   G3D_SYSTEM_DrawEnd  0x02047970  arm
  *   sDrawEndFuncs     0x021D35B4  data  a4
- *   func_02048C4C  0x02048C4C  arm
+ *   G3D_LIGHT_DeleteSlots  0x02048C4C  arm
  *   G3D_CAMERA_Delete  0x02048AC4  arm
  *   BILLBOARD_ACT_Delete  0x0204FFFC  arm
  *   FIELD_G3DOBJ_Delete  0x021C6400  thumb  ov021
@@ -666,11 +666,11 @@ extern void FIELD_FOG_Main(struct FieldFog *fog);
 extern void FIELD_LIGHT_Main(struct FieldLight *light, s32 b);
 extern int FIELD_G3D_MAPPER_UpdateStep(struct FieldG3dMapper *g3dMapper);
 extern void GFL_NET_SetDeviceModeIfRunning(int a);
-void func_02047964(void);
+void G3D_SYSTEM_DrawStart(void);
 void G3D_SYSTEM_ApplyLookAt(void);
 void G3D_SYSTEM_DrawEnd(int x);
 extern u32 G3D_CAMERA_Delete(void *ptr);
-extern u32 func_02048C4C(struct G3dLightSlots *g3dLight);
+extern u32 G3D_LIGHT_DeleteSlots(struct G3dLightSlots *g3dLight);
 extern void BILLBOARD_ACT_Delete(struct BbActSys *o);
 extern int FIELD_G3DOBJ_Delete(struct FieldG3dObjCtrl *g3dObjCtrl);
 int GFL_USE_IsCardIrqEnabled(void);
@@ -1711,7 +1711,7 @@ void FIELDMAP_UpdateG3d(FieldMap *fieldMap)
 void FIELDMAP_DrawStart(FieldMap *fieldMap)
 {
     FieldMapDrawFunc drawFunc;
-    func_02047964();
+    G3D_SYSTEM_DrawStart();
     G3D_SYSTEM_ApplyLookAt();
     drawFunc = sDrawStartFuncs[fieldMap->drawMode];
     if (drawFunc != 0)
@@ -1725,7 +1725,7 @@ void FIELDMAP_DrawEnd(FieldMap *fieldMap)
 
 int FIELDMAP_DeleteG3dResources(FieldMap *fieldMap)
 {
-    func_02048C4C(fieldMap->g3dLight);
+    G3D_LIGHT_DeleteSlots(fieldMap->g3dLight);
     G3D_CAMERA_Delete(fieldMap->g3dCamera);
     BILLBOARD_ACT_Delete(fieldMap->mmdlBbdAct);
     BILLBOARD_ACT_Delete(fieldMap->effectBbdAct);

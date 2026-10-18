@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   G3D_CAMERA_GetEye 0x02048AE8 arm
- *   G3D_CAMERA_GetUp 0x02048B30 arm
+ *   G3D_CAMERA_GetCamTarget 0x02048B30 arm
  *   G3D_CAMERA_SetEye 0x02048AFC arm
  *   VEC_Subtract 0x0207CA00 arm
  *   VEC_Mag 0x0207CBD0 arm
@@ -18,7 +18,7 @@
  */
 #include "../include/Obj02935.h"
 typedef struct {long x,y,z;} Vec;
-extern void G3D_CAMERA_GetEye(void *,Vec *),G3D_CAMERA_GetUp(void *,Vec *),G3D_CAMERA_SetEye(void *,const Vec *);
+extern void G3D_CAMERA_GetEye(void *,Vec *),G3D_CAMERA_GetCamTarget(void *,Vec *),G3D_CAMERA_SetEye(void *,const Vec *);
 extern void VEC_Subtract(const Vec *,const Vec *,Vec *),VEC_Normalize(const Vec *,Vec *),VEC_MultAdd(long,const Vec *,const Vec *,Vec *);
 extern long VEC_Mag(const Vec *);
 int BEACON_DETAIL_UpdateCamera(char *p)
@@ -28,7 +28,7 @@ int BEACON_DETAIL_UpdateCamera(char *p)
     int done;
     done=0;
     G3D_CAMERA_GetEye(((struct Obj02935 *)p)->fC36C,&position);
-    G3D_CAMERA_GetUp(((struct Obj02935 *)p)->fC36C,&target);
+    G3D_CAMERA_GetCamTarget(((struct Obj02935 *)p)->fC36C,&target);
     VEC_Subtract(&position,&target,&direction);
     distance=VEC_Mag(&direction);
     VEC_Normalize(&direction,&direction);

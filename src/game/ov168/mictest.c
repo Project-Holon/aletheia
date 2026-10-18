@@ -83,7 +83,7 @@
  *   BMP_WIN_Exit  0x020450C8  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
  *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
- *   func_02049624 0x02049624 arm
+ *   ARC_UTIL_UploadBgCharFromArchive 0x02049624 arm
  *   ARC_UTIL_UploadBgPaletteFromArchive 0x0204989C arm
  *   BG_SYS_Update 0x020419E4 arm
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
@@ -325,7 +325,7 @@ extern void BG_SYS_FreeLayerBuf(u32 v);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
+extern u32 ARC_UTIL_UploadBgCharFromArchive(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
 extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 extern void BG_SYS_Update(void);
 extern struct MsgBank *MSGDATA_CreateFromArchive(unsigned int resident, unsigned int arcId, unsigned int fileId, unsigned int heapId);
@@ -724,9 +724,9 @@ void MICTEST_InitBgTiles(MictestRender *unused, int heap)
     ARC_UTIL_UploadPaletteFromArchiveWhole(106, 1, 4, 0, 32, heap);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23, 5, 0, 416, 32, heap);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23, 5, 4, 416, 32, heap);
-    func_02049624((void *)106, (void *)4, (void *)5, 0, 0, 0, heap);
+    ARC_UTIL_UploadBgCharFromArchive((void *)106, (void *)4, (void *)5, 0, 0, 0, heap);
     ARC_UTIL_UploadBgPaletteFromArchive(106, 5, 5, 0, 0, 0, heap);
-    func_02049624((void *)106, (void *)2, (void *)1, 0, 0, 0, heap);
+    ARC_UTIL_UploadBgCharFromArchive((void *)106, (void *)2, (void *)1, 0, 0, 0, heap);
     ARC_UTIL_UploadBgPaletteFromArchive(106, 3, 1, 0, 0, 0, heap);
 }
 

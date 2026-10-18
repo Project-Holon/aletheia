@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02051774",
+   "name": "PARTICLE_GetCallbackArg",
    "address": "0x02051774",
    "kind": "sdk",
    "region": "arm9",

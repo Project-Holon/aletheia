@@ -76,7 +76,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 static void Encode(unsigned char * output, unsigned int * input, unsigned int len);
-extern void *func_02092344(void *dest, const void *src, unsigned int n);
+extern void *memcpy(void *dest, const void *src, unsigned int n);
 extern void *MSL_C_LIB_MemsetPtr(void *p, int c, u32 n);
 extern void GSMD5Init(struct GSMD5_CTX * context);
 extern void GSMD5Final(unsigned char * digest, struct GSMD5_CTX * context);
@@ -288,7 +288,7 @@ static void Decode(u32 *dst, const u8 *src, u32 count)
  */
 void *GSMD5_memcpy(void *dest, const void *src, unsigned int n)
 {
-    return func_02092344(dest, src, n);
+    return memcpy(dest, src, n);
 }
 
 

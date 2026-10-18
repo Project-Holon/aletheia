@@ -14,7 +14,7 @@
  *   GSYNC_MENU_RunButtonCallback 0x021D4778 thumb ov123
  *   GSYNC_MENU_OnButtonPressed 0x021D4BA8 thumb ov123
  *   GSYNC_MENU_StateButtonsActive 0x021D4CA0 thumb ov123
- *   func_021DA9C0 0x021DA9C0 data a4
+ *   sGsyncMenuButtonWinDefs 0x021DA9C0 data a4
  *   d_021DA640 0x021DA640 data a4
  *   d_021DA648 0x021DA648 data a4
  *   GSYNC_MENU_ChangeState 0x021D4244 thumb ov123
@@ -27,14 +27,14 @@ extern void *BUTTON_MAN_Create(u8 *a0, int a1, int a2, int a3);
 extern void GSYNC_MENU_RunButtonCallback(void);
 extern int GSYNC_MENU_OnButtonPressed(int n, char *p);
 extern void GSYNC_MENU_StateButtonsActive(char *p);
-extern char func_021DA9C0[];
+extern char sGsyncMenuButtonWinDefs[];
 extern int d_021DA640[];
 extern int d_021DA648[];
 extern void GSYNC_MENU_ChangeState(char *, void *, int);
 void GSYNC_MENU_StateSetupButtons(char *p)
 {
     struct { int value; } zero = {0};
-    GSYNC_MENU_CreateButtonWindows(1, &zero, p, func_021DA9C0, d_021DA640, d_021DA640 + 1);
+    GSYNC_MENU_CreateButtonWindows(1, &zero, p, sGsyncMenuButtonWinDefs, d_021DA640, d_021DA640 + 1);
     ((struct Obj10434 *)p)->f20 = BUTTON_MAN_Create((u8 *)d_021DA648, (int)GSYNC_MENU_RunButtonCallback, (int)p, ((struct Obj10434 *)p)->fC);
     ((struct Obj10434 *)p)->f4 = GSYNC_MENU_OnButtonPressed;
     GSYNC_MENU_ChangeState(p, GSYNC_MENU_StateButtonsActive, 0x321);

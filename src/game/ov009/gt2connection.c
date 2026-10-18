@@ -16,7 +16,7 @@
  *   gti2NewSocketConnection  0x02198038 arm
  *   gti2MessageCheck  0x02198808  arm  ov009
  *   gsimalloc  0x0217EAB0  arm  ov009
- *   func_02092344  0x02092344  arm
+ *   memcpy  0x02092344  arm
  *   gti2GetChallenge  0x02194B74  arm  ov009
  *   gti2GetResponse  0x02194C6C  arm  ov009
  *   gti2SendClientChallenge  0x021975FC  arm  ov009
@@ -100,7 +100,7 @@ extern int gti2NewSocketConnection(struct GTI2Socket *socket,
                                    unsigned int ip, unsigned short port);
 extern void gti2MessageCheck(unsigned char **msg, int *len);
 extern void *gsimalloc(unsigned long size);
-extern void *func_02092344(void *dst, const void *src, unsigned long n);
+extern void *memcpy(void *dst, const void *src, unsigned long n);
 extern unsigned char *gti2GetChallenge(unsigned char *buf);
 extern unsigned char *gti2GetResponse(unsigned char *buf, unsigned char *challenge);
 extern int gti2SendClientChallenge(struct GTI2Connection *c, char *challenge);
@@ -191,7 +191,7 @@ int gti2StartConnectionAttempt(struct GTI2Connection *c, unsigned char *message,
 		c->msg = gsimalloc(len);
 		if (!c->msg)
 			return 1;
-		func_02092344(c->msg, message, len);
+		memcpy(c->msg, message, len);
 		c->msgLen = len;
 	}
 	if (callbacks)

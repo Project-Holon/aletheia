@@ -54,7 +54,7 @@
  *   WF2DMAP_SCRDRAW_DeleteBitmapDesc  0x021C5A4C  thumb  ov127
  *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm
  *   BG_SYS_LoadPlttEntry  0x02040EBC  arm
- *   func_02049624  0x02049624  arm
+ *   ARC_UTIL_UploadBgCharFromArchive  0x02049624  arm
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
@@ -154,7 +154,7 @@ extern void *WF2DMAP_SCRDRAW_CreateBitmapDesc(void *a, void *b, LayerParams *par
 extern void WF2DMAP_SCRDRAW_DeleteBitmapDesc(u8 *layer);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void BG_SYS_LoadPlttEntry(u32 a, u32 b);
-extern u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
+extern u32 ARC_UTIL_UploadBgCharFromArchive(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
 extern u16 WF2DMAP_MAP_GetWidth(u16 *tileMap);
 extern u16 WF2DMAP_MAP_GetHeight(u16 *tileMap);
 extern u8 *WF2DMAP_OBJDRAW_AddActor(u8 *, void *, int, u32);
@@ -760,7 +760,7 @@ void WIFICLUBACTOR_LoadPalette(void *unused, u32 heapId, u32 clactResArc, u32 pa
     u32 zero = 0;
     ARC_UTIL_UploadPaletteFromArchiveWhole(paletteArc, 7, 0, 0, 0x100, heapId);
     BG_SYS_LoadPlttEntry(0, 0);
-    func_02049624((void *)paletteArc, (void *)0x10, 0, 0, zero, zero, heapId);
+    ARC_UTIL_UploadBgCharFromArchive((void *)paletteArc, (void *)0x10, 0, 0, zero, zero, heapId);
 }
 
 

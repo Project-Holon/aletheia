@@ -88,7 +88,7 @@
  *   GDS_SOCKET_NopVoid 0x021D7D20 arm ov125
  *   GDS_SOCKET_NopBegin 0x021D8588 arm ov125
  *   GDS_SOCKET_InitTick 0x021D7CF4 arm ov125
- *   func_021D7CD4 0x021D7CD4 arm ov125
+ *   GDS_SOCKET_InitLock 0x021D7CD4 arm ov125
  *   GDS_SOCKET_Close 0x021D7F60 arm ov125
  *   GDS_SOCKET_InitSsl 0x021D858C arm ov125
  *   GDS_SOCKET_WaitToken 0x021D8444 arm ov125
@@ -101,7 +101,7 @@
  *   GDS_SOCKET_GetMaxReplySizeOf 0x021D89EC arm ov125
  *   GDS_SOCKET_GetRequestSize 0x021D891C arm ov125
  *   GDS_SOCKET_StartThread 0x021D7D30 arm ov125
- *   func_02092344 0x02092344 arm
+ *   memcpy 0x02092344 arm
  *   DWC_Alloc  0x0205A16C  arm
  *   DWC_Free 0x0205A1B0 arm
  *   OS_LockMutex  0x02086028  arm
@@ -923,7 +923,7 @@ struct BattleRecSave *GDS_RAP_GetVideoWork(void) { return d_0214616C; }
 
 extern void GDS_SOCKET_NopBegin(void);
 extern int GDS_SOCKET_InitTick(void);
-extern int func_021D7CD4(void);
+extern int GDS_SOCKET_InitLock(void);
 extern char *strcpy(char *dst, const char *src);
 extern void GDS_SOCKET_Close(void);
 extern void GDS_SOCKET_InitSsl(void);
@@ -937,7 +937,7 @@ extern void GDS_SOCKET_Sleep(int msec);
 extern int GDS_SOCKET_GetMaxReplySizeOf(int requestId);
 extern int GDS_SOCKET_GetRequestSize(int requestId);
 extern int GDS_SOCKET_StartThread(void);
-extern void *func_02092344(void *dest, const void *src, unsigned n);
+extern void *memcpy(void *dest, const void *src, unsigned n);
 extern char *DWC_Alloc(int heap, int size);
 extern void DWC_Free(int heap, int ptr, int flags);
 extern void OS_LockMutex(void *mutex);
@@ -977,7 +977,7 @@ int GDS_SOCKET_Start(const char *host, unsigned short port, GdsClientInfo *clien
     }
     GDS_SOCKET_NopBegin();
     if (!GDS_SOCKET_InitTick()) return 0;
-    func_021D7CD4();
+    GDS_SOCKET_InitLock();
     strcpy(gGdsSocket.hostName, host);
     gGdsHostTail.port = port;
     gGdsSocket.sendBuffer = 0;
@@ -1142,7 +1142,7 @@ int GDS_SOCKET_SendRequest(int requestId, void *body, void *replyBuffer, int bod
     q->client = gGdsSocket.client;
     z = 0;
     q->reserved = z;
-    func_02092344((u8 *)q + GDS_WIRE_HEADER_SIZE, body, bodySize - GDS_WIRE_HEADER_SIZE);
+    memcpy((u8 *)q + GDS_WIRE_HEADER_SIZE, body, bodySize - GDS_WIRE_HEADER_SIZE);
     gGdsSocket.state = GDS_SOCKET_STATE_TOKEN;
     GDS_SOCKET_Lock();
     if (GDS_SOCKET_StartThread() == 0) {

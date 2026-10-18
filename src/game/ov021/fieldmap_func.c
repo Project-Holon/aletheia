@@ -35,9 +35,9 @@
  *   g_DefaultProjectionMtx       0x02148B54  data
  *   SCREENTEX_CameraState       0x02148BCC  data
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   func_02048AE8  0x02048AE8  arm
- *   func_02048B0C  0x02048B0C  arm
- *   func_02048B30  0x02048B30  arm
+ *   G3D_CAMERA_GetEye  0x02048AE8  arm
+ *   G3D_CAMERA_GetCamUp  0x02048B0C  arm
+ *   G3D_CAMERA_GetCamTarget  0x02048B30  arm
  *   MTX_LookAt  0x0207BCA0  arm
  *   MI_Copy36B  0x02082B60  arm
  *   MTX_Inverse33  0x0207B0A4  arm
@@ -246,11 +246,11 @@ extern int G3D_SYSTEM_DrawObjectCulling(void *object, G3dObjectTransform *transf
 
 void GFL_USE_PlaySeDefaultVolume(u32 seId);
 
-void func_02048AE8(void *g3dCamera, VecFx32 *out);
+void G3D_CAMERA_GetEye(void *g3dCamera, VecFx32 *out);
 
-void func_02048B0C(void *g3dCamera, VecFx32 *out);
+void G3D_CAMERA_GetCamUp(void *g3dCamera, VecFx32 *out);
 
-void func_02048B30(void *g3dCamera, VecFx32 *out);
+void G3D_CAMERA_GetCamTarget(void *g3dCamera, VecFx32 *out);
 
 void MTX_LookAt(VecFx32 *eye, VecFx32 *target, VecFx32 *up, int *outMtx43);
 
@@ -492,9 +492,9 @@ void FLDEFF_GYOE_RotateByCamera(void *g3dCamera, VecFx32 *src, VecFx32 *dst)
     int lookAt[12];
     int inverse[9];
 
-    func_02048AE8(g3dCamera, &eye);
-    func_02048B0C(g3dCamera, &target);
-    func_02048B30(g3dCamera, &up);
+    G3D_CAMERA_GetEye(g3dCamera, &eye);
+    G3D_CAMERA_GetCamUp(g3dCamera, &target);
+    G3D_CAMERA_GetCamTarget(g3dCamera, &up);
     MTX_LookAt(&eye, &target, &up, lookAt);
     MI_Copy36B(lookAt, inverse);
     MTX_Inverse33(inverse, inverse);

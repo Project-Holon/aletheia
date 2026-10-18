@@ -28,7 +28,7 @@
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   FIELD_CAMERA_GetG3dCamera  0x0218EC2C  thumb  ov021
  *   G3D_CAMERA_GetEye  0x02048AE8  arm
- *   G3D_CAMERA_GetUp  0x02048B30  arm
+ *   G3D_CAMERA_GetCamTarget  0x02048B30  arm
  *   ISS_3DS_SYS_SetCamera  0x0202B93C  thumb
  *   SOUND_OBJ_AdvanceAnime  0x021C4DE4  thumb  ov021
  *   FIELD_GIMMICK_SOUND_OBJS_B_RestartAnime  0x021F393C  thumb  ov054
@@ -41,7 +41,7 @@ typedef unsigned char  u8;
 extern void *FIELDMAP_GetCamera(void *p);
 extern u32 FIELD_CAMERA_GetG3dCamera(u8 *p);
 extern void G3D_CAMERA_GetEye(void *, void *);
-extern void G3D_CAMERA_GetUp(void *, void *);
+extern void G3D_CAMERA_GetCamTarget(void *, void *);
 extern void ISS_3DS_SYS_SetCamera(int, void *, void *);
 extern int SOUND_OBJ_AdvanceAnime(int, int);
 extern int FIELD_GIMMICK_SOUND_OBJS_B_RestartAnime(char *, int);
@@ -58,7 +58,7 @@ void FIELD_GIMMICK_SOUND_OBJS_B_Update(int a)
     p = (char *)FIELDMAP_GetCommonWork(a, 0);
     cam = (void *)FIELD_CAMERA_GetG3dCamera(FIELDMAP_GetCamera((void *)a));
     G3D_CAMERA_GetEye(cam, v);
-    G3D_CAMERA_GetUp(cam, w);
+    G3D_CAMERA_GetCamTarget(cam, w);
     ISS_3DS_SYS_SetCamera(*(int *)(p + 4), v, w);
     for (i = 0; i < 2; i++) {
         int *e = (int *)(p + i * 4);

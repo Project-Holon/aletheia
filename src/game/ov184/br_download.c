@@ -54,7 +54,7 @@
  *   BR_FADE_Start   0x021FE784  thumb
  *   BR_FADE_GetResult   0x021FE7B0  thumb
  *   BR_UTIL_SetTaskStep   0x021FD73C  thumb
- *   func_021FD744   0x021FD744  thumb
+ *   BR_UTIL_ClearTaskStep   0x021FD744  thumb
  *   BR_PROC_SYS_PopEntry   0x021F9BA0  thumb
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   BR_BTN_HitTestWithSound 0x021FB4B4 thumb ov186
@@ -140,7 +140,7 @@ extern void MUSICAL_SHOT_SYS_DrawScene(u8 *p);
 extern int BR_FADE_Start(int, int, int, int);
 extern int BR_FADE_GetResult(int);
 extern int * BR_UTIL_SetTaskStep(int, void *);
-extern int func_021FD744(int);
+extern int BR_UTIL_ClearTaskStep(int);
 extern void BR_PROC_SYS_PopEntry(int);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int BR_BTN_HitTestWithSound(unsigned int *obj, int x, int y);
@@ -302,7 +302,7 @@ void BR_DOWNLOAD_StepClose(int a, int *state, char *p)
             *state = 2;
         break;
     case 2:
-        func_021FD744(((struct BrDownloadWork *)p)->task.taskHandle);
+        BR_UTIL_ClearTaskStep(((struct BrDownloadWork *)p)->task.taskHandle);
         BR_PROC_SYS_PopEntry(*(int *)(((struct BrDownloadWork *)p)->owner.ownerHandle + 0x10));
         break;
     }
@@ -376,7 +376,7 @@ void BR_DOWNLOAD_DownloadTask(int *task,unsigned *state,char *p)
         }break;
     case 9:BR_FADE_Start(*(int *)((struct BrDownloadWork *)p)->owner.owner,2,3,1);*state=10;break;
     case 10:if(BR_FADE_GetResult(*(int *)((struct BrDownloadWork *)p)->owner.owner)) *state=11;break;
-    case 11:func_021FD744((int)task);BR_PROC_SYS_PopEntry((int)((unsigned int *)((struct BrDownloadOwner *)((struct BrDownloadWork *)p)->owner.owner)->proc.procHandle));break;
+    case 11:BR_UTIL_ClearTaskStep((int)task);BR_PROC_SYS_PopEntry((int)((unsigned int *)((struct BrDownloadOwner *)((struct BrDownloadWork *)p)->owner.owner)->proc.procHandle));break;
     }
 }
 

@@ -63,7 +63,7 @@
  *   d_021DF580 0x021DF580 data a4
  *   G3D_CAMERA_Delete  0x02048AC4  arm
  *   G3D_SYSTEM_Exit  0x02046788  arm
- *   func_02047964 0x02047964 arm
+ *   G3D_SYSTEM_DrawStart 0x02047964 arm
  *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   PARTICLE_Main 0x02050BE8 arm
@@ -167,7 +167,7 @@ extern u32 G3D_CAMERA_Delete(void *ptr);
 
 extern void G3D_SYSTEM_Exit(void);
 
-extern void func_02047964(void);
+extern void G3D_SYSTEM_DrawStart(void);
 
 extern void G3D_CAMERA_Reset(void *l);
 
@@ -400,7 +400,7 @@ void MYSTERY_GRAPHIC_ExitCamera(char *p)
 
 void MYSTERY_GRAPHIC_RenderScene(void **p) {
     if(((MysteryGraphicCamera *)p)->enabled) {
-        func_02047964();
+        G3D_SYSTEM_DrawStart();
         G3D_CAMERA_Reset(((MysteryGraphicCamera *)p)->handle);
         G3D_SYSTEM_ApplyLookAt();
         PARTICLE_Main();

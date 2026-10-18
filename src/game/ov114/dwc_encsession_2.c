@@ -20,7 +20,7 @@
  *   MATH_CalcSHA1  0x020816B8  arm
  *   strncmp  0x020949F4  arm
  *   B64Encode  0x0217FA90  arm  ov009
- *   func_02092344  0x02092344  arm
+ *   memcpy  0x02092344  arm
  *   strlen  0x0209477C  arm
  *   DWCi_GsFree  0x0205A29C  arm
  *   DWCi_EncSetError  0x021CA06C  arm  ov114
@@ -81,7 +81,7 @@ extern void *DWC_Alloc(int name, u32 size);
 extern void DWC_Free(int name, void *ptr, u32 size);
 extern void B64Encode(const char *input, char *output, int inlen, int encodingType);
 extern void MATH_CalcSHA1(void *digest, void *data, u32 len);
-extern void *func_02092344();
+extern void *memcpy();
 extern void DWCi_EncSetError(void);
 extern void DWCi_GsFree(void *ptr);
 extern unsigned long strtoul(const char *str, char **endptr, int base);
@@ -150,7 +150,7 @@ void DWCi_EncSessionCompleteCallback(char *buffer, int bufferLen, int result, vo
                 char hexDigits[17] = "0123456789abcdef";
 
                 memcpy(scratch, gDwcEncSession.secretKey, 20);
-                func_02092344(scratch + 20, buffer, 32);
+                memcpy(scratch + 20, buffer, 32);
                 MATH_CalcSHA1(hash, scratch, 52);
                 for (i = 0; i < 20; i++) {
                     gDwcEncSession.hashPosition[i * 2] = hexDigits[hash[i] >> 4];
@@ -410,7 +410,7 @@ int DWCi_EncSessionGetPrivateAsync(char *url, long pid, void *data, u32 size, DW
         return 2;
     }
     if (reuseHash) {
-        func_02092344(gDwcEncSession.hashPosition, gDwcEncSession.lastHash, 40);
+        memcpy(gDwcEncSession.hashPosition, gDwcEncSession.lastHash, 40);
         gDwcEncSession.state = 6;
     } else {
         gDwcEncSession.hashPosition[-strlen(sDwcEncSessionHash)] = '\0';

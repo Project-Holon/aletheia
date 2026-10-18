@@ -11,23 +11,26 @@
  * status:   EXACT
  *
  * String / memory utilities:
- *   MSL_C_LIB_MemsetPtr (20 B)  wraps func_02092430 (memset) and returns ptr
+ *   MSL_C_LIB_MemsetPtr (20 B)  wraps __fill_mem (memset) and returns ptr
  *   memchr (44 B)  memchr (byte search)
  *   func_020923F0 (64 B)  memcmp (memory comparison)
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_020923B0.c \
  *       --addr 0x020923B0
+ *
+ * symbols:
+ *   __fill_mem  0x02092430  arm
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_02092430(u8 *dest, u32 val, u32 count);
+extern void __fill_mem(u8 *dest, u32 val, u32 count);
 
 void *MSL_C_LIB_MemsetPtr(void *p, int c, u32 n)
 {
-    func_02092430(p, c, n);
+    __fill_mem(p, c, n);
     return p;
 }
 

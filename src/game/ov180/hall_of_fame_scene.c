@@ -57,7 +57,7 @@
  *   G3D_UTIL_Create 0x02047CFC arm
  *   G3D_UTIL_Delete  0x02047E54  arm
  *   G3D_SYSTEM_Exit  0x02046788  arm
- *   func_02047964 0x02047964 arm
+ *   G3D_SYSTEM_DrawStart 0x02047964 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   MCSS_Main 0x02014C08 thumb
  *   MCSS_Draw 0x02014D2C thumb
@@ -275,7 +275,7 @@ extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize
 extern struct Util *G3D_UTIL_Create(u16,u16,u16);
 extern void G3D_UTIL_Delete(struct Rec *p);
 extern void G3D_SYSTEM_Exit(void);
-extern void func_02047964(void);
+extern void G3D_SYSTEM_DrawStart(void);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void MCSS_Main(char *);
 extern void MCSS_Draw(struct McssSys *);
@@ -519,7 +519,7 @@ void HALL_OF_FAME_Exit3d(HallOfFameWork *work)
 
 void HALL_OF_FAME_DrawMonSprite3d(HallOfFameWork *work)
 {
-    func_02047964();
+    G3D_SYSTEM_DrawStart();
     G3D_SYSTEM_ApplyLookAt();
     MCSS_Main(work->mcss);
     MCSS_Draw(work->mcss);
@@ -528,7 +528,7 @@ void HALL_OF_FAME_DrawMonSprite3d(HallOfFameWork *work)
 
 void HALL_OF_FAME_DrawParticles(HallOfFameWork *work)
 {
-    func_02047964();
+    G3D_SYSTEM_DrawStart();
     G3D_SYSTEM_ApplyLookAt();
     if (DOUBLE3DDISP_GetMode() == 1) {
         HALL_OF_FAME_SetParticleCamera(work, work->monParticle, 1);

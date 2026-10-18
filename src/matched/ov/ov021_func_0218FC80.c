@@ -16,8 +16,8 @@
  *   FIELD_CAMERA_LerpAngle  0x0218FDF0  thumb  ov021
  *   FIELD_CAMERA_LerpVec  0x0218FD88  thumb  ov021
  *   FIELD_CAMERA_ClearMoveCallback  0x0218FE40  thumb  ov021
- *   G3D_CAMERA_SetNearClip  0x02048B80  arm
- *   G3D_CAMERA_SetFarClip  0x02048B94  arm
+ *   G3D_CAMERA_SetFovySin  0x02048B80  arm
+ *   G3D_CAMERA_SetFovyCos  0x02048B94  arm
  *   FX_SinCosTable_     0x020A1B38  data   a2
  * Addresses are Black-image addresses.
  */
@@ -34,8 +34,8 @@ extern u16 FIELD_CAMERA_LerpAngle(u16 *a, u16 *b, s32 d, s32 n);
 extern void FIELD_CAMERA_LerpVec(s32 *a, s32 *b, s32 d, s32 n, s32 *out);
 extern void FIELD_CAMERA_ClearMoveCallback(u8 *p);
 struct Light;
-extern void G3D_CAMERA_SetNearClip(struct Light *l, u32 v);
-extern void G3D_CAMERA_SetFarClip(struct Light *l, u32 v);
+extern void G3D_CAMERA_SetFovySin(struct Light *l, u32 v);
+extern void G3D_CAMERA_SetFovyCos(struct Light *l, u32 v);
 extern s16 FX_SinCosTable_[];
 
 void FIELD_CAMERA_UpdateFreeMove(u8 *p)
@@ -60,8 +60,8 @@ void FIELD_CAMERA_UpdateFreeMove(u8 *p)
     if (((struct Obj01348 *)q)->fB0 != 0) {
         ((struct Obj01491 *)p)->f80 = FIELD_CAMERA_LerpAngle((u16 *)(s + 0x2c), (u16 *)(t + 0x2c),
                                            ((struct Obj01348 *)q)->f94, ((struct Obj01348 *)q)->f96);
-        G3D_CAMERA_SetNearClip(((struct Obj01491 *)p)->fC, FX_SinCosTable_[(((struct Obj01491 *)p)->f80 >> 4) * 2]);
-        G3D_CAMERA_SetFarClip(((struct Obj01491 *)p)->fC, FX_SinCosTable_[(((struct Obj01491 *)p)->f80 >> 4) * 2 + 1]);
+        G3D_CAMERA_SetFovySin(((struct Obj01491 *)p)->fC, FX_SinCosTable_[(((struct Obj01491 *)p)->f80 >> 4) * 2]);
+        G3D_CAMERA_SetFovyCos(((struct Obj01491 *)p)->fC, FX_SinCosTable_[(((struct Obj01491 *)p)->f80 >> 4) * 2 + 1]);
     }
     if (((struct Obj01348 *)q)->fA0 != 0) {
         FIELD_CAMERA_LerpVec((s32 *)(s + 0x18), (s32 *)(t + 0x18),

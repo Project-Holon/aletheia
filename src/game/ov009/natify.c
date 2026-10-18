@@ -35,7 +35,7 @@
  *   CanReceiveOnSocket  0x0217EF50  arm  ov009
  *   recvfrom  0x0217EC60  arm  ov009
  *   GOAGetLastError  0x0217ED54  arm  ov009
- *   func_020923F0  0x020923F0  arm
+ *   memcmp  0x020923F0  arm
  *   gotADDRESS1b   0x021AE44C  data
  *   gotERT3        0x021AE450  data
  *   gotERT2        0x021AE454  data
@@ -132,7 +132,7 @@ extern void gsDebugFormat(int theCat, int theType, unsigned char theLevel, const
 extern int CanReceiveOnSocket(int sock);
 extern int recvfrom(int sock, char *buf, int len, int flags, SOCSockAddrIn *addr, int *fromlen);
 extern int GOAGetLastError(int sock);
-extern int func_020923F0(const void *s1, const void *s2, unsigned long n);
+extern int memcmp(const void *s1, const void *s2, unsigned long n);
 extern int abs(int x) __attribute__((const));
 char *AddressToString(unsigned int ip, unsigned short port, char *string);
 static unsigned int GetLocalIP(void);
@@ -359,7 +359,7 @@ int Think(int sock, NAT *nat)
             break;
         }
 
-        if (func_020923F0(g_021AE498, ((char *)&gNatNegMagic), 6) != 0)
+        if (memcmp(g_021AE498, ((char *)&gNatNegMagic), 6) != 0)
             return 1;
 
         ptype = *(unsigned char *)(g_021AE498 + 7);

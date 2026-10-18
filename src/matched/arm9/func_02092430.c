@@ -1,5 +1,5 @@
 /*
- * function: func_02092430
+ * function: __fill_mem
  * address:  0x02092430
  * packet:   pkt_02092430
  * region:   arm9
@@ -15,7 +15,7 @@ typedef unsigned char  u8;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_02092430(u8 *dest, u32 val, u32 count)
+void __fill_mem(u8 *dest, u32 val, u32 count)
 {
     u32 byte_val;
     u32 align;

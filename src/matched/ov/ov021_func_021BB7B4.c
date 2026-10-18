@@ -11,8 +11,8 @@
  *
  * symbols:
  *   G3D_CAMERA_GetEye  0x02048AE8  arm
- *   G3D_CAMERA_GetTarget  0x02048B0C  arm
- *   G3D_CAMERA_GetUp  0x02048B30  arm
+ *   G3D_CAMERA_GetCamUp  0x02048B0C  arm
+ *   G3D_CAMERA_GetCamTarget  0x02048B30  arm
  *   MTX_LookAt  0x0207BCA0  arm
  *   MI_Copy36B  0x02082B60  arm
  *   func_0207B0A4  0x0207B0A4  arm
@@ -20,8 +20,8 @@
  */
 
 void G3D_CAMERA_GetEye(int a, int *out);
-void G3D_CAMERA_GetTarget(int a, int *out);
-void G3D_CAMERA_GetUp(int a, int *out);
+void G3D_CAMERA_GetCamUp(int a, int *out);
+void G3D_CAMERA_GetCamTarget(int a, int *out);
 void MTX_LookAt(int *a, int *b, int *c, int *d);
 void MI_Copy36B(int *a, int *b);
 void func_0207B0A4(int *a, int *b);
@@ -36,8 +36,8 @@ void FLDEFF_GYOE_RotateByCamera(int a, int b, int c)
     int m0[9];
 
     G3D_CAMERA_GetEye(a, v6c);
-    G3D_CAMERA_GetTarget(a, v60);
-    G3D_CAMERA_GetUp(a, v54);
+    G3D_CAMERA_GetCamUp(a, v60);
+    G3D_CAMERA_GetCamTarget(a, v54);
     MTX_LookAt(v6c, v60, v54, m24);
     MI_Copy36B(m24, m0);
     func_0207B0A4(m0, m0);

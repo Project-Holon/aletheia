@@ -44,19 +44,19 @@
  *   BG_SYS_GetScrollY  0x02040804  arm
  *   VEC_Subtract  0x0207CA00  arm
  *   VEC_Mag  0x0207CBD0  arm
- *   func_02048AFC  0x02048AFC  arm
- *   func_02048B20  0x02048B20  arm
- *   func_02048B44  0x02048B44  arm
- *   func_02048B60  0x02048B60  arm
+ *   G3D_CAMERA_SetEye  0x02048AFC  arm
+ *   G3D_CAMERA_SetCamUp  0x02048B20  arm
+ *   G3D_CAMERA_SetCamTarget  0x02048B44  arm
+ *   G3D_CAMERA_SetNear  0x02048B60  arm
  *   G3D_CAMERA_Reset  0x02048AD0  arm
  *   G3i_LookAt_  0x0207D7C4  arm
- *   func_02048AE8  0x02048AE8  arm
- *   func_02048B0C  0x02048B0C  arm
- *   func_02048B30  0x02048B30  arm
- *   func_02048B54  0x02048B54  arm
+ *   G3D_CAMERA_GetEye  0x02048AE8  arm
+ *   G3D_CAMERA_GetCamUp  0x02048B0C  arm
+ *   G3D_CAMERA_GetCamTarget  0x02048B30  arm
+ *   G3D_CAMERA_GetNear  0x02048B54  arm
  *   BG_SYS_ClearSlot  0x020414EC  arm
  *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm
- *   func_02049624  0x02049624  arm
+ *   ARC_UTIL_UploadBgCharFromArchive  0x02049624  arm
  *   GX_BeginLoadTex  0x0207F7A0  arm
  *   DC_FlushRange  0x020862F0  arm
  *   GX_LoadTex  0x0207F7FC  arm
@@ -113,19 +113,19 @@ extern u8 BMP_WIN_GetBgLayer(struct BmpWin *bmpWin);
 extern u32 BG_SYS_GetScrollY(u32 bgLayer);
 extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
 extern int VEC_Mag(const VecFx32 *v);
-extern void func_02048AFC(struct G3dCamera *camera, const VecFx32 *eye);
-extern void func_02048B20(struct G3dCamera *camera, const VecFx32 *vec);
-extern void func_02048B44(struct G3dCamera *camera, const VecFx32 *vec);
-extern void func_02048B60(struct G3dCamera *camera, const s32 *scale);
+extern void G3D_CAMERA_SetEye(struct G3dCamera *camera, const VecFx32 *eye);
+extern void G3D_CAMERA_SetCamUp(struct G3dCamera *camera, const VecFx32 *vec);
+extern void G3D_CAMERA_SetCamTarget(struct G3dCamera *camera, const VecFx32 *vec);
+extern void G3D_CAMERA_SetNear(struct G3dCamera *camera, const s32 *scale);
 extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 extern void G3i_LookAt_(const VecFx32 *eye, const VecFx32 *up, const VecFx32 *target, int a, int b);
-extern void func_02048AE8(struct G3dCamera *camera, VecFx32 *out);
-extern void func_02048B0C(struct G3dCamera *camera, VecFx32 *out);
-extern void func_02048B30(struct G3dCamera *camera, VecFx32 *out);
-extern void func_02048B54(struct G3dCamera *camera, s32 *out);
+extern void G3D_CAMERA_GetEye(struct G3dCamera *camera, VecFx32 *out);
+extern void G3D_CAMERA_GetCamUp(struct G3dCamera *camera, VecFx32 *out);
+extern void G3D_CAMERA_GetCamTarget(struct G3dCamera *camera, VecFx32 *out);
+extern void G3D_CAMERA_GetNear(struct G3dCamera *camera, s32 *out);
 extern void BG_SYS_ClearSlot(u32 bgLayer);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 arcId, u32 fileId, u32 palBase, u32 byteOffset, u32 byteSize, u16 heapId);
-extern u32 func_02049624(u32 arcId, u32 fileId, u32 layer, u32 tileOffset, u32 flagA, u32 flagB, u16 heapId);
+extern u32 ARC_UTIL_UploadBgCharFromArchive(u32 arcId, u32 fileId, u32 layer, u32 tileOffset, u32 flagA, u32 flagB, u16 heapId);
 extern void GX_BeginLoadTex(void);
 extern void DC_FlushRange(void *p, u32 size);
 extern void GX_LoadTex(void *src, u32 offset, u32 size);
@@ -1015,10 +1015,10 @@ void TALKMSGWIN_SetupCamera(TalkMsgWinSys *sys, int useCameraObject)
         scale = 0x40000;
         if (sys->savedScale >= scale)
             scale = sys->savedScale + 0x1000;
-        func_02048AFC(sys->param.camera, &eye);
-        func_02048B20(sys->param.camera, &up);
-        func_02048B44(sys->param.camera, &target);
-        func_02048B60(sys->param.camera, &scale);
+        G3D_CAMERA_SetEye(sys->param.camera, &eye);
+        G3D_CAMERA_SetCamUp(sys->param.camera, &up);
+        G3D_CAMERA_SetCamTarget(sys->param.camera, &target);
+        G3D_CAMERA_SetNear(sys->param.camera, &scale);
         G3D_CAMERA_Reset(sys->param.camera);
         return;
     }
@@ -1028,19 +1028,19 @@ void TALKMSGWIN_SetupCamera(TalkMsgWinSys *sys, int useCameraObject)
 /* Saves the field camera state. */
 void TALKMSGWIN_SaveCamera(TalkMsgWinSys *sys)
 {
-    func_02048AE8(sys->param.camera, &sys->savedEye);
-    func_02048B0C(sys->param.camera, &sys->savedUp);
-    func_02048B30(sys->param.camera, &sys->savedTarget);
-    func_02048B54(sys->param.camera, &sys->savedScale);
+    G3D_CAMERA_GetEye(sys->param.camera, &sys->savedEye);
+    G3D_CAMERA_GetCamUp(sys->param.camera, &sys->savedUp);
+    G3D_CAMERA_GetCamTarget(sys->param.camera, &sys->savedTarget);
+    G3D_CAMERA_GetNear(sys->param.camera, &sys->savedScale);
 }
 
 /* Restores the field camera state saved by TALKMSGWIN_SaveCamera. */
 void TALKMSGWIN_RestoreCamera(TalkMsgWinSys *sys)
 {
-    func_02048AFC(sys->param.camera, &sys->savedEye);
-    func_02048B20(sys->param.camera, &sys->savedUp);
-    func_02048B44(sys->param.camera, &sys->savedTarget);
-    func_02048B60(sys->param.camera, &sys->savedScale);
+    G3D_CAMERA_SetEye(sys->param.camera, &sys->savedEye);
+    G3D_CAMERA_SetCamUp(sys->param.camera, &sys->savedUp);
+    G3D_CAMERA_SetCamTarget(sys->param.camera, &sys->savedTarget);
+    G3D_CAMERA_SetNear(sys->param.camera, &sys->savedScale);
     G3D_CAMERA_Reset(sys->param.camera);
 }
 
@@ -1065,7 +1065,7 @@ u32 TALKMSGWIN_LoadFrameGraphics(TalkMsgWinSys *sys, TalkMsgWinParam *param)
         break;
     }
     ARC_UTIL_UploadPaletteFromArchiveWhole(5, 0, screenSelect, param->framePalette << 5, 0x20, param->heapId);
-    return func_02049624(5, 5, param->bgLayer, param->frameBaseTile, 0, 0, param->heapId);
+    return ARC_UTIL_UploadBgCharFromArchive(5, 5, param->bgLayer, param->frameBaseTile, 0, 0, param->heapId);
 }
 
 /* Uploads the balloon texture and palette into the VRAM blocks of the system's keys. */
@@ -1104,7 +1104,7 @@ void TALKMSGWIN_ReloadFrameGraphics(TalkMsgWinSys *sys)
         break;
     }
     ARC_UTIL_UploadPaletteFromArchiveWhole(5, 0, screenSelect, (u32)sys->param.framePalette << 5, 0x20, sys->param.heapId);
-    func_02049624(5, 5, sys->param.bgLayer, sys->param.frameBaseTile, 0, 0, sys->param.heapId);
+    ARC_UTIL_UploadBgCharFromArchive(5, 5, sys->param.bgLayer, sys->param.frameBaseTile, 0, 0, sys->param.heapId);
 }
 
 /*

@@ -33,9 +33,9 @@
  *   NNS_GfdDefaultFuncFreeTexVram  0x020A8144  data
  *   NNS_GfdDefaultFuncFreePlttVram  0x020A814C  data
  *   G3X_Reset          0x0207DA8C  arm
- *   func_02048AE8      0x02048AE8  arm
- *   func_02048B0C      0x02048B0C  arm
- *   func_02048B30      0x02048B30  arm
+ *   G3D_CAMERA_GetEye      0x02048AE8  arm
+ *   G3D_CAMERA_GetCamUp      0x02048B0C  arm
+ *   G3D_CAMERA_GetCamTarget      0x02048B30  arm
  *   G3i_LookAt_        0x0207D7C4  arm
  *   MTX_LookAt         0x0207BCA0  arm
  *   MTX_Inverse43      0x0207B67C  arm
@@ -44,8 +44,8 @@
  *   VEC_Normalize      0x0207CCA4  arm
  *   MTX_Identity33_    0x0207ADC4  arm
  *   MTX_RotY33_        0x0207AF1C  thumb
- *   G3D_LIGHT_GetSlotColor      0x02048C80  arm
- *   G3D_LIGHT_GetSlotFlags      0x02048CCC  arm
+ *   G3D_LIGHT_GetDirection      0x02048C80  arm
+ *   G3D_LIGHT_GetColor      0x02048CCC  arm
  *   FX_Div             0x0207C768  arm
  *   G3_MultTransMtx33  0x0207D950  arm
  *   G3_RotZ            0x0207D888  arm
@@ -455,15 +455,15 @@ extern void G3_MultTransMtx33(const MtxFx33 *mtx, const VecFx32 *trans);
 
 extern void G3_RotZ(fx32 s, fx32 c);
 
-extern void func_02048AE8(struct Camera *cam, VecFx32 *out);
+extern void G3D_CAMERA_GetEye(struct Camera *cam, VecFx32 *out);
 
-extern void func_02048B0C(struct Camera *cam, VecFx32 *out);
+extern void G3D_CAMERA_GetCamUp(struct Camera *cam, VecFx32 *out);
 
-extern void func_02048B30(struct Camera *cam, VecFx32 *out);
+extern void G3D_CAMERA_GetCamTarget(struct Camera *cam, VecFx32 *out);
 
-extern void G3D_LIGHT_GetSlotColor(struct LightSlot *lights, u8 lightIndex, VecFx16 *outVector);
+extern void G3D_LIGHT_GetDirection(struct LightSlot *lights, u8 lightIndex, VecFx16 *outVector);
 
-extern void G3D_LIGHT_GetSlotFlags(struct LightSlot *lights, u8 lightIndex, u16 *outColor);
+extern void G3D_LIGHT_GetColor(struct LightSlot *lights, u8 lightIndex, u16 *outColor);
 
 int BILLBOARD_FindFreeImage(struct BbBoard *board, int *outIndex);
 
@@ -1167,7 +1167,7 @@ static inline void MTX_RotY33(MtxFx33 *pDst, fx32 sinVal, fx32 cosVal) { MTX_Rot
  * swaps the mul/ldrsh destinations); a SEPARATE counter j for the light
  * loop (sharing i puts i in the lowest spill slot); declaration order
  * scale, s1/s0/t1/t0, i, j, nx/ny/nz fixes the remaining spill slots.
- * G3D_LIGHT_GetSlotColor/CCC take a u8 index here (`and r1, r8, #0xff`).
+ * G3D_LIGHT_GetDirection/CCC take a u8 index here (`and r1, r8, #0xff`).
  */
 void BILLBOARD_Draw(struct BbBoard *board, struct Camera *camera, struct LightSlot *lights)
 {
@@ -1191,9 +1191,9 @@ void BILLBOARD_Draw(struct BbBoard *board, struct Camera *camera, struct LightSl
 
     G3X_Reset();
     board->lookAtMode = 0;
-    func_02048AE8(camera, &cameraPos);
-    func_02048B0C(camera, &cameraUp);
-    func_02048B30(camera, &cameraTarget);
+    G3D_CAMERA_GetEye(camera, &cameraPos);
+    G3D_CAMERA_GetCamUp(camera, &cameraUp);
+    G3D_CAMERA_GetCamTarget(camera, &cameraTarget);
     if (board->lookAtMode == 0) {
         G3i_LookAt_(&cameraPos, &cameraUp, &cameraTarget, 1, &viewMtx);
     } else {
@@ -1225,8 +1225,8 @@ void BILLBOARD_Draw(struct BbBoard *board, struct Camera *camera, struct LightSl
 
     if (lights != 0) {
         for (lightIndex = 0; lightIndex < 4; lightIndex++) {
-            G3D_LIGHT_GetSlotColor(lights, lightIndex, &lightVec);
-            G3D_LIGHT_GetSlotFlags(lights, lightIndex, &lightColor);
+            G3D_LIGHT_GetDirection(lights, lightIndex, &lightVec);
+            G3D_LIGHT_GetColor(lights, lightIndex, &lightColor);
             G3_LightVector(lightIndex, lightVec.x, lightVec.y, lightVec.z);
             G3_LightColor(lightIndex, lightColor);
         }

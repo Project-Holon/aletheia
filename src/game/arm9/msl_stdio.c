@@ -31,7 +31,7 @@
  *   MSL_C_LIB_FlushAll 0x02091524 arm arm9
  *   MSL_C_LIB_NopBufferHookA 0x02091594 arm arm9
  *   MSL_C_LIB_NopBufferHookB 0x02091598 arm arm9
- *   func_02092344 0x02092344 arm arm9
+ *   memcpy 0x02092344 arm arm9
  *   strncpy 0x02094860 arm arm9
  *   fwide 0x02096508 arm arm9
  */
@@ -158,7 +158,7 @@ u32 MSL_C_LIB_CallFormatHook(u32 *dst, u32 c);
 
 u32 MSL_C_LIB_WideToNarrow(u8 *dst, const u16 *src, u32 max);
 
-void *func_02092344(void *dest, const void *src, size_t n);
+void *memcpy(void *dest, const void *src, size_t n);
 
 u8 *strncpy(u8 *dest, const u8 *src, u32 n);
 
@@ -348,7 +348,7 @@ enum { __no_io_error, __io_error, __io_EOF };
  * MSL C `__fread` (buffered stdio read), transcribed from the Metrowerks MSL
  * shape: fwide orientation probe, pushback drain through ungetc_buffer /
  * ungetwc_buffer, buffered copy loop through __load_buffer (__load_buffer)
- * and memcpy (func_02092344), then the unbuffered direct read that borrows
+ * and memcpy (memcpy), then the unbuffered direct read that borrows
  * buffer/buffer_size.  Returns bytes_read / memb_size (_u32_div_f).
  * The two levers over the earlier 788/456 note body were (1) writing it as
  * MSL writes it (always_buffer = !binary_io || buffer_mode == _IOFBF, the
@@ -438,7 +438,7 @@ size_t __fread(void *ptr, size_t memb_size, size_t num_memb, FILE *file)
             if (num_bytes > bytes_requested)
                 num_bytes = bytes_requested;
 
-            func_02092344(read_ptr, file->buffer_ptr, num_bytes);
+            memcpy(read_ptr, file->buffer_ptr, num_bytes);
 
             read_ptr += num_bytes;
             bytes_read += num_bytes;

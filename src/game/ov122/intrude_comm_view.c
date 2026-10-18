@@ -74,7 +74,7 @@
  *   MSGDATA_Delete 0x02045C04 arm
  *   STRBUF_Delete 0x02045808 arm
  *   NET_WHPIPE_SetNotifyCallback 0x02178118 thumb ov014
- *   func_0204BA00 0x0204BA00 arm
+ *   CLACT_ApplyActorAnimCommand 0x0204BA00 arm
  *   CLACT_RestartActorAnim 0x0204B9A0 arm
  *   INTRUDE_COMM_GetRequestState 0x02158630 thumb ov010
  *   data_021D58E0 0x021D58E0 data a4
@@ -347,7 +347,7 @@ extern u32 GAME_COMM_GetKind(void *obj);
 extern void WIPE_SYS_Start(void *, u32, u32, u32, u32, u32, u32);
 extern void NET_WHPIPE_SetNotifyCallback(u32 callback, u32 value);
 extern void GAME_COMM_RequestExitNoCallback(struct Comm *p);
-extern void func_0204BA00(struct Actor *a, const struct Cmd *cmd);
+extern void CLACT_ApplyActorAnimCommand(struct Actor *a, const struct Cmd *cmd);
 extern void CLACT_RestartActorAnim(struct Actor *a);
 extern int INTRUDE_COMM_GetRequestState(int a);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
@@ -869,7 +869,7 @@ void INTRUDE_COMM_VIEW_AnimateSelectedRow(char *p)
     else if (i == 4) i = 1;
     base = ((IntrudeCommView *)p)->actors;
     CLACT_SetActorAutoAnim(base[i], 1);
-    func_0204BA00(base[i], (const struct Cmd *)(&args));
+    CLACT_ApplyActorAnimCommand(base[i], (const struct Cmd *)(&args));
     CLACT_RestartActorAnim(base[i]);
     INTRUDE_COMM_VIEW_SetCallback(p, (u32)INTRUDE_COMM_VIEW_Noop, 0x390);
 }

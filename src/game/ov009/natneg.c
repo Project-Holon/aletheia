@@ -281,7 +281,7 @@ extern void ArrayAppend(void *array, void *newElem);
 extern void ArrayRemoveAt(void *array, int n);
 extern void gsDebugFormat(int theCat, int theType, unsigned char theLevel, const char *theTokenStr, ...);
 extern void ArrayFree(struct DArrayImplementation *array);
-extern int func_020923F0(const u8 *a, const u8 *b, int n);
+extern int memcmp(const u8 *a, const u8 *b, int n);
 extern int sendto(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
 extern SOCHostEnt *getlocalhost(void);
 extern int IsPrivateIP(SOCInAddr *addr);
@@ -529,7 +529,7 @@ void NNFreeNegotiateList(void)
  */
 int CheckMagic(const u8 *a)
 {
-    return func_020923F0(a, (const u8 *)((char *)&gNatNegMagic), 6) == 0;
+    return memcmp(a, (const u8 *)((char *)&gNatNegMagic), 6) == 0;
 }
 
 

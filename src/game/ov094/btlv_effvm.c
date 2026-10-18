@@ -61,7 +61,7 @@
  *   d_02209DA8 0x02209DA8 data ov094 a4
  *   d_02209D9C 0x02209D9C data ov094 a4
  *   BG_SYS_SetVisibleLayer  0x0204047C  arm
- *   func_02049624  0x02049624  arm
+ *   ARC_UTIL_UploadBgCharFromArchive  0x02049624  arm
  *   ARC_UTIL_UploadBgPaletteFromArchive  0x0204989C  arm
  *   PALANM_LoadArcPaletteToSlotAt  0x020215EC  thumb
  *   BG_SYS_GetScrollX  0x020407E8  arm
@@ -90,7 +90,7 @@
  *   d_0220AD18 0x0220AD18 data ov094 a4
  *   d_0220AD38 0x0220AD38 data ov094 a4
  *   d_0220AD58     0x0220AD58  data   ov094
- *   func_02051774 0x02051774 arm
+ *   PARTICLE_GetCallbackArg 0x02051774 arm
  *   BUTTON_MAN_SetUserData 0x02051A2C arm
  *   BUTTON_MAN_SetCallback 0x02051A24 arm
  *   VEC_Distance 0x0207CF3C arm
@@ -336,7 +336,7 @@ extern int BUTTON_MAN_GetBlock(struct ParticleSys *p);
 
 extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 
-extern u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
+extern u32 ARC_UTIL_UploadBgCharFromArchive(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
 
 extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 
@@ -392,7 +392,7 @@ extern int GFL_USE_IsSeSlotBusy(unsigned);
 
 extern u32 PM_VOICE_IsActive(u32 i);
 
-extern u32 func_02051774(void);
+extern u32 PARTICLE_GetCallbackArg(void);
 
 extern void BUTTON_MAN_SetUserData(struct Obj3D *p, int v);
 
@@ -2429,7 +2429,7 @@ int BTLV_EFFVM_CmdLoadBgPalette(struct ScriptVm *vm, BtlvEffVmWork *work)
 
     fileId = VM_GetU32(vm);
     BG_SYS_SetVisibleLayer(3, 1);
-    func_02049624((void *)0x5f, (void *)(fileId + 1), (void *)3, 0, 0, 0, (work->heapId & 0x7fff) | 0x8000);
+    ARC_UTIL_UploadBgCharFromArchive((void *)0x5f, (void *)(fileId + 1), (void *)3, 0, 0, 0, (work->heapId & 0x7fff) | 0x8000);
     ARC_UTIL_UploadBgPaletteFromArchive(0x5f, fileId, 3, 0, 0, 0, (work->heapId & 0x7fff) | 0x8000);
     PALANM_LoadArcPaletteToSlotAt((struct PalAnmSlot *)BTLV_EFFECT_GetPalanm(), (int)0x5f, (int)(fileId + 2), (u16)((work->heapId & 0x7fff) | 0x8000), (int)0, (int)0, (int)0x80, (int)0);
     work->bg3ScrollX = BG_SYS_GetScrollX(3);
@@ -3906,7 +3906,7 @@ void BTLV_EFFVM_ParticleStartCallback(void *emitter)
     int dstMode;
     int swapX, swapY, swapZ;
 
-    req = (BtlvEffVmParticleReq *)func_02051774();
+    req = (BtlvEffVmParticleReq *)PARTICLE_GetCallbackArg();
     flip = req->flip;
     switch (req->srcKey) {
     case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
@@ -4178,7 +4178,7 @@ void BTLV_EFFVM_ParticleMotionStep(void *emitter, int active)
 
 void BTLV_EFFVM_EmitterInitCallback(void *emitter)
 {
-    BtlvEffVmCircleMotion *motion = (BtlvEffVmCircleMotion *)func_02051774();
+    BtlvEffVmCircleMotion *motion = (BtlvEffVmCircleMotion *)PARTICLE_GetCallbackArg();
 
     if (motion->projectToScreen != 0 && motion->center.z < 0)
         BUTTON_MAN_SetAngle(emitter, 0x800);

@@ -17,7 +17,7 @@
  *   DWCi_EncSessionShutdown     0x021CA1B4  arm
  *   DWCi_EncSessionGetResponse  0x021CA228  arm
  *   DWC_GetLastErrorEx          0x02059E38  arm
- *   func_02092344               0x02092344  arm
+ *   memcpy               0x02092344  arm
  *   DWCi_EncSessionInitialize 0x021C9EE4  arm
  *   DWCi_EncSessionGetAsync 0x021CA470  arm
  *   DWCi_EncSessionShutdown 0x021CA1B4  arm
@@ -103,7 +103,7 @@ extern int DWCi_EncSessionProcess(void);
 extern void DWCi_EncSessionShutdown(void);
 extern const void *DWCi_EncSessionGetResponse(u32 *len);
 extern int DWC_GetLastErrorEx(int *code, int *type);
-extern void *func_02092344(void *dst, const void *src, unsigned int n);
+extern void *memcpy(void *dst, const void *src, unsigned int n);
 extern void DWCi_EncSessionInitialize(int server, char *initdata);
 extern int DWCi_EncSessionGetAsync(void *, unsigned, void *, unsigned, unsigned);
 extern void DWCi_EncSessionCancel(void);
@@ -184,7 +184,7 @@ void DPW_BT_Main(void)
         case DWC_ENC_PROCESS_DONE:
             gDpwBtWork.state = DPW_BT_STATE_DONE;
             resp = (const u8 *)DWCi_EncSessionGetResponse(&len);
-            func_02092344(gDpwBtWork.resultBuf, resp, 0xa8c);
+            memcpy(gDpwBtWork.resultBuf, resp, 0xa8c);
             if (len == 0xa8c) {
                 gDpwBtWork.result = 0;
             } else {
@@ -336,12 +336,12 @@ void DPW_BT_DownloadPlayerAsync(unsigned rank, unsigned roomNo, unsigned resultB
 /* Request: upload the player (240 bytes) and leader (128 bytes) data for a room. */
 void DPW_BT_UploadPlayerAsync(u32 rank, u32 roomNo, u32 section, const void *playerData, const void *leaderData, u32 resultBuf)
 {
-    func_02092344(gDpwBtUploadStaging.playerData, playerData, 240);
+    memcpy(gDpwBtUploadStaging.playerData, playerData, 240);
     gDpwBtUploadStaging.rank = rank - 1;
     gDpwBtUploadStaging.roomNo = roomNo - 1;
     gDpwBtUploadStaging.section = section;
     memcpy(gDpwBtUploadPairKey, gDpwBtPairKeyInit, 8);
-    func_02092344(gDpwBtUploadLeaderData, leaderData, 128);
+    memcpy(gDpwBtUploadLeaderData, leaderData, 128);
     gDpwBtUploadStaging.rankScore = resultBuf;
     gDpwBtRequestPacket = gDpwBtUploadStaging;
     DWCi_EncSessionInitialize(gDpwBtServerIndex, (char *)gDpwBtBaseUrl);
@@ -383,7 +383,7 @@ void DPW_BT_GetServerStateAsync(void)
 void DPW_BT_SetProfileAsync(unsigned char *profile, unsigned resultBuf)
 {
     OS_GetMacAddress(profile + 0x1c);
-    func_02092344(((unsigned *)&gDpwBtRequestPacket), profile, 100);
+    memcpy(((unsigned *)&gDpwBtRequestPacket), profile, 100);
     gDpwBtWork.resultBuf = (unsigned char *)resultBuf;
     DWCi_EncSessionInitialize(gDpwBtServerIndex, (char *)gDpwBtBaseUrl);
     if (DWCi_EncSessionGetAsync(gDpwBtPathSetProfile, gDpwBtWork.profileId, ((unsigned *)&gDpwBtRequestPacket), 100, 0) == 0) {

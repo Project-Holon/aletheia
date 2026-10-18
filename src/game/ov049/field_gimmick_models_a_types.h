@@ -37,7 +37,7 @@ extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct EventWork *GAME_DATA_GetEventWork(const struct GameData *gameData);
 extern int ZONEDATA_CheckEventFlag(struct EventWork *eventWork, int flagId);
-extern void func_021BE580(FldExpObjCnt *expObj);
+extern void FLD_EXP_OBJ_UpdateAnimes(FldExpObjCnt *expObj);
 extern void FLD_EXP_OBJ_AddUnitFromArchive(FldExpObjCnt *expObj, const G3dUtilSetup *setup, u16 unitIndex);
 extern G3dObjectStatus *FLD_EXP_OBJ_GetModelStatus(FldExpObjCnt *expObj, unsigned unitIndex, u16 modelIndex);
 extern void FLD_EXP_OBJ_SetAnimeEnabled(FldExpObjCnt *expObj, int unitIndex, int modelIndex, int animeIndex, int enable);

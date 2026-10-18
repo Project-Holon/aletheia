@@ -43,8 +43,8 @@
  *   FIELD_BUILDMODEL_TryOpenNodeSlot 0x0218C8B0 thumb ov021
  *   ICA_ANIME_CreateStream  0x02011510  thumb
  *   FIELD_CAMERA_GetG3dCamera  0x0218EC2C  thumb  ov021
- *   func_02048B30  0x02048B30  arm
- *   func_02048AE8  0x02048AE8  arm
+ *   G3D_CAMERA_GetCamTarget  0x02048B30  arm
+ *   G3D_CAMERA_GetEye  0x02048AE8  arm
  *   G3D_CAMERA_Create  0x02048A24  arm
  *   FIELD_CAMERA_GetMode  0x0218E138  thumb  ov021
  *   FIELD_CAMERA_SetMode  0x0218E13C  thumb  ov021
@@ -67,7 +67,7 @@
  *   ICA_ANIME_GetFrameNum  0x02011608  thumb
  *   ICA_ANIME_SetFrame  0x020115EC  thumb
  *   ICA_ANIME_SetCameraStatus  0x02011B8C  thumb
- *   func_02048B0C  0x02048B0C  arm
+ *   G3D_CAMERA_GetCamUp  0x02048B0C  arm
  *   VEC_Add  0x0207C9D0  arm
  *   FIELD_CAMERA_SetEyeRaw  0x0218ECF4  thumb  ov021
  *   gFkDemoOrigin     0x021F426C  data  a4
@@ -131,9 +131,9 @@ extern void FIELD_BUILDMODEL_PlayNodeSlot(struct BuildModelNode *node, int slot,
 extern int FIELD_BUILDMODEL_TryOpenNodeSlot(struct BuildModelNode *node, int slot);
 extern struct IcaAnime *ICA_ANIME_CreateStream(u32 heapId, u32 arcId, u32 dataId, u32 bufFrameNum);
 extern struct G3dCamera *FIELD_CAMERA_GetG3dCamera(struct FieldCamera *camera);
-extern void func_02048B30(struct G3dCamera *g3dCamera, VecFx32 *out);
-extern void func_02048AE8(struct G3dCamera *g3dCamera, VecFx32 *out);
-extern void func_02048B0C(struct G3dCamera *g3dCamera, VecFx32 *out);
+extern void G3D_CAMERA_GetCamTarget(struct G3dCamera *g3dCamera, VecFx32 *out);
+extern void G3D_CAMERA_GetEye(struct G3dCamera *g3dCamera, VecFx32 *out);
+extern void G3D_CAMERA_GetCamUp(struct G3dCamera *g3dCamera, VecFx32 *out);
 extern struct G3dCamera *G3D_CAMERA_Create(int projType, s16 fovySin, s16 fovyCos, int aspect, int right, int nearClip, int farClip, int scaleW,
                                        VecFx32 *position, VecFx32 *up, VecFx32 *target, int heapId);
 extern u32 FIELD_CAMERA_GetMode(struct FieldCamera *camera);
@@ -387,8 +387,8 @@ void FIELD_FK_DEMO_InitCamera(FkDemoCamera *demoCamera, struct FieldCamera *fiel
     demoCamera->frame = 0;
     demoCamera->anime = ICA_ANIME_CreateStream(heapId, FK_DEMO_ARC_ID, variant + FK_DEMO_CAMERA_FILE, 10);
     g3dCamera = FIELD_CAMERA_GetG3dCamera(fieldCamera);
-    func_02048B30(g3dCamera, &target);
-    func_02048AE8(g3dCamera, &eye);
+    G3D_CAMERA_GetCamTarget(g3dCamera, &target);
+    G3D_CAMERA_GetEye(g3dCamera, &eye);
     up = gFkDemoCameraUp;
     /* perspective, half field of view index 0x1C6, aspect 4:3, near 1.0, far 1024.0 */
     demoCamera->g3dCamera = G3D_CAMERA_Create(0, FX_SinCosTable_[0x1C6], FX_SinCosTable_[0x1C7], 0x1555, 0, 0x1000, 0x400000, 0, &eye, &up, &target, heapId);
@@ -458,9 +458,9 @@ void FIELD_FK_DEMO_ApplyCameraAnime(FkDemoCamera *demoCamera)
     VecFx32 up;
 
     ICA_ANIME_SetCameraStatus(demoCamera->g3dCamera, demoCamera->anime);
-    func_02048AE8(demoCamera->g3dCamera, &eye);
-    func_02048B30(demoCamera->g3dCamera, &target);
-    func_02048B0C(demoCamera->g3dCamera, &up);
+    G3D_CAMERA_GetEye(demoCamera->g3dCamera, &eye);
+    G3D_CAMERA_GetCamTarget(demoCamera->g3dCamera, &target);
+    G3D_CAMERA_GetCamUp(demoCamera->g3dCamera, &up);
     VEC_Add(&eye, &gFkDemoOrigin, &eye);
     VEC_Add(&target, &gFkDemoOrigin, &target);
     FIELD_CAMERA_SetEyeRaw(demoCamera->fieldCamera, &eye);

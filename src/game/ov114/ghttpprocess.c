@@ -43,7 +43,7 @@
  *   GOAGetLastError  0x0217ED54  arm  ov009
  *   SetSockBlocking  0x0217EE50  arm  ov009
  *   SetReceiveBufferSize  0x0217EF00  arm  ov009
- *   func_0217EC08  0x0217EC08  arm  ov009
+ *   connect  0x0217EC08  arm  ov009
  *   GSISocketSelect  0x0217ED64  arm  ov009
  *   sGhttpConnecting     0x021CF12C  data
  *   gGhttpThrottleBufferSize     0x021CE5B0  data
@@ -151,7 +151,7 @@ extern int socket(int pf, int type, int protocol);
 extern int GOAGetLastError(int socket);
 extern int SetSockBlocking(int sock, int isblocking);
 extern int SetReceiveBufferSize(int sock, int size);
-extern int func_0217EC08(int sock, void *addr, int len);
+extern int connect(int sock, void *addr, int len);
 extern int GSISocketSelect(int theSocket, int *theReadFlag, int *theWriteFlag, int *theExceptFlag);
 extern int ghiSendBufferedData(struct GHIConnection *connection);
 extern void ghiResetBuffer(GHIBuffer *buffer);
@@ -488,7 +488,7 @@ void ghiDoConnecting(GHIConnection *connection)
             address.port = SOC_HTONS(connection->serverPort);
         address.addr = connection->serverIP;
 
-        rcode = func_0217EC08(connection->socket, &address, sizeof(address));
+        rcode = connect(connection->socket, &address, sizeof(address));
         if (rcode == -1)
         {
             socketError = GOAGetLastError(connection->socket);

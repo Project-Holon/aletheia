@@ -13,7 +13,7 @@
  *   func_02030734  0x02030734  arm
  *   gFieldCameraFileName     0x021DDA28  data  ov021  a4
  *   G3D_CAMERA_GetMode  0x02048B78  arm
- *   G3D_CAMERA_GetFarClip  0x02048B88  arm
+ *   G3D_CAMERA_GetFovyCos  0x02048B88  arm
  *   FX_AcosIdx  0x0207D184  arm
  *   func_020490F4  0x020490F4  arm
  *   FIELD_CAMERA_LoadSetting  0x0218E18C  thumb ov021
@@ -28,7 +28,7 @@ extern void *func_02030734(u16, int, int, void *, int);
 extern int gFieldCameraFileName;
 struct Light;
 extern int G3D_CAMERA_GetMode(struct Light *l);
-extern void G3D_CAMERA_GetFarClip(struct Light *l, unsigned int *out);
+extern void G3D_CAMERA_GetFovyCos(struct Light *l, unsigned int *out);
 extern u16 FX_AcosIdx(int a);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void FIELD_CAMERA_LoadSetting(char *p, int a);
@@ -61,7 +61,7 @@ char *FIELD_CAMERA_Create(int a0, int a1, struct Light *a2, int a3, u16 heap)
     ((struct Obj00519 *)p)->f7C = 0x78;
     ((struct Obj00519 *)p)->fE9 = 1;
     if (G3D_CAMERA_GetMode((struct Light *)a2) == 0) {
-        G3D_CAMERA_GetFarClip(a2, (unsigned int *)(&t));
+        G3D_CAMERA_GetFovyCos(a2, (unsigned int *)(&t));
         ((struct Obj00519 *)p)->f80 = FX_AcosIdx(t);
     }
     ((struct Obj00519 *)p)->f4 = func_020490F4(0x3c, ((struct Obj00519 *)p)->f0);

@@ -122,7 +122,7 @@ extern void GFL_USE_SetBgmTrackParams(u32 trackMask, u32 paramKind, u32 unused, 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern u32 GFL_HEAP_Free(void *p);
 extern void *ARC_TOOL_CreateHandle(u32 archiveId, u32 heapId);
-extern u16 func_0204961C(void *archive);
+extern u16 ARC_TOOL_GetHandleFileCount(void *archive);
 extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
 extern void   ARC_TOOL_DeleteHandle(void *archive);
 extern void GFL_USE_SetBgmTrackVolume(u32 trackMask, u32 volume);
@@ -229,7 +229,7 @@ void ISS_ZONE_SYS_Stop(struct IssZone *zone)
 void ISS_ZONE_SYS_LoadRecords(struct IssZone *zone, u32 heapId)
 {
     void *archive = ARC_TOOL_CreateHandle(0x88, (u16)((heapId & 0x7fff) | 0x8000));
-    int   count = func_0204961C(archive);
+    int   count = ARC_TOOL_GetHandleFileCount(archive);
     int   i;
 
     zone->recordCount = (u8)count;

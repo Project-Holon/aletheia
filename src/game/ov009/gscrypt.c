@@ -25,7 +25,7 @@
  *   memcpy  0x02092344  arm
  *   gsLargeIntReverseBytes  0x0217E934  arm  ov009
  *   gsLargeIntPowerMod  0x0217E078  arm  ov009
- *   func_020923F0  0x020923F0  arm
+ *   memcmp  0x020923F0  arm
  *   @13305  0x021A19E8  data
  *   @13307  0x021A19D8  data
  */
@@ -46,7 +46,7 @@ typedef struct {
 
 extern int gsLargeIntReverseBytes(gsLargeInt_t *lint);
 extern int gsLargeIntPowerMod(gsLargeInt_t *b, gsLargeInt_t *p, gsLargeInt_t *m, gsLargeInt_t *dest);
-extern int func_020923F0(const void *, const void *, u32);
+extern int memcmp(const void *, const void *, u32);
 
 int gsCryptRSAVerifySignedHash(const gsCryptRSAKey *publicKey, const u8 *hash, u32 hashLen, const u8 *sig, u32 sigLen)
 {
@@ -83,20 +83,20 @@ int gsCryptRSAVerifySignedHash(const gsCryptRSAKey *publicKey, const u8 *hash, u
     }
     i++;
     if ((i + sizeof(md5Header) + 16) == lintRSASignature.mLength * sizeof(u32)) {
-        if (func_020923F0(md5Header, &packet[i], sizeof(md5Header)) != 0)
+        if (memcmp(md5Header, &packet[i], sizeof(md5Header)) != 0)
             return -4;
         i += sizeof(md5Header);
         if (hashLen != 16)
             return -5;
-        if (func_020923F0(&packet[i], hash, 16) != 0)
+        if (memcmp(&packet[i], hash, 16) != 0)
             return -5;
     } else if ((i + sizeof(sha1Header) + 20) == lintRSASignature.mLength * sizeof(u32)) {
-        if (func_020923F0(sha1Header, &packet[i], sizeof(sha1Header)) != 0)
+        if (memcmp(sha1Header, &packet[i], sizeof(sha1Header)) != 0)
             return -4;
         i += sizeof(sha1Header);
         if (hashLen != 20)
             return -5;
-        if (func_020923F0(&packet[i], hash, 20) != 0)
+        if (memcmp(&packet[i], hash, 20) != 0)
             return -5;
     } else {
         return -4;

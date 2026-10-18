@@ -33,7 +33,7 @@
  *   OS_InitArena  0x020863E0  arm
  *   OS_InitLock  0x02084B90  arm
  *   OS_InitArenaEx  0x020864FC  arm
- *   func_0208475C  0x0208475C  arm
+ *   OS_InitIrqTable  0x0208475C  arm
  *   OS_SetIrqStackChecker  0x020849F4  arm
  *   OS_InitException  0x02086DD8  arm
  *   MI_Init  0x0208361C  arm
@@ -53,7 +53,7 @@ extern void PXI_Init(void);
 extern void OS_InitArena(void);
 extern void OS_InitLock(void);
 extern void OS_InitArenaEx(void);
-extern void func_0208475C(void);
+extern void OS_InitIrqTable(void);
 extern void OS_SetIrqStackChecker(void);
 extern void OS_InitException(void);
 extern void MI_Init(void);
@@ -99,7 +99,7 @@ void OSi_InitCommon(void)
     OS_InitArena();
     OS_InitLock();
     OS_InitArenaEx();
-    func_0208475C();
+    OS_InitIrqTable();
     OS_SetIrqStackChecker();
     OS_InitException();
     MI_Init();

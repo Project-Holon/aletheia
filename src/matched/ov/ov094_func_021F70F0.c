@@ -15,13 +15,13 @@
  *
  * symbols:
  *   G3D_CAMERA_GetEye 0x02048AE8 arm
- *   G3D_CAMERA_GetUp 0x02048B30 arm
+ *   G3D_CAMERA_GetCamTarget 0x02048B30 arm
  */
 extern void G3D_CAMERA_GetEye(void *, void *);
-extern void G3D_CAMERA_GetUp(void *, int);
+extern void G3D_CAMERA_GetCamTarget(void *, int);
 
 void BTLV_CAMERA_GetEyeAndUp(void **p, void *b, int c)
 {
     G3D_CAMERA_GetEye(p[1], b);
-    G3D_CAMERA_GetUp(p[1], c);
+    G3D_CAMERA_GetCamTarget(p[1], c);
 }

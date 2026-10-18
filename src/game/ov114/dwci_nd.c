@@ -1,7 +1,7 @@
 /*
  * file:     dwci_nd.c
  * unit:     yes
- * function: DWCi_Ndi_freeAttr, setAttr, DWCi_NdSetAttr, getNchar, decodeChar, DWCi_Ndi_getDecodeLenBASE64, DWCi_Ndi_getEncodeLenBASE64, DWCi_Ndi_encodeBASE64, DWCi_Ndi_decodeBASE64, strAlloc, DWCi_NdStartup, nhttpCleanupCallback, DWCi_NdCleanupAsync, DWCi_NdCleanupConnectionHandle, DWCi_NdSetError, DWCi_NdCancelAsync, DWCi_Ndi_getApInfo, DWCi_Ndi_getDSdesc, DWCi_Ndi_getUserAgent, req_callback, freeHttpParam, freeHttp, setupHttp, runHttp, DWCi_NdGetFileListAsync, DWCi_NdGetFileAsync, DWCi_NdGetProgress, DWCi_Ndi_response_count, DWCi_Ndi_response_contents, DWCi_Ndi_response_list, func_021C78C4, DWCi_Ndi_freeLockGlobal, DWCi_Ndi_lockGlobal, DWCi_Ndi_unlockGlobal, DWCi_Ndi_initHttpCallback, DWCi_Ndi_freeHttpCallback, DWCi_Ndi_prepareHttpCallback, DWCi_Ndi_unprepareHttpCallback, DWCi_Ndi_kickThread, DWCi_Ndi_getMacAddress, DWCi_Ndi_strlen, DWCi_Ndi_strncmp, DWCi_Ndi_memclr, DWCi_Ndi_memcpy, DWCi_Ndi_strToInt, DWCi_Ndi_intToStr
+ * function: DWCi_Ndi_freeAttr, setAttr, DWCi_NdSetAttr, getNchar, decodeChar, DWCi_Ndi_getDecodeLenBASE64, DWCi_Ndi_getEncodeLenBASE64, DWCi_Ndi_encodeBASE64, DWCi_Ndi_decodeBASE64, strAlloc, DWCi_NdStartup, nhttpCleanupCallback, DWCi_NdCleanupAsync, DWCi_NdCleanupConnectionHandle, DWCi_NdSetError, DWCi_NdCancelAsync, DWCi_Ndi_getApInfo, DWCi_Ndi_getDSdesc, DWCi_Ndi_getUserAgent, req_callback, freeHttpParam, freeHttp, setupHttp, runHttp, DWCi_NdGetFileListAsync, DWCi_NdGetFileAsync, DWCi_NdGetProgress, DWCi_Ndi_response_count, DWCi_Ndi_response_contents, DWCi_Ndi_response_list, DWCi_Ndi_initLockGlobal, DWCi_Ndi_freeLockGlobal, DWCi_Ndi_lockGlobal, DWCi_Ndi_unlockGlobal, DWCi_Ndi_initHttpCallback, DWCi_Ndi_freeHttpCallback, DWCi_Ndi_prepareHttpCallback, DWCi_Ndi_unprepareHttpCallback, DWCi_Ndi_kickThread, DWCi_Ndi_getMacAddress, DWCi_Ndi_strlen, DWCi_Ndi_strncmp, DWCi_Ndi_memclr, DWCi_Ndi_memcpy, DWCi_Ndi_strToInt, DWCi_Ndi_intToStr
  * address:  0x021C5E78
  * region:   ov114
  * compiler: dsi/1.1p1
@@ -199,7 +199,7 @@ int DWCi_NdGetProgress(unsigned long *received, unsigned long *contentlen);
 int DWCi_Ndi_response_count(void *res, tagDWCi_Ndi_HTTPREQ *hrq);
 int DWCi_Ndi_response_contents(void *res, tagDWCi_Ndi_HTTPREQ *hrq);
 int DWCi_Ndi_response_list(void *res, tagDWCi_Ndi_HTTPREQ *hrq);
-int func_021C78C4(void);
+int DWCi_Ndi_initLockGlobal(void);
 void DWCi_Ndi_freeLockGlobal(void);
 void DWCi_Ndi_lockGlobal(void);
 void DWCi_Ndi_unlockGlobal(void);
@@ -515,7 +515,7 @@ int DWCi_NdStartup(NdAlloc alloc, NdFree free, char *url, char *token, char *gam
     len = DWCi_Ndi_encodeBASE64(gDwciNdPasswordEncoded, password, 16);
     gDwciNdPasswordEncoded[len] = 0;
 
-    if (DWCi_Ndi_initHttpCallback() && func_021C78C4()) {
+    if (DWCi_Ndi_initHttpCallback() && DWCi_Ndi_initLockGlobal()) {
         if (NHTTP_Startup(alloc, free, 17) != -1) {
             gDwciNdStatics.apinfo = DWCi_Ndi_getApInfo(gDwciNdApInfoEncoded);
             gDwciNdStatics.initialized = 1;
@@ -1205,7 +1205,7 @@ done:
     return isComplete;
 }
 
-int func_021C78C4(void)
+int DWCi_Ndi_initLockGlobal(void)
 {
     OS_InitMutex(gDwciNdGlobalMutex);
     return 1;

@@ -64,8 +64,8 @@
  *   ICA_ANIME_GetTranslate  0x02011610  thumb
  *   ICA_ANIME_GetRotate  0x02011638  thumb
  *   G3D_CAMERA_SetEye  0x02048AFC  arm
- *   G3D_CAMERA_SetTarget  0x02048B20  arm
- *   G3D_CAMERA_SetUp  0x02048B44  arm
+ *   G3D_CAMERA_SetCamUp  0x02048B20  arm
+ *   G3D_CAMERA_SetCamTarget  0x02048B44  arm
  *   BUTTON_MAN_MakeRotMtxXYZ  0x020520FC  arm
  *   MTX_MultVec33  0x0207B51C  arm
  *   VEC_Add  0x0207C9D0  arm
@@ -90,8 +90,8 @@ struct Rec12;
 extern u32 ICA_ANIME_GetTranslate(struct IcaAnime *ctx, struct Rec12 *out);
 extern u32 ICA_ANIME_GetRotate(struct IcaAnime *ctx, struct Rec12 *hsv);
 extern void G3D_CAMERA_SetEye(void *dst, struct Vec3 *v);
-extern void G3D_CAMERA_SetTarget(void *dst, struct Vec3 *v);
-extern void G3D_CAMERA_SetUp(void *dst, struct Vec3 *v);
+extern void G3D_CAMERA_SetCamUp(void *dst, struct Vec3 *v);
+extern void G3D_CAMERA_SetCamTarget(void *dst, struct Vec3 *v);
 struct Mtx33;
 extern void BUTTON_MAN_MakeRotMtxXYZ(int h, int s, int v, struct Mtx33 *out);
 extern void MTX_MultVec33(struct Vec3 *a, struct Vec3 *b, struct Vec3 *out);
@@ -145,6 +145,6 @@ void ICA_ANIME_SetCameraStatus(void *dst, void *ctx)
     VEC_Add(&basis, &t0, &out);
 
     G3D_CAMERA_SetEye(dst, &basis);
-    G3D_CAMERA_SetUp(dst, &out);
-    G3D_CAMERA_SetTarget(dst, &t1);
+    G3D_CAMERA_SetCamTarget(dst, &out);
+    G3D_CAMERA_SetCamUp(dst, &t1);
 }

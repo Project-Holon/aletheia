@@ -1,0 +1,104 @@
+# Rename table for the unnamed-function pass, 2026-10-18 (docs/NAMING.md "How to apply").
+# Columns: old  new  address  region  isa  note (evidence level: sdk | inferred, one-line reason, home file).
+# Pass 1 (owner-approved corrections of existing wrong G3D camera/light names) then pass 2.
+G3D_CAMERA_GetTarget	G3D_CAMERA_GetCamUp	0x02048B0C	arm9	arm	inferred: definition in g3d_light.c misnamed; field role from G3D_SYSTEM_SetProjection/SetLookAt/SetLight layouts and callers
+G3D_CAMERA_SetTarget	G3D_CAMERA_SetCamUp	0x02048B20	arm9	arm	inferred: definition in g3d_light.c misnamed; field role from G3D_SYSTEM_SetProjection/SetLookAt/SetLight layouts and callers
+G3D_CAMERA_GetUp	G3D_CAMERA_GetCamTarget	0x02048B30	arm9	arm	inferred: definition in g3d_light.c misnamed; field role from G3D_SYSTEM_SetProjection/SetLookAt/SetLight layouts and callers
+G3D_CAMERA_SetUp	G3D_CAMERA_SetCamTarget	0x02048B44	arm9	arm	inferred: definition in g3d_light.c misnamed; field role from G3D_SYSTEM_SetProjection/SetLookAt/SetLight layouts and callers
+G3D_CAMERA_GetScale	G3D_CAMERA_GetNear	0x02048B54	arm9	arm	inferred: definition in g3d_light.c misnamed; field role from G3D_SYSTEM_SetProjection/SetLookAt/SetLight layouts and callers
+G3D_CAMERA_SetScale	G3D_CAMERA_SetNear	0x02048B60	arm9	arm	inferred: definition in g3d_light.c misnamed; field role from G3D_SYSTEM_SetProjection/SetLookAt/SetLight layouts and callers
+G3D_CAMERA_SetRoll	G3D_CAMERA_SetFar	0x02048B6C	arm9	arm	inferred: definition in g3d_light.c misnamed; field role from G3D_SYSTEM_SetProjection/SetLookAt/SetLight layouts and callers
+G3D_CAMERA_SetNearClip	G3D_CAMERA_SetFovySin	0x02048B80	arm9	arm	inferred: definition in g3d_light.c misnamed; field role from G3D_SYSTEM_SetProjection/SetLookAt/SetLight layouts and callers
+G3D_CAMERA_GetFarClip	G3D_CAMERA_GetFovyCos	0x02048B88	arm9	arm	inferred: definition in g3d_light.c misnamed; field role from G3D_SYSTEM_SetProjection/SetLookAt/SetLight layouts and callers
+G3D_CAMERA_SetFarClip	G3D_CAMERA_SetFovyCos	0x02048B94	arm9	arm	inferred: definition in g3d_light.c misnamed; field role from G3D_SYSTEM_SetProjection/SetLookAt/SetLight layouts and callers
+G3D_LIGHT_SetSlotColor	G3D_LIGHT_SetDirection	0x02048CA4	arm9	arm	inferred: definition in g3d_light.c misnamed; field role from G3D_SYSTEM_SetProjection/SetLookAt/SetLight layouts and callers
+G3D_LIGHT_SetSlotFlags	G3D_LIGHT_SetColor	0x02048CDC	arm9	arm	inferred: definition in g3d_light.c misnamed; field role from G3D_SYSTEM_SetProjection/SetLookAt/SetLight layouts and callers
+G3D_LIGHT_GetSlotColor	G3D_LIGHT_GetDirection	0x02048C80	arm9	arm	inferred: definition in g3d_light.c misnamed; field role from G3D_SYSTEM_SetProjection/SetLookAt/SetLight layouts and callers
+G3D_LIGHT_GetSlotFlags	G3D_LIGHT_GetColor	0x02048CCC	arm9	arm	inferred: definition in g3d_light.c misnamed; field role from G3D_SYSTEM_SetProjection/SetLookAt/SetLight layouts and callers
+sub_02012EBC	GAME_DATA_GetSaveControl	0x02012EBC	arm9	thumb	inferred: returns word +0 of GameData (the SaveControl); name already used by 500+ symbols rows/externs at this same address; home game_event.c (address range), module GAME_DATA_ as all its sibling accessors 0x02012EC0..0x02012FE4
+func_02014878	FIELD_STATUS_SubProcListEvent	0x02014878	arm9	thumb	inferred: GameEvent function created by FIELD_STATUS_CreateSubProcListEvent; loops pokelist proc (ov091) then status proc (ov131) passing selectedIndex/exitCode until the list exits; home field_status.c
+sub_02024570	PMSI_PARAM_Copy	0x02024570	arm9	thumb	inferred: 8-byte PmsData struct copy (mail.c copies a message); name already defined at this address in pmsi_param.c; home pmsi_param.c
+sub_0202DCC4	PMS_DRAW_IsActive	0x0202DCC4	arm9	thumb	inferred: returns bit 0 of word +0x18 of element i of the 0x28-byte PmsDraw element array; callers clear the element when set; name already defined at this address in pms_draw.c; home pms_draw.c
+func_0204961C	ARC_TOOL_GetHandleFileCount	0x0204961C	arm9	arm	inferred: returns u16 +0x4E of an archive handle (file count; callers bound a member index / loop count by it); name already defined at this address in arc_tool.c; home arc_tool.c
+func_02051774	PARTICLE_GetCallbackArg	0x02051774	arm9	arm	inferred: returns callbackArg (+0x40) of the particle manager g_pParticleMan, the user value set by PARTICLE_StartEffectWithCallback; emitter init callbacks in btlv_effvm and pokemontrade_demo read their request through it; home particle.c (libmatch byte-equal DWCi_MOV_WH_GetSystemState, dupes 2, rejected: 20-byte global-load leaf inside particle.c)
+func_0208284C	MIi_FIFOCallback	0x0208284C	arm9	arm	sdk: symbols_sdk.json libmi mi_dma_gxcommand.o at this address; body is the GX FIFO DMA continuation; home mi_dma_gxcommand.c
+func_0208475C	OS_InitIrqTable	0x0208475C	arm9	arm	sdk: symbols_sdk.json libos os_interrupt.o at this address; zeroes OSi_IrqThreadQueue; home os_interrupt.c
+func_02092344	memcpy	0x02092344	arm9	arm	sdk: MSL C byte-wise memcpy (not in symbols_sdk.json; MSL standard name, already used by symbols rows at this address); home msl_string_mem.c
+func_020923F0	memcmp	0x020923F0	arm9	arm	sdk: MSL C memcmp (bounded unsigned byte compare returning -1/0/1; standard name already used by symbols rows at this address); home msl_string_mem.c
+func_02092430	__fill_mem	0x02092430	arm9	arm	sdk: MSL C internal __fill_mem (word/32-byte block fill called by memset, here MSL_C_LIB_MemsetPtr); MSL real name, not in symbols_sdk.json; home msl_string_mem.c
+func_02094694	rand	0x02094694	arm9	arm	sdk: MSL C rand (LCG 0x41C64E6D/0x3039 on MslRandSeed, returns bits 16..30); standard name already used by symbols rows at this address; home msl_stdlib.c
+func_021CA818	DWCi_IsFold	0x021CA818	ov016	arm	sdk: symbols_sdk.json DWCi_IsFold (bit 15 of 0x02FFFFA8, lid closed) at this address; already defined under this name in scenesetlistsave.c; same name at 7 addresses (static per scene object), may need --local-ok; caller is scenesetrakubutton.c; home scenesetlistsave.c
+func_021BF520	DWC_GHTTPSetRootCAList	0x021BF520	ov114	arm	sdk: symbols_sdk.json libdwcghttp dwc_ghttp.o at this address (also ov021 copy); calls ghttpSetRootCAList with the built-in CA list; home dwc_ghttp.c
+func_021C58C8	NdCallback	0x021C58C8	ov114	arm	sdk: symbols_sdk.json libdwcnd dwc_nd.o at this address; records reason/error/servererror into gDwcNdState under gDwcNdMutex; home dwc_nd.c
+func_021C78C4	DWCi_Ndi_initLockGlobal	0x021C78C4	ov114	arm	sdk: symbols_sdk.json libdwcnd dwci_nd.o at this address (OS_InitMutex on the global lock, return TRUE); sits before DWCi_Ndi_freeLockGlobal; same name also listed at ov125 0x021D7CD4; home dwci_nd.c
+func_021D7CD4	GDS_SOCKET_InitLock	0x021D7CD4	ov125	arm	inferred: OS_InitMutex(gGdsSocketMutex), returns 1; pairs with GDS_SOCKET_Lock/GDS_SOCKET_Unlock on the same mutex; gds_rap.c calls it at start-up; home gds_socket.c (symbols_sdk byte-equal DWCi_Ndi_initLockGlobal, siblings 1, not used: game file, real copy is ov114 0x021C78C4)
+ov208_func_021BDC48	ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled	0x021BDC48	ov208	thumb	inferred: stores the flag at +0x34 and enables/disables touch on the touch bar via ZKND_TBAR_Get/SetTouchEnable; name already defined at this address in zukan_detail_touchbar.c; home zukan_detail_touchbar.c
+sub_02012FFC	MSG_SPEED_GetWait	0x02012FFC	arm9	thumb	inferred: existing definition at this address; returns sMsgSpeedWaitTable[min(CONFIG_GetTextSpeed(...),4)]; home msg_speed.c
+func_02047964	G3D_SYSTEM_DrawStart	0x02047964	arm9	arm	inferred: existing definition at this address; tail call to G3X_Reset (pool word + bx ip, listed as veneer_02047964) called at the start of each 3D frame; home g3d_system.c
+func_02048AE8	G3D_CAMERA_GetEye	0x02048AE8	arm9	arm	inferred: existing definition name, kept; copies lookAt camPos (+0x20) out; home g3d_light.c; misplaced? camera accessors belong with g3d_camera.c (G3dCamera = projection +0x00..0x1C, lookAt +0x20..0x43)
+func_02048AFC	G3D_CAMERA_SetEye	0x02048AFC	arm9	arm	inferred: existing definition name, kept; stores camPos (+0x20); field_camera passes eye; home g3d_light.c; misplaced? camera accessors belong with g3d_camera.c (G3dCamera = projection +0x00..0x1C, lookAt +0x20..0x43)
+func_02048B0C	G3D_CAMERA_GetCamUp	0x02048B0C	arm9	arm	inferred: copies lookAt camUp (+0x2C) out (SetLookAt order camPos/camUp/target); definition misnamed G3D_CAMERA_GetTarget; home g3d_light.c; misplaced? camera accessors belong with g3d_camera.c (G3dCamera = projection +0x00..0x1C, lookAt +0x20..0x43)
+func_02048B20	G3D_CAMERA_SetCamUp	0x02048B20	arm9	arm	inferred: stores camUp (+0x2C), field_camera passes up vector; definition misnamed G3D_CAMERA_SetTarget; home g3d_light.c; misplaced? camera accessors belong with g3d_camera.c (G3dCamera = projection +0x00..0x1C, lookAt +0x20..0x43)
+func_02048B30	G3D_CAMERA_GetCamTarget	0x02048B30	arm9	arm	inferred: copies lookAt target (+0x38) out, field_camera reads targetNow; definition misnamed G3D_CAMERA_GetUp; home g3d_light.c; misplaced? camera accessors belong with g3d_camera.c (G3dCamera = projection +0x00..0x1C, lookAt +0x20..0x43)
+func_02048B44	G3D_CAMERA_SetCamTarget	0x02048B44	arm9	arm	inferred: stores lookAt target (+0x38), field_camera passes target; definition misnamed G3D_CAMERA_SetUp; home g3d_light.c; misplaced? camera accessors belong with g3d_camera.c (G3dCamera = projection +0x00..0x1C, lookAt +0x20..0x43)
+func_02048B54	G3D_CAMERA_GetNear	0x02048B54	arm9	arm	inferred: reads projection nearClip (+0x14) out; definition misnamed G3D_CAMERA_GetScale; home g3d_light.c; misplaced? camera accessors belong with g3d_camera.c (G3dCamera = projection +0x00..0x1C, lookAt +0x20..0x43)
+func_02048B60	G3D_CAMERA_SetNear	0x02048B60	arm9	arm	inferred: stores nearClip (+0x14) from pointer, intro_graphic passes near_clip; definition misnamed G3D_CAMERA_SetScale; home g3d_light.c; misplaced? camera accessors belong with g3d_camera.c (G3dCamera = projection +0x00..0x1C, lookAt +0x20..0x43)
+func_02048B6C	G3D_CAMERA_SetFar	0x02048B6C	arm9	arm	inferred: stores farClip (+0x18) from pointer, intro_graphic passes far_clip; definition misnamed G3D_CAMERA_SetRoll; home g3d_light.c; misplaced? camera accessors belong with g3d_camera.c (G3dCamera = projection +0x00..0x1C, lookAt +0x20..0x43)
+func_02048B78	G3D_CAMERA_GetMode	0x02048B78	arm9	arm	inferred: existing definition name, kept; returns projection type (+0x00, 0 = perspective); home g3d_light.c; misplaced? camera accessors belong with g3d_camera.c (G3dCamera = projection +0x00..0x1C, lookAt +0x20..0x43)
+func_02048B80	G3D_CAMERA_SetFovySin	0x02048B80	arm9	arm	inferred: stores fovySin (+0x04), callers pass FX_SinCosTable_[fov*2]; definition misnamed G3D_CAMERA_SetNearClip; home g3d_light.c; misplaced? camera accessors belong with g3d_camera.c (G3dCamera = projection +0x00..0x1C, lookAt +0x20..0x43)
+func_02048B88	G3D_CAMERA_GetFovyCos	0x02048B88	arm9	arm	inferred: reads fovyCos (+0x08) out, field_camera takes FX_AcosIdx of it; definition misnamed G3D_CAMERA_GetFarClip; home g3d_light.c; misplaced? camera accessors belong with g3d_camera.c (G3dCamera = projection +0x00..0x1C, lookAt +0x20..0x43)
+func_02048B94	G3D_CAMERA_SetFovyCos	0x02048B94	arm9	arm	inferred: stores fovyCos (+0x08), callers pass FX_SinCosTable_[fov*2+1]; definition misnamed G3D_CAMERA_SetFarClip; home g3d_light.c; misplaced? camera accessors belong with g3d_camera.c (G3dCamera = projection +0x00..0x1C, lookAt +0x20..0x43)
+func_02048C4C	G3D_LIGHT_DeleteSlots	0x02048C4C	arm9	arm	inferred: existing definition at this address; tail call to GFL_HEAP_Free (listed as veneer_02048C4C), callers free the light-set handle; home g3d_light.c
+func_02048CA4	G3D_LIGHT_SetDirection	0x02048CA4	arm9	arm	inferred: stores slot i vecX/Y/Z (G3dLight +0..+5), field_light passes slotDir; definition misnamed G3D_LIGHT_SetSlotColor; home g3d_light.c
+func_02048CDC	G3D_LIGHT_SetColor	0x02048CDC	arm9	arm	inferred: stores slot i halfword +6 (G3dLight color), field_light passes slotColor; definition misnamed G3D_LIGHT_SetSlotFlags; home g3d_light.c
+func_02049624	ARC_UTIL_UploadBgCharFromArchive	0x02049624	arm9	arm	inferred: existing definition at this address; ARC_UTIL_LoadMember then ARC_UTIL_UploadBgChar, archive twin of ARC_UTIL_UploadBgCharFromHandle; home arc_tool.c
+func_0204BA00	CLACT_ApplyActorAnimCommand	0x0204BA00	arm9	arm	inferred: existing definition at this address; rebases actor to +0x68 and tail-calls CLACT_ApplyAnimCommand; home clact.c
+func_0206E40C	NNS_G3dMdlSetMdlPolygonMode	0x0206E40C	arm9	arm	inferred: NitroSystem API (declared in nns_g3d_mdl.c), sets material polyAttr bits 4..5; home nns_g3d_mdl.c
+func_0206E484	NNS_G3dMdlSetMdlCullMode	0x0206E484	arm9	arm	inferred: NitroSystem API (declared in nns_g3d_mdl.c), sets material polyAttr bits 6..7; home nns_g3d_mdl.c
+func_0206E4FC	NNS_G3dMdlSetMdlPolygonID	0x0206E4FC	arm9	arm	inferred: NitroSystem API (declared in nns_g3d_mdl.c), sets material polyAttr bits 24..29; home nns_g3d_mdl.c
+func_0206E574	NNS_G3dMdlSetMdlAlpha	0x0206E574	arm9	arm	inferred: NitroSystem API (declared in nns_g3d_mdl.c), sets material polyAttr bits 16..20; home nns_g3d_mdl.c
+func_0209BD38	_f2d	0x0209BD38	arm9	arm	sdk: MSL runtime.a name from layout/runtime_arm9.txt, defined in cw_runtime.c; float to double; home cw_runtime.c
+func_0209C508	_d2s	0x0209C508	arm9	arm	sdk: MSL runtime.a name from layout/runtime_arm9.txt, defined in cw_runtime.c; double to signed int, saturating; home cw_runtime.c
+func_0209C554	_d2u	0x0209C554	arm9	arm	sdk: MSL runtime.a name from layout/runtime_arm9.txt, defined in cw_runtime.c; double to unsigned 64-bit, saturating; home cw_runtime.c
+func_0215142C	rtcWork	0x0215142C	arm9	data	sdk: not a function; arm9 .bss of external.o (rtcInitialized at 0x02151428, rtcWork at +4), returned by RTCEXi_GetCommonCallback as the TWL request block; real NitroSDK static name; home external.c
+func_02152FE4	micWork	0x02152FE4	arm9	data	sdk: not a function; arm9 .bss of mic.o (micInitialized at 0x02152FE0, micWork at +4), returned by MICEXi_GetLimitedSamplingCallback; real NitroSDK static name; home mic.c
+func_021656A0	WCM_GetPhase	0x021656A0	ov009	arm	sdk: symbols_sdk libwcm system.o; reads the WCM work phase byte under disabled interrupts, DisConnectAP switches on it; home wcm_system.c
+func_0217EC08	connect	0x0217EC08	ov009	arm	sdk: symbols_sdk libdwcgscommon gsplatformsocket (between bind and recv); GameSpy socket connect(sock, addr, len); home gsplatformsocket.c
+func_021B8640	BTL_MAIN_GetRuleSlotSpan	0x021B8640	ov093	thumb	inferred: existing ov093 name at this address (ov095 btl_pospoke calls ov093); home btl_main.c
+func_021B86A0	BTL_MAIN_CheckFrontPos	0x021B86A0	ov093	thumb	inferred: existing ov093 name at this address; home btl_main.c
+func_021B86B8	BTL_MAIN_GetCompetitor	0x021B86B8	ov093	thumb	inferred: existing ov093 name at this address; home btl_main.c
+func_021B8D8C	BTL_MAIN_GetTrainerSlotOfPoke	0x021B8D8C	ov093	thumb	inferred: existing ov093 name at this address; home btl_main.c
+func_021B8FF4	BTL_MAIN_GetOwnClientId	0x021B8FF4	ov093	thumb	inferred: existing ov093 name at this address; home btl_main.c
+func_021B98AC	BTL_SIDE_GetPokeAtPos	0x021B98AC	ov093	thumb	inferred: existing ov093 name at this address; home btl_main.c
+func_021B9920	BTL_SIDE_GetClientPoke	0x021B9920	ov093	thumb	inferred: existing ov093 name at this address; home btl_main.c
+func_021B99E0	BTL_MAIN_GetPosTable	0x021B99E0	ov093	thumb	inferred: existing ov093 name at this address; home btl_main.c
+func_021B9A24	BTL_MAIN_IsPokeSamePair	0x021B9A24	ov093	thumb	inferred: existing ov093 name at this address; home btl_main.c
+func_021B9AC8	BTL_SLOT_GetRotateDstIndex	0x021B9AC8	ov093	thumb	inferred: existing ov093 name at this address (layout/matched pkt_ov093_021B9AC8); home btl_main.c
+func_021B9AF8	BTL_SIDE_GetSlotOfClientThunk	0x021B9AF8	ov093	thumb	inferred: existing ov093 name at this address; home btl_main.c
+func_021B9C00	BTL_SLOT_GetPokeParam	0x021B9C00	ov093	thumb	inferred: existing ov093 name at this address; home btl_main.c
+func_021BC5A0	FIELD_PLACE_NAME_ForceShowForZone	0x021BC5A0	ov021	thumb	inferred: existing ov021 name; intrude_field passes FIELDMAP_GetPlaceName and the zone id; home field_place_name.c
+func_021BE4A4	FLD_EXP_OBJ_SetModelCullDraw	0x021BE4A4	ov021	thumb	inferred: existing ov021 name, same prototype in the gimmick headers; home fld_exp_obj.c
+func_021BE4B4	FLD_EXP_OBJ_SetModelHidden	0x021BE4B4	ov021	thumb	inferred: existing ov021 name, same prototype; home fld_exp_obj.c
+func_021BE580	FLD_EXP_OBJ_UpdateAnimes	0x021BE580	ov021	thumb	inferred: existing ov021 name, same prototype; home fld_exp_obj.c
+func_021BE6B0	FLD_EXP_OBJ_SetAnimePaused	0x021BE6B0	ov021	thumb	inferred: existing ov021 name, same prototype; home fld_exp_obj.c
+func_021BE6B4	FLD_EXP_OBJ_IsAnimePaused	0x021BE6B4	ov021	thumb	inferred: existing ov021 name, same prototype; home fld_exp_obj.c
+func_021BE6BC	FLD_EXP_OBJ_IsAnimeStopped	0x021BE6BC	ov021	thumb	inferred: existing ov021 name, same prototype; home fld_exp_obj.c
+func_021BE6E8	FLD_EXP_OBJ_GetAnimeFrame	0x021BE6E8	ov021	thumb	inferred: existing ov021 name, same prototype; home fld_exp_obj.c
+func_021BE748	FLD_EXP_OBJ_GetAnimeLastFrame	0x021BE748	ov021	thumb	inferred: existing ov021 name, same prototype; home fld_exp_obj.c
+func_021C4D14	SOUND_OBJ_Create	0x021C4D14	ov021	thumb	inferred: existing ov021 name, same prototype; home sound_obj.c
+func_021C4DA8	SOUND_OBJ_Delete	0x021C4DA8	ov021	thumb	inferred: existing ov021 name, same prototype; home sound_obj.c
+func_021C4DE4	SOUND_OBJ_AdvanceAnime	0x021C4DE4	ov021	thumb	inferred: existing ov021 name, same prototype; home sound_obj.c
+func_021C81C8	BTL_SERVER_FLOW_CalcPokeSpeedWrapper	0x021C81C8	ov093	thumb	inferred: existing ov093 name at this address; home btl_server_flow.c
+func_021C86B8	DPW_TR_UploadAsync	0x021C86B8	ov114	arm	inferred: existing ov114 name; worldtrade_server uploads (trade data, wanted data, 0x80); home dpw_tr.c
+func_021C8810	BTL_SERVER_FLOW_ClearMsgRecord	0x021C8810	ov093	thumb	inferred: existing ov093 name at this address (layout/matched pkt_ov093_021C8810); home btl_server_flow.c
+func_021C8DA0	DPW_TR_GetServerStateAsync	0x021C8DA0	ov114	arm	inferred: existing ov114 name; worldtrade_enter StateStartConnect calls it; home dpw_tr.c
+func_021D5528	BTL_POKEPARAM_GetMovePP	0x021D5528	ov093	thumb	inferred: existing ov093 name at this address; home btl_pokeparam.c
+func_021D62A8	BTL_POKEPARAM_GetMajorStatusIndex	0x021D62A8	ov093	thumb	inferred: existing ov093 name at this address; home btl_pokeparam.c
+func_021D6324	BTL_POKEPARAM_CalcSickDamage	0x021D6324	ov093	thumb	inferred: existing ov093 name at this address (layout/matched pkt_ov093_021D6324); home btl_pokeparam.c
+func_021DA9C0	sGsyncMenuButtonWinDefs	0x021DA9C0	ov123	data	inferred: not a function; ov123 .data ButtonWinDef table (7, 0xC, 0x12, 5) passed to GSYNC_MENU_CreateButtonWindows; home gsync_menu.c (data after pdwacc_disp.c code)
+func_021DCE20	AOSSi_Alloc	0x021DCE20	ov016	data	inferred: not a function; ov016 bss word already named AOSSi_Alloc in aoss.c (alloc hook table; aosslink AOSSi_Status calls entry [1] at 0x021DCE24); home task.c (bss)
+func_021E8A78	BTLV_CORE_IsSlotKind1Index15	0x021E8A78	ov093	thumb	inferred: existing ov093 name at this address; home btlv_core.c
+func_021FD744	BR_UTIL_ClearTaskStep	0x021FD744	ov186	thumb	inferred: existing ov186 name; br_download clears its task handle step; home br_util.c
+func_0220207C	BTLV_INPUT_CreateWithMode	0x0220207C	ov094	thumb	inferred: existing ov094 name (layout/matched pkt_ov094_0220207C); btlv_scd creates its input view; home btlv_input.c
+func_022022FC	BEACON_VIEW_Delete	0x021F22FC	ov032	thumb	inferred: existing ov032 name; old label address is wrong, real target 0x021F22FC per field_subscreen header; FIELD_SUBSCREEN_ExitBeaconView deletes the panel; home beacon_view.c
+func_02210124	DOWSING_Delete	0x021F0124	ov033	thumb	inferred: existing ov033 name; old label address is wrong, real target 0x021F0124 per field_subscreen header; FIELD_SUBSCREEN_ExitDowsing deletes the panel; home dowsing.c

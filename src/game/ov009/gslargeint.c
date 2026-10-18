@@ -16,7 +16,7 @@
  *   current_time_hires               0x0217f28c arm
  *   gTimers                          0x021ad064 data
  *   gsiLargeIntTimerEnter  0x0217D3AC  arm  ov009
- *   func_02092344  0x02092344  arm
+ *   memcpy  0x02092344  arm
  *   gsiLargeIntTimerExit  0x0217D3F8  arm  ov009
  *   memcpy                         0x02092344  arm
  *   memset                         0x020923B0  arm
@@ -68,7 +68,7 @@ typedef unsigned char  u8;
 extern unsigned int current_time_hires(void);
 extern void gsiLargeIntTimerEnter(int id);
 extern void gsiLargeIntTimerExit(int id);
-extern void *func_02092344(void *dst, const void *src, u32 n);
+extern void *memcpy(void *dst, const void *src, u32 n);
 extern gsi_i32 gsiLargeIntCompare(const l_word *data1, l_word len1,
                                   const l_word *data2, l_word len2);
 extern int gsiLargeIntInverseMod(gsLargeInt_t *mod, l_word *dest);
@@ -224,7 +224,7 @@ int gsiLargeIntAdd(u32 *data1, u32 length1, u32 *data2, u32 length2, u32 *dest, 
     }
     if (i < longerLen) {
         if (&dest[i] != &longerSrc[i])
-            func_02092344(&dest[i], &longerSrc[i], (longerLen - i) * 4);
+            memcpy(&dest[i], &longerSrc[i], (longerLen - i) * 4);
         i = longerLen;
     }
     *lenout = i;

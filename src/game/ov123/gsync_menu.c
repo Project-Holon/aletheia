@@ -72,7 +72,7 @@
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   d_021DA9D0 0x021DA9D0 data a4
  *   BUTTON_MAN_Create 0x02051B84 arm
- *   func_021DA9C0 0x021DA9C0 data a4
+ *   sGsyncMenuButtonWinDefs 0x021DA9C0 data a4
  *   d_021DA640 0x021DA640 data a4
  *   d_021DA648 0x021DA648 data a4
  *   BG_SYS_SetTileUnit 0x02040DA8 arm
@@ -86,7 +86,7 @@
  *   GAME_COMM_GetKind 0x02026454 thumb
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_0204BA00 0x0204BA00 arm
+ *   CLACT_ApplyActorAnimCommand 0x0204BA00 arm
  *   CLACT_RestartActorAnim 0x0204B9A0 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_GetActorAnimSeq 0x0204B898 arm
@@ -328,7 +328,7 @@ extern int TOUCHPANEL_GetTrg(void);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
-extern void func_0204BA00(void *actor, const GsyncActorAnimCallback *callback);
+extern void CLACT_ApplyActorAnimCommand(void *actor, const GsyncActorAnimCallback *callback);
 
 extern void CLACT_RestartActorAnim(struct Actor *a);
 
@@ -543,7 +543,7 @@ extern const struct ActorCoordTriple d_021DA638;
 extern const struct ActorCoordTriple d_021DA634;
 extern const struct ActorCoordTriple d_021DA63C;
 extern const char d_021DA9D0[];
-extern char func_021DA9C0[];
+extern char sGsyncMenuButtonWinDefs[];
 extern int d_021DA640[];
 extern int d_021DA648[];
 extern const struct DispConfigWords d_021DA680;
@@ -841,7 +841,7 @@ void GSYNC_MENU_StateSetupButtons(GsyncMenuWork *work)
 {
     /* one-entry message id table; the struct form keeps the original stack layout */
     struct { int id; } messageIds = {0};
-    GSYNC_MENU_CreateButtonWindows(1, (u32 *)&messageIds, work, (ButtonWinDef *)func_021DA9C0, (u32 *)d_021DA640, (u32 *)(d_021DA640 + 1));
+    GSYNC_MENU_CreateButtonWindows(1, (u32 *)&messageIds, work, (ButtonWinDef *)sGsyncMenuButtonWinDefs, (u32 *)d_021DA640, (u32 *)(d_021DA640 + 1));
     work->buttonMan = BUTTON_MAN_Create((u8 *)d_021DA648, GSYNC_MENU_RunButtonCallback, work, work->heapId);
     work->buttonCallback = GSYNC_MENU_OnButtonPressed;
     GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateButtonsActive, 0x321);
@@ -900,7 +900,7 @@ void GSYNC_MENU_StatePlayButtonAnim(GsyncMenuWork *work)
     cb.work = work;
     cb.callback = GSYNC_MENU_OnButtonAnimEnd;
     CLACT_SetActorAutoAnim(work->actors[work->pressedButton], 1);
-    func_0204BA00(work->actors[work->pressedButton], &cb);
+    CLACT_ApplyActorAnimCommand(work->actors[work->pressedButton], &cb);
     CLACT_RestartActorAnim(work->actors[work->pressedButton]);
     GSYNC_MENU_ChangeState(work, (GsyncMenuStateFunc)GSYNC_MENU_NoOp, 0x376);
 }

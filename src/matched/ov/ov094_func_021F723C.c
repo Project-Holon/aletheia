@@ -11,14 +11,14 @@
  *   BTLV_EFFECT_StepScalarWithLimit 0x021F9220 thumb ov094
  *   BTLV_EFFECT_StepMover 0x021F9260 thumb ov094
  *   G3D_CAMERA_SetEye 0x02048AFC arm
- *   G3D_CAMERA_SetUp 0x02048B44 arm
+ *   G3D_CAMERA_SetCamTarget 0x02048B44 arm
  *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   BTLV_CAMERA_SyncOrbitFromCamera 0x021F73A4 thumb ov094
  */
 extern void BTLV_EFFECT_StepScalarWithLimit(int *, int *, int *, int *);
 extern int BTLV_EFFECT_StepMover(void *, void *);
 extern void G3D_CAMERA_SetEye(int, int *);
-extern void G3D_CAMERA_SetUp(int, int *);
+extern void G3D_CAMERA_SetCamTarget(int, int *);
 struct Light;
 extern void G3D_CAMERA_Reset(struct Light *l);
 extern void BTLV_CAMERA_SyncOrbitFromCamera(int *);
@@ -65,7 +65,7 @@ void BTLV_CAMERA_StepMove(int *p)
         b[1] = p[10] + p[25];
         b[2] = p[11] + p[26];
         G3D_CAMERA_SetEye(p[1], a);
-        G3D_CAMERA_SetUp(p[1], b);
+        G3D_CAMERA_SetCamTarget(p[1], b);
         G3D_CAMERA_Reset((struct Light *)p[1]);
         BTLV_CAMERA_SyncOrbitFromCamera(p);
     } else {

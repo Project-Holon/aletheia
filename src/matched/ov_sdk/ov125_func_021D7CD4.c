@@ -1,5 +1,5 @@
 /*
- * function: func_021D7CD4
+ * function: GDS_SOCKET_InitLock
  * address:  0x021D7CD4
  * packet:   pkt_ov125_021D7CD4
  * region:   ov125
@@ -31,7 +31,7 @@
 extern void OS_InitMutex(void *mutex);
 extern char gGdsSocketMutex[];
 
-int func_021D7CD4(void)
+int GDS_SOCKET_InitLock(void)
 {
     OS_InitMutex(gGdsSocketMutex);
     return 1;

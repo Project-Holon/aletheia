@@ -17,16 +17,16 @@
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   STRBUF_Create  0x020457B0  arm
- *   func_021B9AF8  0x021B9AF8  thumb
+ *   BTL_SIDE_GetSlotOfClientThunk  0x021B9AF8  thumb
  *   BTL_CLIENT_GetClientId  0x021D3D70  thumb
  *   BTLV_SCD_ClearTasks  0x06899E2C  thumb  ov095
  *   gBtlvScdFileName  0x0689E7B8  data  ov095  a4
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   BTL_MAIN_GetRule  0x021B8588  thumb
- *   func_021B86B8  0x021B86B8  thumb
+ *   BTL_MAIN_GetCompetitor  0x021B86B8  thumb
  *   BTL_MAIN_GetGameData  0x021B8748  thumb
  *   BTLV_EFFECT_GetPalanm  0x021F86E0  thumb
- *   func_0220207C  0x0220207C  thumb
+ *   BTLV_INPUT_CreateWithMode  0x0220207C  thumb
  *   BTLV_INPUT_StartPaletteFadeTask  0x022025D8  thumb
  *   BTLV_SCD_Nop  0x06899D38  thumb  ov095
  *   BTLV_INPUT_IsScreenBusy  0x022026FC  thumb
@@ -38,15 +38,15 @@
  *   BTLV_INPUT_IsInputBlocked  0x022033CC  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   MIi_CpuClear16  0x02082A48  arm
- *   func_021B8D8C  0x021B8D8C  thumb
+ *   BTL_MAIN_GetTrainerSlotOfPoke  0x021B8D8C  thumb
  *   BTL_MAIN_GetViewPosOfSlot  0x021B8E70  thumb
  *   BTL_MAIN_GetSlotFromViewPos  0x021B8ED8  thumb
- *   func_021B8FF4  0x021B8FF4  thumb
+ *   BTL_MAIN_GetOwnClientId  0x021B8FF4  thumb
  *   BTL_MAIN_GetOwnPartnerClient  0x021B9000  thumb
  *   BTL_MAIN_GetOwnOpponentClient  0x021B904C  thumb
- *   func_021B98AC  0x021B98AC  thumb
+ *   BTL_SIDE_GetPokeAtPos  0x021B98AC  thumb
  *   BTL_SLOT_GetCount  0x021B9B94  thumb
- *   func_021B9C00  0x021B9C00  thumb
+ *   BTL_SLOT_GetPokeParam  0x021B9C00  thumb
  *   BTL_CLIENT_GetFieldCountdownByte  0x021D3D84  thumb
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb
  *   BTL_POKEPARAM_GetSpecies  0x021D5444  thumb
@@ -54,7 +54,7 @@
  *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb
  *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb
  *   BTL_POKEPARAM_IsAbleToBattle  0x021D5B7C  thumb
- *   func_021D62A8  0x021D62A8  thumb
+ *   BTL_POKEPARAM_GetMajorStatusIndex  0x021D62A8  thumb
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   GFL_HEAP_Free  0x020307B0  arm
  *   STRBUF_Delete  0x02045808  arm
@@ -75,7 +75,7 @@
  *   gBtlvScdActionButtonByRegion  0x0689D828  data  ov095
  *   BTLV_INPUT_GetScreenButtonTable  0x02203040  thumb
  *   BTL_POKEPARAM_GetMoveCount  0x021D5448  thumb
- *   func_021D5528  0x021D5528  thumb
+ *   BTL_POKEPARAM_GetMovePP  0x021D5528  thumb
  *   BTL_POKEPARAM_IsTransformed  0x021D6D54  thumb
  *   BTL_POKEPARAM_GetMoveId  0x021D54C0  thumb
  *   BTL_ACTION_SetFight  0x021D82D0  thumb
@@ -97,7 +97,7 @@
  *   POKE_TOOL_GetGender  0x02017F00  thumb
  *   WAZA_TOOL_GetParam  0x0201BD28  thumb
  *   BTL_CALC_GetCurseTargetKind  0x021D80A8  thumb
- *   func_021B99E0  0x021B99E0  thumb
+ *   BTL_MAIN_GetPosTable  0x021B99E0  thumb
  *   BTLV_SCD_ShowTargetMenu  0x0689AE34  thumb  ov095
  *   BTLV_SCD_BuildTargetSet  0x0689B354  thumb  ov095
  *   BTLV_SCD_PickTargetFromTouch  0x0689ADDC  thumb  ov095
@@ -118,7 +118,7 @@
 #include "btlv_scd_types.h"
 
 /* Services of the input module (ov094), which draws the touch screen menus. */
-extern struct BtlvInput *func_0220207C(u32 gameData, u32 rule, u32 competitor, int bgMode, void *fontMain, u8 *inputFlags, int viewParam, u16 heapId);
+extern struct BtlvInput *BTLV_INPUT_CreateWithMode(u32 gameData, u32 rule, u32 competitor, int bgMode, void *fontMain, u8 *inputFlags, int viewParam, u16 heapId);
 extern void BTLV_INPUT_Delete(struct BtlvInput *input);
 extern void BTLV_INPUT_StartScreenFadeTask(struct BtlvInput *input);
 extern int BTLV_INPUT_IsScreenBusy(struct BtlvInput *input);
@@ -138,22 +138,22 @@ extern void BTLV_EFFECT_StartIntroEffect(void);
 /* Services of the battle main module. */
 extern u32 BTL_MAIN_GetGameData(struct BtlMain *main);
 extern u32 BTL_MAIN_GetRule(struct BtlMain *main);
-extern u32 func_021B86B8(struct BtlMain *main);
-extern u32 func_021B8D8C(struct BtlMain *main, struct BtlPokeCon *pokeCon, u32 pokeId);
+extern u32 BTL_MAIN_GetCompetitor(struct BtlMain *main);
+extern u32 BTL_MAIN_GetTrainerSlotOfPoke(struct BtlMain *main, struct BtlPokeCon *pokeCon, u32 pokeId);
 extern u8 BTL_MAIN_GetViewPosOfSlot(struct BtlMain *main, u32 slot);
 extern u8 BTL_MAIN_GetSlotFromViewPos(struct BtlMain *main, u8 viewPos);
 extern u8 BTL_MAIN_DecodeMessageCode(struct BtlMain *main, int code, u8 *out);
 extern int BTL_MAIN_GetFrontEnemyPos(u32 position, u8 *outPosition);
 extern u8 BTL_MAIN_GetFacingPos(int rule, u32 basePos);
-extern u32 func_021B8FF4(struct BtlMain *main);
+extern u32 BTL_MAIN_GetOwnClientId(struct BtlMain *main);
 extern u32 BTL_MAIN_GetOwnPartnerClient(struct BtlMain *main);
 extern u8 BTL_MAIN_GetOwnOpponentClient(struct BtlMain *main, int nth);
-extern u8 *func_021B99E0(void);
+extern u8 *BTL_MAIN_GetPosTable(void);
 
 /* Services of the poke container and the parties. */
-extern struct BtlPokeParam *func_021B98AC(struct BtlPokeCon *pokeCon, u32 slot);
-extern struct BtlParty *func_021B9AF8(struct BtlPokeCon *pokeCon, int clientId);
-extern struct BtlPokeParam *func_021B9C00(struct BtlParty *party, u8 index);
+extern struct BtlPokeParam *BTL_SIDE_GetPokeAtPos(struct BtlPokeCon *pokeCon, u32 slot);
+extern struct BtlParty *BTL_SIDE_GetSlotOfClientThunk(struct BtlPokeCon *pokeCon, int clientId);
+extern struct BtlPokeParam *BTL_SLOT_GetPokeParam(struct BtlParty *party, u8 index);
 extern u8 BTL_SLOT_GetCount(struct BtlParty *party);
 extern u8 BTL_SLOT_GetRotateSrcIndex(u8 rotateKind);
 extern int BTL_CLIENT_GetClientId(void);
@@ -168,9 +168,9 @@ extern u16 BTL_POKEPARAM_GetSpecies(struct BtlPokeParam *bpp);
 extern void *BTL_POKEPARAM_GetDisplayMon(struct BtlPokeParam *bpp);
 extern u8 BTL_POKEPARAM_GetMoveCount(struct BtlPokeParam *bpp);
 extern u16 BTL_POKEPARAM_GetMoveId(struct BtlPokeParam *bpp, int slot);
-extern u16 func_021D5528(struct BtlPokeParam *bpp, u8 slot, u8 *outPp, u8 *outPpMax);
+extern u16 BTL_POKEPARAM_GetMovePP(struct BtlPokeParam *bpp, u8 slot, u8 *outPp, u8 *outPpMax);
 extern int BTL_POKEPARAM_GetValue(struct BtlPokeParam *bpp, int valueId);
-extern int func_021D62A8(struct BtlPokeParam *bpp);
+extern int BTL_POKEPARAM_GetMajorStatusIndex(struct BtlPokeParam *bpp);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, int paramId, int arg);
 extern u32 POKE_TOOL_GetGender(void *mon);
 
@@ -283,7 +283,7 @@ BtlvAuxView *BTLV_SCD_Create(struct BtlvCore *core, struct BtlMain *mainModule, 
     view->heapId = heapId;
     view->fontMain = fontMain;
     view->client = client;
-    view->ownParty = func_021B9AF8(pokeCon, BTL_CLIENT_GetClientId());
+    view->ownParty = BTL_SIDE_GetSlotOfClientThunk(pokeCon, BTL_CLIENT_GetClientId());
     view->msgBuffer = STRBUF_Create(0x80, heapId);
     view->cursorIndex = 0;
     view->viewParam = viewParam;
@@ -306,9 +306,9 @@ void BTLV_SCD_CreateInput(BtlvAuxView *view)
 
     gameData = BTL_MAIN_GetGameData(view->mainModule);
     rule = BTL_MAIN_GetRule(view->mainModule);
-    competitor = func_021B86B8(view->mainModule);
+    competitor = BTL_MAIN_GetCompetitor(view->mainModule);
     bgMode = BTLV_EFFECT_GetPalanm();
-    view->input = func_0220207C(gameData, rule, competitor, bgMode, view->fontMain, &view->inputFlags, view->viewParam, view->heapId);
+    view->input = BTLV_INPUT_CreateWithMode(gameData, rule, competitor, bgMode, view->fontMain, &view->inputFlags, view->viewParam, view->heapId);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
     BTLV_SCD_Nop(view);
 }
@@ -560,7 +560,7 @@ int BTLV_SCD_OpenActionMenuStep(int *state, BtlvAuxView *view)
     info.viewParam = view->viewParam;
     info.clientSlot = view->clientSlot;
     first = BTL_POKEPARAM_GetPokeId(view->pokeParam);
-    first = func_021B8D8C(view->mainModule, view->pokeCon, first);
+    first = BTL_MAIN_GetTrainerSlotOfPoke(view->mainModule, view->pokeCon, first);
     info.userViewPos = BTL_MAIN_GetViewPosOfSlot(view->mainModule, first);
     BTLV_EFFECT_GaugeSelectSlot(info.userViewPos);
     rule = BTL_MAIN_GetRule(view->mainModule);
@@ -568,18 +568,18 @@ int BTLV_SCD_OpenActionMenuStep(int *state, BtlvAuxView *view)
         parties[0] = 0;
         parties[1] = 0;
         if (pass == 0) {
-            first = func_021B8FF4(view->mainModule);
+            first = BTL_MAIN_GetOwnClientId(view->mainModule);
             second = BTL_MAIN_GetOwnPartnerClient(view->mainModule);
             if (rule == 1 && second != 4) {
                 if (first < second) {
-                    parties[0] = func_021B9AF8(view->pokeCon, first);
+                    parties[0] = BTL_SIDE_GetSlotOfClientThunk(view->pokeCon, first);
                     counts[0] = BTL_SLOT_GetCount(parties[0]);
-                    parties[1] = func_021B9AF8(view->pokeCon, second);
+                    parties[1] = BTL_SIDE_GetSlotOfClientThunk(view->pokeCon, second);
                     counts[1] = BTL_SLOT_GetCount(parties[1]);
                 } else {
-                    parties[0] = func_021B9AF8(view->pokeCon, second);
+                    parties[0] = BTL_SIDE_GetSlotOfClientThunk(view->pokeCon, second);
                     counts[0] = BTL_SLOT_GetCount(parties[0]);
-                    parties[1] = func_021B9AF8(view->pokeCon, first);
+                    parties[1] = BTL_SIDE_GetSlotOfClientThunk(view->pokeCon, first);
                     counts[1] = BTL_SLOT_GetCount(parties[1]);
                 }
             } else {
@@ -589,7 +589,7 @@ int BTLV_SCD_OpenActionMenuStep(int *state, BtlvAuxView *view)
             switch (rule) {
             case 0:
                 slot = BTL_MAIN_GetSlotFromViewPos(view->mainModule, 0);
-                mon = func_021B98AC(view->pokeCon, slot);
+                mon = BTL_SIDE_GetPokeAtPos(view->pokeCon, slot);
                 if (BTL_POKEPARAM_IsFainted(mon) == 0) {
                     info.species[0] = BTL_POKEPARAM_GetSpecies(mon);
                     info.monLabel[0] = POKE_TOOL_GetPartyValue(BTL_POKEPARAM_GetDisplayMon(mon), 111, 0);
@@ -598,7 +598,7 @@ int BTLV_SCD_OpenActionMenuStep(int *state, BtlvAuxView *view)
                 break;
             case 2:
                 slot = BTL_MAIN_GetSlotFromViewPos(view->mainModule, 6);
-                mon = func_021B98AC(view->pokeCon, slot);
+                mon = BTL_SIDE_GetPokeAtPos(view->pokeCon, slot);
                 if (BTL_POKEPARAM_IsFainted(mon) == 0) {
                     info.species[2] = BTL_POKEPARAM_GetSpecies(mon);
                     info.monLabel[2] = POKE_TOOL_GetPartyValue(BTL_POKEPARAM_GetDisplayMon(mon), 111, 0);
@@ -606,14 +606,14 @@ int BTLV_SCD_OpenActionMenuStep(int *state, BtlvAuxView *view)
                 }
             case 1: case 3:
                 slot = BTL_MAIN_GetSlotFromViewPos(view->mainModule, 2);
-                mon = func_021B98AC(view->pokeCon, slot);
+                mon = BTL_SIDE_GetPokeAtPos(view->pokeCon, slot);
                 if (BTL_POKEPARAM_IsFainted(mon) == 0) {
                     info.species[0] = BTL_POKEPARAM_GetSpecies(mon);
                     info.monLabel[0] = POKE_TOOL_GetPartyValue(BTL_POKEPARAM_GetDisplayMon(mon), 111, 0);
                     info.monValue[0] = BTL_POKEPARAM_GetValue(mon, 18);
                 }
                 slot = BTL_MAIN_GetSlotFromViewPos(view->mainModule, 4);
-                mon = func_021B98AC(view->pokeCon, slot);
+                mon = BTL_SIDE_GetPokeAtPos(view->pokeCon, slot);
                 if (BTL_POKEPARAM_IsFainted(mon) == 0) {
                     info.species[1] = BTL_POKEPARAM_GetSpecies(mon);
                     info.monLabel[1] = POKE_TOOL_GetPartyValue(BTL_POKEPARAM_GetDisplayMon(mon), 111, 0);
@@ -623,14 +623,14 @@ int BTLV_SCD_OpenActionMenuStep(int *state, BtlvAuxView *view)
             default: break;
             }
         } else {
-            if (func_021B86B8(view->mainModule) == 0 || func_021B86B8(view->mainModule) == 4) break;
+            if (BTL_MAIN_GetCompetitor(view->mainModule) == 0 || BTL_MAIN_GetCompetitor(view->mainModule) == 4) break;
             first = BTL_MAIN_GetOwnOpponentClient(view->mainModule, 0);
             second = BTL_MAIN_GetOwnOpponentClient(view->mainModule, 1);
             info.hasOpponentParty = 1;
-            parties[0] = func_021B9AF8(view->pokeCon, first);
+            parties[0] = BTL_SIDE_GetSlotOfClientThunk(view->pokeCon, first);
             counts[0] = BTL_SLOT_GetCount(parties[0]);
             if (rule == 1 && first != second) {
-                parties[1] = func_021B9AF8(view->pokeCon, second);
+                parties[1] = BTL_SIDE_GetSlotOfClientThunk(view->pokeCon, second);
                 counts[1] = BTL_SLOT_GetCount(parties[1]);
             }
         }
@@ -643,9 +643,9 @@ int BTLV_SCD_OpenActionMenuStep(int *state, BtlvAuxView *view)
         for (index = 0; index < count; index++) {
             if (index < counts[0]) { side = 0; slot = index; }
             else { side = 1; slot = index - counts[0]; }
-            mon = func_021B9C00(parties[side], slot);
+            mon = BTL_SLOT_GetPokeParam(parties[side], slot);
             if (BTL_POKEPARAM_IsFainted(mon) == 0) {
-                if (func_021D62A8(mon) != 0) info.balls[pass][side * 3 + slot].status = 3;
+                if (BTL_POKEPARAM_GetMajorStatusIndex(mon) != 0) info.balls[pass][side * 3 + slot].status = 3;
                 else if (BTL_POKEPARAM_IsAbleToBattle(mon) == 0) info.balls[pass][side * 3 + slot].status = 0;
                 else info.balls[pass][side * 3 + slot].status = 1;
             } else info.balls[pass][side * 3 + slot].status = 2;
@@ -710,7 +710,7 @@ int BTLV_SCD_OpenMoveMenuStep(int *state, BtlvAuxView *view)
     moveCount = BTL_POKEPARAM_GetMoveCount(view->pokeParam);
     info.transformed = BTL_POKEPARAM_IsTransformed(view->pokeParam);
     for (i = 0; i < moveCount; i++) {
-        info.moveId[i] = func_021D5528(view->pokeParam, i, &pp[1], &pp[0]);
+        info.moveId[i] = BTL_POKEPARAM_GetMovePP(view->pokeParam, i, &pp[1], &pp[0]);
         info.pp[i] = pp[1];
         info.ppMax[i] = pp[0];
     }
@@ -720,7 +720,7 @@ int BTLV_SCD_OpenMoveMenuStep(int *state, BtlvAuxView *view)
         info.ppMax[i] = 0;
     }
     info.userViewPos = BTL_MAIN_GetViewPosOfSlot(view->mainModule,
-                        func_021B8D8C(view->mainModule, view->pokeCon,
+                        BTL_MAIN_GetTrainerSlotOfPoke(view->mainModule, view->pokeCon,
                                       BTL_POKEPARAM_GetPokeId(view->pokeParam)));
     BTLV_INPUT_ChangeScreen(view->input, BTLV_INPUT_SCREEN_MOVE, &info);
     return 1;
@@ -734,7 +734,7 @@ int BTLV_SCD_WaitMoveTouchStep(int *state, BtlvAuxView *view)
     const char *regionsB;
     int slotFlag;
 
-    choice = BTL_MAIN_GetViewPosOfSlot(view->mainModule, func_021B8D8C(view->mainModule, view->pokeCon, BTL_POKEPARAM_GetPokeId(view->pokeParam)));
+    choice = BTL_MAIN_GetViewPosOfSlot(view->mainModule, BTL_MAIN_GetTrainerSlotOfPoke(view->mainModule, view->pokeCon, BTL_POKEPARAM_GetPokeId(view->pokeParam)));
     if (BTL_MAIN_GetRule(view->mainModule) == 2 && choice != 4) regionsA = gBtlvScdMoveRegionsDoubleA;
     else regionsA = gBtlvScdMoveRegionsSingleA;
     if (BTL_MAIN_GetRule(view->mainModule) == 2 && choice != 4) regionsB = gBtlvScdMoveRegionsDoubleB;
@@ -883,12 +883,12 @@ void BTLV_SCD_ShowTargetMenu(u8 *slots, u8 count, int altMode, BtlvAuxView *view
 
     moveId = view->action->fight.moveId;
     MIi_CpuClear16(0, &info, sizeof(info));
-    info.userViewPos = BTL_MAIN_GetViewPosOfSlot(view->mainModule, func_021B8D8C(view->mainModule, view->pokeCon, BTL_POKEPARAM_GetPokeId(view->pokeParam)));
+    info.userViewPos = BTL_MAIN_GetViewPosOfSlot(view->mainModule, BTL_MAIN_GetTrainerSlotOfPoke(view->mainModule, view->pokeCon, BTL_POKEPARAM_GetPokeId(view->pokeParam)));
     info.targetKind = WAZA_TOOL_GetParam(moveId, 0x1b);
     if (moveId == 0xae) info.targetKind = BTL_CALC_GetCurseTargetKind(view->pokeParam);
     if (info.targetKind == 0 && WAZA_TOOL_GetFlag(moveId, 0xb)) info.targetKind = 14;
     while (count-- != 0) {
-        bpp = func_021B98AC(view->pokeCon, *slots);
+        bpp = BTL_SIDE_GetPokeAtPos(view->pokeCon, *slots);
         monWord = (u32)BTL_POKEPARAM_GetDisplayMon(bpp);
         rowIndex = BTL_MAIN_GetViewPosOfSlot(view->mainModule, *slots) - 2;
         row = &info.rows[rowIndex];
@@ -900,7 +900,7 @@ void BTLV_SCD_ShowTargetMenu(u8 *slots, u8 count, int altMode, BtlvAuxView *view
             row->hpMax = BTL_POKEPARAM_GetValue(bpp, 0xe);
             if (species == 32 || species == 29) row->flags = (row->flags & ~3) | 2;
             else row->flags = (row->flags & ~3) | (POKE_TOOL_GetGender(BTL_POKEPARAM_GetDisplayMon(bpp)) & 3);
-            if (func_021D62A8(bpp)) row->state = 3;
+            if (BTL_POKEPARAM_GetMajorStatusIndex(bpp)) row->state = 3;
             else row->state = 1;
         } else row->state = 2;
         slots++;
@@ -935,8 +935,8 @@ int BTLV_SCD_OpenTargetMenuStep(int *state, BtlvAuxView *view)
     if (BTL_MAIN_GetRule(view->mainModule) == 2) {
         targetPos = 6;
         if (view->targets.count != 0) {
-            func_021B8D8C(view->mainModule, view->pokeCon, BTL_POKEPARAM_GetPokeId(view->pokeParam));
-            targetPos = func_021B99E0()[4];
+            BTL_MAIN_GetTrainerSlotOfPoke(view->mainModule, view->pokeCon, BTL_POKEPARAM_GetPokeId(view->pokeParam));
+            targetPos = BTL_MAIN_GetPosTable()[4];
         }
         BTL_ACTION_SetFight(view->action, (u16)view->action->fight.moveId, targetPos);
         view->targetChosen = 1;
@@ -957,7 +957,7 @@ int BTLV_SCD_WaitTargetTouchStep(int *state, BtlvAuxView *view)
     const char *regionsA, *regionsB;
 
     if (*state == 0) {
-        userViewPos = BTL_MAIN_GetViewPosOfSlot(view->mainModule, func_021B8D8C(view->mainModule, view->pokeCon, BTL_POKEPARAM_GetPokeId(view->pokeParam)));
+        userViewPos = BTL_MAIN_GetViewPosOfSlot(view->mainModule, BTL_MAIN_GetTrainerSlotOfPoke(view->mainModule, view->pokeCon, BTL_POKEPARAM_GetPokeId(view->pokeParam)));
         kind = view->moveTargetKind;
         row = (userViewPos - 2) / 2;
         if (BTL_MAIN_GetRule(view->mainModule) != 2) {
@@ -996,7 +996,7 @@ void BTLV_SCD_BuildTargetSet(BtlvTargetSet *targets, BtlvAuxView *view)
 
     moveId = view->action->fight.moveId;
     targetKind = WAZA_TOOL_GetParam(moveId, 0x1b);
-    userViewPos = func_021B8D8C(view->mainModule, view->pokeCon, BTL_POKEPARAM_GetPokeId(view->pokeParam));
+    userViewPos = BTL_MAIN_GetTrainerSlotOfPoke(view->mainModule, view->pokeCon, BTL_POKEPARAM_GetPokeId(view->pokeParam));
     BTLV_SCD_ClearTargetSet(targets);
     if (moveId == 0xae) targetKind = BTL_CALC_GetCurseTargetKind(view->pokeParam);
     switch (targetKind) {

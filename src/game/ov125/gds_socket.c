@@ -1,7 +1,7 @@
 /*
  * file:     gds_socket.c
  * unit:     yes
- * function: GDS_SOCKET_Unlock, func_021D7CD4, GDS_SOCKET_Nop, GDS_SOCKET_InitTick, GDS_SOCKET_NopVoid, GDS_SOCKET_ThreadEntry, GDS_SOCKET_StartThread, GDS_SOCKET_IsDottedQuad, GDS_SOCKET_ResolveHost, GDS_SOCKET_OpenAndResolve, GDS_SOCKET_Close, GDS_SOCKET_Connect, GDS_SOCKET_Send, GDS_SOCKET_Receive, GDS_SOCKET_Sleep, GDS_SOCKET_WaitToken, GDS_SOCKET_NopBegin, GDS_SOCKET_InitSsl, GDS_SOCKET_Begin, GDS_SOCKET_Shutdown, GDS_SOCKET_GetState, GDS_SOCKET_GetError, GDS_SOCKET_GetReply, GDS_SOCKET_GetReplySize, GDS_SOCKET_GetMaxReplySize, GDS_SOCKET_SendUploadEntry, GDS_SOCKET_SendDownloadEntries, GDS_SOCKET_SendUploadVideo, GDS_SOCKET_SendSearchByCondition, GDS_SOCKET_SendSearchKind1, GDS_SOCKET_SendSearchKind3, GDS_SOCKET_SendSearchKind2, GDS_SOCKET_SendGetVideo, GDS_SOCKET_SendMarkVideo, GDS_SOCKET_GetRequestSize, GDS_SOCKET_GetMaxReplySizeOf, GDS_SOCKET_SslAuthCallback, GDS_SOCKET_InitSslTemplate, GDS_SOCKET_SetSslTemplate, GDS_SOCKET_SetSslAuthCallback, GDS_SOCKET_SetRootCa, GDS_SOCKET_CopySslTemplate, GDS_SOCKET_FreeSslServerName
+ * function: GDS_SOCKET_Unlock, GDS_SOCKET_InitLock, GDS_SOCKET_Nop, GDS_SOCKET_InitTick, GDS_SOCKET_NopVoid, GDS_SOCKET_ThreadEntry, GDS_SOCKET_StartThread, GDS_SOCKET_IsDottedQuad, GDS_SOCKET_ResolveHost, GDS_SOCKET_OpenAndResolve, GDS_SOCKET_Close, GDS_SOCKET_Connect, GDS_SOCKET_Send, GDS_SOCKET_Receive, GDS_SOCKET_Sleep, GDS_SOCKET_WaitToken, GDS_SOCKET_NopBegin, GDS_SOCKET_InitSsl, GDS_SOCKET_Begin, GDS_SOCKET_Shutdown, GDS_SOCKET_GetState, GDS_SOCKET_GetError, GDS_SOCKET_GetReply, GDS_SOCKET_GetReplySize, GDS_SOCKET_GetMaxReplySize, GDS_SOCKET_SendUploadEntry, GDS_SOCKET_SendDownloadEntries, GDS_SOCKET_SendUploadVideo, GDS_SOCKET_SendSearchByCondition, GDS_SOCKET_SendSearchKind1, GDS_SOCKET_SendSearchKind3, GDS_SOCKET_SendSearchKind2, GDS_SOCKET_SendGetVideo, GDS_SOCKET_SendMarkVideo, GDS_SOCKET_GetRequestSize, GDS_SOCKET_GetMaxReplySizeOf, GDS_SOCKET_SslAuthCallback, GDS_SOCKET_InitSslTemplate, GDS_SOCKET_SetSslTemplate, GDS_SOCKET_SetSslAuthCallback, GDS_SOCKET_SetRootCa, GDS_SOCKET_CopySslTemplate, GDS_SOCKET_FreeSslServerName
  * address:  0x021D7CC0
  * region:   ov125
  * compiler: dsi/1.1p1
@@ -133,7 +133,7 @@ extern int GDS_SOCKET_GetErrorUnlocked(void);
 extern void *GDS_SOCKET_GetReplyUnlocked(void);
 extern int GDS_SOCKET_GetReplySizeUnlocked(void);
 extern int GDS_SOCKET_SendRequest(int requestId, void *body, void *replyBuffer, int bodySize);
-extern void *func_02092344(void *dest, const void *src, unsigned int n);
+extern void *memcpy(void *dest, const void *src, unsigned int n);
 extern void OS_GetLowEntropyData(u32 *buffer);
 extern void CPS_SslAddRandomSeed(void *seed, u32 size);
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
@@ -143,7 +143,7 @@ extern char *GDS_SOCKET_Alloc(u32 size);
 extern char *STD_CopyString(char *dst, const char *src);
 void GDS_SOCKET_Free(int ptr);
 void GDS_SOCKET_Unlock(void);
-int func_021D7CD4(void);
+int GDS_SOCKET_InitLock(void);
 int GDS_SOCKET_Nop(void *p);
 int GDS_SOCKET_InitTick(void);
 void GDS_SOCKET_NopVoid(void);
@@ -211,7 +211,7 @@ void GDS_SOCKET_Unlock(void)
 }
 
 
-int func_021D7CD4(void)
+int GDS_SOCKET_InitLock(void)
 {
     OS_InitMutex(gGdsSocketMutex);
     return 1;
@@ -750,7 +750,7 @@ int GDS_SOCKET_SendUploadVideo(const struct BattleRecSave *video, const void *ti
  if (ticketLength > GDS_TICKET_MAX) return 0;
  p.video = *video;
  p.ticketLength = ticketLength;
- func_02092344(p.ticket, ticket, ticketLength);
+ memcpy(p.ticket, ticket, ticketLength);
  return GDS_SOCKET_SendRequest(GDS_REQUEST_UPLOAD_VIDEO, &p, replyBuffer, -1);
 }
 

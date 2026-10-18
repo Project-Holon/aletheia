@@ -85,7 +85,7 @@
  *   MSGDATA_Delete  0x02045C04  arm
  *   FIELD_MSGBG_ClearMsgWin  0x02190788  thumb  ov021
  *   G3D_CAMERA_Reset  0x02048AD0  arm
- *   func_02048B30  0x02048B30  arm
+ *   G3D_CAMERA_GetCamTarget  0x02048B30  arm
  *   G3D_CAMERA_GetEye  0x02048AE8  arm
  *   VEC_Subtract  0x0207CA00  arm
  *   VEC_Normalize  0x0207CCA4  arm
@@ -94,7 +94,7 @@
  *   _u32_div_f     0x0209C2B0  arm
  *   sBalloonUpVec     0x021D9390  data
  *   sBalloonOffsetTable     0x021D939C  data
- *   func_02048B0C  0x02048B0C  arm
+ *   G3D_CAMERA_GetCamUp  0x02048B0C  arm
  *   MTX_LookAt  0x0207BCA0  arm
  *   MI_Copy36B  0x02082B60  arm
  *   MTX_Inverse33  0x0207B0A4  arm
@@ -309,13 +309,13 @@ extern void STRBUF_Delete(Strbuf *str);
 extern u32 MSGDATA_Delete(MsgData *msgData);
 extern void FIELD_MSGBG_ClearMsgWin(FieldMsgWin *msgWin);
 extern void G3D_CAMERA_Reset(G3dCamera *camera);
-extern void func_02048B30(G3dCamera *camera, VecFx32 *out);
+extern void G3D_CAMERA_GetCamTarget(G3dCamera *camera, VecFx32 *out);
 extern void G3D_CAMERA_GetEye(G3dCamera *camera, VecFx32 *out);
 extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
 extern void VEC_Normalize(const VecFx32 *vec, VecFx32 *out);
 extern void VEC_CrossProduct(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
 extern void NNS_G3dWorldPosToScrPos(VecFx32 *pos, u32 *x, u32 *z);
-extern void func_02048B0C(G3dCamera *camera, VecFx32 *out);
+extern void G3D_CAMERA_GetCamUp(G3dCamera *camera, VecFx32 *out);
 extern void MTX_LookAt(VecFx32 *eye, VecFx32 *up, VecFx32 *target, MtxFx43 *out);
 extern void MI_Copy36B(MtxFx43 *src, MtxFx33 *dest);
 extern void MTX_Inverse33(MtxFx33 *src, MtxFx33 *dest);
@@ -929,7 +929,7 @@ void SCRCMD_MSGWIN_CalcBalloonOffset(const VecFx32 *mmdlPos, VecFx32 *out, G3dCa
 
     pos = *mmdlPos;
     G3D_CAMERA_Reset(camera);
-    func_02048B30(camera, &target);
+    G3D_CAMERA_GetCamTarget(camera, &target);
     G3D_CAMERA_GetEye(camera, &eye);
     VEC_Subtract(&target, &eye, &forward);
     forwardFlat = forward;
@@ -969,8 +969,8 @@ void SCRCMD_MSGWIN_RotateOffsetByCamera(VecFx32 *offset, G3dCamera *camera)
     MtxFx33 invRotation;
 
     G3D_CAMERA_GetEye(camera, &eye);
-    func_02048B0C(camera, &up);
-    func_02048B30(camera, &target);
+    G3D_CAMERA_GetCamUp(camera, &up);
+    G3D_CAMERA_GetCamTarget(camera, &target);
     MTX_LookAt(&eye, &up, &target, &viewMtx);
     MI_Copy36B(&viewMtx, &invRotation);
     MTX_Inverse33(&invRotation, &invRotation);

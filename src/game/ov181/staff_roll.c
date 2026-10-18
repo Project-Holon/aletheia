@@ -102,22 +102,22 @@
  *   d_021BACF0 0x021BACF0 data a4
  *   d_020A1E38 0x020A1E38 data a2
  *   G3D_CAMERA_Delete 0x02048AC4 arm
- *   func_02048C4C 0x02048C4C arm
+ *   G3D_LIGHT_DeleteSlots 0x02048C4C arm
  *   G3D_UTIL_RemoveUnit 0x020480E4 arm
  *   G3D_UTIL_Delete 0x02047E54 arm
  *   G3D_SYSTEM_Exit 0x02046788 arm
  *   BMP_GetVisiblePlane 0x02043658 arm
  *   G3D_SYSTEM_LoopObjectAnimeFrame 0x02047910 arm
- *   func_02047964 0x02047964 arm
+ *   G3D_SYSTEM_DrawStart 0x02047964 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   G3D_SYSTEM_DrawObject 0x02047A60 arm
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  *   d_021BAC2C 0x021BAC2C data a4
  *   _u32_div_f 0x0209C2B0 arm
- *   func_02048AE8 0x02048AE8 arm
- *   func_02048B30 0x02048B30 arm
- *   func_02048AFC 0x02048AFC arm
- *   func_02048B44 0x02048B44 arm
+ *   G3D_CAMERA_GetEye 0x02048AE8 arm
+ *   G3D_CAMERA_GetCamTarget 0x02048B30 arm
+ *   G3D_CAMERA_SetEye 0x02048AFC arm
+ *   G3D_CAMERA_SetCamTarget 0x02048B44 arm
  *   WIPE_SYS_Start 0x0202208C thumb
  *   KEY_GetCont 0x0203630C arm
  *   BMP_GetPixels 0x020437D4 arm
@@ -327,20 +327,20 @@ extern void G3D_CAMERA_Reset(struct Light *);
 extern void BG_SYS_SetLowBit(u32);
 extern void G2x_SetBlendBrightness_(u32,int,int);
 extern u32 G3D_CAMERA_Delete(void *ptr);
-extern void func_02048C4C(void *);
+extern void G3D_LIGHT_DeleteSlots(void *);
 extern void G3D_UTIL_RemoveUnit(struct Ctx *,unsigned);
 extern void G3D_UTIL_Delete(struct Rec *);
 extern void G3D_SYSTEM_Exit(void);
 extern unsigned BMP_GetVisiblePlane(void);
 extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *a, int idx, int amount);
-extern void func_02047964(void);
+extern void G3D_SYSTEM_DrawStart(void);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
 extern void G3D_SYSTEM_DrawEnd(void);
-extern void func_02048AE8(struct Light *, Vec *);
-extern void func_02048B30(struct Light *, Vec *);
-extern void func_02048AFC(struct Light *, const Vec *);
-extern void func_02048B44(struct Light *, const Vec *);
+extern void G3D_CAMERA_GetEye(struct Light *, Vec *);
+extern void G3D_CAMERA_GetCamTarget(struct Light *, Vec *);
+extern void G3D_CAMERA_SetEye(struct Light *, const Vec *);
+extern void G3D_CAMERA_SetCamTarget(struct Light *, const Vec *);
 extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 extern u32 KEY_GetCont(void);
 extern void *BMP_GetPixels(const struct Bmp *);
@@ -873,10 +873,10 @@ void STAFF_ROLL_Init3d(char *p) {
 /*
  * Verified scratch blocker.c with one --arm (no --region), fixed flags: EXACT, 12 bytes.
  * extern void GFL_HEAP_Free(void *);
- * void func_02048C4C(void *p) { GFL_HEAP_Free(p); }
+ * void G3D_LIGHT_DeleteSlots(void *p) { GFL_HEAP_Free(p); }
  * Blocker symbols: GFL_HEAP_Free 0x020307B0 arm.
  */
-void STAFF_ROLL_Exit3d(char *p){G3D_CAMERA_Delete(*(void **)(p+12));func_02048C4C(*(void **)(p+16));G3D_UTIL_RemoveUnit(*(struct Ctx **)(p+8),*(unsigned short *)(p+24));G3D_UTIL_Delete(*(struct Rec **)(p+8));G3D_SYSTEM_Exit();}
+void STAFF_ROLL_Exit3d(char *p){G3D_CAMERA_Delete(*(void **)(p+12));G3D_LIGHT_DeleteSlots(*(void **)(p+16));G3D_UTIL_RemoveUnit(*(struct Ctx **)(p+8),*(unsigned short *)(p+24));G3D_UTIL_Delete(*(struct Rec **)(p+8));G3D_SYSTEM_Exit();}
 
 
 
@@ -890,7 +890,7 @@ void STAFF_ROLL_Draw3d(char *p)
         STAFF_ROLL_UpdateLights(p);
         for (i = 0; i < ((StaffRoll *)p)->animeCount; i++)
             G3D_SYSTEM_LoopObjectAnimeFrame(((StaffRoll *)p)->g3dObject, (unsigned short)i, 0x1000);
-        func_02047964();
+        G3D_SYSTEM_DrawStart();
         G3D_SYSTEM_ApplyLookAt();
         G3D_SYSTEM_DrawObject(((StaffRoll *)p)->g3dObject, (struct Arg *)d_021BAC2C);
         G3D_SYSTEM_DrawEnd();
@@ -973,10 +973,10 @@ void STAFF_ROLL_UpdateLights(char *p)
     if (*(int *)(q + 0x7c) == 0) return;
     if (*(u16 *)(q + 0x78) == 0) {
         *(u16 *)(q + 0x7a) = *(u16 *)(q + 0x36);
-        func_02048AE8(*(struct Light **)(p + 0xc), &a);
+        G3D_CAMERA_GetEye(*(struct Light **)(p + 0xc), &a);
         STAFF_ROLL_CalcVelocity(&b, &a, (Vec *)(*(unsigned *)q + *(u16 *)(q + 0x34) * 24), *(u16 *)(q + 0x7a));
         *(Vec *)(q + 0x1c) = b;
-        func_02048B30(*(struct Light **)(p + 0xc), &a);
+        G3D_CAMERA_GetCamTarget(*(struct Light **)(p + 0xc), &a);
         STAFF_ROLL_CalcVelocity(&c, &a, (Vec *)(*(unsigned *)q + *(u16 *)(q + 0x34) * 24 + 12), *(u16 *)(q + 0x7a));
         *(Vec *)(q + 0x28) = c;
     }
@@ -995,8 +995,8 @@ void STAFF_ROLL_UpdateLights(char *p)
         if (*(unsigned char *)(p + 0x2d2) == 1) *(u16 *)(q + 0x78) += 4;
         else ++*(u16 *)(q + 0x78);
     }
-    func_02048AFC(*(struct Light **)(p + 0xc), (Vec *)(q + 4));
-    func_02048B44(*(struct Light **)(p + 0xc), (Vec *)(q + 0x10));
+    G3D_CAMERA_SetEye(*(struct Light **)(p + 0xc), (Vec *)(q + 4));
+    G3D_CAMERA_SetCamTarget(*(struct Light **)(p + 0xc), (Vec *)(q + 0x10));
     G3D_CAMERA_Reset(*(struct Light **)(p + 0xc));
 }
 

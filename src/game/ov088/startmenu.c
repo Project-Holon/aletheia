@@ -61,7 +61,7 @@
  *   BMP_WIN_Exit  0x020450C8  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
- *   func_02049624  0x02049624  arm
+ *   ARC_UTIL_UploadBgCharFromArchive  0x02049624  arm
  *   ARC_UTIL_UploadBgPaletteFromArchive  0x0204989C  arm
  *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm
  *   BG_SYS_PushTile  0x020409B4  arm
@@ -111,7 +111,7 @@
  *   ICA_ANIME_IncFrameNoLoop  0x020115C0  thumb
  *   ICA_ANIME_SetCameraStatus  0x02011B8C  thumb
  *   G3D_CAMERA_Reset  0x02048AD0  arm
- *   func_02047964  0x02047964  arm
+ *   G3D_SYSTEM_DrawStart  0x02047964  arm
  *   G3D_SYSTEM_ApplyLookAt  0x020479D8  arm
  *   G3D_SYSTEM_DrawObject  0x02047A60  arm
  *   G3D_SYSTEM_DrawEnd  0x02047970  arm
@@ -119,7 +119,7 @@
  *   d_021BD538     0x021BD538  data  ov088  a4
  *   ICA_ANIME_Delete  0x02011558  thumb
  *   G3D_CAMERA_Delete  0x02048AC4  arm
- *   func_02048C4C  0x02048C4C  arm
+ *   G3D_LIGHT_DeleteSlots  0x02048C4C  arm
  *   G3D_UTIL_RemoveUnit  0x020480E4  arm
  *   G3D_UTIL_Delete  0x02047E54  arm
  *   ICA_ANIME_SetFrame  0x020115EC  thumb
@@ -536,7 +536,7 @@ extern void G3D_SYSTEM_Exit(void);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_02049624(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern void ARC_UTIL_UploadBgCharFromArchive(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern void BG_SYS_PushTile(u32 layer);
@@ -576,14 +576,14 @@ extern void BG_SYS_SetLowBit(u32 mode);
 extern u32 ICA_ANIME_IncFrameNoLoop(struct IcaAnime *p, s32 v);
 extern void ICA_ANIME_SetCameraStatus(void *, void *);
 extern void G3D_CAMERA_Reset(struct Light *l);
-extern void func_02047964(void);
+extern void G3D_SYSTEM_DrawStart(void);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
 extern void G3D_SYSTEM_DrawEnd(void);
 extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *a, int idx, int amount);
 extern void ICA_ANIME_Delete(struct IcaAnime *p);
 extern u32 G3D_CAMERA_Delete(void *ptr);
-extern void func_02048C4C(int);
+extern void G3D_LIGHT_DeleteSlots(int);
 extern void G3D_UTIL_RemoveUnit(struct Ctx *c, u32 i);
 extern void G3D_UTIL_Delete(struct Rec *p);
 extern void ICA_ANIME_SetFrame(struct IcaAnime *p, s32 v);
@@ -1306,12 +1306,12 @@ void STARTMENU_LogoInit(TitleDemoLogo *logo, u32 heap)
     BG_SYS_InitBgLayer(5, &d_021BD490, 0);
     BG_SYS_InitBgLayer(7, &d_021BD430, 0);
     BG_SYS_InitBgLayer(6, &d_021BD450, 0);
-    func_02049624(0x1A, 9, 3, 0, 0, 1, heap);
+    ARC_UTIL_UploadBgCharFromArchive(0x1A, 9, 3, 0, 0, 1, heap);
     ARC_UTIL_UploadBgPaletteFromArchive(0x1A, 10, 3, 0, 0, 1, heap);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x1A, 8, 0, 0, 0, heap);
     BG_SYS_PushTile(3);
     BG_SYS_SetPlaneVisible(3, 1);
-    func_02049624(0x1A, 0, 7, 0, 0x8000, 1, heap);
+    ARC_UTIL_UploadBgCharFromArchive(0x1A, 0, 7, 0, 0x8000, 1, heap);
     ARC_UTIL_UploadBgPaletteFromArchive(0x1A, 1, 7, 0, 0, 1, heap);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x1A, 2, 4, 0, 0, heap);
     BG_SYS_PushTile(7);
@@ -1534,7 +1534,7 @@ void STARTMENU_Demo3dUpdate(TitleDemo3d *demo3d, int unused)
     ICA_ANIME_IncFrameNoLoop((void *)demo3d->anime, 0x1000);
     ICA_ANIME_SetCameraStatus((void *)demo3d->camera, (void *)demo3d->anime);
     G3D_CAMERA_Reset((void *)demo3d->camera);
-    func_02047964();
+    G3D_SYSTEM_DrawStart();
     G3D_SYSTEM_ApplyLookAt();
     for (modelIndex = 0; modelIndex < 3; modelIndex++) {
         modelHandle = (void *)G3D_UTIL_GetObject((u32)((void *)demo3d->renderer), (unsigned short)(base + modelIndex));
@@ -1566,7 +1566,7 @@ void STARTMENU_Demo3dDelete(TitleDemo3d *demo3d)
 {
     ICA_ANIME_Delete((struct IcaAnime *)demo3d->anime);
     G3D_CAMERA_Delete((void *)demo3d->camera);
-    func_02048C4C(demo3d->lightSet);
+    G3D_LIGHT_DeleteSlots(demo3d->lightSet);
     G3D_UTIL_RemoveUnit((struct Ctx *)demo3d->renderer, demo3d->modelId);
     G3D_UTIL_Delete((struct Rec *)demo3d->renderer);
 }
@@ -3857,7 +3857,7 @@ static inline void GXS_SetVisibleWnd(int window)
  * Case 1's fade call takes its zero from an enum local set at the top of
  * the arm: the enum is not folded, so the zero stays in r5 (the register
  * the stack-argument zeros use) through to `adds r2, r5, #0`. A literal 0,
- * an int local set to 0, and int-typed func_02049624 parameters all give
+ * an int local set to 0, and int-typed ARC_UTIL_UploadBgCharFromArchive parameters all give
  * `movs r2, #0` scheduled after r0/r1 (6 bytes out); the permuter (300,
  * --types) found nothing.
  * volatile: DISPCNT 0x04000000 and DB_DISPCNT 0x04001000 read-modify-written by the SDK inlines GX_SetVisibleWnd/GXS_SetVisibleWnd (0x021BCA3A, 0x021BCA46)
@@ -3891,10 +3891,10 @@ int STARTMENU_LogoScreenMain(int proc, int seq, int *variant, LogoScreenWork *wo
         break;
     case 1:
         zero = Z0;
-        func_02049624(0x1a, 0xc, 1, 0, 0, 1, 0x16);
+        ARC_UTIL_UploadBgCharFromArchive(0x1a, 0xc, 1, 0, 0, 1, 0x16);
         ARC_UTIL_UploadBgPaletteFromArchive(0x1a, 0xd, 1, 0, 0, 1, 0x16);
         ARC_UTIL_UploadPaletteFromArchiveWhole(0x1a, 0xb, 0, 0, 0, 0x16);
-        func_02049624(0x1a, 0xc, 5, 0, 0, 1, 0x16);
+        ARC_UTIL_UploadBgCharFromArchive(0x1a, 0xc, 5, 0, 0, 1, 0x16);
         ARC_UTIL_UploadBgPaletteFromArchive(0x1a, 0xe, 5, 0, 0, 1, 0x16);
         ARC_UTIL_UploadPaletteFromArchiveWhole(0x1a, 0xb, 4, 0, 0, 0x16);
         BG_SYS_SetPlaneVisible(1, 1);
@@ -3933,10 +3933,10 @@ int STARTMENU_LogoScreenMain(int proc, int seq, int *variant, LogoScreenWork *wo
         }
         break;
     case 7:
-        func_02049624(0xa4, 1, 1, 0, 0x8000, 0, 0x16);
+        ARC_UTIL_UploadBgCharFromArchive(0xa4, 1, 1, 0, 0x8000, 0, 0x16);
         ARC_UTIL_UploadBgPaletteFromArchive(0xa4, 2, 1, 0, 0, 0, 0x16);
         ARC_UTIL_UploadPaletteFromArchiveWhole(0xa4, 0, 0, 0, 0, 0x16);
-        func_02049624(0xa4, 3, 5, 0, 0x8000, 0, 0x16);
+        ARC_UTIL_UploadBgCharFromArchive(0xa4, 3, 5, 0, 0x8000, 0, 0x16);
         ARC_UTIL_UploadBgPaletteFromArchive(0xa4, 4, 5, 0, 0, 0, 0x16);
         ARC_UTIL_UploadPaletteFromArchiveWhole(0xa4, 0, 4, 0, 0, 0x16);
         BG_SYS_PushTile(1);

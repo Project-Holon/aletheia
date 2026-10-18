@@ -15,8 +15,8 @@
  *   FIELD_CAMERA_SetG3dScale  0x0218EC68  thumb ov021
  *   G3D_SYSTEM_SetSwapBuffersMode  0x02046BE0  arm
  *   G3D_CAMERA_GetMode  0x02048B78  arm
- *   G3D_CAMERA_SetNearClip  0x02048B80  arm
- *   G3D_CAMERA_SetFarClip  0x02048B94  arm
+ *   G3D_CAMERA_SetFovySin  0x02048B80  arm
+ *   G3D_CAMERA_SetFovyCos  0x02048B94  arm
  *   FX_SinCosTable_   0x020A1B38  data
  */
 #include "../include/Obj01347.h"
@@ -52,8 +52,8 @@ typedef unsigned int   u32;
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 struct Light;
 extern int G3D_CAMERA_GetMode(struct Light *l);
-extern void G3D_CAMERA_SetNearClip(struct Light *l, u32 v);
-extern void G3D_CAMERA_SetFarClip(struct Light *l, u32 v);
+extern void G3D_CAMERA_SetFovySin(struct Light *l, u32 v);
+extern void G3D_CAMERA_SetFovyCos(struct Light *l, u32 v);
 extern s16 FX_SinCosTable_[];
 
 void FIELD_CAMERA_LoadSetting(char *p, Vec *src)
@@ -76,8 +76,8 @@ void FIELD_CAMERA_LoadSetting(char *p, Vec *src)
         break;
     }
     if (G3D_CAMERA_GetMode((struct Light *)(((struct Obj01347 *)p)->fC)) == 0) {
-        G3D_CAMERA_SetNearClip((struct Light *)(((struct Obj01347 *)p)->fC), FX_SinCosTable_[(((struct Obj01347 *)p)->f80 >> 4) * 2]);
-        G3D_CAMERA_SetFarClip((struct Light *)(((struct Obj01347 *)p)->fC), FX_SinCosTable_[(((struct Obj01347 *)p)->f80 >> 4) * 2 + 1]);
+        G3D_CAMERA_SetFovySin((struct Light *)(((struct Obj01347 *)p)->fC), FX_SinCosTable_[(((struct Obj01347 *)p)->f80 >> 4) * 2]);
+        G3D_CAMERA_SetFovyCos((struct Light *)(((struct Obj01347 *)p)->fC), FX_SinCosTable_[(((struct Obj01347 *)p)->f80 >> 4) * 2 + 1]);
     }
     if (info.has != 0) {
         *(Vec * *)&((struct Obj01347 *)p)->f18 = src;

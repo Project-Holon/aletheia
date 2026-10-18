@@ -46,7 +46,7 @@
  *   MAP_ATTR_GetFlags  0x021AB0F8  thumb  ov021
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   FIELD_CAMERA_GetG3dCamera  0x0218EC2C  thumb  ov021
- *   G3D_CAMERA_GetUp  0x02048B30  arm
+ *   G3D_CAMERA_GetCamTarget  0x02048B30  arm
  *   BILLBOARD_SetElemPos  0x0204F638  arm
  *   BILLBOARD_GetElemId  0x0204F5E4  arm
  *   BILLBOARD_SetElemId  0x0204F604  arm
@@ -143,7 +143,7 @@ extern u32 FLDMMDL_GetNowAttr(void *mmdl);
 extern u16 MAP_ATTR_GetFlags(u32 attr);
 extern void *FIELDMAP_GetCamera(void *fieldmap);
 extern u32 FIELD_CAMERA_GetG3dCamera(u8 *fieldCamera);
-extern void G3D_CAMERA_GetUp(u32 cam, VecFx32 *out);
+extern void G3D_CAMERA_GetCamTarget(u32 cam, VecFx32 *out);
 extern void BILLBOARD_SetElemPos(u8 *board, int elem, VecFx32 *pos);
 extern void BILLBOARD_GetElemId(u8 *board, u32 elem, u16 *out);
 extern void BILLBOARD_SetElemId(void *board, u32 elem, u16 *src);
@@ -341,7 +341,7 @@ void FLDEFF_REFLECT_UpdateActor(u16 actId, ReflectTaskWork *work)
         }
     }
     pos.y += FLDEFF_REFLECT_GetZoneHeightOffset(zoneId, objCode->mdlSize);
-    G3D_CAMERA_GetUp(FIELD_CAMERA_GetG3dCamera(FIELDMAP_GetCamera((void *)FIELD_EFFECT_GetFieldMap((u8 *)work->head.effWork->fieldEffectCtrl))), &camUp);
+    G3D_CAMERA_GetCamTarget(FIELD_CAMERA_GetG3dCamera(FIELDMAP_GetCamera((void *)FIELD_EFFECT_GetFieldMap((u8 *)work->head.effWork->fieldEffectCtrl))), &camUp);
     pos.x += (pos.x / 4096 - camUp.x / 4096) * 298;
     BILLBOARD_SetElemPos((u8 *)board, actId, &pos);
     flag = 1;

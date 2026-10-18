@@ -14,7 +14,7 @@
  * b.x = tx + a.x. Grouped temps, temps from b and `b.x = b.x + tx` all
  * leave the spill on old b.y or the add operands reversed.
  * symbols:
- *   func_02051774 0x02051774 arm
+ *   PARTICLE_GetCallbackArg 0x02051774 arm
  *   BTLV_EFFVM_ResolveSideFromVm 0x021FD070 thumb ov094
  *   BTLV_EFFVM_ResolveSlotKey 0x021FCF2C thumb ov094
  *   BTLV_EFFVM_ResolveAnchorSlot 0x021FD088 thumb ov094
@@ -110,7 +110,7 @@ extern const s16 FX_SinCosTable_[];
 struct Obj;
 struct S12;
 struct Vec3;
-extern u32 func_02051774(void);
+extern u32 PARTICLE_GetCallbackArg(void);
 extern int BTLV_EFFVM_ResolveSideFromVm(int a, int b);
 extern int BTLV_EFFVM_ResolveSlotKey(int a, int idx);
 extern int BTLV_EFFVM_ResolveAnchorSlot(int a, int *out);
@@ -179,7 +179,7 @@ void BTLV_EFFVM_ParticleStartCallback(void *p)
     int n;
     int tx, ty, tz;
 
-    r = (Rec *)func_02051774();
+    r = (Rec *)PARTICLE_GetCallbackArg();
     flip = r->flip;
     switch (r->k1) {
     case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:

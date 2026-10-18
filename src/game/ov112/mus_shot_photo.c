@@ -38,7 +38,7 @@
  *   STA_ACT_LIGHT_UpdateSprite 0x021F718C thumb ov112
  *   STA_ACT_LIGHT_DrawModel 0x021F6F8C thumb ov112
  *   MUSICAL_MCSS_NoOp 0x021F4280 thumb ov112
- *   func_02047964 0x02047964 arm
+ *   G3D_SYSTEM_DrawStart 0x02047964 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   BILLBOARD_Draw 0x0204F7DC arm
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
@@ -185,7 +185,7 @@ extern void STA_ACT_LIGHT_DrawModel(u8 *p);
 
 extern void MUSICAL_MCSS_NoOp(u8 *);
 
-extern void func_02047964(void);
+extern void G3D_SYSTEM_DrawStart(void);
 
 extern void G3D_SYSTEM_ApplyLookAt(void);
 
@@ -360,7 +360,7 @@ void MUSICAL_SHOT_SYS_DrawScene(u8 *p)
     STA_ACT_LIGHT_UpdateBillboard((u8 *)((ShotScene *)p)->sprite);
     MUSICAL_MCSS_TickAnim(((ShotScene *)p)->renderObj);
     STA_ACT_LIGHT_UpdateElemActors((char *)((ShotScene *)p)->unit);
-    func_02047964();
+    G3D_SYSTEM_DrawStart();
     G3D_SYSTEM_ApplyLookAt();
     STA_ACT_LIGHT_NoOp((u32)((ShotScene *)p)->unit);
     STA_ACT_LIGHT_UpdateElem((u8 *)((ShotScene *)p)->sprite);

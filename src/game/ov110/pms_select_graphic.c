@@ -127,7 +127,7 @@
  *   PMS_DRAW_Delete 0x0202DC08 thumb
  *   PMS_DRAW_Main 0x0202DBC4 thumb
  *   BG_SYS_ClearLayerEx 0x02041570 arm
- *   sub_0202DCC4 0x0202DCC4 thumb
+ *   PMS_DRAW_IsActive 0x0202DCC4 thumb
  *   PMS_DRAW_Clear 0x0202DC9C thumb
  *   CLACT_GetActorPosAxis 0x0204B560 arm
  *   CLACT_SetActorPosAxis 0x0204B550 arm
@@ -324,7 +324,7 @@ extern u32 PMS_DRAW_IsPrintEnd(void *draw);
 extern void PMS_DRAW_SetPrintColor(void *draw, u16 color);
 extern void PMS_DRAW_SetNullColorPalette(void *draw, u8 palette);
 extern void PMS_DRAW_Print(u32 draw, u32 window, u32 entry, u32 row);
-extern u32 sub_0202DCC4(const void *draw, u32 row);
+extern u32 PMS_DRAW_IsActive(const void *draw, u32 row);
 
 /* Easy chat data. */
 extern void *PMS_WORD_GetSaveData(int a0);
@@ -857,7 +857,7 @@ void PMS_SELECT_GRAPHIC_DrawRows(struct PmsSelectGraphic *p, int flag)
         PMS_SELECT_GRAPHIC_ColorTitleBg(&p->bg, PMSI_PARAM_GetSentenceType(PMS_WORD_GetSaveEntry(p->saveData, (u8)(p->topRow - 1))));
     }
     for (i = 0; i < PMS_SELECT_GRAPHIC_VISIBLE_ROWS; i++) {
-        if (sub_0202DCC4(p->pmsDraw, (u8)i)) PMS_DRAW_Clear(p->pmsDraw, (u8)i, 0);
+        if (PMS_DRAW_IsActive(p->pmsDraw, (u8)i)) PMS_DRAW_Clear(p->pmsDraw, (u8)i, 0);
     }
     for (i = 0; p->topRow + i < p->filledCount && i < PMS_SELECT_GRAPHIC_VISIBLE_ROWS; i++) {
         u8 which;

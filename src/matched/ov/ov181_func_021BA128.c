@@ -17,13 +17,13 @@
  *     u8 pad1C[4]; Vec unk20, unk2C, unk38; };
  *   0x02048AE8 EXACT 20B: void G3D_CAMERA_GetEye(struct Light *l, Vec *out) { *out = l->unk20; }
  *   0x02048AFC EXACT 16B: void G3D_CAMERA_SetEye(struct Light *l, const Vec *in) { l->unk20 = *in; }
- *   0x02048B30 EXACT 20B: void G3D_CAMERA_GetUp(struct Light *l, Vec *out) { *out = l->unk38; }
- *   0x02048B44 EXACT 16B: void G3D_CAMERA_SetUp(struct Light *l, const Vec *in) { l->unk38 = *in; }
+ *   0x02048B30 EXACT 20B: void G3D_CAMERA_GetCamTarget(struct Light *l, Vec *out) { *out = l->unk38; }
+ *   0x02048B44 EXACT 16B: void G3D_CAMERA_SetCamTarget(struct Light *l, const Vec *in) { l->unk38 = *in; }
  * symbols:
  *   G3D_CAMERA_GetEye 0x02048AE8 arm
- *   G3D_CAMERA_GetUp 0x02048B30 arm
+ *   G3D_CAMERA_GetCamTarget 0x02048B30 arm
  *   G3D_CAMERA_SetEye 0x02048AFC arm
- *   G3D_CAMERA_SetUp 0x02048B44 arm
+ *   G3D_CAMERA_SetCamTarget 0x02048B44 arm
  *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   STAFF_ROLL_CalcVelocity 0x021BA028 thumb ov181
  *   STAFF_ROLL_StepPosition 0x021BA0AC thumb ov181
@@ -34,9 +34,9 @@ typedef unsigned short u16;
 typedef struct { int x, y, z; } Vec;
 struct Light;
 extern void G3D_CAMERA_GetEye(struct Light *, Vec *);
-extern void G3D_CAMERA_GetUp(struct Light *, Vec *);
+extern void G3D_CAMERA_GetCamTarget(struct Light *, Vec *);
 extern void G3D_CAMERA_SetEye(struct Light *, const Vec *);
-extern void G3D_CAMERA_SetUp(struct Light *, const Vec *);
+extern void G3D_CAMERA_SetCamTarget(struct Light *, const Vec *);
 extern void G3D_CAMERA_Reset(struct Light *);
 extern void STAFF_ROLL_CalcVelocity(Vec *, const Vec *, const Vec *, unsigned);
 extern void STAFF_ROLL_StepPosition(Vec *, const Vec *, const Vec *, unsigned);
@@ -55,7 +55,7 @@ void STAFF_ROLL_UpdateLights(char *p)
         G3D_CAMERA_GetEye(*(struct Light **)(p + 0xc), &a);
         STAFF_ROLL_CalcVelocity(&b, &a, (Vec *)(*(unsigned *)q + *(u16 *)(q + 0x34) * 24), *(u16 *)(q + 0x7a));
         *(Vec *)(q + 0x1c) = b;
-        G3D_CAMERA_GetUp(*(struct Light **)(p + 0xc), &a);
+        G3D_CAMERA_GetCamTarget(*(struct Light **)(p + 0xc), &a);
         STAFF_ROLL_CalcVelocity(&c, &a, (Vec *)(*(unsigned *)q + *(u16 *)(q + 0x34) * 24 + 12), *(u16 *)(q + 0x7a));
         *(Vec *)(q + 0x28) = c;
     }
@@ -75,6 +75,6 @@ void STAFF_ROLL_UpdateLights(char *p)
         else ++*(u16 *)(q + 0x78);
     }
     G3D_CAMERA_SetEye(*(struct Light **)(p + 0xc), (Vec *)(q + 4));
-    G3D_CAMERA_SetUp(*(struct Light **)(p + 0xc), (Vec *)(q + 0x10));
+    G3D_CAMERA_SetCamTarget(*(struct Light **)(p + 0xc), (Vec *)(q + 0x10));
     G3D_CAMERA_Reset(*(struct Light **)(p + 0xc));
 }

@@ -32,7 +32,7 @@
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   CLACT_DrawSystem 0x0204A600 arm
  *   MCSS_Main 0x02014C08 thumb
- *   func_02047964 0x02047964 arm
+ *   G3D_SYSTEM_DrawStart 0x02047964 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   MCSS_Draw 0x02014D2C thumb
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
@@ -326,7 +326,7 @@ extern u32 CLACT_IsActorAnimActive(struct ClactObj *a);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void CLACT_DrawSystem(void);
 extern void MCSS_Main(char *);
-extern void func_02047964(void);
+extern void G3D_SYSTEM_DrawStart(void);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void MCSS_Draw(struct McssSys *sys);
 extern void G3D_SYSTEM_DrawEnd(void);
@@ -746,7 +746,7 @@ int P_STATUS_MainSeq(PStatusWork *wk)
     PRINTSYS_QUE_Main(wk->printQue);
     CLACT_DrawSystem();
     MCSS_Main((char *)wk->mcssSys);
-    func_02047964();
+    G3D_SYSTEM_DrawStart();
     G3D_SYSTEM_ApplyLookAt();
     MCSS_Draw(wk->mcssSys);
     G3D_SYSTEM_DrawEnd();

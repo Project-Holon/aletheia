@@ -12,7 +12,7 @@
  *   gGdsHostTail 0x021DA040 data a4
  *   GDS_SOCKET_NopBegin 0x021D8588 arm ov125
  *   GDS_SOCKET_InitTick 0x021D7CF4 arm ov125
- *   func_021D7CD4 0x021D7CD4 arm ov125
+ *   GDS_SOCKET_InitLock 0x021D7CD4 arm ov125
  *   GDS_SOCKET_ResetConnection 0x021D7808 arm ov125
  *   strcpy  0x02094798  arm  arm9
  */
@@ -22,7 +22,7 @@ extern State gGdsSocket;
 extern char gGdsHostTail[];
 extern void GDS_SOCKET_NopBegin(void);
 extern int GDS_SOCKET_InitTick(void);
-extern int func_021D7CD4(void);
+extern int GDS_SOCKET_InitLock(void);
 extern char *strcpy(char *, const char *);
 extern void GDS_SOCKET_ResetConnection(void);
 static inline Record *copy(Record *dst, const Record *src) { *dst = *src; return dst; }
@@ -34,7 +34,7 @@ int GDS_SOCKET_Start(const char *a, unsigned short b, Record *src)
     }
     GDS_SOCKET_NopBegin();
     if (!GDS_SOCKET_InitTick()) return 0;
-    func_021D7CD4();
+    GDS_SOCKET_InitLock();
     strcpy(gGdsSocket.name, a);
     *(short *)(gGdsHostTail + 0x40) = b;
     gGdsSocket.f258 = 0;

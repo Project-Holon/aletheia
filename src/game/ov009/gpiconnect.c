@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02094694  0x02094694  arm
+ *   rand  0x02094694  arm
  *   g_021A4618     0x021A4618  data  ov009
  *   strncpy  0x02094860  arm
  *   gsUdpEngineIsInitialized  0x02180E48  arm   ov009
@@ -27,7 +27,7 @@
  *   SetSockBlocking  0x0217EE50  arm   ov009
  *   inet_addr  0x0217ED38  arm   ov009
  *   SOC_GetHostByName  0x0215F650  arm   ov009
- *   func_0217EC08  0x0217EC08  arm   ov009
+ *   connect  0x0217EC08  arm   ov009
  *   GOAGetLastError  0x0217ED54  arm   ov009
  *   gpiPeerLeftCallback  0x0218F5F4  arm   ov009
  *   gpiPeerPingReplyCallback  0x0218F880  arm   ov009
@@ -101,7 +101,7 @@
  *   gpiValueForKey  0x02193418  arm   ov009
  *   atoi  0x020964E0  arm
  *   strncmp  0x020949F4  arm
- *   func_020923F0  0x020923F0  arm
+ *   memcmp  0x020923F0  arm
  *   gpiProfileListAdd  0x0218FCD8  arm   ov009
  *   gpiAddCallback  0x02189DFC  arm   ov009
  *   gpiRemoveOperation  0x0218E240  arm   ov009
@@ -165,7 +165,7 @@ typedef struct GPConnectResponseArg {
     char uniquenick[21];
 } GPConnectResponseArg;
 
-extern unsigned int func_02094694();
+extern unsigned int rand();
 extern u8 *strncpy(u8 *dest, const u8 *src, u32 n);
 extern int gsUdpEngineIsInitialized(void);
 extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
@@ -178,7 +178,7 @@ extern int socket(int pf, int type, int protocol);
 extern int SetSockBlocking(int sock, int isblocking);
 extern int inet_addr(int a);
 extern SOCHostEnt *SOC_GetHostByName(char *name);
-extern int func_0217EC08(int sock, void *addr, int len);
+extern int connect(int sock, void *addr, int len);
 extern int GOAGetLastError(int sock);
 extern void gpiPeerLeftCallback(void);
 extern void gpiPeerPingReplyCallback(void);
@@ -208,7 +208,7 @@ extern void gpiRemoveProfileByID(void **connection, int profileid);
 extern int gpiValueForKey(const char *command, const char *key, char *value, int valueLen);
 extern int atoi(u32 a0);
 extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
-extern int func_020923F0(const u8 *a, const u8 *b, int n);
+extern int memcmp(const u8 *a, const u8 *b, int n);
 extern GPIProfile *gpiProfileListAdd(void **connection, int id);
 extern int gpiAddCallback(void **connection, GPICallback callback, void *arg, GPIOperation *operation, int type);
 extern void gpiRemoveOperation(void **connection, struct GPIOperation *operation);
@@ -305,7 +305,7 @@ void randomString(char *buffer, int numChars)
     int i;
 
     for (i = 0; i < numChars; i++)
-        buffer[i] = g_021A4618[func_02094694() % 0x3E];
+        buffer[i] = g_021A4618[rand() % 0x3E];
     buffer[i] = 0;
 }
 
@@ -403,7 +403,7 @@ int gpiStartConnect(void **connection, GPIOperation *operation)
     }
     address.port = 0xcc74;
 
-    rcode = func_0217EC08(iconnection->cmSocket, &address, sizeof(address));
+    rcode = connect(iconnection->cmSocket, &address, sizeof(address));
     if (rcode == -1) {
         error = GOAGetLastError(iconnection->cmSocket);
         if (error != -6 && error != -26 && error != -76) {
@@ -788,7 +788,7 @@ int gpiProcessConnect(void **connection, GPIOperation *operation, char *input)
             gpiCallErrorCallback((int *)connection, __result__, 1);
             return __result__;
         }
-        if (func_020923F0((const u8 *)check, (const u8 *)buffer, 32) != 0) {
+        if (memcmp((const u8 *)check, (const u8 *)buffer, 32) != 0) {
             gpiSetError((int *)connection, 0x108, (int)g_021A4A38);
             __result__ = 3;
             gpiCallErrorCallback((int *)connection, __result__, 1);

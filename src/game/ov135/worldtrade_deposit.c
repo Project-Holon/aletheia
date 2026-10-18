@@ -70,7 +70,7 @@
  *   g_02202F84  0x02202F84  data  ov135
  *   g_02202F44  0x02202F44  data  ov135
  *   g_02202FA4  0x02202FA4  data  ov135
- *   func_02049624 0x02049624 arm
+ *   ARC_UTIL_UploadBgCharFromArchive 0x02049624 arm
  *   ARC_UTIL_UploadBgPaletteFromArchive 0x0204989C arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   tbl_02202EC0 0x02202EC0 data a2
@@ -288,7 +288,7 @@ extern void *WORLDTRADE_INPUT_MenuCreate(Init *,u32,u32);
 
 extern void WORLDTRADE_INPUT_MenuDelete(u8 *p);
 
-extern u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
+extern u32 ARC_UTIL_UploadBgCharFromArchive(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
 
 extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 
@@ -623,7 +623,7 @@ void WORLDTRADE_DEPOSIT_LoadBgGraphics(Work *p)
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x1A0, 0x20, 0x48);
     BMP_MENUWORK_LoadCharAndPltt(0, 1, 14, 0, 0x48);
     BMP_MENUWORK_LoadCharAndPltt(0, 31, 11, 0, 0x48);
-    func_02049624((void *)0x60, (void *)9, (void *)1, 0, 0, 1, 0x48);
+    ARC_UTIL_UploadBgCharFromArchive((void *)0x60, (void *)9, (void *)1, 0, 0, 1, 0x48);
     ARC_UTIL_UploadBgPaletteFromArchive(0x60, 20, 1, 0, 0x600, 1, 0x48);
     ARC_UTIL_UploadBgCharFromHandle(h, 12, 2, 0, 0, 1, 0x48);
     WORLDTRADE_TITLE_LoadSubBgSwap(p);

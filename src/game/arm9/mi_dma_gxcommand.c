@@ -1,7 +1,7 @@
 /*
  * file:     mi_dma_gxcommand.c
  * unit:     yes
- * function: MI_SendGXCommandAsync, func_0208284C, MIi_DMACallback, MI_SendGXCommandAsyncFast, MIi_DMAFastCallback
+ * function: MI_SendGXCommandAsync, MIi_FIFOCallback, MIi_DMACallback, MI_SendGXCommandAsyncFast, MIi_DMAFastCallback
  * address:  0x02082760
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -76,7 +76,7 @@ u32 OS_DisableIrqMask(u32 intr);
 void MIi_CheckAnotherAutoDMA(u32 dmaNo, u32 dmaType);
 void MIi_DMAFastCallback(void *arg);
 void MI_SendGXCommandAsync(u32 dmaNo, const void *src, u32 commandLength, MIDmaCallback callback, void *arg);
-void func_0208284C(void);
+void MIi_FIFOCallback(void);
 void MI_SendGXCommandAsyncFast(u32 dmaNo, const void *src, u32 commandLength, MIDmaCallback callback, void *arg);
 extern MIiGXDmaParams MIi_GXDmaParams;
 
@@ -186,7 +186,7 @@ void MI_SendGXCommandAsync(u32 dmaNo, const void *src, u32 commandLength, MIDmaC
 /*
  * sdk:      MIi_FIFOCallback (libmi.TWL.HYB.a mi_dma_gxcommand.o)
  */
-void func_0208284C(void)
+void MIi_FIFOCallback(void)
 {
     u32 length;
     u32 src;

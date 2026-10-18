@@ -34,7 +34,7 @@
  *   FLDEFF_REFLECT_GetZoneRotateOffset  0x021BC338  thumb  ov021
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   FIELD_CAMERA_GetG3dCamera  0x0218EC2C  thumb  ov021
- *   G3D_CAMERA_GetUp  0x02048B30  arm
+ *   G3D_CAMERA_GetCamTarget  0x02048B30  arm
  *   BILLBOARD_SetElemPos  0x0204F638  arm
  *   BILLBOARD_ACT_GetEntryElemId  0x020508C4  arm
  *   BILLBOARD_GetElemId  0x0204F5E4  arm
@@ -102,7 +102,7 @@ extern int FLDEFF_REFLECT_GetZoneHeightOffset(int a, int b);
 extern int FLDEFF_REFLECT_GetZoneRotateOffset(u32 a);
 extern void *FIELDMAP_GetCamera(void *p);
 extern u32 FIELD_CAMERA_GetG3dCamera(u8 *p);
-extern void G3D_CAMERA_GetUp(u32 cam, Vec *out);
+extern void G3D_CAMERA_GetCamTarget(u32 cam, Vec *out);
 extern void BILLBOARD_SetElemPos(u8 *a0, int i, struct Trip *src);
 extern u32 BILLBOARD_ACT_GetEntryElemId(u32 a, u16 b);
 extern void BILLBOARD_GetElemId(u8 *a0, u32 i, u16 *out);
@@ -166,7 +166,7 @@ void FLDEFF_REFLECT_UpdateActor(u16 id, Param *p)
         }
     }
     v.y += FLDEFF_REFLECT_GetZoneHeightOffset(kind, info->f7);
-    G3D_CAMERA_GetUp(FIELD_CAMERA_GetG3dCamera(FIELDMAP_GetCamera((void *)FIELD_EFFECT_GetFieldMap((u8 *)(*p->f14)))), &u);
+    G3D_CAMERA_GetCamTarget(FIELD_CAMERA_GetG3dCamera(FIELDMAP_GetCamera((void *)FIELD_EFFECT_GetFieldMap((u8 *)(*p->f14)))), &u);
     v.x += (v.x / 4096 - u.x / 4096) * 298;
     BILLBOARD_SetElemPos((u8 *)h, id, (struct Trip *)(&v));
     flag = 1;

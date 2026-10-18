@@ -104,7 +104,7 @@
  *   BMP_WIN_Delete  0x020452E8  arm
  *   BMP_Delete  0x020437AC  arm
  *   BMP_CopyPixels  0x02043814  arm
- *   func_02049624  0x02049624  arm
+ *   ARC_UTIL_UploadBgCharFromArchive  0x02049624  arm
  *   ARC_UTIL_UploadPaletteFromArchive  0x02049B90  arm
  *   GF_FONT_CopyLine  0x0201D37C  thumb
  *   PRINTSYS_Print  0x0201C7A4  thumb  arm9
@@ -316,7 +316,7 @@ extern void BG_SYS_SetTileEntry(u32 frame, u16 tile, u8 x, u8 y, u8 width, u8 he
 extern u32 BMP_WIN_Delete(struct BmpWin *bmpWin);
 extern void BMP_Delete(struct Bmp *bmp);
 extern void BMP_CopyPixels(struct Bmp *dst, const struct Bmp *src);
-extern void func_02049624(u32 arcId, u32 fileId, u32 frame, u32 offset, u32 size, u32 compressed, u32 heapId);
+extern void ARC_UTIL_UploadBgCharFromArchive(u32 arcId, u32 fileId, u32 frame, u32 offset, u32 size, u32 compressed, u32 heapId);
 extern void ARC_UTIL_UploadPaletteFromArchive(u32 arcId, u32 fileId, u32 type, u32 offset, u32 size, u32 transSize, u32 heapId);
 extern u32 GF_FONT_CopyLine(struct Strbuf *src, struct Strbuf *dst, u32 line);
 extern void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font);
@@ -1932,7 +1932,7 @@ void FIELD_MSGBG_LoadBgWinGraphics(u32 frame, u32 palSlot, u32 winType, u32 heap
 {
     if (winType >= 4)
         winType = 0;
-    func_02049624(5, 6, frame, 0x33, 0, 0, heapId);
+    ARC_UTIL_UploadBgCharFromArchive(5, 6, frame, 0x33, 0, 0, heapId);
     ARC_UTIL_UploadPaletteFromArchive(5, 1, 0, winType << 5, palSlot << 5, 0x20, heapId);
 }
 
@@ -2293,7 +2293,7 @@ void FIELD_MSGBG_AnimateCursorOnFrame(FieldMsgCursor *cursor, struct Bmp *bmp, s
 
 void FIELD_MSGBG_LoadSysWindowFrameGraphics(u32 heapId)
 {
-    func_02049624(5, 10, 1, 0x1F, 0, 0, heapId);
+    ARC_UTIL_UploadBgCharFromArchive(5, 10, 1, 0x1F, 0, 0, heapId);
 }
 
 /* Draws a one-tile frame around a window (tiles 0x1F..0x30, palette 13). */

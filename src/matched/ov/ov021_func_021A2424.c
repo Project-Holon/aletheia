@@ -11,7 +11,7 @@
  *
  * symbols:
  *   FIELD_CAMERA_GetG3dCamera  0x0218EC2C  thumb  ov021
- *   G3D_CAMERA_GetUp  0x02048B30  arm
+ *   G3D_CAMERA_GetCamTarget  0x02048B30  arm
  */
 #include "../include/Obj02702.h"
 
@@ -25,14 +25,14 @@ typedef struct {
 } Vec021A2424;
 
 u32 FIELD_CAMERA_GetG3dCamera(u8 *p);
-void G3D_CAMERA_GetUp(u32 x, Vec021A2424 *out);
+void G3D_CAMERA_GetCamTarget(u32 x, Vec021A2424 *out);
 
 void WEATHER_TASK_SaveCameraPos(u8 *p)
 {
     Vec021A2424 v;
 
     if (((struct Obj02702 *)p)->f14 != 0) {
-        G3D_CAMERA_GetUp(FIELD_CAMERA_GetG3dCamera((u8 *)(((struct Obj02702 *)p)->f14)), &v);
+        G3D_CAMERA_GetCamTarget(FIELD_CAMERA_GetG3dCamera((u8 *)(((struct Obj02702 *)p)->f14)), &v);
         *(Vec021A2424 *)(p + 0x68) = v;
     }
 }

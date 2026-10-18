@@ -53,7 +53,7 @@
  *   MUSICAL_MCSS_DrawRenderObj 0x021F51F4 thumb ov112
  *   MUSICAL_MCSS_UpdateObject 0x021F4990 thumb ov112
  *   CLACT_DrawSystem 0x0204A600 arm
- *   func_02047964 0x02047964 arm
+ *   G3D_SYSTEM_DrawStart 0x02047964 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  *   BILLBOARD_Draw 0x0204F7DC arm
@@ -441,7 +441,7 @@ extern void MUSICAL_MCSS_DrawRenderObj(void **p);
 
 extern void MUSICAL_MCSS_UpdateObject(void *);
 
-extern void CLACT_DrawSystem(void),func_02047964(void),G3D_SYSTEM_ApplyLookAt(void),G3D_SYSTEM_DrawEnd(void);
+extern void CLACT_DrawSystem(void),G3D_SYSTEM_DrawStart(void),G3D_SYSTEM_ApplyLookAt(void),G3D_SYSTEM_DrawEnd(void);
 
 extern void BILLBOARD_Draw(struct Board *b, struct Camera *cam, struct Lights *lights);
 
@@ -1095,7 +1095,7 @@ int DUP_FITTING_Main(struct DupFittingWork *p)
         break;
     }
     DUP_FITTING_UpdateActorTimers((u8 *)p); DUP_FITTING_DrawElems((struct DupFittingWork *)p); MUSICAL_MCSS_TickAnim(P(0x187c));
-    MUSICAL_MCSS_UpdateObject(P(0x1884)); CLACT_DrawSystem(); func_02047964(); G3D_SYSTEM_ApplyLookAt();
+    MUSICAL_MCSS_UpdateObject(P(0x1884)); CLACT_DrawSystem(); G3D_SYSTEM_DrawStart(); G3D_SYSTEM_ApplyLookAt();
     MUSICAL_MCSS_DrawRenderObj((void **)P(0x187c)); BILLBOARD_Draw((struct Board *)P(0x188c),(struct Camera *)P(0x1888),0); G3D_SYSTEM_DrawEnd();
     p->counter++;
     if(p->counter>1) {

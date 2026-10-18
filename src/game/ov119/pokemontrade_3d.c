@@ -30,7 +30,7 @@
  *   POKETRADE_3D_CreateTouchbar 0x021E3C20 thumb ov119
  *   POKETRADE_3D_AddPokemonMcssPlain 0x021E36C8 thumb ov119
  *   MCSS_SetVanishFlag 0x02015EA0 thumb
- *   func_02047964 0x02047964 arm
+ *   G3D_SYSTEM_DrawStart 0x02047964 arm
  *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   POKETRADE_3D_Update3DScene 0x021E31B4 thumb ov119
@@ -119,7 +119,7 @@ extern void MI_CpuFill8(void *,int,int);
 
 extern void DWC_RAP_SetVchatTalkLock(int);
 
-extern void func_02047964(void);
+extern void G3D_SYSTEM_DrawStart(void);
 
 extern void G3D_CAMERA_Reset(struct Light *l);
 
@@ -651,7 +651,7 @@ void POKETRADE_3D_Draw3DScene(char *p)
         for (i = 0; i < n; i++)
             G3D_SYSTEM_LoopObjectAnimeFrame(q, (u16)i, gAnimeFrameCfg.amount);
     }
-    func_02047964();
+    G3D_SYSTEM_DrawStart();
     G3D_CAMERA_Reset(((TradeWork *)p)->subCamera);
     G3D_SYSTEM_ApplyLookAt();
     if (((TradeWork *)p)->particleManager != 0) {

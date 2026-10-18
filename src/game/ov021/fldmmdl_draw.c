@@ -35,9 +35,9 @@
  *   BILLBOARD_SetElemPos  0x0204F638  arm
  *   FLDMMDL_GetDrawStatus  0x0216D678  thumb  ov010
  *   FLDMMDL_GetObjCode  0x0216D598  thumb  ov010
- *   func_02048AE8  0x02048AE8  arm
- *   func_02048B0C  0x02048B0C  arm
- *   func_02048B30  0x02048B30  arm
+ *   G3D_CAMERA_GetEye  0x02048AE8  arm
+ *   G3D_CAMERA_GetCamUp  0x02048B0C  arm
+ *   G3D_CAMERA_GetCamTarget  0x02048B30  arm
  *   MTX_LookAt  0x0207BCA0  arm
  *   MI_Copy36B  0x02082B60  arm
  *   MTX_Inverse33  0x0207B0A4  arm
@@ -126,9 +126,9 @@ extern struct BbBoard *BILLBOARD_ACT_GetBoard(struct BbActSys *sys);
 extern void BILLBOARD_SetElemPos(struct BbBoard *board, int elem, VecFx32 *pos);
 extern u16 FLDMMDL_GetDrawStatus(Mmdl *mmdl);
 extern u16 FLDMMDL_GetObjCode(Mmdl *mmdl);
-extern void func_02048AE8(struct G3dCamera *camera, VecFx32 *out);
-extern void func_02048B0C(struct G3dCamera *camera, VecFx32 *out);
-extern void func_02048B30(struct G3dCamera *camera, VecFx32 *out);
+extern void G3D_CAMERA_GetEye(struct G3dCamera *camera, VecFx32 *out);
+extern void G3D_CAMERA_GetCamUp(struct G3dCamera *camera, VecFx32 *out);
+extern void G3D_CAMERA_GetCamTarget(struct G3dCamera *camera, VecFx32 *out);
 extern void MTX_LookAt(VecFx32 *camPos, VecFx32 *camUp, VecFx32 *camTarget, s32 *outMtx43);
 extern void MI_Copy36B(s32 *mtx43, s32 *outMtx33);
 extern void MTX_Inverse33(s32 *mtx33, s32 *outMtx33);
@@ -492,9 +492,9 @@ void FLDMMDL_DRAW_RotateByCamera(struct G3dCamera *camera, VecFx32 *vec, VecFx32
     VecFx32 camTarget;
     s32 viewMtx43[12];
     s32 viewMtx33[9];
-    func_02048AE8(camera, &camPos);
-    func_02048B0C(camera, &camUp);
-    func_02048B30(camera, &camTarget);
+    G3D_CAMERA_GetEye(camera, &camPos);
+    G3D_CAMERA_GetCamUp(camera, &camUp);
+    G3D_CAMERA_GetCamTarget(camera, &camTarget);
     MTX_LookAt(&camPos, &camUp, &camTarget, viewMtx43);
     MI_Copy36B(viewMtx43, viewMtx33);
     MTX_Inverse33(viewMtx33, viewMtx33);

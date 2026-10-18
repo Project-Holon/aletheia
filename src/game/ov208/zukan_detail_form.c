@@ -152,7 +152,7 @@
  *   MCSS_SetPaletteFade  0x02015F50  thumb
  *   ZUKAN_DETAIL_COMMON_LoadBgPaletteRange  0x021BC9BC  thumb  ov208
  *   MCSS_CheckPaletteFade  0x0201600C  thumb
- *   ov208_func_021BDC48  0x021BDC48  thumb  ov208
+ *   ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled  0x021BDC48  thumb  ov208
  *   MCSS_ResetVanishFlag  0x02015EB0  thumb
  *   ZUKAN_DETAIL_FORM_DestroyModelItem  0x021C51A0  thumb  ov208
  *   ZUKAN_DETAIL_FORM_ExitModelSystem  0x021C4FDC  thumb  ov208
@@ -506,7 +506,7 @@ extern void ZUKAN_DETAIL_TOUCHBAR_SetEnabled(void *s, int v);
 
 extern void ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(void *s, u32 kind);
 
-extern void ov208_func_021BDC48(void *s, u32 on);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(void *s, u32 on);
 
 extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
 
@@ -767,7 +767,7 @@ int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, struct Ov208Form *p,
             } else {
                 ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(scene, 3);
             }
-            ov208_func_021BDC48(scene, 0);
+            ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(scene, 0);
             ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scene, GAME_DATA_CheckSaveFlag(ZUKAN_DETAIL_COMMON_GetSource(key), 20));
             if (ZUKAN_DETAIL_HEADBAR_GetIconKind(icon) != 2) {
                 ZUKAN_DETAIL_HEADBAR_SetIconKind(icon, 3);
@@ -790,7 +790,7 @@ int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, struct Ov208Form *p,
         if (ZUKAN_DETAIL_COMMON_IsFadeBusy(W(0x6ac)) == 0 && ZUKAN_DETAIL_TOUCHBAR_GetMode(scene) == 2
             && ZUKAN_DETAIL_HEADBAR_GetIconKind(icon) == 2 && done) {
             ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(scene);
-            ov208_func_021BDC48(scene, 1);
+            ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(scene, 1);
             *seq = 5;
         }
         break;
@@ -2261,7 +2261,7 @@ void ZUKAN_DETAIL_FORM_UpdateState(u16 *heap, struct Ov208Form *p, int key)
                 ZUKAN_DETAIL_FORM_HandleStateEvent(heap, p, key, 2);
                 GFL_USE_PlaySeDefaultVolume(0x54c);
                 UI_SetInputMode(touch);
-                ov208_func_021BDC48(scene, 0);
+                ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(scene, 0);
                 return;
             }
         }
@@ -2612,7 +2612,7 @@ int ZUKAN_DETAIL_FORM_HandleTouchArrows(u16 *unused, struct Ov208Form *p, int ke
             hit = 6;
         } else {
             UI_SetInputMode(type);
-            ov208_func_021BDC48(sys, 0);
+            ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(sys, 0);
             o = hit * 0x28;
             *(u32 *)((u8 *)&p->row[0].st + o) = 1;
             CLACT_SetActorAnimSeq((void *)((struct Ov208Form *)((u8 *)p + o))->row[0].obj,
@@ -2688,7 +2688,7 @@ void ZUKAN_DETAIL_FORM_UpdateArrowAnim(u16 *heap, struct Ov208Form *p, int key)
         }
         p->w694 = 5;
         if (p->state == 0 || p->state == 4)
-            ov208_func_021BDC48(scene, 1);
+            ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(scene, 1);
         break;
     }
 }

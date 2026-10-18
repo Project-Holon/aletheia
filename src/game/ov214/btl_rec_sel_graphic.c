@@ -133,7 +133,7 @@ extern void G3D_SYSTEM_Init(u32,u32,u32,u32,u16,u32,void (*)(void));
 extern u32 *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,struct Vec3 *,struct Vec3 *,struct Vec3 *,u32);
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(int);
-extern void func_02047964(void);
+extern void G3D_SYSTEM_DrawStart(void);
 extern void G3D_CAMERA_Reset(struct Light *l);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void G3D_SYSTEM_DrawEnd(void);
@@ -345,7 +345,7 @@ void BTL_REC_SEL_GRAPHIC_DeleteG3d(int *p)
 
 void BTL_REC_SEL_GRAPHIC_DrawG3d(unsigned int *p)
 {
-    func_02047964();
+    G3D_SYSTEM_DrawStart();
     G3D_CAMERA_Reset((struct Light *)(*p));
     G3D_SYSTEM_ApplyLookAt();
 }

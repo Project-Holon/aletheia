@@ -36,7 +36,7 @@
  *   MCSS_SetVanishFlag 0x02015EA0 thumb
  *   MCSS_SetOfsPosition 0x02015C78 thumb
  *   MCSS_SetOfsScale 0x02015D30 thumb
- *   func_02048AFC 0x02048AFC arm
+ *   G3D_CAMERA_SetEye 0x02048AFC arm
  *   FX_SinCosTable_ 0x020A1B38 data a2
  *   d_021DC234 0x021DC234 data a4
  *   d_021DC228 0x021DC228 data a4
@@ -253,7 +253,7 @@ extern void MCSS_ResetVanishFlag(void *mcss);
 extern void MCSS_SetVanishFlag(void *mcss);
 extern void MCSS_SetOfsPosition(void *mcss, const VecFx32 *src);
 extern void MCSS_SetOfsScale(void *mcss, const VecFx32 *src);
-extern void func_02048AFC(void *camera, const VecFx32 *pos);
+extern void G3D_CAMERA_SetEye(void *camera, const VecFx32 *pos);
 extern int POKEPARTY_GetSlotFlag(void *party, u32 pos);
 extern struct PokePersonal *POKE_PERSONAL_Create(u32 species, int form, u32 heapId);
 extern u32 POKE_PERSONAL_GetParam(const struct PokePersonal *personal, u32 field);
@@ -400,7 +400,7 @@ void P_STA_SUB_Main(PStatusWork *wk, PStaSubWork *work) {
         MCSS_SetOfsPosition(work->mcss[STA_SUB_MCSS_FRONT], &ofsPos);
         MCSS_SetOfsPosition(work->mcss[STA_SUB_MCSS_BACK], &ofsPos);
         MCSS_SetOfsScale(work->mcss[STA_SUB_MCSS_FRONT], &scale);
-        func_02048AFC(wk->camera, &cameraPos);
+        G3D_CAMERA_SetEye(wk->camera, &cameraPos);
         G3D_CAMERA_Reset(wk->camera);
     } else if (state == STA_SUB_FLIP_TO_BACK) {
         VecFx32 cameraPos = d_021DC198;
@@ -416,14 +416,14 @@ void P_STA_SUB_Main(PStatusWork *wk, PStaSubWork *work) {
             scale.x = scaleXTbl.frame[step];
             scale.y = scaleYTbl.frame[step];
             cameraPos.x = cameraXTbl.frame[step];
-            func_02048AFC(wk->camera, &cameraPos);
+            G3D_CAMERA_SetEye(wk->camera, &cameraPos);
             G3D_CAMERA_Reset(wk->camera);
             MCSS_SetOfsScale(work->mcss[STA_SUB_MCSS_FRONT], &scale);
         } else {
             MCSS_SetVanishFlag(work->mcss[STA_SUB_MCSS_FRONT]);
             MCSS_ResetVanishFlag(work->mcss[STA_SUB_MCSS_BACK]);
             MCSS_SetOfsScale(work->mcss[STA_SUB_MCSS_BACK], &scale);
-            func_02048AFC(wk->camera, &cameraPos);
+            G3D_CAMERA_SetEye(wk->camera, &cameraPos);
             G3D_CAMERA_Reset(wk->camera);
             work->showFront = 0;
             work->flipState = STA_SUB_FLIP_BACK;
@@ -566,7 +566,7 @@ void P_STA_SUB_Refresh(PStatusWork *wk, PStaSubWork *work)
         MCSS_SetOfsPosition(work->mcss[STA_SUB_MCSS_FRONT], &ofsPos);
         P_STA_SUB_ApplyMcssOffset(wk, work, &baseOfs);
         MCSS_SetOfsScale(work->mcss[STA_SUB_MCSS_FRONT], &scale);
-        func_02048AFC(wk->camera, &cameraPos);
+        G3D_CAMERA_SetEye(wk->camera, &cameraPos);
         G3D_CAMERA_Reset(wk->camera);
         work->flipState = STA_SUB_FLIP_IDLE;
     } else {
@@ -577,7 +577,7 @@ void P_STA_SUB_Refresh(PStatusWork *wk, PStaSubWork *work)
         MCSS_SetOfsPosition(work->mcss[STA_SUB_MCSS_FRONT], &ofsPos);
         P_STA_SUB_ApplyMcssOffset(wk, work, &baseOfs);
         MCSS_SetOfsScale(work->mcss[STA_SUB_MCSS_BACK], &scale);
-        func_02048AFC(wk->camera, &cameraPos);
+        G3D_CAMERA_SetEye(wk->camera, &cameraPos);
         G3D_CAMERA_Reset(wk->camera);
         work->flipState = STA_SUB_FLIP_BACK;
     }

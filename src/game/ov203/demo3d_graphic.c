@@ -28,10 +28,10 @@
  *   TCB_DeleteTask 0x02030EAC arm
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   GFL_HEAP_Free 0x020307B0 arm
- *   func_02048CDC 0x02048CDC arm
+ *   G3D_LIGHT_SetColor 0x02048CDC arm
  *   G3D_LIGHT_ApplySlots 0x02048C58 arm
  *   VEC_Fx16Normalize 0x0207CDB8 arm
- *   func_02048CA4 0x02048CA4 arm
+ *   G3D_LIGHT_SetDirection 0x02048CA4 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
@@ -59,9 +59,9 @@
  *   G3D_LIGHT_CreateSlots 0x02048BC4 arm
  *   DEMO3D_SetupGx 0x021BDD40 thumb ov203
  *   d_021BFB48 0x021BFB48 data a4
- *   func_02048C4C 0x02048C4C arm
+ *   G3D_LIGHT_DeleteSlots 0x02048C4C arm
  *   G3D_SYSTEM_Exit 0x02046788 arm
- *   func_02047964 0x02047964 arm
+ *   G3D_SYSTEM_DrawStart 0x02047964 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  *   DOUBLE3DDISP_Delete 0x0204EA64 arm
@@ -121,13 +121,13 @@ extern void GF_FONT_SetDefaultTextColor(void);
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void func_02048CDC(struct LightSlot *,unsigned,unsigned short *);
+extern void G3D_LIGHT_SetColor(struct LightSlot *,unsigned,unsigned short *);
 
 extern void G3D_LIGHT_ApplySlots(struct LightSlot *);
 
 extern void VEC_Fx16Normalize(int, void *);
 
-extern void func_02048CA4(struct LightSlot *slots, u32 i, struct Rgb555 *in);
+extern void G3D_LIGHT_SetDirection(struct LightSlot *slots, u32 i, struct Rgb555 *in);
 
 extern void BG_SYS_Create(unsigned);
 
@@ -178,11 +178,11 @@ extern struct LightSlot *G3D_LIGHT_CreateSlots(const struct LightSet *s, u32 hea
 
 extern void DEMO3D_SetupGx(void);
 
-extern int func_02048C4C(int);
+extern int G3D_LIGHT_DeleteSlots(int);
 
 extern void G3D_SYSTEM_Exit(int);
 
-extern void func_02047964(void);
+extern void G3D_SYSTEM_DrawStart(void);
 
 extern void G3D_SYSTEM_ApplyLookAt(void);
 
@@ -319,20 +319,20 @@ int DEMO3D_GRAPHIC_GetUnit(Demo3dGraphic *p){return DEMO3D_GRAPHIC_GetClactUnit(
 void DEMO3D_GRAPHIC_SetupLightBlock(Demo3dGraphic *graphic, unsigned short *colors, int a2)
 {
     Demo3dGraphicG3d *p = (Demo3dGraphicG3d *)&graphic->g3dTag;
-    func_02048CDC(p->lightSlots,0,colors);
-    func_02048CDC(p->lightSlots,1,colors+1);
-    func_02048CDC(p->lightSlots,2,colors+2);
-    func_02048CDC(p->lightSlots,3,colors+3);
+    G3D_LIGHT_SetColor(p->lightSlots,0,colors);
+    G3D_LIGHT_SetColor(p->lightSlots,1,colors+1);
+    G3D_LIGHT_SetColor(p->lightSlots,2,colors+2);
+    G3D_LIGHT_SetColor(p->lightSlots,3,colors+3);
     G3D_LIGHT_ApplySlots(p->lightSlots);
 }
 
-void DEMO3D_GRAPHIC_SetLightSlot(Demo3dGraphic *p,unsigned i,unsigned short val){func_02048CDC(p->lightSlots,i,&val);}
+void DEMO3D_GRAPHIC_SetLightSlot(Demo3dGraphic *p,unsigned i,unsigned short val){G3D_LIGHT_SetColor(p->lightSlots,i,&val);}
 
 void DEMO3D_GRAPHIC_SetLightVector(Demo3dGraphic *p, int a, int b)
 {
     int buf[2];
     VEC_Fx16Normalize(b, buf);
-    func_02048CA4(p->lightSlots, a, (struct Rgb555 *)buf);
+    G3D_LIGHT_SetDirection(p->lightSlots, a, (struct Rgb555 *)buf);
 }
 
 void DEMO3D_GRAPHIC_VBlank(u32 unused, Demo3dGraphic *p)
@@ -416,12 +416,12 @@ void DEMO3D_GRAPHIC_InitG3d(Demo3dGraphicG3d *p, u8 heap)
 
 void DEMO3D_GRAPHIC_DeleteG3d(Demo3dGraphicG3d *p)
 {
-    G3D_SYSTEM_Exit(func_02048C4C((int)p->lightSlots));
+    G3D_SYSTEM_Exit(G3D_LIGHT_DeleteSlots((int)p->lightSlots));
 }
 
 void DEMO3D_GRAPHIC_ApplyLookAt(void *a)
 {
-    func_02047964();
+    G3D_SYSTEM_DrawStart();
     G3D_SYSTEM_ApplyLookAt();
 }
 

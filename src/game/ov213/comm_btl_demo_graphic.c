@@ -61,7 +61,7 @@
  *   d_020A1EB8 0x020A1EB8 data a4
  *   G3D_CAMERA_Delete 0x02048AC4 arm
  *   G3D_SYSTEM_Exit 0x02046788 arm
- *   func_02047964  0x02047964  arm
+ *   G3D_SYSTEM_DrawStart  0x02047964  arm
  *   G3D_CAMERA_Reset    0x02048AD0  arm
  *   G3D_SYSTEM_ApplyLookAt    0x020479D8  arm
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
@@ -133,7 +133,7 @@ extern void G3D_SYSTEM_Init(u32 a,u32 b,u32 c,u32 d,u16 fifo,unsigned heap,void 
 extern u32 *G3D_CAMERA_Create(u32 a,u32 b,u32 c,u32 d,u32 e,u32 f,u32 g,u32 h,Vec3 *i,Vec3 *j,Vec3 *k,unsigned heap);
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(int);
-extern void func_02047964(void);
+extern void G3D_SYSTEM_DrawStart(void);
 extern void G3D_CAMERA_Reset(struct Light *l);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void G3D_SYSTEM_DrawEnd(void);
@@ -306,7 +306,7 @@ void COMM_BTL_DEMO_GRAPHIC_DeleteG3d(int *p)
 
 void COMM_BTL_DEMO_GRAPHIC_DrawG3d(int *p)
 {
-    func_02047964();
+    G3D_SYSTEM_DrawStart();
     G3D_CAMERA_Reset((struct Light *)(*p));
     G3D_SYSTEM_ApplyLookAt();
 }

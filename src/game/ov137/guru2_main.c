@@ -125,8 +125,8 @@
  *   WIPE_SetBrightnessFadeOut 0x0202223C thumb
  *   GFL_NET_SAVE_Delete 0x02010934 thumb
  *   PALANM_TransferPalettes 0x02021D50 thumb
- *   func_02048B6C 0x02048B6C arm
- *   func_02047964 0x02047964 arm
+ *   G3D_CAMERA_SetFar 0x02048B6C arm
+ *   G3D_SYSTEM_DrawStart 0x02047964 arm
  *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   NNS_G3dGlbLightVector 0x0206AA3C arm
@@ -594,7 +594,7 @@ extern void GFL_NET_SAVE_Delete(struct Sub0201088CObj *p);
 
 extern void PALANM_TransferPalettes(struct S02021D50 *);
 
-extern void func_02048B6C(struct Light *l, const u32 *in);
+extern void G3D_CAMERA_SetFar(struct Light *l, const u32 *in);
 
 extern void G3D_CAMERA_Reset(struct Light *l);
 
@@ -1717,17 +1717,17 @@ void GURU2_MAIN_SetupAll(struct Guru2Game *p){GURU2_MAIN_SetupVram(p);GURU2_MAIN
 void GURU2_MAIN_TeardownAll(struct Guru2Game *p){GURU2_MAIN_HidePlanes(p);GURU2_MAIN_FreeActorResources(p);GURU2_MAIN_DeleteWindows(p);GURU2_MAIN_ExitBg(p);GURU2_MAIN_DeletePaletteAnim(p);GURU2_MAIN_DeleteCamera(p);}
 
 /*
- * omits func_02048B6C from function: and its shard. tu --suggest-split leaves caller OUT.
+ * omits G3D_CAMERA_SetFar from function: and its shard. tu --suggest-split leaves caller OUT.
  * typedef unsigned int u32;
- * void func_02048B6C(char *p,const u32 *in) {*(u32 *)(p+0x18)=*in;}
+ * void G3D_CAMERA_SetFar(char *p,const u32 *in) {*(u32 *)(p+0x18)=*in;}
  */
 void GURU2_MAIN_Draw3D(struct Guru2Game *p)
 {
     u32 flags=0x1000000;
     void *r;
     int i;
-    func_02048B6C(p->light,&flags);
-    func_02047964();
+    G3D_CAMERA_SetFar(p->light,&flags);
+    G3D_SYSTEM_DrawStart();
     G3D_CAMERA_Reset(p->light);
     G3D_SYSTEM_ApplyLookAt();
     NNS_G3dGlbLightVector(0,0,-4096,0);

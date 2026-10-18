@@ -108,7 +108,7 @@ extern int DWCi_BTNlGet(void);
 extern void DWCi_BTNlEnable(void);
 extern void OS_Sleep(u32 msec);
 extern int DWCi_IPTlCheckTrigger(unsigned int f);
-extern int func_021CA818(void);
+extern int DWCi_IsFold(void);
 extern void DWCi_BTNlSet(signed char v);
 extern void DWCi_SNDlStop(void);
 extern void DWCi_SNDlPlay(int no);
@@ -226,7 +226,7 @@ static void input(void)
         DWCi_BTNlSet(0);
         return;
     }
-    if (func_021CA818())
+    if (DWCi_IsFold())
         DWCi_BTNlSet(0);
 }
 

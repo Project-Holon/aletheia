@@ -21,7 +21,7 @@
  * symbols:
  *   ICA_ANIME_CreateStream  0x02011510  thumb
  *   FIELD_CAMERA_GetG3dCamera  0x0218EC2C  thumb  ov021
- *   G3D_CAMERA_GetUp  0x02048B30  arm
+ *   G3D_CAMERA_GetCamTarget  0x02048B30  arm
  *   G3D_CAMERA_GetEye  0x02048AE8  arm
  *   G3D_CAMERA_Create  0x02048A24  arm
  *   FIELD_CAMERA_GetMode  0x0218E138  thumb  ov021
@@ -60,7 +60,7 @@ typedef struct Obj {
 
 extern void *ICA_ANIME_CreateStream(u32 heap, u32 a1, u32 a2, u32 a3);
 extern u32 FIELD_CAMERA_GetG3dCamera(u8 *p);
-extern void G3D_CAMERA_GetUp(u32 cam, VecFx32 *out);
+extern void G3D_CAMERA_GetCamTarget(u32 cam, VecFx32 *out);
 extern void G3D_CAMERA_GetEye(u32 cam, VecFx32 *out);
 extern void *G3D_CAMERA_Create(int a, int s, int c, int d, int e, int f, int g, int h, VecFx32 *pos, VecFx32 *up, VecFx32 *tgt, int heap);
 extern u32 FIELD_CAMERA_GetMode(u8 *p);
@@ -89,7 +89,7 @@ void FIELD_FK_DEMO_InitCamera(Obj *o, int a1, int heap, int idx)
     o->f28 = 0;
     o->f0 = ICA_ANIME_CreateStream(heap, 0x96, idx + 0x18, 10);
     cam = FIELD_CAMERA_GetG3dCamera((u8 *)a1);
-    G3D_CAMERA_GetUp(cam, &tgt);
+    G3D_CAMERA_GetCamTarget(cam, &tgt);
     G3D_CAMERA_GetEye(cam, &pos);
     up = gFkDemoCameraUp;
     o->cam = G3D_CAMERA_Create(0, FX_SinCosTable_[0x1C6], FX_SinCosTable_[0x1C7], 0x1555, 0, 0x1000, 0x400000, 0, &pos, &up, &tgt, heap);

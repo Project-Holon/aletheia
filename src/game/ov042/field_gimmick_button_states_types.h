@@ -61,15 +61,15 @@ extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct
 extern void FLD_EXP_OBJ_AddUnitFromArchive(FldExpObjCnt *expObj, const G3dUtilSetup *setup, u16 unitIndex);
 extern void FLD_EXP_OBJ_RemoveUnit(FldExpObjCnt *expObj, u16 unitIndex);
 extern G3dObjectStatus *FLD_EXP_OBJ_GetModelStatus(FldExpObjCnt *expObj, unsigned unitIndex, int modelIndex);
-extern void func_021BE4A4(FldExpObjCnt *expObj, int unitIndex, int modelIndex, int cullDraw);
+extern void FLD_EXP_OBJ_SetModelCullDraw(FldExpObjCnt *expObj, int unitIndex, int modelIndex, int cullDraw);
 extern FldExpObjAnime *FLD_EXP_OBJ_GetAnime(FldExpObjCnt *expObj, int unitIndex, unsigned modelIndex, int animeIndex);
-extern void func_021BE6B0(FldExpObjAnime *anime, int paused);
+extern void FLD_EXP_OBJ_SetAnimePaused(FldExpObjAnime *anime, int paused);
 extern void FLD_EXP_OBJ_SetAnimeLoop(FldExpObjAnime *anime, int loop);
-extern int func_021BE6BC(FldExpObjAnime *anime);
+extern int FLD_EXP_OBJ_IsAnimeStopped(FldExpObjAnime *anime);
 extern void FLD_EXP_OBJ_SetAnimeFrame(FldExpObjCnt *expObj, int unitIndex, int modelIndex, int animeIndex, int frame);
 extern void FLD_EXP_OBJ_SetAnimeEnabled(FldExpObjCnt *expObj, int unitIndex, u16 modelIndex, u16 animeIndex, int enable);
-extern int func_021BE748(FldExpObjAnime *anime);
-extern void func_021BE580(FldExpObjCnt *expObj);
+extern int FLD_EXP_OBJ_GetAnimeLastFrame(FldExpObjAnime *anime);
+extern void FLD_EXP_OBJ_UpdateAnimes(FldExpObjCnt *expObj);
 
 int FIELD_GIMMICK_BUTTON_STATES_EventPlayOneShot(struct GameEvent *event, int *seq, void *work);
 

@@ -1,7 +1,7 @@
 /*
  * file:     msl_stdlib.c
  * unit:     yes
- * function: qsort, func_02094694, srand, MSL_C_LIB_StrReadProc, MSL_C_LIB_CallExitHook, MSL_C_LIB_DefaultExitHook
+ * function: qsort, rand, srand, MSL_C_LIB_StrReadProc, MSL_C_LIB_CallExitHook, MSL_C_LIB_DefaultExitHook
  * address:  0x0209455C
  * region:   arm9
  * compiler: dsi/1.2
@@ -39,7 +39,7 @@ typedef void (*MslExitHook)(u32, u32, u32);
 
 void qsort(void *table_base, size_t num_members, size_t member_size, _compare_function compare_members);
 
-u32 func_02094694(void);
+u32 rand(void);
 
 void srand(u32 v);
 
@@ -126,7 +126,7 @@ void qsort(void *table_base, size_t num_members, size_t member_size,
     }
 }
 
-u32 func_02094694(void)
+u32 rand(void)
 {
     MslRandSeed = MslRandSeed * 0x41C64E6Du + 0x3039u;
     return (MslRandSeed >> 16) & 0x7FFFu;

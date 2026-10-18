@@ -89,7 +89,7 @@
  *   IRC_COMPATIBLE_TOUCH_TEST_ModelFileIds 0x021B9218 data a4
  *   G3D_CAMERA_Delete 0x02048AC4 arm
  *   G3D_SYSTEM_Exit 0x02046788 arm
- *   func_02047964 0x02047964 arm
+ *   G3D_SYSTEM_DrawStart 0x02047964 arm
  *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   G3X_SetFog 0x0207DC44 arm
@@ -404,7 +404,7 @@ extern void G3D_SYSTEM_Init(int, int, int, int, int, int, void (*setupDisplay)(v
 extern void *G3D_CAMERA_Create(int, int, int, int, int, int, int, int, void *, void *, void *, int);
 extern void G3D_CAMERA_Delete(void *);
 extern void G3D_SYSTEM_Exit(void);
-extern void func_02047964(void);
+extern void G3D_SYSTEM_DrawStart(void);
 extern void G3D_CAMERA_Reset(void *);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void G3D_SYSTEM_DrawEnd(void);
@@ -864,7 +864,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_Exit3D(IrcScene3d *scene)
 
 void IRC_COMPATIBLE_TOUCH_TEST_Begin3DFrame(IrcScene3d *scene)
 {
-    func_02047964();
+    G3D_SYSTEM_DrawStart();
     G3D_CAMERA_Reset(scene->camera);
     G3D_SYSTEM_ApplyLookAt();
 }

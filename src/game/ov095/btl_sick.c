@@ -26,7 +26,7 @@
  *   BTL_SERVER_FLOW_ProcSickDamage  0x021C4A64  thumb
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb
  *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb
- *   func_021D6324  0x021D6324  thumb
+ *   BTL_POKEPARAM_CalcSickDamage  0x021D6324  thumb
  *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb
  *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb
  *   BTL_POKEPARAM_GetSickContRaw  0x021D6314  thumb
@@ -42,11 +42,11 @@
  *   BTL_POKEPARAM_IsHpFull  0x021D5B48  thumb
  *   BTLV_CORE_GetSlotFlag  0x021E8C24  thumb
  *   BTL_POKEPARAM_GetMovePPById  0x021D55A0  thumb
- *   func_021D62A8  0x021D62A8  thumb
+ *   BTL_POKEPARAM_GetMajorStatusIndex  0x021D62A8  thumb
  *   BTL_CALC_RandRange  0x021D7B8C  thumb
  *   BTLV_CORE_MakeSlotKind2Index  0x021E8940  thumb
- *   func_021E8A78  0x021E8A78  thumb
- *   func_021C8810  0x021C8810  thumb
+ *   BTLV_CORE_IsSlotKind1Index15  0x021E8A78  thumb
+ *   BTL_SERVER_FLOW_ClearMsgRecord  0x021C8810  thumb
  *   gSickAddStringTable   0x0689E21C  data  ov095  a4
  *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb
  *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb
@@ -61,7 +61,7 @@ typedef struct SickAddStringEntry {
     s16 stringIdWithArg;     /* negative: the plain string is used for both */
 } SickAddStringEntry;
 
-extern int func_021D6324(struct BtlPokeParam *bpp, int sickKind);
+extern int BTL_POKEPARAM_CalcSickDamage(struct BtlPokeParam *bpp, int sickKind);
 extern void BTL_SERVER_FLOW_ProcSickDamage(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, int sickKind, int damage);
 void BTL_SICK_ProcAddedOrTurnEnd(struct BtlPokeParam *bpp, int sickKind, union SickCont cont, int isAdded);
 void BTL_SICK_ProcTurnEnd(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, int pokeId, int sickKind);
@@ -114,7 +114,7 @@ void BTL_SICK_ProcTurnEnd(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, 
 
     if (BTL_POKEPARAM_IsFainted(bpp) != 0)
         return;
-    damage = func_021D6324(bpp, sickKind);
+    damage = BTL_POKEPARAM_CalcSickDamage(bpp, sickKind);
     if (damage != 0)
         BTL_SERVER_FLOW_ProcSickDamage(flow, bpp, sickKind, damage);
     switch (sickKind) {
@@ -355,7 +355,7 @@ void BTL_SICK_StartYawnSleep(struct BtlServerFlow *flow, struct BtlPokeParam *bp
 
     turns = BTL_CALC_RandRange(2, 4);
     if (turns > 0) {
-        if (func_021D62A8(bpp) == 0) {
+        if (BTL_POKEPARAM_GetMajorStatusIndex(bpp) == 0) {
             pokeId = BTL_POKEPARAM_GetPokeId(bpp);
             add = BTL_SERVER_FLOW_AllocCmdRecord(flow, BTL_CMD_ADD_SICK, pokeId);
             add->suppressMessage = 1;
@@ -440,7 +440,7 @@ int BTL_SICK_GetCureStringId(unsigned int sickKind, union SickCont cont)
     case 13: stringId = 0x250; break;
     case 15: stringId = 0x371; break;
     case 5:
-        if (func_021E8A78(cont) != 0) stringId = 0xed;
+        if (BTLV_CORE_IsSlotKind1Index15(cont) != 0) stringId = 0xed;
         else stringId = 0xea;
         break;
     }
@@ -461,7 +461,7 @@ void BTL_SICK_BuildCureMessage(int sickKind, union SickCont cont, struct BtlPoke
         if (sickKind == 8 || sickKind == 13)
             BTL_SERVER_FLOW_AppendMsgRecordArg(message, BTLV_CORE_GetSlotValue(cont));
     } else {
-        func_021C8810(message);
+        BTL_SERVER_FLOW_ClearMsgRecord(message);
     }
 }
 

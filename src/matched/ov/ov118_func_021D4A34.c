@@ -13,18 +13,19 @@
  *   POKETRADE_DEMO_UP_UpdateEmitterA  0x021D49F4  thumb  ov118
  *   BUTTON_MAN_SetCallback  0x02051A24  arm  arm9
  *   BUTTON_MAN_SetUserData  0x02051A2C  arm  arm9
+ *   PARTICLE_GetCallbackArg  0x02051774  arm  arm9
  *
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned int   u32;
-extern u32 func_02051774(void);
+extern u32 PARTICLE_GetCallbackArg(void);
 extern void BUTTON_MAN_SetUserData(void *p, int v);
 extern void BUTTON_MAN_SetCallback(void *p, int v);
 extern void POKETRADE_DEMO_UP_UpdateEmitterA(void *obj, int on);
 
 void POKETRADE_DEMO_UP_SetupEmitterA(void *p)
 {
-    BUTTON_MAN_SetUserData(p, func_02051774());
+    BUTTON_MAN_SetUserData(p, PARTICLE_GetCallbackArg());
     BUTTON_MAN_SetCallback(p, (int)POKETRADE_DEMO_UP_UpdateEmitterA);
 }

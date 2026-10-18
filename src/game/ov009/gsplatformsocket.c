@@ -1,7 +1,7 @@
 /*
  * file:     gsplatformsocket.c
  * unit:     yes
- * function: CheckRcode, socket, closesocket, closesocketsure, shutdown, bind, func_0217EC08, recv, recvfrom, send, sendto, setsockopt, getsockname, inet_addr, GOAGetLastError, GSISocketSelect, SetSockBlocking, SetReceiveBufferSize, CanReceiveOnSocket, CanSendOnSocket, getlocalhost, IsPrivateIP
+ * function: CheckRcode, socket, closesocket, closesocketsure, shutdown, bind, connect, recv, recvfrom, send, sendto, setsockopt, getsockname, inet_addr, GOAGetLastError, GSISocketSelect, SetSockBlocking, SetReceiveBufferSize, CanReceiveOnSocket, CanSendOnSocket, getlocalhost, IsPrivateIP
  * address:  0x0217EB00
  * region:   ov009
  * compiler: dsi/1.1p1

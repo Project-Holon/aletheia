@@ -99,13 +99,13 @@
  *   INTRUDE_SUBDISP_Init  0x0217CFE4  thumb  ov018
  *   BEACON_VIEW_Create  0x021F2234  thumb  ov032
  *   abs_id_20      0x00000020  data
- *   func_022022FC  0x021F22FC  thumb  ov032
+ *   BEACON_VIEW_Delete  0x021F22FC  thumb  ov032
  *   BEACON_VIEW_Update 0x021F2344 thumb ov032
  *   BEACON_VIEW_MainPrintQueue 0x021F23F8 thumb ov032
  *   BEACON_VIEW_CreateLeaveEvent 0x021F2404 thumb ov032
  *   DOWSING_Create  0x021F000C  thumb  ov033
  *   abs_id_21      0x00000021  data
- *   func_02210124  0x021F0124  thumb  ov033
+ *   DOWSING_Delete  0x021F0124  thumb  ov033
  *   DOWSING_Update 0x021F0174 thumb ov033
  *   DOWSING_UpdateDisplay 0x021F05A4 thumb ov033
  *   REPORT_Create  0x021EFEC0  thumb  ov034
@@ -235,12 +235,12 @@ void FIELD_SUBSCREEN_UpdateIntrude(FieldSubscreen *work, int isFieldIdle);
 void FIELD_SUBSCREEN_DrawIntrude(FieldSubscreen *work);
 void *FIELD_SUBSCREEN_CheckIntrudeRequest(FieldSubscreen *work, int mode);
 extern void *BEACON_VIEW_Create(void *gameSystem, void *work);
-extern void func_022022FC(void *beaconView);
+extern void BEACON_VIEW_Delete(void *beaconView);
 extern int BEACON_VIEW_Update(void *beaconView);
 extern int BEACON_VIEW_MainPrintQueue(void *beaconView);
 extern int BEACON_VIEW_CreateLeaveEvent(void *beaconView);
 extern void *DOWSING_Create(u32 heapId, u32 owner, void *work, void *fieldSystem);
-extern void func_02210124(void *dowsing);
+extern void DOWSING_Delete(void *dowsing);
 extern int DOWSING_Update(void *dowsing);
 extern int DOWSING_UpdateDisplay(void *dowsing);
 extern void *REPORT_Create(void *gameSystem, u32 heapId);
@@ -770,7 +770,7 @@ void FIELD_SUBSCREEN_InitBeaconView(FieldSubscreen *work)
 /* Mode 4 exit: delete the beacon view panel and unload its overlay. */
 void FIELD_SUBSCREEN_ExitBeaconView(FieldSubscreen *work)
 {
-    func_022022FC(work->cgear);
+    BEACON_VIEW_Delete(work->cgear);
     GF_OVERLAY_Unload((int)abs_id_20);
 }
 
@@ -793,7 +793,7 @@ void FIELD_SUBSCREEN_InitDowsing(FieldSubscreen *work)
 /* Mode 6 exit: delete the dowsing panel and unload its overlay. */
 void FIELD_SUBSCREEN_ExitDowsing(FieldSubscreen *work)
 {
-    func_02210124(work->cgear);
+    DOWSING_Delete(work->cgear);
     GF_OVERLAY_Unload((int)abs_id_21);
 }
 

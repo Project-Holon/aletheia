@@ -81,8 +81,8 @@
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   G3D_SYSTEM_Init 0x02046440 arm
  *   G3D_CAMERA_Create 0x02048A24 arm
- *   func_02048B6C 0x02048B6C arm
- *   func_02048B60 0x02048B60 arm
+ *   G3D_CAMERA_SetFar 0x02048B6C arm
+ *   G3D_CAMERA_SetNear 0x02048B60 arm
  *   G3D_LIGHT_CreateSlots 0x02048BC4 arm
  *   G3D_LIGHT_ApplySlots 0x02048C58 arm
  *   gIntroGraphicCameraPos 0x021BFD68 data a4
@@ -92,7 +92,7 @@
  *   d_021BFD4C 0x021BFD4C data a4
  *   d_021BFD54 0x021BFD54 data a4
  *   G3D_CAMERA_Reset 0x02048AD0 arm
- *   func_02047964 0x02047964 arm
+ *   G3D_SYSTEM_DrawStart 0x02047964 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  *   BMP_WIN_Exit  0x020450C8  arm  arm9
@@ -257,16 +257,16 @@ extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize
                           u16 fifoSize, u16 heap, void (*setupFn)(void));
 extern u32 *G3D_CAMERA_Create(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7, u32 a8,
                           Vec3 *a9, Vec3 *a10, Vec3 *a11, u16 heap);
-extern void func_02048B6C(struct Light *l, const u32 *in);
-extern void func_02048B60(struct Light *l, const u32 *in);
+extern void G3D_CAMERA_SetFar(struct Light *l, const u32 *in);
+extern void G3D_CAMERA_SetNear(struct Light *l, const u32 *in);
 extern struct LightSlot *G3D_LIGHT_CreateSlots(const struct LightSet *s, u32 heap);
 extern void G3D_LIGHT_ApplySlots(struct LightSlot *slots);
-extern void func_02048C4C(u32);
+extern void G3D_LIGHT_DeleteSlots(u32);
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(void);
 /* Original consumes 02048AD0's live r0 through the next veneer call. */
 extern void *G3D_CAMERA_Reset(struct Light *);
-extern void func_02047964(void);
+extern void G3D_SYSTEM_DrawStart(void);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void G3D_SYSTEM_DrawEnd(void);
 extern char *INTRO_CMD_GetScenarioRow(int);
@@ -644,8 +644,8 @@ void INTRO_GRAPHIC_InitCamera(IntroCamera *cam, u16 heap)
     cam->camera = G3D_CAMERA_Create(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 0x1000, 0x400000, 0, &gIntroGraphicCameraPos, &gIntroGraphicCameraTarget, &gIntroGraphicCameraUp, heap);
     far_clip = 0x800000;
     near_clip = 0x19A;
-    func_02048B6C(cam->camera, &far_clip);
-    func_02048B60(cam->camera, &near_clip);
+    G3D_CAMERA_SetFar(cam->camera, &far_clip);
+    G3D_CAMERA_SetNear(cam->camera, &near_clip);
     cam->lightSlot = G3D_LIGHT_CreateSlots(&d_021BFD4C, heap);
     G3D_LIGHT_ApplySlots(cam->lightSlot);
 }
@@ -659,8 +659,8 @@ void INTRO_GRAPHIC_InitCamera7(IntroCamera *cam, u16 heap)
     cam->camera = G3D_CAMERA_Create(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 0x1000, 0x400000, 0, &gIntroGraphicCameraPos, &gIntroGraphicCameraTarget, &gIntroGraphicCameraUp, heap);
     far_clip = 0x800000;
     near_clip = 0x19A;
-    func_02048B6C(cam->camera, &far_clip);
-    func_02048B60(cam->camera, &near_clip);
+    G3D_CAMERA_SetFar(cam->camera, &far_clip);
+    G3D_CAMERA_SetNear(cam->camera, &near_clip);
     cam->lightSlot = G3D_LIGHT_CreateSlots(&d_021BFD54, heap);
     G3D_LIGHT_ApplySlots(cam->lightSlot);
 }
@@ -670,14 +670,14 @@ void INTRO_GRAPHIC_InitCamera7(IntroCamera *cam, u16 heap)
 
 void INTRO_GRAPHIC_DeleteCamera(IntroCamera *cam)
 {
-    func_02048C4C((u32)cam->lightSlot);
+    G3D_LIGHT_DeleteSlots((u32)cam->lightSlot);
     G3D_CAMERA_Delete(cam->camera);
     G3D_SYSTEM_Exit();
 }
 
 
 
-void INTRO_GRAPHIC_DrawCamera(IntroCamera *cam){G3D_CAMERA_Reset(cam->camera);func_02047964();G3D_SYSTEM_ApplyLookAt();}
+void INTRO_GRAPHIC_DrawCamera(IntroCamera *cam){G3D_CAMERA_Reset(cam->camera);G3D_SYSTEM_DrawStart();G3D_SYSTEM_ApplyLookAt();}
 
 
 

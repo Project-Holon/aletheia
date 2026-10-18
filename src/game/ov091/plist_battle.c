@@ -65,7 +65,7 @@
  *   POKELIST_SetupBgPlanes 0x021B6F0C thumb ov091
  *   PARTICLE_GetEffectCount 0x02051614 arm
  *   PARTICLE_UpdateAllSystems 0x02051574 arm
- *   func_02047964 0x02047964 arm
+ *   G3D_SYSTEM_DrawStart 0x02047964 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   PARTICLE_DrawAllSystems 0x02051534 arm
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
@@ -160,7 +160,7 @@ extern int PARTICLE_GetEffectCount(int **p);
 extern u32 PM_VOICE_Play(u32,u32,u32,u32,u32,u32,u32,u32);
 extern u32 PM_VOICE_IsSlotActive(u32 i);
 extern int PARTICLE_UpdateAllSystems(void);
-extern void func_02047964(void);
+extern void G3D_SYSTEM_DrawStart(void);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern int PARTICLE_DrawAllSystems(void);
 extern void G3D_SYSTEM_DrawEnd(void);
@@ -549,7 +549,7 @@ void PLIST_BATTLE_UpdateEffect(PokelistWork *work)
         }
     }
     PARTICLE_UpdateAllSystems();
-    func_02047964();
+    G3D_SYSTEM_DrawStart();
     G3D_SYSTEM_ApplyLookAt();
     PARTICLE_DrawAllSystems();
     G3D_SYSTEM_DrawEnd();

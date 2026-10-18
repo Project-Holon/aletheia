@@ -75,7 +75,7 @@
  *   FIELDMAP_GetPlaceName  0x02188D20  thumb
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb
  *   FIELD_MSGBG_MsgWinPrintStr  0x02190758  thumb
- *   func_021BC5A0  0x021BC5A0  thumb
+ *   FIELD_PLACE_NAME_ForceShowForZone  0x021BC5A0  thumb
  *   ICA_ANIME_GetField114  0x020120F8  thumb
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   FIELD_INTRUDE_EVENT_CreateSymbolEntryEvent  0x0216B340  thumb  ov010
@@ -492,7 +492,7 @@ extern unsigned int FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
 extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
 extern int FIELDMAP_GetPlaceName(struct FieldMap *fieldMap);
-extern void func_021BC5A0(int a0, int a1);
+extern void FIELD_PLACE_NAME_ForceShowForZone(int a0, int a1);
 /* FIELD_MSGBG */
 extern struct MsgData *FIELD_MSGBG_CreateMsgData(struct FieldMsgBg *msgBg, u32 msgDataId);
 extern struct MsgWin *FIELD_MSGBG_CreateBottomMsgWin(struct FieldMsgBg *msgBg, struct MsgData *msgData);
@@ -861,7 +861,7 @@ int INTRUDE_FIELD_TaskAreaChange(struct GameEvent *event, u32 *seq, AreaChangeWo
     case 4:
         if (FIELD_MSGBG_IsMsgWinTransDone(work->msgWin) == 1) {
             msgBg = (struct FieldMsgBg *)FIELDMAP_GetPlaceName(work->fieldMap);
-            func_021BC5A0((int)msgBg, FIELDMAP_GetZoneId(work->fieldMap));
+            FIELD_PLACE_NAME_ForceShowForZone((int)msgBg, FIELDMAP_GetZoneId(work->fieldMap));
             *seq += 1;
         }
         break;

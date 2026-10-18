@@ -18,7 +18,7 @@
  *   DWCi_EncSessionShutdown     0x021CA1B4  arm
  *   DWCi_EncSessionGetResponse  0x021CA228  arm
  *   DWC_GetLastErrorEx          0x02059E38  arm
- *   func_02092344               0x02092344  arm
+ *   memcpy               0x02092344  arm
  *   gDpwTrServerIndex   0x021D3D28  data  a4
  *   gDpwTrBaseUrl   0x021CF538  data  a4
  *   gDpwTrPathDownload   0x021CF5B8  data  a4
@@ -119,7 +119,7 @@ extern int DWCi_EncSessionProcess(void);
 extern void DWCi_EncSessionShutdown(void);
 extern const void *DWCi_EncSessionGetResponse(u32 *len);
 extern int DWC_GetLastErrorEx(int *code, int *type);
-extern void *func_02092344(void *dst, const void *src, unsigned int n);
+extern void *memcpy(void *dst, const void *src, unsigned int n);
 extern void DWCi_EncSessionInitialize(int server, char *initdata);
 extern int DWCi_EncSessionGetAsync(void *, unsigned int, void *, unsigned int, unsigned int);
 extern void DWCi_EncSessionCancel(void);
@@ -239,7 +239,7 @@ void DPW_TR_Main(void)
         case DWC_ENC_PROCESS_DONE:
             gDpwTrWork.state = DPW_TR_STATE_DONE;
             resp = (const u8 *)DWCi_EncSessionGetResponse(&len);
-            func_02092344(gDpwTrWork.resultBuf, resp, 0x128);
+            memcpy(gDpwTrWork.resultBuf, resp, 0x128);
             if (len == 0x128) {
                 gDpwTrWork.result = 0;
             } else {
@@ -265,7 +265,7 @@ void DPW_TR_Main(void)
         case DWC_ENC_PROCESS_DONE:
             gDpwTrWork.state = DPW_TR_STATE_DONE;
             resp = (const u8 *)DWCi_EncSessionGetResponse(&len);
-            func_02092344(gDpwTrWork.resultBuf, resp, 0x128);
+            memcpy(gDpwTrWork.resultBuf, resp, 0x128);
             if (len == 0x128) {
                 gDpwTrWork.result = 1;
             } else {
@@ -342,7 +342,7 @@ void DPW_TR_Main(void)
             case 1:
                 if (len - 2 >= 0x128) {
                     gDpwTrWork.result = (len - 2) / 0x128;
-                    func_02092344(gDpwTrWork.resultBuf, resp + 2, len - 2);
+                    memcpy(gDpwTrWork.resultBuf, resp + 2, len - 2);
                 } else if (len == 2) {
                     gDpwTrWork.result = 0;
                 }
@@ -365,7 +365,7 @@ void DPW_TR_Main(void)
         case DWC_ENC_PROCESS_DONE:
             gDpwTrWork.state = DPW_TR_STATE_DONE;
             resp = (const u8 *)DWCi_EncSessionGetResponse(&len);
-            func_02092344(gDpwTrWork.resultBuf, resp, 0x128);
+            memcpy(gDpwTrWork.resultBuf, resp, 0x128);
             if (len == 0x128) {
                 gDpwTrWork.result = 0;
             } else {
@@ -504,9 +504,9 @@ int DPW_TR_GetAsyncResult(void)
 /* Request: upload a trade (0x128 bytes) with its wanted-Pokemon data. */
 void DPW_TR_UploadAsync(const void *tradeData, const void *wantedData, int wantedLen)
 {
-    func_02092344(gDpwTrRequestPacket, tradeData, 0x128);
+    memcpy(gDpwTrRequestPacket, tradeData, 0x128);
     gDpwTrWork.uploadFlag = 0;
-    func_02092344(gDpwTrWantedData, wantedData, wantedLen);
+    memcpy(gDpwTrWantedData, wantedData, wantedLen);
     gDpwTrWork.wantedLen = wantedLen;
     DWCi_EncSessionInitialize(gDpwTrServerIndex, (char *)gDpwTrBaseUrl);
     if (DWCi_EncSessionGetAsync(gDpwTrPathUpload, gDpwTrWork.profileId, gDpwTrRequestPacket, 0x1b0, 0) == 0) {
@@ -690,9 +690,9 @@ void DPW_TR_DownloadMatchDataRawAsync(const void *searchData, u8 *resultBuf)
 void DPW_TR_TradeAsync(unsigned uploadFlag, const void *tradeData, u8 *resultBuf, const void *wantedData, unsigned wantedLen)
 {
     gDpwTrWork.resultBuf = resultBuf;
-    func_02092344(gDpwTrRequestPacket, tradeData, 0x128);
+    memcpy(gDpwTrRequestPacket, tradeData, 0x128);
     gDpwTrWork.uploadFlag = uploadFlag;
-    func_02092344(gDpwTrWantedData, wantedData, wantedLen);
+    memcpy(gDpwTrWantedData, wantedData, wantedLen);
     gDpwTrWork.wantedLen = wantedLen;
     DWCi_EncSessionInitialize(gDpwTrServerIndex, (char *)gDpwTrBaseUrl);
     if (DWCi_EncSessionGetAsync(gDpwTrPathTrade, gDpwTrWork.profileId, gDpwTrRequestPacket, 0x1b0, 0) == 0) {
@@ -735,7 +735,7 @@ void DPW_TR_GetServerStateAsync(void)
 void DPW_TR_SetProfileAsync(unsigned char *profile, u8 *resultBuf)
 {
     OS_GetMacAddress(profile + 0x1c);
-    func_02092344(gDpwTrRequestPacket, profile, 100);
+    memcpy(gDpwTrRequestPacket, profile, 100);
     gDpwTrWork.resultBuf = resultBuf;
     DWCi_EncSessionInitialize(gDpwTrServerIndex, (char *)gDpwTrBaseUrl);
     if (DWCi_EncSessionGetAsync(gDpwTrPathSetProfile, gDpwTrWork.profileId, gDpwTrRequestPacket, 100, 0) == 0) {

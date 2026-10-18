@@ -25,12 +25,12 @@
  *   get_sockaddrin  0x0217C690  arm ov009
  *   socket  0x0217EB18  arm ov009
  *   strlen  0x0209477C  arm
- *   func_02092344  0x02092344  arm
+ *   memcpy  0x02092344  arm
  *   SendPacket  0x0217C704  arm ov009
  *   gGsAvailabilityGameName     0x021ACEFC  data
  *   gGsAvailableOverrideHost     0x021ACF3C  data
  *   gGsAvailableHostFmt     0x021A36E8  data
- *   func_020923F0  0x020923F0  arm
+ *   memcmp  0x020923F0  arm
  *   gGsAvailableMagic     0x021A370C  data
  *   CanReceiveOnSocket  0x0217EF50  arm  ov009
  *   recvfrom  0x0217EC60  arm  ov009
@@ -78,9 +78,9 @@ extern int OS_SPrintf(char *dst, char *fmt, ...);
 static int get_sockaddrin(char *hostname, int port, struct SOCSockAddrIn *saddr);
 extern int socket(int pf, int type, int protocol);
 extern int strlen(const u8 *s);
-extern void *func_02092344(void *dst, const void *src, unsigned long n);
+extern void *memcpy(void *dst, const void *src, unsigned long n);
 static void SendPacket(void);
-extern int func_020923F0(const u8 *a, const u8 *b, int n);
+extern int memcmp(const u8 *a, const u8 *b, int n);
 extern int CanReceiveOnSocket(int sock);
 extern int recvfrom(int sock, char *buf, int len, int flags, void *addr, int *fromlen);
 extern int HandlePacket(char *packet, int len, struct SOCSockAddrIn *address, int *disabledservices);
@@ -143,7 +143,7 @@ void GSIStartAvailableCheckA(char *gamename)
         return;
     gGsAvailableCheck.packet[0] = 9;
     len = strlen((const u8 *)gamename);
-    func_02092344(gGsAvailableCheck.packet + 5, gamename, len + 1);
+    memcpy(gGsAvailableCheck.packet + 5, gamename, len + 1);
     gGsAvailableCheck.packetLen = len + 6;
     SendPacket();
     gGsAvailableCheck.retryCount = 0;
@@ -157,11 +157,11 @@ int HandlePacket(char *packet, int len, struct SOCSockAddrIn *address, int *disa
     int bitfield;
     if (len < 7)
         return 1;
-    if (func_020923F0((const u8 *)(&address->addr), (const u8 *)&gGsAvailableCheck.address.addr, 4) != 0)
+    if (memcmp((const u8 *)(&address->addr), (const u8 *)&gGsAvailableCheck.address.addr, 4) != 0)
         return 1;
     if (address->port != gGsAvailableCheck.address.port)
         return 1;
-    if (func_020923F0((const u8 *)packet, (const u8 *)gGsAvailableMagic, 3) != 0)
+    if (memcmp((const u8 *)packet, (const u8 *)gGsAvailableMagic, 3) != 0)
         return 1;
     bitfield = (packet[3] << 24) & 0xff000000;
     bitfield |= (packet[4] << 16) & 0xff0000;

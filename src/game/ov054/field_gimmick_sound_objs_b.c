@@ -25,7 +25,7 @@
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   FIELD_CAMERA_GetG3dCamera  0x0218EC2C  thumb  ov021
  *   G3D_CAMERA_GetEye  0x02048AE8  arm
- *   G3D_CAMERA_GetUp  0x02048B30  arm
+ *   G3D_CAMERA_GetCamTarget  0x02048B30  arm
  *   ISS_3DS_SYS_SetCamera  0x0202B93C  thumb
  *   SOUND_OBJ_AdvanceAnime  0x021C4DE4  thumb  ov021
  *   FIELD_GIMMICK_SOUND_OBJS_B_RestartAnime  0x021F393C  thumb  ov054
@@ -34,7 +34,7 @@
  *   ISS_SYS_Get3dsSys  0x0202B57C  thumb
  *   ARC_TOOL_LoadMember  0x02048F60  arm
  *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
- *   func_021C4D14  0x021C4D14  thumb  ov021
+ *   SOUND_OBJ_Create  0x021C4D14  thumb  ov021
  *   SOUND_OBJ_SetAnime  0x021C4DC0  thumb  ov021
  *   GFL_HEAP_Free  0x020307B0  arm
  *   sSoundObjsBWaitMembers 0x021F394C data a4
@@ -102,7 +102,7 @@ void FIELD_GIMMICK_SOUND_OBJS_B_Update(struct FieldMap *fieldMap)
     work = FIELDMAP_GetCommonWork(fieldMap, 0);
     camera = FIELD_CAMERA_GetG3dCamera(FIELDMAP_GetCamera(fieldMap));
     G3D_CAMERA_GetEye(camera, &eye);
-    G3D_CAMERA_GetUp(camera, &target);
+    G3D_CAMERA_GetCamTarget(camera, &target);
     ISS_3DS_SYS_SetCamera(work->iss3ds, &eye, &target);
     for (i = 0; i < FIELD_GIMMICK_SOUND_OBJS_B_SOUND_OBJ_COUNT; i++) {
         if (work->waitFrames[i] > 0) {
@@ -129,12 +129,12 @@ void FIELD_GIMMICK_SOUND_OBJS_B_CreateSoundObjs(FieldGimmickSoundObjsBWork *work
     work->heapId = heapId;
     work->iss3ds = ISS_SYS_Get3dsSys(GAMESYSTEM_GetIssSystem(FIELDMAP_GetGameSystem(fieldMap)));
     params = ARC_TOOL_LoadMember(FIELD_GIMMICK_SOUND_OBJS_B_ARC_ID, 1, heapId);
-    soundObj = func_021C4D14(fieldMap, &FLD_EXP_OBJ_GetModelStatus(expObj, 0, 0)->trans, 8, params[0] << 12, params[1]);
+    soundObj = SOUND_OBJ_Create(fieldMap, &FLD_EXP_OBJ_GetModelStatus(expObj, 0, 0)->trans, 8, params[0] << 12, params[1]);
     SOUND_OBJ_SetAnime(soundObj, FIELD_GIMMICK_SOUND_OBJS_B_ARC_ID, 3, 10);
     work->soundObj[0] = soundObj;
     GFL_HEAP_Free(params);
     params = ARC_TOOL_LoadMember(FIELD_GIMMICK_SOUND_OBJS_B_ARC_ID, 2, heapId);
-    soundObj = func_021C4D14(fieldMap, &FLD_EXP_OBJ_GetModelStatus(expObj, 0, 1)->trans, 9, params[0] << 12, params[1]);
+    soundObj = SOUND_OBJ_Create(fieldMap, &FLD_EXP_OBJ_GetModelStatus(expObj, 0, 1)->trans, 9, params[0] << 12, params[1]);
     SOUND_OBJ_SetAnime(soundObj, FIELD_GIMMICK_SOUND_OBJS_B_ARC_ID, 4, 10);
     work->soundObj[1] = soundObj;
     GFL_HEAP_Free(params);

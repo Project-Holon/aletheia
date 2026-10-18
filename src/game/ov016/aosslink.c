@@ -59,7 +59,7 @@
  *   gAosslinkBlock2           0x021DCF20  data
  *   gAosslinkEventQueue           0x021DCE40  data
  *   gAosslinkBlock1           0x021DCE60  data
- *   func_021DCE20   0x021DCE20  data
+ *   AOSSi_Alloc   0x021DCE20  data
  */
 #include "../../matched/include/G_OSMessageQueue.h"
 #include "../../matched/include/G_AOSSLINK_BSS.h"
@@ -631,12 +631,12 @@ void AOSSi_Sleep(unsigned int msec)
     OS_Sleep(msec);
 }
 
-extern void (*func_021DCE20[])(int);
+extern void (*AOSSi_Alloc[])(int);
 
 
 int AOSSi_Status(int a)
 {
-    if (func_021DCE20[1])
-        func_021DCE20[1](a);
+    if (AOSSi_Alloc[1])
+        AOSSi_Alloc[1](a);
     return 0;
 }

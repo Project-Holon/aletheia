@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * Unlabelled 12-byte ARM pointer thunk in a .word run:
- *   ldr r0, [pc, #0]; bx lr; .word func_02152FE4
+ *   ldr r0, [pc, #0]; bx lr; .word micWork
  * It is not one of the two linker-veneer encodings the `veneer` class
  * recognises (it loads r0 and returns through lr rather than branching through
  * ip/pc), so only a `matched` entry can witness it.  Matching it lets the two
@@ -45,7 +45,7 @@
  *   PXI_IsCallbackReady  0x020885EC  arm
  *   PXI_SetFifoRecvCallback  0x020885A0  arm
  *   PXI_SendWordByFifo  0x02088610  arm
- *   func_02152FE4  0x02152FE4  arm
+ *   micWork  0x02152FE4  arm
  */
 #define TRUE 1
 #define FALSE 0
@@ -122,7 +122,7 @@ extern MICResult MIC_StopAutoSampling(void);
 extern MICResult MICEXi_StartLimitedSamplingAsync(const MICAutoParam *param, MICCallback callback, void *arg);
 extern MICResult MICEXi_StartLimitedSampling(const MICAutoParam *param);
 extern MICResult MICEXi_StopLimitedSampling(void);
-extern void func_02152FE4(void);
+extern void micWork(void);
 void MIC_Init(void);
 MICResult MIC_StartAutoSampling(MICAutoParam *param);
 void *MIC_GetLastSamplingAddress(void);
@@ -474,5 +474,5 @@ loc_0208B79C:
 
 void *MICEXi_GetLimitedSamplingCallback(void)
 {
-    return (void *)func_02152FE4;
+    return (void *)micWork;
 }

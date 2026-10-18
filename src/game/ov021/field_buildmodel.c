@@ -20,7 +20,7 @@
  *   ZONEDATA_GetAreaId  0x02013B38  thumb
  *   ZONEDATA_GetAreaInnerOuter  0x020140D8  thumb
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
- *   func_0204961C  0x0204961C  arm
+ *   ARC_TOOL_GetHandleFileCount  0x0204961C  arm
  *   ARC_TOOL_LoadHandleMember  0x02049250  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   MI_CpuFill8  0x02082BCC  arm
@@ -263,7 +263,7 @@ extern u32 GFL_HEAP_Free(void *);
 extern u32 ZONEDATA_GetAreaId(u32 id);
 extern u8 ZONEDATA_GetAreaInnerOuter(struct Sub020140BCObj *p);
 extern void *ARC_TOOL_CreateHandle(u32, u32);
-extern u16 func_0204961C(void *obj);
+extern u16 ARC_TOOL_GetHandleFileCount(void *obj);
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 extern void ARC_TOOL_DeleteHandle(void *);
 void *G3D_SYSTEM_CreateResourceArc(u32 a0, u32 a1);
@@ -627,7 +627,7 @@ void FIELD_BUILDMODEL_LoadModelArchive(BuildModelMan *man, u16 archiveId, u32 me
     u8 *data;
 
     arc = ARC_TOOL_CreateHandle(archiveId, (u16)((man->heapId & 0x7fff) | 0x8000));
-    if (func_0204961C(arc) <= member)
+    if (ARC_TOOL_GetHandleFileCount(arc) <= member)
         member = 0;
     data = ARC_TOOL_LoadHandleMember(arc, member, man->heapId);
     man->archive = data;

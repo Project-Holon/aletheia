@@ -12,16 +12,16 @@
  * Unlabelled tail-call leaf: forwards field 0xc and the second argument.
  *
  * symbols:
- *   G3D_CAMERA_SetTarget  0x02048B20  arm
+ *   G3D_CAMERA_SetCamUp  0x02048B20  arm
  */
 #include "../include/Obj19564.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void G3D_CAMERA_SetTarget(u32 a, u32 b);
+extern void G3D_CAMERA_SetCamUp(u32 a, u32 b);
 
 void FIELD_CAMERA_SetG3dUp(u8 *p, u32 q)
 {
-    G3D_CAMERA_SetTarget(((struct Obj19564 *)p)->fC, q);
+    G3D_CAMERA_SetCamUp(((struct Obj19564 *)p)->fC, q);
 }

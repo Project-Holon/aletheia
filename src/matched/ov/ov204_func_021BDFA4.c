@@ -16,8 +16,8 @@
  * symbols:
  *   G3D_SYSTEM_Init 0x02046440 arm
  *   G3D_CAMERA_Create 0x02048A24 arm
- *   G3D_CAMERA_SetRoll 0x02048B6C arm
- *   G3D_CAMERA_SetScale 0x02048B60 arm
+ *   G3D_CAMERA_SetFar 0x02048B6C arm
+ *   G3D_CAMERA_SetNear 0x02048B60 arm
  *   G3D_LIGHT_CreateSlots 0x02048BC4 arm
  *   G3D_LIGHT_ApplySlots 0x02048C58 arm
  *   INTRO_GRAPHIC_Setup3d 0x021BDB70 thumb ov204
@@ -43,8 +43,8 @@ extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize
                           u16 fifoSize, s16 heap, void (*gIntroG3dUnitSetup)(void));
 extern u32 *G3D_CAMERA_Create(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7, u32 a8,
                           Vec3 *a9, Vec3 *a10, Vec3 *a11, u16 heap);
-extern void G3D_CAMERA_SetRoll(struct Light *l, const u32 *in);
-extern void G3D_CAMERA_SetScale(struct Light *l, const u32 *in);
+extern void G3D_CAMERA_SetFar(struct Light *l, const u32 *in);
+extern void G3D_CAMERA_SetNear(struct Light *l, const u32 *in);
 extern struct LightSlot *G3D_LIGHT_CreateSlots(const struct LightSet *s, u32 heap);
 extern void G3D_LIGHT_ApplySlots(struct LightSlot *slots);
 extern void INTRO_GRAPHIC_Setup3d(void);
@@ -60,8 +60,8 @@ void INTRO_GRAPHIC_InitCamera(char *p, u8 heap)
     *(u32 **)p = G3D_CAMERA_Create(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 0x1000, 0x400000, 0, ((Vec3 *)&gIntroGraphicCameraPos), ((Vec3 *)&gIntroGraphicCameraTarget), ((Vec3 *)&gIntroGraphicCameraUp), heap);
     far_clip = 0x800000;
     near_clip = 0x19A;
-    G3D_CAMERA_SetRoll(*(struct Light **)p, &far_clip);
-    G3D_CAMERA_SetScale(*(struct Light **)p, &near_clip);
+    G3D_CAMERA_SetFar(*(struct Light **)p, &far_clip);
+    G3D_CAMERA_SetNear(*(struct Light **)p, &near_clip);
     *(struct LightSlot **)(p + 4) = G3D_LIGHT_CreateSlots(&d_021BFD4C, heap);
     G3D_LIGHT_ApplySlots(*(struct LightSlot **)(p + 4));
 }

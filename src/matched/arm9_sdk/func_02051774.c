@@ -1,5 +1,5 @@
 /*
- * function: func_02051774
+ * function: PARTICLE_GetCallbackArg
  * address:  0x02051774
  * packet:   pkt_02051774
  * region:   arm9
@@ -26,7 +26,7 @@ typedef unsigned int u32;
 
 extern struct G_02146A88 *d_02146A88;
 
-u32 func_02051774(void)
+u32 PARTICLE_GetCallbackArg(void)
 {
     return *(u32 *)(*(u32 *)&(*(u32 *)&d_02146A88) + 0x40);
 }

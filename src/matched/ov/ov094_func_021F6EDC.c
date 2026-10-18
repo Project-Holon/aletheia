@@ -14,13 +14,13 @@
  *
  * symbols:
  *   G3D_CAMERA_SetEye  0x02048AFC  arm
- *   G3D_CAMERA_SetUp  0x02048B44  arm
+ *   G3D_CAMERA_SetCamTarget  0x02048B44  arm
  *   G3D_CAMERA_Reset  0x02048AD0  arm
  *   BTLV_CAMERA_SyncOrbitFromCamera  0x021F73A4  thumb  ov094
  */
 
 extern void G3D_CAMERA_SetEye(int, const int *);
-extern void G3D_CAMERA_SetUp(int, int);
+extern void G3D_CAMERA_SetCamTarget(int, int);
 struct Light;
 extern void G3D_CAMERA_Reset(struct Light *l);
 extern void BTLV_CAMERA_SyncOrbitFromCamera(int *);
@@ -37,7 +37,7 @@ void BTLV_CAMERA_SetEyeAndTarget(int *p, int *a, int *b)
         p[9] = b[0];
         p[10] = b[1];
         p[11] = b[2];
-        G3D_CAMERA_SetUp(p[1], (int)b);
+        G3D_CAMERA_SetCamTarget(p[1], (int)b);
     }
     G3D_CAMERA_Reset((struct Light *)p[1]);
     BTLV_CAMERA_SyncOrbitFromCamera(p);

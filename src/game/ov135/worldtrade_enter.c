@@ -163,7 +163,7 @@ extern unsigned long long DWC_CreateFriendKey(struct DWCstAccUserData *userdata)
 
 extern void DPW_TR_Init(u32 a, u32 b, u32 c, int d);
 
-extern void func_021C8DA0(u8 *p);
+extern void DPW_TR_GetServerStateAsync(u8 *p);
 
 extern void *DPW_TR_Main();
 
@@ -466,7 +466,7 @@ int WORLDTRADE_ENTER_InitDwcTrade(Work *p)
  */
 int WORLDTRADE_ENTER_StateStartConnect(Work *p)
 {
-    func_021C8DA0((u8 *)p);
+    DPW_TR_GetServerStateAsync((u8 *)p);
     p->timer = 0;
     return 1;
 }

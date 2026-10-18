@@ -1,7 +1,7 @@
 /*
  * file:     os_interrupt.c
  * unit:     yes
- * function: func_0208475C, OS_SetIrqFunction, OS_GetIrqFunction, OSi_EnterDmaCallback, OSi_EnterNDmaCallback, OSi_EnterTimerCallback, OS_SetIrqMask, OS_EnableIrqMask, OS_DisableIrqMask, OS_ResetRequestIrqMask, OS_SetIrqStackChecker
+ * function: OS_InitIrqTable, OS_SetIrqFunction, OS_GetIrqFunction, OSi_EnterDmaCallback, OSi_EnterNDmaCallback, OSi_EnterTimerCallback, OS_SetIrqMask, OS_EnableIrqMask, OS_DisableIrqMask, OS_ResetRequestIrqMask, OS_SetIrqStackChecker
  * address:  0x0208475C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -48,7 +48,7 @@ typedef volatile u32 vu32;
 typedef volatile u16 vu16;
 
 extern void OSi_EnterNDmaCallback_ltdmain(u32 dmaNo, void (*callback)(void *), void *arg);
-void func_0208475C(void);
+void OS_InitIrqTable(void);
 void OS_SetIrqFunction(OSIrqMask intrBit, OSIrqFunction function);
 OSIrqFunction OS_GetIrqFunction(OSIrqMask intrBit);
 void OSi_EnterDmaCallback(u32 dmaNo, void (*callback)(void *), void *arg);
@@ -74,7 +74,7 @@ extern char SDK_IRQ_STACKSIZE[];
 /*
  * note:     os_interrupt.o OS_InitIrqTable (zeroes OSi_IrqThreadQueue).
  */
-void func_0208475C(void)
+void OS_InitIrqTable(void)
 {
     g_02FE00A0[1] = 0;
     g_02FE00A0[0] = 0;

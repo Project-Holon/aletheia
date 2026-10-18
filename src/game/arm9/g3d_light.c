@@ -1,7 +1,7 @@
 /*
  * file:     g3d_light.c
  * unit:     yes
- * function: G3D_CAMERA_Reset, G3D_CAMERA_GetEye, G3D_CAMERA_SetEye, G3D_CAMERA_GetTarget, G3D_CAMERA_SetTarget, G3D_CAMERA_GetUp, G3D_CAMERA_SetUp, G3D_CAMERA_GetScale, G3D_CAMERA_SetScale, G3D_CAMERA_SetRoll, G3D_CAMERA_GetMode, G3D_CAMERA_SetNearClip, G3D_CAMERA_GetFarClip, G3D_CAMERA_SetFarClip, G3D_CAMERA_GetNearClipAlt, G3D_CAMERA_SetNearClipAlt, G3D_CAMERA_GetFarClipAlt, G3D_CAMERA_SetFarClipAlt, G3D_LIGHT_CreateSlots, G3D_LIGHT_DeleteSlots, G3D_LIGHT_ApplySlots, G3D_LIGHT_GetSlotColor, G3D_LIGHT_SetSlotColor, G3D_LIGHT_GetSlotFlags, G3D_LIGHT_SetSlotFlags, ARC_TOOL_SetTable
+ * function: G3D_CAMERA_Reset, G3D_CAMERA_GetEye, G3D_CAMERA_SetEye, G3D_CAMERA_GetCamUp, G3D_CAMERA_SetCamUp, G3D_CAMERA_GetCamTarget, G3D_CAMERA_SetCamTarget, G3D_CAMERA_GetNear, G3D_CAMERA_SetNear, G3D_CAMERA_SetFar, G3D_CAMERA_GetMode, G3D_CAMERA_SetFovySin, G3D_CAMERA_GetFovyCos, G3D_CAMERA_SetFovyCos, G3D_CAMERA_GetNearClipAlt, G3D_CAMERA_SetNearClipAlt, G3D_CAMERA_GetFarClipAlt, G3D_CAMERA_SetFarClipAlt, G3D_LIGHT_CreateSlots, G3D_LIGHT_DeleteSlots, G3D_LIGHT_ApplySlots, G3D_LIGHT_GetDirection, G3D_LIGHT_SetDirection, G3D_LIGHT_GetColor, G3D_LIGHT_SetColor, ARC_TOOL_SetTable
  * address:  0x02048AD0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -89,27 +89,27 @@ void G3D_CAMERA_GetEye(struct G3dCamera *l, VecFx32 *out);
 
 void G3D_CAMERA_SetEye(struct G3dCamera *l, const VecFx32 *in);
 
-void G3D_CAMERA_GetTarget(struct G3dCamera *l, VecFx32 *out);
+void G3D_CAMERA_GetCamUp(struct G3dCamera *l, VecFx32 *out);
 
-void G3D_CAMERA_SetTarget(struct G3dCamera *l, const VecFx32 *in);
+void G3D_CAMERA_SetCamUp(struct G3dCamera *l, const VecFx32 *in);
 
-void G3D_CAMERA_GetUp(struct G3dCamera *l, VecFx32 *out);
+void G3D_CAMERA_GetCamTarget(struct G3dCamera *l, VecFx32 *out);
 
-void G3D_CAMERA_SetUp(struct G3dCamera *l, const VecFx32 *in);
+void G3D_CAMERA_SetCamTarget(struct G3dCamera *l, const VecFx32 *in);
 
-void G3D_CAMERA_GetScale(struct G3dCamera *l, u32 *out);
+void G3D_CAMERA_GetNear(struct G3dCamera *l, u32 *out);
 
-void G3D_CAMERA_SetScale(struct G3dCamera *l, const u32 *in);
+void G3D_CAMERA_SetNear(struct G3dCamera *l, const u32 *in);
 
-void G3D_CAMERA_SetRoll(struct G3dCamera *l, const u32 *in);
+void G3D_CAMERA_SetFar(struct G3dCamera *l, const u32 *in);
 
 int G3D_CAMERA_GetMode(struct G3dCamera *l);
 
-void G3D_CAMERA_SetNearClip(struct G3dCamera *l, u32 v);
+void G3D_CAMERA_SetFovySin(struct G3dCamera *l, u32 v);
 
-void G3D_CAMERA_GetFarClip(struct G3dCamera *l, u32 *out);
+void G3D_CAMERA_GetFovyCos(struct G3dCamera *l, u32 *out);
 
-void G3D_CAMERA_SetFarClip(struct G3dCamera *l, u32 v);
+void G3D_CAMERA_SetFovyCos(struct G3dCamera *l, u32 v);
 
 void G3D_CAMERA_GetNearClipAlt(struct G3dCamera *l, u32 *out);
 
@@ -125,13 +125,13 @@ u32 G3D_LIGHT_DeleteSlots(void *p);
 
 void G3D_LIGHT_ApplySlots(struct LightSlot *slots);
 
-void G3D_LIGHT_GetSlotColor(struct LightSlot *slots, u8 i, struct Rgb555 *out);
+void G3D_LIGHT_GetDirection(struct LightSlot *slots, u8 i, struct Rgb555 *out);
 
-void G3D_LIGHT_SetSlotColor(struct LightSlot *slots, u32 i, struct Rgb555 *in);
+void G3D_LIGHT_SetDirection(struct LightSlot *slots, u32 i, struct Rgb555 *in);
 
-void G3D_LIGHT_GetSlotFlags(struct LightSlot *slots, u8 i, u16 *out);
+void G3D_LIGHT_GetColor(struct LightSlot *slots, u8 i, u16 *out);
 
-void G3D_LIGHT_SetSlotFlags(struct LightSlot *slots, u32 i, u16 *in);
+void G3D_LIGHT_SetColor(struct LightSlot *slots, u32 i, u16 *in);
 
 void ARC_TOOL_SetTable(u32 a, u32 b);
 
@@ -193,37 +193,37 @@ void G3D_CAMERA_SetEye(struct G3dCamera *camera, const VecFx32 *in)
     camera->eye = *in;
 }
 
-void G3D_CAMERA_GetTarget(struct G3dCamera *camera, VecFx32 *out)
+void G3D_CAMERA_GetCamUp(struct G3dCamera *camera, VecFx32 *out)
 {
     *out = camera->target;
 }
 
-void G3D_CAMERA_SetTarget(struct G3dCamera *camera, const VecFx32 *in)
+void G3D_CAMERA_SetCamUp(struct G3dCamera *camera, const VecFx32 *in)
 {
     camera->target = *in;
 }
 
-void G3D_CAMERA_GetUp(struct G3dCamera *camera, VecFx32 *out)
+void G3D_CAMERA_GetCamTarget(struct G3dCamera *camera, VecFx32 *out)
 {
     *out = camera->up;
 }
 
-void G3D_CAMERA_SetUp(struct G3dCamera *camera, const VecFx32 *in)
+void G3D_CAMERA_SetCamTarget(struct G3dCamera *camera, const VecFx32 *in)
 {
     camera->up = *in;
 }
 
-void G3D_CAMERA_GetScale(struct G3dCamera *camera, u32 *out)
+void G3D_CAMERA_GetNear(struct G3dCamera *camera, u32 *out)
 {
     *out = camera->scale;
 }
 
-void G3D_CAMERA_SetScale(struct G3dCamera *camera, const u32 *in)
+void G3D_CAMERA_SetNear(struct G3dCamera *camera, const u32 *in)
 {
     camera->scale = *in;
 }
 
-void G3D_CAMERA_SetRoll(struct G3dCamera *camera, const u32 *in)
+void G3D_CAMERA_SetFar(struct G3dCamera *camera, const u32 *in)
 {
     camera->roll = *in;
 }
@@ -233,17 +233,17 @@ int G3D_CAMERA_GetMode(struct G3dCamera *camera)
     return camera->mode;
 }
 
-void G3D_CAMERA_SetNearClip(struct G3dCamera *camera, u32 v)
+void G3D_CAMERA_SetFovySin(struct G3dCamera *camera, u32 v)
 {
     camera->nearClip = v;
 }
 
-void G3D_CAMERA_GetFarClip(struct G3dCamera *camera, u32 *out)
+void G3D_CAMERA_GetFovyCos(struct G3dCamera *camera, u32 *out)
 {
     *out = camera->farClip;
 }
 
-void G3D_CAMERA_SetFarClip(struct G3dCamera *camera, u32 v)
+void G3D_CAMERA_SetFovyCos(struct G3dCamera *camera, u32 v)
 {
     camera->farClip = v;
 }
@@ -366,22 +366,22 @@ void G3D_LIGHT_ApplySlots(struct LightSlot *slots)
     }
 }
 
-void G3D_LIGHT_GetSlotColor(struct LightSlot *slots, u8 i, struct Rgb555 *out)
+void G3D_LIGHT_GetDirection(struct LightSlot *slots, u8 i, struct Rgb555 *out)
 {
     *out = slots[i].col;
 }
 
-void G3D_LIGHT_SetSlotColor(struct LightSlot *slots, u32 i, struct Rgb555 *in)
+void G3D_LIGHT_SetDirection(struct LightSlot *slots, u32 i, struct Rgb555 *in)
 {
     slots[i].col = *in;
 }
 
-void G3D_LIGHT_GetSlotFlags(struct LightSlot *slots, u8 i, u16 *out)
+void G3D_LIGHT_GetColor(struct LightSlot *slots, u8 i, u16 *out)
 {
     *out = slots[i].flags;
 }
 
-void G3D_LIGHT_SetSlotFlags(struct LightSlot *slots, u32 i, u16 *in)
+void G3D_LIGHT_SetColor(struct LightSlot *slots, u32 i, u16 *in)
 {
     slots[i].flags = *in;
 }

@@ -90,7 +90,7 @@
  *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
  *   CONFIG_GetButtonMode  0x02008428  thumb
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
- *   func_0204BA00  0x0204BA00  arm
+ *   CLACT_ApplyActorAnimCommand  0x0204BA00  arm
  *   CLACT_RestartActorAnim  0x0204B9A0  arm
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
@@ -508,7 +508,7 @@ extern u32 BATTLE_BOX_HasMon(void *data);
 extern s32 CLACT_RegisterCharacter(struct ArcHandle *arc, u32 a, u32 b, u32 c, u16 heapId);
 extern s32 CLACT_RegisterPaletteEx(struct ArcHandle *arc, u32 a, u32 b, u32 c, u16 d, u16 e, u16 heapId);
 extern s32 CLACT_RegisterCellAnim(struct ArcHandle *arc, u32 a, u32 b, u32 heapId);
-extern void func_0204BA00(struct ClactActor *actor, const ClactAnimEndHook *hook);
+extern void CLACT_ApplyActorAnimCommand(struct ClactActor *actor, const ClactAnimEndHook *hook);
 extern void CLACT_RestartActorAnim(struct ClactActor *actor);
 extern const BgTemplate sBgTemplateMain0;
 extern const BgTemplate sBgTemplateMain1;
@@ -974,7 +974,7 @@ void IRCBATTLEMENU_SeqPressTopButton(IrcBattleMenuWork *work)
         i = 3;
     }
     CLACT_SetActorAutoAnim(work->menuActors[i], 1);
-    func_0204BA00(work->menuActors[i], &hook);
+    CLACT_ApplyActorAnimCommand(work->menuActors[i], &hook);
     CLACT_RestartActorAnim(work->menuActors[i]);
     IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqIdleTop, 0x3BF);
 }
@@ -1091,7 +1091,7 @@ void IRCBATTLEMENU_SeqPressKindButton(IrcBattleMenuWork *work)
     hook.work = work;
     hook.callback = IRCBATTLEMENU_HookKindMenuPressed;
     CLACT_SetActorAutoAnim(work->menuActors[i], 1);
-    func_0204BA00(work->menuActors[i], &hook);
+    CLACT_ApplyActorAnimCommand(work->menuActors[i], &hook);
     CLACT_RestartActorAnim(work->menuActors[i]);
     IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqIdleKind, 0x471);
 }
@@ -1116,7 +1116,7 @@ void IRCBATTLEMENU_SeqPressKindBack(IrcBattleMenuWork *work)
     hook.work = work;
     hook.callback = IRCBATTLEMENU_HookKindBackPressed;
     CLACT_SetActorAutoAnim(work->menuActors[work->touchIndex], 1);
-    func_0204BA00(work->menuActors[work->touchIndex], &hook);
+    CLACT_ApplyActorAnimCommand(work->menuActors[work->touchIndex], &hook);
     CLACT_RestartActorAnim(work->menuActors[work->touchIndex]);
     IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqIdleKindBack, 0x492);
 }
@@ -1194,7 +1194,7 @@ void IRCBATTLEMENU_SeqPressPartyButton(IrcBattleMenuWork *work)
     hook.work = work;
     hook.callback = IRCBATTLEMENU_HookPartyMenuPressed;
     CLACT_SetActorAutoAnim(work->menuActors[i], 1);
-    func_0204BA00(work->menuActors[i], &hook);
+    CLACT_ApplyActorAnimCommand(work->menuActors[i], &hook);
     CLACT_RestartActorAnim(work->menuActors[i]);
     IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqIdleParty, 0x504);
 }
@@ -1292,7 +1292,7 @@ void IRCBATTLEMENU_SeqPressRuleButton(IrcBattleMenuWork *work)
     hook.work = work;
     hook.callback = IRCBATTLEMENU_HookRuleMenuPressed;
     CLACT_SetActorAutoAnim(work->menuActors[i], 1);
-    func_0204BA00(work->menuActors[i], &hook);
+    CLACT_ApplyActorAnimCommand(work->menuActors[i], &hook);
     CLACT_RestartActorAnim(work->menuActors[i]);
     IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqIdleRule, 0x58F);
 }

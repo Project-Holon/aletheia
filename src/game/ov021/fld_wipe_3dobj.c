@@ -37,10 +37,10 @@
  *   MI_Copy36B  0x02082B60  arm
  *   G3D_SYSTEM_GetRenderObj  0x0204755C  arm
  *   NNS_G3dMdlSetMdlLightEnableFlag  0x0206E394  arm
- *   func_0206E4FC  0x0206E4FC  arm
- *   func_0206E484  0x0206E484  arm
- *   func_0206E574  0x0206E574  arm
- *   func_0206E40C  0x0206E40C  arm
+ *   NNS_G3dMdlSetMdlPolygonID  0x0206E4FC  arm
+ *   NNS_G3dMdlSetMdlCullMode  0x0206E484  arm
+ *   NNS_G3dMdlSetMdlAlpha  0x0206E574  arm
+ *   NNS_G3dMdlSetMdlPolygonMode  0x0206E40C  arm
  *   G3D_SYSTEM_DrawObject  0x02047A60  arm
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   ICA_ANIME_GetField20  0x0201210C  thumb
@@ -204,13 +204,13 @@ extern G3dRenderRef *G3D_SYSTEM_GetRenderObj(void *render);
 
 extern void NNS_G3dMdlSetMdlLightEnableFlag(void *mdl, int a, int b);
 
-extern void func_0206E4FC(void *mdl, int a, int b);
+extern void NNS_G3dMdlSetMdlPolygonID(void *mdl, int a, int b);
 
-extern void func_0206E484(void *mdl, int a, int b);
+extern void NNS_G3dMdlSetMdlCullMode(void *mdl, int a, int b);
 
-extern void func_0206E574(void *mdl, int a, int b);
+extern void NNS_G3dMdlSetMdlAlpha(void *mdl, int a, int b);
 
-extern void func_0206E40C(void *mdl, int a, int b);
+extern void NNS_G3dMdlSetMdlPolygonMode(void *mdl, int a, int b);
 
 extern void G3D_SYSTEM_DrawObject(void *object, G3dObjectStatus *status);
 
@@ -375,10 +375,10 @@ void FLD_WIPE_3DOBJ_Draw(FldWipe3dObj *obj, int size, int alpha)
     MI_Copy36B((Mtx43 *)NNS_G3dGlbGetInvCameraMtx(), &status.rotate);
     mdl = G3D_SYSTEM_GetRenderObj(G3D_SYSTEM_GetObjectRender(obj->object))->rndObj;
     NNS_G3dMdlSetMdlLightEnableFlag(mdl, 0, 0);
-    func_0206E4FC(mdl, 0, 0);
-    func_0206E484(mdl, 0, 2);
-    func_0206E574(mdl, 0, alpha);
-    func_0206E40C(mdl, 0, 0);
+    NNS_G3dMdlSetMdlPolygonID(mdl, 0, 0);
+    NNS_G3dMdlSetMdlCullMode(mdl, 0, 2);
+    NNS_G3dMdlSetMdlAlpha(mdl, 0, alpha);
+    NNS_G3dMdlSetMdlPolygonMode(mdl, 0, 0);
     G3D_SYSTEM_DrawObject(obj->object, &status);
 }
 

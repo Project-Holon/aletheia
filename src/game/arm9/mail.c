@@ -37,8 +37,8 @@
  *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
  *   MIi_CpuClear16 0x02082A48  arm
  *   MI_CpuCopy8  0x02082D44  arm
- *   sub_02012EBC  0x02012EBC  thumb
- *   sub_02024570  0x02024570  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
+ *   PMSI_PARAM_Copy  0x02024570  thumb
  *   CGEAR_SAVE_DefaultPanels      0x020A7174  data
  *   MYSTATUS_GetName  0x020084F4  thumb
  *   MYSTATUS_GetId  0x02008530  thumb
@@ -222,14 +222,14 @@ extern void GF_STANDARD_Shuffle(u16 *data, u32 size, u32 key);
 extern void GF_STANDARD_ShuffleEx(void *data, u32 size, u32 key);
 extern u16  STRBUF_GetEosChar(void);
 extern void PMSI_PARAM_ClearSentence(struct PmsData *pms);
-extern void sub_02024570(struct PmsData *dest, const struct PmsData *src);
+extern void PMSI_PARAM_Copy(struct PmsData *dest, const struct PmsData *src);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
                            u16 tag);
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern const u16 *MYSTATUS_GetName(const struct MyStatus *status);
 extern u32 MYSTATUS_GetId(const struct MyStatus *status);
 extern u8  MYSTATUS_GetOutfitVariant(const struct MyStatus *status);
-extern struct SaveControl *sub_02012EBC(struct GameData *gameData);
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 
 extern unsigned char RECORD_CeilingRowTable[];
 extern int RECORD_CeilingTable[];
@@ -902,13 +902,13 @@ struct PmsData *MAIL_GetMessage(struct Mail *mail, u32 index)
 void MAIL_SetMessage(struct Mail *mail, struct PmsData *pms, u32 index)
 {
     if (index < 3) {
-        sub_02024570(&mail->message[index], pms);
+        PMSI_PARAM_Copy(&mail->message[index], pms);
     }
 }
 
 struct MailBox *MAIL_GetBox(struct GameData *gameData)
 {
-    return SAVE_CONTROL_GetBlock(sub_02012EBC(gameData), SAVE_BLOCK_MAIL_BOX);
+    return SAVE_CONTROL_GetBlock(GAME_DATA_GetSaveControl(gameData), SAVE_BLOCK_MAIL_BOX);
 }
 
 /*

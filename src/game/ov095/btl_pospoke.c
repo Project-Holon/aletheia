@@ -20,31 +20,31 @@
  *   original overwrites the pad slot when six entries match).
  *
  * symbols:
- *   func_021B8640  0x021B8640  thumb
+ *   BTL_MAIN_GetRuleSlotSpan  0x021B8640  thumb
  *   BTL_MAIN_GetSlotClientAndNth  0x021B8E28  thumb
- *   func_021B9920  0x021B9920  thumb
+ *   BTL_SIDE_GetClientPoke  0x021B9920  thumb
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb
  *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb
  *   BTL_SLOT_GetRotateSrcIndex  0x021B9AB0  thumb
- *   func_021B9AC8  0x021B9AC8  thumb
+ *   BTL_SLOT_GetRotateDstIndex  0x021B9AC8  thumb
  *   BTL_SIDE_GetPokeByIdThunk  0x021B9934  thumb
- *   func_021B9A24  0x021B9A24  thumb
+ *   BTL_MAIN_IsPokeSamePair  0x021B9A24  thumb
  *   BTL_POKEPARAM_AddFoughtPoke  0x021D6DCC  thumb
- *   func_021B86A0  0x021B86A0  thumb
+ *   BTL_MAIN_CheckFrontPos  0x021B86A0  thumb
  */
 #include "../ov093/btl_records_types.h"
 
-extern u32 func_021B8640(int);
+extern u32 BTL_MAIN_GetRuleSlotSpan(int);
 extern void BTL_MAIN_GetSlotClientAndNth(int, int, u8 *, u8 *);
-extern int func_021B9920(int, int, int);
+extern int BTL_SIDE_GetClientPoke(int, int, int);
 extern int BTL_POKEPARAM_IsFainted(int);
 extern int BTL_POKEPARAM_GetPokeId(int);
 extern int BTL_SLOT_GetRotateSrcIndex(int);
-extern int func_021B9AC8(int);
-extern int func_021B9A24(int, int);
+extern int BTL_SLOT_GetRotateDstIndex(int);
+extern int BTL_MAIN_IsPokeSamePair(int, int);
 extern int BTL_SIDE_GetPokeByIdThunk(int, int);
 extern int BTL_POKEPARAM_AddFoughtPoke(int, int);
-extern int func_021B86A0(void *, int);
+extern int BTL_MAIN_CheckFrontPos(void *, int);
 void BTL_POSPOKE_Init(BtlPosPoke *a, int b, int c);
 void BTL_POSPOKE_SetupPos(BtlPosPoke *a, int b, int c, u8 d);
 void BTL_POSPOKE_RemovePoke(BtlPosPoke *p, int b);
@@ -73,7 +73,7 @@ void BTL_POSPOKE_Init(BtlPosPoke *a, int b, int c)
     }
     for (i = 0; i < BTL_POSPOKE_COUNT; i++)
         a->posOfPoke[i] = BTL_POSPOKE_NO_POS;
-    n = func_021B8640(b);
+    n = BTL_MAIN_GetRuleSlotSpan(b);
     for (i = 0; i <= n; i++)
         BTL_POSPOKE_SetupPos(a, b, c, i);
 }
@@ -88,7 +88,7 @@ void BTL_POSPOKE_SetupPos(BtlPosPoke *a, int b, int c, u8 d)
     int pokeId;
 
     BTL_MAIN_GetSlotClientAndNth(b, d, &clientId, &nth);
-    poke = func_021B9920(c, clientId, nth);
+    poke = BTL_SIDE_GetClientPoke(c, clientId, nth);
     if (poke != 0 && BTL_POKEPARAM_IsFainted(poke) == 0) {
         pokeId = BTL_POKEPARAM_GetPokeId(poke);
         a->entry[d].pokeId = pokeId;
@@ -145,7 +145,7 @@ void BTL_POSPOKE_RotateInPoke(BtlPosPoke *p, u32 size, u32 category, int key, in
         if (category == p->entry[i].clientId) idx[n++] = i;
     }
     first = BTL_SLOT_GetRotateSrcIndex(size);
-    second = func_021B9AC8(size);
+    second = BTL_SLOT_GetRotateDstIndex(size);
     tmp = p->entry[idx[0]];
     p->entry[idx[first]] = p->entry[idx[second]];
     p->entry[idx[second]] = tmp;
@@ -171,7 +171,7 @@ void BTL_POSPOKE_RegisterFoughtPokes(BtlPosPoke *a, int b, int c)
         q = &a->entry[i];
         if (q->pokeId == BTL_POSPOKE_NO_POKE || pokeId == q->pokeId)
             continue;
-        if (func_021B9A24(q->pokeId, pokeId) != 0)
+        if (BTL_MAIN_IsPokeSamePair(q->pokeId, pokeId) != 0)
             continue;
         BTL_POKEPARAM_AddFoughtPoke(BTL_SIDE_GetPokeByIdThunk(c, q->pokeId), pokeId);
         BTL_POKEPARAM_AddFoughtPoke(BTL_SIDE_GetPokeByIdThunk(c, pokeId), q->pokeId);
@@ -232,12 +232,12 @@ int BTL_POSPOKE_IsPokeInside(BtlPosPoke *p, u8 pokeId)
 }
 
 
-/* Map the position of this poke through func_021B86A0 (0 when it is not on the field). */
+/* Map the position of this poke through BTL_MAIN_CheckFrontPos (0 when it is not on the field). */
 int BTL_POSPOKE_GetFieldPos(BtlPosPoke *p, void *q, u8 pokeId)
 {
     int pos;
     pos = BTL_POSPOKE_SearchPosByPokeId(p, pokeId);
-    if (pos != BTL_POSPOKE_NO_POS) return func_021B86A0(q, pos);
+    if (pos != BTL_POSPOKE_NO_POS) return BTL_MAIN_CheckFrontPos(q, pos);
     return 0;
 }
 

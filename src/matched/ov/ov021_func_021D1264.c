@@ -14,7 +14,7 @@
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   FIELD_CAMERA_GetG3dCamera  0x0218EC2C  thumb  ov021
  *   G3D_CAMERA_Reset  0x02048AD0  arm
- *   G3D_CAMERA_GetUp  0x02048B30  arm
+ *   G3D_CAMERA_GetCamTarget  0x02048B30  arm
  *   G3D_CAMERA_GetEye  0x02048AE8  arm
  *   VEC_Subtract  0x0207CA00  arm
  *   VEC_Normalize  0x0207CCA4  arm
@@ -45,7 +45,7 @@ struct Light;
 extern void *FIELDMAP_GetCamera(void *p);
 extern u32 FIELD_CAMERA_GetG3dCamera(u8 *p);
 extern void G3D_CAMERA_Reset(struct Light *l);
-extern void G3D_CAMERA_GetUp(u32 l, V *out);
+extern void G3D_CAMERA_GetCamTarget(u32 l, V *out);
 extern void G3D_CAMERA_GetEye(u32 l, V *out);
 extern void VEC_Subtract(const V *a, const V *b, V *c);
 extern void VEC_Normalize(const V *a, V *b);
@@ -78,7 +78,7 @@ void FIELD_SAVEANIME_CreateWindow(u8 *p)
     o = FIELDMAP_GetFieldPlayer(((struct Obj01509 *)p)->f0);
     cam = FIELD_CAMERA_GetG3dCamera(FIELDMAP_GetCamera((void *)(*(u32 *)&((struct Obj01509 *)p)->f0)));
     G3D_CAMERA_Reset((struct Light *)cam);
-    G3D_CAMERA_GetUp(cam, &eye);
+    G3D_CAMERA_GetCamTarget(cam, &eye);
     G3D_CAMERA_GetEye(cam, &at);
     VEC_Subtract(&eye, &at, &d);
     f = d;

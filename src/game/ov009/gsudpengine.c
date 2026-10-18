@@ -14,7 +14,7 @@
  *
  * symbols:
  *   ArrayFree                    0x021841B0  arm
- *   func_020923F0                0x020923F0  arm
+ *   memcmp                0x020923F0  arm
  *   gsUdpEngineContext                  0x02180404  arm ov009
  *   gsDebugFormat                  0x0217D254  arm ov009
  *   ArrayLength                  0x02184200  arm ov009
@@ -78,7 +78,7 @@
 #include "gsudp_types.h"
 #include "../../matched/arm9_sdk/libc/string.h"
 
-extern int func_020923F0(const void *a, const void *b, int n);
+extern int memcmp(const void *a, const void *b, int n);
 extern int gt2GetRemoteIP(const int *p);
 extern unsigned short gt2GetRemotePort(const unsigned short *p);
 extern char *gt2AddressToString(unsigned int ip, unsigned short port, char *string);
@@ -164,13 +164,13 @@ void gsUdpMsgHandlerFree(GSUdpMsgHandler *theHandler)
 
 int gsUdpMsgHandlerCompare(void *theFirst, void *theSecond)
 {
-    return func_020923F0(theFirst, theSecond, 16);
+    return memcmp(theFirst, theSecond, 16);
 }
 
 
 int gsUdpMsgHandlerCompare2(void *theFirst, void *theSecond)
 {
-    return func_020923F0((char *)theFirst + 16, (char *)theSecond + 16, 16);
+    return memcmp((char *)theFirst + 16, (char *)theSecond + 16, 16);
 }
 
 

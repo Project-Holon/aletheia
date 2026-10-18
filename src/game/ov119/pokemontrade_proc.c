@@ -247,7 +247,7 @@
  *   TCBL_Main 0x020310C4 arm
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   POKETRADE_NEGO_TickOfferSlotTimers 0x021DF978 thumb ov119
- *   func_02047964 0x02047964 arm
+ *   G3D_SYSTEM_DrawStart 0x02047964 arm
  *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   MCSS_Main 0x02014C08 thumb
@@ -775,7 +775,7 @@ extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 
 extern void POKETRADE_NEGO_TickOfferSlotTimers(void *);
 
-extern void func_02047964(void);
+extern void G3D_SYSTEM_DrawStart(void);
 
 extern void G3D_CAMERA_Reset(struct Light *l);
 
@@ -3579,7 +3579,7 @@ int POKETRADE_PROC_Main(int a,int b,int c,char *p)
         GF_FONT_SetTextColor(rgb[2],rgb[1],rgb[0]);
         PRINTSYS_QUE_Main(((TradeWork *)p)->printQueue);
     }
-    POKETRADE_NEGO_TickOfferSlotTimers(p);func_02047964();G3D_CAMERA_Reset((struct Light *)((TradeWork *)p)->camera);G3D_SYSTEM_ApplyLookAt();
+    POKETRADE_NEGO_TickOfferSlotTimers(p);G3D_SYSTEM_DrawStart();G3D_CAMERA_Reset((struct Light *)((TradeWork *)p)->camera);G3D_SYSTEM_ApplyLookAt();
     MCSS_Main(((TradeWork *)p)->mcssSystem);MCSS_Draw(((TradeWork *)p)->mcssSystem);POKETRADE_3D_Update3DScene(p);G3D_SYSTEM_DrawEnd();
     if(POKETRADE_PROC_IsNetSession(p) && ((TradeWork *)p)->netSave==0 && GFL_NET_ERR_GetErrorLevel()) {
         if(((TradeWork *)p)->wipeStarted) GFL_NET_ERR_HaltWithMessage(41);

@@ -267,12 +267,12 @@
  *   gLightSetHandle 0x021F4560 data a4
  *   gProjectionConfig 0x021E7B1C data a4
  *   gProjectionParams 0x020A1DF8 data a2
- *   func_02048C4C 0x02048C4C arm
- *   func_02048AFC 0x02048AFC arm
- *   func_02048B44 0x02048B44 arm
- *   func_02048B6C 0x02048B6C arm
- *   func_02048B20 0x02048B20 arm
- *   func_02048B60 0x02048B60 arm
+ *   G3D_LIGHT_DeleteSlots 0x02048C4C arm
+ *   G3D_CAMERA_SetEye 0x02048AFC arm
+ *   G3D_CAMERA_SetCamTarget 0x02048B44 arm
+ *   G3D_CAMERA_SetFar 0x02048B6C arm
+ *   G3D_CAMERA_SetCamUp 0x02048B20 arm
+ *   G3D_CAMERA_SetNear 0x02048B60 arm
  *   MTX_Identity33_ 0x0207ADC4 arm
  *   ICA_ANIME_SetCameraPos 0x02011CF0 thumb
  *   ICA_ANIME_SetCameraTarget 0x02011D0C thumb
@@ -846,17 +846,17 @@ extern void G3D_LIGHT_ApplySlots(struct LightSlot *slots);
 
 extern void G3D_SYSTEM_SetProjection(const u32 *src);
 
-extern void func_02048C4C(void *);
+extern void G3D_LIGHT_DeleteSlots(void *);
 
-extern void func_02048AFC(void *,IntVec3 *);
+extern void G3D_CAMERA_SetEye(void *,IntVec3 *);
 
-extern void func_02048B44(void *,IntVec3 *);
+extern void G3D_CAMERA_SetCamTarget(void *,IntVec3 *);
 
-extern void func_02048B6C(struct Light *l, const u32 *in);
+extern void G3D_CAMERA_SetFar(struct Light *l, const u32 *in);
 
-extern void func_02048B20(void *,IntVec3 *);
+extern void G3D_CAMERA_SetCamUp(void *,IntVec3 *);
 
-extern void func_02048B60(struct Light *l, const u32 *in);
+extern void G3D_CAMERA_SetNear(struct Light *l, const u32 *in);
 
 extern void MTX_Identity33_(MtxFx33 *m);
 
@@ -2541,7 +2541,7 @@ void POKETRADE_SAVE_Init3DProjection(int a) {
 
 void POKETRADE_SAVE_Free3DLightSet(void)
 {
-    func_02048C4C(gLightSetHandle);
+    G3D_LIGHT_DeleteSlots(gLightSetHandle);
 }
 
 void POKETRADE_SAVE_SetCameraSummary(char *p) {
@@ -2549,12 +2549,12 @@ void POKETRADE_SAVE_SetCameraSummary(char *p) {
     IntVec3 b;
     a.x=0; a.y=0x2b000; a.z=0xf1000;
     b.x=0; b.y=0x2b000; b.z=0;
-    func_02048AFC(((TradeWork *)p)->subCamera,&a);
-    func_02048B44(((TradeWork *)p)->subCamera,&b);
+    G3D_CAMERA_SetEye(((TradeWork *)p)->subCamera,&a);
+    G3D_CAMERA_SetCamTarget(((TradeWork *)p)->subCamera,&b);
     a.z-=0x1000;
-    func_02048B6C(((TradeWork *)p)->subCamera,(const u32 *)(&a.z));
+    G3D_CAMERA_SetFar(((TradeWork *)p)->subCamera,(const u32 *)(&a.z));
     b.x=0; b.y=0x1000; b.z=0;
-    func_02048B20(((TradeWork *)p)->subCamera,&b);
+    G3D_CAMERA_SetCamUp(((TradeWork *)p)->subCamera,&b);
 }
 
 void POKETRADE_SAVE_SetCameraTrade(char *p) {
@@ -2564,12 +2564,12 @@ void POKETRADE_SAVE_SetCameraTrade(char *p) {
     int d=0x1000;
     a.x=0; a.y=0x3000; a.z=0xf000;
     b.x=0; b.y=0; b.z=0;
-    func_02048AFC(((TradeWork *)p)->subCamera,&a);
-    func_02048B44(((TradeWork *)p)->subCamera,&b);
-    func_02048B60(((TradeWork *)p)->subCamera,(const u32 *)(&d));
-    func_02048B6C(((TradeWork *)p)->subCamera,(const u32 *)(&c));
+    G3D_CAMERA_SetEye(((TradeWork *)p)->subCamera,&a);
+    G3D_CAMERA_SetCamTarget(((TradeWork *)p)->subCamera,&b);
+    G3D_CAMERA_SetNear(((TradeWork *)p)->subCamera,(const u32 *)(&d));
+    G3D_CAMERA_SetFar(((TradeWork *)p)->subCamera,(const u32 *)(&c));
     b.x=0; b.y=0x10000; b.z=0x1000;
-    func_02048B20(((TradeWork *)p)->subCamera,&b);
+    G3D_CAMERA_SetCamUp(((TradeWork *)p)->subCamera,&b);
 }
 
 void POKETRADE_SAVE_Update3DParticles(char *p) {POKETRADE_3D_DrawRotatingCube((const u8 *)p);}

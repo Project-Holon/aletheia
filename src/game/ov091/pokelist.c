@@ -396,7 +396,7 @@
  *   POKELIST_SetupBgPlanes 0x021B6F0C thumb ov091
  *   PARTICLE_GetEffectCount 0x02051614 arm
  *   PARTICLE_UpdateAllSystems 0x02051574 arm
- *   func_02047964 0x02047964 arm
+ *   G3D_SYSTEM_DrawStart 0x02047964 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   PARTICLE_DrawAllSystems 0x02051534 arm
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm

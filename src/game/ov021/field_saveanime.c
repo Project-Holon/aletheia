@@ -34,8 +34,8 @@
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   FIELD_CAMERA_GetG3dCamera  0x0218EC2C  thumb  ov021
  *   G3D_CAMERA_Reset  0x02048AD0  arm
- *   func_02048B30  0x02048B30  arm
- *   func_02048AE8  0x02048AE8  arm
+ *   G3D_CAMERA_GetCamTarget  0x02048B30  arm
+ *   G3D_CAMERA_GetEye  0x02048AE8  arm
  *   VEC_Subtract  0x0207CA00  arm
  *   VEC_Normalize  0x0207CCA4  arm
  *   VEC_CrossProduct  0x0207CAE8  arm
@@ -113,8 +113,8 @@ extern void *FIELDMAP_GetFieldPlayer(struct FieldMap *p);
 extern void *FIELDMAP_GetCamera(void *p);
 extern u32 FIELD_CAMERA_GetG3dCamera(u8 *p);
 extern void G3D_CAMERA_Reset(struct Light *l);
-extern void func_02048B30(u32 l, V *out);
-extern void func_02048AE8(u32 l, V *out);
+extern void G3D_CAMERA_GetCamTarget(u32 l, V *out);
+extern void G3D_CAMERA_GetEye(u32 l, V *out);
 extern void VEC_Subtract(const V *a, const V *b, V *c);
 extern void VEC_Normalize(const V *a, V *b);
 extern void VEC_CrossProduct(const V *a, const V *b, V *c);
@@ -226,8 +226,8 @@ void FIELD_SAVEANIME_CreateWindow(FieldSaveAnime *work)
     player = FIELDMAP_GetFieldPlayer(work->fieldMap);
     camera = FIELD_CAMERA_GetG3dCamera(FIELDMAP_GetCamera(work->fieldMap));
     G3D_CAMERA_Reset((struct Light *)camera);
-    func_02048B30(camera, &eye);
-    func_02048AE8(camera, &target);
+    G3D_CAMERA_GetCamTarget(camera, &eye);
+    G3D_CAMERA_GetEye(camera, &target);
     VEC_Subtract(&eye, &target, &dir);
     flatDir = dir;
     flatDir.y = 0;

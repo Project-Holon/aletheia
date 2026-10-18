@@ -21,8 +21,8 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   sFieldLightSourceName  0x021DDE38  data  ov021
- *   func_02048CA4  0x02048CA4  arm
- *   func_02048CDC  0x02048CDC  arm
+ *   G3D_LIGHT_SetDirection  0x02048CA4  arm
+ *   G3D_LIGHT_SetColor  0x02048CDC  arm
  *   NNS_G3dGlbMaterialColorDiffAmb  0x0206AA8C  arm
  *   NNS_G3dGlbMaterialColorSpecEmi  0x0206AAB0  arm
  *   G3X_SetClearColor  0x0207DD24  arm
@@ -154,8 +154,8 @@ typedef struct {
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 GFL_HEAP_Free(void *p);
 extern void MI_CpuCopy8(void *src, void *dst, u32 n);
-extern void func_02048CA4(struct LightSlot *slots, u8 index, const FieldLightDir *dir);
-extern void func_02048CDC(struct LightSlot *slots, u32 index, u16 *color);
+extern void G3D_LIGHT_SetDirection(struct LightSlot *slots, u8 index, const FieldLightDir *dir);
+extern void G3D_LIGHT_SetColor(struct LightSlot *slots, u32 index, u16 *color);
 extern void NNS_G3dGlbMaterialColorDiffAmb(u32 diffuse, u32 ambient, u32 flag);
 extern void NNS_G3dGlbMaterialColorSpecEmi(u32 specular, u32 emission, u32 flag);
 extern void G3X_SetClearColor(u16 color, int alpha, int depth, int polygonId, int fog);
@@ -326,11 +326,11 @@ void FIELD_LIGHT_Apply(const FieldLight *light, void *fog, struct LightSlot *slo
     }
     for (i = 0; i < FIELD_LIGHT_SLOT_COUNT; i++) {
         if (light->current.slotUsed[i]) {
-            func_02048CA4(slots, i, &light->current.slotDir[i]);
-            func_02048CDC(slots, (u8)i, (u16 *)(&light->current.slotColor[i]));
+            G3D_LIGHT_SetDirection(slots, i, &light->current.slotDir[i]);
+            G3D_LIGHT_SetColor(slots, (u8)i, (u16 *)(&light->current.slotColor[i]));
         } else {
-            func_02048CA4(slots, i, &zeroDir);
-            func_02048CDC(slots, (u8)i, &zeroColor);
+            G3D_LIGHT_SetDirection(slots, i, &zeroDir);
+            G3D_LIGHT_SetColor(slots, (u8)i, &zeroColor);
         }
     }
     NNS_G3dGlbMaterialColorDiffAmb(light->current.materialDiffuse, light->current.materialAmbient, 1);

@@ -22,11 +22,11 @@
  *   gBtlvCameraInitUp     0x02209D00  data   ov094
  *   gBtlvCameraInitTarget     0x02209CE8  data   ov094
  *   G3D_CAMERA_Delete 0x02048AC4 arm
- *   func_02048AFC  0x02048AFC  arm
- *   func_02048B44  0x02048B44  arm
+ *   G3D_CAMERA_SetEye  0x02048AFC  arm
+ *   G3D_CAMERA_SetCamTarget  0x02048B44  arm
  *   FX_Div  0x0207C768  arm
  *   G3D_CAMERA_GetEye 0x02048AE8 arm
- *   G3D_CAMERA_GetUp 0x02048B30 arm
+ *   G3D_CAMERA_GetCamTarget 0x02048B30 arm
  *   FX_SinCosTable_ 0x020A1B38 data a2
  *   FX_Atan2Idx  0x0207CFB8  arm
  *   VEC_Mag  0x0207CBD0  arm
@@ -48,15 +48,15 @@ extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 
 extern unsigned int G3D_CAMERA_Delete(struct G3dCamera *camera);
 
-extern void func_02048AFC(struct G3dCamera *camera, const BtlvVec3 *eye);
+extern void G3D_CAMERA_SetEye(struct G3dCamera *camera, const BtlvVec3 *eye);
 
-extern void func_02048B44(struct G3dCamera *camera, const BtlvVec3 *target);
+extern void G3D_CAMERA_SetCamTarget(struct G3dCamera *camera, const BtlvVec3 *target);
 
 extern u32 FX_Div(u32 a, u32 b);
 
 extern void G3D_CAMERA_GetEye(struct G3dCamera *camera, BtlvVec3 *out);
 
-extern void G3D_CAMERA_GetUp(struct G3dCamera *camera, BtlvVec3 *out);
+extern void G3D_CAMERA_GetCamTarget(struct G3dCamera *camera, BtlvVec3 *out);
 
 extern int FX_Atan2Idx(int, int);
 
@@ -147,13 +147,13 @@ void BTLV_CAMERA_SetEyeAndTarget(BtlvCamera *camera, const BtlvVec3 *eye, const 
         camera->eye.x = eye->x;
         camera->eye.y = eye->y;
         camera->eye.z = eye->z;
-        func_02048AFC(camera->camera, eye);
+        G3D_CAMERA_SetEye(camera->camera, eye);
     }
     if (target) {
         camera->target.x = target->x;
         camera->target.y = target->y;
         camera->target.z = target->z;
-        func_02048B44(camera->camera, target);
+        G3D_CAMERA_SetCamTarget(camera->camera, target);
     }
     G3D_CAMERA_Reset(camera->camera);
     BTLV_CAMERA_SyncOrbitFromCamera(camera);
@@ -165,7 +165,7 @@ void BTLV_CAMERA_SetEyeAndTarget(BtlvCamera *camera, const BtlvVec3 *eye, const 
 void BTLV_CAMERA_RotateOrbit(BtlvCamera *camera, int dPitch, int dYaw)
 {
     BTLV_CAMERA_ComputeOrbitOffset(camera, dPitch, dYaw, &camera->eye, &camera->target);
-    func_02048AFC(camera->camera, &camera->eye);
+    G3D_CAMERA_SetEye(camera->camera, &camera->eye);
     G3D_CAMERA_Reset(camera->camera);
 }
 
@@ -229,12 +229,12 @@ void BTLV_CAMERA_StartMoveWithEasing(BtlvCamera *camera, int axis, fx32 amplitud
 void BTLV_CAMERA_GetEyeAndUp(BtlvCamera *camera, BtlvVec3 *eyeOut, BtlvVec3 *targetOut)
 {
     G3D_CAMERA_GetEye(camera->camera, eyeOut);
-    G3D_CAMERA_GetUp(camera->camera, targetOut);
+    G3D_CAMERA_GetCamTarget(camera->camera, targetOut);
 }
 
 void BTLV_CAMERA_ComputeOrbitOffset(BtlvCamera *camera, int dPitch, int dYaw, BtlvVec3 *eyeOut, BtlvVec3 *targetBase)
 {
-    G3D_CAMERA_GetUp(camera->camera, targetBase);
+    G3D_CAMERA_GetCamTarget(camera->camera, targetBase);
     camera->orbitPitch += dPitch;
     camera->orbitYaw += dYaw;
     eyeOut->x = MUL(FX_SinCosTable_[(camera->orbitYaw >> 4) * 2 + 1], FX_SinCosTable_[(camera->orbitPitch >> 4) * 2 + 1]);
@@ -304,8 +304,8 @@ void BTLV_CAMERA_StepMove(BtlvCamera *camera)
         target.x = camera->target.x + camera->shakeOffset.x;
         target.y = camera->target.y + camera->shakeOffset.y;
         target.z = camera->target.z + camera->shakeOffset.z;
-        func_02048AFC(camera->camera, &eye);
-        func_02048B44(camera->camera, &target);
+        G3D_CAMERA_SetEye(camera->camera, &eye);
+        G3D_CAMERA_SetCamTarget(camera->camera, &target);
         G3D_CAMERA_Reset(camera->camera);
         BTLV_CAMERA_SyncOrbitFromCamera(camera);
     } else {
@@ -318,7 +318,7 @@ void BTLV_CAMERA_SyncOrbitFromCamera(BtlvCamera *camera)
     BtlvVec3 eye;
     BtlvVec3 target;
     G3D_CAMERA_GetEye(camera->camera, &eye);
-    G3D_CAMERA_GetUp(camera->camera, &target);
+    G3D_CAMERA_GetCamTarget(camera->camera, &target);
     eye.x -= target.x;
     eye.y -= target.y;
     eye.z -= target.z;

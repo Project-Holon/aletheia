@@ -35,7 +35,7 @@
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   BG_SYS_SetTileUnit 0x02040DA8 arm
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
- *   func_0204BA00 0x0204BA00 arm
+ *   CLACT_ApplyActorAnimCommand 0x0204BA00 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   GXS_LoadBGPltt 0x0207E468 arm
@@ -154,7 +154,7 @@ extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
 
 extern void BG_SYS_FreeLayerBuf(u32 i);
 
-extern void func_0204BA00(struct ClActor *a, const struct Cmd *cmd);
+extern void CLACT_ApplyActorAnimCommand(struct ClActor *a, const struct Cmd *cmd);
 
 extern void CLACT_SetActorAnimSeq(struct ClActor *p, u16 value);
 
@@ -476,7 +476,7 @@ void GSYNC_DISP_SetSlotAnimSeq(GsyncDispWork *disp, int slotIndex, u32 animSeq)
 
 void GSYNC_DISP_SetSlotAnimCommand(GsyncDispWork *disp, int slotIndex, int command)
 {
-    func_0204BA00(disp->actors[slotIndex], (const struct Cmd *)command);
+    CLACT_ApplyActorAnimCommand(disp->actors[slotIndex], (const struct Cmd *)command);
 }
 
 void GSYNC_DISP_DeleteSlotActor(GsyncDispWork *disp, int slotIndex)

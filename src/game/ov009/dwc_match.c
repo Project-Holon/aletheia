@@ -112,7 +112,7 @@
  *   s_bInNNThink                     0x021aaa20 data
  *   MIi_CpuClear32  0x02082A7C  arm
  *   qr2_parse_queryA   0x0219C7C0  arm  ov009
- *   func_020923F0   0x020923F0  arm
+ *   memcmp   0x020923F0  arm
  *   NNProcessData   0x0219AB8C  arm  ov009
  *   gNatNegMagic      0x021A5A7C  data
  *   gt2Reject                        0x02195B38 arm
@@ -420,7 +420,7 @@ extern void NNFreeNegotiateList(void);
 extern int DWCi_RequestSuspendMatchProcess(void);
 extern int DWCi_SendServerPolling(int immediate);
 extern void MIi_CpuClear32(unsigned int data, void *destp, unsigned int size);
-extern int func_020923F0(const u8 *a, const u8 *b, int n);
+extern int memcmp(const u8 *a, const u8 *b, int n);
 extern void gt2Reject(void * connection, void * message, int code);
 extern unsigned int strtoul(const char * s, char ** end, int base);
 extern int DWCi_GT2GetConnectionListIdx(void);
@@ -1646,7 +1646,7 @@ int DWCi_GT2UnrecognizedMessageCallback(int unused, unsigned int ip, unsigned sh
     if ((ip == 0xFE && message[1] == 0xFD) || ip == 0x5C) {
         if (DWCi_GetMatchCnt()->qr2Obj != 0)
             qr2_parse_queryA(DWCi_GetMatchCnt()->qr2Obj, message, len, &saddr);
-    } else if (func_020923F0(message, (const u8 *)((char *)&gNatNegMagic), 6) == 0) {
+    } else if (memcmp(message, (const u8 *)((char *)&gNatNegMagic), 6) == 0) {
         NNProcessData((char *)message, len, &saddr);
     } else {
         return 0;

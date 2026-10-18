@@ -20,7 +20,7 @@
  *   gpiCallErrorCallback  0x02189D78  arm  ov009
  *   SetSockBlocking  0x0217EE50  arm  ov009
  *   SOC_GetHostByName  0x0215F650  arm  ov009
- *   func_0217EC08  0x0217EC08  arm  ov009
+ *   connect  0x0217EC08  arm  ov009
  *   GOAGetLastError  0x0217ED54  arm  ov009
  *   current_time  0x0217F264  arm  ov009
  *   g_021A5280     0x021A5280  data
@@ -193,7 +193,7 @@ extern void gpiSetError(void **connection, int code, char *string);
 extern int gpiCallErrorCallback(void **connection, int result, int fatal);
 extern int SetSockBlocking(int sock, int isblocking);
 extern SOCHostEnt *SOC_GetHostByName(char *name);
-extern int func_0217EC08(int sock, void *addr, int len);
+extern int connect(int sock, void *addr, int len);
 extern int GOAGetLastError(int sock);
 extern unsigned int current_time(void);
 extern void *MSL_C_LIB_MemsetPtr(void *p, int c, u32 n);
@@ -366,7 +366,7 @@ int gpiStartProfileSearch(void **connection, GPIOperation *operation)
         address.addr.addr = **(unsigned int **)host->addrList;
         address.port = 0xCD74;
 
-        rcode = func_0217EC08(data->sock, &address, sizeof(address));
+        rcode = connect(data->sock, &address, sizeof(address));
     }
     if (rcode == -1) {
         error = GOAGetLastError(data->sock);

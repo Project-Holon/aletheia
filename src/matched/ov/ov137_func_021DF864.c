@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * blocker: ARM9 02048B6C has no witness; owner unit src/matched/arm9/unit_02048AD0.c
- * omits G3D_CAMERA_SetRoll from function: and its shard. tu --suggest-split leaves caller OUT.
+ * omits G3D_CAMERA_SetFar from function: and its shard. tu --suggest-split leaves caller OUT.
  * blocker: 02048B6C verified EXACT with fixed flags in scratch/blocker48b6c.c:
  * typedef unsigned int u32;
- * void G3D_CAMERA_SetRoll(char *p,const u32 *in) {*(u32 *)(p+0x18)=*in;}
+ * void G3D_CAMERA_SetFar(char *p,const u32 *in) {*(u32 *)(p+0x18)=*in;}
  * symbols:
- *   G3D_CAMERA_SetRoll 0x02048B6C arm
+ *   G3D_CAMERA_SetFar 0x02048B6C arm
  *   G3D_SYSTEM_DrawStart 0x02047964 arm
  *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
@@ -36,7 +36,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 struct Descriptor;
 struct Light;
-extern void G3D_CAMERA_SetRoll(struct Light *l, const u32 *in);
+extern void G3D_CAMERA_SetFar(struct Light *l, const u32 *in);
 extern void G3D_CAMERA_Reset(struct Light *l);
 extern void G3D_SYSTEM_DrawStart(void),G3D_SYSTEM_ApplyLookAt(void),G3D_SYSTEM_DrawEnd(void),CLACT_DrawSystem(void);
 extern void NNS_G3dGlbLightVector(int,int,int,int),NNS_G3dGlbLightColor(int,u32),NNS_G3dGlbMaterialColorDiffAmb(u32,u32,u32),NNS_G3dGlbMaterialColorSpecEmi(u32,u32,u32);
@@ -53,7 +53,7 @@ void GURU2_MAIN_Draw3D(u8 *p)
     u32 flags=0x1000000;
     void *r;
     int i;
-    G3D_CAMERA_SetRoll(*(void **)(p+0xd54),&flags);
+    G3D_CAMERA_SetFar(*(void **)(p+0xd54),&flags);
     G3D_SYSTEM_DrawStart();
     G3D_CAMERA_Reset(*(void **)(p+0xd54));
     G3D_SYSTEM_ApplyLookAt();

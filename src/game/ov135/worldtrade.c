@@ -68,7 +68,7 @@
  *   data_02202C2C 0x02202C2C data a4
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   DWC_GetLinkLevel  0x0205CCD8  arm
- *   sub_02012FFC  0x02012FFC  thumb  arm9
+ *   MSG_SPEED_GetWait  0x02012FFC  thumb  arm9
  *   g_02202BFC  0x02202BFC  data  ov135
  *   WORLDTRADE_SUBLCD_FreeResources  0x021FFCD4  thumb
  *   CLACT_ReleasePalette  0x0204ADA4  arm
@@ -313,7 +313,7 @@ extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u3
 
 extern int DWC_GetLinkLevel(void);
 
-extern signed char sub_02012FFC(void);
+extern signed char MSG_SPEED_GetWait(void);
 
 extern void WORLDTRADE_SUBLCD_FreeResources(Work *p);
 
@@ -854,7 +854,7 @@ void WORLDTRADE_ClearBusyFlag(Work *p)
 
 int WORLDTRADE_QueryGameData(void)
 {
-    return sub_02012FFC();
+    return MSG_SPEED_GetWait();
 }
 
 /*

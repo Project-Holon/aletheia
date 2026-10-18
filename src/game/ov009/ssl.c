@@ -14,7 +14,7 @@
  *
  * symbols:
  *   OS_DisableInterrupts  0x02087988  arm
- *   func_020923F0  0x020923F0  arm
+ *   memcmp  0x020923F0  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   gCpsSslSessionCache  0x021AA664  data
@@ -122,7 +122,7 @@
 
 #define NELEMS(a) (sizeof(a) / sizeof((a)[0]))
 extern unsigned long OS_DisableInterrupts(void);
-extern int func_020923F0(const u8 *a, const u8 *b, int n);
+extern int memcmp(const u8 *a, const u8 *b, int n);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern unsigned long long OS_GetTick(void);
@@ -246,7 +246,7 @@ static void find_session_from_id(CPSSslConnection *con)
     for (i = 0; i < 4; i++) {
         p = &gCpsSslSessionCache[i];
         if (p->valid != 0 && p->ip == 0 && p->port == 0 &&
-            func_020923F0((const u8 *)p, con->common1.session_id, 0x20) == 0) {
+            memcmp((const u8 *)p, con->common1.session_id, 0x20) == 0) {
             MI_CpuCopy8(p->master, con, 0x30);
             con->cache = 1;
             break;
@@ -341,7 +341,7 @@ static void purge_session(CPSSslConnection *con)
     for (i = 0; i < 4; i++) {
         p = &gCpsSslSessionCache[i];
         if (p->valid != 0) {
-            if (func_020923F0((const u8 *)p, con->common1.session_id, 0x20) == 0) {
+            if (memcmp((const u8 *)p, con->common1.session_id, 0x20) == 0) {
                 p->valid = 0;
                 break;
             }
@@ -736,7 +736,7 @@ static int validate_signature(CPSSslConnection *con, SOCLCaInfo *ca)
                 break;
         }
         if (i + 1 >= ca->modulo_len || s[i] != 0 || s[i + 1] != 0x30 ||
-            func_020923F0(con->hash, s + ca->modulo_len - con->hash_len, con->hash_len) != 0)
+            memcmp(con->hash, s + ca->modulo_len - con->hash_len, con->hash_len) != 0)
             result = 2;
     }
     CPSiFree(tmp_var);
@@ -907,7 +907,7 @@ static void rcv_server_hello(CPSSslConnection *con, unsigned char *s)
     session_id_len = s[0x22];
     s += 0x23;
     if (cached != 0 && session_id_len == 0x20 &&
-        func_020923F0(con->common1.session_id, s, 0x20) == 0) {
+        memcmp(con->common1.session_id, s, 0x20) == 0) {
         con->resumed = 1;
     } else {
         if (cached != 0)
@@ -1257,14 +1257,14 @@ static void rcv_finished(CPSSslConnection *con, unsigned char *s)
     MI_CpuCopy8(&con->md5_hash, &con->md5_hash_tmp, 0x58);
     finished_md5(con, tmp, 1);
     MI_CpuCopy8(&con->md5_hash_tmp, &con->md5_hash, 0x58);
-    if (func_020923F0(s, tmp, 0x10) != 0) {
+    if (memcmp(s, tmp, 0x10) != 0) {
         con->state = 9;
         return;
     }
     MI_CpuCopy8(&con->sha1_hash, &con->sha1_hash_tmp, 0x5c);
     finished_sha1(con, tmp, 1);
     MI_CpuCopy8(&con->sha1_hash_tmp, &con->sha1_hash, 0x5c);
-    if (func_020923F0(s + 0x10, tmp, 0x14) != 0)
+    if (memcmp(s + 0x10, tmp, 0x14) != 0)
         con->state = 9;
     else
         con->state = 6;

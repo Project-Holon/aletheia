@@ -8,18 +8,18 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   G3D_CAMERA_GetUp 0x02048B30 arm
+ *   G3D_CAMERA_GetCamTarget 0x02048B30 arm
  *   _ll_mul 0x0209C054 arm
  *   FX_SinCosTable_ 0x020A1B38 data a2
  */
 typedef signed short s16;
 extern const s16 FX_SinCosTable_[];
-extern void G3D_CAMERA_GetUp(int, int *);
+extern void G3D_CAMERA_GetCamTarget(int, int *);
 #define MUL(a,b) ((int)(((long long)(a) * (b) + 0x800) >> 12))
 
 void BTLV_CAMERA_ComputeOrbitOffset(int *p, int a, int b, int *out, int *base)
 {
-    G3D_CAMERA_GetUp(p[1], base);
+    G3D_CAMERA_GetCamTarget(p[1], base);
     p[2] += a;
     p[3] += b;
     out[0] = MUL(FX_SinCosTable_[(p[3] >> 4) * 2 + 1], FX_SinCosTable_[(p[2] >> 4) * 2 + 1]);

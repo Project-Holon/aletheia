@@ -1,7 +1,7 @@
 /*
  * file:     field_status.c
  * unit:     yes
- * function: FIELD_STATUS_Create, FIELD_STATUS_Delete, FIELD_STATUS_GetMapMode, FIELD_STATUS_SetMapMode, FIELD_STATUS_SetFieldInitFlag, FIELD_STATUS_GetFieldInitFlag, FIELD_STATUS_SetContinueFlag, FIELD_STATUS_GetContinueFlag, FIELD_STATUS_SetFlashActive, FIELD_STATUS_IsFlashActive, FIELD_STATUS_SetMapEffectMask, FIELD_STATUS_GetMapEffectMask, FIELD_STATUS_SetProcAction, FIELD_STATUS_GetProcAction, FIELD_STATUS_SwapSeasonDispFlag, FIELD_STATUS_GetSeasonDispFlag, FIELD_STATUS_FieldCloseEvent, FIELD_STATUS_CreateFieldCloseEvent, FIELD_STATUS_FieldCloseNoSoundWaitEvent, FIELD_STATUS_CreateFieldCloseNoSoundWaitEvent, FIELD_STATUS_FieldOpenEvent, FIELD_STATUS_CreateFieldOpenEvent, FIELD_STATUS_CreateFieldOpenNoNotifyEvent, FIELD_STATUS_SubProcEvent, FIELD_STATUS_SubProcNoFadeEvent, FIELD_STATUS_CreateSubProcEvent, FIELD_STATUS_CreateSubProcNoFadeEvent, FIELD_STATUS_SubProcCallbackEvent, FIELD_STATUS_SubProcNoFadeCallbackEvent, FIELD_STATUS_CreateSubProcCallbackEvent, FIELD_STATUS_CreateSubProcNoFadeCallbackEvent, func_02014878, FIELD_STATUS_CreateSubProcListEvent
+ * function: FIELD_STATUS_Create, FIELD_STATUS_Delete, FIELD_STATUS_GetMapMode, FIELD_STATUS_SetMapMode, FIELD_STATUS_SetFieldInitFlag, FIELD_STATUS_GetFieldInitFlag, FIELD_STATUS_SetContinueFlag, FIELD_STATUS_GetContinueFlag, FIELD_STATUS_SetFlashActive, FIELD_STATUS_IsFlashActive, FIELD_STATUS_SetMapEffectMask, FIELD_STATUS_GetMapEffectMask, FIELD_STATUS_SetProcAction, FIELD_STATUS_GetProcAction, FIELD_STATUS_SwapSeasonDispFlag, FIELD_STATUS_GetSeasonDispFlag, FIELD_STATUS_FieldCloseEvent, FIELD_STATUS_CreateFieldCloseEvent, FIELD_STATUS_FieldCloseNoSoundWaitEvent, FIELD_STATUS_CreateFieldCloseNoSoundWaitEvent, FIELD_STATUS_FieldOpenEvent, FIELD_STATUS_CreateFieldOpenEvent, FIELD_STATUS_CreateFieldOpenNoNotifyEvent, FIELD_STATUS_SubProcEvent, FIELD_STATUS_SubProcNoFadeEvent, FIELD_STATUS_CreateSubProcEvent, FIELD_STATUS_CreateSubProcNoFadeEvent, FIELD_STATUS_SubProcCallbackEvent, FIELD_STATUS_SubProcNoFadeCallbackEvent, FIELD_STATUS_CreateSubProcCallbackEvent, FIELD_STATUS_CreateSubProcNoFadeCallbackEvent, FIELD_STATUS_SubProcListEvent, FIELD_STATUS_CreateSubProcListEvent
  * address:  0x02014428
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -100,7 +100,7 @@ struct SubProcCallbackWork {
     void *callbackWork;             /* 0x18, freed after the callback */
 };
 
-/* Work of func_02014878: two process calls on one parameter block. */
+/* Work of FIELD_STATUS_SubProcListEvent: two process calls on one parameter block. */
 struct ProcPairWork {
     struct GameSystem *gameSystem;  /* 0x00 */
     u32 unused04;
@@ -206,7 +206,7 @@ struct GameEvent *FIELD_STATUS_CreateSubProcCallbackEvent(struct GameSystem *gam
 
 struct GameEvent *FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork, void (*callback)(void *), void *callbackWork);
 
-int func_02014878(struct GameEvent *event, u32 *seq, void *work);
+int FIELD_STATUS_SubProcListEvent(struct GameEvent *event, u32 *seq, void *work);
 
 extern const char sFieldStatusFile[];
 
@@ -796,10 +796,10 @@ struct GameEvent *FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(struct GameSyste
  * 0x020148D2 with the second test as `bne` rather than `beq`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02014878.c \
- *       --func func_02014878 --addr 0x02014878 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FIELD_STATUS_SubProcListEvent.c \
+ *       --func FIELD_STATUS_SubProcListEvent --addr 0x02014878 --cc 1.1p1 --thumb
  */
-int func_02014878(struct GameEvent *event, u32 *seq, void *work)
+int FIELD_STATUS_SubProcListEvent(struct GameEvent *event, u32 *seq, void *work)
 {
     struct ProcPairWork *wk = work;
     struct GameSystem *gameSystem = wk->gameSystem;
@@ -854,14 +854,14 @@ void *FIELD_STATUS_CreateSubProcListEvent(void *anime, int slot, int config, int
 /*
  *           Closed at the bottom, not unfiled: no branch anywhere in the image
  *           reaches 0x02014878, so only a `matched` entry could attest it, and
- *           func_02014878 is itself capped at MATCH by two own-pool words
+ *           FIELD_STATUS_SubProcListEvent is itself capped at MATCH by two own-pool words
  *           (0x0000005B at 0x02014900, 0x00000083 at 0x02014908 - each occurs
  *           exactly once in arm9, inside its own compared range).  See
  *           docs/notes/pkt_02014808.c.txt.
  */
 void *FIELD_STATUS_CreateSubProcListEvent(void *anime, int slot, int config, int target)
 {
-    void *task = GAME_EVENT_Create(anime, 0, (void *)((int)func_02014878), 0x10);
+    void *task = GAME_EVENT_Create(anime, 0, (void *)((int)FIELD_STATUS_SubProcListEvent), 0x10);
     u32 *taskWork = GAME_EVENT_GetWork(task);
 
     taskWork[0] = (u32)anime;

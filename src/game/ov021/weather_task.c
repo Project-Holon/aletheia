@@ -44,8 +44,8 @@
  *   FIELD_ZONEFOG_GetFogSlope  0x021A03B8  thumb  ov021
  *   FIELD_ZONEFOG_GetLightId  0x021A03CC  thumb  ov021
  *   FIELD_CAMERA_GetG3dCamera  0x0218EC2C  thumb  ov021
- *   func_02048B30  0x02048B30  arm
- *   func_02048AE8  0x02048AE8  arm
+ *   G3D_CAMERA_GetCamTarget  0x02048B30  arm
+ *   G3D_CAMERA_GetEye  0x02048AE8  arm
  *   VEC_Distance  0x0207CF3C  arm
  *   FX_Div  0x0207C768  arm
  *   g_DefaultProjectionMtx  0x02148B54  data
@@ -122,8 +122,8 @@ int FIELD_ZONEFOG_GetFogOffset(FieldZoneFog *zoneFog);
 int FIELD_ZONEFOG_GetFogSlope(FieldZoneFog *zoneFog);
 int FIELD_ZONEFOG_GetLightId(FieldZoneFog *zoneFog);
 void *FIELD_CAMERA_GetG3dCamera(FieldCamera *camera);
-void func_02048B30(void *camera, VecFx32 *out);
-extern void func_02048AE8(void *camera, VecFx32 *out);
+void G3D_CAMERA_GetCamTarget(void *camera, VecFx32 *out);
+extern void G3D_CAMERA_GetEye(void *camera, VecFx32 *out);
 extern fx32 VEC_Distance(const VecFx32 *a, const VecFx32 *b);
 extern u32 FX_Div(u32 a, u32 b);
 void CLACT_GetActorPos(const Actor *actor, WeatherScreenPos *out);
@@ -716,7 +716,7 @@ void WEATHER_TASK_SaveCameraPos(WeatherTaskSys *task)
     VecFx32 pos;
 
     if (task->camera != 0) {
-        func_02048B30(FIELD_CAMERA_GetG3dCamera(task->camera), &pos);
+        G3D_CAMERA_GetCamTarget(FIELD_CAMERA_GetG3dCamera(task->camera), &pos);
         task->lastCameraPos = pos;
     }
 }
@@ -745,8 +745,8 @@ void WEATHER_TASK_GetCameraScroll(WeatherTaskSys *task, s32 *outX, s32 *outY)
         return;
     }
     camera = FIELD_CAMERA_GetG3dCamera(task->camera);
-    func_02048B30(camera, &pos);
-    func_02048AE8(camera, &target);
+    G3D_CAMERA_GetCamTarget(camera, &pos);
+    G3D_CAMERA_GetEye(camera, &target);
     dx = pos.x - task->lastCameraPos.x;
     dz = pos.z - task->lastCameraPos.z;
     if ((dx < 0 ? -dx : dx) > 0x3E8000 || (dz < 0 ? -dz : dz) > 0x64000) {

@@ -197,7 +197,7 @@ extern u32 G3D_CAMERA_Delete(void *ptr);
 
 extern void G3D_SYSTEM_Exit(void);
 
-extern void func_02047964(void);
+extern void G3D_SYSTEM_DrawStart(void);
 
 extern void G3D_CAMERA_Reset(struct Light *l);
 
@@ -456,7 +456,7 @@ void ZUKAN_DETAIL_GRAPHIC_DeleteCameraAndSystem(int *p)
  */
 void ZUKAN_DETAIL_GRAPHIC_ApplyCameraLookAt(int *p)
 {
-    func_02047964();
+    G3D_SYSTEM_DrawStart();
     G3D_CAMERA_Reset((struct Light *)(*p));
     G3D_SYSTEM_ApplyLookAt();
 }

@@ -17,11 +17,11 @@
  * across the call; array indexing on j recomputes it after the call.
  *
  * symbols:
- *   func_021B9A24  0x021B9A24  thumb
+ *   BTL_MAIN_IsPokeSamePair  0x021B9A24  thumb
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb
  *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_021C81C8  0x021C81C8  thumb
+ *   BTL_SERVER_FLOW_CalcPokeSpeedWrapper  0x021C81C8  thumb
  *   BTL_CALC_Random  0x021D78AC  thumb
  */
 typedef unsigned char u8;
@@ -47,8 +47,8 @@ typedef struct BtlPokeSet {
 void MI_CpuFill8(void *p, int v, int n);
 int BTL_POKEPARAM_IsFainted(void *x);
 int BTL_POKEPARAM_GetPokeId();
-int func_021B9A24(int a, int b);
-u16 func_021C81C8(int ctx, void *id, int k);
+int BTL_MAIN_IsPokeSamePair(int a, int b);
+u16 BTL_SERVER_FLOW_CalcPokeSpeedWrapper(int ctx, void *id, int k);
 int BTL_CALC_Random(int k);
 void BTL_POKESET_Clear(void *p);
 void BTL_POKESET_Add(BtlPokeSet *p, void *id);
@@ -273,7 +273,7 @@ int BTL_POKESET_CopyFriends(BtlPokeSet *p, void *a, BtlPokeSet *q)
     count = BTL_POKESET_GetCount(p);
     for (i = 0; i < count; i++) {
         poke = BTL_POKESET_Get(p, i);
-        if (func_021B9A24(pokeId, BTL_POKEPARAM_GetPokeId(poke)))
+        if (BTL_MAIN_IsPokeSamePair(pokeId, BTL_POKEPARAM_GetPokeId(poke)))
             BTL_POKESET_Add(q, poke);
     }
     return BTL_POKESET_GetCount(q);
@@ -293,7 +293,7 @@ int BTL_POKESET_CopyEnemies(BtlPokeSet *p, void *a, BtlPokeSet *q)
     count = BTL_POKESET_GetCount(p);
     for (i = 0; i < count; i++) {
         poke = BTL_POKESET_Get(p, i);
-        if (!func_021B9A24(pokeId, BTL_POKEPARAM_GetPokeId(poke)))
+        if (!BTL_MAIN_IsPokeSamePair(pokeId, BTL_POKEPARAM_GetPokeId(poke)))
             BTL_POKESET_Add(q, poke);
     }
     return BTL_POKESET_GetCount(q);
@@ -326,7 +326,7 @@ void BTL_POKESET_SortBySpeed(BtlPokeSet *p, int ctx)
 
     if (p->count > 1) {
         for (i = 0; i < p->count; i++)
-            p->speed[i] = func_021C81C8(ctx, p->poke[i], 1);
+            p->speed[i] = BTL_SERVER_FLOW_CalcPokeSpeedWrapper(ctx, p->poke[i], 1);
         for (i = 0; i < p->count; i++) {
             for (j = i + 1; j < p->count; j++) {
                 pj = (u16 *)p + j;

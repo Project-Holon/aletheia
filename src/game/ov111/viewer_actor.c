@@ -29,7 +29,7 @@
  *   d_021C8810  0x021C8810  data
  *   d_021C896C  0x021C896C  data
  *   FX_SinCosTable_  0x020A1B38  data
- *   func_02048C4C  0x02048C4C  arm
+ *   G3D_LIGHT_DeleteSlots  0x02048C4C  arm
  *   G3D_SYSTEM_Exit  0x02046788  arm
  *   G3D_UTIL_Create  0x02047CFC  arm
  *   G3D_UTIL_AddUnit  0x02047E88  arm
@@ -48,7 +48,7 @@
  *   G3D_CAMERA_Reset  0x02048AD0  arm
  *   G3D_SYSTEM_GetObjectAnimeFrame  0x02047828  arm
  *   G3D_SYSTEM_SetObjectAnimeFrame  0x0204784C  arm
- *   func_02047964  0x02047964  arm
+ *   G3D_SYSTEM_DrawStart  0x02047964  arm
  *   G3D_SYSTEM_ApplyLookAt  0x020479D8  arm
  *   G3D_SYSTEM_DrawObject  0x02047A60  arm
  *   G3D_SYSTEM_DrawEnd  0x02047970  arm
@@ -217,7 +217,7 @@ extern struct LightSlot *G3D_LIGHT_CreateSlots(const struct LightSet *s, u32 hea
 extern void G3D_LIGHT_ApplySlots(struct LightSlot *slots);
 extern void G3D_SYSTEM_SetProjection(const u32 *src);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void func_02048C4C(void *p);
+extern void G3D_LIGHT_DeleteSlots(void *p);
 extern void G3D_SYSTEM_Exit(void);
 extern void *G3D_UTIL_Create(int a, int b, int heap);
 extern u16 G3D_UTIL_AddUnit(void *p, const void *q);
@@ -232,7 +232,7 @@ extern void MTX_Identity33_(MtxFx33 *m);
 extern void G3D_CAMERA_Reset(struct Light *l);
 extern u32 G3D_SYSTEM_GetObjectAnimeFrame(struct AnmCtl *c, u32 idx, s32 *frame);
 extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame);
-extern void func_02047964(void);
+extern void G3D_SYSTEM_DrawStart(void);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
 extern void G3D_SYSTEM_DrawEnd(void);
@@ -406,7 +406,7 @@ void VIEWER_ACTOR_Init3D(ViewerTextWork *p)
 
 void VIEWER_ACTOR_Exit3D(ViewerTextWork *p)
 {
-    func_02048C4C(p->lightSlot);
+    G3D_LIGHT_DeleteSlots(p->lightSlot);
     G3D_SYSTEM_Exit();
 }
 
@@ -476,7 +476,7 @@ void VIEWER_ACTOR_DrawModel(ViewerTextWork *p)
     for (; i < n; i++) {
         G3D_SYSTEM_SetObjectAnimeFrame(mdl, (u16)i, &p->angle);
     }
-    func_02047964();
+    G3D_SYSTEM_DrawStart();
     G3D_SYSTEM_ApplyLookAt();
     G3D_SYSTEM_DrawObject((void *)G3D_UTIL_GetObject(p->g3dUtil, p->g3dUnit), (struct Arg *)(&t));
     G3D_SYSTEM_DrawEnd();

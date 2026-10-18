@@ -1,7 +1,7 @@
 /*
  * file:     msl_string_mem.c
  * unit:     yes
- * function: func_02092344, memmove, MSL_C_LIB_MemsetPtr, memchr, func_020923F0, func_02092430
+ * function: memcpy, memmove, MSL_C_LIB_MemsetPtr, memchr, memcmp, __fill_mem
  * address:  0x02092344
  * region:   arm9
  * compiler: dsi/1.2
@@ -27,7 +27,7 @@ typedef struct {
     u32 w7;
 } MslMemsetBlock;
 
-void *func_02092344(void *dest, const void *src, size_t n);
+void *memcpy(void *dest, const void *src, size_t n);
 
 void *memmove(void *dest, const void *src, size_t n);
 
@@ -35,20 +35,20 @@ void *MSL_C_LIB_MemsetPtr(void *dest, int c, u32 n);
 
 u8 *memchr(u8 *s, u32 c, u32 n);
 
-int func_020923F0(const u8 *s1, const u8 *s2, u32 n);
+int memcmp(const u8 *s1, const u8 *s2, u32 n);
 
-void func_02092430(u8 *dest, u32 val, u32 count);
+void __fill_mem(u8 *dest, u32 val, u32 count);
 
 /*
  * A whole translation unit, matched as one byte range.
  *
- * Byte-wise memcpy (func_02092344) and memmove (memmove).
+ * Byte-wise memcpy (memcpy) and memmove (memmove).
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02092344.c \
  *       --addr 0x02092344 --arm
  */
-void *func_02092344(void *dest, const void *src, size_t n)
+void *memcpy(void *dest, const void *src, size_t n)
 {
     unsigned char *d = (unsigned char *)dest;
     const unsigned char *s = (const unsigned char *)src;
@@ -97,9 +97,9 @@ void *memmove(void *dest, const void *src, size_t n)
 
 /*
  * String / memory utilities:
- *   MSL_C_LIB_MemsetPtr (20 B)  wraps func_02092430 (memset) and returns ptr
+ *   MSL_C_LIB_MemsetPtr (20 B)  wraps __fill_mem (memset) and returns ptr
  *   memchr (44 B)  memchr (byte search)
- *   func_020923F0 (64 B)  memcmp (memory comparison)
+ *   memcmp (64 B)  memcmp (memory comparison)
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_020923B0.c \
@@ -107,7 +107,7 @@ void *memmove(void *dest, const void *src, size_t n)
  */
 void *MSL_C_LIB_MemsetPtr(void *dest, int c, u32 n)
 {
-    func_02092430(dest, c, n);
+    __fill_mem(dest, c, n);
     return dest;
 }
 
@@ -125,7 +125,7 @@ u8 *memchr(u8 *s, u32 c, u32 n)
     return 0;
 }
 
-int func_020923F0(const u8 *s1, const u8 *s2, u32 n)
+int memcmp(const u8 *s1, const u8 *s2, u32 n)
 {
     u8 b1;
     u8 b2;
@@ -144,7 +144,7 @@ int func_020923F0(const u8 *s1, const u8 *s2, u32 n)
     return 0;
 }
 
-void func_02092430(u8 *dest, u32 val, u32 count)
+void __fill_mem(u8 *dest, u32 val, u32 count)
 {
     u32 byte_val;
     u32 align;

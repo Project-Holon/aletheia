@@ -1,7 +1,7 @@
 /*
  * file:     dwc_ghttp.c
  * unit:     yes
- * function: func_021BF520, DWC_GHTTPCleanupRootCAList, DWC_InitGHTTP, DWC_ShutdownGHTTP, DWC_ProcessGHTTP, GHTTPCompletedCallback, GHTTPProgressCallback, DWC_GetGHTTPDataEx, DWCi_GHTTPGetEx, DWC_CancelGHTTPRequest, DWCi_HandleGHTTPError, DWCi_AppendDWCGHTTPParam, DWCi_RemoveDWCGHTTPParamEntry, DWCi_FindDWCGHTTPParamEntryByReq, DWCi_RemoveAllDWCGHTTPParamEntry
+ * function: DWC_GHTTPSetRootCAList, DWC_GHTTPCleanupRootCAList, DWC_InitGHTTP, DWC_ShutdownGHTTP, DWC_ProcessGHTTP, GHTTPCompletedCallback, GHTTPProgressCallback, DWC_GetGHTTPDataEx, DWCi_GHTTPGetEx, DWC_CancelGHTTPRequest, DWCi_HandleGHTTPError, DWCi_AppendDWCGHTTPParam, DWCi_RemoveDWCGHTTPParamEntry, DWCi_FindDWCGHTTPParamEntryByReq, DWCi_RemoveAllDWCGHTTPParamEntry
  * address:  0x021BF520
  * region:   ov114
  * compiler: dsi/1.1p1
@@ -55,7 +55,7 @@ extern int ghttpGetExA(const char *url, const char *headers, char *buffer, int b
                          GHTTPProgressCallbackFn progressCallback,
                          GHTTPCompletedCallbackFn completedCallback, void *param);
 
-int func_021BF520(char *url);
+int DWC_GHTTPSetRootCAList(char *url);
 int DWC_GHTTPCleanupRootCAList(char *url);
 int DWC_InitGHTTP(void);
 int DWC_ShutdownGHTTP(void);
@@ -75,7 +75,7 @@ extern char sDwcGhttpRootCaList[];
 /*
  * Sets the root CA list of `url` to the built-in table and reports whether exactly one entry was set.
  */
-int func_021BF520(char *url)
+int DWC_GHTTPSetRootCAList(char *url)
 {
     return ghttpSetRootCAList(url, sDwcGhttpRootCaList) == 1;
 }

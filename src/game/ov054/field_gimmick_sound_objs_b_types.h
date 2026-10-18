@@ -62,13 +62,13 @@ extern void *FIELDMAP_AllocCommonWork(struct FieldMap *fieldMap, int id, int hea
 extern void *FIELDMAP_GetCommonWork(struct FieldMap *fieldMap, int id);
 extern void FIELDMAP_FreeCommonWork(struct FieldMap *fieldMap, int id);
 extern void ISS_3DS_SYS_SetVolume(struct Iss3dsSys *iss3ds, u32 volume);
-extern int func_021C4DA8(struct SoundObj *obj);
+extern int SOUND_OBJ_Delete(struct SoundObj *obj);
 extern struct FieldCamera *FIELDMAP_GetCamera(struct FieldMap *fieldMap);
 extern struct G3dCamera *FIELD_CAMERA_GetG3dCamera(struct FieldCamera *camera);
 extern void G3D_CAMERA_GetEye(struct G3dCamera *camera, VecFx32 *eye);
 extern void G3D_CAMERA_GetUp(struct G3dCamera *camera, VecFx32 *target);
 extern void ISS_3DS_SYS_SetCamera(struct Iss3dsSys *iss3ds, VecFx32 *eye, VecFx32 *target);
-extern u32 func_021C4DE4(struct SoundObj *obj, s32 deltaFrame);
+extern u32 SOUND_OBJ_AdvanceAnime(struct SoundObj *obj, s32 deltaFrame);
 extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
 extern struct IssSystem *GAMESYSTEM_GetIssSystem(struct GameSystem *gameSystem);
 extern struct Iss3dsSys *ISS_SYS_Get3dsSys(struct IssSystem *issSystem);

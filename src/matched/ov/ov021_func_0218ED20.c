@@ -9,20 +9,20 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled tail-call leaf: forwards the handle at +0xc to G3D_CAMERA_GetTarget.
+ * Unlabelled tail-call leaf: forwards the handle at +0xc to G3D_CAMERA_GetCamUp.
  * Filed as the only unmatched callee of ov056 func_021F392C.
  *
  * symbols:
- *   G3D_CAMERA_GetTarget  0x02048B0C  arm
+ *   G3D_CAMERA_GetCamUp  0x02048B0C  arm
  */
 #include "../include/Obj19565.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-extern void G3D_CAMERA_GetTarget(u32 h, void *out);
+extern void G3D_CAMERA_GetCamUp(u32 h, void *out);
 
 void FIELD_CAMERA_GetG3dUp(void *p, void *out)
 {
-    G3D_CAMERA_GetTarget(((struct Obj19565 *)p)->fC, out);
+    G3D_CAMERA_GetCamUp(((struct Obj19565 *)p)->fC, out);
 }

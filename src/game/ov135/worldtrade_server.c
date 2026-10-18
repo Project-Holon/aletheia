@@ -331,7 +331,7 @@ extern int DWC_CheckProfanityProcess(void);
 
 extern u32 MSGDATA_Delete(struct Rec *rec);
 
-extern void func_021C86B8(u8 *dst, u8 *src, u32 n);
+extern void DPW_TR_UploadAsync(u8 *dst, u8 *src, u32 n);
 
 extern u32 RECORD_AddOne(struct Sub02008C20Obj *obj, int i);
 
@@ -876,7 +876,7 @@ int WORLDTRADE_SERVER_WaitNameCheck(u8 *p)
  */
 int WORLDTRADE_SERVER_StartDataTransfer(Work *p)
 {
-    func_021C86B8((u8 *)p + 0xe4, (u8 *)p + 0x10ec, 0x80);
+    DPW_TR_UploadAsync((u8 *)p + 0xe4, (u8 *)p + 0x10ec, 0x80);
     p->state = 7;
     p->wait = 0;
     WORLDTRADE_ADAPTER_SetPair((Work *)p, 8, 0xa);

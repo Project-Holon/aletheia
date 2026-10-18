@@ -22,32 +22,32 @@
  *   VEC_Add  0x0207C9D0  arm
  *   FX_SinCosTable_     0x020A1B38  data   a2
  *   gFieldCameraFileName     0x021DDA28  data  ov021  a4
- *   func_02048B78  0x02048B78  arm
- *   func_02048B88  0x02048B88  arm
+ *   G3D_CAMERA_GetMode  0x02048B78  arm
+ *   G3D_CAMERA_GetFovyCos  0x02048B88  arm
  *   FX_AcosIdx  0x0207D184  arm
  *   gFieldCameraEnterModeFuncs  0x021DDA0C  data  ov021  a4
  *   gFieldCameraPrepareModeFuncs  0x021DDA00  data  ov021  a4
  *   G3D_SYSTEM_SetSwapBuffersMode  0x02046BE0  arm
- *   func_02048B80  0x02048B80  arm
- *   func_02048B94  0x02048B94  arm
+ *   G3D_CAMERA_SetFovySin  0x02048B80  arm
+ *   G3D_CAMERA_SetFovyCos  0x02048B94  arm
  *   FX_SinCosTable_   0x020A1B38  data
  *   ARC_TOOL_GetHandleMemberSize  0x020493D4  arm
  *   ARC_TOOL_ReadHandleMemberRange  0x0204944C  arm
  *   VEC_Normalize  0x0207CCA4  arm
  *   VEC_MultAdd  0x0207CEE4  arm
- *   func_02048B44  0x02048B44  arm
- *   func_02048AFC  0x02048AFC  arm
+ *   G3D_CAMERA_SetCamTarget  0x02048B44  arm
+ *   G3D_CAMERA_SetEye  0x02048AFC  arm
  *   gFieldCameraUpdateModeFuncs  0x021D3E44  data  ov021  a4
  *   VEC_Mag  0x0207CBD0  arm
  *   FX_Atan2Idx  0x0207CFB8  arm
  *   VEC_Subtract  0x0207CA00  arm
  *   VEC_DotProduct  0x0207CA68  arm
  *   gFieldCameraUpVec     0x021D3E2C  data   ov021  a4
- *   func_02048B20  0x02048B20  arm
- *   func_02048B0C  0x02048B0C  arm
+ *   G3D_CAMERA_SetCamUp  0x02048B20  arm
+ *   G3D_CAMERA_GetCamUp  0x02048B0C  arm
  *   FX_SinCosTable_  0x020A1B38  data
- *   func_02048B30  0x02048B30  arm
- *   func_02048AE8  0x02048AE8  arm
+ *   G3D_CAMERA_GetCamTarget  0x02048B30  arm
+ *   G3D_CAMERA_GetEye  0x02048AE8  arm
  *   MI_CpuCopy8   0x02082D44  arm
  *   ARC_UTIL_LoadHandleMember  0x0204A380  arm
  *   gFieldCameraAreaFuncs  0x021DDA18  data  ov021  a4
@@ -84,28 +84,28 @@ extern u32 GFL_HEAP_Free(void *);
 extern void *ARC_TOOL_CreateHandle(u32, u32);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void VEC_Add(VecFx32 *, VecFx32 *, VecFx32 *);
-extern int func_02048B78(struct G3dCamera *camera);
-extern void func_02048B88(struct G3dCamera *camera, unsigned int *out);
+extern int G3D_CAMERA_GetMode(struct G3dCamera *camera);
+extern void G3D_CAMERA_GetFovyCos(struct G3dCamera *camera, unsigned int *out);
 extern u16 FX_AcosIdx(int a);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
-extern void func_02048B80(struct G3dCamera *camera, u32 v);
-extern void func_02048B94(struct G3dCamera *camera, u32 v);
+extern void G3D_CAMERA_SetFovySin(struct G3dCamera *camera, u32 v);
+extern void G3D_CAMERA_SetFovyCos(struct G3dCamera *camera, u32 v);
 extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member);
 extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *, u32, u32, u32, void *);
 extern void VEC_Normalize(VecFx32 *, VecFx32 *);
 extern void VEC_MultAdd(int scale, VecFx32 *dir, VecFx32 *base, VecFx32 *out);
-extern void func_02048B44(struct G3dCamera *camera, const VecFx32 *in);
-extern void func_02048AFC(struct G3dCamera *camera, const VecFx32 *in);
+extern void G3D_CAMERA_SetCamTarget(struct G3dCamera *camera, const VecFx32 *in);
+extern void G3D_CAMERA_SetEye(struct G3dCamera *camera, const VecFx32 *in);
 extern int VEC_Mag(void *a);
 extern int FX_Atan2Idx(int a, int b);
 extern void VEC_Subtract(VecFx32 *, VecFx32 *, VecFx32 *);
 extern int VEC_DotProduct(VecFx32 *a, VecFx32 *b);
-extern void func_02048B60(struct G3dCamera *camera, const u32 *in);
-extern void func_02048B6C(struct G3dCamera *camera, const u32 *in);
-extern void func_02048B20(struct G3dCamera *camera, const VecFx32 *in);
-extern void func_02048B0C(struct G3dCamera *camera, VecFx32 *out);
-extern void func_02048B30(struct G3dCamera *camera, VecFx32 *out);
-extern void func_02048AE8(struct G3dCamera *camera, VecFx32 *out);
+extern void G3D_CAMERA_SetNear(struct G3dCamera *camera, const u32 *in);
+extern void G3D_CAMERA_SetFar(struct G3dCamera *camera, const u32 *in);
+extern void G3D_CAMERA_SetCamUp(struct G3dCamera *camera, const VecFx32 *in);
+extern void G3D_CAMERA_GetCamUp(struct G3dCamera *camera, VecFx32 *out);
+extern void G3D_CAMERA_GetCamTarget(struct G3dCamera *camera, VecFx32 *out);
+extern void G3D_CAMERA_GetEye(struct G3dCamera *camera, VecFx32 *out);
 extern void MI_CpuCopy8(void *, void *, int);
 extern void *ARC_UTIL_LoadHandleMember(void *a0, u32 a1, u32 a2, u32 a3);
 extern int FX_Modf(int x, int *ip);
@@ -247,8 +247,8 @@ FieldCamera *FIELD_CAMERA_Create(int settingId, int mode, struct G3dCamera *g3dC
     camera->pitch = 0;
     camera->distance = 0x78;
     camera->areasEnabled = 1;
-    if (func_02048B78(g3dCamera) == 0) {
-        func_02048B88(g3dCamera, (unsigned int *)(&fovSin));
+    if (G3D_CAMERA_GetMode(g3dCamera) == 0) {
+        G3D_CAMERA_GetFovyCos(g3dCamera, (unsigned int *)(&fovSin));
         camera->fov = FX_AcosIdx(fovSin);
     }
     camera->settingArc = ARC_TOOL_CreateHandle(0x3c, camera->heapId);
@@ -337,9 +337,9 @@ void FIELD_CAMERA_LoadSetting(FieldCamera *camera, const VecFx32 *targetSrc)
         G3D_SYSTEM_SetSwapBuffersMode(0, 1);
         break;
     }
-    if (func_02048B78(camera->g3dCamera) == 0) {
-        func_02048B80(camera->g3dCamera, FX_SinCosTable_[(camera->fov >> 4) * 2]);
-        func_02048B94(camera->g3dCamera, FX_SinCosTable_[(camera->fov >> 4) * 2 + 1]);
+    if (G3D_CAMERA_GetMode(camera->g3dCamera) == 0) {
+        G3D_CAMERA_SetFovySin(camera->g3dCamera, FX_SinCosTable_[(camera->fov >> 4) * 2]);
+        G3D_CAMERA_SetFovyCos(camera->g3dCamera, FX_SinCosTable_[(camera->fov >> 4) * 2 + 1]);
     }
     if (setting.hasTarget != 0) {
         camera->boundTarget = targetSrc;
@@ -472,8 +472,8 @@ void FIELD_CAMERA_ApplyToG3d(FieldCamera *camera)
 
     VEC_Add(&camera->target, &camera->targetShift, &targetWithShift);
     VEC_Add(&camera->eye, &camera->eyeShift, &eyeWithShift);
-    func_02048B44(camera->g3dCamera, &targetWithShift);
-    func_02048AFC(camera->g3dCamera, &eyeWithShift);
+    G3D_CAMERA_SetCamTarget(camera->g3dCamera, &targetWithShift);
+    G3D_CAMERA_SetEye(camera->g3dCamera, &eyeWithShift);
     FIELD_CAMERA_ApplyDelayToG3d(camera);
     FIELD_CAMERA_UpdateViewAngles(camera, &targetWithShift, &camera->eye);
 }
@@ -759,12 +759,12 @@ void FIELD_CAMERA_ResumeTargetTrace(FieldCamera *camera)
 
 void FIELD_CAMERA_SetG3dScale(FieldCamera *camera, u32 scale, ...)
 {
-    func_02048B60(camera->g3dCamera, &scale);
+    G3D_CAMERA_SetNear(camera->g3dCamera, &scale);
 }
 
 void FIELD_CAMERA_SetG3dRoll(FieldCamera *camera, u32 roll, ...)
 {
-    func_02048B6C(camera->g3dCamera, &roll);
+    G3D_CAMERA_SetFar(camera->g3dCamera, &roll);
 }
 
 void FIELD_CAMERA_SetTarget(FieldCamera *camera, const VecFx32 *target)
@@ -805,12 +805,12 @@ void FIELD_CAMERA_SetEyeShift(FieldCamera *camera, const VecFx32 *shift)
 
 void FIELD_CAMERA_SetG3dUp(FieldCamera *camera, const VecFx32 *up)
 {
-    func_02048B20(camera->g3dCamera, up);
+    G3D_CAMERA_SetCamUp(camera->g3dCamera, up);
 }
 
 void FIELD_CAMERA_GetG3dUp(FieldCamera *camera, VecFx32 *out)
 {
-    func_02048B0C(camera->g3dCamera, out);
+    G3D_CAMERA_GetCamUp(camera->g3dCamera, out);
 }
 
 u16 FIELD_CAMERA_GetPitch(FieldCamera *camera)
@@ -862,8 +862,8 @@ void FIELD_CAMERA_GetVectorAngles(VecFx32 *vec, u16 *pitch, u16 *yaw, int *dista
 void FIELD_CAMERA_SetFov(FieldCamera *camera, u16 fov)
 {
     camera->fov = fov;
-    func_02048B80(camera->g3dCamera, FX_SinCosTable_[(camera->fov >> 4) * 2]);
-    func_02048B94(camera->g3dCamera, FX_SinCosTable_[(camera->fov >> 4) * 2 + 1]);
+    G3D_CAMERA_SetFovySin(camera->g3dCamera, FX_SinCosTable_[(camera->fov >> 4) * 2]);
+    G3D_CAMERA_SetFovyCos(camera->g3dCamera, FX_SinCosTable_[(camera->fov >> 4) * 2 + 1]);
 }
 
 /* Pushes a target and an eye into the delay log and reads the delayed pair back. */
@@ -983,11 +983,11 @@ void FIELD_CAMERA_ApplyDelayToG3d(FieldCamera *camera)
         VecFx32 eyeDelayed;
         VecFx32 targetDelayed;
 
-        func_02048B30(camera->g3dCamera, &targetNow);
-        func_02048AE8(camera->g3dCamera, &eyeNow);
+        G3D_CAMERA_GetCamTarget(camera->g3dCamera, &targetNow);
+        G3D_CAMERA_GetEye(camera->g3dCamera, &eyeNow);
         FIELD_CAMERA_StepDelay(camera->delay, &targetNow, &eyeNow, &targetDelayed, &eyeDelayed);
-        func_02048B44(camera->g3dCamera, &targetDelayed);
-        func_02048AFC(camera->g3dCamera, &eyeDelayed);
+        G3D_CAMERA_SetCamTarget(camera->g3dCamera, &targetDelayed);
+        G3D_CAMERA_SetEye(camera->g3dCamera, &eyeDelayed);
     }
 }
 
@@ -1522,8 +1522,8 @@ void FIELD_CAMERA_UpdateMove(FieldCamera *camera)
     if (motion->channels.fov != 0) {
         camera->fov = FIELD_CAMERA_LerpAngle(&from->fov, &to->fov,
                                     motion->frames, motion->frame);
-        func_02048B80(camera->g3dCamera, FX_SinCosTable_[(camera->fov >> 4) * 2]);
-        func_02048B94(camera->g3dCamera, FX_SinCosTable_[(camera->fov >> 4) * 2 + 1]);
+        G3D_CAMERA_SetFovySin(camera->g3dCamera, FX_SinCosTable_[(camera->fov >> 4) * 2]);
+        G3D_CAMERA_SetFovyCos(camera->g3dCamera, FX_SinCosTable_[(camera->fov >> 4) * 2 + 1]);
     }
     if (motion->channels.distance != 0) {
         camera->distance = FIELD_CAMERA_LerpFx32(&from->distance, &to->distance,
@@ -1559,8 +1559,8 @@ void FIELD_CAMERA_UpdateFreeMove(FieldCamera *camera)
     if (motion->channels.fov != 0) {
         camera->fov = FIELD_CAMERA_LerpAngle(&from->fov, &to->fov,
                                     motion->frames, motion->frame);
-        func_02048B80(camera->g3dCamera, FX_SinCosTable_[(camera->fov >> 4) * 2]);
-        func_02048B94(camera->g3dCamera, FX_SinCosTable_[(camera->fov >> 4) * 2 + 1]);
+        G3D_CAMERA_SetFovySin(camera->g3dCamera, FX_SinCosTable_[(camera->fov >> 4) * 2]);
+        G3D_CAMERA_SetFovyCos(camera->g3dCamera, FX_SinCosTable_[(camera->fov >> 4) * 2 + 1]);
     }
     if (motion->channels.shift != 0) {
         FIELD_CAMERA_LerpVec(&from->shift, &to->shift, motion->frames, motion->frame, &camera->targetShift);

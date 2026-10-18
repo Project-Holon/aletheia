@@ -53,7 +53,7 @@
  *   TCB_DeleteTask 0x02030EAC arm
  *   TCB_Noop 0x02030DA4 arm
  *   TCB_Main  0x02030D28  arm
- *   func_02047964  0x02047964  arm
+ *   G3D_SYSTEM_DrawStart  0x02047964  arm
  *   G3D_SYSTEM_ApplyLookAt  0x020479D8  arm
  *   PARTICLE_Main  0x02050BE8  arm
  *   G3D_SYSTEM_DrawEnd  0x02047970  arm
@@ -317,7 +317,7 @@ extern void TCB_Noop(void *);
 
 extern void * TCB_Main(struct Ctx *c);
 
-extern void func_02047964(void);
+extern void G3D_SYSTEM_DrawStart(void);
 
 extern void G3D_SYSTEM_ApplyLookAt(void);
 
@@ -941,7 +941,7 @@ void BTLV_EFFECT_Main(void)
         BTLV_CAMERA_UpdateMove(gBtlvEff->camera);
         BTLV_GAUGE_FlashTaskMain(gBtlvEff->gauge);
         BTLV_CLACT_Draw(gBtlvEff->clact);
-        func_02047964();
+        G3D_SYSTEM_DrawStart();
         G3D_SYSTEM_ApplyLookAt();
         BTLV_STAGE_DrawLayers(gBtlvEff->stage);
         BTLV_FIELD_Draw(gBtlvEff->field);

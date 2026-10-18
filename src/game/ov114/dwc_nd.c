@@ -1,7 +1,7 @@
 /*
  * file:     dwc_nd.c
  * unit:     yes
- * function: DWCi_NdAlloc, DWCi_NdFree, DWCi_NdCleanupCallback, DWCi_SVLTokenWaitThread, func_021C58C8, DWC_NdInitAsync, DWC_NdProcess, DWC_NdCleanupAsync, DWC_NdSetAttr, DWC_NdGetFileListAsync, DWC_NdGetFileAsync, DWC_NdCancelAsync, DWC_NdGetProgress
+ * function: DWCi_NdAlloc, DWCi_NdFree, DWCi_NdCleanupCallback, DWCi_SVLTokenWaitThread, NdCallback, DWC_NdInitAsync, DWC_NdProcess, DWC_NdCleanupAsync, DWC_NdSetAttr, DWC_NdGetFileListAsync, DWC_NdGetFileAsync, DWC_NdCancelAsync, DWC_NdGetProgress
  * address:  0x021C569C
  * region:   ov114
  * compiler: dsi/1.1p1
@@ -84,7 +84,7 @@ extern int DWCi_NdGetProgress(unsigned long *received, unsigned long *contentLen
 void *DWCi_NdAlloc(unsigned long size, int align);
 void DWCi_NdFree(void *ptr);
 void DWCi_NdCleanupCallback(void);
-void func_021C58C8(int reason, int error, int serverError);
+void NdCallback(int reason, int error, int serverError);
 int DWC_NdInitAsync(NdCallback callback, char *gameCode, char *password);
 void DWC_NdProcess(void);
 int DWC_NdCleanupAsync(void);
@@ -142,30 +142,30 @@ static void DWCi_SVLTokenWaitThread(void *arg)
         switch (DWC_SVLProcess()) {
         case 3:
             if (strlen(gDwcNdState.param->svl.svlHost) + strlen("https:///download") > sizeof(url) - 1) {
-                func_021C58C8(0, 8, -1);
+                NdCallback(0, 8, -1);
                 return;
             }
             OS_SNPrintf(url, sizeof(url), "https://%s/download", gDwcNdState.param->svl.svlHost);
             if (DWC_Base64Encode(gDwcNdState.param->svl.svlToken, strlen(gDwcNdState.param->svl.svlToken),
                               token, sizeof(token)) < 0) {
-                func_021C58C8(0, 8, -1);
+                NdCallback(0, 8, -1);
                 return;
             }
             if (!DWCi_NdStartup(DWCi_NdAlloc, DWCi_NdFree, url, token, gDwcNdState.param->gameCode,
-                               gDwcNdState.param->password, func_021C58C8)) {
-                func_021C58C8(0, 8, -1);
+                               gDwcNdState.param->password, NdCallback)) {
+                NdCallback(0, 8, -1);
                 return;
             }
             gDwcNdState.param->status = 1;
-            func_021C58C8(0, 0, -1);
+            NdCallback(0, 0, -1);
             return;
         case 4:
             DWC_GetLastError(&errorCode);
             DWCi_SetError(13, errorCode);
-            func_021C58C8(0, 3, -1);
+            NdCallback(0, 3, -1);
             return;
         case 5:
-            func_021C58C8(0, 6, -1);
+            NdCallback(0, 6, -1);
             return;
         }
         OS_Sleep(100);
@@ -175,7 +175,7 @@ static void DWCi_SVLTokenWaitThread(void *arg)
 /*
  * Records the outcome (reason, error, server error) of the session for DWC_NdProcess.
  */
-void func_021C58C8(int reason, int error, int serverError)
+void NdCallback(int reason, int error, int serverError)
 {
     if (error != 0)
         DWCi_NdSetError(error, serverError);

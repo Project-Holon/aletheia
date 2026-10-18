@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02014878",
+   "name": "FIELD_STATUS_SubProcListEvent",
    "address": "0x02014878",
    "kind": "game",
    "region": "arm9",

@@ -19,7 +19,7 @@
  *   gsirealloc  0x0217EAC8  arm  ov009
  *   gpiSetErrorString  0x02193734  arm  ov009
  *   g_021A44C8     0x021A44C8  data
- *   func_02092344  0x02092344  arm
+ *   memcpy  0x02092344  arm
  *   strlen  0x0209477C  arm
  *   OS_SPrintf  0x02084F40  arm
  *   g_021A44D8     0x021A44D8  data
@@ -77,7 +77,7 @@ struct GPIPeer_s {
 
 extern char *gsirealloc(char *p, int n);
 extern void gpiSetErrorString(int *connection, int string);
-extern void *func_02092344(void *dest, const void *src, unsigned int n);
+extern void *memcpy(void *dest, const void *src, unsigned int n);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern int send(int sock, char *buffer, int bufferLen, int flags);
 extern int GOAGetLastError(int sock);
@@ -183,7 +183,7 @@ int gpiAppendStringToBufferLen(int *connection, int *buffer, int src, int n)
             return 1;
         }
     }
-    func_02092344(data + buflen, (const void *)src, n);
+    memcpy(data + buflen, (const void *)src, n);
     data[buflen + n] = 0;
     buffer[1] = size;
     buffer[2] += n;
@@ -311,7 +311,7 @@ int gpiSendData(int *connection, int sock, char *buffer, int bufferLen,
     } else {
         char *buf = gsimalloc(rcode + 1);
 
-        func_02092344(buf, buffer, rcode);
+        memcpy(buf, buffer, rcode);
         buf[rcode] = 0;
         gsDebugFormat(1, 0, 0x20, g_021A4528, sendCount++, id, buf);
         gsifree(buf);
@@ -436,7 +436,7 @@ int gpiRecvToBuffer(int *connection, int sock, GPIBuffer *inputBuffer,
         } else {
             char *buf = gsimalloc(rcode + 1);
 
-            func_02092344(buf, &buffer[len], rcode);
+            memcpy(buf, &buffer[len], rcode);
             buf[rcode] = 0;
             gsDebugFormat(1, 0, 0x20, g_021A458C, recvCount++, id, buf);
             gsifree(buf);

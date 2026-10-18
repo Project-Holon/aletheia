@@ -52,7 +52,7 @@ typedef unsigned char u8;
 
 extern double scalbn(double x, int n);
 extern double _dsub(double x, double y);
-extern int func_0209C508(double x);
+extern int _d2s(double x);
 extern double __kernel_cos(double x, double y);
 extern double __kernel_sin(double x, double y, int iy);
 extern int __ieee754_rem_pio2(double x, double *y);
@@ -240,7 +240,7 @@ recompute:
  *   __dmul  __dmul(double, double)
  *   _double_arith_prelude  __dadd(double, double)
  *   _dsub  __dsub(double, double)
- *   func_0209C508  __d2s (double -> int)
+ *   _d2s  __d2s (double -> int)
  */
 double __kernel_sin(double x, double y, int iy)
 {

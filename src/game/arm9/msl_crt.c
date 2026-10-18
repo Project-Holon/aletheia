@@ -29,13 +29,13 @@
  *   g_02153BB0  0x02153BB0  data
  *   gMslMutexTable  0x02153BD4  data
  *   g_020A8818  0x020A8818  data
- *   func_0209BD38  0x0209BD38  arm
+ *   _f2d  0x0209BD38  arm
  *   OS_AllocFromHeap  0x020868E0  arm
  *   OS_FreeToHeap  0x020869E8  arm
  *   ENV_InsertResourceSet  0x02086C54  arm
  *   gMslStream0  0x020A8730  data
  *   MSL_C_LIB_FlushStream 0x02091B5C arm arm9
- *   func_02092344 0x02092344 arm arm9
+ *   memcpy 0x02092344 arm arm9
  *   MSL_C_LIB_MemsetPtr 0x020923B0 arm arm9
  */
 #include "msl_crt_shared_types.h"
@@ -52,7 +52,7 @@ extern void OS_UnlockMutex(void *mutex);
 
 extern int MSL_CONSOLE_IO_RegisterDestructor(int a);
 
-extern double func_0209BD38(int x);
+extern double _f2d(int x);
 
 extern void *OS_AllocFromHeap(u32 a, u32 b, u32 heap);
 
@@ -111,7 +111,7 @@ void MSL_C_LIB_NopBufferHookB(int a, void *b);
 
 int MSL_C_LIB_FlushStream(struct MslStream *stream);
 
-void *func_02092344(void *dest, const void *src, size_t n);
+void *memcpy(void *dest, const void *src, size_t n);
 
 void *MSL_C_LIB_MemsetPtr(void *dest, int c, u32 n);
 
@@ -261,7 +261,7 @@ u32 MSL_C_LIB_LockRegisterDestructor(u32 arg)
 
 double nan(const char *tagp)
 {
-    return func_0209BD38(g_020A8818);
+    return _f2d(g_020A8818);
 }
 
 void *MSL_C_LIB_AllocAllFromHeap(u32 heap)
@@ -320,7 +320,7 @@ void *MSL_C_LIB_ReallocResource(u32 resSet, u32 heap)
     if (p != 0) {
         if (n >= heap)
             n = heap;
-        func_02092344(p, (const void *)resSet, n);
+        memcpy(p, (const void *)resSet, n);
         CRT_Free((u32)((void *)resSet));
     }
     return p;

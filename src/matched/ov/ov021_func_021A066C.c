@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   G3D_LIGHT_SetSlotColor  0x02048CA4  arm
- *   G3D_LIGHT_SetSlotFlags  0x02048CDC  arm
+ *   G3D_LIGHT_SetDirection  0x02048CA4  arm
+ *   G3D_LIGHT_SetColor  0x02048CDC  arm
  *   NNS_G3dGlbMaterialColorDiffAmb  0x0206AA8C  arm
  *   NNS_G3dGlbMaterialColorSpecEmi  0x0206AAB0  arm
  *   FIELD_FOG_SetColorRgb  0x021A01C4  thumb  ov021
@@ -41,9 +41,9 @@ typedef struct {
     u16 active;
 } W;
 
-extern void G3D_LIGHT_SetSlotColor(u32, u8, const V3s *);
+extern void G3D_LIGHT_SetDirection(u32, u8, const V3s *);
 struct LightSlot;
-extern void G3D_LIGHT_SetSlotFlags(struct LightSlot *slots, u32 i, u16 *in);
+extern void G3D_LIGHT_SetColor(struct LightSlot *slots, u32 i, u16 *in);
 extern void NNS_G3dGlbMaterialColorDiffAmb(u32 v, u32 bits, u32 flag);
 extern void NNS_G3dGlbMaterialColorSpecEmi(u32 v, u32 bits, u32 flag);
 extern int FIELD_FOG_SetColorRgb(u32 a, u32 b);
@@ -60,11 +60,11 @@ void FIELD_LIGHT_Apply(const W *w, u32 a, u32 p)
     }
     for (i = 0; i < 4; i++) {
         if (w->used[i]) {
-            G3D_LIGHT_SetSlotColor(p, i, &w->b[i]);
-            G3D_LIGHT_SetSlotFlags((struct LightSlot *)p, (u8)i, (u16 *)(&w->c[i]));
+            G3D_LIGHT_SetDirection(p, i, &w->b[i]);
+            G3D_LIGHT_SetColor((struct LightSlot *)p, (u8)i, (u16 *)(&w->c[i]));
         } else {
-            G3D_LIGHT_SetSlotColor(p, i, &zb);
-            G3D_LIGHT_SetSlotFlags((struct LightSlot *)p, (u8)i, &zc);
+            G3D_LIGHT_SetDirection(p, i, &zb);
+            G3D_LIGHT_SetColor((struct LightSlot *)p, (u8)i, &zc);
         }
     }
     NNS_G3dGlbMaterialColorDiffAmb(w->f37E, w->f380, 1);

@@ -75,7 +75,7 @@
  *   MUSICAL_MCSS_DrawRenderObj 0x021F51F4 thumb ov112
  *   STA_ACT_LIGHT_UpdateSprite 0x021F718C thumb ov112
  *   STA_ACT_LIGHT_DrawModel 0x021F6F8C thumb ov112
- *   func_02047964 0x02047964 arm
+ *   G3D_SYSTEM_DrawStart 0x02047964 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  *   CLACT_DrawSystem 0x0204A600 arm
@@ -148,8 +148,8 @@
  *   STA_ACT_OBJ_SetCount 0x021F6AF0 thumb ov112
  *   STA_ACT_AUDIENCE_SetBgScroll 0x021FA57C thumb ov132
  *   KEY_GetCont 0x0203630C arm
- *   func_02048AFC 0x02048AFC arm
- *   func_02048B44 0x02048B44 arm
+ *   G3D_CAMERA_SetEye 0x02048AFC arm
+ *   G3D_CAMERA_SetCamTarget 0x02048B44 arm
  *   BG_SYS_FillScrollArea 0x02040618 arm
  *   d_021FDBEC 0x021FDBEC data a4
  *   STA_ACT_SCRIPT_AddScript 0x021FAC74 thumb ov132
@@ -451,7 +451,7 @@ extern void STA_ACT_LIGHT_UpdateSprite(char *p);
 
 extern void STA_ACT_LIGHT_DrawModel(u8 *);
 
-extern void func_02047964(void);
+extern void G3D_SYSTEM_DrawStart(void);
 
 extern void G3D_SYSTEM_ApplyLookAt(void);
 
@@ -551,9 +551,9 @@ extern void STA_ACT_OBJ_SetCount(void *, u16);
 
 extern void STA_ACT_AUDIENCE_SetBgScroll(void *unused, int x);
 
-extern void func_02048AFC(void *, const Vec *);
+extern void G3D_CAMERA_SetEye(void *, const Vec *);
 
-extern void func_02048B44(void *, const Vec *);
+extern void G3D_CAMERA_SetCamTarget(void *, const Vec *);
 
 extern void BG_SYS_FillScrollArea(u32, u32, u32);
 
@@ -1001,7 +1001,7 @@ int STA_ACTING_Update(u8 *p)
     STA_ACTING_UpdateSelection((char *)p);
     STA_ACT_AUDIENCE_Update((char *)(*(u8 * *)&((struct ActingScene *)p)->fB8));
     STA_ACTING_FadePalette((Fade *)p);
-    func_02047964(); G3D_SYSTEM_ApplyLookAt();
+    G3D_SYSTEM_DrawStart(); G3D_SYSTEM_ApplyLookAt();
     STA_ACT_LIGHT_NoOp(*(u8 * *)&((struct ActingScene *)p)->f90);
     STA_ACT_LIGHT_UpdateElem(*(u8 * *)&((struct ActingScene *)p)->f40);
     MUSICAL_MCSS_DrawRenderObj((void **)(*(u8 * *)&((struct ActingScene *)p)->f34));
@@ -1151,8 +1151,8 @@ void STA_ACTING_CreateActorSys(char *p){int i;*(char * *)&((struct ActingScene *
 
 /*
  * blocker C (read-only root show):
- *   void func_02048AFC(char *p, const Vec *v) { *(Vec *)(p + 0x20) = *v; }
- *   void func_02048B44(char *p, const Vec *v) { *(Vec *)(p + 0x38) = *v; }
+ *   void G3D_CAMERA_SetEye(char *p, const Vec *v) { *(Vec *)(p + 0x20) = *v; }
+ *   void G3D_CAMERA_SetCamTarget(char *p, const Vec *v) { *(Vec *)(p + 0x38) = *v; }
  */
 void STA_ACTING_UpdateCamera(u8 *p)
 {
@@ -1195,8 +1195,8 @@ void STA_ACTING_UpdateCamera(u8 *p)
         }
         scale.x = FX((float)*(u16 *)(p + 4) / 16.0f);
         translation.x = FX((float)*(u16 *)(p + 4) / 16.0f);
-        func_02048AFC(*(void **)(p + 0xA8), &scale);
-        func_02048B44(*(void **)(p + 0xA8), &translation);
+        G3D_CAMERA_SetEye(*(void **)(p + 0xA8), &scale);
+        G3D_CAMERA_SetCamTarget(*(void **)(p + 0xA8), &translation);
         G3D_CAMERA_Reset(*(void **)(p + 0xA8));
         BG_SYS_FillScrollArea(2, 0, *(u16 *)(p + 4));
         STA_ACT_LIGHT_SetModelFrame(*(void **)(p + 0x3C), *(u16 *)(p + 4));

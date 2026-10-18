@@ -604,7 +604,7 @@ extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,u32,u32,u32,u32,u32,u16);
 
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
 
-extern u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
+extern u32 ARC_UTIL_UploadBgCharFromArchive(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
 
 extern void ARC_UTIL_UploadBgPaletteFromArchive(u32,u32,u32,u32,u32,u32,u16);
 
@@ -906,7 +906,7 @@ void GURU2_RECEIPT_ExitBg(u32 a0) {BG_SYS_FreeLayerBuf(6);BG_SYS_FreeLayerBuf(5)
  * typedef unsigned short u16; typedef unsigned int u32;
  * extern u32 ARC_UTIL_LoadMember(void *,void *,u32,u16);
  * extern u32 ARC_UTIL_UploadBgChar(u32,void *,void *,u32,u32);
- * u32 func_02049624(void *a,void *b,void *c,void *d,u32 e,u32 f,u16 g) {
+ * u32 ARC_UTIL_UploadBgCharFromArchive(void *a,void *b,void *c,void *d,u32 e,u32 f,u16 g) {
  *     u32 r=ARC_UTIL_LoadMember(a,b,f,g); return ARC_UTIL_UploadBgChar(r,c,d,e,f);
  * }
  * Blocker symbols: ARC_UTIL_LoadMember 0x0204A1BC arm; ARC_UTIL_UploadBgChar 0x0204968C arm.
@@ -914,7 +914,7 @@ void GURU2_RECEIPT_ExitBg(u32 a0) {BG_SYS_FreeLayerBuf(6);BG_SYS_FreeLayerBuf(5)
  * ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  * ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  * ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
- * func_02049624 0x02049624 arm
+ * ARC_UTIL_UploadBgCharFromArchive 0x02049624 arm
  * ARC_UTIL_UploadBgPaletteFromArchive 0x0204989C arm
  * BG_SYS_SetPlaneVisible 0x02040588 arm
  * BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
@@ -926,7 +926,7 @@ void GURU2_RECEIPT_LoadGraphics(void *p,void *arc)
     ARC_UTIL_UploadBgPaletteFromHandle(arc,13,1,0,1536,0,114);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,416,32,114);
     ARC_UTIL_UploadPaletteFromArchiveWhole(30,13,4,0,352,114);
-    func_02049624((void *)30,(void *)14,(void *)6,0,0,0,114);
+    ARC_UTIL_UploadBgCharFromArchive((void *)30,(void *)14,(void *)6,0,0,0,114);
     ARC_UTIL_UploadBgPaletteFromArchive(30,3,6,0,0,0,114);
     BMP_MENUWORK_LoadCharAndPltt(0,1,10,0,114);
     BMP_MENUWORK_LoadCharAndPltt(0,31,11,0,114);

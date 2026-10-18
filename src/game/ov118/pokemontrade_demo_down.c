@@ -99,6 +99,7 @@
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm  arm9
  *   ARC_TOOL_CreateHandle  0x020490F4  arm  arm9
+ *   PARTICLE_GetCallbackArg  0x02051774  arm  arm9
  */
 #include "pokemontrade_demo_types.h"
 #include "pokemontrade_demo_up_shared_types.h"
@@ -177,7 +178,7 @@ extern unsigned int ICA_ANIME_Get(struct IcaAnime *p, struct Rec12 *dst);
 
 extern void BUTTON_MAN_SetEmitterPos(void *, Vec *);
 
-extern u32 func_02051774(void);
+extern u32 PARTICLE_GetCallbackArg(void);
 
 extern void BUTTON_MAN_SetUserData(void *p, int v);
 
@@ -572,7 +573,7 @@ void POKETRADE_DEMO_UP_UpdateEmitterC(void *obj, int on)
 
 void POKETRADE_DEMO_UP_SetupEmitterC(void *p)
 {
-    BUTTON_MAN_SetUserData(p, func_02051774());
+    BUTTON_MAN_SetUserData(p, PARTICLE_GetCallbackArg());
     BUTTON_MAN_SetCallback(p, (int)POKETRADE_DEMO_UP_UpdateEmitterC);
 }
 
@@ -597,7 +598,7 @@ void POKETRADE_DEMO_UP_UpdateEmitterD(void *obj, int on)
 
 void POKETRADE_DEMO_UP_SetupEmitterD(void *p)
 {
-    BUTTON_MAN_SetUserData(p, func_02051774());
+    BUTTON_MAN_SetUserData(p, PARTICLE_GetCallbackArg());
     BUTTON_MAN_SetCallback(p, (int)POKETRADE_DEMO_UP_UpdateEmitterD);
 }
 

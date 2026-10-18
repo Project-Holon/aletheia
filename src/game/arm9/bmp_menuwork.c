@@ -37,7 +37,7 @@
 
 struct U16Vec;
 
-extern void func_02049624(u32 arcId, u32 fileId, u32 layer, u32 tileOffset, u32 flagA, u32 flagB, u32 heapId);
+extern void ARC_UTIL_UploadBgCharFromArchive(u32 arcId, u32 fileId, u32 layer, u32 tileOffset, u32 flagA, u32 flagB, u32 heapId);
 
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 arcId, u32 fileId, u32 palBase, u32 byteOffset, u32 byteSize, u32 heapId);
 
@@ -176,7 +176,7 @@ u8 BMP_MENUWORK_GetPlttFileId(int index)
  */
 void BMP_MENUWORK_LoadChar(u32 layer, u32 tileOffset, u32 frameId, u32 heapId)
 {
-    func_02049624(5, BMP_MENUWORK_GetCharFileId(frameId), layer, tileOffset, 0, 0, heapId);
+    ARC_UTIL_UploadBgCharFromArchive(5, BMP_MENUWORK_GetCharFileId(frameId), layer, tileOffset, 0, 0, heapId);
 }
 
 void BMP_MENUWORK_LoadPltt(u32 layer, u32 palSlot, u32 frameId, u16 heapId)

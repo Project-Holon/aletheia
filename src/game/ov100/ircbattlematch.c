@@ -179,7 +179,7 @@
  *   CLACT_GetActorAnimSeq 0x0204B898 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   gIrcBattleMatchMsgDisconnected 0x021BB660 data a4
- *   func_0204BA00 0x0204BA00 arm
+ *   CLACT_ApplyActorAnimCommand 0x0204BA00 arm
  *   gIrcBattleMatchMsgIconsParent 0x021BB69C data a4
  *   gIrcBattleMatchMsgIconsChild 0x021BB68C data a4
  *   GFL_NET_HANDLE_GetNegotiationState 0x020399DC arm
@@ -493,7 +493,7 @@ extern int GFL_NET_IRC_WIRELESS_Step(void);
 extern void BUTTON_MAN_Delete(void *p);
 extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_0204BA00(struct Actor *a, const ActorTask *task);
+extern void CLACT_ApplyActorAnimCommand(struct Actor *a, const ActorTask *task);
 extern int GFL_NET_HANDLE_GetNegotiationState(struct Entry *);
 extern void GFL_HEAP_CreateChildHeap(unsigned int, unsigned int, unsigned int);
 extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heap);
@@ -1599,9 +1599,9 @@ void IRCBATTLEMATCH_StepAnimateIcons(IrcBattleMatchWork *work)
             task.state=0;
             task.context=work;
             task.callback=IRCBATTLEMATCH_IconAnimLeft;
-            func_0204BA00((struct Actor *)work->actors[0],&task);
+            CLACT_ApplyActorAnimCommand((struct Actor *)work->actors[0],&task);
             task.callback=IRCBATTLEMATCH_IconAnimRight;
-            func_0204BA00((struct Actor *)work->actors[2],&task);
+            CLACT_ApplyActorAnimCommand((struct Actor *)work->actors[2],&task);
         }
         work->iconsDirty=0;
     }

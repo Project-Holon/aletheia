@@ -26,9 +26,9 @@
  *   _ffixu         0x0209C4C8  arm
  *   _IcaCameraForward  0x0209DF84  data
  *   _IcaCameraUp  0x0209DF90  data
- *   func_02048AFC  0x02048AFC  arm
- *   func_02048B20  0x02048B20  arm
- *   func_02048B44  0x02048B44  arm
+ *   G3D_CAMERA_SetEye  0x02048AFC  arm
+ *   G3D_CAMERA_SetCamUp  0x02048B20  arm
+ *   G3D_CAMERA_SetCamTarget  0x02048B44  arm
  *   BUTTON_MAN_MakeRotMtxXYZ  0x020520FC  arm
  *   MTX_MultVec33  0x0207B51C  arm
  *   VEC_Add  0x0207C9D0  arm
@@ -167,11 +167,11 @@ extern struct ArcFile *ARC_TOOL_CreateHandle(unsigned int arcId, unsigned int he
 
 extern void  ARC_TOOL_ReadHandleMemberRange(struct ArcFile *arc, u32 dataId, u32 offset, u32 size, void *dst);
 
-extern void func_02048AFC(void *camera, struct Vec3 *position);
+extern void G3D_CAMERA_SetEye(void *camera, struct Vec3 *position);
 
-extern void func_02048B20(void *camera, struct Vec3 *up);
+extern void G3D_CAMERA_SetCamUp(void *camera, struct Vec3 *up);
 
-extern void func_02048B44(void *camera, struct Vec3 *target);
+extern void G3D_CAMERA_SetCamTarget(void *camera, struct Vec3 *target);
 
 extern void BUTTON_MAN_MakeRotMtxXYZ(int angleX, int angleY, int angleZ, struct Mtx33 *out);
 
@@ -1018,15 +1018,15 @@ void ICA_ANIME_SetCameraStatus(void *camera, struct IcaAnime *anime)
     ICA_ANIME_Get(anime, &position);
     VEC_Add(&position, &rotForward, &target);
 
-    func_02048AFC(camera, &position);
-    func_02048B44(camera, &target);
-    func_02048B20(camera, &rotUp);
+    G3D_CAMERA_SetEye(camera, &position);
+    G3D_CAMERA_SetCamTarget(camera, &target);
+    G3D_CAMERA_SetCamUp(camera, &rotUp);
 }
 
 /*
  * Twelve bytes of stack filled by ICA_ANIME_Get from the *second* argument
  * (the first word handed to it is r1, not r0), then the buffer goes to the ARM
- * function func_02048AFC together with the original first argument.
+ * function G3D_CAMERA_SetEye together with the original first argument.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/ICA_ANIME_SetCameraPos.c \
@@ -1037,11 +1037,11 @@ void ICA_ANIME_SetCameraPos(void *camera, struct IcaAnime *anime)
     struct Vec3 position;
 
     ICA_ANIME_Get(anime, &position);
-    func_02048AFC(camera, &position);
+    G3D_CAMERA_SetEye(camera, &position);
 }
 
 /*
- * Identical to ICA_ANIME_SetCameraPos except for the second callee, func_02048B44.
+ * Identical to ICA_ANIME_SetCameraPos except for the second callee, G3D_CAMERA_SetCamTarget.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/ICA_ANIME_SetCameraTarget.c \
@@ -1052,7 +1052,7 @@ void ICA_ANIME_SetCameraTarget(void *camera, struct IcaAnime *anime)
     struct Vec3 target;
 
     ICA_ANIME_Get(anime, &target);
-    func_02048B44(camera, &target);
+    G3D_CAMERA_SetCamTarget(camera, &target);
 }
 
 /*

@@ -49,7 +49,7 @@
  *   _fdiv 0x0209CE10 arm
  *   _fgeq 0x0209BB54 arm
  *   _ffix 0x0209C494 arm
- *   func_0204BA00 0x0204BA00 arm
+ *   CLACT_ApplyActorAnimCommand 0x0204BA00 arm
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   gGtsnegoIdleAnimTable 0x021D8AB0 data a4
  *   CLACT_SetActorAnimIndex 0x0204B908 arm
@@ -256,7 +256,7 @@ extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u3
 extern u8 MYSTATUS_GetOutfit(const struct Sub0200852CObj *obj);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern int _s32_div_f(int, int);
-extern void func_0204BA00(struct Actor *a, const struct Cmd *cmd);
+extern void CLACT_ApplyActorAnimCommand(struct Actor *a, const struct Cmd *cmd);
 extern void BG_SYS_SetMainVisiblePlanes(u32);
 extern void CLACT_SetActorAnimIndex(int a0, int a1);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
@@ -823,7 +823,7 @@ void GTSNEGO_MSG_CreateIdleActors(u8 *p)
     CLACT_SetActorAutoAnim(((struct GtsnegoMsgCtx *)p)->f130,1);
     CLACT_SetActorDrawEnable(((struct GtsnegoMsgCtx *)p)->f130,1);
     c.n=0; c.p=p; c.f=(void (*)(u8 *))GTSNEGO_MSG_CycleIdleAnim;
-    func_0204BA00(((struct GtsnegoMsgCtx *)p)->f130,(const struct Cmd *)(&c));
+    CLACT_ApplyActorAnimCommand(((struct GtsnegoMsgCtx *)p)->f130,(const struct Cmd *)(&c));
     BG_SYS_SetMainVisiblePlanes(31);
 }
 

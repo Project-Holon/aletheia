@@ -70,10 +70,10 @@
  *   inet_addr  0x0217ED38  arm  ov009
  *   SOC_GetHostByName  0x0215F650  arm  ov009
  *   socket  0x0217EB18  arm  ov009
- *   func_0217EC08  0x0217EC08  arm  ov009
+ *   connect  0x0217EC08  arm  ov009
  *   closesocket  0x0217EB2C  arm  ov009
  *   gSBMasterHostFormat     0x021A8234  data
- *   func_02092344  0x02092344  arm
+ *   memcpy  0x02092344  arm
  *   unit_02092344  0x02092344  arm
  *   rand  0x02094694  arm  ov009
  *   send  0x0217EC90  arm  ov009
@@ -213,11 +213,11 @@ extern int OS_SPrintf(char *dst, char *fmt, ...);
 extern u32 inet_addr(char *name);
 extern SOCHostEnt *SOC_GetHostByName(char *name);
 extern int socket(int pf, int type, int protocol);
-extern int func_0217EC08(int sock, void *addr, int len);
+extern int connect(int sock, void *addr, int len);
 extern int closesocket(int sock);
-extern void *func_02092344(void *dest, const void *src, unsigned int n);
+extern void *memcpy(void *dest, const void *src, unsigned int n);
 extern void *unit_02092344(void *dst, const void *src, unsigned long n);
-extern int func_02094694(void);
+extern int rand(void);
 extern int send(int sock, char *buf, int len, int flags);
 extern void *gsimalloc(unsigned long size);
 extern void ArrayFree(void *a);
@@ -851,7 +851,7 @@ int ServerListConnect(SBServerList *slist)
         if (slist->slsocket == -1)
             return 1;
     }
-    if (func_0217EC08(slist->slsocket, &saddr, 8) == 0)
+    if (connect(slist->slsocket, &saddr, 8) == 0)
         return 0;
     closesocket(slist->slsocket);
     slist->slsocket = -1;
@@ -873,7 +873,7 @@ void BufferAddNTS(char **buffer, char *str, int *len)
 	if (!str)
 		str = gSBEmptyString;
 	slen = strlen((const char *)str) + 1;
-	func_02092344(*buffer, str, slen);
+	memcpy(*buffer, str, slen);
 	*len += slen;
 	*buffer += slen;
 }
@@ -963,12 +963,12 @@ void SetupListChallenge(SBServerList *slist)
 	int i;
 	int oddmode;
 
-	slist->mychallenge[0] = (char)(33 + func_02094694() % 93);	/* chars in the range 33 - 125 */
+	slist->mychallenge[0] = (char)(33 + rand() % 93);	/* chars in the range 33 - 125 */
 	oddmode = 0;
 	for (i = 1; i < LIST_CHALLENGE_LEN; i++)
 	{
 		oddmode = CALCULATEODDMODE(slist->mychallenge, i, oddmode);
-		slist->mychallenge[i] = (char)(33 + func_02094694() % 93);
+		slist->mychallenge[i] = (char)(33 + rand() % 93);
 		/* if oddmode make sure the char is odd, otherwise make sure it's even */
 		if ((oddmode && (slist->mychallenge[i] & 1) == 0) || (!oddmode && ((slist->mychallenge[i] & 1) == 1)))
 			slist->mychallenge[i]++;

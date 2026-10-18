@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02092430",
+   "name": "__fill_mem",
    "address": "0x02092430",
    "kind": "game",
    "region": "arm9",

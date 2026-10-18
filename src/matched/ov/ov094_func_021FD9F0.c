@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02051774  0x02051774  arm
+ *   PARTICLE_GetCallbackArg  0x02051774  arm
  *   BUTTON_MAN_SetAngle  0x0205189C  arm
  *   BUTTON_MAN_SetUserData  0x02051A2C  arm
  *   BUTTON_MAN_SetCallback  0x02051A24  arm
@@ -23,7 +23,7 @@ typedef struct {
     int k3c;                /* 0x3c */
 } State;
 
-extern unsigned int func_02051774(void);
+extern unsigned int PARTICLE_GetCallbackArg(void);
 typedef unsigned int   u32;
 struct Obj;
 extern void BUTTON_MAN_SetAngle(struct Obj *o, u32 v);
@@ -33,7 +33,7 @@ extern void BTLV_EFFVM_EmitterMoveCallbackB(void *p, int active);
 
 void BTLV_EFFVM_EmitterInitCallback(void *p)
 {
-    State *s = (State *)func_02051774();
+    State *s = (State *)PARTICLE_GetCallbackArg();
 
     if (s->k3c != 0 && s->k0c < 0)
         BUTTON_MAN_SetAngle(p, 0x800);

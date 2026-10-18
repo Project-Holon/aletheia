@@ -50,7 +50,7 @@
  *   FIELD_SOUND_SYSTEM_TransferSlot 0x02028B18 thumb
  *   GFL_USE_GetSeHandle 0x02006138 thumb
  *   NNS_SndHandleSetVolume 0x02072F34 arm
- *   func_021BE6E8 0x021BE6E8 thumb ov021
+ *   FLD_EXP_OBJ_GetAnimeFrame 0x021BE6E8 thumb ov021
  *   FIELD_SOUND_SYSTEM_ReleaseSlot 0x02028B50 thumb
  *   GFL_USE_StopAllSe 0x02006210 thumb
  *   ICA_ANIME_GetTranslateAt 0x02011688 thumb
@@ -92,7 +92,7 @@
  *   sDockCells    0x021F4C58 data ov039 a4
  *   sRideExitPos    0x021F4CF4 data ov039 a4
  *   SCRIPT_SYS_ChangeScriptEvent 0x021587B0 thumb ov010
- *   func_021BE6B4  0x021BE6B4  thumb  ov021
+ *   FLD_EXP_OBJ_IsAnimePaused  0x021BE6B4  thumb  ov021
  *   sStopFrames 0x021F4D78 data a4
  *   sSwitchFrameLimits 0x021F4BE4 data a2
  *   _ll_mul  0x0209C054  arm
@@ -285,7 +285,7 @@ void FIELD_GIMMICK_CART_LANES_UpdateTask(struct Tcb *tcb, struct FieldMap *field
                 }
                 parkedRow[FIELD_GIMMICK_CART_LANES_WORK_PARKED_DOCK] = -1;
             }
-        } else if (FIELD_GIMMICK_CART_LANES_FindStopAtFrame(cart, func_021BE6E8(expObj, 0, laneModel, cartAnimeIndex), stopIndex)) {
+        } else if (FIELD_GIMMICK_CART_LANES_FindStopAtFrame(cart, FLD_EXP_OBJ_GetAnimeFrame(expObj, 0, laneModel, cartAnimeIndex), stopIndex)) {
             FLD_EXP_OBJ_SetAnimePaused(cartAnime, 1);
             if (work->selectedCart != FIELD_GIMMICK_CART_LANES_NO_CART && lane == ((u32)work->selectedCart >> 1)) {
                 FIELD_SOUND_SYSTEM_ReleaseSlot(soundSys, FIELD_GIMMICK_CART_LANES_SLOT_CART_LOOP);
@@ -299,7 +299,7 @@ void FIELD_GIMMICK_CART_LANES_UpdateTask(struct Tcb *tcb, struct FieldMap *field
         ridePos = sRideAnimeOrigin;
         rideLane = work->selectedCart >> 1;
         if (ICA_ANIME_GetTranslateAt(work->rideAnime, &ridePos,
-                                     func_021BE6E8(expObj, 0, rideLane, work->selectedCart + 1) / 4096)) {
+                                     FLD_EXP_OBJ_GetAnimeFrame(expObj, 0, rideLane, work->selectedCart + 1) / 4096)) {
             ridePos.x += sLaneRideOffsets[rideLane].x;
             ridePos.y += sLaneRideOffsets[rideLane].y;
             ridePos.z += sLaneRideOffsets[rideLane].z;
@@ -911,7 +911,7 @@ void FIELD_GIMMICK_CART_LANES_SwapCartAnimes(FldExpObjCnt *expObj, int oldState,
     FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, model, oldAnime, 0);
     FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, model, newAnime, 1);
     FIELD_GIMMICK_CART_LANES_SetAnimeFrame(expObj, model, newAnime, frame);
-    paused = func_021BE6B4(FLD_EXP_OBJ_GetAnime(expObj, 0, model, oldAnime));
+    paused = FLD_EXP_OBJ_IsAnimePaused(FLD_EXP_OBJ_GetAnime(expObj, 0, model, oldAnime));
     FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(expObj, 0, model, newAnime), paused);
 }
 

@@ -165,7 +165,7 @@
  *   G3D_SYSTEM_CreateObject 0x0204767C arm
  *   d_02185E18 0x02185E18 data a2
  *   G3D_CAMERA_Delete 0x02048AC4 arm
- *   func_02048C4C 0x02048C4C arm
+ *   G3D_LIGHT_DeleteSlots 0x02048C4C arm
  *   G3D_SYSTEM_DeleteObject 0x02047738 arm
  *   G3D_SYSTEM_DeleteRender 0x02047504 arm
  *   G3D_SYSTEM_FreeVramTexture 0x020470D0 arm
@@ -176,12 +176,12 @@
  *   d_02185E0C 0x02185E0C data a4
  *   d_02185DF4 0x02185DF4 data a4
  *   d_020A1EB8 0x020A1EB8 data a4
- *   func_02048AFC 0x02048AFC arm
- *   func_02048B44 0x02048B44 arm
- *   func_02048B80 0x02048B80 arm
- *   func_02048B94 0x02048B94 arm
- *   func_02048B60 0x02048B60 arm
- *   func_02048B6C 0x02048B6C arm
+ *   G3D_CAMERA_SetEye 0x02048AFC arm
+ *   G3D_CAMERA_SetCamTarget 0x02048B44 arm
+ *   G3D_CAMERA_SetFovySin 0x02048B80 arm
+ *   G3D_CAMERA_SetFovyCos 0x02048B94 arm
+ *   G3D_CAMERA_SetNear 0x02048B60 arm
+ *   G3D_CAMERA_SetFar 0x02048B6C arm
  *   d_020A1C78 0x020A1C78 data
  *   G3D_LIGHT_CreateSlots 0x02048BC4 arm
  *   G3D_LIGHT_ApplySlots 0x02048C58 arm
@@ -191,13 +191,13 @@
  *   MTX_RotZ33_ 0x0207AF38 thumb
  *   MTX_Concat33 0x0207B388 arm
  *   FX_SinCosTable_ 0x020A1B38 data a2
- *   func_02048AE8 0x02048AE8 arm
- *   func_02048B30 0x02048B30 arm
+ *   G3D_CAMERA_GetEye 0x02048AE8 arm
+ *   G3D_CAMERA_GetCamTarget 0x02048B30 arm
  *   VEC_Subtract 0x0207CA00 arm
  *   VEC_Mag 0x0207CBD0 arm
  *   VEC_Normalize 0x0207CCA4 arm
  *   VEC_MultAdd 0x0207CEE4 arm
- *   func_02047964  0x02047964  arm
+ *   G3D_SYSTEM_DrawStart  0x02047964  arm
  *   G3D_SYSTEM_DrawEnd  0x02047970  arm
  *   G3D_SYSTEM_ApplyLookAt  0x020479D8  arm
  *   MTX_Identity33_  0x0207ADC4  arm
@@ -517,26 +517,26 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void *G3D_SYSTEM_CreateResourceArc(unsigned,unsigned),*G3D_SYSTEM_CreateRender(void *,unsigned,void *),*G3D_SYSTEM_CreateObject(unsigned,unsigned *,int);
 extern int G3D_SYSTEM_TransVramTexture(int *);
 extern u32 G3D_CAMERA_Delete(void *ptr);
-extern void func_02048C4C(void *);
+extern void G3D_LIGHT_DeleteSlots(void *);
 extern void G3D_SYSTEM_DeleteObject(struct Rec *p);
 extern void G3D_SYSTEM_DeleteRender(struct Rec *p);
 extern int G3D_SYSTEM_FreeVramTexture(u32 *);
 extern void G3D_SYSTEM_DeleteResource(struct Tagged *p);
 extern void *G3D_CAMERA_Create(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,BeaconVec3 *,BeaconVec3 *,BeaconVec3 *,u16);
 extern void G3D_CAMERA_Reset(struct Light *l);
-extern void func_02048AFC(void *, BeaconVec3 *);
-extern void func_02048B44(void *, BeaconVec3 *);
-extern void func_02048B80(struct Light *l, u32 v);
-extern void func_02048B94(struct Light *l, u32 v);
-extern void func_02048B60(struct Light *l, const u32 *in);
-extern void func_02048B6C(struct Light *l, const u32 *in);
+extern void G3D_CAMERA_SetEye(void *, BeaconVec3 *);
+extern void G3D_CAMERA_SetCamTarget(void *, BeaconVec3 *);
+extern void G3D_CAMERA_SetFovySin(struct Light *l, u32 v);
+extern void G3D_CAMERA_SetFovyCos(struct Light *l, u32 v);
+extern void G3D_CAMERA_SetNear(struct Light *l, const u32 *in);
+extern void G3D_CAMERA_SetFar(struct Light *l, const u32 *in);
 extern struct LightSlot *G3D_LIGHT_CreateSlots(const struct LightSet *s, u32 heap);
 extern void G3D_LIGHT_ApplySlots(struct LightSlot *slots);
 extern void MTX_RotY33_(Matrix *,int,int),MTX_RotX33_(Matrix *,int,int),MTX_RotZ33_(Matrix *,int,int);
 extern void MTX_Concat33(const Matrix *,const Matrix *,Matrix *);
 extern void VEC_Subtract(const Vec *,const Vec *,Vec *),VEC_Normalize(const Vec *,Vec *),VEC_MultAdd(long,const Vec *,const Vec *,Vec *);
 extern long VEC_Mag(const Vec *);
-extern void func_02047964(void);
+extern void G3D_SYSTEM_DrawStart(void);
 extern void G3D_SYSTEM_DrawEnd(void);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void MTX_Identity33_(M33 *);
@@ -2167,7 +2167,7 @@ void BEACON_DETAIL_Delete3DObjects(char *p)
     u32 i;
     char *row;
     G3D_CAMERA_Delete(((BeaconDetailWork *)p)->camera);
-    func_02048C4C(((BeaconDetailWork *)p)->lightSet);
+    G3D_LIGHT_DeleteSlots(((BeaconDetailWork *)p)->lightSet);
     G3D_SYSTEM_DeleteObject(((BeaconDetailWork *)p)->object[0]);
     G3D_SYSTEM_DeleteRender(((BeaconDetailWork *)p)->render[0]);
     G3D_SYSTEM_FreeVramTexture(((BeaconDetailWork *)p)->resArc[0]);
@@ -2226,12 +2226,12 @@ void BEACON_DETAIL_SetupCamera(char *p)
 {
     u32 a = 0;
     u32 b = 0x19 << 14;
-    func_02048AFC(((BeaconDetailWork *)p)->camera, ((BeaconVec3 *)&d_02185E0C));
-    func_02048B44(((BeaconDetailWork *)p)->camera, ((BeaconVec3 *)&d_02185DF4));
-    func_02048B80(((BeaconDetailWork *)p)->camera, d_020A1C78.a);
-    func_02048B94(((BeaconDetailWork *)p)->camera, d_020A1C78.b);
-    func_02048B60(((BeaconDetailWork *)p)->camera, &a);
-    func_02048B6C(((BeaconDetailWork *)p)->camera, &b);
+    G3D_CAMERA_SetEye(((BeaconDetailWork *)p)->camera, ((BeaconVec3 *)&d_02185E0C));
+    G3D_CAMERA_SetCamTarget(((BeaconDetailWork *)p)->camera, ((BeaconVec3 *)&d_02185DF4));
+    G3D_CAMERA_SetFovySin(((BeaconDetailWork *)p)->camera, d_020A1C78.a);
+    G3D_CAMERA_SetFovyCos(((BeaconDetailWork *)p)->camera, d_020A1C78.b);
+    G3D_CAMERA_SetNear(((BeaconDetailWork *)p)->camera, &a);
+    G3D_CAMERA_SetFar(((BeaconDetailWork *)p)->camera, &b);
     if (((BeaconDetailWork *)p)->viewMode == 0)
         ((BeaconDetailWork *)p)->zoomMode = 1;
     else if (((BeaconDetailWork *)p)->nation == 0)
@@ -2381,8 +2381,8 @@ int BEACON_DETAIL_UpdateCamera(char *p)
     long distance;
     int done;
     done=0;
-    func_02048AE8(((BeaconDetailWork *)p)->camera,&position);
-    func_02048B30(((BeaconDetailWork *)p)->camera,&target);
+    G3D_CAMERA_GetEye(((BeaconDetailWork *)p)->camera,&position);
+    G3D_CAMERA_GetCamTarget(((BeaconDetailWork *)p)->camera,&target);
     VEC_Subtract(&position,&target,&direction);
     distance=VEC_Mag(&direction);
     VEC_Normalize(&direction,&direction);
@@ -2403,7 +2403,7 @@ int BEACON_DETAIL_UpdateCamera(char *p)
         break;
     }
     VEC_MultAdd(distance,&direction,&target,&position);
-    func_02048AFC(((BeaconDetailWork *)p)->camera,(BeaconVec3 *)&position);
+    G3D_CAMERA_SetEye(((BeaconDetailWork *)p)->camera,(BeaconVec3 *)&position);
     return done;
 }
 
@@ -2419,7 +2419,7 @@ void BEACON_DETAIL_Draw3D(char *p)
     case 0:
         break;
     case 2:
-        func_02047964();
+        G3D_SYSTEM_DrawStart();
         G3D_SYSTEM_DrawEnd();
         ((BeaconDetailWork *)p)->drawState = 0;
         break;
@@ -2432,7 +2432,7 @@ void BEACON_DETAIL_Draw3D(char *p)
 
         G3D_LIGHT_ApplySlots(((BeaconDetailWork *)p)->lightSet);
         G3D_CAMERA_Reset(((BeaconDetailWork *)p)->camera);
-        func_02047964();
+        G3D_SYSTEM_DrawStart();
         G3D_SYSTEM_ApplyLookAt();
         s.a = ((BeaconDetailWork *)p)->light0;
         MTX_Identity33_(&m);
