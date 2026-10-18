@@ -1,7 +1,7 @@
 /*
  * file:     scenesetrakucomplete.c
  * unit:     yes
- * function: DWCi_SceneSetRakuComplete, initGraphics, DWCi_SceneSetRakuCompleteProcInit, procInit1, DWCi_SceneSetRakuComplete_procScene, DWCi_SceneSetRakuComplete_draw, endScene, endScene1, wait, DWCi_IsFold
+ * function: DWCi_SceneSetRakuComplete, initGraphics, DWCi_SceneSetRakuCompleteProcInit, procInit1, DWCi_SceneSetRakuComplete_procScene, DWCi_SceneSetRakuComplete_draw, endScene, endScene1, wait
  * address:  0x021CB0A8
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -28,8 +28,6 @@
  *       --func wait --addr 0x021CB294 --region ov016 --cc 1.1p1 --arm --lang c99
  * Bit 15 of the halfword at 0x02FFFFA8, as 0/1.
  * Addresses are Black-image addresses.
- *   python tools/match.py one --src src/matched/DWCi_IsFold.c \
- *       --func DWCi_IsFold --addr 0x021CB2C8 --region ov016 --cc dsi/1.1p1 --arm
  *
  * symbols:
  *   initGraphics                     0x021cb0e4 arm
@@ -88,7 +86,6 @@ extern void DWCi_SceneSetTestConfirm(void);
 void DWCi_SceneSetRakuComplete(void);
 void DWCi_SceneSetRakuComplete_procScene(void);
 void DWCi_SceneSetRakuComplete_draw(void);
-int DWCi_IsFold(void);
 extern unsigned char Count;
 /* the resource file name, the compiler's @20611 in .rodata */
 extern char sceneoptmovdisco_str_20611[];
@@ -190,7 +187,3 @@ static void wait(void)
         DWCi_ChangeScene(endScene);
 }
 
-int DWCi_IsFold(void)
-{
-    return ((*(unsigned short *)0x02FFFFA8 & 0x8000) >> 15) != 0;
-}

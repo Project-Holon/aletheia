@@ -67,7 +67,7 @@ extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
 void OS_SetDeliverArgStateInvalid(void);
 u64 OS_GetTitleIdFromDeliverArg(void);
-asm int OS_IsValidDeliverArg(void);
+BOOL OS_IsValidDeliverArg(void);
 void OS_InitDeliverArgInfo(OSDeliverArgInfo *info, int binSize);
 int OS_EncodeDeliverArg(void);
 int OS_DecodeDeliverArg(void);
@@ -204,12 +204,9 @@ u64 OS_GetTitleIdFromDeliverArg(void)
     return g_02151384.sBufferPtr->header.titleId;
 }
 
-asm int OS_IsValidDeliverArg(void)
+BOOL OS_IsValidDeliverArg(void)
 {
-    mov	r0, #0x2000000
-    ldrb	r0, [r0, #9]
-    tst	r0, #2
-    movne	r0, #1
-    moveq	r0, #0
-    bx	lr
+    OSDeliverArgInfo *p = (OSDeliverArgInfo *)0x02000000;
+
+    return (p->header.flag & 2) ? 1 : 0;
 }

@@ -334,7 +334,7 @@ void BR_POKESEARCH_Close(struct BrPokeSearch *ps)
  * Unlabelled ov186 leaf: if the done flag is zero return 0; otherwise, when
  * the result is 2, publish the chosen species id through the out pointer and
  * return the result.  Matched to supply the `matched` witness for the
- * pending ov185 caller func_021F86A4.
+ * ov185 caller BR_POKESEARCH_MainTask.
  */
 int BR_POKESEARCH_GetResult(struct BrPokeSearch *ps, unsigned short *speciesOut)
 {

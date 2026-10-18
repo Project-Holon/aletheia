@@ -56,6 +56,7 @@ int FS_IsAvailable(void)
  * asm:      fixed-register stm with writeback (stmia r0!, {r2, r3}); no C spelling.
  *
  * void MTX_Identity22_(MtxFx22 *pDst)
+ * hand-written in the original: register-passed matrix helper, one SDK line-table row per instruction
  */
 asm void MTX_Identity22_(void)
 {

@@ -14,7 +14,7 @@
  * symbols:
  *   SVC_WaitByLoop  0x02004490  thumb  arm9
  *   OS_SleepThread  0x020857B0  arm  arm9
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm  arm9
+ *   DC_FlushRange  0x020862F0  arm  arm9
  *   OS_DisableInterrupts  0x02087988  arm  arm9
  *   OS_RestoreInterrupts  0x0208799C  arm  arm9
  *   PXI_SendWordByFifo  0x02088610  arm  arm9
@@ -56,7 +56,7 @@ typedef struct FsRoot {
     Big *cur;
 } FsRoot;
 
-extern void DWCi_ScreenDC_FlushRange(u32, u32);
+extern void DC_FlushRange(u32, u32);
 extern int PXI_SendWordByFifo(u32, u32, u32);
 extern u32 OS_GetProcMode(void);
 extern u32 OS_DisableInterrupts(void);
@@ -81,7 +81,7 @@ void FATFSi_PostRequest(Big *a0);
 void FATFSi_WaitForRequest(Big *a0);
 
 void FATFSi_SendToPXI(Big *a0) {
-    DWCi_ScreenDC_FlushRange((u32)a0, 0x800);
+    DC_FlushRange((u32)a0, 0x800);
     while (PXI_SendWordByFifo(0x14, (u32)a0 >> 5, 0) < 0) {
     }
 }

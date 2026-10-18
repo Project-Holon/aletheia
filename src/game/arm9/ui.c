@@ -129,7 +129,6 @@ extern void UI_SoftReset(u32 x);
 extern void UI_SetSuspendHook(struct UiCtx *p, UiCb fn, void *arg);
 extern void UI_SetResumeHook(struct UiCtx *p, UiCb fn, void *arg);
 extern void UI_SetFlags39(struct UiCtx *p, u8 mask);
-extern int UI_ClearFlags39(struct UiCtx *p, u32 v);
 extern u32 UI_TestFlags39(struct UiCtx *p, u32 mask);
 extern void OS_Terminate(void);
 extern int OS_IsRunOnTwl(void);
@@ -158,8 +157,8 @@ void UI_SetWakePoweredHook(struct UiCtx *p, UiCb fn, void *arg);
 void UI_SetWakePoweredHookGlobal(UiCb fn, void *arg);
 void UI_SetFlags39(struct UiCtx *p, u8 mask);
 void UI_SetFlags39Global(u8 mask);
-void UI_ClearFlags39(struct UiCtx *p, u8 mask);
-int UI_ClearFlags39Global(u32 v);
+void UI_ClearFlags39(struct UiCtx *p, u32 mask);
+void UI_ClearFlags39Global(u32 v);
 u32 UI_TestFlags39(struct UiCtx *p, u32 mask);
 u32 UI_TestFlags39Global(u32 mask);
 void UI_SetIntrData(struct UiCtx *p, u32 a, u32 b);
@@ -171,7 +170,7 @@ void UI_RunWakeHook(struct UiCtx *p);
 void UI_RunSuspendHook(struct UiCtx *p);
 void UI_RunResumeHook(struct UiCtx *p);
 void UI_PollPower(void);
-asm void DWCi_IsFold(void);
+static int DWCi_IsFold(void);
 extern const char s_UiFile[];
 /* The UI singleton.  ui.c reads the context pointer at +0x00; the input
  * bounds callback UI_ApplyInputBounds dispatches through lives at +0x04.  Both
@@ -686,7 +685,7 @@ void UI_SetFlags39Global(u8 mask)
  *   python tools/match.py one --src src/pending/UI_ClearFlags39.c \
  *       --func UI_ClearFlags39 --addr 0x02035188 --cc 1.1p1 --arm
  */
-void UI_ClearFlags39(struct UiCtx *p, u8 mask)
+void UI_ClearFlags39(struct UiCtx *p, u32 mask)
 {
     p->flags39 &= ~mask;
 }
@@ -697,9 +696,9 @@ void UI_ClearFlags39(struct UiCtx *p, u8 mask)
 
 
 
-int UI_ClearFlags39Global(u32 v)
+void UI_ClearFlags39Global(u32 v)
 {
-    return UI_ClearFlags39(gUiState.ctx, v);
+    UI_ClearFlags39(gUiState.ctx, v);
 }
 
 
@@ -969,15 +968,9 @@ void UI_PollPower(void)
         gUiState.ctx->powerState = 1;
 }
 
-asm void DWCi_IsFold(void)
+static int DWCi_IsFold(void)
 {
-    ldr r0, =0x02FFFFA8
-    ldrh r0, [r0]
-    and r0, r0, #0x8000
-    movs r0, r0, asr #15
-    movne r0, #1
-    moveq r0, #0
-    bx lr
+    return ((*(unsigned short *)0x02FFFFA8 & 0x8000) >> 15) != 0;
 }
 
 extern int PM_SetBackLight(u32 which, u32 status);

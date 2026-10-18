@@ -164,7 +164,6 @@ extern void OS_Terminate(void);
 extern void MBi_SetTask(MBiTaskInfo *pt, void (*task)(MBiTaskInfo *),
                         void (*callback)(MBiTaskInfo *), u32 priority);
 extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
-extern int MBi_CommParentSendMsg(u8 type, u16 pollbmp);
 void MB_CommSetParentStateCallback(MBParentStateCallback callback);
 void *MB_CommGetChildUser(unsigned short child_aid);
 int MB_CommIsBootable(unsigned short child_aid);
@@ -172,7 +171,7 @@ int MB_CommResponseRequest(unsigned short child_aid, int ack);
 void MBi_CommChangeParentStateCallbackOnly(u16 child, int state, void *arg);
 void MBi_CommParentCallback(u16 type, void *arg);
 void MBi_CommParentRecvData(void *arg);
-void MBi_CommParentSendMsg(u8 type, u16 pollbmp);
+int MBi_CommParentSendMsg(u8 type, u16 pollbmp);
 int MBi_CommParentSendDLFileInfo(void);
 void MBi_ReloadCache(MBiTaskInfo *p_task);
 int MBi_CommParentSendBlock(void);
@@ -636,13 +635,13 @@ void MBi_CommParentRecvData(void *arg)
 
 
 
-void MBi_CommParentSendMsg(u8 type, u16 pollbmp)
+int MBi_CommParentSendMsg(u8 type, u16 pollbmp)
 {
     MBCommParentBlockHeader hd;
 
     hd.type = type;
     MBi_MakeParentSendBuffer(&hd, (u8 *)pPwork->common.sendbuf);
-    MBi_BlockHeaderEnd(6, pollbmp, pPwork->common.sendbuf);
+    return MBi_BlockHeaderEnd(6, pollbmp, pPwork->common.sendbuf);
 }
 
 

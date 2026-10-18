@@ -15,6 +15,7 @@
 asm void OS_EnableProtectionUnit(void);
 asm void OS_DisableProtectionUnit(void);
 
+/* hand-written in the original: mrc/mcr p15 control register, one SDK line-table row per instruction */
 asm void OS_EnableProtectionUnit(void)
 {
     mrc p15, 0, r0, c1, c0, 0
@@ -27,6 +28,7 @@ asm void OS_EnableProtectionUnit(void)
  * sdk:      OS_DisableProtectionUnit (os_protectionunit.o)
  * asm:      needs mrc/mcr on cp15 c1 (no C spelling); the object agrees: no
  *           DW_TAG_variable and one strictly increasing line per instruction.
+ * hand-written in the original: mrc/mcr p15 control register, one SDK line-table row per instruction
  */
 asm void OS_DisableProtectionUnit(void)
 {

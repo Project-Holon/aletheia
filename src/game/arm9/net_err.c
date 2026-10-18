@@ -86,7 +86,7 @@
  *   MIi_CpuClear32  0x02082A7C  arm
  *   ARC_UTIL_LoadMember  0x0204A1BC  arm
  *   NNS_G2dGetUnpackedCharacterDataEx  0x02062A4C  arm
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   DC_FlushRange  0x020862F0  arm
  *   NNS_G2dGetUnpackedScreenData  0x02062B30  arm
  *   NNS_G2dGetUnpackedPaletteCompressInfo  0x02062AD4  arm
  *   NNS_G2dGetUnpackedPaletteData  0x02062A98  arm
@@ -372,7 +372,7 @@ extern void GX_SetBankForSubBG(u32 bank);
 extern void MIi_CpuClear32(u32 value, void *dst, u32 size);
 extern int ARC_UTIL_LoadMember(int arcId, int fileId, int heapId, int flag);
 extern s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroResFile *file, void **out);
-extern void DWCi_ScreenDC_FlushRange(void *p, u32 size);
+extern void DC_FlushRange(void *p, u32 size);
 extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
 extern s32 NNS_G2dGetUnpackedPaletteCompressInfo(struct NitroResFile *file, void **out);
 extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroResFile *file, void **out);
@@ -1405,7 +1405,7 @@ void GFL_NET_ERR_LoadScreenGraphics(u32 screenIndex)
     if (NNS_G2dGetUnpackedCharacterDataEx(file, (void **)(&charData)) != 0) {
         u32 size;
         void *dst;
-        DWCi_ScreenDC_FlushRange(charData->pixels, charData->size);
+        DC_FlushRange(charData->pixels, charData->size);
         size = charData->size;
         dst = G2_GetBG1CharPtr();
         MIi_CpuCopy16(charData->pixels, dst, size);
@@ -1416,7 +1416,7 @@ void GFL_NET_ERR_LoadScreenGraphics(u32 screenIndex)
     if (NNS_G2dGetUnpackedScreenData(file, (void **)(&scrnData)) != 0) {
         u32 size;
         void *dst;
-        DWCi_ScreenDC_FlushRange(scrnData->data, scrnData->size);
+        DC_FlushRange(scrnData->data, scrnData->size);
         size = scrnData->size;
         dst = G2_GetBG1ScrPtr();
         MIi_CpuCopy16(scrnData->data, dst, size);
@@ -1426,7 +1426,7 @@ void GFL_NET_ERR_LoadScreenGraphics(u32 screenIndex)
     file = (void *)ARC_UTIL_LoadMember(arcId, sNetErrScreenRes[screenIndex].plttFileId, 0, 1);
     NNS_G2dGetUnpackedPaletteCompressInfo(file, (void **)(&unusedData));
     if (NNS_G2dGetUnpackedPaletteData(file, (void **)(&plttData)) != 0) {
-        DWCi_ScreenDC_FlushRange(plttData->colors, NET_ERR_PLTT_BACKUP_SIZE);
+        DC_FlushRange(plttData->colors, NET_ERR_PLTT_BACKUP_SIZE);
         MIi_CpuCopy16(plttData->colors, (void *)HW_BG_PLTT, NET_ERR_PLTT_BACKUP_SIZE);
     }
     GFL_HEAP_Free(file);

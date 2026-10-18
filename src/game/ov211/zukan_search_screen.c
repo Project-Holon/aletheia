@@ -52,7 +52,7 @@
  *   MISC_SAVEDATA_GetScratchBase 0x0200E8D0 thumb
  *   BG_SYS_LoadTileData 0x02040B1C arm
  *   BG_SYS_LoadPltt 0x02040E78 arm
- *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
+ *   DC_FlushRange 0x020862F0 arm
  *   GX_BeginLoadBGExtPltt 0x0207F308 arm
  *   GX_LoadBGExtPltt 0x0207F394 arm
  *   GX_EndLoadBGExtPltt 0x0207F428 arm
@@ -132,7 +132,7 @@ extern u32 MISC_SAVEDATA_GetFlags6200(const void *obj);
 extern void *MISC_SAVEDATA_EmptyHook(void *),*MISC_SAVEDATA_GetScratchBase(void *);
 extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 extern void BG_SYS_LoadPltt(u32,void *,u32,u32);
-extern void DWCi_ScreenDC_FlushRange(void *,unsigned long);
+extern void DC_FlushRange(void *,unsigned long);
 extern void GX_BeginLoadBGExtPltt(void),GX_LoadBGExtPltt(const void *,u32,u32),GX_EndLoadBGExtPltt(void);
 extern void GXS_BeginLoadBGExtPltt(void),GXS_LoadBGExtPltt(const void *,u32,u32),GXS_EndLoadBGExtPltt(void);
 extern void SAVE_CONTROL_DeleteExtraSave(struct Sub020072A4Ctrl *,u32);
@@ -272,7 +272,7 @@ void ZUKAN_SEARCH_SCREEN_LoadSaveGraphics(struct ZukanSearchWork *p)
             BG_SYS_LoadTileData(1,tiles,0x6000,0);
             BG_SYS_LoadPltt(1,palette,0x200,0);
             BG_SYS_LoadPltt(5,palette,0x200,0);
-            DWCi_ScreenDC_FlushRange(palette,0x200);
+            DC_FlushRange(palette,0x200);
             GX_BeginLoadBGExtPltt();
             GX_LoadBGExtPltt(palette,0x4000,0x200);
             GX_LoadBGExtPltt(palette,0x6000,0x200);

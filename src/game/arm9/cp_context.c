@@ -15,6 +15,7 @@
 asm void CP_SaveContext(void);
 asm void CPi_RestoreContext(void);
 
+/* hand-written in the original: coprocessor register stores, one SDK line-table row per instruction */
 asm void CP_SaveContext(void)
 {
     ldr r1, =0x04000290
@@ -34,6 +35,7 @@ asm void CP_SaveContext(void)
     bx lr
 }
 
+/* hand-written in the original: coprocessor register loads, one SDK line-table row per instruction */
 asm void CPi_RestoreContext(void)
 {
     stmfd sp!, {r4}

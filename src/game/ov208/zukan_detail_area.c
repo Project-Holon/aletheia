@@ -224,7 +224,7 @@
  */
 struct Ov208AreaWork {
     unsigned int f0;            /* 0x00 */
-    unsigned int f4;            /* 0x04 */
+    struct GfFont *f4;           /* 0x04 */
     void *f8;                   /* 0x08 */
     void *fC;                   /* 0x0C */
     unsigned char pad10[0x10];
@@ -343,7 +343,7 @@ extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, struct GfFont *e, u16 f);
 
 extern void STRBUF_Delete(struct U16Vec *vec);
 
@@ -531,30 +531,16 @@ extern void ZUKAN_DETAIL_PROCSYS_FreeBuffer(char *);
 
 extern void GF_OVERLAY_Unload(int);
 
-extern int ZUKAN_DETAIL_COMMON_GetWorkPtr(int *p);
 
 
+extern int GAME_DATA_CheckSaveFlag(void *gd, int b);
 
-extern int ZUKAN_DETAIL_COMMON_GetSource(int *ctx);
-
-extern int GAME_DATA_CheckSaveFlag(int a, int b);
-
-extern int ZUKAN_DETAIL_COMMON_GetDisplay(int *ctx);
-
-
-extern u16 ZUKAN_DETAIL_COMMON_GetCurrentEntry(void *p);
-
-extern void ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies(char *p);
-
-extern void ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies(struct Ov208Ctx *p);
 
 extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
 
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 
 extern void ZUKAN_SAVE_GetViewGenderAndForm(void *, u32, u32 *, u32 *, u32 *, u16);
-
-extern int ZUKAN_DETAIL_COMMON_GetFont(int *p);
 
 extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
 
@@ -568,8 +554,6 @@ extern void ZUKAN_DETAIL_COMMON_DeletePaletteAnim(char *p);
 
 extern void TOWNMAP_GRH_FreeTownInfo(void *);
 
-
-extern void *ZUKAN_DETAIL_COMMON_GetCursorValue(int key);
 
 extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
 
@@ -585,8 +569,6 @@ extern void ZUKAN_DETAIL_COMMON_StartFadeIn(u32 fade);
 extern void ZUKAN_DETAIL_COMMON_StartBlendIn(u32 blend);
 
 extern void ZUKAN_DETAIL_COMMON_StartFadeOut(u32 fade);
-
-extern u16  ZUKAN_DETAIL_COMMON_GetMaxValue(char *p);
 
 
 
@@ -629,7 +611,7 @@ extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
 
 extern void CLACT_DeleteRenderer(void *);
 
-extern int  SYMBOL_MAP_CheckEventFlag(int a, u32 msg);
+extern int  SYMBOL_MAP_CheckEventFlag(void *gameData, u32 msg);
 
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 
@@ -655,7 +637,7 @@ extern void *GAME_DATA_GetField114(struct SaveBlock *p);
 
 extern u16  GAME_DATA_GetPlayerZoneId(const struct Rec44 *a);
 
-extern u32  SYMBOL_MAP_ResolveZoneId(int a, u32 b);
+extern u32  SYMBOL_MAP_ResolveZoneId(void *gameData, u32 b);
 
 extern int TOWNMAP_GRH_FindRecordIndex(int a0, int a1);
 
@@ -680,7 +662,7 @@ extern void BUTTON_MAN_ScaleVec(const struct Vec3 *v, int s, struct Vec3 *dst);
 
 
 
-extern void ZUKAN_DETAIL_AREA_FinishHideOverlay(u16 *heap, u8 *p, int key);
+extern void ZUKAN_DETAIL_AREA_FinishHideOverlay(u16 *heap, u8 *p, struct Ov208Ctx *key);
 
 
 
@@ -706,9 +688,9 @@ extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int fileId, int decom
 
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 
-extern void ZUKAN_DETAIL_AREA_SetPlayerMarkerVisible(u16 *, u8 *, int, int);
+extern void ZUKAN_DETAIL_AREA_SetPlayerMarkerVisible(u16 *, u8 *, struct Ov208Ctx *, int);
 
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, struct GfFont *a, u32 b);
 
 
 extern void G2x_SetBlendAlpha_(volatile void *, int, int, int, int);
@@ -734,123 +716,122 @@ void ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(struct Ov208Scene *p, u32 on);
 
 void ZUKAN_DETAIL_AREA_SetHeapId(u16 *p, u16 v);
 
-u32 ZUKAN_DETAIL_AREA_Init(void *a0,u32 a1,u16 *heap,u32 a3,int key);
+u32 ZUKAN_DETAIL_AREA_Init(void *a0,u32 a1,u16 *heap,u32 a3,struct Ov208Ctx *key);
 
-u32 ZUKAN_DETAIL_AREA_Exit(void *a0, u32 a1, void *a2, char *p, void *a4);
+u32 ZUKAN_DETAIL_AREA_Exit(void *a0, u32 a1, void *a2, char *p, struct Ov208Ctx *a4);
 
-int ZUKAN_DETAIL_AREA_Main(void *proc, int *seq, u16 *heap, u8 *p, int key);
+int ZUKAN_DETAIL_AREA_Main(void *proc, int *seq, u16 *heap, u8 *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_HandleKeyEvent(void *a0, void *a1, void *heap, struct Ov208AreaState *st, int *obj, int key);
+void ZUKAN_DETAIL_AREA_HandleKeyEvent(void *a0, void *a1, void *heap, struct Ov208AreaState *st, struct Ov208Ctx *obj, int key);
 
 void ZUKAN_DETAIL_AREA_ApplyPendingEffect(void *unused, char *p);
 
-void ZUKAN_DETAIL_AREA_BuildTownOrderTable(u16 *unused, char *p, int a2);
+void ZUKAN_DETAIL_AREA_BuildTownOrderTable(u16 *unused, char *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_LoadMapGraphics(u16 *heap, u8 *p, int key);
+void ZUKAN_DETAIL_AREA_LoadMapGraphics(u16 *heap, u8 *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_NoOpLoad(u16 *heap, u8 *p, int key);
+void ZUKAN_DETAIL_AREA_NoOpLoad(u16 *heap, u8 *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_CreateMapActors(u16 *heap, u8 *p, int key);
+void ZUKAN_DETAIL_AREA_CreateMapActors(u16 *heap, u8 *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_DeleteMapActors(void *unused, char *p, void *a2);
+void ZUKAN_DETAIL_AREA_DeleteMapActors(void *unused, char *p, struct Ov208Ctx *a2);
 
-void ZUKAN_DETAIL_AREA_CreateTownIconActors(u16 *heap, u8 *p, int key);
+void ZUKAN_DETAIL_AREA_CreateTownIconActors(u16 *heap, u8 *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_DeleteTownIconActors(void *unused, char *p, void *a2);
+void ZUKAN_DETAIL_AREA_DeleteTownIconActors(void *unused, char *p, struct Ov208Ctx *a2);
 
-void ZUKAN_DETAIL_AREA_CreateTownMarkerActors(u16 *heap, u8 *p, int key);
+void ZUKAN_DETAIL_AREA_CreateTownMarkerActors(u16 *heap, u8 *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_DeleteTownMarkerActors(void *a0, char *p, void *a2);
+void ZUKAN_DETAIL_AREA_DeleteTownMarkerActors(void *a0, char *p, struct Ov208Ctx *a2);
 
-void ZUKAN_DETAIL_AREA_CreatePrintQueues(unsigned short *a, char *b, int a2);
+void ZUKAN_DETAIL_AREA_CreatePrintQueues(unsigned short *a, char *b, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_DeletePrintQueues(void *unused, char *p, void *a2);
+void ZUKAN_DETAIL_AREA_DeletePrintQueues(void *unused, char *p, struct Ov208Ctx *a2);
 
-void ZUKAN_DETAIL_AREA_UpdatePrintQueues(u16 *heap, u8 *p, int key);
+void ZUKAN_DETAIL_AREA_UpdatePrintQueues(u16 *heap, u8 *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_FlushPrintWindow(u16 *heap, u8 *p, int key, u8 i);
+void ZUKAN_DETAIL_AREA_FlushPrintWindow(u16 *heap, u8 *p, struct Ov208Ctx *key, u8 i);
 
-void ZUKAN_DETAIL_AREA_CreateTextWindows(u16 *heap, u8 *p, int key);
+void ZUKAN_DETAIL_AREA_CreateTextWindows(u16 *heap, u8 *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_DeleteTextWindows(void *unused, char *p, void *a2);
+void ZUKAN_DETAIL_AREA_DeleteTextWindows(void *unused, char *p, struct Ov208Ctx *a2);
 
-void ZUKAN_DETAIL_AREA_LoadSubScreenGraphics(u16 *heap, u8 *p, int key);
+void ZUKAN_DETAIL_AREA_LoadSubScreenGraphics(u16 *heap, u8 *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_ApplySubScreenScroll(void *unused, u8 *p, void *a2);
+void ZUKAN_DETAIL_AREA_ApplySubScreenScroll(void *unused, u8 *p, struct Ov208Ctx *a2);
 
-void ZUKAN_DETAIL_AREA_UpdateScroll(int a, int b, int c);
+void ZUKAN_DETAIL_AREA_UpdateScroll(int a, int b, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_UpdateScrollFade(int a, unsigned char *p, int a2);
+void ZUKAN_DETAIL_AREA_UpdateScrollFade(int a, unsigned char *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_NoOpUpdate(int a0, int a1, int a2);
+void ZUKAN_DETAIL_AREA_NoOpUpdate(int a0, int a1, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_UpdateSelectorAnim(u16 *heap, u8 *p, int key);
+void ZUKAN_DETAIL_AREA_UpdateSelectorAnim(u16 *heap, u8 *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_LoadMarkerResources(u16 *heap, u8 *p, int key);
+void ZUKAN_DETAIL_AREA_LoadMarkerResources(u16 *heap, u8 *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_ReleaseMarkerResources(void *a, char *q, void *a2);
+void ZUKAN_DETAIL_AREA_ReleaseMarkerResources(void *a, char *q, struct Ov208Ctx *a2);
 
 u32 ZUKAN_DETAIL_AREA_CreatePokemonIcon(u32 *slot, u32 a, u32 b, u32 res, u16 heap, u32 species, u32 form, u32 gender, u32 isEgg, u8 x, u8 y);
 
 void ZUKAN_DETAIL_AREA_DeletePokemonIcon(void *a, void *b);
 
-u8 ZUKAN_DETAIL_AREA_FindPlayerTownIndex(u16 *heap, u8 *p, int key);
+u8 ZUKAN_DETAIL_AREA_FindPlayerTownIndex(u16 *heap, u8 *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_MovePlayerMarkerToTown(u16 *heap, u8 *p, int key);
+void ZUKAN_DETAIL_AREA_MovePlayerMarkerToTown(u16 *heap, u8 *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_SetPlayerMarkerVisible(u16 *heap, u8 *p, int key, int on);
+void ZUKAN_DETAIL_AREA_SetPlayerMarkerVisible(u16 *heap, u8 *p, struct Ov208Ctx *key, int on);
 
-u32 ZUKAN_DETAIL_AREA_IsPlayerMarkerVisible(void *a0, u8 *p, void *a2);
+u32 ZUKAN_DETAIL_AREA_IsPlayerMarkerVisible(void *a0, u8 *p, struct Ov208Ctx *a2);
 
-void ZUKAN_DETAIL_AREA_MoveCursorToSelectedTown(u16 *heap, u8 *p, int key);
+void ZUKAN_DETAIL_AREA_MoveCursorToSelectedTown(u16 *heap, u8 *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_SelectPlayerTown(int a, char *b, int c);
+void ZUKAN_DETAIL_AREA_SelectPlayerTown(int a, char *b, struct Ov208Ctx *key);
 
-u8 ZUKAN_DETAIL_AREA_FindTownAtPoint(void *unused,char *p,int unused2,u8 x,u8 y);
+u8 ZUKAN_DETAIL_AREA_FindTownAtPoint(void *unused,char *p,struct Ov208Ctx *key,u8 x,u8 y);
 
-int ZUKAN_DETAIL_AREA_GetTownPointDistance(void *unused, char *p, int key, u8 index, u8 x, u8 y, unsigned *out);
+int ZUKAN_DETAIL_AREA_GetTownPointDistance(void *unused, char *p, struct Ov208Ctx *key, u8 index, u8 x, u8 y, unsigned *out);
 
-u8 ZUKAN_DETAIL_AREA_FindNearestTown(void *heap, char *p, int key, u8 x, u8 y);
+u8 ZUKAN_DETAIL_AREA_FindNearestTown(void *heap, char *p, struct Ov208Ctx *key, u8 x, u8 y);
 
-void ZUKAN_DETAIL_AREA_HandleCursorInput(u16 *heap, u8 *p, int key);
+void ZUKAN_DETAIL_AREA_HandleCursorInput(u16 *heap, u8 *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_HandleTownTouchInput(u16 *heap, u8 *p, int key);
+void ZUKAN_DETAIL_AREA_HandleTownTouchInput(u16 *heap, u8 *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_UpdateMode(u16 *heap, u8 *p, int key);
+void ZUKAN_DETAIL_AREA_UpdateMode(u16 *heap, u8 *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_HandleModeEvent(u16 *heap, u8 *p, int key, int mode);
+void ZUKAN_DETAIL_AREA_HandleModeEvent(u16 *heap, u8 *p, struct Ov208Ctx *key, int mode);
 
-void ZUKAN_DETAIL_AREA_LoadAreaEntries(u16 *heap, u8 *p, int key);
+void ZUKAN_DETAIL_AREA_LoadAreaEntries(u16 *heap, u8 *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_UpdateFadeAndOverlay(int a, int b, int c);
+void ZUKAN_DETAIL_AREA_UpdateFadeAndOverlay(int a, int b, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_RequestModeEvent4(void *a, int b, int c);
+void ZUKAN_DETAIL_AREA_RequestModeEvent4(void *a, int b, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_DrawTownName(u16 *heap, u8 *p, int key);
+void ZUKAN_DETAIL_AREA_DrawTownName(u16 *heap, u8 *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_SwitchAreaSet(u16 *heap, u8 *p, int key, int dir, int touch);
+void ZUKAN_DETAIL_AREA_SwitchAreaSet(u16 *heap, u8 *p, struct Ov208Ctx *key, int dir, int touch);
 
 void *ZUKAN_DETAIL_AREA_LoadAreaEntryData(int a, int b, int c);
 
 void ZUKAN_DETAIL_AREA_FreeAreaEntryData(int a);
 
-void ZUKAN_DETAIL_AREA_DrawAreaSetTitle(u16 *heap, u8 *p, int key);
+void ZUKAN_DETAIL_AREA_DrawAreaSetTitle(u16 *heap, u8 *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_BeginModeTransition(void *a, char *b, int c);
+void ZUKAN_DETAIL_AREA_BeginModeTransition(void *a, char *b, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_BeginHideOverlay(u16 *heap, u8 *p, int key);
+void ZUKAN_DETAIL_AREA_BeginHideOverlay(u16 *heap, u8 *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_FinishHideOverlay(void *unused, u8 *p);
 
-void ZUKAN_DETAIL_AREA_DrawNoDataMessage(void *a0, u8 *st, void *a2);
+void ZUKAN_DETAIL_AREA_DrawNoDataMessage(void *a0, u8 *st, struct Ov208Ctx *a2);
 
-void ZUKAN_DETAIL_AREA_ClearOverlayWindow(void *unused, char *p, int key);
+void ZUKAN_DETAIL_AREA_ClearOverlayWindow(void *unused, char *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_RequestBlendRestore(u16 *heap, u8 *p, int key);
+void ZUKAN_DETAIL_AREA_RequestBlendRestore(u16 *heap, u8 *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_NoOpOverlay(u16 *heap, u8 *p, int key);
+void ZUKAN_DETAIL_AREA_NoOpOverlay(u16 *heap, u8 *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_UpdateTerrainIcons(u16 *heap, u8 *p, int key);
+void ZUKAN_DETAIL_AREA_UpdateTerrainIcons(u16 *heap, u8 *p, struct Ov208Ctx *key);
 
 void ZUKAN_DETAIL_AREA_ResetBlendAlpha(char *a0);
 
@@ -864,13 +845,13 @@ void ZUKAN_DETAIL_AREA_UpdateBlendPulse(u8 *p);
 
 void ZUKAN_DETAIL_AREA_InitBlendPulse(u8 *p);
 
-void ZUKAN_DETAIL_AREA_SetMapActorsNormalMode(u16 *heap, u8 *p, int key);
+void ZUKAN_DETAIL_AREA_SetMapActorsNormalMode(u16 *heap, u8 *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_SetMapActorsAlphaMode(u16 *heap, u8 *p, int key);
+void ZUKAN_DETAIL_AREA_SetMapActorsAlphaMode(u16 *heap, u8 *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_SetIconsNormalMode(u16 *heap, u8 *p, int key);
+void ZUKAN_DETAIL_AREA_SetIconsNormalMode(u16 *heap, u8 *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_AREA_SetIconsAlphaMode(u16 *heap, u8 *p, int key);
+void ZUKAN_DETAIL_AREA_SetIconsAlphaMode(u16 *heap, u8 *p, struct Ov208Ctx *key);
 
 extern s16 FX_SinCosTable_[];
 
@@ -910,18 +891,18 @@ void ZUKAN_DETAIL_AREA_SetHeapId(u16 *p, u16 v)
 }
 
 /* Caller explicitly loads r2 for setup helpers whose filed bodies omit it. */
-u32 ZUKAN_DETAIL_AREA_Init(void *a0,u32 a1,u16 *heap,u32 a3,int key)
+u32 ZUKAN_DETAIL_AREA_Init(void *a0,u32 a1,u16 *heap,u32 a3,struct Ov208Ctx *key)
 {
     u8 *p;
-    int save;
+    void *save;
     u8 i;
-    save = ZUKAN_DETAIL_COMMON_GetSource((int *)key);
+    save = ZUKAN_DETAIL_COMMON_GetSource(key);
     GF_OVERLAY_Load((int)ov072_id);
     p = (u8 *)ZUKAN_DETAIL_PROCSYS_AllocBuffer(a0,0x438,*heap);
     i = 0;
     MI_CpuFill8(p,0,0x438);
-    ((struct Ov208AreaWork *)p)->f0 = ZUKAN_DETAIL_GRAPHIC_Reset3dState((char *)ZUKAN_DETAIL_COMMON_GetDisplay((int *)key));
-    ((struct Ov208AreaWork *)p)->f4 = ZUKAN_DETAIL_COMMON_GetFont((int *)key);
+    ((struct Ov208AreaWork *)p)->f0 = ZUKAN_DETAIL_GRAPHIC_Reset3dState(ZUKAN_DETAIL_COMMON_GetDisplay(key));
+    ((struct Ov208AreaWork *)p)->f4 = ZUKAN_DETAIL_COMMON_GetFont(key);
     for (;i<2;i++) *(u32 *)(p+i*4+0x5c)=0;
     ((struct Ov208AreaWork *)p)->f64=0;
     ((struct Ov208AreaWork *)p)->f8C=0;
@@ -956,7 +937,7 @@ u32 ZUKAN_DETAIL_AREA_Init(void *a0,u32 a1,u16 *heap,u32 a3,int key)
 }
 
 /* Caller explicitly loads r2 for the three-argument teardown helpers. */
-u32 ZUKAN_DETAIL_AREA_Exit(void *a0, u32 a1, void *a2, char *p, void *a4)
+u32 ZUKAN_DETAIL_AREA_Exit(void *a0, u32 a1, void *a2, char *p, struct Ov208Ctx *a4)
 {
     u8 i;
     ZUKAN_DETAIL_AREA_FreeAreaEntryData(((struct Ov208AreaWork *)p)->f94);
@@ -984,7 +965,7 @@ u32 ZUKAN_DETAIL_AREA_Exit(void *a0, u32 a1, void *a2, char *p, void *a4)
     return 1;
 }
 
-int ZUKAN_DETAIL_AREA_Main(void *proc, int *seq, u16 *heap, u8 *p, int key)
+int ZUKAN_DETAIL_AREA_Main(void *proc, int *seq, u16 *heap, u8 *p, struct Ov208Ctx *key)
 {
     void *scene;
     void *icon;
@@ -993,7 +974,7 @@ int ZUKAN_DETAIL_AREA_Main(void *proc, int *seq, u16 *heap, u8 *p, int key)
     u8 i;
     int ready;
 
-    scene = (void *)(ZUKAN_DETAIL_COMMON_GetWorkPtr((int *)(key)));
+    scene = ZUKAN_DETAIL_COMMON_GetWorkPtr(key);
     icon = ZUKAN_DETAIL_COMMON_GetCursorValue(key);
     switch (*seq) {
     case 0:
@@ -1044,14 +1025,14 @@ int ZUKAN_DETAIL_AREA_Main(void *proc, int *seq, u16 *heap, u8 *p, int key)
         ZUKAN_DETAIL_COMMON_StartBlendIn(W(0x418));
         ZUKAN_DETAIL_COMMON_StartFadeOut(W(0x420));
         if (ZUKAN_DETAIL_TOUCHBAR_GetMode(scene) != 2) {
-            ZUKAN_DETAIL_TOUCHBAR_SetMode(scene, 0, 1, ZUKAN_DETAIL_COMMON_GetMaxValue((char *)key) > 1);
+            ZUKAN_DETAIL_TOUCHBAR_SetMode(scene, 0, 1, ZUKAN_DETAIL_COMMON_GetMaxValue(key) > 1);
             ZUKAN_DETAIL_TOUCHBAR_SetEnabled(scene, 0);
         } else {
             ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(scene, 1);
         }
         ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(scene, 0);
         W(0x88) = 0;
-        ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scene, GAME_DATA_CheckSaveFlag(ZUKAN_DETAIL_COMMON_GetSource((int *)(key)), 18));
+        ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scene, GAME_DATA_CheckSaveFlag(ZUKAN_DETAIL_COMMON_GetSource(key), 18));
         if (ZUKAN_DETAIL_HEADBAR_GetIconKind(icon) != 2) {
             ZUKAN_DETAIL_HEADBAR_SetIconKind(icon, 1);
             ZUKAN_DETAIL_HEADBAR_SetIconSpecies(icon);
@@ -1062,7 +1043,7 @@ int ZUKAN_DETAIL_AREA_Main(void *proc, int *seq, u16 *heap, u8 *p, int key)
             && ZUKAN_DETAIL_TOUCHBAR_GetMode(scene) == 2 && ZUKAN_DETAIL_HEADBAR_GetIconKind(icon) == 2) {
             ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(scene);
             ZUKAN_DETAIL_AREA_SetMapActorsNormalMode(heap, p, key);
-            ZUKAN_DETAIL_AREA_UpdateFadeAndOverlay((int)(heap), (int)(p), (int)(key));
+            ZUKAN_DETAIL_AREA_UpdateFadeAndOverlay((int)(heap), (int)(p), key);
             *seq = 4;
         }
         break;
@@ -1075,7 +1056,7 @@ int ZUKAN_DETAIL_AREA_Main(void *proc, int *seq, u16 *heap, u8 *p, int key)
         break;
     case 5:
         if (W(0x424) != 0) {
-            ZUKAN_DETAIL_AREA_RequestModeEvent4((void *)(heap), (int)(p), (int)(key));
+            ZUKAN_DETAIL_AREA_RequestModeEvent4((void *)(heap), (int)(p), key);
             *seq = 6;
         } else {
             if (W(0x90) == 1)
@@ -1126,7 +1107,7 @@ int ZUKAN_DETAIL_AREA_Main(void *proc, int *seq, u16 *heap, u8 *p, int key)
     }
     if (*seq >= 2) {
         ZUKAN_DETAIL_COMMON_TickFlashEffect(W(8));
-        ZUKAN_DETAIL_AREA_UpdateScroll((int)(heap), (int)(p), (int)(key));
+        ZUKAN_DETAIL_AREA_UpdateScroll((int)(heap), (int)(p), key);
         ZUKAN_DETAIL_AREA_UpdateSelectorAnim(heap, p, key);
     }
     ZUKAN_DETAIL_AREA_UpdateMode(heap, p, key);
@@ -1138,9 +1119,9 @@ int ZUKAN_DETAIL_AREA_Main(void *proc, int *seq, u16 *heap, u8 *p, int key)
 
 #define OBJ(i) (*(u32 *)(p + (i) * 4 + 0xbc))
 
-void ZUKAN_DETAIL_AREA_HandleKeyEvent(void *a0, void *a1, void *heap, struct Ov208AreaState *st, int *obj, int key)
+void ZUKAN_DETAIL_AREA_HandleKeyEvent(void *a0, void *a1, void *heap, struct Ov208AreaState *st, struct Ov208Ctx *obj, int key)
 {
-    int sc;
+    void *sc;
     u32 flag;
 
     if (st == 0) {
@@ -1164,10 +1145,10 @@ void ZUKAN_DETAIL_AREA_HandleKeyEvent(void *a0, void *a1, void *heap, struct Ov2
     switch (key) {
     case 12: {
         u16 old = ZUKAN_DETAIL_COMMON_GetCurrentEntry(obj);
-        ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies((char *)obj);
+        ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies(obj);
         if (old != ZUKAN_DETAIL_COMMON_GetCurrentEntry(obj)) {
-            ZUKAN_DETAIL_AREA_LoadAreaEntries(heap, (u8 *)st, (int)obj);
-            ZUKAN_DETAIL_AREA_UpdateFadeAndOverlay((int)heap, (int)st, (int)obj);
+            ZUKAN_DETAIL_AREA_LoadAreaEntries(heap, (u8 *)st, obj);
+            ZUKAN_DETAIL_AREA_UpdateFadeAndOverlay((int)heap, (int)st, obj);
             st->overlayPending = 1;
             st->overlayReady = 0;
             st->overlayCommitted = 0;
@@ -1180,10 +1161,10 @@ void ZUKAN_DETAIL_AREA_HandleKeyEvent(void *a0, void *a1, void *heap, struct Ov2
     }
     case 13: {
         u16 old = ZUKAN_DETAIL_COMMON_GetCurrentEntry(obj);
-        ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies((struct Ov208Ctx *)obj);
+        ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies(obj);
         if (old != ZUKAN_DETAIL_COMMON_GetCurrentEntry(obj)) {
-            ZUKAN_DETAIL_AREA_LoadAreaEntries(heap, (u8 *)st, (int)obj);
-            ZUKAN_DETAIL_AREA_UpdateFadeAndOverlay((int)heap, (int)st, (int)obj);
+            ZUKAN_DETAIL_AREA_LoadAreaEntries(heap, (u8 *)st, obj);
+            ZUKAN_DETAIL_AREA_UpdateFadeAndOverlay((int)heap, (int)st, obj);
             st->overlayPending = 1;
             st->overlayReady = 0;
             st->overlayCommitted = 0;
@@ -1209,7 +1190,7 @@ void ZUKAN_DETAIL_AREA_HandleKeyEvent(void *a0, void *a1, void *heap, struct Ov2
             st->overlayCommitted = 1;
             if (st->overlayReady != 0) {
                 st->overlayPending = 0;
-                ZUKAN_DETAIL_TOUCHBAR_ClearButtonState((void *)sc);
+                ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(sc);
                 return;
             }
         }
@@ -1219,21 +1200,21 @@ void ZUKAN_DETAIL_AREA_HandleKeyEvent(void *a0, void *a1, void *heap, struct Ov2
             st->overlayCommitted = 1;
             if (st->overlayReady != 0) {
                 st->overlayPending = 0;
-                ZUKAN_DETAIL_TOUCHBAR_ClearButtonState((void *)sc);
+                ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(sc);
                 return;
             }
         }
         break;
     case 5:
-        GAME_DATA_SetSaveFlag((void *)ZUKAN_DETAIL_COMMON_GetSource(obj), 0x12, ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive((char *)sc));
-        ZUKAN_DETAIL_TOUCHBAR_ClearButtonState((void *)sc);
+        GAME_DATA_SetSaveFlag(ZUKAN_DETAIL_COMMON_GetSource(obj), 0x12, ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive((char *)sc));
+        ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(sc);
         return;
     case 19:
-        ZUKAN_DETAIL_AREA_HandleModeEvent(heap, (u8 *)st, (int)obj, 6);
+        ZUKAN_DETAIL_AREA_HandleModeEvent(heap, (u8 *)st, obj, 6);
         return;
     default:
         if (flag != 0) {
-            ZUKAN_DETAIL_TOUCHBAR_ClearButtonState((void *)sc);
+            ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(sc);
         }
         break;
     }
@@ -1254,7 +1235,7 @@ void ZUKAN_DETAIL_AREA_ApplyPendingEffect(void *unused, char *p)
     ZUKAN_DETAIL_COMMON_TransferPalettes(((struct Ov208AreaWork *)p)->f420);
 }
 
-void ZUKAN_DETAIL_AREA_BuildTownOrderTable(u16 *unused, char *p, int a2)
+void ZUKAN_DETAIL_AREA_BuildTownOrderTable(u16 *unused, char *p, struct Ov208Ctx *key)
 {
     u8 i;
     for (i = 0; i < 61; i++) {
@@ -1269,7 +1250,7 @@ void ZUKAN_DETAIL_AREA_BuildTownOrderTable(u16 *unused, char *p, int a2)
     }
 }
 
-void ZUKAN_DETAIL_AREA_LoadMapGraphics(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_LoadMapGraphics(u16 *heap, u8 *p, struct Ov208Ctx *key)
 {
     void *h;
 
@@ -1283,11 +1264,11 @@ void ZUKAN_DETAIL_AREA_LoadMapGraphics(u16 *heap, u8 *p, int key)
     ARC_TOOL_DeleteHandle(h);
 }
 
-void ZUKAN_DETAIL_AREA_NoOpLoad(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_NoOpLoad(u16 *heap, u8 *p, struct Ov208Ctx *key)
 {
 }
 
-void ZUKAN_DETAIL_AREA_CreateMapActors(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_CreateMapActors(u16 *heap, u8 *p, struct Ov208Ctx *key)
 {
     BankDesc desc;
     Row7 anim, pri, pal;
@@ -1349,7 +1330,7 @@ void ZUKAN_DETAIL_AREA_CreateMapActors(u16 *heap, u8 *p, int key)
 /*
  * Tail: 021C044E..021C0450 is two zero alignment bytes, not a follower.
  */
-void ZUKAN_DETAIL_AREA_DeleteMapActors(void *unused, char *p, void *a2)
+void ZUKAN_DETAIL_AREA_DeleteMapActors(void *unused, char *p, struct Ov208Ctx *a2)
 {
     u8 i;
     for (i = 0; i < 7; i++) CLACT_DeleteActor(*(struct Obj **)(p + i * 4 + 0xbc));
@@ -1366,7 +1347,7 @@ void ZUKAN_DETAIL_AREA_DeleteMapActors(void *unused, char *p, void *a2)
     CLACT_DeleteRenderer(((struct Ov208AreaWork *)p)->f1D4);
 }
 
-void ZUKAN_DETAIL_AREA_CreateTownIconActors(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_CreateTownIconActors(u16 *heap, u8 *p, struct Ov208Ctx *key)
 {
     ObjPos pos;
     u8 i;
@@ -1388,7 +1369,7 @@ void ZUKAN_DETAIL_AREA_CreateTownIconActors(u16 *heap, u8 *p, int key)
 /*
  * Releases each of the 0x3D handles held from +0xDC on.
  */
-void ZUKAN_DETAIL_AREA_DeleteTownIconActors(void *unused, char *p, void *a2)
+void ZUKAN_DETAIL_AREA_DeleteTownIconActors(void *unused, char *p, struct Ov208Ctx *a2)
 {
     unsigned char i;
 
@@ -1396,15 +1377,15 @@ void ZUKAN_DETAIL_AREA_DeleteTownIconActors(void *unused, char *p, void *a2)
         CLACT_DeleteActor((struct Obj *)(*(int *)(p + i * 4 + 0xdc)));
 }
 
-void ZUKAN_DETAIL_AREA_CreateTownMarkerActors(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_CreateTownMarkerActors(u16 *heap, u8 *p, struct Ov208Ctx *key)
 {
-    int k;
+    void *k;
     u8 i;
     u16 kind;
     u16 msg;
     ObjPos pos;
 
-    k = ZUKAN_DETAIL_COMMON_GetSource((int *)(key));
+    k = ZUKAN_DETAIL_COMMON_GetSource(key);
     for (i = 0; i < 0x3d; i++) {
         msg = TOWNMAP_GRH_GetTownInfoValue((char *)W(0x3c8), i, 0x10);
         if (msg != 0xffff) {
@@ -1434,7 +1415,7 @@ void ZUKAN_DETAIL_AREA_CreateTownMarkerActors(u16 *heap, u8 *p, int key)
 /*
  * Frees the second word of every entry whose first word is 2.
  */
-void ZUKAN_DETAIL_AREA_DeleteTownMarkerActors(void *a0, char *p, void *a2)
+void ZUKAN_DETAIL_AREA_DeleteTownMarkerActors(void *a0, char *p, struct Ov208Ctx *a2)
 {
     Ov208MarkerTable *s = (Ov208MarkerTable *)p;
     unsigned char i;
@@ -1445,7 +1426,7 @@ void ZUKAN_DETAIL_AREA_DeleteTownMarkerActors(void *a0, char *p, void *a2)
     }
 }
 
-void ZUKAN_DETAIL_AREA_CreatePrintQueues(unsigned short *a, char *b, int a2)
+void ZUKAN_DETAIL_AREA_CreatePrintQueues(unsigned short *a, char *b, struct Ov208Ctx *key)
 {
     unsigned char i;
 
@@ -1459,7 +1440,7 @@ void ZUKAN_DETAIL_AREA_CreatePrintQueues(unsigned short *a, char *b, int a2)
 /*
  * Clears a word and releases two handles of each of four entries.
  */
-void ZUKAN_DETAIL_AREA_DeletePrintQueues(void *unused, char *p, void *a2)
+void ZUKAN_DETAIL_AREA_DeletePrintQueues(void *unused, char *p, struct Ov208Ctx *a2)
 {
     unsigned char i;
 
@@ -1483,7 +1464,7 @@ void ZUKAN_DETAIL_AREA_DeletePrintQueues(void *unused, char *p, void *a2)
 
 #define OBJ(i) (((u32 *)(p + 0xbc))[i])
 
-void ZUKAN_DETAIL_AREA_UpdatePrintQueues(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_UpdatePrintQueues(u16 *heap, u8 *p, struct Ov208Ctx *key)
 {
     u8 i;
 
@@ -1493,7 +1474,7 @@ void ZUKAN_DETAIL_AREA_UpdatePrintQueues(u16 *heap, u8 *p, int key)
     }
 }
 
-void ZUKAN_DETAIL_AREA_FlushPrintWindow(u16 *heap, u8 *p, int key, u8 i)
+void ZUKAN_DETAIL_AREA_FlushPrintWindow(u16 *heap, u8 *p, struct Ov208Ctx *key, u8 i)
 {
     u32 w;
 
@@ -1508,7 +1489,7 @@ void ZUKAN_DETAIL_AREA_FlushPrintWindow(u16 *heap, u8 *p, int key, u8 i)
     }
 }
 
-void ZUKAN_DETAIL_AREA_CreateTextWindows(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_CreateTextWindows(u16 *heap, u8 *p, struct Ov208Ctx *key)
 {
     struct WinCfg2 a;
     struct WinCfg4 b;
@@ -1532,7 +1513,7 @@ void ZUKAN_DETAIL_AREA_CreateTextWindows(u16 *heap, u8 *p, int key)
     W(0x10) = (u32)MSGDATA_CreateFromArchive(0, 2, 0x59, *heap);
 }
 
-void ZUKAN_DETAIL_AREA_DeleteTextWindows(void *unused, char *p, void *a2)
+void ZUKAN_DETAIL_AREA_DeleteTextWindows(void *unused, char *p, struct Ov208Ctx *a2)
 {
     u8 i;
     for (i = 0; i < 2; i++) MSGDATA_Delete(*(struct Rec **)(p + i * 4 + 0xc));
@@ -1544,7 +1525,7 @@ void ZUKAN_DETAIL_AREA_DeleteTextWindows(void *unused, char *p, void *a2)
     for (i = 0; i < 2; i++) BMP_WIN_Delete(*(struct Descriptor **)(p + i * 4 + 0x44));
 }
 
-void ZUKAN_DETAIL_AREA_LoadSubScreenGraphics(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_LoadSubScreenGraphics(u16 *heap, u8 *p, struct Ov208Ctx *key)
 {
     void *h;
 
@@ -1555,19 +1536,19 @@ void ZUKAN_DETAIL_AREA_LoadSubScreenGraphics(u16 *heap, u8 *p, int key)
     ARC_TOOL_DeleteHandle(h);
 }
 
-void ZUKAN_DETAIL_AREA_ApplySubScreenScroll(void *unused, u8 *p, void *a2)
+void ZUKAN_DETAIL_AREA_ApplySubScreenScroll(void *unused, u8 *p, struct Ov208Ctx *a2)
 {
     u32 v = ((struct Ov208AreaWork *)p)->f68;
     BG_SYS_DeleteHalf(7, (u16)v, (u16)(v >> 16));
 }
 
-void ZUKAN_DETAIL_AREA_UpdateScroll(int a, int b, int c)
+void ZUKAN_DETAIL_AREA_UpdateScroll(int a, int b, struct Ov208Ctx *key)
 {
-    ZUKAN_DETAIL_AREA_UpdateScrollFade(a, (unsigned char *)b, c);
-    ZUKAN_DETAIL_AREA_NoOpUpdate(a, b, c);
+    ZUKAN_DETAIL_AREA_UpdateScrollFade(a, (unsigned char *)b, key);
+    ZUKAN_DETAIL_AREA_NoOpUpdate(a, b, key);
 }
 
-void ZUKAN_DETAIL_AREA_UpdateScrollFade(int a, unsigned char *p, int a2)
+void ZUKAN_DETAIL_AREA_UpdateScrollFade(int a, unsigned char *p, struct Ov208Ctx *key)
 {
     switch (*(unsigned int *)&((struct Ov208AreaWork *)p)->f70) {
     case 0:
@@ -1630,11 +1611,11 @@ void ZUKAN_DETAIL_AREA_UpdateScrollFade(int a, unsigned char *p, int a2)
 /*
  * Empty stub; the listing pads it with two zero bytes.
  */
-void ZUKAN_DETAIL_AREA_NoOpUpdate(int a0, int a1, int a2)
+void ZUKAN_DETAIL_AREA_NoOpUpdate(int a0, int a1, struct Ov208Ctx *key)
 {
 }
 
-void ZUKAN_DETAIL_AREA_UpdateSelectorAnim(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_UpdateSelectorAnim(u16 *heap, u8 *p, struct Ov208Ctx *key)
 {
     void *scene;
     u8 sel;
@@ -1642,7 +1623,7 @@ void ZUKAN_DETAIL_AREA_UpdateSelectorAnim(u16 *heap, u8 *p, int key)
     u32 next;
     u16 nextAnim;
 
-    scene = (void *)(ZUKAN_DETAIL_COMMON_GetWorkPtr((int *)(key)));
+    scene = ZUKAN_DETAIL_COMMON_GetWorkPtr(key);
     sel = p[0xd8];
     if (sel == 2) {
         anim = 2;
@@ -1663,7 +1644,7 @@ void ZUKAN_DETAIL_AREA_UpdateSelectorAnim(u16 *heap, u8 *p, int key)
     }
 }
 
-void ZUKAN_DETAIL_AREA_LoadMarkerResources(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_LoadMarkerResources(u16 *heap, u8 *p, struct Ov208Ctx *key)
 {
     void *h;
 
@@ -1676,7 +1657,7 @@ void ZUKAN_DETAIL_AREA_LoadMarkerResources(u16 *heap, u8 *p, int key)
 /*
  * Calls 0x0204AFD8 on +0x58 and 0x0204ADA4 on +0x54 of the second argument.
  */
-void ZUKAN_DETAIL_AREA_ReleaseMarkerResources(void *a, char *q, void *a2)
+void ZUKAN_DETAIL_AREA_ReleaseMarkerResources(void *a, char *q, struct Ov208Ctx *a2)
 {
     CLACT_ReleaseCellAnim(((struct Ov208AreaWork *)q)->f58);
     CLACT_ReleasePalette(((struct Ov208AreaWork *)q)->f54);
@@ -1713,14 +1694,14 @@ void ZUKAN_DETAIL_AREA_DeletePokemonIcon(void *a, void *b)
     CLACT_ReleaseCharacter((u32)a);
 }
 
-u8 ZUKAN_DETAIL_AREA_FindPlayerTownIndex(u16 *heap, u8 *p, int key)
+u8 ZUKAN_DETAIL_AREA_FindPlayerTownIndex(u16 *heap, u8 *p, struct Ov208Ctx *key)
 {
-    int a;
+    void *a;
     u32 m;
     int v;
     u8 r;
 
-    a = ZUKAN_DETAIL_COMMON_GetSource((int *)(key));
+    a = ZUKAN_DETAIL_COMMON_GetSource(key);
     m = GAME_DATA_GetPlayerZoneId((const struct Rec44 *)GAME_DATA_GetField114((struct SaveBlock *)a));
     r = 0xff;
     v = TOWNMAP_GRH_FindRecordIndex(((struct Ov208AreaWork *)p)->f3C8, SYMBOL_MAP_ResolveZoneId(a, m));
@@ -1729,7 +1710,7 @@ u8 ZUKAN_DETAIL_AREA_FindPlayerTownIndex(u16 *heap, u8 *p, int key)
     return r;
 }
 
-void ZUKAN_DETAIL_AREA_MovePlayerMarkerToTown(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_MovePlayerMarkerToTown(u16 *heap, u8 *p, struct Ov208Ctx *key)
 {
     u8 idx;
     u16 pos[2];
@@ -1742,7 +1723,7 @@ void ZUKAN_DETAIL_AREA_MovePlayerMarkerToTown(u16 *heap, u8 *p, int key)
     }
 }
 
-void ZUKAN_DETAIL_AREA_SetPlayerMarkerVisible(u16 *heap, u8 *p, int key, int on)
+void ZUKAN_DETAIL_AREA_SetPlayerMarkerVisible(u16 *heap, u8 *p, struct Ov208Ctx *key, int on)
 {
     if (on) {
         if (ZUKAN_DETAIL_AREA_FindPlayerTownIndex(heap, p, key) != 0xff) {
@@ -1760,12 +1741,12 @@ void ZUKAN_DETAIL_AREA_SetPlayerMarkerVisible(u16 *heap, u8 *p, int key, int on)
  * The pool word carries the thumb bit, so the callee is deliberately left
  * undeclared here and resolved through the label class.
  */
-u32 ZUKAN_DETAIL_AREA_IsPlayerMarkerVisible(void *a0, u8 *p, void *a2)
+u32 ZUKAN_DETAIL_AREA_IsPlayerMarkerVisible(void *a0, u8 *p, struct Ov208Ctx *a2)
 {
     return CLACT_GetActorDrawEnable((struct Obj *)(((struct Ov208AreaWork *)p)->fD4));
 }
 
-void ZUKAN_DETAIL_AREA_MoveCursorToSelectedTown(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_MoveCursorToSelectedTown(u16 *heap, u8 *p, struct Ov208Ctx *key)
 {
     struct Pt pt = data_021C8554;
 
@@ -1782,13 +1763,13 @@ void ZUKAN_DETAIL_AREA_MoveCursorToSelectedTown(u16 *heap, u8 *p, int key)
 /*
  * Stores the byte result of ZUKAN_DETAIL_AREA_FindPlayerTownIndex at +0x79 of the second argument then calls ZUKAN_DETAIL_AREA_MoveCursorToSelectedTown.
  */
-void ZUKAN_DETAIL_AREA_SelectPlayerTown(int a, char *b, int c)
+void ZUKAN_DETAIL_AREA_SelectPlayerTown(int a, char *b, struct Ov208Ctx *key)
 {
-    b[0x79] = ZUKAN_DETAIL_AREA_FindPlayerTownIndex((u16 *)a, (u8 *)b, c);
-    ZUKAN_DETAIL_AREA_MoveCursorToSelectedTown((u16 *)a, (u8 *)b, c);
+    b[0x79] = ZUKAN_DETAIL_AREA_FindPlayerTownIndex((u16 *)a, (u8 *)b, key);
+    ZUKAN_DETAIL_AREA_MoveCursorToSelectedTown((u16 *)a, (u8 *)b, key);
 }
 
-u8 ZUKAN_DETAIL_AREA_FindTownAtPoint(void *unused,char *p,int unused2,u8 x,u8 y)
+u8 ZUKAN_DETAIL_AREA_FindTownAtPoint(void *unused,char *p,struct Ov208Ctx *key,u8 x,u8 y)
 {
     struct Ball ball;
     struct Vec3 point;
@@ -1822,7 +1803,7 @@ u8 ZUKAN_DETAIL_AREA_FindTownAtPoint(void *unused,char *p,int unused2,u8 x,u8 y)
 /*
  * Tail: 021C1066..021C1068 is two zero alignment bytes, not a follower.
  */
-int ZUKAN_DETAIL_AREA_GetTownPointDistance(void *unused, char *p, int key, u8 index, u8 x, u8 y, unsigned *out)
+int ZUKAN_DETAIL_AREA_GetTownPointDistance(void *unused, char *p, struct Ov208Ctx *key, u8 index, u8 x, u8 y, unsigned *out)
 {
     unsigned dx, dy, distance;
     if (*(unsigned *)(p + index * 8 + 0x1e0) == 1) return 0;
@@ -1838,7 +1819,7 @@ int ZUKAN_DETAIL_AREA_GetTownPointDistance(void *unused, char *p, int key, u8 in
     return 0;
 }
 
-u8 ZUKAN_DETAIL_AREA_FindNearestTown(void *heap, char *p, int key, u8 x, u8 y)
+u8 ZUKAN_DETAIL_AREA_FindNearestTown(void *heap, char *p, struct Ov208Ctx *key, u8 x, u8 y)
 {
     unsigned distance, bestDistance;
     u8 best = 255, i;
@@ -1856,14 +1837,14 @@ u8 ZUKAN_DETAIL_AREA_FindNearestTown(void *heap, char *p, int key, u8 x, u8 y)
     return best;
 }
 
-void ZUKAN_DETAIL_AREA_HandleCursorInput(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_HandleCursorInput(u16 *heap, u8 *p, struct Ov208Ctx *key)
 {
     void *s;
     int hit, touch;
     int moved, done;
     u32 x, y, tx, ty;
 
-    s = (void *)ZUKAN_DETAIL_COMMON_GetWorkPtr((int *)key);
+    s = ZUKAN_DETAIL_COMMON_GetWorkPtr(key);
     if (W(0x428) == 0 || p[0xd8] != 7)
         return;
 
@@ -2003,7 +1984,7 @@ static inline void set3(struct Vec3 *v, int x, int y, int z)
     v->z = z;
 }
 
-void ZUKAN_DETAIL_AREA_HandleTownTouchInput(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_HandleTownTouchInput(u16 *heap, u8 *p, struct Ov208Ctx *key)
 {
     u32 tx, ty;
     struct { struct PtS t, c; } pt;
@@ -2109,7 +2090,7 @@ void ZUKAN_DETAIL_AREA_HandleTownTouchInput(u16 *heap, u8 *p, int key)
     }
 }
 
-void ZUKAN_DETAIL_AREA_UpdateMode(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_UpdateMode(u16 *heap, u8 *p, struct Ov208Ctx *key)
 {
     switch (W(0x6c)) {
     case 1:
@@ -2129,7 +2110,7 @@ void ZUKAN_DETAIL_AREA_UpdateMode(u16 *heap, u8 *p, int key)
             W(0x84) = 3;
             break;
         case 3:
-            ZUKAN_DETAIL_AREA_DrawNoDataMessage((void *)(heap), (u8 *)(p), (void *)(key));
+            ZUKAN_DETAIL_AREA_DrawNoDataMessage((void *)(heap), (u8 *)(p), key);
             W(0x84) = 0;
             ZUKAN_DETAIL_AREA_HandleModeEvent(heap, p, key, 0);
             break;
@@ -2138,7 +2119,7 @@ void ZUKAN_DETAIL_AREA_UpdateMode(u16 *heap, u8 *p, int key)
     case 4:
         switch (W(0x84)) {
         case 1:
-            ZUKAN_DETAIL_AREA_ClearOverlayWindow((void *)(heap), (char *)(p), (int)(key));
+            ZUKAN_DETAIL_AREA_ClearOverlayWindow((void *)(heap), (char *)(p), key);
             W(0x84) = 2;
             break;
         case 2:
@@ -2168,7 +2149,7 @@ void ZUKAN_DETAIL_AREA_UpdateMode(u16 *heap, u8 *p, int key)
             W(0x84) = 3;
             break;
         case 3:
-            ZUKAN_DETAIL_AREA_DrawNoDataMessage((void *)(heap), (u8 *)(p), (void *)(key));
+            ZUKAN_DETAIL_AREA_DrawNoDataMessage((void *)(heap), (u8 *)(p), key);
             W(0x84) = 0;
             ZUKAN_DETAIL_AREA_HandleModeEvent(heap, p, key, 5);
             break;
@@ -2177,12 +2158,12 @@ void ZUKAN_DETAIL_AREA_UpdateMode(u16 *heap, u8 *p, int key)
     }
 }
 
-void ZUKAN_DETAIL_AREA_HandleModeEvent(u16 *heap, u8 *p, int key, int mode)
+void ZUKAN_DETAIL_AREA_HandleModeEvent(u16 *heap, u8 *p, struct Ov208Ctx *key, int mode)
 {
     void *s;
     u32 wide;
 
-    s = (void *)ZUKAN_DETAIL_COMMON_GetWorkPtr((int *)key);
+    s = ZUKAN_DETAIL_COMMON_GetWorkPtr(key);
     switch (W(0x6c)) {
     case 0:
         if (mode == 1) {
@@ -2211,7 +2192,7 @@ void ZUKAN_DETAIL_AREA_HandleModeEvent(u16 *heap, u8 *p, int key, int mode)
                 ZUKAN_DETAIL_AREA_DrawTownName(heap, p, key);
                 ZUKAN_DETAIL_AREA_UpdateTerrainIcons(heap, p, key);
             }
-            ZUKAN_DETAIL_TOUCHBAR_SetMode(s, 1, 1, ZUKAN_DETAIL_COMMON_GetMaxValue((char *)((int *)((char *)key))) > 1);
+            ZUKAN_DETAIL_TOUCHBAR_SetMode(s, 1, 1, ZUKAN_DETAIL_COMMON_GetMaxValue(key) > 1);
         }
         break;
     case 3:
@@ -2245,9 +2226,9 @@ void ZUKAN_DETAIL_AREA_HandleModeEvent(u16 *heap, u8 *p, int key, int mode)
             W(0x74) = 3;
             CLACT_SetActorDrawEnable((struct Obj *)W(0xcc), 0);
             CLACT_SetActorDrawEnable((struct Obj *)W(0xd0), 0);
-            wide = ZUKAN_DETAIL_COMMON_GetMaxValue((char *)((int *)((char *)key))) > 1 ? 1 : 0;
+            wide = ZUKAN_DETAIL_COMMON_GetMaxValue(key) > 1 ? 1 : 0;
             ZUKAN_DETAIL_TOUCHBAR_SetMode(s, 0, 1, wide);
-            ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq((struct Ov208Scene *)s, GAME_DATA_CheckSaveFlag(ZUKAN_DETAIL_COMMON_GetSource((int *)key), 0x12));
+            ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq((struct Ov208Scene *)s, GAME_DATA_CheckSaveFlag(ZUKAN_DETAIL_COMMON_GetSource(key), 0x12));
         }
         break;
     case 8:
@@ -2261,7 +2242,7 @@ void ZUKAN_DETAIL_AREA_HandleModeEvent(u16 *heap, u8 *p, int key, int mode)
     W(0x6c) = mode;
 }
 
-void ZUKAN_DETAIL_AREA_LoadAreaEntries(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_LoadAreaEntries(u16 *heap, u8 *p, struct Ov208Ctx *key)
 {
     u32 prev;
     u16 id;
@@ -2271,7 +2252,7 @@ void ZUKAN_DETAIL_AREA_LoadAreaEntries(u16 *heap, u8 *p, int key)
     u32 out1, out2, form;
 
     prev = W(0x8c);
-    id = ZUKAN_DETAIL_COMMON_GetCurrentEntry((void *)key);
+    id = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
     ZUKAN_DETAIL_AREA_FreeAreaEntryData(W(0x94));
     W(0x94) = (u32)ZUKAN_DETAIL_AREA_LoadAreaEntryData(id, *heap, W(0x40c));
     W(0x8c) = ((Entry *)W(0x94))->f0 == 0;
@@ -2289,7 +2270,7 @@ void ZUKAN_DETAIL_AREA_LoadAreaEntries(u16 *heap, u8 *p, int key)
         SLOT5C(*(int *)(p + 0x64)) = 0;
     }
 
-    ZUKAN_SAVE_GetViewGenderAndForm(ZUKAN_SAVE_GetFromGameData((void *)ZUKAN_DETAIL_COMMON_GetSource((int *)key)), id, &out1, &out2, &form, *heap);
+    ZUKAN_SAVE_GetViewGenderAndForm(ZUKAN_SAVE_GetFromGameData(ZUKAN_DETAIL_COMMON_GetSource(key)), id, &out1, &out2, &form, *heap);
     SLOT5C(*(int *)(p + 0x64)) = ZUKAN_DETAIL_AREA_CreatePokemonIcon(&SLOT4C(((struct Ov208AreaWork *)p)->f64), W(0x54), W(0x58), W(0),
                                                *heap, id, form, out1, 0, 0x38, 0xb0);
     W(0x24) = 0;
@@ -2302,7 +2283,7 @@ void ZUKAN_DETAIL_AREA_LoadAreaEntries(u16 *heap, u8 *p, int key)
     WORDSET_CopyTaggedText(win, buf, str);
     STRBUF_Delete(str);
     WORDSET_DeleteStrbufED04(win);
-    PRINTSYS_PrintQueColor((void *)W(0x34), (u32)BMP_WIN_GetBmp((struct Descriptor *)W(0x14)), 0, 5, (u32)buf, W(4), 0x3c40);
+    PRINTSYS_PrintQueColor((void *)W(0x34), (u32)BMP_WIN_GetBmp((struct Descriptor *)W(0x14)), 0, 5, (u32)buf, ((struct Ov208AreaWork *)p)->f4, 0x3c40);
     STRBUF_Delete(buf);
     W(0x24) = 1;
     ZUKAN_DETAIL_AREA_FlushPrintWindow(heap, p, key, 0);
@@ -2330,18 +2311,18 @@ void ZUKAN_DETAIL_AREA_LoadAreaEntries(u16 *heap, u8 *p, int key)
 /*
  * Calls ZUKAN_DETAIL_AREA_BeginModeTransition then ZUKAN_DETAIL_AREA_UpdateTerrainIcons on the same three arguments.
  */
-void ZUKAN_DETAIL_AREA_UpdateFadeAndOverlay(int a, int b, int c)
+void ZUKAN_DETAIL_AREA_UpdateFadeAndOverlay(int a, int b, struct Ov208Ctx *key)
 {
-    ZUKAN_DETAIL_AREA_BeginModeTransition((void *)a, (char *)b, c);
-    ZUKAN_DETAIL_AREA_UpdateTerrainIcons((u16 *)a, (u8 *)b, c);
+    ZUKAN_DETAIL_AREA_BeginModeTransition((void *)a, (char *)b, key);
+    ZUKAN_DETAIL_AREA_UpdateTerrainIcons((u16 *)a, (u8 *)b, key);
 }
 
-void ZUKAN_DETAIL_AREA_RequestModeEvent4(void *a, int b, int c)
+void ZUKAN_DETAIL_AREA_RequestModeEvent4(void *a, int b, struct Ov208Ctx *key)
 {
-    ZUKAN_DETAIL_AREA_HandleModeEvent(a, (u8 *)b, c, 4);
+    ZUKAN_DETAIL_AREA_HandleModeEvent(a, (u8 *)b, key, 4);
 }
 
-void ZUKAN_DETAIL_AREA_DrawTownName(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_DrawTownName(u16 *heap, u8 *p, struct Ov208Ctx *key)
 {
     void *str;
     struct Pt pt;
@@ -2351,7 +2332,7 @@ void ZUKAN_DETAIL_AREA_DrawTownName(u16 *heap, u8 *p, int key)
     BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)W(0x18)), 0);
     if (p[0x79] != 0xff) {
         str = MSGDATA_AllocString((struct MsgBank *)W(0x10), ZONEDATA_GetPlaceNameId(TOWNMAP_GRH_GetTownInfoValue((char *)W(0x3c8), p[0x79], 0)));
-        PRINTSYS_PrintQueColor((void *)W(0x38), (u32)BMP_WIN_GetBmp((struct Descriptor *)W(0x18)), 0, 1, (u32)str, W(4), 0x3c40);
+        PRINTSYS_PrintQueColor((void *)W(0x38), (u32)BMP_WIN_GetBmp((struct Descriptor *)W(0x18)), 0, 1, (u32)str, ((struct Ov208AreaWork *)p)->f4, 0x3c40);
         STRBUF_Delete(str);
         W(0x28) = 1;
         ZUKAN_DETAIL_AREA_FlushPrintWindow(heap, p, key, 1);
@@ -2378,13 +2359,13 @@ void ZUKAN_DETAIL_AREA_DrawTownName(u16 *heap, u8 *p, int key)
 
 #define OBJ(i) (((u32 *)(p + 0xbc))[i])
 
-void ZUKAN_DETAIL_AREA_SwitchAreaSet(u16 *heap, u8 *p, int key, int dir, int touch)
+void ZUKAN_DETAIL_AREA_SwitchAreaSet(u16 *heap, u8 *p, struct Ov208Ctx *key, int dir, int touch)
 {
     void *s;
     int other;
     u16 anim;
 
-    s = (void *)ZUKAN_DETAIL_COMMON_GetWorkPtr((int *)key);
+    s = ZUKAN_DETAIL_COMMON_GetWorkPtr(key);
     if (W(0x8c) == 0)
         W(0x90) = ((Entry *)W(0x94))[0].f1 == 0;
     else
@@ -2432,16 +2413,16 @@ void ZUKAN_DETAIL_AREA_FreeAreaEntryData(int a)
         GFL_HEAP_Free((void *)a);
 }
 
-void ZUKAN_DETAIL_AREA_DrawAreaSetTitle(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_DrawAreaSetTitle(u16 *heap, u8 *p, struct Ov208Ctx *key)
 {
     void *str;
     u16 tw;
     u32 w;
 
     str = MSGDATA_AllocString((struct MsgBank *)W(0xc), p[0x78] + 0xbe);
-    tw = GF_FONT_MeasureWidestLine(str, W(4), 0);
+    tw = GF_FONT_MeasureWidestLine(str, ((struct Ov208AreaWork *)p)->f4, 0);
     w = BMP_GetWidth(BMP_WIN_GetBmp((struct Descriptor *)W(0x1c)));
-    PRINTSYS_PrintQueColor((void *)W(0x3c), (u32)BMP_WIN_GetBmp((struct Descriptor *)W(0x1c)), (s16)((u16)((int)(w - tw) / 2)), (s16)1, (u32)str, W(4), 0x3c40);
+    PRINTSYS_PrintQueColor((void *)W(0x3c), (u32)BMP_WIN_GetBmp((struct Descriptor *)W(0x1c)), (s16)((u16)((int)(w - tw) / 2)), (s16)1, (u32)str, ((struct Ov208AreaWork *)p)->f4, 0x3c40);
     STRBUF_Delete(str);
     W(0x2c) = 1;
     ZUKAN_DETAIL_AREA_FlushPrintWindow(heap, p, key, 2);
@@ -2450,20 +2431,20 @@ void ZUKAN_DETAIL_AREA_DrawAreaSetTitle(u16 *heap, u8 *p, int key)
 /*
  * Dispatches on the word at +0x6C: state 0 hands a 3, state 5 hands an 8 to ZUKAN_DETAIL_AREA_HandleModeEvent.
  */
-void ZUKAN_DETAIL_AREA_BeginModeTransition(void *a, char *b, int c)
+void ZUKAN_DETAIL_AREA_BeginModeTransition(void *a, char *b, struct Ov208Ctx *key)
 {
     int s = ((struct Ov208AreaWork *)b)->f6C;
 
     if (s == 0) {
-        ZUKAN_DETAIL_AREA_HandleModeEvent(a, (u8 *)b, c, 3);
+        ZUKAN_DETAIL_AREA_HandleModeEvent(a, (u8 *)b, key, 3);
         return;
     }
     if (s == 5) {
-        ZUKAN_DETAIL_AREA_HandleModeEvent(a, (u8 *)b, c, 8);
+        ZUKAN_DETAIL_AREA_HandleModeEvent(a, (u8 *)b, key, 8);
     }
 }
 
-void ZUKAN_DETAIL_AREA_BeginHideOverlay(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_BeginHideOverlay(u16 *heap, u8 *p, struct Ov208Ctx *key)
 {
     u8 i;
     if (CLACT_GetActorDrawEnable(*(struct Obj * *)&((struct Ov208AreaWork *)p)->fC8)) {
@@ -2487,7 +2468,7 @@ void ZUKAN_DETAIL_AREA_BeginHideOverlay(u16 *heap, u8 *p, int key)
     }
 }
 
-void ZUKAN_DETAIL_AREA_FinishHideOverlay(void *unused, u8 *p)
+void ZUKAN_DETAIL_AREA_FinishHideOverlay(u16 *heap, u8 *p, struct Ov208Ctx *key)
 {
     if (CLACT_GetActorDrawEnable((struct Obj *)(*(int *)&((struct Ov208AreaWork *)p)->fC8)) == 0) {
         if (*(int *)&((struct Ov208AreaWork *)p)->f90 == 0) {
@@ -2498,7 +2479,7 @@ void ZUKAN_DETAIL_AREA_FinishHideOverlay(void *unused, u8 *p)
     }
 }
 
-void ZUKAN_DETAIL_AREA_DrawNoDataMessage(void *a0, u8 *st, void *a2)
+void ZUKAN_DETAIL_AREA_DrawNoDataMessage(void *a0, u8 *st, struct Ov208Ctx *a2)
 {
     int res = CLACT_GetActorDrawEnable((struct Obj *)(*(int *)&((struct Ov208AreaWork *)st)->fC8));
 
@@ -2518,7 +2499,7 @@ void ZUKAN_DETAIL_AREA_DrawNoDataMessage(void *a0, u8 *st, void *a2)
             PRINTSYS_PrintQueColor(((struct Ov208AreaWork *)st)->f40, t, (s16)(u16)(d / 2), 1, (u32)msg, ((struct Ov208AreaWork *)st)->f4, 0x3c40);
             STRBUF_Delete(msg);
             ((struct Ov208AreaWork *)st)->f30 = 1;
-            ZUKAN_DETAIL_AREA_FlushPrintWindow((u16 *)a0, st, (int)a2, 3);
+            ZUKAN_DETAIL_AREA_FlushPrintWindow((u16 *)a0, st, a2, 3);
             CLACT_SetActorDrawEnable((struct Obj *)*(int *)&((struct Ov208AreaWork *)st)->fC8, 1);
         }
     } else {
@@ -2534,12 +2515,12 @@ void ZUKAN_DETAIL_AREA_DrawNoDataMessage(void *a0, u8 *st, void *a2)
             }
         }
         if (ZUKAN_DETAIL_AREA_IsPlayerMarkerVisible(a0, st, a2) == 0) {
-            ZUKAN_DETAIL_AREA_SetPlayerMarkerVisible((u16 *)a0, st, (int)a2, 1);
+            ZUKAN_DETAIL_AREA_SetPlayerMarkerVisible((u16 *)a0, st, a2, 1);
         }
     }
 }
 
-void ZUKAN_DETAIL_AREA_ClearOverlayWindow(void *unused, char *p, int key)
+void ZUKAN_DETAIL_AREA_ClearOverlayWindow(void *unused, char *p, struct Ov208Ctx *key)
 {
     u8 i;
     if (CLACT_GetActorDrawEnable(*(struct Obj * *)&((struct Ov208AreaWork *)p)->fC8)) {
@@ -2553,12 +2534,12 @@ void ZUKAN_DETAIL_AREA_ClearOverlayWindow(void *unused, char *p, int key)
     }
 }
 
-void ZUKAN_DETAIL_AREA_RequestBlendRestore(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_RequestBlendRestore(u16 *heap, u8 *p, struct Ov208Ctx *key)
 {
     p[0x414] = 3;
 }
 
-void ZUKAN_DETAIL_AREA_NoOpOverlay(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_NoOpOverlay(u16 *heap, u8 *p, struct Ov208Ctx *key)
 {
 }
 
@@ -2567,7 +2548,7 @@ void ZUKAN_DETAIL_AREA_NoOpOverlay(u16 *heap, u8 *p, int key)
  *   image keeps the x0 table load below the stack argument stores (a plain
  *   extern cannot move past them).
  */
-void ZUKAN_DETAIL_AREA_UpdateTerrainIcons(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_UpdateTerrainIcons(u16 *heap, u8 *p, struct Ov208Ctx *key)
 {
     u8 on[3] = {0, 0, 0};
     u8 idx, k, i;
@@ -2694,7 +2675,7 @@ void ZUKAN_DETAIL_AREA_InitBlendPulse(u8 *p)
     G2x_SetBlendAlpha_((volatile void *)0x04000050, 0, 0x3f, one, 16 - one);
 }
 
-void ZUKAN_DETAIL_AREA_SetMapActorsNormalMode(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_SetMapActorsNormalMode(u16 *heap, u8 *p, struct Ov208Ctx *key)
 {
     u8 i;
 
@@ -2708,7 +2689,7 @@ void ZUKAN_DETAIL_AREA_SetMapActorsNormalMode(u16 *heap, u8 *p, int key)
     }
 }
 
-void ZUKAN_DETAIL_AREA_SetMapActorsAlphaMode(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_SetMapActorsAlphaMode(u16 *heap, u8 *p, struct Ov208Ctx *key)
 {
     u8 i;
 
@@ -2722,7 +2703,7 @@ void ZUKAN_DETAIL_AREA_SetMapActorsAlphaMode(u16 *heap, u8 *p, int key)
     }
 }
 
-void ZUKAN_DETAIL_AREA_SetIconsNormalMode(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_SetIconsNormalMode(u16 *heap, u8 *p, struct Ov208Ctx *key)
 {
     u8 i;
 
@@ -2733,7 +2714,7 @@ void ZUKAN_DETAIL_AREA_SetIconsNormalMode(u16 *heap, u8 *p, int key)
     G2x_SetBlendAlpha_((volatile void *)0x04001050, 8, 0x3f, 12, 4);
 }
 
-void ZUKAN_DETAIL_AREA_SetIconsAlphaMode(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_SetIconsAlphaMode(u16 *heap, u8 *p, struct Ov208Ctx *key)
 {
     u8 i;
 

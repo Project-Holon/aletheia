@@ -201,7 +201,7 @@ extern void BMP_Delete(struct Bmp *p);
 
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
-extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, struct GfFont *e, u16 f);
 
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 
@@ -254,13 +254,7 @@ extern void ZUKAN_DETAIL_COMMON_FreeBlendWork(void *p);
 
 extern void ZUKAN_DETAIL_PROCSYS_FreeBuffer(char *);
 
-extern int ZUKAN_DETAIL_COMMON_GetWorkPtr(int *p);
-
-extern int ZUKAN_DETAIL_COMMON_GetCursorValue(char *p);
-
 extern int ZUKAN_DETAIL_TOUCHBAR_GetMode(void *s);
-
-extern u16 ZUKAN_DETAIL_COMMON_GetMaxValue(int *ctx);
 
 extern void ZUKAN_DETAIL_TOUCHBAR_SetMode(void *s, u32 a, u32 b, u32 c);
 
@@ -268,9 +262,7 @@ extern void ZUKAN_DETAIL_TOUCHBAR_SetEnabled(void *s, int a);
 
 extern void ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(void *s, u32 a);
 
-extern int ZUKAN_DETAIL_COMMON_GetSource(int *ctx);
-
-extern int GAME_DATA_CheckSaveFlag(int a, int b);
+extern int GAME_DATA_CheckSaveFlag(void *gd, int b);
 
 extern int ZUKAN_DETAIL_HEADBAR_GetIconKind(void *s);
 
@@ -278,21 +270,11 @@ extern void ZUKAN_DETAIL_HEADBAR_SetIconKind(void *s, int a);
 
 extern void ZUKAN_DETAIL_HEADBAR_SetIconSpecies(void *s);
 
-extern int ZUKAN_DETAIL_COMMON_GetDisplay(int *ctx);
-
-extern int ZUKAN_DETAIL_COMMON_GetGraphics(int *ctx);
-
 extern void ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(void *s);
 
 extern void ZUKAN_DETAIL_HEADBAR_SetIconForm(void *s);
 
 extern void ZUKAN_DETAIL_COMMON_UpdateBlendFades(void *a, void *b);
-
-extern u16 ZUKAN_DETAIL_COMMON_GetCurrentEntry(void *key);
-
-extern void ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies(char *p);
-
-extern void ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies(struct Ov208Ctx *p);
 
 extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
 
@@ -302,13 +284,9 @@ extern void ZUKAN_SAVE_GetViewGenderAndForm(void *, u32, u32 *, u32 *, u32 *, u1
 
 extern u32 ZUKAN_SAVE_GetSpindaPersonality(struct Blk37 *, u32);
 
-extern int ZUKAN_DETAIL_COMMON_GetFont(int *p);
-
 extern void ZUKAN_DETAIL_COMMON_FreeBgPalette(void *p);
 
 extern void ZUKAN_DETAIL_COMMON_DeletePaletteAnim(void *p);
-
-extern int  ZUKAN_DETAIL_COMMON_GetSource(int key);
 
 extern void ZUKAN_DETAIL_COMMON_SetBrightnessFull(int flag, void *p);
 
@@ -322,7 +300,7 @@ extern void ARC_UTIL_UploadPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u3
 
 extern void CLACT_GetActorSurfacePos(struct Obj *actor, struct PtS *out, u16 space);
 
-extern u32 ZUKAN_DETAIL_GRAPHIC_Reset3dState(int v);
+extern u32 ZUKAN_DETAIL_GRAPHIC_Reset3dState(void *display);
 
 extern void *ZUKAN_DETAIL_COMMON_CreatePaletteAnimDefault(u32 heap);
 
@@ -406,7 +384,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *);
 
 extern void *MSGDATA_AllocString(struct MsgBank *bank,u32 index);
 
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s,u32 a,u32 b);
+extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s,struct GfFont *a,u32 b);
 
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 
@@ -417,8 +395,6 @@ extern void STRBUF_Delete(struct U16Vec *s);
 extern void BMP_Clear(struct CharBuf *p, u8 v);
 
 extern u64 OS_GetTick(void);
-
-extern u16 ZUKAN_DETAIL_COMMON_GetCurrentEntry(int key);
 
 extern u32 PM_VOICE_Play(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 
@@ -451,54 +427,52 @@ extern struct MsgBank *gSpeciesNameBank;
 
 extern const char data_021C8E28[];
 
-extern void ZUKAN_DETAIL_VOICE_FinishScaleAnim(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx);
-extern void ZUKAN_DETAIL_VOICE_ResetPokemonTransform(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx);
 void ZUKAN_DETAIL_VOICE_SetHeapId(u16 *dst, u16 value);
-u32 ZUKAN_DETAIL_VOICE_Init(void *workAlloc, u32 unused, u16 *heapIdPtr, u32 unused2, int *ctx);
-u32 ZUKAN_DETAIL_VOICE_Exit(void *workAlloc, u32 unused, void *heapIdPtr, struct ZukanDetailVoice *voice, void *ctx);
-int ZUKAN_DETAIL_VOICE_Main(void *unused, int *seq, u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx);
-void ZUKAN_DETAIL_VOICE_HandleKeyEvent(void *unused, void *unused2, void *heapIdPtr, struct ZukanDetailVoice *voice, int *ctx, int key);
+u32 ZUKAN_DETAIL_VOICE_Init(void *workAlloc, u32 unused, u16 *heapIdPtr, u32 unused2, struct Ov208Ctx *ctx);
+u32 ZUKAN_DETAIL_VOICE_Exit(void *workAlloc, u32 unused, void *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx);
+int ZUKAN_DETAIL_VOICE_Main(void *unused, int *seq, u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx);
+void ZUKAN_DETAIL_VOICE_HandleKeyEvent(void *unused, void *unused2, void *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx, int key);
 void ZUKAN_DETAIL_VOICE_ApplyPendingDisplay(void *unused, struct ZukanDetailVoice *voice);
-void ZUKAN_DETAIL_VOICE_FadeOutBgm(void *unused, struct ZukanDetailVoice *voice, void *ctx);
-void ZUKAN_DETAIL_VOICE_RestoreBgm(void *unused, struct ZukanDetailVoice *voice, void *ctx);
-void ZUKAN_DETAIL_VOICE_UpdateBgmFade(int unused, struct ZukanDetailVoice *voice, int ctx);
-void ZUKAN_DETAIL_VOICE_CreateNumberActors(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx);
-void ZUKAN_DETAIL_VOICE_DeleteNumberActors(void *unused, struct ZukanDetailVoice *voice, void *ctx);
-void ZUKAN_DETAIL_VOICE_SetNumberDigits(void *unused, struct ZukanDetailVoice *voice, void *unused2, int seconds, u16 hundredths);
-void ZUKAN_DETAIL_VOICE_LoadPokemonGraphics(u16 *heapIdPtr, u8 *p, int ctx, u32 slot);
-void ZUKAN_DETAIL_VOICE_UnloadPokemonGraphics(void *unused, struct ZukanDetailVoice *voice, u32 unused2, u32 slot);
-void ZUKAN_DETAIL_VOICE_UpdatePokemonScaleAnim(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx);
-void ZUKAN_DETAIL_VOICE_ResetPokemonTransform(int unused, struct ZukanDetailVoice *voice);
-void ZUKAN_DETAIL_VOICE_FinishScaleAnim(int unused, struct ZukanDetailVoice *voice);
-void ZUKAN_DETAIL_VOICE_CreateTimerWindow(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx);
-void ZUKAN_DETAIL_VOICE_DeleteTimerWindow(void *unused, struct ZukanDetailVoice *voice, void *ctx);
-void ZUKAN_DETAIL_VOICE_DrawSpeciesName(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx);
-void ZUKAN_DETAIL_VOICE_ClearTimerWindow(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx);
-void ZUKAN_DETAIL_VOICE_FlushTimerWindow(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx);
-void ZUKAN_DETAIL_VOICE_LoadWindowPalette(unsigned short *heapIdPtr, void *unused, int ctx);
-void ZUKAN_DETAIL_VOICE_NoOpA(void *unused, void *voice, void *ctx);
-void ZUKAN_DETAIL_VOICE_NoOpB(void *unused, void *voice, int ctx, int seconds, int hundredths);
-void ZUKAN_DETAIL_VOICE_NoOpC(void *unused, void *voice, void *ctx);
-void ZUKAN_DETAIL_VOICE_UpdatePlaybackTimer(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx);
-void ZUKAN_DETAIL_VOICE_StopVoice(int unused, struct ZukanDetailVoice *voice, int ctx);
-void ZUKAN_DETAIL_VOICE_SwitchPokemonSlot(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx);
-void ZUKAN_DETAIL_VOICE_HandlePlayInput(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx);
-void ZUKAN_DETAIL_VOICE_CreateWaveformWindow(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx);
-void ZUKAN_DETAIL_VOICE_DeleteWaveformWindow(void *unused, struct ZukanDetailVoice *voice, void *ctx);
-void ZUKAN_DETAIL_VOICE_UpdateWaveformDelay(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx);
-void ZUKAN_DETAIL_VOICE_InitWaveformState(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx);
-void ZUKAN_DETAIL_VOICE_ScrollWaveform(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx);
-void ZUKAN_DETAIL_VOICE_DrawWaveform(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx, u16 species, u16 form);
-void ZUKAN_DETAIL_VOICE_UpdateWaveformTiles(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx);
-void ZUKAN_DETAIL_VOICE_SetActorsNormalMode(void *unused, struct ZukanDetailVoice *voice, int ctx);
-void ZUKAN_DETAIL_VOICE_SetActorsAlphaMode(void *unused, struct ZukanDetailVoice *voice, int ctx);
+void ZUKAN_DETAIL_VOICE_FadeOutBgm(void *unused, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx);
+void ZUKAN_DETAIL_VOICE_RestoreBgm(void *unused, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx);
+void ZUKAN_DETAIL_VOICE_UpdateBgmFade(int unused, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx);
+void ZUKAN_DETAIL_VOICE_CreateNumberActors(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx);
+void ZUKAN_DETAIL_VOICE_DeleteNumberActors(void *unused, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx);
+void ZUKAN_DETAIL_VOICE_SetNumberDigits(void *unused, struct ZukanDetailVoice *voice, struct Ov208Ctx *unused2, int seconds, u16 hundredths);
+void ZUKAN_DETAIL_VOICE_LoadPokemonGraphics(u16 *heapIdPtr, u8 *p, struct Ov208Ctx *ctx, u32 slot);
+void ZUKAN_DETAIL_VOICE_UnloadPokemonGraphics(void *unused, struct ZukanDetailVoice *voice, struct Ov208Ctx *unused2, u32 slot);
+void ZUKAN_DETAIL_VOICE_UpdatePokemonScaleAnim(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx);
+void ZUKAN_DETAIL_VOICE_ResetPokemonTransform(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx);
+void ZUKAN_DETAIL_VOICE_FinishScaleAnim(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx);
+void ZUKAN_DETAIL_VOICE_CreateTimerWindow(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx);
+void ZUKAN_DETAIL_VOICE_DeleteTimerWindow(void *unused, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx);
+void ZUKAN_DETAIL_VOICE_DrawSpeciesName(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx);
+void ZUKAN_DETAIL_VOICE_ClearTimerWindow(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx);
+void ZUKAN_DETAIL_VOICE_FlushTimerWindow(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx);
+void ZUKAN_DETAIL_VOICE_LoadWindowPalette(unsigned short *heapIdPtr, void *unused, struct Ov208Ctx *ctx);
+void ZUKAN_DETAIL_VOICE_NoOpA(void *unused, void *voice, struct Ov208Ctx *ctx);
+void ZUKAN_DETAIL_VOICE_NoOpB(void *unused, void *voice, struct Ov208Ctx *ctx, int seconds, int hundredths);
+void ZUKAN_DETAIL_VOICE_NoOpC(void *unused, void *voice, struct Ov208Ctx *ctx);
+void ZUKAN_DETAIL_VOICE_UpdatePlaybackTimer(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx);
+void ZUKAN_DETAIL_VOICE_StopVoice(int unused, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx);
+void ZUKAN_DETAIL_VOICE_SwitchPokemonSlot(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx);
+void ZUKAN_DETAIL_VOICE_HandlePlayInput(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx);
+void ZUKAN_DETAIL_VOICE_CreateWaveformWindow(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx);
+void ZUKAN_DETAIL_VOICE_DeleteWaveformWindow(void *unused, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx);
+void ZUKAN_DETAIL_VOICE_UpdateWaveformDelay(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx);
+void ZUKAN_DETAIL_VOICE_InitWaveformState(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx);
+void ZUKAN_DETAIL_VOICE_ScrollWaveform(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx);
+void ZUKAN_DETAIL_VOICE_DrawWaveform(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx, u16 species, u16 form);
+void ZUKAN_DETAIL_VOICE_UpdateWaveformTiles(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx);
+void ZUKAN_DETAIL_VOICE_SetActorsNormalMode(void *unused, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx);
+void ZUKAN_DETAIL_VOICE_SetActorsAlphaMode(void *unused, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx);
 
 void ZUKAN_DETAIL_VOICE_SetHeapId(u16 *dst, u16 value)
 {
     *dst = value;
 }
 
-u32 ZUKAN_DETAIL_VOICE_Init(void *workAlloc, u32 unused, u16 *heapIdPtr, u32 unused2, int *ctx)
+u32 ZUKAN_DETAIL_VOICE_Init(void *workAlloc, u32 unused, u16 *heapIdPtr, u32 unused2, struct Ov208Ctx *ctx)
 {
     struct ZukanDetailVoice *voice;
     u8 i;
@@ -508,7 +482,7 @@ u32 ZUKAN_DETAIL_VOICE_Init(void *workAlloc, u32 unused, u16 *heapIdPtr, u32 unu
     i = 0;
     voice->clactSys = ZUKAN_DETAIL_GRAPHIC_Reset3dState(ZUKAN_DETAIL_COMMON_GetDisplay(ctx));
     voice->font = ZUKAN_DETAIL_COMMON_GetFont(ctx);
-    voice->printQue = (void *)ZUKAN_DETAIL_COMMON_GetGraphics(ctx);
+    voice->printQue = ZUKAN_DETAIL_COMMON_GetGraphics(ctx);
     voice->waveBgDirty = 0;
     voice->voicePlaying = 0;
     voice->elapsedMs = 0;
@@ -532,7 +506,7 @@ u32 ZUKAN_DETAIL_VOICE_Init(void *workAlloc, u32 unused, u16 *heapIdPtr, u32 unu
     return 1;
 }
 
-u32 ZUKAN_DETAIL_VOICE_Exit(void *workAlloc, u32 unused, void *heapIdPtr, struct ZukanDetailVoice *voice, void *ctx)
+u32 ZUKAN_DETAIL_VOICE_Exit(void *workAlloc, u32 unused, void *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
 {
     u8 i;
 
@@ -544,9 +518,9 @@ u32 ZUKAN_DETAIL_VOICE_Exit(void *workAlloc, u32 unused, void *heapIdPtr, struct
     ZUKAN_DETAIL_COMMON_FreeBgPalette(voice->headerWin);
     ZUKAN_DETAIL_COMMON_SetBgScrollPacked(2, voice->bgPaletteRange);
     for (i = 0; i < 2; i++) {
-        ZUKAN_DETAIL_VOICE_UnloadPokemonGraphics(heapIdPtr, voice, (u32)ctx, i);
+        ZUKAN_DETAIL_VOICE_UnloadPokemonGraphics(heapIdPtr, voice, ctx, i);
     }
-    ZUKAN_DETAIL_VOICE_ClearTimerWindow(heapIdPtr, voice, (int)ctx);
+    ZUKAN_DETAIL_VOICE_ClearTimerWindow(heapIdPtr, voice, ctx);
     ZUKAN_DETAIL_VOICE_DeleteTimerWindow(heapIdPtr, voice, ctx);
     ZUKAN_DETAIL_VOICE_NoOpC(heapIdPtr, voice, ctx);
     ZUKAN_DETAIL_VOICE_NoOpA(heapIdPtr, voice, ctx);
@@ -563,14 +537,14 @@ u32 ZUKAN_DETAIL_VOICE_Exit(void *workAlloc, u32 unused, void *heapIdPtr, struct
 }
 
 /* Explicit caller r2 loads preserve trailing arguments on setup/update helpers. */
-int ZUKAN_DETAIL_VOICE_Main(void *unused, int *seq, u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx)
+int ZUKAN_DETAIL_VOICE_Main(void *unused, int *seq, u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
 {
     void *scene;
     struct Ov208Icon *icon;
     u8 i;
     int ready;
-    scene = (void *)ZUKAN_DETAIL_COMMON_GetWorkPtr((int *)ctx);
-    icon = (struct Ov208Icon *)ZUKAN_DETAIL_COMMON_GetCursorValue((char *)ctx);
+    scene = ZUKAN_DETAIL_COMMON_GetWorkPtr(ctx);
+    icon = (struct Ov208Icon *)ZUKAN_DETAIL_COMMON_GetCursorValue(ctx);
     switch (*seq) {
     case 0:
         *seq = 1;
@@ -596,7 +570,7 @@ int ZUKAN_DETAIL_VOICE_Main(void *unused, int *seq, u16 *heapIdPtr, struct Zukan
         voice->bgPaletteRange = ZUKAN_DETAIL_COMMON_LoadBgPaletteRange(0, *heapIdPtr, 2, 1, 0, 5, 0x9f, 1, 0xb, 0x2a, 0);
         voice->headerWin = ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc(*heapIdPtr, 2, 0, 2, 3);
         voice->footerWin = ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc(*heapIdPtr, 2, 4, 1, 2);
-        ZUKAN_DETAIL_VOICE_SetNumberDigits(heapIdPtr, voice, (void *)ctx, 0, 0);
+        ZUKAN_DETAIL_VOICE_SetNumberDigits(heapIdPtr, voice, ctx, 0, 0);
         ZUKAN_DETAIL_VOICE_CreateWaveformWindow(heapIdPtr, voice, ctx);
         ZUKAN_DETAIL_COMMON_CopyHwPalettesToSlots(voice->palFade);
         ZUKAN_DETAIL_COMMON_StartFadeIn(voice->palFade);
@@ -611,11 +585,11 @@ int ZUKAN_DETAIL_VOICE_Main(void *unused, int *seq, u16 *heapIdPtr, struct Zukan
         *seq = 3;
         ZUKAN_DETAIL_COMMON_StartFadeOut(voice->palFade);
         if (ZUKAN_DETAIL_TOUCHBAR_GetMode(scene) != 2) {
-            ZUKAN_DETAIL_TOUCHBAR_SetMode(scene, 0, 2, ZUKAN_DETAIL_COMMON_GetMaxValue((int *)((char *)ctx)) > 1);
+            ZUKAN_DETAIL_TOUCHBAR_SetMode(scene, 0, 2, ZUKAN_DETAIL_COMMON_GetMaxValue(ctx) > 1);
             ZUKAN_DETAIL_TOUCHBAR_SetEnabled(scene, 0);
         } else ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(scene, 2);
         ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(scene, 0);
-        ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq((struct Ov208Scene *)scene, GAME_DATA_CheckSaveFlag(ZUKAN_DETAIL_COMMON_GetSource((int *)ctx), 0x13));
+        ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq((struct Ov208Scene *)scene, GAME_DATA_CheckSaveFlag(ZUKAN_DETAIL_COMMON_GetSource(ctx), 0x13));
         if (ZUKAN_DETAIL_HEADBAR_GetIconKind(icon) != 2) {
             ZUKAN_DETAIL_HEADBAR_SetIconKind(icon, 2);
             ZUKAN_DETAIL_HEADBAR_SetIconSpecies(icon);
@@ -634,7 +608,7 @@ int ZUKAN_DETAIL_VOICE_Main(void *unused, int *seq, u16 *heapIdPtr, struct Zukan
             ZUKAN_DETAIL_COMMON_StartFadeOutAlt(voice->palFade);
             ZUKAN_DETAIL_HEADBAR_SetIconForm(icon);
             if (voice->exitMode == 2) ZUKAN_DETAIL_TOUCHBAR_SetButtonEnabled((struct Ov208Scene *)scene, 0);
-            ZUKAN_DETAIL_VOICE_RestoreBgm(heapIdPtr, voice, (void *)ctx);
+            ZUKAN_DETAIL_VOICE_RestoreBgm(heapIdPtr, voice, ctx);
         } else ZUKAN_DETAIL_VOICE_HandlePlayInput(heapIdPtr, voice, ctx);
         break;
     case 5:
@@ -671,9 +645,9 @@ int ZUKAN_DETAIL_VOICE_Main(void *unused, int *seq, u16 *heapIdPtr, struct Zukan
     return 0;
 }
 
-void ZUKAN_DETAIL_VOICE_HandleKeyEvent(void *unused, void *unused2, void *heapIdPtr, struct ZukanDetailVoice *voice, int *ctx, int key)
+void ZUKAN_DETAIL_VOICE_HandleKeyEvent(void *unused, void *unused2, void *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx, int key)
 {
-    int sceneObj;
+    void *sceneObj;
     u32 flag;
 
     if (voice == 0) {
@@ -697,17 +671,17 @@ void ZUKAN_DETAIL_VOICE_HandleKeyEvent(void *unused, void *unused2, void *heapId
     switch (key) {
     case 12: {
         u16 oldSpecies = ZUKAN_DETAIL_COMMON_GetCurrentEntry(ctx);
-        ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies((char *)ctx);
+        ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies(ctx);
         if (oldSpecies != ZUKAN_DETAIL_COMMON_GetCurrentEntry(ctx)) {
-            ZUKAN_DETAIL_VOICE_SwitchPokemonSlot(heapIdPtr, voice, (int)ctx);
+            ZUKAN_DETAIL_VOICE_SwitchPokemonSlot(heapIdPtr, voice, ctx);
         }
         break;
     }
     case 13: {
         u16 oldSpecies = ZUKAN_DETAIL_COMMON_GetCurrentEntry(ctx);
-        ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies((struct Ov208Ctx *)ctx);
+        ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies(ctx);
         if (oldSpecies != ZUKAN_DETAIL_COMMON_GetCurrentEntry(ctx)) {
-            ZUKAN_DETAIL_VOICE_SwitchPokemonSlot(heapIdPtr, voice, (int)ctx);
+            ZUKAN_DETAIL_VOICE_SwitchPokemonSlot(heapIdPtr, voice, ctx);
         }
         break;
     }
@@ -728,7 +702,7 @@ void ZUKAN_DETAIL_VOICE_HandleKeyEvent(void *unused, void *unused2, void *heapId
         ZUKAN_DETAIL_TOUCHBAR_ClearButtonState((struct Ov208Scene *)sceneObj);
         return;
     case 5:
-        GAME_DATA_SetSaveFlag((void *)ZUKAN_DETAIL_COMMON_GetSource(ctx), 0x13, ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive((char *)sceneObj));
+        GAME_DATA_SetSaveFlag(ZUKAN_DETAIL_COMMON_GetSource(ctx), 0x13, ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive((char *)sceneObj));
         ZUKAN_DETAIL_TOUCHBAR_ClearButtonState((struct Ov208Scene *)sceneObj);
         return;
     default:
@@ -751,7 +725,7 @@ void ZUKAN_DETAIL_VOICE_ApplyPendingDisplay(void *unused, struct ZukanDetailVoic
     ZUKAN_DETAIL_COMMON_TransferPalettes(voice->palFade);
 }
 
-void ZUKAN_DETAIL_VOICE_FadeOutBgm(void *unused, struct ZukanDetailVoice *voice, void *ctx)
+void ZUKAN_DETAIL_VOICE_FadeOutBgm(void *unused, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
 {
     GFL_USE_FadeOutBgm(0x1e);
     voice->bgmPhase = 1;
@@ -760,7 +734,7 @@ void ZUKAN_DETAIL_VOICE_FadeOutBgm(void *unused, struct ZukanDetailVoice *voice,
 /*
  * Leaves state 2 and moves bgmPhase to state 3.
  */
-void ZUKAN_DETAIL_VOICE_RestoreBgm(void *unused, struct ZukanDetailVoice *voice, void *ctx)
+void ZUKAN_DETAIL_VOICE_RestoreBgm(void *unused, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
 {
     if (voice->bgmPhase == 2) {
         GFL_USE_PopBgm();
@@ -773,7 +747,7 @@ void ZUKAN_DETAIL_VOICE_RestoreBgm(void *unused, struct ZukanDetailVoice *voice,
 /*
  * Moves bgmPhase from state 1 to state 2.
  */
-void ZUKAN_DETAIL_VOICE_UpdateBgmFade(int unused, struct ZukanDetailVoice *voice, int ctx)
+void ZUKAN_DETAIL_VOICE_UpdateBgmFade(int unused, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
 {
     if (voice->bgmPhase == 1) {
         if (GFL_USE_IsBgmFading() == 0) {
@@ -789,7 +763,7 @@ void ZUKAN_DETAIL_VOICE_UpdateBgmFade(int unused, struct ZukanDetailVoice *voice
  *         so the memset is the first statement of the loop body. The loop-invariant &pos
  *         (add r7, sp, #0x10) is then hoisted into the preheader, before the call.
  */
-void ZUKAN_DETAIL_VOICE_CreateNumberActors(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx)
+void ZUKAN_DETAIL_VOICE_CreateNumberActors(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
 {
     int arc;
     u8 i;
@@ -821,7 +795,7 @@ void ZUKAN_DETAIL_VOICE_CreateNumberActors(u16 *heapIdPtr, struct ZukanDetailVoi
     CLACT_SetActorAutoAnim(voice->actor[6], 1);
 }
 
-void ZUKAN_DETAIL_VOICE_DeleteNumberActors(void *unused, struct ZukanDetailVoice *voice, void *ctx)
+void ZUKAN_DETAIL_VOICE_DeleteNumberActors(void *unused, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
 {
     u8 i;
     for (i = 0; i < 7; i++)
@@ -834,7 +808,7 @@ void ZUKAN_DETAIL_VOICE_DeleteNumberActors(void *unused, struct ZukanDetailVoice
     CLACT_ReleaseCellAnim(voice->gfxRes[5]);
 }
 
-void ZUKAN_DETAIL_VOICE_SetNumberDigits(void *unused, struct ZukanDetailVoice *voice, void *unused2, int seconds, u16 hundredths)
+void ZUKAN_DETAIL_VOICE_SetNumberDigits(void *unused, struct ZukanDetailVoice *voice, struct Ov208Ctx *unused2, int seconds, u16 hundredths)
 {
     struct ZukanDetailVoiceDigitSlots digitSlots;
     u16 digits[4];
@@ -850,15 +824,15 @@ void ZUKAN_DETAIL_VOICE_SetNumberDigits(void *unused, struct ZukanDetailVoice *v
         CLACT_SetActorAnimIndex(voice->actor[digitSlots.slot[i]], digits[i]);
 }
 
-void ZUKAN_DETAIL_VOICE_LoadPokemonGraphics(u16 *heapIdPtr, u8 *p, int ctx, u32 slot)
+void ZUKAN_DETAIL_VOICE_LoadPokemonGraphics(u16 *heapIdPtr, u8 *p, struct Ov208Ctx *ctx, u32 slot)
 {
     struct ZukanDetailVoiceAffineDesc desc;
     u32 gender, shiny, formNo;
     u32 arc, spindaPersonality, species;
     void *zukanSave;
-    species = ZUKAN_DETAIL_COMMON_GetCurrentEntry((void *)ctx);
+    species = ZUKAN_DETAIL_COMMON_GetCurrentEntry(ctx);
     spindaPersonality = 0;
-    zukanSave = ZUKAN_SAVE_GetFromGameData((void *)ZUKAN_DETAIL_COMMON_GetSource((int *)ctx));
+    zukanSave = ZUKAN_SAVE_GetFromGameData(ZUKAN_DETAIL_COMMON_GetSource(ctx));
     ZUKAN_SAVE_GetViewGenderAndForm(zukanSave, species, &gender, &shiny, &formNo, *heapIdPtr);
     if (species == 327) spindaPersonality = ZUKAN_SAVE_GetSpindaPersonality(zukanSave, spindaPersonality);
     arc = POKEGRA_OpenHandle(*heapIdPtr);
@@ -875,7 +849,7 @@ void ZUKAN_DETAIL_VOICE_LoadPokemonGraphics(u16 *heapIdPtr, u8 *p, int ctx, u32 
     ((struct ZukanDetailVoice *)p)->scaleState = 0;
 }
 
-void ZUKAN_DETAIL_VOICE_UnloadPokemonGraphics(void *unused, struct ZukanDetailVoice *voice, u32 unused2, u32 slot)
+void ZUKAN_DETAIL_VOICE_UnloadPokemonGraphics(void *unused, struct ZukanDetailVoice *voice, struct Ov208Ctx *unused2, u32 slot)
 {
     if (voice->pokemonActor[slot] != 0) {
         CLACT_DeleteActor(voice->pokemonActor[slot]);
@@ -886,7 +860,7 @@ void ZUKAN_DETAIL_VOICE_UnloadPokemonGraphics(void *unused, struct ZukanDetailVo
     }
 }
 
-void ZUKAN_DETAIL_VOICE_UpdatePokemonScaleAnim(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx)
+void ZUKAN_DETAIL_VOICE_UpdatePokemonScaleAnim(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
 {
     struct { s16 x; s16 y; } pos;
     struct Pair scale;
@@ -943,7 +917,7 @@ void ZUKAN_DETAIL_VOICE_UpdatePokemonScaleAnim(u16 *heapIdPtr, struct ZukanDetai
  * plus two padding bytes); the extent ran two bytes long because the follower
  * has no func_ label.
  */
-void ZUKAN_DETAIL_VOICE_ResetPokemonTransform(int unused, struct ZukanDetailVoice *voice)
+void ZUKAN_DETAIL_VOICE_ResetPokemonTransform(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
 {
     struct {
         unsigned int scale[2];
@@ -962,7 +936,7 @@ void ZUKAN_DETAIL_VOICE_ResetPokemonTransform(int unused, struct ZukanDetailVoic
 /*
  * Moves scaleState from grow (1) or hold (2) to shrink (3).
  */
-void ZUKAN_DETAIL_VOICE_FinishScaleAnim(int unused, struct ZukanDetailVoice *voice)
+void ZUKAN_DETAIL_VOICE_FinishScaleAnim(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
 {
     unsigned int state = voice->scaleState;
 
@@ -971,7 +945,7 @@ void ZUKAN_DETAIL_VOICE_FinishScaleAnim(int unused, struct ZukanDetailVoice *voi
         voice->scaleState = 3;
 }
 
-void ZUKAN_DETAIL_VOICE_CreateTimerWindow(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx)
+void ZUKAN_DETAIL_VOICE_CreateTimerWindow(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
 {
     ARC_UTIL_UploadPaletteFromArchive(23, 5, 4, 0, 0, 32, *heapIdPtr);
     voice->nameWin = (struct Descriptor *)BMP_WIN_Create(6, 10, 5, 12, 4, 0, 1);
@@ -983,35 +957,35 @@ void ZUKAN_DETAIL_VOICE_CreateTimerWindow(u16 *heapIdPtr, struct ZukanDetailVoic
 /*
  * Clears namePending and releases the print queue and the name window.
  */
-void ZUKAN_DETAIL_VOICE_DeleteTimerWindow(void *unused, struct ZukanDetailVoice *voice, void *ctx)
+void ZUKAN_DETAIL_VOICE_DeleteTimerWindow(void *unused, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
 {
     voice->namePending = 0;
     PRINTSYS_QUE_Clear(voice->printQue);
     BMP_WIN_Delete(voice->nameWin);
 }
 
-void ZUKAN_DETAIL_VOICE_DrawSpeciesName(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx)
+void ZUKAN_DETAIL_VOICE_DrawSpeciesName(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
 {
     struct StrObj *name;
     u16 textWidth;
     u16 winWidth;
-    name = MSGDATA_AllocString(gSpeciesNameBank, ZUKAN_DETAIL_COMMON_GetCurrentEntry((void *)ctx));
+    name = MSGDATA_AllocString(gSpeciesNameBank, ZUKAN_DETAIL_COMMON_GetCurrentEntry(ctx));
     textWidth = GF_FONT_MeasureWidestLine(name, voice->font, 0);
     winWidth = BMP_GetWidth(BMP_WIN_GetBmp(voice->nameWin));
     PRINTSYS_PrintQueColor(voice->printQue, (u32)BMP_WIN_GetBmp(voice->nameWin), (s16)((u16)((winWidth - textWidth) / 2)), (s16)1, (u32)name, voice->font, 0x3c40);
     STRBUF_Delete((struct U16Vec *)name);
     voice->namePending = 1;
-    ZUKAN_DETAIL_VOICE_FlushTimerWindow(heapIdPtr, voice, (int)ctx);
+    ZUKAN_DETAIL_VOICE_FlushTimerWindow(heapIdPtr, voice, ctx);
 }
 
-void ZUKAN_DETAIL_VOICE_ClearTimerWindow(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx)
+void ZUKAN_DETAIL_VOICE_ClearTimerWindow(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
 {
     voice->namePending = 0;
     PRINTSYS_QUE_Clear(voice->printQue);
     BMP_Clear(BMP_WIN_GetBmp(voice->nameWin), 0);
 }
 
-void ZUKAN_DETAIL_VOICE_FlushTimerWindow(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx)
+void ZUKAN_DETAIL_VOICE_FlushTimerWindow(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
 {
     struct Descriptor *win;
     if (voice->namePending != 0) {
@@ -1028,7 +1002,7 @@ void ZUKAN_DETAIL_VOICE_FlushTimerWindow(u16 *heapIdPtr, struct ZukanDetailVoice
 /*
  * Loads palette archive entry 0x17 for the heap in the halfword at +0.
  */
-void ZUKAN_DETAIL_VOICE_LoadWindowPalette(unsigned short *heapIdPtr, void *unused, int ctx)
+void ZUKAN_DETAIL_VOICE_LoadWindowPalette(unsigned short *heapIdPtr, void *unused, struct Ov208Ctx *ctx)
 {
     ARC_UTIL_UploadPaletteFromArchive(0x17, 5, 0, 0, 0x20, 0x20, *heapIdPtr);
 }
@@ -1036,19 +1010,19 @@ void ZUKAN_DETAIL_VOICE_LoadWindowPalette(unsigned short *heapIdPtr, void *unuse
 /*
  * Empty stub; the listing pads it with two zero bytes.
  */
-void ZUKAN_DETAIL_VOICE_NoOpA(void *unused, void *voice, void *ctx)
+void ZUKAN_DETAIL_VOICE_NoOpA(void *unused, void *voice, struct Ov208Ctx *ctx)
 {
 }
 
-void ZUKAN_DETAIL_VOICE_NoOpB(void *unused, void *voice, int ctx, int seconds, int hundredths)
+void ZUKAN_DETAIL_VOICE_NoOpB(void *unused, void *voice, struct Ov208Ctx *ctx, int seconds, int hundredths)
 {
 }
 
-void ZUKAN_DETAIL_VOICE_NoOpC(void *unused, void *voice, void *ctx)
+void ZUKAN_DETAIL_VOICE_NoOpC(void *unused, void *voice, struct Ov208Ctx *ctx)
 {
 }
 
-void ZUKAN_DETAIL_VOICE_UpdatePlaybackTimer(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx)
+void ZUKAN_DETAIL_VOICE_UpdatePlaybackTimer(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
 {
     u64 now;
     u64 start;
@@ -1080,9 +1054,9 @@ void ZUKAN_DETAIL_VOICE_UpdatePlaybackTimer(u16 *heapIdPtr, struct ZukanDetailVo
         secs = cur / 1000;
         rem = cur % 1000;
         hund = rem / 10 + ((rem % 10) >= 5 ? 1 : 0);
-        ZUKAN_DETAIL_VOICE_NoOpC((void *)(heapIdPtr), (void *)(voice), (void *)(ctx));
+        ZUKAN_DETAIL_VOICE_NoOpC((void *)(heapIdPtr), (void *)(voice), ctx);
         ZUKAN_DETAIL_VOICE_NoOpB(heapIdPtr, voice, ctx, secs, hund);
-        ZUKAN_DETAIL_VOICE_SetNumberDigits((void *)(heapIdPtr), (struct ZukanDetailVoice *)(voice), (void *)(ctx), (int)(secs), (u16)(hund));
+        ZUKAN_DETAIL_VOICE_SetNumberDigits((void *)(heapIdPtr), (struct ZukanDetailVoice *)(voice), ctx, (int)(secs), (u16)(hund));
         voice->shownMs = voice->elapsedMs;
     }
 }
@@ -1090,7 +1064,7 @@ void ZUKAN_DETAIL_VOICE_UpdatePlaybackTimer(u16 *heapIdPtr, struct ZukanDetailVo
 /*
  * BLOCKED.  Unverifiable: PM_VOICE_StopAll resolves only through the `matched` class and layout/matched/ov093 holds BTL_MAIN_ReturnZero in two shards, which aborts every manifest load.
  */
-void ZUKAN_DETAIL_VOICE_StopVoice(int unused, struct ZukanDetailVoice *voice, int ctx)
+void ZUKAN_DETAIL_VOICE_StopVoice(int unused, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
 {
     int active;
 
@@ -1103,7 +1077,7 @@ void ZUKAN_DETAIL_VOICE_StopVoice(int unused, struct ZukanDetailVoice *voice, in
     voice->elapsedMs = 0;
 }
 
-void ZUKAN_DETAIL_VOICE_SwitchPokemonSlot(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx)
+void ZUKAN_DETAIL_VOICE_SwitchPokemonSlot(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
 {
     if (voice->pokemonActor[voice->currentSlot])
         CLACT_SetActorDrawEnable(voice->pokemonActor[voice->currentSlot], 0);
@@ -1116,7 +1090,7 @@ void ZUKAN_DETAIL_VOICE_SwitchPokemonSlot(u16 *heapIdPtr, struct ZukanDetailVoic
     ZUKAN_DETAIL_VOICE_InitWaveformState(heapIdPtr, voice, ctx);
 }
 
-void ZUKAN_DETAIL_VOICE_HandlePlayInput(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx)
+void ZUKAN_DETAIL_VOICE_HandlePlayInput(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
 {
     u32 hit;
     u16 species;
@@ -1139,7 +1113,7 @@ void ZUKAN_DETAIL_VOICE_HandlePlayInput(u16 *heapIdPtr, struct ZukanDetailVoice 
         }
     }
     if (hit != 0) {
-        zukanSave = ZUKAN_SAVE_GetFromGameData((void *)ZUKAN_DETAIL_COMMON_GetSource(ctx));
+        zukanSave = ZUKAN_SAVE_GetFromGameData(ZUKAN_DETAIL_COMMON_GetSource(ctx));
         species = ZUKAN_DETAIL_COMMON_GetCurrentEntry(ctx);
         ZUKAN_SAVE_GetViewGenderAndForm(zukanSave, species, &gender, &shiny, &formNo, *heapIdPtr);
         voice->voiceHandle = PM_VOICE_Play(species, formNo, 0x40, 0, 0, 0, 0, 0);
@@ -1151,7 +1125,7 @@ void ZUKAN_DETAIL_VOICE_HandlePlayInput(u16 *heapIdPtr, struct ZukanDetailVoice 
     }
 }
 
-void ZUKAN_DETAIL_VOICE_CreateWaveformWindow(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx)
+void ZUKAN_DETAIL_VOICE_CreateWaveformWindow(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
 {
     voice->waveTileMap = GFL_HEAP_Alloc(*heapIdPtr, 0x3a2, 1, data_021C8E28, 0x8a1);
     voice->waveWin = (struct Descriptor *)BMP_WIN_Create(3, 1, 2, 31, 15, 1, 1);
@@ -1162,14 +1136,14 @@ void ZUKAN_DETAIL_VOICE_CreateWaveformWindow(u16 *heapIdPtr, struct ZukanDetailV
 /*
  * Releases the waveform bitmap, the waveform window and the tile map.
  */
-void ZUKAN_DETAIL_VOICE_DeleteWaveformWindow(void *unused, struct ZukanDetailVoice *voice, void *ctx)
+void ZUKAN_DETAIL_VOICE_DeleteWaveformWindow(void *unused, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
 {
     BMP_Delete((struct Bmp *)voice->waveBmp);
     BMP_WIN_Delete(voice->waveWin);
     GFL_HEAP_Free(voice->waveTileMap);
 }
 
-void ZUKAN_DETAIL_VOICE_UpdateWaveformDelay(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx)
+void ZUKAN_DETAIL_VOICE_UpdateWaveformDelay(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
 {
     if (voice->waveDelay != 0) {
         voice->waveDelay--;
@@ -1179,7 +1153,7 @@ void ZUKAN_DETAIL_VOICE_UpdateWaveformDelay(u16 *heapIdPtr, struct ZukanDetailVo
     voice->waveDelay = 0;
 }
 
-void ZUKAN_DETAIL_VOICE_InitWaveformState(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx)
+void ZUKAN_DETAIL_VOICE_InitWaveformState(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
 {
     struct Bmp *bmp;
     voice->waveDelay = 0;
@@ -1196,7 +1170,7 @@ void ZUKAN_DETAIL_VOICE_InitWaveformState(u16 *heapIdPtr, struct ZukanDetailVoic
     ZUKAN_DETAIL_VOICE_UpdateWaveformTiles(heapIdPtr, voice, ctx);
 }
 
-void ZUKAN_DETAIL_VOICE_ScrollWaveform(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx)
+void ZUKAN_DETAIL_VOICE_ScrollWaveform(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
 {
     s16 *copiedPtr;
     struct Bmp *bmp;
@@ -1248,7 +1222,7 @@ void ZUKAN_DETAIL_VOICE_ScrollWaveform(u16 *heapIdPtr, struct ZukanDetailVoice *
     ZUKAN_DETAIL_VOICE_UpdateWaveformTiles(heapIdPtr, voice, ctx);
 }
 
-void ZUKAN_DETAIL_VOICE_DrawWaveform(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx, u16 species, u16 form)
+void ZUKAN_DETAIL_VOICE_DrawWaveform(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx, u16 species, u16 form)
 {
     u32 sampleRate;
     u32 frequency;
@@ -1312,7 +1286,7 @@ void ZUKAN_DETAIL_VOICE_DrawWaveform(u16 *heapIdPtr, struct ZukanDetailVoice *vo
     voice->waveWidth = column;
 }
 
-void ZUKAN_DETAIL_VOICE_UpdateWaveformTiles(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx)
+void ZUKAN_DETAIL_VOICE_UpdateWaveformTiles(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
 {
     u16 tile;
     u16 row;
@@ -1333,7 +1307,7 @@ void ZUKAN_DETAIL_VOICE_UpdateWaveformTiles(u16 *heapIdPtr, struct ZukanDetailVo
     BMP_WIN_TransferChars(voice->waveWin);
 }
 
-void ZUKAN_DETAIL_VOICE_SetActorsNormalMode(void *unused, struct ZukanDetailVoice *voice, int ctx)
+void ZUKAN_DETAIL_VOICE_SetActorsNormalMode(void *unused, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
 {
     u8 i;
     for (i = 0; i < 2; i++) {
@@ -1346,7 +1320,7 @@ void ZUKAN_DETAIL_VOICE_SetActorsNormalMode(void *unused, struct ZukanDetailVoic
     G2x_SetBlendAlpha_(0x04001050, 0, 0x3f, 0xc, 4);
 }
 
-void ZUKAN_DETAIL_VOICE_SetActorsAlphaMode(void *unused, struct ZukanDetailVoice *voice, int ctx)
+void ZUKAN_DETAIL_VOICE_SetActorsAlphaMode(void *unused, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
 {
     u8 i;
     for (i = 0; i < 2; i++) {

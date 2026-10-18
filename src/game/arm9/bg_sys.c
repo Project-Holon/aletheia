@@ -73,13 +73,13 @@
  *   GX_LoadBG1Char  0x0207EF90  arm
  *   GXS_LoadBG1Char  0x0207F024  arm
  *   GX_LoadBG2Char  0x0207F0B8  arm
- *   func_0207EEFC  0x0207EEFC  arm
+ *   GXS_LoadBG0Char  0x0207EEFC  arm
  *   GXS_LoadBG2Char  0x0207F14C  arm
  *   GX_LoadBG3Char  0x0207F1E0  arm
  *   GXS_LoadBG3Char  0x0207F274  arm
  *   func_02043130_File 0x020A7E5C  data
  *   GX_LoadBGPltt  0x0207E3D0  arm
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   DC_FlushRange  0x020862F0  arm
  *   GXS_LoadBGPltt  0x0207E468  arm
  *   AREAMAN_Create  0x02033C00  arm
  */
@@ -265,7 +265,7 @@ extern void MIi_CpuCopy16(void *dest, const void *src, u32 size);
 
 extern void  MIi_CpuClearFast(u32 value, void *dst, u32 size);
 
-extern void DWCi_ScreenDC_FlushRange(void *, u32);
+extern void DC_FlushRange(void *, u32);
 
 extern void GX_LoadBGPltt(void *, u32, u32);
 
@@ -305,7 +305,6 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 
 extern void MI_CpuCopy8(void *dst, const void *src, u32 size);
 
-extern void DC_FlushRange(void *p, u32 size);
 
 extern void GX_LoadBG0Scr(const void *src, u32 offset, u32 size);
 
@@ -331,7 +330,7 @@ extern void GXS_LoadBG1Char(const void *src, u32 offset, u32 size);
 
 extern void GX_LoadBG2Char(const void *src, u32 offset, u32 size);
 
-extern void func_0207EEFC(const void *src, u32 offset, u32 size);
+extern void GXS_LoadBG0Char(const void *src, u32 offset, u32 size);
 
 extern void GXS_LoadBG2Char(const void *src, u32 offset, u32 size);
 
@@ -1626,7 +1625,7 @@ void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile)
 
 void BG_SYS_LoadPltt(u32 r7, void *r6, u32 r5, u32 r4)
 {
-    DWCi_ScreenDC_FlushRange(r6, r5);
+    DC_FlushRange(r6, r5);
     if (r7 < 4) {
         GX_LoadBGPltt(r6, r4, r5);
     } else {
@@ -2800,7 +2799,7 @@ void BG_SYS_LoadTileLayerEx(u32 layer, const void *src, u32 offset, u32 size)
         GX_LoadBG3Char(src, offset, size);
         break;
     case 4:
-        func_0207EEFC(src, offset, size);
+        GXS_LoadBG0Char(src, offset, size);
         break;
     case 5:
         GXS_LoadBG1Char(src, offset, size);

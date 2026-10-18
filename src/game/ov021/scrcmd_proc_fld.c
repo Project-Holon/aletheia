@@ -1969,7 +1969,7 @@ void SCRCMD_PROC_FLD_FinishOv170Event(volatile Ov170EventHandoff *handoff)
  * at +0x24) and a 12-byte hand-off record, then launches overlay 0xAA
  * (ov170) over them through FIELD_STATUS_CreateSubProcNoFadeCallbackEvent with the SCRCMD_PROC_FLD_FinishOv170Event callback
  * and parks the task in the script's slot.  Same shape as the ov010
- * pending func_0215C7E0.
+ * SCRCMD_PROC_CallGtsNegotiation.
  *
  * The new work block is assigned to the first parameter (vm) and then
  * read through the typed pointer work: with an independent local, work and

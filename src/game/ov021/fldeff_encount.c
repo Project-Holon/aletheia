@@ -46,7 +46,7 @@
  *   G3D_SYSTEM_LoopObjectAnimeFrame  0x02047910  arm
  *   G3D_SYSTEM_GetObjectAnimeFrame  0x02047828  arm
  *   EFFECT_ENCOUNT_GetSpotDistance  0x021AAA4C  thumb  ov021
- *   func_0209C0A4  0x0209C0A4  arm
+ *   _s32_div_f  0x0209C0A4  arm
  *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  *   FIELD_SOUND_SYSTEM_ClaimSlotWithOwner  0x02028ACC  thumb
  *   sEncountVolumes     0x021D9234  data   a1
@@ -175,7 +175,7 @@ extern void *MI_CpuFill8(void *dst, u8 value, unsigned size);
 extern int G3D_SYSTEM_LoopObjectAnimeFrame(G3dObject *obj, int anmIdx, int step);
 extern u32 G3D_SYSTEM_GetObjectAnimeFrame(G3dObject *obj, u32 anmIdx, s32 *frame);
 extern int EFFECT_ENCOUNT_GetSpotDistance(EncountSys *encount, short *out);
-extern u16 func_0209C0A4(int a, int b);
+extern int _s32_div_f(int a, int b);
 extern SoundSys *GAME_DATA_GetBgmInfo(const void *gameData);
 extern void FIELD_SOUND_SYSTEM_ClaimSlotWithOwner(SoundSys *soundSys, u32 id, u32 volume);
 
@@ -458,7 +458,7 @@ void FLDEFF_ENCOUNT_PlaySound(EncountWork *work, EncountModelSet *set)
     strength = 0;
     G3D_SYSTEM_GetObjectAnimeFrame(set->draw[work->param.setIndex].object, 0, &frame);
     if (frame == 0 && EFFECT_ENCOUNT_GetSpotDistance(work->encount, (short *)&strength) != 0) {
-        strength = func_0209C0A4(strength, 5);
+        strength = _s32_div_f(strength, 5);
         if (strength > 3)
             strength = 3;
         volume = sEncountVolumes[strength];

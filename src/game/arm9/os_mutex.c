@@ -163,7 +163,7 @@ extern void OSi_EnqueueTail(OSThread *thread, OSMutex *mutex);
 extern void OSi_DequeueItem(OSThread *thread, OSMutex *mutex);
 void OS_InitMutex(OSMutex *mutex);
 void OS_LockMutex(OSMutex *mutex);
-asm void OS_UnlockMutex(void);
+void OS_UnlockMutex(OSMutex *mutex);
 void OSi_UnlockAllMutex(OSThread *thread);
 void OSi_UnlockMutexCore(OSMutex *mutex, u32 type);
 extern OsThreadBss gOsThreadBss;
@@ -259,11 +259,9 @@ void OS_LockMutex(OSMutex *mutex)
 
 
 
-asm void OS_UnlockMutex(void)
+void OS_UnlockMutex(OSMutex *mutex)
 {
-    ldr ip, =OSi_UnlockMutexCore
-    mov r1, #0x10000000
-    bx ip
+    OSi_UnlockMutexCore(mutex, 0x10000000);
 }
 
 #define OSi_MUTEX_TYPE_MASK   0xFF000000

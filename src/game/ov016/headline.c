@@ -31,7 +31,7 @@
  *   Buffer           0x021DE554  data  a4
  *   taskLoad         0x021BD704  arm
  *   DWCi_SETTIGNlGet             0x021CF404  arm
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   DC_FlushRange  0x020862F0  arm
  *   DWCi_TSKlDelete  0x021D7724  arm  ov016
  */
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int align);
@@ -50,7 +50,7 @@ typedef struct {
     unsigned char idx;
 } SETTINGINFO;
 extern SETTINGINFO *DWCi_SETTIGNlGet(void);
-extern void DWCi_ScreenDC_FlushRange(void *addr, unsigned long n);
+extern void DC_FlushRange(void *addr, unsigned long n);
 extern void DWCi_TSKlDelete(int kind, void *task);
 void DWCi_HLlInit(void);
 void DWCi_HLlEnd(void);
@@ -118,7 +118,7 @@ void DWCi_HLlLoadList(void)
 
 static void taskLoad(void *task)
 {
-    DWCi_ScreenDC_FlushRange(gHeadlineWork, 0xC0);
+    DC_FlushRange(gHeadlineWork, 0xC0);
     GX_LoadBG1Scr(gHeadlineWork, 0, 0xC0);
     DWCi_TSKlDelete(1, task);
 }

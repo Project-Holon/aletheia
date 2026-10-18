@@ -90,7 +90,7 @@
  *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
  *   MIi_CpuCopy16 0x02082A60 arm
- *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
+ *   DC_FlushRange 0x020862F0 arm
  *   PMS_INPUT_GetSentenceType 0x021BF6E4 thumb ov110
  *   GX_LoadBGPltt 0x0207E3D0 arm
  *   GXS_LoadBGPltt 0x0207E468 arm
@@ -237,7 +237,7 @@ extern void CLACT_SetActorSurfacePosAxis(struct Obj *, short pos, u16 surface, u
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
 extern void MIi_CpuCopy16(const void *, void *, int);
-extern void DWCi_ScreenDC_FlushRange(void *, unsigned);
+extern void DC_FlushRange(void *, unsigned);
 extern unsigned PMS_INPUT_GetInputMode(struct PmsInputState *input);
 extern int PMS_INPUT_GetSentenceType(struct PmsInputState *input);
 extern void GX_LoadBGPltt(void *, int, int);
@@ -453,7 +453,7 @@ void PMSIV_EDIT_LoadPalette(struct PmsivEdit *p, void *arcHandle)
     ARC_UTIL_UploadPaletteFromHandleWhole(arcHandle, 4, 4, 0, 160, PMSIV_EDIT_HEAP);
     handle = ARC_UTIL_LoadPaletteBlockFromHandle(arcHandle, 6, (u32)((void **)&data), PMSIV_EDIT_HEAP);
     MIi_CpuCopy16(data->rawData, p->palette, PMSIV_EDIT_PALETTE_BYTES);
-    DWCi_ScreenDC_FlushRange(p->palette, PMSIV_EDIT_PALETTE_BYTES);
+    DC_FlushRange(p->palette, PMSIV_EDIT_PALETTE_BYTES);
     GFL_HEAP_Free(handle);
 }
 

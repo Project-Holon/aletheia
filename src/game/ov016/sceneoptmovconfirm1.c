@@ -1,7 +1,7 @@
 /*
  * file:     sceneoptmovconfirm1.c
  * unit:     yes
- * function: func_021C3794, func_021C37D0, DWCi_SceneOptMovConfirm1, initGraphics, procInit, procInit1, DWCi_SceneOptMovConfirm1ProcInit2, DWCi_SceneOptMovConfirm1_procScene, input, DWCi_SceneOptMovConfirm1_draw, button, endScene, func_021C3A68, DWCi_SceneOptMovConfirm1EndScene2
+ * function: closeFadeStep, closeWaitStep, DWCi_SceneOptMovConfirm1, initGraphics, procInit, procInit1, DWCi_SceneOptMovConfirm1ProcInit2, DWCi_SceneOptMovConfirm1_procScene, input, DWCi_SceneOptMovConfirm1_draw, button, endScene, endFadeOutBoth, DWCi_SceneOptMovConfirm1EndScene2
  * address:  0x021C3794
  * region:   ov016
  * compiler: dsi/1.1p1

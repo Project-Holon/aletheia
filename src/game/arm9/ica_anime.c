@@ -38,9 +38,9 @@
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   ov230_id       0x000000E6  data
- *   func_021882A0  0x021882A0  arm  ov230d
- *   func_02188354  0x02188354  arm  ov230d
- *   func_02188390  0x02188390  arm  ov230d
+ *   OV230_CallSealedBody0  0x021882A0  arm  ov230d
+ *   OV230_CallSealedBody3  0x02188354  arm  ov230d
+ *   OV230_CallSealedBody4  0x02188390  arm  ov230d
  *   SCRCMD_NETWORK_CreateOv020Event  0x0215FA00  thumb  ov010
  *   GAMESYSTEM_Delete     0x02012088  thumb
  *   PROCSYS_FreeProcWork     0x020315D4  arm
@@ -75,7 +75,7 @@
  *   ZONEDATA_IsNoGameEventZone  0x02013D34  thumb
  *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb
  *   INTRUDE_COMM_CheckEntryAllowed  0x02158318  thumb  ov010
- *   func_02035390  0x02035390  arm
+ *   DWCi_IsFold  0x02035390  arm
  *   UI_IsPowerConnected  0x020353B0  arm
  *   BLOCK20_SAVEDATA_GetBlockFromSys  0x0200921C  thumb
  *   CGEAR_SAVE_GetObtained  0x020090E0  thumb
@@ -189,11 +189,11 @@ extern void GFL_HEAP_DeleteChecked(unsigned int heapId);
 
 extern int GF_OVERLAY_Load(int overlayId);
 
-extern u32   func_021882A0(void (*caller)(void), void (*target)(void), u32 arg);
+extern u32   OV230_CallSealedBody0(void (*caller)(void), void (*target)(void), u32 arg);
 
-extern u32   func_02188354(void (*caller)(void), void (*target)(void), u32 arg);
+extern u32   OV230_CallSealedBody3(void (*caller)(void), void (*target)(void), u32 arg);
 
-extern u32   func_02188390(void (*caller)(void), void (*target)(void), u32 arg);
+extern u32   OV230_CallSealedBody4(void (*caller)(void), void (*target)(void), u32 arg);
 
 //P
 extern void  GF_OVERLAY_Unload(s32 overlayId);
@@ -264,7 +264,7 @@ extern u32   GFL_NET_ERR_GetErrorLevel(void);
 
 extern int INTRUDE_COMM_CheckEntryAllowed(struct GameSystem *gameSystem);
 
-extern u32   func_02035390(void);
+extern int   DWCi_IsFold(void);
 
 extern int UI_IsPowerConnected(void);
 
@@ -1172,7 +1172,7 @@ void GAMESYSTEM_LeakHeapPenaltyRepeat(void)
  *
  * Probe targets (wave 21 lanes H2 and T): 0x021882A0, 0x02188354 and
  * 0x02188390 are slots 0, 3 and 4 of the six ARM thunk slots ov230's first
- * static initialiser (func_02188408) decrypts in place when this function
+ * static initialiser (at 0x02188408) decrypts in place when this function
  * loads the overlay.  The ROM bytes there are ciphertext, so ov230's ROM
  * listing never labels them; tools/ovcrypt.py replays ov230's own
  * decryptor (every range checked to be a clean ARM function ending in a
@@ -1197,18 +1197,18 @@ u32 GAMESYSTEM_ProcInit(struct Proc *proc, u32 *seq, u32 initParam)
     checkSum = 0xc35ffb;
     GF_OVERLAY_Load((int)ov230_id);
     intact = 0;
-    if (func_021882A0((void (*)(void))checkCaller, GAMESYSTEM_LeakHeapPenalty, 0) == ~(u32)GAMESYSTEM_LeakHeapPenalty)
+    if (OV230_CallSealedBody0((void (*)(void))checkCaller, GAMESYSTEM_LeakHeapPenalty, 0) == ~(u32)GAMESYSTEM_LeakHeapPenalty)
         intact = 1;
     checkSum += intact * 0x47;
     GFL_HEAP_CreateChildHeap(1, 3, 0xa << 12);
     intact = 1;
-    if (func_02188354((void (*)(void))checkCaller, GAMESYSTEM_ProbeHeapCreate, 0) != ~(u32)GAMESYSTEM_ProbeHeapCreate)
+    if (OV230_CallSealedBody3((void (*)(void))checkCaller, GAMESYSTEM_ProbeHeapCreate, 0) != ~(u32)GAMESYSTEM_ProbeHeapCreate)
         intact = 0;
     checkPenalty = 0;
     if (intact == 0)
         checkPenalty = 0x191;
     GFL_HEAP_CreateChildHeap(1, 4, 4 << 14);
-    func_02188390((void (*)(void))checkCaller, GAMESYSTEM_LeakHeapPenaltyRepeat, 0);
+    OV230_CallSealedBody4((void (*)(void))checkCaller, GAMESYSTEM_LeakHeapPenaltyRepeat, 0);
     GFL_HEAP_CreateChildHeap(9, 5, 5 << 10);
     GF_OVERLAY_Unload((s32)ov230_id);
     gameSystem = PROCSYS_AllocProcWork(proc, workSize, 3);
@@ -1710,7 +1710,7 @@ u32 GAMESYSTEM_CanStartAutoComm(struct GameSystem *gameSystem)
      && GFL_NET_ERR_GetErrorLevel() == 0
      && ICA_ANIME_IsConfigFlagSet(gameSystem) == 1
      && INTRUDE_COMM_CheckEntryAllowed(gameSystem) == 1
-     && !(func_02035390() == 1 && UI_IsPowerConnected() == 1)) {
+     && !(DWCi_IsFold() == 1 && UI_IsPowerConnected() == 1)) {
         if (CGEAR_SAVE_GetObtained(BLOCK20_SAVEDATA_GetBlockFromSys(gameSystem->gameData)) != 0) {
             return 1;
         }

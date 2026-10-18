@@ -177,7 +177,7 @@
  *   KEY_GetTrg 0x020362DC arm
  *   d_021DED24 0x021DED24 data a4
  *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
- *   func_0209C0A4  0x0209C0A4  arm
+ *   _s32_div_f  0x0209C0A4  arm
  */
 #include "dendou_view_types.h"
 
@@ -343,7 +343,6 @@ extern int TOUCHPANEL_HitTrg(const void *rects);
 extern unsigned int KEY_GetRepeat(void);
 extern u32 KEY_GetTrg(void);
 extern unsigned int TOUCHPANEL_GetPointTrg(unsigned int *x, unsigned int *y);
-extern int func_0209C0A4(int, int);
 
 /* Function prototypes of this file. */
 int DENDOU_VIEW_ProcInit(struct ProcSys *proc, void *unused, DendouViewParams *params);

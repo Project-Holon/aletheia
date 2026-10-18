@@ -113,7 +113,7 @@
  *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   MSGDATA_Delete  0x02045C04  arm
- *   func_0209C0A4  0x0209C0A4  arm
+ *   _s32_div_f  0x0209C0A4  arm
  *   WAZA_TOOL_GetParam  0x0201BD28  thumb
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
  *   GFL_USE_IsBgmPlaying  0x02005F38  thumb
@@ -388,7 +388,7 @@ extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
 extern void BTLV_SCU_StartWazaEffect(struct BtlvScu *scu, int viewPosA, int viewPosB, u32 sceneId, u32 argA, int argB, u8 flags);
 extern int BTLV_SCU_RunWazaProc(struct BtlvScu *scu);
 extern int BTL_POKEPARAM_GetValue(struct BtlPokeParam *pokeParam, int valueId);
-extern int func_0209C0A4(int a, int b);
+extern int _s32_div_f(int a, int b);
 extern void BTLV_EFFECT_GaugeStartHpChangeAnimated(u32 a, u32 b);
 extern void BTLV_EFFECT_StartDamageTintTask(int a, int b);
 extern void BTLV_SCU_PlaySeUnlessMainStep(struct BtlvCore *core, int seId);
@@ -1448,7 +1448,7 @@ int BTLV_CORE_StepOpeningDemo(struct BtlvCore *core, int *state, BtlvDemoWork *w
         break;
     case 7:
         if (BTLV_SCU_RunWazaProc(core->sceneUnit)) {
-            BTLV_EFFECT_GaugeStartHpChangeAnimated(1, func_0209C0A4(BTL_POKEPARAM_GetValue(BTLV_CORE_GetPokeParamAtViewPos(core, 1), 0xE), 6));
+            BTLV_EFFECT_GaugeStartHpChangeAnimated(1, _s32_div_f(BTL_POKEPARAM_GetValue(BTLV_CORE_GetPokeParamAtViewPos(core, 1), 0xE), 6));
             BTLV_EFFECT_StartDamageTintTask(1, 1);
             BTLV_SCU_PlaySeUnlessMainStep(core, 0x564);
             (*state)++;

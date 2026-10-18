@@ -45,6 +45,7 @@ extern void OS_WaitIrq(int clear, u32 irqFlags);
 
 
 
+/* hand-written in the original: mrs/msr on CPSR, one SDK line-table row per instruction */
 asm OSIntrMode OS_EnableInterrupts(void)
 {
     mrs	r0, cpsr
@@ -56,6 +57,7 @@ asm OSIntrMode OS_EnableInterrupts(void)
 
 
 
+/* hand-written in the original: mrs/msr on CPSR, one SDK line-table row per instruction */
 asm OSIntrMode OS_DisableInterrupts(void)
 {
     mrs	r0, cpsr
@@ -67,6 +69,7 @@ asm OSIntrMode OS_DisableInterrupts(void)
 
 
 
+/* hand-written in the original: mrs/msr on CPSR, one SDK line-table row per instruction */
 asm OSIntrMode OS_RestoreInterrupts(OSIntrMode state)
 {
     mrs	r1, cpsr
@@ -79,6 +82,7 @@ asm OSIntrMode OS_RestoreInterrupts(OSIntrMode state)
 
 
 
+/* hand-written in the original: mrs/msr on CPSR, one SDK line-table row per instruction */
 asm void OS_DisableInterrupts_IrqAndFiq(void)
 {
     mrs	r0, cpsr
@@ -90,6 +94,7 @@ asm void OS_DisableInterrupts_IrqAndFiq(void)
 
 
 
+/* hand-written in the original: mrs/msr on CPSR, one SDK line-table row per instruction */
 asm void OS_RestoreInterrupts_IrqAndFiq(void)
 {
     mrs	r1, cpsr
@@ -102,6 +107,7 @@ asm void OS_RestoreInterrupts_IrqAndFiq(void)
 
 
 
+/* hand-written in the original: mrs/msr on CPSR, one SDK line-table row per instruction */
 asm unsigned int OS_GetCpsrIrq(void)
 {
     mrs r0, cpsr
@@ -111,6 +117,7 @@ asm unsigned int OS_GetCpsrIrq(void)
 
 
 
+/* hand-written in the original: mrs/msr on CPSR, one SDK line-table row per instruction */
 asm unsigned int OS_GetProcMode(void)
 {
     mrs r0, cpsr

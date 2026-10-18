@@ -96,7 +96,7 @@
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  *   PALANM_BlendChannel 0x02021FD8 thumb
  *   PALANM_GetTransWork 0x02021730 thumb
- *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
+ *   DC_FlushRange 0x020862F0 arm
  *   GXS_LoadOBJPltt 0x0207E5D0 arm
  *   GXS_LoadBGPltt 0x0207E468 arm
  *   PALANM_FreeSlotBuffers 0x020215A0 thumb
@@ -348,7 +348,7 @@ extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 coun
 
 extern int PALANM_GetTransWork(char *p, int i);
 
-extern void DWCi_ScreenDC_FlushRange(void *, int);
+extern void DC_FlushRange(void *, int);
 
 extern void GXS_LoadOBJPltt(void *, int, int);
 
@@ -976,7 +976,7 @@ void GSYNC_MENU_FadePaletteSlot(GsyncMenuWork *work, int palSlot, int rowCount)
     PALANM_CopyHwPaletteToSlot(palAnm, palSlot, 0, byteSize);
     PALANM_BlendChannel(palAnm, (int)palSlot, (int)0, (u16)(rowCount * 16), (int)6, (int)0);
     transBuf = (void *)PALANM_GetTransWork(palAnm, palSlot);
-    DWCi_ScreenDC_FlushRange(transBuf, byteSize);
+    DC_FlushRange(transBuf, byteSize);
     switch (palSlot) {
     case 3: GXS_LoadOBJPltt(transBuf, 0, byteSize); break;
     case 1: GXS_LoadBGPltt(transBuf, 0, byteSize); break;

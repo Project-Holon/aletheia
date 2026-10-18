@@ -1,7 +1,7 @@
 /*
  * file:     gpiinfo.c
  * unit:     yes
- * function: gpiIsValidDate, gpiIntToDate, gpiInfoCacheToArg, gpiProcessGetInfo, gpiAddLocalInfo, gpiSendLocalInfo, gpiSendUserInfo, func_0218C774, gpiSetInfos, gpiSendGetInfo, gpiGetInfo, gpiSetInfoCache, gpiFreeInfoCache
+ * function: gpiIsValidDate, gpiIntToDate, gpiInfoCacheToArg, gpiProcessGetInfo, gpiAddLocalInfo, gpiSendLocalInfo, gpiSendUserInfo, gpiSetInfoi, gpiSetInfos, gpiSendGetInfo, gpiGetInfo, gpiSetInfoCache, gpiFreeInfoCache
  * address:  0x0218BA10
  * region:   ov009
  * compiler: dsi/1.1p1

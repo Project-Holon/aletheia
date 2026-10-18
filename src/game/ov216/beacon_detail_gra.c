@@ -142,7 +142,7 @@
  *   TOUCHBAR_GetPressedButtonIdIfPressing 0x021B6470 thumb ov067
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
+ *   DC_FlushRange 0x020862F0 arm
  *   GX_LoadBGPltt 0x0207E3D0 arm
  *   GXS_LoadBGPltt 0x0207E468 arm
  *   GX_LoadOBJPltt 0x0207E51C arm
@@ -556,7 +556,7 @@ extern u32 KEY_GetTrg(void);
 extern unsigned ICA_ANIME_GetUnk330(const struct Ctx *);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void DWCi_ScreenDC_FlushRange(void *,unsigned);
+extern void DC_FlushRange(void *,unsigned);
 extern void GX_LoadBGPltt(void *,unsigned,unsigned);
 extern void GXS_LoadBGPltt(void *,unsigned,unsigned);
 extern void GX_LoadOBJPltt(void *,unsigned,unsigned);
@@ -1408,7 +1408,7 @@ void BEACON_DETAIL_GRA_PlaySe(int a){GFL_USE_PlaySeDefaultVolume(a);}
 void BEACON_DETAIL_GRA_LoadPalette(void *p,unsigned mode,unsigned a,unsigned b)
 {
     unsigned x=a*2,y=b*2;
-    DWCi_ScreenDC_FlushRange(p,y);
+    DC_FlushRange(p,y);
     switch(mode) {
     case 0: GX_LoadBGPltt(p,x,y); break;
     case 1: GXS_LoadBGPltt(p,x,y); break;

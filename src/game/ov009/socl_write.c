@@ -30,7 +30,7 @@
  *   CPS_SocWrite  0x0215B470  arm  ov009
  *   CPS_TcpClose  0x0215AD3C  arm  ov009
  *   OS_WakeupThread  0x02085800  arm
- *   func_0209C0A4  0x0209C0A4  arm
+ *   _s32_div_f  0x0209C0A4  arm
  *   gMslRefToken     0x02150FEC  data
  *   SOCLiCPSConfig     0x021AA450  data
  */
@@ -123,7 +123,7 @@ extern void CPS_SocBind(unsigned short local_port, unsigned short remote_port, u
 extern unsigned long CPS_SocWrite(unsigned char *buf, unsigned long len);
 extern void CPS_TcpClose(void);
 extern void OS_WakeupThread(void *queue);
-extern int func_0209C0A4(int a, int b);
+extern int _s32_div_f(int a, int b);
 extern Info gMslRefToken;
 extern CpsConfig SOCLiCPSConfig;
 int SOCL_WriteTo(int s, void *buffer, int buffer_len, unsigned short remote_port, unsigned long remote_ip,
@@ -492,7 +492,7 @@ int SOCLi_GetOptimumSendBufLen(int len)
 	}
 	OS_RestoreInterrupts(enabled);
 	if (temp > 0) {
-		count = func_0209C0A4(len, temp);
+		count = _s32_div_f(len, temp);
 		if (count > 0) {
 			return temp * count;
 		}

@@ -215,7 +215,7 @@
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  *   PALANM_BlendChannel 0x02021FD8 thumb
  *   PALANM_GetTransWork 0x02021730 thumb
- *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
+ *   DC_FlushRange 0x020862F0 arm
  *   GXS_LoadOBJPltt 0x0207E5D0 arm
  *   GXS_LoadBGPltt 0x0207E468 arm
  *   PALANM_FreeSlotBuffers 0x020215A0 thumb
@@ -625,7 +625,7 @@ extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size,
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 extern int PALANM_GetTransWork(char *,int);
-extern void DWCi_ScreenDC_FlushRange(void *,unsigned long);
+extern void DC_FlushRange(void *,unsigned long);
 extern void GXS_LoadOBJPltt(void *,int,int);
 extern void GXS_LoadBGPltt(void *,int,int);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
@@ -2406,11 +2406,11 @@ void GTSNEGO_DISP_BlendPalette(struct GtsnegoMsgCtx *p,int bank,int *offset,int 
     for(i=0;i<count;i++) {
         switch(bank) {
         case 3:
-            DWCi_ScreenDC_FlushRange(buffer+offset[i]*32,size[i]*32);
+            DC_FlushRange(buffer+offset[i]*32,size[i]*32);
             GXS_LoadOBJPltt(buffer+offset[i]*32,offset[i]*32,size[i]*32);
             break;
         case 1:
-            DWCi_ScreenDC_FlushRange(buffer+offset[i]*32,size[i]*32);
+            DC_FlushRange(buffer+offset[i]*32,size[i]*32);
             GXS_LoadBGPltt(buffer+offset[i]*32,offset[i]*32,size[i]*32);
             break;
         }
@@ -2469,9 +2469,9 @@ void GTSNEGO_DISP_SetTradePalette(struct GtsnegoMsgCtx *p,int flag,int mode)
         }
         }
     } else {
-        DWCi_ScreenDC_FlushRange(p->f124,0x200);
+        DC_FlushRange(p->f124,0x200);
         GXS_LoadOBJPltt(p->f124,0,0x200);
-        DWCi_ScreenDC_FlushRange(p->f128,0x200);
+        DC_FlushRange(p->f128,0x200);
         GXS_LoadBGPltt(p->f128,0,0x200);
     }
 }

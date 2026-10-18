@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * The two MIi_CpuClearFast calls (found==0 arm, failed-guard arm) are
+ * The two calls to MIi_CpuClearFast (the second through MIi_CpuClearFastAlias) (found==0 arm, failed-guard arm) are
  * kept apart in the original; under one extern name 1.1p1 cross-jumps the
  * two `bl`s into one (4 bytes short, see docs/notes/pkt_ov013_021B0B48.c.txt).
  * Two extern names for 0x02082AC0 give two independent call sites, the
@@ -25,7 +25,7 @@
  *   VCT_DSP_MixSaturated  0x021B3624  arm  ov013
  *   VCT_DSP_SetEchoReference  0x021B33E0  arm  ov013
  *   MIi_CpuClearFast  0x02082AC0  arm
- *   MIi_CpuClearFast  0x02082AC0  arm
+ *   MIi_CpuClearFastAlias  0x02082AC0  arm
  */
 
 typedef unsigned char u8;
@@ -47,7 +47,7 @@ extern int VCT_SESSION_ReadChannel(void *dst, u32 size, u32 idx, u32 *mask);
 extern void VCT_DSP_MixSaturated(s16 *a, s16 *b, s16 *d, u32 len);
 extern void VCT_DSP_SetEchoReference(void *a, u32 b);
 extern void MIi_CpuClearFast(int x, void *a, u32 b);
-extern void MIi_CpuClearFast(int x, void *a, u32 b);
+extern void MIi_CpuClearFastAlias(int x, void *a, u32 b);
 
 int VCT_SESSION_MixVoices(void *a, u32 b, int *out)
 {
@@ -81,7 +81,7 @@ int VCT_SESSION_MixVoices(void *a, u32 b, int *out)
         }
     } else {
         ret = 0;
-        MIi_CpuClearFast(ret, a, b);
+        MIi_CpuClearFastAlias(ret, a, b);
     }
 
     if (gVctSendState.f18 != 0)

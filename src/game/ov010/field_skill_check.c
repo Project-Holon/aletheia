@@ -17,7 +17,7 @@
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAME_DATA_GetField114  0x020127A4  thumb
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_02028748  0x02028748  thumb
+ *   FIELD_SKILL_USE_FLAGS_SetSkill  0x02028748  thumb
  *   GAME_DATA_GetPlayerObjectCode  0x02012B28  thumb
  *   d_021714DC     0x021714DC  data
  */
@@ -32,8 +32,8 @@ struct PlayerWork;
 typedef unsigned int u32;
 
 /* Field skill use flags (0x18 bytes): bit i of usableMask set when field
- * skill i can be used now (FIELD_SKILL_CHECK_CallHandler). func_02028748
- * ORs the bit into the word at +0x14 and func_02028754 tests it there. */
+ * skill i can be used now (FIELD_SKILL_CHECK_CallHandler). FIELD_SKILL_USE_FLAGS_SetSkill
+ * ORs the bit into the word at +0x14 and FIELD_SKILL_USE_FLAGS_IsSkillUsable tests it there. */
 typedef struct FieldSkillUseFlags {
     u32 reserved00;     /* 0x00: cleared, never read here */
     u32 playerObjCode;  /* 0x04 */
@@ -46,7 +46,7 @@ typedef int (*SkillCheckHandler)(struct GameData *gameData, void *fieldMap, stru
 extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
 extern struct PlayerWork *GAME_DATA_GetField114(struct GameData *gameData);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-extern void func_02028748(FieldSkillUseFlags *flags, int skillIndex, int usable);
+extern void FIELD_SKILL_USE_FLAGS_SetSkill(FieldSkillUseFlags *flags, int skillIndex, int usable);
 extern u32 GAME_DATA_GetPlayerObjectCode(const struct PlayerWork *player);
 void FIELD_SKILL_CHECK_FillUseFlags(FieldSkillUseFlags *flags, struct GameSystem *gameSystem, void *fieldMap);
 int FIELD_SKILL_CHECK_CallHandler(int skillIndex, struct GameSystem *gameSystem, void *fieldMap);
@@ -60,7 +60,7 @@ void FIELD_SKILL_CHECK_FillUseFlags(FieldSkillUseFlags *flags, struct GameSystem
     player = GAME_DATA_GetField114(ICA_ANIME_GetField1C(gameSystem));
     MI_CpuFill8(flags, 0, sizeof(FieldSkillUseFlags));
     for (i = 0; i < 10; i++)
-        func_02028748(flags, i, FIELD_SKILL_CHECK_CallHandler(i, gameSystem, fieldMap));
+        FIELD_SKILL_USE_FLAGS_SetSkill(flags, i, FIELD_SKILL_CHECK_CallHandler(i, gameSystem, fieldMap));
     flags->playerObjCode = GAME_DATA_GetPlayerObjectCode(player);
 }
 

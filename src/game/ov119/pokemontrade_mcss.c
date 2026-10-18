@@ -116,7 +116,7 @@ void *POKETRADE_MCSS_SlideCreateWithOffsets(void *a0, void *a1, void *a2, void *
 
 /*
  * Recursive MATCH unblocker: callee of the parked ov119 POKETRADE_MCSS_SlideUpdate
- * (+0044) and part of the func_021D7130 tree.  Interpolates between a0 and a1
+ * (+0044) and part of the ov118 POKETRADE_DEMO_MIDDLE_UpdateScene tree.  Interpolates between a0 and a1
  * at record stride (the difference divided by f04, scaled by f08), then, when
  * the record's f16 is set and a3 is nonzero, re-derives the position from the
  * sine table FX_SinCosTable_ with the phase f14>>4.  The divide's destination
@@ -137,7 +137,7 @@ int POKETRADE_MCSS_SlideInterpolate(int a0, int a1, McssSlide *a2, int a3)
 
 /*
  * Recursive MATCH unblocker: callee of the parked ov119 POKETRADE_MCSS_SlideUpdate
- * (+0060) and of func_021D7130's tree.  Reads the descriptor at p->f34 +
+ * (+0060) and of ov118 POKETRADE_DEMO_MIDDLE_UpdateScene's tree.  Reads the descriptor at p->f34 +
  * 0xc*p->f08 and hands three offset-adjusted words to MCSS_SetPosition, then
  * forwards p->f08 and its own second argument to POKETRADE_NEGO_PlaySeByEvent.
  *

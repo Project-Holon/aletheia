@@ -164,7 +164,7 @@ int DWCi_MOVStartDownloadandBootChild(void);
 void DWCi_MOVFramework(void);
 void DWCi_MOVGetStatus(u8 *stt, u8 *change_f);
 MBUserInfo *DWCi_GetChildInfo(void);
-asm void _DWCi_MOV_EraseFlashData(void);
+void _DWCi_MOV_EraseFlashData(void);
 u16 Parent_get_child_data_kind(void);
 extern Wk *gDwcMoveidWork;
 
@@ -595,13 +595,9 @@ static void _DWCi_MOV_MovUserID(void)
 }
 
 
-asm void _DWCi_MOV_EraseFlashData(void)
+void _DWCi_MOV_EraseFlashData(void)
 {
-	ldr r0, =0x021DE668
-	mov r1, #0xc
-	ldr r0, [r0]
-	strb r1, [r0, #0xa90]
-	bx lr
+    gDwcMoveidWork->mov_stt = 12;
 }
 
 

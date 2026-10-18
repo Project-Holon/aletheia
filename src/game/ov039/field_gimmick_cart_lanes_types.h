@@ -175,11 +175,11 @@ extern struct G3dObject *FLD_EXP_OBJ_GetModelObject(FldExpObjCnt *expObj, u32 un
 extern void FLD_EXP_OBJ_UpdateAnimes(FldExpObjCnt *expObj);
 extern FldExpObjAnime *FLD_EXP_OBJ_GetAnime(FldExpObjCnt *expObj, int unitIndex, u16 modelIndex, int animeIndex);
 extern void FLD_EXP_OBJ_SetAnimePaused(FldExpObjAnime *anime, int paused);
-extern u8 func_021BE6B4(FldExpObjAnime *anime);
+extern u8 FLD_EXP_OBJ_IsAnimePaused(FldExpObjAnime *anime);
 extern void FLD_EXP_OBJ_SetAnimeLoop(FldExpObjAnime *anime, int loop);
 extern int FLD_EXP_OBJ_IsAnimeStopped(FldExpObjAnime *anime);
 extern void FLD_EXP_OBJ_SetAnimeFrame(FldExpObjCnt *expObj, int unitIndex, int modelIndex, int animeIndex, int frame);
-extern int func_021BE6E8(FldExpObjCnt *expObj, int unitIndex, u8 modelIndex, u8 animeIndex);
+extern int FLD_EXP_OBJ_GetAnimeFrame(FldExpObjCnt *expObj, int unitIndex, u8 modelIndex, u8 animeIndex);
 extern void FLD_EXP_OBJ_SetAnimeEnabled(FldExpObjCnt *expObj, int unitIndex, int modelIndex, u8 animeIndex, int enable);
 extern int FLD_EXP_OBJ_GetAnimeLastFrame(FldExpObjAnime *anime);
 extern void FLD_EXP_OBJ_AddUnitFromArchive(FldExpObjCnt *expObj, const G3dUtilSetup *setup, u16 unitIndex);

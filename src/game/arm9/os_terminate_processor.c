@@ -112,6 +112,7 @@ void OSi_DisableInterruptsAndHalt(void)
     }
 }
 
+/* hand-written in the original: mcr p15 wait for interrupt, one SDK line-table row per instruction */
 asm void OS_Halt(void)
 {
     mov r0, #0

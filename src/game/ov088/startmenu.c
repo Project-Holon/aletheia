@@ -341,7 +341,7 @@
  *   d_021BD9B0     0x021BD9B0  data  a4
  *   d_021BD980     0x021BD980  data  a4
  *   d_021BD990     0x021BD990  data  a4
- *   func_020461E4  0x020461E4  arm
+ *   MSGDATA_GetLanguage  0x020461E4  arm
  *   MSGDATA_SetLanguage  0x020461D4  arm
  *   MSG_SPEED_GetWaitForSpeed  0x02013080  thumb
  *   UI_SetIntrDataGlobal  0x020351F8  arm
@@ -897,7 +897,7 @@ extern void SAVE_CONTROL_EraseExtraSave(char *a0, u32 a1, u32 a2);
 extern void SAVE_CONTROL_DeleteExtraSave(struct Sub020072A4Ctrl *ctrl, u32 id);
 extern void GFL_USE_ClearVBlankHook(void);
 extern void OS_ResetSystem(u32 parameter);
-extern u8 func_020461E4(void);
+extern u8 MSGDATA_GetLanguage(void);
 extern void MSGDATA_SetLanguage(u8);
 extern signed char MSG_SPEED_GetWaitForSpeed(u32 idx);
 extern void UI_SetIntrDataGlobal(u32 a, u32 b);
@@ -4186,7 +4186,7 @@ void STARTMENU_SaveEraseExitGraphics(void)
 
 void STARTMENU_SaveEraseAllocResources(SaveEraseWork *work)
 {
-    work->savedAppliedFlag = func_020461E4();
+    work->savedAppliedFlag = MSGDATA_GetLanguage();
     MSGDATA_SetLanguage(0);
     work->msgBank = MSGDATA_CreateFromArchive(0, 2, 1, 0x81);
     work->font = GF_FONT_Create(0x17, 0, 0, 0, 0x81);

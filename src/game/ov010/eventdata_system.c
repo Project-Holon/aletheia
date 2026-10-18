@@ -426,7 +426,7 @@ u32 EVENTDATA_SYSTEM_GetEncountData(u32 systemAddr)
 
 /*
  * Unlabelled leaf getter: the halfword at +0x16.  Blocker of ov061
- * func_021F388C.
+ * FIELD_GIMMICK_CONNECT_MARKERS_PlaceMarkers.
  */
 u16 EVENTDATA_SYSTEM_GetConnectCount(EventDataSystem *system)
 {
@@ -836,7 +836,7 @@ u16 EVENTDATA_SYSTEM_SearchBgEventScriptIdHidden(EventDataSystem *system, void *
 
 /*
  * Unlabelled leaf (tail-call thunk, a .word run in the ov010 listing) to
- * EVENTDATA_SYSTEM_GetConnectCenterPos.  Blocker of ov061 func_021F388C.
+ * EVENTDATA_SYSTEM_GetConnectCenterPos.  Blocker of ov061 FIELD_GIMMICK_CONNECT_MARKERS_PlaceMarkers.
  */
 void EVENTDATA_SYSTEM_GetConnectCenterPosThunk(const ConnectData *connect, VecFx32 *pos)
 {
@@ -1022,7 +1022,7 @@ void EVENTDATA_SYSTEM_GetConnectExitGridPos(ConnectData *connect, int exitOffset
 
 /*
  * Unlabelled leaf (push {r3, r4} with no lr), reached through the ov010
- * tail-call thunk EVENTDATA_SYSTEM_GetConnectCenterPosThunk.  Blocker of ov061 func_021F388C.
+ * tail-call thunk EVENTDATA_SYSTEM_GetConnectCenterPosThunk.  Blocker of ov061 FIELD_GIMMICK_CONNECT_MARKERS_PlaceMarkers.
  * The const on both pointers keeps the first ldrsh ahead of the base
  * copy; the lsrs needs the u32 casts.
  */

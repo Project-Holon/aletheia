@@ -137,7 +137,7 @@ void DWCi_Acc_LoginIdToUserName(struct DWCstAccLoginId *loginid, unsigned long g
 int DWCi_Acc_SetMaskBits(unsigned long *ptr, unsigned long data, unsigned long shift, unsigned long mask);
 unsigned long long DWCi_Acc_GetUserId(struct DWCstAccLoginId *loginId);
 unsigned long DWCi_Acc_GetPlayerId(struct DWCstAccLoginId *loginId);
-asm unsigned long long DWCi_Acc_GetFriendKey(void *data);
+unsigned long long DWCi_Acc_GetFriendKey(struct DWCstAccFriendKeyData *data);
 int DWCi_Acc_GetGsProfileId(struct DWCstAccGsProfileIdData *data);
 void DWCi_Acc_SetUserId(struct DWCstAccLoginId *loginId, unsigned long long userId);
 void DWCi_Acc_SetPlayerId(struct DWCstAccLoginId *loginId, int playerId);
@@ -155,7 +155,7 @@ void DWCi_SetBuddyFriendData(DWCstAccFriendData *frienddata);
 void DWCi_SetReverseBuddyFlag(void *frienddata, int setflag);
 void DWCi_SetExpIsBuddyFriendFlag(void *frienddata, int setflag);
 void DWCi_SetSentBuddyReqFlag(void *frienddata, int setflag);
-asm int DWC_CheckFriendKey(void *data, unsigned long long friendKey);
+int DWC_CheckFriendKey(struct DWCstAccUserData *userdata, unsigned long long friendKey);
 int DWCi_Acc_CheckConsoleUserId(struct DWCstAccLoginId *loginid);
 int DWCi_Acc_IsAuthentic(void *userdata);
 int DWC_IsValidFriendData(void *frienddata);
@@ -201,13 +201,9 @@ unsigned long DWCi_Acc_GetPlayerId(struct DWCstAccLoginId *loginId)
     return loginId->data[2];
 }
 
-asm unsigned long long DWCi_Acc_GetFriendKey(void *data)
+unsigned long long DWCi_Acc_GetFriendKey(struct DWCstAccFriendKeyData *data)
 {
-    ldr	r1, [r0, #8]
-    ldr	r0, [r0, #4]
-    orr	r1, r1, #0
-    orr	r0, r0, #0
-    bx	lr
+    return ((unsigned long long)data->keyHigh << 32) | data->keyLow;
 }
 
 int DWCi_Acc_GetGsProfileId(struct DWCstAccGsProfileIdData *data)
@@ -485,15 +481,9 @@ unsigned long long DWC_Acc_CreateFriendKey(int gs_profile_id, unsigned long game
 
 
 
-asm int DWC_CheckFriendKey(void *data, unsigned long long friendKey)
+int DWC_CheckFriendKey(struct DWCstAccUserData *userdata, unsigned long long friendKey)
 {
-    mov	r3, r0
-    mov	r0, r1
-    mov	r1, r2
-    ldr	r2, [r3, #0x24]
-    ldr ip, =DWC_Acc_CheckFriendKey
-    mov	r3, #1
-    bx	ip
+    return DWC_Acc_CheckFriendKey(friendKey, userdata->gamecode, 1);
 }
 
 

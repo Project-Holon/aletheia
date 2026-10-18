@@ -374,7 +374,7 @@ int UNION_ONESELF_TryStartSubEvent(struct GameSystem *gameSystem, void *fieldMap
 
 /*
  * Unlabelled leaf (a .word after a pool in the ov019 listing): returns 0.
- * Callee of ov021 func_0218A0E4, which passes (sys, pos).
+ * Callee of ov021 FIELD_EVENT_CHECK_CheckCommEvents, which passes (sys, pos).
  * Addresses are Black-image addresses.
  */
 int UNION_ONESELF_GetFieldTalkEvent(void *gameSystem, void *pos)

@@ -300,17 +300,9 @@ extern u32 KEY_GetRepeat(void);
 
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 
-extern void ZUKAN_DETAIL_COMMON_InitBrightnessTarget(int *p);
-
-extern int ZUKAN_DETAIL_COMMON_GetWorkPtr(int *p);
-
 extern void ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(void *s);
 
 extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
-
-extern void *ZUKAN_DETAIL_COMMON_GetWorkPtr(int key);
-
-extern void *ZUKAN_DETAIL_COMMON_GetCursorValue(int key);
 
 extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
 
@@ -323,10 +315,6 @@ extern void ZUKAN_DETAIL_COMMON_StartFadeIn(u32 fade);
 extern void ZUKAN_DETAIL_COMMON_SetBrightnessFull(int sub, u32 blend);
 
 extern void ZUKAN_DETAIL_COMMON_StartFadeOut(u32 fade);
-
-extern u16  ZUKAN_DETAIL_COMMON_GetMaxValue(char *p);
-
-extern int  ZUKAN_DETAIL_COMMON_GetSource(int key);
 
 extern void ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(void *s, int b);
 
@@ -414,8 +402,6 @@ typedef enum { YP_0 = 0, YP_MAX = 0x7fffffff } YPos;
 
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 
-extern u16 ZUKAN_DETAIL_COMMON_GetCurrentEntry(int key);
-
 extern void *MSGDATA_AllocString(struct MsgBank *bank,u32 index);
 
 extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s,u32 a,u32 b);
@@ -441,15 +427,9 @@ extern void G2x_SetBlendAlpha_(u32 reg,int p1,int p2,int ev1,int ev2);
 
 extern void *ZUKAN_DETAIL_PROCSYS_AllocBuffer(void *proc, u32 size, u32 heap);
 
-extern void *ZUKAN_DETAIL_COMMON_GetDisplay(int key);
-
 extern void *ZUKAN_DETAIL_GRAPHIC_Reset3dState(void *a);
 
-extern void *ZUKAN_DETAIL_COMMON_GetFont(int key);
-
 extern void *GFL_USE_AddMainTask(void (*fn)(int, char *), void *p, u32 c);
-
-extern void ZUKAN_DETAIL_FORM_CreatePrintQueues(u16 *heap, struct Ov208Form *p, int key);
 
 extern void *ZUKAN_DETAIL_COMMON_AllocBlendWork(u32 heap);
 
@@ -463,21 +443,13 @@ extern void ZUKAN_DETAIL_COMMON_FreeBgPalette(u32 a);
 
 extern void ZUKAN_DETAIL_COMMON_SetBgScrollPacked(u32 a, u32 packed);
 
-extern void ZUKAN_DETAIL_FORM_DeleteArrowActors(u16 *heap, struct Ov208Form *p, int key);
-
 void ZUKAN_DETAIL_FORM_DeleteIconActor(int a, int b);
-
-extern void ZUKAN_DETAIL_FORM_ReleaseIconResources(u16 *heap, struct Ov208Form *p, int key);
-
-extern void ZUKAN_DETAIL_FORM_DeleteTextWindows(u16 *heap, struct Ov208Form *p, int key);
 
 extern void ZUKAN_DETAIL_TOUCHBAR_SetBgPriority(void *s, u8 v);
 
 extern void ZUKAN_DETAIL_COMMON_DeletePaletteAnim(u32 a);
 
 extern void ZUKAN_DETAIL_COMMON_FreeBlendWork(u32 a);
-
-extern void ZUKAN_DETAIL_FORM_DeletePrintQueues(u16 *heap, struct Ov208Form *p, int key);
 
 extern void ZUKAN_DETAIL_PROCSYS_FreeBuffer(void *proc);
 
@@ -508,7 +480,7 @@ extern void ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(void *s, u32 kind);
 
 extern void ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(void *s, u32 on);
 
-extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
+extern int GAME_DATA_CheckSaveFlag(void *gd, int flag);
 
 extern int  ZUKAN_DETAIL_HEADBAR_GetIconKind(void *icon);
 
@@ -524,15 +496,9 @@ extern void ZUKAN_DETAIL_HEADBAR_SetIconForm(void *icon);
 
 void ZUKAN_DETAIL_FORM_DestroyModelItem(struct Ov208Mdl *p, int a);
 
-extern void ZUKAN_DETAIL_FORM_ExitModelSystem(u16 *heap, struct Ov208Form *p, int key);
-
 extern void ZUKAN_DETAIL_GRAPHIC_Delete3dSystem(void *s);
 
 extern void MCSS_Main(char *self);
-
-extern void ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies(int key);
-
-extern void ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies(int key);
 
 extern void ZUKAN_DETAIL_TOUCHBAR_SetButtonVisible(void *sys, int v);
 
@@ -548,75 +514,81 @@ extern void WORDSET_SetSlotNumber(struct WordSet *ws, u32 a, u32 b, u32 c, u32 d
 
 void ZUKAN_DETAIL_FORM_SetHeapId(u16 *p, u32 value);
 
-int ZUKAN_DETAIL_FORM_Init(void *proc, int *seq, u16 *heap, u8 *unused, int key);
+int ZUKAN_DETAIL_FORM_Init(void *proc, int *seq, u16 *heap, u8 *unused, struct Ov208Ctx *key);
 
-int ZUKAN_DETAIL_FORM_Exit(void *proc, int *seq, u16 *heap, struct Ov208Form *p, int key);
+int ZUKAN_DETAIL_FORM_Exit(void *proc, int *seq, u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
 
-int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, struct Ov208Form *p, int key);
+int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_FORM_HandleKeyEvent(void *proc, int *seq, u16 *heap, struct Ov208Form *p, int key, int ev);
+void ZUKAN_DETAIL_FORM_HandleKeyEvent(void *proc, int *seq, u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key, int ev);
 
 void ZUKAN_DETAIL_FORM_DrawModels(u32 a, u32 b, u32 c, struct Ov208Form *p);
 
 void ZUKAN_DETAIL_FORM_ApplyPendingDisplay(int unused, char *p);
 
-void ZUKAN_DETAIL_FORM_BuildFormLabelText(u16 *heap, struct Ov208Form *p, int key, u32 *outStr, u32 *outB, int *outC, int *outD, u16 idx);
+void ZUKAN_DETAIL_FORM_BuildFormLabelText(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key, u32 *outStr, u32 *outB, int *outC, int *outD, u16 idx);
 
-void ZUKAN_DETAIL_FORM_CreateTextWindows(u16 *heap, struct Ov208Form *p, int key);
+void ZUKAN_DETAIL_FORM_CreateTextWindows(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_FORM_DeleteTextWindows(void *unused,struct Ov208Form *p);
+void ZUKAN_DETAIL_FORM_DeleteTextWindows(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_FORM_CreatePrintQueues(u16 *heap, struct Ov208Form *p);
+void ZUKAN_DETAIL_FORM_CreatePrintQueues(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_FORM_DeletePrintQueues(u16 *heap, struct Ov208Form *p);
+void ZUKAN_DETAIL_FORM_DeletePrintQueues(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_FORM_UpdatePrintQueues(void *a0, struct Ov208Form *p, int key);
+void ZUKAN_DETAIL_FORM_ExitModelSystem(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_FORM_FlushPrintWindow(void *a0, struct Ov208Form *p, int a2, int i);
+void ZUKAN_DETAIL_FORM_ReleaseIconResources(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_FORM_DrawSpeciesLabels(u16 *heap, struct Ov208Form *p, int key);
+void ZUKAN_DETAIL_FORM_DeleteArrowActors(u16 *unused, struct Ov208Form *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_FORM_DrawFormLabel(u16 *heap, struct Ov208Form *p, int key, int i, u32 print, u32 win, u32 *active, u16 idx);
+void ZUKAN_DETAIL_FORM_UpdatePrintQueues(void *a0, struct Ov208Form *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_FORM_DrawFormLabelMain(u16 *heap, struct Ov208Form *p, int key);
+void ZUKAN_DETAIL_FORM_FlushPrintWindow(void *a0, struct Ov208Form *p, struct Ov208Ctx *a2, int i);
 
-void ZUKAN_DETAIL_FORM_DrawFormLabelSub(u16 *heap, struct Ov208Form *p, int key);
+void ZUKAN_DETAIL_FORM_DrawSpeciesLabels(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_FORM_UpdateBgScrollForState(void *unused, struct Ov208Form *p, int key);
+void ZUKAN_DETAIL_FORM_DrawFormLabel(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key, int i, u32 print, u32 win, u32 *active, u16 idx);
 
-void ZUKAN_DETAIL_FORM_InitModelSystem(u16 *heap, struct Ov208Form *p, int key);
+void ZUKAN_DETAIL_FORM_DrawFormLabelMain(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
+
+void ZUKAN_DETAIL_FORM_DrawFormLabelSub(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
+
+void ZUKAN_DETAIL_FORM_UpdateBgScrollForState(void *unused, struct Ov208Form *p, struct Ov208Ctx *key);
+
+void ZUKAN_DETAIL_FORM_InitModelSystem(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
 
 void ZUKAN_DETAIL_FORM_StopModelAnim(struct Ov208Mdl *p);
 
-void ZUKAN_DETAIL_FORM_LoadIconResources(u16 *heap, struct Ov208Form *p, int key);
+void ZUKAN_DETAIL_FORM_LoadIconResources(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_FORM_BuildFormEntries(u16 *heap, int key, struct Ov208Ent *out, u16 *count, u16 *groups, u16 *twos, u16 *sel, u16 *next);
+void ZUKAN_DETAIL_FORM_BuildFormEntries(u16 *heap, struct Ov208Ctx *key, struct Ov208Ent *out, u16 *count, u16 *groups, u16 *twos, u16 *sel, u16 *next);
 
-void ZUKAN_DETAIL_FORM_RefreshFormEntries(u16 *heap, struct Ov208Form *p, int key);
+void ZUKAN_DETAIL_FORM_RefreshFormEntries(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_FORM_RebuildModels(u16 *heap, struct Ov208Form *p, int key);
+void ZUKAN_DETAIL_FORM_RebuildModels(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_FORM_RebuildSideModels(void *a0, struct Ov208Form *p, int key);
+void ZUKAN_DETAIL_FORM_RebuildSideModels(void *a0, struct Ov208Form *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_FORM_UpdateState(u16 *heap, struct Ov208Form *p, int key);
+void ZUKAN_DETAIL_FORM_UpdateState(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_FORM_HandleStateEvent(u16 *a0, struct Ov208Form *p, int ctx, int ev);
+void ZUKAN_DETAIL_FORM_HandleStateEvent(u16 *a0, struct Ov208Form *p, struct Ov208Ctx *ctx, int ev);
 
-void ZUKAN_DETAIL_FORM_CreateArrowActors(u16 *heap, struct Ov208Form *p, int key);
+void ZUKAN_DETAIL_FORM_CreateArrowActors(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_FORM_UpdateArrowAnim(u16 *heap, struct Ov208Form *p, int key);
+void ZUKAN_DETAIL_FORM_UpdateArrowAnim(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_FORM_UpdateScrollInput(u16 *a0, struct Ov208Form *p, int key);
+void ZUKAN_DETAIL_FORM_UpdateScrollInput(u16 *a0, struct Ov208Form *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_FORM_UpdateSlideLeft(u16 *a0, struct Ov208Form *p, int ctx);
+void ZUKAN_DETAIL_FORM_UpdateSlideLeft(u16 *a0, struct Ov208Form *p, struct Ov208Ctx *ctx);
 
-void ZUKAN_DETAIL_FORM_UpdateSlideRight(u16 *a0, struct Ov208Form *p, int ctx);
+void ZUKAN_DETAIL_FORM_UpdateSlideRight(u16 *a0, struct Ov208Form *p, struct Ov208Ctx *ctx);
 
-void ZUKAN_DETAIL_FORM_UpdateSlideBoth(u16 *a0, struct Ov208Form *p, int ctx);
+void ZUKAN_DETAIL_FORM_UpdateSlideBoth(u16 *a0, struct Ov208Form *p, struct Ov208Ctx *ctx);
 
-void ZUKAN_DETAIL_FORM_SetActorsNormalMode(u16 *a0, struct Ov208Form *p, int key);
+void ZUKAN_DETAIL_FORM_SetActorsNormalMode(u16 *a0, struct Ov208Form *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_FORM_SetActorsAlphaMode(u16 *a0, struct Ov208Form *p, int key);
+void ZUKAN_DETAIL_FORM_SetActorsAlphaMode(u16 *a0, struct Ov208Form *p, struct Ov208Ctx *key);
 
 extern struct MsgBank *gSpeciesNameBank;
 
@@ -629,7 +601,7 @@ void ZUKAN_DETAIL_FORM_SetHeapId(u16 *p, u32 value)
     *p = value;
 }
 
-int ZUKAN_DETAIL_FORM_Init(void *proc, int *seq, u16 *heap, u8 *unused, int key)
+int ZUKAN_DETAIL_FORM_Init(void *proc, int *seq, u16 *heap, u8 *unused, struct Ov208Ctx *key)
 {
     struct Ov208Form *p;
     u8 i;
@@ -665,7 +637,7 @@ int ZUKAN_DETAIL_FORM_Init(void *proc, int *seq, u16 *heap, u8 *unused, int key)
     return 1;
 }
 
-int ZUKAN_DETAIL_FORM_Exit(void *proc, int *seq, u16 *heap, struct Ov208Form *p, int key)
+int ZUKAN_DETAIL_FORM_Exit(void *proc, int *seq, u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     void *sys;
     u8 i;
@@ -691,7 +663,7 @@ int ZUKAN_DETAIL_FORM_Exit(void *proc, int *seq, u16 *heap, struct Ov208Form *p,
     return 1;
 }
 
-int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, struct Ov208Form *p, int key)
+int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     void *res;
     void *scene;
@@ -762,7 +734,7 @@ int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, struct Ov208Form *p,
             *seq = 4;
             ZUKAN_DETAIL_COMMON_StartFadeOut(W(0x6ac));
             if (ZUKAN_DETAIL_TOUCHBAR_GetMode(scene) != 2) {
-                ZUKAN_DETAIL_TOUCHBAR_SetMode(scene, 0, 3, ZUKAN_DETAIL_COMMON_GetMaxValue((char *)key) > 1);
+                ZUKAN_DETAIL_TOUCHBAR_SetMode(scene, 0, 3, ZUKAN_DETAIL_COMMON_GetMaxValue(key) > 1);
                 ZUKAN_DETAIL_TOUCHBAR_SetEnabled(scene, 0);
             } else {
                 ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(scene, 3);
@@ -854,7 +826,7 @@ int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, struct Ov208Form *p,
     case 9:
         for (i = 0; i < 4; i++)
             ZUKAN_DETAIL_FORM_DestroyModelItem((struct Ov208Mdl *)(&p->item[i]), (int)(W(8)));
-        ZUKAN_DETAIL_FORM_ExitModelSystem((u16 *)(heap), (struct Ov208Form *)(p), (int)(key));
+        ZUKAN_DETAIL_FORM_ExitModelSystem(heap, p, key);
         ZUKAN_DETAIL_GRAPHIC_Delete3dSystem(res);
         GX_SetGraphicsMode(1, 0, 0);
         return 1;
@@ -880,7 +852,7 @@ int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, struct Ov208Form *p,
     return 0;
 }
 
-void ZUKAN_DETAIL_FORM_HandleKeyEvent(void *proc, int *seq, u16 *heap, struct Ov208Form *p, int key, int ev)
+void ZUKAN_DETAIL_FORM_HandleKeyEvent(void *proc, int *seq, u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key, int ev)
 {
     struct Ov208Ent bufA[64];
     struct Ov208Ent bufB[64];
@@ -1032,7 +1004,7 @@ void ZUKAN_DETAIL_FORM_HandleKeyEvent(void *proc, int *seq, u16 *heap, struct Ov
         ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(sys);
         return;
     case 5:
-        GAME_DATA_SetSaveFlag((void *)ZUKAN_DETAIL_COMMON_GetSource(key), 0x14, ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive(sys));
+        GAME_DATA_SetSaveFlag(ZUKAN_DETAIL_COMMON_GetSource(key), 0x14, ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive(sys));
         ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(sys);
         return;
     case 22:
@@ -1073,7 +1045,7 @@ void ZUKAN_DETAIL_FORM_ApplyPendingDisplay(int unused, char *p)
     ZUKAN_DETAIL_COMMON_TransferPalettes(*(char * *)&((struct Ov208Form *)p)->w6ac);
 }
 
-void ZUKAN_DETAIL_FORM_BuildFormLabelText(u16 *heap, struct Ov208Form *p, int key, u32 *outStr, u32 *outB, int *outC, int *outD,
+void ZUKAN_DETAIL_FORM_BuildFormLabelText(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key, u32 *outStr, u32 *outB, int *outC, int *outD,
                          u16 idx)
 {
     u32 str = 0;
@@ -1133,7 +1105,7 @@ void ZUKAN_DETAIL_FORM_BuildFormLabelText(u16 *heap, struct Ov208Form *p, int ke
     *outD = d;
 }
 
-void ZUKAN_DETAIL_FORM_CreateTextWindows(u16 *heap, struct Ov208Form *p, int key)
+void ZUKAN_DETAIL_FORM_CreateTextWindows(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     struct Ov208WinTbl t;
     u32 size;
@@ -1166,7 +1138,7 @@ void ZUKAN_DETAIL_FORM_CreateTextWindows(u16 *heap, struct Ov208Form *p, int key
         p->str[i] = (u32)MSGDATA_AllocString((struct MsgBank *)p->msg, data_021C8794[i]);
 }
 
-void ZUKAN_DETAIL_FORM_DeleteTextWindows(void *unused,struct Ov208Form *p)
+void ZUKAN_DETAIL_FORM_DeleteTextWindows(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     u8 i;
     for(i=0;i<5;i++) {
@@ -1180,7 +1152,7 @@ void ZUKAN_DETAIL_FORM_DeleteTextWindows(void *unused,struct Ov208Form *p)
     GFL_HEAP_Free((void *)p->marc);
 }
 
-void ZUKAN_DETAIL_FORM_CreatePrintQueues(u16 *heap, struct Ov208Form *p)
+void ZUKAN_DETAIL_FORM_CreatePrintQueues(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     u8 i;
     for (i = 0; i < 5; i++) {
@@ -1189,7 +1161,7 @@ void ZUKAN_DETAIL_FORM_CreatePrintQueues(u16 *heap, struct Ov208Form *p)
     }
 }
 
-void ZUKAN_DETAIL_FORM_DeletePrintQueues(u16 *heap, struct Ov208Form *p)
+void ZUKAN_DETAIL_FORM_DeletePrintQueues(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     u8 i;
     for (i = 0; i < 5; i++) {
@@ -1199,7 +1171,7 @@ void ZUKAN_DETAIL_FORM_DeletePrintQueues(u16 *heap, struct Ov208Form *p)
     }
 }
 
-void ZUKAN_DETAIL_FORM_UpdatePrintQueues(void *a0, struct Ov208Form *p, int key)
+void ZUKAN_DETAIL_FORM_UpdatePrintQueues(void *a0, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     u8 i;
 
@@ -1209,7 +1181,7 @@ void ZUKAN_DETAIL_FORM_UpdatePrintQueues(void *a0, struct Ov208Form *p, int key)
     }
 }
 
-void ZUKAN_DETAIL_FORM_FlushPrintWindow(void *a0, struct Ov208Form *p, int a2, int i)
+void ZUKAN_DETAIL_FORM_FlushPrintWindow(void *a0, struct Ov208Form *p, struct Ov208Ctx *a2, int i)
 {
     u32 w;
 
@@ -1222,7 +1194,7 @@ void ZUKAN_DETAIL_FORM_FlushPrintWindow(void *a0, struct Ov208Form *p, int a2, i
     }
 }
 
-void ZUKAN_DETAIL_FORM_DrawSpeciesLabels(u16 *heap, struct Ov208Form *p, int key)
+void ZUKAN_DETAIL_FORM_DrawSpeciesLabels(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     u8 i;
     u16 species;
@@ -1269,7 +1241,7 @@ void ZUKAN_DETAIL_FORM_DrawSpeciesLabels(u16 *heap, struct Ov208Form *p, int key
         ZUKAN_DETAIL_FORM_FlushPrintWindow(heap, (struct Ov208Form *)p, key, i);
 }
 
-void ZUKAN_DETAIL_FORM_DrawFormLabel(u16 *heap, struct Ov208Form *p, int key, int i, u32 print, u32 win,
+void ZUKAN_DETAIL_FORM_DrawFormLabel(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key, int i, u32 print, u32 win,
                          u32 *active, u16 idx)
 {
     u32 bmp;
@@ -1303,7 +1275,7 @@ void ZUKAN_DETAIL_FORM_DrawFormLabel(u16 *heap, struct Ov208Form *p, int key, in
     ZUKAN_DETAIL_FORM_FlushPrintWindow(heap, (struct Ov208Form *)p, key, i);
 }
 
-void ZUKAN_DETAIL_FORM_DrawFormLabelMain(u16 *heap, struct Ov208Form *p, int key)
+void ZUKAN_DETAIL_FORM_DrawFormLabelMain(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     p->active[3] = 0;
     PRINTSYS_QUE_Clear((struct PrintSys *)p->print[3]);
@@ -1311,7 +1283,7 @@ void ZUKAN_DETAIL_FORM_DrawFormLabelMain(u16 *heap, struct Ov208Form *p, int key
     ZUKAN_DETAIL_FORM_DrawFormLabel(heap, p, key, 3, p->print[3], p->win[3], &p->active[3], p->sel);
 }
 
-void ZUKAN_DETAIL_FORM_DrawFormLabelSub(u16 *heap, struct Ov208Form *p, int key)
+void ZUKAN_DETAIL_FORM_DrawFormLabelSub(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     p->active[4] = 0;
     PRINTSYS_QUE_Clear((struct PrintSys *)p->print[4]);
@@ -1327,7 +1299,7 @@ void ZUKAN_DETAIL_FORM_DrawFormLabelSub(u16 *heap, struct Ov208Form *p, int key)
     }
 }
 
-void ZUKAN_DETAIL_FORM_UpdateBgScrollForState(void *unused, struct Ov208Form *p, int key)
+void ZUKAN_DETAIL_FORM_UpdateBgScrollForState(void *unused, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     switch (p->state) {
     case 0:
@@ -1490,8 +1462,6 @@ extern struct Obj *CLACT_CreateActor(void *owner, unsigned int res, unsigned int
 
 extern void CLACT_SetActorAutoAnim(struct Obj *obj, u32 v);
 
-extern int ZUKAN_DETAIL_COMMON_GetSource(int *p);
-
 extern void *POKE_PERSONAL_Create(u32 a, int b, u32 c);
 
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
@@ -1524,8 +1494,6 @@ extern void ZUKAN_DETAIL_TOUCHBAR_SetMode(void *s, u32 mode, u32 kind, u32 flag)
 
 
 
-extern void ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(char *p, int b);
-
 
 
 
@@ -1535,14 +1503,10 @@ extern u32  TOUCHPANEL_GetPointCont(u32 *x, u32 *y);
 
 extern void ZUKAN_DETAIL_FORM_CopyModelPosition(struct Ov208Mdl *u, int k, VecF *v);
 
-extern void ZUKAN_DETAIL_FORM_SwapItems(u16 *a0, struct Ov208Form *p, int ctx);
-
 
 
 extern void ZUKAN_SAVE_UpdateViewFlags(struct Blk37 *p, u16 id, u32 sel, u32 alt, u32 form);
 
-
-void ZUKAN_DETAIL_FORM_ExitModelSystem(u16 *heap, struct Ov208Form *p, int key);
 
 u32 ZUKAN_DETAIL_FORM_AddModel(void *sys, u32 species, u32 gender, u32 side, u32 form, u32 shiny, u32 personality, u32 extra);
 
@@ -1564,53 +1528,49 @@ void ZUKAN_DETAIL_FORM_SignalAnimDone(int *p);
 
 void ZUKAN_DETAIL_FORM_OnAnimStopRequest(struct Ov208Turn *t);
 
-void ZUKAN_DETAIL_FORM_ToggleModelVisibility(u16 *heap,struct Ov208Form *p,int key);
-
-void ZUKAN_DETAIL_FORM_ReleaseIconResources(void *a, char *q);
+void ZUKAN_DETAIL_FORM_ToggleModelVisibility(u16 *heap,struct Ov208Form *p,struct Ov208Ctx *key);
 
 u32 ZUKAN_DETAIL_FORM_CreateIconActor(u32 arc, u32 *res, u32 j, u32 k, u32 owner, u16 heap, u32 species, u32 form, u32 gender, u32 isEgg);
 
 void ZUKAN_DETAIL_FORM_DeleteIconActor(int a, int b);
 
-void ZUKAN_DETAIL_FORM_PlaceModelItem(u16 *heap, struct Ov208Form *p, int key, int a, int b, int pose, u16 idx);
+void ZUKAN_DETAIL_FORM_PlaceModelItem(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key, int a, int b, int pose, u16 idx);
 
-void ZUKAN_DETAIL_FORM_CreateCurrentIcon(u16 *heap, struct Ov208Form *p, int key, u16 idx);
+void ZUKAN_DETAIL_FORM_CreateCurrentIcon(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key, u16 idx);
 
-void ZUKAN_DETAIL_FORM_RebuildModelsSwapped(u16 *heap, struct Ov208Form *p, int key);
+void ZUKAN_DETAIL_FORM_RebuildModelsSwapped(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_FORM_RebuildModelsSingle(u16 *heap, struct Ov208Form *p, int key);
+void ZUKAN_DETAIL_FORM_RebuildModelsSingle(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_FORM_SwapIconActor(u16 *heap, struct Ov208Form *p, int key);
+void ZUKAN_DETAIL_FORM_SwapIconActor(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_FORM_DeleteArrowActors(u16 *unused, struct Ov208Form *p);
+int ZUKAN_DETAIL_FORM_HandleTouchArrows(u16 *unused, struct Ov208Form *p, struct Ov208Ctx *key);
 
-int ZUKAN_DETAIL_FORM_HandleTouchArrows(u16 *unused, struct Ov208Form *p, int key);
+void ZUKAN_DETAIL_FORM_UpdateArrowVisibility(u16 *unused, struct Ov208Form *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_FORM_UpdateArrowVisibility(u16 *unused, struct Ov208Form *p, int key);
+void ZUKAN_DETAIL_FORM_UpdateCursorMarkers(u16 *unused, struct Ov208Form *p, struct Ov208Ctx *unused2);
 
-void ZUKAN_DETAIL_FORM_UpdateCursorMarkers(u16 *unused, struct Ov208Form *p, int unused2);
+void ZUKAN_DETAIL_FORM_UpdateScrollMarkers(u16 *a0, struct Ov208Form *p, struct Ov208Ctx *a2);
 
-void ZUKAN_DETAIL_FORM_UpdateScrollMarkers(u16 *a0, struct Ov208Form *p, int a2);
+u32 ZUKAN_DETAIL_FORM_HandleScrollTouch(u16 *a0, struct Ov208Form *p, struct Ov208Ctx *key);
 
-u32 ZUKAN_DETAIL_FORM_HandleScrollTouch(u16 *a0, struct Ov208Form *p, int key);
-
-int ZUKAN_DETAIL_FORM_HandleScrollKey(u16 *a0, struct Ov208Form *p, int a2);
+int ZUKAN_DETAIL_FORM_HandleScrollKey(u16 *a0, struct Ov208Form *p, struct Ov208Ctx *a2);
 
 void ZUKAN_DETAIL_FORM_GetScrollSlotRange(int n, int i, u8 *lo, u8 *mid, u8 *hi);
 
 u16 ZUKAN_DETAIL_FORM_GetScrollSlotAtX(u16 n, u8 x);
 
-u16 ZUKAN_DETAIL_FORM_CountEntriesBefore(u16 *unused, struct Ov208Form *p, int unused2, u16 skip, u16 stop);
+u16 ZUKAN_DETAIL_FORM_CountEntriesBefore(u16 *unused, struct Ov208Form *p, struct Ov208Ctx *unused2, u16 skip, u16 stop);
 
-u16 ZUKAN_DETAIL_FORM_GetEntryIndex(u16 *unused, struct Ov208Form *p, int unused2, u16 skip, u16 want);
+u16 ZUKAN_DETAIL_FORM_GetEntryIndex(u16 *unused, struct Ov208Form *p, struct Ov208Ctx *unused2, u16 skip, u16 want);
 
-void ZUKAN_DETAIL_FORM_AdvanceSelection(u16 *a0, struct Ov208Form *p, int key);
+void ZUKAN_DETAIL_FORM_AdvanceSelection(u16 *a0, struct Ov208Form *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_FORM_PlaceSideModels(u16 *unused, struct Ov208Form *p, int unused2);
+void ZUKAN_DETAIL_FORM_PlaceSideModels(u16 *unused, struct Ov208Form *p, struct Ov208Ctx *unused2);
 
-void ZUKAN_DETAIL_FORM_RebuildSideItems(u16 *a0, struct Ov208Form *p, int key);
+void ZUKAN_DETAIL_FORM_RebuildSideItems(u16 *a0, struct Ov208Form *p, struct Ov208Ctx *key);
 
-void ZUKAN_DETAIL_FORM_SwapItems(u16 *unused, struct Ov208Form *p);
+void ZUKAN_DETAIL_FORM_SwapItems(u16 *unused, struct Ov208Form *p, struct Ov208Ctx *key);
 
 void ZUKAN_DETAIL_FORM_GetModelOffsets(VecF *pos, u32 species, u32 form, u32 gender, u32 shiny, u32 personality, u32 side, u32 extra);
 
@@ -1636,7 +1596,7 @@ extern const VecF data_021C87C0[5];
 
 extern const struct Ov208PoseEnt data_021C8854[15];
 
-void ZUKAN_DETAIL_FORM_InitModelSystem(u16 *heap, struct Ov208Form *p, int key)
+void ZUKAN_DETAIL_FORM_InitModelSystem(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     p->cam = (u32)MCSS_Init(4, (void *)(*heap));
     MCSS_SetTextureTransAdrs((void *)p->cam, 0);
@@ -1650,7 +1610,7 @@ void ZUKAN_DETAIL_FORM_InitModelSystem(u16 *heap, struct Ov208Form *p, int key)
 /*
  * Releases the file and the two allocations held in the 0x10-byte records.
  */
-void ZUKAN_DETAIL_FORM_ExitModelSystem(u16 *heap, struct Ov208Form *p, int key)
+void ZUKAN_DETAIL_FORM_ExitModelSystem(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     MCSS_CloseHandle((struct Sub02014CB8Obj *)p->cam);
     MCSS_Exit((u8 *)p->cam);
@@ -1779,7 +1739,7 @@ void ZUKAN_DETAIL_FORM_OnAnimStopRequest(struct Ov208Turn *t)
     MCSS_RequestAnimeStopAtStart((void *)(*(u32 *)(scene + t->side * 0x44 + 0xc)));
 }
 
-void ZUKAN_DETAIL_FORM_ToggleModelVisibility(u16 *heap,struct Ov208Form *p,int key)
+void ZUKAN_DETAIL_FORM_ToggleModelVisibility(u16 *heap,struct Ov208Form *p,struct Ov208Ctx *key)
 {
     if(p->w124) {
         MCSS_SetVanishFlag((void *)p->item[0].obj);
@@ -1800,7 +1760,7 @@ void ZUKAN_DETAIL_FORM_ToggleModelVisibility(u16 *heap,struct Ov208Form *p,int k
     }
 }
 
-void ZUKAN_DETAIL_FORM_LoadIconResources(u16 *heap, struct Ov208Form *p, int key)
+void ZUKAN_DETAIL_FORM_LoadIconResources(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     p->arc = ARC_TOOL_CreateHandle(7, *heap);
     p->j = CLACT_RegisterPaletteCompressed(p->arc, POKE_TOOL_GetIconPaletteArcId(), 1, 0, *heap);
@@ -1810,11 +1770,11 @@ void ZUKAN_DETAIL_FORM_LoadIconResources(u16 *heap, struct Ov208Form *p, int key
 /*
  * Calls 0x0204AFD8 on +0x138, 0x0204ADA4 on +0x134 and 0x02049238 on +0x128 of the second argument.
  */
-void ZUKAN_DETAIL_FORM_ReleaseIconResources(void *a, char *q)
+void ZUKAN_DETAIL_FORM_ReleaseIconResources(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key)
 {
-    CLACT_ReleaseCellAnim(((struct Ov208Form *)q)->k);
-    CLACT_ReleasePalette(((struct Ov208Form *)q)->j);
-    ARC_TOOL_DeleteHandle((void *)((struct Ov208Form *)q)->arc);
+    CLACT_ReleaseCellAnim(p->k);
+    CLACT_ReleasePalette(p->j);
+    ARC_TOOL_DeleteHandle((void *)p->arc);
 }
 
 u32 ZUKAN_DETAIL_FORM_CreateIconActor(u32 arc, u32 *res, u32 j, u32 k, u32 owner, u16 heap, u32 species,
@@ -1846,12 +1806,12 @@ void ZUKAN_DETAIL_FORM_DeleteIconActor(int a, int b)
     CLACT_ReleaseCharacter(a);
 }
 
-void ZUKAN_DETAIL_FORM_BuildFormEntries(u16 *heap, int key, struct Ov208Ent *out, u16 *count, u16 *groups, u16 *twos, u16 *sel, u16 *next)
+void ZUKAN_DETAIL_FORM_BuildFormEntries(u16 *heap, struct Ov208Ctx *key, struct Ov208Ent *out, u16 *count, u16 *groups, u16 *twos, u16 *sel, u16 *next)
 {
   Ov208Gender3 genders = data_021C8810;
   Ov208Shiny2 shinies = data_021C87FC;
   u16 species = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
-  void *pd = ZUKAN_SAVE_GetFromGameData((void *)ZUKAN_DETAIL_COMMON_GetSource((int *)key));
+  void *pd = ZUKAN_SAVE_GetFromGameData(ZUKAN_DETAIL_COMMON_GetSource(key));
   u32 h = (u32)POKE_PERSONAL_Create(species, 0, *heap);
   u32 ratio;
   u32 forms;
@@ -1981,13 +1941,13 @@ void ZUKAN_DETAIL_FORM_BuildFormEntries(u16 *heap, int key, struct Ov208Ent *out
 
 }
 
-void ZUKAN_DETAIL_FORM_RefreshFormEntries(u16 *heap, struct Ov208Form *p, int key)
+void ZUKAN_DETAIL_FORM_RefreshFormEntries(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     ZUKAN_DETAIL_FORM_BuildFormEntries(heap, key, p->ents, &p->count, &p->f54a,
                         &p->f54c, &p->sel, &p->sel2);
 }
 
-void ZUKAN_DETAIL_FORM_PlaceModelItem(u16 *heap, struct Ov208Form *p, int key, int a, int b, int pose, u16 idx)
+void ZUKAN_DETAIL_FORM_PlaceModelItem(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key, int a, int b, int pose, u16 idx)
 {
     Vec v;
     u16 species;
@@ -2002,7 +1962,7 @@ void ZUKAN_DETAIL_FORM_PlaceModelItem(u16 *heap, struct Ov208Form *p, int key, i
     f152 = p->ents[idx].gender;
     f153 = p->ents[idx].shiny;
     if (species == 0x147)
-        extra = ZUKAN_SAVE_GetSpindaPersonality(ZUKAN_SAVE_GetFromGameData((void *)ZUKAN_DETAIL_COMMON_GetSource((int *)key)), extra);
+        extra = ZUKAN_SAVE_GetSpindaPersonality(ZUKAN_SAVE_GetFromGameData(ZUKAN_DETAIL_COMMON_GetSource(key)), extra);
     if (a != 4) {
         ZUKAN_DETAIL_FORM_CreateModelItem(&p->item[a], *heap, (void *)p->cam, species, form, f152, f153, 0, 0, extra);
         ZUKAN_DETAIL_FORM_SelectModelPosition((int)&p->item[a], pose, (int)(&v));
@@ -2019,7 +1979,7 @@ void ZUKAN_DETAIL_FORM_PlaceModelItem(u16 *heap, struct Ov208Form *p, int key, i
     }
 }
 
-void ZUKAN_DETAIL_FORM_CreateCurrentIcon(u16 *heap, struct Ov208Form *p, int key, u16 idx)
+void ZUKAN_DETAIL_FORM_CreateCurrentIcon(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key, u16 idx)
 {
     u16 k = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
 
@@ -2027,7 +1987,7 @@ void ZUKAN_DETAIL_FORM_CreateCurrentIcon(u16 *heap, struct Ov208Form *p, int key
                                          p->ents[idx].form, p->ents[idx].gender, 0);
 }
 
-void ZUKAN_DETAIL_FORM_RebuildModels(u16 *heap, struct Ov208Form *p, int key)
+void ZUKAN_DETAIL_FORM_RebuildModels(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     u8 i;
     int a;
@@ -2069,7 +2029,7 @@ void ZUKAN_DETAIL_FORM_RebuildModels(u16 *heap, struct Ov208Form *p, int key)
 /*
  * Closed 2026-10-04: pose=0 stays linear via goto skip; models addressed as p + 0xc + i * 0x44.
  */
-void ZUKAN_DETAIL_FORM_RebuildModelsSwapped(u16 *heap, struct Ov208Form *p, int key)
+void ZUKAN_DETAIL_FORM_RebuildModelsSwapped(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     Vec v;
     int a;
@@ -2126,7 +2086,7 @@ skip:
  * note: 2026-10-05 (D4-11): EXACT. pose set with the goto form of sibling 021C595C;
  *   &p->item[i] as one byte offset (p + 0xc + i*0x44) so &p->item[1] folds to p+0x50.
  */
-void ZUKAN_DETAIL_FORM_RebuildModelsSingle(u16 *heap, struct Ov208Form *p, int key)
+void ZUKAN_DETAIL_FORM_RebuildModelsSingle(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     Vec v;
     int a;
@@ -2175,7 +2135,7 @@ skip:
     }
 }
 
-void ZUKAN_DETAIL_FORM_RebuildSideModels(void *a0, struct Ov208Form *p, int key)
+void ZUKAN_DETAIL_FORM_RebuildSideModels(void *a0, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     int a;
     int b;
@@ -2193,7 +2153,7 @@ void ZUKAN_DETAIL_FORM_RebuildSideModels(void *a0, struct Ov208Form *p, int key)
     ZUKAN_DETAIL_FORM_UpdateCursorMarkers(a0, p, key);
 }
 
-void ZUKAN_DETAIL_FORM_SwapIconActor(u16 *heap, struct Ov208Form *p, int key)
+void ZUKAN_DETAIL_FORM_SwapIconActor(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     if (p->obj[p->cur] != 0)
         CLACT_SetActorDrawEnable((struct Obj *)p->obj[p->cur], 0);
@@ -2206,7 +2166,7 @@ void ZUKAN_DETAIL_FORM_SwapIconActor(u16 *heap, struct Ov208Form *p, int key)
     ZUKAN_DETAIL_FORM_CreateCurrentIcon(heap, p, key, p->sel);
 }
 
-void ZUKAN_DETAIL_FORM_UpdateState(u16 *heap, struct Ov208Form *p, int key)
+void ZUKAN_DETAIL_FORM_UpdateState(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     u32 x;
     u32 y;
@@ -2216,7 +2176,7 @@ void ZUKAN_DETAIL_FORM_UpdateState(u16 *heap, struct Ov208Form *p, int key)
     u32 r;
     u8 i;
 
-    scene = (void *)ZUKAN_DETAIL_COMMON_GetWorkPtr((int *)key);
+    scene = ZUKAN_DETAIL_COMMON_GetWorkPtr(key);
     switch (p->state) {
     case 0:
         if (p->w6b4 == 0)
@@ -2288,7 +2248,7 @@ void ZUKAN_DETAIL_FORM_UpdateState(u16 *heap, struct Ov208Form *p, int key)
     }
 }
 
-void ZUKAN_DETAIL_FORM_HandleStateEvent(u16 *a0, struct Ov208Form *p, int ctx, int ev)
+void ZUKAN_DETAIL_FORM_HandleStateEvent(u16 *a0, struct Ov208Form *p, struct Ov208Ctx *ctx, int ev)
 {
     void *scene;
     void *icon;
@@ -2349,7 +2309,7 @@ void ZUKAN_DETAIL_FORM_HandleStateEvent(u16 *a0, struct Ov208Form *p, int ctx, i
                     MCSS_SetPosition((void *)p->item[3].obj, (u32 *)(&v));
                 }
             }
-            ZUKAN_DETAIL_TOUCHBAR_SetMode(scene, 2, 3, ZUKAN_DETAIL_COMMON_GetMaxValue((char *)ctx) > 1);
+            ZUKAN_DETAIL_TOUCHBAR_SetMode(scene, 2, 3, ZUKAN_DETAIL_COMMON_GetMaxValue(ctx) > 1);
             if (p->count >= 3)
                 ZUKAN_DETAIL_TOUCHBAR_SetButtonVisible(scene, 1);
             else
@@ -2407,7 +2367,7 @@ void ZUKAN_DETAIL_FORM_HandleStateEvent(u16 *a0, struct Ov208Form *p, int ctx, i
                     MCSS_SetPosition((void *)p->item[3].obj, (u32 *)(&v2));
                 }
             }
-            ZUKAN_DETAIL_TOUCHBAR_SetMode(scene, 0, 3, ZUKAN_DETAIL_COMMON_GetMaxValue((char *)ctx) > 1);
+            ZUKAN_DETAIL_TOUCHBAR_SetMode(scene, 0, 3, ZUKAN_DETAIL_COMMON_GetMaxValue(ctx) > 1);
             ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scene, GAME_DATA_CheckSaveFlag(ZUKAN_DETAIL_COMMON_GetSource(ctx), 0x14));
             ZUKAN_DETAIL_HEADBAR_SetIconKind(icon, 3);
             if (p->count >= 2) {
@@ -2429,7 +2389,7 @@ void ZUKAN_DETAIL_FORM_HandleStateEvent(u16 *a0, struct Ov208Form *p, int ctx, i
     }
 }
 
-void ZUKAN_DETAIL_FORM_CreateArrowActors(u16 *heap, struct Ov208Form *p, int key)
+void ZUKAN_DETAIL_FORM_CreateArrowActors(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     struct Ov208CellHdr hdr[2];
     void *h;
@@ -2537,7 +2497,7 @@ void ZUKAN_DETAIL_FORM_CreateArrowActors(u16 *heap, struct Ov208Form *p, int key
     p->w694 = 5;
 }
 
-void ZUKAN_DETAIL_FORM_DeleteArrowActors(u16 *unused, struct Ov208Form *p)
+void ZUKAN_DETAIL_FORM_DeleteArrowActors(u16 *unused, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     u8 i;
     for (i = 0; i < 4; i++)
@@ -2555,7 +2515,7 @@ void ZUKAN_DETAIL_FORM_DeleteArrowActors(u16 *unused, struct Ov208Form *p)
     CLACT_ReleaseCellAnim(p->rs[8]);
 }
 
-int ZUKAN_DETAIL_FORM_HandleTouchArrows(u16 *unused, struct Ov208Form *p, int key)
+int ZUKAN_DETAIL_FORM_HandleTouchArrows(u16 *unused, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     void *sys;
     enum { HIT_NONE = 5 } hit;
@@ -2634,7 +2594,7 @@ int ZUKAN_DETAIL_FORM_HandleTouchArrows(u16 *unused, struct Ov208Form *p, int ke
     return hit;
 }
 
-void ZUKAN_DETAIL_FORM_UpdateArrowVisibility(u16 *unused, struct Ov208Form *p, int key)
+void ZUKAN_DETAIL_FORM_UpdateArrowVisibility(u16 *unused, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     int on = 0;
 
@@ -2655,7 +2615,7 @@ void ZUKAN_DETAIL_FORM_UpdateArrowVisibility(u16 *unused, struct Ov208Form *p, i
     }
 }
 
-void ZUKAN_DETAIL_FORM_UpdateArrowAnim(u16 *heap, struct Ov208Form *p, int key)
+void ZUKAN_DETAIL_FORM_UpdateArrowAnim(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     void *scene;
     u32 other;
@@ -2693,7 +2653,7 @@ void ZUKAN_DETAIL_FORM_UpdateArrowAnim(u16 *heap, struct Ov208Form *p, int key)
     }
 }
 
-void ZUKAN_DETAIL_FORM_UpdateCursorMarkers(u16 *unused, struct Ov208Form *p, int unused2)
+void ZUKAN_DETAIL_FORM_UpdateCursorMarkers(u16 *unused, struct Ov208Form *p, struct Ov208Ctx *unused2)
 {
     int show = 1;
     int multi = 0;
@@ -2737,7 +2697,7 @@ void ZUKAN_DETAIL_FORM_UpdateCursorMarkers(u16 *unused, struct Ov208Form *p, int
     }
 }
 
-void ZUKAN_DETAIL_FORM_UpdateScrollMarkers(u16 *a0, struct Ov208Form *p, int a2)
+void ZUKAN_DETAIL_FORM_UpdateScrollMarkers(u16 *a0, struct Ov208Form *p, struct Ov208Ctx *a2)
 {
     int on = 0;
     u16 n;
@@ -2769,7 +2729,7 @@ void ZUKAN_DETAIL_FORM_UpdateScrollMarkers(u16 *a0, struct Ov208Form *p, int a2)
     }
 }
 
-void ZUKAN_DETAIL_FORM_UpdateScrollInput(u16 *a0, struct Ov208Form *p, int key)
+void ZUKAN_DETAIL_FORM_UpdateScrollInput(u16 *a0, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     if ((p->state == 4 && p->w6b4 != 0 && p->w694 == 5) || p->w6d4 != 0) {
         if (ZUKAN_DETAIL_FORM_HandleScrollKey(a0, p, key) == 0)
@@ -2777,7 +2737,7 @@ void ZUKAN_DETAIL_FORM_UpdateScrollInput(u16 *a0, struct Ov208Form *p, int key)
     }
 }
 
-u32 ZUKAN_DETAIL_FORM_HandleScrollTouch(u16 *a0, struct Ov208Form *p, int key)
+u32 ZUKAN_DETAIL_FORM_HandleScrollTouch(u16 *a0, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     u32 x;
     u32 y;
@@ -2820,7 +2780,7 @@ u32 ZUKAN_DETAIL_FORM_HandleScrollTouch(u16 *a0, struct Ov208Form *p, int key)
     return p->w69c;
 }
 
-int ZUKAN_DETAIL_FORM_HandleScrollKey(u16 *a0, struct Ov208Form *p, int a2)
+int ZUKAN_DETAIL_FORM_HandleScrollKey(u16 *a0, struct Ov208Form *p, struct Ov208Ctx *a2)
 {
     struct Ov208Cursor c;
     int moved;
@@ -2880,7 +2840,7 @@ u16 ZUKAN_DETAIL_FORM_GetScrollSlotAtX(u16 n, u8 x)
     return i;
 }
 
-u16 ZUKAN_DETAIL_FORM_CountEntriesBefore(u16 *unused, struct Ov208Form *p, int unused2, u16 skip, u16 stop)
+u16 ZUKAN_DETAIL_FORM_CountEntriesBefore(u16 *unused, struct Ov208Form *p, struct Ov208Ctx *unused2, u16 skip, u16 stop)
 {
     u16 n = 0;
     u16 i;
@@ -2895,7 +2855,7 @@ u16 ZUKAN_DETAIL_FORM_CountEntriesBefore(u16 *unused, struct Ov208Form *p, int u
     return n;
 }
 
-u16 ZUKAN_DETAIL_FORM_GetEntryIndex(u16 *unused, struct Ov208Form *p, int unused2, u16 skip, u16 want)
+u16 ZUKAN_DETAIL_FORM_GetEntryIndex(u16 *unused, struct Ov208Form *p, struct Ov208Ctx *unused2, u16 skip, u16 want)
 {
     u16 r = 0;
     u16 j = 0;
@@ -2913,7 +2873,7 @@ u16 ZUKAN_DETAIL_FORM_GetEntryIndex(u16 *unused, struct Ov208Form *p, int unused
     return r;
 }
 
-void ZUKAN_DETAIL_FORM_UpdateSlideLeft(u16 *a0, struct Ov208Form *p, int ctx)
+void ZUKAN_DETAIL_FORM_UpdateSlideLeft(u16 *a0, struct Ov208Form *p, struct Ov208Ctx *ctx)
 {
     Vec u;
     VecF a;
@@ -2962,7 +2922,7 @@ void ZUKAN_DETAIL_FORM_UpdateSlideLeft(u16 *a0, struct Ov208Form *p, int ctx)
                 ZUKAN_DETAIL_FORM_DrawFormLabelSub(a0, p, ctx);
                 ZUKAN_DETAIL_FORM_UpdateCursorMarkers(a0, p, ctx);
                 id = ZUKAN_DETAIL_COMMON_GetCurrentEntry(ctx);
-                obj = ZUKAN_SAVE_GetFromGameData((void *)ZUKAN_DETAIL_COMMON_GetSource(ctx));
+                obj = ZUKAN_SAVE_GetFromGameData(ZUKAN_DETAIL_COMMON_GetSource(ctx));
                 f = p->ents[p->sel].gender;
                 sh = p->ents[p->sel].shiny != 0 ? 1 : 0;
                 ZUKAN_SAVE_UpdateViewFlags(obj, id, f, sh, p->ents[p->sel].form);
@@ -3015,7 +2975,7 @@ void ZUKAN_DETAIL_FORM_UpdateSlideLeft(u16 *a0, struct Ov208Form *p, int ctx)
     }
 }
 
-void ZUKAN_DETAIL_FORM_AdvanceSelection(u16 *a0, struct Ov208Form *p, int key)
+void ZUKAN_DETAIL_FORM_AdvanceSelection(u16 *a0, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     u16 old = p->sel2;
     int a;
@@ -3045,7 +3005,7 @@ void ZUKAN_DETAIL_FORM_AdvanceSelection(u16 *a0, struct Ov208Form *p, int key)
     ZUKAN_DETAIL_FORM_PlaceSideModels(a0, p, key);
 }
 
-void ZUKAN_DETAIL_FORM_PlaceSideModels(u16 *unused, struct Ov208Form *p, int unused2)
+void ZUKAN_DETAIL_FORM_PlaceSideModels(u16 *unused, struct Ov208Form *p, struct Ov208Ctx *unused2)
 {
     Vec v;
 
@@ -3076,7 +3036,7 @@ void ZUKAN_DETAIL_FORM_PlaceSideModels(u16 *unused, struct Ov208Form *p, int unu
     }
 }
 
-void ZUKAN_DETAIL_FORM_UpdateSlideRight(u16 *a0, struct Ov208Form *p, int ctx)
+void ZUKAN_DETAIL_FORM_UpdateSlideRight(u16 *a0, struct Ov208Form *p, struct Ov208Ctx *ctx)
 {
     Vec v;
     VecF a;
@@ -3141,7 +3101,7 @@ void ZUKAN_DETAIL_FORM_UpdateSlideRight(u16 *a0, struct Ov208Form *p, int ctx)
         ZUKAN_DETAIL_FORM_DrawFormLabelSub(a0, p, ctx);
         ZUKAN_DETAIL_FORM_UpdateCursorMarkers(a0, p, ctx);
         id = ZUKAN_DETAIL_COMMON_GetCurrentEntry(ctx);
-        obj = ZUKAN_SAVE_GetFromGameData((void *)ZUKAN_DETAIL_COMMON_GetSource(ctx));
+        obj = ZUKAN_SAVE_GetFromGameData(ZUKAN_DETAIL_COMMON_GetSource(ctx));
         f = p->ents[p->sel].gender;
         if (p->ents[p->sel].shiny != 0)
             sh = 1;
@@ -3160,7 +3120,7 @@ void ZUKAN_DETAIL_FORM_UpdateSlideRight(u16 *a0, struct Ov208Form *p, int ctx)
     }
 }
 
-void ZUKAN_DETAIL_FORM_UpdateSlideBoth(u16 *a0, struct Ov208Form *p, int ctx)
+void ZUKAN_DETAIL_FORM_UpdateSlideBoth(u16 *a0, struct Ov208Form *p, struct Ov208Ctx *ctx)
 {
     Vec v1;
     VecF a1;
@@ -3317,7 +3277,7 @@ void ZUKAN_DETAIL_FORM_UpdateSlideBoth(u16 *a0, struct Ov208Form *p, int ctx)
     }
 }
 
-void ZUKAN_DETAIL_FORM_RebuildSideItems(u16 *a0, struct Ov208Form *p, int key)
+void ZUKAN_DETAIL_FORM_RebuildSideItems(u16 *a0, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     int a;
     int b;
@@ -3333,7 +3293,7 @@ void ZUKAN_DETAIL_FORM_RebuildSideItems(u16 *a0, struct Ov208Form *p, int key)
     MCSS_SetTaskSystem((u8 *)p->cam, (u32)p->heap3d);
 }
 
-void ZUKAN_DETAIL_FORM_SwapItems(u16 *unused, struct Ov208Form *p)
+void ZUKAN_DETAIL_FORM_SwapItems(u16 *unused, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     VecF t;
     VecF t2;
@@ -3375,7 +3335,7 @@ void ZUKAN_DETAIL_FORM_SwapItems(u16 *unused, struct Ov208Form *p)
     }
 }
 
-void ZUKAN_DETAIL_FORM_SetActorsNormalMode(u16 *a0, struct Ov208Form *p, int key)
+void ZUKAN_DETAIL_FORM_SetActorsNormalMode(u16 *a0, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     u8 i;
 
@@ -3391,7 +3351,7 @@ void ZUKAN_DETAIL_FORM_SetActorsNormalMode(u16 *a0, struct Ov208Form *p, int key
     G2x_SetBlendAlpha_(0x04001050, 8, 0x3f, 0xc, 4);
 }
 
-void ZUKAN_DETAIL_FORM_SetActorsAlphaMode(u16 *a0, struct Ov208Form *p, int key)
+void ZUKAN_DETAIL_FORM_SetActorsAlphaMode(u16 *a0, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     u8 i;
 

@@ -1,7 +1,7 @@
 /*
  * file:     sceneoptmovwait.c
  * unit:     yes
- * function: DWCi_SceneOptMovWait_DetectFold, DWCi_SceneOptMovWait, initGraphics, DWCi_SceneOptMovWaitProcInit, DWCi_SceneOptMovWaitProcInit1, procInit2, DWCi_SceneOptMovWait_procScene, input, DWCi_SceneOptMovWait_draw, button, endScene, endScene1, endScene2, DWCi_SceneOptMovWaitCbMov, DWCi_SceneOptMovWait_DetectFoldEnd
+ * function: DWCi_IsFold, DWCi_SceneOptMovWait, initGraphics, DWCi_SceneOptMovWaitProcInit, DWCi_SceneOptMovWaitProcInit1, procInit2, DWCi_SceneOptMovWait_procScene, input, DWCi_SceneOptMovWait_draw, button, endScene, endScene1, endScene2, DWCi_SceneOptMovWaitCbMov
  * address:  0x021C44EC
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -102,11 +102,10 @@ extern void DWCi_SceneOptMenu();
 extern void DWCi_SceneOptMovFailure();
 extern void DWCi_SceneOptMovUser();
 extern void DWCi_MOVlChangeCallback(unsigned int v);
-int DWCi_SceneOptMovWait_DetectFold(void);
+static int DWCi_IsFold(void);
 void DWCi_SceneOptMovWait(void);
 void DWCi_SceneOptMovWait_procScene(void);
 void DWCi_SceneOptMovWait_draw(void);
-int DWCi_SceneOptMovWait_DetectFoldEnd(void);
 extern unsigned char Choose;
 extern u8   gSceneOptMovWaitWork;
 
@@ -116,8 +115,8 @@ extern u8   gSceneOptMovWaitWork;
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/DWCi_SceneOptMovWait_DetectFold.c \
- *       --func DWCi_SceneOptMovWait_DetectFold --addr 0x021C44EC --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_IsFold.c \
+ *       --func DWCi_IsFold --addr 0x021C44EC --region ov016 --cc dsi/1.1p1 --arm
  */
 
 static void initGraphics(void);
@@ -130,7 +129,7 @@ static void endScene(void);
 static void endScene1(void);
 static void endScene2(void);
 static void DWCi_SceneOptMovWaitCbMov(int state);
-int DWCi_SceneOptMovWait_DetectFold(void)
+static int DWCi_IsFold(void)
 {
     return ((*(unsigned short *)0x02FFFFA8 & 0x8000) >> 15) != 0;
 }
@@ -202,7 +201,7 @@ static void input(void)
         DWCi_BTNlSet(0);
         return;
     }
-    if (DWCi_SceneOptMovWait_DetectFold())
+    if (DWCi_IsFold())
         DWCi_BTNlSet(0);
 }
 
@@ -306,15 +305,3 @@ static void DWCi_SceneOptMovWaitCbMov(int state)
 }
 
 
-/*
- * Bit 15 of the halfword at 0x02FFFFA8, as 0/1.
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/DWCi_SceneOptMovWait_DetectFoldEnd.c \
- *       --func DWCi_SceneOptMovWait_DetectFoldEnd --addr 0x021C48E4 --region ov016 --cc dsi/1.1p1 --arm
- */
-int DWCi_SceneOptMovWait_DetectFoldEnd(void)
-{
-    return ((*(unsigned short *)0x02FFFFA8 & 0x8000) >> 15) != 0;
-}

@@ -36,7 +36,7 @@
  *   PALANM_GetTransWork  0x02021730  thumb
  *   PALANM_FreeSlotBuffers  0x020215A0  thumb
  *   PALANM_Delete  0x02021540  thumb
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   DC_FlushRange  0x020862F0  arm
  *   GXS_LoadOBJPltt  0x0207E5D0  arm
  *   GXS_LoadBGPltt  0x0207E468  arm
  *   MI_CpuCopy8 0x02082D44 arm
@@ -374,7 +374,7 @@ extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size,
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 extern int PALANM_GetTransWork(char *p, int i);
-extern void DWCi_ScreenDC_FlushRange(int, int);
+extern void DC_FlushRange(int, int);
 extern void GXS_LoadOBJPltt(int, int, int);
 extern void GXS_LoadBGPltt(int, int, int);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
@@ -670,7 +670,7 @@ int IRCBATTLEMATCH_BlendBgPalette(IrcBattleMatchWork *work, int bgSlot, int pale
     PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)palAnim, bgSlot, 0, byteSize);
     PALANM_BlendChannel((struct Chan02021FD8 *)palAnim, bgSlot, 0, (u16)(paletteCount << 4), 6, 0);
     transWork = PALANM_GetTransWork((char *)palAnim, bgSlot);
-    DWCi_ScreenDC_FlushRange(transWork, byteSize);
+    DC_FlushRange(transWork, byteSize);
     if (bgSlot != 1) {
         if (bgSlot == 3)
             GXS_LoadOBJPltt(transWork, 0, byteSize);

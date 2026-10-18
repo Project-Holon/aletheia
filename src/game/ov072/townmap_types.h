@@ -199,7 +199,7 @@ typedef struct TownMapButtonBar {
     u32 charRes;            /* 0x00 */
     u32 plttRes;            /* 0x04 */
     u32 cellRes;            /* 0x08 */
-    u32 buttonMan;          /* 0x0C button manager (func_021B62E0) */
+    u32 buttonMan;          /* 0x0C button manager (TOUCHBAR_Create) */
     u32 ctx;                /* 0x10 */
     void *sprite;           /* 0x14 back button sprite */
     int pressed;            /* 0x18 pressed button id, -1 = none */

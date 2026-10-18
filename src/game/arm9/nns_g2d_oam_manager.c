@@ -18,7 +18,7 @@
  *   g_02146BC8      0x02146BC8  data
  *   g_02146BC4      0x02146BC4  data  a2
  *   g_020A81E4     0x020A81E4  data  a4
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   DC_FlushRange  0x020862F0  arm
  *   GX_LoadOAM  0x0207E684  arm
  *   GXS_LoadOAM  0x0207E708  arm
  *   GXi_DmaId     0x020A84C0  data  a4
@@ -178,13 +178,12 @@ typedef struct VramResourceIndices {
 
 extern void MIi_CpuCopy16(void *src, u32 dest);
 extern void MIi_CpuClear16(u16 data, void *dest, u32 size);
-extern void DWCi_ScreenDC_FlushRange(const void *startAddr, u32 nBytes);         /* DC_FlushRange */
+extern void DC_FlushRange(const void *startAddr, u32 nBytes);         /* DC_FlushRange */
 extern void GX_LoadOAM(const void *pSrc, u32 offset, u32 szByte);  /* GX_LoadOAM */
 extern void GXS_LoadOAM(const void *pSrc, u32 offset, u32 szByte);  /* GXS_LoadOAM */
 extern void DC_InvalidateRange(const void *startAddr, u32 nBytes);          /* DC_InvalidateRange */
 extern void MIi_DmaFill32(u32 dmaNo, void *dest, u32 data, u32 size, BOOL flag);  /* MIi_DmaFill32 */
 extern void MIi_CpuClear32(u32 data, void *dest, u32 size);            /* MIi_CpuClear32 */
-extern void DC_FlushRange(void *p, u32 n);
 extern void GX_BeginLoadTex(void);
 extern void GX_LoadTex(void *src, u32 off, u32 n);
 extern void GX_EndLoadTex(void);
@@ -657,7 +656,7 @@ static inline void LoadOamAndAffineFast_(NNSG2dOamType type, u16 fromIdx, u16 to
     const u16 szByte = (u16)(sizeof(GXOamAttr) * (toIdx - fromIdx + 1));
     u16 offset = (u16)(sizeof(GXOamAttr) * fromIdx);
 
-    DWCi_ScreenDC_FlushRange(pFrom, szByte);
+    DC_FlushRange(pFrom, szByte);
 
     switch (type) {
     case NNS_G2D_OAMTYPE_MAIN:
@@ -714,7 +713,7 @@ static inline void LoadAffine_(NNSG2dOamType type, u16 fromIdx, u16 toIdx)
 
 /*
  * NitroSystem g2d_OAM.c NNS_G2dApplyOamManagerToHW(pMan).  Fast-transfer
- * managers: LoadOamAndAffineFast_ (DC_FlushRange DWCi_ScreenDC_FlushRange over the
+ * managers: LoadOamAndAffineFast_ (DC_FlushRange DC_FlushRange over the
  * span, then GX_LoadOAM GX_LoadOAM or GXS_LoadOAM GXS_LoadOAM by
  * type).  Otherwise LoadOam_ pushes each entry's three attribute halfwords
  * through the per-type loader, and when the affine area is valid
@@ -1174,7 +1173,7 @@ void NNSi_G2dLoadVramResourceBySel(VramResourceSel *self, u32 a1, int sel, VramH
     u32 a = self->src;
     u32 b = self->size;
 
-    DWCi_ScreenDC_FlushRange((const void *)a, b);
+    DC_FlushRange((const void *)a, b);
 
     switch (sel) {
     case 1:
@@ -1228,7 +1227,7 @@ void NNSi_G2dLoadVramResourceBySel(VramResourceSel *self, u32 a1, int sel, VramH
  *
  * FOUR THINGS THE BYTES FORCED, in the order they cost time:
  *
- *   1. The two products are NAMED LOCALS computed before DWCi_ScreenDC_FlushRange, not
+ *   1. The two products are NAMED LOCALS computed before DC_FlushRange, not
  *      expressions at the six call sites.  Writing `a + step * i` inline gives
  *      `mla r0, r6, r4, r5` repeated in every arm where the image has one
  *      `mul r4, r8, r7` / `mul r6, r8, r0` pair at 0x02063FA8 and a plain
@@ -1293,7 +1292,7 @@ void NNSi_G2dLoadVramResourceList(VramResourceList *self, VramResourceIndices *l
             a = self->src;
             d = step * i;
             t = step * list->items[i];
-            DWCi_ScreenDC_FlushRange((const void *)a, self->size);
+            DC_FlushRange((const void *)a, self->size);
             switch (sel) {
             case 1:
                 if (self->handle != 0) {

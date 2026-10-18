@@ -2392,7 +2392,7 @@ u32 POKE_TOOL_GetHiddenPowerPower(struct PokemonParam *pp)
 /*
  * Eight byte tail-call thunk to POKE_TOOL_CheckBoxTmCompat
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md). Filed as the relocation
- * witness for ov021 func_021B62C8 (wave A1).
+ * witness for ov021 SCRCMD_POKEMON_FLD_GetMonTypeForTm (wave A1).
  */
 u32 POKE_TOOL_CheckTmCompat(struct PokemonParam *pp, int tmIndex)
 {

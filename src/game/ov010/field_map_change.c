@@ -143,14 +143,14 @@ int FIELD_MAP_CHANGE_ResetGimmickStateCase2(int object, int unused)
 
 /*
  * Unlabelled thumb tail-call stub (ldr r3,[pc,0]; bx r3; .word 0x0215E34D);
- * the sole blocker of ov020 func_0218562C.
+ * the sole blocker of ov020 EVENT_MAPCHANGE_InitFieldFromSituationWarp.
  *
  * Every ov020 caller passes a second argument (r1), but FIELD_ENCOUNT_ST_ResetGimmickState
  * reads only r0, so b stays unused here; its result passes back in r0.
  */
 /*
  * Unlabelled thumb tail-call stub (ldr r3,[pc,#0]; bx r3; .word 0x0215E34D);
- * the sole blocker of ov020 func_0218562C.
+ * the sole blocker of ov020 EVENT_MAPCHANGE_InitFieldFromSituationWarp.
  *
  * Every ov020 caller passes a second argument (r1), but FIELD_ENCOUNT_ST_ResetGimmickState
  * reads only r0, so b stays unused here; its result passes back in r0.

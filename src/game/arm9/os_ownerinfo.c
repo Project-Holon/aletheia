@@ -60,21 +60,17 @@ typedef struct OSiNvramOwner {
     u16 rsv7 : 13;
 } OSiNvramOwner;
 
-extern void MI_CpuCopy8(void);
+extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern BOOL OS_IsRunOnTwl(void);
 extern void MIi_CpuCopy16(const void *src, void *dest, u32 size);
-asm void OS_GetMacAddress(void);
+void OS_GetMacAddress(u8 *macAddress);
 void OS_GetOwnerInfo(OSOwnerInfo *info);
-asm void OS_GetOwnerRtcOffset(void);
+long long OS_GetOwnerRtcOffset(void);
 
 
-asm void OS_GetMacAddress(void)
+void OS_GetMacAddress(u8 *macAddress)
 {
-    mov	r1, r0
-    ldr r0, =0x02FFFCF4
-    ldr ip, =MI_CpuCopy8
-    mov	r2, #6
-    bx	ip
+    MI_CpuCopy8((const void *)0x02FFFCF4, macAddress, 6);
 }
 
 
@@ -100,10 +96,13 @@ void OS_GetOwnerInfo(OSOwnerInfo *info)
     info->comment[26] = 0;
 }
 
-asm void OS_GetOwnerRtcOffset(void)
+typedef struct OSiOwnerRtc {
+    u8 pad[0x68];
+    long long rtcOffset;
+} OSiOwnerRtc;
+
+long long OS_GetOwnerRtcOffset(void)
 {
-    ldr r1, =0x02FFFC80
-    ldr	r0, [r1, #0x68]
-    ldr	r1, [r1, #0x6c]
-    bx	lr
+    OSiOwnerRtc *w = (OSiOwnerRtc *)0x02FFFC80;
+    return w->rtcOffset;
 }

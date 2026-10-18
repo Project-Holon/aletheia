@@ -180,7 +180,7 @@ int DWCi_Ndi_getEncodeLenBASE64(int n);
 int DWCi_Ndi_encodeBASE64(char *encstr, char *srcbin, int length);
 int DWCi_Ndi_decodeBASE64(char *decbin, char *str, int length);
 char *strAlloc(char *src);
-int DWCi_NdStartup(NdAlloc alloc, NdFree free, char *url, char *token, char *gameCode, char *password, NdCallback callback);
+int DWCi_NdStartup(NdAlloc alloc, NdFree free, char *url, char *token, char *gameCode, char *password, DWCNdCallback callback);
 void nhttpCleanupCallback(void);
 void DWCi_NdCleanupAsync(void (*callback)(void));
 int DWCi_NdCleanupConnectionHandle(void *volatile handle);
@@ -485,7 +485,7 @@ char *strAlloc(char *src)
  * password, MAC address and AP information and starts the HTTP callback machinery.
  */
 int DWCi_NdStartup(NdAlloc alloc, NdFree free, char *url, char *token, char *gameCode,
-                  char *password, NdCallback callback)
+                  char *password, DWCNdCallback callback)
 {
     int len;
 

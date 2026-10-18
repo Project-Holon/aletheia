@@ -46,7 +46,7 @@
  *   abs_id_4A      0x0000004A  data
  *   GF_OVERLAY_Load  0x02034AC4  arm
  *   GF_OVERLAY_Unload  0x02034A5C  arm
- *   ENCEFF_GetScreenTexParam  0x021F54E0  thumb  ov075
+ *   FLD3D_CI_GetNameRow  0x021F54E0  thumb  ov074
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
@@ -213,7 +213,16 @@ int GF_OVERLAY_Load(signed int id);
 
 void GF_OVERLAY_Unload(int id);
 
-int *ENCEFF_GetScreenTexParam(int a);
+/* One row of ov074's name cut-in table (ov074/fld3d_ci_name.c). */
+typedef struct Fld3dCiNameRow {
+    u32 sequenceId;
+    u32 chrFile;
+    u32 plttFile;
+    u32 nameMsgId;
+    u32 nameLayout;
+} Fld3dCiNameRow;
+
+const Fld3dCiNameRow *FLD3D_CI_GetNameRow(int index);
 
 extern void *GAME_EVENT_GetGameSystem(void *event);
 
@@ -694,14 +703,14 @@ void *FLD3D_CI_StartPartyMemberSequence(void *gameSystem, Fld3dCi *ci, int party
 /* Starts a name cut-in whose icon files come from a table row. */
 void *FLD3D_CI_StartNameSequence(void *gameSystem, Fld3dCi *ci, int tableIndex, int fadeVariant)
 {
-    int *row;
+    const Fld3dCiNameRow *row;
     void *event;
     Fld3dCiEventWork *work;
     Fld3dCiIcon *icon;
 
     GF_OVERLAY_Load((int)abs_id_4A);
-    row = ENCEFF_GetScreenTexParam(tableIndex);
-    event = FLD3D_CI_StartSequence(gameSystem, ci, (u8)(*row));
+    row = FLD3D_CI_GetNameRow(tableIndex);
+    event = FLD3D_CI_StartSequence(gameSystem, ci, (u8)row->sequenceId);
     if (event == 0) {
         GF_OVERLAY_Unload((int)abs_id_4A);
         return 0;
@@ -709,21 +718,21 @@ void *FLD3D_CI_StartNameSequence(void *gameSystem, Fld3dCi *ci, int tableIndex, 
     work = GAME_EVENT_GetWork(event);
     FLD3D_CI_InitEventWork(ci, work);
     work->fadeVariant = fadeVariant;
-    if (row[4] != 0)
+    if (row->nameLayout != 0)
         ci->extraTask = FLD3D_CI_NameExtraTask;
     else
         ci->extraTask = 0;
     ci->finishStep = FLD3D_CI_NameFinishStep;
     ci->cameraSelect = 2;
     icon = &ci->arg.icon;
-    icon->nameMsgId = row[3];
-    icon->chrFile = row[1];
-    icon->plttFile = row[2];
-    if (row[4] == 1)
+    icon->nameMsgId = row->nameMsgId;
+    icon->chrFile = row->chrFile;
+    icon->plttFile = row->plttFile;
+    if (row->nameLayout == 1)
         icon->hasSecondName = 1;
     else
         icon->hasSecondName = 0;
-    if (row[0] == 0xd && icon->hasSecondName != 0)
+    if (row->sequenceId == 0xd && icon->hasSecondName != 0)
         icon->secondNameCentered = 1;
     else
         icon->secondNameCentered = 0;

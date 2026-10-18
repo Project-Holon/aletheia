@@ -76,7 +76,7 @@
  *   NNS_G3dGetMdlSet      0x0206E954  arm
  *   NNS_G3dGetTex      0x0206E964  arm
  *   NNS_G3dGetAnmByIdx      0x0206E9A4  arm
- *   func_0207C1D0      0x0207C1D0  arm
+ *   MTX_FrustumW      0x0207C1D0  arm
  *   MTX_PerspectiveW      0x0207C408  arm
  *   MTX_OrthoW      0x0207C554  arm
  *   G3X_Reset      0x0207DA8C  arm
@@ -346,7 +346,7 @@ extern void  NNS_G3dFreeAnmObj(NNSFndAllocator *allocator, NNSG3dAnmObj *anmObj)
 extern NNSG3dResMdlSet *NNS_G3dGetMdlSet(void *file);
 extern NNSG3dResTex *NNS_G3dGetTex(void *file);
 extern void *NNS_G3dGetAnmByIdx(void *file, u32 anmIdx);
-extern void  func_0207C1D0(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
+extern void  MTX_FrustumW(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
 extern void  MTX_PerspectiveW(fx32 fovySin, fx32 fovyCos, fx32 aspect, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
 extern void  MTX_OrthoW(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
 extern void  G3X_Reset(void);
@@ -565,7 +565,7 @@ static inline void NNS_G3dGlbPerspectiveW(fx32 fovySin, fx32 fovyCos, fx32 aspec
 
 static inline void NNS_G3dGlbFrustumW(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW)
 {
-    func_0207C1D0(t, b, l, r, n, f, scaleW, &NNS_G3dGlb.projMtx);
+    MTX_FrustumW(t, b, l, r, n, f, scaleW, &NNS_G3dGlb.projMtx);
     NNS_G3dGlb.flag &= ~(0x10 | 0x40);
 }
 

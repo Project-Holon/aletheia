@@ -157,8 +157,6 @@ void *GFL_HEAP_AllocSystem(u32 size);
 extern int OS_FreeToHeap(u32 heapId, s32 heap, void *ptr);
 extern int GFL_HEAP_InitManager(const struct HeapSpec *specs, u16 staticCount, u16 heapIdCount, u32 extraSize);
 extern void  OS_GetArenaHi(u32 a);
-extern void  OS_Terminate(void *obj);
-extern void  GFL_HEAP_FatalError(void *obj, void *a, u32 b);
 extern void OS_Terminate(void);
 void *GFL_HEAP_GetHeap(u32 heapId);
 u32 GFL_HEAP_GetParentHeap(u32 heapId);
@@ -168,7 +166,7 @@ int GFL_HEAP_FreeSystem(u32 mem);
 void GFL_HEAP_Init(u32 specs, u32 staticCount, u32 heapIdCount, u32 extraSize);
 void GFL_HEAP_CreateChildHeap(u32 parentHeapId, u32 newHeapId, u32 size);
 void GFL_HEAP_RegisterBlockHeap(void *block, u32 size, u32 newHeapId);
-void GFL_HEAP_FatalError(int errorCode);
+void GFL_HEAP_FatalError(int errorCode, u32 parentHeapId, u32 newHeapId);
 extern struct HeapManager gHeapManager;
 extern struct SystemHeapState gSystemHeap;
 
@@ -1371,7 +1369,8 @@ void GFL_HEAP_Init(u32 specs, u32 staticCount, u32 heapIdCount, u32 extraSize)
     if (success != 0) {
         return;
     }
-    OS_Terminate((void *)GFL_HEAP_GetLastError());
+    GFL_HEAP_GetLastError();
+    OS_Terminate();
 }
 
 
@@ -1404,7 +1403,7 @@ void GFL_HEAP_CreateChildHeap(u32 parentHeapId, u32 newHeapId, u32 size)
     if (GFL_HEAP_CreateChildHeapImpl(parentHeapId, newHeapId, size) != 0) {
         return;
     }
-    GFL_HEAP_FatalError((void *)GFL_HEAP_GetLastError(), (void *)parentHeapId, newHeapId);
+    GFL_HEAP_FatalError(GFL_HEAP_GetLastError(), parentHeapId, newHeapId);
 }
 
 
@@ -1432,13 +1431,13 @@ void GFL_HEAP_RegisterBlockHeap(void *block, u32 size, u32 newHeapId)
     if (GFL_HEAP_RegisterBlockHeapImpl(block, size, newHeapId) != 0) {
         return;
     }
-    GFL_HEAP_FatalError((void *)GFL_HEAP_GetLastError(), 0, newHeapId);
+    GFL_HEAP_FatalError(GFL_HEAP_GetLastError(), 0, newHeapId);
 }
 
 
 
 
-void GFL_HEAP_FatalError(int errorCode)
+void GFL_HEAP_FatalError(int errorCode, u32 parentHeapId, u32 newHeapId)
 {
     switch (errorCode) {
     case 0:

@@ -41,17 +41,14 @@ extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 extern void OS_SleepThread(OSThreadQueue *queue);
 extern void OS_WakeupThread(OSThreadQueue *queue);
-asm void OS_InitEvent(void);
+void OS_InitEvent(OSEvent *event);
 u32 OS_WaitEventEx(OSEvent *event, u32 pattern, OSEventMode mode, u32 clearBit);
 void OS_SignalEvent(OSEvent *event, u32 setPattern);
 
-asm void OS_InitEvent(void)
+void OS_InitEvent(OSEvent *event)
 {
-    mov	r1, #0
-    str	r1, [r0, #8]
-    str	r1, [r0, #4]
-    str	r1, [r0]
-    bx	lr
+    event->queue.head = event->queue.tail = 0;
+    event->flag = 0;
 }
 
 

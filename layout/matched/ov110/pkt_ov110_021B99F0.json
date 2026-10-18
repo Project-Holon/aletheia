@@ -21,15 +21,15 @@
     "PMS_INPUT_DATA_GetInitialWordId",
     "PMS_INPUT_DATA_GetWordString"
    ],
+   "addresses": [
+    "0x021B99F0",
+    "0x021B9A3C"
+   ],
    "evidence": {
     "sole-ref": [
      "data:0x021C1C88"
     ]
-   },
-   "addresses": [
-    "0x021B99F0",
-    "0x021B9A3C"
-   ]
+   }
   }
  ]
 }

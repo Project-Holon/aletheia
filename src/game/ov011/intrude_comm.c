@@ -37,7 +37,7 @@
  *   EVENT_FIELD_PROCLINK_RunReturnSlotsIfOffline  0x02161F74  thumb  ov010
  *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
- *   func_02035390  0x02035390  arm
+ *   DWCi_IsFold  0x02035390  arm
  *   UI_IsPowerConnected  0x020353B0  arm
  *   GFL_NET_SYSTEM_GetConnectNum  0x020392B8  arm
  *   GFL_NET_SetLoginOption  0x0203D7BC  arm
@@ -346,7 +346,7 @@ extern u8 *GAME_DATA_GetSecondUnionInfo(struct GameData *gameData);
 extern void EVENT_FIELD_PROCLINK_RunReturnSlotsIfOffline(void *returnSlots, int unionInfo, int peerMask);
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
-extern u32   func_02035390(void);
+extern int   DWCi_IsFold(void);
 extern int UI_IsPowerConnected(void);
 extern int   GFL_NET_SYSTEM_GetConnectNum(void);
 extern void GFL_NET_SetLoginOption(u8 loginOption);
@@ -873,7 +873,7 @@ void INTRUDE_COMM_MainStep(int *state, IntrudeCommParam *param, IntrudeCommSys *
         GAME_COMM_RequestExitNoCallback(work->gameComm);
         return;
     }
-    if (func_02035390() == 1 && UI_IsPowerConnected() == 1 && work->lock == 0) {
+    if (DWCi_IsFold() == 1 && UI_IsPowerConnected() == 1 && work->lock == 0) {
         GAME_COMM_RequestExitNoCallback(work->gameComm);
         return;
     }
@@ -3051,7 +3051,7 @@ int INTRUDE_COMM_UpdateSelfRecord(IntrudeCommSys *work)
 
 
 /*
- * Unlabelled Thumb leaf, seeded so that ov018 func_0217FE38 has a witness:
+ * Unlabelled Thumb leaf, seeded so that ov018 EVENT_COMM_COMMON_ExitCommonWork has a witness:
  * clears the notice bytes.
  */
 void INTRUDE_COMM_ClearNotice(IntrudeCommSys *work)

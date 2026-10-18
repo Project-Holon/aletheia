@@ -78,6 +78,7 @@ _L21CDA14:
     ldmfd sp!, {r4, r5, r6, r7, r8, pc}
 }
 
+/* hand-written in the original: unrolled umull/umlal carry chains in a prebuilt assembly object */
 asm BN_ULONG CRYPTOi__bn_mul_words(BN_ULONG *rp, const BN_ULONG *ap, int num, BN_ULONG w)
 {
     stmfd sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
@@ -119,6 +120,7 @@ _L21CDAA0:
     ldmfd sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 }
 
+/* hand-written in the original: unrolled umull carry chains in a prebuilt assembly object */
 asm void CRYPTOi__bn_sqr_words(BN_ULONG *r, const BN_ULONG *a, int n)
 {
     stmfd sp!, {r4, r5, lr}
@@ -155,6 +157,7 @@ asm unsigned long long CRYPTOi__bn_div_words(BN_ULONG h, BN_ULONG l, BN_ULONG d)
     ldmfd sp!, {r4, pc}
 }
 
+/* hand-written in the original: unrolled adcs carry chains in a prebuilt assembly object */
 asm BN_ULONG CRYPTOi__bn_add_words(BN_ULONG *r, const BN_ULONG *a, const BN_ULONG *b, int n)
 {
     stmfd sp!, {r4, r5, r6, r7, r8, r9, lr}

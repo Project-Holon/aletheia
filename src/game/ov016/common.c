@@ -22,7 +22,7 @@
  *   sCommonLanguageCodes  0x021da044  data
  *   strncpy  0x02094860  arm
  *   DWCi_ARClReadEx  0x021d4b68  arm  ov016
- *   DWCi_ScreenDC_FlushRange  0x020862f0  arm
+ *   DC_FlushRange  0x020862f0  arm
  *   DWCi_ARClRelease  0x021d4c68  arm  ov016
  *   DWCi_GetParam_  0x021c0e64  arm  ov016
  *   DWCi_STEPlBegin  0x021d0040  arm  ov016
@@ -47,7 +47,7 @@ typedef struct tagCOORD { unsigned short x, y; } COORD;
 extern char *strncpy(char *d, const char *s, unsigned long n);
 extern unsigned char DWCi_Language(void);
 extern void *DWCi_ARClReadEx(char *path, unsigned long *size, int alignment);
-extern void DWCi_ScreenDC_FlushRange(void *startAddr, unsigned long nBytes);
+extern void DC_FlushRange(void *startAddr, unsigned long nBytes);
 extern void DWCi_ARClRelease(void *file);
 extern void DWCi_STEPlBegin(int step);
 extern void DWCi_STEPlChange(int step);
@@ -97,7 +97,7 @@ void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsig
 
     n = (char *)DWCi_Char((unsigned char *)file);
     data = DWCi_ARClReadEx(n, &size, 4);
-    DWCi_ScreenDC_FlushRange(data, size);
+    DC_FlushRange(data, size);
     func(data, 0, size);
     DWCi_ARClRelease(data);
 }

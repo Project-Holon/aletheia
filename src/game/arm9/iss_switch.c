@@ -167,7 +167,7 @@ void *ISS_SWITCH_Alloc(u32 heapId)
  * pool-word-and-bx tail call into the ARM SDK function ENV_SetResourceSet
  * (docs/idioms/a-veneer-call-is-an-ordinary-extern-at-the-veneer-address.md
  * covers the shape, though this is a genuine tail call rather than a
- * linker veneer). Reached only through sub_0202C548's own
+ * linker veneer). Reached only through ISS_SWITCH_Delete's own
  * pool-word-and-bx tail call.
  *
  * Verified with:
@@ -189,10 +189,10 @@ void ISS_SWITCH_Init(struct IssSwitch *sw)
 
 /*
  * An unlabelled leaf, six bytes padded to eight, sitting between
- * sub_0202C5B4's trailing padding and ISS_SWITCH_CountUpFade's label
+ * ISS_SWITCH_Init's trailing padding and ISS_SWITCH_CountUpFade's label
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md): a plain
  * two-field setter with no prologue at all, reached only through
- * sub_0202C550's pool-word-and-bx tail call.
+ * ISS_SWITCH_Setup's pool-word-and-bx tail call.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/ISS_SWITCH_SetParam.c \
@@ -283,11 +283,11 @@ u32 ISS_SWITCH_StartFadeOut(void *sw)
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md): each is a
  * three-instruction, six-byte forwarding call with a literal second
  * argument, padded to eight with a `nop` and its own pool word. Reached
- * only through sub_0202C570 and sub_0202C578's pool-word-and-bx tail
+ * only through ISS_SWITCH_ForceOn and ISS_SWITCH_ForceOff's pool-word-and-bx tail
  * calls (src/matched/unit_0202C548.c). Neither carries a
  * register-saving prologue, so neither is in the worklist's function
  * list; both sit exactly between ISS_SWITCH_StartFadeOut's last instruction and
- * sub_0202C6B8's label.
+ * ISS_SWITCH_GetState's label.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0202C6A0.c \

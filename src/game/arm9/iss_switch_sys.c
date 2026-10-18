@@ -488,7 +488,7 @@ u32 ISS_SWITCH_SYS_GetActiveSet(struct IssSwitchSys *sys)
 
 /*
  * When the object's +0xc field is set, hands that field (not the object) to
- * sub_0202C348 together with the caller's second argument.  Unlabelled in the
+ * ISS_SWITCH_SET_IsValidZone together with the caller's second argument.  Unlabelled in the
  * listing and absent from the worklist; filed from the bytes.
  *
  * Verified with:
@@ -507,8 +507,8 @@ u32 ISS_SWITCH_SYS_IsActiveSetZone(u32 *sys, u32 zoneId)
 
 /*
  * Scans the object's count entries (ISS_SWITCH_SYS_GetSetCount is the count) looking for
- * the one whose sub_0202C340 value equals the caller's second argument, and
- * returns the entry's sub_0202C244 value.  The index is truncated to a byte
+ * the one whose ISS_SWITCH_SET_GetBgmNo value equals the caller's second argument, and
+ * returns the entry's ISS_SWITCH_SYS_GetSet value.  The index is truncated to a byte
  * before it is passed, which is what the lsls/lsrs pair says.  Unlabelled in
  * the listing and absent from the worklist; filed from the bytes.
  *

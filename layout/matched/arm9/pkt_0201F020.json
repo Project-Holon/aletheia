@@ -143,7 +143,7 @@
    ]
   },
   {
-   "name": "WORDSET_ParsePackedLimits",
+   "name": "sub_0201F4A0",
    "address": "0x0201F4A0",
    "kind": "game_unit",
    "region": "arm9",

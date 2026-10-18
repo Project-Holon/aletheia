@@ -20,7 +20,7 @@ struct Ov208PalFade;
 
 struct ZukanDetailVoice {
     /* 0x00 */ unsigned int clactSys;
-    /* 0x04 */ unsigned int font;
+    /* 0x04 */ struct GfFont *font;
     /* 0x08 */ void *printQue;
     /* 0x0C */ struct Descriptor *nameWin;
     /* 0x10 */ int namePending;

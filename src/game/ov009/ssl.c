@@ -122,7 +122,6 @@
 
 #define NELEMS(a) (sizeof(a) / sizeof((a)[0]))
 extern unsigned long OS_DisableInterrupts(void);
-extern int memcmp(const u8 *a, const u8 *b, int n);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern unsigned long long OS_GetTick(void);

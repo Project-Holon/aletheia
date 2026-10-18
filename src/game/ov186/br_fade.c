@@ -41,7 +41,7 @@
  *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   PALANM_LoadHandlePaletteToSlotAt 0x02021660 thumb
  *   FADE_GetSpeed 0x0204E6E0 arm
- *   func_0209C0A4 0x0209C0A4 arm
+ *   _s32_div_f 0x0209C0A4 arm
  *   _u32_div_f 0x0209C2B0 arm
  *   BR_FADE_Start 0x021FE784 thumb ov186
  *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
@@ -90,7 +90,7 @@ extern void PALANM_LoadHandlePaletteToSlotAt(struct PalAnmSlot *,void *,u32,u32,
 
 extern int FADE_GetSpeed(void);
 
-extern int func_0209C0A4(int,int);
+extern int _s32_div_f(int a, int b);
 
 extern u32 _u32_div_f(u32,u32);
 
@@ -314,7 +314,7 @@ int BR_FADE_StepBlend(struct BrFade *fade,int *state)
         if(fade->planeMask&2)G2x_SetBlendAlpha_(0x04001050,3,7,evA,evB);
         fade->frame=0;
         duration=fade->durationParam;
-        if(duration==0)duration=func_0209C0A4(16,FADE_GetSpeed());
+        if(duration==0)duration=_s32_div_f(16,FADE_GetSpeed());
         fade->frameCount=duration;
         *state=1;
         break;
@@ -351,7 +351,7 @@ int BR_FADE_StepPalette(struct BrFade *fade,int *state)
         int duration;
         fade->frame=0;
         duration=fade->durationParam;
-        if(duration==0)duration=func_0209C0A4(16,FADE_GetSpeed());
+        if(duration==0)duration=_s32_div_f(16,FADE_GetSpeed());
         fade->frameCount=duration;
         PALANM_RequestFullTransfer(fade->palAnm,1);
         *state=1;
@@ -400,7 +400,7 @@ int BR_FADE_StepSubPlane3(struct BrFade *fade,int *state)
         G2x_SetBlendAlpha_(0x04001050,3,7,evA,evB);
         fade->frame=0;
         duration=fade->durationParam;
-        if(duration==0)duration=func_0209C0A4(16,FADE_GetSpeed());
+        if(duration==0)duration=_s32_div_f(16,FADE_GetSpeed());
         fade->frameCount=duration;
         *state=1;
         break;

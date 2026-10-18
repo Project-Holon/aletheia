@@ -27,6 +27,7 @@ asm void MTX_Rot22_(MtxFx22 *dst, fx32 sin, fx32 cos);
  * asm:      fixed-register stm with writeback (stmia r0!, {r1, r2}); no C spelling.
  *
  * void MTX_Scale22_(MtxFx22 *pDst, fx32 x, fx32 y)
+ * hand-written in the original: register-passed matrix helper, one SDK line-table row per instruction
  */
 asm void MTX_Scale22_(void)
 {

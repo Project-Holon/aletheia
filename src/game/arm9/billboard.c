@@ -101,7 +101,7 @@ extern const char sBillboard[];
  * billboard.c's board constructor; the only allocation site in the image
  * whose __FILE__ word is 0x020A7FA4 ("billboard.c", the NUL of
  * "battle_disp.c" at 0x020A7FA3 fixes where it starts).  Caller is
- * func_0204FF18.  Three GFL_HEAP_Alloc calls at lines 153, 159 and 161: the
+ * BILLBOARD_ACT_Create (arm9/particle.c).  Three GFL_HEAP_Alloc calls at lines 153, 159 and 161: the
  * 0x3c-byte board, its count0 * 0x28 record array and its count1 * 0x1c
  * element array.
  *

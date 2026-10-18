@@ -161,7 +161,7 @@ BOOL FS_ConvertPathToFileID(FSFileID *p_fileid, const char *path);
 BOOL FS_OpenFileDirect(FSFile *file, FSArchive *arc, u32 image_top, u32 image_bottom, u32 id);
 BOOL FS_OpenFileFast(FSFile *file, FSFileID id);
 BOOL FS_OpenFileEx(FSFile *file, const char *path, u32 mode);
-asm void FS_CloseFile(void);
+BOOL FS_CloseFile(FSFile *file);
 u32 FS_GetFileLength(FSFile *file);
 u32 FS_GetFilePosition(FSFile *file);
 int FS_SeekFile(FSFile *file, long offset, FSSeekFileMode origin);
@@ -367,12 +367,9 @@ BOOL FS_OpenFileEx(FSFile *file, const char *path, u32 mode)
 
 
 
-asm void FS_CloseFile(void)
+BOOL FS_CloseFile(FSFile *file)
 {
-    ldr ip, =FSi_SendCommand
-    mov	r1, #8
-    mov	r2, #1
-    bx	ip
+    return FSi_SendCommand(file, 8, 1);
 }
 
 

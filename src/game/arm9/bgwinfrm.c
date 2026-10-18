@@ -195,7 +195,7 @@ void BGWINFRM_Delete(struct BgWinFrmWork *wk)
  * storage from the debug allocator on the manager's own heap id, then
  * writes the two 6-bit size bitfields, the bg index, the scroll pair, the
  * dirty bit and the default clip box (0, 0x20, 0, 0x18).  Same struct BgWinFrame
- * as src/matched/sub_0202CAC4.c and src/matched/BGWINFRM_UpdateMove.c.
+ * as src/matched/BGWINFRM_SetFrameData.c and src/matched/BGWINFRM_UpdateMove.c.
  *
  * The __FILE__ pool word 0x020A7790 spells "bgwinfrm.c"
  * (layout/file_anchors.txt line 119), which names this unit's source file.
@@ -381,7 +381,7 @@ void BGWINFRM_HideFrame(struct BgWinFrmWork *wk, u32 idx)
  * per-frame delta pair and the frame count, sets the 3-bit unk04_13 field
  * to 1, and raises the manager's top bit at offset 6.  Same struct BgWinFrame as
  * src/matched/BGWINFRM_UpdateMove.c, same struct BgWinFrmWork as
- * src/matched/sub_0202CB4C.c.
+ * src/matched/BGWINFRM_PutFrame.c.
  */
 void BGWINFRM_StartMove(struct BgWinFrmWork *wk, u32 idx, s8 moveX, s8 moveY, u8 count)
 {

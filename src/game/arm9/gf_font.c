@@ -387,7 +387,7 @@ void GF_FONT_InitPreloadedGlyphs(struct GfFont *font, u32 tilesWide, u32 tilesHi
  * of each pair).  src/matched/GF_FONT_DecodeGlyph8x8.c is the (1,1) decoder.
  *
  * Promoted 2026-09-21.  The file was parked at MATCH with the last pool word
- * declared as `func_0201E938`, an address that is NOT a function start: it is
+ * declared under the address name of 0x0201E938, an address that is NOT a function start: it is
  * the first `bl` inside GF_FONT_DecodeGlyph16x16.  Because the naming convention derives
  * the address from the identifier, the extern was pinned sixteen bytes into
  * the fourth decoder, where nothing can attest it (and, being a `bl`, it was

@@ -159,7 +159,7 @@ void DAYCARE_SwapSlots(struct DaycareSave *daycare, s32 slotA, s32 slotB)
 }
 
 /*
- * Unlabelled arm9 leaf, filed as the relocation witness for ov021 func_021C3378
+ * Unlabelled arm9 leaf, filed as the relocation witness for ov021 SODATEYA_AddStep
  * (wave A1, lane 13).
  */
 void DAYCARE_AddSteps(struct DaycareSlot *slots, u32 steps)

@@ -362,7 +362,7 @@ void WIFI_2DCHAR_SetActorDrawPriority(u8 *p, u32 v)
 
 
 /*
- * Leaf of ov099 func_021B989C's callee WF2DMAP_OBJDRAW_GetActorValue2 (a forwarder to here).
+ * Leaf of ov099 WIFICLUBACTOR_ShowMarkerAtActor's callee WF2DMAP_OBJDRAW_GetActorValue2 (a forwarder to here).
  */
 int WIFI_2DCHAR_GetActorDrawPriority(u8 *p)
 {
@@ -393,7 +393,7 @@ void WIFI_2DCHAR_SetSubActorDrawEnable(char *p, int a)
 
 /*
  * Unlabelled tail-call stub: ldr r0,[r0,#4]; ldr r3,=0x0204B3F4; bx r3.
- * Leaf of ov127 WF2DMAP_OBJDRAW_GetActorValue (blocker of ov099 func_021BA2D4).
+ * Leaf of ov127 WF2DMAP_OBJDRAW_GetActorValue (blocker of ov099 WIFICLUBACTOR_AnimateWalkBob).
  */
 int WIFI_2DCHAR_GetActorDrawEnable(char *p)
 {

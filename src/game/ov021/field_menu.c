@@ -1191,7 +1191,7 @@ void FIELD_MENU_ShowItemWindow(FieldMenu *menu, FieldMenuItem *item)
  * tile base 0x80.
  * 0x021A8E14 is not a function: it lies inside FIELD_MENU_GetSelectedButtonId (bytes
  * 0x021A8E10..0x021A8E1F), the listing has no label there and nothing calls it.
- * The old src/matched func_021A8E14 (an SDK signature hit on EL_GetLibSize)
+ * The old src/matched file at 0x021A8E14 (an SDK signature hit on EL_GetLibSize)
  * matched the tail of FIELD_MENU_GetSelectedButtonId.
  */
 void FIELD_MENU_LoadScreen(u32 heapId, u32 layer)

@@ -77,7 +77,7 @@
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   BgTextLabel_SetVisible  0x021C0FF8  thumb  ov217
- *   func_0209C0A4  0x0209C0A4  arm
+ *   _s32_div_f  0x0209C0A4  arm
  *   PALANM_GetFadeRequestBits  0x02021ED8  thumb
  *   PALETTE_ANIME_IsRunning  0x021C2A10  thumb  ov217
  *   BMP_OAM_SetEnabled  0x02025774  thumb
@@ -496,7 +496,7 @@ extern void CLACT_AddActorSurfacePos(struct Obj *p,const struct Vec2 *delta,u32 
 
 extern void BgTextLabel_SetVisible(u8 *p, int visible);
 
-extern u32 func_0209C0A4(u32, u32);
+extern int _s32_div_f(int a, int b);
 
 extern int PALANM_RequestFade(PalAnmObj *, u16, u16, s16, u8, u8, u16, void *);
 
@@ -2228,9 +2228,9 @@ void RESEARCH_GRAPH_SwapCenterPairs(void *p)
 
 void RESEARCH_GRAPH_QuantizePosition(u32 a0)
 {
-    u32 v1 = func_0209C0A4(((struct GraphSliceInput *)a0)->y + 62, 3);
-    u32 v2 = func_0209C0A4(((struct GraphSliceInput *)a0)->z + 62, 3);
-    ((struct GraphSliceInput *)a0)->quantX = func_0209C0A4(((struct GraphSliceInput *)a0)->x + 62, 3);
+    u32 v1 = _s32_div_f(((struct GraphSliceInput *)a0)->y + 62, 3);
+    u32 v2 = _s32_div_f(((struct GraphSliceInput *)a0)->z + 62, 3);
+    ((struct GraphSliceInput *)a0)->quantX = _s32_div_f(((struct GraphSliceInput *)a0)->x + 62, 3);
     ((struct GraphSliceInput *)a0)->quantY = v1;
     ((struct GraphSliceInput *)a0)->quantZ = v2;
 }

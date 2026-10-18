@@ -1,8 +1,8 @@
 /*
  * file:     scenesetaossbutton.c
  * unit:     yes
- * function: DWCi_SceneSetAossButton, initGraphics, DWCi_SceneSetAossButtonProcInit, procInit1, procInit2, procScene, input, DWCi_SceneSetAossButton_draw, button, DWCi_SceneSetAossButtonEndScene, endScene1, endScene2, taskVBlank, procError, DWCi_SceneSetAossButtonProcError1, procWait, procCancel
- * address:  0x021C4904
+ * function: DWCi_IsFold, DWCi_SceneSetAossButton, initGraphics, DWCi_SceneSetAossButtonProcInit, procInit1, procInit2, procScene, input, DWCi_SceneSetAossButton_draw, button, DWCi_SceneSetAossButtonEndScene, endScene1, endScene2, taskVBlank, procError, DWCi_SceneSetAossButtonProcError1, procWait, procCancel
+ * address:  0x021C48E4
  * region:   ov016
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -32,7 +32,6 @@
  *
  * symbols:
  *   DWCi_BTNlSet                   0x021BCB28  arm  ov016
- *   DWCi_IsFold                    0x021C48E4  arm  ov016
  *   DWCi_IPTlCheckTrigger          0x021D6824  arm  ov016
  *   DWCi_TSKlAct                   0x021D75D0  arm  ov016
  *   Choose                           0x021DE5CC  data
@@ -132,7 +131,6 @@ extern void *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, u
 extern int DWCi_AOSSlStart();
 extern void DWCi_TSKlDeleteByIndex(unsigned int idx, void *r4);
 extern int DWCi_IPTlCheckTrigger(unsigned int f);
-extern int DWCi_IsFold(void);
 extern void DWCi_BTNlSet(signed char v);
 extern void DWCi_TSKlDelete(int kind, void *task);
 extern void DWCi_BTNlDisable(void);
@@ -185,6 +183,15 @@ static void procError1(void);
 static void procWait(void);
 static void procCancel(void);
 
+
+/*
+ * Bit 15 of the halfword at 0x02FFFFA8 (lid closed), as 0/1: this scene's own
+ * copy of the libdwcutil helper.
+ */
+static int DWCi_IsFold(void)
+{
+    return ((*(unsigned short *)0x02FFFFA8 & 0x8000) >> 15) != 0;
+}
 
 void DWCi_SceneSetAossButton(void)
 {

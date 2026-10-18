@@ -35,7 +35,7 @@ typedef struct RTCDate { u32 year; u32 month; u32 day; RTCWeek week; } RTCDate;
 typedef struct RTCTime { u32 hour; u32 minute; u32 second; } RTCTime;
 
 s32 RTC_ConvertDateToDay(RTCDate *date);
-asm s32 RTCi_ConvertTimeToSecond(RTCTime *time);
+s32 RTCi_ConvertTimeToSecond(RTCTime *time);
 s64 RTC_ConvertDateTimeToSecond(RTCDate *date, RTCTime *time);
 void RTC_ConvertDayToDate(RTCDate *date, s32 day);
 void RTCi_ConvertSecondToTime(RTCTime *time, s32 sec);
@@ -65,14 +65,9 @@ s32 RTC_ConvertDateToDay(RTCDate *date)
 }
 
 
-asm s32 RTCi_ConvertTimeToSecond(RTCTime *time)
+s32 RTCi_ConvertTimeToSecond(RTCTime *time)
 {
-    mov r1, #0x3c
-    ldmia r0, {r2, r3}
-    mla r3, r2, r1, r3
-    ldr r0, [r0, #8]
-    mla r0, r3, r1, r0
-    bx lr
+    return (s32)((time->hour * 60 + time->minute) * 60 + time->second);
 }
 
 

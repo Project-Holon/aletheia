@@ -202,12 +202,12 @@ void ISS_SWITCH_SET_ResetSwitches(void *set)
 }
 
 /*
- * An unlabelled leaf sitting in the four bytes between sub_0202C4A4's last
+ * An unlabelled leaf sitting in the four bytes between ISS_SWITCH_SET_ResetSwitches's last
  * instruction and ISS_SWITCH_SET_GetZoneCount's first
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md): no
  * register-saving prologue, so disasm.py's sweep never marks it. It is a
  * plain read of the object's first word, reached only through
- * sub_0202C340's pool-word-and-bx tail call
+ * ISS_SWITCH_SET_GetBgmNo's pool-word-and-bx tail call
  * (src/matched/unit_0202C318.c, parked at MATCH because this address is
  * its only caller anywhere in the image).
  *

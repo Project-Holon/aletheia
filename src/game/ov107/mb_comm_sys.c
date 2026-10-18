@@ -42,7 +42,7 @@
  *   MB_UTIL_MSG_ClearYesNoMenu 0x021F1A24 thumb ov107
  *   MB_UTIL_MSG_Main 0x021F15B0 thumb ov107
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
- *   func_020461E4 0x020461E4 arm
+ *   MSGDATA_GetLanguage 0x020461E4 arm
  *   FS_InitFile 0x020788AC arm
  *   FS_OpenFile 0x02078C18 arm
  *   FS_SeekFile 0x02078B44 arm
@@ -406,7 +406,7 @@ extern int MB_UTIL_MSG_ProcessYesNoMenu(void *);
 extern void MB_UTIL_MSG_OpenYesNoMenu(void *,int);
 extern void MB_UTIL_MSG_ClearWindow(void *);
 extern void MB_UTIL_MSG_ClearYesNoMenu(struct MbMsgWork *p);
-extern u32 func_020461E4(int);
+extern u8 MSGDATA_GetLanguage(void);
 extern u32 BEACON_GetBestScore(void *p);
 extern void *GFL_USE_GetArcPath(u32);
 extern void FS_InitFile(File *);

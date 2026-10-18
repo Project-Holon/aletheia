@@ -460,6 +460,7 @@ int G3X_GetBoxTestResult(s32 *in)
 /*
  * sdk:      GXi_NopClearFifo128_ (libgx.TWL.HYB.a g3x.o)
  * asm:      fixed-register stm block into the geometry FIFO (stmia r0, {r1, r2, r3, r12} x32); no C spelling.
+ * hand-written in the original: unrolled stm FIFO writes, one SDK line-table row per instruction
  */
 asm void GXi_NopClearFifo128_(void *pDest)
 {

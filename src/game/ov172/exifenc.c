@@ -203,7 +203,6 @@ extern int RTC_GetDateTime(struct RTCDate *date, struct RTCTime *time);
 void STD_TSPrintf(char *dst, const char *fmt, ...);
 int STD_CopyLString(char *destp, const char *srcp, int siz);
 extern int STD_GetStringLength(char *str);
-extern void MI_CpuCopy(void *srcp, void *destp, unsigned long size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
 extern u32 write_exif_ifd_tables(struct SlotManager *mgr, u32 mode, u8 *thumb_src, u32 thumb_size);
 void MI_CpuFill8(void *dst, int val, u32 n);

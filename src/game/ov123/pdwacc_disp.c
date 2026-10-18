@@ -28,7 +28,7 @@
  *   BG_SYS_SetTileUnit 0x02040DA8 arm
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
- *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
+ *   DC_FlushRange 0x020862F0 arm
  *   GXS_LoadBGPltt 0x0207E468 arm
  *   GAME_DATA_SaveMain 0x02012DD0 thumb
  *   GAME_DATA_SaveStart 0x02012DAC thumb
@@ -155,7 +155,7 @@ extern void BG_SYS_FreeLayerBuf(u32 i);
 
 extern u32 WIPE_SYS_EndCheck(void);
 
-extern void DWCi_ScreenDC_FlushRange(void *, int);
+extern void DC_FlushRange(void *, int);
 
 extern void GXS_LoadBGPltt(void *, int, int);
 
@@ -471,7 +471,7 @@ void PDWACC_DISP_VBlankTask(void)
 
 /*
  * note 2026-10-05 (wD9r lane50): closed. ARC_UTIL_UploadBgCharFromHandle returns a value (it ends in a call whose r0 it
- *   keeps; ov110 func_021BB328 declares it u32); declared void, it moved the constant 3 into r5 and
+ *   keeps; ov110 PMSIV_CATEGORY_Setup declares it u32); declared void, it moved the constant 3 into r5 and
  *   tied the late zero arguments to j. The two palette bases are assigned inside the outer loop (mwcc
  *   hoists them after i = 0), and the source row is written inline in the 02021F64 call.
  */
@@ -529,7 +529,7 @@ void PDWACC_DISP_LoadResources(PdwaccDispWork *disp)
             }
         }
     }
-    DWCi_ScreenDC_FlushRange(disp->palette.blendedPalettes, sizeof(disp->palette.blendedPalettes));
+    DC_FlushRange(disp->palette.blendedPalettes, sizeof(disp->palette.blendedPalettes));
     disp->palette.enabled = 1;
     disp->palette.task = GFL_USE_AddMainTask((void *)PDWACC_DISP_PaletteTask, &disp->palette, 0x14);
     G2x_SetBlendAlpha_((void *)0x04000050, 1, 8, 8, 0x10);

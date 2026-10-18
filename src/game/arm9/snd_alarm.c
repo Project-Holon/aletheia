@@ -25,7 +25,7 @@ typedef struct AlarmCallbackInfo {
 } AlarmCallbackInfo;
 
 void SND_AlarmInit(void);
-asm void SNDi_IncAlarmId(void);
+void SNDi_IncAlarmId(int alarmNo);
 unsigned char SNDi_SetAlarmHandler(int alarmNo, SNDAlarmHandler handler, void *arg);
 void SNDi_CallAlarmHandler(int msg);
 extern AlarmCallbackInfo sCallbackTable[8];
@@ -48,15 +48,10 @@ void SND_AlarmInit(void)
 }
 
 
-asm void SNDi_IncAlarmId(void)
+void SNDi_IncAlarmId(int alarmNo)
 {
-    ldr r2, =sCallbackTable
-    mov	r1, #0xc
-    mla	r1, r0, r1, r2
-    ldrb	r0, [r1, #8]
-    add	r0, r0, #1
-    strb	r0, [r1, #8]
-    bx	lr
+    AlarmCallbackInfo *info = &sCallbackTable[alarmNo];
+    info->id++;
 }
 
 

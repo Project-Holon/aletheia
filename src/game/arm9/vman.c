@@ -39,7 +39,7 @@
  *   G2_GetBG0ScrPtr            0x0207DF60  arm
  *   BMP_GetPixels              0x020437D4  arm
  *   DC_FlushRange              0x020862F0  arm
- *   GXS_LoadBG0Char            0x0207EE68  arm
+ *   GX_LoadBG0Char            0x0207EE68  arm
  *   OS_Terminate               0x02088234  arm
  *   _u32_div_f                 0x0209C2B0  arm
  *   vman_File                  0x020A7964  data
@@ -135,7 +135,7 @@ extern void TEXTPRINT_PrintText(const char *text, struct DebugConsole *console);
 extern u16 *G2_GetBG0ScrPtr(void);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void DC_FlushRange(void *addr, u32 size);
-extern void GXS_LoadBG0Char(const void *src, u32 offset, u32 size);
+extern void GX_LoadBG0Char(const void *src, u32 offset, u32 size);
 extern void OS_Terminate(void);
 
 u32 VMAN_GetBankSetSize(u32 bank_flags);
@@ -525,7 +525,7 @@ void GF_OVERLAY_PanicDie(void)
 
     charData = BMP_GetPixels(_DebugConsole.charBitmap);
     DC_FlushRange(charData, 0x2000);
-    GXS_LoadBG0Char(charData, 0, 0x2000);
+    GX_LoadBG0Char(charData, 0, 0x2000);
     OS_Terminate();
 }
 

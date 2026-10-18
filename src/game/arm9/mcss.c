@@ -1039,8 +1039,8 @@ static inline void G3_TexImageParam(GXTexFmt texFmt, GXTexGen texGen, GXTexSizeS
 
 static inline void G3_StoreMtx(int num) { REG_MTX_STORE = (u32)num; }
 
-/* MCSS_Draw is one function over 0x02014D2C..0x020155A0.  The labels
- * func_02014D90 (0x02014D90) and func_02015590 (0x02015590) are not
+/* MCSS_Draw is one function over 0x02014D2C..0x020155A0.  The listing's
+ * labels at 0x02014D90 and 0x02015590 are not
  * function starts: they are the targets of two long-branch bl pairs inside
  * it (the shared epilogue and the outer loop head). */
 /*
@@ -1626,7 +1626,7 @@ void MCSS_GetPosition(McssWork *work, u32 *out)
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Copies three words into the
  * structure at +0xE0. The inverse of MCSS_GetPosition; in the ov118 event state
- * machine (0x021D7130) and func_021D6E04 it is the in-direction marshaller.
+ * machine (POKETRADE_DEMO_MIDDLE_UpdateScene) and POKETRADE_DEMO_MIDDLE_ResetMonSlide it is the in-direction marshaller.
  *
  * Addresses are Black-image addresses.
  */
@@ -1935,8 +1935,8 @@ void MCSS_SetVanishFlag(McssWork *work)
  * it as a run of .word; the live bytes decode as Thumb). Clears bit 11
  * (0x800) of the 32-bit field at +0x140. This is one of the pair
  * MCSS_SetVanishFlag/MCSS_ResetVanishFlag that set and clear the same bit; it is called
- * from the ov118 event state machine at 0x021D7130 and from
- * func_021D6E04, and is an image-wide-only reference target (no func_ label),
+ * from the ov118 event state machine POKETRADE_DEMO_MIDDLE_UpdateScene and from
+ * POKETRADE_DEMO_MIDDLE_ResetMonSlide, and is an image-wide-only reference target (no listing label),
  * so matching it supplies the `matched` witness those callers lack.
  *
  * Addresses are Black-image addresses.
@@ -2112,7 +2112,7 @@ u8 MCSS_GetAlpha(McssWork *work)
 
 /*
  * Unlabelled leaf accessor matched to give overlay call sites a `matched`
- * witness (ov117 func_021D49F4): the low byte of the word at +0x140.
+ * witness (ov117 POKETRADE_IRCDEMO_SetMonSlide): the low byte of the word at +0x140.
  * Addresses are Black-image addresses.
  */
 void MCSS_SetAlpha(McssWork *work, int alpha)

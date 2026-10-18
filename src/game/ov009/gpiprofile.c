@@ -51,7 +51,6 @@
  */
 #include "gpi_types.h"
 
-extern unsigned long long func_0209C0A4(int v);
 extern void gsifree(void * ptr);
 extern void ArrayFree(void * array);
 extern void gpiFreeInfoCache(GPIProfile * profile);
@@ -70,14 +69,13 @@ extern int gpiGetProfile(void **connection, int profileid, GPIProfile **pProfile
 extern void TableEnter(void *table, void *newElem);
 extern void * TableLookup(void * table, void * elemKey);
 extern int TableRemove(void * table, void * delElem);
-extern void TableRemove(int v);
 extern int strcmp(const char * a, const char * b);
 extern void * TableMapSafe2(void * table, int (*cb)(void *, void *), void * udata);
 extern int gpiCheckForBlock(void * unused, GPIProfile * profile, void * udata);
 extern int gpiValueForKeyWithIndex(char *command, char *key, int *index, char *value, int len);
 extern char *strstr(const char *s1, const char *s2);
 extern int gpiBuddyDeletedLocally(void **connection, int id, int isDeleted);
-int gpiProfilesTableHash(int *p);
+int gpiProfilesTableHash(void *elem, int numBuckets);
 int gpiProfilesTableCompare(void *a, void *b);
 void gpiProfilesTableFree(void * arg);
 int gpiInitProfiles(void ** connection);
@@ -86,7 +84,7 @@ GPIProfile *gpiProfileListAdd(void **connection, int id);
 int gpiGetProfile(void ** connection, int profileid, GPIProfile ** pProfile);
 int gpiProcessDeleteProfle(void **connection, GPIOperation *operation, char *input);
 void gpiRemoveProfileByID(void ** connection, int profileid);
-void gpiRemoveProfile(const int *p, void *profile);
+void gpiRemoveProfile(void ** connection, GPIProfile * profile);
 int gpiCheckProfileForUser(void * unused, GPIProfile * profile, void * udata);
 int gpiFindProfileByUser(void ** connection, char * nick, char * email, GPIProfile ** profile);
 void gpiProfileMapCallback(int a, int *p);
@@ -113,11 +111,11 @@ extern char gGpiProfileComma[];
 
 
 /*
- * The high word of the 64-bit word the call on the pointed-to word returns.
+ * Hash table callback: bucket index of a profile, its id modulo the bucket count.
  */
-int gpiProfilesTableHash(int *p)
+int gpiProfilesTableHash(void *elem, int numBuckets)
 {
-    return (int)(func_0209C0A4(*p) >> 32);
+    return *(int *)elem % numBuckets;
 }
 
 
@@ -188,7 +186,7 @@ int gpiInitProfiles(void ** connection)
 	iconnection->profileList.numBuddies = 0;
 	iconnection->profileList.numBlocked = 0;
 	iconnection->profileList.num = 0;
-	iconnection->profileList.profileTable = TableNew(0x30, 0x20, (int (*)(void *, int))gpiProfilesTableHash, gpiProfilesTableCompare, gpiProfilesTableFree);
+	iconnection->profileList.profileTable = TableNew(0x30, 0x20, gpiProfilesTableHash, gpiProfilesTableCompare, gpiProfilesTableFree);
 	if (iconnection->profileList.profileTable != 0)
 		result = 1;
 	return result;
@@ -354,12 +352,11 @@ void gpiRemoveProfileByID(void ** connection, int profileid)
 
 
 
-/*
- * Tail call on the word at +0x5c8 of the block the object points at.
- */
-void gpiRemoveProfile(const int *p, void *profile)
+void gpiRemoveProfile(void ** connection, GPIProfile * profile)
 {
-    TableRemove(*(const int *)(*p + 0x5c8));
+	GPIConnection * iconnection = (GPIConnection *)*connection;
+
+	TableRemove(iconnection->profileList.profileTable, profile);
 }
 
 

@@ -158,7 +158,7 @@
  *   G3D_SYSTEM_GetResourceTex 0x02047250 arm
  *   NNS_G3dPlttSetPlttKey 0x0206A124 arm
  *   NNS_G3dPlttLoad 0x0206A12C arm
- *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
+ *   DC_FlushRange 0x020862F0 arm
  *   BILLBOARD_AddImageFromArchive 0x0204EFC8 arm
  *   BILLBOARD_AddElem 0x0204F428 arm
  *   BILLBOARD_SetElemVisible 0x0204F720 arm
@@ -605,7 +605,7 @@ extern void NNS_G3dPlttSetPlttKey(int *p, int v);
 
 extern void NNS_G3dPlttLoad(void *, u32);
 
-extern void DWCi_ScreenDC_FlushRange(void *, u32);
+extern void DC_FlushRange(void *, u32);
 
 extern u32 BILLBOARD_AddImageFromArchive(struct Desc *desc, u32 a1, u32 a2, u32 a3, u32 a4, u8 a5, u8 a6);
 
@@ -1262,7 +1262,7 @@ void DUP_FITTING_InitDisplay(u8 *p)
 
 /*
  * note 2026-10-05 (wD9r lane78): EXACT. Closed by declaring ARC_UTIL_UploadBgCharFromHandle with its real return type u32
- *   (it returns ARC_UTIL_UploadBgChar's u32 result, as the matched sibling func_02049624 does), not void. The void
+ *   (it returns ARC_UTIL_UploadBgChar's u32 result, as the matched sibling ARC_UTIL_UploadBgCharFromArchive does), not void. The void
  *   prototype hoisted 4 into r7 and turned later zeros into adds rN,r6,#0 copies. 0xd and -128 are literals.
  *   See docs/idioms/a-getter-declared-void-changes-constant-hoisting.md.
  */
@@ -1393,7 +1393,7 @@ void DUP_FITTING_InitFrames(u8 *p)
         buf = G3D_SYSTEM_GetResourceFile(h);
         res = G3D_SYSTEM_GetResourceTex(h);
         NNS_G3dPlttSetPlttKey(res, vram);
-        DWCi_ScreenDC_FlushRange(buf, *(u32 *)(buf + 8));
+        DC_FlushRange(buf, *(u32 *)(buf + 8));
         NNS_G3dPlttLoad(res, 1);
         *(u32 *)(p + i * 0x14 + 0xb4) = BILLBOARD_AddImageFromVramKeys(*(void **)(p + 0x188c), w, vram, 0, flags, sizes[1], sizes[0]);
         MUSICAL_MCSS_FreeResourceArc(h);

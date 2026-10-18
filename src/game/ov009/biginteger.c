@@ -63,9 +63,6 @@ void CPSi_big_mult(unsigned short *c, unsigned short *a, unsigned short *b, int 
 void CPSi_big_mult_small(unsigned short *c, unsigned short *a, unsigned short b, int digits);
 void CPSi_big_sqr(unsigned short *c, unsigned short *a, int digits);
 unsigned long long get48bits_1(unsigned short *p);
-asm void get48bits_2(void);
-asm void get48bits_3(void);
-asm void get64bits(void);
 void CPSi_big_div(u16 *c, u16 *a, u16 *b, u16 *r, int digits, u16 *work);
 void CPSi_big_power(u16 *c, u16 *a, u16 *b, int digits, u16 *n);
 void CPSi_big_montpower(unsigned short *c, unsigned short *m, unsigned short *e, int digits, unsigned short *n);
@@ -360,7 +357,7 @@ unsigned long long get48bits_1(unsigned short *p)
 
 
 /* hand-written in the original: biginteger.o (libssl) asm routine, one debug row per instruction and no DWARF locals; no C spelling gives the bare lsl */
-asm void get48bits_2(void)
+asm u64 get48bits_2(u16 *s)
 {
 	ldrh r1, [r0]
 	ldrh r0, [r0, #-2]
@@ -372,7 +369,7 @@ asm void get48bits_2(void)
 
 
 /* hand-written in the original: biginteger.o (libssl) asm routine, one debug row per instruction and no DWARF locals; no C spelling gives the bare lsl */
-asm void get48bits_3(void)
+asm u64 get48bits_3(u16 *s)
 {
 	ldrh r1, [r0]
 	ldrh r2, [r0, #-2]
@@ -385,7 +382,7 @@ asm void get48bits_3(void)
 
 
 /* hand-written in the original: biginteger.o (libssl) asm routine, one debug row per instruction and no DWARF locals; no C spelling gives the bare lsl */
-asm void get64bits(void)
+asm u64 get64bits(u16 *s)
 {
 	ldrh r2, [r0]
 	ldrh r3, [r0, #-2]

@@ -20,7 +20,7 @@
  *   DWCi_TSKlDeleteByIndex  0x021D7744  arm  ov016
  *   DWCi_HEAPlFree_  0x021D6438  arm  ov016
  *   MIi_CpuCopy16  0x02082A60  arm
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   DC_FlushRange  0x020862F0  arm
  *   GX_LoadBG2Scr  0x0207EB78  arm
  *   DWCi_TSKlDelete  0x021D7724  arm  ov016
  */
@@ -35,7 +35,7 @@ extern void *DWCi_TSKlForm(int kind, void (*func)(void *), void *work, unsigned 
 extern void DWCi_TSKlDeleteByIndex(unsigned int idx, void *r4);
 extern void DWCi_HEAPlFree_(void **mem);
 extern void MIi_CpuCopy16(void *srcp, void *destp, unsigned long size);
-extern void DWCi_ScreenDC_FlushRange(void *startAddr, unsigned long nBytes);
+extern void DC_FlushRange(void *startAddr, unsigned long nBytes);
 extern void GX_LoadBG2Scr(void *pSrc, unsigned long offset, unsigned long szByte);
 extern void DWCi_TSKlDelete(int kind, void *task);
 void DWCi_SCREENlInit(void *scr);
@@ -104,7 +104,7 @@ static void taskLoad(void)
 {
     if (!gScreenWork.scr->dirty)
         return;
-    DWCi_ScreenDC_FlushRange(gScreenWork.scr->buf, 0x600);
+    DC_FlushRange(gScreenWork.scr->buf, 0x600);
     GX_LoadBG2Scr(gScreenWork.scr->buf, 0, 0x600);
     gScreenWork.scr->dirty = 0;
 }

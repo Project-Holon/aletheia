@@ -35,7 +35,7 @@
  *   BMP_GetTileBytes  0x02043994  arm
  *   BMP_Create  0x02043678  arm
  *   GX_BeginLoadTex  0x0207F7A0  arm
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   DC_FlushRange  0x020862F0  arm
  *   GX_LoadTex  0x0207F7FC  arm
  *   GX_EndLoadTex  0x0207F9B4  arm
  *   BMP_Delete  0x020437AC  arm
@@ -140,7 +140,7 @@ extern u16 BMP_GetHeight(const struct Bmp *bmp);
 extern u8 BMP_GetTileBytes(struct Bmp *b);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heapId);
 extern void GX_BeginLoadTex(void);
-extern void DWCi_ScreenDC_FlushRange(void *p, int n);
+extern void DC_FlushRange(void *p, int n);
 extern void GX_LoadTex(void *p, int src, int n);
 extern void GX_EndLoadTex(void);
 extern void BMP_Delete(struct Bmp *p);
@@ -553,7 +553,7 @@ void WAZA_OSHIE_UploadTextTexture(TexReq *req, u32 text, u16 xPos, u16 yPos, u16
     off = (u16)req->texVramKey << 3;
     n = ((int)(wi * h) / 8) << 5;
     GX_BeginLoadTex();
-    DWCi_ScreenDC_FlushRange(vram, n);
+    DC_FlushRange(vram, n);
     GX_LoadTex(vram, base + off, n);
     GX_EndLoadTex();
     BMP_Delete(buf);
@@ -569,7 +569,7 @@ void WAZA_OSHIE_UploadPalette(TexReq *req, void *dest)
     plttBase = req->plttOfs;
     plttKeyOfs = (u16)req->plttVramKey * 8;
     GX_BeginLoadTexPltt();
-    DWCi_ScreenDC_FlushRange(dest, 32);
+    DC_FlushRange(dest, 32);
     GX_LoadTexPltt(dest, plttBase + plttKeyOfs, 32);
     GX_EndLoadTexPltt();
 }

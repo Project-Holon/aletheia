@@ -43,7 +43,6 @@ typedef struct GslTimer {
     unsigned int started;
 } GslTimer;
 #include "../../matched/arm9_sdk/libc/string.h"
-#include "../../matched/arm9_sdk/libc/string.h"
 
 struct GSMD5_CTX;
 typedef unsigned int l_word;
@@ -68,7 +67,6 @@ typedef unsigned char  u8;
 extern unsigned int current_time_hires(void);
 extern void gsiLargeIntTimerEnter(int id);
 extern void gsiLargeIntTimerExit(int id);
-extern void *memcpy(void *dst, const void *src, u32 n);
 extern gsi_i32 gsiLargeIntCompare(const l_word *data1, l_word len1,
                                   const l_word *data2, l_word len2);
 extern int gsiLargeIntInverseMod(gsLargeInt_t *mod, l_word *dest);

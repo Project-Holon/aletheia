@@ -50,7 +50,7 @@
  *   STA_ACTING_LoadRankAnim 0x021F9140 thumb ov132
  *   STA_ACTING_LoadAnimMember 0x021F91A8 thumb ov132
  *   STA_ACT_LIGHT_SetActorOffset 0x021F8084 thumb ov112
- *   func_0209C0A4  0x0209C0A4  arm
+ *   _s32_div_f  0x0209C0A4  arm
  *   STA_ACT_LIGHT_SetActorAngle  0x021F8068  thumb  ov112
  *   STA_ACTING_GetRecordScore 0x021F9E20 thumb ov132
  *   STA_ACTING_GetBonus 0x021F9E34 thumb ov132
@@ -187,7 +187,7 @@ extern void STA_ACTING_LoadAnimMember(char *p, u8 n, u8 mask);
 
 extern void STA_ACT_LIGHT_SetActorOffset(void *unused, u32 *p, const u32 *q);
 
-extern int func_0209C0A4();
+extern int _s32_div_f(int a, int b);
 
 extern void STA_ACT_LIGHT_SetActorAngle(int self, char *p, u16 v);
 
@@ -949,10 +949,10 @@ void SCRIPT_COMMAND_TaskRotate(int a0, int *a1)
     int r4 = (int)STA_ACTING_GetActorSystem((char *)a1[0]);
     int local;
     if (STA_ACT_SCRIPT_StepTaskInt((char *)a1, &local) == 1) {
-        STA_ACT_LIGHT_SetActorAngle(r4, (char *)a1[6], (u16)func_0209C0A4(a1[2] << 16, 0x168));
+        STA_ACT_LIGHT_SetActorAngle(r4, (char *)a1[6], (u16)_s32_div_f(a1[2] << 16, 0x168));
         STA_ACT_SCRIPT_RemoveTask((char *)a1[7], (char *)a1[8]);
     } else {
-        STA_ACT_LIGHT_SetActorAngle(r4, (char *)a1[6], (u16)func_0209C0A4(local << 16, 0x168));
+        STA_ACT_LIGHT_SetActorAngle(r4, (char *)a1[6], (u16)_s32_div_f(local << 16, 0x168));
     }
 }
 
@@ -1019,10 +1019,10 @@ int SCRIPT_COMMAND_CmdCompareScores(int unused, Msg *m)
         a->f14.x = base + (dir[k] << 18);
         a->f14.y = a->f08.y;
         a->f14.z = a->f08.z;
-        a->f2C = func_0209C0A4(ABS(dir[k]) * x, maxabs);
-        a->f20.x = func_0209C0A4(a->f14.x - a->f08.x, a->f2C);
-        a->f20.y = func_0209C0A4(a->f14.y - a->f08.y, a->f2C);
-        a->f20.z = func_0209C0A4(a->f14.z - a->f08.z, a->f2C);
+        a->f2C = _s32_div_f(ABS(dir[k]) * x, maxabs);
+        a->f20.x = _s32_div_f(a->f14.x - a->f08.x, a->f2C);
+        a->f20.y = _s32_div_f(a->f14.y - a->f08.y, a->f2C);
+        a->f20.z = _s32_div_f(a->f14.z - a->f08.z, a->f2C);
         a->f34 = STA_ACT_SCRIPT_AddTask((char *)o, (u32)SCRIPT_COMMAND_TaskActorMove, (u32)a, 10);
         if (a->f2C != 0) {
             ScriptShakeTask *b = GFL_HEAP_Alloc(o->f0, 0x20, 0, d_021FDD00, 0x54B);

@@ -65,7 +65,6 @@
  *   gSBNullServer  0x021AEB00  data
  *   _u32_div_f     0x0209C2B0  arm
  *   __lower_mapC   0x020A60DC  data
- *   func_0219FB64  0x0219FB64  arm  ov009
  *   OS_SPrintf  0x02084F40  arm
  *   inet_addr  0x0217ED38  arm  ov009
  *   SOC_GetHostByName  0x0215F650  arm  ov009
@@ -208,14 +207,13 @@ extern unsigned int current_time(void);
 extern void srand(unsigned int seed);
 extern void SocketStartUp(void);
 extern unsigned int _u32_div_f(unsigned int a, unsigned int b);
-extern int func_0219FB64(char *s, int numbuckets);
+static int StringHash(char *s, int numbuckets);
 extern int OS_SPrintf(char *dst, char *fmt, ...);
 extern u32 inet_addr(char *name);
 extern SOCHostEnt *SOC_GetHostByName(char *name);
 extern int socket(int pf, int type, int protocol);
 extern int connect(int sock, void *addr, int len);
 extern int closesocket(int sock);
-extern void *memcpy(void *dest, const void *src, unsigned int n);
 extern void *unit_02092344(void *dst, const void *src, unsigned long n);
 extern int rand(void);
 extern int send(int sock, char *buf, int len, int flags);
@@ -310,7 +308,6 @@ extern char gSBNatNegMagic[];
 extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
 extern int strcmp(const char *a, const char *b);
 extern void *memmove(void *dst, const void *src, unsigned int n);
-extern int memcmp(const void *a, const void *b, unsigned long n);
 /*
  * sdk:      prevKeyCompare (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  *
@@ -832,7 +829,7 @@ int ServerListConnect(SBServerList *slist)
     char masterHostname[128];
     int masterIndex;
 
-    masterIndex = func_0219FB64(slist->queryforgamename, 20);
+    masterIndex = StringHash(slist->queryforgamename, 20);
     if ((*(char * *)&gSBSortContext))
         gsiSafeStrcpyA(masterHostname, (*(char * *)&gSBSortContext), 128);
     else

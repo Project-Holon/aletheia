@@ -133,7 +133,7 @@ u32 SAVE_CONTROL_INTR_Update(SaveControlIntr *intr)
 void SAVE_CONTROL_INTR_Pause(SaveControlIntr *intr){if(intr->state!=3)intr->pauseRequested=1;}
 /*
  * Unlabelled Thumb leaf in a .word run at ov088:021BD374.  The caller
- * func_021BE6E8 lives in ov204 (0x021BDA40..), which does not overlap ov088
+ * INTRO_CMD_CmdSaveResume (0x021BE6E8) lives in ov204 (0x021BDA40..), which does not overlap ov088
  * (0x021B95A0..0x021BDA20), the only overlay in the window that its own
  * window does not overlap, so ov088 is the resident copy.
  */

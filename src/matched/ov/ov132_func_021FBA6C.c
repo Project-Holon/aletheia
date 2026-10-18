@@ -467,7 +467,7 @@ typedef struct { u32 w[12]; } E;
 
 typedef struct { u8 pad[0x60]; E e[4]; } T;
 
-struct Record { int f0; int flag; char pad8[0x14]; char *data; char pad20[0x10]; };
+/* struct Record comes from ov132_types.h. */
 
 struct Context { char pad0[0x60]; struct Record rec[4]; };
 

@@ -103,7 +103,6 @@ extern int DWCi_EncSessionProcess(void);
 extern void DWCi_EncSessionShutdown(void);
 extern const void *DWCi_EncSessionGetResponse(u32 *len);
 extern int DWC_GetLastErrorEx(int *code, int *type);
-extern void *memcpy(void *dst, const void *src, unsigned int n);
 extern void DWCi_EncSessionInitialize(int server, char *initdata);
 extern int DWCi_EncSessionGetAsync(void *, unsigned, void *, unsigned, unsigned);
 extern void DWCi_EncSessionCancel(void);

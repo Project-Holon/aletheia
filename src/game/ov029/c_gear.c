@@ -70,7 +70,7 @@
  *   BLOCK20_SAVEDATA_SetPanelMark  0x020091AC  thumb
  *   d_021F332C     0x021F332C  data  a4
  *   ARC_UTIL_LoadPaletteBlockFromHandle  0x02049F78  arm
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   DC_FlushRange  0x020862F0  arm
  *   GXS_LoadBGPltt  0x0207E468  arm
  *   GFL_HEAP_Free  0x020307B0  arm
  *   BG_SYS_CreateRun  0x0203FA08  arm
@@ -277,7 +277,7 @@ extern u32 PALANM_GetFadeRequestBits(const struct PalAnmSlot *palAnm);
 extern u32 BG_SYS_GetBuf(int channel);
 extern void BLOCK20_SAVEDATA_SetPanelMark(struct HexMap *obj, int row, int col, int kind, int marked, int flagged);
 extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *archive, u32 member, CGearFileInfo **outFile, u32 heapId);
-extern void DWCi_ScreenDC_FlushRange(void *a, u32 b);
+extern void DC_FlushRange(void *a, u32 b);
 extern void GXS_LoadBGPltt(void *a, u32 b, u32 c);
 extern u32 GFL_HEAP_Free(void *p);
 extern u32 BG_SYS_CreateRun(u32 a, u32 b, u32 c);
@@ -2054,7 +2054,7 @@ u32 C_GEAR_LoadSkin(CGearWork *work, int theme, int skin, int loadPalettes)
 
     if (loadPalettes) {
         handle = ARC_UTIL_LoadPaletteBlockFromHandle(work->archive, d_021F31E0[theme], &file, 0x8070);
-        DWCi_ScreenDC_FlushRange(file->data, file->size);
+        DC_FlushRange(file->data, file->size);
         GXS_LoadBGPltt(file->data, 0, file->size);
         fileData = file->data;
         for (colorIdx = 0; colorIdx < 5; colorIdx++) {

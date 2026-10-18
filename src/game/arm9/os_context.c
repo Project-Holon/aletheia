@@ -83,6 +83,7 @@ asm void OS_InitContext(OSContext *context, u32 newpc, u32 newsp)
 }
 
 
+/* hand-written in the original: stm of the register file and mrs, one SDK line-table row per instruction */
 asm void OS_SaveContext(void)
 {
     stmfd sp!, {r0, lr}
@@ -106,6 +107,7 @@ asm void OS_SaveContext(void)
 }
 
 
+/* hand-written in the original: ldm of the register file and msr, one SDK line-table row per instruction */
 asm void OS_LoadContext(void)
 {
     stmfd sp!, {r0, lr}

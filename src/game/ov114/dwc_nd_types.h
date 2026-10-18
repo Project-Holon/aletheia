@@ -24,7 +24,7 @@ typedef struct NdParam {
 
 /* File statics of dwc_nd.o. */
 typedef struct NdState {
-    NdCallback callback;        /* +0x00 */
+    DWCNdCallback callback;        /* +0x00 */
     int errorReported;          /* +0x04, set once the error callback was issued */
     int serverError;            /* +0x08 */
     int error;                  /* +0x0c */

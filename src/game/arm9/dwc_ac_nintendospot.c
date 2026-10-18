@@ -105,11 +105,10 @@ extern void WDS_StartScan_CB(void);
 extern void WDS_EndScan_CB(void);
 extern void WDS_End_CB(void);
 extern void WDS_Error_End_CB(void);
-extern void g_02146ADC(void);
 extern void DWC_Free(int name, void *ptr, long size);
 BOOL DWC_AC_StartupGetWDSInfo(DWCWDSData *nspotInfo, u16 dmaNo);
 int DWC_AC_ProcessGetWDSInfo(void);
-asm void DWC_AC_CancelGetWDSInfo(void);
+void DWC_AC_CancelGetWDSInfo(void);
 void DWC_AC_CleanupGetWDSInfo(void);
 
 
@@ -233,14 +232,11 @@ int DWC_AC_ProcessGetWDSInfo(void)
 
 
 
-asm void DWC_AC_CancelGetWDSInfo(void)
+void DWC_AC_CancelGetWDSInfo(void)
 {
-    ldr r0, =g_02146ADC
-    ldr	r1, [r0, #8]
-    cmp	r1, #4
-    moveq	r1, #5
-    streq	r1, [r0, #8]
-    bx	lr
+    if (s_nspot.gAppstate == 4) {
+        s_nspot.gAppstate = 5;
+    }
 }
 
 

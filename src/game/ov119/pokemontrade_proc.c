@@ -27,7 +27,7 @@
  *   GFL_USE_PushBgm 0x02005E64 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
- *   func_0209C0A4 0x0209C0A4 arm
+ *   _s32_div_f 0x0209C0A4 arm
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
@@ -377,7 +377,7 @@ extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 
 extern void GFL_USE_FadeInBgmFull(u32 a);
 
-extern int func_0209C0A4(int a, int b);
+extern int _s32_div_f(int a, int b);
 
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 
@@ -1354,7 +1354,7 @@ int POKETRADE_PROC_IsWifiMode(char *p)
 int POKETRADE_PROC_GetBoxIndexForSlot(int a, char *p)
 {
     if (a >= 2)
-        return func_0209C0A4(a - 2, 6);
+        return _s32_div_f(a - 2, 6);
     return ((TradeWork *)p)->partyBoxId;
 }
 

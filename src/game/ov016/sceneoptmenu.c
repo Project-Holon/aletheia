@@ -40,7 +40,7 @@
  *   DWCi_ARClReadEx  0x021D4B68  arm  ov016
  *   DWCi_BM_GetWiFiInfo  0x02058518  arm
  *   MI_CpuCopy8  0x02082D44  arm
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   DC_FlushRange  0x020862F0  arm
  *   GX_LoadBGPltt  0x0207E3D0  arm
  *   DWCi_ARClRelease  0x021D4C68  arm  ov016
  *   GX_LoadBG2Char 0x0207F0B8  arm
@@ -159,7 +159,7 @@ extern unsigned char *DWCi_Char(unsigned char *name);
 extern void *DWCi_ARClReadEx(char *path, u32 *size, int alignment);
 extern void DWCi_BM_GetWiFiInfo(DWCWiFiInfo *buf);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
-extern void DWCi_ScreenDC_FlushRange(const void *startAddr, u32 nBytes);
+extern void DC_FlushRange(const void *startAddr, u32 nBytes);
 extern void GX_LoadBGPltt(const void *pSrc, u32 offset, u32 szByte);
 extern void DWCi_ARClRelease(void *file);
 extern void GX_LoadBG2Char(const void *pSrc, u32 offset, u32 szByte);
@@ -270,7 +270,7 @@ static void initGraphics(void)
             dst += 0x20;
         }
     }
-    DWCi_ScreenDC_FlushRange(pltt, 0x200);
+    DC_FlushRange(pltt, 0x200);
     GX_LoadBGPltt(pltt, 0, 0x200);
     DWCi_ARClRelease(pltt);
     BG_PRIORITY_3(0x04001008);

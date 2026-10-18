@@ -36,7 +36,7 @@ typedef struct OsSystemWorkBss {
 
 extern BOOL OS_IsRunOnTwl(void);
 u16 OS_GetBootType(void);
-asm void *OS_GetBootInfo(void);
+void *OS_GetBootInfo(void);
 BOOL OSi_IsCodecTwlMode(void);
 extern char SDK_AUTOLOAD_DTCM_START[];
 extern OsSystemWorkBss g_02151360;
@@ -47,10 +47,9 @@ u16 OS_GetBootType(void)
     return *(u16 *)OS_GetBootInfo();
 }
 
-asm void *OS_GetBootInfo(void)
+void *OS_GetBootInfo(void)
 {
-    ldr r0, =0x02FFFC40
-    bx lr
+    return (void *)0x02FFFC40;
 }
 
 

@@ -29,6 +29,7 @@ extern void *OSi_IrqThreadQueue;
 extern void *OSi_ThreadInfo;
 
 
+/* hand-written in the original: exception entry with mrs/msr and banked registers, one SDK line-table row per instruction */
 asm void OS_IrqHandler(void)
 {
     stmdb   sp!, {lr}
@@ -84,6 +85,7 @@ asm void OS_IrqHandler(void)
  *   python tools/match.py one --src src/matched/OS_IrqHandler_ThreadSwitch.c \
  *       --func OS_IrqHandler_ThreadSwitch --addr 0x01FF8148 --cc 1.1p1 --arm \
  *       --region arm9_autoload0_ITCM
+ * hand-written in the original: context switch with mrs/msr and stm/ldm, one SDK line-table row per instruction
  */
 asm void OS_IrqHandler_ThreadSwitch(void)
 {

@@ -227,9 +227,8 @@
  *   DWC_ScReportBeginNewPlayer  0x021DF328  arm
  *   DWC_ScReportSetPlayerData  0x021DF358  arm
  *   DWC_ScReportEnd  0x021DF3B0  arm
- *   func_021DF420 0x021DF420 arm ov175
  *   DWC_ScReportAddIntValue 0x021DF3E8 arm ov175
- *   DWC_ScReportAddByteValue  0x021DF3E8  arm
+ *   DWC_ScReportAddByteValue  0x021DF420  arm
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  *   GAME_DATA_GetPlayerStatusById 0x02012950 thumb
  *   g_021E2EF8  0x021E2EF8  data
@@ -1158,9 +1157,8 @@ extern int DWC_ScReportBeginTeamData(u32 *a0);
 extern int DWC_ScReportBeginNewPlayer(u8 *a0);
 extern s32 DWC_ScReportSetPlayerData(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, char *a5, s32 a6);
 extern int DWC_ScReportEnd(u32 h, u32 a, int flag);
-extern int func_021DF420(int,int,int);
 extern int DWC_ScReportAddIntValue(int,int,int);
-extern int DWC_ScReportAddByteValue(u32 report, u16 keyId, s8 value);
+extern int DWC_ScReportAddByteValue(int,int,int);
 extern u32 GFL_NET_GetHandleNetID(struct Link *link);
 extern struct Rec44 *GAME_DATA_GetPlayerStatusById(struct Sub24 *save, u32 i);
 extern int DWC_GdbInitialize(u32 gameId, u32 user, int ssl);
@@ -7159,27 +7157,27 @@ void WIFIBATTLEMATCH_NET_ReportAddRecord(int *ctx,const u32 *record,int invert) 
     if(!invert && flip) { first^=1; second^=1; }
     switch(record[0]) {
     case 0:
-        if(!skip && func_021DF420(ctx[1],15,1)) return;
+        if(!skip && DWC_ScReportAddByteValue(ctx[1],15,1)) return;
         if(DWC_ScReportAddIntValue(ctx[1],5,first)) return;
         if(DWC_ScReportAddIntValue(ctx[1],6,second)) return;
         break;
     case 1:
-        if(!skip && func_021DF420(ctx[1],16,1)) return;
+        if(!skip && DWC_ScReportAddByteValue(ctx[1],16,1)) return;
         if(DWC_ScReportAddIntValue(ctx[1],8,first)) return;
         if(DWC_ScReportAddIntValue(ctx[1],7,second)) return;
         break;
     case 2:
-        if(!skip && func_021DF420(ctx[1],18,1)) return;
+        if(!skip && DWC_ScReportAddByteValue(ctx[1],18,1)) return;
         if(DWC_ScReportAddIntValue(ctx[1],11,first)) return;
         if(DWC_ScReportAddIntValue(ctx[1],12,second)) return;
         break;
     case 3:
-        if(!skip && func_021DF420(ctx[1],17,1)) return;
+        if(!skip && DWC_ScReportAddByteValue(ctx[1],17,1)) return;
         if(DWC_ScReportAddIntValue(ctx[1],9,first)) return;
         if(DWC_ScReportAddIntValue(ctx[1],10,second)) return;
         break;
     case 4:
-        if(!skip && func_021DF420(ctx[1],19,1)) return;
+        if(!skip && DWC_ScReportAddByteValue(ctx[1],19,1)) return;
         if(DWC_ScReportAddIntValue(ctx[1],13,first)) return;
         if(DWC_ScReportAddIntValue(ctx[1],14,second)) return;
         break;
@@ -7213,7 +7211,7 @@ void WIFIBATTLEMATCH_NET_ReportAddTeam(int *ctx, int *input, int invert)
     case 5: case 6: default: first = 0; second = 0; break;
     }
     if (!invert && flip) { first ^= 1; second ^= 1; }
-    if (!skip && func_021DF420(ctx[1], 0x15, 1)) return;
+    if (!skip && DWC_ScReportAddByteValue(ctx[1], 0x15, 1)) return;
     if (DWC_ScReportAddIntValue(ctx[1], 0x16, first)) return;
     if (DWC_ScReportAddIntValue(ctx[1], 0x17, second)) return;
     if (DWC_ScReportAddIntValue(ctx[1], 0x18, present != 0)) return;
@@ -7234,7 +7232,7 @@ void WIFIBATTLEMATCH_NET_ReportAddTeam(int *ctx, int *input, int invert)
  */
 int WIFIBATTLEMATCH_NET_ReportAddWin(u32 *ctx)
 {
-    return DWC_ScReportAddByteValue(ctx[1], 0x1a, 1);
+    return DWC_ScReportAddIntValue(ctx[1], 0x1a, 1);
 }
 
 
@@ -7251,7 +7249,7 @@ int WIFIBATTLEMATCH_NET_ReportAddWin(u32 *ctx)
  */
 int WIFIBATTLEMATCH_NET_ReportAddLoss(u32 *ctx)
 {
-    return DWC_ScReportAddByteValue(ctx[1], 0x19, 1);
+    return DWC_ScReportAddIntValue(ctx[1], 0x19, 1);
 }
 
 
@@ -7268,7 +7266,7 @@ int WIFIBATTLEMATCH_NET_ReportAddLoss(u32 *ctx)
  */
 int WIFIBATTLEMATCH_NET_ReportAddDisconnectWin(u32 *ctx)
 {
-    return DWC_ScReportAddByteValue(ctx[1], 0x1b, -1);
+    return DWC_ScReportAddIntValue(ctx[1], 0x1b, -1);
 }
 
 
@@ -7282,7 +7280,7 @@ int WIFIBATTLEMATCH_NET_ReportAddDisconnectWin(u32 *ctx)
 
 int WIFIBATTLEMATCH_NET_ReportAddDisconnectLoss(u32 *ctx)
 {
-    return DWC_ScReportAddByteValue(ctx[1], 0x1c, -1);
+    return DWC_ScReportAddIntValue(ctx[1], 0x1c, -1);
 }
 
 

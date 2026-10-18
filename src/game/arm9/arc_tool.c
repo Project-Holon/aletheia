@@ -15,7 +15,7 @@
  * symbols:
  *   GFL_HEAP_Alloc      0x02030734  arm
  *   GFL_HEAP_Free   0x020307B0  arm
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   DC_FlushRange  0x020862F0  arm
  *   DC_FlushRange  0x020862F0  arm
  *   ARC_TOOL_gArchiveTable     0x02146A68  data
  *   FS_CloseFile  0x02078A80  arm
@@ -128,7 +128,6 @@ extern void *GFL_HEAP_Alloc(u16 heapID, u32 size, int clear, const char *file, i
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void DWCi_ScreenDC_FlushRange(int a, int b);
 
 extern void  DC_FlushRange(void *addr, u32 size);
 
@@ -1502,7 +1501,7 @@ void ARC_UTIL_UploadPalette(void *file, u32 kind, u32 offset, u32 dest, u32 size
                 size = *pmcp * (pltt->fmt == 3 ? 0x20 : 0x200);
             size -= offset;
         }
-        DWCi_ScreenDC_FlushRange(pltt->data, size);
+        DC_FlushRange((void *)pltt->data, size);
         switch (kind) {
         case 2:
             GX_BeginLoadBGExtPltt();

@@ -31,7 +31,7 @@
  *   MANUAL_GRAPHIC_DeleteScreen 0x021B99A0 thumb ov225
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   MANUAL_GRAPHIC_DrawScreen 0x021B99F4 thumb ov225
- *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
+ *   DC_FlushRange 0x020862F0 arm
  *   GX_LoadBG2Scr 0x0207EB78 arm
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BMP_WIN_Delete 0x020452E8 arm
@@ -82,7 +82,7 @@ extern unsigned PRINTSYS_QUE_Main(struct PrintSys *);
 
 extern void MANUAL_GRAPHIC_DrawScreen(char *);
 
-extern void DWCi_ScreenDC_FlushRange(const void *,unsigned);
+extern void DC_FlushRange(const void *,unsigned);
 
 extern void GX_LoadBG2Scr(const void *,unsigned,unsigned);
 
@@ -161,7 +161,7 @@ void MANUAL_COMMON_SetScreenId(char *data,unsigned id)
         } else {
             buf=ARC_UTIL_LoadHandleMemberWithSize(((struct ManualData *)data)->arc1,((struct ManualData *)data)->id,1,((struct ManualData *)data)->heap,&size);
         }
-        DWCi_ScreenDC_FlushRange(buf,size);GX_LoadBG2Scr(buf,0,0x18000);GFL_HEAP_Free(buf);
+        DC_FlushRange(buf,size);GX_LoadBG2Scr(buf,0,0x18000);GFL_HEAP_Free(buf);
     }
 }
 

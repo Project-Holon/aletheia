@@ -98,7 +98,7 @@ extern int gpiAuthBuddyRequest(void **connection, int profile);
 extern int gpiGetProfile(void **connection, int profileid, GPIProfile **pProfile);
 extern void gsifree(void *ptr);
 extern int gpiCanFreeProfile(char *p);
-extern void gpiRemoveProfile(const int *p, void *profile);
+extern void gpiRemoveProfile(void **connection, GPIProfile *profile);
 extern void *MSL_C_LIB_MemsetPtr(void *dst, int val, unsigned long len);
 extern GPIProfile *gpiFindBuddy(void **connection, int buddyIndex);
 extern int gpiGetProfile(void **connection, int profileid, GPIProfile **pProfile);
@@ -428,7 +428,7 @@ int gpDenyBuddyRequest(void **connection, int profile)
         gsifree(pProfile->authSig);
         pProfile->authSig = 0;
         if (gpiCanFreeProfile((char *)pProfile))
-            gpiRemoveProfile((const int *)connection, pProfile);
+            gpiRemoveProfile(connection, pProfile);
     }
     return 0;
 }

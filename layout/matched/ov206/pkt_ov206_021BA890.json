@@ -20,14 +20,14 @@
    "functions": [
     "ZUKAN_INFO_CreateWindows"
    ],
+   "addresses": [
+    "0x021BA890"
+   ],
    "evidence": {
     "sole-ref": [
      "self:0x021BC174"
     ]
-   },
-   "addresses": [
-    "0x021BA890"
-   ]
+   }
   }
  ]
 }

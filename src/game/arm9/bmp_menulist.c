@@ -372,7 +372,7 @@ void BMP_MENULIST_Redraw(struct BmpMenuList *menu)
  * worklist entry 0x020202CC (a "32-byte open function") is NOT a
  * function start: it is the middle of BMP_MENULIST_SetOverrideColors (the colour-override
  * setter), seeded into layout/function_starts.txt from a pending header
- * that misnamed sub_02022AC4's tail-call target (the pool word there is
+ * that misnamed WIPE_SUB_FadeVTask's tail-call target (the pool word there is
  * 0x020222CD; see docs/notes/pkt_02022940.c.txt, wave 11).  The 32 bytes
  * the worklist counted are BMP_MENULIST_SetOverrideColors's last eight instructions.
  *

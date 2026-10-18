@@ -20,11 +20,11 @@
    "functions": [
     "MAP_ATTR_IsDeepSand",
     "MAP_ATTR_IsDeepSandB",
-    "MAP_ATTR_IsSand",
-    "MAP_ATTR_IsGrassSingleB",
-    "MAP_ATTR_IsGrassDoubleB",
-    "MAP_ATTR_IsMirrorFloor",
-    "MAP_ATTR_IsNoDash"
+    "func_021AB41C",
+    "func_021AB428",
+    "func_021AB434",
+    "func_021AB440",
+    "func_021AB44C"
    ],
    "addresses": [
     "0x021AB404",

@@ -1,7 +1,7 @@
 /*
  * file:     worldtrade_enter.c
  * unit:     yes
- * function: WORLDTRADE_ENTER_ClearFlags, WORLDTRADE_ENTER_GetListRange, WORLDTRADE_ENTER_CreateListMenu, WORLDTRADE_ENTER_UpdateListMenu, WORLDTRADE_ENTER_ClearListRange, WORLDTRADE_ENTER_SetListRangeEntry, WORLDTRADE_ENTER_Init, WORLDTRADE_ENTER_CallStateHandler, WORLDTRADE_ENTER_Exit, WORLDTRADE_ENTER_EmptyInitHook, WORLDTRADE_ENTER_EmptyExitHook, WORLDTRADE_ENTER_SetState, WORLDTRADE_ENTER_StateStartServerCheck, WORLDTRADE_ENTER_StatePollServerCheck, WORLDTRADE_ENTER_InitDwcTrade, WORLDTRADE_ENTER_StateStartConnect, WORLDTRADE_ENTER_WaitServerCheck, WORLDTRADE_ENTER_SendProfile, WORLDTRADE_ENTER_WaitProfileResult, WORLDTRADE_ENTER_PushWifiSetup, WORLDTRADE_ENTER_StateWaitWifiSetup, WORLDTRADE_ENTER_PushWifiError, WORLDTRADE_ENTER_StateWaitWifiError, WORLDTRADE_ENTER_RunDialog, WORLDTRADE_ENTER_StateAbortConnect, WORLDTRADE_ENTER_StateExit, WORLDTRADE_ENTER_ShowErrorMessage, WORLDTRADE_ENTER_ShutdownDwcStep, WORLDTRADE_INPUT_PrintStringTop, WORLDTRADE_INPUT_PrintStringPlain, WORLDTRADE_INPUT_PrintBankString, WORLDTRADE_INPUT_PrintStringAligned, WORLDTRADE_INPUT_PrintStringAlignedLine, WORLDTRADE_INPUT_PrintStringAlignedWrapped, WORLDTRADE_INPUT_PrintCentered, WORLDTRADE_ENTER_RestartNetTimeout, ov135_func_021F9260
+ * function: WORLDTRADE_ENTER_ClearFlags, WORLDTRADE_ENTER_GetListRange, WORLDTRADE_ENTER_CreateListMenu, WORLDTRADE_ENTER_UpdateListMenu, WORLDTRADE_ENTER_ClearListRange, WORLDTRADE_ENTER_SetListRangeEntry, WORLDTRADE_ENTER_Init, WORLDTRADE_ENTER_CallStateHandler, WORLDTRADE_ENTER_Exit, WORLDTRADE_ENTER_EmptyInitHook, WORLDTRADE_ENTER_EmptyExitHook, WORLDTRADE_ENTER_SetState, WORLDTRADE_ENTER_StateStartServerCheck, WORLDTRADE_ENTER_StatePollServerCheck, WORLDTRADE_ENTER_InitDwcTrade, WORLDTRADE_ENTER_StateStartConnect, WORLDTRADE_ENTER_WaitServerCheck, WORLDTRADE_ENTER_SendProfile, WORLDTRADE_ENTER_WaitProfileResult, WORLDTRADE_ENTER_PushWifiSetup, WORLDTRADE_ENTER_StateWaitWifiSetup, WORLDTRADE_ENTER_PushWifiError, WORLDTRADE_ENTER_StateWaitWifiError, WORLDTRADE_ENTER_RunDialog, WORLDTRADE_ENTER_StateAbortConnect, WORLDTRADE_ENTER_StateExit, WORLDTRADE_ENTER_ShowErrorMessage, WORLDTRADE_ENTER_ShutdownDwcStep, WORLDTRADE_INPUT_PrintStringTop, WORLDTRADE_INPUT_PrintStringPlain, WORLDTRADE_INPUT_PrintBankString, WORLDTRADE_INPUT_PrintStringAligned, WORLDTRADE_INPUT_PrintStringAlignedLine, WORLDTRADE_INPUT_PrintStringAlignedWrapped, WORLDTRADE_INPUT_PrintCentered, WORLDTRADE_ENTER_RestartNetTimeout, WORLDTRADE_INPUT_CreateModeWindows
  * address:  0x021F88B0
  * region:   ov135
  * compiler: dsi/1.1p1
@@ -282,7 +282,7 @@ void WORLDTRADE_INPUT_PrintCentered(void *win, void *bank, int idx, void *g);
 
 void WORLDTRADE_ENTER_RestartNetTimeout(u8 *a0);
 
-void ov135_func_021F9260(Menu *p, u32 mode);
+void WORLDTRADE_INPUT_CreateModeWindows(Menu *p, u32 mode);
 
 extern const u16 d_022030E8[];
 
@@ -889,7 +889,7 @@ void WORLDTRADE_ENTER_RestartNetTimeout(u8 *a0)
     GFL_NET_RestartWithDefaultTimeout(0, 0x48);
 }
 
-void ov135_func_021F9260(Menu *p, u32 mode)
+void WORLDTRADE_INPUT_CreateModeWindows(Menu *p, u32 mode)
 {
     int i;
 

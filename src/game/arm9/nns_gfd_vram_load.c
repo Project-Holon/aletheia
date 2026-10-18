@@ -19,7 +19,7 @@
  *
  * symbols:
  *   gNNSiGfdVramLoadFuncTable     0x020A1718  data
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   DC_FlushRange  0x020862F0  arm
  *   NNSi_GfdRingIsEmpty  0x02061878  arm
  *   NNSi_GfdRingNextIndex  0x02061840  arm
  *   sVramTransferTaskQueue     0x02146B80  data
@@ -90,7 +90,7 @@ extern void GX_LoadBGExtPltt(const void *pSrc, u32 offset, u32 szByte);
 extern void GX_EndLoadBGExtPltt(void);
 extern void GX_LoadOAM(const void *pSrc, u32 offset, u32 szByte);
 extern void GX_LoadOBJ(const void *pSrc, u32 offset, u32 szByte);
-extern void func_0207EEFC(const void *pSrc, u32 offset, u32 szByte);
+extern void GXS_LoadBG0Char(const void *pSrc, u32 offset, u32 szByte);
 extern void GXS_LoadBG1Char(const void *pSrc, u32 offset, u32 szByte);
 extern void GXS_LoadBG2Char(const void *pSrc, u32 offset, u32 szByte);
 extern void GXS_LoadBG3Char(const void *pSrc, u32 offset, u32 szByte);
@@ -108,7 +108,7 @@ extern void GXS_LoadBGExtPltt(const void *pSrc, u32 offset, u32 szByte);
 extern void GXS_EndLoadBGExtPltt(void);
 extern void GXS_LoadOAM(const void *pSrc, u32 offset, u32 szByte);
 extern void GXS_LoadOBJ(const void *pSrc, u32 offset, u32 szByte);
-extern void DWCi_ScreenDC_FlushRange(u32, u32);
+extern void DC_FlushRange(u32, u32);
 extern int NNSi_GfdRingIsFull(NNSiGfdVramTransferTaskQueue *pQueue);
 extern u32 NNSi_GfdRingNextIndex(NNSiGfdVramTransferTaskQueue *pQueue, u32 index);
 extern int NNSi_GfdRingIsEmpty(NNSiGfdVramTransferTaskQueue *pQueue);
@@ -175,7 +175,7 @@ void NNSi_GfdLoadMainObjChar(const void *pSrc, u32 offset, u32 szByte)
 
 void NNSi_GfdLoadSubBg0Char(const void *pSrc, u32 offset, u32 szByte)
 {
-    func_0207EEFC(pSrc, offset, szByte);
+    GXS_LoadBG0Char(pSrc, offset, szByte);
 }
 
 
@@ -275,7 +275,7 @@ void NNSi_GfdLoadSubObjChar(const void *pSrc, u32 offset, u32 szByte)
 
 /*
  * Run one transfer task: fetch the loader gNNSiGfdVramLoadFuncTable[taskType] first,
- * flush the source range (DWCi_ScreenDC_FlushRange = DC_FlushRange on pSrc, szByte), then
+ * flush the source range (DC_FlushRange = DC_FlushRange on pSrc, szByte), then
  * call the loader with (pSrc, offset, szByte). The re-read tell
  * (docs/FRONTEND-PINS.md): the image reloads all three fields after the first
  * call with one `ldmib r5, {r0, r1, r2}`; 1.1p1 keeps szByte live from the
@@ -285,7 +285,7 @@ void NNSi_GfdLoadSubObjChar(const void *pSrc, u32 offset, u32 szByte)
 void NNSi_GfdRunVramTransferTask(NNSiGfdVramTransferTask *pTask)
 {
     NNSiGfdVramLoadFunc loadFunc = gNNSiGfdVramLoadFuncTable[pTask->taskType];
-    DWCi_ScreenDC_FlushRange(pTask->pSrc, pTask->szByte);
+    DC_FlushRange(pTask->pSrc, pTask->szByte);
     loadFunc(pTask->pSrc, pTask->offset, pTask->szByte);
 }
 

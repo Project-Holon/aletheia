@@ -1,7 +1,7 @@
 /*
  * file:     msgdata.c
  * unit:     yes
- * function: MSGDATA_CreateFromArchive, MSGDATA_Delete, MSGDATA_CreateFromMemory, MSGDATA_ReadString, MSGDATA_DecryptStrbuf, MSGDATA_DecryptUnits, MSGDATA_AllocString, MSGDATA_GetMessageCount, MSGDATA_ReadUnits, MSGDATA_LoadFileHeader, MSGDATA_LoadBank, MSGDATA_RefreshLanguage, MSGDATA_GetLanguageIndex, MSGDATA_SetLanguage, DWCi_Language
+ * function: MSGDATA_CreateFromArchive, MSGDATA_Delete, MSGDATA_CreateFromMemory, MSGDATA_ReadString, MSGDATA_DecryptStrbuf, MSGDATA_DecryptUnits, MSGDATA_AllocString, MSGDATA_GetMessageCount, MSGDATA_ReadUnits, MSGDATA_LoadFileHeader, MSGDATA_LoadBank, MSGDATA_RefreshLanguage, MSGDATA_GetLanguageIndex, MSGDATA_SetLanguage, MSGDATA_GetLanguage
  * address:  0x02045B38
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -41,7 +41,6 @@
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   MSGDATA_LoadBank  0x02046110  arm
- *   sub_020461E4  0x020461E4  arm
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_GetLength 0x020458F8 arm
  *   STRBUF_Truncate 0x02045900 arm
@@ -129,7 +128,6 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern u32 ARC_TOOL_GetHandleMemberOffset(struct ArcFile *arc, u32 member);
-extern s32 sub_020461E4(const struct MsgFile *file);
 extern void ARC_TOOL_DeleteHandle(void *handle);
 extern void ARC_TOOL_ReadHandle(struct ArcFile *arc, u32 size, void *dst);
 extern void ARC_TOOL_SeekHandle(void *stream, u32 pos);
@@ -156,7 +154,7 @@ void MSGDATA_LoadBank(struct MsgBankLoad *bank);
 void MSGDATA_RefreshLanguage(struct MsgBank *bank);
 s32 MSGDATA_GetLanguageIndex(const struct MsgFile *file);
 void MSGDATA_SetLanguage(u8 languageId);
-asm void DWCi_Language(void);
+u8 MSGDATA_GetLanguage(void);
 extern char MSGDATA_AllocSite[];
 extern u8 g_Byte_02146A54;
 
@@ -664,7 +662,7 @@ void MSGDATA_RefreshLanguage(struct MsgBank *bank)
 
 
 /*
- * Clamp sub_020461E4's answer to the count the header keeps at +0: past the
+ * Clamp MSGDATA_GetLanguage's answer to the count the header keeps at +0: past the
  * end wraps back to entry zero.  The comparison is signed (`movge`), so the
  * count is read as a halfword but compared as an int.
  *
@@ -684,7 +682,7 @@ void MSGDATA_RefreshLanguage(struct MsgBank *bank)
  */
 s32 MSGDATA_GetLanguageIndex(const struct MsgFile *file)
 {
-    s32 langIndex = sub_020461E4(file);
+    s32 langIndex = MSGDATA_GetLanguage();
 
     if (langIndex >= file->langCount) {
         langIndex = 0;
@@ -702,9 +700,7 @@ void MSGDATA_SetLanguage(u8 languageId)
     g_Byte_02146A54 = languageId;
 }
 
-asm void DWCi_Language(void)
+u8 MSGDATA_GetLanguage(void)
 {
-    ldr r0, =g_02146A54
-    ldrb r0, [r0]
-    bx lr
+    return g_Byte_02146A54;
 }

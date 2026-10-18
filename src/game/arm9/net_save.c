@@ -409,8 +409,8 @@ int GFL_NET_SAVE_InitWork(void *proc)
  *           Thumb code, so the literal index misses them.  Seeding those
  *           pools as .word, or a matched referrer, would close both.
  *           Seed round 10: both words are ov115 proc tables (three Thumb
- *           function pointers each, 0x021D6338 -> func_021D4BFC/4CE4/4D10,
- *           0x021D654C -> func_021D603C/6104/60D4), loaded with overlay id
+ *           function pointers each, 0x021D6338 -> 0x021D4BFC/4CE4/4D10,
+ *           0x021D654C -> 0x021D603C/6104/60D4), loaded with overlay id
  *           0x73 = ov115, not ov021 (docs/sessions/2026-09-23/reports/
  *           wave17_evidence.md).  ov115 declares both starts in
  *           layout/data_objects.txt and the symbols lines carry the ov115

@@ -31,7 +31,7 @@
  *   CLACT_GetActorDrawEnable  0x0204B3F4  arm
  *   BMP_GetPixels  0x020437D4  arm
  *   BMP_GetByteSize  0x020437EC  arm
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   DC_FlushRange  0x020862F0  arm
  *   CLACT_GetCharacterVramAddress  0x0204ABBC  arm
  *   GX_LoadOBJ     0x0207E780  arm
  *   GXS_LoadOBJ    0x0207E804  arm
@@ -143,7 +143,7 @@ extern void *BMP_GetPixels(const struct Bmp *bmp);
 
 extern u32 BMP_GetByteSize(const struct Bmp *bmp);
 
-extern void  DWCi_ScreenDC_FlushRange(void *buf, u32 size);
+extern void  DC_FlushRange(void *buf, u32 size);
 
 extern int CLACT_GetCharacterVramAddress(u32 charRes, u32 engine);
 
@@ -403,7 +403,7 @@ void BMP_OAM_UploadChars(struct BmpOam *bmpOam)
     void *charAddr;
 
     pixels = (u8 *)BMP_GetPixels(bmpOam->bmp);
-    DWCi_ScreenDC_FlushRange(pixels, BMP_GetByteSize(bmpOam->bmp));
+    DC_FlushRange(pixels, BMP_GetByteSize(bmpOam->bmp));
     if (bmpOam->engine == 0) {
         loadObj = GX_LoadOBJ;
     } else {

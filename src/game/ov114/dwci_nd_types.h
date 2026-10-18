@@ -13,7 +13,7 @@ typedef void *(*NdAlloc)(unsigned int size, int align);
 
 typedef void (*NdFree)(void *p);
 
-typedef void (*NdCallback)(int reason, int err, int servererror);
+typedef void (*DWCNdCallback)(int reason, int err, int servererror);
 
 /* One entry of the downloadable file list (0xb0 bytes). */
 typedef struct DWCNdFileInfo {
@@ -28,7 +28,7 @@ typedef struct DWCNdFileInfo {
 /* Request context of one nd HTTP transaction. */
 typedef struct tagDWCi_Ndi_HTTPREQ {
     int reason;                 /* +0x00, 1 count, 2 list, 3 file */
-    NdCallback callback;        /* +0x04 */
+    DWCNdCallback callback;        /* +0x04 */
     void *threadEvent;          /* +0x08 */
     union {
         struct {
@@ -51,7 +51,7 @@ typedef struct tagDWCi_Ndi_HTTPREQ {
 
 /* File statics of dwci_nd.o. */
 typedef struct NdStatics {
-    NdCallback callback;    /* +0x00 */
+    DWCNdCallback callback;    /* +0x00 */
     NdAlloc alloc;          /* +0x04 */
     int initialized;        /* +0x08 */
     int apinfo;             /* +0x0c */

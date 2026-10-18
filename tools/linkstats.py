@@ -216,9 +216,12 @@ def sdk_names():
 def marker_above(text, name):
     """True when the comment block right above the definition of `name` holds MARKER."""
     m = None
-    for c in re.finditer(r"^[^\n;{}]*\b" + re.escape(name) + r"\s*\(", text, re.M):
-        ends = [k for k in (text.find(";", c.end()), text.find("{", c.end())) if k >= 0]
-        if ends and text[min(ends)] == "{":
+    # search with comments blanked (same length, newlines kept), so a name quoted in a
+    # comment, such as a prototype in a function's doc block, is never taken as the definition
+    code = re.sub(r"/\*.*?\*/|//[^\n]*", lambda c: re.sub(r"[^\n]", " ", c.group(0)), text, flags=re.S)
+    for c in re.finditer(r"^[^\n;{}]*\b" + re.escape(name) + r"\s*\(", code, re.M):
+        ends = [k for k in (code.find(";", c.end()), code.find("{", c.end())) if k >= 0]
+        if ends and code[min(ends)] == "{":
             m = c          # the definition, not a prototype
             break
     if not m:

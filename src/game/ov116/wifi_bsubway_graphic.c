@@ -97,7 +97,7 @@
  *   MI_CpuCopy8 0x02082D44 arm
  *   GFL_HEAP_Free 0x020307B0 arm
  *   GFL_USE_AddMainTask 0x020056A0 thumb
- *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
+ *   DC_FlushRange 0x020862F0 arm
  *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   BG_SYS_CreateRun 0x0203FA08 arm
  *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
@@ -280,7 +280,7 @@ extern int ARC_UTIL_UploadPaletteFromArchiveWhole(int, int, int, int, int, unsig
 extern void MI_CpuCopy8(const void *, void *, unsigned int);
 extern unsigned int GFL_HEAP_Free(void *p);
 extern void *GFL_USE_AddMainTask(void *, void *, int);
-extern void DWCi_ScreenDC_FlushRange(void *, unsigned int);
+extern void DC_FlushRange(void *, unsigned int);
 extern void G2x_SetBlendAlpha_(void *, int, int, int, int);
 extern unsigned int BG_SYS_CreateRun(unsigned int layer, unsigned int size, unsigned int top);
 extern void *BMP_MENUWORK_LoadFrameGfx(void *a0, unsigned int a1, unsigned int a2, unsigned int a3);
@@ -764,7 +764,7 @@ void WIFI_BSUBWAY_GRAPHIC_SetupBgAnim(struct WifiBsubwayGraphic *p, short heap) 
             if (t >= 0x1000) { t = 0x1000; done = 1; }
         }
     }
-    DWCi_ScreenDC_FlushRange(p->palette, 0x780);
+    DC_FlushRange(p->palette, 0x780);
     p->animEnabled = 1;
     p->animCallback = GFL_USE_AddMainTask((void *)WIFI_BSUBWAY_GRAPHIC_StepBgAnim, &p->animCallback, 0x14);
     G2x_SetBlendAlpha_((void *)0x04000050, 1, 8, 8, 0x10);

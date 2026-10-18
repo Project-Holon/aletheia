@@ -79,6 +79,7 @@ void OS_InitException(void)
  * asm:      exception-vector entry with no prologue: uses r12 and a private
  *           stack outside the ABI and needs mrs on CPSR; the object agrees:
  *           .debug_line gives each instruction its own increasing line (285..332).
+ * hand-written in the original: mrs/msr and register file stm, one SDK line-table row per instruction
  */
 asm void OSi_ExceptionHandler(void)
 {
@@ -131,6 +132,7 @@ asm void OSi_GetAndDisplayContext(void)
  * asm:      needs mrs/msr on CPSR/SPSR and reads the exception frame through
  *           r12 outside the ABI; the object agrees: .debug_line gives each
  *           instruction its own increasing line (376..449).
+ * hand-written in the original: mrs/msr and register file stm, one SDK line-table row per instruction
  */
 asm void OSi_SetExContext(void)
 {

@@ -1,7 +1,7 @@
 /*
  * file:     scenesetlistsave.c
  * unit:     yes
- * function: DWCi_SceneSetListSave, initGraphics, procInit, DWCi_SceneSetListSaveProcInit1, DWCi_SceneSetListSaveProcScene, DWCi_SceneSetListSave_input, DWCi_SceneSetListSave_draw, DWCi_SceneSetListSaveEndScene, DWCi_SceneSetListSaveEndScene1, DWCi_IsFold
+ * function: DWCi_SceneSetListSave, initGraphics, procInit, DWCi_SceneSetListSaveProcInit1, DWCi_SceneSetListSaveProcScene, DWCi_SceneSetListSave_input, DWCi_SceneSetListSave_draw, DWCi_SceneSetListSaveEndScene, DWCi_SceneSetListSaveEndScene1
  * address:  0x021CA5D0
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -23,8 +23,6 @@
  *       --func procInit --addr 0x021CA684 --region ov016 --cc 1.1p1 --arm --lang c99
  * Bit 15 of the halfword at 0x02FFFFA8, as 0/1.
  * Addresses are Black-image addresses.
- *   python tools/match.py one --src src/matched/DWCi_IsFold.c \
- *       --func DWCi_IsFold --addr 0x021CA818 --region ov016 --cc dsi/1.1p1 --arm
  *
  * symbols:
  *   initGraphics                     0x021ca5f0 arm
@@ -121,7 +119,6 @@ extern void DWCi_SetParam_(unsigned int a, unsigned int b);
 void DWCi_SceneSetListSave(void);
 void DWCi_SceneSetListSave_input(void);
 void DWCi_SceneSetListSave_draw(void);
-int DWCi_IsFold(void);
 extern unsigned short sSceneSetListSavePathJbBgStep3Char[];
 extern unsigned short GX_LoadBG2Char[];
 extern unsigned short sSceneSetListSavePathYbBgStep3Pltt[];
@@ -265,7 +262,3 @@ static void endScene1(void)
     DWCi_ChangeScene((void (*)())&DWCi_SceneSetSelectAp);
 }
 
-int DWCi_IsFold(void)
-{
-    return ((*(unsigned short *)0x02FFFFA8 & 0x8000) >> 15) != 0;
-}

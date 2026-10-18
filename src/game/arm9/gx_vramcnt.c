@@ -159,7 +159,6 @@ typedef enum {
     GX_VRAM_TEX_012_ACD = 0x0d
 } GXVRamTex;
 
-extern void g_02150E4C(void);
 extern void OSi_UnlockVram(u16 bank, u16 lockId);
 extern int disableBankForX_(u16 *g3bit);
 void GX_SetBankForBG(GXVRamBG bg);
@@ -170,7 +169,7 @@ void GX_SetBankForTex(GXVRamTex tex);
 void GX_SetBankForTexPltt(int texPltt);
 void GX_SetBankForClearImage(int clrImg);
 void GX_SetBankForARM7(int arm7);
-asm void GX_SetBankForLCDC(void);
+void GX_SetBankForLCDC(int lcdc);
 void GX_SetBankForSubBG(int sub_bg);
 void GX_SetBankForSubOBJ(int sub_obj);
 void GX_SetBankForSubBGExtPltt(int sub_bgExtPltt);
@@ -637,15 +636,10 @@ void GX_SetBankForARM7(int arm7)
 
 
 
-asm void GX_SetBankForLCDC(void)
+void GX_SetBankForLCDC(int lcdc)
 {
-    ldr r2, =g_02150E4C
-    mov r1, r0, lsl #16
-    ldrh r3, [r2]
-    ldr ip, =GX_VRAMCNT_SetLCDC_
-    orr r1, r3, r1, lsr #16
-    strh r1, [r2]
-    bx ip
+    gGXState.vramCnt.lcdc |= (u16)lcdc;
+    GX_VRAMCNT_SetLCDC_(lcdc);
 }
 
 

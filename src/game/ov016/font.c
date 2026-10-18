@@ -40,7 +40,7 @@
  *   sFontTable3     0x021DAA76  data
  *   sFontTable2     0x021DAA74  data
  *   sFontTable1     0x021DAA70  data
- *   DWCi_ScreenDC_FlushRange                  0x020862F0  arm
+ *   DC_FlushRange                  0x020862F0  arm
  *   GX_LoadBG0Char                  0x0207EE68  arm
  *   GXS_LoadBG0Char                  0x0207EEFC  arm
  *   DWCi_TSKlDeleteEx                0x021D7744  arm  ov016
@@ -151,7 +151,7 @@ extern void *G2S_GetBG0ScrPtr(void);
 extern void *G2_GetBG0ScrPtr(void);
 extern void NNS_G2dMapScrToCharText(void *scnBase, int areaWidth, int areaHeight, int areaLeft, int areaTop, int scnWidth, int charNo, int cplt);
 extern void *DWCi_TSKlForm(int kind, void (*f)(void *), void *w, unsigned char prio);
-extern void DWCi_ScreenDC_FlushRange(void *startAddr, unsigned long nBytes);
+extern void DC_FlushRange(void *startAddr, unsigned long nBytes);
 extern void GX_LoadBG0Char(void *pSrc, unsigned long offset, unsigned long szByte);
 extern void GXS_LoadBG0Char(void *pSrc, unsigned long offset, unsigned long szByte);
 extern void DWCi_TSKlDeleteEx(int a, void *task);
@@ -331,10 +331,10 @@ static void taskLoad(void *task, void *work)
     if (!*renew)
         return;
     if (renew == &gFontWork->renew[0]) {
-        DWCi_ScreenDC_FlushRange(gFontWork->bg[0].buf, 0x6000);
+        DC_FlushRange(gFontWork->bg[0].buf, 0x6000);
         GX_LoadBG0Char(gFontWork->bg[0].buf, 0, 0x6000);
     } else {
-        DWCi_ScreenDC_FlushRange(gFontWork->bg[1].buf, 0x3000);
+        DC_FlushRange(gFontWork->bg[1].buf, 0x3000);
         GXS_LoadBG0Char(gFontWork->bg[1].buf, 0x3000, 0x3000);
     }
     *renew = 0;

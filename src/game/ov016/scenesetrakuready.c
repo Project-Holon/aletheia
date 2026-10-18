@@ -1,8 +1,8 @@
 /*
  * file:     scenesetrakuready.c
  * unit:     yes
- * function: DWCi_SceneSetRakuReady, initGraphics, DWCi_SceneSetRakuReadyProcInit, DWCi_SceneSetRakuReadyProcInit1, DWCi_SceneSetRakuReadyProcInit2, procScene, input, DWCi_SceneSetRakuReady_draw, button, endScene, endScene1, endScene2, checkRaku, DWCi_SceneSetRakuReadyProcError, procError1
- * address:  0x021CB2E8
+ * function: DWCi_IsFold, DWCi_SceneSetRakuReady, initGraphics, DWCi_SceneSetRakuReadyProcInit, DWCi_SceneSetRakuReadyProcInit1, DWCi_SceneSetRakuReadyProcInit2, procScene, input, DWCi_SceneSetRakuReady_draw, button, endScene, endScene1, endScene2, checkRaku, DWCi_SceneSetRakuReadyProcError, procError1
+ * address:  0x021CB2C8
  * region:   ov016
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -47,7 +47,6 @@
  * symbols:
  *   OS_Sleep                       0x02085A38  arm  arm9
  *   DWCi_BTNlSet                   0x021BCB28  arm  ov016
- *   DWCi_IsFold                    0x021CB2C8  arm  ov016
  *   DWCi_IPTlCheckTrigger          0x021D6824  arm  ov016
  *   initGraphics                     0x021cb344 arm
  *   DWCi_HLlLoadSet                  0x021bd6d4 arm
@@ -123,7 +122,6 @@ extern int DWCi_BTNlGet(void);
 extern void DWCi_BTNlEnable(void);
 extern void OS_Sleep(u32 msec);
 extern int DWCi_IPTlCheckTrigger(unsigned int f);
-extern int DWCi_IsFold(void);
 extern void DWCi_BTNlSet(signed char v);
 extern void DWCi_SNDlStop(void);
 extern void DWCi_BTNlDisable(void);
@@ -169,6 +167,15 @@ static void checkRaku(void);
 static void procError(void);
 static void procError1(void);
 
+
+/*
+ * Bit 15 of the halfword at 0x02FFFFA8 (lid closed), as 0/1: this scene's own
+ * copy of the libdwcutil helper.
+ */
+static int DWCi_IsFold(void)
+{
+    return ((*(unsigned short *)0x02FFFFA8 & 0x8000) >> 15) != 0;
+}
 
 void DWCi_SceneSetRakuReady(void)
 {

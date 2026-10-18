@@ -86,7 +86,7 @@
  *   __fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
- *   func_0209C0A4 0x0209C0A4 arm
+ *   _s32_div_f 0x0209C0A4 arm
  *   d_021C6FA0 0x021C6FA0 data a2
  *   d_021C6F66 0x021C6F66 data a2
  *   COMM_TVT_SYS_GetFont 0x021BE034 thumb ov172
@@ -261,7 +261,7 @@ extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
 
 extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 
-extern int func_0209C0A4(int a, u16 b);
+extern int _s32_div_f(int a, u16 b);
 
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 
@@ -1159,7 +1159,7 @@ void CTVT_TALK_DrawWaveform(int a0, char *obj, s16 *tbl, u8 a3, int idx, u16 v)
 
     if (idx < 0)
         return;
-    n = func_0209C0A4(idx * 0x7B, v);
+    n = _s32_div_f(idx * 0x7B, v);
     dev = BMP_GetPixels(BMP_WIN_GetBmp((struct Descriptor *)((CtvtTalk *)obj)->waveformWin));
     flag = 0;
     c = ((CtvtTalk *)obj)->waveX;

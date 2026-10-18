@@ -91,7 +91,7 @@
  *   BgTextLabel_SetVisible  0x021C0FF8  thumb  ov217
  *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   BG_SYS_GetScrollY  0x02040804  arm
- *   func_0209C0A4  0x0209C0A4  arm
+ *   _s32_div_f  0x0209C0A4  arm
  *   PALANM_GetFadeRequestBits  0x02021ED8  thumb
  *   d_021C326C 0x021C326C data a4
  *   PALETTE_ANIME_IsRunning  0x021C2A10  thumb  ov217
@@ -480,7 +480,7 @@ extern u32 BG_SYS_GetScrollY(u32 layer);
 
 extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 
-extern u32 func_0209C0A4(u32, u32);
+extern int _s32_div_f(int a, int b);
 
 extern int PALANM_RequestFade(PalAnmObj *, u16, u16, s16, u8, u8, u16, void *);
 
@@ -2337,13 +2337,13 @@ u32 RESEARCH_LIST_GetScrollMax(void)
 }
 
 /*
- * Tail-call veneer: forwards arg(s) a0, 24 to func_0209C0A4.
+ * Tail-call veneer: forwards arg(s) a0, 24 to _s32_div_f.
  *
  * Addresses are Black-image addresses.
  */
 int RESEARCH_LIST_DivideByEntryHeight(u32 a0)
 {
-    return func_0209C0A4(a0, 24);
+    return _s32_div_f(a0, 24);
 }
 
 /*

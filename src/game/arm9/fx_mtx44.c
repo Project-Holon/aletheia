@@ -60,6 +60,7 @@ void MTX_OrthoW(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, Mtx
  * sdk:      MTX_Identity44_ (fx_mtx44.o)
  *
  * asm:      fixed-register stm block (stmia r0!, {r1, r2, r3} runs) has no C spelling
+ * hand-written in the original: register-passed matrix helper, one SDK line-table row per instruction
  */
 asm void MTX_Identity44_(MtxFx44 *pDst)
 {
@@ -80,6 +81,7 @@ asm void MTX_Identity44_(MtxFx44 *pDst)
  * sdk:      MTX_Copy44To43_ (fx_mtx44.o)
  *
  * asm:      fixed-register ldm/stm block copy (ldmia r0!/stmia r1!, {r2, r3, r12}) has no C spelling
+ * hand-written in the original: register-passed matrix helper, one SDK line-table row per instruction
  */
 asm void MTX_Copy44To43_(MtxFx44 *pSrc, MtxFx43 *pDst)
 {

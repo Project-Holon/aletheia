@@ -2307,7 +2307,7 @@ void POKETRADE_NEGO_PlaySeByKeyB(int key)
 
 /*
  * Recursive MATCH unblocker: the non-SDK callee of ov119 POKETRADE_MCSS_SlideApplyOffset
- * (+0038) and a dependency of the func_021D7130 tree.  Copies two constant
+ * (+0038) and a dependency of the ov118 POKETRADE_DEMO_MIDDLE_UpdateScene tree.  Copies two constant
  * eight-byte-record tables from 0x021E7754 (two records) and 0x021E7764 (six
  * records) to the stack, gates on two bytes of the second argument, then
  * calls GFL_USE_PlaySeDefaultVolume on each record whose id matches arg0.  Both table

@@ -99,7 +99,7 @@
  *   FIELD_PLAYER_CheckFormModel  0x021A3238  thumb
  *   GAME_COMM_GetCounter  0x0202648C  thumb
  *   GAME_COMM_IsTransition  0x02026460  thumb
- *   func_02035390  0x02035390  arm
+ *   DWCi_IsFold  0x02035390  arm
  *   UI_IsPowerConnected  0x020353B0  arm
  *   ICA_ANIME_GetUnk330  0x02012204  thumb
  *   GAMESYSTEM_IsEventActive  0x020120D8  thumb
@@ -395,7 +395,7 @@ extern void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
 extern void GAME_COMM_RequestExit(struct GameComm *gameComm, u32 callback, u32 callbackArg);
 extern void GAME_COMM_Start(struct GameComm *gameComm, u32 kind, u32 param);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const void *file, u16 line);
-extern int func_02035390(void);
+extern int DWCi_IsFold(void);
 extern int UI_IsPowerConnected(void);
 extern int GFL_NET_SYSTEM_GetConnectNum(void);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
@@ -1185,7 +1185,7 @@ void INTRUDE_FIELD_UpdateCommState(struct FieldMap *fieldMap, struct GameSystem 
         return;
     if (GFL_NET_ERR_GetErrorLevel() != 0)
         return;
-    if (func_02035390() == 1 && UI_IsPowerConnected() == 1)
+    if (DWCi_IsFold() == 1 && UI_IsPowerConnected() == 1)
         return;
     if (ICA_ANIME_GetUnk330(gameSystem) == 1)
         return;
@@ -1231,7 +1231,7 @@ void INTRUDE_FIELD_StartComm(struct GameSystem *gameSystem)
         return;
     if (ICA_ANIME_GetUnk330(gameSystem) == 1)
         return;
-    if (func_02035390() == 1 && UI_IsPowerConnected() == 1)
+    if (DWCi_IsFold() == 1 && UI_IsPowerConnected() == 1)
         return;
     param = GFL_HEAP_Alloc(0x8005, 0x10, 1, INTRUDE_FIELD_gStartParamFile, 0x528);
     param->startKind = 1;

@@ -91,9 +91,9 @@
  *   ZONEDATA_IsNoGameEventZone  0x02013D34  thumb
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
- *   func_021882A0  0x021882A0  arm  ov230d
- *   func_02188318  0x02188318  arm  ov230d
- *   func_021883CC  0x021883CC  arm  ov230d
+ *   OV230_CallSealedBody0  0x021882A0  arm  ov230d
+ *   OV230_CallSealedBody2  0x02188318  arm  ov230d
+ *   OV230_CallSealedBody5  0x021883CC  arm  ov230d
  *   COMM_PLAYER_SUPPORT_SetSeason  0x0202E8CC  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   FORMCHANGE_RevertShayminAtNight  0x0216A358  thumb  ov010
@@ -444,9 +444,9 @@ extern void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
 void *EVENT_MAPCHANGE_AllocWorkBufferA(void);
 void *EVENT_MAPCHANGE_AllocWorkBufferB(void);
 void EVENT_MAPCHANGE_EndMarker(void);
-extern u32 func_021882A0(void (*a)(void), void (*b)(void), u32 c);
-extern u32 func_02188318(void (*a)(void), void (*b)(void), u32 c);
-extern u32 func_021883CC(void (*a)(void), void (*b)(void), u32 c);
+extern u32 OV230_CallSealedBody0(void (*a)(void), void (*b)(void), u32 c);
+extern u32 OV230_CallSealedBody2(void (*a)(void), void (*b)(void), u32 c);
+extern u32 OV230_CallSealedBody5(void (*a)(void), void (*b)(void), u32 c);
 extern void *GAME_DATA_GetMyParty(struct GameData *gameData);
 extern int FORMCHANGE_RevertShayminAtNight(struct GameData *gameData, void *party, u32 *p, int season);
 extern int FIELD_MAP_CHANGE_ResetGimmickStateCase1(struct GameData *gameData, int zoneId);
@@ -1016,8 +1016,8 @@ void EVENT_MAPCHANGE_SetupEnterEntranceParam(MapChangeWork *work, struct GameEve
  * `switch (v) { case 1: case 2: }` it grows by 4 bytes with two compares;
  * only `(u8)(v + 0xff) <= 1` gives the add.  The dead `str r2, [sp, #0xc]`
  * after `adds r2, #0x14` is `a += 0x14;` on the spilled local before the
- * FORMCHANGE_RevertShayminAtNight call.  func_021882A0/02188318/021883CC are ov230's decrypted
- * code (ov230d token); each gets the range EVENT_MAPCHANGE_StartMarker to one of this
+ * FORMCHANGE_RevertShayminAtNight call.  OV230_CallSealedBody0, 2 and 5 are slots of ov230's decrypted
+ * dispatcher (ov230d token); each gets the range EVENT_MAPCHANGE_StartMarker to one of this
  * overlay's end markers. */
 int EVENT_MAPCHANGE_ChangeFieldEvent(struct GameEvent *event, int *seq, ChangeFieldWork *changeField)
 {
@@ -1057,7 +1057,7 @@ int EVENT_MAPCHANGE_ChangeFieldEvent(struct GameEvent *event, int *seq, ChangeFi
         }
         break;
     case 3:
-        func_021882A0((void (*)(void))EVENT_MAPCHANGE_StartMarker, (void (*)(void))EVENT_MAPCHANGE_AllocWorkBufferA, 0);
+        OV230_CallSealedBody0((void (*)(void))EVENT_MAPCHANGE_StartMarker, (void (*)(void))EVENT_MAPCHANGE_AllocWorkBufferA, 0);
         EVENT_MAPCHANGE_DeleteAllMmdlOfSystem(gameSystem);
         if (work->seasonFadeAllowed != 0 && work->seasonChanged != 0) {
             COMM_PLAYER_SUPPORT_SetSeason(gameData, work->toSeason);
@@ -1068,13 +1068,13 @@ int EVENT_MAPCHANGE_ChangeFieldEvent(struct GameEvent *event, int *seq, ChangeFi
             sessionPtr += 0x14;
             FORMCHANGE_RevertShayminAtNight(gameData, party, (u32 *)sessionPtr, season);
         }
-        func_02188318((void (*)(void))EVENT_MAPCHANGE_StartMarker, (void (*)(void))EVENT_MAPCHANGE_AllocWorkBufferB, 0);
+        OV230_CallSealedBody2((void (*)(void))EVENT_MAPCHANGE_StartMarker, (void (*)(void))EVENT_MAPCHANGE_AllocWorkBufferB, 0);
         EVENT_MAPCHANGE_UpdateFieldStateForZone(gameSystem, work->destination.zoneId);
         EVENT_MAPCHANGE_ApplyLocation(gameSystem, &work->destination);
         if (work->changeKind != 4) {
             GAME_BEACON_SetZone(work->destination.zoneId, gameData);
         }
-        func_021883CC((void (*)(void))EVENT_MAPCHANGE_StartMarker, EVENT_MAPCHANGE_EndMarker, 0);
+        OV230_CallSealedBody5((void (*)(void))EVENT_MAPCHANGE_StartMarker, EVENT_MAPCHANGE_EndMarker, 0);
         switch (work->changeKind) {
         case 1:
             FIELD_MAP_CHANGE_ResetGimmickStateCase1(gameData, work->destination.zoneId);
@@ -2636,8 +2636,8 @@ void *EVENT_MAPCHANGE_AllocWorkBufferB(void)
 /*
  * An empty function (`bx lr` plus two bytes of padding) at the end of the
  * file.  EVENT_MAPCHANGE_ChangeFieldEvent passes its address as the end of the range handed to
- * the ov230 routine func_021883CC, the same way it passes EVENT_MAPCHANGE_AllocWorkBufferA and
- * EVENT_MAPCHANGE_AllocWorkBufferB to func_021882A0 and func_02188318.
+ * the ov230 routine OV230_CallSealedBody5, the same way it passes EVENT_MAPCHANGE_AllocWorkBufferA and
+ * EVENT_MAPCHANGE_AllocWorkBufferB to OV230_CallSealedBody0 and OV230_CallSealedBody2.
  */
 void EVENT_MAPCHANGE_EndMarker(void)
 {

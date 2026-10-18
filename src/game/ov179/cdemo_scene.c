@@ -36,7 +36,7 @@
  *   _ull_mul       0x0209C054  arm
  *   _ll_udiv       0x0209C00C  arm
  *   ARC_UTIL_LoadHandleMember  0x0204A380  arm
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   DC_FlushRange  0x020862F0  arm
  *   GX_LoadBG2Scr  0x0207EB78  arm
  *   GX_LoadBG3Scr  0x0207ECF0  arm
  *   GFL_HEAP_Free  0x020307B0  arm
@@ -89,7 +89,7 @@ extern void CDEMO_MAIN_HidePlane(void);
 extern u64 OS_GetTick(void);
 extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 extern void *ARC_UTIL_LoadHandleMember(void *a0, u32 a1, u32 a2, u32 a3);
-extern void DWCi_ScreenDC_FlushRange(int, int);
+extern void DC_FlushRange(int, int);
 extern void GX_LoadBG2Scr(int, int, int);
 extern void GX_LoadBG3Scr(int, int, int);
 extern u32 GFL_HEAP_Free(void *p);
@@ -243,7 +243,7 @@ void CDEMO_SCENE_LoadScreenBlock(void *a, int b, int c, int d, int e)
 {
     int t = (int)ARC_UTIL_LoadHandleMember(a, b, 1, 0x807f);
 
-    DWCi_ScreenDC_FlushRange(t, d);
+    DC_FlushRange(t, d);
     if (e == 0) {
         GX_LoadBG2Scr(t, c, d);
     } else {

@@ -1478,7 +1478,7 @@
    }
   },
   {
-   "name": "DWCi_GetMatchCnt",
+   "name": "func_02175F3C",
    "address": "0x02175F3C",
    "kind": "sdk",
    "region": "ov009",

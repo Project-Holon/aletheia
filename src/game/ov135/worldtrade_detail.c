@@ -103,7 +103,7 @@
  *   FILE_UTIL_ReadString  0x02020F84  thumb
  *   STRBUF_SetString  0x02045924  arm
  *   POKEGRA_LoadCharDataPP  0x0202D6F4  thumb
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   DC_FlushRange  0x020862F0  arm
  *   GX_LoadOBJ  0x0207E780  arm
  *   POKEGRA_GetArcID  0x0202D060  thumb
  *   POKE_TOOL_IsShiny  0x02017EAC  thumb
@@ -274,7 +274,7 @@ extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 
 extern u32 POKEGRA_LoadCharDataPP(void *a0, void *mon, u32 a2, u32 a3);
 
-extern void DWCi_ScreenDC_FlushRange(void *p, u32 n);
+extern void DC_FlushRange(void *p, u32 n);
 
 extern void GX_LoadOBJ(void *src, u32 dst, u32 n);
 
@@ -787,7 +787,7 @@ void WORLDTRADE_DETAIL_LoadMonGraphics(void *mon)
     u32 id;
 
     h = (void *)POKEGRA_LoadCharDataPP(&pal, POKE_TOOL_Dummy(), 0, 0x48);
-    DWCi_ScreenDC_FlushRange(pal->data, 0x1200);
+    DC_FlushRange(pal->data, 0x1200);
     GX_LoadOBJ(pal->data, 0x3F80, 0x1200);
     GFL_HEAP_Free(h);
     arc = POKEGRA_GetArcID();

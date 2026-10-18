@@ -39,5 +39,5 @@ types and one declaration per function and global where that could be settled.
 - `tools/restorenotes.py` puts the descriptive notes of the matched files back
   above each function.
 
-Function names are still mostly addresses (`func_02012345`); naming comes after the
-structure has settled.
+Every function has a real name; no address names (`func_XXXXXXXX`) remain.
+The naming rules and their evidence are in `docs/NAMING.md`.

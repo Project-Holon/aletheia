@@ -85,7 +85,7 @@ void *DWCi_NdAlloc(unsigned long size, int align);
 void DWCi_NdFree(void *ptr);
 void DWCi_NdCleanupCallback(void);
 void NdCallback(int reason, int error, int serverError);
-int DWC_NdInitAsync(NdCallback callback, char *gameCode, char *password);
+int DWC_NdInitAsync(DWCNdCallback callback, char *gameCode, char *password);
 void DWC_NdProcess(void);
 int DWC_NdCleanupAsync(void);
 int DWC_NdSetAttr(char *attr1, char *attr2, char *attr3);
@@ -192,7 +192,7 @@ void NdCallback(int reason, int error, int serverError)
 /*
  * sdk:      DWC_NdInitAsync (libdwcnd.TWL.HYB.a(dwc_nd.o))
  */
-int DWC_NdInitAsync(NdCallback callback, char *gameCode, char *password)
+int DWC_NdInitAsync(DWCNdCallback callback, char *gameCode, char *password)
 {
     if (DWCi_IsError())
         return 0;

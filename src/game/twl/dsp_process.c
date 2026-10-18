@@ -41,7 +41,7 @@
  *   MIi_CpuClearFast  0x02082AC0  arm  arm9
  *   OS_EnableIrqMask  0x02084968  arm  arm9
  *   OS_DisableIrqMask  0x02084998  arm  arm9
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm  arm9
+ *   DC_FlushRange  0x020862F0  arm  arm9
  *   OS_DisableInterrupts  0x02087988  arm  arm9
  *   OS_RestoreInterrupts  0x0208799C  arm  arm9
  *   STD_CopyString  0x0208CADC  arm  arm9
@@ -138,7 +138,7 @@ extern void MI_CpuFill8(void *p, s32 v, u32 n);
 extern void STD_CopyString(void *dst, void *src);
 extern s32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(s32);
-extern void DWCi_ScreenDC_FlushRange(void *, u32);
+extern void DC_FlushRange(void *, u32);
 extern s32 OS_IsRunOnTwl(void);
 extern int FS_IsAvailable(void);
 extern void FS_Init(u32 v);
@@ -467,8 +467,8 @@ u32 DSP_MapAndLoadProcessImage(DspProc *c, void *file, u16 a, u16 b)
     c->f1a = b;
     ok = 0;
     if (DSP_EnumSections(c, DSPi_MapAndLoadProcessImageCallback)) {
-        DWCi_ScreenDC_FlushRange(MI_GetWramMapStart_B(), 0x40000);
-        DWCi_ScreenDC_FlushRange(MI_GetWramMapStart_C(), 0x40000);
+        DC_FlushRange(MI_GetWramMapStart_B(), 0x40000);
+        DC_FlushRange(MI_GetWramMapStart_C(), 0x40000);
         if (DSP_SwitchProcessMemory(c, 1, 0, 0x20000, 2)) {
             if (DSP_SwitchProcessMemory(c, 2, 0, 0x20000, 2)) {
                 ok = 1;

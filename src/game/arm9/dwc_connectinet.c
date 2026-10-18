@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * Tail call to WCM_GetLinkLevel (WCM_GetLinkLevel, ov009) through a pool word;
- * called from func_021F4EB4.
+ * called from ov135 WORLDTRADE_GetWifiLinkLevel.
  * blocker:  +0008 ABS32 DWC_GetCheckNintendoZoneWorkSize          -> unresolved: 0205CF24 (arm, from name) has no witness outside 0205D010..0205D01C
  *           r2 sweep: still capped -- no EXACT manifest entry covers the site; the matched class has no witness to offer.
  *

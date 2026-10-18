@@ -89,7 +89,7 @@
  *   gCubeNormal 0x021E8178 data a4
  *   gCubeTexCoord 0x021E8168 data a4
  *   GX_BeginLoadTex 0x0207F7A0 arm
- *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
+ *   DC_FlushRange 0x020862F0 arm
  *   GX_LoadTex 0x0207F7FC arm
  *   GX_EndLoadTex 0x0207F9B4 arm
  *   G3_RotY 0x0207D84C arm
@@ -295,7 +295,7 @@ extern void MCSS_Del(void *sys, void *obj);
 
 extern void GX_BeginLoadTex(void);
 
-extern void DWCi_ScreenDC_FlushRange(void *, int);
+extern void DC_FlushRange(void *, int);
 
 extern void GX_LoadTex(void *, int, int);
 
@@ -518,7 +518,7 @@ void POKETRADE_3D_SetupParticleSystemsHigh(ParticleManager *p)
 
 /*
  * Teardown: release the +0xb4 pointer and the nine 32-bit slots at
- * +0x24, zeroing each. Target of func_021D6C78's second call (ov119).
+ * +0x24, zeroing each. Target of ov118 POKETRADE_DEMO_MIDDLE_StepEndScene's second call.
  *
  * Addresses are Black-image addresses.
  */
@@ -875,7 +875,7 @@ void POKETRADE_3D_UploadTexturePages(char *p, int count)
             POKETRADE_3D_FillTextureHeader((u16 *)v, (unsigned char *)(p + 0x5B6), 2);
         else
             POKETRADE_3D_FillTexturePage((u16 *)v, (u8 *)(p + 0x2E6), i - 1, 2);
-        DWCi_ScreenDC_FlushRange(v, 0x200);
+        DC_FlushRange(v, 0x200);
         GX_LoadTex(v, i * 0x200 + 0x3000, 0x200);
     }
     GFL_HEAP_Free(v);
@@ -988,10 +988,10 @@ void POKETRADE_3D_LoadTexturePalette(char *p)
     v = ARC_TOOL_CreateHandle(0x74, ((TradeWork *)p)->heapId);
     allocation = ARC_UTIL_LoadPaletteBlockFromHandle(v, 0x48, (u32)(&descriptor), ((TradeWork *)p)->heapId);
     data = ((IcaTexture *)descriptor)->data;
-    DWCi_ScreenDC_FlushRange(data + 32, 32);
+    DC_FlushRange(data + 32, 32);
     MI_CpuMove(data + 32, data + 34, 30);
     ((IcaTextureData *)data)->firstColor = 0x14A5;
-    DWCi_ScreenDC_FlushRange(data + 32, 32);
+    DC_FlushRange(data + 32, 32);
     GX_BeginLoadTexPltt();
     GX_LoadTexPltt(data + 32, 0x2000, 32);
     GX_EndLoadTexPltt();

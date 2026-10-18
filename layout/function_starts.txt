@@ -4294,3 +4294,5 @@ arm9_main    0x0200471C  thumb   # BT4: svc #0xD; bx lr stub in the secure area 
 arm9_main    0x020047A6  thumb   # BT4: svc #0x5; bx lr stub in the secure area (17 stubs, one per SWI, 3 called); no caller; SVC_WaitVBlankIntr
 arm9_main    0x0200BA78  thumb   # BT4: word arm9:209dc78
 arm9_main    0x0209D818  arm     # "mov r0, #0; bx lr" close hook after func_0209D7D4; FILE tables hold 0x0209D818 at 0x020A8774 and 0x020A87C0 next to func_0209D784, func_0209D7D4 (LX5)
+overlay_074  0x021F54E0  thumb   # FLD3D_CI_GetNameRow: blx from ov021 FLD3D_CI_StartNameSequence (src/game/ov074/fld3d_ci_name.c)
+overlay_109  0x021BB8E0  thumb   # IDLE_SCREEN_Run: push {r4-r7,lr} at the overlay start, no caller in the image (src/game/ov109/idle_screen.c)

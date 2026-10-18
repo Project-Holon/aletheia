@@ -88,6 +88,7 @@ static const unsigned long microcode_SwitchCpuClock[13] = {
 #include "../../../build/gen/microcode_02004FFC.inc"
 };
 
+/* hand-written in the original: startup code with mcr/mrs and no stack, one SDK line-table row per instruction */
 asm void _start(void)
 {
     mov r12, #0x4000000
@@ -235,6 +236,7 @@ _loop:
     bx lr
 }
 
+/* hand-written in the original: mcr/mrc p15 setup, one SDK line-table row per instruction */
 static asm void INITi_InitCoprocessor(void)
 {
     mrc p15, 0, r0, c1, c0, 0
@@ -280,6 +282,7 @@ _010:
     bx lr
 }
 
+/* hand-written in the original: mcr p15 protection region setup, one SDK line-table row per instruction */
 static asm void INITi_InitRegion(void)
 {
     mov r12, lr
@@ -535,6 +538,7 @@ _end:
     bx lr
 }
 
+/* hand-written in the original: hand register allocation, one SDK line-table row per instruction */
 asm void MIi_UncompressBackward(void *bottom)
 {
     cmp r0, #0
@@ -618,6 +622,7 @@ static int INITi_IsRunOnTwl(void)
     return (*(volatile unsigned char *)0x04004000 & 3) == 1;
 }
 
+/* hand-written in the original: ldm/stm copy loop, one SDK line-table row per instruction */
 static asm void *INITi_Copy32(void *dst, const void *src, unsigned long size)
 {
     stmfd sp!, {r3-r11}
@@ -643,6 +648,7 @@ _next:
     bx lr
 }
 
+/* hand-written in the original: stm fill loop, one SDK line-table row per instruction */
 static asm void *INITi_Fill32(void *dst, unsigned long value, unsigned long size)
 {
     stmfd sp!, {r3-r11}

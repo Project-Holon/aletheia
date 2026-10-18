@@ -190,7 +190,7 @@
  *   CLACT_GetCharacterVramAddress 0x0204ABBC arm
  *   BMP_GetPixels 0x020437D4 arm
  *   BMP_GetByteSize 0x020437EC arm
- *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
+ *   DC_FlushRange 0x020862F0 arm
  *   GXS_LoadOBJ 0x0207E804 arm
  *   gOfferWindowActorTable 0x021E7DD8 data a1
  *   ARC_UTIL_LoadPaletteDataFromHandle 0x02049EF4 arm
@@ -460,7 +460,7 @@ extern void BMP_Delete(struct Bmp *p);
 extern int CLACT_GetCharacterVramAddress(unsigned int idx, unsigned int flag);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern u32 BMP_GetByteSize(const struct Bmp *bmp);
-extern void DWCi_ScreenDC_FlushRange(void *,int);
+extern void DC_FlushRange(void *,int);
 extern void GXS_LoadOBJ(const void *,void *,unsigned int);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *, u32, u32, void **, u16);
 extern void BG_SYS_DrawTile(u32, u32, u32, u32, u8, u8);
@@ -678,7 +678,7 @@ int POKETRADE_2D_BuildMarkingTablesFrom(char *p, int i)
 
 /*
  * Unlabelled Thumb tail-call wrapper after pool_021E3E3C, seeded so that
- * ov117 func_021D4BF4 has a witness: forwards the two ov119 tables and the
+ * ov117 POKETRADE_IRCDEMO_StepSetup has a witness: forwards the two ov119 tables and the
  * u16 heap id held at +0x5F4 to the ARM function 0x0204A48C.
  *
  * Addresses are Black-image addresses.
@@ -2589,7 +2589,7 @@ void POKETRADE_2D_UpdateOfferWindowActors(int p) {
     for(i=0;i<8;i++) {
         dest=(char *)CLACT_GetCharacterVramAddress(*(int *)(p+i*4+0x1114),1);
         source=BMP_GetPixels((const struct Bmp *)(*(int *)(p+i*4+0x10f4)));
-        DWCi_ScreenDC_FlushRange(source,BMP_GetByteSize((const struct Bmp *)(*(int *)(p+i*4+0x10f4))));
+        DC_FlushRange(source,BMP_GetByteSize((const struct Bmp *)(*(int *)(p+i*4+0x10f4))));
         for(j=0;j<8;j++) {GXS_LoadOBJ(source+t.v[j]*256,dest,256);dest+=256;}
     }
 }
@@ -2679,7 +2679,7 @@ void POKETRADE_2D_FadePaletteBank(char *p, int bank, int mask)
     for(i=0;i<16;i++) {
         if(mask & (1<<i)) {
             off=i*32;
-            DWCi_ScreenDC_FlushRange(buf+off,32);
+            DC_FlushRange(buf+off,32);
             switch(bank) {
             case 3: GXS_LoadOBJPltt(buf+off,off,32); break;
             case 1: GXS_LoadBGPltt(buf+off,off,32); break;
@@ -2707,12 +2707,12 @@ void POKETRADE_2D_FadePaletteCopy(void *p, int a1, int a2, int a3)
         return;
     }
     if (a2 == 3) {
-        DWCi_ScreenDC_FlushRange(((TradeWork *)p)->subObjPaletteCopy, 0x200);
+        DC_FlushRange(((TradeWork *)p)->subObjPaletteCopy, 0x200);
         GXS_LoadOBJPltt(((TradeWork *)p)->subObjPaletteCopy, 0, 0x200);
         return;
     }
     if (a2 == 1) {
-        DWCi_ScreenDC_FlushRange(((TradeWork *)p)->subBgPaletteCopy, 0x200);
+        DC_FlushRange(((TradeWork *)p)->subBgPaletteCopy, 0x200);
         GXS_LoadBGPltt(((TradeWork *)p)->subBgPaletteCopy, 0, 0x200);
     }
 }

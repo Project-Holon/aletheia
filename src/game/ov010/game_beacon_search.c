@@ -34,7 +34,7 @@
  *   GFL_NET_ERR_ResetState 0x0200FBA0 thumb
  *   GAME_DATA_IsSaving  0x02012E40  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
- *   func_02035390  0x02035390  arm
+ *   DWCi_IsFold  0x02035390  arm
  *   UI_IsPowerConnected  0x020353B0  arm
  *   GAME_BEACON_SendIfRequested  0x020267FC  thumb
  *   GAME_COMM_GetNotifyFlag  0x020264AC  thumb
@@ -228,7 +228,7 @@ extern u8 GAME_DATA_IsSaving(const struct GameData *gameData);
 
 extern void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
 
-extern int func_02035390(void);
+extern int DWCi_IsFold(void);
 
 extern int UI_IsPowerConnected(void);
 
@@ -636,7 +636,7 @@ void GAME_BEACON_SEARCH_Update(void *unused, struct GameSystem *gameSystem, Game
         GAME_COMM_RequestExitNoCallback(gameComm);
         return;
     }
-    if (func_02035390() == 1 && UI_IsPowerConnected() == 1) {
+    if (DWCi_IsFold() == 1 && UI_IsPowerConnected() == 1) {
         GAME_COMM_RequestExitNoCallback(gameComm);
         return;
     }

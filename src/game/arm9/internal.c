@@ -26,31 +26,25 @@ typedef int BOOL;
 
 extern int RtcSendPxiCommand(unsigned long command);
 int PXI_SendWordByFifo(int fifotag, unsigned long data, BOOL err);
-asm void RTCi_ReadRawDateTimeAsync(void);
-asm void RTCi_ReadRawDateAsync(void);
-asm void RTCi_ReadRawTimeAsync(void);
+int RTCi_ReadRawDateTimeAsync(void);
+int RTCi_ReadRawDateAsync(void);
+int RTCi_ReadRawTimeAsync(void);
 int RTCi_WriteRawStatus2Async(void);
 BOOL RtcSendPxiCommand(unsigned long command);
 
-asm void RTCi_ReadRawDateTimeAsync(void)
+int RTCi_ReadRawDateTimeAsync(void)
 {
-    ldr ip, =RtcSendPxiCommand
-    mov r0, #0x10
-    bx ip
+    return RtcSendPxiCommand(0x10);
 }
 
-asm void RTCi_ReadRawDateAsync(void)
+int RTCi_ReadRawDateAsync(void)
 {
-    ldr ip, =RtcSendPxiCommand
-    mov r0, #0x11
-    bx ip
+    return RtcSendPxiCommand(0x11);
 }
 
-asm void RTCi_ReadRawTimeAsync(void)
+int RTCi_ReadRawTimeAsync(void)
 {
-    ldr ip, =RtcSendPxiCommand
-    mov r0, #0x12
-    bx ip
+    return RtcSendPxiCommand(0x12);
 }
 
 

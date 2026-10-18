@@ -1190,7 +1190,7 @@ int UNION_MAIN_StepStartOv111Proc(struct GameSystem *gameSystem, UnionRoomWork *
  * Scene step of the Pokemon trade (8 steps), then the evolution demo if the
  * trade asks for one. Pooled small words 0x77/0xC3 are linker overlay ids
  * (ov119 trade, ov195 evolution) handed to GAMESYSTEM_CallProc with a table in
- * that overlay window, as in ov001 func_021542C0.
+ * that overlay window, as in ov001 EVENT_GTSNEGO_Main.
  */
 int UNION_MAIN_StepPokemonTrade(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, ClubTradeParam *tradeParam, void *event, struct GameEvent **outEvent, u8 *step)
 {

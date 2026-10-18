@@ -1,7 +1,7 @@
 /*
  * file:     wih.c
  * unit:     yes
- * function: WIH_ChangeSysState, WIH_SetError, WIH_StateInSetParentParam, WIH_StateOutSetParentParam, WIH_StateInStartParent, WIH_StateOutStartParent, WIH_StateInStartParentMP, WIH_StateOutStartParentMP, WIH_StateInEndParentMP, WIH_StateOutEndParentMP, func_021784F0, func_0217850C, DWCi_MOV_WH_ChildConnectAuto, DWCi_MOV_WH_StartScan, DWCi_MOV_WH_StateInStartScan, WIH_SetScanTarget, WIH_IsMatchingParent, DWCi_MOV_WH_StateOutStartScan, DWCi_MOV_WH_EndScan, DWCi_MOV_WH_StateInEndScan, DWCi_MOV_WH_StateOutEndScan, DWCi_MOV_WH_StateInStartChild, DWCi_MOV_WH_StateOutStartChild, DWCi_MOV_WH_StateInStartChildMP, DWCi_MOV_WH_StateOutStartChildMP, WIH_StateInEndChildMP, WIH_StateOutEndChildMP, WIH_StateInEndChild, func_02178CC4, WIH_StateInReset, WIH_StateOutReset, DWCi_MOV_WH_StateInSetMPData, WIH_StateOutSetMPData, DWCi_MOV_WH_PortReceiveCallback, WIH_StateOutEnd, WIH_SetGgid, DWCi_MOV_WH_SetUserGameInfo, WIH_GetBitmap, WIH_GetSysState, DWCi_MOV_WH_GetLastError, WIH_StartMeasureChannel, WIH_StateInMeasureChannel, WIH_StateOutMeasureChannel, func_02179010, WIH_GetMeasureChannel, WIH_PickRandomChannel, WIH_Initialize, WIH_FreeWork, WIH_IndicateHandler, WIH_StateInInitialize, DWCi_MOV_WH_StateOutSetLifeTime, WIH_StateOutInitialize, WIH_ParentConnect, WIH_SetJudgeAcceptFunc, DWCi_MOV_WH_SetReceiver, DWCi_MOV_WH_SendData, WIH_GetSharedDataAdr, WIH_StepDS, WIH_UpdateScanTimer, DWCi_MOV_WH_StateInEndKeyShare, WIH_Finalize, WIH_End, WIH_GetOwnAid, WIH_SetJudgeScanFunc, WIH_SetBeaconGameInfo, WIH_GetBeaconSendCount, WIH_SetConnectCallback, WIH_SetBeaconFoundCallback, WIH_SetScanWaitFrames, WIH_SetScanTimerPaused
+ * function: WIH_ChangeSysState, WIH_SetError, WIH_StateInSetParentParam, WIH_StateOutSetParentParam, WIH_StateInStartParent, WIH_StateOutStartParent, WIH_StateInStartParentMP, WIH_StateOutStartParentMP, WIH_StateInEndParentMP, WIH_StateOutEndParentMP, DWCi_MOV_WH_StateInEndParent, DWCi_MOV_WH_StateOutEndParent, DWCi_MOV_WH_ChildConnectAuto, DWCi_MOV_WH_StartScan, DWCi_MOV_WH_StateInStartScan, WIH_SetScanTarget, WIH_IsMatchingParent, DWCi_MOV_WH_StateOutStartScan, DWCi_MOV_WH_EndScan, DWCi_MOV_WH_StateInEndScan, DWCi_MOV_WH_StateOutEndScan, DWCi_MOV_WH_StateInStartChild, DWCi_MOV_WH_StateOutStartChild, DWCi_MOV_WH_StateInStartChildMP, DWCi_MOV_WH_StateOutStartChildMP, WIH_StateInEndChildMP, WIH_StateOutEndChildMP, WIH_StateInEndChild, DWCi_MOV_WH_StateOutEndChild, WIH_StateInReset, WIH_StateOutReset, DWCi_MOV_WH_StateInSetMPData, WIH_StateOutSetMPData, DWCi_MOV_WH_PortReceiveCallback, WIH_StateOutEnd, WIH_SetGgid, DWCi_MOV_WH_SetUserGameInfo, WIH_GetBitmap, WIH_GetSysState, DWCi_MOV_WH_GetLastError, WIH_StartMeasureChannel, WIH_StateInMeasureChannel, WIH_StateOutMeasureChannel, WHi_MeasureChannel, WIH_GetMeasureChannel, WIH_PickRandomChannel, WIH_Initialize, WIH_FreeWork, WIH_IndicateHandler, WIH_StateInInitialize, DWCi_MOV_WH_StateOutSetLifeTime, WIH_StateOutInitialize, WIH_ParentConnect, WIH_SetJudgeAcceptFunc, DWCi_MOV_WH_SetReceiver, DWCi_MOV_WH_SendData, WIH_GetSharedDataAdr, WIH_StepDS, WIH_UpdateScanTimer, DWCi_MOV_WH_StateInEndKeyShare, WIH_Finalize, WIH_End, WIH_GetOwnAid, WIH_SetJudgeScanFunc, WIH_SetBeaconGameInfo, WIH_GetBeaconSendCount, WIH_SetConnectCallback, WIH_SetBeaconFoundCallback, WIH_SetScanWaitFrames, WIH_SetScanTimerPaused
  * address:  0x02178138
  * region:   ov014
  * compiler: dsi/1.1p1
@@ -14,7 +14,7 @@
  * Split from wih.c at 0x02178138 (__FILE__ anchor boundary, certain cut).
  *
  * symbols:
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   DC_FlushRange  0x020862F0  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   gWihWork 0x021797A8 data ov014 a4
  *   WM_SetParentParameter 0x0208F480 arm
@@ -34,7 +34,6 @@
  *   GFL_NET_GetMaxConnectNum  0x0203D680  arm
  *   WM_StartDataSharing  0x0209004C  arm
  *   WM_EndMP 0x0208FDEC arm
- *   func_021784F0 0x021784F0 thumb ov014
  *   WM_EndParent                 0x0208F654  arm
  *   DWCi_MOV_WH_SetError             0x0217814C  thumb
  *   DWCi_MOV_WH_ChangeSysState       0x02178138  thumb
@@ -53,11 +52,9 @@
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   WM_EndScan                     0x0208F808  arm
  *   WM_StartConnectEx  0x0208F84C  arm
- *   func_02178CC4 0x02178CC4 thumb ov014
  *   WM_Reset 0x0208F400 arm
  *   WM_SetMPDataToPortEx  0x0208FCB4  arm
  *   OS_GetMacAddress  0x02087C6C  arm
- *   func_02179010  0x02179010  thumb  ov014
  *   WM_GetAllowedChannel  0x0208EE60  arm
  *   WM_MeasureChannel            0x02090E50  arm
  *   WM_Initialize  0x0208F370  arm
@@ -284,7 +281,7 @@ typedef struct WihWork {
 } WihWork;
 
 /* SDK and arm9 functions (names resolved by the SDK rename table) */
-void DWCi_ScreenDC_FlushRange(void *p, u32 n);
+void DC_FlushRange(void *p, u32 n);
 void MI_CpuCopy8(void *dst, void *src, u32 n);
 extern int WM_SetParentParameter(void *callback, void *parentParam);
 int WM_StartParent(void *callback);
@@ -1153,7 +1150,7 @@ void WIH_StateOutReset(WMCallback *arg)
 
 int DWCi_MOV_WH_StateInSetMPData(u32 data, u32 size, u32 userCallback)
 {
-    DWCi_ScreenDC_FlushRange(gWihWork->sendBuf, gWihWork->sendBufSize);
+    DC_FlushRange(gWihWork->sendBuf, gWihWork->sendBufSize);
     if (WM_SetMPDataToPortEx((void *)WIH_StateOutSetMPData, userCallback, data, size, 0xFFFF, 0xE, 2) == 2)
         return 1;
     return 0;

@@ -1,7 +1,7 @@
 /*
  * file:     app_keycursor.c
  * unit:     yes
- * function: APP_KEYCURSOR_Create, APP_KEYCURSOR_Delete, APP_KEYCURSOR_DrawMark, APP_KEYCURSOR_Animate, APP_KEYCURSOR_Update, func_02028748, func_02028754
+ * function: APP_KEYCURSOR_Create, APP_KEYCURSOR_Delete, APP_KEYCURSOR_DrawMark, APP_KEYCURSOR_Animate, APP_KEYCURSOR_Update, FIELD_SKILL_USE_FLAGS_SetSkill, FIELD_SKILL_USE_FLAGS_IsSkillUsable
  * address:  0x020285A4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -53,10 +53,11 @@ struct KeyCursor {
     u16  id;           /* 0x08 */
 };
 
-/* Flag word at 0x14 of an object defined elsewhere (see misplaced notes). */
-struct Obj {
+/* Field skill availability flags (0x18 bytes, filled by FIELD_SKILL_CHECK_FillUseFlags): bit i of
+ * usableMask is set when field skill i can be used.  Only the mask is touched here. */
+struct FieldSkillUseFlags {
     u8  pad_00[0x14];
-    u32 flags;
+    u32 usableMask;
 };
 
 struct Descriptor;
@@ -97,9 +98,9 @@ void APP_KEYCURSOR_Animate(struct KeyCursor *k, const struct Bmp *bmp, u32 color
 
 void APP_KEYCURSOR_Update(struct KeyCursor *k, void *p, void *cell);
 
-void func_02028748(struct Obj *obj, int n, int mask);
+void FIELD_SKILL_USE_FLAGS_SetSkill(struct FieldSkillUseFlags *flags, int skillIndex, int usable);
 
-u32 func_02028754(struct Obj *obj, u32 n);
+u32 FIELD_SKILL_USE_FLAGS_IsSkillUsable(const struct FieldSkillUseFlags *flags, u32 skillIndex);
 
 extern const char app_keycursor_File[];
 
@@ -196,15 +197,16 @@ void APP_KEYCURSOR_Update(struct KeyCursor *k, void *p, void *cell)
 }
 
 /*
- * A pair of leaf accessors over a 32-bit flag word at offset 0x14: or
- * `mask << n` into it, and test bit `n`.  Neither calls anything.
+ * Accessors of the field skill availability mask (word at +0x14): set the bit of
+ * a skill from a 0/1 value, and test it.  Neither calls anything.  They sit in this
+ * file but belong to the field skill check code, not to the key cursor.
  */
-void func_02028748(struct Obj *obj, int n, int mask)
+void FIELD_SKILL_USE_FLAGS_SetSkill(struct FieldSkillUseFlags *flags, int skillIndex, int usable)
 {
-    obj->flags = obj->flags | (mask << n);
+    flags->usableMask = flags->usableMask | (usable << skillIndex);
 }
 
-u32 func_02028754(struct Obj *obj, u32 n)
+u32 FIELD_SKILL_USE_FLAGS_IsSkillUsable(const struct FieldSkillUseFlags *flags, u32 skillIndex)
 {
-    return (obj->flags >> n) & 1;
+    return (flags->usableMask >> skillIndex) & 1;
 }

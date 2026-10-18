@@ -755,7 +755,7 @@ extern int  GFL_USE_IsLoaderBusy(void);
 
 extern u32 SAVE_CONTROL_MainSave(struct SaveControl *save);
 
-extern int UI_ClearFlags39Global(u32 v);
+extern void UI_ClearFlags39Global(u32 v);
 
 extern void WIH_DWC_ResumeTimers(void);
 

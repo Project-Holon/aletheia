@@ -79,9 +79,9 @@
  *   GAMESYSTEM_ReadTimerTwice  0x02011D34  thumb
  *   FLD_BTL_INST_TOOL_AddBattleTally  0x02168D30  thumb  ov010
  *   FIELDMAP_GetEncEff  0x02189A08  thumb  ov021
- *   func_021882DC  0x021882DC  arm  ov230d
- *   func_02188354  0x02188354  arm  ov230d
- *   func_02188390  0x02188390  arm  ov230d
+ *   OV230_CallSealedBody1  0x021882DC  arm  ov230d
+ *   OV230_CallSealedBody3  0x02188354  arm  ov230d
+ *   OV230_CallSealedBody4  0x02188390  arm  ov230d
  *   ENCEFF_Start  0x021CF498  thumb  ov021
  *   ov093_id       0x0000005D  data
  *   ov092_id       0x0000005C  data
@@ -255,9 +255,9 @@ extern void *GFL_USE_AddMainTask(void (*callback)(void *, void *), void *work, u
 extern void GAMESYSTEM_ReadTimerTwice(void);
 extern void FLD_BTL_INST_TOOL_AddBattleTally(struct TallyRecord *r, struct Result *s);
 extern int FIELDMAP_GetEncEff(unsigned char *p);
-extern u32 func_021882DC(void (*a)(void), void (*b)(void), u32 c);
-extern u32 func_02188354(void (*a)(void), void (*b)(void), u32 c);
-extern u32 func_02188390(void (*a)(void), void (*b)(void), u32 c);
+extern u32 OV230_CallSealedBody1(void (*a)(void), void (*b)(void), u32 c);
+extern u32 OV230_CallSealedBody3(void (*a)(void), void (*b)(void), u32 c);
+extern u32 OV230_CallSealedBody4(void (*a)(void), void (*b)(void), u32 c);
 extern void ENCEFF_Start(struct GameSystem *c, u32 x, int idx);
 extern u32 TPOKE_DATA_GetRecordField(void *a, u32 idx);
 extern u8 TPOKE_DATA_GetTrainerKind(u32 key);
@@ -665,7 +665,7 @@ int EVENT_BATTLE_ProcBattleTask(void *event, u32 *state, BattleTask *work)
     case 6: {
         int probeOk = 0;
 
-        if (func_021882DC((void (*)(void))EVENT_BATTLE_CallAndInvert, (void (*)(void))EVENT_BATTLE_IntegrityProbeA, 0) == ~(u32)EVENT_BATTLE_IntegrityProbeA)
+        if (OV230_CallSealedBody1((void (*)(void))EVENT_BATTLE_CallAndInvert, (void (*)(void))EVENT_BATTLE_IntegrityProbeA, 0) == ~(u32)EVENT_BATTLE_IntegrityProbeA)
             probeOk = 1;
         integritySum += probeOk ? 0 : 0x3D1;
         EVENT_BATTLE_FinishBattleTask(work, gameData);
@@ -673,7 +673,7 @@ int EVENT_BATTLE_ProcBattleTask(void *event, u32 *state, BattleTask *work)
             FLD_BTL_INST_TOOL_AddBattleTally(*(void **)GAME_DATA_GetListCursor(gameData), (struct Result *)work->btlSetup);
         (*state)++;
         probeOk = 0;
-        if (func_02188354((void (*)(void))EVENT_BATTLE_CallAndInvert, (void (*)(void))EVENT_BATTLE_IntegrityProbeB, 0) == ~(u32)EVENT_BATTLE_IntegrityProbeB)
+        if (OV230_CallSealedBody3((void (*)(void))EVENT_BATTLE_CallAndInvert, (void (*)(void))EVENT_BATTLE_IntegrityProbeB, 0) == ~(u32)EVENT_BATTLE_IntegrityProbeB)
             probeOk = 1;
         integritySum += probeOk ? 0 : 0x5D1;
         break;
@@ -681,7 +681,7 @@ int EVENT_BATTLE_ProcBattleTask(void *event, u32 *state, BattleTask *work)
     case 7: {
         int probeOk;
 
-        if (func_02188390((void (*)(void))EVENT_BATTLE_CallAndInvert, (void (*)(void))EVENT_BATTLE_IntegrityProbeC, 0) == ~(u32)EVENT_BATTLE_IntegrityProbeC)
+        if (OV230_CallSealedBody4((void (*)(void))EVENT_BATTLE_CallAndInvert, (void (*)(void))EVENT_BATTLE_IntegrityProbeC, 0) == ~(u32)EVENT_BATTLE_IntegrityProbeC)
             probeOk = 1;
         else
             probeOk = 0;

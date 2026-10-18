@@ -1,8 +1,8 @@
 /*
  * file:     scenesetrakubutton.c
  * unit:     yes
- * function: DWCi_SceneSetRakuButton, initGraphics, DWCi_SceneSetRakuButtonProcInit, DWCi_SceneSetRakuButtonProcInit1, DWCi_SceneSetRakuButtonProcInit2, procScene, input, DWCi_SceneSetListSave_button, button, endScene, DWCi_SceneSetRakuButtonEndScene1, DWCi_SceneSetRakuButtonEndScene2, checkRaku, procError, procError1, DWCi_SceneSetRakuButton_DetectFold
- * address:  0x021CA838
+ * function: DWCi_IsFold, DWCi_SceneSetRakuButton, initGraphics, DWCi_SceneSetRakuButtonProcInit, DWCi_SceneSetRakuButtonProcInit1, DWCi_SceneSetRakuButtonProcInit2, procScene, input, DWCi_SceneSetListSave_button, button, endScene, DWCi_SceneSetRakuButtonEndScene1, DWCi_SceneSetRakuButtonEndScene2, checkRaku, procError, procError1
+ * address:  0x021CA818
  * region:   ov016
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -30,9 +30,6 @@
  * The object that owns this copy is not identified; the C is the same either way.
  *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CAC24.c \
  *       --func procError1 --addr 0x021CAC24 --region ov016 --cc 1.1p1 --arm --lang c99
- * Bit 15 of the halfword at 0x02FFFFA8, as 0/1.
- *   python tools/match.py one --src src/matched/DWCi_SceneSetRakuButton_DetectFold.c \
- *       --func DWCi_SceneSetRakuButton_DetectFold --addr 0x021CAC44 --region ov016 --cc dsi/1.1p1 --arm
  *
  * symbols:
  *   OS_Sleep                       0x02085A38  arm  arm9
@@ -108,7 +105,6 @@ extern int DWCi_BTNlGet(void);
 extern void DWCi_BTNlEnable(void);
 extern void OS_Sleep(u32 msec);
 extern int DWCi_IPTlCheckTrigger(unsigned int f);
-extern int DWCi_IsFold(void);
 extern void DWCi_BTNlSet(signed char v);
 extern void DWCi_SNDlStop(void);
 extern void DWCi_SNDlPlay(int no);
@@ -134,7 +130,6 @@ extern bool DWCi_WINlIsInit(void);
 void DWCi_SceneSetRakuButton(void);
 void DWCi_SceneSetListSave_button(void);
 void procError(void);
-int DWCi_SceneSetRakuButton_DetectFold(void);
 extern unsigned char Choose;
 extern unsigned char gSceneSetRakuButtonWork;
 extern SCENEOPTERASE_BSS sceneopterase_bss;
@@ -152,6 +147,15 @@ static void endScene2(void);
 static void checkRaku(void);
 static void procError1(void);
 
+
+/*
+ * Bit 15 of the halfword at 0x02FFFFA8 (lid closed), as 0/1: this scene's own
+ * copy of the libdwcutil helper.
+ */
+static int DWCi_IsFold(void)
+{
+    return ((*(unsigned short *)0x02FFFFA8 & 0x8000) >> 15) != 0;
+}
 
 void DWCi_SceneSetRakuButton(void)
 {
@@ -339,7 +343,3 @@ static void procError1(void)
     DWCi_ChangeScene(endScene);
 }
 
-int DWCi_SceneSetRakuButton_DetectFold(void)
-{
-    return ((*(unsigned short *)0x02FFFFA8 & 0x8000) >> 15) != 0;
-}

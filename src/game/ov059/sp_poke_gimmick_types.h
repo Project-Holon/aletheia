@@ -59,7 +59,7 @@ extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 extern FldExpObjCnt *FIELDMAP_GetExpObj(struct FieldMap *fieldMap);
 extern SpPokeGimmickWork *FIELDMAP_GetCommonWork(struct FieldMap *fieldMap, int id);
-extern int func_021BE6E8(FldExpObjCnt *expObj, int unitIndex, int modelIndex, int animeIndex);
+extern int FLD_EXP_OBJ_GetAnimeFrame(FldExpObjCnt *expObj, int unitIndex, int modelIndex, int animeIndex);
 extern FldExpObjAnime *FLD_EXP_OBJ_GetAnime(FldExpObjCnt *expObj, int unitIndex, u16 modelIndex, u16 animeIndex);
 extern int FLD_EXP_OBJ_IsAnimeStopped(FldExpObjAnime *anime);
 

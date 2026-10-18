@@ -1,7 +1,7 @@
 /*
  * file:     card_backup.c
  * unit:     yes
- * function: CARDi_OnFifoRecv, CARDi_Request, CARDi_RequestStreamCommandCore, CARDi_IdentifyBackupCore2, CARDi_IdentifyBackupCore, CARDi_BeginBackupCommand, CARDi_RequestStreamCommand, CARD_IdentifyBackup, func_02076B6C, CARD_WaitBackupAsync, CARD_TryWaitBackupAsync, CARD_CancelBackupAsync
+ * function: CARDi_OnFifoRecv, CARDi_Request, CARDi_RequestStreamCommandCore, CARDi_IdentifyBackupCore2, CARDi_IdentifyBackupCore, CARDi_BeginBackupCommand, CARDi_RequestStreamCommand, CARD_IdentifyBackup, CARD_GetBackupSectorSize, CARD_WaitBackupAsync, CARD_TryWaitBackupAsync, CARD_CancelBackupAsync
  * address:  0x020763BC
  * region:   arm9
  * compiler: dsi/1.1p1

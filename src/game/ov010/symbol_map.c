@@ -1088,7 +1088,7 @@ void SYMBOL_MAP_StopBg2Scale(void) {
 }
 
 /*
- * Stage machine on *state, same family as ov002 func_021542C0.  The second
+ * Stage machine on *state, same family as ov002 EVENT_WIFIBATTLEMATCH_Main.  The second
  * argument to GAMESYSTEM_CallProc is pooled 0xD7 (215), a linker overlay id for
  * ov215; the third, 0x021F7118, lies in its window. Skips straight to the
  * end unless the Pokemon is an egg that is not flagged invalid.

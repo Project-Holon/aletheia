@@ -38,6 +38,18 @@ struct Ov208Buf;
 struct Ov208Blend;
 struct Ov208Ctx;
 
+/* Accessors of the shared screen context (zukan_detail_common.c). */
+void *ZUKAN_DETAIL_COMMON_GetSource(struct Ov208Ctx *p);
+void *ZUKAN_DETAIL_COMMON_GetDisplay(struct Ov208Ctx *p);
+void *ZUKAN_DETAIL_COMMON_GetFont(struct Ov208Ctx *p);
+void *ZUKAN_DETAIL_COMMON_GetGraphics(struct Ov208Ctx *p);
+void *ZUKAN_DETAIL_COMMON_GetWorkPtr(struct Ov208Ctx *p);
+void *ZUKAN_DETAIL_COMMON_GetCursorValue(struct Ov208Ctx *p);
+unsigned short ZUKAN_DETAIL_COMMON_GetMaxValue(struct Ov208Ctx *p);
+unsigned short ZUKAN_DETAIL_COMMON_GetCurrentEntry(struct Ov208Ctx *p);
+void ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies(struct Ov208Ctx *p);
+void ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies(struct Ov208Ctx *p);
+
 /* Integer point used by the common helper tables. */
 struct Pair { int x; int y; };
 

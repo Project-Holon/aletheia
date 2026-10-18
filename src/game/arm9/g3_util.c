@@ -15,7 +15,7 @@
  * symbols:
  *   MTX_PerspectiveW   0x0207C408  arm
  *   G3_LoadMtx44       0x0207D8C4  arm
- *   MTX_FrustumW   0x0207C554  arm
+ *   MTX_OrthoW   0x0207C554  arm
  *   MTX_LookAt     0x0207BCA0  arm
  *   G3_LoadMtx43   0x0207D8E0  arm
  */
@@ -65,7 +65,7 @@ typedef union {
 
 extern void MTX_PerspectiveW(fx32 fovySin, fx32 fovyCos, fx32 aspect, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
 extern void G3_LoadMtx44(const MtxFx44 *m);
-extern void MTX_FrustumW(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
+extern void MTX_OrthoW(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
 extern void MTX_LookAt(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, MtxFx43 *mtx);
 extern void G3_LoadMtx43(const MtxFx43 *m);
 void G3i_PerspectiveW_(fx32 fovySin, fx32 fovyCos, fx32 aspect, fx32 n, fx32 f, fx32 scaleW, BOOL draw, MtxFx44 *mtx);
@@ -109,7 +109,7 @@ void G3i_PerspectiveW_(fx32 fovySin, fx32 fovyCos, fx32 aspect, fx32 n, fx32 f, 
 
 
 /*
- * sdk:      G3i_FrustumW_ (libgx.TWL.HYB.a g3_util.o)
+ * sdk:      G3i_OrthoW_ (libgx.TWL.HYB.a g3_util.o)
  */
 void G3i_OrthoW_(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, BOOL draw, MtxFx44 *mtx)
 {
@@ -118,7 +118,7 @@ void G3i_OrthoW_(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, BO
     if (!mtx) {
         mtx = tmp;
     }
-    MTX_FrustumW(t, b, l, r, n, f, scaleW, mtx);
+    MTX_OrthoW(t, b, l, r, n, f, scaleW, mtx);
     if (draw) {
         reg_G3_MTX_MODE = 0;
         G3_LoadMtx44(mtx);

@@ -39,7 +39,7 @@
    ]
   },
   {
-   "name": "ISS_3DS_SYS_RampPanDown",
+   "name": "sub_0202BDD0",
    "address": "0x0202BDD0",
    "kind": "game_unit",
    "region": "arm9",

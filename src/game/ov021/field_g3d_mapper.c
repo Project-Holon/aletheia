@@ -484,7 +484,7 @@ int FIELD_G3D_MAPPER_AppendMatrix(FieldMap *fieldMap, FieldG3dMapper *mapper, st
 
 /*
  * Unlabelled 4-byte getter (ldr r0, [r0, #0x70]; bx lr), a leaf of
- * ov043 func_021F36C0.
+ * ov043 FIELD_GIMMICK_LIFT_ELEVATOR_Init.
  */
 struct HeightEx *FIELD_G3D_MAPPER_GetHeightEx(FieldG3dMapper *mapper)
 {

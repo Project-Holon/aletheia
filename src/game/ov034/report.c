@@ -46,7 +46,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   SAVE_CONTROL_GetDiffSize 0x0200723C thumb
- *   _s32_div_f    0x0209C2B0 arm
+ *   _s32_div_f    0x0209C0A4 arm
  *   _u32_div_f 0x0209C2B0 arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm

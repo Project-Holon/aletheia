@@ -47,7 +47,7 @@
  *   GAME_DATA_GetField114  0x020127A4  thumb
  *   GAME_DATA_GetPlayerObjectCode  0x02012B28  thumb
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
- *   func_02028754  0x02028754  thumb
+ *   FIELD_SKILL_USE_FLAGS_IsSkillUsable  0x02028754  thumb
  *   RECENT_ID_LIST_SAVEDATA_GetIdAt  0x0200C464  thumb
  *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb
@@ -226,7 +226,7 @@ extern u32 SHORTCUT_MENU_GetResult(void *commObj, u32 *result);
 extern void *GAME_DATA_GetField114(const struct GameData *gameData);
 extern u32 GAME_DATA_GetPlayerObjectCode(const void *eventWork);
 extern int GAME_DATA_GetIntrudeCount(const struct GameData *gameData);
-extern u32 func_02028754(const ShortcutAvailMask *mask, u32 bit);
+extern u32 FIELD_SKILL_USE_FLAGS_IsSkillUsable(const ShortcutAvailMask *mask, u32 bit);
 extern u8 RECENT_ID_LIST_SAVEDATA_GetIdAt(const ShortcutList *list, u32 slot);
 extern int BG_SYS_SetPlaneVisible();
 extern void *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
@@ -377,7 +377,7 @@ int EVENT_SHORTCUT_MENU_MainEvent(struct GameEvent *event, u32 *seq, ShortcutMen
                 blocked = 1;
             } else if (hasAvailBit == 1) {
                 FIELD_SKILL_CHECK_FillUseFlags(&avail, work->gameSystem, work->fieldMap);
-                if (func_02028754(&avail, availBit) == 0)
+                if (FIELD_SKILL_USE_FLAGS_IsSkillUsable(&avail, availBit) == 0)
                     blocked = 1;
             }
             if (code == 9 && EVENT_SHORTCUT_MENU_CheckPartyRibbon(work) == 0)
@@ -524,7 +524,7 @@ int EVENT_SHORTCUT_MENU_ReturnEvent(struct GameEvent *event, u32 *seq, ShortcutM
             blocked = 1;
         } else if (hasAvailBit == 1) {
             FIELD_SKILL_CHECK_FillUseFlags(&avail, work->gameSystem, work->fieldMap);
-            if (func_02028754(&avail, availBit) == 0)
+            if (FIELD_SKILL_USE_FLAGS_IsSkillUsable(&avail, availBit) == 0)
                 blocked = 1;
         }
         if (shortcutId == 9 && EVENT_SHORTCUT_MENU_CheckPartyRibbon(work) == 0)

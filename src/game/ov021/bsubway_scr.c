@@ -66,7 +66,7 @@
  *   BATTLE_BOX_GetFromSave  0x0200BAC8  thumb
  *   BATTLE_BOX_CreateParty  0x0200BAF4  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_0209C0A4  0x0209C0A4  arm
+ *   _s32_div_f  0x0209C0A4  arm
  *   GDS_PROFILE_CalcScoreRecScore  0x0200DC94  thumb
  *   GDS_PROFILE_SetScoreRecBlob  0x0200DC50  thumb
  *   SCRIPT_WORK_GetGameSystem  0x02158F54  thumb  ov010
@@ -364,7 +364,7 @@ extern void GDS_PROFILE_DecScoreRecLevel(struct BsubwayScoreData *p);
 extern void *BATTLE_BOX_GetFromSave(void *p);
 extern void *BATTLE_BOX_CreateParty(int a0, int a1);
 extern void *GAME_DATA_GetMyParty(const struct GameData *p);
-extern int func_0209C0A4(int a, int b);
+extern int _s32_div_f(int a, int b);
 extern void GDS_PROFILE_CalcScoreRecScore(struct BsubwayScoreData *p, const struct BsubwayRecordSrc *q);
 extern void GDS_PROFILE_SetScoreRecBlob(struct BsubwayScoreData *p, u32 which, const void *src);
 extern int SCRIPT_WORK_ResetFieldParam(int a0);
@@ -1271,7 +1271,7 @@ int BSUBWAY_SCR_IsTrainerNoUsed(const u16 *list, u16 value, u16 count)
 
 u16 BSUBWAY_SCR_GetStageNo(u16 winCount)
 {
-    return (u16)func_0209C0A4(winCount, 7);
+    return (u16)_s32_div_f(winCount, 7);
 }
 
 

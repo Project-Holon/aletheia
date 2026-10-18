@@ -1,8 +1,8 @@
 /*
  * file:     scenesetusbready1.c
  * unit:     yes
- * function: DWCi_SceneSetUsbReady1, initGraphics, procInit, DWCi_SceneSetUsbReady1ProcInit1, DWCi_SceneSetUsbReady1ProcInit2, DWCi_SceneSetUsbReady1Update, input, DWCi_SceneSetUsbReady1UpdateNop, button, endScene, DWCi_SceneSetUsbReady1EndScene1, DWCi_SceneSetUsbReady1EndScene2, cbUsb, procNotFound, DWCi_SceneSetUsbReady1ProcNotFound1, procBoth, DWCi_SceneSetUsbReady1ProcBoth1
- * address:  0x021CE070
+ * function: DWCi_IsFold, DWCi_SceneSetUsbReady1, initGraphics, procInit, DWCi_SceneSetUsbReady1ProcInit1, DWCi_SceneSetUsbReady1ProcInit2, DWCi_SceneSetUsbReady1Update, input, DWCi_SceneSetUsbReady1UpdateNop, button, endScene, DWCi_SceneSetUsbReady1EndScene1, DWCi_SceneSetUsbReady1EndScene2, cbUsb, procNotFound, DWCi_SceneSetUsbReady1ProcNotFound1, procBoth, DWCi_SceneSetUsbReady1ProcBoth1
+ * address:  0x021CE050
  * region:   ov016
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -30,7 +30,6 @@
  *
  * symbols:
  *   DWCi_BTNlSet                   0x021BCB28  arm  ov016
- *   DWCi_IsFold                    0x021CE050  arm  ov016
  *   DWCi_IPTlCheckTrigger          0x021D6824  arm  ov016
  *   gSceneSetUsbReady1UsbState     0x021DE62C  data
  *   DWCi_HLlLoad  0x021BD674  arm  ov016
@@ -148,7 +147,6 @@ extern void DWCi_SceneSetUsbReady(void);
 void DWCi_SceneSetUsbReady1(void);
 extern void DWCi_SceneSetUsbComplete(void);
 extern int DWCi_IPTlCheckTrigger(unsigned int f);
-extern int DWCi_IsFold(void);
 extern void DWCi_BTNlSet(signed char v);
 extern void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num);
 void DWCi_SceneSetUsbReady1Update(void);
@@ -179,6 +177,15 @@ static void procNotFound1(void);
 static void procBoth(void);
 static void procBoth1(void);
 
+
+/*
+ * Bit 15 of the halfword at 0x02FFFFA8 (lid closed), as 0/1: this scene's own
+ * copy of the libdwcutil helper.
+ */
+static int DWCi_IsFold(void)
+{
+    return ((*(unsigned short *)0x02FFFFA8 & 0x8000) >> 15) != 0;
+}
 
 void DWCi_SceneSetUsbReady1(void)
 {

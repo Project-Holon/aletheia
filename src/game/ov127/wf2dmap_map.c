@@ -76,7 +76,7 @@ Wf2dmapMapGrid *WF2DMAP_MAP_CreateGrid(u32 w,u32 h,u32 heap) { Wf2dmapMapGrid *p
 void WF2DMAP_MAP_DeleteGrid(u8 *p) { GFL_HEAP_Free(((Wf2dmapMapGrid *)p)->entries);GFL_HEAP_Free(p); }
 
 /*
- * Leaf: ldrh r0,[r0]; bx lr.  Blocker of ov099 func_021BA0F8.
+ * Leaf: ldrh r0,[r0]; bx lr.  Blocker of ov099 WIFICLUBACTOR_FindCursorStartTile.
  */
 u16 WF2DMAP_MAP_GetWidth(u16 *p)
 {

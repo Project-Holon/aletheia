@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "reset_network_vars",
+   "name": "func_02157290",
    "address": "0x02157290",
    "kind": "sdk",
    "region": "ov009",

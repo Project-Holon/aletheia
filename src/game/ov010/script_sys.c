@@ -673,7 +673,7 @@ u8 *SCRIPT_SYS_LoadScriptFile(int fileId, int heapId) {
 
 /*
  * Unlabelled leaf (a .word run in the ov010 listing): 0 for 2000, 1 below
- * 0x291C, else 0.  Callee of ov021 func_0218A0E4, FIELD_EVENT_CHECK_CheckRailEvents and
+ * 0x291C, else 0.  Callee of ov021 FIELD_EVENT_CHECK_CheckCommEvents, FIELD_EVENT_CHECK_CheckRailEvents and
  * FIELD_EVENT_CHECK_CheckGridEvents.
  * Addresses are Black-image addresses.
  */

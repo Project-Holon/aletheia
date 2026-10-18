@@ -1447,7 +1447,7 @@ u16 FLDMMDL_MOVE_GetDirFromPoints(int fromX, int fromZ, int toX, int toZ)
 }
 
 /*
- * Unlabelled leaf, blocker of ov021 func_0219FFD4: three chained table lookups.
+ * Unlabelled leaf, blocker of ov021 FLDMMDL_DRAW_GetDirIndex: three chained table lookups.
  * Overlay choice, ov009 and ov010 share this window; ov009 holds ARM code here,
  * ov010 holds this Thumb routine, and the ov021 callers already name ov010
  * (ov010 is the overlay resident with ov021).

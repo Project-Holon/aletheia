@@ -82,7 +82,7 @@
  *   FLDEFF_NAMIPOKE_SPLASH_StartOnEffect  0x021AD564  thumb  ov021
  *   FIELDMAP_TCB_CAMERA_ZOOM_Create  0x021C6B18  thumb  ov021
  *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb  ov021
- *   func_0209C0A4  0x0209C0A4  arm
+ *   _s32_div_f  0x0209C0A4  arm
  *   FLDEFF_NAMIPOKE_SPLASH_IsFinished  0x021AD5CC  thumb  ov021
  *   FIELD_EFFECT_FreeResource  0x021ABE64  thumb  ov021
  *   FIELD_PLAYER_GRID_EVENT_UpdateJumpDown  0x021C16AC  thumb  ov021
@@ -190,7 +190,7 @@ extern u32 TCB_DeleteTask(TcblTask *task);
 
 extern void MI_CpuFill8(void *dst, int value, int size);
 
-extern int func_0209C0A4(int dividend, int divisor);
+extern int _s32_div_f(int dividend, int divisor);
 
 extern void FLDMMDL_MOVE_GetMapHeight(Mmdl *mmdl, MmdlVec *pos, int *outHeight);
 
@@ -787,7 +787,7 @@ int FIELD_PLAYER_GRID_EVENT_JumpUpRise(JumpWork *work)
         work->stepZ = (work->target.z - pos.z) / 16;
         work->gravity = -0x8000;
         work->velocityY = 0x6000;
-        work->gravity = func_0209C0A4(-0x8000, 0xb);
+        work->gravity = _s32_div_f(-0x8000, 0xb);
         FIELDMAP_TCB_CAMERA_ZOOM_Create(work->fieldMap, 0x10, (u32)-0x8000 << 2);
         FIELD_EFFECT_DeleteObject(work->effectHandle);
     }

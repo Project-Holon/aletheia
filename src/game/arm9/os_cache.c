@@ -1,7 +1,7 @@
 /*
  * file:     os_cache.c
  * unit:     yes
- * function: DC_FlushAll, DC_InvalidateRange, DC_StoreRange, DWCi_ScreenDC_FlushRange, DC_WaitWriteBufferEmpty, IC_InvalidateAll, IC_InvalidateRange
+ * function: DC_FlushAll, DC_InvalidateRange, DC_StoreRange, DC_FlushRange, DC_WaitWriteBufferEmpty, IC_InvalidateAll, IC_InvalidateRange
  * address:  0x02086284
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -15,7 +15,7 @@
 asm void DC_FlushAll(void);
 asm void DC_InvalidateRange(void);
 asm void DC_StoreRange(void);
-asm void DWCi_ScreenDC_FlushRange(void *startAddr, unsigned long nBytes);
+asm void DC_FlushRange(void *startAddr, unsigned long nBytes);
 asm void DC_WaitWriteBufferEmpty(void);
 asm void IC_InvalidateAll(void);
 asm void IC_InvalidateRange(void);
@@ -23,6 +23,7 @@ asm void IC_InvalidateRange(void);
 /*
  * sdk:      DC_FlushAll (libos.TWL.HYB.a os_cache.o)
  * asm:      mcr p15 c7,c10,4 (drain write buffer) and c7,c14,2 (clean and invalidate by set/way) have no C spelling; the DWARF subprogram has no DW_TAG_variable children.
+ * hand-written in the original: mcr p15 cache and write buffer operations, one SDK line-table row per instruction
  */
 asm void DC_FlushAll(void)
 {
@@ -43,6 +44,7 @@ asm void DC_FlushAll(void)
     bx lr
 }
 
+/* hand-written in the original: mcr p15 cache and write buffer operations, one SDK line-table row per instruction */
 asm void DC_InvalidateRange(void)
 {
     add	r1, r1, r0
@@ -55,6 +57,7 @@ loc_020862C0:
     bx	lr
 }
 
+/* hand-written in the original: mcr p15 cache and write buffer operations, one SDK line-table row per instruction */
 asm void DC_StoreRange(void)
 {
     add	r1, r1, r0
@@ -70,8 +73,9 @@ loc_020862DC:
 /*
  * sdk:      DC_FlushRange (libos.TWL.HYB.a os_cache.o)
  * asm:      mcr p15 c7,c10,4 (drain write buffer) and c7,c14,1 (clean and invalidate by address) have no C spelling; the DWARF subprogram has no DW_TAG_variable children.
+ * hand-written in the original: mcr p15 cache and write buffer operations, one SDK line-table row per instruction
  */
-asm void DWCi_ScreenDC_FlushRange(void *startAddr, unsigned long nBytes)
+asm void DC_FlushRange(void *startAddr, unsigned long nBytes)
 {
     mov r12, #0
     add r1, r1, r0
@@ -85,6 +89,7 @@ asm void DWCi_ScreenDC_FlushRange(void *startAddr, unsigned long nBytes)
     bx lr
 }
 
+/* hand-written in the original: mcr p15 cache and write buffer operations, one SDK line-table row per instruction */
 asm void DC_WaitWriteBufferEmpty(void)
 {
     mov r0, #0
@@ -92,6 +97,7 @@ asm void DC_WaitWriteBufferEmpty(void)
     bx lr
 }
 
+/* hand-written in the original: mcr p15 cache and write buffer operations, one SDK line-table row per instruction */
 asm void IC_InvalidateAll(void)
 {
     mov r0, #0
@@ -99,6 +105,7 @@ asm void IC_InvalidateAll(void)
     bx lr
 }
 
+/* hand-written in the original: mcr p15 cache and write buffer operations, one SDK line-table row per instruction */
 asm void IC_InvalidateRange(void)
 {
     add	r1, r1, r0

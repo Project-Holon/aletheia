@@ -1,7 +1,7 @@
 /*
  * file:     scenesetusbready.c
  * unit:     yes
- * function: DWCi_SceneSetUsbReady, initGraphics, DWCi_SceneSetUsbReadyProcInit, DWCi_SceneSetUsbReadyProcInit1, DWCi_SceneSetUsbReadyProcInit2, DWCi_SceneSetUsbReadyUpdate, input, DWCi_SceneSetUsbReadyUpdateNop, button, endScene, endScene1, endScene2, DWCi_IsFold
+ * function: DWCi_SceneSetUsbReady, initGraphics, DWCi_SceneSetUsbReadyProcInit, DWCi_SceneSetUsbReadyProcInit1, DWCi_SceneSetUsbReadyProcInit2, DWCi_SceneSetUsbReadyUpdate, input, DWCi_SceneSetUsbReadyUpdateNop, button, endScene, endScene1, endScene2
  * address:  0x021CDCAC
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -42,9 +42,6 @@
  * SDK: TwlDWC libdwcutil.TWL.HYB.a(scenesetusbready), symbol endScene2 (name and prototype from the
  *   python tools/match.py one --src src/pending/ov_sdk/ov016_func_021CDF98.c \
  *       --func endScene2 --addr 0x021CDF98 --region ov016 --cc 1.1p1 --arm --lang c99
- * Bit 15 of the halfword at 0x02FFFFA8, as 0/1.
- *   python tools/match.py one --src src/matched/DWCi_IsFold.c \
- *       --func DWCi_IsFold --addr 0x021CE050 --region ov016 --cc dsi/1.1p1 --arm
  *
  * symbols:
  *   DWCi_BTNlSet                   0x021BCB28  arm  ov016
@@ -143,7 +140,6 @@ extern void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num);
 void DWCi_SceneSetUsbReady(void);
 void DWCi_SceneSetUsbReadyUpdate(void);
 void DWCi_SceneSetUsbReadyUpdateNop(void);
-int DWCi_IsFold(void);
 /* scenesetusbready .bss at 0x021DE628 */
 extern unsigned char Choose;
 extern unsigned short sSceneSetUsbReadyPathJbBgStep2Char[];
@@ -322,7 +318,3 @@ static void endScene2(void)
     }
 }
 
-int DWCi_IsFold(void)
-{
-    return ((*(unsigned short *)0x02FFFFA8 & 0x8000) >> 15) != 0;
-}

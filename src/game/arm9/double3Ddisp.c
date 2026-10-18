@@ -16,7 +16,7 @@
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   double3Ddisp_File 0x020A7F94  data
  *   gDouble3Ddisp     0x02146A80  data
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   DC_FlushRange  0x020862F0  arm
  *   GXS_LoadOAM  0x0207E708  arm
  *   GX_DisableBankForLCDC  0x02080B98  arm
  *   GX_DisableBankForSubBG  0x02080BAC  arm
@@ -65,7 +65,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 
 extern const char double3Ddisp_File[];
 
-extern void DWCi_ScreenDC_FlushRange(void *p, u32 n);
+extern void DC_FlushRange(void *p, u32 n);
 
 extern void GXS_LoadOAM(void *p, u32 off, u32 n);
 
@@ -136,7 +136,7 @@ void DOUBLE3DDISP_Init(u32 heap)
  * double3Ddisp.c, second function (the TU starts at DOUBLE3DDISP_Init).  Builds
  * the twelve sub-engine sprites that carry the doubled 3D image, a 4 x 3
  * grid of 64 x 64 cells over 256 x 192, then flushes the OAM copy
- * (DWCi_ScreenDC_FlushRange, DC_FlushRange) and loads it at OAM offset 0x3A0
+ * (DC_FlushRange, DC_FlushRange) and loads it at OAM offset 0x3A0
  * (GXS_LoadOAM, GXS_LoadOAM).
  *
  * The lever that closed it (wave 17, from 15 bytes out): the inner loop
@@ -173,7 +173,7 @@ void DOUBLE3DDISP_InitOam(void)
         }
     }
 
-    DWCi_ScreenDC_FlushRange(gDouble3Ddisp->oam, 0x60);
+    DC_FlushRange(gDouble3Ddisp->oam, 0x60);
     GXS_LoadOAM(gDouble3Ddisp->oam, 0x3a0, 0x60);
 }
 
@@ -198,7 +198,7 @@ u32 DOUBLE3DDISP_GetMode(void)
 
 /*
  * Sets the +8 word of the cell-actor singleton to 1.
- * Witness leaf for ov180 func_021B6704.
+ * Witness leaf for ov180 HALL_OF_FAME_DrawParticles.
  */
 void DOUBLE3DDISP_SetDrawDone(void)
 {

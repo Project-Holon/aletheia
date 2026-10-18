@@ -46,7 +46,7 @@
  *   ARC_TOOL_GetMemberSize 0x020490A8 arm
  *   GFL_NET_AllocAligned 0x0203D7C8 arm
  *   ARC_TOOL_ReadMember 0x02048F4C arm
- *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
+ *   DC_FlushRange 0x020862F0 arm
  *   GFL_NET_FreeAligned  0x0203D7FC  arm
  *   CAMERA_SizeToWidthCore  0x02702364  arm
  *   CAMERA_SizeToHeightCore  0x027023CC  arm
@@ -157,7 +157,7 @@ extern void *GFL_NET_AllocAligned(u32, u32, const char *, u16);
 
 extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
 
-extern void DWCi_ScreenDC_FlushRange(void *, u32);
+extern void DC_FlushRange(void *, u32);
 
 extern void GFL_NET_FreeAligned(void *p);
 
@@ -416,7 +416,7 @@ void CTVT_CAMERA_LoadShutterSound(Camera *obj, int mode)
     p->bufSize = size;
     p->buf = GFL_NET_AllocAligned(p->heapId, size, d_021C71C0, 0x13B);
     ARC_TOOL_ReadMember(p->buf, 0xD4, which);
-    DWCi_ScreenDC_FlushRange(p->buf, p->bufSize);
+    DC_FlushRange(p->buf, p->bufSize);
 }
 
 /*

@@ -727,10 +727,10 @@ void *PMS_DRAW_CreateDecoActor(struct PmsDrawRes *res, u16 heapId)
 }
 
 /*
- * Places one element sprite: sub_0202DE6C resolves the cell offset into a
+ * Places one element sprite: PMS_DRAW_CalcDecoPos resolves the cell offset into a
  * pair of u32s, which are narrowed into the adjacent u16 pair the
  * CLACT_AddActorSurfacePos setter wants, then the cell's own id decides the priority
- * word through sub_0202E430 and the last stack argument (a 1-based index)
+ * word through PMS_DRAW_GetFrameSurface and the last stack argument (a 1-based index)
  * is passed on as `(u16)(n - 1)`.
  */
 void PMS_DRAW_PlaceDecoActor(void *actor, struct Descriptor *bmpWin, u32 charX, u32 line,

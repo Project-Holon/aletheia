@@ -18,7 +18,7 @@
  *   VCT_SESSION_SetSendEnabled  0x021B0CD8  arm ov013
  *   NNS_SndInit  0x020726D0  arm
  *   NNS_SndStrmInit  0x020737C0  arm
- *   MIi_CpuClearFast  0x02082AC0  arm
+ *   MIi_CpuClearFastAlias  0x02082AC0  arm
  *   VCT_SESSION_SetFilterEnabled  0x021B0D08  arm ov013
  *   gVctWork     0x021B3C80  data ov013
  *   MI_CpuFill8  0x02082BCC  arm
@@ -126,7 +126,8 @@ extern void NNSi_SndStrmStopIfSetup(void *stream);
 extern void NNS_SndStrmFreeChannel(void *stream);
 
 /* Memory, time and error helpers. */
-extern void MIi_CpuClearFast(int value, void *dst, u32 size);
+/* A second name for MIi_CpuClearFast (no source records it): see VCT_SESSION_MixVoices. */
+extern void MIi_CpuClearFastAlias(int value, void *dst, u32 size);
 extern void MI_CpuFill8(void *dst, int value, u32 size);
 extern void MIi_CpuCopyFast(const void *src, void *dst, u32 size);
 extern u64 OS_GetTick(void);
@@ -1459,7 +1460,8 @@ int VCT_SESSION_ReadChannel(void *dst, u32 size, u32 channelIndex, u32 *sourceMa
  * The two MIi_CpuClearFast calls (found==0 arm, failed-guard arm) are
  * kept apart in the original; under one extern name 1.1p1 cross-jumps the
  * two `bl`s into one (4 bytes short, see docs/notes/pkt_ov013_021B0B48.c.txt).
- * Two extern names for 0x02082AC0 give two independent call sites, the
+ * Two extern names for 0x02082AC0 (MIi_CpuClearFast and MIi_CpuClearFastAlias)
+ * give two independent call sites, the
  * call-site form of
  * docs/idioms/a-duplicated-pool-word-is-a-second-extern-name-for-the-same-address.md.
  * `j = i + 1; if (j == 3) ret = 1; else for (...)` is what gives the
@@ -1497,7 +1499,7 @@ int VCT_SESSION_MixVoices(void *output, u32 length, u32 *sourceMask)
         }
     } else {
         mixed = 0;
-        MIi_CpuClearFast(mixed, output, length);
+        MIi_CpuClearFastAlias(mixed, output, length);
     }
 
     if (gVctSendState.echoSuppressEnabled != 0)

@@ -915,8 +915,9 @@ ScriptVm *VM_End(ScriptVm *vm)
 }
 
 /*
- * Alternate entry: sub_02011292() enters VM_End two bytes in, after the
- * `movs r1, #0`, so the caller's r1 is stored to vm->state and vm->pc.
+ * VM_End's bytes after its first `movs r1, #0` (where the caller's r1 is
+ * stored to vm->state and vm->pc) were once filed as a separate function by
+ * an early matching wave; they are part of VM_End, not an entry of their own.
  */
 int VM_Control(ScriptVm *vm)
 {
@@ -1104,8 +1105,9 @@ void VM_SetWait(ScriptVm *vm, ScriptWaitFn wait)
 }
 
 /*
- * Alternate entry: sub_020113D2() enters VM_SetWait two bytes in, after the
- * `movs r2, #2`, so the caller's r2 is stored at +0x0d.
+ * VM_SetWait's bytes after its first `movs r2, #2` (where the caller's r2 is
+ * stored at +0x0d) were once filed as a separate function by an early
+ * matching wave; they are part of VM_SetWait, not an entry of their own.
  */
 
 

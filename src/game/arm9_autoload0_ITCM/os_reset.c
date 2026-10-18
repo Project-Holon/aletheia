@@ -27,6 +27,7 @@ typedef int BOOL;
 typedef volatile u8 vu8;
 typedef volatile u32 vu32;
 
+/* hand-written in the original: Thumb hash loop with hand register use, one SDK line-table row per instruction */
 asm BOOL OSi_VerifyStaticSegmentHash(const u8 *src, u32 len, const void *digest)
 {
     PUSH    {R3, R4, R5, R6, R7, LR}
@@ -253,6 +254,7 @@ void OSi_DoResetSystem(void)
 
 #define HW_C7_CACHE_SET_NO_SHIFT  30
 
+/* hand-written in the original: boot jump with mcr p15 and no stack, one SDK line-table row per instruction */
 asm void OSi_DoBoot(void)
 {
     mov     r12, #HW_REG_BASE
@@ -336,6 +338,7 @@ _loop:
  *           0x00..0x1A4 of os_reset.c:680..824, none of the six literal
  *           words.  The .o matches the game in 443 of 448 bytes; the five
  *           differences are the low byte of the five `bl` PC24 fields.
+ * hand-written in the original: ldm/stm and mcr p15 sequence, one SDK line-table row per instruction
  */
 asm void OSi_ReloadRomData(BOOL ontwl)
 {

@@ -49,7 +49,7 @@
  *   WIH_GetBitmap  0x02178E38  thumb  ov014
  *   WIH_GetBeaconSendCount  0x02179614  thumb  ov014
  *   g_ParentConnectModes     0x0217967C  data   a2
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   DC_FlushRange  0x020862F0  arm
  *   DWCi_MOV_WH_SetUserGameInfo  0x02178E28  thumb  ov014
  *   g_ChildConnectModes     0x02179680  data  ov014  a2
  *   g_SearchChannels     0x02179678  data  a1
@@ -102,7 +102,7 @@ void WIH_UpdateScanTimer(void);
 extern u16 WIH_GetBitmap(void);
 /* wih.c: the WH work's beaconSendCount. */
 extern unsigned long WIH_GetBeaconSendCount(void *unused);
-void DWCi_ScreenDC_FlushRange(void *p, u32 n);
+void DC_FlushRange(void *p, u32 n);
 void DWCi_MOV_WH_SetUserGameInfo(void *p, u32 n);
 u32 GFL_USE_GetRandom(u32 n);
 /* The bssid argument is const: that lets the ldrh of b[1] schedule above the strh of b[2] (docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md). */
@@ -973,7 +973,7 @@ void NET_WHPIPE_SetBeaconGameInfo(u8 *buf, u32 len)
     WhPipeNetInit *net = GFL_NET_GetInitParam();
     if (work != 0 && net != 0) {
         ((WhPipeBeacon *)buf)->checksum = GF_STANDARD_SetupCalc(buf + 2, len - 2);
-        DWCi_ScreenDC_FlushRange(buf, len);
+        DC_FlushRange(buf, len);
         if (WIH_GetSysState() == 1) {
             DWCi_MOV_WH_SetUserGameInfo(buf, (u16)len);
             return;

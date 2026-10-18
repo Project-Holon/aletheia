@@ -292,7 +292,7 @@ void WF2DMAP_OBJDRAW_UpdateActor(u8 *p)
 
 
 /*
- * Blocker of ov099 func_021B99F4 / func_021B9A70.
+ * Blocker of ov099 WIFICLUBACTOR_StartDespawn / WIFICLUBACTOR_StartTurn.
  */
 void WF2DMAP_OBJDRAW_SetActive(u8 *p, int v)
 {
@@ -305,7 +305,7 @@ void WF2DMAP_OBJDRAW_SetActive(u8 *p, int v)
 
 /*
  * Tail-call forwarder: (p) -> SetFrame(p, 1, p->u16 at +0xA).
- * Blocker of ov099 func_021B99F4 / func_021B9A70.
+ * Blocker of ov099 WIFICLUBACTOR_StartDespawn / WIFICLUBACTOR_StartTurn.
  */
 void WF2DMAP_OBJDRAW_SetFrameDefault(u8 *p)
 {
@@ -318,7 +318,7 @@ void WF2DMAP_OBJDRAW_SetFrameDefault(u8 *p)
 
 /*
  * Unlabelled tail-call stub: ldr r0,[r0,#4]; ldr r3,=WIFI_2DCHAR_StepActorAnim; bx r3.
- * Blocker of ov099 func_021BA2D4.
+ * Blocker of ov099 WIFICLUBACTOR_AnimateWalkBob.
  */
 void WF2DMAP_OBJDRAW_RefreshActor(char *p)
 {
@@ -336,7 +336,7 @@ void WF2DMAP_OBJDRAW_RestoreFrame(u8 *p) { WF2DMAP_OBJDRAW_SetFrame(p,WF2DMAP_OB
 
 /*
  * Unlabelled: forwards a by-value {s16 x, y} pair to WIFI_2DCHAR_SetActorPos with the
- * pointer at +4.  Blocker of ov099 func_021BA2D4 / WIFICLUBACTOR_AnimateBounce.
+ * pointer at +4.  Blocker of ov099 WIFICLUBACTOR_AnimateWalkBob / WIFICLUBACTOR_AnimateBounce.
  */
 void WF2DMAP_OBJDRAW_SetActorPos(char *p, Wf2dmapPair v)
 {
@@ -349,7 +349,7 @@ void WF2DMAP_OBJDRAW_SetActorPos(char *p, Wf2dmapPair v)
 
 /*
  * Unlabelled tail-call stub: ldr r0,[r0,#4]; ldr r3,=WIFI_2DCHAR_GetActorDrawEnable; bx r3.
- * Blocker of ov099 func_021BA2D4.
+ * Blocker of ov099 WIFICLUBACTOR_AnimateWalkBob.
  */
 int WF2DMAP_OBJDRAW_GetActorValue(char *p)
 {
@@ -388,7 +388,7 @@ void WF2DMAP_OBJDRAW_SetActorValue2(u8 *p, int a)
 
 /*
  * Unlabelled accessor veneer after WF2DMAP_OBJDRAW_SetActorValue2 (`ldr r0,[r0,#4]; ldr r3,=
- * WIFI_2DCHAR_GetActorDrawPriority; bx r3`).  Blocker of ov099 func_021B989C.
+ * WIFI_2DCHAR_GetActorDrawPriority; bx r3`).  Blocker of ov099 WIFICLUBACTOR_ShowMarkerAtActor.
  */
 int WF2DMAP_OBJDRAW_GetActorValue2(u8 *p)
 {
@@ -414,7 +414,7 @@ int WF2DMAP_OBJDRAW_GetDepth(int a,int b) { if(b==1) return 250-a/4; else return
 
 /*
  * Unlabelled: forwards a by-value {s16 x, y} pair to WIFI_2DCHAR_SetSubActorPos with the
- * pointer at +4.  Blocker of ov099 func_021BA2D4 / WIFICLUBACTOR_AnimateBounce.
+ * pointer at +4.  Blocker of ov099 WIFICLUBACTOR_AnimateWalkBob / WIFICLUBACTOR_AnimateBounce.
  */
 void WF2DMAP_OBJDRAW_SetActorPos2(char *p, Wf2dmapPair v)
 {

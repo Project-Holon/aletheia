@@ -19,7 +19,7 @@
  *   DWCi_QUElFormEx  0x021D5410  arm  ov016
  *   DWCi_TSKlForm  0x021D7680  arm  ov016
  *   gObjWork  0x021DE6A8  data
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   DC_FlushRange  0x020862F0  arm
  *   GX_LoadOAM  0x0207E684  arm
  *   GXS_LoadOAM  0x0207E708  arm
  *   DWCi_TSKlDeleteByIndex  0x021D7744  arm  ov016
@@ -30,7 +30,7 @@ extern void *DWCi_HEAPlAllocEx(unsigned long size, int align);
 extern void MIi_CpuClearFast(unsigned long data, void *dst, unsigned long size);
 extern void *DWCi_QUElFormEx(long size, void *data, long dsize);
 extern void *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
-extern void DWCi_ScreenDC_FlushRange(void *start, unsigned long n);
+extern void DC_FlushRange(void *start, unsigned long n);
 extern void GX_LoadOAM(void *src, unsigned long off, unsigned long sz);
 extern void GXS_LoadOAM(void *src, unsigned long off, unsigned long sz);
 extern void DWCi_TSKlDeleteByIndex(unsigned int idx, void *r4);
@@ -64,7 +64,7 @@ void DWCi_OBJlInit(void)
 
 static void taskTransfer(void)
 {
-	DWCi_ScreenDC_FlushRange(gObjWork, 0x800);
+	DC_FlushRange(gObjWork, 0x800);
 	GX_LoadOAM(gObjWork, 0, 0x400);
 	GXS_LoadOAM(gObjWork + 0x400, 0, 0x400);
 }

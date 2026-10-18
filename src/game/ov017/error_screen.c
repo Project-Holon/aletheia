@@ -25,7 +25,7 @@
  *   MIi_CpuClear32  0x02082A7C  arm
  *   ARC_UTIL_LoadMember  0x0204A1BC  arm
  *   NNS_G2dGetUnpackedCharacterDataEx  0x02062A4C  arm
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   DC_FlushRange  0x020862F0  arm
  *   MIi_CpuCopy16  0x02082A60  arm
  *   GFL_HEAP_Free  0x020307B0  arm
  *   NNS_G2dGetUnpackedScreenData  0x02062B30  arm
@@ -100,7 +100,7 @@ extern void *G2_GetBG1CharPtr(void);
 extern void MIi_CpuClear32(u32 value, void *dst, u32 size);
 extern int ARC_UTIL_LoadMember(int arcId, int fileId, int resident, int heapId);
 extern signed int NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out);
-extern void DWCi_ScreenDC_FlushRange(void *data, u32 size);
+extern void DC_FlushRange(void *data, u32 size);
 extern void MIi_CpuCopy16(void *src, void *dst, u32 size);
 extern u32 GFL_HEAP_Free(void *ptr);
 extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
@@ -208,14 +208,14 @@ void ERROR_SCREEN_LoadBackground(void)
 
     file = (void *)ARC_UTIL_LoadMember(0x16, 1, 0, 1);
     if (NNS_G2dGetUnpackedCharacterDataEx(file, (void **)(&charData))) {
-        DWCi_ScreenDC_FlushRange(charData->pixels, charData->sizeBytes);
+        DC_FlushRange(charData->pixels, charData->sizeBytes);
         CopyToVram(charData->pixels, G2_GetBG1CharPtr(), charData->sizeBytes);
     }
     GFL_HEAP_Free(file);
 
     file = (void *)ARC_UTIL_LoadMember(0x16, 2, 0, 1);
     if (NNS_G2dGetUnpackedScreenData(file, (void **)(&screenData))) {
-        DWCi_ScreenDC_FlushRange(screenData->tiles, screenData->sizeBytes);
+        DC_FlushRange(screenData->tiles, screenData->sizeBytes);
         CopyToVram(screenData->tiles, G2_GetBG1ScrPtr(), screenData->sizeBytes);
     }
     GFL_HEAP_Free(file);
@@ -223,7 +223,7 @@ void ERROR_SCREEN_LoadBackground(void)
     file = (void *)ARC_UTIL_LoadMember(0x16, 0, 0, 1);
     NNS_G2dGetUnpackedPaletteCompressInfo(file, &unusedBlock);
     if (NNS_G2dGetUnpackedPaletteData(file, (void **)(&paletteData))) {
-        DWCi_ScreenDC_FlushRange(paletteData->colors, 0x20);
+        DC_FlushRange(paletteData->colors, 0x20);
         CopyToVram(paletteData->colors, (void *)PLTT_MAIN_BG, 0x20);
     }
     GFL_HEAP_Free(file);

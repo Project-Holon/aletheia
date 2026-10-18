@@ -177,26 +177,6 @@ void *ZUKAN_DETAIL_COMMON_CreateContext(u32 a, void *b, void *c, void *d, void *
 
 void ZUKAN_DETAIL_COMMON_DeleteContext(void *a0);
 
-int ZUKAN_DETAIL_COMMON_GetSource(struct Ov208Ctx *p);
-
-int ZUKAN_DETAIL_COMMON_GetDisplay(struct Ov208Ctx *p);
-
-int ZUKAN_DETAIL_COMMON_GetFont(struct Ov208Ctx *p);
-
-int ZUKAN_DETAIL_COMMON_GetGraphics(struct Ov208Ctx *p);
-
-int ZUKAN_DETAIL_COMMON_GetWorkPtr(struct Ov208Ctx *p);
-
-int ZUKAN_DETAIL_COMMON_GetCursorValue(struct Ov208Ctx *p);
-
-u16 ZUKAN_DETAIL_COMMON_GetMaxValue(struct Ov208Ctx *p);
-
-unsigned short ZUKAN_DETAIL_COMMON_GetCurrentEntry(struct Ov208Ctx *p);
-
-void ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies(struct Ov208Ctx *p);
-
-void ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies(struct Ov208Ctx *p);
-
 void *ZUKAN_DETAIL_COMMON_AllocBlendWork(u32 heap);
 
 void ZUKAN_DETAIL_COMMON_FreeBlendWork(void *a0);
@@ -287,43 +267,43 @@ void ZUKAN_DETAIL_COMMON_DeleteContext(void *a0)
 /*
  * Returns the word at +0 of the object.
  */
-int ZUKAN_DETAIL_COMMON_GetSource(struct Ov208Ctx *p)
+void *ZUKAN_DETAIL_COMMON_GetSource(struct Ov208Ctx *p)
 {
-    return (int)p->blk;
+    return p->blk;
 }
 
 /*
  * Returns the word at +4.
  */
-int ZUKAN_DETAIL_COMMON_GetDisplay(struct Ov208Ctx *p)
+void *ZUKAN_DETAIL_COMMON_GetDisplay(struct Ov208Ctx *p)
 {
-    return (int)p->display;
+    return p->display;
 }
 
-int ZUKAN_DETAIL_COMMON_GetFont(struct Ov208Ctx *p)
+void *ZUKAN_DETAIL_COMMON_GetFont(struct Ov208Ctx *p)
 {
-    return (int)p->font;
+    return p->font;
 }
 
-int ZUKAN_DETAIL_COMMON_GetGraphics(struct Ov208Ctx *p)
+void *ZUKAN_DETAIL_COMMON_GetGraphics(struct Ov208Ctx *p)
 {
-    return (int)p->graphics;
+    return p->graphics;
 }
 
 /*
  * Returns the word at +0x10.
  */
-int ZUKAN_DETAIL_COMMON_GetWorkPtr(struct Ov208Ctx *p)
+void *ZUKAN_DETAIL_COMMON_GetWorkPtr(struct Ov208Ctx *p)
 {
-    return (int)p->work;
+    return p->work;
 }
 
-int ZUKAN_DETAIL_COMMON_GetCursorValue(struct Ov208Ctx *p)
+void *ZUKAN_DETAIL_COMMON_GetCursorValue(struct Ov208Ctx *p)
 {
-    return (int)p->headbar;
+    return p->headbar;
 }
 
-u16 ZUKAN_DETAIL_COMMON_GetMaxValue(struct Ov208Ctx *p)
+unsigned short ZUKAN_DETAIL_COMMON_GetMaxValue(struct Ov208Ctx *p)
 {
     return p->entryCount;
 }

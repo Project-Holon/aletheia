@@ -44,6 +44,7 @@ asm void MI_Zero36B(void *dst);
 
 
 
+/* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
 asm void MIi_CpuClear16(void)
 {
     mov r3, #0
@@ -57,6 +58,7 @@ loc_02082A4C:
 
 
 
+/* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
 asm void MIi_CpuCopy16(void)
 {
     mov ip, #0
@@ -71,6 +73,7 @@ loc_02082A64:
 
 
 
+/* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
 asm void MIi_CpuClear32(void)
 {
     add ip, r1, r2
@@ -83,6 +86,7 @@ loc_02082A80:
 
 
 
+/* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
 asm void MIi_CpuCopy32(void)
 {
     add ip, r1, r2
@@ -96,6 +100,7 @@ loc_02082A94:
 
 
 
+/* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
 asm void MIi_CpuSend32(void)
 {
     add ip, r0, r2
@@ -114,6 +119,7 @@ loc_02082AAC:
  * asm:      eight-register fixed stm block fill (stmlt r1!, {r0, r2-r8}); DWARF subprogram has no variables.
  *
  * void MIi_CpuClearFast(u32 data, void *destp, u32 size).
+ * hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction
  */
 asm void MIi_CpuClearFast(void)
 {
@@ -147,6 +153,7 @@ asm void MIi_CpuClearFast(void)
  * asm:      eight-register fixed ldm/stm block copy (ldmlt r0!, {r2-r9}); DWARF subprogram has no variables.
  *
  * void MIi_CpuCopyFast(const void *srcp, void *destp, u32 size).
+ * hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction
  */
 asm void MIi_CpuCopyFast(void)
 {
@@ -175,6 +182,7 @@ asm void MIi_CpuCopyFast(void)
  * asm:      fixed-register ldm/stm block copy (ldm r0!,{r2,r3,r12}) has no C spelling.
  *
  * void MI_Copy32B(void *pSrc, void *pDest).
+ * hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction
  */
 asm void MI_Copy32B(void)
 {
@@ -189,6 +197,7 @@ asm void MI_Copy32B(void)
 
 
 
+/* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
 asm void MI_Copy36B(void)
 {
     ldmia r0!, {r2, r3, ip}
@@ -202,6 +211,7 @@ asm void MI_Copy36B(void)
 
 
 
+/* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
 asm void MI_Copy48B(void)
 {
     ldmia r0!, {r2, r3, r12}
@@ -220,6 +230,7 @@ asm void MI_Copy48B(void)
 /*
  * sdk:      MI_Copy64B (libmi.TWL.HYB.a mi_memory.o)
  * asm:      fixed-register ldm/stm block copy (r2, r3, r12, then r0 reused as a fourth data register); the DWARF subprogram has no DW_TAG_variable children.
+ * hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction
  */
 asm void MI_Copy64B(void *pSrc, void *pDest)
 {
@@ -238,6 +249,7 @@ asm void MI_Copy64B(void *pSrc, void *pDest)
 
 
 
+/* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
 asm void MI_CpuFill8(void)
 {
     cmp r2, #0
@@ -291,6 +303,7 @@ asm void MI_CpuFill8(void)
  * asm:      computed jump into a strb run (add pc, pc, r3, lsl #2) and a mid-body push around an eight-register stm; DWARF subprogram has no variables.
  *
  * void MI_CpuFill(void *dstp, u8 data, u32 size).
+ * hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction
  */
 asm void MI_CpuFill(void)
 {
@@ -360,6 +373,7 @@ asm void MI_CpuFill(void)
 
 
 
+/* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
 asm void MI_CpuCopy8(void)
 {
     cmp r2, #0
@@ -472,6 +486,7 @@ int MI_CpuComp8(const void *mem1, const void *mem2, u32 size)
 }
 
 
+/* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
 asm void MI_CpuCopy(void)
 {
     cmp r2, #8
@@ -679,6 +694,7 @@ asm void MI_CpuCopy(void)
 }
 
 
+/* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
 asm void MI_CpuMove(void)
 {
     cmp r2, #0
@@ -896,6 +912,7 @@ asm void MI_CpuMove(void)
 
 #pragma thumb on
 
+/* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
 asm void MI_Zero36B(void *dst)
 {
     mov r1, #0

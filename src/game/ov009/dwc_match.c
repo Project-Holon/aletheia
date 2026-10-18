@@ -376,7 +376,6 @@ extern char *strcpy(char *dst, const char *src);
 extern void qr2_register_keyA(int keyid, char *key);
 extern int DWC_GetAIDBitmap(void);
 extern unsigned char DWC_GetMyAID(void);
-extern int DWCi_ResetMatchParam(int flag);
 extern int gt2GetSocketSOCKET(void *socket);
 extern unsigned short gt2GetLocalPort(void *socket);
 extern void qr2_register_publicaddress_callback(void *qrec, void *cb);
@@ -547,7 +546,7 @@ int DWC_IsValidCancelMatch(void);
 u8 DWC_AddMatchKeyInt(u8 keyID, char *keyString, int *valueSrc);
 u8 DWC_AddMatchKeyString(u8 keyID, char *keyString, char *valueSrc);
 int DWC_GetMatchIntValue(int index, char *key, int idefault);
-int DWCi_MatchInit(DWCstMatchControl *matchCnt, void **pGpObj, void **pGt2Socket, void *gt2Callbacks, char *gameName, char *secretKey, int friendKeyListArg, int friendKeyListLenArg);
+void DWCi_MatchInit(DWCstMatchControl *matchCnt, void **pGpObj, void **pGt2Socket, void *gt2Callbacks, char *gameName, char *secretKey, int friendKeyListArg, int friendKeyListLenArg);
 int DWCi_QR2Startup(int profileID);
 void DWCi_ConnectToAnybodyAsync(int topology, unsigned char numEntry, char *addFilter, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *evalCallback, void *evalParam, void *attemptCallback, unsigned char *connectionUserData, void *attemptParam);
 void DWCi_SetupGameServer(int topology, u8 numEntry, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *attemptCallback, u8 *connectionUserData, void *attemptParam);
@@ -1037,7 +1036,7 @@ int DWC_GetSuspendMatch(void)
  * DWCi_GetMatchCnt(), every field through a fresh getter call.  The +0x5f0/+0x5f4
  * pair is the one place a local reuses one getter result.
  */
-int DWCi_MatchInit(DWCstMatchControl *matchCnt, void **pGpObj, void **pGt2Socket, void *gt2Callbacks, char *gameName, char *secretKey, int friendKeyListArg, int friendKeyListLenArg)
+void DWCi_MatchInit(DWCstMatchControl *matchCnt, void **pGpObj, void **pGt2Socket, void *gt2Callbacks, char *gameName, char *secretKey, int friendKeyListArg, int friendKeyListLenArg)
 {
     DWCstMatchControl *q;
 
@@ -1079,7 +1078,7 @@ int DWCi_MatchInit(DWCstMatchControl *matchCnt, void **pGpObj, void **pGt2Socket
     DWCi_NodeInfoList_Clear();
     DWCi_TempNewNodeInfo_Clear();
     DWCi_ClearGameMatchKeys();
-    return DWCi_ResetMatchParam(0);
+    DWCi_ResetMatchParam(0);
 }
 
 

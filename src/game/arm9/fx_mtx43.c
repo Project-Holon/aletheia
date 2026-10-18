@@ -46,6 +46,7 @@ asm void MTX_Copy43To44_(void);
 /*
  * sdk:      MTX_Identity43_ (libfx.TWL.HYB.a fx_mtx43.o)
  * asm:      fixed-register stm with writeback (stmia r0!, {r2, r3}); no C spelling.
+ * hand-written in the original: register-passed matrix helper, one SDK line-table row per instruction
  */
 asm void MTX_Identity43_(void)
 {
@@ -64,6 +65,7 @@ asm void MTX_Identity43_(void)
 /*
  * sdk:      MTX_Copy43To44_ (libfx.TWL.HYB.a fx_mtx43.o)
  * asm:      fixed-register ldm/stm block copy with writeback (ldmia r0!, stmia r1!); no C spelling.
+ * hand-written in the original: register-passed matrix helper, one SDK line-table row per instruction
  */
 asm void MTX_Copy43To44_(void)
 {
@@ -84,6 +86,7 @@ asm void MTX_Copy43To44_(void)
 
 #pragma thumb on
 
+/* hand-written in the original: register-passed matrix helper, one SDK line-table row per instruction */
 asm void MTX_Scale43_(void)
 {
     stmia r0!, {r1}
@@ -113,6 +116,7 @@ void MTX_ScaleApply43(const MtxFx43 *pSrc, MtxFx43 *pDst, fx32 x, fx32 y, fx32 z
 
 #pragma thumb on
 
+/* hand-written in the original: register-passed matrix helper, one SDK line-table row per instruction */
 asm void MTX_RotY43_(void)
 {
     str r1, [r0, #0x18]

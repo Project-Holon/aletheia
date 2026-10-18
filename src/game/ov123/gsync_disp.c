@@ -37,7 +37,7 @@
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   CLACT_ApplyActorAnimCommand 0x0204BA00 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
+ *   DC_FlushRange 0x020862F0 arm
  *   GXS_LoadBGPltt 0x0207E468 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   BMP_SetDisplaySwap 0x0204363C arm
@@ -158,7 +158,7 @@ extern void CLACT_ApplyActorAnimCommand(struct ClActor *a, const struct Cmd *cmd
 
 extern void CLACT_SetActorAnimSeq(struct ClActor *p, u16 value);
 
-extern void DWCi_ScreenDC_FlushRange(void *, int);
+extern void DC_FlushRange(void *, int);
 
 extern void GXS_LoadBGPltt(void *, int, int);
 
@@ -813,7 +813,7 @@ void GSYNC_DISP_CopyIconPaletteSub(GsyncDispWork *disp,int slotIndex,void *actor
     struct ActorImageProxy imageProxy;
     CLACT_GetActorImageProxy(actor,(struct ActorImageProxy *)(&imageProxy));
     MI_CpuCopy8(disp->iconRecords[slotIndex].paletteData,(void *)(imageProxy.characterBase+0x6400000),0x200);
-    DWCi_ScreenDC_FlushRange(disp->iconRecords[slotIndex].palette,0x20);
+    DC_FlushRange(disp->iconRecords[slotIndex].palette,0x20);
     GX_LoadOBJPltt(disp->iconRecords[slotIndex].palette,0x100,0x20);
 }
 

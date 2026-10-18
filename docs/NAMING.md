@@ -371,3 +371,30 @@ kept the file EXACT. Wave 14 applies the unblocked rows in three batches with
 `tools/sdkrename.py` (map columns `old, new, address, region`), verifying each
 changed file after the batch; the tree must be quiet because the tool edits every
 caller.
+
+### Result (2026-10-18)
+
+All stale references are renamed. `src/game` holds no `func_XXXXXXXX` or
+`sub_XXXXXXXX` name, in code, header rows, comments or folder notes. Every
+changed file stays EXACT.
+
+How the last names were closed:
+
+- Names were resolved per region. A file's own region comes first, then the
+  overlays the file's `symbols:` rows show as loaded with it, then arm9.
+  Overlays are not all loaded at the same time, so this removes most ambiguous
+  addresses.
+- Where a name had two signatures, the wrong prototype was fixed (the SDK or
+  GameSpy signature, one prototype per file). A second name was not added.
+- The `DWCi_IsFold` copies in ov016 are each scene object's own static helper.
+  Each copy now starts the file that calls it.
+- Three entries were not functions: `sub_02011292` and `sub_020113D2` (bytes
+  inside `VM_End` and `VM_SetWait`) and `func_02050084` (a label on the final
+  `bx lr` of a getter in `arm9/particle.c`). They were removed from the matched
+  layout, so the function count is 3 lower.
+- One second name stays on purpose: `MIi_CpuClearFastAlias` in
+  `ov013/vct_main.c` is a second extern for `MIi_CpuClearFast` (0x02082AC0).
+  The original has two calls to that address in `VCT_SESSION_MixVoices`; with
+  one name mwcc merges them and the code is 4 bytes short on every compiler
+  build. See
+  `docs/idioms/a-duplicated-pool-word-is-a-second-extern-name-for-the-same-address.md`.

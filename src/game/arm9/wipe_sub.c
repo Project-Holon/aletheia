@@ -23,7 +23,7 @@
  *   d_0209F56C     0x0209F56C  data
  *   d_0209F574     0x0209F574  data
  *   d_0209F568     0x0209F568  data
- *   func_0209C0A4  0x0209C0A4  arm
+ *   _s32_div_f  0x0209C0A4  arm
  *   MI_CpuCopy8   0x02082D44  arm
  *   MI_CpuFill8   0x02082BCC  arm
  *   func_02023464_File  0x020A7450  data
@@ -245,7 +245,7 @@ extern u32 TCB_DeleteTask(struct Node *n);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 GFL_HEAP_Free(void *p);
 extern void MI_CpuFill8(void *dst, u8 data, u32 size);
-extern s32 func_0209C0A4(s32 shifted, s32 c);
+extern s32 _s32_div_f(s32 shifted, s32 c);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern s32 FX_Sqrt(s32 x);
 void WIPE_ResetWndMask(void *win);
@@ -426,7 +426,7 @@ u16 WIPE_SUB_ResolveColor(struct WipeSys *sys, u16 color)
  * else falls back to a halfword 0x150 bytes into the *original* argument
  * (0x15 << 4), untouched by the sub-object selection.
  *
- * func_02022628 alone comes out EXACT* against `one`: its own extent runs
+ * WIPE_SUB_GetEndColor alone comes out EXACT* against `one`: its own extent runs
  * two bytes into the ordinary linker fill in front of WIPE_SUB_ResetBrightnessTask, a
  * real, separately meaningful function.  Pairing the two in one
  * translation unit lets `tu` lay out both sections with that fill in
@@ -854,7 +854,7 @@ void WIPE_SUB_PatternBoxSlideIn(struct WipePanel *panel)
  * WIPE_SUB_CalcStep is a 16-byte pool-word-and-bx tail call
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md): it computes
  * (b - a) << 7 and forwards it with the third argument straight to
- * func_0209C0A4.  The pool word carries no Thumb bit and the branch is a
+ * _s32_div_f.  The pool word carries no Thumb bit and the branch is a
  * plain `bx` rather than `blx`, so the callee is declared `arm`; the image
  * labels it as a real function reached from 161 other call sites.
  *
@@ -875,7 +875,7 @@ void WIPE_SUB_PatternBoxSlideIn(struct WipePanel *panel)
  */
 s32 WIPE_SUB_CalcStep(s32 start, s32 end, s32 frames)
 {
-    return func_0209C0A4((end - start) << 7, frames);
+    return _s32_div_f((end - start) << 7, frames);
 }
 
 void WIPE_SUB_AddRect(struct FixedRect *dst, struct FixedRect *src)

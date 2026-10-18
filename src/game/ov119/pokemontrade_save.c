@@ -1161,7 +1161,7 @@ void POKETRADE_SAVE_PopBgmFadeIn24(void *p)
  * Slot-state teardown/rebuild, dispatched on *(p+0x118c): 5 and 6 run the
  * shared +8 slot teardown and hand POKETRADE_PROC_SetStep either POKETRADE_PROC_StepBeginWipeOut or
  * NULL; the default path increments the +0x11f8 byte and hands
- * POKETRADE_SAVE_StepEventMessage1. Target of func_021D6C78's ABS32 callback argument (ov119).
+ * POKETRADE_SAVE_StepEventMessage1. Target of ov118 POKETRADE_DEMO_MIDDLE_StepEndScene's ABS32 callback argument.
  *
  * Addresses are Black-image addresses.
  */

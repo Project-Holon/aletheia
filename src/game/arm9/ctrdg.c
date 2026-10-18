@@ -89,7 +89,7 @@ extern void SVC_WaitByLoop(u32 cycles);
 extern void OS_UnLockCartridge(u16 lockID);
 
 extern u32 PXI_SendWordByFifo(u32 fifotag, u32 data, u32 err);
-asm BOOL CTRDG_IsExistedAtInit(void);
+BOOL CTRDG_IsExistedAtInit(void);
 void CTRDGi_InitCommon(void);
 BOOL CTRDG_IsExisting(void);
 void CTRDGi_ChangeLatestAccessCycle(CTRDGRomCycle *r);
@@ -98,15 +98,9 @@ void CTRDGi_UnlockByProcessor(u16 lockID, CTRDGLockByProc *info);
 void CTRDGi_SendtoPxi(u32 data);
 extern CtrdgBss g_02153B80;
 
-asm BOOL CTRDG_IsExistedAtInit(void)
+BOOL CTRDG_IsExistedAtInit(void)
 {
-    ldr r1, =0x02FFFC30
-    ldr r0, =0x0000FFFF
-    ldrh	r1, [r1]
-    cmp	r1, r0
-    movne	r0, #1
-    moveq	r0, #0
-    bx	lr
+    return ((CTRDGModuleInfo *)0x02FFFC30)->moduleID != 0xFFFF;
 }
 
 void CTRDGi_InitCommon(void)

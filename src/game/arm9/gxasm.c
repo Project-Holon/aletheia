@@ -21,6 +21,7 @@ asm void GX_SendFifo64B(void);
  *           a fixed-register ldm/stm block copy into the geometry FIFO.
  *
  * void GX_SendFifo48B(const void *pSrc, void *pDest)
+ * hand-written in the original: ldm/stm FIFO burst, one SDK line-table row per instruction
  */
 asm void GX_SendFifo48B(void)
 {
@@ -41,6 +42,7 @@ asm void GX_SendFifo48B(void)
  *           a fixed-register ldm/stm block copy into the geometry FIFO.
  *
  * void GX_SendFifo64B(const void *pSrc, void *pDest)
+ * hand-written in the original: ldm/stm FIFO burst, one SDK line-table row per instruction
  */
 asm void GX_SendFifo64B(void)
 {

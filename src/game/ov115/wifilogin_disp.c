@@ -114,7 +114,7 @@
  *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
  *   MI_CpuCopy8 0x02082D44 arm
  *   PALANM_BlendColors 0x02021F64 thumb
- *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
+ *   DC_FlushRange 0x020862F0 arm
  *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -353,7 +353,7 @@ extern void MI_CpuCopy8(const void *, void *, u32);
 
 extern void PALANM_BlendColors(u16 *, u16 *, int, u8, u16);
 
-extern void DWCi_ScreenDC_FlushRange(void *, int);
+extern void DC_FlushRange(void *, int);
 
 extern void *GFL_USE_AddMainTask(void *, void *, int);
 
@@ -1030,7 +1030,7 @@ void WIFILOGIN_DISP_LoadPalette(char *p)
             }
         }
     }
-    DWCi_ScreenDC_FlushRange(p + 0x1f8, 0x780);
+    DC_FlushRange(p + 0x1f8, 0x780);
     ((struct WifiloginDisp *)p)->paletteReady = 1;
     ((struct WifiloginDisp *)p)->frameTask = GFL_USE_AddMainTask((void *)WIFILOGIN_DISP_UpdatePalette, p + 0x10, 0x14);
     G2x_SetBlendAlpha_((void *)0x04000050, 1, 8, 8, 0x10);

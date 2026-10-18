@@ -15,7 +15,7 @@
  *   OS_SpinWaitSysCycles 0x02087A04 arm twl a2
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   func_0209C0A4 0x0209C0A4 arm twl a2
+ *   _s32_div_f 0x0209C0A4 arm twl a2
  */
 typedef unsigned int u32;
 
@@ -30,7 +30,6 @@ typedef unsigned long long u64;
 extern void OS_SpinWaitSysCycles(u32);
 extern unsigned int OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(unsigned int enable);
-extern u64 func_0209C0A4(u32, u32);
 void CAMERA_ResetCore(void);
 s32 CAMERA_IsBusyCore(void);
 void CAMERA_StartCaptureCore(void);
@@ -214,14 +213,11 @@ s32 CAMERA_GetTransferLinesCore(void)
 
 
 u32 CAMERA_GetMaxLinesRoundCore(u32 a0, u32 a1) {
-    u32 r4 = (u32)func_0209C0A4(0x400, a0);
-    if ((s32)r4 > 0x10) r4 = 0x10;
-    if ((s32)r4 > 1) {
-        do {
-            u64 res = func_0209C0A4(a1, r4);
-            if ((u32)(res >> 32) == 0) return r4;
-            r4--;
-        } while ((s32)r4 > 1);
+    s32 lines = 0x400 / (s32)a0;
+    if (lines > 0x10) lines = 0x10;
+    while (lines > 1) {
+        if ((s32)a1 % lines == 0) return lines;
+        lines--;
     }
     return 1;
 }

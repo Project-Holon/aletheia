@@ -27,7 +27,7 @@
  *   ARC_UTIL_LoadPaletteBlockFromArchive  0x02049F34  arm
  *   ARC_UTIL_LoadPaletteBlockFromHandle  0x02049F78  arm
  *   TCB_DeleteTask   0x02030EAC  arm
- *   DWCi_ScreenDC_FlushRange   0x020862F0  arm
+ *   DC_FlushRange   0x020862F0  arm
  *   GX_LoadBGPltt   0x0207E3D0  arm
  *   GXS_LoadBGPltt   0x0207E468  arm
  *   GX_LoadOBJPltt   0x0207E51C  arm
@@ -158,7 +158,7 @@ struct Rgb555 {
 
 extern u32 TCB_DeleteTask(struct Node *n);
 
-extern void DWCi_ScreenDC_FlushRange(void *a, u32 b);
+extern void DC_FlushRange(void *a, u32 b);
 
 extern void GX_LoadBGPltt(void *a, u32 b, u32 c);
 
@@ -1124,7 +1124,7 @@ void PALANM_TransferPalettes(PaletteFade *p)
             }
         }
         c = &p->work[i];
-        DWCi_ScreenDC_FlushRange(c->transWork, c->size);
+        DC_FlushRange(c->transWork, c->size);
         switch (i) {
         case 0:
             GX_LoadBGPltt(c->transWork, 0, c->size);

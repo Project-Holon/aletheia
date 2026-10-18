@@ -55,7 +55,6 @@ static inline NNSiFndFrmHeapHead *GetFrmHeapHeadPtrFromHeapHead(NNSiFndHeapHead 
 
 extern void NNSi_FndInitHeapHead(NNSiFndHeapHead *pHeapHd, u32 signature, void *pHint, u32 heapStart, u32 heapEnd);
 extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
-extern void MIi_CpuClear32(int a, int b, int c);
 extern void FNDHEAP_Finalize(void *heap);
 NNSiFndHeapHead *NNSi_FndInitFrmHeap(NNSiFndHeapHead *pHeapHd, u32 heapStart, u32 heapEnd);
 u32 NNSi_FndAllocFromFrmHeapHead(NNSiFndFrmHeapHead *pFrmHeapHd, u32 size, u32 align);
@@ -126,7 +125,7 @@ u32 NNSi_FndAllocFromFrmHeapTail(NNSiFndFrmHeapHead *pFrmHeapHd, u32 size, u32 a
     clearedSize = (u32)pFrmHeapHd->tailAllocator - v;
     attribute = (u8)((u32 *)pFrmHeapHd)[-1];
     if (attribute & 1)
-        MIi_CpuClear32(0, (int)v, (int)clearedSize);
+        MIi_CpuClear32(0, (void *)v, (u32)clearedSize);
     pFrmHeapHd->tailAllocator = (void *)v;
     return v;
 }

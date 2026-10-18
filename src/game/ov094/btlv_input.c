@@ -1322,7 +1322,7 @@ void BTLV_INPUT_StartScreenFadeTask(BtlvInput *input)
 }
 
 /*
- * notes:    tests a 2-bit field at bits 15..16 of the word at +0x68, returns 1 if nonzero. Witness for calls in ov098 func_021B6578 (2026-10-05, lane W-B).
+ * notes:    tests a 2-bit field at bits 15..16 of the word at +0x68, returns 1 if nonzero. Witness for calls in ov098 PDC_MAIN_StepChooseItem (2026-10-05, lane W-B).
  */
 int BTLV_INPUT_IsScreenBusy(BtlvInput *input)
 {

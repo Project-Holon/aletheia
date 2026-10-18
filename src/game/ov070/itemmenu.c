@@ -64,7 +64,7 @@
  *   BG_SYS_ClearSlot  0x020414EC  arm
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   ITEMMENU_UpdateSideButtons  0x021BB3F4  thumb  ov070
- *   func_02028754  0x02028754  thumb
+ *   FIELD_SKILL_USE_FLAGS_IsSkillUsable  0x02028754  thumb
  *   gItemMenuUseRanges  0x021BB9C4  data  a4
  *   APP_TASKMENU_IsFinish  0x020279E8  thumb
  *   APP_TASKMENU_GetCursorPos  0x02027A04  thumb
@@ -195,7 +195,7 @@
  *   CLACT_GetCharacterVramAddress  0x0204ABBC  arm
  *   BMP_GetPixels  0x020437D4  arm
  *   BMP_GetByteSize  0x020437EC  arm
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   DC_FlushRange  0x020862F0  arm
  *   GX_LoadOBJ  0x0207E780  arm
  *   COMM_HISTORY_ScaleSpan  0x0202EE0C  thumb
  *   sSideButtonAnimSeqs     0x021BBAA8  data  ov070  a1
@@ -457,7 +457,8 @@ extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern u8 APP_TASKMENU_GetCursorPos(const struct TaskMenu *p);
 extern void GAME_BEACON_SetItemUse(u16 id);
 extern u32 FILE_UTIL_Get_0FE4(u16 a, u32 sel, u32 id);
-extern u32 func_02028754(struct Actor *obj, u32 n);
+struct FieldSkillUseFlags;
+extern u32 FIELD_SKILL_USE_FLAGS_IsSkillUsable(const struct FieldSkillUseFlags *flags, u32 skillIndex);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
@@ -608,7 +609,7 @@ extern void CLACT_SetActorAnimIndex(void *, int);
 extern int CLACT_GetCharacterVramAddress(u32 idx, u32 flag);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern u32 BMP_GetByteSize(const struct Bmp *bmp);
-extern void DWCi_ScreenDC_FlushRange(void *, u32);
+extern void DC_FlushRange(void *, u32);
 extern void GX_LoadOBJ(void *, void *, u32);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern u32 COMM_HISTORY_ScaleSpan(u32 a, u32 b, u32 c, u32 d, u32 e);
@@ -1334,7 +1335,7 @@ void ITEMMENU_ShowMessageThenWait(ItemMenuWork *work) { ITEMMENU_ShowMessage(wor
 u32 ITEMMENU_TryStartUse(ItemMenuWork *work)
 {
     if (work->usageContext == 0) {
-        if (func_02028754(work->actionPermissions, 0)) {
+        if (FIELD_SKILL_USE_FLAGS_IsSkillUsable(work->actionPermissions, 0)) {
             work->nextState = 0xA;
             ITEMMENU_SetTask(work, 0);
             return 1;
@@ -1345,7 +1346,7 @@ u32 ITEMMENU_TryStartUse(ItemMenuWork *work)
         ITEMMENU_SetTask(work, ITEMMENU_ShowMessageThenWait);
         return 0;
     } else if (work->usageContext == 1) {
-        if (func_02028754(work->actionPermissions, 0)) {
+        if (FIELD_SKILL_USE_FLAGS_IsSkillUsable(work->actionPermissions, 0)) {
             work->nextState = 0xB;
             ITEMMENU_SetTask(work, 0);
             return 1;
@@ -1364,7 +1365,7 @@ u32 ITEMMENU_TryStartGive(ItemMenuWork *work)
 {
     u32 started = 1;
 
-    if (func_02028754(work->actionPermissions, 1)) {
+    if (FIELD_SKILL_USE_FLAGS_IsSkillUsable(work->actionPermissions, 1)) {
         work->nextState = 7;
         ITEMMENU_SetTask(work, 0);
         return started;
@@ -1379,7 +1380,7 @@ u32 ITEMMENU_TryStartGive(ItemMenuWork *work)
 /* Action 2 (register). */
 u32 ITEMMENU_TryStartRegister(ItemMenuWork *work)
 {
-    if (func_02028754(work->actionPermissions, 2)) {
+    if (FIELD_SKILL_USE_FLAGS_IsSkillUsable(work->actionPermissions, 2)) {
         work->nextState = 8;
         ITEMMENU_SetTask(work, 0);
         return 1;
@@ -1394,7 +1395,7 @@ u32 ITEMMENU_TryStartRegister(ItemMenuWork *work)
 /* Action 6 (check). */
 u32 ITEMMENU_TryStartCheck(ItemMenuWork *work)
 {
-    if (func_02028754(work->actionPermissions, 6)) {
+    if (FIELD_SKILL_USE_FLAGS_IsSkillUsable(work->actionPermissions, 6)) {
         work->nextState = 0x11;
         ITEMMENU_SetTask(work, 0);
         return 1;
@@ -1409,7 +1410,7 @@ u32 ITEMMENU_TryStartCheck(ItemMenuWork *work)
 /* Action 4 (toss): asks for a quantity first. */
 u32 ITEMMENU_TryStartToss(ItemMenuWork *work)
 {
-    if (func_02028754(work->actionPermissions, 4)) {
+    if (FIELD_SKILL_USE_FLAGS_IsSkillUsable(work->actionPermissions, 4)) {
         work->nextState = 0xF;
         ITEMMENU_SetTask(work, 0);
         ITEMMENU_RemoveSelectedItems(work, 1);
@@ -1425,7 +1426,7 @@ u32 ITEMMENU_TryStartToss(ItemMenuWork *work)
 /* Action 5 (sort). */
 u32 ITEMMENU_TryStartSort(ItemMenuWork *work)
 {
-    if (func_02028754(work->actionPermissions, 5)) {
+    if (FIELD_SKILL_USE_FLAGS_IsSkillUsable(work->actionPermissions, 5)) {
         work->nextState = 0x10;
         ITEMMENU_SetTask(work, 0);
         return 1;
@@ -1441,7 +1442,7 @@ u32 ITEMMENU_TryStartSort(ItemMenuWork *work)
 u32 ITEMMENU_TryStartPlant(ItemMenuWork *work)
 {
     if (work->usageContext == 0) {
-        if (func_02028754(work->actionPermissions, 9)) {
+        if (FIELD_SKILL_USE_FLAGS_IsSkillUsable(work->actionPermissions, 9)) {
             work->nextState = 0x14;
             ITEMMENU_SetTask(work, 0);
             return 1;
@@ -1459,7 +1460,7 @@ u32 ITEMMENU_TryStartPlant(ItemMenuWork *work)
 u32 ITEMMENU_TryStartSell(ItemMenuWork *work)
 {
     if (work->usageContext == 0) {
-        if (func_02028754(work->actionPermissions, 3)) {
+        if (FIELD_SKILL_USE_FLAGS_IsSkillUsable(work->actionPermissions, 3)) {
             work->nextState = 0xE;
             ITEMMENU_SetTask(work, 0);
             ITEMMENU_RemoveSelectedItems(work, 1);
@@ -1543,7 +1544,7 @@ void ITEMMENU_HandleActionMenuChoice(ItemMenuWork *work)
             break;
         case 1:
             ITEMMENU_SetBackButtonAnim(work, 0);
-            if (func_02028754(work->actionPermissions, 0)) {
+            if (FIELD_SKILL_USE_FLAGS_IsSkillUsable(work->actionPermissions, 0)) {
                 work->nextState = 0xB;
                 ITEMMENU_SetTask(work, 0);
             } else {
@@ -3953,7 +3954,7 @@ void ITEMMENU_UploadSlotGraphics(ItemMenuWork *work)
     for (i = 0; i < 8; i++) {
         srcChars = (u8 *)CLACT_GetCharacterVramAddress(*(u32 *)(workBytes + i * 4 + 0x5F4), 0);
         dstPixels = BMP_GetPixels(*(void **)(workBytes + i * 4 + 0x614));
-        DWCi_ScreenDC_FlushRange(dstPixels, BMP_GetByteSize(*(void **)(workBytes + i * 4 + 0x614)));
+        DC_FlushRange(dstPixels, BMP_GetByteSize(*(void **)(workBytes + i * 4 + 0x614)));
         GX_LoadOBJ(dstPixels + 0x100, srcChars + 0x80, 0x80);
         GX_LoadOBJ(dstPixels + 0x280, srcChars + 0x100, 0x80);
         GX_LoadOBJ(dstPixels, srcChars + 0x300, 0x100);

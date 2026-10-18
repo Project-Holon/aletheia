@@ -52,7 +52,7 @@
  *   ARC_UTIL_LoadMember 0x0204A1BC arm
  *   NNS_G3dGetTex 0x0206E964 arm
  *   CLACT_GetCharacterVramAddress 0x0204ABBC arm
- *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
+ *   DC_FlushRange 0x020862F0 arm
  *   GXS_LoadOBJPltt 0x0207E5D0 arm
  *   GXS_LoadOBJ 0x0207E804 arm
  */
@@ -136,7 +136,7 @@ extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 
 extern int CLACT_GetCharacterVramAddress(u32 idx, u32 flag);
 
-extern void DWCi_ScreenDC_FlushRange(void *,u32);
+extern void DC_FlushRange(void *,u32);
 
 extern void GXS_LoadOBJPltt(const void *,u32,u32);
 
@@ -348,9 +348,9 @@ void STA_ACT_BUTTON_LoadCharacter(u8 *p,u16 slot,int resource,u32 type)
     palSize=*(u16 *)(tex+0x30)*8;
     dst=(u8 *)CLACT_GetCharacterVramAddress(*(u32 *)(p+0x28),1);
     dst+=(slot<<11);
-    DWCi_ScreenDC_FlushRange(tex+palOffset,palSize);
+    DC_FlushRange(tex+palOffset,palSize);
     GXS_LoadOBJPltt(tex+palOffset,slot*32,palSize);
-    DWCi_ScreenDC_FlushRange(src,charSize);
+    DC_FlushRange(src,charSize);
     switch(type) {
     case 34: x=2; y=2; type=4; height=4; break;
     case 35: x=2; type=4; height=8; break;

@@ -133,7 +133,7 @@
  *   INTRUDE_COMM_HasResult  0x02175DA8  thumb  ov011
  *   INTRUDE_COMM_IsSessionAccepted  0x02175B8C  thumb  ov011
  *   INTRUDE_COMM_GetPlayerNetId  0x02158378  thumb  ov010
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   DC_FlushRange  0x020862F0  arm
  *   GXS_LoadOBJPltt  0x0207E5D0  arm
  *   GXS_LoadOBJ  0x0207E804  arm
  *   CLACT_CreateUnit  0x0204B100  arm
@@ -422,7 +422,7 @@ u32 ZONEDATA_IsZone117(u32 id);
 int INTRUDE_COMM_HasResult(void *p);
 int INTRUDE_COMM_IsSessionAccepted(void *p);
 int INTRUDE_COMM_GetPlayerNetId(void *);
-extern void DWCi_ScreenDC_FlushRange();
+extern void DC_FlushRange();
 extern void GXS_LoadOBJPltt();
 extern void GXS_LoadOBJ();
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
@@ -1385,12 +1385,12 @@ void INTRUDE_SUBDISP_VBlankTask(void *tcb, void *taskWork)
     work->vblankPhase ^= 1;
     if (work->vblankPhase != 0) {
         if (work->paletteDirty != 0) {
-            DWCi_ScreenDC_FlushRange(work->palOut, 8);
+            DC_FlushRange(work->palOut, 8);
             GXS_LoadOBJPltt(work->palOut, 0x102, 8);
             work->paletteDirty = 0;
         }
         if (work->digitsDirty != 0) {
-            DWCi_ScreenDC_FlushRange(work->numberBuf, 0x200);
+            DC_FlushRange(work->numberBuf, 0x200);
             GXS_LoadOBJ(work->numberBuf, work->numberVram, 0x200);
             work->digitsDirty = 0;
         }

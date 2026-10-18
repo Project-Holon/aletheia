@@ -67,7 +67,7 @@
  *   gElboardFileName     0x021F523C  data  a1
  *   GF_FONT_Delete 0x0201D83C thumb
  *   GFL_HEAP_Free 0x020307B0 arm
- *   func_0209C0A4  0x0209C0A4  arm
+ *   _s32_div_f  0x0209C0A4  arm
  *   G3D_SYSTEM_SetObjectAnimeFrame  0x0204784C  arm
  *   G3D_SYSTEM_EnableObjectAnime  0x020477A4  arm
  *   G3D_SYSTEM_DisableObjectAnime  0x020477D4  arm
@@ -282,7 +282,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern unsigned int GF_FONT_Delete(struct GfFont *font);
 extern u32 GFL_HEAP_Free(void *p);
-extern int func_0209C0A4(int a, int b);
+extern int _s32_div_f(int a, int b);
 extern u32 G3D_SYSTEM_SetObjectAnimeFrame(G3dObject *obj, u16 animIndex, s32 *frame);
 extern u32 G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 animIndex);
 extern int G3D_SYSTEM_DisableObjectAnime(G3dObject *obj, u32 animIndex);

@@ -39,6 +39,7 @@ asm void MTX_Copy33To44_(void);
  * asm:      fixed-register stm with writeback (stmia r0!, {r2, r3}); no C spelling.
  *
  * void MTX_Identity33_(MtxFx33 *pDst)
+ * hand-written in the original: register-passed matrix helper, one SDK line-table row per instruction
  */
 asm void MTX_Identity33_(void)
 {
@@ -58,6 +59,7 @@ asm void MTX_Identity33_(void)
  * asm:      fixed-register ldm/stm block copy with writeback (ldmia r0!, stmia r1!); no C spelling.
  *
  * void MTX_Copy33To44_(const MtxFx33 *pSrc, MtxFx44 *pDst)
+ * hand-written in the original: register-passed matrix helper, one SDK line-table row per instruction
  */
 asm void MTX_Copy33To44_(void)
 {
@@ -80,6 +82,7 @@ asm void MTX_Copy33To44_(void)
 
 #pragma thumb on
 
+/* hand-written in the original: register-passed matrix helper, one SDK line-table row per instruction */
 asm void MTX_Scale33_(void)
 {
     stmia r0!, {r1}
@@ -152,6 +155,7 @@ asm void MTX_RotY33_(void)
     bx lr
 }
 
+/* hand-written in the original: register-passed matrix helper, one SDK line-table row per instruction */
 asm void MTX_RotZ33_(void)
 {
     stmia r0!, {r2}
