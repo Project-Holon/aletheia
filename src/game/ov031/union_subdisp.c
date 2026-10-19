@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   ICA_ANIME_GetField24  0x02012138  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
@@ -133,7 +133,7 @@ typedef struct VecFx32 {
 
 struct BgTemplate;
 
-extern struct GameComm *ICA_ANIME_GetField24(const struct GameSystem *gameSystem);
+extern struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heapId);
 extern void ARC_TOOL_DeleteHandle(void *archive);
@@ -160,7 +160,7 @@ extern void UNION_COMM_SetChatType(UnionRoomWork *work, int chatType);
 extern void UNION_MAIN_SetAppealNo(UnionRoomWork *work, int appealNo);
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern struct PrintSys *PRINTSYS_QUE_Create(u32 heapId);
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern unsigned int MSGDATA_Delete(struct MsgBank *msgData);
 extern u32 GF_FONT_Delete(struct GfFont *font);
@@ -183,7 +183,7 @@ extern void BG_SYS_DeleteHalf(u32, u32, u32);
 extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern struct ClactRes *CLACT_RegisterPaletteEx(void *archive, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern struct ClactRes *CLACT_RegisterCharacter(void *archive, u32 b, u32 c, u32 a3, u16 flags);
+extern struct ClactRes *CLACT_RegisterCharacter(void *archive, u32 b, u32 c, u32 vram_mode, u16 flags);
 extern struct ClactRes *CLACT_RegisterCellAnim(void *archive, u32 first, u32 second, u32 mode);
 extern void CLACT_ReleasePalette(struct ClactRes *);
 extern void CLACT_ReleaseCharacter(struct ClactRes *);
@@ -353,7 +353,7 @@ UnionSubdispWork *UNION_SUBDISP_Create(struct GameSystem *gameSystem)
     u32 i;
     u32 winOut;
 
-    gameComm = ICA_ANIME_GetField24(gameSystem);
+    gameComm = GAMESYSTEM_GetGameComm(gameSystem);
     work = GFL_HEAP_Alloc(UNION_SUBDISP_HEAP_ID, 0x80, 1, sUnionSubdispFileName, 0x10F);
     work->gameSystem = gameSystem;
     archive = ARC_TOOL_CreateHandle(0x59, UNION_SUBDISP_HEAP_ID);
@@ -402,7 +402,7 @@ void UNION_SUBDISP_Delete(UnionSubdispWork *work)
 {
     UnionRoomWork *unionWork;
 
-    unionWork = GAME_COMM_GetWork(ICA_ANIME_GetField24(work->gameSystem));
+    unionWork = GAME_COMM_GetWork(GAMESYSTEM_GetGameComm(work->gameSystem));
     if (unionWork != 0)
         unionWork->talkCancel = 0;
     PMS_DRAW_Delete(work->pmsDraw);
@@ -424,7 +424,7 @@ void UNION_SUBDISP_Draw(UnionSubdispWork *work, int mode)
 {
     int i;
 
-    GAME_COMM_GetWork(ICA_ANIME_GetField24(work->gameSystem));
+    GAME_COMM_GetWork(GAMESYSTEM_GetGameComm(work->gameSystem));
     GFL_NET_WM_ICON_EasyObjWindowOn();
     if (mode == 1)
         REG_DB_BLDCNT_SUB = 0;
@@ -455,7 +455,7 @@ void UNION_SUBDISP_Update(UnionSubdispWork *work, int mode)
     UnionMySituation *mySituation;
     int touched;
 
-    gameComm = ICA_ANIME_GetField24(work->gameSystem);
+    gameComm = GAMESYSTEM_GetGameComm(work->gameSystem);
     unionWork = GAME_COMM_GetWork(gameComm);
     if (unionWork != 0) {
         mySituation = &unionWork->mySituation;

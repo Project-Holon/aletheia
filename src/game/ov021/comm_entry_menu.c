@@ -475,7 +475,7 @@ extern FieldSysWin *FIELD_MSGBG_CreateBottomSysWin(FieldMsgBg *msgBg, struct Msg
 extern struct Strbuf *MSGDATA_AllocString(struct MsgData *msgData, u32 msgId);
 extern void MYSTATUS_Copy(const void *myStatus, void *dst);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
-extern void GFL_NET_SetLoginOption(u8 a0);
+extern void GFL_NET_SetLoginOption(u8 loginOption);
 extern GFLNetInitializeStruct *GFL_NET_GetInitParam(void);
 extern u32 GFL_NET_GetUserArg(void);
 extern int FIELD_MSGBG_DeleteMenuFunc(FieldMenuFunc *menu);
@@ -502,7 +502,7 @@ extern void GFL_NET_BeaconScanStart(void);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *ws, u32 slot, const void *myStatus);
 extern int GFL_NET_Exit(int a0);
 extern int GFL_NET_IsSessionNull(void);
-extern void GFL_NET_StartSession(GFLNetInitializeStruct *init, u32 a2, u32 userArg);
+extern void GFL_NET_StartSession(GFLNetInitializeStruct *init, u32 transportArg, u32 userArg);
 extern FieldMenuFunc *FIELD_MSGBG_CreateYesNoMenu(FieldMsgBg *msgBg, u32 cursorPos);
 extern int FIELD_MSGBG_YesNoMenuMain(FieldMenuFunc *menu);
 extern FieldMsgWin *FIELD_MSGBG_CreateMsgWin(FieldMsgBg *msgBg, struct MsgData *msgData, u16 x, u16 y, u16 width, u16 height);

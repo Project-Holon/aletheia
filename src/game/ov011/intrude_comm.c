@@ -118,7 +118,7 @@
  *   GAME_DATA_TakeUnionInfo  0x02012800  thumb
  *   EVENT_FIELD_PROCLINK_SetReturnSlotDefaultIfOffline  0x02161FF0  thumb ov010
  *   EVENT_FIELD_PROCLINK_SetReturnSlotIfOffline  0x02162008  thumb ov010
- *   GAME_DATA_GetField114  0x020127A4  thumb
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   ZONEDATA_IsZoneGroup118To120  0x02013D9C  thumb
  *   INTRUDE_AddLogEntry  0x0200BE84  thumb
@@ -133,7 +133,7 @@
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   MYSTATUS_GetSize  0x02008468  thumb
  *   MYSTATUS_GetId  0x02008530  thumb
- *   GAME_DATA_GetField1D4  0x020127AC  thumb
+ *   GAME_DATA_GetBattleRecSlot  0x020127AC  thumb
  *   GAME_DATA_SetSlotFlag  0x02012BA4  thumb
  *   GAME_COMM_PushPlayerMessage  0x020266D4  thumb
  *   ZONEDATA_IsSameMatrixGroup  0x02013E90  thumb
@@ -155,7 +155,7 @@
  *   INTRUDE_GetObtainedFlags  0x0200BF54  thumb
  *   gIntrudeCommValidObjCodes 0x02176B08 data ov011 a2
  *   gIntrudeCommValidProfileCodes 0x02176AD0 data ov011 a2
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_SetIntrudeId  0x02012B8C  thumb
  *   EVENT_FIELD_PROCLINK_SetReturnLinkId  0x02161FEC  thumb  ov010
  *   INTRUDE_COMM_NormalizeVersion  0x021584F4  thumb  ov010
@@ -182,7 +182,7 @@
  *   POKE_TOOL_SetLevelAndRecalc  0x02019CA0  thumb
  *   SAVEDATA_PanicFail  0x02034714  arm
  *   d_02177010     0x02177010  data  ov011  a1
- *   ICA_ANIME_GetField24  0x02012138  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   PROCSYS_Main  0x02031330  arm
  *   BTL_SETUP_SetupCommSingle  0x02013790  thumb
  *   BTL_SETUP_SetParty  0x02013128  thumb
@@ -365,7 +365,6 @@ extern void GFL_NET_HANDLE_SetTimingSyncRange(GFLNetHandle *handle, u32 timingNo
 extern u32 GFL_NET_HANDLE_IsTimingSyncRange(GFLNetHandle *handle, u32 timingNo, u32 option);
 extern int GFL_NET_IsSessionNull(void);
 extern void GFL_NET_ERR_ResetState(void);
-extern void *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 extern u16 GAME_DATA_GetPlayerZoneId(const void *myPlayerWork);
 extern u32 ZONEDATA_IsZone117(u32 zoneId);
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
@@ -407,7 +406,6 @@ void MI_CpuFill8(void *dst, int value, int size);
 void *GAME_DATA_GetSaveControl(void *saveData);
 u16 *INTRUDE_GetFromSave(void *sys);
 u32 GFL_NET_SendDataMask(GFLNetHandle *handle, u32 sendMask, u32 command, u32 size, const void *data, u32 sendFlags, u32 skipIfQueued, u32 queueMode);
-void *GAME_DATA_GetBattleRecSlot(void *saveData, u32 slot);
 void GFL_NET_NotifyUserEvent(GFLNetHandle *handle, u32 enable);
 void NET_WHPIPE_SetBeaconStatus(u8 value);
 u32 GFL_NET_IsConnectMember(u32 netId);
@@ -426,7 +424,7 @@ void FIELD_WFBC_DATA_LOCAL_Sanitize(u16 *p, int x);
 void GAME_DATA_TakeUnionInfo(u8 *obj, void *dst);
 void EVENT_FIELD_PROCLINK_SetReturnSlotDefaultIfOffline(u8 *p, int v);
 void EVENT_FIELD_PROCLINK_SetReturnSlotIfOffline(u8 *p, u16 v);
-void *GAME_DATA_GetField114(struct GameData *p);
+void *GAME_DATA_GetMyPlayerWork(struct GameData *p);
 unsigned int ZONEDATA_IsZoneGroup118To120(unsigned int id);
 extern void INTRUDE_AddLogEntry(void *, u8 *);
 int EVENT_FIELD_PROCLINK_GetReturnResultSlot(u8 *slots, int index, void *out);
@@ -440,7 +438,7 @@ u8 COMM_PLAYER_GetState848(void *symbolMap);
 u8 *GAME_DATA_GetMyStatus(void *p);
 int MYSTATUS_GetSize(void);
 extern u32 MYSTATUS_GetId(const struct MemberRecord *record);
-void *GAME_DATA_GetField1D4(struct GameData *p, unsigned int idx);
+void *GAME_DATA_GetBattleRecSlot(struct GameData *p, unsigned int idx);
 void GAME_DATA_SetSlotFlag(struct GameData *p, int i, u8 v);
 void GAME_COMM_PushPlayerMessage(u32 a, u32 b);
 extern u32 ZONEDATA_IsSameMatrixGroup(u32 a, u32 b);
@@ -451,11 +449,11 @@ u8 GAME_DATA_GetSymbolMapFlag(struct GameData *gameData);
 int GAMESYSTEM_IsEventActive(struct GameSystem *gameSystem);
 extern int MYSTATUS_GetOutfitVariant(const struct MemberRecord *);
 extern u32 INTRUDE_GetMissionClearCount(void *profileSys);
-extern int GAME_DATA_GetPlayTime(int p0);
+extern int GAME_DATA_GetPlayTime(int gd);
 extern unsigned long long INTRUDE_UpdatePlaySeconds(u8 *p, void *q, u32 mode);
 extern unsigned long long INTRUDE_GetPlaySeconds(void *profileSys);
 extern void INTRUDE_GetObtainedFlags(void *profileSys, u8 *dest, u32 n);
-extern void *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern void EVENT_FIELD_PROCLINK_SetReturnLinkId(u8 *slots, u16 intrudeId);
 extern int INTRUDE_COMM_NormalizeVersion(int a0, int a1);
 extern u32 MYSTATUS_CopyNameChars(void *record, void *dest, u32 count);
@@ -479,9 +477,9 @@ extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern void POKE_TOOL_SetLevelAndRecalc(void *p, u32 v);
 extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr);
-extern u32 ICA_ANIME_GetField24(const struct GameSystem *a);
+extern u32 GAMESYSTEM_GetGameComm(const struct GameSystem *a);
 extern u32 PROCSYS_Main(void *a);
-extern void BTL_SETUP_SetupCommSingle(u32 work, void *h, GFLNetHandle *handle, u32 p3, u16 p4);
+extern void BTL_SETUP_SetupCommSingle(u32 work, void *h, GFLNetHandle *handle, u32 commPos, u16 heap);
 extern void BTL_SETUP_SetParty(void *p, void *src, int i);
 extern void GFL_NET_HANDLE_SetUserInfo(GFLNetHandle *handle, int timingLow, int timingHigh, int netID);
 extern int GF_OVERLAY_Load(int id);
@@ -502,7 +500,7 @@ extern void ENCEFF_Start(struct GameSystem *c, u32 x, int idx);
 extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 extern void GAME_EVENT_CallProc(struct GameEvent *event, int overlayId, const void *procTable, void *procArg);
 extern void *FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(void *a);
-extern void *FIELD_STATUS_CreateFieldOpenEvent(void *a0);
+extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSystem);
 extern void *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(void *a);
 extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int sel, int d, int e, u8 f, u8 g);
 extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
@@ -2472,7 +2470,7 @@ void INTRUDE_COMM_RecvAreaNotice(int netId, int size, int data, IntrudeCommSys *
     struct GameData *gameData;
     gameData = GAME_COMM_GetGameData(work->gameComm);
     if (netId != GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle()) && work->localPeer.intrudeId == netId) {
-        if (ZONEDATA_IsZoneGroup118To120(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetField114((struct GameData *)gameData))) != 0) {
+        if (ZONEDATA_IsZoneGroup118To120(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork((struct GameData *)gameData))) != 0) {
             work->areaNoticeSeen = 1;
         }
     }
@@ -2796,7 +2794,7 @@ void INTRUDE_COMM_ApplyPlayerBeacon(IntrudeCommSys *work, int netId, IntrudeStat
     changed = 1;
 skip:
     MYSTATUS_Copy(record->myStatus, (void *)status);
-    MI_CpuCopy8(record->battleRecSlot, GAME_DATA_GetField1D4((struct GameData *)gameData, netId), 0x10);
+    MI_CpuCopy8(record->battleRecSlot, GAME_DATA_GetBattleRecSlot((struct GameData *)gameData, netId), 0x10);
     GAME_DATA_SetSlotFlag((struct GameData *)gameData, netId, record->peer.season);
     INTRUDE_COMM_StorePlayerRecord(work, netId, &record->peer, 1);
     work->peerMask |= (u8)(1 << netId);
@@ -3027,7 +3025,7 @@ int INTRUDE_COMM_UpdateSelfRecord(IntrudeCommSys *work)
     int lidClosed;
     IntrudePeer *self;
     gameData = GAME_COMM_GetGameData(work->gameComm);
-    zoneId = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetField114((struct GameData *)gameData));
+    zoneId = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork((struct GameData *)gameData));
     self = &work->localPeer;
     changed = COMM_PLAYER_UpdateMyPackage(work->commPlayer, self);
     if (self->zoneId != zoneId) {
@@ -3389,7 +3387,7 @@ void INTRUDE_COMM_SetLock(IntrudeCommSys *work, u32 value)
 void INTRUDE_COMM_SetIntrudeId(IntrudeCommSys *work, u32 intrudeId)
 {
     void *gameData;
-    gameData = ICA_ANIME_GetField1C(work->gameSystem);
+    gameData = GAMESYSTEM_GetGameData(work->gameSystem);
     work->localPeer.intrudeId = intrudeId;
     GAME_DATA_SetIntrudeId(gameData, intrudeId);
     EVENT_FIELD_PROCLINK_SetReturnLinkId(work->returnSlots, (u8)intrudeId);
@@ -4340,7 +4338,7 @@ int INTRUDE_COMM_PartyProcInit(struct Proc *proc, int unused, IntrudePartyParam 
     work = PROCSYS_AllocProcWork(proc, 0x100, 4);
     MI_CpuFill8(work, 0, 0x100);
     work->asyncTask = PROCSYS_Create(4);
-    list = GAME_DATA_GetMyParty(ICA_ANIME_GetField1C(param->gameSystem));
+    list = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(param->gameSystem));
     POKE_TOOL_HealParty(list);
     memberCount = POKEPARTY_GetCount(list);
     work->party = POKEPARTY_Create(4);
@@ -4371,8 +4369,8 @@ int INTRUDE_COMM_PartyProcMain(void *proc, int *state, IntrudePartyParam *param,
     void *window;
     int busy;
 
-    window = ICA_ANIME_GetField1C(param->gameSystem);
-    ICA_ANIME_GetField24(param->gameSystem);
+    window = GAMESYSTEM_GetGameData(param->gameSystem);
+    GAMESYSTEM_GetGameComm(param->gameSystem);
     busy = PROCSYS_Main(work->asyncTask);
     if (GFL_NET_ERR_GetErrorLevel() != 0 || GFL_NET_IsSessionNull() == 1) {
         if (*state > 0 && *state < 6) {

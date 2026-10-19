@@ -43,8 +43,8 @@ void CAMERA_SetVsyncInterruptCore(unsigned int val);
 void CAMERA_SetBufferErrorInterruptCore(unsigned int enable);
 void CAMERA_SetTransferLinesCore(int mode);
 s32 CAMERA_GetTransferLinesCore(void);
-u32 CAMERA_GetMaxLinesRoundCore(u32 a0, u32 a1);
-u32 CAMERA_GetBytesAtOnceCore(u32 a0);
+u32 CAMERA_GetMaxLinesRoundCore(u32 width, u32 height);
+u32 CAMERA_GetBytesAtOnceCore(u32 width);
 /* DSi camera hardware registers.  0x04004200 is REG_CAM_MCNT (camera master
  * control), 0x04004202 is REG_CAM_CNT (camera control) and 0x04004004 is the
  * system control clock REG_SCFG_CLK (the camera clock gate).  The REG_ names
@@ -212,17 +212,17 @@ s32 CAMERA_GetTransferLinesCore(void)
 
 
 
-u32 CAMERA_GetMaxLinesRoundCore(u32 a0, u32 a1) {
-    s32 lines = 0x400 / (s32)a0;
+u32 CAMERA_GetMaxLinesRoundCore(u32 width, u32 height) {
+    s32 lines = 0x400 / (s32)width;
     if (lines > 0x10) lines = 0x10;
     while (lines > 1) {
-        if ((s32)a1 % lines == 0) return lines;
+        if ((s32)height % lines == 0) return lines;
         lines--;
     }
     return 1;
 }
 
 
-u32 CAMERA_GetBytesAtOnceCore(u32 a0) {
-    return (a0 << 1) * CAMERA_GetTransferLinesCore();
+u32 CAMERA_GetBytesAtOnceCore(u32 width) {
+    return (width << 1) * CAMERA_GetTransferLinesCore();
 }

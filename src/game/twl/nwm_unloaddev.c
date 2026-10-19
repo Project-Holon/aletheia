@@ -34,8 +34,8 @@ extern void PXIi_HandlerRecvFifoNotEmpty(void);
 extern u32 NWM_GetState(void);
 static void NWMi_ForceUnloadDeviceCallback(void);
 extern u8 d_027341C8;
-u32 NWM_UnloadDevice(u32 a0);
-u32 NWMi_ForceUnloadDevice(u32 a0);
+u32 NWM_UnloadDevice(u32 callback);
+u32 NWMi_ForceUnloadDevice(u32 callback);
 void NWMi_ForceExit(void);
 
 static inline u32 flag_set(u32 n) {
@@ -47,7 +47,7 @@ static inline u32 flag_set(u32 n) {
     return 0;
 }
 
-u32 NWM_UnloadDevice(u32 a0) {
+u32 NWM_UnloadDevice(u32 callback) {
     u32 r = NWMi_CheckState(1, 2);
     u32 base;
     u32 busy;
@@ -68,7 +68,7 @@ u32 NWM_UnloadDevice(u32 a0) {
     if (busy == 1) {
         return 3;
     }
-    NWMi_SetCallbackTable(4, a0);
+    NWMi_SetCallbackTable(4, callback);
     NWMi_GetSystemWork();
     r = NWMi_SendCommand(4, 1, 0);
     if (r == 0 || r == 2) {
@@ -77,7 +77,7 @@ u32 NWM_UnloadDevice(u32 a0) {
     return r;
 }
 
-u32 NWMi_ForceUnloadDevice(u32 a0) {
+u32 NWMi_ForceUnloadDevice(u32 callback) {
     u32 r = NWMi_CheckState(5, 1, 2, 3, 4, 5);
     u32 base;
     u32 busy;
@@ -98,7 +98,7 @@ u32 NWMi_ForceUnloadDevice(u32 a0) {
     if (busy == 1) {
         return 3;
     }
-    NWMi_SetCallbackTable(4, a0);
+    NWMi_SetCallbackTable(4, callback);
     NWMi_GetSystemWork();
     r = NWMi_SendCommand(4, 1, 1);
     if (r == 0 || r == 2) {

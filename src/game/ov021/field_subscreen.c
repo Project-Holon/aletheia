@@ -285,7 +285,7 @@ extern unsigned char abs_id_23[];
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 GFL_HEAP_Free(void *p);
 extern int FIELDMAP_IsEventActive(void *fieldMap);
-extern void WIPE_SYS_Start(void *screen, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 heapId);
+extern void WIPE_SYS_Start(void *screen, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
 extern u32 WIPE_SYS_EndCheck(void);
 extern void *FIELDMAP_GetGameSystem(void *fieldMap);
 extern u16 FIELDMAP_GetZoneId(void *fieldMap);

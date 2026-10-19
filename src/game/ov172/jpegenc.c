@@ -93,7 +93,7 @@ extern unsigned long SSP_ExifEncode(u8 *l_dst, unsigned long width, unsigned lon
                                     u8 *thumb_src, unsigned long thumb_size);
 extern unsigned long Yos_JPEGEncode(void *src, unsigned char *dst, unsigned long limit, unsigned char *wrk, unsigned long width, unsigned long height, unsigned long quality, unsigned long sampling, int thumb, unsigned char *thumb_src, unsigned long thumb_size, void (*func)(void *, unsigned long, unsigned long, void *));
 void Yos_BitInit(void);
-int Yos_JpegEncoderHuffmanEncoderPrintTable(u8 *a0, u8 *a1, u32 *a2);
+int Yos_JpegEncoderHuffmanEncoderPrintTable(u8 *huff, u8 *dst, u32 *pos);
 int Yos_JpegEncoderHuffmanEncoderOutputSize(unsigned char *p);
 void Yos_JpegEncodeSample2to2Component(unsigned char *buffer, long *qTable, component_structure *component, unsigned long dx);
 void Yos_JpegEncodeSample2to1Component(unsigned char *buffer, long *qTable, component_structure *component, unsigned long dx);
@@ -103,7 +103,7 @@ unsigned long SSP_GetJpegEncoderBufferSize(unsigned long width, unsigned long he
 void SSP_JpegEncoderResample(const void *src, unsigned long srcWidth, unsigned long srcHeight, void *dst, unsigned long dstWidth, unsigned long dstHeight, unsigned long option);
 void SSP_RGB555ToYUV888(void *src, unsigned long width, unsigned long height, void *dst);
 void SSP_YUV422ToYUV888(void *src, unsigned long width, unsigned long height, void *dst);
-int SSPi_JpegEncoderCheckWidthHeight(u32 a0, u32 a1, u32 a2);
+int SSPi_JpegEncoderCheckWidthHeight(u32 width, u32 height, u32 samplingFormat);
 unsigned long SSP_StartJpegEncoder(void *src, unsigned char *dst, int limit, unsigned char *wrk, unsigned long width, unsigned long height, unsigned long quality, unsigned long sampling, unsigned long option);
 extern unsigned long gJpegBitMask[];
 extern u8 JpegZigZagInputOrderCodes[64];
@@ -368,28 +368,28 @@ static void Yos_JpegEncoderHuffmanEncoderBuildTable(Yos_JpegEncoderHuffmanEncode
  *
  * Addresses are Black-image addresses.
  */
-int Yos_JpegEncoderHuffmanEncoderPrintTable(u8 *a0, u8 *a1, u32 *a2)
+int Yos_JpegEncoderHuffmanEncoderPrintTable(u8 *huff, u8 *dst, u32 *pos)
 {
     u32 v;
     u32 i;
     u32 sum = 0;
 
-    if (*a2 + 0x10 >= ((unsigned long *)&gBitLen)[2])
+    if (*pos + 0x10 >= ((unsigned long *)&gBitLen)[2])
         return 0;
 
     for (i = 0; i < 0x10; i++) {
-        v = a0[i + 0x404];
-        a1[*a2] = v;
-        (*a2)++;
+        v = huff[i + 0x404];
+        dst[*pos] = v;
+        (*pos)++;
         sum += v;
     }
 
-    if (*a2 + sum >= ((unsigned long *)&gBitLen)[2])
+    if (*pos + sum >= ((unsigned long *)&gBitLen)[2])
         return 0;
 
     for (i = 0; i < sum; i++) {
-        a1[*a2] = a0[i + 0x424];
-        (*a2)++;
+        dst[*pos] = huff[i + 0x424];
+        (*pos)++;
     }
     return 1;
 }
@@ -1267,21 +1267,21 @@ static unsigned long Yos_JPEGEncode(void *src, u8 *dst, unsigned long limit, u8 
  *
  * Addresses are Black-image addresses.
  */
-int SSPi_JpegEncoderCheckWidthHeight(u32 a0, u32 a1, u32 a2)
+int SSPi_JpegEncoderCheckWidthHeight(u32 width, u32 height, u32 samplingFormat)
 {
-    if (a0 == 0 || a0 > 0xffff || a1 == 0 || a1 > 0xffff)
+    if (width == 0 || width > 0xffff || height == 0 || height > 0xffff)
         return 0;
-    switch (a2) {
+    switch (samplingFormat) {
     case 1:
-        if ((a0 & 7) != 0 || (a1 & 7) != 0)
+        if ((width & 7) != 0 || (height & 7) != 0)
             return 0;
         break;
     case 2:
-        if ((a0 & 0xf) != 0 || (a1 & 0xf) != 0)
+        if ((width & 0xf) != 0 || (height & 0xf) != 0)
             return 0;
         break;
     case 3:
-        if ((a0 & 0xf) != 0 || (a1 & 7) != 0)
+        if ((width & 0xf) != 0 || (height & 7) != 0)
             return 0;
         break;
     default:

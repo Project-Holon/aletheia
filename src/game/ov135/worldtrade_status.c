@@ -16,7 +16,7 @@
  *   GFL_HEAP_Free 0x020307B0 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   GFL_HEAP_Alloc 0x02030734 arm
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   PROCSYS_Push  0x02031348  arm
  *   WORLDTRADE_ExitPlanes 0x021F50EC thumb ov135
  *   WORLDTRADE_ClearAndShowPlanes  0x021F5074  thumb  ov135
@@ -37,7 +37,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void *ICA_ANIME_GetField1C(const void *p);
+extern void *GAMESYSTEM_GetGameData(const void *p);
 
 extern void WORLDTRADE_ExitPlanes(Work *);
 
@@ -74,7 +74,7 @@ void WORLDTRADE_STATUS_Open(Work *p)
     MI_CpuFill8(p->statusReq,0,sizeof(PokeStatusRequest));
     r=p->statusReq;
     r->config=p->ctx->statusConfig;
-    r->save=ICA_ANIME_GetField1C(p->ctx->f40);
+    r->save=GAMESYSTEM_GetGameData(p->ctx->gameData);
     if(WORLDTRADE_BOX_ClampSlot(p->box))
         r->slotCount=WORLDTRADE_BOX_GetMonCount(p->ctx->party,(u32)(p->ctx->box),p->box);
     else r->slotCount=30;
@@ -91,8 +91,8 @@ void WORLDTRADE_STATUS_Open(Work *p)
         r->mon=WORLDTRADE_BOX_GetPartyMon(p->ctx->party,p->ctx->save,p->box,0);
         r->type=2;
     }
-    PROCSYS_Push(p->f12F0,(u32)ov131_id,gPokeStatusProcData,r);
-    p->fB8=1;
+    PROCSYS_Push(p->procSys,(u32)ov131_id,gPokeStatusProcData,r);
+    p->subLcdRefresh=1;
 }
 
 /*

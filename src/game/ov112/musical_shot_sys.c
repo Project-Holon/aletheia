@@ -162,7 +162,7 @@ void MUSICAL_SHOT_SYS_VBlank(void);
 
 void MUSICAL_SHOT_SYS_InitGraphics(u8 *p);
 
-void MUSICAL_SHOT_SYS_ExitGraphics(void *a0);
+void MUSICAL_SHOT_SYS_ExitGraphics(void *unused);
 
 u8 *MUSICAL_SHOT_SYS_CreateScene(u8 *src, u16 heap);
 
@@ -292,4 +292,4 @@ void MUSICAL_SHOT_SYS_InitGraphics(u8 *p)
     BG_SYS_SetMainPlaneVisible(16,1);
 }
 
-void MUSICAL_SHOT_SYS_ExitGraphics(void *a0) { CLACT_ExitSystem(); BMP_WIN_Exit(); BG_SYS_Delete(); }
+void MUSICAL_SHOT_SYS_ExitGraphics(void *unused) { CLACT_ExitSystem(); BMP_WIN_Exit(); BG_SYS_Delete(); }

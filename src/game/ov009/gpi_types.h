@@ -80,15 +80,15 @@ typedef struct GPIBuddyStatusInfo {
     char *gameType;                   /* 0x0C */
     char *gameVariant;                /* 0x10 */
     char *gameMapName;                /* 0x14 */
-    int unk18;                        /* 0x18 */
+    int sessionFlags;                        /* 0x18 */
     unsigned int ip;                  /* 0x1C */
     unsigned short port;              /* 0x20 */
-    unsigned int unk24;               /* 0x24 */
-    unsigned int unk28;               /* 0x28 */
-    unsigned short unk2c;             /* 0x2C */
-    unsigned short unk2e;             /* 0x2E */
-    int unk30;                        /* 0x30 */
-    int unk34;                        /* 0x34 */
+    unsigned int hostIp;               /* 0x24 */
+    unsigned int hostPrivateIp;               /* 0x28 */
+    unsigned short queryPort;             /* 0x2C */
+    unsigned short hostPort;             /* 0x2E */
+    int quietModeFlags;                        /* 0x30 */
+    int productId;                        /* 0x34 */
     void *extendedInfoKeys;           /* 0x38 */
 } GPIBuddyStatusInfo;
 

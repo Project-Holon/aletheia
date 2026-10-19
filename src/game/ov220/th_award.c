@@ -203,7 +203,7 @@ extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void*,u32,u32);
 extern void * TH_AWARD_GRAPHIC_Create(u32,u32);
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void*);
 extern void BG_SYS_SetVisibleLayer(int,u16);
 extern void *GFL_USE_AddMainTask(u32,u32,u32);
@@ -279,7 +279,7 @@ int TH_AWARD_Exit(void *state,int unused1,int unused2,char *p);
 int TH_AWARD_Main(void *unused, u32 *state, void *unused2, char *p);
 void TH_AWARD_TaskNoop(void);
 void TH_AWARD_LoadBgAssets(struct ThAwardWork *p);
-void TH_AWARD_Noop(void *a0);
+void TH_AWARD_Noop(void *work);
 void TH_AWARD_CreateSpeciesActors(char *p);
 void TH_AWARD_DeleteSpeciesActors(struct ThAwardWork *p);
 void TH_AWARD_CreateBgActors(struct ThAwardWork *p);
@@ -483,7 +483,7 @@ void TH_AWARD_LoadBgAssets(struct ThAwardWork *p)
 
 
 
-void TH_AWARD_Noop(void *a0){}
+void TH_AWARD_Noop(void *work){}
 
 
 

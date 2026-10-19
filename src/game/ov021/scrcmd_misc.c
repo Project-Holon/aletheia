@@ -14,7 +14,7 @@
  * Split from field_palace_sys.c at 0x021D14C4 (no __FILE__ anchor between field_saveanime.c and event_game_manual.c; script command handlers).
  *
  * symbols:
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
@@ -68,7 +68,7 @@
  *   FLDMMDL_CallDrawProc  0x0216D758  thumb  ov010
  *   gMmdlIcaReleaseMoveBitTable     0x021DD5E0  data    ov021  a4
  *   ICA_ANIME_Get  0x02011610  thumb
- *   ICA_ANIME_Check1638  0x02011638  thumb
+ *   ICA_ANIME_GetRotate  0x02011638  thumb
  *   VEC_Add  0x0207C9D0  arm
  *   FLDMMDL_SetPos  0x0216D89C  thumb  ov010
  *   FLDMMDL_SetDirAll  0x0216D60C  thumb  ov010
@@ -126,7 +126,7 @@
  *   FIELD_MSGBG_GetSysWinBmpWin  0x02190F9C  thumb  ov021
  *   GFL_USE_GetMainTaskList   0x020056BC  thumb
  *   PM_VOICE_IsActive   0x02006BD0  thumb
- *   ICA_ANIME_GetField20  0x0201210C  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
  *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
  *   CLACT_CreateUnit  0x0204B100  arm
@@ -188,7 +188,7 @@
  *   KEY_GetTrg  0x020362DC  arm
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   FIELD_G3D_MAP_CheckBeaconTrainerKey  0x0216BF9C  thumb  ov010
- *   GAME_DATA_GetField158  0x02012844  thumb
+ *   GAME_DATA_GetEventData  0x02012844  thumb
  *   EVENTDATA_SYSTEM_GetNpcHeaders  0x02162740  thumb  ov010
  *   EVENTDATA_SYSTEM_GetNpcCount  0x02162744  thumb  ov010
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
@@ -406,7 +406,7 @@ typedef struct CameraShakeWork {
 
 #define NRM(i) ((NormComp *)gTileNormalTable)[i]
 
-extern GameData *ICA_ANIME_GetField1C(const GameSystem *gameSystem);
+extern GameData *GAMESYSTEM_GetGameData(const GameSystem *gameSystem);
 extern PlayerStatus *GAME_DATA_GetMyStatus(GameData *gameData);
 extern u8 MYSTATUS_GetOutfitVariant(const PlayerStatus *status);
 extern void ARC_TOOL_DeleteHandle(void *handle);
@@ -456,7 +456,7 @@ extern void FLDMMDL_InitPosition(Mmdl *mmdl, const MmdlVec *pos, int dir);
 extern void FLDMMDL_ClearMoveBit(Mmdl *mmdl, u32 bit);
 extern void FLDMMDL_CallDrawProc(Mmdl *mmdl);
 extern u32 ICA_ANIME_Get(IcaAnime *anime, VecFx32 *trans);
-extern u32 ICA_ANIME_Check1638(IcaAnime *anime, VecFx32 *rot);
+extern u32 ICA_ANIME_GetRotate(IcaAnime *anime, VecFx32 *rot);
 extern void VEC_Add(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
 extern void FLDMMDL_SetPos(Mmdl *mmdl, const MmdlVec *pos);
 extern void FLDMMDL_SetDirAll(Mmdl *mmdl, int dir);
@@ -508,12 +508,12 @@ extern void UI_ClearKeepAwakeFlagsGlobal(u8 flags);
 extern GameEvent *FIELD_SOUND_SYSTEM_StartPopAndWaitTask(GameSystem *gameSystem, u32 a, u32 b);
 extern void SND_MIC_StoreRecording(PerapVoice *perapVoice);
 extern void PM_VOICE_GetPerapVoiceSave(void **out);
-extern u32 PM_VOICE_Play(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, void *perapVoiceSave);
+extern u32 PM_VOICE_Play(u32 species, u32 form, u32 pan, u32 dual, u32 volumeBiasB, u32 frequencyOffsetB, u32 reverse, void *perapVoiceSave);
 extern u32 PM_VOICE_IsActive(u32 slot);
 extern u32 WORDSET_DeleteStrbufED04(WordSet *words);
 extern int FIELD_MSGBG_DeleteSysWin(FieldSysWin *sysWin);
 extern u32 FIELD_MSGBG_DeleteMsgData(MsgData *msgData);
-extern FieldMap *ICA_ANIME_GetField20(const GameSystem *gameSystem);
+extern FieldMap *GAMESYSTEM_GetFieldMap(const GameSystem *gameSystem);
 extern void FLDMMDL_SysPauseMove(MmdlSys *sys);
 extern void FLDMMDL_SysResumeMove(MmdlSys *sys);
 extern Unit *CLACT_CreateUnit(int count, u8 priority, u32 heapId);
@@ -533,7 +533,7 @@ extern void CLACT_DeleteActor(Actor *actor);
 extern void CLACT_GetActorSurfacePos(Actor *actor, SpritePos *out, u16 space);
 extern void CLACT_AddActorSurfacePos(Actor *actor, const SpritePos *delta, u32 which);
 extern u8 BMP_MENUWORK_GetPlttFileId(int index);
-extern void ARC_UTIL_UploadPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
+extern void ARC_UTIL_UploadPaletteFromArchive(u32 archiveID, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
 extern void BMP_MENUWORK_DrawWindow(BmpWin *win, int commitMode, u16 tileBase, u32 palette);
 extern void BMP_MENUWORK_DrawWindowBorder(BmpWin *win, u32 commitMode);
 extern int PMS_WORD_IsSameGroup(u32 a, u16 b);
@@ -570,7 +570,7 @@ extern u32 POKEGRA_RegisterCellAnim(u32 species, u32 form, u32 isEgg, u32 gender
 extern u32 KEY_GetTrg(void);
 extern void *GAME_DATA_GetMiscSave(GameData *gameData);
 extern int FIELD_G3D_MAP_CheckBeaconTrainerKey(void *miscSave, int slot, PlayerStatus *status);
-extern EventDataSystem *GAME_DATA_GetField158(const GameData *gameData);
+extern EventDataSystem *GAME_DATA_GetEventData(const GameData *gameData);
 extern MmdlHeader *EVENTDATA_SYSTEM_GetNpcHeaders(EventDataSystem *system);
 extern u16 EVENTDATA_SYSTEM_GetNpcCount(EventDataSystem *system);
 extern u16 FIELDMAP_GetZoneId(FieldMap *fieldMap);
@@ -984,7 +984,7 @@ void SCRCMD_MMDL_ICA_ApplyFrame(IcaAnime *icaAnime, Mmdl *mmdl, VecFx32 *offset)
     VecFx32 rotation;
 
     ICA_ANIME_Get(icaAnime, &pos);
-    ICA_ANIME_Check1638(icaAnime, &rotation);
+    ICA_ANIME_GetRotate(icaAnime, &rotation);
     VEC_Add(&pos, offset, &pos);
     FLDMMDL_SetPos(mmdl, (MmdlVec *)&pos);
     if (rotation.y == 0) {
@@ -1147,7 +1147,7 @@ GameEvent *EVENT_PERAP_RECORD_Create(GameSystem *gameSystem, FieldMap *fieldMap,
     work = GAME_EVENT_GetWork(task);
     MI_CpuFill8(work, 0, sizeof(PerapRecordWork));
     work->gameSystem = gameSystem;
-    work->gameData = ICA_ANIME_GetField1C(gameSystem);
+    work->gameData = GAMESYSTEM_GetGameData(gameSystem);
     work->perapVoice = PERAPVOICE_GetFromSave(GAME_DATA_GetSaveControl(work->gameData));
     work->fieldMap = fieldMap;
     work->fieldPlayer = FIELDMAP_GetFieldPlayer(fieldMap);
@@ -1313,12 +1313,12 @@ void EVENT_PERAP_RECORD_OnRecorded(void *unused, int *done)
 
 void EVENT_PERAP_RECORD_PauseMmdls(PerapRecordWork *work)
 {
-    FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys(ICA_ANIME_GetField20(work->gameSystem)));
+    FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys(GAMESYSTEM_GetFieldMap(work->gameSystem)));
 }
 
 void EVENT_PERAP_RECORD_ResumeMmdls(PerapRecordWork *work)
 {
-    FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(ICA_ANIME_GetField20(work->gameSystem)));
+    FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(GAMESYSTEM_GetFieldMap(work->gameSystem)));
 }
 
 void EVENT_PERAP_RECORD_CreatePokeIcon(PerapRecordWork *work)
@@ -1457,7 +1457,7 @@ int FIELD_SOUND_SYSTEM_IsSlotSoundTracked(u32 soundId)
  */
 GameEvent *SCRCMD_ShowStepMilestoneMessage(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    u16 steps = PLAYER_LOCATION_GetValueB(PLAYER_LOCATION_GetData(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem))));
+    u16 steps = PLAYER_LOCATION_GetValueB(PLAYER_LOCATION_GetData(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))));
     u32 i;
 
     for (i = 0; i < 5; i++) {
@@ -1621,7 +1621,7 @@ int SCRCMD_ShowPokeIconWindow(ScriptVm *vm, ScrcmdWork *cmdWork)
     struct ScriptWork *scriptWork;
 
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    ICA_ANIME_GetField20(gameSystem);
+    GAMESYSTEM_GetFieldMap(gameSystem);
     species = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     form = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     isEgg = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
@@ -1711,7 +1711,7 @@ u32 SCRCMD_CheckBeaconTrainerKey(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     slot = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    gameData = ICA_ANIME_GetField1C(SCRCMD_WORK_GetGameSystem(cmdWork));
+    gameData = GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem(cmdWork));
     miscSave = GAME_DATA_GetMiscSave(gameData);
     *resultVar = FIELD_G3D_MAP_CheckBeaconTrainerKey(miscSave, slot, GAME_DATA_GetMyStatus(gameData));
     return 0;
@@ -1756,11 +1756,11 @@ int FIELD_CheckPlayerPositionFree(GameSystem *gameSystem)
     void *eventWork;
     Mmdl *playerMmdl;
 
-    gameData = ICA_ANIME_GetField1C(gameSystem);
-    eventData = GAME_DATA_GetField158(gameData);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
+    eventData = GAME_DATA_GetEventData(gameData);
     list = EVENTDATA_SYSTEM_GetNpcHeaders(eventData);
     n = EVENTDATA_SYSTEM_GetNpcCount(eventData);
-    fieldMap = ICA_ANIME_GetField20(gameSystem);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     mmdlSys = FIELDMAP_GetMmdlSys(fieldMap);
     player = FIELDMAP_GetFieldPlayer(fieldMap);
     zoneId = FIELDMAP_GetZoneId(fieldMap);
@@ -1835,7 +1835,7 @@ GameEvent *FIELD_SUBSCREEN_CreateAnimTask(GameSystem *gameSystem)
     GameEvent *task = GAME_EVENT_Create(gameSystem, 0, FIELD_SUBSCREEN_AnimTask, sizeof(SubscreenAnimWork));
     SubscreenAnimWork *work = GAME_EVENT_GetWork(task);
 
-    work->fieldMap = ICA_ANIME_GetField20(gameSystem);
+    work->fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     work->subscreen = FIELDMAP_GetSubscreen(work->fieldMap);
     return task;
 }
@@ -1900,7 +1900,7 @@ int SCRCMD_AddTrainerRecordValue(ScriptVm *vm, ScrcmdWork *cmdWork)
     u32 counterId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     u32 delta = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
 
-    RECORD_AddCounter(RECORD_GetFromSave(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem))), counterId, delta);
+    RECORD_AddCounter(RECORD_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))), counterId, delta);
     return 0;
 }
 
@@ -1910,7 +1910,7 @@ int SCRCMD_GetTrainerRecordValue(ScriptVm *vm, ScrcmdWork *cmdWork)
     u32 counterId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
 
-    *resultVar = RECORD_GetCounterClamped(RECORD_GetFromSave(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem))), counterId);
+    *resultVar = RECORD_GetCounterClamped(RECORD_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))), counterId);
     return 0;
 }
 
@@ -1933,7 +1933,7 @@ int SCRCMD_GetNpcGreetingMessage(ScriptVm *vm, ScrcmdWork *cmdWork)
     u32 idA, idB;
 
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
-    gameData = ICA_ANIME_GetField1C(SCRCMD_WORK_GetGameSystem(cmdWork));
+    gameData = GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem(cmdWork));
     status = GAME_DATA_GetMyStatus(gameData);
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
     fixedMessage = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
@@ -2056,7 +2056,7 @@ int FIELD_CAMERA_ShakeTask(GameEvent *event, int *state)
     int swingScale;
 
     done = 0;
-    fieldMap = ICA_ANIME_GetField20(GAME_EVENT_GetGameSystem(event));
+    fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
     shake = GAME_EVENT_GetWork(event);
     camera = FIELDMAP_GetCamera(fieldMap);
 
@@ -2137,7 +2137,7 @@ u32 SCRCMD_StartSwapNpcEvent(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    ICA_ANIME_GetField20(gameSystem);
+    GAMESYSTEM_GetFieldMap(gameSystem);
     removeObjId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     addObjId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     FLDMMDL_GetPos(FLDMMDL_SysSearchObjId((MmdlSys *)SCRCMD_WORK_GetOccupyInfo(cmdWork), removeObjId), (MmdlVec *)&pos);
@@ -2156,9 +2156,9 @@ u32 SCRCMD_StartSwapNpcEvent(ScriptVm *vm, ScrcmdWork *cmdWork)
  * call to FLD_EXP_OBJ_RemoveUnit, which is void (src/matched/ov/FLD_EXP_OBJ_RemoveUnit.c,
  * EXACT), so it returns no value for the `t == 0` test; and it hands its
  * argument straight to FIELDMAP_GetExpObj and FIELDMAP_FreeCommonWork, the type that
- * ICA_ANIME_GetField20 returns, while this call passes SCRCMD_WORK_GetGameSystem(b), which the
- * sibling SCRCMD_StartArcEffect feeds to ICA_ANIME_GetField20. ov064's function applies
- * ICA_ANIME_GetField20 to its argument and returns GAME_EVENT_Create(arg, 0, cb, 0), a
+ * GAMESYSTEM_GetFieldMap returns, while this call passes SCRCMD_WORK_GetGameSystem(b), which the
+ * sibling SCRCMD_StartArcEffect feeds to GAMESYSTEM_GetFieldMap. ov064's function applies
+ * GAMESYSTEM_GetFieldMap to its argument and returns GAME_EVENT_Create(arg, 0, cb, 0), a
  * task, which is what SCRIPT_SYS_CallEvent(x, t) receives here and in the same-shape
  * siblings SCRCMD_WaitArcEffectEnd (ov064-only FIELD_GIMMICK_ARC_EFFECT_CreateWaitEndEvent) and SCRCMD_WaitArcEffectPeak
  * (FIELD_GIMMICK_ARC_EFFECT_CreateWaitPeakEvent, ov064). SCRCMD_StartArcEffect and SCRCMD_ShowArcModelAt also call ov064.
@@ -2193,7 +2193,7 @@ u32 SCRCMD_StartArcEffect(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    fieldMap = ICA_ANIME_GetField20(gameSystem);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     objId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     tileX = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     tileY = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);

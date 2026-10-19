@@ -97,7 +97,7 @@ typedef struct Wifi2dcharContext {
     void *charHandle;             /* 0x2F8: CLACT cell/character resource */
     void *paletteSource;          /* 0x2FC: CLACT palette resource */
     u8 pad300[0x30];              /* 0x300 */
-    u32 unk330;                   /* 0x330 */
+    u32 bmpCellSlot;                   /* 0x330 */
 } Wifi2dcharContext;
 
 /* Unsigned 16-bit point passed by value to CLACT_SetActorPos. */
@@ -113,18 +113,18 @@ extern void ARC_TOOL_DeleteHandle(u32);
 extern u32 GFL_HEAP_Free(void *p);
 extern void *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
 extern void CLACT_SetActorBgPriority(u32, u32);
-extern void CLACT_SetActorAnimIndex(int a0, int a1);
+extern void CLACT_SetActorAnimIndex(int actor, int anim_idx);
 extern void CLACT_DeleteActor(void *);
 extern void MI_CpuFill8(void *, int, int);
 extern void CLACT_SetActorPos(struct Actor *, const Wifi2dcharPoint *);
 extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
-extern int CLACT_GetActorDrawPriority(int a0);
+extern int CLACT_GetActorDrawPriority(int actor);
 extern void CLACT_SetActorDrawEnable(void *p, u32 v);
 extern u32 CLACT_GetActorDrawEnable(void *p);
 extern u16 CLACT_GetActorAnimSeqCount(void *p);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void CLACT_ReleaseCellAnim(u32);
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern void CLACT_ReleaseCharacter(u32);
 extern void CLACT_ReleasePalette(u32);
@@ -154,9 +154,9 @@ void WIFI_2DCHAR_SetSubActorPos(char *p,int x,int y);
 void WIFI_2DCHAR_SetActorAnim(Wifi2dcharActor *p, int idx, int a);
 void WIFI_2DCHAR_StepActorAnim(u8 *p);
 void WIFI_2DCHAR_RegisterCellAnims(char *p, int unused, u32 heap);
-void WIFI_2DCHAR_ReleaseCellAnims(char *p, int a1);
+void WIFI_2DCHAR_ReleaseCellAnims(char *p, int unused);
 int WIFI_2DCHAR_GetCellIndex(int a);
-int WIFI_2DCHAR_IsBmpCellEnabled(int a0, int a1);
+int WIFI_2DCHAR_IsBmpCellEnabled(int unused0, int unused1);
 void WIFI_2DCHAR_RegisterCell(char *p, int i, int a, int b, int c, int mode);
 void WIFI_2DCHAR_RegisterBmpCharCell(Wifi2dcharContext *ctx, int i, u32 a, u32 b, u32 c);
 void WIFI_2DCHAR_RegisterCharCell(u8 *p, int i, u32 a, u32 b, u32 c);
@@ -468,7 +468,7 @@ void WIFI_2DCHAR_RegisterCellAnims(char *p, int unused, u32 heap) { int i; for(i
 
 
 
-void WIFI_2DCHAR_ReleaseCellAnims(char *p, int a1) { int i; char *q; for(i=16;i<18;i++) { q=(char *)((u32)p+(u32)i*20); CLACT_ReleaseCellAnim(*(u32 *)(q+0x188)); *(u32 *)(q+0x188)=0; } }
+void WIFI_2DCHAR_ReleaseCellAnims(char *p, int unused) { int i; char *q; for(i=16;i<18;i++) { q=(char *)((u32)p+(u32)i*20); CLACT_ReleaseCellAnim(*(u32 *)(q+0x188)); *(u32 *)(q+0x188)=0; } }
 
 
 
@@ -484,7 +484,7 @@ int WIFI_2DCHAR_GetCellIndex(int a) { return a; }
 
 
 
-int WIFI_2DCHAR_IsBmpCellEnabled(int a0, int a1) { return 1; }
+int WIFI_2DCHAR_IsBmpCellEnabled(int unused0, int unused1) { return 1; }
 
 
 
@@ -570,11 +570,11 @@ void WIFI_2DCHAR_RegisterBmpHandles(u8 *p, u32 a, u32 heap)
     int i;
     i = 16;
     if (WIFI_2DCHAR_IsCellUsed((char *)p, 16) == 1) {
-        ((Wifi2dcharContext *)p)->unk330 = i;
+        ((Wifi2dcharContext *)p)->bmpCellSlot = i;
     } else {
         i = 17;
         if (WIFI_2DCHAR_IsCellUsed((char *)p, 17) == 1)
-        ((Wifi2dcharContext *)p)->unk330 = i;
+        ((Wifi2dcharContext *)p)->bmpCellSlot = i;
     }
     ((Wifi2dcharContext *)p)->bmpAnimHandle = (u32)CLACT_RegisterCellAnim((void *)(((Wifi2dcharContext *)p)->charHandle), 9, 8, (u16)heap);
     ((Wifi2dcharContext *)p)->bmpCharHandle = CLACT_RegisterCharacter((void *)(((Wifi2dcharContext *)p)->charHandle), 11, 0, a, heap);

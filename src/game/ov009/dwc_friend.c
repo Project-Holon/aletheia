@@ -78,7 +78,7 @@
  *   DWCi_IsReverseBuddyFriendData  0x02059194  arm
  */
 #include "../../matched/arm9_sdk/libc/string.h"
-extern int memcmp(void *p1, void *p2, unsigned long size);
+extern int memcmp(void *s1, void *s2, unsigned long size);
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -256,10 +256,10 @@ unsigned char DWC_GetFriendStatusData(void *p, int a, int b);
 unsigned char DWC_GetFriendStatusDataSC(void *friendData, unsigned char *maxEntry, unsigned char *numEntry, char *statusData, int *size);
 int DWC_SetOwnStatusData(char *statusData, unsigned long size);
 int DWC_SetBuddyFriendCallback(void (*callback)(int, void *), void *param);
-void DWCi_FriendInit(FriendCnt *p, int a1, int a2, int a3, int n);
+void DWCi_FriendInit(FriendCnt *p, int pGpObj, int userData, int friendList, int n);
 void DWCi_FriendProcess(void);
 int DWCi_IsServerUpdating(void);
-void DWCi_UpdateServersAsync(int a0, int a1, void (*a2)(int, u8, int), int a3, void (*a4)(int, u8, char *, void *), void *a5, void (*a6)(int, int, int), int a7);
+void DWCi_UpdateServersAsync(int authToken, int partnerChallenge, void (*a2)(int, u8, int), int finishParam, void (*a4)(int, u8, char *, void *), void *statusParam, void (*a6)(int, int, int), int deleteParam);
 void DWCi_StopFriendProcess(int error, int errorCode);
 void DWCi_GPRecvBuddyRequestCallback(void **connection, int *arg);
 int DWCi_GPRecvBuddyAuthCallback(void **connection, int *arg);
@@ -410,26 +410,26 @@ int DWC_SetBuddyFriendCallback(void (*callback)(int, void *), void *param)
 }
 
 
-void DWCi_FriendInit(FriendCnt *p, int a1, int a2, int a3, int n)
+void DWCi_FriendInit(FriendCnt *friendCnt, int pGpObj, int userData, int friendList, int friendListLen)
 {
     int i;
     FriendCnt *q;
 
-    stpFriendCnt = p;
-    p->state = 0;
-    stpFriendCnt->connection = (void **)a1;
+    stpFriendCnt = friendCnt;
+    friendCnt->state = 0;
+    stpFriendCnt->connection = (void **)pGpObj;
     stpFriendCnt->pollCount = 0;
     q = stpFriendCnt;
     q->lastTick = 0;
-    q->friendListLen = n;
-    stpFriendCnt->friendList = (DWCstAccFriendData *)a3;
+    q->friendListLen = friendListLen;
+    stpFriendCnt->friendList = (DWCstAccFriendData *)friendList;
     stpFriendCnt->sendIdx = 0;
     stpFriendCnt->changed = 0;
     stpFriendCnt->phase = 0;
     stpFriendCnt->stage = 0;
     stpFriendCnt->persCallbackLevel = 0;
     stpFriendCnt->reserved24 = 0;
-    stpFriendCnt->reserved28 = a2;
+    stpFriendCnt->reserved28 = userData;
     stpFriendCnt->finishCb = 0;
     stpFriendCnt->finishParam = 0;
     stpFriendCnt->statusCb = 0;
@@ -444,7 +444,7 @@ void DWCi_FriendInit(FriendCnt *p, int a1, int a2, int a3, int n)
     stpFriendCnt->reserved58 = 0;
     stpFriendCnt->reversePids = 0;
 
-    for (i = 0; i < n; i++)
+    for (i = 0; i < friendListLen; i++)
         DWCi_SetSentBuddyReqFlag(&stpFriendCnt->friendList[i], 0);
 }
 
@@ -560,14 +560,14 @@ int DWCi_IsServerUpdating(void)
  * word is set to 1, and the +0x1f counter is bumped twice -- once only when
  * the +0x18 word is zero.
  */
-void DWCi_UpdateServersAsync(int a0, int a1, void (*a2)(int, u8, int), int a3, void (*a4)(int, u8, char *, void *), void *a5, void (*a6)(int, int, int), int a7)
+void DWCi_UpdateServersAsync(int authToken, int partnerChallenge, void (*finishCallback)(int, u8, int), int finishParam, void (*statusCallback)(int, u8, char *, void *), void *statusParam, void (*deleteCallback)(int, int, int), int deleteParam)
 {
-    stpFriendCnt->finishCb = a2;
-    stpFriendCnt->finishParam = a3;
-    stpFriendCnt->statusCb = a4;
-    stpFriendCnt->statusParam = a5;
-    stpFriendCnt->deleteCb = a6;
-    stpFriendCnt->deleteParam = a7;
+    stpFriendCnt->finishCb = finishCallback;
+    stpFriendCnt->finishParam = finishParam;
+    stpFriendCnt->statusCb = statusCallback;
+    stpFriendCnt->statusParam = statusParam;
+    stpFriendCnt->deleteCb = deleteCallback;
+    stpFriendCnt->deleteParam = deleteParam;
     stpFriendCnt->changed = 0;
     stpFriendCnt->phase = 0;
     stpFriendCnt->stage = 0;

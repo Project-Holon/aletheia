@@ -90,7 +90,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 extern u32 GFL_HEAP_Free(void *p);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern void *SAVE_CONTROL_GetBlock(struct WinPanel020071CCCtrl *ctrl, u32 id);
-extern void *GAME_DATA_GetEventWorkFromSave(struct WinPanel020071CCCtrl *a0);
+extern void *GAME_DATA_GetEventWorkFromSave(struct WinPanel020071CCCtrl *save);
 extern u32 ZONEDATA_CheckEventFlag(void *bitmap, int id);
 extern u32 unit_020355C4(void);
 extern void UI_SetInputMode(void *);

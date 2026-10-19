@@ -282,12 +282,12 @@ u32 BTLV_CLACT_SetActorAnimSeq(BtlvClact *clact, int slot, int seq)
     return CLACT_SetActorAnimSeq(clact->slot[slot].actor, (u16)seq);
 }
 
-void BTLV_CLACT_RequestPaletteFade(BtlvClact *clact, int slot, u8 b, u8 c, s8 step, u16 d)
+void BTLV_CLACT_RequestPaletteFade(BtlvClact *clact, int slot, u8 startLevel, u8 targetLevel, s8 step, u16 color)
 {
     u16 mask = 1 << (((u32)CLACT_GetPaletteVramAddress(clact->slot[slot].paletteId, (int)0) & 0x3FF) >> 5);
     struct PalAnmSlot *palanm = BTLV_EFFECT_GetPalanm();
 
-    PALANM_RequestFade(palanm, 4, mask, step, b, c, d, BTLV_EFFECT_GetOwner());
+    PALANM_RequestFade(palanm, 4, mask, step, startLevel, targetLevel, color, BTLV_EFFECT_GetOwner());
 }
 
 static inline int FxFromInt(int x)

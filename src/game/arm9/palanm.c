@@ -88,8 +88,8 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 extern void MI_CpuFill8(void *dest, u32 data, u32 size);
 extern u32 GFL_HEAP_Free(void *block);
 extern void MIi_CpuCopy16(const void *src, void *dest, u32 size);
-extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, u32 unpackedOut, u32 flags);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, u32 unpackedOut, u32 flags);
 int ITEM_IsBerry(u32 colorCode);
 u32 PALANM_IsOutsideReservedIdRange(u16 id);
 u16 PALANM_LookupPairedCode(int value, int column);
@@ -202,7 +202,7 @@ int PALANM_RequestFadeOverwrite(PaletteFade *p, u16 mask, u16 col, s16 step, u8 
 
 u8 PALANM_CheckBit(u32 val, int bit);
 
-void PALANM_SetTransBit(PaletteFade *p, int a1);
+void PALANM_SetTransBit(PaletteFade *p, int channel);
 
 void PALANM_MaskColorBits(s32 idx, PaletteFadeWork *c, u16 *pv);
 
@@ -238,7 +238,7 @@ void PALANM_BlendColors(u16 *src, u16 *dst, u32 count, int weight, u16 color);
 
 void PALANM_BlendChannel(PaletteFadeWork *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 
-void PALANM_BlendChannelMask(PaletteFadeWork *a0, u32 a1, u16 m, u8 a3, u16 a4);
+void PALANM_BlendChannelMask(PaletteFadeWork *p, u32 idx, u16 m, u8 weight, u16 color);
 
 void PALANM_ConvertGrayTable(u16 *pal, int n, const u8 *table);
 
@@ -773,11 +773,11 @@ u8 PALANM_CheckBit(u32 val, int bit)
     return ret;
 }
 
-void PALANM_SetTransBit(PaletteFade *p, int a1)
+void PALANM_SetTransBit(PaletteFade *p, int channel)
 {
-    if (PALANM_CheckBit(p->transBits, a1) == 1)
+    if (PALANM_CheckBit(p->transBits, channel) == 1)
         return;
-    p->transBits |= 1 << a1;
+    p->transBits |= 1 << channel;
 }
 
 /*
@@ -1324,20 +1324,20 @@ void PALANM_BlendChannel(PaletteFadeWork *p, u32 idx, u32 c, u32 count,
     PALANM_BlendColors(p[idx].defaultWork + c, p[idx].transWork + c, count, weight, color);
 }
 
-void PALANM_BlendChannelMask(PaletteFadeWork *a0, u32 a1, u16 m, u8 a3, u16 a4)
+void PALANM_BlendChannelMask(PaletteFadeWork *p, u32 idx, u16 mask, u8 weight, u16 color)
 {
     u32 i = 0;
 
-    if (m == 0) {
+    if (mask == 0) {
         return;
     }
     do {
-        if (m & 1) {
-            PALANM_BlendChannel(a0, a1, (u16)i, 0x10, a3, a4);
+        if (mask & 1) {
+            PALANM_BlendChannel(p, idx, (u16)i, 0x10, weight, color);
         }
-        m = (u16)(m >> 1);
+        mask = (u16)(mask >> 1);
         i += 0x10;
-    } while (m != 0);
+    } while (mask != 0);
 }
 
 void PALANM_ConvertGrayTable(u16 *pal, int n, const u8 *table)

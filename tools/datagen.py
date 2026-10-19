@@ -290,6 +290,14 @@ def _base_elf(rg, relink=False):
     data sections the code files define themselves)."""
     gl = _gl()
     elf = os.path.join(gl.OUT, rg, "ov.elf")
+    if not relink and os.path.exists(elf):
+        # a plain link older than a source file of the region (or the link tool)
+        # describes other code: its code end and its own data sections would be
+        # stale, and the companions then overlap the files (ov023, ov030, ov031, ov069)
+        d = os.path.join(ROOT, "src", "game", rg)
+        newest = max([os.path.getmtime(os.path.join(d, f)) for f in os.listdir(d)]
+                     + [os.path.getmtime(gl.__file__)])
+        relink = newest > os.path.getmtime(elf)
     if relink or not os.path.exists(elf):
         r = gl.link_overlay(int(rg[2:]), verbose=False)
         if not os.path.exists(elf):

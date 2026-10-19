@@ -132,8 +132,8 @@ u32 UN_SELECT_GRAPHIC_GetActor(char *p);
 void UN_SELECT_GRAPHIC_Task(void *unused, char *p);
 void UN_SELECT_GRAPHIC_SetupBg(char *ctx, unsigned heap);
 void UN_SELECT_GRAPHIC_CleanupBg(void *p);
-void UN_SELECT_GRAPHIC_Noop(void *a0);
-void UN_SELECT_GRAPHIC_DrawObjects(void *a0);
+void UN_SELECT_GRAPHIC_Noop(void *work);
+void UN_SELECT_GRAPHIC_DrawObjects(void *work);
 void UN_SELECT_GRAPHIC_SetupClact(unsigned char *p, int a, int b);
 void UN_SELECT_GRAPHIC_DeleteClact(char *p);
 void UN_SELECT_GRAPHIC_Draw(void *p);
@@ -235,9 +235,9 @@ void UN_SELECT_GRAPHIC_CleanupBg(void *p){u32 base=(u32)d_021BAF28;u32 i;for(i=0
 /*
  * extent: 2 zero alignment bytes at 021BAA1A.
  */
-void UN_SELECT_GRAPHIC_Noop(void *a0) {}
+void UN_SELECT_GRAPHIC_Noop(void *work) {}
 
-void UN_SELECT_GRAPHIC_DrawObjects(void *a0) {BG_SYS_Update();}
+void UN_SELECT_GRAPHIC_DrawObjects(void *work) {BG_SYS_Update();}
 
 
 void UN_SELECT_GRAPHIC_SetupClact(unsigned char *p, int a, int b)

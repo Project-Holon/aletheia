@@ -131,7 +131,7 @@ extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int clear, const char *site, u16
 
 extern void MI_CpuFill8(void *, int, int);
 
-extern void *BMP_OAM_CreateSys(u32 a0, void *a1);
+extern void *BMP_OAM_CreateSys(u32 heapId, void *clact);
 
 extern u32 PRINTSYS_QUE_Create(void *p);
 
@@ -141,7 +141,7 @@ extern int *BR_UTIL_SetTaskStep(int *p, int v);
 
 extern void BR_UTIL_DeleteTask(void *p);
 
-extern void BR_UTIL_DeleteTextWin(void *p, int a1);
+extern void BR_UTIL_DeleteTextWin(void *p, int res);
 
 extern u32 GFL_HEAP_Free(void *p);
 
@@ -228,7 +228,7 @@ int BR_BTN_GetPressed(char *p);
 
 int BR_BTN_GetResultValue(char *p);
 
-void BR_BTN_PushRecord(struct BrBtn *ctx, int a1, int a2);
+void BR_BTN_PushRecord(struct BrBtn *ctx, int source, int mode);
 
 int BR_BTN_Init(struct BrBtn *ctx, Button *out);
 
@@ -282,7 +282,7 @@ void BR_BTN_PlaceIndexed(Button *p, unsigned index);
 
 void BR_BTN_GetPos(Button *p, int *out);
 
-void BR_BTN_SetPosY(Button *p, int a1);
+void BR_BTN_SetPosY(Button *p, int y);
 
 int BR_BTN_GetRowField(Button *ctx, int kind);
 
@@ -312,7 +312,7 @@ void BR_BTN_DeleteObject(char *p);
 
 int BR_BTN_HitTestWithSound(unsigned int *obj, int x, int y);
 
-int BR_BTN_TestHitBox(u32 *p, int a1, int a2);
+int BR_BTN_TestHitBox(u32 *p, int x, int y);
 
 void BR_BTN_SetObjectPos(char *p, short x, int y);
 
@@ -456,13 +456,13 @@ int BR_BTN_GetPressed(char *p){return ((struct BrBtn *)p)->pressed;}
 
 int BR_BTN_GetResultValue(char *p){return ((struct BrBtn *)p)->resultValue;}
 
-void BR_BTN_PushRecord(struct BrBtn *ctx, int a1, int a2)
+void BR_BTN_PushRecord(struct BrBtn *ctx, int source, int mode)
 {
     int i;
 
     if (ctx->recordCount >= ctx->maxRows)
         SAVEDATA_PanicFail((const char *)d_02200D18, 0, (const char *)d_02200D18);
-    BR_BTN_CopyRecord(ctx, (Button *)(*(u8 * *)&ctx->tailRecords + ctx->recordCount * 0x44), (const Button *)a1, a2);
+    BR_BTN_CopyRecord(ctx, (Button *)(*(u8 * *)&ctx->tailRecords + ctx->recordCount * 0x44), (const Button *)source, mode);
     ctx->recordCount++;
     for (i = 0; i < ctx->recordCount; i++) {
         BR_BTN_SetDrawPriority((Button *)(*(u8 * *)&ctx->tailRecords + i * 0x44), (u16)((ctx->recordCount - i) * 2 + 1));
@@ -965,11 +965,11 @@ void BR_BTN_PlaceIndexed(Button *p, unsigned index) { short x = (short)BR_BTN_DA
 
 void BR_BTN_GetPos(Button *p, int *out) { short x, y; BR_BTN_GetObjectPos(p->result, &x, &y); out[0] = x; out[1] = y; }
 
-void BR_BTN_SetPosY(Button *p, int a1)
+void BR_BTN_SetPosY(Button *p, int y)
 {
     short r = (short)BR_BTN_DATA_GetRowField(p->object, 0);
 
-    BR_BTN_SetObjectPos(p->result, r, a1);
+    BR_BTN_SetObjectPos(p->result, r, y);
 }
 
 int BR_BTN_GetRowField(Button *ctx, int kind)
@@ -1247,13 +1247,13 @@ static inline int in_range(int v, int lo, int hi)
  *
  * Addresses are Black-image addresses.
  */
-int BR_BTN_TestHitBox(u32 *p, int a1, int a2)
+int BR_BTN_TestHitBox(u32 *p, int x, int y)
 {
     PtS pos;
     int hx;
     CLACT_GetActorSurfacePos((struct Actor *)p[0], &pos, (u16)p[4]);
-    hx = in_range(a1, pos.x, pos.x + p[5]);
-    return in_range(a2, pos.y - 16, pos.y + 16) & hx;
+    hx = in_range(x, pos.x, pos.x + p[5]);
+    return in_range(y, pos.y - 16, pos.y + 16) & hx;
 }
 
 void BR_BTN_SetObjectPos(char *p, short x, int y) { struct Vec2 v;v.x=x;v.y=y;CLACT_AddActorSurfacePos(*(struct Actor * *)&((struct BrButton *)p)->actor,&v,(unsigned short)(((struct BrButton *)p)->surface));BMP_OAM_SetPos(*(struct Grid * *)&((struct BrButton *)p)->grid,v.x+32,v.y-8); }

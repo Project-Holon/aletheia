@@ -207,7 +207,7 @@ extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u
 
 extern u32 APP_ICON_GetMoveKindAnimFileId(void);
 
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 
 extern u32 APP_ICON_GetStatusCellFileId(u32);
 
@@ -259,7 +259,7 @@ void MANUAL_COMMON_TouchbarTaskNoop(void *task,void *data);
 
 void MANUAL_COMMON_CreateTouchbarWidget(char *p);
 
-void MANUAL_COMMON_TouchbarNoop(void *a0);
+void MANUAL_COMMON_TouchbarNoop(void *unused);
 
 void MANUAL_COMMON_CreateTouchbarSlots(char *p);
 

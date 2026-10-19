@@ -58,8 +58,8 @@
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
- *   GAME_DATA_GetField158  0x02012844  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetEventData  0x02012844  thumb
  *   EVENTDATA_SYSTEM_GetEncountData  0x0216255C  thumb  ov010
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   GAME_DATA_GetFieldGimmick  0x02012A38  thumb
@@ -256,8 +256,8 @@ extern u32 POKE_PERSONAL_IsPlaceholderAbility(u32 genderRatio);
 extern u32 POKE_TOOL_CreatePersonalRnd(u32 otId, int species, int form, int ratioMode, int shinyWanted, int mode);
 extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
 extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
-extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
-extern struct EventDataSystem *GAME_DATA_GetField158(const struct GameData *gameData);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+extern struct EventDataSystem *GAME_DATA_GetEventData(const struct GameData *gameData);
 extern EncountData *EVENTDATA_SYSTEM_GetEncountData(struct EventDataSystem *eventData);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int fromTop, const char *file, u16 line);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
@@ -953,9 +953,9 @@ FieldEncount *FIELD_ENCOUNT_Create(struct FieldMap *fieldMap)
     encount->fieldMap = fieldMap;
     gameSystem = FIELDMAP_GetGameSystem(fieldMap);
     encount->gameSystem = gameSystem;
-    gameData = ICA_ANIME_GetField1C(gameSystem);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
     encount->gameData = gameData;
-    encount->encountData = EVENTDATA_SYSTEM_GetEncountData(GAME_DATA_GetField158(gameData));
+    encount->encountData = EVENTDATA_SYSTEM_GetEncountData(GAME_DATA_GetEventData(gameData));
     effectEncount = EFFECT_ENCOUNT_Create(heapId);
     encount->effectEncount = effectEncount;
     EFFECT_ENCOUNT_Init(encount, effectEncount);

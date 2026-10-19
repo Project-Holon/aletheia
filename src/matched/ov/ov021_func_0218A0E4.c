@@ -33,7 +33,7 @@
  *   FIELD_PLAYER_ResetMoveWork  0x021A2F6C  thumb  ov021
  *   FIELD_RAIL_LOADER_CreateScriptEvent  0x0219F01C  thumb  ov021
  *   GAMESYSTEM_GetFieldMapState  0x0201212C  thumb
- *   SCRCMD_NETWORK_CreateBattleRecordLinkEventForZone  0x0215FCE0  thumb  ov010
+ *   EVENT_FIELD_MENU_CreateForZone  0x0215FCE0  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -103,7 +103,7 @@ extern int UNION_CHARA_IsUnionObjId(u16 a);
 extern void FIELD_PLAYER_ResetMoveWork(u32 *p);
 extern int FIELD_RAIL_LOADER_CreateScriptEvent(u32 a, u32 b, u32 c, u32 e0, u32 e1, u16 id);
 extern u8 GAMESYSTEM_GetFieldMapState(const struct Ctx *p);
-extern int SCRCMD_NETWORK_CreateBattleRecordLinkEventForZone(int a, int b, unsigned short c);
+extern int EVENT_FIELD_MENU_CreateForZone(int a, int b, unsigned short c);
 
 int FIELD_EVENT_CHECK_CheckCommEvents(void *sys, struct Obj00020 *pos)
 {
@@ -155,6 +155,6 @@ int FIELD_EVENT_CHECK_CheckCommEvents(void *sys, struct Obj00020 *pos)
     if (UNION_MAIN_IsIdle(sys) == 0)
         return 0;
     if (in.b1 && WIPE_SYS_EndCheck() != 0)
-        return SCRCMD_NETWORK_CreateBattleRecordLinkEventForZone((int)sys, (int)pos, in.f0);
+        return EVENT_FIELD_MENU_CreateForZone((int)sys, (int)pos, in.f0);
     return 0;
 }

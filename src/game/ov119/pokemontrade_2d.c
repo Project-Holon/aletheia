@@ -339,7 +339,7 @@ extern int POKE_TOOL_GetIconCellEntryId(void);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern void ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+extern void ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
 extern void MSGDATA_ReadString(struct MsgBank *,unsigned,void *);
 extern u32 GFL_HEAP_Free(void *p);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
@@ -349,7 +349,7 @@ extern int POKETRADE_PROC_IsHostSide(void *);
 extern void BG_SYS_SetFlagField06(u32 bit);
 extern void BG_SYS_SetTileEntry(int,int,unsigned char,int,int,int,int);
 extern void MI_CpuCopy8(const void *,void *,unsigned);
-extern void *BMP_MENUWORK_LoadFrameGfx(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *BMP_MENUWORK_LoadFrameGfx(void *layer, u32 palSlot, u32 frameId, u32 heapId);
 extern u32 POKEPARTY_GetCount(void *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
@@ -373,12 +373,12 @@ extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern void *POKE_TOOL_Dummy(void *);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
+extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
 extern u32 APP_ICON_GetMoveKindAnimFileId(void);
 extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
 extern u32 APP_ICON_GetStatusCellFileId(u32 a);
 extern u32 APP_ICON_GetStatusPaletteFileId(u32 a);
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void BG_SYS_ClearSlot(u32 i);
@@ -387,7 +387,7 @@ extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
 extern void BOX_SAVEDATA_GetBoxName(void *,u32,void *);
 extern void BMP_WIN_SetPosY(struct Descriptor *p, u8 v);
 extern void BMP_WIN_SetPosX(struct Descriptor *p, u8 v);
-extern int CLACT_RegisterPaletteCompressed(void *a0, unsigned int a1, unsigned int a2, unsigned int a3, u16 a4);
+extern int CLACT_RegisterPaletteCompressed(void *archive, unsigned int file_idx, unsigned int vram_mode, unsigned int vram_offset, u16 heap_id);
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_ReleaseCharacter(u32 i);
@@ -399,11 +399,11 @@ extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
 extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
-extern int POKE_TOOL_GetIconPalette(void *a0);
+extern int POKE_TOOL_GetIconPalette(void *box);
 extern void CLACT_SetActorDrawPriority(int, u8);
 extern unsigned int POKE_TOOL_GetGraphicIndex(void *mon);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
-extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
 extern void BG_SYS_InitBgLayer(u32,const BgTemplate *,u32);
 extern void BG_SYS_Init(u32,u32,u32,u32);
 extern void BG_SYS_PushTile(u32);
@@ -471,7 +471,7 @@ extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 o
 extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 extern int PALANM_GetTransWork(char *,int);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
-extern u32 PALANM_Delete(void *a0);
+extern u32 PALANM_Delete(void *ctx);
 extern void GXS_LoadOBJPltt(void *,u32,u32);
 extern void GXS_LoadBGPltt(void *,u32,u32);
 extern void GX_LoadOBJPltt(void *,u32,u32);
@@ -494,7 +494,7 @@ void POKETRADE_2D_LoadMainGfxAndMessageWindow(char *p);
 void POKETRADE_2D_CreateFontResource(char *p);
 void POKETRADE_2D_FreeMainResources(char *p);
 void POKETRADE_2D_RegisterIconCharResources(char *p);
-void POKETRADE_2D_LoadSummaryBackground(char *p, int a1, int a2);
+void POKETRADE_2D_LoadSummaryBackground(char *p, int shiftScroll, int bgIndex);
 void POKETRADE_2D_ClearSummaryBackground(char *p);
 unsigned short POKETRADE_2D_GetBoxScreenEntry(int i, int row, char *p, int mode);
 int POKETRADE_2D_HitTestBoxGrid(char *p, int x, int y);
@@ -514,8 +514,8 @@ char *POKETRADE_2D_GetGridCellMon(int a, int b, char *p);
 void POKETRADE_2D_PlaceBoxIconActors(char *p);
 int POKETRADE_2D_IsBoxIconFiltered(char *p, int i);
 int POKETRADE_2D_IsBoxIconMatch(int i, int x);
-void POKETRADE_2D_SetIconObjMode(int a0, int a1, int a2);
-void POKETRADE_2D_UpdateIconObjMode(char *p, int a1, int a2, int a3, int a4, int a5);
+void POKETRADE_2D_SetIconObjMode(int unused, int actor, int enable);
+void POKETRADE_2D_UpdateIconObjMode(char *p, int gridSlot, int column, int recordId, int cellKind, int row);
 void POKETRADE_2D_CreateBoxIcon(char *p, int v, int a, int row, int flag);
 int POKETRADE_2D_GetScrollColumn(char *p);
 int POKETRADE_2D_GetVisibleColumnRange(char *p, int *out);
@@ -528,7 +528,7 @@ int POKETRADE_2D_HitTestBoxIcons(char *p,int x,int y,int *outA,int *outB,int *ou
 void POKETRADE_2D_SetupSummaryBgs(char *p,int mode);
 void POKETRADE_2D_ExitSummaryBgs(int p);
 void POKETRADE_2D_InitDisplayAndClact(char *p);
-void POKETRADE_2D_SetupMainBgs(void *a0);
+void POKETRADE_2D_SetupMainBgs(void *unused);
 void POKETRADE_2D_Setup3DRenderState(void);
 void POKETRADE_2D_InitG3DSystem(char *p);
 void POKETRADE_2D_SetupSubBgs(char *p);
@@ -580,7 +580,7 @@ void POKETRADE_2D_CreateCursorActor(char *p, int x, int y);
 void POKETRADE_2D_DeleteCursorActor(void *p);
 int POKETRADE_2D_ClearCursorIfDisabled(void *p);
 void POKETRADE_2D_FadePaletteBank(char *p, int bank, int mask);
-void POKETRADE_2D_FadePaletteCopy(void *p, int a1, int a2, int a3);
+void POKETRADE_2D_FadePaletteCopy(void *p, int capture, int bank, int mask);
 void POKETRADE_2D_FadePaletteAll(void *p, int a);
 void POKETRADE_2D_ScheduleMainPlaneVisible(void *p, int a);
 void POKETRADE_2D_ScheduleSubPlaneVisible(void *p, int a);
@@ -799,13 +799,13 @@ void POKETRADE_2D_RegisterIconCharResources(char *p)
 }
 
 
-void POKETRADE_2D_LoadSummaryBackground(char *p, int a1, int a2)
+void POKETRADE_2D_LoadSummaryBackground(char *p, int shiftScroll, int bgIndex)
 {
     Tbl2 tbl = gSummaryBgTable;
     void *v;
     v = ARC_TOOL_CreateHandle(0x66, ((TradeWork *)p)->heapId);
-    ARC_UTIL_UploadBgPaletteAddFromHandle(v, tbl.w[a2], 4, 0, (unsigned short)((TradeWork *)p)->mainBgHandle, 0, 0, ((TradeWork *)p)->heapId);
-    if (a1 != 0) {
+    ARC_UTIL_UploadBgPaletteAddFromHandle(v, tbl.w[bgIndex], 4, 0, (unsigned short)((TradeWork *)p)->mainBgHandle, 0, 0, ((TradeWork *)p)->heapId);
+    if (shiftScroll != 0) {
         BG_SYS_FillScrollArea(4, 0, 0x80);
     } else {
         BG_SYS_FillScrollArea(4, 0, 0);
@@ -1222,19 +1222,19 @@ int POKETRADE_2D_IsBoxIconMatch(int i, int x)
 /*
  * Normalise the third argument to 0 or 1 and tail call the setter.
  */
-void POKETRADE_2D_SetIconObjMode(int a0, int a1, int a2)
+void POKETRADE_2D_SetIconObjMode(int unused, int actor, int enable)
 {
-    CLACT_SetActorObjMode((struct Actor *)a1, a2 != 0);
+    CLACT_SetActorObjMode((struct Actor *)actor, enable != 0);
 }
 
 
-void POKETRADE_2D_UpdateIconObjMode(char *p, int a1, int a2, int a3, int a4, int a5)
+void POKETRADE_2D_UpdateIconObjMode(char *p, int gridSlot, int column, int recordId, int cellKind, int row)
 {
     int flag = 0;
-    if (POKETRADE_NEGO_IsMonOwnOffer(p, a1, a2)) {
+    if (POKETRADE_NEGO_IsMonOwnOffer(p, gridSlot, column)) {
         flag = 1;
     }
-    POKETRADE_2D_SetIconObjMode((int)p, ((int (*)[5])(p + 0xAC0))[a5][a2], flag);
+    POKETRADE_2D_SetIconObjMode((int)p, ((int (*)[5])(p + 0xAC0))[row][column], flag);
 }
 
 
@@ -1561,7 +1561,7 @@ void POKETRADE_2D_InitDisplayAndClact(char *p)
 }
 
 
-void POKETRADE_2D_SetupMainBgs(void *a0)
+void POKETRADE_2D_SetupMainBgs(void *unused)
 {
  BgTemplate a,b,c;
  a=gMainBgTemplateC;
@@ -2486,11 +2486,11 @@ void POKETRADE_2D_SetCursorSlidePositions(const char *p)
     int i,j;
     PointS16 a,b,c;
     int tmp;
-    const char *tmp1;
+    const char *actorSlot;
     for(i=0;i<8;i++) {
-        tmp1=p+i*4;
-        tmp1=tmp1+0x10cc;
-        CLACT_GetActorSurfacePos(*(void **)tmp1,(struct PtS *)&a,1);
+        actorSlot=p+i*4;
+        actorSlot=actorSlot+0x10cc;
+        CLACT_GetActorSurfacePos(*(void **)actorSlot,(struct PtS *)&a,1);
         if(i/4) {
             a.x-=128;
             CLACT_SetActorBgPriority(*(void **)(p+i*4+0x10cc),3);
@@ -2694,24 +2694,24 @@ void POKETRADE_2D_FadePaletteBank(char *p, int bank, int mask)
 
 
 
-void POKETRADE_2D_FadePaletteCopy(void *p, int a1, int a2, int a3)
+void POKETRADE_2D_FadePaletteCopy(void *p, int capture, int bank, int mask)
 {
-    if (a1 != 0) {
-        if (a2 == 3)
+    if (capture != 0) {
+        if (bank == 3)
             MI_CpuCopy8((void *)0x05000600, ((TradeWork *)p)->subObjPaletteCopy,
                           0x200);
-        else if (a2 == 1)
+        else if (bank == 1)
             MI_CpuCopy8((void *)0x05000400, ((TradeWork *)p)->subBgPaletteCopy,
                           0x200);
-        POKETRADE_2D_FadePaletteBank(p, a2, a3);
+        POKETRADE_2D_FadePaletteBank(p, bank, mask);
         return;
     }
-    if (a2 == 3) {
+    if (bank == 3) {
         DC_FlushRange(((TradeWork *)p)->subObjPaletteCopy, 0x200);
         GXS_LoadOBJPltt(((TradeWork *)p)->subObjPaletteCopy, 0, 0x200);
         return;
     }
-    if (a2 == 1) {
+    if (bank == 1) {
         DC_FlushRange(((TradeWork *)p)->subBgPaletteCopy, 0x200);
         GXS_LoadBGPltt(((TradeWork *)p)->subBgPaletteCopy, 0, 0x200);
     }

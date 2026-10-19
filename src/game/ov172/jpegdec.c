@@ -104,7 +104,7 @@ void getmatrix(unsigned char *g, short *d, int *p, int n);
 int get_matrix_sub(unsigned char *s, int *p, int ax, int cx);
 void decode_block(short *d, short n);
 void decode_block_sub(short *s, short *d, int n);
-int loadbit(u8 *a0, int *a1);
+int loadbit(u8 *data, int *pos);
 int hloadbit(u8 *b, int *p, int n);
 void writeblock(u8 *d, int x, int y, int dx, int dy);
 
@@ -658,18 +658,18 @@ void decode_block_sub(short *s, short *d, int n)
     }
 }
 
-int loadbit(u8 *a0, int *a1)
+int loadbit(u8 *data, int *pos)
 {
     if (bitlen == 0) {
-        int i = *a1;
+        int i = *pos;
         u32 v;
 
-        *a1 = i + 1;
-        v = a0[i];
+        *pos = i + 1;
+        v = data[i];
         bcode2 = v;
         chit = 0;
         if (v == 0xff) {
-            (*a1)++;
+            (*pos)++;
             bcode2 = 0xff;
             chit = 1;
         }

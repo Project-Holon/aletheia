@@ -187,7 +187,7 @@ extern unsigned int CLACT_DeleteUnit(struct ClUnit *unit);
 
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
@@ -795,7 +795,7 @@ extern int GFL_USE_PushBgm(void);
 
 extern void GFL_USE_FadeOutBgm(u32 frames);
 
-extern int PALANM_RequestFade(struct PalAnmSystem *palAnm, u16 bank, u16 mask, s16 arg3, u8 startLevel, u8 endLevel, u16 frames, void *arg7);
+extern int PALANM_RequestFade(struct PalAnmSystem *palAnm, u16 bank, u16 mask, s16 step, u8 startLevel, u8 endLevel, u16 frames, void *ctx);
 
 extern u32 PALANM_GetFadeRequestBits(const struct PalAnmSystem *palAnm);
 

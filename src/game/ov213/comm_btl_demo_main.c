@@ -397,14 +397,14 @@ extern void COMM_BTL_DEMO_GRAPHIC_Draw3d(char *p);
 extern void COMM_BTL_DEMO_GRAPHIC_DrawEnd(char *p);
 extern void PARTICLE_Main(void);
 extern void MTX_Identity33_(MtxFx33 *p);
-extern void G3D_SYSTEM_DrawObject(void *a0, struct G3dDrawArg *a1);
+extern void G3D_SYSTEM_DrawObject(void *obj, struct G3dDrawArg *status);
 extern int PARTICLE_CreateSystemDefault(int a,int b,int c,int d);
 extern int PARTICLE_ReleaseCamera(int a);
-extern void PARTICLE_InitCamera(struct ParticleCamera *p,struct ParticleCameraParam *src,u16 a2,int *a3,int *a4,int *a5,u32 heap);
+extern void PARTICLE_InitCamera(struct ParticleCamera *p,struct ParticleCameraParam *src,u16 angle,int *pos,int *target,int *up,u32 heap);
 extern int PARTICLE_LoadArchiveMember(u32 a,u32 b,u32 c);
 extern u16 BUTTON_MAN_GetResourceType(void *res);
 extern u32 GFL_USE_GetMainTaskList(void);
-extern void PARTICLE_SetupSystem(u8 *o,u32 a1,u32 a2,u32 a3);
+extern void PARTICLE_SetupSystem(u8 *o,u32 block,u32 applyNow,u32 taskMgr);
 extern void PARTICLE_KillAllEffects(u8 *);
 extern void PARTICLE_DeleteSystem(u8 *);
 extern void PARTICLE_ExitManager(void);
@@ -827,7 +827,7 @@ int COMM_BTL_DEMO_MAIN_LayoutRows(int unused,char *p)
 int COMM_BTL_DEMO_MAIN_UpdateBattle(unsigned char *state,unsigned char *p)
 {
     int stage,x,y,index;
-    struct Vec3i v0,v1,v2,v3,v4,v5;
+    struct Vec3i effectPos0,effectPos1,effectPos2,effectPos3,effectPos4,effectPos5;
     stage=UI_SCENE_GetPhaseFrame(state);
     COMM_BTL_DEMO_MAIN_UpdateRows((char *)p);COMM_BTL_DEMO_MAIN_UpdateBattleActors((char *)(p+0x498c));
     switch(stage){
@@ -861,12 +861,12 @@ int COMM_BTL_DEMO_MAIN_UpdateBattle(unsigned char *state,unsigned char *p)
         if(((struct CommBtlDemoMain *)p)->stage%180==0){
             if(((struct CommBtlDemoMain *)p)->variant==1){x=-0x2800;y=0x2000;}
             else{x=0x2800;y=-0x1800;}
-            v0=d0;v0.x=x;v0.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)(p+0x24),0,(int)(&v0));
-            v1=d1;v1.x=x;v1.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)(p+0x24),1,(int)(&v1));
-            v2=d2;v2.x=x;v2.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)(p+0x24),2,(int)(&v2));
-            v3=d3;v3.x=x;v3.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)(p+0x24),3,(int)(&v3));
-            v4=d4;v4.x=x;v4.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)(p+0x24),4,(int)(&v4));
-            v5=d5;v5.x=x;v5.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)(p+0x24),5,(int)(&v5));
+            effectPos0=d0;effectPos0.x=x;effectPos0.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)(p+0x24),0,(int)(&effectPos0));
+            effectPos1=d1;effectPos1.x=x;effectPos1.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)(p+0x24),1,(int)(&effectPos1));
+            effectPos2=d2;effectPos2.x=x;effectPos2.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)(p+0x24),2,(int)(&effectPos2));
+            effectPos3=d3;effectPos3.x=x;effectPos3.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)(p+0x24),3,(int)(&effectPos3));
+            effectPos4=d4;effectPos4.x=x;effectPos4.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)(p+0x24),4,(int)(&effectPos4));
+            effectPos5=d5;effectPos5.x=x;effectPos5.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)(p+0x24),5,(int)(&effectPos5));
         }
         (((struct CommBtlDemoMain *)p)->stage)++;break;
     }

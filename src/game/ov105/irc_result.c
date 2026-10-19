@@ -16,7 +16,7 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   ICA_ANIME_GetField24 0x02012138 thumb
+ *   GAMESYSTEM_GetGameComm 0x02012138 thumb
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BG_SYS_SetScrollY 0x02041F6C arm
  *   BG_SYS_SetAffine 0x02041FB0 arm
@@ -213,8 +213,8 @@ typedef struct IrcRankFadeRow {
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 extern void MI_CpuFill8(void *,int,int);
-extern u32 ICA_ANIME_GetField24(const void *gameSystem);
-extern void BMP_MENUWORK_DrawWindow(void *window, int a1, int a2, int a3);
+extern u32 GAMESYSTEM_GetGameComm(const void *gameSystem);
+extern void BMP_MENUWORK_DrawWindow(void *window, int commitMode, int tileBase, int palette);
 extern void BG_SYS_SetScrollY(u32 which, u32 op, u32 value);
 extern void BG_SYS_SetAffine(u32,u32,u16);
 extern void COMPATIBLE_IRC_SYS_BuildProfile(void *gameSystem,IrcCompatibleProfile *out);
@@ -272,7 +272,7 @@ extern void CLACT_ExitSystem(void);
 extern void CLACT_DrawSystem(void);
 extern void CLACT_VBlankSystem(void);
 extern void GF_FONT_InitTextColor(void);
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern void *PRINTSYS_QUE_Create(u32 heapId);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
@@ -401,7 +401,7 @@ int IRC_RESULT_Init(struct Proc *proc,void *state,IrcResultContext *context)
     work->context=context;
     IRC_RESULT_InitScreen(&work->screen,60);
     IRC_RESULT_InitTextSystem(&work->text,0,60);
-    if(work->context->gameSystem) ICA_ANIME_GetField24(work->context->gameSystem);
+    if(work->context->gameSystem) GAMESYSTEM_GetGameComm(work->context->gameSystem);
     IRC_RESULT_InitMessageWindow(&work->messageWindow,5,1,18,30,5,5,60);
     BMP_MENUWORK_DrawWindow(work->messageWindow.window,0,(u16)(work->screen.bgCharRegion),6);
     IRC_RESULT_InitTextWindow(&work->captionWindow,7,6,3,20,5,8,1,1,60);

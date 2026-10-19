@@ -263,8 +263,8 @@ extern void MI_CpuFill8(void *dst, int value, int size);
 extern void BG_SYS_Create(u16 heapId);
 extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 heapId);
+extern void *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heapId);
 extern void *GFL_USE_AddMainTask(void (*callback)(void), void *context, int priority);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 heapId);
@@ -448,7 +448,7 @@ extern u32 PRINTSYS_PrintStreamGetState(void *stream);
 extern u32 KEY_GetTrg(void);
 extern void PRINTSYS_PrintStreamReleasePause(void *h);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern TaskMenuRes *APP_TASKMENU_RES_Create(u16 a0, u16 a1, void *font, TextPrinter *printer, u16 heap);
+extern TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, void *font, TextPrinter *printer, u16 heap);
 extern StrBuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern TaskMenu *APP_TASKMENU_OpenMenu(MenuTemplate *tmpl, TaskMenuRes *res);
 extern void APP_TASKMENU_UpdateMenu(TaskMenu *menu);
@@ -1995,10 +1995,10 @@ void OEKAKI_DrawStrokes(struct BmpWin *canvas, StrokeRec *strokes, LastPoint *la
     drew = 0;
     for (i = 0; i < 5; i++) {
         if (strokes[i].count == 2) {
-            x = strokes[i].x0 - 9;
-            y = strokes[i].y0 - 0x11;
+            x = strokes[i].startX - 9;
+            y = strokes[i].startY - 0x11;
             OEKAKI_DrawLine(canvas, gOekakiBrushPixels + strokes[i].size * 0xc0 + strokes[i].color * 0x18,
-                          strokes[i].x1 - 9, strokes[i].y1 - 0x11, &x, &y, 1, last[i].count);
+                          strokes[i].endX - 9, strokes[i].endY - 0x11, &x, &y, 1, last[i].count);
             drew = 1;
         }
     }
@@ -2028,8 +2028,8 @@ void OEKAKI_UpdateRemoteCursors(OekakiWork *p)
             continue;
         if (REMOTE_STROKES(p)[i].count != 0 && UNION_APP_GetMemberEntry(p->param->app, (unsigned char)i) != 0) {
             CLACT_SetActorDrawEnable(p->cursorActor[i], 1);
-            OEKAKI_SetCursorPosition(p->cursorActor[i], (&REMOTE_STROKES(p)[i].x0)[REMOTE_STROKES(p)[i].count - 1],
-                          (&REMOTE_STROKES(p)[i].x0)[REMOTE_STROKES(p)[i].count + 1]);
+            OEKAKI_SetCursorPosition(p->cursorActor[i], (&REMOTE_STROKES(p)[i].startX)[REMOTE_STROKES(p)[i].count - 1],
+                          (&REMOTE_STROKES(p)[i].startX)[REMOTE_STROKES(p)[i].count + 1]);
         } else {
             CLACT_SetActorDrawEnable(p->cursorActor[i], 0);
         }

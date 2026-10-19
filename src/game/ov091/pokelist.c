@@ -1,7 +1,7 @@
 /*
  * file:     pokelist.c
  * unit:     yes
- * function: POKELIST_Init, POKELIST_Exit, POKELIST_Main, POKELIST_InitWork, POKELIST_ExitWork, POKELIST_UpdatePhase, POKELIST_UpdatePaletteFade, POKELIST_UpdateWindowMaskTask, POKELIST_SetupDisplay, POKELIST_SetupBgPlanes, POKELIST_SetupLight, POKELIST_ShutdownDisplay, POKELIST_ShutdownBgPlane0, POKELIST_ShutdownLight, POKELIST_LoadBgPlane, POKELIST_CreateClactUnit, POKELIST_DeleteClactUnit, POKELIST_CreateFonts, POKELIST_DeleteFonts, POKELIST_LoadGraphics, POKELIST_FreeGraphics, POKELIST_StartMode, POKELIST_SetupModeScreen, POKELIST_ApplySelection, POKELIST_OpenContextMenu, POKELIST_UpdateInputStage, POKELIST_RefreshCursor, POKELIST_HandleCommand, POKELIST_UpdateSwapCommand, POKELIST_UpdateHealShareCommand, POKELIST_ConfirmBattleParty, POKELIST_UpdateCursorInput, POKELIST_ReadCursorKeys, POKELIST_HandleTouch, POKELIST_MoveCursorToPlate, POKELIST_MoveSwapMarkerToPlate, POKELIST_RunContextMenu, POKELIST_EnterMenuPhase, POKELIST_CloseContextMenu, POKELIST_DispatchMenuChoice, POKELIST_UpdateMessagePhase, POKELIST_ShowMessage, POKELIST_PollContextMenuChoice, POKELIST_OpenMenuWithCallback, POKELIST_UpdateSwapAnimation, POKELIST_StartSwapAnimation, POKELIST_FinishSwap, POKELIST_GetFieldMoveMenuIndex, POKELIST_IsItemMode, POKELIST_IsNotItemUseMode, POKELIST_HasBackButton, POKELIST_GetMoveLearnStatus, POKELIST_CheckEvolution, POKELIST_PrintTextMain, POKELIST_PrintTextSub, POKELIST_PrintTextSubDirect, POKELIST_PrintExpandedTextMain, POKELIST_PrintExpandedTextSub, POKELIST_PrintExpandedTextSubDirect, POKELIST_CloseMessageToList, POKELIST_EndMessageToExit, POKELIST_CloseMessageIfItemInBag, POKELIST_OpenGiveUpMoveMenu, POKELIST_OnGiveUpMoveChoice, POKELIST_OpenForgetMoveMenu, POKELIST_OnForgetMoveChoice, POKELIST_ShowMoveLearned, POKELIST_OnTakeItemChoice, POKELIST_StartHpTransfer, POKELIST_ShowHealResult, POKELIST_OnTakeMailChoice, POKELIST_OnMailItemChoice, POKELIST_EndMessageToEvolve, POKELIST_ForceSelectionEnd, POKELIST_FindMoveSlot, POKELIST_ReplaceMoveSlot, POKELIST_ApplyItemEffect, POKELIST_SetHeldItem, POKELIST_CheckBagItem, POKELIST_RemoveBagItem, POKELIST_ReturnBagItem
+ * function: POKELIST_Init, POKELIST_Exit, POKELIST_Main, POKELIST_InitWork, POKELIST_ExitWork, POKELIST_UpdatePhase, POKELIST_UpdatePaletteFade, POKELIST_UpdateWindowMaskTask, POKELIST_SetupDisplay, POKELIST_SetupBgPlanes, POKELIST_SetupLight, POKELIST_ShutdownDisplay, POKELIST_ShutdownBgPlane0, POKELIST_ShutdownLight, POKELIST_LoadBgPlane, POKELIST_CreateClactUnit, POKELIST_DeleteClactUnit, POKELIST_CreateFonts, POKELIST_DeleteFonts, POKELIST_LoadGraphics, POKELIST_FreeGraphics, POKELIST_StartMode, POKELIST_SetupModeScreen, POKELIST_ApplySelection, POKELIST_OpenContextMenu, POKELIST_UpdateInputStage, POKELIST_RefreshCursor, POKELIST_HandleCommand, POKELIST_UpdateSwapCommand, POKELIST_UpdateHealShareCommand, POKELIST_ConfirmBattleParty, POKELIST_UpdateCursorInput, POKELIST_ReadCursorKeys, POKELIST_HandleTouch, POKELIST_MoveCursorToPlate, POKELIST_MoveSwapMarkerToPlate, POKELIST_RunContextMenu, POKELIST_EnterMenuPhase, POKELIST_CloseContextMenu, POKELIST_DispatchMenuChoice, POKELIST_UpdateMessagePhase, POKELIST_ShowMessage, POKELIST_PollContextMenuChoice, POKELIST_OpenMenuWithCallback, POKELIST_UpdateSwapAnimation, POKELIST_StartSwapAnimation, POKELIST_FinishSwap, POKELIST_GetFieldMoveMenuIndex, POKELIST_IsItemMode, POKELIST_IsNotItemUseMode, POKELIST_HasBackButton, POKELIST_GetMoveLearnStatus, POKELIST_CheckEvolution, POKELIST_PrintTextMain, POKELIST_PrintTextSub, POKELIST_PrintTextSubDirect, POKELIST_PrintExpandedTextMain, POKELIST_PrintExpandedTextSub, POKELIST_PrintExpandedTextSubDirect, POKELIST_CloseMessageToList, POKELIST_EndMessageToExit, POKELIST_CloseMessageIfItemInBag, POKELIST_OpenGiveUpMoveMenu, POKELIST_OnGiveUpMoveChoice, POKELIST_OpenForgetMoveMenu, POKELIST_OnForgetMoveChoice, POKELIST_ShowMoveLearned, POKELIST_OnTakeItemChoice, POKELIST_StartHpTransfer, POKELIST_ShowHealResult, POKELIST_OnTakeMailChoice, POKELIST_OnMailItemChoice, POKELIST_EndMessageToEvolve, POKELIST_ForceSelectionEnd, POKELIST_TryLearnMove, POKELIST_ReplaceMoveSlot, POKELIST_ApplyItemEffect, POKELIST_SetHeldItem, POKELIST_CheckBagItem, POKELIST_RemoveBagItem, POKELIST_ReturnBagItem
  * address:  0x021B6240
  * region:   ov091
  * compiler: dsi/1.1p1
@@ -228,7 +228,7 @@
  *   PLIST_DEMO_CheckGiratinaToOrigin 0x021BDBF8 thumb ov091
  *   PLIST_DEMO_ApplyGiratinaOriginForm 0x021BDC3C thumb ov091
  *   POKELIST_GetMoveLearnStatus 0x021B9AC8 thumb ov091
- *   POKELIST_FindMoveSlot 0x021BA5B4 thumb ov091
+ *   POKELIST_TryLearnMove 0x021BA5B4 thumb ov091
  *   POKELIST_ApplyItemEffect 0x021BA60C thumb ov091
  *   POKELIST_EndMessageToExit 0x021B9E3C thumb ov091
  *   POKELIST_EndMessageToEvolve 0x021BA4E4 thumb ov091
@@ -384,7 +384,7 @@
  *   gPlistStatParamIds 0x021BECE4 data ov091 a2
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
- *   POKE_TOOL_GetLevelUpMove 0x02018328 thumb
+ *   POKE_TOOL_LearnLevelUpMove 0x02018328 thumb
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   APP_ICON_GetStatusDataFileId 0x0202762C thumb
@@ -538,7 +538,7 @@ extern u32 GFL_HEAP_Free(void *p);
 extern u32 KEY_GetCont(void);
 extern void *POKE_REGULATION_Load(int a, int b);
 extern u32 GFL_USE_GetRandomBelow(u32 range);
-extern int POKE_REGULATION_FindValidOrder(void *a0, void *a1, void *a2);
+extern int POKE_REGULATION_FindValidOrder(void *reg, void *party, void *picked);
 extern void UI_SetInputMode(int a);
 extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
@@ -548,7 +548,7 @@ extern u16 FILE_UTIL_Get_12B0(u16 id);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern struct PlistPlate *PLIST_PLATE_Create(PokelistWork *work, int k, void *mon);
 extern struct PlistPlate *PLIST_PLATE_CreateEmpty(PokelistWork *work, int k);
-extern struct TaskMenu *APP_TASKMENU_RES_Create(u16 a0, u16 a1, void *fontMain, void *printSys, u16 heap);
+extern struct TaskMenu *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, void *fontMain, void *printSys, u16 heap);
 extern void PLIST_MENU_InitTimer(PokelistWork *work);
 extern int GFL_USE_AddMainTask(void (*cb)(void *, PokelistWork *), PokelistWork *work, int pri);
 extern u32 *PLIST_MESSAGE_Create(PokelistWork *work);
@@ -562,7 +562,7 @@ extern void PLIST_MESSAGE_Destroy(PokelistWork *work, int *s);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern void PLIST_MENU_ExitTimer(PokelistWork *work);
-extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
 extern u32 WIPE_SYS_EndCheck(void);
 extern void PLIST_PLATE_StartHpAnim(PokelistWork *work, struct PlistPlate *s);
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
@@ -623,7 +623,7 @@ extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 h, u32 a, u32 c, u32 d, u32 e, u16 heap);
 extern void *PRINTSYS_QUE_CreateEx(u16 n, u32 heap);
@@ -636,12 +636,12 @@ extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *h, u32 a1, u32 a2, void **out, u16 heap);
+extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *h, u32 memberIdx, u32 heapID, void **out, u16 heap);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *h);
-extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern int CLACT_RegisterPaletteCompressed(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
 extern int POKE_TOOL_GetIconPaletteArcId(void);
 extern int POKE_TOOL_GetIconCellArcId(void);
 extern int POKE_TOOL_GetIconCellEntryId(void);
@@ -677,7 +677,7 @@ extern int PLIST_MENU_IsSpecialItemKind(PokelistWork *work, int id);
 extern int PLIST_DEMO_CheckItemUsable(void *a, u32 id, int slot, u32 heap);
 extern int PLIST_MENU_StartItemUse(PokelistWork *work,int);
 extern int PLIST_DEMO_UseItemOnMon(void *mon, u16 item, u16 moveSlot, u16 arg, int heap);
-extern int PLIST_DEMO_CanUseGracidea(PokelistWork *work, u32 a1);
+extern int PLIST_DEMO_CanUseGracidea(PokelistWork *work, u32 unused);
 extern void PLIST_DEMO_ApplyShayminSkyForm(PokelistWork *work, void *m);
 extern void PLIST_MENU_ShowItemUsedThenContinue(PokelistWork *work);
 extern void PLIST_MESSAGE_CreateWordSet(PokelistWork *work, u32 s);
@@ -687,7 +687,7 @@ extern void PLIST_MESSAGE_SetWordSetItemAlt(PokelistWork *work, u32 b, u32 c, in
 extern void PLIST_MESSAGE_SetWordSetMove(PokelistWork *work, int b, int c, int d);
 extern void PLIST_MESSAGE_DestroyWordSet(PokelistWork *work, u32 s);
 extern void PLIST_DEMO_ApplyGiratinaOriginForm(PokelistWork *work, void *m);
-extern int PLIST_MENU_CreateButtonWindow(PokelistWork *work, int unused, int id, int r3, u8 a4, int a5);
+extern int PLIST_MENU_CreateButtonWindow(PokelistWork *work, int unused, int id, int r3, u8 y, int disabled);
 extern int PLIST_MENU_ItemRestoresHp(PokelistWork *work, void *id);
 extern int PLIST_MENU_FindItemTarget(PokelistWork *work);
 extern void PLIST_MENU_ShowItemUsedThenClose(PokelistWork *work);
@@ -696,10 +696,10 @@ extern void PLIST_DEMO_ApplyGiratinaAlteredForm(PokelistWork *work, void *m);
 extern void PLIST_BATTLE_RefreshOpponentMessage(PokelistWork *work);
 extern int PLIST_MENU_GetItemUseMessage(PokelistWork *work, int id);
 extern int MUSICAL_MCSS_GetMonValue(void *p);
-extern void BG_SYS_SetTileEntry(u32 index, u32 a1, u8 a2, u8 a3, u8 a4, u8 a5, u8 a6);
+extern void BG_SYS_SetTileEntry(u32 index, u32 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
 extern void PLIST_MENU_ButtonWinSetDecide(int h, int f);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern int  POKE_REGULATION_CheckSelection(u32 a0, u32 a1, u32 a2);
+extern int  POKE_REGULATION_CheckSelection(u32 reg, u32 party, u32 order);
 extern void PLIST_MESSAGE_SetWordSetNumber(PokelistWork *work, int b, int c, int d, unsigned char e);
 extern u32  KEY_GetTrg(void);
 extern unsigned int KEY_GetRepeat(void);
@@ -711,7 +711,7 @@ extern int TOUCHPANEL_GetTrg(void);
 extern u32 FILE_UTIL_GetId(u32 id);
 extern u32 POKE_TOOL_CheckTmCompat(void *p, int v);
 extern int   MAIL_FindEmptySlot(void *obj, int v);
-extern void *MAIL_Create(int a0);
+extern void *MAIL_Create(int heapId);
 extern void MAIL_SetSlot(struct Sub02008F80Obj *arr, u32 unused, int i, const struct Sub02008F80Obj *src);
 extern u32 POKE_TOOL_AddMove(void *,u32);
 extern u32 POKE_TOOL_FindMoveSlot(void *,u16);
@@ -841,7 +841,7 @@ void POKELIST_OpenMailItemMenu(PokelistWork *work);
 void POKELIST_OnMailItemChoice(PokelistWork *work, int choice);
 void POKELIST_EndMessageToEvolve(PokelistWork *work);
 void POKELIST_ForceSelectionEnd(PokelistWork *work);
-u32 POKELIST_FindMoveSlot(PokelistWork *work, void *mon);
+u32 POKELIST_TryLearnMove(PokelistWork *work, void *mon);
 void POKELIST_ReplaceMoveSlot(PokelistWork *work, void *mon, u32 slot);
 void POKELIST_ApplyItemEffect(PokelistWork *work, void *mon);
 void POKELIST_SetHeldItem(PokelistWork *work, void *mon, u16 itemId);
@@ -1993,7 +1993,7 @@ void POKELIST_ApplySelection(PokelistWork *work)
             PLIST_MESSAGE_CreateWordSet(work,work->messageWindow); PLIST_MESSAGE_SetWordSetPokemon(work,work->messageWindow,0,work->selectedMon);
             PLIST_MESSAGE_SetWordSetMove(work,work->messageWindow,1,work->arg->moveId);
             POKELIST_ShowMessage(work,0x29,1,POKELIST_EndMessageToExit); PLIST_MESSAGE_DestroyWordSet(work,work->messageWindow);
-            POKELIST_FindMoveSlot(work,(void *)work->selectedMon); POKELIST_ApplyItemEffect(work,(void *)work->selectedMon); return;
+            POKELIST_TryLearnMove(work,(void *)work->selectedMon); POKELIST_ApplyItemEffect(work,(void *)work->selectedMon); return;
         case 1:
             PLIST_MESSAGE_CreateWordSet(work,work->messageWindow); PLIST_MESSAGE_SetWordSetPokemon(work,work->messageWindow,0,work->selectedMon);
             PLIST_MESSAGE_SetWordSetMove(work,work->messageWindow,1,work->arg->moveId);
@@ -3638,7 +3638,7 @@ void POKELIST_ForceSelectionEnd(PokelistWork *work)
         work->arg->slotOrder[j] = j + 1;
 }
 
-u32 POKELIST_FindMoveSlot(PokelistWork *work, void *mon)
+u32 POKELIST_TryLearnMove(PokelistWork *work, void *mon)
 {
     PokelistArg *arg = work->arg;
     if (arg->mode == 5 || arg->mode == 8)

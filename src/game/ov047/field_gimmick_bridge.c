@@ -19,7 +19,7 @@
  *   FIELDMAP_AllocCommonWork  0x02189764  thumb  ov021
  *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
  *   GIMMICK_WORK_GetWork  0x0200B3A4  thumb
  *   FLDMMDL_SetDrawOffsetOutside 0x0216D8E0 thumb ov010
@@ -56,7 +56,7 @@ void FIELD_GIMMICK_BRIDGE_Init(FieldMap *fieldMap)
 {
     BridgeSwayWork *work;
 
-    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ID_BRIDGE_SWAY);
+    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ID_BRIDGE_SWAY);
     FIELDMAP_AllocCommonWork(fieldMap, BRIDGE_SWAY_WORK_ID, FIELDMAP_GetHeapId(fieldMap), sizeof(BridgeSwayWork));
     work = FIELDMAP_GetCommonWork(fieldMap, BRIDGE_SWAY_WORK_ID);
     work->player = FIELDMAP_GetFieldPlayer(fieldMap);
@@ -71,7 +71,7 @@ void FIELD_GIMMICK_BRIDGE_Exit(FieldMap *fieldMap)
 {
     BridgeSwayWork *work;
 
-    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ID_BRIDGE_SWAY);
+    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ID_BRIDGE_SWAY);
     work = FIELDMAP_GetCommonWork(fieldMap, BRIDGE_SWAY_WORK_ID);
     FLDMMDL_SetDrawOffsetOutside(work->playerMmdl, &work->drawOffset);
     FIELDMAP_FreeCommonWork(fieldMap, BRIDGE_SWAY_WORK_ID);
@@ -86,7 +86,7 @@ void FIELD_GIMMICK_BRIDGE_Update(FieldMap *fieldMap)
     int amplitude;
     fx32 sine;
 
-    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ID_BRIDGE_SWAY);
+    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ID_BRIDGE_SWAY);
     work = FIELDMAP_GetCommonWork(fieldMap, BRIDGE_SWAY_WORK_ID);
     if (FIELD_GIMMICK_BRIDGE_IsOnSwayTile(work) == 0) {
         work->drawOffset.y = 0;
@@ -108,7 +108,7 @@ void FIELD_GIMMICK_BRIDGE_Update(FieldMap *fieldMap)
 /* Gimmick save reset: clears the sway state. */
 void FIELD_GIMMICK_BRIDGE_ResetSave(struct GameSystem *gameSystem)
 {
-    MI_CpuFill8(GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(ICA_ANIME_GetField1C(gameSystem)), FIELD_GIMMICK_ID_BRIDGE_SWAY), 0, sizeof(BridgeSwaySave));
+    MI_CpuFill8(GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(gameSystem)), FIELD_GIMMICK_ID_BRIDGE_SWAY), 0, sizeof(BridgeSwaySave));
 }
 
 /* The player stands on a tile whose terrain is the no-dash terrain (checked through the attribute predicates). */

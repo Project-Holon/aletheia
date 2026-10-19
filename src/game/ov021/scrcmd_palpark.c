@@ -75,7 +75,7 @@ extern void *SCRCMD_WORK_GetGameSystem(void *p);
 extern int NAMEIN_SETUP_StartFallEvent(void *a, u8 *b);
 extern void SCRIPT_SYS_CallEvent(void *a, void *b);
 extern void *SCRCMD_WORK_GetGameData(void *a0);
-extern void *FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(char *a0, int a1, int a2, int a3, int a4, int a5, int a6);
+extern void *FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(char *gameSystem, int fieldMap, int overlayId, int procData, int procWork, int a5, int callbackWork);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *BEACON_GetBlock(void *p);

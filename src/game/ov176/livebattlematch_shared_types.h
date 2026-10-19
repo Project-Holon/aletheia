@@ -19,7 +19,7 @@ struct LiveBattleMatchWork {
     void *viewObj;            /* 1C view object built by WIFIBATTLEMATCH_VIEW_CreateActorArray */
     unsigned int menuValue;   /* 20 copied into the menu descriptor x0 */
     void *mgr;                /* 24 manager pointer handed to the print helpers */
-    int   arg28;              /* 28 int argument for WIFIBATTLEMATCH_VIEW_CreatePartyWindow */
+    int   partyFont;              /* 28 int argument for WIFIBATTLEMATCH_VIEW_CreatePartyWindow */
     int   arg2C;              /* 2C int argument for WIFIBATTLEMATCH_VIEW_CreateDateWindow */
     void *party;              /* 30 pokemon party created by POKEPARTY_Create */
     void *saveBlock;          /* 34 save record base (MISC_SAVEDATA_GetRecordBase) */
@@ -136,9 +136,9 @@ typedef struct {void (*fn)(void *,int *,int);int a;int b;} FlowCallback;
 /* Menu descriptor handed to WIFIBATTLEMATCH_UTIL_CreateMenu (0x30 bytes).
  * Same object as ov177 WifibattlematchMenuDesc, so the fields keep one name. */
 typedef struct {
-    u32 x0;         /* 00 first button label id */
-    u32 x1;         /* 04 second button label id */
-    u32 x2;         /* 08 PRINTSYS_QUE handle */
+    u32 msgBank;    /* 00 message bank handle */
+    u32 font;       /* 04 font handle */
+    u32 printQue;   /* 08 PRINTSYS_QUE handle */
     u32 items[4];   /* 0C up to four item value ids */
     u32 count;      /* 1C item count */
     u16 a,b,c,d;    /* 20..26 */

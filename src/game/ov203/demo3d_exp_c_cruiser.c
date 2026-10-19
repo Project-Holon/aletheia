@@ -94,7 +94,7 @@ extern u32 GFL_HEAP_Free(void *p);
 void DEMO3D_EXP_C_CRUISER_LoadTextures(unsigned short heap);
 void DEMO3D_EXP_C_CRUISER_Create(Demo3dCruiserWork *p);
 void DEMO3D_EXP_C_CRUISER_Update(Demo3dCruiserWork *p);
-void DEMO3D_EXP_C_CRUISER_DeleteActorGfx(Demo3dCruiserWork *arg0);
+void DEMO3D_EXP_C_CRUISER_DeleteActorGfx(Demo3dCruiserWork *work);
 extern const char d_021C3D5C[];
 extern const struct Vec2 d_021C3BD0[];
 
@@ -160,8 +160,8 @@ void DEMO3D_EXP_C_CRUISER_Update(Demo3dCruiserWork *p)
 #pragma thumb on
 
 
-void DEMO3D_EXP_C_CRUISER_DeleteActorGfx(Demo3dCruiserWork *arg0)
+void DEMO3D_EXP_C_CRUISER_DeleteActorGfx(Demo3dCruiserWork *work)
 {
-    UI_SCENE_FreeActorGfx(&((Demo3dCruiserGfx *)arg0->gfx)->actorGfx);
-    GFL_HEAP_Free(arg0->gfx);
+    UI_SCENE_FreeActorGfx(&((Demo3dCruiserGfx *)work->gfx)->actorGfx);
+    GFL_HEAP_Free(work->gfx);
 }

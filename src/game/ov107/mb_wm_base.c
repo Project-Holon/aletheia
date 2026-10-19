@@ -89,8 +89,8 @@ static int mbi_power_save_mode = 1;
 
 struct WMPortRecvCallback {
     char _0[2];
-    u16 field2;
-    u16 field4;
+    u16 errcode;
+    u16 state;
 };
 
 extern u16 WM_GetAllowedChannel(void);
@@ -420,9 +420,9 @@ static void MBi_ChildPortCallback(void *arg)
     struct WMPortRecvCallback *cb = arg;
     void (*callback)(int, void *);
 
-    if (cb->field2 != 0)
+    if (cb->errcode != 0)
         return;
-    switch (cb->field4) {
+    switch (cb->state) {
     case 7:
     case 9:
     case 0x19:

@@ -80,38 +80,38 @@ typedef struct EffectModel {
     u32 wait;
     void *ptc;
     void *res;
-    u16 f18;
-    u16 f1a;
+    u16 unitIdx;
+    u16 mainNode;
     u16 count;
     u16 pad1e;
     EffectNode *nodes;
-    u32 f24;
+    u32 updateCount;
     u32 animeState;
 } EffectModel;
 
 typedef struct EmitParam {
-    u32 f00;
-    fx32 f04;
-    fx32 f08;
-    u32 f0c;
-    u32 f10;
-    fx32 f14;
-    u32 f18;
-    u32 f1c;
+    u32 projType;
+    fx32 fovSin;
+    fx32 fovCos;
+    u32 aspect;
+    u32 orthoExtent;
+    fx32 nearZ;
+    u32 farZ;
+    u32 projScale;
 } EmitParam;
 
 typedef struct Ptc {
-    u16 f00;
-    u16 f02;
-    u16 f04;
+    u16 frame;
+    u16 cue;
+    u16 ncue;
     u16 pad06;
-    void *f08;
+    void *cues;
     u8 work[0x4800];
     void *spl;
-    u8 f4810;
+    u8 res;
     u8 pad4811[3];
-    u32 f4814;
-    s32 f4818;
+    u32 active;
+    s32 timer;
 } Ptc;
 
 typedef struct Cue {
@@ -138,7 +138,7 @@ typedef struct EffectParticle {
     s32 timer;
 } EffectParticle;
 
-typedef struct EffectNode {u16 id;u16 pad02;fx32 tx,ty,tz,sx,sy,sz;u8 mtx[0x24];u32 f40;} EffectNode;
+typedef struct EffectNode {u16 id;u16 pad02;fx32 tx,ty,tz,sx,sy,sz;u8 mtx[0x24];u32 visible;} EffectNode;
 
 extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 
@@ -150,17 +150,17 @@ extern int SHINKA_DEMO_EFFECT_AnimIsState0(EffectModel *p);
 
 extern void PARTICLE_InitManager(u32 heap);
 
-extern void *PARTICLE_CreateSystem(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 heap);
+extern void *PARTICLE_CreateSystem(u32 workBuf, u32 workSize, u32 withCamera, u32 limitA, u32 limitB, u32 maxResIndex, u32 heap);
 
-extern int PARTICLE_ReleaseCamera(int a0);
+extern int PARTICLE_ReleaseCamera(int sys);
 
-extern void PARTICLE_InitCamera(struct Dst648 *this, struct Src648 *src, u16 a2, int *a3, int *a4, int *a5, u32 a6);
+extern void PARTICLE_InitCamera(struct Dst648 *this, struct Src648 *src, u16 angle, int *pos, int *target, int *up, u32 heapId);
 
 extern int PARTICLE_LoadArchiveMember(u32 a, u32 b, u32 c);
 
 extern u16 BUTTON_MAN_GetResourceType(void *res);
 
-extern void PARTICLE_SetupSystem(void *spl, u32 res, u32 a2, u32 a3);
+extern void PARTICLE_SetupSystem(void *spl, u32 res, u32 applyNow, u32 taskMgr);
 
 extern void PARTICLE_ExitManager(void);
 
@@ -174,13 +174,13 @@ extern int G3D_UTIL_Create(int, int, int);
 
 extern void G3D_UTIL_Delete(struct Rec *);
 
-extern u32 G3D_UTIL_GetObject(u8 *a0, int i);
+extern u32 G3D_UTIL_GetObject(u8 *util, int i);
 
-extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
+extern void G3D_SYSTEM_DrawObject(void *obj, struct Arg *status);
 
 extern u16 G3D_UTIL_AddUnit(void *res, void *name);
 
-extern u32 G3D_UTIL_GetUnitObjIdx(u8 *a0, int i);
+extern u32 G3D_UTIL_GetUnitObjIdx(u8 *util, int i);
 
 extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
 
@@ -214,13 +214,13 @@ int SHINKA_DEMO_EFFECT_IsState4(int *p);
 
 int SHINKA_DEMO_EFFECT_IsCameraReady(int *p);
 
-Ptc *SHINKA_DEMO_EFFECT_CreateParticle(u16 heap, u16 a, void *b);
+Ptc *SHINKA_DEMO_EFFECT_CreateParticle(u16 heap, u16 cueCount, void *cueTable);
 
 void SHINKA_DEMO_EFFECT_DeleteParticle(char *a);
 
 void SHINKA_DEMO_EFFECT_UpdateParticle(EffectParticle *p);
 
-void SHINKA_DEMO_EFFECT_DrawParticle(int a0);
+void SHINKA_DEMO_EFFECT_DrawParticle(int unused);
 
 void SHINKA_DEMO_EFFECT_SetParticleActive(char *p);
 
@@ -277,7 +277,7 @@ Node *SHINKA_DEMO_EFFECT_CreateNodes(u16 heap, u16 n)
     return p;
 }
 
-void SHINKA_DEMO_EFFECT_FreeNode(void *p){GFL_HEAP_Free(p);}
+void SHINKA_DEMO_EFFECT_FreeNode(void *node){GFL_HEAP_Free(node);}
 
 EffectModel *SHINKA_DEMO_EFFECT_Create(u16 heap, u32 x)
 {
@@ -296,91 +296,91 @@ EffectModel *SHINKA_DEMO_EFFECT_Create(u16 heap, u32 x)
     return p;
 }
 
-void SHINKA_DEMO_EFFECT_Destroy(char *a)
+void SHINKA_DEMO_EFFECT_Destroy(char *model)
 {
-    SHINKA_DEMO_EFFECT_RemoveUnit(a);
-    SHINKA_DEMO_EFFECT_DeleteUnit(a);
-    SHINKA_DEMO_EFFECT_DeleteParticle((char *)(((EffectModel *)a)->ptc));
-    GFL_HEAP_Free(a);
+    SHINKA_DEMO_EFFECT_RemoveUnit(model);
+    SHINKA_DEMO_EFFECT_DeleteUnit(model);
+    SHINKA_DEMO_EFFECT_DeleteParticle((char *)(((EffectModel *)model)->ptc));
+    GFL_HEAP_Free(model);
 }
 
-void SHINKA_DEMO_EFFECT_Main(EffectModel *p)
+void SHINKA_DEMO_EFFECT_Main(EffectModel *model)
 {
-    switch (p->state) {
+    switch (model->state) {
     case 0:
     case 1:
         break;
     case 2:
-        SHINKA_DEMO_EFFECT_AnimSetState1((EffectModel *)p);
-        p->state = 3;
+        SHINKA_DEMO_EFFECT_AnimSetState1((EffectModel *)model);
+        model->state = 3;
         break;
     case 3:
-        if (SHINKA_DEMO_EFFECT_AnimIsState2((EffectModel *)p)) {
-            p->state = 4;
-            p->wait = 3;
-            SHINKA_DEMO_EFFECT_SetParticleTimerRaw((EffectParticle *)p->ptc, 0);
+        if (SHINKA_DEMO_EFFECT_AnimIsState2((EffectModel *)model)) {
+            model->state = 4;
+            model->wait = 3;
+            SHINKA_DEMO_EFFECT_SetParticleTimerRaw((EffectParticle *)model->ptc, 0);
         }
         break;
     case 4:
-        if (p->wait == 0) {
-            SHINKA_DEMO_EFFECT_AnimSetState3((EffectModel *)p);
-            p->state = 5;
+        if (model->wait == 0) {
+            SHINKA_DEMO_EFFECT_AnimSetState3((EffectModel *)model);
+            model->state = 5;
         } else {
-            p->wait = p->wait - 1;
+            model->wait = model->wait - 1;
         }
         break;
     case 5:
-        if (SHINKA_DEMO_EFFECT_AnimIsState0((EffectModel *)p))
-            p->state = 6;
+        if (SHINKA_DEMO_EFFECT_AnimIsState0((EffectModel *)model))
+            model->state = 6;
         break;
     case 6:
     case 7:
         break;
     }
-    SHINKA_DEMO_EFFECT_UpdateAnime((char *)p);
-    SHINKA_DEMO_EFFECT_UpdateParticle((EffectParticle *)p->ptc);
+    SHINKA_DEMO_EFFECT_UpdateAnime((char *)model);
+    SHINKA_DEMO_EFFECT_UpdateParticle((EffectParticle *)model->ptc);
 }
 
-void SHINKA_DEMO_EFFECT_Draw(char *a)
+void SHINKA_DEMO_EFFECT_Draw(char *model)
 {
-    SHINKA_DEMO_EFFECT_DrawNodes((EffectModel *)((struct Anim *)a));
-    SHINKA_DEMO_EFFECT_DrawParticle((int)((EffectModel *)a)->ptc);
+    SHINKA_DEMO_EFFECT_DrawNodes((EffectModel *)((struct Anim *)model));
+    SHINKA_DEMO_EFFECT_DrawParticle((int)((EffectModel *)model)->ptc);
 }
 
-void SHINKA_DEMO_EFFECT_Trigger(char *a)
+void SHINKA_DEMO_EFFECT_Trigger(char *model)
 {
-    SHINKA_DEMO_EFFECT_SetParticleTimer((char *)(((EffectModel *)a)->ptc), 0x1e);
-    if (((EffectModel *)a)->state == 1)
-        ((EffectModel *)a)->state = 2;
+    SHINKA_DEMO_EFFECT_SetParticleTimer((char *)(((EffectModel *)model)->ptc), 0x1e);
+    if (((EffectModel *)model)->state == 1)
+        ((EffectModel *)model)->state = 2;
 }
 
 /*
  * Move the ov195 scene object to state 1 with a 0x26c timer.  Labelled leaf.
  */
-void SHINKA_DEMO_EFFECT_StartIntro(int *p)
+void SHINKA_DEMO_EFFECT_StartIntro(int *model)
 {
-    void SHINKA_DEMO_EFFECT_SetParticleActive(char *p);
+    void SHINKA_DEMO_EFFECT_SetParticleActive(char *model);
 
-    SHINKA_DEMO_EFFECT_SetParticleActive((char *)p[4]);
-    p[2] = 1;
-    p[3] = 0x26c;
+    SHINKA_DEMO_EFFECT_SetParticleActive((char *)model[4]);
+    model[2] = 1;
+    model[3] = 0x26c;
 }
 
 /*
  * Flag bump on the ov195 scene object (+8 == 1 -> 2); unlabelled leaf.
  */
-void SHINKA_DEMO_EFFECT_AdvanceState(int *p)
+void SHINKA_DEMO_EFFECT_AdvanceState(int *model)
 {
-    if (p[2] == 1)
-        p[2] = 2;
+    if (model[2] == 1)
+        model[2] = 2;
 }
 
 /*
  * True when the ov195 scene object's +8 state is 4; unlabelled leaf.
  */
-int SHINKA_DEMO_EFFECT_IsState4(int *p)
+int SHINKA_DEMO_EFFECT_IsState4(int *model)
 {
-    if (p[2] == 4)
+    if (model[2] == 4)
         return 1;
     return 0;
 }
@@ -389,11 +389,11 @@ int SHINKA_DEMO_EFFECT_IsState4(int *p)
  * Camera-state predicate on the ov195 scene object's +8/+0xc words:
  * state 4 with +0xc <= 1, or state 5.  Unlabelled leaf.
  */
-int SHINKA_DEMO_EFFECT_IsCameraReady(int *p)
+int SHINKA_DEMO_EFFECT_IsCameraReady(int *model)
 {
-    if (p[2] == 4 && (unsigned)p[3] <= 1)
+    if (model[2] == 4 && (unsigned)model[3] <= 1)
         return 1;
-    if (p[2] == 5)
+    if (model[2] == 5)
         return 1;
     return 0;
 }
@@ -404,88 +404,88 @@ int SHINKA_DEMO_EFFECT_IsCameraReady(int *p)
  *   leaf was seeded in layout/function_starts.txt and matched
  *   (src/matched/BUTTON_MAN_GetResourceType.c); all 13 relocations resolve.
  */
-Ptc *SHINKA_DEMO_EFFECT_CreateParticle(u16 heap, u16 a, void *b)
+Ptc *SHINKA_DEMO_EFFECT_CreateParticle(u16 heap, u16 cueCount, void *cueTable)
 {
-    VecFx32 v1 = d_02208F24;
-    VecFx32 v2 = d_02208F30;
-    VecFx32 v3 = {0, 0, 0};
+    VecFx32 cameraPos = d_02208F24;
+    VecFx32 cameraTarget = d_02208F30;
+    VecFx32 cameraUp = {0, 0, 0};
     EmitParam prm;
     Ptc *p;
     u32 res;
 
-    prm.f00 = 0;
-    prm.f04 = FX_SinCosTable_[0xe3 * 2];
-    prm.f08 = FX_SinCosTable_[0xe3 * 2 + 1];
-    prm.f0c = 0x1555;
-    prm.f10 = 0;
-    prm.f14 = 0x1000;
-    prm.f18 = 0x400000;
-    prm.f1c = 0;
+    prm.projType = 0;
+    prm.fovSin = FX_SinCosTable_[0xe3 * 2];
+    prm.fovCos = FX_SinCosTable_[0xe3 * 2 + 1];
+    prm.aspect = 0x1555;
+    prm.orthoExtent = 0;
+    prm.nearZ = 0x1000;
+    prm.farZ = 0x400000;
+    prm.projScale = 0;
 
     p = GFL_HEAP_Alloc(heap, sizeof(Ptc), 1, d_02208F7C, 0x2e5);
-    p->f00 = 0;
-    p->f02 = 0;
-    p->f04 = a;
-    p->f08 = b;
-    p->f4814 = 0;
-    p->f4818 = -1;
+    p->frame = 0;
+    p->cue = 0;
+    p->ncue = cueCount;
+    p->cues = cueTable;
+    p->active = 0;
+    p->timer = -1;
     PARTICLE_InitManager(heap);
     p->spl = PARTICLE_CreateSystem((u32)p->work, sizeof(p->work), 1, 5, 6, 0x3b, heap);
     PARTICLE_ReleaseCamera((int)p->spl);
-    PARTICLE_InitCamera(p->spl, (struct Src648 *)(&prm), 0x2000, (int *)(&v1), (int *)(&v2), (int *)(&v3), heap);
+    PARTICLE_InitCamera(p->spl, (struct Src648 *)(&prm), 0x2000, (int *)(&cameraPos), (int *)(&cameraTarget), (int *)(&cameraUp), heap);
     res = PARTICLE_LoadArchiveMember(d_02208E9C[0], d_02208E9C[1], heap);
-    p->f4810 = BUTTON_MAN_GetResourceType((void *)res);
+    p->res = BUTTON_MAN_GetResourceType((void *)res);
     PARTICLE_SetupSystem(p->spl, res, 1, 0);
     return p;
 }
 
-void SHINKA_DEMO_EFFECT_DeleteParticle(char *a)
+void SHINKA_DEMO_EFFECT_DeleteParticle(char *particle)
 {
     PARTICLE_ExitManager();
-    GFL_HEAP_Free(a);
+    GFL_HEAP_Free(particle);
 }
 
-void SHINKA_DEMO_EFFECT_UpdateParticle(EffectParticle *p)
+void SHINKA_DEMO_EFFECT_UpdateParticle(EffectParticle *particle)
 {
-    if (p->active != 0) {
+    if (particle->active != 0) {
         VecFx32 v = {0, 0, 0};
         Cue *c;
 
-        for (; p->cue < p->ncue; p->cue++) {
-            if (p->frame != p->cues[(int)p->cue].frame)
+        for (; particle->cue < particle->ncue; particle->cue++) {
+            if (particle->frame != particle->cues[(int)particle->cue].frame)
                 break;
-            c = &p->cues[p->cue];
-            PARTICLE_StartEffect(p->emit[c->emit].spl, c->id, (int)(&v));
+            c = &particle->cues[particle->cue];
+            PARTICLE_StartEffect(particle->emit[c->emit].spl, c->id, (int)(&v));
         }
-        p->frame++;
+        particle->frame++;
     }
-    if (p->timer >= 0) {
-        if (p->timer == 0)
-            PARTICLE_KillAllEffects(p->emit[0].spl);
-        p->timer--;
+    if (particle->timer >= 0) {
+        if (particle->timer == 0)
+            PARTICLE_KillAllEffects(particle->emit[0].spl);
+        particle->timer--;
     }
 }
 
-void SHINKA_DEMO_EFFECT_DrawParticle(int a0){PARTICLE_Main();}
+void SHINKA_DEMO_EFFECT_DrawParticle(int unused){PARTICLE_Main();}
 
-void SHINKA_DEMO_EFFECT_SetParticleActive(char *p){((EffectParticle *)p)->active=1;}
+void SHINKA_DEMO_EFFECT_SetParticleActive(char *particle){((EffectParticle *)particle)->active=1;}
 
-void SHINKA_DEMO_EFFECT_SetParticleTimer(char *p,u32 v) { ((EffectParticle *)p)->active=0; ((EffectParticle *)p)->timer=v; }
+void SHINKA_DEMO_EFFECT_SetParticleTimer(char *particle,u32 timer) { ((EffectParticle *)particle)->active=0; ((EffectParticle *)particle)->timer=timer; }
 
-void SHINKA_DEMO_EFFECT_SetParticleTimerRaw(EffectParticle *p, s32 timer)
+void SHINKA_DEMO_EFFECT_SetParticleTimerRaw(EffectParticle *particle, s32 timer)
 {
-    p->timer = timer;
+    particle->timer = timer;
 }
 
-void SHINKA_DEMO_EFFECT_InitUnit(char *a)
+void SHINKA_DEMO_EFFECT_InitUnit(char *model)
 {
-    *(int *)&((EffectModel *)a)->res = G3D_UTIL_Create(4, 1, ((EffectModel *)a)->heap);
-    ((EffectModel *)a)->count = 0;
+    *(int *)&((EffectModel *)model)->res = G3D_UTIL_Create(4, 1, ((EffectModel *)model)->heap);
+    ((EffectModel *)model)->count = 0;
 }
 
-void SHINKA_DEMO_EFFECT_DeleteUnit(char *p) { G3D_UTIL_Delete(*(struct Rec * *)&((EffectModel *)p)->res); }
+void SHINKA_DEMO_EFFECT_DeleteUnit(char *model) { G3D_UTIL_Delete(*(struct Rec * *)&((EffectModel *)model)->res); }
 
-void SHINKA_DEMO_EFFECT_DrawNodes(EffectModel *p) { u16 i; EffectNode *n; for(i=0;i<p->count;i++) { n=p->nodes+i; if(n->f40) G3D_SYSTEM_DrawObject((void *)G3D_UTIL_GetObject(p->res,n->id),(struct Arg *)((struct Transform *)&n->tx)); } }
+void SHINKA_DEMO_EFFECT_DrawNodes(EffectModel *model) { u16 i; EffectNode *n; for(i=0;i<model->count;i++) { n=model->nodes+i; if(n->visible) G3D_SYSTEM_DrawObject((void *)G3D_UTIL_GetObject(model->res,n->id),(struct Arg *)((struct Transform *)&n->tx)); } }
 
 /*
  * promoted: from src/pending on 2026-09-27, no C change. Its blocker, the
@@ -493,7 +493,7 @@ void SHINKA_DEMO_EFFECT_DrawNodes(EffectModel *p) { u16 i; EffectNode *n; for(i=
  *   closed when that leaf was seeded in layout/function_starts.txt and
  *   matched (src/matched/G3D_SYSTEM_SetObjectAnimeFrame.c); all 11 relocations resolve.
  */
-void SHINKA_DEMO_EFFECT_SetupNode(EffectModel *p)
+void SHINKA_DEMO_EFFECT_SetupNode(EffectModel *model)
 {
     u32 x;
     void *q;
@@ -501,34 +501,34 @@ void SHINKA_DEMO_EFFECT_SetupNode(EffectModel *p)
     EffectNode *n;
     u16 id;
 
-    p->f18 = G3D_UTIL_AddUnit(p->res, d_02208EC0);
-    p->count = 1;
-    p->nodes = (EffectNode *)SHINKA_DEMO_EFFECT_CreateNodes(p->heap, p->count);
-    id = G3D_UTIL_GetUnitObjIdx(p->res, p->f18);
-    n = p->nodes;
-    p->f1a = 0;
+    model->unitIdx = G3D_UTIL_AddUnit(model->res, d_02208EC0);
+    model->count = 1;
+    model->nodes = (EffectNode *)SHINKA_DEMO_EFFECT_CreateNodes(model->heap, model->count);
+    id = G3D_UTIL_GetUnitObjIdx(model->res, model->unitIdx);
+    n = model->nodes;
+    model->mainNode = 0;
     n->id = id;
     n->tx = 0;
     n->ty = 0;
     n->tz = 0;
-    n->f40 = 1;
-    for (i = 0; i < p->count; i++)
-        G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)G3D_UTIL_GetObject(p->res, p->nodes[i].id), 0);
-    p->f24 = 0;
-    q = (void *)G3D_UTIL_GetObject(p->res, p->nodes[p->f1a].id);
+    n->visible = 1;
+    for (i = 0; i < model->count; i++)
+        G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)G3D_UTIL_GetObject(model->res, model->nodes[i].id), 0);
+    model->updateCount = 0;
+    q = (void *)G3D_UTIL_GetObject(model->res, model->nodes[model->mainNode].id);
     x = 0;
-    p->animeState = 0;
+    model->animeState = 0;
     G3D_SYSTEM_EnableObjectAnime(q, 1);
     G3D_SYSTEM_EnableObjectAnime(q, 2);
     G3D_SYSTEM_SetObjectAnimeFrame(q, 1, (s32 *)(&x));
     G3D_SYSTEM_SetObjectAnimeFrame(q, 2, (s32 *)(&x));
 }
 
-void SHINKA_DEMO_EFFECT_RemoveUnit(char *a)
+void SHINKA_DEMO_EFFECT_RemoveUnit(char *model)
 {
-    G3D_UTIL_RemoveUnit((struct Ctx *)(*(int *)&((EffectModel *)a)->res), ((EffectModel *)a)->f18);
-    SHINKA_DEMO_EFFECT_FreeNode((void *)(((EffectModel *)a)->nodes));
-    ((EffectModel *)a)->count = 0;
+    G3D_UTIL_RemoveUnit((struct Ctx *)(*(int *)&((EffectModel *)model)->res), ((EffectModel *)model)->unitIdx);
+    SHINKA_DEMO_EFFECT_FreeNode((void *)(((EffectModel *)model)->nodes));
+    ((EffectModel *)model)->count = 0;
 }
 
 /*
@@ -538,57 +538,57 @@ void SHINKA_DEMO_EFFECT_RemoveUnit(char *a)
  *           attest as `matched`.  0x02048A18 already resolved via matched;
  *           all 164 bytes are correct.
  */
-void SHINKA_DEMO_EFFECT_UpdateAnime(char *p)
+void SHINKA_DEMO_EFFECT_UpdateAnime(char *model)
 {
     unsigned short i;
     int j = 0;
-    int v2;
+    int object;
 
-    for (i = 0; i < ((EffectModel *)p)->count; i++) {
-        unsigned short v = *(unsigned short *)((u8 *)((EffectModel *)p)->nodes + i * 0x44);
-        int x = G3D_UTIL_GetObject((u8 *)(((EffectModel *)p)->res), v);
+    for (i = 0; i < ((EffectModel *)model)->count; i++) {
+        unsigned short v = *(unsigned short *)((u8 *)((EffectModel *)model)->nodes + i * 0x44);
+        int x = G3D_UTIL_GetObject((u8 *)(((EffectModel *)model)->res), v);
 
         G3D_SYSTEM_LoopObjectAnimeFrame((void *)x, j, 0x1000);
     }
-    ((EffectModel *)p)->f24 = ((EffectModel *)p)->f24 + 1;
-    v2 = G3D_UTIL_GetObject((u8 *)(((EffectModel *)p)->res),
-                       *(unsigned short *)((u8 *)((EffectModel *)p)->nodes +
-                                           ((EffectModel *)p)->f1a * 0x44));
-    if (((EffectModel *)p)->animeState == 1) {
-        int a = G3D_SYSTEM_IncObjectAnimeFrame((void *)v2, 1, 0x5000);
-        int b = G3D_SYSTEM_IncObjectAnimeFrame((void *)v2, 2, 0x5000);
+    ((EffectModel *)model)->updateCount = ((EffectModel *)model)->updateCount + 1;
+    object = G3D_UTIL_GetObject((u8 *)(((EffectModel *)model)->res),
+                       *(unsigned short *)((u8 *)((EffectModel *)model)->nodes +
+                                           ((EffectModel *)model)->mainNode * 0x44));
+    if (((EffectModel *)model)->animeState == 1) {
+        int a = G3D_SYSTEM_IncObjectAnimeFrame((void *)object, 1, 0x5000);
+        int b = G3D_SYSTEM_IncObjectAnimeFrame((void *)object, 2, 0x5000);
 
         if (a == 0 && b == 0)
-            ((EffectModel *)p)->animeState = 2;
-    } else if (((EffectModel *)p)->animeState == 3) {
-        int a = G3D_SYSTEM_IncObjectAnimeFrame((void *)v2, 1, -0x2000);
-        int b = G3D_SYSTEM_IncObjectAnimeFrame((void *)v2, 2, -0x2000);
+            ((EffectModel *)model)->animeState = 2;
+    } else if (((EffectModel *)model)->animeState == 3) {
+        int a = G3D_SYSTEM_IncObjectAnimeFrame((void *)object, 1, -0x2000);
+        int b = G3D_SYSTEM_IncObjectAnimeFrame((void *)object, 2, -0x2000);
 
         if (a == 0 && b == 0)
-            ((EffectModel *)p)->animeState = 0;
+            ((EffectModel *)model)->animeState = 0;
     }
 }
 
-void SHINKA_DEMO_EFFECT_AnimSetState1(EffectModel *p)
+void SHINKA_DEMO_EFFECT_AnimSetState1(EffectModel *model)
 {
-    p->animeState = 1;
+    model->animeState = 1;
 }
 
-int SHINKA_DEMO_EFFECT_AnimIsState2(EffectModel *p)
+int SHINKA_DEMO_EFFECT_AnimIsState2(EffectModel *model)
 {
-    if (p->animeState == 2)
+    if (model->animeState == 2)
         return 1;
     return 0;
 }
 
-void SHINKA_DEMO_EFFECT_AnimSetState3(EffectModel *p)
+void SHINKA_DEMO_EFFECT_AnimSetState3(EffectModel *model)
 {
-    p->animeState = 3;
+    model->animeState = 3;
 }
 
-int SHINKA_DEMO_EFFECT_AnimIsState0(EffectModel *p)
+int SHINKA_DEMO_EFFECT_AnimIsState0(EffectModel *model)
 {
-    if (p->animeState == 0)
+    if (model->animeState == 0)
         return 1;
     return 0;
 }

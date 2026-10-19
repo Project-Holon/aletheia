@@ -47,7 +47,7 @@
  *   BMP_WIN_GetBmp   0x02045770  arm
  *   BMP_Clear   0x02043B5C  arm
  *   BMP_WIN_TransferChars   0x02045334  arm
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   WORLDTRADE_NoOp  0x0200ADB4  thumb
  *   WORLDTRADE_CopyPokemon  0x0200AD9C  thumb
  *   POKE_TOOL_CopyPartyPokemon  0x02019CE0  thumb
@@ -165,7 +165,7 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void BG_SYS_SetSubVisiblePlanes(u32 a);
 
 struct Ctx;
-extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 
 extern void WORLDTRADE_ENTER_RestartNetTimeout(u8 *);
 
@@ -214,7 +214,7 @@ extern void WORLDTRADE_CancelSave(Work *p);
 
 extern void WORLDTRADE_DeleteTimeIcon(Work *p);
 
-extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
+extern u32 GFL_NET_ERR_ShowScreen(u32 isFatal);
 
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
@@ -369,7 +369,7 @@ extern void *memset(void *, int, u32);
 
 extern void MYSTATUS_Copy(void *src, void *dst);
 
-extern u32 COMM_HISTORY_InsertIfNamed(u32 a0, u32 a1);
+extern u32 COMM_HISTORY_InsertIfNamed(u32 owner, u32 entry);
 
 extern void DPW_TR_CancelAsync(void);
 
@@ -377,7 +377,7 @@ extern void DPW_TR_DeleteAsync(u8 *p);
 
 extern u32 WORLDTRADE_INPUT_PrintStringTop(u8 *p, u32 a, u32 b, u32 c, u32 d);
 
-extern int GAME_DATA_SaveStart(int a0);
+extern int GAME_DATA_SaveStart(int gd);
 
 extern u32 GFL_USE_GetRandom(u32 v);
 
@@ -555,7 +555,7 @@ extern struct BgTemplate g_02203A34;
 
 extern const char str_02203F58[];
 
-int WORLDTRADE_SERVER_Init(Work *p) { WORLDTRADE_SERVER_CreateStrings(p); WORLDTRADE_SERVER_SetupBgPlanes(); WORLDTRADE_TITLE_ScrollBg(p,0,0); if((*(unsigned int *)&p->kind)==11) { BG_SYS_SetPlaneVisible(4,0); BG_SYS_SetPlaneVisible(6,0); } WORLDTRADE_SERVER_LoadBgGraphics(p); WORLDTRADE_SERVER_CreateWindows(p); WORLDTRADE_SUBLCD_SetSlotActorPositions(p); WIPE_SYS_Start((void *)3,1,1,0,6,1,72); WORLDTRADE_ENTER_RestartNetTimeout((u8 *)p); p->state=0; p->f12E4=0; return 1; }
+int WORLDTRADE_SERVER_Init(Work *p) { WORLDTRADE_SERVER_CreateStrings(p); WORLDTRADE_SERVER_SetupBgPlanes(); WORLDTRADE_TITLE_ScrollBg(p,0,0); if((*(unsigned int *)&p->kind)==11) { BG_SYS_SetPlaneVisible(4,0); BG_SYS_SetPlaneVisible(6,0); } WORLDTRADE_SERVER_LoadBgGraphics(p); WORLDTRADE_SERVER_CreateWindows(p); WORLDTRADE_SUBLCD_SetSlotActorPositions(p); WIPE_SYS_Start((void *)3,1,1,0,6,1,72); WORLDTRADE_ENTER_RestartNetTimeout((u8 *)p); p->state=0; p->keepBgLayers=0; return 1; }
 
 /*
  * State-table dispatch through the table at 0x02203E94.
@@ -618,7 +618,7 @@ void WORLDTRADE_SERVER_LoadBgGraphics(Work *p)
         BG_SYS_SetPlaneVisible(5, 0);
         BG_SYS_SetSubPlaneVisible(0x10, 0);
     }
-    if (p->f1C_u == 9) {
+    if (p->prevScreenId == 9) {
         WORLDTRADE_TITLE_LoadMainBgSwap(p);
         WORLDTRADE_TITLE_LoadSubBgSwap(p);
     }
@@ -694,7 +694,7 @@ int WORLDTRADE_SERVER_StartRequest(Work *p)
     case 12:
         WORLDTRADE_INPUT_PrintStringPlain((u32)p, (u32)p->bank, 0x9A, 1, 0xF0F);
         p->state = 0x21;
-        p->x14 = 1;
+        p->nextScreenId = 1;
         GFL_NET_RestartWithDefaultTimeout(1, 0x48);
         break;
     default:
@@ -709,10 +709,10 @@ int WORLDTRADE_SERVER_SendUploadRequest(Work *p)
 {
     u8 *mon=(u8 *)p+0xE4;
     int ready;
-    POKE_TOOL_CopyPartyPokemon((const struct RecDC *)mon, *(struct RecDC * *)&p->fEA8);
+    POKE_TOOL_CopyPartyPokemon((const struct RecDC *)mon, *(struct RecDC * *)&p->tradeMon);
     ((u8 *)p)[0x204]=BMP_OAM_CheckRangeGetId(((u8 *)p)[0x204],((u8 *)p)[0x205],((u8 *)p)[0x209]);
     ((u8 *)p)[0x205]=BMP_OAM_CheckRangeGetMin(((u8 *)p)[0x204],((u8 *)p)[0x205],((u8 *)p)[0x209]);
-    *(u8 * *)&p->wm=NHTTP_RAP_Create(0x48,MYSTATUS_GetProfileId(p->ctx->f1C),(int)((u8 *)p+0x116C));
+    *(u8 * *)&p->wm=NHTTP_RAP_Create(0x48,MYSTATUS_GetProfileId(p->ctx->myStatus),(int)((u8 *)p+0x116C));
     NHTTP_RAP_AllocPostData(*(u8 * *)&p->wm,0x48,POKE_TOOL_GetPartyParamSize(),1);
     NHTTP_RAP_AppendPostData(*(u8 * *)&p->wm,(int)mon,POKE_TOOL_GetPartyParamSize());
     if(NHTTP_RAP_CreatePostRequest(*(u8 * *)&p->wm)==0) SAVEDATA_PanicFail(str_02203F58,0,str_02203F58);
@@ -826,8 +826,8 @@ int WORLDTRADE_SERVER_StartNameCheck(u8 *p)
         if(c==STRBUF_GetEosChar()) *(u16 *)((u32)p+i*2+0x1300)=0;
         else *(u16 *)((u32)p+i*2+0x1300)=c;
     }
-    ((Work *)p)->f1318=(u32)(p+0x1300);
-    ((Work *)p)->f1320=0;
+    ((Work *)p)->profanityWords=(u32)(p+0x1300);
+    ((Work *)p)->badWordCountU=0;
     DWC_CheckProfanityExAsync((short unsigned int **)(p+0x1318),1,0,0,(char *)(p+0x131C),(int *)(p+0x1320),0x80);
     STRBUF_Delete(s);
     ((Work *)p)->state=5;
@@ -1004,7 +1004,7 @@ int WORLDTRADE_SERVER_WaitUploadFinish(Work *p)
         p->timer = 0;
         switch (n + 15) {
         case 15:
-            p->f36 = 0;
+            p->cooldownFrames = 0;
             p->state = 0x25;
             break;
         case 3:
@@ -1064,7 +1064,7 @@ int WORLDTRADE_SERVER_WaitDownload(Work *p)
         p->timer = 0;
         switch (n + 15) {
         case 15:
-            v = p->f207;
+            v = p->receivedEgg;
             if (v != 0) {
                 p->state = 0x1c;
             } else {
@@ -1308,7 +1308,7 @@ int WORLDTRADE_SERVER_WaitReturn(Work *p)
             case 0:
                 p->state_i = 0x16;
                 p->eb4 = 1;
-                p->f12F8 = 1;
+                p->checkEvolution = 1;
                 break;
             }
             break;
@@ -1470,26 +1470,26 @@ void WORLDTRADE_SERVER_ShowResultByMode(Work *p)
 /*
  * lever: u16 local joins species branches; byte flags use explicit masked RMW.
  */
-void WORLDTRADE_SERVER_RecordTradeResult(Work *p, void *mon, Entry *r, void *old)
+void WORLDTRADE_SERVER_RecordTradeResult(Work *p, void *mon, Entry *ent, void *old)
 {
     void *copy;
     Record rec;
     u16 species;
     RECORD_AddOne(p->ctx->trainerRecord, 0x10);
-    MISC_SAVEDATA_InsertRecentValue(MISC_SAVEDATA_GetBlock44(p->ctx->saveData), r->trainerId);
-    copy = WORLDTRADE_DEMO_ReadMyStatus(r);
+    MISC_SAVEDATA_InsertRecentValue(MISC_SAVEDATA_GetBlock44(p->ctx->saveData), ent->trainerId);
+    copy = WORLDTRADE_DEMO_ReadMyStatus(ent);
     TRADE_HISTORY_AddPartner(TRADE_HISTORY_GetFromSave(p->ctx->saveData), copy);
     GFL_HEAP_Free(copy);
-    copy = WORLDTRADE_DEMO_ReadMyStatus(r);
+    copy = WORLDTRADE_DEMO_ReadMyStatus(ent);
     memset(&rec, 0, sizeof(rec));
     MYSTATUS_Copy(copy, &rec);
     if (old != 0) species = POKE_TOOL_GetPartyValue(old, 5, 0);
-    else species = *(u16 *)&((Deposit *)r)->have.species;
+    else species = *(u16 *)&((Deposit *)ent)->have.species;
     rec.old_species = species;
     rec.new_species = POKE_TOOL_GetPartyValue(mon, 5, 0);
-    rec.x = r->profileFlagB;
-    rec.flags = (rec.flags & ~7) | (r->profileFlagA & 7);
-    rec.y = r->profileFlagC;
+    rec.x = ent->profileFlagB;
+    rec.flags = (rec.flags & ~7) | (ent->profileFlagA & 7);
+    rec.y = ent->profileFlagC;
     COMM_HISTORY_InsertIfNamed((u32)(p->ctx->status), (u32)(&rec));
     GFL_HEAP_Free(copy);
 }
@@ -1568,7 +1568,7 @@ int WORLDTRADE_SERVER_StateStartWipeOutDisconnect(Work *p)
 
 int WORLDTRADE_SERVER_StateFinishTrade(Work *p)
 {
-    WORLDTRADE_ADAPTER_RegisterReceivedMon((Work *)p, (void *)((u8 *)p + 0xe4), WORLDTRADE_GetReturnBox(**(void ** *)(void **)&p->ctx), p->f207);
+    WORLDTRADE_ADAPTER_RegisterReceivedMon((Work *)p, (void *)((u8 *)p + 0xe4), WORLDTRADE_GetReturnBox(**(void ** *)(void **)&p->ctx), p->receivedEgg);
     WORLDTRADE_ADAPTER_RegisterLanguageVersion(p->ctx->status, (u8 *)p + 0xe4);
     WORLDTRADE_SERVER_RecordTradeResult(p, (u8 *)p + 0xe4, &p->ent[0], 0);
     WORLDTRADE_SetIsDeposited(**(void ** *)(void **)&p->ctx, 0);
@@ -1872,7 +1872,7 @@ int WORLDTRADE_SERVER_StateOpenSavePrompt(Work *p)
  */
 int WORLDTRADE_SERVER_StartSave(Work *p)
 {
-    GAME_DATA_SaveStart((int)ICA_ANIME_GetField1C((const struct Ctx *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x40))));
+    GAME_DATA_SaveStart((int)GAMESYSTEM_GetGameData((const struct Ctx *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x40))));
     p->state = 0x23;
     (*(unsigned int *)&p->cnt) = GFL_USE_GetRandom(0x3c) + 2;
     return 2;
@@ -1889,8 +1889,8 @@ int WORLDTRADE_SERVER_StateCountdown(Work *p)
 
 int WORLDTRADE_SERVER_WaitSave(Work *p)
 {
-    if (GAME_DATA_SaveMain(ICA_ANIME_GetField1C((const struct Ctx *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x40)))) == 1) {
-        p->state = p->fE0C;
+    if (GAME_DATA_SaveMain(GAMESYSTEM_GetGameData((const struct Ctx *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x40)))) == 1) {
+        p->state = p->stateAfterSaveWait;
     }
     return 2;
 }
@@ -1900,8 +1900,8 @@ int WORLDTRADE_SERVER_WaitSave(Work *p)
  */
 int WORLDTRADE_SERVER_StateSaveGame(Work *p)
 {
-    if (GAME_DATA_SaveMain(ICA_ANIME_GetField1C((const struct Ctx *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x40)))) == 2) {
-        p->state = p->fE0E;
+    if (GAME_DATA_SaveMain(GAMESYSTEM_GetGameData((const struct Ctx *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x40)))) == 2) {
+        p->state = p->stateAfterSave;
         WORLDTRADE_DeleteTimeIcon(p);
     }
     return 2;
@@ -1912,14 +1912,14 @@ int WORLDTRADE_SERVER_StateSaveGame(Work *p)
  */
 int WORLDTRADE_SERVER_StartSaveB(Work *p)
 {
-    GAME_DATA_SaveStart((int)ICA_ANIME_GetField1C((const struct Ctx *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x40))));
+    GAME_DATA_SaveStart((int)GAMESYSTEM_GetGameData((const struct Ctx *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x40))));
     p->state = 0x27;
     return 2;
 }
 
 int WORLDTRADE_SERVER_WaitSaveB(Work *p)
 {
-    if (GAME_DATA_SaveMain(ICA_ANIME_GetField1C((const struct Ctx *)(p->ctx->f40))) == 2) {
+    if (GAME_DATA_SaveMain(GAMESYSTEM_GetGameData((const struct Ctx *)(p->ctx->gameData))) == 2) {
         WORLDTRADE_SetStateAndReturn(p, 1, 0);
         WORLDTRADE_DeleteTimeIcon(p);
         WORLDTRADE_INPUT_PrintStringPlain((u32)p, (u32)(p->bank), (*(unsigned int *)&p->mode), 1, 0xF0F);

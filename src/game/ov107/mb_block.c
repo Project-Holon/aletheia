@@ -39,7 +39,7 @@ typedef struct {
 
 struct hdr {
     u8 type;
-    u8 f1;
+    u8 pad;
     u16 h2;
     u8 data[1];
 };

@@ -425,7 +425,7 @@ struct GfFont;
 extern void MIi_CpuClear16(u16 data, void *dst, u32 size);
 extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 padding, u32 flag);
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);

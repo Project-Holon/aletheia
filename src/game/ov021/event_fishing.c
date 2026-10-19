@@ -18,7 +18,7 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   abs_id_C2      0x000000C2  data
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_EVENT_Create  0x020122C0  thumb
  *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
@@ -110,7 +110,7 @@ extern u32 MI_CpuFill8(void *p, int v, int n);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
 void *GAME_EVENT_GetWork(struct Obj *p);
-extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern u32 RECORD_AddOne(struct Sub02008C20Obj *obj, int i);
 extern u32 FIELDMAP_GetG3dMapper(u8 *p);
@@ -132,13 +132,13 @@ extern int EFFECT_ENCOUNT_IsSpotAt(struct Self *self, short *pos);
 /* Retain the mode used to store f59 for the helper's second argument. */
 extern struct Obj *FIELD_ENCOUNT_CheckFishingEncount(struct Ctx *ctx, int mode);
 extern void FLDMMDL_SysPauseMove(void *o);
-extern void FIELD_PLAYER_StartFormChange(u8 *p, u32 a1);
+extern void FIELD_PLAYER_StartFormChange(u8 *p, u32 mask);
 extern int FIELD_PLAYER_StepFormChange(u8 *p);
 extern void FLDMMDL_SetDrawStatus(void *p, u16 v);
 extern u32 GFL_USE_GetRandomBelow(u32 v);
 extern int SCRIPT_SYS_CallScriptEvent(void *p, u16 b, int c, int d, u16 e);
 extern void EFFECT_ENCOUNT_Reset(u8 *p);
-extern int BTL_SETUP_Delete(int a0);
+extern int BTL_SETUP_Delete(int param);
 extern int EVENT_BATTLE_CreateScriptedBattle(int a0, int a1, int a2, int a3, int a4);
 extern void GAME_EVENT_ChangeEvent(struct S0201235C *o, u32 *out);
 int FISHING_StepCounter(FishingWork *w, u32 limit);
@@ -202,7 +202,7 @@ void *FISHING_CreateEvent(struct FieldMap *fieldMap, void *gameSystem)
     MI_CpuFill8(work, 0, sizeof(FishingWork));
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
-    work->gameData = ICA_ANIME_GetField1C(gameSystem);
+    work->gameData = GAMESYSTEM_GetGameData(gameSystem);
     work->encount = (void *)FIELDMAP_GetEncount((u8 *)work->fieldMap);
     work->trainerRecord = GAME_DATA_GetTrainerRecord(work->gameData);
     work->mmdlSys = FIELDMAP_GetMmdlSys((u8 *)work->fieldMap);

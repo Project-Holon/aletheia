@@ -29,7 +29,7 @@
  *   FIELD_SUBPROC_Start  0x021BB990  thumb  ov021
  *   FIELD_SUBPROC_GetWork  0x021BBA6C  thumb  ov021
  *   FIELD_SUBPROC_End  0x021BBA1C  thumb  ov021
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   TCB_DeleteTask  0x02030EAC  arm
  *   gFkDemoDrawTemplate     0x021F42C0  data  a4
@@ -282,7 +282,7 @@ int FIELD_FK_DEMO_EventMain(struct GameEvent *event, int *seq, FkDemoWork *work)
     heapId = FIELDMAP_GetHeapId(work->fieldMap);
     switch (*seq) {
     case 0:
-        myStatus = GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(work->gameSystem));
+        myStatus = GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(work->gameSystem));
         FIELD_FK_DEMO_InitModel(&work->model, FIELDMAP_GetFieldPlayer(work->fieldMap), myStatus, heapId, work->variant);
         (*seq)++;
         break;
@@ -667,13 +667,13 @@ void FIELD_FK_BUILD_SOUND_Init(struct FieldSubproc *proc, struct FieldMap *field
             break;
         }
     }
-    FIELD_SOUND_SYSTEM_ClaimSlot(GAME_DATA_GetBgmInfo(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(fieldMap))), FK_SE_BUILD_ANIME_LOOP);
+    FIELD_SOUND_SYSTEM_ClaimSlot(GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FK_SE_BUILD_ANIME_LOOP);
 }
 
 /* Exit of that proc: stops the loop sound. */
 void FIELD_FK_BUILD_SOUND_Exit(struct FieldSubproc *proc, struct FieldMap *fieldMap)
 {
-    FIELD_SOUND_SYSTEM_ReleaseSlot(GAME_DATA_GetBgmInfo(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(fieldMap))), FK_SE_BUILD_ANIME_LOOP);
+    FIELD_SOUND_SYSTEM_ReleaseSlot(GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FK_SE_BUILD_ANIME_LOOP);
 }
 
 /* Update of that proc: plays the hit sound when the building animation reaches the trigger frame. */
@@ -682,7 +682,7 @@ void FIELD_FK_BUILD_SOUND_Update(struct FieldSubproc *proc, struct FieldMap *fie
     struct FieldSoundSystem *soundSys;
 
     if (work->triggerFrame == FIELD_BUILDMODEL_GetEntrySlotFrame(work->man, work->entry, 1)) {
-        soundSys = GAME_DATA_GetBgmInfo(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(fieldMap)));
+        soundSys = GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
         work->triggerIndex = 0;
         work->triggerFrame = gFkBuildSoundTriggerFrame[work->triggerIndex];
         FIELD_SOUND_SYSTEM_ClaimSlot(soundSys, FK_SE_BUILD_ANIME_HIT);

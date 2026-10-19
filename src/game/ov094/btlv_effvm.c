@@ -336,9 +336,9 @@ extern int BUTTON_MAN_GetBlock(struct ParticleSys *p);
 
 extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 
-extern u32 ARC_UTIL_UploadBgCharFromArchive(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
+extern u32 ARC_UTIL_UploadBgCharFromArchive(void *archiveID, void *memberIdx, void *bgId, void *tileOffset, u32 size, u32 heapID, u16 allocFlags);
 
-extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
+extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 archiveID, u32 memberIdx, u32 channel, u32 offset, u32 size, u32 heapID, u16 flags);
 
 extern void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
 
@@ -370,7 +370,7 @@ extern int _ffix(float);
 
 extern void VM_Jump(struct ScriptVm *c, u32 v);
 
-extern unsigned short PALANM_GetPairedCodeForFirst(int a0);
+extern unsigned short PALANM_GetPairedCodeForFirst(int value);
 
 extern void VM_Call(struct ScriptVm *r, unsigned int v);
 
@@ -892,7 +892,7 @@ void BTLV_MCSS_SetSubstituteSprite(BtlvMcssWork *mcss, int key, int flag, int cl
 
 void BTLV_MCSS_CopySpriteResources(BtlvMcssWork *mcss, int key1, int key2);
 
-int BTLV_MCSS_PlayCry(BtlvMcssWork *mcss, int key, int pitch, int pan, int a4, int a5, int a6);
+int BTLV_MCSS_PlayCry(BtlvMcssWork *mcss, int key, int pitch, int pan, int chorusParamA, int chorusParamB, int chorusParamC);
 
 int BTLV_MCSS_GetSpriteColorCode(BtlvMcssWork *mcss, int key);
 

@@ -61,23 +61,23 @@ extern void OS_FreeToHeap(u32 a, u32 b, u32 heap);
 u32 ENV_InsertResourceSet(void *prev, void *resSet);
 
 
-void SHA1_HMAC_Init(u32 a);
+void SHA1_HMAC_Init(u32 ctx);
 
-void SHA1_HMAC_Update(u32 a, u32 b, u32 c);
+void SHA1_HMAC_Update(u32 ctx, u32 data, u32 len);
 
-void SHA1_HMAC_GetHash(u32 a, u32 b);
+void SHA1_HMAC_GetHash(u32 ctx, u32 digest);
 
-void SHA1_HMAC_Calc(u32 a, u32 b, u32 c, u32 d, u32 e);
+void SHA1_HMAC_Calc(u32 digest, u32 data, u32 dataLen, u32 key, u32 keyLen);
 
 void MSL_C_LIB_EmptyStub(void);
 
-void MSL_C_LIB_TwlCall1(u32 arg0);
+void MSL_C_LIB_TwlCall1(u32 ctx);
 
-void MSL_C_LIB_TwlCall3(u32 arg0, u32 arg1, u32 arg2);
+void MSL_C_LIB_TwlCall3(u32 ctx, u32 data, u32 len);
 
-void MSL_C_LIB_TwlCall2(u32 arg0, u32 arg1);
+void MSL_C_LIB_TwlCall2(u32 ctx, u32 digest);
 
-void MSL_C_LIB_TwlCall5(u32 arg0, u32 arg1, u32 arg2, u32 arg3, u32 arg4);
+void MSL_C_LIB_TwlCall5(u32 digest, u32 data, u32 dataLen, u32 key, u32 keyLen);
 
 void MSL_C_LIB_SetTwlFlag(int x);
 
@@ -144,12 +144,12 @@ void MSL_C_LIB_EmptyStub(void)
  *   python tools/match.py one --src src/matched/MSL_C_LIB_TwlCall1.c \
  *       --func MSL_C_LIB_TwlCall1 --addr 0x020911D8 --cc 1.1p1 --thumb
  */
-void MSL_C_LIB_TwlCall1(u32 arg0)
+void MSL_C_LIB_TwlCall1(u32 ctx)
 {
     if (OSi_IsRunOnTwl() == 0) {
         OS_Terminate();
     }
-    SHA1_HMAC_Init(arg0);
+    SHA1_HMAC_Init(ctx);
 }
 
 /*
@@ -159,12 +159,12 @@ void MSL_C_LIB_TwlCall1(u32 arg0)
  *   python tools/match.py one --src src/matched/MSL_C_LIB_TwlCall3.c \
  *       --func MSL_C_LIB_TwlCall3 --addr 0x02091200 --cc 1.1p1 --thumb
  */
-void MSL_C_LIB_TwlCall3(u32 arg0, u32 arg1, u32 arg2)
+void MSL_C_LIB_TwlCall3(u32 ctx, u32 data, u32 len)
 {
     if (OSi_IsRunOnTwl() == 0) {
         OS_Terminate();
     }
-    SHA1_HMAC_Update(arg0, arg1, arg2);
+    SHA1_HMAC_Update(ctx, data, len);
 }
 
 /*
@@ -174,12 +174,12 @@ void MSL_C_LIB_TwlCall3(u32 arg0, u32 arg1, u32 arg2)
  *   python tools/match.py one --src src/matched/MSL_C_LIB_TwlCall2.c \
  *       --func MSL_C_LIB_TwlCall2 --addr 0x02091230 --cc 1.1p1 --thumb
  */
-void MSL_C_LIB_TwlCall2(u32 arg0, u32 arg1)
+void MSL_C_LIB_TwlCall2(u32 ctx, u32 digest)
 {
     if (OSi_IsRunOnTwl() == 0) {
         OS_Terminate();
     }
-    SHA1_HMAC_GetHash(arg0, arg1);
+    SHA1_HMAC_GetHash(ctx, digest);
 }
 
 /*
@@ -190,12 +190,12 @@ void MSL_C_LIB_TwlCall2(u32 arg0, u32 arg1)
  *   python tools/match.py one --src src/matched/MSL_C_LIB_TwlCall5.c \
  *       --func MSL_C_LIB_TwlCall5 --addr 0x0209125C --cc 1.1p1 --thumb
  */
-void MSL_C_LIB_TwlCall5(u32 arg0, u32 arg1, u32 arg2, u32 arg3, u32 arg4)
+void MSL_C_LIB_TwlCall5(u32 digest, u32 data, u32 dataLen, u32 key, u32 keyLen)
 {
     if (OSi_IsRunOnTwl() == 0) {
         OS_Terminate();
     }
-    SHA1_HMAC_Calc(arg0, arg1, arg2, arg3, arg4);
+    SHA1_HMAC_Calc(digest, data, dataLen, key, keyLen);
 }
 
 #pragma thumb reset

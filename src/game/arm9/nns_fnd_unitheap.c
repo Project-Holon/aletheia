@@ -45,8 +45,8 @@ typedef struct NNSiFndHeapRef {
 typedef struct NNSiFndAllocator {
     void *funcs;
     void *heap;
-    u32 arg0;
-    u32 arg1;
+    u32 heapParam1;
+    u32 heapParam2;
 } NNSiFndAllocator;
 
 extern void MIi_CpuClear32(u32 val, void *dst, u32 size);
@@ -152,12 +152,12 @@ void NNSi_FndPushFreeBlock(NNSiFndUnitHeap *heap, void *block)
 
 /*
  * Allocator-table alloc for the expanded heap: tail call to
- * NNS_FndAllocFromExpHeapEx(allocator->heap, size, allocator->arg0).  Table word
+ * NNS_FndAllocFromExpHeapEx(allocator->heap, size, allocator->heapParam1).  Table word
  * 0x0206128C at 0x020A1708.
  */
 void *NNSi_FndAllocFromExpHeapAllocator(NNSiFndAllocator *allocator, u32 size)
 {
-    return NNS_FndAllocFromExpHeapEx(allocator->heap, size, (s32)allocator->arg0);
+    return NNS_FndAllocFromExpHeapEx(allocator->heap, size, (s32)allocator->heapParam1);
 }
 
 /*
@@ -179,12 +179,12 @@ void NNSi_FndFreeToExpHeapAllocator(NNSiFndAllocator *allocator, void *block)
 
 /*
  * Allocator-table alloc for the frame heap: tail call to
- * NNS_FndAllocFromFrmHeapEx(allocator->heap, size, allocator->arg0).  Table word
+ * NNS_FndAllocFromFrmHeapEx(allocator->heap, size, allocator->heapParam1).  Table word
  * 0x020612B0 at 0x020A1700.
  */
 void *NNSi_FndAllocFromFrmHeapAllocator(NNSiFndAllocator *allocator, u32 size)
 {
-    return (void *)NNS_FndAllocFromFrmHeapEx(allocator->heap, size, (s32)allocator->arg0);
+    return (void *)NNS_FndAllocFromFrmHeapEx(allocator->heap, size, (s32)allocator->heapParam1);
 }
 
 /*
@@ -234,10 +234,10 @@ void NNSi_FndFreeToUnitHeapAllocator(NNSiFndAllocator *allocator, void *block)
 
 void *NNSi_FndAllocFromVramAllocator(NNSiFndAllocator *allocator, u32 size)
 {
-    return OS_AllocFromHeap((int)allocator->arg0, (int)allocator->heap, size);
+    return OS_AllocFromHeap((int)allocator->heapParam1, (int)allocator->heap, size);
 }
 
 void NNSi_FndFreeToVramAllocator(NNSiFndAllocator *allocator, void *ptr)
 {
-    OS_FreeToHeap((int)allocator->arg0, (int)allocator->heap, ptr);
+    OS_FreeToHeap((int)allocator->heapParam1, (int)allocator->heap, ptr);
 }

@@ -110,7 +110,7 @@ typedef struct SoundEntryRecord {
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *PLAYER_VOLUME_FADER_Create(void *a, int v);
-extern u32 *RINGTONE_SYS_Create(u32 a0, u32 a1);
+extern u32 *RINGTONE_SYS_Create(u32 heapId, u32 volumeFader);
 extern void GFL_USE_SetSeqStartFilter(int (*hook)(u32 id));
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void RINGTONE_SYS_Delete(void *p);
@@ -123,7 +123,7 @@ extern void RINGTONE_SYS_Start(void *p);
 extern void RINGTONE_SYS_Stop(void *p);
 extern int FIELD_SOUND_SYSTEM_FindSlotSound(u32 id);
 extern int FIELD_SOUND_SYSTEM_IsSlotSoundTracked(u32 id);
-extern int GFL_USE_GetSeSlot(u32 a0);
+extern int GFL_USE_GetSeSlot(u32 seqNo);
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern void GFL_USE_PlaySeWithVolume(u32 id, u32 who);
 extern void GFL_USE_SetSeSlotVolume(int i, u32 level);

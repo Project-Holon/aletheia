@@ -17,11 +17,11 @@ typedef struct McssMon {
     u32 kind;               /* 0x00 = 4 */
     void *source;           /* 0x04 source pokemon */
     u16 species;            /* 0x08 */
-    u8 form;                /* 0x0A */
-    u8 fieldB;              /* 0x0B */
-    u8 fieldC;              /* 0x0C */
+    u8 sex;                 /* 0x0A param 110 */
+    u8 form;                /* 0x0B param 111 */
+    u8 isShiny;             /* 0x0C */
     u8 pad_D[3];            /* 0x0D */
-    u32 field10;            /* 0x10 */
+    u32 personalRnd;        /* 0x10 param 0 */
     u16 slots[9][3];        /* 0x14 9 records of 6 bytes */
     u16 field4A;            /* 0x4A */
     u8 pad_4C[8];           /* 0x4C */

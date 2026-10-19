@@ -192,7 +192,7 @@ extern GameEvent *EL_SCOREBOARD_StartOnField(GameSystem *gameSystem, FieldMap *f
 extern GameEvent *EL_SCOREBOARD_StartOnFieldWithCallback(GameSystem *gameSystem, FieldMap *fieldMap, u8 seasonShown, u8 seasonTarget, FieldFadeCallback finishCallback, void *finishCallbackArg);
 extern void GAME_EVENT_CallEvent(GameEvent *parent, GameEvent *child);
 extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
-extern void WIPE_SYS_Start(u32 type, u32 p2, u32 p3, u16 p4, u32 p5, u32 p6, u32 p7);
+extern void WIPE_SYS_Start(u32 type, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
 extern u32 WIPE_SYS_EndCheck(void);
 extern u32 BG_SYS_GetMainVisiblePlanes(void);
 extern u32 BG_SYS_GetSubVisiblePlanes(void);

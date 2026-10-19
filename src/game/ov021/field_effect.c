@@ -63,7 +63,7 @@ extern void *FIELDMAP_GetGameSystem(void *p);
 extern void *GFL_HEAP_Alloc(u32 a, u32 b, int c, const char *d, u16 e);
 extern u16 FIELDMAP_GetZoneId(u8 *p);
 extern u32 ZONEDATA_GetAreaId(u32 id);
-extern int COMM_PLAYER_SUPPORT_GetInfoCode(void *a0);
+extern int COMM_PLAYER_SUPPORT_GetInfoCode(void *info);
 extern u32 FIELDMAP_GetAreaData(u8 *p);
 extern u8 ZONEDATA_GetAreaInnerOuter(void *p);
 extern u32 FIELDMAP_GetEffectBbdAct(u8 *p);

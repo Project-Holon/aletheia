@@ -160,11 +160,11 @@ extern u8 unit_02045730(u32 a);
 
 extern void BG_SYS_PushTile(u32 index);
 
-extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
 
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 
-extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
+extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 archiveID, u32 memberIdx, u32 channel, u32 offset, u32 size, u32 heapID, u16 flags);
 
 extern void WORLDTRADE_ClearBusyFlag(Work *p);
 
@@ -178,7 +178,7 @@ typedef struct {
     u16 y;
     u16 z;
     u8 pri;
-    u8 f7;
+    u8 bgPriority;
 } ObjPos_vCFD8;
 
 typedef struct {
@@ -315,7 +315,7 @@ int WORLDTRADE_LIST_StateScrollIn(Work *p);
 
 int WORLDTRADE_LIST_StateWaitMessage(u8 *p);
 
-void WORLDTRADE_LIST_PrintMessage(u8 *p, u32 k, u32 a2, u32 a3, u32 a4);
+void WORLDTRADE_LIST_PrintMessage(u8 *p, u32 k, u32 unused1, u32 unused2, u32 unused3);
 
 void WORLDTRADE_LIST_PrintLabel(void *bank, Pane *pane, u32 index, void *g, u16 color);
 
@@ -367,14 +367,14 @@ int WORLDTRADE_LIST_Init(Work *p)
     WORLDTRADE_LIST_LoadBgGraphics(p);
     WORLDTRADE_LIST_CreateWindows(p);
     WORLDTRADE_LIST_CreateActors(p);
-    WORLDTRADE_DETAIL_PrintMonInfo(p->bank, p->names, p->words, p->win_p7, POKE_TOOL_GetBoxParam(&p->arr[p->cur]), (Rec *)(p->arr[p->cur].rec), p->fFA0);
-    WORLDTRADE_DETAIL_PrintMonName(p->bank, (Pane2 *)(&p->win_p7[7]), p->arr[p->cur].name, &p->arr[p->cur], (Pane2 *)p->pane3, p->fFA0);
+    WORLDTRADE_DETAIL_PrintMonInfo(p->bank, p->names, p->words, p->win_p7, POKE_TOOL_GetBoxParam(&p->arr[p->cur]), (Rec *)(p->arr[p->cur].rec), p->printerBlock);
+    WORLDTRADE_DETAIL_PrintMonName(p->bank, (Pane2 *)(&p->win_p7[7]), p->arr[p->cur].name, &p->arr[p->cur], (Pane2 *)p->pane3, p->printerBlock);
     WORLDTRADE_DETAIL_LoadMonGraphics(&p->arr[p->cur]);
-    WORLDTRADE_LIST_PrintLabel(p->bank, (Pane *)&p->pane3[2], 0x53, p->fFA0, 0x440);
-    WORLDTRADE_LIST_PrintLabel(p->bank, (Pane *)&p->title, 0x57, p->fFA0, 0x3C40);
+    WORLDTRADE_LIST_PrintLabel(p->bank, (Pane *)&p->pane3[2], 0x53, p->printerBlock, 0x440);
+    WORLDTRADE_LIST_PrintLabel(p->bank, (Pane *)&p->title, 0x57, p->printerBlock, 0x3C40);
     if (p->flag == 0) {
-        WORLDTRADE_LIST_PrintHeader(p->bank, (Pane *)&p->side_p2[0], 0x5E, p->fFA0);
-        WORLDTRADE_LIST_PrintHeader(p->bank, (Pane *)&p->side_p2[1], 0x73, p->fFA0);
+        WORLDTRADE_LIST_PrintHeader(p->bank, (Pane *)&p->side_p2[0], 0x5E, p->printerBlock);
+        WORLDTRADE_LIST_PrintHeader(p->bank, (Pane *)&p->side_p2[1], 0x73, p->printerBlock);
     }
     WORLDTRADE_LIST_DrawSelectedRecord(p);
     WORLDTRADE_SUBLCD_MoveArrowToSlot(p, p->cur, -p->scroll);
@@ -391,7 +391,7 @@ int WORLDTRADE_LIST_Init(Work *p)
         }
     }
     p->state = 0;
-    p->f12E4 = 0;
+    p->keepBgLayers = 0;
     p->flag = 0;
     return 1;
 }
@@ -419,7 +419,7 @@ int WORLDTRADE_LIST_Exit(Work *p)
     WORLDTRADE_LIST_DeleteWindows((u8 *)p);
     WORLDTRADE_LIST_ExitBgPlanes();
     WORLDTRADE_TITLE_ExitBgPlanes(p);
-    CLACT_SetActorDrawEnable((struct Obj *)p->fD38, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)p->scrollBarObj, 0);
     WORLDTRADE_ClearBusyFlag(p);
     if (*(int *)&p->flag == 0)
         GFL_NET_RestartWithDefaultTimeout(0, 0x48);
@@ -430,7 +430,7 @@ int WORLDTRADE_LIST_Exit(Work *p)
  * Three-layer bring-up: the saved display config, layers 2 and 1 enabled
  * (only 2 020414EC'd) and layer 2's 0x20x0x48 tilemap cleared.
  */
-void WORLDTRADE_LIST_SetupBgPlanes(int y)
+void WORLDTRADE_LIST_SetupBgPlanes(int unused1)
 {
     struct DispConfig c = g_02203618;
     u32 v = BG_SYS_GetSubVisiblePlanes();
@@ -592,7 +592,7 @@ void WORLDTRADE_LIST_DeleteStrings(Work *p)
 
 int WORLDTRADE_LIST_StateWaitWipeIn(Work *p)
 {
-    CLACT_SetActorDrawEnable((struct Obj *)p->fD38, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)p->scrollBarObj, 0);
     if (p->kind == 16) {
         WIPE_SYS_Start(0, 1, 1, 0, 16, 1, 0x48);
         p->state_i = 7;
@@ -603,16 +603,16 @@ int WORLDTRADE_LIST_StateWaitWipeIn(Work *p)
     return 2;
 }
 
-void WORLDTRADE_LIST_SelectCursorEntry(Work *p, int i)
+void WORLDTRADE_LIST_SelectCursorEntry(Work *p, int slot)
 {
-    if (i != p->cur && i >= 0) {
-        CLACT_SetActorAnimSeq((struct Obj *)(*(u32 *)((unsigned char *)p + (i + 1) * 4 + 0xd0c)), i * 4 + 16);
+    if (slot != p->cur && slot >= 0) {
+        CLACT_SetActorAnimSeq((struct Obj *)(*(u32 *)((unsigned char *)p + (slot + 1) * 4 + 0xd0c)), slot * 4 + 16);
         p->state_i = 2;
         WORLDTRADE_SetStateAndReturn(p, 3, 17);
-        p->cur = i;
-        WORLDTRADE_SUBLCD_MoveArrowToSlot((Work *)p, i, 0);
+        p->cur = slot;
+        WORLDTRADE_SUBLCD_MoveArrowToSlot((Work *)p, slot, 0);
         GFL_USE_PlaySeDefaultVolume(0x54c);
-        (*(int *)&p->f12E4) = 1;
+        (*(int *)&p->keepBgLayers) = 1;
         (*(int *)&p->flag) = 1;
     }
 }
@@ -702,8 +702,8 @@ int WORLDTRADE_LIST_StateConfirmYesNoInput(Work *p)
 void WORLDTRADE_LIST_DrawSelectedRecord(Work *p)
 {
     ARC_UTIL_UploadBgPaletteFromArchive(0x60, 0x1E, 1, 0, 0x800, 1, 0x48);
-    WORLDTRADE_LIST_PrintNames((Pane2 *)p->pane2_p5, p->name0, p->name1, p->fFA0);
-    WORLDTRADE_LIST_PrintRecordRow((Pane *)(&p->pane), p->bank, p->names, (Rec *)(p->arr[p->cur].key), p->fFA0);
+    WORLDTRADE_LIST_PrintNames((Pane2 *)p->pane2_p5, p->name0, p->name1, p->printerBlock);
+    WORLDTRADE_LIST_PrintRecordRow((Pane *)(&p->pane), p->bank, p->names, (Rec *)(p->arr[p->cur].key), p->printerBlock);
 }
 
 /*
@@ -744,11 +744,11 @@ int WORLDTRADE_LIST_StateWaitMessage(u8 *p)
 /*
  * Tear the object down: unhook the two sub-objects, release the +0xd40 resource, wire the 0/1/2 quad, then drain the four engine hooks.
  */
-void WORLDTRADE_LIST_PrintMessage(u8 *p, u32 k, u32 a2, u32 a3, u32 a4)
+void WORLDTRADE_LIST_PrintMessage(u8 *p, u32 msgId, u32 unused1, u32 unused2, u32 unused3)
 {
     u32 v;
 
-    MSGDATA_ReadString((struct MsgBank *)(((Work *)p)->bank_u), k, (void *)(*(u32 *)(p + 0xb6c + 0x1c)));
+    MSGDATA_ReadString((struct MsgBank *)(((Work *)p)->bank_u), msgId, (void *)(*(u32 *)(p + 0xb6c + 0x1c)));
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((Work *)p)->frame)), 0xf);
     BMP_MENUWORK_DrawWindow((void *)(((Work *)p)->frame), 0, 1, 0x2);
     WORLDTRADE_ADAPTER_QueuePrintDefaultColor((void *)(((Work *)p)->frame), 0, (void *)(*(u32 *)(p + 0xb6c + 0x1c)), 0, 0, p + 0xfa0);
@@ -758,20 +758,20 @@ void WORLDTRADE_LIST_PrintMessage(u8 *p, u32 k, u32 a2, u32 a3, u32 a4)
     BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)v));
 }
 
-void WORLDTRADE_LIST_PrintLabel(void *bank, Pane *pane, u32 index, void *g, u16 color)
+void WORLDTRADE_LIST_PrintLabel(void *bank, Pane *pane, u32 index, void *printer, u16 color)
 {
     void *str = MSGDATA_AllocString(bank, index);
 
-    WORLDTRADE_INPUT_PrintStringAlignedLine(pane->win, str, 0, 2, 0, color, g);
+    WORLDTRADE_INPUT_PrintStringAlignedLine(pane->win, str, 0, 2, 0, color, printer);
     STRBUF_Delete(str);
 }
 
-void WORLDTRADE_LIST_PrintHeader(void *bank, Pane *pane, u32 index, void *g)
+void WORLDTRADE_LIST_PrintHeader(void *bank, Pane *pane, u32 index, void *printer)
 {
     void *str = MSGDATA_AllocString(bank, index);
     void *win;
 
-    WORLDTRADE_INPUT_PrintStringAlignedWrapped(pane->win, str, 0, 0, 1, 0x3C40, g);
+    WORLDTRADE_INPUT_PrintStringAlignedWrapped(pane->win, str, 0, 0, 1, 0x3C40, printer);
     win = pane->win;
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
@@ -779,23 +779,23 @@ void WORLDTRADE_LIST_PrintHeader(void *bank, Pane *pane, u32 index, void *g)
     STRBUF_Delete(str);
 }
 
-void WORLDTRADE_LIST_PrintRecordRow(Pane *pane, void *bank, void *names, Rec *rec, void *g)
+void WORLDTRADE_LIST_PrintRecordRow(Pane *pane, void *bank, void *names, Rec *rec, void *printer)
 {
     BMP_Clear(BMP_WIN_GetBmp(pane->win), 0);
-    WORLDTRADE_DEPOSIT_PrintBankString(pane->win, names, rec->name, 0, 0x440, g);
-    WORLDTRADE_DEPOSIT_PrintModeLabel(pane->win, bank, rec->mode, 0, 0x49, 0, 0x440, g);
-    WORLDTRADE_DEPOSIT_PrintConditionLabel(pane->win, bank, WORLDTRADE_DEPOSIT_GetConditionIndex(rec->key, rec->val, 0), 0, 0x68, 0, 0x440, 0, (u32)g);
+    WORLDTRADE_DEPOSIT_PrintBankString(pane->win, names, rec->name, 0, 0x440, printer);
+    WORLDTRADE_DEPOSIT_PrintModeLabel(pane->win, bank, rec->mode, 0, 0x49, 0, 0x440, printer);
+    WORLDTRADE_DEPOSIT_PrintConditionLabel(pane->win, bank, WORLDTRADE_DEPOSIT_GetConditionIndex(rec->key, rec->val, 0), 0, 0x68, 0, 0x440, 0, (u32)printer);
 }
 
-void WORLDTRADE_LIST_PrintNames(Pane2 *pane, void *s1, void *s2, void *g)
+void WORLDTRADE_LIST_PrintNames(Pane2 *pane, void *s1, void *s2, void *printer)
 {
     BMP_Clear(BMP_WIN_GetBmp(pane->win0), 0);
     BMP_Clear(BMP_WIN_GetBmp(pane->win1), 0);
     if (s1 != 0) {
-        WORLDTRADE_INPUT_PrintStringAlignedLine(pane->win0, s1, 0, 0, 0, 0x440, g);
+        WORLDTRADE_INPUT_PrintStringAlignedLine(pane->win0, s1, 0, 0, 0, 0x440, printer);
     }
     if (s2 != 0) {
-        WORLDTRADE_INPUT_PrintStringAlignedLine(pane->win1, s2, 0, 0, 0, 0x440, g);
+        WORLDTRADE_INPUT_PrintStringAlignedLine(pane->win1, s2, 0, 0, 0, 0x440, printer);
     }
 }
 

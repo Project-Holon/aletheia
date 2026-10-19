@@ -40,9 +40,9 @@ typedef unsigned char  u8;
 
 extern u8 *strncpy(u8 *dest, const u8 *src, u32 n);
 extern int strncmp(const unsigned char *s1, const unsigned char *s2, unsigned int n);
-extern int atoi(u32 a0);
+extern int atoi(u32 s);
 extern u8 *strstr(const u8 *s1, const u8 *s2);
-extern int gpiCallErrorCallback(int *connection, int a1, int a2);
+extern int gpiCallErrorCallback(int *connection, int result, int fatal);
 extern int strlen(const u8 *s);
 extern int GSISocketSelect(int theSocket, int *theReadFlag, int *theWriteFlag, int *theExceptFlag);
 extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);

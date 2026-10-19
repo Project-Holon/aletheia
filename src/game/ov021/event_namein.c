@@ -90,7 +90,7 @@ extern u8 MYSTATUS_GetOutfitVariant(const struct MyStatus *obj);
 extern u16 *BEACON_GetGreetMessage(struct NameSave *p);
 extern u16 *BEACON_GetThanksMessage(struct NameSave *p);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
-extern void *FIELD_STATUS_CreateSubProcEvent(char *a0, int a1, int a2, int a3, int a4);
+extern void *FIELD_STATUS_CreateSubProcEvent(char *gameSystem, int fieldMap, int overlayId, int procData, int procWork);
 extern void GAME_EVENT_CallEvent(struct GameEvent *evt, struct GameEvent **out);
 extern void BEACON_SetGreetMessage(struct NameSave *p, const u16 *src);
 extern void GAME_BEACON_UpdateGreeting(void);

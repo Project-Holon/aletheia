@@ -41,7 +41,7 @@ extern void FRAME_LIST_LoadPalettes(u8 *p, u8 *a, u32 b, u32 c, u32 d);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void FRAME_LIST_AddItem(char *ctx, unsigned first, unsigned second);
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern u16 ZKNSEARCH_MAIN_LookupEntryId(int a0, int a1);
+extern u16 ZKNSEARCH_MAIN_LookupEntryId(int work, int index);
 void ZKNSEARCH_LIST_InitFrameList(char *ctx);
 void ZKNSEARCH_LIST_InitFrameList2(char *ctx);
 extern const Template d_021C0C70;

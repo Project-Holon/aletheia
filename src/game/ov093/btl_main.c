@@ -445,7 +445,7 @@ extern void *GAME_DATA_GetMiscSave(struct GameData *gameData);
 extern u32 BEACON_GetPoints(struct Blk34 *p);
 extern u32 BTL_CALC_CalcDefeatMoneyLoss(u32 a, void *b);
 extern struct FieldSituation *BTL_MAIN_GetFieldSituation(struct BtlMain *main);
-extern void NATSUKI_Calc(void *a0, int a1, int a2, int a3);
+extern void NATSUKI_Calc(void *pp, int type, int zoneId, int heap);
 extern void BTL_POKEPARAM_CopyMoves(struct BtlPokeParam *src, struct BtlPokeParam *dst);
 extern int BTL_POKEPARAM_IsIllusionActive(struct BtlPokeParam *poke);
 extern void *BTL_POKEPARAM_GetDisplayMon(struct BtlPokeParam *poke);
@@ -486,7 +486,7 @@ extern u32 RECORD_AddCounter(void *trainerRecord, int arg, u32 delta);
 extern u8 BTL_MAIN_IsCommCompetitor(struct BattleSetupParam *setup);
 extern void NATSUKI_CalcUseItem(void *, int, u16, u16);
 extern int BTL_CALC_IsBossTrainer(u32);
-extern void NATSUKI_CalcParty(void *a0, int a1, int a2);
+extern void NATSUKI_CalcParty(void *party, int zoneId, int heap);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern u32 BTL_CALC_GetItemParam(void *p, u32 n);
 extern int BTL_POKEPARAM_GetMajorStatusIndex(struct BtlPokeParam *poke);
@@ -519,8 +519,8 @@ u8 BTL_MAIN_GetOwnPartnerClient(struct BtlMain *main);
 int BTL_MAIN_IsSameTeamClient(int clientA, int clientB);
 u8 BTL_MAIN_GetOwnOpponentClient(struct BtlMain *main, int nth);
 u32 BTL_MAIN_GetOpponentClient(struct BtlMain *main, int clientId, int nth);
-void BTL_MAIN_AddItemToBag(struct BtlMain *main, u32 clientId, u32 itemId);
-void BTL_MAIN_SubItemFromBag(struct BtlMain *main, u8 clientId, u32 itemId);
+void BTL_MAIN_RemoveItemFromBag(struct BtlMain *main, u32 clientId, u32 itemId);
+void BTL_MAIN_AddItemToBag(struct BtlMain *main, u8 clientId, u32 itemId);
 u32 BTL_MAIN_GetMyItem(struct BtlMain *main);
 u32 BTL_MAIN_GetMapMatrix(struct BtlMain *main);
 int BTL_MAIN_IsRecordingActive(struct BtlMain *main);
@@ -2287,9 +2287,9 @@ u8 BTL_MAIN_DecodeMessageCode(struct BtlMain *main, int code, u8 *out)
 
 
 
-u8 BTL_MAIN_DecodeMessageCodeBasic(struct BtlMain *main, u32 k, u32 v, u8 *out)
+u8 BTL_MAIN_DecodeMessageCodeBasic(struct BtlMain *main, u32 rangeType, u32 basePos, u8 *out)
 {
-    switch (k) {
+    switch (rangeType) {
     case 0:
     case 4:
     case 7:
@@ -2298,10 +2298,10 @@ u8 BTL_MAIN_DecodeMessageCodeBasic(struct BtlMain *main, u32 k, u32 v, u8 *out)
     case 1:
     case 2:
     case 6:
-        *out = BTL_MAIN_GetEnemyLanePosFromWork(main, v, 0);
+        *out = BTL_MAIN_GetEnemyLanePosFromWork(main, basePos, 0);
         break;
     case 3:
-        *out = v;
+        *out = basePos;
         break;
     case 5:
     case 8:
@@ -3110,7 +3110,7 @@ u32 BTL_MAIN_GetOpponentClient(struct BtlMain *main, int clientId, int nth)
 
 
 
-void BTL_MAIN_AddItemToBag(struct BtlMain *main, u32 clientId, u32 itemId)
+void BTL_MAIN_RemoveItemFromBag(struct BtlMain *main, u32 clientId, u32 itemId)
 {
     struct BattleSetupParam *setup;
     setup = main->setup;
@@ -3128,7 +3128,7 @@ void BTL_MAIN_AddItemToBag(struct BtlMain *main, u32 clientId, u32 itemId)
 
 
 
-void BTL_MAIN_SubItemFromBag(struct BtlMain *main, u8 clientId, u32 itemId)
+void BTL_MAIN_AddItemToBag(struct BtlMain *main, u8 clientId, u32 itemId)
 {
     struct BattleSetupParam *setup;
     setup = main->setup;

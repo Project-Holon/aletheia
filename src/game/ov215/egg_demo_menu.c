@@ -94,7 +94,7 @@ extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
-extern void *BMP_MENUWORK_LoadFrameGfx(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *BMP_MENUWORK_LoadFrameGfx(void *layer, u32 palSlot, u32 frameId, u32 heapId);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
@@ -107,7 +107,7 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void TCBL_Main(struct Tcbl *p);
-extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void BG_SYS_PushTile(u32 index);
@@ -142,7 +142,7 @@ void EGG_DEMO_MENU_Draw(void *unused, char *p);
 void EGG_DEMO_MENU_SetText(char *object,char *p,unsigned entry);
 int EGG_DEMO_MENU_WaitText(void *unused,char *p);
 void EGG_DEMO_MENU_InitDialog(int unused, unsigned char *q);
-void EGG_DEMO_MENU_Noop(int a0, char *a1);
+void EGG_DEMO_MENU_Noop(int args, char *work);
 void EGG_DEMO_MENU_ProcessDialog(void *unused, char *p);
 int EGG_DEMO_MENU_CreateDialog(int a,char *p);
 int EGG_DEMO_MENU_GetDialogResult(int a,char *p);
@@ -256,7 +256,7 @@ void EGG_DEMO_MENU_InitDialog(int unused, unsigned char *work)
     ((struct EggDemoWork *)work)->dialogResult = 2;
 }
 
-void EGG_DEMO_MENU_Noop(int a0, char *a1)
+void EGG_DEMO_MENU_Noop(int args, char *work)
 {
 
 }

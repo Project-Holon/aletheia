@@ -48,7 +48,7 @@ typedef struct CamBuf {
     u8 *p274;
     CamRing *ring;
     u8 *p27c;
-    u16 f280;
+    u16 dmaNo;
 } CamBuf;
 
 extern u32 OS_DisableInterrupts(void);
@@ -118,7 +118,7 @@ u32 NWMi_InitCore(CamBuf *buf, u32 size, u32 mode) {
     data_027341A4->ring = (CamRing *)(data_027341A4->p274 + 0x20);
     data_027341A4->p27c = (u8 *)data_027341A4->ring + 0xc0;
     NWMi_ClearFifoRecvFlag();
-    data_027341A4->f280 = mode;
+    data_027341A4->dmaNo = mode;
     OS_InitMessageQueue(data_027341A4->ctlA, data_027341A4->ctlB, 0x20);
     for (i = 0; i < 0x20; i++) {
         data_027341A4->lines[i][0] = 0x8000;

@@ -132,7 +132,7 @@ void MUSICAL_MCSS_ResetRender(int a);
 
 void MUSICAL_MCSS_ResetRender2(int a,int b);
 
-void MUSICAL_MCSS_GetRenderSize(int a0, int a1);
+void MUSICAL_MCSS_GetRenderSize(int slot, int isLarge);
 
 void MUSICAL_MCSS_SetRenderFieldA(void **p,int b);
 
@@ -344,12 +344,12 @@ void MUSICAL_MCSS_ResetRender2(int a,int b) { if(b!=((Slot *)a)->enabled)MUSICAL
  *
  * Addresses are Black-image addresses.
  */
-void MUSICAL_MCSS_GetRenderSize(int a0, int a1)
+void MUSICAL_MCSS_GetRenderSize(int slot, int isLarge)
 {
-    if (a1 == 1)
-        MUSICAL_MCSS_GetFieldC((u8 *)(((Slot *)a0)->object));
+    if (isLarge == 1)
+        MUSICAL_MCSS_GetFieldC((u8 *)(((Slot *)slot)->object));
     else
-        MUSICAL_MCSS_GetFieldD((u8 *)(((Slot *)a0)->object));
+        MUSICAL_MCSS_GetFieldD((u8 *)(((Slot *)slot)->object));
 }
 
 void MUSICAL_MCSS_SetRenderFieldA(void **p,int b) {MUSICAL_MCSS_SetFieldA(p[1],b); }
@@ -401,18 +401,18 @@ void MUSICAL_MCSS_SetMatrix(unsigned mode, McssMatrixInput *in, Big *p)
     }
 }
 
-void MUSICAL_MCSS_GetPokemonArcs(u8 *p, u32 *out, u32 k)
+void MUSICAL_MCSS_GetPokemonArcs(u8 *mon, u32 *out, u32 k)
 {
     u32 a, c, d, flag;
     int b;
     u32 n;
-    POKE_TOOL_GetBoxParam(((McssMon *)p)->source);
-    a = ((McssMon *)p)->species;
-    n = POKE_TOOL_NormalizeForm(a, p[11]);
-    c = p[10];
-    d = p[12];
+    POKE_TOOL_GetBoxParam(((McssMon *)mon)->source);
+    a = ((McssMon *)mon)->species;
+    n = POKE_TOOL_NormalizeForm(a, mon[11]);
+    c = mon[10];
+    d = mon[12];
     flag = 0;
-    b = POKE_TOOL_FilterSpecies(((McssMon *)p)->species, (u8)n);
+    b = POKE_TOOL_FilterSpecies(((McssMon *)mon)->species, (u8)n);
     if (k == 1) flag = 1;
     out[0] = 52;
     out[1] = POKEGRA_GetCbrArcIndex(out[0],a,b,c,d,flag,0);
@@ -422,5 +422,5 @@ void MUSICAL_MCSS_GetPokemonArcs(u8 *p, u32 *out, u32 k)
     out[5] = POKEGRA_GetMCelArcIndex(out[0],a,b,c,d,flag,0);
     out[6] = POKEGRA_GetMAnmArcIndex(out[0],a,b,c,d,flag,0);
     out[7] = POKEGRA_GetNcecArcIndex(out[0],a,b,c,d,flag,0);
-    out[8] = ((McssMon *)p)->field10;
+    out[8] = ((McssMon *)mon)->personalRnd;
 }

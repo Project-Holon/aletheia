@@ -1,5 +1,5 @@
 /*
- * function: BTLV_CORE_GetSelectedItemPocket
+ * function: BTLV_CORE_GetSelectedItemCost
  * address:  0x021EA030
  * packet:   pkt_021E8CE0
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   BTLV_CORE_GetSelectedItemPocket   0x021EA030  thumb
+ *   BTLV_CORE_GetSelectedItemCost   0x021EA030  thumb
  *
  * Leaf with no calls and no pool; 10 instructions, 20 bytes: adds r1, r0, #0; adds r1, #0xe1; ldrb r1, [r1]; cmp r1, #0; beq loc_021EA040; adds r0, #0xe0; ldrb r0, [r0]; bx lr; movs r0, #0; bx lr.
  */
@@ -23,7 +23,7 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021EA030  if (p[0xe1]) return p[0xe0]; return 0; */
-u8 BTLV_CORE_GetSelectedItemPocket(u8 *p)
+u8 BTLV_CORE_GetSelectedItemCost(u8 *p)
 {
     if (p[0xe1] != 0)
         return p[0xe0];

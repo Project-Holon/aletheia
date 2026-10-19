@@ -81,7 +81,7 @@
  *   GAMESYSTEM_GetFieldMapState  0x0201212C  thumb
  *   EVENT_COMM_ERROR_Create  0x021C06CC  thumb
  *   FIELD_SUBSCREEN_GetMode  0x021A0F90  thumb
- *   SCRCMD_NETWORK_CreateBattleRecordLinkEvent  0x0215FC40  thumb  ov010
+ *   EVENT_FIELD_MENU_Create  0x0215FC40  thumb  ov010
  *   FIELD_SUBSCREEN_CheckModeRequest  0x021A0EB0  thumb
  *   FIELD_EVENT_CHECK_CreateGPowerExpireEvent  0x0218ACA8  thumb
  *   INTRUDE_FIELD_CreateTileEvent  0x0217B410  thumb  ov018
@@ -199,7 +199,7 @@ extern struct Desc *EVENT_SHORTCUT_MENU_Create(int a0, int a1, u16 a2);
 extern u8 GAMESYSTEM_GetFieldMapState(const struct Ctx *p);
 extern int EVENT_COMM_ERROR_Create(void *sys, u8 *pos);
 extern u32 FIELD_SUBSCREEN_GetMode(u8 *p);
-extern struct Desc *SCRCMD_NETWORK_CreateBattleRecordLinkEvent(int a0, int a1, u16 a2);
+extern struct Desc *EVENT_FIELD_MENU_Create(int a0, int a1, u16 a2);
 extern int FIELD_SUBSCREEN_CheckModeRequest(u32 *p, u32 a);
 extern struct Desc *FIELD_EVENT_CHECK_CreateGPowerExpireEvent(void *a);
 extern int INTRUDE_FIELD_CreateTileEvent(int a0, int a1, int a2);
@@ -370,7 +370,7 @@ int FIELD_EVENT_CHECK_CheckGridEvents(void *sys, struct Obj00020 *pos, int *outA
         if ((int)FIELD_SUBSCREEN_GetMode((void *)FIELDMAP_GetSubscreen((u8 *)pos)) == 6)
             return 0;
         *outB = 1;
-        return (int)SCRCMD_NETWORK_CreateBattleRecordLinkEvent((int)sys, (int)pos, in.f0);
+        return (int)EVENT_FIELD_MENU_Create((int)sys, (int)pos, in.f0);
     }
     if (WIPE_SYS_EndCheck()) {
         r = FIELD_SUBSCREEN_CheckModeRequest((void *)FIELDMAP_GetSubscreen((u8 *)pos), in.b7);

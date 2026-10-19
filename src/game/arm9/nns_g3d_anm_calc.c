@@ -654,7 +654,7 @@ void NNSi_G3dAnmGetTransDataEx(int *pVal, int frame, const NNSG3dJntAnmTInfo *pI
     u32 info = pInfo->info;
     int idx = frame >> 12;
     u32 lastInterp, frac, mul, shift;
-    int v0, v1;
+    int curVal, nextVal;
 
     if ((int)(pJntAnm->numFrame - 1) != (frame >> 12)) goto general;
 
@@ -668,13 +668,13 @@ void NNSi_G3dAnmGetTransDataEx(int *pVal, int frame, const NNSG3dJntAnmTInfo *pI
     if ((pJntAnm->flag & NNS_G3D_JNTANM_FLAG_END_TO_START_INTERP) != 0) {
         frac = frame & 0xfff;
         if ((info & NNS_G3D_JNTANM_SINFO_FX16ARRAY) != 0) {
-            v0 = ((s16 *)pArray)[idx];
-            v1 = *(s16 *)pArray;
+            curVal = ((s16 *)pArray)[idx];
+            nextVal = *(s16 *)pArray;
         } else {
-            v0 = ((int *)pArray)[idx];
-            v1 = *(int *)pArray;
+            curVal = ((int *)pArray)[idx];
+            nextVal = *(int *)pArray;
         }
-        *pVal = v0 + (((v1 - v0) * (int)frac) >> 12);
+        *pVal = curVal + (((nextVal - curVal) * (int)frac) >> 12);
         return;
     }
     if ((info & NNS_G3D_JNTANM_SINFO_FX16ARRAY) != 0) {
@@ -718,14 +718,14 @@ lerp:
     if ((info & NNS_G3D_JNTANM_SINFO_FX16ARRAY) != 0) {
         s16 *pS16 = (s16 *)pArray + idx;
         u32 byteOfs = (u32)idx << 1;
-        v0 = *(s16 *)(pArray + byteOfs);
-        v1 = pS16[1];
+        curVal = *(s16 *)(pArray + byteOfs);
+        nextVal = pS16[1];
     } else {
         int *pWord = (int *)pArray + idx;
-        v0 = ((int *)pArray)[idx];
-        v1 = pWord[1];
+        curVal = ((int *)pArray)[idx];
+        nextVal = pWord[1];
     }
-    *pVal = (int)((v0 * (int)mul + (((v1 - v0) * frame) >> 12)) >> shift);
+    *pVal = (int)((curVal * (int)mul + (((nextVal - curVal) * frame) >> 12)) >> shift);
 }
 
 /*

@@ -17,7 +17,7 @@
  *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   MI_CpuFill8  0x02082BCC  arm
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   FIELD_PLAYER_StartFormChange  0x021A2F48  thumb  ov021
  *   FIELD_PLAYER_StepFormChange  0x021A2F54  thumb  ov021
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
@@ -117,9 +117,9 @@ extern void MI_CpuFill8(void *p, int v, int n);
 
 extern void *FIELDMAP_GetFieldPlayer(void *fieldMap);
 
-extern void *ICA_ANIME_GetField1C(void *gameSys);
+extern void *GAMESYSTEM_GetGameData(void *gameSys);
 
-extern void FIELD_PLAYER_StartFormChange(void *player, u32 a1);
+extern void FIELD_PLAYER_StartFormChange(void *player, u32 mask);
 
 extern int FIELD_PLAYER_StepFormChange(void *player);
 
@@ -401,7 +401,7 @@ void *SWEET_SCENT_CreateEvent(void *gameSys, void *fieldMap, u8 partyIdx)
     w->gameSys = gameSys;
     w->fieldMap = fieldMap;
     w->fieldPlayer = FIELDMAP_GetFieldPlayer(fieldMap);
-    w->gameData = ICA_ANIME_GetField1C(gameSys);
+    w->gameData = GAMESYSTEM_GetGameData(gameSys);
     return task;
 }
 

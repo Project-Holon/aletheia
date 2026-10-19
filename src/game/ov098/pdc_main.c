@@ -176,7 +176,7 @@ extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern void FADE_Start(u32, int, int, int);
 extern int FADE_IsActive(void);
-extern unsigned short PALANM_GetPairedCodeForFirst(int a0);
+extern unsigned short PALANM_GetPairedCodeForFirst(int value);
 extern void POKE_TOOL_SetPartyValue(void *, u32, u32);
 extern void GFL_USE_FadeOutBgm(u32 a);
 extern int GXx_GetMasterBrightness_(volatile u16 *reg);

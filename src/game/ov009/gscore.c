@@ -71,7 +71,7 @@ extern void gsiDeleteCriticalSection(void *p);
 extern void msleep(unsigned int msec);
 extern unsigned int gsiInterlockedIncrement(unsigned int *value);
 extern void gsiInitializeCriticalSection(void *mutex);
-extern u32 MSL_C_LIB_LockRegisterDestructor(u32 a0);
+extern u32 MSL_C_LIB_LockRegisterDestructor(u32 arg);
 extern void gsiEnterCriticalSection(void *mutex);
 extern void gsiLeaveCriticalSection(void *mutex);
 extern void *ArrayNew(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));

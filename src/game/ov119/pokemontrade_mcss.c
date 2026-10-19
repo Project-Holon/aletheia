@@ -50,46 +50,46 @@ extern int _f2s(float);
 
 extern void MCSS_SetAnmStopFlag(void *p);
 
-void POKETRADE_NEGO_PlaySeByEvent(int a0, u8 *a1);
+void POKETRADE_NEGO_PlaySeByEvent(int eventId, u8 *work);
 
-void POKETRADE_MCSS_SlideBegin(McssSlide *p, void *a1, void *a2);
+void POKETRADE_MCSS_SlideBegin(McssSlide *p, void *frameCount, void *targetPos);
 
-void *POKETRADE_MCSS_SlideCreate(void *a0, void *a1, void *a2, u32 heapId);
+void *POKETRADE_MCSS_SlideCreate(void *mcss, void *frameCount, void *targetPos, u32 heapId);
 
-void *POKETRADE_MCSS_SlideCreateWithOffsets(void *a0, void *a1, void *a2, void *a3, u16 heapId);
+void *POKETRADE_MCSS_SlideCreateWithOffsets(void *mcss, void *frameCount, void *targetPos, void *offsetTable, u16 heapId);
 
-int POKETRADE_MCSS_SlideInterpolate(int a0, int a1, McssSlide *a2, int a3);
+int POKETRADE_MCSS_SlideInterpolate(int startValue, int targetValue, McssSlide *slide, int allowWobble);
 
-void POKETRADE_MCSS_SlideApplyOffset(McssSlide *p, int a1);
+void POKETRADE_MCSS_SlideApplyOffset(McssSlide *p, int eventArg);
 
-void POKETRADE_MCSS_SlideUpdate(McssSlide *p, int a1);
+void POKETRADE_MCSS_SlideUpdate(McssSlide *p, int eventArg);
 
 void POKETRADE_MCSS_StopAnimation(TradeWork *p);
 
 extern short FX_SinCosTable_[];
 
-void POKETRADE_MCSS_SlideBegin(McssSlide *p, void *a1, void *a2)
+void POKETRADE_MCSS_SlideBegin(McssSlide *slide, void *frameCount, void *targetPos)
 {
     u8 buf[12];
 
-    MCSS_GetPosition(p->mcss, (u32 *)buf);
-    p->frame = 0;
-    p->frameCount = (u32)a1;
-    MI_CpuCopy8(a2, &p->target, 0xC);
-    MI_CpuCopy8(buf, &p->start, 0xC);
+    MCSS_GetPosition(slide->mcss, (u32 *)buf);
+    slide->frame = 0;
+    slide->frameCount = (u32)frameCount;
+    MI_CpuCopy8(targetPos, &slide->target, 0xC);
+    MI_CpuCopy8(buf, &slide->start, 0xC);
 }
 
 /*
  * Addresses are Black-image addresses.
  */
-void *POKETRADE_MCSS_SlideCreate(void *a0, void *a1, void *a2, u32 heapId)
+void *POKETRADE_MCSS_SlideCreate(void *mcss, void *frameCount, void *targetPos, u32 heapId)
 {
-    McssSlide *r = GFL_HEAP_Alloc(heapId, 0x38, 1, (const char *)0x021E80F4, 0xD2);
+    McssSlide *slide = GFL_HEAP_Alloc(heapId, 0x38, 1, (const char *)0x021E80F4, 0xD2);
 
-    r->mcss = a0;
-    POKETRADE_MCSS_SlideBegin(r, a1, a2);
-    r->fC = 0;
-    return r;
+    slide->mcss = mcss;
+    POKETRADE_MCSS_SlideBegin(slide, frameCount, targetPos);
+    slide->fC = 0;
+    return slide;
 }
 
 /*
@@ -103,15 +103,15 @@ void *POKETRADE_MCSS_SlideCreate(void *a0, void *a1, void *a2, u32 heapId)
  *
  * Addresses are Black-image addresses.
  */
-void *POKETRADE_MCSS_SlideCreateWithOffsets(void *a0, void *a1, void *a2, void *a3, u16 heapId)
+void *POKETRADE_MCSS_SlideCreateWithOffsets(void *mcss, void *frameCount, void *targetPos, void *offsetTable, u16 heapId)
 {
-    McssSlide *r = GFL_HEAP_Alloc(heapId, 0x38, 1, (const char *)0x021E80F4, 0xE7);
+    McssSlide *slide = GFL_HEAP_Alloc(heapId, 0x38, 1, (const char *)0x021E80F4, 0xE7);
 
-    r->mcss = a0;
-    POKETRADE_MCSS_SlideBegin(r, a1, a2);
-    r->fC = 0;
-    r->offsetTable = (McssSlideVec *)(u32)a3;
-    return r;
+    slide->mcss = mcss;
+    POKETRADE_MCSS_SlideBegin(slide, frameCount, targetPos);
+    slide->fC = 0;
+    slide->offsetTable = (McssSlideVec *)(u32)offsetTable;
+    return slide;
 }
 
 /*
@@ -125,14 +125,14 @@ void *POKETRADE_MCSS_SlideCreateWithOffsets(void *a0, void *a1, void *a2, void *
  *
  * Addresses are Black-image addresses.
  */
-int POKETRADE_MCSS_SlideInterpolate(int a0, int a1, McssSlide *a2, int a3)
+int POKETRADE_MCSS_SlideInterpolate(int startValue, int targetValue, McssSlide *slide, int allowWobble)
 {
-    int q = (a1 - a0) / a2->frameCount;
-    int r = q * a2->frame + a0;
+    int step = (targetValue - startValue) / slide->frameCount;
+    int result = step * slide->frame + startValue;
 
-    if (a2->wobbleEnabled != 0 && a3 != 0)
-        r = a1 + FX_SinCosTable_[2 * (a2->wobblePhase >> 4)] * 8;
-    return r;
+    if (slide->wobbleEnabled != 0 && allowWobble != 0)
+        result = targetValue + FX_SinCosTable_[2 * (slide->wobblePhase >> 4)] * 8;
+    return result;
 }
 
 /*
@@ -143,17 +143,17 @@ int POKETRADE_MCSS_SlideInterpolate(int a0, int a1, McssSlide *a2, int a3)
  *
  * Addresses are Black-image addresses.
  */
-void POKETRADE_MCSS_SlideApplyOffset(McssSlide *p, int a1)
+void POKETRADE_MCSS_SlideApplyOffset(McssSlide *slide, int eventArg)
 {
     u32 vec[3];
-    int idx = p->frame;
-    u32 *e = (u32 *)((char *)p->offsetTable + idx * 0xc);
+    int frameIndex = slide->frame;
+    u32 *offset = (u32 *)((char *)slide->offsetTable + frameIndex * 0xc);
 
-    vec[0] = e[0] + p->start.x;
-    vec[1] = e[1] + p->start.y;
-    vec[2] = e[2] + p->start.z;
-    MCSS_SetPosition(p->mcss, vec);
-    POKETRADE_NEGO_PlaySeByEvent(p->frame, (u8 *)a1);
+    vec[0] = offset[0] + slide->start.x;
+    vec[1] = offset[1] + slide->start.y;
+    vec[2] = offset[2] + slide->start.z;
+    MCSS_SetPosition(slide->mcss, vec);
+    POKETRADE_NEGO_PlaySeByEvent(slide->frame, (u8 *)eventArg);
 }
 
 /*
@@ -163,36 +163,36 @@ void POKETRADE_MCSS_SlideApplyOffset(McssSlide *p, int a1)
  *
  * Addresses are Black-image addresses.
  */
-void POKETRADE_MCSS_SlideUpdate(McssSlide *p, int a1)
+void POKETRADE_MCSS_SlideUpdate(McssSlide *slide, int eventArg)
 {
     u32 vec[6];
-    int k, next, m;
+    int prevFrame, next, frameCount;
 
-    if (p == 0)
+    if (slide == 0)
         return;
-    k = p->frame;
-    next = k + 1;
-    m = p->frameCount;
-    p->frame = next;
-    if (m < next)
+    prevFrame = slide->frame;
+    next = prevFrame + 1;
+    frameCount = slide->frameCount;
+    slide->frame = next;
+    if (frameCount < next)
         return;
-    if (m != next) {
-        if (p->offsetTable != 0) {
-            POKETRADE_MCSS_SlideApplyOffset(p, a1);
+    if (frameCount != next) {
+        if (slide->offsetTable != 0) {
+            POKETRADE_MCSS_SlideApplyOffset(slide, eventArg);
             return;
         }
-        MCSS_GetPosition(p->mcss, &vec[0]);
-        vec[3] = POKETRADE_MCSS_SlideInterpolate(p->start.x, p->target.x, p, 0);
-        if (p->wobbleEnabled != 0) {
+        MCSS_GetPosition(slide->mcss, &vec[0]);
+        vec[3] = POKETRADE_MCSS_SlideInterpolate(slide->start.x, slide->target.x, slide, 0);
+        if (slide->wobbleEnabled != 0) {
             float q = 374.0f * __fdiv(_s32_to_float((int)(vec[0] - vec[3])), 4096.0f);
-            p->wobblePhase -= (u16)_f2s(q);
+            slide->wobblePhase -= (u16)_f2s(q);
         }
-        vec[4] = POKETRADE_MCSS_SlideInterpolate(p->start.y, p->target.y, p, 1);
-        vec[5] = POKETRADE_MCSS_SlideInterpolate(p->start.z, p->target.z, p, 0);
-        MCSS_SetPosition(p->mcss, &vec[3]);
+        vec[4] = POKETRADE_MCSS_SlideInterpolate(slide->start.y, slide->target.y, slide, 1);
+        vec[5] = POKETRADE_MCSS_SlideInterpolate(slide->start.z, slide->target.z, slide, 0);
+        MCSS_SetPosition(slide->mcss, &vec[3]);
         return;
     }
-    MCSS_SetPosition(p->mcss, (u32 *)&p->target);
+    MCSS_SetPosition(slide->mcss, (u32 *)&slide->target);
 }
 
 void POKETRADE_MCSS_StopAnimation(TradeWork *p)

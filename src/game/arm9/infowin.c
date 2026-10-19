@@ -159,11 +159,11 @@ extern void  ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e
 extern void  ENV_SetResourceSet(void *a);
 extern void  BG_SYS_SetTileEntry(u32 a, u16 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void GF_STANDARD_SetField00(struct RtcTime *time);
-extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
-extern void BG_SYS_PushTile(u32 a0);
+extern void BG_SYS_DrawTileEx(u32 index, u32 dx, u32 dy, u32 cw, u8 ch, u32 src, u8 sx, u8 sy, u8 sw, u8 sh);
+extern void BG_SYS_PushTile(u32 index);
 extern u8 UI_GetFrameRate(void);
 extern int  OS_IsRunOnTwl(void);
-void INFOWIN_Init(u8 a0, u8 a1, void *a2, u16 heap);
+void INFOWIN_Init(u8 bgFrame, u8 palette, void *gameData, u16 heap);
 void INFOWIN_Update(void);
 int INFOWIN_Exit(void);
 void INFOWIN_DrawTask(void);
@@ -188,19 +188,19 @@ extern const u16 d_0209F830[];
  *           for the allocator call instead of reloading the spilled home
  *           (17 bytes).  Found by tools/permuter.py --types.
  */
-void INFOWIN_Init(u8 a0, u8 a1, void *a2, u16 heap)
+void INFOWIN_Init(u8 bgFrame, u8 palette, void *gameData, u16 heap)
 {
     gInfoWin = GFL_HEAP_Alloc(heap, 0x28, 0, infowin_File, 0x103);
     MI_CpuFill8(gInfoWin, 0, 0x28);
-    gInfoWin->bgFrame = a0;
-    gInfoWin->palette = a1;
-    INFOWIN_LoadGraphics(a0, a1, heap);
+    gInfoWin->bgFrame = bgFrame;
+    gInfoWin->palette = palette;
+    INFOWIN_LoadGraphics(bgFrame, palette, heap);
     gInfoWin->task = GFL_USE_AddMainTask((void (*)(void *))INFOWIN_DrawTask, gInfoWin, 1);
     gInfoWin->linkActive = 0;
     gInfoWin->batteryLevel = UI_GetPowerState();
-    if (a2 != 0) {
-        gInfoWin->wifiConfig = GAME_DATA_GetField1A0(a2);
-        gInfoWin->wifiMode = GAME_DATA_IsConfigFlagSet(a2);
+    if (gameData != 0) {
+        gInfoWin->wifiConfig = GAME_DATA_GetField1A0(gameData);
+        gInfoWin->wifiMode = GAME_DATA_IsConfigFlagSet(gameData);
     } else {
         gInfoWin->wifiConfig = 0;
         gInfoWin->wifiMode = 0;

@@ -186,7 +186,7 @@ extern u8 unit_02045730(u32 a);
 
 extern void BG_SYS_PushTile(u32 index);
 
-extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
 
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
@@ -272,7 +272,7 @@ extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 
-extern u32 POKEGRA_LoadCharDataPP(void *a0, void *mon, u32 a2, u32 a3);
+extern u32 POKEGRA_LoadCharDataPP(void *outCharData, void *mon, u32 dir, u32 heapId);
 
 extern void DC_FlushRange(void *p, u32 n);
 
@@ -282,7 +282,7 @@ extern int POKEGRA_GetArcID(void);
 
 extern u32 POKE_TOOL_IsShiny(void *mon);
 
-extern s32 POKEGRA_GetPalArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
+extern s32 POKEGRA_GetPalArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 s5, u32 s6, u32 s7);
 
 
 int WORLDTRADE_DETAIL_Init(Work *p);
@@ -313,7 +313,7 @@ int WORLDTRADE_DETAIL_StateStart(Work *p);
 
 int WORLDTRADE_DETAIL_StateMainInput(Work *p);
 
-int WORLDTRADE_DETAIL_StateStartWipeOut(Work *p, int a1);
+int WORLDTRADE_DETAIL_StateStartWipeOut(Work *p, int unused1);
 
 int WORLDTRADE_DETAIL_StateOpenConfirm(Work *p);
 
@@ -390,7 +390,7 @@ int WORLDTRADE_DETAIL_Init(Work *p)
     WORLDTRADE_DETAIL_LoadMonGraphics(mon);
     WIPE_SYS_Start((void *)3,1,1,0,6,1,0x48);
     p->state=0;
-    p->f12E4=0;
+    p->keepBgLayers=0;
     return 1;
 }
 
@@ -402,7 +402,7 @@ void WORLDTRADE_DETAIL_CallStateHandler(u8 *p)
     g_02203CF0[*(u32 *)(p + 0x28)](p);
 }
 
-int WORLDTRADE_DETAIL_Exit(Work *p) {WORLDTRADE_DETAIL_DeleteActors(p);WORLDTRADE_DETAIL_DeleteStrings(p);WORLDTRADE_DETAIL_DeleteWindows((char *)p);WORLDTRADE_DETAIL_ExitBgPlanes();WORLDTRADE_TITLE_ExitBgPlanes(p);CLACT_SetActorDrawEnable((*(void * *)&p->fD38),0);WORLDTRADE_ClearBusyFlag(p);return 0;}
+int WORLDTRADE_DETAIL_Exit(Work *p) {WORLDTRADE_DETAIL_DeleteActors(p);WORLDTRADE_DETAIL_DeleteStrings(p);WORLDTRADE_DETAIL_DeleteWindows((char *)p);WORLDTRADE_DETAIL_ExitBgPlanes();WORLDTRADE_TITLE_ExitBgPlanes(p);CLACT_SetActorDrawEnable((*(void * *)&p->scrollBarObj),0);WORLDTRADE_ClearBusyFlag(p);return 0;}
 
 /*
  * Three-layer bring-up after the display restore, with engine-B plane 0x16
@@ -518,7 +518,7 @@ void WORLDTRADE_DETAIL_DeleteWindows(char *p)
 {
     int i;
     WORLDTRADE_ADAPTER_DeletePrintStream((struct Obj *)(p + 0xfa0));
-    BMP_WIN_Delete(((Work *)p)->fDE0);
+    BMP_WIN_Delete(((Work *)p)->msgWin);
     BMP_WIN_Delete(((Work *)p)->d40);
     BMP_WIN_Delete(((Work *)p)->side_p2[0]);
     for (i = 0; i < 14; i++) {
@@ -530,13 +530,13 @@ void WORLDTRADE_DETAIL_CreateStrings(Work *p)
 {
     int i;
     p->str = STRBUF_Create(0xb4, 0x48);
-    p->fB8C = MSGDATA_AllocString(p->bank, 0x2d);
+    p->titleStr = MSGDATA_AllocString(p->bank, 0x2d);
     for (i = 0; i < 10; i++) {
         *(void **)((char *)p + i * 4 + 0xb90) = STRBUF_Create(0x14, 0x48);
     }
 }
 
-void WORLDTRADE_DETAIL_DeleteStrings(Work *p) {int i;for(i=0;i<10;i++) STRBUF_Delete(*(struct U16Vec **)((unsigned)(char *)p+i*4+0xb90));STRBUF_Delete(*(struct U16Vec * *)&p->str);STRBUF_Delete(*(struct U16Vec * *)&p->fB8C);}
+void WORLDTRADE_DETAIL_DeleteStrings(Work *p) {int i;for(i=0;i<10;i++) STRBUF_Delete(*(struct U16Vec **)((unsigned)(char *)p+i*4+0xb90));STRBUF_Delete(*(struct U16Vec * *)&p->str);STRBUF_Delete(*(struct U16Vec * *)&p->titleStr);}
 
 int WORLDTRADE_DETAIL_StateStart(Work *p) {p->state=1;return 2;}
 
@@ -556,7 +556,7 @@ int WORLDTRADE_DETAIL_StateMainInput(Work *p)
     return 2;
 }
 
-int WORLDTRADE_DETAIL_StateStartWipeOut(Work *p, int a1)
+int WORLDTRADE_DETAIL_StateStartWipeOut(Work *p, int unused1)
 {
     WIPE_SYS_Start((void *)3, 0, 0, 0, 6, 1, 0x48);
     p->state = 0;
@@ -662,13 +662,13 @@ int WORLDTRADE_DETAIL_StateWaitMessageTimed(u8 *p)
  * keyed by the sixth argument, the same 0xb6c/0xb88 fields and the same
  * p+0xd40 window group in the other order.
  */
-void WORLDTRADE_DETAIL_PrintMessage(u8 *p, u32 b, u32 c, u32 d, u32 e, void *sel)
+void WORLDTRADE_DETAIL_PrintMessage(u8 *p, u32 msgId, u32 unused1, u32 unused2, u32 unused3, void *mon)
 {
     u32 v;
     u32 h;
 
-    WORDSET_SetSlotMonName(((Work *)p)->words, 0, (void *)sel);
-    v = (u32)MSGDATA_AllocString((struct MsgBank *)(*(u32 *)&((Work *)p)->bank_u), b);
+    WORDSET_SetSlotMonName(((Work *)p)->words, 0, (void *)mon);
+    v = (u32)MSGDATA_AllocString((struct MsgBank *)(*(u32 *)&((Work *)p)->bank_u), msgId);
     WORDSET_CopyTaggedText((struct WordSet *)(*(u32 *)&((Work *)p)->words), (void *)(((Work *)p)->str), (void *)v);
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((Work *)p)->frame)), 0xf);
     BMP_MENUWORK_DrawWindow((void *)(((Work *)p)->frame), 0, 1, 0xe);
@@ -697,7 +697,7 @@ u16 WORLDTRADE_DETAIL_GetModeColor(int mode)
     }
 }
 
-void WORLDTRADE_DETAIL_PrintMonInfo(void *bank, void *names, void *words, void **win, void *mon, Rec *rec, void *g)
+void WORLDTRADE_DETAIL_PrintMonInfo(void *bank, void *names, void *words, void **win, void *mon, Rec *rec, void *printer)
 {
     u32 lv;
     void *sname;
@@ -733,16 +733,16 @@ void WORLDTRADE_DETAIL_PrintMonInfo(void *bank, void *names, void *words, void *
     for (i = 0; i < 6; i++) {
         BMP_Clear(BMP_WIN_GetBmp(win[i]), 0);
     }
-    WORLDTRADE_INPUT_PrintStringAlignedLine(win[0], nick, 0, 0, 0, 0x440, g);
+    WORLDTRADE_INPUT_PrintStringAlignedLine(win[0], nick, 0, 0, 0, 0x440, printer);
     if (mode != 3 && flag != 0) {
-        WORLDTRADE_INPUT_PrintStringAlignedLine(win[0], smode, 0x40, 0, 0, WORLDTRADE_DETAIL_GetModeColor(mode), g);
+        WORLDTRADE_INPUT_PrintStringAlignedLine(win[0], smode, 0x40, 0, 0, WORLDTRADE_DETAIL_GetModeColor(mode), printer);
     }
-    WORLDTRADE_INPUT_PrintStringAlignedLine(win[1], sname, 1, 0, 0, 0x440, g);
-    WORLDTRADE_INPUT_PrintStringAlignedLine(win[2], s70, 0, 0, 0, 0x440, g);
-    WORLDTRADE_INPUT_PrintStringAlignedLine(win[3], s71, 0, 0, 0, 0x440, g);
-    WORLDTRADE_INPUT_PrintStringAlignedLine(win[4], s4f, 0, 0, 0, 0x3C40, g);
-    WORLDTRADE_INPUT_PrintStringAlignedLine(win[5], ot, 1, 0, 0, 0x440, g);
-    WORLDTRADE_INPUT_PrintStringAlignedLine(win[6], s41, 0, 0, 0, 0x3C40, g);
+    WORLDTRADE_INPUT_PrintStringAlignedLine(win[1], sname, 1, 0, 0, 0x440, printer);
+    WORLDTRADE_INPUT_PrintStringAlignedLine(win[2], s70, 0, 0, 0, 0x440, printer);
+    WORLDTRADE_INPUT_PrintStringAlignedLine(win[3], s71, 0, 0, 0, 0x440, printer);
+    WORLDTRADE_INPUT_PrintStringAlignedLine(win[4], s4f, 0, 0, 0, 0x3C40, printer);
+    WORLDTRADE_INPUT_PrintStringAlignedLine(win[5], ot, 1, 0, 0, 0x440, printer);
+    WORLDTRADE_INPUT_PrintStringAlignedLine(win[6], s41, 0, 0, 0, 0x3C40, printer);
     STRBUF_Delete(s4f);
     STRBUF_Delete(ot);
     STRBUF_Delete(s70);
@@ -753,7 +753,7 @@ void WORLDTRADE_DETAIL_PrintMonInfo(void *bank, void *names, void *words, void *
     STRBUF_Delete(s41);
 }
 
-void WORLDTRADE_DETAIL_PrintMonName(void *bank, Pane2 *pane, void *name, void *mon, Pane2 *pane2, void *g)
+void WORLDTRADE_DETAIL_PrintMonName(void *bank, Pane2 *pane, void *name, void *mon, Pane2 *pane2, void *printer)
 {
     void *s0;
     void *s1;
@@ -766,10 +766,10 @@ void WORLDTRADE_DETAIL_PrintMonName(void *bank, Pane2 *pane, void *name, void *m
     STRBUF_SetString(s0, name);
     t1 = MSGDATA_AllocString(bank, 0xC2);
     POKE_TOOL_GetPartyValue(mon, 0x8D, (u32)s1);
-    WORLDTRADE_INPUT_PrintStringAlignedLine(pane->win0, t0, 0, 0, 0, 0x3C40, g);
-    WORLDTRADE_INPUT_PrintStringAlignedLine(pane->win1, s0, 0, 0, 0, 0x440, g);
-    WORLDTRADE_INPUT_PrintStringAlignedLine(pane2->win0, t1, 0, 0, 0, 0x3C40, g);
-    WORLDTRADE_INPUT_PrintStringAlignedLine(pane2->win1, s1, 1, 0, 0, 0x440, g);
+    WORLDTRADE_INPUT_PrintStringAlignedLine(pane->win0, t0, 0, 0, 0, 0x3C40, printer);
+    WORLDTRADE_INPUT_PrintStringAlignedLine(pane->win1, s0, 0, 0, 0, 0x440, printer);
+    WORLDTRADE_INPUT_PrintStringAlignedLine(pane2->win0, t1, 0, 0, 0, 0x3C40, printer);
+    WORLDTRADE_INPUT_PrintStringAlignedLine(pane2->win1, s1, 1, 0, 0, 0x440, printer);
     STRBUF_Delete(t0);
     STRBUF_Delete(s0);
     STRBUF_Delete(t1);

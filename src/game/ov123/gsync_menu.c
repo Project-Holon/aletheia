@@ -82,7 +82,7 @@
  *   GF_FONT_Delete 0x0201D83C thumb
  *   STRBUF_Delete 0x02045808 arm
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
- *   ICA_ANIME_GetField24 0x02012138 thumb
+ *   GAMESYSTEM_GetGameComm 0x02012138 thumb
  *   GAME_COMM_GetKind 0x02026454 thumb
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -139,7 +139,7 @@
  *   d_021DA680 0x021DA680 data a4
  *   d_021DA658 0x021DA658 data a4
  *   d_021DAA20 0x021DAA20 data a1
- *   ICA_ANIME_GetUnk330 0x02012204 thumb
+ *   GAMESYSTEM_IsNetOffBySleep 0x02012204 thumb
  *   TCBL_Main 0x020310C4 arm
  *   BG_SYS_FillScrollArea 0x02040618 arm
  *   CLACT_DrawSystem 0x0204A600 arm
@@ -218,7 +218,7 @@ extern void WIPE_SYS_Start(void *, u32, u32, u32, u32, u32, u32);
 
 extern int GFL_NET_GetRunState(void);
 
-extern void *ICA_ANIME_GetField24(void *gameSystem);
+extern void *GAMESYSTEM_GetGameComm(void *gameSystem);
 
 extern void GAME_COMM_RequestExitNoCallback(void *gameComm);
 
@@ -278,7 +278,7 @@ extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
@@ -286,7 +286,7 @@ extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *, u32, u32, u32, u32, u16);
 
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, u32 unpackedOut, u32 flags);
 
 extern void MI_CpuCopy8(const void *, void *, u32);
 
@@ -294,13 +294,13 @@ extern u32 GFL_HEAP_Free(void *p);
 
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *, u32, u32, u32, u32, u16);
 
-extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
 extern void *BMP_MENUWORK_LoadFrameGfx(void *, u32, u32, u32);
 
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
@@ -356,11 +356,11 @@ extern void GXS_LoadBGPltt(void *, int, int);
 
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 
-extern u32 PALANM_Delete(void *a0);
+extern u32 PALANM_Delete(void *ctx);
 
 extern void *APP_TASKMENU_OpenMenu(TaskMenuTmpl *tmpl, void *res);
 
-extern int APP_TASKMENU_SetDisableKey(int a0, int a1);
+extern int APP_TASKMENU_SetDisableKey(int menu, int isDisable);
 
 extern void APP_KEYCURSOR_Update(u32 keyCursor, void *printStream, void *window);
 
@@ -378,13 +378,13 @@ extern signed char MSG_SPEED_GetWait(void);
 
 extern void *PRINTSYS_PrintStream(void *, int, int, void *, void *, int textSpeed, void *tcbl, int, u16 heapId, int);
 
-extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
 
 extern void BG_SYS_ClearLayerEx(int channel, u16 val);
 
 extern int GAME_DATA_SaveMain(u8 *p);
 
-extern int GAME_DATA_SaveStart(int a0);
+extern int GAME_DATA_SaveStart(int gd);
 
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 
@@ -432,7 +432,7 @@ extern u32 APP_KEYCURSOR_CreateDefault(u32,u32,u32,u32);
 
 extern void *PRINTSYS_QUE_Create(u32 heapId);
 
-extern void *APP_TASKMENU_RES_Create(u16 a0, u16 a1, void *font, void *printQue, u16 heap);
+extern void *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, void *font, void *printQue, u16 heap);
 
 extern void G2x_SetBlendAlpha_(void *,int,int,int,int);
 
@@ -454,7 +454,7 @@ extern void CLACT_DrawSystem(void);
 
 extern u32 GAMESYSTEM_TryStartAutoComm(struct IcaAnime *p);
 
-extern u32 ICA_ANIME_GetUnk330(const struct Ctx *p);
+extern u32 GAMESYSTEM_IsNetOffBySleep(const struct Ctx *p);
 
 extern void WIPE_SetBrightnessFadeOut(unsigned int,unsigned int);
 
@@ -472,7 +472,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
 extern void CLACT_ExitSystem(void);
 
-extern int APP_KEYCURSOR_Delete(int a0);
+extern int APP_KEYCURSOR_Delete(int cursor);
 
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 
@@ -632,7 +632,7 @@ void GSYNC_MENU_StateStartFadeOut(GsyncMenuWork *work)
     case GSYNC_MENU_EXIT_BUTTON_0:
     case GSYNC_MENU_EXIT_BUTTON_1:
         if (GFL_NET_GetRunState())
-            GAME_COMM_RequestExitNoCallback(ICA_ANIME_GetField24(work->gameSystem));
+            GAME_COMM_RequestExitNoCallback(GAMESYSTEM_GetGameComm(work->gameSystem));
         break;
     }
     GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateWaitFadeOut, 0x1aa);
@@ -868,7 +868,7 @@ void GSYNC_MENU_StateWaitFadeOut(GsyncMenuWork *work)
         switch (work->exitMode) {
         case GSYNC_MENU_EXIT_BUTTON_0:
         case GSYNC_MENU_EXIT_BUTTON_1:
-            if (GAME_COMM_GetKind(ICA_ANIME_GetField24(work->gameSystem)) == 0)
+            if (GAME_COMM_GetKind(GAMESYSTEM_GetGameComm(work->gameSystem)) == 0)
                 GSYNC_MENU_ChangeState(work, 0, 0x345);
             break;
         default:
@@ -1243,7 +1243,7 @@ int GSYNC_MENU_ProcMain(int unused0, int unused1, int unused2, GsyncMenuWork *wo
     --work->bgScrollY;
     CLACT_DrawSystem();
     if (!work->exiting) GAMESYSTEM_TryStartAutoComm(work->gameSystem);
-    if (WIPE_SYS_EndCheck() && ICA_ANIME_GetUnk330(work->gameSystem)) {
+    if (WIPE_SYS_EndCheck() && GAMESYSTEM_IsNetOffBySleep(work->gameSystem)) {
         work->exitMode = GSYNC_MENU_EXIT_NONE;
         result = 1;
         WIPE_SetBrightnessFadeOut(0, 0);

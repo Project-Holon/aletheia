@@ -20,7 +20,7 @@ struct DupFittingWork {
     unsigned int   cursorY;       /* 0x0020 touch cursor y 16..176 */
     unsigned int   prevX;         /* 0x0024 previous cursor x */
     unsigned int   prevY;         /* 0x0028 previous cursor y */
-    unsigned short f2C;           /* 0x002C */
+    unsigned short prevAngle;           /* 0x002C */
     unsigned char  pad_2E[2];
     int            dragActive;    /* 0x0030 drag in progress */
     int            frameIndex;    /* 0x0034 selected frame index 0..10 */
@@ -30,7 +30,7 @@ struct DupFittingWork {
     int            holdDx;        /* 0x0044 held element x */
     int            holdDy;        /* 0x0048 held element y */
     void          *elemPool;      /* 0x004C pool the held element came from */
-    unsigned short f50;           /* 0x0050 */
+    unsigned short heldItemId;           /* 0x0050 */
     unsigned char  pad_52[2];
     int            bmpKeyA;       /* 0x0054 billboard image key */
     int            bmpKeyB;       /* 0x0058 billboard image key */
@@ -38,9 +38,9 @@ struct DupFittingWork {
     unsigned short timer;         /* 0x0094 frame counter 0..90 */
     unsigned char  pad_96[2];
     int            subMode;       /* 0x0098 1 while the sub-screen path runs */
-    unsigned int   f9C;           /* 0x009C */
-    unsigned int   fA0;           /* 0x00A0 */
-    int            fA4;           /* 0x00A4 */
+    unsigned int   subTurned;           /* 0x009C */
+    unsigned int   subTurnTarget;           /* 0x00A0 */
+    int            sortMode;           /* 0x00A4 */
     unsigned short frameCount;    /* 0x00A8 number of frames */
     unsigned char  pad_AA[2];
     unsigned char  frameRecords[0x1434 - 0x00AC]; /* 0x00AC per-frame records */
@@ -54,11 +54,11 @@ struct DupFittingWork {
     short          rotationVel;   /* 0x182E model rotation velocity */
     unsigned short turnAccum;     /* 0x1830 accumulated turn */
     unsigned char  pad_1832[2];
-    unsigned int   f1834;         /* 0x1834 */
-    short          f1838;         /* 0x1838 */
-    short          f183A;         /* 0x183A */
+    unsigned int   startAngle;         /* 0x1834 */
+    short          spin;         /* 0x1838 */
+    short          spinAccel;         /* 0x183A */
     int            firstTouch;    /* 0x183C touch released this frame */
-    unsigned int   f1840;         /* 0x1840 fitting-setting flag */
+    unsigned int   startInPose;         /* 0x1840 fitting-setting flag */
     unsigned short animStep;      /* 0x1844 pose animation step */
     unsigned char  animPhase;     /* 0x1846 pose animation phase */
     unsigned char  animSlot;      /* 0x1847 pose animation slot */
@@ -76,10 +76,10 @@ struct DupFittingWork {
     void          *actorX;        /* 0x18B0 base actor */
     void          *actorY;        /* 0x18B4 base actor */
     unsigned char  actorTimers[8];/* 0x18B8 actor respawn timers */
-    unsigned char  f18C0;         /* 0x18C0 */
+    unsigned char  exitTimer;         /* 0x18C0 */
     unsigned char  counter;       /* 0x18C1 frame counter 0..1 */
-    unsigned short f18C2;         /* 0x18C2 */
-    short          f18C4;         /* 0x18C4 */
+    unsigned short cooldown;         /* 0x18C2 */
+    short          clampSlack;         /* 0x18C4 */
     unsigned char  brightness;    /* 0x18C6 screen brightness 0..128 */
     unsigned char  pad_18C7[1];
     unsigned int   mode;          /* 0x18C8 screen mode */
@@ -128,12 +128,12 @@ struct DupFittingItemElem {
     void          *renderElem;   /* 0xC MCSS render element */
     int            posX;         /* 0x10 */
     int            posY;         /* 0x14 */
-    unsigned int   f18;          /* 0x18 */
-    unsigned short f1C;          /* 0x1C */
+    unsigned int   scale;          /* 0x18 */
+    unsigned short animFrames;          /* 0x1C */
     unsigned char  pad_1E[2];
-    unsigned int   f20;          /* 0x20 */
+    unsigned int   frameIndex;          /* 0x20 */
     unsigned char  pad_24[8];
-    unsigned int   f2C;          /* 0x2C */
+    unsigned int   startScale;          /* 0x2C */
     void          *next;         /* 0x30 next element */
 };
 
@@ -141,28 +141,28 @@ struct DupFittingItemElem {
 struct DupFittingItemData {
     unsigned short id;           /* 0x0 item id */
     unsigned char  pad_2[2];
-    unsigned int   f4;           /* 0x4 image parameter */
-    int            f8;           /* 0x8 image parameter */
-    int            fC;           /* 0xC worn flag */
+    unsigned int   imageId;           /* 0x4 image parameter */
+    int            wornImageId;           /* 0x8 image parameter */
+    int            worn;           /* 0xC worn flag */
 };
 
 /* MCSS render element returned by MUSICAL_MCSS_GetRenderElem. */
 struct DupFittingRenderElem {
-    int            f0;           /* 0x0 */
-    int            f4;           /* 0x4 x */
-    int            f8;           /* 0x8 y */
+    int            active;           /* 0x0 */
+    int            x;           /* 0x4 x */
+    int            y;           /* 0x8 y */
     unsigned char  pad_C[4];
-    int            f10;          /* 0x10 offset x */
-    int            f14;          /* 0x14 offset y */
+    int            offsetX;          /* 0x10 offset x */
+    int            offsetY;          /* 0x14 offset y */
     unsigned char  pad_18[0x36 - 0x18];
-    unsigned short f36;          /* 0x36 base rotation */
+    unsigned short baseRotation;          /* 0x36 base rotation */
 };
 
 /* One per-frame record inside DupFittingWork. */
 struct DupFittingFrame {
-    unsigned short f0;           /* 0x0 */
+    unsigned short id;           /* 0x0 */
     unsigned char  pad_2[0xE];
-    int            f10;          /* 0x10 owned flag */
+    int            owned;          /* 0x10 owned flag */
 };
 
 

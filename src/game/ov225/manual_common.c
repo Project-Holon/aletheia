@@ -94,7 +94,7 @@ void *MANUAL_COMMON_CreateMenuTable(void *narc, u32 heap);
 
 void MANUAL_COMMON_DeleteMenuTable(char *p);
 
-int MANUAL_COMMON_GetDefaultId(void *a0);
+int MANUAL_COMMON_GetDefaultId(void *unused);
 
 void *MANUAL_COMMON_CreateData(void *owner,u16 heap);
 
@@ -104,9 +104,9 @@ void MANUAL_COMMON_DrawData(char *p);
 
 void MANUAL_COMMON_SetScreenId(char *p,unsigned id);
 
-void MANUAL_COMMON_InitDisplay(void *a0);
+void MANUAL_COMMON_InitDisplay(void *unused);
 
-void MANUAL_COMMON_DataNoop(void *a0);
+void MANUAL_COMMON_DataNoop(void *unused);
 
 void *MANUAL_COMMON_CreateTouchbar(char *owner);
 

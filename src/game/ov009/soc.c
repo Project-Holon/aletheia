@@ -163,7 +163,7 @@ int SOC_Socket(int unused, int type);
 int SOC_Bind(int s, void *sockAddr);
 int SOC_Connect(int s, void * sockAddr);
 int SOC_Recv(int s, void *buf, int len, int flags);
-int SOC_RecvFrom(int a0, int a1, int a2, int a3, u8 *out);
+int SOC_RecvFrom(int s, int buf, int len, int flags, u8 *out);
 int SOC_Send(int s, void *buf, int len, int flags);
 int SOC_SendTo(int s, void * buf, int len, int flags, void * sockTo);
 int SOC_Shutdown(int s, int how);
@@ -243,20 +243,20 @@ int SOC_Recv(int s, void *buf, int len, int flags)
  * non-null destination object, write the byte-swapped halfword to +2 and the
  * byte-swapped word to +4.  Returns the callee's result.
  */
-int SOC_RecvFrom(int a0, int a1, int a2, int a3, u8 *out)
+int SOC_RecvFrom(int s, int buf, int len, int flags, u8 *sockFrom)
 {
     u16 h;
     u32 w;
     int r;
 
-    r = SOCL_ReadFrom(a0, (void *)a1, a2, &h, (long unsigned int *)(&w), a3);
+    r = SOCL_ReadFrom(s, (void *)buf, len, &h, (long unsigned int *)(&w), flags);
     if (r < 0)
         return r;
-    if (out == 0)
+    if (sockFrom == 0)
         return r;
 
-    *(u16 *)(out + 2) = (u16)(((h >> 8) & 0xff) | ((h << 8) & 0xff00));
-    *(u32 *)(out + 4) = ((w >> 24) & 0xff) | ((w >> 8) & 0xff00)
+    *(u16 *)(sockFrom + 2) = (u16)(((h >> 8) & 0xff) | ((h << 8) & 0xff00));
+    *(u32 *)(sockFrom + 4) = ((w >> 24) & 0xff) | ((w >> 8) & 0xff00)
                       | ((w << 8) & 0xff0000) | ((w << 24) & 0xff000000);
     return r;
 }

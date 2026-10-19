@@ -139,7 +139,7 @@ extern void BG_SYS_FillScrollArea(u32 a, u32 b, u32 c);
 extern void ARC_TOOL_DeleteHandle(struct ArcHandle *arc);
 extern void BG_SYS_ResetSlot(u32 a, u32 b, u32 c);
 extern void BG_SYS_SetFlagField06(u32 layer);
-extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, int tileBase, int palette);
 extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *win, u32 kind);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 heapId);
 

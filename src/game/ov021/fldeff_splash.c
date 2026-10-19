@@ -182,7 +182,7 @@ extern u32 FIELD_EFFECT_GetFieldMap(u8 *p);
 extern u32 FIELDMAP_GetGroundBbdAct(u8 *p);
 extern u32 GFL_HEAP_Free(void *p);
 extern u32 FIELD_EFFECT_GetArcHandle(u8 *p);
-extern void *G3D_SYSTEM_CreateResourceArcHandle(u32 a0, u32 a1);
+extern void *G3D_SYSTEM_CreateResourceArcHandle(u32 arc, u32 dataId);
 extern void FIELD_EFFECT_ApplyPaletteTable(struct FieldEffectSys *x, void *b);
 extern u16 BILLBOARD_ACT_CreateSlots(struct BbActSys *o, const struct BbActRec *recs, u32 n);
 extern void BILLBOARD_ACT_DeleteSlots(struct BbActSys *o, u32 first, u32 count);

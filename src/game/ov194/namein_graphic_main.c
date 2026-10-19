@@ -159,10 +159,10 @@ typedef struct NameinGraphicCursor {
     int selected;                 /* 0xA0 */
     void *actorA;                 /* 0xA4 top cursor actor */
     void *actorB;                 /* 0xA8 bottom cursor actor */
-    unsigned short x0;            /* 0xAC */
-    short y0;                     /* 0xAE */
-    unsigned short x1;            /* 0xB0 */
-    short y1;                     /* 0xB2 */
+    unsigned short actorAX;       /* 0xAC */
+    short actorAY;                     /* 0xAE */
+    unsigned short actorBX;       /* 0xB0 */
+    short actorBY;                     /* 0xB2 */
 } NameinGraphicCursor;
 
 /* A glyph source loaded by ARC_UTIL_LoadPaletteBlockFromArchive: a pointer to the glyph table at 0x0C. */
@@ -198,15 +198,15 @@ extern u8 BEACON_GetInputFlag(struct Blk34 *p, u32 i);
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,unsigned,unsigned);
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern void *PRINTSYS_QUE_CreateEx(u16 n, u32 heap);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern unsigned char *NAMEIN_GRAPHIC_CreateDisplay(unsigned swap, unsigned short heap);
 extern unsigned NAMEIN_GRAPHIC_GetDisplayHandle(unsigned char *p);
-extern void *BMP_OAM_CreateSys(u32 a0, void *a1);
+extern void *BMP_OAM_CreateSys(u32 heapId, void *clact);
 extern int NAMEIN_GRAPHIC_GetIconMode(int x, int y);
-extern void NAMEIN_GRAPHIC_InitIconActor(u8 *o, u32 mode, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void *s3, u32 s4, u16 heap);
+extern void NAMEIN_GRAPHIC_InitIconActor(u8 *o, u32 mode, u32 iconIndex, u32 iconForm, u32 s0, u32 s1, u32 s2, void *s3, u32 s4, u16 heap);
 extern u32 *NAMEIN_GRAPHIC_CreateMembers(u32 heap);
 extern struct U16Vec *STRBUF_Clone(struct U16Vec *src, u32 heapId);
 extern u16 STRBUF_GetLength(struct U16Vec *vec);
@@ -253,7 +253,7 @@ extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,unsigned,unsigned,unsigned,unsigned,u16);
 extern unsigned int ARC_UTIL_UploadBgCharFromHandle(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
-extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
+extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void BG_SYS_Init(unsigned,unsigned,unsigned,unsigned);
 extern void BMP_MENUWORK_LoadCharAndPltt(unsigned,unsigned,unsigned,unsigned,u16);
@@ -268,7 +268,7 @@ extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
-extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, u32 unpackedOut, u32 flags);
 extern u32 GFL_HEAP_Free(void *p);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern u8 UI_GetInputMode(void);
@@ -280,7 +280,7 @@ u32 NAMEIN_GRAPHIC_Create(struct Proc *a, u32 b, u8 *args);
 int NAMEIN_GRAPHIC_Delete(void *a,u32 b,u32 c,u8 *d);
 int NAMEIN_GRAPHIC_Main(int a,int b,int c,u8 *p);
 void NAMEIN_GRAPHIC_LoadBgPalette(int unused,u16 heap);
-int NAMEIN_GRAPHIC_UpdateBg(void *a0);
+int NAMEIN_GRAPHIC_UpdateBg(void *unused);
 void NAMEIN_GRAPHIC_CreateActors(char *p,unsigned owner,u16 heap);
 void NAMEIN_GRAPHIC_DeleteActors(u8 *p);
 void *NAMEIN_GRAPHIC_GetActor(u8 *p,u32 i);
@@ -421,7 +421,7 @@ void NAMEIN_GRAPHIC_LoadBgPalette(int unused,u16 heap)
 
 
 
-int NAMEIN_GRAPHIC_UpdateBg(void *a0)
+int NAMEIN_GRAPHIC_UpdateBg(void *unused)
 {
     return BG_SYS_SetTileUnit(4, 1, 0);
 }
@@ -522,11 +522,11 @@ void NAMEIN_GRAPHIC_SetupCursor(char *p,int mode,const Rect *rect,int flag,int s
             BG_SYS_FillTileMap(1,rect->left,rect->top,rect->right-rect->left,rect->bottom-rect->top,mode+1);
         }
         if(UI_GetInputMode()==0) {
-            ((NameinGraphicCursor *)p)->x0=rect->left*8+7;
+            ((NameinGraphicCursor *)p)->actorAX=rect->left*8+7;
             y=rect->top*8+(rect->bottom-rect->top)*4-3;
-            ((NameinGraphicCursor *)p)->y0=y;
-            ((NameinGraphicCursor *)p)->x1=rect->right*8-7;
-            ((NameinGraphicCursor *)p)->y1=y;
+            ((NameinGraphicCursor *)p)->actorAY=y;
+            ((NameinGraphicCursor *)p)->actorBX=rect->right*8-7;
+            ((NameinGraphicCursor *)p)->actorBY=y;
             CLACT_RestartActorAnim(((NameinGraphicCursor *)p)->actorA);
             CLACT_RestartActorAnim(((NameinGraphicCursor *)p)->actorB);
             CLACT_SetActorDrawEnable(((NameinGraphicCursor *)p)->actorA,1);

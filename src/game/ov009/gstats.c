@@ -123,7 +123,7 @@ extern char *strstr(const char *s, const char *sub);
 extern int strlen(const u8 *s);
 extern int ArrayLength(const int *p);
 extern int *ArrayNth(void *array, int n);
-extern int atoi(u32 a0);
+extern int atoi(u32 s);
 extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
 extern void ArrayDeleteAt(int a, int b);
 extern void ArrayFree(void *array);

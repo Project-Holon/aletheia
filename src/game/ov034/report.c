@@ -33,7 +33,7 @@
  *   TCB_DeleteTask 0x02030EAC arm
  *   GFL_HEAP_Free 0x020307B0 arm
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
- *   ICA_ANIME_GetField1C 0x020120F4 thumb
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetMyParty 0x02012934 thumb
  *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -72,7 +72,7 @@
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
- *   ICA_ANIME_GetField114 0x020120F8 thumb
+ *   GAMESYSTEM_GetMyPlayerWork 0x020120F8 thumb
  *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
  *   ZONEDATA_GetPlaceNameId 0x02013E4C thumb
  *   WORDSET_SetSlotFromMsg59 0x0201F158 thumb
@@ -202,7 +202,7 @@ extern struct Task *GFL_USE_AddMainTask(void (*proc)(struct Task *, ReportWork *
 extern void TCB_DeleteTask(struct Task *task);
 extern u32 GFL_HEAP_Free(void *p);
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintQue *printQue);
-extern struct GameData *ICA_ANIME_GetField1C(const void *gameSystem);
+extern struct GameData *GAMESYSTEM_GetGameData(const void *gameSystem);
 extern struct PartyHolder *GAME_DATA_GetMyParty(const struct GameData *gameData);
 extern unsigned int POKEPARTY_GetCount(struct PartyHolder *party);
 extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, unsigned int visible);
@@ -224,14 +224,14 @@ extern void BG_SYS_PushTile(u32 layer);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern struct ArcHandle *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(struct ArcHandle *, int, int, int, int, int);
-extern void BG_SYS_LoadPlttEntry(u32 a0, u32 a1);
+extern void BG_SYS_LoadPlttEntry(u32 bgId, u32 color);
 extern void ARC_UTIL_UploadBgCharFromHandle(struct ArcHandle *, int, int, int, int, int, int);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(struct ArcHandle *, int, int, int, int, int, int);
 extern void ARC_TOOL_DeleteHandle(struct ArcHandle *);
 extern struct PrintQue *PRINTSYS_QUE_Create(u32 heapId);
 extern struct BmpWin *BMP_WIN_Create(u32, u32, u32, u32, u8, u8, u8);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
@@ -244,7 +244,7 @@ extern void STRBUF_Delete(struct Strbuf *text);
 extern int RTC_GetDate(struct RTCDate *date);
 extern int RTC_GetTime(struct RTCTime *time);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 i, u32 value, u32 digits, u32 padding, u32 numberType);
-extern u8 *ICA_ANIME_GetField114(const void *gameSystem);
+extern u8 *GAMESYSTEM_GetMyPlayerWork(const void *gameSystem);
 extern u16 GAME_DATA_GetPlayerZoneId(const u8 *playerState);
 extern u32 ZONEDATA_GetPlaceNameId(u32 zoneId);
 extern void WORDSET_SetSlotFromMsg59(struct WordSet *wordSet, u32 i, u32 msgId);
@@ -357,7 +357,7 @@ void REPORT_ShowPartyIcons(ReportWork *work)
     struct PartyHolder *party;
 
     if (!(work->shownFlags & REPORT_SHOWN_ICONS) && PRINTSYS_QUE_IsFinished(work->printQue) == 1) {
-        party = GAME_DATA_GetMyParty(ICA_ANIME_GetField1C(work->gameSystem));
+        party = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(work->gameSystem));
         for (i = 0; i < POKEPARTY_GetCount(party); i++)
             CLACT_SetActorDrawEnable(work->actors[i], 1);
         work->shownFlags |= REPORT_SHOWN_ICONS;
@@ -424,7 +424,7 @@ void REPORT_PrepareSave(ReportWork *work)
     int step;
     struct SaveControl *saveControl;
 
-    saveControl = GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(work->gameSystem));
+    saveControl = GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(work->gameSystem));
     work->saveControl = saveControl;
     SAVE_CONTROL_GetDiffSize(saveControl, &work->saveCountCurrent, &work->saveCountMax);
     step = (work->saveCountCurrent << 9) / 10;
@@ -574,7 +574,7 @@ void REPORT_InitWindows(ReportWork *work)
     msgBank = MSGDATA_CreateFromArchive(0, 2, 168, work->heapId);
     wordSet = WORDSET_CreateDefault(work->heapId);
     buf = STRBUF_Create(256, work->heapId);
-    gameData = ICA_ANIME_GetField1C(work->gameSystem);
+    gameData = GAMESYSTEM_GetGameData(work->gameSystem);
     saveControl = GAME_DATA_GetSaveControl(gameData);
     msgPlayer = MSGDATA_AllocString(msgBank, 0);
     WORDSET_SetSlotMyStatus(wordSet, 0, GAME_DATA_GetMyStatus(gameData));
@@ -594,14 +594,14 @@ void REPORT_InitWindows(ReportWork *work)
     WORDSET_CopyTaggedText(wordSet, buf, msgTime);
     printRecordLine(work, 2, buf, msgTime, 0, 0x3DC0, one);
     msgLocation = MSGDATA_AllocString(msgBank, 3);
-    WORDSET_SetSlotFromMsg59(wordSet, 0, ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId(ICA_ANIME_GetField114(work->gameSystem))));
+    WORDSET_SetSlotFromMsg59(wordSet, 0, ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId(GAMESYSTEM_GetMyPlayerWork(work->gameSystem))));
     WORDSET_CopyTaggedText(wordSet, buf, msgLocation);
     printRecordLine(work, 3, buf, msgLocation, 0, 0x3DC0, one);
     msgBadges = MSGDATA_AllocString(msgBank, 4);
     WORDSET_SetSlotNumber(wordSet, 0, BEACON_CountFlags(GAME_DATA_GetMiscSave(gameData)), 2, 0, 1);
     WORDSET_CopyTaggedText(wordSet, buf, msgBadges);
     printRecordLine(work, 4, buf, msgBadges, 0, 0x3DC0, one);
-    if (ZONEDATA_CheckEventFlag(GAME_DATA_GetEventWork(ICA_ANIME_GetField1C(work->gameSystem)), 0x962) == 1) {
+    if (ZONEDATA_CheckEventFlag(GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(work->gameSystem)), 0x962) == 1) {
         msgPokedex = MSGDATA_AllocString(msgBank, 5);
         WORDSET_SetSlotNumber(wordSet, 0, ZUKAN_SAVE_CountSeen(ZUKAN_SAVE_GetFromGameData(gameData), work->heapId), 3, 0, 1);
         WORDSET_CopyTaggedText(wordSet, buf, msgPokedex);
@@ -651,7 +651,7 @@ void REPORT_InitActors(ReportWork *work)
     struct PartyMon *mon;
     Rect position;
 
-    party = GAME_DATA_GetMyParty(ICA_ANIME_GetField1C(work->gameSystem));
+    party = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(work->gameSystem));
     partyCount = POKEPARTY_GetCount(party);
     work->unit = CLACT_CreateUnit(0x10, 0, work->heapId);
     arc = ARC_TOOL_CreateHandle(7, work->heapId);
@@ -693,7 +693,7 @@ void REPORT_ExitActors(ReportWork *work)
     unsigned int i;
     struct PartyHolder *party;
 
-    party = GAME_DATA_GetMyParty(ICA_ANIME_GetField1C(work->gameSystem));
+    party = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(work->gameSystem));
     for (i = 0; i < POKEPARTY_GetCount(party); i++) {
         CLACT_DeleteActor(work->actors[i]);
         CLACT_ReleaseCharacter(work->partyCharRes[i]);

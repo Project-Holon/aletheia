@@ -141,7 +141,7 @@ extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *, u32, u32, u32, u32, u16);
 
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, u32 unpackedOut, u32 flags);
 
 extern void MI_CpuCopy8(const void *, void *, u32);
 

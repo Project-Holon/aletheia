@@ -141,7 +141,7 @@ typedef unsigned long long u64;
 extern void GFL_HEAP_CreateChildHeap(unsigned int, unsigned int, unsigned int);
 extern void *PROCSYS_AllocProcWork(struct ProcSystem *obj, unsigned int size, unsigned int heap);
 extern void MI_CpuFill8(void *, int, int);
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 extern void *GFL_USE_AddMainTask(void (*)(void), void *, int);
@@ -210,15 +210,15 @@ void THE_END_GRAPHIC_Setup3d(void);
 char *THE_END_GRAPHIC_Create(int a, u16 heap);
 void THE_END_GRAPHIC_Delete(char *p);
 void THE_END_GRAPHIC_Update(char *p);
-void THE_END_GRAPHIC_VBlankTask(int a0, char *p);
+void THE_END_GRAPHIC_VBlankTask(int unused, char *p);
 void THE_END_GRAPHIC_InitWindows(void *p, int heap);
 void THE_END_GRAPHIC_ExitWindows(void *p);
 void THE_END_GRAPHIC_Dummy2(void *p);
-void THE_END_GRAPHIC_RefreshDisplay(void *a0);
+void THE_END_GRAPHIC_RefreshDisplay(void *unused);
 void THE_END_GRAPHIC_InitActors(int *p, int b, int c);
 void THE_END_GRAPHIC_DeleteActors(void *p);
-void THE_END_GRAPHIC_DrawActors(void *a0);
-void THE_END_GRAPHIC_VBlankActors(void *a0);
+void THE_END_GRAPHIC_DrawActors(void *unused);
+void THE_END_GRAPHIC_VBlankActors(void *unused);
 void THE_END_GRAPHIC_InitCamera(int *p,u16 heap);
 void THE_END_GRAPHIC_DeleteCamera(unsigned int *p);
 extern const u16 d_021B9B9C;
@@ -504,7 +504,7 @@ void THE_END_GRAPHIC_Update(char *p)
 
 
 
-void THE_END_GRAPHIC_VBlankTask(int a0, char *p)
+void THE_END_GRAPHIC_VBlankTask(int unused, char *p)
 {
     THE_END_GRAPHIC_RefreshDisplay(p);
     THE_END_GRAPHIC_VBlankActors(p + 4);
@@ -554,7 +554,7 @@ void THE_END_GRAPHIC_Dummy2(void *p){}
 
 
 
-void THE_END_GRAPHIC_RefreshDisplay(void *a0) { BG_SYS_Update(); }
+void THE_END_GRAPHIC_RefreshDisplay(void *unused) { BG_SYS_Update(); }
 
 
 
@@ -582,11 +582,11 @@ void THE_END_GRAPHIC_DeleteActors(void *p)
 
 
 
-void THE_END_GRAPHIC_DrawActors(void *a0) { CLACT_DrawSystem(); }
+void THE_END_GRAPHIC_DrawActors(void *unused) { CLACT_DrawSystem(); }
 
 
 
-void THE_END_GRAPHIC_VBlankActors(void *a0) { CLACT_VBlankSystem(); }
+void THE_END_GRAPHIC_VBlankActors(void *unused) { CLACT_VBlankSystem(); }
 
 
 

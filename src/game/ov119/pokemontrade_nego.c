@@ -263,7 +263,7 @@ void POKETRADE_NEGO_ShowOfferSlotMon(void *p,int i,void *v);
 
 extern u32 WIPE_SYS_EndCheck(void);
 
-extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
 
 int POKETRADE_SAVE_IsMessagePrintDone(char *p);
 
@@ -383,7 +383,7 @@ extern int BOX_SAVEDATA_CountPokemon(void *save);
 
 extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 
-extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern int CLACT_RegisterPaletteCompressed(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
 
 extern int CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
@@ -425,7 +425,7 @@ void POKETRADE_NEGO_StepBrowseOffersMain(char *p);
 
 extern void POKETRADE_2D_UpdateOfferIconHighlight(int p, int a, int b);
 
-extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
 
 extern void POKETRADE_2D_SetDisplayConfig(int);
 
@@ -1619,11 +1619,11 @@ void POKETRADE_NEGO_PlaySeByKeyA(u32 key);
 
 void POKETRADE_NEGO_PlaySeByKeyB(int key);
 
-void POKETRADE_NEGO_PlaySeByEvent(int a0, u8 *a1);
+void POKETRADE_NEGO_PlaySeByEvent(int eventId, u8 *work);
 
-void POKETRADE_SAVE_DrawOfferListWindows(char *p, int a1);
+void POKETRADE_SAVE_DrawOfferListWindows(char *p, int unused);
 
-void POKETRADE_SAVE_SetupWindowRegsSummary(void *a0);
+void POKETRADE_SAVE_SetupWindowRegsSummary(void *unused);
 
 void POKETRADE_SAVE_DrawPartnerOfferCard(char *p,int i,void *mon);
 
@@ -2317,21 +2317,21 @@ void POKETRADE_NEGO_PlaySeByKeyB(int key)
  *
  * Addresses are Black-image addresses.
  */
-void POKETRADE_NEGO_PlaySeByEvent(int a0, u8 *a1)
+void POKETRADE_NEGO_PlaySeByEvent(int eventId, u8 *work)
 {
     FnIdTable2 t1 = *(FnIdTable2 *)0x021E7754;
     FnIdTable6 t2 = *(FnIdTable6 *)0x021E7764;
     unsigned int i;
 
-    if (a1[0x11EF] != 0)
+    if (work[0x11EF] != 0)
         return;
-    if (a1[0x11ED] == 0) {
+    if (work[0x11ED] == 0) {
         for (i = 0; i < 2; i++)
-            if (a0 == t1.e[i].id)
+            if (eventId == t1.e[i].id)
                 GFL_USE_PlaySeDefaultVolume(t1.e[i].fn);
     } else {
         for (i = 0; i < 6; i++)
-            if (a0 == t2.e[i].id)
+            if (eventId == t2.e[i].id)
                 GFL_USE_PlaySeDefaultVolume(t2.e[i].fn);
     }
 }

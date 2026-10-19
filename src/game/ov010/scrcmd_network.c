@@ -1,7 +1,7 @@
 /*
  * file:     scrcmd_network.c
  * unit:     yes
- * function: SCRCMD_NETWORK_WaitCommState, SCRCMD_NETWORK_CmdWaitCommState, SCRCMD_NETWORK_CmdGetCommValue, SCRCMD_NETWORK_CmdStartAutoComm, SCRCMD_NETWORK_CmdRequestCommExit, SCRCMD_NETWORK_CmdRestartAutoComm, SCRCMD_NETWORK_CmdUnblockComm, SCRCMD_NETWORK_CmdGetAlwaysNet, SCRCMD_NETWORK_CmdClearAlwaysNet, SCRCMD_NETWORK_CmdLoadNpcTable, SCRCMD_NETWORK_CmdFreeNpcTable, SCRCMD_NETWORK_CmdSetNpcEventFromTable, SCRCMD_NETWORK_CmdSetNpcEventPairFromTable, SCRCMD_NETWORK_CmdSetNpcTripleFromTable, SCRCMD_NETWORK_CmdApplyTableEventKeys, SCRCMD_NETWORK_PickSixDistinctRandom, SCRCMD_NETWORK_FindNpcTableRow, SCRCMD_NETWORK_HasSituationWarpChanged, SCRCMD_NETWORK_CommProcEventMain, SCRCMD_NETWORK_CreateCommProcEvent, SCRCMD_NETWORK_CommBattleEventMain, SCRCMD_NETWORK_CreateCommBattleEvent, SCRCMD_NETWORK_InitCommBattleOv180Param, SCRCMD_NETWORK_InitCommBattleOv181Param, SCRCMD_NETWORK_InitCommBattleStepSequence, SCRCMD_NETWORK_GetCommExitKind, SCRCMD_NETWORK_AdvanceStep, SCRCMD_NETWORK_SetupMiscSave, SCRCMD_NETWORK_CreateOv020Event, SCRCMD_NETWORK_LoadOv020Task, SCRCMD_NETWORK_LoadOv020, SCRCMD_NETWORK_UnloadOv020, SCRCMD_NETWORK_WifiProcEventMain, SCRCMD_NETWORK_CreateWifiProcEvent, SCRCMD_NETWORK_CreateBattleRecordLinkEvent, SCRCMD_NETWORK_CreateBattleRecordLinkEventForZone, SCRCMD_NETWORK_BattleRecordLinkEventMain, SCRCMD_NETWORK_GetRecordKindByFrameRate, SCRCMD_NETWORK_RecordLinkOnUpdate, SCRCMD_NETWORK_RecordLinkOnClose, SCRCMD_NETWORK_RecordLinkOnFinish
+ * function: SCRCMD_NETWORK_WaitCommState, SCRCMD_NETWORK_CmdWaitCommState, SCRCMD_NETWORK_CmdGetCommValue, SCRCMD_NETWORK_CmdStartAutoComm, SCRCMD_NETWORK_CmdRequestCommExit, SCRCMD_NETWORK_CmdRestartAutoComm, SCRCMD_NETWORK_CmdUnblockComm, SCRCMD_NETWORK_CmdGetAlwaysNet, SCRCMD_NETWORK_CmdClearAlwaysNet, SCRCMD_NETWORK_CmdLoadNpcTable, SCRCMD_NETWORK_CmdFreeNpcTable, SCRCMD_NETWORK_CmdSetNpcEventFromTable, SCRCMD_NETWORK_CmdSetNpcEventPairFromTable, SCRCMD_NETWORK_CmdSetNpcTripleFromTable, SCRCMD_NETWORK_CmdApplyTableEventKeys, SCRCMD_NETWORK_PickSixDistinctRandom, SCRCMD_NETWORK_FindNpcTableRow, SCRCMD_NETWORK_HasSituationWarpChanged, SCRCMD_NETWORK_CommProcEventMain, SCRCMD_NETWORK_CreateCommProcEvent, EVENT_GAMECLEAR_Main, EVENT_GAMECLEAR_Create, EVENT_GAMECLEAR_InitHallOfFameParam, EVENT_GAMECLEAR_InitStaffRollParam, EVENT_GAMECLEAR_InitStepSequence, EVENT_GAMECLEAR_GetCommExitKind, EVENT_GAMECLEAR_AdvanceStep, SCRCMD_NETWORK_SetupMiscSave, SCRCMD_NETWORK_CreateOv020Event, SCRCMD_NETWORK_LoadOv020Task, SCRCMD_NETWORK_LoadOv020, SCRCMD_NETWORK_UnloadOv020, SCRCMD_NETWORK_WifiProcEventMain, SCRCMD_NETWORK_CreateWifiProcEvent, EVENT_FIELD_MENU_Create, EVENT_FIELD_MENU_CreateForZone, EVENT_FIELD_MENU_Main, EVENT_FIELD_MENU_GetProcKindOfButton, EVENT_FIELD_MENU_OnUpdate, EVENT_FIELD_MENU_OnClose, EVENT_FIELD_MENU_OnFinish
  * address:  0x0215F168
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -17,14 +17,14 @@
  *   EVENT_FIELD_PROCLINK_CreateCommExitEvent  0x02161B90  thumb  ov010
  *   GAME_EVENT_Create 0x020122C0 thumb
  *   GAME_EVENT_GetWork 0x020124E8 thumb
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
- *   ICA_ANIME_GetField20  0x0201210C  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   SCRIPT_SYS_CallScriptEvent  0x02158780  thumb  ov010
  *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
- *   ICA_ANIME_GetField24  0x02012138  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   SCRIPT_WORK_GetUserWorkPtr  0x02158FB4  thumb  ov010
  *   FIELDMAP_CheckCommExit  0x02189734  thumb
  *   GFL_HEAP_Free  0x020307B0  arm
@@ -39,14 +39,14 @@
  *   GAMESYSTEM_SetCommBlocked  0x0201213C  thumb
  *   SCRIPT_WORK_SetCheckFlag  0x02159144  thumb  ov010
  *   SCRIPT_WORK_ResetCheckFlag   0x02159168  thumb  ov010
- *   ICA_ANIME_IsConfigFlagSet  0x0201214C  thumb
+ *   GAMESYSTEM_IsAlwaysNetFlagSet  0x0201214C  thumb
  *   GAMESYSTEM_SetAlwaysNetFlag 0x02012158 thumb
  *   ARC_UTIL_LoadMember 0x0204A1BC arm
  *   SCRIPT_WORK_SetReturnFlag 0x02159114 thumb ov010
  *   SCRIPT_WORK_GetReturnFlag  0x0215911C  thumb  ov010
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
- *   GAME_DATA_GetField158  0x02012844  thumb
+ *   GAME_DATA_GetEventData  0x02012844  thumb
  *   EVENT_POKE_STATUS_AddMs3000  0x0215A480  thumb  ov010
  *   EVENTDATA_SYSTEM_SetNpcEventId  0x02162788  thumb  ov010
  *   EVENT_POKE_STATUS_AddMs5000  0x0215A490  thumb  ov010
@@ -131,8 +131,8 @@
  *   MOVE_POKEMON_CreateSkillEvent  0x0215EA38  thumb  ov010
  *   EVENTDATA_SYSTEM_CreateFieldLinkEvent  0x021644F4  thumb  ov010
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
- *   GAME_DATA_SetFrameRate  0x020129D0  thumb
- *   SCRCMD_NETWORK_sRecordKindByFrameRate     0x021712AC  data
+ *   GAME_DATA_SetFieldMenuCursor  0x020129D0  thumb
+ *   SCRCMD_NETWORK_sProcKindOfButton     0x021712AC  data
  *   FIELD_SUBSCREEN_SetMenuSelectedButton   0x021A12BC  thumb
  */
 
@@ -200,58 +200,58 @@ typedef struct CommProcEventWork {
     struct MyStatus *myStatus;      /* 0x08 */
 } CommProcEventWork;
 
-/* Parameter blocks that the comm battle event passes to its procs. */
-typedef struct CommBattleOv205Param {
+/* Parameter blocks that the game clear event passes to its screens (Hall of Fame, staff roll, The End, save screen). */
+typedef struct GameClearSaveScreenParam {
     struct GameSystem *gameSystem;  /* 0x00 */
     u32 mode;                       /* 0x04 */
-} CommBattleOv205Param;
+} GameClearSaveScreenParam;
 
-typedef struct CommBattleOv180Param {
+typedef struct GameClearHallOfFameParam {
     struct PokeParty *myParty;      /* 0x00 */
     struct MyStatus *myStatus;      /* 0x04 */
     u32 playTime;                   /* 0x08 */
-} CommBattleOv180Param;
+} GameClearHallOfFameParam;
 
-typedef struct CommBattleOv181Param {
+typedef struct GameClearStaffRollParam {
     u32 isMode1;                    /* 0x00 */
     u32 configApplied;              /* 0x04 */
-} CommBattleOv181Param;
+} GameClearStaffRollParam;
 
-/* Steps of the comm battle event; the order comes from the sequence table. */
+/* Steps of the game clear event; the order comes from the sequence table. */
 enum {
-    COMM_BATTLE_STEP_PREPARE,
-    COMM_BATTLE_STEP_FIELD_PREPARE_EVENT,
-    COMM_BATTLE_STEP_REQUEST_COMM_IDLE,
-    COMM_BATTLE_STEP_WAIT_COMM_IDLE,
-    COMM_BATTLE_STEP_CLOSE_FIELD,
-    COMM_BATTLE_STEP_CALL_OV180,
-    COMM_BATTLE_STEP_WAIT_OV180,
-    COMM_BATTLE_STEP_CALL_OV181,
-    COMM_BATTLE_STEP_WAIT_OV181,
-    COMM_BATTLE_STEP_COMM_EXIT_EVENT,
-    COMM_BATTLE_STEP_SET_SCRIPT_STATE,
-    COMM_BATTLE_STEP_CALL_OV205,
-    COMM_BATTLE_STEP_WAIT_FRAMES,
-    COMM_BATTLE_STEP_CALL_OV182,
-    COMM_BATTLE_STEP_DONE,
-    COMM_BATTLE_STEP_ABORT
+    GAME_CLEAR_STEP_PREPARE,
+    GAME_CLEAR_STEP_FIELD_PREPARE_EVENT,
+    GAME_CLEAR_STEP_REQUEST_COMM_IDLE,
+    GAME_CLEAR_STEP_WAIT_COMM_IDLE,
+    GAME_CLEAR_STEP_CLOSE_FIELD,
+    GAME_CLEAR_STEP_CALL_HALL_OF_FAME,
+    GAME_CLEAR_STEP_WAIT_HALL_OF_FAME,
+    GAME_CLEAR_STEP_CALL_STAFF_ROLL,
+    GAME_CLEAR_STEP_WAIT_STAFF_ROLL,
+    GAME_CLEAR_STEP_COMM_EXIT_EVENT,
+    GAME_CLEAR_STEP_SET_SCRIPT_STATE,
+    GAME_CLEAR_STEP_CALL_SAVE_SCREEN,
+    GAME_CLEAR_STEP_WAIT_FRAMES,
+    GAME_CLEAR_STEP_CALL_THE_END,
+    GAME_CLEAR_STEP_DONE,
+    GAME_CLEAR_STEP_ABORT
 };
 
-/* Work of the comm battle event (0x7C bytes). */
-typedef struct CommBattleWork {
+/* Work of the game clear event (0x7C bytes). */
+typedef struct GameClearWork {
     struct GameSystem *gameSystem;  /* 0x00 */
     struct GameData *gameData;      /* 0x04 */
     u32 mode;                       /* 0x08: 1 selects the second step sequence */
     u8 pad0C[4];
     struct MyStatus *myStatus;      /* 0x10 */
-    CommBattleOv205Param ov205Param;/* 0x14 */
-    CommBattleOv180Param ov180Param;/* 0x1C */
-    CommBattleOv181Param ov181Param;/* 0x28 */
-    u32 ov182Param;                 /* 0x30: configApplied again */
+    GameClearSaveScreenParam saveScreenParam;/* 0x14 */
+    GameClearHallOfFameParam hallOfFameParam;/* 0x1C */
+    GameClearStaffRollParam staffRollParam;/* 0x28 */
+    u32 theEndParam;                 /* 0x30: configApplied again */
     u32 step;                       /* 0x34: seq[current index] */
     u32 seq[16];                    /* 0x38 */
     int frameCount;                 /* 0x78 */
-} CommBattleWork;
+} GameClearWork;
 
 /* Work of the event that opens the Wi-Fi screens (0x34 bytes). */
 typedef struct WifiProcWork {
@@ -282,12 +282,12 @@ typedef struct FieldSkillTarget {
     u32 targetParam;                /* 0x04 */
 } FieldSkillTarget;
 
-struct RecordLinkWork;
+struct FieldMenuWork;
 
 /*
- * Request object that the battle record link hands to the shortcut menu
+ * Request object that the field menu event hands to the shortcut menu
  * event (event_shortcut_menu.c reads kind/detail/result/next). It sits at
- * 0x1C inside RecordLinkWork and is 0x34 bytes.
+ * 0x1C inside FieldMenuWork and is 0x34 bytes.
  */
 typedef struct ShortcutRequest {
     struct GameSystem *gameSystem;  /* 0x00 */
@@ -295,29 +295,29 @@ typedef struct ShortcutRequest {
     struct GameEvent *event;        /* 0x08 */
     u32 kind;                       /* 0x0C */
     int detail;                     /* 0x10: -1 */
-    int (*onUpdate)(struct ShortcutRequest *request, struct RecordLinkWork *work);  /* 0x14 */
-    int (*onClose)(struct ShortcutRequest *request, struct RecordLinkWork *work);   /* 0x18 */
-    int (*onFinish)(struct ShortcutRequest *request, struct RecordLinkWork *work);  /* 0x1C */
-    struct RecordLinkWork *work;    /* 0x20 */
+    int (*onUpdate)(struct ShortcutRequest *request, struct FieldMenuWork *work);  /* 0x14 */
+    int (*onClose)(struct ShortcutRequest *request, struct FieldMenuWork *work);   /* 0x18 */
+    int (*onFinish)(struct ShortcutRequest *request, struct FieldMenuWork *work);  /* 0x1C */
+    struct FieldMenuWork *work;    /* 0x20 */
     u32 result;                     /* 0x24: set by the menu */
     u32 next;                       /* 0x28: chosen menu entry */
     u32 partySlot;                  /* 0x2C */
     u32 targetParam;                /* 0x30 */
 } ShortcutRequest;
 
-/* Work of the battle record link event (0x5C bytes). */
-typedef struct RecordLinkWork {
+/* Work of the field menu event (X button menu, 0x5C bytes). */
+typedef struct FieldMenuWork {
     u16 id;                         /* 0x00 */
     u8 pad02[2];
     struct GameEvent *event;        /* 0x04 */
     struct GameSystem *gameSystem;  /* 0x08 */
     struct FieldMap *fieldMap;      /* 0x0C */
-    u32 frameRate;                  /* 0x10 */
+    u32 selectedButton;             /* 0x10: button chosen in the field menu */
     u32 state;                      /* 0x14 */
     int linkMode;                   /* 0x18: 3, 4, 2 or 5 */
     ShortcutRequest request;        /* 0x1C */
     u8 pad50[0x5C - 0x50];
-} RecordLinkWork;
+} FieldMenuWork;
 
 /* script work (ov010) */
 extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScriptWork *scriptWork);
@@ -352,11 +352,11 @@ extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *chi
 extern void GAME_EVENT_ChangeEvent(struct GameEvent *event, struct GameEvent *next);
 extern void GAME_EVENT_Change(struct GameEvent *event, EventTaskFn taskFn, u32 workSize);
 extern void GAME_EVENT_CallProc(struct GameEvent *event, u32 overlayId, const void *procData, void *procArg);
-extern struct GameData *ICA_ANIME_GetField1C(struct GameSystem *gameSystem);
-extern struct FieldMap *ICA_ANIME_GetField20(struct GameSystem *gameSystem);
-extern struct GameComm *ICA_ANIME_GetField24(struct GameSystem *gameSystem);
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
 extern void GAMESYSTEM_SetCommBlocked(struct GameSystem *gameSystem, u32 commBlocked);
-extern u32 ICA_ANIME_IsConfigFlagSet(struct GameSystem *gameSystem);
+extern u32 GAMESYSTEM_IsAlwaysNetFlagSet(struct GameSystem *gameSystem);
 extern void GAMESYSTEM_SetAlwaysNetFlag(struct GameSystem *gameSystem, u32 alwaysNet);
 extern u32 GAMESYSTEM_TryStartAutoComm(struct GameSystem *gameSystem);
 extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, const void *procData, void *procArg);
@@ -366,12 +366,12 @@ extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern struct PokeParty *GAME_DATA_GetMyParty(struct GameData *gameData);
 extern int GAME_DATA_GetPlayTime(struct GameData *gameData);
 extern struct MiscSave *GAME_DATA_GetMiscSave(struct GameData *gameData);
-extern struct EventDataSystem *GAME_DATA_GetField158(struct GameData *gameData);
+extern struct EventDataSystem *GAME_DATA_GetEventData(struct GameData *gameData);
 extern struct EventWork *GAME_DATA_GetEventWork(struct GameData *gameData);
 extern u16 GAME_DATA_GetSituationWarpId(struct GameData *gameData);
 extern void *GAME_DATA_GetEventState(struct GameData *gameData);
 extern void GAME_DATA_SetSubscreenType(struct GameData *gameData, u32 subscreenType);
-extern void GAME_DATA_SetFrameRate(struct GameData *gameData, u8 frameRate);
+extern void GAME_DATA_SetFieldMenuCursor(struct GameData *gameData, u8 cursor);
 
 /* game comm, config, misc */
 extern u32 GAME_COMM_GetKind(struct GameComm *gameComm);
@@ -430,7 +430,7 @@ extern int FIELD_SUBSCREEN_RequestMode(struct FieldCommLink *link, u32 a);
 extern int FIELD_SUBSCREEN_GetPanelResult(struct FieldCommLink *link);
 extern void FIELD_SUBSCREEN_ClearPanelResult(struct FieldCommLink *link);
 extern u32 FIELD_SUBSCREEN_GetMenuSelectedButton(struct FieldCommLink *link);
-extern void FIELD_SUBSCREEN_SetMenuSelectedButton(struct FieldCommLink *link, int frameRate);
+extern void FIELD_SUBSCREEN_SetMenuSelectedButton(struct FieldCommLink *link, int button);
 extern struct GameEvent *FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 linkMode);
 extern void FLDMMDL_SysPauseMove(struct MoveModelSys *moveModelSys);
 extern u32 *FLDMMDL_SysResumeMove(struct MoveModelSys *moveModelSys);
@@ -457,7 +457,7 @@ extern u8 ov122_id[];
 extern u8 ov172_id[];
 extern u8 d_021D5764[];
 extern u8 d_021C7240[];
-extern const u32 SCRCMD_NETWORK_sRecordKindByFrameRate[];
+extern const u32 SCRCMD_NETWORK_sProcKindOfButton[];
 
 int SCRCMD_NETWORK_WaitCommState(ScriptVm *vm, struct ScriptWork *scriptWork);
 int SCRCMD_NETWORK_CmdWaitCommState(ScriptVm *vm, struct ScriptWork *scriptWork);
@@ -479,27 +479,27 @@ int SCRCMD_NETWORK_FindNpcTableRow(const NpcTableRow *table, int keyA, int keyB)
 BOOL SCRCMD_NETWORK_HasSituationWarpChanged(struct GameData *gameData);
 int SCRCMD_NETWORK_CommProcEventMain(struct GameEvent *event, u32 *seq, void *workArg);
 struct GameEvent *SCRCMD_NETWORK_CreateCommProcEvent(struct GameSystem *gameSystem);
-int SCRCMD_NETWORK_CommBattleEventMain(struct GameEvent *event, u32 *seq, void *workArg);
-struct GameEvent *SCRCMD_NETWORK_CreateCommBattleEvent(struct GameSystem *gameSystem, int mode);
-void SCRCMD_NETWORK_InitCommBattleOv180Param(CommBattleWork *work);
-int SCRCMD_NETWORK_InitCommBattleOv181Param(CommBattleWork *work);
-void SCRCMD_NETWORK_InitCommBattleStepSequence(CommBattleWork *work);
-int SCRCMD_NETWORK_GetCommExitKind(void);
-void SCRCMD_NETWORK_AdvanceStep(CommBattleWork *work, u32 *seq);
-int SCRCMD_NETWORK_SetupMiscSave(CommBattleWork *work);
+int EVENT_GAMECLEAR_Main(struct GameEvent *event, u32 *seq, void *workArg);
+struct GameEvent *EVENT_GAMECLEAR_Create(struct GameSystem *gameSystem, int mode);
+void EVENT_GAMECLEAR_InitHallOfFameParam(GameClearWork *work);
+int EVENT_GAMECLEAR_InitStaffRollParam(GameClearWork *work);
+void EVENT_GAMECLEAR_InitStepSequence(GameClearWork *work);
+int EVENT_GAMECLEAR_GetCommExitKind(void);
+void EVENT_GAMECLEAR_AdvanceStep(GameClearWork *work, u32 *seq);
+int SCRCMD_NETWORK_SetupMiscSave(GameClearWork *work);
 struct GameEvent *SCRCMD_NETWORK_CreateOv020Event(struct GameSystem *gameSystem, u32 initParam);
 struct GameEvent *SCRCMD_NETWORK_LoadOv020Task(struct GameSystem *gameSystem);
 void SCRCMD_NETWORK_LoadOv020(void);
 void SCRCMD_NETWORK_UnloadOv020(void);
 int SCRCMD_NETWORK_WifiProcEventMain(struct GameEvent *event, u32 *seq, void *workArg);
 struct GameEvent *SCRCMD_NETWORK_CreateWifiProcEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, struct GameEvent *event, int createNew);
-struct GameEvent *SCRCMD_NETWORK_CreateBattleRecordLinkEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u16 id);
-struct GameEvent *SCRCMD_NETWORK_CreateBattleRecordLinkEventForZone(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u16 id);
-int SCRCMD_NETWORK_BattleRecordLinkEventMain(struct GameEvent *event, u32 *seq, void *workArg);
-u32 SCRCMD_NETWORK_GetRecordKindByFrameRate(u32 frameRate);
-int SCRCMD_NETWORK_RecordLinkOnUpdate(ShortcutRequest *request, RecordLinkWork *work);
-int SCRCMD_NETWORK_RecordLinkOnClose(ShortcutRequest *request, RecordLinkWork *work);
-int SCRCMD_NETWORK_RecordLinkOnFinish(ShortcutRequest *request, RecordLinkWork *work);
+struct GameEvent *EVENT_FIELD_MENU_Create(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u16 id);
+struct GameEvent *EVENT_FIELD_MENU_CreateForZone(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u16 id);
+int EVENT_FIELD_MENU_Main(struct GameEvent *event, u32 *seq, void *workArg);
+u32 EVENT_FIELD_MENU_GetProcKindOfButton(u32 button);
+int EVENT_FIELD_MENU_OnUpdate(ShortcutRequest *request, FieldMenuWork *work);
+int EVENT_FIELD_MENU_OnClose(ShortcutRequest *request, FieldMenuWork *work);
+int EVENT_FIELD_MENU_OnFinish(ShortcutRequest *request, FieldMenuWork *work);
 
 /*
  * Wait callback of the "wait for the comm state" command: state 0 keeps
@@ -510,10 +510,10 @@ int SCRCMD_NETWORK_WaitCommState(ScriptVm *vm, struct ScriptWork *scriptWork)
 {
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(scriptWork);
     struct ScriptCtl *scriptCtl = SCRCMD_WORK_GetScriptWork(scriptWork);
-    struct GameComm *gameComm = ICA_ANIME_GetField24(gameSystem);
+    struct GameComm *gameComm = GAMESYSTEM_GetGameComm(gameSystem);
     CommWaitWork *waitWork;
 
-    ICA_ANIME_GetField20(gameSystem);
+    GAMESYSTEM_GetFieldMap(gameSystem);
     waitWork = *SCRIPT_WORK_GetUserWorkPtr(scriptCtl);
     switch (FIELDMAP_CheckCommExit(gameComm)) {
     case 0:
@@ -572,7 +572,7 @@ int SCRCMD_NETWORK_CmdRequestCommExit(ScriptVm *vm, struct ScriptWork *scriptWor
     struct GameComm *gameComm;
 
     gameSystem = SCRCMD_WORK_GetGameSystem(scriptWork);
-    gameComm = ICA_ANIME_GetField24(gameSystem);
+    gameComm = GAMESYSTEM_GetGameComm(gameSystem);
     switch (GAME_COMM_GetKind(gameComm)) {
     case 1:
     case 2:
@@ -620,7 +620,7 @@ int SCRCMD_NETWORK_CmdGetAlwaysNet(ScriptVm *vm, struct ScriptWork *scriptWork)
 
     gameSystem = SCRCMD_WORK_GetGameSystem(scriptWork);
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, scriptWork);
-    *resultVar = ICA_ANIME_IsConfigFlagSet(gameSystem);
+    *resultVar = GAMESYSTEM_IsAlwaysNetFlagSet(gameSystem);
     return 0;
 }
 
@@ -666,7 +666,7 @@ int SCRCMD_NETWORK_CmdSetNpcEventFromTable(ScriptVm *vm, struct ScriptWork *scri
     struct EventDataSystem *eventData;
     u16 eventKey;
 
-    eventData = GAME_DATA_GetField158(SCRCMD_WORK_GetGameData(scriptWork));
+    eventData = GAME_DATA_GetEventData(SCRCMD_WORK_GetGameData(scriptWork));
     table = SCRIPT_WORK_GetReturnFlag(scriptCtl);
     eventKey = table[(u16)SCRCMD_NETWORK_FindNpcTableRow(table, keyA, keyB)].eventKey;
     EVENTDATA_SYSTEM_SetNpcEventId(eventData, outSlot, EVENT_POKE_STATUS_AddMs3000(eventKey));
@@ -686,7 +686,7 @@ int SCRCMD_NETWORK_CmdSetNpcEventPairFromTable(ScriptVm *vm, struct ScriptWork *
     struct EventDataSystem *eventData;
     u16 index;
 
-    eventData = GAME_DATA_GetField158(SCRCMD_WORK_GetGameData(scriptWork));
+    eventData = GAME_DATA_GetEventData(SCRCMD_WORK_GetGameData(scriptWork));
     table = SCRIPT_WORK_GetReturnFlag(scriptCtl);
     index = SCRCMD_NETWORK_FindNpcTableRow(table, keyA, keyB);
     EVENTDATA_SYSTEM_SetNpcEventId(eventData, outSlotA, EVENT_POKE_STATUS_AddMs3000(table[index].eventKey));
@@ -705,7 +705,7 @@ int SCRCMD_NETWORK_CmdSetNpcTripleFromTable(ScriptVm *vm, struct ScriptWork *scr
     u32 row0 = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
     u32 row1 = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
     u32 row2 = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
-    struct EventDataSystem *eventData = GAME_DATA_GetField158(SCRCMD_WORK_GetGameData(scriptWork));
+    struct EventDataSystem *eventData = GAME_DATA_GetEventData(SCRCMD_WORK_GetGameData(scriptWork));
     NpcTableRow *table = SCRIPT_WORK_GetReturnFlag(scriptCtl);
 
     EVENTDATA_SYSTEM_SetNpcObjCode(eventData, slot0, table[row0].objCode);
@@ -726,7 +726,7 @@ int SCRCMD_NETWORK_CmdApplyTableEventKeys(ScriptVm *vm, struct ScriptWork *scrip
     NpcTableRow *table;
 
     scriptCtl = SCRCMD_WORK_GetScriptWork(scriptWork);
-    eventWork = GAME_DATA_GetEventWork(ICA_ANIME_GetField1C(SCRIPT_WORK_GetGameSystem(scriptCtl)));
+    eventWork = GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(SCRIPT_WORK_GetGameSystem(scriptCtl)));
     table = SCRIPT_WORK_GetReturnFlag(scriptCtl);
     for (i = 0; i < NPC_TABLE_ROW_COUNT; i++)
         EVENT_POKE_STATUS_ResetFlag(eventWork, table[i].eventKey);
@@ -854,7 +854,7 @@ int SCRCMD_NETWORK_CommProcEventMain(struct GameEvent *event, u32 *seq, void *wo
 
 struct GameEvent *SCRCMD_NETWORK_CreateCommProcEvent(struct GameSystem *gameSystem)
 {
-    struct GameData *gameData = ICA_ANIME_GetField1C(gameSystem);
+    struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
     struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, SCRCMD_NETWORK_CommProcEventMain, sizeof(CommProcEventWork));
     CommProcEventWork *work = GAME_EVENT_GetWork(event);
 
@@ -868,8 +868,8 @@ struct GameEvent *SCRCMD_NETWORK_CreateCommProcEvent(struct GameSystem *gameSyst
 
 
 /*
- * Step machine of the comm battle event: the step comes from work->seq[*seq]
- * through SCRCMD_NETWORK_AdvanceStep, loading ov180/ov181 as procs and ov205/ov182 as
+ * Step machine of the game clear event (Hall of Fame, staff roll, save, The End): the step comes from work->seq[*seq]
+ * through EVENT_GAMECLEAR_AdvanceStep, loading ov180/ov181 as procs and ov205/ov182 as
  * tasks. Byte-correct first draft.
  * Former blocker (MATCH): ov205_id and ov182_id reach r1 of GAME_EVENT_CallProc, which
  * is not in match.py's OVERLAY_ID_CONSUMERS; d_021B9BA0 then fails its
@@ -878,135 +878,135 @@ struct GameEvent *SCRCMD_NETWORK_CreateCommProcEvent(struct GameSystem *gameSyst
  *
  * 2026-10-05 (D8 lane 15): overlay id sites now resolve; all relocations resolved, EXACT.
  */
-int SCRCMD_NETWORK_CommBattleEventMain(struct GameEvent *event, u32 *seq, void *workArg)
+int EVENT_GAMECLEAR_Main(struct GameEvent *event, u32 *seq, void *workArg)
 {
-    CommBattleWork *work = workArg;
+    GameClearWork *work = workArg;
     struct GameSystem *gameSystem = work->gameSystem;
     struct GameComm *gameComm;
     struct FieldMap *fieldMap;
 
     GAME_DATA_GetSaveControl(work->gameData);
-    fieldMap = ICA_ANIME_GetField20(work->gameSystem);
-    gameComm = ICA_ANIME_GetField24(work->gameSystem);
+    fieldMap = GAMESYSTEM_GetFieldMap(work->gameSystem);
+    gameComm = GAMESYSTEM_GetGameComm(work->gameSystem);
     switch (work->step) {
-    case COMM_BATTLE_STEP_PREPARE:
+    case GAME_CLEAR_STEP_PREPARE:
         if (work->mode == 1)
             SCRCMD_NETWORK_SetupMiscSave(work);
         GFL_USE_FadeOutBgm(30);
-        SCRCMD_NETWORK_AdvanceStep(work, seq);
+        EVENT_GAMECLEAR_AdvanceStep(work, seq);
         break;
-    case COMM_BATTLE_STEP_FIELD_PREPARE_EVENT:
+    case GAME_CLEAR_STEP_FIELD_PREPARE_EVENT:
         GAME_EVENT_CallEvent(event, EVENT_FIELDMAP_CONTROL_StartFadeOut(gameSystem, fieldMap, 0, 0));
-        SCRCMD_NETWORK_AdvanceStep(work, seq);
+        EVENT_GAMECLEAR_AdvanceStep(work, seq);
         break;
-    case COMM_BATTLE_STEP_REQUEST_COMM_IDLE:
+    case GAME_CLEAR_STEP_REQUEST_COMM_IDLE:
         if (GAME_COMM_GetKind(gameComm))
             GAME_COMM_RequestExitNoCallback(gameComm);
-        SCRCMD_NETWORK_AdvanceStep(work, seq);
+        EVENT_GAMECLEAR_AdvanceStep(work, seq);
         break;
-    case COMM_BATTLE_STEP_WAIT_COMM_IDLE:
+    case GAME_CLEAR_STEP_WAIT_COMM_IDLE:
         if (GAME_COMM_GetKind(gameComm) == 0)
-            SCRCMD_NETWORK_AdvanceStep(work, seq);
+            EVENT_GAMECLEAR_AdvanceStep(work, seq);
         break;
-    case COMM_BATTLE_STEP_CLOSE_FIELD:
+    case GAME_CLEAR_STEP_CLOSE_FIELD:
         GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateFieldCloseNoSoundWaitEvent(gameSystem, fieldMap));
-        SCRCMD_NETWORK_AdvanceStep(work, seq);
+        EVENT_GAMECLEAR_AdvanceStep(work, seq);
         break;
-    case COMM_BATTLE_STEP_CALL_OV180:
-        GAMESYSTEM_CallProc(gameSystem, (u32)ov180_id, d_021B800C, &work->ov180Param);
-        SCRCMD_NETWORK_AdvanceStep(work, seq);
+    case GAME_CLEAR_STEP_CALL_HALL_OF_FAME:
+        GAMESYSTEM_CallProc(gameSystem, (u32)ov180_id, d_021B800C, &work->hallOfFameParam);
+        EVENT_GAMECLEAR_AdvanceStep(work, seq);
         break;
-    case COMM_BATTLE_STEP_WAIT_OV180:
+    case GAME_CLEAR_STEP_WAIT_HALL_OF_FAME:
         if (GAMESYSTEM_GetProcStatus(gameSystem) == 0)
-            SCRCMD_NETWORK_AdvanceStep(work, seq);
+            EVENT_GAMECLEAR_AdvanceStep(work, seq);
         break;
-    case COMM_BATTLE_STEP_CALL_OV181:
-        GAMESYSTEM_CallProc(gameSystem, (u32)ov181_id, d_021BAB24, &work->ov181Param);
-        SCRCMD_NETWORK_AdvanceStep(work, seq);
+    case GAME_CLEAR_STEP_CALL_STAFF_ROLL:
+        GAMESYSTEM_CallProc(gameSystem, (u32)ov181_id, d_021BAB24, &work->staffRollParam);
+        EVENT_GAMECLEAR_AdvanceStep(work, seq);
         break;
-    case COMM_BATTLE_STEP_WAIT_OV181:
+    case GAME_CLEAR_STEP_WAIT_STAFF_ROLL:
         if (GAMESYSTEM_GetProcStatus(gameSystem) == 0)
-            SCRCMD_NETWORK_AdvanceStep(work, seq);
+            EVENT_GAMECLEAR_AdvanceStep(work, seq);
         break;
-    case COMM_BATTLE_STEP_COMM_EXIT_EVENT:
-        GAME_EVENT_CallEvent(event, EVENT_FIELD_PROCLINK_CreateCommExitEvent(gameSystem, event, SCRCMD_NETWORK_GetCommExitKind(), 0, 0));
-        SCRCMD_NETWORK_AdvanceStep(work, seq);
+    case GAME_CLEAR_STEP_COMM_EXIT_EVENT:
+        GAME_EVENT_CallEvent(event, EVENT_FIELD_PROCLINK_CreateCommExitEvent(gameSystem, event, EVENT_GAMECLEAR_GetCommExitKind(), 0, 0));
+        EVENT_GAMECLEAR_AdvanceStep(work, seq);
         break;
-    case COMM_BATTLE_STEP_SET_SCRIPT_STATE:
+    case GAME_CLEAR_STEP_SET_SCRIPT_STATE:
         SCRIPT_SYS_RunRecoverScript(gameSystem, 4);
-        SCRCMD_NETWORK_AdvanceStep(work, seq);
+        EVENT_GAMECLEAR_AdvanceStep(work, seq);
         break;
-    case COMM_BATTLE_STEP_CALL_OV205:
-        GAME_EVENT_CallProc(event, (u32)ov205_id, d_021B9E54, &work->ov205Param);
-        SCRCMD_NETWORK_AdvanceStep(work, seq);
+    case GAME_CLEAR_STEP_CALL_SAVE_SCREEN:
+        GAME_EVENT_CallProc(event, (u32)ov205_id, d_021B9E54, &work->saveScreenParam);
+        EVENT_GAMECLEAR_AdvanceStep(work, seq);
         break;
-    case COMM_BATTLE_STEP_WAIT_FRAMES:
+    case GAME_CLEAR_STEP_WAIT_FRAMES:
         if (work->frameCount > 60) {
             work->frameCount = 0;
-            SCRCMD_NETWORK_AdvanceStep(work, seq);
+            EVENT_GAMECLEAR_AdvanceStep(work, seq);
         }
         work->frameCount++;
         break;
-    case COMM_BATTLE_STEP_CALL_OV182:
-        GAME_EVENT_CallProc(event, (u32)ov182_id, d_021B9BA0, &work->ov182Param);
+    case GAME_CLEAR_STEP_CALL_THE_END:
+        GAME_EVENT_CallProc(event, (u32)ov182_id, d_021B9BA0, &work->theEndParam);
         GAMESYSTEM_SetAlwaysNetFlag(gameSystem, 0);
-        SCRCMD_NETWORK_AdvanceStep(work, seq);
+        EVENT_GAMECLEAR_AdvanceStep(work, seq);
         break;
-    case COMM_BATTLE_STEP_DONE:
+    case GAME_CLEAR_STEP_DONE:
         return 1;
-    case COMM_BATTLE_STEP_ABORT:
+    case GAME_CLEAR_STEP_ABORT:
         return 0;
     }
     return 0;
 }
 
 
-struct GameEvent *SCRCMD_NETWORK_CreateCommBattleEvent(struct GameSystem *gameSystem, int mode)
+struct GameEvent *EVENT_GAMECLEAR_Create(struct GameSystem *gameSystem, int mode)
 {
-    struct GameData *gameData = ICA_ANIME_GetField1C(gameSystem);
-    struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, SCRCMD_NETWORK_CommBattleEventMain, 0x7C);
-    CommBattleWork *work = GAME_EVENT_GetWork(event);
+    struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
+    struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_GAMECLEAR_Main, 0x7C);
+    GameClearWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
     work->gameData = gameData;
     work->mode = mode;
     work->myStatus = GAME_DATA_GetMyStatus(gameData);
     work->frameCount = 0;
-    work->ov205Param.gameSystem = gameSystem;
-    work->ov205Param.mode = mode;
+    work->saveScreenParam.gameSystem = gameSystem;
+    work->saveScreenParam.mode = mode;
     MOVE_POKEMON_SpawnPendingEntries(gameData);
-    SCRCMD_NETWORK_InitCommBattleOv180Param(work);
-    SCRCMD_NETWORK_InitCommBattleOv181Param(work);
-    SCRCMD_NETWORK_InitCommBattleStepSequence(work);
+    EVENT_GAMECLEAR_InitHallOfFameParam(work);
+    EVENT_GAMECLEAR_InitStaffRollParam(work);
+    EVENT_GAMECLEAR_InitStepSequence(work);
     return event;
 }
 
 
-/* Caches the party, status and play time of the game data for the ov180 proc. */
-void SCRCMD_NETWORK_InitCommBattleOv180Param(CommBattleWork *work)
+/* Caches the party, status and play time of the game data for the Hall of Fame screen. */
+void EVENT_GAMECLEAR_InitHallOfFameParam(GameClearWork *work)
 {
-    work->ov180Param.myParty = GAME_DATA_GetMyParty(work->gameData);
-    work->ov180Param.myStatus = GAME_DATA_GetMyStatus(work->gameData);
-    work->ov180Param.playTime = GAME_DATA_GetPlayTime(work->gameData);
+    work->hallOfFameParam.myParty = GAME_DATA_GetMyParty(work->gameData);
+    work->hallOfFameParam.myStatus = GAME_DATA_GetMyStatus(work->gameData);
+    work->hallOfFameParam.playTime = GAME_DATA_GetPlayTime(work->gameData);
 }
 
 
-/* Fills the ov181 and ov182 parameters from the config applied flag. */
-int SCRCMD_NETWORK_InitCommBattleOv181Param(CommBattleWork *work)
+/* Fills the staff roll and The End parameters from the config applied flag. */
+int EVENT_GAMECLEAR_InitStaffRollParam(GameClearWork *work)
 {
     struct SaveControl *saveControl;
     struct Config *config;
     int configApplied;
 
     if (work->mode == 1)
-        work->ov181Param.isMode1 = 1;
+        work->staffRollParam.isMode1 = 1;
     else
-        work->ov181Param.isMode1 = 0;
+        work->staffRollParam.isMode1 = 0;
     saveControl = GAME_DATA_GetSaveControl(work->gameData);
     config = SYSTEM_DATA_GetConfig(saveControl);
     configApplied = CONFIG_GetAppliedFlag(config);
-    work->ov181Param.configApplied = configApplied;
-    work->ov182Param = configApplied;
+    work->staffRollParam.configApplied = configApplied;
+    work->theEndParam = configApplied;
     return configApplied;
 }
 
@@ -1015,37 +1015,37 @@ int SCRCMD_NETWORK_InitCommBattleOv181Param(CommBattleWork *work)
  * Picks the step sequence from the mode and loads its first step.
  * Addresses are Black-image addresses.
  */
-void SCRCMD_NETWORK_InitCommBattleStepSequence(CommBattleWork *work)
+void EVENT_GAMECLEAR_InitStepSequence(GameClearWork *work)
 {
     if (work->mode == 0 || work->mode != 1) {
-        work->seq[0] = COMM_BATTLE_STEP_PREPARE;
-        work->seq[1] = COMM_BATTLE_STEP_REQUEST_COMM_IDLE;
-        work->seq[2] = COMM_BATTLE_STEP_WAIT_COMM_IDLE;
-        work->seq[3] = COMM_BATTLE_STEP_CLOSE_FIELD;
-        work->seq[4] = COMM_BATTLE_STEP_CALL_OV181;
-        work->seq[5] = COMM_BATTLE_STEP_WAIT_OV181;
-        work->seq[6] = COMM_BATTLE_STEP_WAIT_FRAMES;
-        work->seq[7] = COMM_BATTLE_STEP_COMM_EXIT_EVENT;
-        work->seq[8] = COMM_BATTLE_STEP_WAIT_FRAMES;
-        work->seq[9] = COMM_BATTLE_STEP_SET_SCRIPT_STATE;
-        work->seq[10] = COMM_BATTLE_STEP_CALL_OV205;
-        work->seq[11] = COMM_BATTLE_STEP_WAIT_FRAMES;
-        work->seq[12] = COMM_BATTLE_STEP_CALL_OV182;
-        work->seq[13] = COMM_BATTLE_STEP_DONE;
+        work->seq[0] = GAME_CLEAR_STEP_PREPARE;
+        work->seq[1] = GAME_CLEAR_STEP_REQUEST_COMM_IDLE;
+        work->seq[2] = GAME_CLEAR_STEP_WAIT_COMM_IDLE;
+        work->seq[3] = GAME_CLEAR_STEP_CLOSE_FIELD;
+        work->seq[4] = GAME_CLEAR_STEP_CALL_STAFF_ROLL;
+        work->seq[5] = GAME_CLEAR_STEP_WAIT_STAFF_ROLL;
+        work->seq[6] = GAME_CLEAR_STEP_WAIT_FRAMES;
+        work->seq[7] = GAME_CLEAR_STEP_COMM_EXIT_EVENT;
+        work->seq[8] = GAME_CLEAR_STEP_WAIT_FRAMES;
+        work->seq[9] = GAME_CLEAR_STEP_SET_SCRIPT_STATE;
+        work->seq[10] = GAME_CLEAR_STEP_CALL_SAVE_SCREEN;
+        work->seq[11] = GAME_CLEAR_STEP_WAIT_FRAMES;
+        work->seq[12] = GAME_CLEAR_STEP_CALL_THE_END;
+        work->seq[13] = GAME_CLEAR_STEP_DONE;
     } else {
-        work->seq[0] = COMM_BATTLE_STEP_PREPARE;
-        work->seq[1] = COMM_BATTLE_STEP_REQUEST_COMM_IDLE;
-        work->seq[2] = COMM_BATTLE_STEP_FIELD_PREPARE_EVENT;
-        work->seq[3] = COMM_BATTLE_STEP_WAIT_COMM_IDLE;
-        work->seq[4] = COMM_BATTLE_STEP_CLOSE_FIELD;
-        work->seq[5] = COMM_BATTLE_STEP_CALL_OV180;
-        work->seq[6] = COMM_BATTLE_STEP_WAIT_OV180;
-        work->seq[7] = COMM_BATTLE_STEP_SET_SCRIPT_STATE;
-        work->seq[8] = COMM_BATTLE_STEP_CALL_OV205;
-        work->seq[9] = COMM_BATTLE_STEP_CALL_OV181;
-        work->seq[10] = COMM_BATTLE_STEP_WAIT_OV181;
-        work->seq[11] = COMM_BATTLE_STEP_CALL_OV182;
-        work->seq[12] = COMM_BATTLE_STEP_DONE;
+        work->seq[0] = GAME_CLEAR_STEP_PREPARE;
+        work->seq[1] = GAME_CLEAR_STEP_REQUEST_COMM_IDLE;
+        work->seq[2] = GAME_CLEAR_STEP_FIELD_PREPARE_EVENT;
+        work->seq[3] = GAME_CLEAR_STEP_WAIT_COMM_IDLE;
+        work->seq[4] = GAME_CLEAR_STEP_CLOSE_FIELD;
+        work->seq[5] = GAME_CLEAR_STEP_CALL_HALL_OF_FAME;
+        work->seq[6] = GAME_CLEAR_STEP_WAIT_HALL_OF_FAME;
+        work->seq[7] = GAME_CLEAR_STEP_SET_SCRIPT_STATE;
+        work->seq[8] = GAME_CLEAR_STEP_CALL_SAVE_SCREEN;
+        work->seq[9] = GAME_CLEAR_STEP_CALL_STAFF_ROLL;
+        work->seq[10] = GAME_CLEAR_STEP_WAIT_STAFF_ROLL;
+        work->seq[11] = GAME_CLEAR_STEP_CALL_THE_END;
+        work->seq[12] = GAME_CLEAR_STEP_DONE;
     }
     work->step = work->seq[0];
 }
@@ -1055,7 +1055,7 @@ void SCRCMD_NETWORK_InitCommBattleStepSequence(CommBattleWork *work)
  * Kind passed to the comm exit event: 7 for power 0x15, else 8. The 0x14
  * test is redundant but is in the bytes.
  */
-int SCRCMD_NETWORK_GetCommExitKind(void)
+int EVENT_GAMECLEAR_GetCommExitKind(void)
 {
     int powerId = GPOWER_GetSpecialPowerId();
 
@@ -1068,14 +1068,14 @@ int SCRCMD_NETWORK_GetCommExitKind(void)
 /*
  * Advance the step counter and load the next step from the sequence.
  */
-void SCRCMD_NETWORK_AdvanceStep(CommBattleWork *work, u32 *seq)
+void EVENT_GAMECLEAR_AdvanceStep(GameClearWork *work, u32 *seq)
 {
     (*seq)++;
     work->step = work->seq[*seq];
 }
 
 
-int SCRCMD_NETWORK_SetupMiscSave(CommBattleWork *work)
+int SCRCMD_NETWORK_SetupMiscSave(GameClearWork *work)
 {
     struct MiscSave *miscSave = GAME_DATA_GetMiscSave(work->gameData);
 
@@ -1158,9 +1158,9 @@ int SCRCMD_NETWORK_WifiProcEventMain(struct GameEvent *event, u32 *seq, void *wo
 {
     WifiProcWork *work = workArg;
     struct GameSystem *gameSystem = work->gameSystem;
-    struct GameComm *gameComm = ICA_ANIME_GetField24(gameSystem);
-    struct GameData *gameData = ICA_ANIME_GetField1C(gameSystem);
-    struct FieldMap *fieldMap = ICA_ANIME_GetField20(gameSystem);
+    struct GameComm *gameComm = GAMESYSTEM_GetGameComm(gameSystem);
+    struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
+    struct FieldMap *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
 
     switch (*seq) {
     case 0:
@@ -1261,7 +1261,7 @@ struct GameEvent *SCRCMD_NETWORK_CreateWifiProcEvent(struct GameSystem *gameSyst
         GAME_EVENT_Change(event, SCRCMD_NETWORK_WifiProcEventMain, 0x34);
     }
     work = GAME_EVENT_GetWork(event);
-    gameData = ICA_ANIME_GetField1C(gameSystem);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
     work->gameData = gameData;
     work->saveControl = GAME_DATA_GetSaveControl(gameData);
     work->gameSystem = gameSystem;
@@ -1269,16 +1269,16 @@ struct GameEvent *SCRCMD_NETWORK_CreateWifiProcEvent(struct GameSystem *gameSyst
 }
 
 
-struct GameEvent *SCRCMD_NETWORK_CreateBattleRecordLinkEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u16 id)
+struct GameEvent *EVENT_FIELD_MENU_Create(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u16 id)
 {
     struct FieldCommLink *link;
     int workSize = 0x5c;
     struct GameEvent *event;
-    RecordLinkWork *work;
+    FieldMenuWork *work;
     int linkMode;
 
     link = FIELDMAP_GetSubscreen(fieldMap);
-    event = GAME_EVENT_Create(gameSystem, 0, SCRCMD_NETWORK_BattleRecordLinkEventMain, workSize);
+    event = GAME_EVENT_Create(gameSystem, 0, EVENT_FIELD_MENU_Main, workSize);
     work = GAME_EVENT_GetWork(event);
     MI_CpuFill8(work, 0, workSize);
     work->gameSystem = gameSystem;
@@ -1289,9 +1289,9 @@ struct GameEvent *SCRCMD_NETWORK_CreateBattleRecordLinkEvent(struct GameSystem *
     work->request.gameSystem = gameSystem;
     work->request.fieldMap = fieldMap;
     work->request.event = event;
-    work->request.onUpdate = SCRCMD_NETWORK_RecordLinkOnUpdate;
-    work->request.onClose = SCRCMD_NETWORK_RecordLinkOnClose;
-    work->request.onFinish = SCRCMD_NETWORK_RecordLinkOnFinish;
+    work->request.onUpdate = EVENT_FIELD_MENU_OnUpdate;
+    work->request.onClose = EVENT_FIELD_MENU_OnClose;
+    work->request.onFinish = EVENT_FIELD_MENU_OnFinish;
     work->request.work = work;
     work->request.detail = workSize - 0x5d;
     linkMode = FIELD_SUBSCREEN_GetMode(link);
@@ -1312,12 +1312,12 @@ struct GameEvent *SCRCMD_NETWORK_CreateBattleRecordLinkEvent(struct GameSystem *
 }
 
 
-struct GameEvent *SCRCMD_NETWORK_CreateBattleRecordLinkEventForZone(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u16 id)
+struct GameEvent *EVENT_FIELD_MENU_CreateForZone(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u16 id)
 {
     struct GameEvent *event;
-    RecordLinkWork *work;
+    FieldMenuWork *work;
 
-    event = SCRCMD_NETWORK_CreateBattleRecordLinkEvent(gameSystem, fieldMap, id);
+    event = EVENT_FIELD_MENU_Create(gameSystem, fieldMap, id);
     work = GAME_EVENT_GetWork(event);
     work->linkMode = ZONEDATA_IsZone96Pair(FIELDMAP_GetZoneId(fieldMap)) == 1 ? 5 : 2;
     return event;
@@ -1325,29 +1325,29 @@ struct GameEvent *SCRCMD_NETWORK_CreateBattleRecordLinkEventForZone(struct GameS
 
 
 /*
- * Nine-state link setup task of the ov010 field (the extent ends at
+ * Nine-state field menu (X button) task of the ov010 field (the extent ends at
  * 0x0215FEC6; 0x0215FEC8 is its unlabelled table-lookup leaf). State 3
  * keeps the call arm inside the negated test so the `return 1` block
  * follows it.
  */
-int SCRCMD_NETWORK_BattleRecordLinkEventMain(struct GameEvent *event, u32 *seq, void *workArg)
+int EVENT_FIELD_MENU_Main(struct GameEvent *event, u32 *seq, void *workArg)
 {
-    RecordLinkWork *work = workArg;
+    FieldMenuWork *work = workArg;
     FieldSkillTarget target;
     FieldSkillInfo info;
     struct MoveModelSys *moveModelSys;
     struct GameData *gameData;
     struct GameEvent *skillEvent;
-    u32 frameRate;
+    u32 selectedButton;
     int linkState;
 
     switch (work->state) {
     case 0:
         if (FIELD_SUBSCREEN_IsIdle(FIELDMAP_GetSubscreen(work->fieldMap)) == 1) {
             moveModelSys = FIELDMAP_GetMmdlSys(work->fieldMap);
-            gameData = ICA_ANIME_GetField1C(GAME_EVENT_GetGameSystem(event));
+            gameData = GAMESYSTEM_GetGameData(GAME_EVENT_GetGameSystem(event));
             FLDMMDL_SysPauseMove(moveModelSys);
-            GAME_DATA_SetFrameRate(gameData, 1);
+            GAME_DATA_SetFieldMenuCursor(gameData, 1);
             FIELD_SUBSCREEN_RequestMode(FIELDMAP_GetSubscreen(work->fieldMap), 1);
             work->state = 1;
         }
@@ -1363,11 +1363,11 @@ int SCRCMD_NETWORK_BattleRecordLinkEventMain(struct GameEvent *event, u32 *seq, 
         }
         break;
     case 2:
-        gameData = ICA_ANIME_GetField1C(GAME_EVENT_GetGameSystem(event));
-        frameRate = FIELD_SUBSCREEN_GetMenuSelectedButton(FIELDMAP_GetSubscreen(work->fieldMap));
-        GAME_DATA_SetFrameRate(gameData, frameRate);
-        work->frameRate = FIELD_SUBSCREEN_GetMenuSelectedButton(FIELDMAP_GetSubscreen(work->fieldMap));
-        work->request.kind = SCRCMD_NETWORK_GetRecordKindByFrameRate(frameRate);
+        gameData = GAMESYSTEM_GetGameData(GAME_EVENT_GetGameSystem(event));
+        selectedButton = FIELD_SUBSCREEN_GetMenuSelectedButton(FIELDMAP_GetSubscreen(work->fieldMap));
+        GAME_DATA_SetFieldMenuCursor(gameData, selectedButton);
+        work->selectedButton = FIELD_SUBSCREEN_GetMenuSelectedButton(FIELDMAP_GetSubscreen(work->fieldMap));
+        work->request.kind = EVENT_FIELD_MENU_GetProcKindOfButton(selectedButton);
         work->state = 5;
         break;
     case 3:
@@ -1379,7 +1379,7 @@ int SCRCMD_NETWORK_BattleRecordLinkEventMain(struct GameEvent *event, u32 *seq, 
         return 1;
     case 4:
         FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(work->fieldMap));
-        MOVE_POKEMON_InitSkillInfo(ICA_ANIME_GetField20(work->gameSystem), &info);
+        MOVE_POKEMON_InitSkillInfo(GAMESYSTEM_GetFieldMap(work->gameSystem), &info);
         MOVE_POKEMON_InitSkillTarget(&target, work->request.partySlot, work->request.next, work->request.targetParam);
         skillEvent = MOVE_POKEMON_CreateSkillEvent(work->request.next, &target, &info);
         if (skillEvent == 0)
@@ -1415,25 +1415,25 @@ int SCRCMD_NETWORK_BattleRecordLinkEventMain(struct GameEvent *event, u32 *seq, 
 
 
 /*
- * Unlabelled leaf after SCRCMD_NETWORK_BattleRecordLinkEventMain (bl from 0x0215FDD0): the request
- * kind for a frame rate.
+ * Unlabelled leaf after EVENT_FIELD_MENU_Main (bl from 0x0215FDD0): the request
+ * kind (menu proc) of a field menu button, from the table in the overlay data.
  */
-u32 SCRCMD_NETWORK_GetRecordKindByFrameRate(u32 frameRate)
+u32 EVENT_FIELD_MENU_GetProcKindOfButton(u32 button)
 {
-    return SCRCMD_NETWORK_sRecordKindByFrameRate[frameRate];
+    return SCRCMD_NETWORK_sProcKindOfButton[button];
 }
 
 
 /*
- * Conditional arm9 pair call on the record's second field; the first
+ * Writes the selected button back to the subscreen when the menu closed on result 0; the first
  * call's result is the first operand either way.
  */
-int SCRCMD_NETWORK_RecordLinkOnUpdate(ShortcutRequest *request, RecordLinkWork *work)
+int EVENT_FIELD_MENU_OnUpdate(ShortcutRequest *request, FieldMenuWork *work)
 {
     struct FieldCommLink *link = FIELDMAP_GetSubscreen(work->fieldMap);
 
     if (request->result == 0)
-        FIELD_SUBSCREEN_SetMenuSelectedButton(link, work->frameRate);
+        FIELD_SUBSCREEN_SetMenuSelectedButton(link, work->selectedButton);
 
     return 1;
 }
@@ -1442,15 +1442,15 @@ int SCRCMD_NETWORK_RecordLinkOnUpdate(ShortcutRequest *request, RecordLinkWork *
 /*
  * Unlabelled leaf: returns 1.
  */
-int SCRCMD_NETWORK_RecordLinkOnClose(ShortcutRequest *request, RecordLinkWork *work)
+int EVENT_FIELD_MENU_OnClose(ShortcutRequest *request, FieldMenuWork *work)
 {
     return 1;
 }
 
 
-int SCRCMD_NETWORK_RecordLinkOnFinish(ShortcutRequest *request, RecordLinkWork *work)
+int EVENT_FIELD_MENU_OnFinish(ShortcutRequest *request, FieldMenuWork *work)
 {
-    struct GameData *gameData = ICA_ANIME_GetField1C(work->gameSystem);
+    struct GameData *gameData = GAMESYSTEM_GetGameData(work->gameSystem);
 
     switch (request->result) {
     case 4:

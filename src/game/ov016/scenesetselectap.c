@@ -143,8 +143,8 @@ typedef unsigned char u8;
 
 typedef struct {
     char name[0x14];
-    u8 f14;
-    u8 f15;
+    u8 pad14;
+    u8 pad15;
 } T22;
 
 typedef struct tagCOORD { unsigned short x, y; } COORD;

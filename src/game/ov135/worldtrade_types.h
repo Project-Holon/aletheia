@@ -24,30 +24,30 @@ typedef struct {
     u32 cursor;
     u32 up;
     u32 down;
-    unsigned int f14;
+    unsigned int rowCursor;
     void *mgr;
     void *bag;
     void *bank;
     void *msg;
-    void *x28;
-    u32 x2c;
+    void *listMsg;
+    u32 speciesFlags;
     Item *items;
     void *num;
     s16 layout;
     s16 start;
-    short f3C;
-    short f3E;
-    s8 f40;
-    s8 f41;
+    short speciesResult;
+    short conditionResult;
+    s8 optionResult;
+    s8 genderResult;
     u8 pad42[2];
     int pos;
     int state;
-    int f4C;
+    int nextState;
     u32 layer;
-    short f54;
+    short mode;
     s16 page;
     int total;
-    int f5C;
+    int listKind;
     u8 flags[0x7A - 0x60];
     u8 last;
     u8 pad7B;
@@ -103,33 +103,33 @@ typedef struct {
 
 typedef struct {
     u8 pad0[0x14 - 0x0];
-    u32 f14; /* +0x14 */
+    u32 speciesFlags; /* +0x14 */
 } Aux;
 
 typedef struct {
     u8 pad0[0x4 - 0x0];
-    u16 x4; /* +0x4 */
-    u16 x6; /* +0x6 */
-    u16 x8; /* +0x8 */
-    u16 xA; /* +0xA */
+    u16 menuRow; /* +0x4 */
+    u16 menuScroll; /* +0x6 */
+    u16 restoreRow; /* +0x8 */
+    u16 restoreScroll; /* +0xA */
     u8 padC[0x20 - 0xC];
-    u32 x20; /* +0x20 */
+    u32 genderEvent; /* +0x20 */
 } Target;
 
 typedef struct {
-    u32 f0; /* +0x0 */
-    u32 f4; /* +0x4 */
-    u32 f8; /* +0x8 */
-    u32 fC; /* +0xC */
-    u32 f10; /* +0x10 */
-    u32 f14; /* +0x14 */
-    u32 f18; /* +0x18 */
-    u32 f1C; /* +0x1C */
-    u32 f20; /* +0x20 */
-    u32 f24; /* +0x24 */
-    u32 f28; /* +0x28 */
+    u32 unit; /* +0x0 */
+    u32 mainChar; /* +0x4 */
+    u32 mainPlt; /* +0x8 */
+    u32 mainCell; /* +0xC */
+    u32 slotChar; /* +0x10 */
+    u32 slotPlt; /* +0x14 */
+    u32 slotCell; /* +0x18 */
+    u32 primaryChar; /* +0x1C */
+    u32 primaryPlt; /* +0x20 */
+    u32 primaryCell; /* +0x24 */
+    u32 mainIconChar; /* +0x28 */
     u32 f2C; /* +0x2C */
-    u32 f30; /* +0x30 */
+    u32 mainIconCell; /* +0x30 */
 } Res;
 
 typedef struct {
@@ -151,32 +151,32 @@ typedef struct {
 } McssPlttData;
 
 typedef struct {
-    void *a0; /* +0x0 */
+    void *sys; /* +0x0 */
     void *a4; /* +0x4 */
-    void *a8; /* +0x8 */
-    void *aC; /* +0xC */
+    void *party; /* +0x8 */
+    void *save; /* +0xC */
     u8 pad10[0x14 - 0x10];
-    void *a14; /* +0x14 */
-    void *a18; /* +0x18 */
-    void *a1C; /* +0x1C */
-    void *a20; /* +0x20 */
-    void *a24; /* +0x24 */
+    void *wifiList; /* +0x14 */
+    void *status; /* +0x18 */
+    void *myStatus; /* +0x1C */
+    void *statusConfig; /* +0x20 */
+    void *trainerRecord; /* +0x24 */
     u8 pad28[0x3C - 0x28];
-    void *a3C; /* +0x3C */
+    void *saveData; /* +0x3C */
 } Args;
 
 typedef struct {
-    u32 f0; /* +0x0 */
-    u32 f4; /* +0x4 */
-    u32 f8; /* +0x8 */
-    u32 fC; /* +0xC */
+    u32 unit; /* +0x0 */
+    u32 mainChar; /* +0x4 */
+    u32 mainPlt; /* +0x8 */
+    u32 mainCell; /* +0xC */
     u8 pad10[0x28 - 0x10];
-    u32 f28; /* +0x28 */
+    u32 mainIconChar; /* +0x28 */
     u32 f2C; /* +0x2C */
-    u32 f30; /* +0x30 */
-    u32 f34; /* +0x34 */
-    u32 f38; /* +0x38 */
-    u32 f3C; /* +0x3C */
+    u32 mainIconCell; /* +0x30 */
+    u32 slotCursorObj; /* +0x34 */
+    u32 depositMarkObj; /* +0x38 */
+    u32 boxMarkObj; /* +0x3C */
     u32 arrA[30]; /* +0x40 */
     u32 arrB[30]; /* +0xB8 */
 } Sub;
@@ -190,32 +190,32 @@ typedef struct {
 
 typedef struct {
     u16 species; /* +0x0 */
-    s8 f2; /* +0x2 */
-    u8 f3; /* +0x3 */
+    s8 genderPlusOne; /* +0x2 */
+    u8 notEgg; /* +0x3 */
 } Info;
 
 typedef struct {
     u8 pad0[0x20 - 0x0];
-    u32 f20; /* +0x20 */
-    int f24; /* +0x24 */
-    int f28; /* +0x28 */
-    int f2C; /* +0x2C */
+    u32 genderEvent; /* +0x20 */
+    int cursorColumn; /* +0x24 */
+    int leftRow; /* +0x28 */
+    int rightRow; /* +0x2C */
 } State;
 
 typedef struct {
-    void *f0; /* +0x0 */
+    void *evoGameData; /* +0x0 */
     void *list; /* +0x4 */
-    u16 f8; /* +0x8 */
-    u8 fA; /* +0xA */
-    u8 fB; /* +0xB */
-    u32 fC; /* +0xC */
-    u32 f10; /* +0x10 */
+    u16 evoSpecies; /* +0x8 */
+    u8 evoPartyPos; /* +0xA */
+    u8 evoCondition; /* +0xB */
+    u32 evoFlag; /* +0xC */
+    u32 evoResult; /* +0x10 */
     u8 pad14[0x30 - 0x14];
-    void *f30; /* +0x30 */
-    void *f34; /* +0x34 */
-    void *f38; /* +0x38 */
-    u32 f3C; /* +0x3C */
-    void *f40; /* +0x40 */
+    void *tradeGameData; /* +0x30 */
+    void *ownMon; /* +0x34 */
+    void *partnerMon; /* +0x38 */
+    u32 myStatus; /* +0x3C */
+    void *partnerStatus; /* +0x40 */
 } Req;
 
 /* Print stream state of the message window: font id, message data, then the stream. */
@@ -268,14 +268,14 @@ typedef struct {
         void *save;
     };
     union { /* +0x10 */
-        u32 f10;
+        u32 dex_u;
         void *dex;
     };
     void *wifiList; /* +0x14 */
     void *status; /* +0x18 */
     union { /* +0x1C */
-        u32 f1C_u;
-        void *f1C;
+        u32 myStatus_u;
+        void *myStatus;
     };
     void *statusConfig; /* +0x20 */
     void *trainerRecord; /* +0x24 */
@@ -283,7 +283,7 @@ typedef struct {
     void *statusRules; /* +0x2C */
     u8 pad30[0x3C - 0x30];
     void *saveData; /* +0x3C */
-    void *f40; /* +0x40 */
+    void *gameData; /* +0x40 */
 } Ctx;
 
 /* Request handed to the Pokemon status screen (PokeStatusProc). */
@@ -313,10 +313,10 @@ struct Work {
     unsigned int f4_u;
     unsigned int f8_u;
     unsigned int fC_u;
-    u32 x10; /* +0x10 */
-    u32 x14; /* +0x14 */
+    u32 screenId; /* +0x10 */
+    u32 nextScreenId; /* +0x14 */
     unsigned int f18_u;
-    unsigned int f1C_u;
+    unsigned int prevScreenId;
     int kind; /* +0x20 */
     int mode; /* +0x24 */
     union { /* +0x28 */
@@ -327,18 +327,18 @@ struct Work {
     union { /* +0x2C */
         u32 returnState;
         struct {
-            u16 x2C;
-            u16 x2E;
+            u16 returnStateLow;
+            u16 returnStateHigh;
         };
     };
-    u16 x30; /* +0x30 */
+    u16 titleEntered; /* +0x30 */
     u16 busy; /* +0x32 */
     u8 pad34_[2];
-    unsigned short f36;
+    unsigned short cooldownFrames;
     int err; /* +0x38 */
     u8 pad3C[0xB8 - 0x3C];
-    u32 fB8; /* +0xB8 */
-    unsigned short fBC;
+    u32 subLcdRefresh; /* +0xB8 */
+    unsigned short menuChoice;
     u8 padBE[2];
     u16 sel; /* +0xC0 */
     u8 padC2[0xC4 - 0xC2];
@@ -363,7 +363,7 @@ struct Work {
         };
         struct {
             u8 padE4[0x207 - 0xE4];
-            s8 f207; /* +0x207 */
+            s8 receivedEgg; /* +0x207 */
             u8 pad208[0x20C - 0x208];
             Entry arr_entry1[1]; /* +0x20C */
         };
@@ -372,39 +372,39 @@ struct Work {
             u8 list[1][0x128]; /* +0x20C */
         };
     };
-    unsigned short fB4C;
-    unsigned short fB4E;
-    short fB50;
+    unsigned short haveSpecies;
+    unsigned short haveFormGender;
+    short wantSpecies;
     union {
-        unsigned short fB52_h;
+        unsigned short wantGenderLevelMin;
         struct {
-            signed char fB52;
-            signed char fB53;
+            signed char wantGender;
+            signed char wantLevelMin;
         };
     };
     union {
-        unsigned short fB54;
-        signed char fB54_c;
+        unsigned short wantLevelMaxPair;
+        signed char wantLevelMax;
     };
     union { /* +0xB56 */
         Rec rec_rec2[2];
         struct {
             Rec rec; /* +0xB56 */
-            u16 xB5C; /* +0xB5C */
+            u16 rec2Name; /* +0xB5C */
         };
         struct {
             u16 sel_h; /* +0xB56 */
             s8 mode_sb; /* +0xB58 */
-            u8 xB59; /* +0xB59 */
-            u8 xB5A; /* +0xB5A */
+            u8 recKey; /* +0xB59 */
+            u8 recVal; /* +0xB5A */
         };
         struct {
             u8 padB56[0xB58 - 0xB56];
-            u8 xB58; /* +0xB58 */
+            u8 recMode; /* +0xB58 */
         };
     };
     u8 padB62[0xB64 - 0xB62];
-    u32 fB64; /* +0xB64 */
+    u32 lastCountryFilter; /* +0xB64 */
     void *words; /* +0xB68 */
     union { /* +0xB6C */
         void *msg[5];
@@ -416,10 +416,10 @@ struct Work {
         };
         void *bank;
     };
-    void *fB80; /* +0xB80 */
+    void *boxNameStr; /* +0xB80 */
     void *strs; /* +0xB84 */
     void *str; /* +0xB88 */
-    void *fB8C;
+    void *titleStr;
     void *name0; /* +0xB90 */
     void *name1; /* +0xB94 */
     u8 padB98[0xBC0 - 0xB98];
@@ -457,7 +457,7 @@ struct Work {
         };
     };
     u32 arrow; /* +0xD34 */
-    u32 fD38; /* +0xD38 */
+    u32 scrollBarObj; /* +0xD38 */
     union { /* +0xD3C */
         int scroll;
         u32 pageNum;
@@ -467,10 +467,10 @@ struct Work {
         void *d40;
     };
     u8 padD44_[4];
-    void *fD48;
-    void *fD4C; /* +0xD4C */
+    void *titleWin;
+    void *boxNameWin; /* +0xD4C */
     union { /* +0xD50 */
-        u8 fD50[0xD90 - 0xD50];
+        u8 menuWins[0xD90 - 0xD50];
         u32 win[3];
         u32 side_u2[2];
         void *side_p2[2];
@@ -519,40 +519,40 @@ struct Work {
         void *dd0;
         u32 dd0_u;
     };
-    u8 fDD4[4]; /* +0xDD4 */
+    u8 menuInitArg[4]; /* +0xDD4 */
     union { /* +0xDD8 */
         u32 tab[2];
         void *win2[2];
     };
-    void *fDE0;
+    void *msgWin;
     void *menu; /* +0xDE4 */
     void *de8; /* +0xDE8 */
     u8 padDEC_[8];
-    void *fDF4;
-    u32 xDF8; /* +0xDF8 */
+    void *speciesMenuList;
+    u32 timeIcon; /* +0xDF8 */
     int cnt; /* +0xDFC */
     union { /* +0xE00 */
         Aux *aux;
         State *st;
         Target *target;
     };
-    void *fE04;
-    void *fE08;
-    unsigned short fE0C;
-    unsigned short fE0E;
+    void *taskMenuRes;
+    void *taskMenu;
+    unsigned short stateAfterSaveWait;
+    unsigned short stateAfterSave;
     u32 next; /* +0xE10 */
-    void *fE14;
+    void *animTask;
     u16 active; /* +0xE18 */
-    u16 fE1A; /* +0xE1A */
+    u16 historyFlag; /* +0xE1A */
     void *buf[16]; /* +0xE1C */
     CharData *chr[16]; /* +0xE5C */
     void *main; /* +0xE9C */
     void *palData; /* +0xEA0 */
-    void *fEA4; /* +0xEA4 */
-    void *fEA8; /* +0xEA8 */
+    void *monCopy; /* +0xEA4 */
+    void *tradeMon; /* +0xEA8 */
     Info *info_p; /* +0xEAC */
     u16 species; /* +0xEB0 */
-    u16 xEB2; /* +0xEB2 */
+    u16 speciesCleared; /* +0xEB2 */
     u32 eb4; /* +0xEB4 */
     IconRec *icons; /* +0xEB8 */
     union { /* +0xEBC */
@@ -575,13 +575,13 @@ struct Work {
             u8 trInfo[0xF7C - 0xF18]; /* +0xF18 */
             int state_iF7C; /* +0xF7C */
             int sub_i; /* +0xF80 */
-            u32 fF84; /* +0xF84 */
-            short fF88;
-            short fF8A;
+            u32 countryFilter; /* +0xF84 */
+            short subStep;
+            short stepTimer;
             int wait; /* +0xF8C */
             void *vblank_p; /* +0xF90 */
             void *rec_p; /* +0xF94 */
-            void *fF98;
+            void *animTaskData;
             void *recMem; /* +0xF9C */
         };
         struct {
@@ -594,14 +594,14 @@ struct Work {
             u8 tail[0x12F0 - 0xFA0];
             struct {
                 u8 padFA0[832];
-                unsigned int f12E0;
+                unsigned int bgLayersLoaded;
                 u8 pad12E4[4];
-                int f12E8;
-                unsigned int f12EC;
+                int countdownFrames;
+                unsigned int connectStep;
             };
         };
         struct {
-            u8 fFA0[4]; /* +0xFA0 */
+            u8 printerBlock[4]; /* +0xFA0 */
             u8 padFA4[0x10DC - 0xFA4];
             union {
                 Req *req; /* +0x10DC */
@@ -615,7 +615,7 @@ struct Work {
             u32 count_u; /* +0x10E8 */
             u8 buf_b128[0x80]; /* +0x10EC */
             u8 netBuf[0x12E4 - 0x116C]; /* +0x116C */
-            u32 f12E4; /* +0x12E4 */
+            u32 keepBgLayers; /* +0x12E4 */
         };
         PrintStreamCtx printCtx; /* +0xFA0 */
         struct {
@@ -625,15 +625,15 @@ struct Work {
         };
         u8 queue[1];
     };
-    void *f12F0; /* +0x12F0 */
+    void *procSys; /* +0x12F0 */
     u32 busy_u; /* +0x12F4 */
-    u32 f12F8; /* +0x12F8 */
+    u32 checkEvolution; /* +0x12F8 */
     u32 flag; /* +0x12FC */
     u8 pad1300_[24];
-    unsigned int f1318;
+    unsigned int profanityWords;
     u8 pad131C[4];
     union { /* +0x1320 */
-        unsigned int f1320;
+        unsigned int badWordCountU;
         int nameCheckResult;
     };
     unsigned short f1324;
@@ -715,30 +715,30 @@ typedef struct {
 } DepositState;
 
 struct DispConfig {
-    u32 unk_00;
-    u32 unk_04;
-    u32 unk_08;
-    u32 unk_0c;
+    u32 dispMode;
+    u32 bgMode;
+    u32 subBgMode;
+    u32 bg0As;
 };
 
 struct BgTemplate {
-    u32 unk_00;
-    u32 unk_04;
+    u32 scrollX;
+    u32 scrollY;
     u32 bufSize;
-    u32 unk_0c;
-    u8  unk_10;
-    u8  unk_11;
-    u8  unk_12;
-    u8  unk_13;
-    u32 unk_14;
-    u8  unk_18;
-    u8  unk_19;
-    u8  unk_1a;
-    u8  unk_1b;
-    u32 unk_1c;
+    u32 baseTile;
+    u8  screenSize;
+    u8  colorMode;
+    u8  screenBase;
+    u8  charBase;
+    u32 tileDataSize;
+    u8  extPltt;
+    u8  priority;
+    u8  areaOver;
+    u8  pad_1b;
+    u32 mosaic;
 };
 
-typedef struct { u16 x, y, z; u8 pri, f7; } ObjPos;
+typedef struct { u16 x, y, z; u8 pri, bgPriority; } ObjPos;
 
 typedef struct {
     void *win0;

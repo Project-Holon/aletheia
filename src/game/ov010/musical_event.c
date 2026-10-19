@@ -390,7 +390,7 @@ extern void MUSICAL_SAVE_SetEquippedProp(struct MusicalSave *save, u32 index, u8
 
 extern u16 *GAME_DATA_GetMyPlayerWork(void *gameData);
 
-extern void NATSUKI_Calc(void *mon, int a1, int a2, int a3);
+extern void NATSUKI_Calc(void *mon, int type, int zoneId, int heap);
 
 extern u32 RECORD_AddOne(void *trainerRecord, int id);
 

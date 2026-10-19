@@ -323,7 +323,7 @@ extern void POKE_TOOL_SetStatusCondition(void *pokeParam, u32 condition);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u8 gBtlPokeParamTransformMoves[0x38];
 extern BtlPokeParamKept gBtlPokeParamTransformKept;
-extern unsigned short PALANM_GetPairedCodeForFirst(int a0);
+extern unsigned short PALANM_GetPairedCodeForFirst(int value);
 unsigned char BTL_EVENT_GetClientPartyCount(BtlPokeParam *pp);
 u8 BTL_EVENT_GetClientPartySlotId(BtlPokeParam *pp, u32 slot);
 void BTL_EVENT_StartClientPalAnm(BtlPokeParam *pp, int value);

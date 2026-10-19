@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_NETWORK_AdvanceStep
+ * function: EVENT_GAMECLEAR_AdvanceStep
  * address:  0x0215F9DC
  * packet:   pkt_ov010_0215F9DC
  * region:   ov010
@@ -21,7 +21,7 @@ typedef struct Work {
     u32 seq[1];         /* 0x38 */
 } Work;
 
-void SCRCMD_NETWORK_AdvanceStep(Work *w, u32 *i)
+void EVENT_GAMECLEAR_AdvanceStep(Work *w, u32 *i)
 {
     (*i)++;
     w->step = w->seq[*i];

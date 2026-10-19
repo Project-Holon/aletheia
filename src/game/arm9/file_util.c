@@ -129,7 +129,7 @@ struct ItemRecord {
     u8  partyUseParam;
     u8  partyUseOption;
     union {
-        u8              f10;
+        u8              extByte;
         struct ItemExt  ext;
     } u;
 };
@@ -581,7 +581,7 @@ u32 FILE_UTIL_Get_1014(struct ItemRecord *record, u32 prop)
 
     switch (record->extType) {
     case 0:
-        return record->u.f10;
+        return record->u.extByte;
     case 1:
         return FILE_UTIL_GetMonProp(&record->u.ext, prop);
     }

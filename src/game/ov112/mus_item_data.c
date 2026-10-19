@@ -32,9 +32,9 @@ typedef struct McssElemData {
     s8 offsetX;             /* 0x04 MUSICAL_MCSS_GetOffset x */
     s8 offsetY;             /* 0x05 MUSICAL_MCSS_GetOffset y */
     u16 flags;              /* 0x06 MUSICAL_MCSS_GetStateA/B bits */
-    u8 field8;              /* 0x08 MUSICAL_MCSS_GetElemC */
-    u8 field9;              /* 0x09 MUSICAL_MCSS_GetElemA */
-    u8 fieldA;              /* 0x0A MUSICAL_MCSS_GetElemB */
+    u8 textGroup;   /* 0x08 MUSICAL_MCSS_GetElemC */
+    u8 category;    /* 0x09 MUSICAL_MCSS_GetElemA */
+    u8 animKind;    /* 0x0A MUSICAL_MCSS_GetElemB */
     u8 fieldB;              /* 0x0B */
 } McssElemData;
 
@@ -47,7 +47,7 @@ typedef struct McssActorData {
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
+extern int ARC_UTIL_LoadMember(int archiveID, int memberIdx, int decompress, int heapID);
 
 u32 *MUSICAL_MCSS_LoadActorData(int heap);
 
@@ -92,10 +92,10 @@ void MUSICAL_MCSS_FreeActorData(void **p) { GFL_HEAP_Free(*p); GFL_HEAP_Free(p);
 
 u8 *MUSICAL_MCSS_GetElemPtr(u8 *p, int i) { return *(u8 * *)&((McssActorData *)p)->table + i * 0xc; }
 
-void MUSICAL_MCSS_GetOffset(u8 *p, McssOffset *out)
+void MUSICAL_MCSS_GetOffset(u8 *elemData, McssOffset *out)
 {
-    out->x = ((McssElemData *)p)->offsetX;
-    out->y = ((McssElemData *)p)->offsetY;
+    out->x = ((McssElemData *)elemData)->offsetX;
+    out->y = ((McssElemData *)elemData)->offsetY;
 }
 
 /*
@@ -146,16 +146,16 @@ int MUSICAL_MCSS_SetModeC(u8 *p, int mode)
     return 0;
 }
 
-int MUSICAL_MCSS_GetStateA(const unsigned char *p)
+int MUSICAL_MCSS_GetStateA(const unsigned char *elemData)
 {
-    if (*(const unsigned short *)&((McssElemData *)p)->flags & 0x80)
+    if (*(const unsigned short *)&((McssElemData *)elemData)->flags & 0x80)
         return 1;
     return 0;
 }
 
-int MUSICAL_MCSS_GetStateB(const unsigned char *p)
+int MUSICAL_MCSS_GetStateB(const unsigned char *elemData)
 {
-    if (*(const unsigned short *)&((McssElemData *)p)->flags & 0x200)
+    if (*(const unsigned short *)&((McssElemData *)elemData)->flags & 0x200)
         return 1;
     return 0;
 }

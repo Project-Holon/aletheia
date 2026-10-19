@@ -19,8 +19,8 @@
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   gFieldMenuFileName     0x021DDF94  data  ov021  a1
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
- *   ICA_ANIME_GetField114  0x020120F8  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAMESYSTEM_GetMyPlayerWork  0x020120F8  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
@@ -37,7 +37,7 @@
  *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   FIELD_MENU_UpdateSelection  0x021A90E0  thumb  ov021
  *   FIELD_MENU_SetScrolledOut  0x021A8DD8  thumb  ov021
- *   GAME_DATA_GetFrameRate  0x020129C4  thumb
+ *   GAME_DATA_GetFieldMenuCursor  0x020129C4  thumb
  *   FIELD_MENU_SelectButton  0x021A8E20  thumb  ov021
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
@@ -348,8 +348,8 @@ struct BigObj;
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern void *FIELDMAP_GetGameSystem(void *fieldMap);
-extern void *ICA_ANIME_GetField1C(void *gameSystem);
-extern void *ICA_ANIME_GetField114(void *gameSystem);
+extern void *GAMESYSTEM_GetGameData(void *gameSystem);
+extern void *GAMESYSTEM_GetMyPlayerWork(void *gameSystem);
 extern u16 GAME_DATA_GetPlayerZoneId(void *playerWork);
 extern void *GAME_DATA_GetEventWork(void *gameData);
 extern void *GAME_DATA_GetMyStatus(void *gameData);
@@ -360,7 +360,7 @@ extern void *PRINTSYS_QUE_Create(u32 heapId);
 extern void *ARC_TOOL_CreateHandle(u32 arcId, u32 heapId);
 extern void ARC_TOOL_DeleteHandle(void *arcHandle);
 extern u32 BG_SYS_SetPlaneVisible(u8 layer, u8 visible);
-extern u8 GAME_DATA_GetFrameRate(void *gameData);
+extern u8 GAME_DATA_GetFieldMenuCursor(void *gameData);
 extern void CLACT_SetActorDrawEnable(void *actor, u32 drawEnable);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void FIELD_SUBSCREEN_ResumeField(void *parent, u32 heapId);
@@ -402,7 +402,7 @@ extern u32 APP_ICON_GetMoveKindAnimFileId(void);
 extern u32 APP_ICON_GetStatusCellFileId(u32);
 extern u32 APP_ICON_GetStatusPaletteFileId(u32);
 extern void *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern void *CLACT_CreateRenderer(FieldMenuSurfaceRect *rect, u32 a1, u32 heapId);
+extern void *CLACT_CreateRenderer(FieldMenuSurfaceRect *rect, u32 count, u32 heapId);
 extern void CLACT_SetUnitRenderer(void *unit, void *surface);
 extern void *CLACT_CreateActor(void *unit, void *charRes, void *palRes, void *cellRes, const FieldMenuActorPos *pos, u16 space, u16 heapId);
 extern void CLACT_SetActorAutoAnimSpeed(void *actor, u32 scale);
@@ -442,7 +442,7 @@ extern u32 APP_ICON_GetStatusAnimFileId(void);
 extern u32 APP_ICON_GetStatusFrameFileId(void);
 extern u32 APP_ICON_GetStatusDataFileId(void);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *arcHandle, u32 a, u32 b, void **out, u32 heapId);
-extern void BG_SYS_DrawTileEx(u32 layer, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
+extern void BG_SYS_DrawTileEx(u32 layer, u32 dx, u32 dy, u32 cw, u8 ch, u32 src, u8 sx, u8 sy, u8 sw, u8 sh);
 extern void BG_SYS_SetFlagField06(u8 layer);
 
 extern const struct BgTemplate gFieldMenuBgTemplate5;
@@ -502,13 +502,13 @@ FieldMenu *FIELD_MENU_Create(u16 heapId, u16 subHeapId, void *parent, void *fiel
 
     menu = GFL_HEAP_Alloc(heapId, 0x138, 0, gFieldMenuFileName, 0x134);
     gameSystem = FIELDMAP_GetGameSystem(fieldMap);
-    gameData = ICA_ANIME_GetField1C(gameSystem);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
     menu->heapId = heapId;
     menu->subHeapId = subHeapId;
     menu->fieldMap = fieldMap;
     menu->parent = parent;
     menu->state = FIELD_MENU_STATE_WAIT_PRINT;
-    menu->zoneId = GAME_DATA_GetPlayerZoneId(ICA_ANIME_GetField114(gameSystem));
+    menu->zoneId = GAME_DATA_GetPlayerZoneId(GAMESYSTEM_GetMyPlayerWork(gameSystem));
     menu->eventWork = GAME_DATA_GetEventWork(gameData);
     menu->myStatus = GAME_DATA_GetMyStatus(gameData);
     menu->mapInfo = FIELDMAP_GetMsgBg(fieldMap);
@@ -534,7 +534,7 @@ FieldMenu *FIELD_MENU_Create(u16 heapId, u16 subHeapId, void *parent, void *fiel
         FIELD_MENU_UpdateSelection(menu);
         FIELD_MENU_SetScrolledOut(menu);
     } else {
-        FIELD_MENU_SelectButton(menu, GAME_DATA_GetFrameRate(gameData));
+        FIELD_MENU_SelectButton(menu, GAME_DATA_GetFieldMenuCursor(gameData));
         menu->cursorDirty = 1;
         if (menu->keyCursorActive != 0) {
             CLACT_SetActorDrawEnable(menu->cursorActor, 1);

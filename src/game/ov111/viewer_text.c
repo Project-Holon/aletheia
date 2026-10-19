@@ -211,7 +211,7 @@ extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
 extern void PMS_DRAW_Print(u32 a, u32 b, u32 c, u32 d);
-extern void PMS_DRAW_SetVisible(struct PmsDraw *o, int i, u32 a1);
+extern void PMS_DRAW_SetVisible(struct PmsDraw *o, int i, u32 visible);
 extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -233,7 +233,7 @@ extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern u32 APP_ICON_GetArchiveId(void);
@@ -265,7 +265,7 @@ extern void VIEWER_ACTOR_InitBgWindow(ViewerTextWork *p);
 extern void VIEWER_ACTOR_CreateFont(ViewerTextWork *p);
 extern void VIEWER_ACTOR_SetSelection(ViewerTextWork *p, u16 v);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
-extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
 extern int VIEWER_ACTOR_DispatchState(ViewerTextWork *p);
 extern void VIEWER_ACTOR_DrawModel(ViewerTextWork *p);
 extern void VIEWER_ACTOR_PrintQueMain(ViewerTextWork *p);
@@ -306,12 +306,12 @@ extern u32 APP_ICON_GetStatusDataFileId(void);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *arc, u32 id, u32 frame, u32 a, u32 b, u32 c, u16 heap);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *arc, u32 id, u32 a, u32 b, u32 c, u16 heap);
-extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
+extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void BG_SYS_PushTile(u32 index);
 extern void BMP_MENUWORK_LoadPltt(u32 a, u32 b, u32 c, u32 d);
 extern void BMP_MENUWORK_LoadChar(u32 a, u32 b, u32 c, u32 d);
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, u32 unpackedOut, u32 flags);
 extern u32 GFL_HEAP_Free(void *p);
 void VIEWER_TEXT_Init(ViewerWork *p);
 void VIEWER_TEXT_Exit(ViewerWork *p);
@@ -450,7 +450,7 @@ void VIEWER_TEXT_DrawTable(ViewerWork *p, int k, int flush)
     u32 w;
 
     bank = MSGDATA_CreateFromArchive(0, 2, 0xBF, p->heap);
-    if (TRCARD_SIGN_GetSeenBefore(GAME_DATA_GetSaveBlock21(p->args->f4))) {
+    if (TRCARD_SIGN_GetSeenBefore(GAME_DATA_GetSaveBlock21(p->args->gameData))) {
         str = MSGDATA_AllocString(bank, CURSOR_MOVE_GetTableKind(k));
     } else {
         str = MSGDATA_AllocString(bank, 0);
@@ -1025,7 +1025,7 @@ void VIEWER_TEXT_LoadResources(ViewerTextWork *p, ViewerArgs *parent)
     p->rowCount = 8;
     p->snap = -1;
     VIEWER_ACTOR_SetPageCount(p);
-    p->saveBlock = GAME_DATA_GetSaveBlock21(p->parent->f4);
+    p->saveBlock = GAME_DATA_GetSaveBlock21(p->parent->gameData);
     VIEWER_ACTOR_GetRtcDate(p);
 }
 

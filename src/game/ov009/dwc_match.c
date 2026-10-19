@@ -358,8 +358,8 @@ typedef struct {
 
 struct GPBuddyStatus
 {
-    int f0;
-    int f4;
+    int profile;
+    int status;
     u8 pad[0x214 - 8];
 };
 
@@ -497,7 +497,7 @@ extern int DWC_GetGsProfileId(void * userdata, void * frienddata);
 extern int DWCi_Acc_IsValidFriendData(void * frienddata);
 extern int gpGetBuddyIndex(void * connection, int profile, int * index);
 extern int gpGetBuddyStatus(void * connection, int index, struct GPBuddyStatus * status);
-unsigned char DWCi_IsLockedBuddyStatus(char *a0);
+unsigned char DWCi_IsLockedBuddyStatus(char *buddyStatus);
 extern void _s32_div_f(void);
 extern int DWCi_CancelPreConnectedServerProcessWithResetLevel(int clientPid, int resetLevel);
 int DWCi_PostProcessSVConnectionFullmesh(void);
@@ -3531,7 +3531,7 @@ int DWCi_SendResvCommandToFriend(int delay, int init, int resendPid)
             gpResult = gpGetBuddyIndex(DWCi_GetMatchCnt()->pGpObj, profileID, &buddyIdx);
             gpResult |= gpGetBuddyStatus(DWCi_GetMatchCnt()->pGpObj, buddyIdx, &status);
             if (!(DWCi_IsLockedBuddyStatus((char *)(&status)) == 0 &&
-                  gpResult == 0 && status.f4 == 4))
+                  gpResult == 0 && status.status == 4))
                 goto next;
             found = 1;
             break;
@@ -6410,12 +6410,12 @@ int DWCi_GetNodeInfoCount(void)
 }
 
 
-unsigned char DWCi_IsLockedBuddyStatus(char *a0)
+unsigned char DWCi_IsLockedBuddyStatus(char *buddyStatus)
 {
     char buf[4] = {0};
     unsigned char r = 0;
 
-    if (DWC_GetCommonValueString((char *)0x021A208Cu, buf, a0 + 8, 0x2F) > 0)
+    if (DWC_GetCommonValueString((char *)0x021A208Cu, buf, buddyStatus + 8, 0x2F) > 0)
         r = (unsigned char)(u32)(strtoul((const char *)((u32)buf), (char **)(0), (int)(10)));
     return r;
 }

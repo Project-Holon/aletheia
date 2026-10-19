@@ -24,7 +24,7 @@
  *   MI_CpuCopy8       0x02082D44  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   OS_GetMacAddress  0x02087C6C  arm
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   COLOSSEUM_Delete  0x0217505C  thumb  ov012
  *   SAVEDATA_PanicFail  0x02034714  arm
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
@@ -167,7 +167,7 @@ extern void COMM_PLAYER_Delete(void *gameSystem, void *commPlayer);
 
 void COLOSSEUM_SetupBattleMember(ColosseumWork *colosseum, ColosseumBattleMember *member, u8 playerIndex, int heapId);
 
-extern void *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 
 extern void *GAME_DATA_GetTrainerRecord(const struct GameData *gameData);
 
@@ -684,7 +684,7 @@ void COLOSSEUM_SetupBattleInfo(ColosseumWork *work, struct GameSystem *gameSyste
         }
         COLOSSEUM_SetupBattleMember(work, &out->member[slot], (u8)i, heapId);
     }
-    out->trainerRecord = GAME_DATA_GetTrainerRecord(ICA_ANIME_GetField1C(gameSystem));
+    out->trainerRecord = GAME_DATA_GetTrainerRecord(GAMESYSTEM_GetGameData(gameSystem));
 }
 
 /*

@@ -145,7 +145,7 @@ int BTL_FIELD_SetStaticSlotValue(int slot, int value);
 /* The wrappers below pass their words through unchanged, so they call the slot functions with plain word signatures. */
 int BTL_FIELD_QueryStaticSlotB(int arg);
 void BTL_FIELD_DrawStaticSlotLine(int line, int color, char *text);
-int BTL_FIELD_QueryStaticSlotC(int arg0, int arg1);
+int BTL_FIELD_QueryStaticSlotC(int onExpire, int arg);
 int BTL_FIELD_GetStaticSlotObject(int arg);
 BtlFieldState *BTL_FIELD_Create(u32 heapId);
 void BTL_FIELD_Delete(void *state);
@@ -255,9 +255,9 @@ void BTL_FIELD_DrawStaticSlotLine(int line, int color, char *text)
 
 
 
-int BTL_FIELD_QueryStaticSlotC(int arg0, int arg1)
+int BTL_FIELD_QueryStaticSlotC(int onExpire, int arg)
 {
-    return ((int (*)(BtlFieldState *, int, int))BTL_FIELD_TickSlots)(&gBtlFieldCountdown, arg0, arg1);
+    return ((int (*)(BtlFieldState *, int, int))BTL_FIELD_TickSlots)(&gBtlFieldCountdown, onExpire, arg);
 }
 
 

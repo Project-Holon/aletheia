@@ -16,9 +16,9 @@
  *   GAME_EVENT_Create 0x020122C0 thumb
  *   GAME_EVENT_GetWork 0x020124E8 thumb
  *   CALENDER_OverlaySequenceEvent 0x02164A2C thumb ov010
- *   ICA_ANIME_GetField1C 0x020120F4 thumb
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   ICA_ANIME_GetField24  0x02012138  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   GAME_COMM_GetLastKind  0x0202647C  thumb
  *   GAME_COMM_GetCounter  0x0202648C  thumb
@@ -39,7 +39,7 @@
  *   GAME_BEACON_SendIfRequested  0x020267FC  thumb
  *   GAME_COMM_GetNotifyFlag  0x020264AC  thumb
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
- *   GAME_DATA_GetField114  0x020127A4  thumb
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   INTRUDE_COMM_IsListedId  0x02158570  thumb  ov010
  *   MI_CpuCopy8    0x02082D44  arm
@@ -196,11 +196,11 @@ extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 
 extern int CALENDER_OverlaySequenceEvent(struct GameEvent *event, u32 *seq, void *work);
 
-extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 
-extern struct GameComm *ICA_ANIME_GetField24(const struct GameSystem *gameSystem);
+extern struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
@@ -238,7 +238,7 @@ extern u32 GAME_COMM_GetNotifyFlag(struct GameComm *gameComm);
 
 extern int GAME_DATA_GetIntrudeCount(const struct GameData *gameData);
 
-extern struct PlayerWork *GAME_DATA_GetField114(struct GameData *gameData);
+extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 
 extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *playerWork);
 
@@ -538,7 +538,7 @@ struct GameEvent *CALENDER_CreateTask(struct GameSystem *gameSystem, void *unuse
 {
     struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, CALENDER_OverlaySequenceEvent, sizeof(CalenderEventWork));
     CalenderEventWork *work = GAME_EVENT_GetWork(event);
-    struct GameData *gameData = ICA_ANIME_GetField1C(gameSystem);
+    struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
 
     work->gameData = gameData;
     work->saveControl = GAME_DATA_GetSaveControl(gameData);
@@ -550,8 +550,8 @@ struct GameEvent *CALENDER_CreateTask(struct GameSystem *gameSystem, void *unuse
 /* Allocates and initialises the search work. */
 GameBeaconSearchWork *GAME_BEACON_SEARCH_Init(void *unused, struct GameSystem *gameSystem)
 {
-    struct GameData *gameData = ICA_ANIME_GetField1C(gameSystem);
-    struct GameComm *gameComm = ICA_ANIME_GetField24(gameSystem);
+    struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
+    struct GameComm *gameComm = GAMESYSTEM_GetGameComm(gameSystem);
     GameBeaconSearchWork *work = GFL_HEAP_Alloc(5, sizeof(GameBeaconSearchWork), 1, GAME_BEACON_SEARCH_FileName, 0x9c);
 
     work->gameData = gameData;
@@ -627,8 +627,8 @@ void GAME_BEACON_SEARCH_Update(void *unused, struct GameSystem *gameSystem, Game
     GameBeaconConnectRequest *request;
     u16 zoneId;
 
-    gameComm = ICA_ANIME_GetField24(gameSystem);
-    gameData = ICA_ANIME_GetField1C(gameSystem);
+    gameComm = GAMESYSTEM_GetGameComm(gameSystem);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
     index = 0;
     if (GAME_DATA_IsSaving(gameData) == 1)
         return;
@@ -647,7 +647,7 @@ void GAME_BEACON_SEARCH_Update(void *unused, struct GameSystem *gameSystem, Game
     if (target != 0) {
         if (target->beaconType == 2) {
             if (!PAD_DetectFold() && !GAME_COMM_GetNotifyFlag(gameComm) && !GAME_DATA_GetIntrudeCount(gameData)) {
-                zoneId = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetField114(gameData));
+                zoneId = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameData));
                 if (zoneId != work->lastZoneId) {
                     work->lastZoneId = zoneId;
                     if (INTRUDE_COMM_IsListedId(zoneId) == 1) {
@@ -828,13 +828,13 @@ void GAME_BEACON_SEARCH_StartConnectEvent(void *arg, int cancel)
     GameBeaconConnectEvent *event;
 
     MI_CpuCopy8(request->macAddress, macAddress, 6);
-    gameComm = ICA_ANIME_GetField24(gameSystem);
+    gameComm = GAMESYSTEM_GetGameComm(gameSystem);
     GFL_HEAP_Free(request);
     if (cancel == 0 && GAMESYSTEM_CanStartAutoComm(gameSystem) == 1 && GAME_COMM_GetNotifyFlag(gameComm) == 0
         && GFL_NET_GetRunState() == 0 && GAME_COMM_GetKind(gameComm) == 0) {
         event = GFL_HEAP_Alloc(5, sizeof(GameBeaconConnectEvent), 1, GAME_BEACON_SEARCH_FileName, 0x287);
         event->gameSystem = gameSystem;
-        event->gameComm = ICA_ANIME_GetField24(gameSystem);
+        event->gameComm = GAMESYSTEM_GetGameComm(gameSystem);
         MI_CpuCopy8(macAddress, event->macAddress, 6);
         GAME_COMM_Start(gameComm, 2, event);
     }

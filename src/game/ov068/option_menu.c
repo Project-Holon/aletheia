@@ -22,7 +22,7 @@
  *   APP_TASKMENU_RES_Create  0x02027F60  thumb
  *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   TCBL_Create  0x0203101C  arm
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
  *   ov067_id       0x00000043  data
@@ -232,12 +232,12 @@ extern int GF_OVERLAY_Load(s32 handle);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern struct PrintSys *PRINTSYS_QUE_Create(u32 heapId);
 extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 type, u16 style, struct GfFont *font, struct PrintSys *printSys, u16 heapId);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct TaskList *TCBL_Create(u16 heapId, u16 tag, u32 count, u32 workSize);
-extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct SaveData *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern struct Config *SYSTEM_DATA_GetConfig(struct SaveData *saveData);
 extern void TCBL_Destroy(struct TaskList *taskList);
@@ -273,7 +273,7 @@ extern void *ARC_TOOL_CreateHandle(u32 id, u32 heapId);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *arc, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *arc, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *arc, u32 b, u32 c, u32 d, u32 e, u16 heapId);
-extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 heapId);
+extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 heapId);
 extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *arc, u32 id, u32 b, ScreenData **out, u16 heapId);
 extern void ARC_TOOL_DeleteHandle(void *arc);
 extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 arcId, u32 id, PaletteResource **out, u32 heapId);
@@ -331,7 +331,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern struct StringBuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void PRINTSYS_CTRL_Init(PrintWaitState *waitState, u32 v);
 extern u8 BMP_WIN_GetPalette(struct BmpWindow *window);
-extern void BMP_MENUWORK_DrawWindow(struct BmpWindow *window, int a1, int a2, int palette);
+extern void BMP_MENUWORK_DrawWindow(struct BmpWindow *window, int commitMode, int tileBase, int palette);
 extern void BG_SYS_PushTile(u32 index);
 extern void PRINTSYS_PrintStreamDelete(struct PrintStream *stream);
 extern void MSGDATA_ReadString(struct MsgBank *msgBank, u32 index, struct StringBuf *dest);
@@ -522,9 +522,9 @@ int OPTION_MENU_Init(struct Proc *proc, int *seq, OptionMenuArgs *args)
     work->messageMenuRes = APP_TASKMENU_RES_Create(3, 9, work->font, work->printSys, 0x1c);
     work->msgBank = MSGDATA_CreateFromArchive(0, 2, 0x1d, 0x1c);
     work->taskList = TCBL_Create(0x1c, 0x1c, 0x20, 0x20);
-    OPTION_MENU_InitSettings(&work->savedSettings, SYSTEM_DATA_GetConfig(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(work->args->gameSystem))));
+    OPTION_MENU_InitSettings(&work->savedSettings, SYSTEM_DATA_GetConfig(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(work->args->gameSystem))));
     OPTION_MENU_InitRunner(&work->runner, work, OPTION_MENU_StateFadeIn);
-    gameData = ICA_ANIME_GetField1C(work->args->gameSystem);
+    gameData = GAMESYSTEM_GetGameData(work->args->gameSystem);
     OPTION_MENU_InitButtons(&work->buttons, OPTION_MENU_GetScreenSpriteUnit(&work->screen), work->font, work->printSys, work->msgBank, work->buttonMenuRes, gameData, 0x1c);
     OPTION_MENU_InitList(&work->list, 1, 2, &work->screen, &work->savedSettings, 0x1c);
     OPTION_MENU_InitInput(&work->input, 0x1c);
@@ -2044,7 +2044,7 @@ void OPTION_MENU_StateMain(OptionMenuRunner *runner, u32 *state, OptionMenuWork 
                 break;
             }
         }
-        tutorialPending = SAVE_CONTROL_WouldOverwriteSave(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(work->args->gameSystem)));
+        tutorialPending = SAVE_CONTROL_WouldOverwriteSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(work->args->gameSystem)));
         OPTION_MENU_GetListSettings(&work->list, &settingsCurrent);
         if (settingsCurrent.values[OPTION_BUTTON_MODE] == 0 && tutorialPending != 0)
             *state = 1;

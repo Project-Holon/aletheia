@@ -59,7 +59,7 @@ extern void MCSS_Main(char *);
 
 extern void MCSS_Draw(struct McssSys *);
 
-extern struct Rec *MCSS_Add(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struct Sub150 *src);
+extern struct Rec *MCSS_Add(struct Obj *obj, u32 x, u32 y, u32 z, const struct Sub150 *src);
 
 extern void MCSS_SetScale(void *p, u32 *src);
 

@@ -17,7 +17,7 @@
  *   BagParamFileName  0x020A77C4  data
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   MI_CpuCopy8  0x02082D44  arm
- *   GAME_DATA_GetField114  0x020127A4  thumb
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   GAME_DATA_GetMyItem  0x0201292C  thumb
  *   GAME_DATA_GetPlayerObjectCode  0x02012B28  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
@@ -59,7 +59,7 @@ extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 
 extern void  MI_CpuCopy8(void *src, void *dst, int n);
 
-extern void *GAME_DATA_GetField114(struct SaveBlock *p);
+extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 
 extern u32 GAME_DATA_GetPlayerObjectCode(const struct Rec44 *p);
 
@@ -99,6 +99,6 @@ void *BAG_PARAM_Create(const struct BigObj *gameData, int itemCheck, int mode, i
         MI_CpuCopy8((void *)itemCheck, param->itemCheck, 0x18);
     }
     param->mode = mode;
-    param->cycleFlag = GAME_DATA_GetPlayerObjectCode(GAME_DATA_GetField114((struct SaveBlock *)gameData)) == 1;
+    param->cycleFlag = GAME_DATA_GetPlayerObjectCode(GAME_DATA_GetMyPlayerWork((struct SaveBlock *)gameData)) == 1;
     return param;
 }

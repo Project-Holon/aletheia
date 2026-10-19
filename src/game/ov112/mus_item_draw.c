@@ -127,7 +127,7 @@ extern void *G3D_SYSTEM_CreateResourceArc(u32,u32);
 
 extern void G3D_SYSTEM_DeleteResource(struct Tagged *p);
 
-extern u32 BILLBOARD_AddImage(struct Desc *desc, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
+extern u32 BILLBOARD_AddImage(struct Desc *desc, u32 resource, u32 formatIndex, u32 sizeCode, u8 columns, u8 rows);
 
 extern s32 BILLBOARD_AddElem(struct Board *b, u32 id, u16 v12, u16 v14, struct Vec3 *src, u8 k, u32 w, u32 mode);
 
@@ -135,13 +135,13 @@ extern void BILLBOARD_SetElemVisible(void *,u32,u32 *);
 
 extern void BILLBOARD_FreeElem(void *,u32);
 
-extern void BILLBOARD_ReleaseImageVramIfUsed(struct BbBoard *a0, u32 a1);
+extern void BILLBOARD_ReleaseImageVramIfUsed(struct BbBoard *board, u32 index);
 
 extern void BILLBOARD_SetElemId(void *,u32,u16 *);
 
-extern void BILLBOARD_GetImagePlttVramOffset(int p0, int p1, int p2);
+extern void BILLBOARD_GetImagePlttVramOffset(int board, int index, int outPlttVramOffset);
 
-extern void BILLBOARD_GetImagePlttKey(int p0, int p1, int p2);
+extern void BILLBOARD_GetImagePlttKey(int board, int imageIndex, int outPlttKey);
 
 extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 
@@ -151,7 +151,7 @@ void MUSICAL_MCSS_DeleteActorPool(u8 *p);
 
 void MUSICAL_MCSS_UpdateObject(McssActorPool *p);
 
-void MUSICAL_MCSS_NoOp3(void *a0);
+void MUSICAL_MCSS_NoOp3(void *unused);
 
 u16 MUSICAL_MCSS_GetArcFileCount(int i);
 
@@ -169,7 +169,7 @@ int MUSICAL_MCSS_GetFlagB(u8 *p);
 
 void *MUSICAL_MCSS_CreateResourceArc(int type);
 
-void MUSICAL_MCSS_FreeResourceArc(struct Tagged *a0);
+void MUSICAL_MCSS_FreeResourceArc(struct Tagged *resourceArc);
 
 u16 MUSICAL_MCSS_NoOp4(u32 p);
 
@@ -183,7 +183,7 @@ void MUSICAL_MCSS_FreeElem(u8 *p,u8 *e);
 
 void MUSICAL_MCSS_FreeElemImage(u8 *p, u8 *e, int type, u16 id);
 
-void MUSICAL_MCSS_TransferVram(char *p, char *e, void *a2);
+void MUSICAL_MCSS_TransferVram(char *p, char *e, void *unused);
 
 void MUSICAL_MCSS_CopyElem(void *unused, u8 *s, u8 *d);
 
@@ -306,7 +306,7 @@ void MUSICAL_MCSS_UpdateObject(McssActorPool *p)
     }
 }
 
-void MUSICAL_MCSS_NoOp3(void *a0)
+void MUSICAL_MCSS_NoOp3(void *unused)
 {
 }
 
@@ -317,56 +317,56 @@ u16 MUSICAL_MCSS_GetArcFileCount(int i)
     return (u16)i;
 }
 
-void MUSICAL_MCSS_SetupObject(u8 *p,u8 *a,u8 *b) { u16 x,y; BILLBOARD_GetImageSizeFromFlags(MUSICAL_MCSS_NoOp6(*(int * *)&((McssActorElem *)p)->data),&x,&y); *a=(u32)x>>5; *b=(u32)y>>5; }
+void MUSICAL_MCSS_SetupObject(u8 *elem,u8 *a,u8 *b) { u16 x,y; BILLBOARD_GetImageSizeFromFlags(MUSICAL_MCSS_NoOp6(*(int * *)&((McssActorElem *)elem)->data),&x,&y); *a=(u32)x>>5; *b=(u32)y>>5; }
 
-int MUSICAL_MCSS_SetIndexA(u8 *p, int index)
+int MUSICAL_MCSS_SetIndexA(u8 *elem, int index)
 {
-    return MUSICAL_MCSS_SetModeA(*(u16 * *)&((McssActorElem *)p)->data, index);
+    return MUSICAL_MCSS_SetModeA(*(u16 * *)&((McssActorElem *)elem)->data, index);
 }
 
-int MUSICAL_MCSS_SetIndexB(u8 *p,int index,int mode) { return MUSICAL_MCSS_SetModeB((u16 *)MUSICAL_MCSS_GetElemPtr(*(u8 * *)&((McssActorPool *)p)->resource,index),mode); }
+int MUSICAL_MCSS_SetIndexB(u8 *pool,int index,int mode) { return MUSICAL_MCSS_SetModeB((u16 *)MUSICAL_MCSS_GetElemPtr(*(u8 * *)&((McssActorPool *)pool)->resource,index),mode); }
 
-int MUSICAL_MCSS_SetIndexC(u8 *p,int index,int mode) { return MUSICAL_MCSS_SetModeC(MUSICAL_MCSS_GetElemPtr(*(u8 * *)&((McssActorPool *)p)->resource,index),mode); }
+int MUSICAL_MCSS_SetIndexC(u8 *pool,int index,int mode) { return MUSICAL_MCSS_SetModeC(MUSICAL_MCSS_GetElemPtr(*(u8 * *)&((McssActorPool *)pool)->resource,index),mode); }
 
-int MUSICAL_MCSS_GetFlagA(u8 *p) { return MUSICAL_MCSS_GetStateA((const unsigned char *)(((McssActorElem *)p)->data)); }
+int MUSICAL_MCSS_GetFlagA(u8 *elem) { return MUSICAL_MCSS_GetStateA((const unsigned char *)(((McssActorElem *)elem)->data)); }
 
-int MUSICAL_MCSS_GetFlagB(u8 *p) { return MUSICAL_MCSS_GetStateB((const unsigned char *)(((McssActorElem *)p)->data)); }
+int MUSICAL_MCSS_GetFlagB(u8 *elem) { return MUSICAL_MCSS_GetStateB((const unsigned char *)(((McssActorElem *)elem)->data)); }
 
 void *MUSICAL_MCSS_CreateResourceArc(int type) { return G3D_SYSTEM_CreateResourceArc(45,MUSICAL_MCSS_GetArcFileCount(type)); }
 
-void MUSICAL_MCSS_FreeResourceArc(struct Tagged *a0) { G3D_SYSTEM_DeleteResource(a0); }
+void MUSICAL_MCSS_FreeResourceArc(struct Tagged *resourceArc) { G3D_SYSTEM_DeleteResource(resourceArc); }
 
-u16 MUSICAL_MCSS_NoOp4(u32 p) { u16 n; int i; n=((McssActorPool *)p)->count; for (i=0;i<n;i++) { if (((McssActorPool *)p)->entries[i].bits.active==0) break; } if (i==n) return 0; return i; }
+u16 MUSICAL_MCSS_NoOp4(u32 pool) { u16 n; int i; n=((McssActorPool *)pool)->count; for (i=0;i<n;i++) { if (((McssActorPool *)pool)->entries[i].bits.active==0) break; } if (i==n) return 0; return i; }
 
-McssActorElem *MUSICAL_MCSS_AddImage(McssActorPool *p,int type,u32 id,int *v)
+McssActorElem *MUSICAL_MCSS_AddImage(McssActorPool *pool,int type,u32 id,int *v)
 {
     int index;
     int data;
     Pair pair;
-    index=MUSICAL_MCSS_NoOp4((u32)p);
-    p->entries[index].type=MUSICAL_MCSS_GetArcFileCount(type);
-    p->entries[index].data=MUSICAL_MCSS_GetElemPtr(p->resource,type);
-    data=MUSICAL_MCSS_NoOp6((int *)p->entries[index].data);
-    MUSICAL_MCSS_SetupObject((u8 *)(&p->entries[index]),&pair.y,&pair.x);
-    p->entries[index].id=BILLBOARD_AddImage(p->board,id,0,data,pair.y<<5,pair.x<<5);
-    p->entries[index].flags |= 16;
-    MUSICAL_MCSS_AddElem((McssActorPool *)p, index, (int *)v, pair.y, pair.x);
-    return &p->entries[index];
+    index=MUSICAL_MCSS_NoOp4((u32)pool);
+    pool->entries[index].type=MUSICAL_MCSS_GetArcFileCount(type);
+    pool->entries[index].data=MUSICAL_MCSS_GetElemPtr(pool->resource,type);
+    data=MUSICAL_MCSS_NoOp6((int *)pool->entries[index].data);
+    MUSICAL_MCSS_SetupObject((u8 *)(&pool->entries[index]),&pair.y,&pair.x);
+    pool->entries[index].id=BILLBOARD_AddImage(pool->board,id,0,data,pair.y<<5,pair.x<<5);
+    pool->entries[index].flags |= 16;
+    MUSICAL_MCSS_AddElem((McssActorPool *)pool, index, (int *)v, pair.y, pair.x);
+    return &pool->entries[index];
 }
 
-McssActorElem *MUSICAL_MCSS_AddImageNoVram(McssActorPool *p, int type, u32 id, int *v)
+McssActorElem *MUSICAL_MCSS_AddImageNoVram(McssActorPool *pool, int type, u32 id, int *v)
 {
     int index;
     Pair pair;
-    index=MUSICAL_MCSS_NoOp4((u32)p);
-    p->entries[index].type=MUSICAL_MCSS_GetArcFileCount(type);
-    p->entries[index].data=MUSICAL_MCSS_GetElemPtr(p->resource,type);
-    MUSICAL_MCSS_NoOp6((int *)p->entries[index].data);
-    MUSICAL_MCSS_SetupObject((u8 *)(&p->entries[index]),&pair.y,&pair.x);
-    p->entries[index].id=id;
-    p->entries[index].flags=p->entries[index].flags & ~16;
-    MUSICAL_MCSS_AddElem((McssActorPool *)p, index, (int *)v, pair.y, pair.x);
-    return &p->entries[index];
+    index=MUSICAL_MCSS_NoOp4((u32)pool);
+    pool->entries[index].type=MUSICAL_MCSS_GetArcFileCount(type);
+    pool->entries[index].data=MUSICAL_MCSS_GetElemPtr(pool->resource,type);
+    MUSICAL_MCSS_NoOp6((int *)pool->entries[index].data);
+    MUSICAL_MCSS_SetupObject((u8 *)(&pool->entries[index]),&pair.y,&pair.x);
+    pool->entries[index].id=id;
+    pool->entries[index].flags=pool->entries[index].flags & ~16;
+    MUSICAL_MCSS_AddElem((McssActorPool *)pool, index, (int *)v, pair.y, pair.x);
+    return &pool->entries[index];
 }
 
 McssActorElem *MUSICAL_MCSS_AddElem(McssActorPool *p, u16 index, int *v, s16 a, s16 b)
@@ -386,15 +386,15 @@ McssActorElem *MUSICAL_MCSS_AddElem(McssActorPool *p, u16 index, int *v, s16 a, 
     return &p->entries[index];
 }
 
-void MUSICAL_MCSS_FreeElem(u8 *p,u8 *e) { BILLBOARD_FreeElem(((McssActorPool *)p)->board,((McssActorElem *)e)->index); if (((McssActorElem *)e)->bits.vramInUse==1) BILLBOARD_ReleaseImageVramIfUsed(((McssActorPool *)p)->board,((McssActorElem *)e)->id); ((McssActorElem *)e)->flags=((McssActorElem *)e)->flags & ~1; ((McssActorElem *)e)->flags=((McssActorElem *)e)->flags & ~2; }
+void MUSICAL_MCSS_FreeElem(u8 *pool,u8 *e) { BILLBOARD_FreeElem(((McssActorPool *)pool)->board,((McssActorElem *)e)->index); if (((McssActorElem *)e)->bits.vramInUse==1) BILLBOARD_ReleaseImageVramIfUsed(((McssActorPool *)pool)->board,((McssActorElem *)e)->id); ((McssActorElem *)e)->flags=((McssActorElem *)e)->flags & ~1; ((McssActorElem *)e)->flags=((McssActorElem *)e)->flags & ~2; }
 
-void MUSICAL_MCSS_FreeElemImage(u8 *p, u8 *e, int type, u16 id)
+void MUSICAL_MCSS_FreeElemImage(u8 *pool, u8 *e, int type, u16 id)
 {
     ((McssActorElem *)e)->type = MUSICAL_MCSS_GetArcFileCount(type);
-    *(u8 * *)&((McssActorElem *)e)->data = MUSICAL_MCSS_GetElemPtr(*(u8 * *)&((McssActorPool *)p)->resource,type);
+    *(u8 * *)&((McssActorElem *)e)->data = MUSICAL_MCSS_GetElemPtr(*(u8 * *)&((McssActorPool *)pool)->resource,type);
     ((McssActorElem *)e)->flags = ((McssActorElem *)e)->flags & ~8;
-    BILLBOARD_SetElemId(((McssActorPool *)p)->board,((McssActorElem *)e)->index,&id);
-    if (((McssActorElem *)e)->bits.vramInUse == 1) BILLBOARD_ReleaseImageVramIfUsed(((McssActorPool *)p)->board,((McssActorElem *)e)->id);
+    BILLBOARD_SetElemId(((McssActorPool *)pool)->board,((McssActorElem *)e)->index,&id);
+    if (((McssActorElem *)e)->bits.vramInUse == 1) BILLBOARD_ReleaseImageVramIfUsed(((McssActorPool *)pool)->board,((McssActorElem *)e)->id);
     ((McssActorElem *)e)->flags = ((McssActorElem *)e)->flags & ~16;
     ((McssActorElem *)e)->id = id;
     ((McssActorElem *)e)->flags = (((McssActorElem *)e)->flags & ~1) | 1;
@@ -417,7 +417,7 @@ void MUSICAL_MCSS_FreeElemImage(u8 *p, u8 *e, int type, u16 id)
  *   }
  * follower: 0x021F4E2C vector/flags leaf left unfiled while ARM9 blocks.
  */
-void MUSICAL_MCSS_TransferVram(char *p, char *e, void *a2)
+void MUSICAL_MCSS_TransferVram(char *p, char *e, void *unused)
 {
     u32 first, second;
     if (!((McssActorElem *)e)->bits.vramTransferred) {
@@ -442,17 +442,17 @@ void MUSICAL_MCSS_CopyElem(void *unused, u8 *s, u8 *d)
     ((McssActorElem *)d)->bits.rotate = ((McssActorElem *)s)->bits.rotate;
 }
 
-void MUSICAL_MCSS_SetElemVisible(u8 *p,u8 *e,u32 value) { BILLBOARD_SetElemVisible(((McssActorPool *)p)->board,((McssActorElem *)e)->index,&value); ((McssActorElem *)e)->flags |=2; }
+void MUSICAL_MCSS_SetElemVisible(u8 *pool,u8 *e,u32 value) { BILLBOARD_SetElemVisible(((McssActorPool *)pool)->board,((McssActorElem *)e)->index,&value); ((McssActorElem *)e)->flags |=2; }
 
 void MUSICAL_MCSS_SetElemPos(u32 unused,McssActorElem *p,const int *q) { p->x=q[0]; p->y=q[1]; p->z=q[2]; p->flags |=2; }
 
-void MUSICAL_MCSS_SetElemScale(u32 unused,u32 p,u32 q) { ((struct Vec3 *)q)->x=((McssActorElem *)p)->x; ((struct Vec3 *)q)->y=((McssActorElem *)p)->y; ((struct Vec3 *)q)->z=((McssActorElem *)p)->z; }
+void MUSICAL_MCSS_SetElemScale(u32 unused,u32 elem,u32 q) { ((struct Vec3 *)q)->x=((McssActorElem *)elem)->x; ((struct Vec3 *)q)->y=((McssActorElem *)elem)->y; ((struct Vec3 *)q)->z=((McssActorElem *)elem)->z; }
 
-void MUSICAL_MCSS_SetElemRotZ(u32 unused,u32 p,s16 a,s16 b) { u16 flags; ((McssActorElem *)p)->a=a; flags=((McssActorElem *)p)->flags; ((McssActorElem *)p)->b=b; ((McssActorElem *)p)->flags=flags|2; }
+void MUSICAL_MCSS_SetElemRotZ(u32 unused,u32 elem,s16 a,s16 b) { u16 flags; ((McssActorElem *)elem)->a=a; flags=((McssActorElem *)elem)->flags; ((McssActorElem *)elem)->b=b; ((McssActorElem *)elem)->flags=flags|2; }
 
-void MUSICAL_MCSS_SetElemRot(u32 unused,u32 p,s16 *a,s16 *b) { *a=((McssActorElem *)p)->a; *b=((McssActorElem *)p)->b; }
+void MUSICAL_MCSS_SetElemRot(u32 unused,u32 elem,s16 *a,s16 *b) { *a=((McssActorElem *)elem)->a; *b=((McssActorElem *)elem)->b; }
 
-void MUSICAL_MCSS_SetElemField(u32 unused,u32 p,u16 v) { ((McssActorElem *)p)->angle=v; ((McssActorElem *)p)->flags |=2; }
+void MUSICAL_MCSS_SetElemField(u32 unused,u32 elem,u16 v) { ((McssActorElem *)elem)->angle=v; ((McssActorElem *)elem)->flags |=2; }
 
 /*
  * extent: six-byte body, two zero alignment bytes before separately filed 021F4EE8.
@@ -478,9 +478,9 @@ int MUSICAL_MCSS_GetElemFlag(int unused, McssActorElem *p)
     return p->bits.rotate;
 }
 
-void MUSICAL_MCSS_GetElemOffset(u8 *p, McssOffset *out)
+void MUSICAL_MCSS_GetElemOffset(u8 *elem, McssOffset *out)
 {
-    MUSICAL_MCSS_GetOffset(*(u8 * *)&((McssActorElem *)p)->data, out);
+    MUSICAL_MCSS_GetOffset(*(u8 * *)&((McssActorElem *)elem)->data, out);
 }
 
-u32 MUSICAL_MCSS_NoOp5(u8 *p) { return (u32)((McssActorPool *)p)->resource; }
+u32 MUSICAL_MCSS_NoOp5(u8 *pool) { return (u32)((McssActorPool *)pool)->resource; }

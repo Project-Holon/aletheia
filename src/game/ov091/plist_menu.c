@@ -79,7 +79,7 @@
  *   gPlistStatParamIds 0x021BECE4 data ov091 a2
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
- *   POKE_TOOL_GetLevelUpMove 0x02018328 thumb
+ *   POKE_TOOL_LearnLevelUpMove 0x02018328 thumb
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
  *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
@@ -176,28 +176,28 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 extern void ARC_TOOL_DeleteHandle(void *a);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 POKE_TOOL_CalcLevel(void *p);
-extern void BMP_FillRect(void *bmp, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern void BMP_FillRect(void *bmp, u32 x, u32 y, u32 w, u32 h, u32 value);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void BMP_Clear(void *charBuf, u8 value);
-extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
 extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern u32 APP_ICON_GetArchiveId(void);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 a0, u32 a1, u32 a2, void **out, u16 a4);
-extern struct TaskMenu *APP_TASKMENU_OpenMenu(const PlistTaskMenuTemplate *tmpl, void *arg1);
+extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void **out, u16 flags);
+extern struct TaskMenu *APP_TASKMENU_OpenMenu(const PlistTaskMenuTemplate *tmpl, void *res);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 void APP_TASKMENU_UpdateMenu(struct TaskMenu *m);
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern u8 APP_TASKMENU_GetCursorPos(const struct TaskMenu *m);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern u32 APP_TASKMENU_WIN_Create(u32 a0, const PlistMenuEntry *entry, u32 a2, u32 a3, u8 a4, u16 a5);
+extern u32 APP_TASKMENU_WIN_Create(u32 res, const PlistMenuEntry *entry, u32 charPosX, u32 charPosY, u8 width, u16 heapId);
 extern void APP_TASKMENU_WIN_Delete(void *win);
 extern void APP_TASKMENU_WIN_Update(void *win);
 extern void APP_TASKMENU_WIN_SetActive(void *win, u32 a);
@@ -212,8 +212,8 @@ extern u32 POKE_TOOL_GetBoxParamIndex(u32 id);
 extern void GAME_BEACON_SetPokeLevelUp(int);
 extern u32 GF_FONT_MeasureWidestLine(struct Strbuf *s, void *font, u32 b);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
-extern u16 POKE_TOOL_GetLevelUpMove(void *p, u32 *idx, u32 heap);
-extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
+extern u16 POKE_TOOL_LearnLevelUpMove(void *p, u32 *idx, u32 heap);
+extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -227,7 +227,7 @@ extern u32 APP_ICON_GetStatusAnimFileId(void);
 extern u32 APP_ICON_GetStatusFrameFileId(void);
 extern u32 APP_ICON_GetStatusDataFileId(void);
 extern int POKE_TOOL_GetIconPaletteArcId(void);
-extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern int CLACT_RegisterPaletteCompressed(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
 extern void MIi_CpuCopy16(void *, void *, unsigned long);
 
 void POKELIST_ShowMessage(PokelistWork *work, int msgId, int waitInput, PokelistFn callback);
@@ -849,7 +849,7 @@ void PLIST_MENU_UpdateLevelUp(PokelistWork *work)
             work->inputStage = 6; GFL_USE_PlaySeDefaultVolume(0x547); BMP_WIN_ClearScreen(DESC); BMP_MENUWORK_DrawWindowBorder(DESC, 1); BMP_WIN_Delete(DESC); work->descriptor = 0;
         } break;
     case 6:
-        result = POKE_TOOL_GetLevelUpMove((void *)work->selectedMon, &work->arg->levelUpCursor, work->heapId); PLIST_MESSAGE_CloseWindow(work, (u32 *)work->messageWindow);
+        result = POKE_TOOL_LearnLevelUpMove((void *)work->selectedMon, &work->arg->levelUpCursor, work->heapId); PLIST_MESSAGE_CloseWindow(work, (u32 *)work->messageWindow);
         if (result == 0) { work->inputStage = 7; return; }
         if (result == 0xfffe) { work->inputStage = 7; return; }
         if (result & 0x8000) {

@@ -112,7 +112,7 @@ extern void BG_SYS_SetFlagField06(u32 bit);
 
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
@@ -128,7 +128,7 @@ extern u32 GF_FONT_Delete(void *ptr);
 
 extern void STRBUF_Delete(struct U16Vec *vec);
 
-extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
+extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *res);
 
 extern void APP_KEYCURSOR_Update(struct Ctx *ctx, void *p, void *cell);
 
@@ -138,7 +138,7 @@ extern signed char MSG_SPEED_GetWait(void);
 
 extern void *PRINTSYS_PrintStream(void *, int, int, void *, void *, void *, void *, int, u16, int);
 
-extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
 
 extern void BMP_WIN_Init(u16);
 
@@ -152,13 +152,13 @@ extern u32 APP_KEYCURSOR_CreateDefault(u32,u32,u32,u32);
 
 extern u32 PRINTSYS_QUE_Create(void *);
 
-extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
+extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, u32 font, u32 printQue, u16 heap);
 
 extern void TCBL_Main(struct Tcbl *p);
 
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 
-extern int APP_KEYCURSOR_Delete(int a0);
+extern int APP_KEYCURSOR_Delete(int cursor);
 
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 

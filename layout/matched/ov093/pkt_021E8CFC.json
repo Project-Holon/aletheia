@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTLV_CORE_GetInputTargetSlot",
+   "name": "BTLV_CORE_GetItemTargetSlot",
    "address": "0x021EA044",
    "kind": "game",
    "region": "ov093",

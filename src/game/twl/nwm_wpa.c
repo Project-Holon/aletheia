@@ -39,7 +39,7 @@ extern void NWMi_SetCallbackTable(u32, u32);
 extern void MI_CpuCopy8(const void *, void *, u32);
 extern u32 NWMi_SendCommandDirect(void *, u32);
 
-u32 NWM_SetWPAPSK(u32 a0, TwlReq *a1) {
+u32 NWM_SetWPAPSK(u32 callback, TwlReq *pskInfo) {
     u32 r;
     TwlMsg msg;
 
@@ -47,11 +47,11 @@ u32 NWM_SetWPAPSK(u32 a0, TwlReq *a1) {
     if (r != 0 && r != 2) {
         return r;
     }
-    if (a1 == 0) {
+    if (pskInfo == 0) {
         return 5;
     }
-    DC_StoreRange(a1, 0x22);
-    switch (a1->kind) {
+    DC_StoreRange(pskInfo, 0x22);
+    switch (pskInfo->kind) {
     case 4:
     case 5:
     case 6:
@@ -60,10 +60,10 @@ u32 NWM_SetWPAPSK(u32 a0, TwlReq *a1) {
     default:
         return 5;
     }
-    NWMi_SetCallbackTable(0x12, a0);
+    NWMi_SetCallbackTable(0x12, callback);
     msg.len = 0x12;
-    msg.kind = a1->kind;
-    MI_CpuCopy8(a1->data, msg.data, 0x20);
+    msg.kind = pskInfo->kind;
+    MI_CpuCopy8(pskInfo->data, msg.data, 0x20);
     r = NWMi_SendCommandDirect(&msg, 0x24);
     if (r == 0 || r == 2) {
         r = 2;

@@ -33,13 +33,21 @@ typedef struct {
     unsigned char ispId[0x40];
     unsigned char ssid[2][0x20];
     unsigned char wep[4][0x10];
-    unsigned char unkC0[0x11];
+    unsigned char ip[4];
+    unsigned char gateway[4];
+    unsigned char dns[2][4];
+    unsigned char netmask;
     unsigned char wep40[5];
-    unsigned char unkD6[0x10];
+    unsigned char wep40More[3][5];
+    unsigned char authType;
     unsigned char wepMode:2;
     unsigned char wepNotation:6;
     unsigned char setType;
-    unsigned char unkE8[8];
+    unsigned char ssidLength[2];
+    unsigned char mtu[2];
+    unsigned char rsv[2];
+    unsigned char flags;
+    unsigned char state;
 } NCFGApInfo;
 
 typedef struct {
@@ -48,7 +56,11 @@ typedef struct {
     unsigned char ssid[2][0x20];
     unsigned char unk80;
     unsigned char wpaMode;
-    unsigned char unk82[0x6e];
+    unsigned char proxyMode;
+    unsigned char proxyAuthType;
+    unsigned char proxyHost[100];
+    unsigned char proxyPort[2];
+    unsigned char rsvEx[6];
 } NCFGApInfoEx;
 
 typedef struct {

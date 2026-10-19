@@ -60,7 +60,7 @@ void B_PLIST_ANM_UploadTileBuffer(u8 *p,u8 state,u8 flag,u8 mode);
 void B_PLIST_ANM_StartPaletteAnim(u8 *p,unsigned int state);
 void B_PLIST_ANM_StepPaletteAnim(u8 *p);
 void B_PLIST_ANM_UpdateByMode(u8 *p,u32 mode);
-void B_PLIST_ANM_CopyPaletteSlot(unsigned char *p, u32 a1);
+void B_PLIST_ANM_CopyPaletteSlot(unsigned char *p, u32 unused);
 u8 B_PLIST_ANM_CountActiveRecords(u8 *p);
 void B_PLIST_ANM_UpdateSelectedTile(u8 *p);
 void B_PLIST_ANM_CreateTileWindows(u8 *p);
@@ -174,7 +174,7 @@ void B_PLIST_ANM_ApplyTilePalette(u8 *p,void *dst,u8 kind,u8 index,u8 which)
     for(j=0;j<9;j++) (((u16 *)((u32)dst+(i+2)*width*2))+j)[6]=pair[i];
    }
    return;
-  }else if(((struct B_PlistSlot *)rec)->field14==0){
+  }else if(((struct B_PlistSlot *)rec)->hpRawBase==0){
    for(i=0;i<count;i++) *(u16 *)((u32)dst+i*2)=(*(u16 *)((u32)dst+i*2)&0xfff)|(((index&1)+7)<<12);
    return;
   }else if(B_PLIST_MAIN_IsBattleSlot((u32)p,orderIndex)==1){
@@ -319,7 +319,7 @@ void B_PLIST_ANM_UpdateByMode(u8 *p,u32 mode)
 }
 
 
-void B_PLIST_ANM_CopyPaletteSlot(unsigned char *p, u32 a1)
+void B_PLIST_ANM_CopyPaletteSlot(unsigned char *p, u32 unused)
 {
     PALANM_CopyToSlot((struct PalAnmSlot *)(((struct B_PlistWork *)p)->u1D8.palAnm), ((struct B_PlistWork *)p)->palette, 1, 0xc0, 0x20);
 }

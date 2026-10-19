@@ -16,7 +16,7 @@
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   FLD_EXP_OBJ_AddUnitFromArchive  0x021BE760  thumb  ov021
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
  *   CONFIG_GetAppliedFlag  0x020083E4  thumb
@@ -82,7 +82,7 @@ extern u16 FIELDMAP_GetZoneId(FieldMap *fieldMap);
 extern void *FIELDMAP_AllocCommonWork(FieldMap *fieldMap, int id, int heapId, int size);
 extern void FIELDMAP_FreeCommonWork(FieldMap *fieldMap, int id);
 extern void *FIELDMAP_GetCommonWork(FieldMap *fieldMap, int id);
-extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern struct SaveControl *GAME_DATA_GetSaveControlWork(struct GameData *gameData);
 extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
@@ -175,7 +175,7 @@ void FIELD_GIMMICK_GATE_Init(FieldMap *fieldMap)
     int textMode;
 
     expObj = FIELDMAP_GetExpObj(fieldMap);
-    textMode = CONFIG_GetAppliedFlag(SYSTEM_DATA_GetConfig(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(fieldMap)))));
+    textMode = CONFIG_GetAppliedFlag(SYSTEM_DATA_GetConfig(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)))));
     if (textMode != 0) {
         if (textMode == 1) {
             setupIndex = 0;
@@ -236,7 +236,7 @@ GateSave *FIELD_GIMMICK_GATE_GetSave(FieldMap *fieldMap)
 {
     struct GimmickWork *gimmickWork;
 
-    gimmickWork = GAME_DATA_GetFieldSave(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(fieldMap)));
+    gimmickWork = GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
     return GIMMICK_WORK_GetWork(gimmickWork, GIMMICK_WORK_GetId(gimmickWork));
 }
 
@@ -308,7 +308,7 @@ GateWork *FIELD_GIMMICK_GATE_CreateWork(FieldMap *fieldMap)
     work->fieldMap = fieldMap;
     gameSystem = FIELDMAP_GetGameSystem(fieldMap);
     work->gameSystem = gameSystem;
-    work->gameData = ICA_ANIME_GetField1C(gameSystem);
+    work->gameData = GAMESYSTEM_GetGameData(gameSystem);
     work->initialized = 0;
     setup.heapId = heapId;
     setup.maxMessages = 7;

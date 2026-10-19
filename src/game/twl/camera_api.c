@@ -70,7 +70,7 @@ typedef struct TwlShared {
 typedef struct CamSys {
     u32 busy;
     CamPxiCallback callback;
-    u32 f08;
+    u32 syncResult;
     u32 arg;
     s32 command;
     s32 type;
@@ -82,11 +82,11 @@ typedef struct CamSys {
     u32 pend0;
     u32 pend1;
     u32 pend2;
-    TwlFn f30;
-    u32 f34;
+    TwlFn preSleepCallback;
+    u32 preSleepArg;
     u32 pad38[(0x40 - 0x38) / 4];
-    TwlFn f40;
-    u32 f44;
+    TwlFn postExitCallback;
+    u32 postExitArg;
     u32 pad48[(0x50 - 0x48) / 4];
     u64 tick;
     TwlCb cbA;
@@ -94,7 +94,7 @@ typedef struct CamSys {
     TwlCb cbC;
     u8 thread[0x124 - 0x64];      /* 0x0064: the thread (data_0273302C) */
     u8 stack[0x1124 - 0x124];     /* 0x0124: its stack, top at data_027340EC */
-    u8 settings[0x11B4 - 0x1124]; /* 0x1124: CamState f124..f1B0 (data_02733FC8 is this object + 0x1000) */
+    u8 settings[0x11B4 - 0x1124]; /* 0x1124: CamState activeCamera..f1B0 (data_02733FC8 is this object + 0x1000) */
     u8 queue[0x11D4 - 0x11B4];    /* 0x11B4: message queue (data_0273417C) */
     u32 msg[1];                   /* 0x11D4: its one-message buffer (data_0273419C); data_027341A0 follows */
 } CamSys;
@@ -104,18 +104,18 @@ typedef struct CamSys {
    settings-restore sequence; the original object needs them volatile. */
 typedef struct CamState {
     u8 pad00[0x124];
-    u32 f124;
-    volatile s32 f128, f12c, f130, f134, f138, f13c;
-    s32 f140, f144;
-    s32 f148, f14c, f150, f154, f158, f15c, f160;
-    volatile s32 f164, f168, f16c, f170, f174, f178;
-    s32 f17c, f180, f184;
-    s32 f188, f18c, f190, f194, f198, f19c;
+    u32 activeCamera;
+    volatile s32 inSize1, inSize2, inEffect1, inEffect2, inFlip1, inFlip2;
+    s32 inPhotoMode, inWhiteBalance;
+    s32 inFrameRate, inExposure, inSharpness, inAutoExposure, inAutoWhiteBalance, inContext, f160;
+    volatile s32 outSize1, outSize2, outEffect1, outEffect2, outFlip1, outFlip2;
+    s32 outPhotoMode, outWhiteBalance, outFrameRate;
+    s32 outExposure, outSharpness, outAutoExposure, outAutoWhiteBalance, outContext, ledEnabled;
     u32 flagsA;
     u32 flagsB;
     s32 value;
-    u32 f1ac;
-    s32 f1b0;
+    u32 retryCount;
+    s32 monitorCount;
 } CamState;
 
 extern CamSys data_02732FC8;
@@ -167,43 +167,43 @@ extern void CAMERA_SetBufferErrorInterruptCore(u32);
 extern void CAMERA_SetMasterInterruptCore(u32);
 
 void CAMERA_CameraIntr(void);
-void CAMERA_SetVsyncCallbackCore(TwlCb a0);
-void CAMERA_SetBufferErrorCallbackCore(TwlCb a0);
-void CAMERA_SetRebootCallbackCore(TwlCb a0);
-u32 CAMERA_GetWhiteBalanceFromPhotoMode(u32 a0);
-s32 CAMERA_GetSharpnessFromPhotoMode(u32 a0);
-u32 CAMERA_GetExposureFromPhotoMode(u32 a0);
+void CAMERA_SetVsyncCallbackCore(TwlCb callback);
+void CAMERA_SetBufferErrorCallbackCore(TwlCb callback);
+void CAMERA_SetRebootCallbackCore(TwlCb callback);
+u32 CAMERA_GetWhiteBalanceFromPhotoMode(u32 mode);
+s32 CAMERA_GetSharpnessFromPhotoMode(u32 mode);
+u32 CAMERA_GetExposureFromPhotoMode(u32 mode);
 void CAMERA_GoReboot(void);
-void CAMERA_Reboot(u32 a0, u32 a1);
+void CAMERA_Reboot(u32 result, u32 step);
 u32 CAMERA_CheckRetryCount(void);
 void CAMERA_MonitorThread(void);
 u32 CAMERA_InitCore(void);
 void CAMERA_EndCore(void);
 void CAMERA_StopCore(void);
-u32 CAMERA_I2CInitAsyncCore(u32 a0, CamPxiCallback a1, u32 a2);
-u32 CAMERA_I2CInitCore(u32 a0);
-u32 CAMERA_I2CActivateAsyncCore(u32 a0, CamPxiCallback a1, u32 a2);
-u32 CAMERA_I2CActivateCore(u32 a0);
-u32 CAMERA_I2CContextSwitchAsyncCore(u32 a0, u32 a1, CamPxiCallback a2, u32 a3);
-u32 CAMERA_I2CSizeExAsyncCore(u32 a0, u32 a1, u32 a2, CamPxiCallback a3, u32 a4);
-u32 CAMERA_I2CSizeExCore(u32 a0, u32 a1, u32 a2);
-u32 CAMERA_I2CFrameRateAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3);
-u32 CAMERA_I2CEffectExAsyncCore(u32 a0, u32 a1, u32 a2, CamPxiCallback a3, u32 a4);
-u32 CAMERA_I2CEffectExCore(u32 a0, u32 a1, u32 a2);
-u32 CAMERA_I2CFlipExAsyncCore(u32 a0, u32 a1, s32 a2, CamPxiCallback a3, u32 a4);
-u32 CAMERA_I2CPhotoModeAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3);
-u32 CAMERA_I2CWhiteBalanceAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3);
-u32 CAMERA_I2CExposureAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3);
-u32 CAMERA_I2CSharpnessAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3);
-u32 CAMERA_I2CAutoExposureAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3);
-u32 CAMERA_I2CAutoExposureCore(u32 a0, u32 a1);
-u32 CAMERA_I2CAutoWhiteBalanceAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3);
-u32 CAMERA_I2CAutoWhiteBalanceCore(u32 a0, u32 a1);
+u32 CAMERA_I2CInitAsyncCore(u32 camera, CamPxiCallback callback, u32 arg);
+u32 CAMERA_I2CInitCore(u32 camera);
+u32 CAMERA_I2CActivateAsyncCore(u32 camera, CamPxiCallback callback, u32 arg);
+u32 CAMERA_I2CActivateCore(u32 camera);
+u32 CAMERA_I2CContextSwitchAsyncCore(u32 camera, u32 context, CamPxiCallback callback, u32 arg);
+u32 CAMERA_I2CSizeExAsyncCore(u32 camera, u32 context, u32 size, CamPxiCallback callback, u32 arg);
+u32 CAMERA_I2CSizeExCore(u32 camera, u32 context, u32 size);
+u32 CAMERA_I2CFrameRateAsyncCore(u32 camera, s32 frameRate, CamPxiCallback callback, u32 arg);
+u32 CAMERA_I2CEffectExAsyncCore(u32 camera, u32 context, u32 effect, CamPxiCallback callback, u32 arg);
+u32 CAMERA_I2CEffectExCore(u32 camera, u32 context, u32 effect);
+u32 CAMERA_I2CFlipExAsyncCore(u32 camera, u32 context, s32 flip, CamPxiCallback callback, u32 arg);
+u32 CAMERA_I2CPhotoModeAsyncCore(u32 camera, s32 mode, CamPxiCallback callback, u32 arg);
+u32 CAMERA_I2CWhiteBalanceAsyncCore(u32 camera, s32 whiteBalance, CamPxiCallback callback, u32 arg);
+u32 CAMERA_I2CExposureAsyncCore(u32 camera, s32 exposure, CamPxiCallback callback, u32 arg);
+u32 CAMERA_I2CSharpnessAsyncCore(u32 camera, s32 sharpness, CamPxiCallback callback, u32 arg);
+u32 CAMERA_I2CAutoExposureAsyncCore(u32 camera, s32 enable, CamPxiCallback callback, u32 arg);
+u32 CAMERA_I2CAutoExposureCore(u32 camera, u32 enable);
+u32 CAMERA_I2CAutoWhiteBalanceAsyncCore(u32 camera, s32 enable, CamPxiCallback callback, u32 arg);
+u32 CAMERA_I2CAutoWhiteBalanceCore(u32 camera, u32 enable);
 int CAMERA_SetLEDAsyncCore(u32 command, CamPxiCallback callback, u32 arg);
-int CameraSendPxiCommand(u32 a0, u32 a1, u32 a2);
+int CameraSendPxiCommand(u32 command, u32 paramCount, u32 firstParam);
 void CameraSendPxiData(const u8 *ptr);
 void CameraPxiCallback(int tag, u32 data, int err);
-void CameraSyncCallback(u32 a0, u32 a1);
+void CameraSyncCallback(u32 result, u32 arg);
 void CameraCallCallbackAndUnlock(u32 result);
 void CameraWaitBusy(void);
 static void CameraStandbyCallback(void);
@@ -235,23 +235,23 @@ void CAMERA_CameraIntr(void) {
 }
 
 
-void CAMERA_SetVsyncCallbackCore(TwlCb a0) {
-    data_02732FC8.cbA = a0;
+void CAMERA_SetVsyncCallbackCore(TwlCb callback) {
+    data_02732FC8.cbA = callback;
 }
 
 
-void CAMERA_SetBufferErrorCallbackCore(TwlCb a0) {
-    data_02732FC8.cbB = a0;
+void CAMERA_SetBufferErrorCallbackCore(TwlCb callback) {
+    data_02732FC8.cbB = callback;
 }
 
 
-void CAMERA_SetRebootCallbackCore(TwlCb a0) {
-    data_02732FC8.cbC = a0;
+void CAMERA_SetRebootCallbackCore(TwlCb callback) {
+    data_02732FC8.cbC = callback;
 }
 
 
-u32 CAMERA_GetWhiteBalanceFromPhotoMode(u32 a0) {
-    switch (a0) {
+u32 CAMERA_GetWhiteBalanceFromPhotoMode(u32 mode) {
+    switch (mode) {
     case 0:
     case 1:
         return 0;
@@ -266,8 +266,8 @@ u32 CAMERA_GetWhiteBalanceFromPhotoMode(u32 a0) {
 }
 
 
-s32 CAMERA_GetSharpnessFromPhotoMode(u32 a0) {
-    switch (a0) {
+s32 CAMERA_GetSharpnessFromPhotoMode(u32 mode) {
+    switch (mode) {
     case 0:
         return 0;
     case 1:
@@ -284,8 +284,8 @@ s32 CAMERA_GetSharpnessFromPhotoMode(u32 a0) {
 }
 
 
-u32 CAMERA_GetExposureFromPhotoMode(u32 a0) {
-    switch (a0) {
+u32 CAMERA_GetExposureFromPhotoMode(u32 mode) {
+    switch (mode) {
     case 0:
     case 1:
     case 2:
@@ -301,154 +301,154 @@ u32 CAMERA_GetExposureFromPhotoMode(u32 a0) {
 
 void CAMERA_GoReboot(void) {
     data_02732FC8.busy = 1;
-    data_02733FC8.f1ac++;
+    data_02733FC8.retryCount++;
     OS_SendMessage(data_0273417C, 0, 0);
 }
 
 
-void CAMERA_Reboot(u32 a0, u32 a1) {
+void CAMERA_Reboot(u32 result, u32 step) {
     u32 t;
-    if (a0 != 0) {
+    if (result != 0) {
         return;
     }
-    switch (a1) {
+    switch (step) {
     case 0:
         CAMERA_I2CInitAsyncCore(3, CAMERA_Reboot, 1);
         return;
     case 1:
-        if (data_02733FC8.f140 != 1) {
-            CAMERA_I2CPhotoModeAsyncCore(1, data_02733FC8.f140, CAMERA_Reboot, 2);
+        if (data_02733FC8.inPhotoMode != 1) {
+            CAMERA_I2CPhotoModeAsyncCore(1, data_02733FC8.inPhotoMode, CAMERA_Reboot, 2);
             return;
         }
     case 2:
-        if (data_02733FC8.f17c != 0) {
-            CAMERA_I2CPhotoModeAsyncCore(2, data_02733FC8.f17c, CAMERA_Reboot, 3);
+        if (data_02733FC8.outPhotoMode != 0) {
+            CAMERA_I2CPhotoModeAsyncCore(2, data_02733FC8.outPhotoMode, CAMERA_Reboot, 3);
             return;
         }
     case 3:
-        if (data_02733FC8.f128 != 5) {
-            CAMERA_I2CSizeExAsyncCore(1, 1, data_02733FC8.f128, CAMERA_Reboot, 4);
+        if (data_02733FC8.inSize1 != 5) {
+            CAMERA_I2CSizeExAsyncCore(1, 1, data_02733FC8.inSize1, CAMERA_Reboot, 4);
             return;
         }
     case 4:
-        if (data_02733FC8.f12c != 0) {
-            CAMERA_I2CSizeExAsyncCore(1, 2, data_02733FC8.f12c, CAMERA_Reboot, 5);
+        if (data_02733FC8.inSize2 != 0) {
+            CAMERA_I2CSizeExAsyncCore(1, 2, data_02733FC8.inSize2, CAMERA_Reboot, 5);
             return;
         }
     case 5:
-        if (data_02733FC8.f164 != 5) {
-            CAMERA_I2CSizeExAsyncCore(2, 1, data_02733FC8.f164, CAMERA_Reboot, 6);
+        if (data_02733FC8.outSize1 != 5) {
+            CAMERA_I2CSizeExAsyncCore(2, 1, data_02733FC8.outSize1, CAMERA_Reboot, 6);
             return;
         }
     case 6:
-        if (data_02733FC8.f168 != 0) {
-            CAMERA_I2CSizeExAsyncCore(2, 2, data_02733FC8.f168, CAMERA_Reboot, 7);
+        if (data_02733FC8.outSize2 != 0) {
+            CAMERA_I2CSizeExAsyncCore(2, 2, data_02733FC8.outSize2, CAMERA_Reboot, 7);
             return;
         }
     case 7:
-        if (data_02733FC8.f148 != 0) {
-            CAMERA_I2CFrameRateAsyncCore(1, data_02733FC8.f148, CAMERA_Reboot, 8);
+        if (data_02733FC8.inFrameRate != 0) {
+            CAMERA_I2CFrameRateAsyncCore(1, data_02733FC8.inFrameRate, CAMERA_Reboot, 8);
             return;
         }
     case 8:
-        if (data_02733FC8.f184 != 0) {
-            CAMERA_I2CFrameRateAsyncCore(2, data_02733FC8.f184, CAMERA_Reboot, 9);
+        if (data_02733FC8.outFrameRate != 0) {
+            CAMERA_I2CFrameRateAsyncCore(2, data_02733FC8.outFrameRate, CAMERA_Reboot, 9);
             return;
         }
     case 9:
-        if (data_02733FC8.f130 != 0) {
-            CAMERA_I2CEffectExAsyncCore(1, 1, data_02733FC8.f130, CAMERA_Reboot, 0xA);
+        if (data_02733FC8.inEffect1 != 0) {
+            CAMERA_I2CEffectExAsyncCore(1, 1, data_02733FC8.inEffect1, CAMERA_Reboot, 0xA);
             return;
         }
     case 10:
-        if (data_02733FC8.f134 != 0) {
-            CAMERA_I2CEffectExAsyncCore(1, 2, data_02733FC8.f134, CAMERA_Reboot, 0xB);
+        if (data_02733FC8.inEffect2 != 0) {
+            CAMERA_I2CEffectExAsyncCore(1, 2, data_02733FC8.inEffect2, CAMERA_Reboot, 0xB);
             return;
         }
     case 11:
-        if (data_02733FC8.f16c != 0) {
-            CAMERA_I2CEffectExAsyncCore(2, 1, data_02733FC8.f16c, CAMERA_Reboot, 0xC);
+        if (data_02733FC8.outEffect1 != 0) {
+            CAMERA_I2CEffectExAsyncCore(2, 1, data_02733FC8.outEffect1, CAMERA_Reboot, 0xC);
             return;
         }
     case 12:
-        if (data_02733FC8.f170 != 0) {
-            CAMERA_I2CEffectExAsyncCore(2, 2, data_02733FC8.f170, CAMERA_Reboot, 0xD);
+        if (data_02733FC8.outEffect2 != 0) {
+            CAMERA_I2CEffectExAsyncCore(2, 2, data_02733FC8.outEffect2, CAMERA_Reboot, 0xD);
             return;
         }
     case 13:
-        if (data_02733FC8.f138 != 2) {
-            CAMERA_I2CFlipExAsyncCore(1, 1, data_02733FC8.f138, CAMERA_Reboot, 0xE);
+        if (data_02733FC8.inFlip1 != 2) {
+            CAMERA_I2CFlipExAsyncCore(1, 1, data_02733FC8.inFlip1, CAMERA_Reboot, 0xE);
             return;
         }
     case 14:
-        if (data_02733FC8.f13c != 2) {
-            CAMERA_I2CFlipExAsyncCore(1, 2, data_02733FC8.f13c, CAMERA_Reboot, 0xF);
+        if (data_02733FC8.inFlip2 != 2) {
+            CAMERA_I2CFlipExAsyncCore(1, 2, data_02733FC8.inFlip2, CAMERA_Reboot, 0xF);
             return;
         }
     case 15:
-        if (data_02733FC8.f174 != 0) {
-            CAMERA_I2CFlipExAsyncCore(2, 1, data_02733FC8.f174, CAMERA_Reboot, 0x10);
+        if (data_02733FC8.outFlip1 != 0) {
+            CAMERA_I2CFlipExAsyncCore(2, 1, data_02733FC8.outFlip1, CAMERA_Reboot, 0x10);
             return;
         }
     case 16:
-        if (data_02733FC8.f178 != 0) {
-            CAMERA_I2CFlipExAsyncCore(2, 2, data_02733FC8.f178, CAMERA_Reboot, 0x11);
+        if (data_02733FC8.outFlip2 != 0) {
+            CAMERA_I2CFlipExAsyncCore(2, 2, data_02733FC8.outFlip2, CAMERA_Reboot, 0x11);
             return;
         }
     case 17:
-        t = CAMERA_GetWhiteBalanceFromPhotoMode(data_02733FC8.f140);
-        if (data_02733FC8.f144 != t) {
-            CAMERA_I2CWhiteBalanceAsyncCore(1, data_02733FC8.f144, CAMERA_Reboot, 0x12);
+        t = CAMERA_GetWhiteBalanceFromPhotoMode(data_02733FC8.inPhotoMode);
+        if (data_02733FC8.inWhiteBalance != t) {
+            CAMERA_I2CWhiteBalanceAsyncCore(1, data_02733FC8.inWhiteBalance, CAMERA_Reboot, 0x12);
             return;
         }
     case 18:
-        t = CAMERA_GetWhiteBalanceFromPhotoMode(data_02733FC8.f17c);
-        if (data_02733FC8.f180 != t) {
-            CAMERA_I2CWhiteBalanceAsyncCore(2, data_02733FC8.f180, CAMERA_Reboot, 0x13);
+        t = CAMERA_GetWhiteBalanceFromPhotoMode(data_02733FC8.outPhotoMode);
+        if (data_02733FC8.outWhiteBalance != t) {
+            CAMERA_I2CWhiteBalanceAsyncCore(2, data_02733FC8.outWhiteBalance, CAMERA_Reboot, 0x13);
             return;
         }
     case 19:
-        if (data_02733FC8.f14c != CAMERA_GetExposureFromPhotoMode(data_02733FC8.f140)) {
-            CAMERA_I2CExposureAsyncCore(1, data_02733FC8.f14c, CAMERA_Reboot, 0x14);
+        if (data_02733FC8.inExposure != CAMERA_GetExposureFromPhotoMode(data_02733FC8.inPhotoMode)) {
+            CAMERA_I2CExposureAsyncCore(1, data_02733FC8.inExposure, CAMERA_Reboot, 0x14);
             return;
         }
     case 20:
-        if (data_02733FC8.f188 != CAMERA_GetExposureFromPhotoMode(data_02733FC8.f17c)) {
-            CAMERA_I2CExposureAsyncCore(2, data_02733FC8.f188, CAMERA_Reboot, 0x15);
+        if (data_02733FC8.outExposure != CAMERA_GetExposureFromPhotoMode(data_02733FC8.outPhotoMode)) {
+            CAMERA_I2CExposureAsyncCore(2, data_02733FC8.outExposure, CAMERA_Reboot, 0x15);
             return;
         }
     case 21:
-        if (data_02733FC8.f150 != CAMERA_GetSharpnessFromPhotoMode(data_02733FC8.f140)) {
-            CAMERA_I2CSharpnessAsyncCore(1, data_02733FC8.f150, CAMERA_Reboot, 0x16);
+        if (data_02733FC8.inSharpness != CAMERA_GetSharpnessFromPhotoMode(data_02733FC8.inPhotoMode)) {
+            CAMERA_I2CSharpnessAsyncCore(1, data_02733FC8.inSharpness, CAMERA_Reboot, 0x16);
             return;
         }
     case 22:
-        if (data_02733FC8.f18c != CAMERA_GetSharpnessFromPhotoMode(data_02733FC8.f17c)) {
-            CAMERA_I2CSharpnessAsyncCore(2, data_02733FC8.f18c, CAMERA_Reboot, 0x17);
+        if (data_02733FC8.outSharpness != CAMERA_GetSharpnessFromPhotoMode(data_02733FC8.outPhotoMode)) {
+            CAMERA_I2CSharpnessAsyncCore(2, data_02733FC8.outSharpness, CAMERA_Reboot, 0x17);
             return;
         }
     case 23:
-        if (data_02733FC8.f154 != 1) {
-            CAMERA_I2CAutoExposureAsyncCore(1, data_02733FC8.f154, CAMERA_Reboot, 0x18);
+        if (data_02733FC8.inAutoExposure != 1) {
+            CAMERA_I2CAutoExposureAsyncCore(1, data_02733FC8.inAutoExposure, CAMERA_Reboot, 0x18);
             return;
         }
     case 24:
-        if (data_02733FC8.f190 != 1) {
-            CAMERA_I2CAutoExposureAsyncCore(2, data_02733FC8.f190, CAMERA_Reboot, 0x19);
+        if (data_02733FC8.outAutoExposure != 1) {
+            CAMERA_I2CAutoExposureAsyncCore(2, data_02733FC8.outAutoExposure, CAMERA_Reboot, 0x19);
             return;
         }
     case 25:
-        if (data_02733FC8.f158 != 1) {
-            CAMERA_I2CAutoWhiteBalanceAsyncCore(1, data_02733FC8.f158, CAMERA_Reboot, 0x1A);
+        if (data_02733FC8.inAutoWhiteBalance != 1) {
+            CAMERA_I2CAutoWhiteBalanceAsyncCore(1, data_02733FC8.inAutoWhiteBalance, CAMERA_Reboot, 0x1A);
             return;
         }
     case 26:
-        if (data_02733FC8.f194 != 1) {
-            CAMERA_I2CAutoWhiteBalanceAsyncCore(2, data_02733FC8.f194, CAMERA_Reboot, 0x1B);
+        if (data_02733FC8.outAutoWhiteBalance != 1) {
+            CAMERA_I2CAutoWhiteBalanceAsyncCore(2, data_02733FC8.outAutoWhiteBalance, CAMERA_Reboot, 0x1B);
             return;
         }
     case 27:
-        t = data_02733FC8.f15c;
+        t = data_02733FC8.inContext;
         if (t != 1) {
             if (OS_IsRunOnTwl() == 1) {
                 CAMERA_I2CContextSwitchAsyncCore(1, t, CAMERA_Reboot, 0x1C);
@@ -456,7 +456,7 @@ void CAMERA_Reboot(u32 a0, u32 a1) {
             return;
         }
     case 28:
-        t = data_02733FC8.f198;
+        t = data_02733FC8.outContext;
         if (t != 1) {
             if (OS_IsRunOnTwl() == 1) {
                 CAMERA_I2CContextSwitchAsyncCore(2, t, CAMERA_Reboot, 0x1D);
@@ -464,12 +464,12 @@ void CAMERA_Reboot(u32 a0, u32 a1) {
             return;
         }
     case 29:
-        if (data_02733FC8.f124 != 0) {
-            CAMERA_I2CActivateAsyncCore(data_02733FC8.f124, CAMERA_Reboot, 0x1E);
+        if (data_02733FC8.activeCamera != 0) {
+            CAMERA_I2CActivateAsyncCore(data_02733FC8.activeCamera, CAMERA_Reboot, 0x1E);
             return;
         }
     case 30:
-        if (data_02733FC8.f124 == 2 && data_02733FC8.f19c == 1) {
+        if (data_02733FC8.activeCamera == 2 && data_02733FC8.ledEnabled == 1) {
             if (OS_IsRunOnTwl() == 1) {
                 CAMERA_SetLEDAsyncCore(1, CAMERA_Reboot, 0x1F);
             }
@@ -478,7 +478,7 @@ void CAMERA_Reboot(u32 a0, u32 a1) {
     default:
         break;
     }
-    data_02733FC8.f1ac = 0;
+    data_02733FC8.retryCount = 0;
     if (data_02732FC8.cbC != 0) {
         data_02732FC8.cbC(0);
     }
@@ -486,11 +486,11 @@ void CAMERA_Reboot(u32 a0, u32 a1) {
 
 
 u32 CAMERA_CheckRetryCount(void) {
-    u32 n = data_02733FC8.f1ac;
+    u32 n = data_02733FC8.retryCount;
     if (n > 2) {
-        if (data_02733FC8.f124 != 0) {
+        if (data_02733FC8.activeCamera != 0) {
             data_02732FC8.pend2 = 1;
-            data_02733FC8.f124 = 0;
+            data_02733FC8.activeCamera = 0;
             CameraSendPxiCommand(0x10, 1, 0);
         }
         return 7;
@@ -512,26 +512,26 @@ void CAMERA_MonitorThread(void) {
         if (OS_ReceiveMessage(data_0273417C, &msg, 0) != 0) {
             goto handle;
         }
-        if (data_02733FC8.f1ac != 0) {
+        if (data_02733FC8.retryCount != 0) {
             continue;
         }
-        if (data_02733FC8.f124 == 0) {
+        if (data_02733FC8.activeCamera == 0) {
             continue;
         }
         if (data_02732FC8.busy != 0) {
             continue;
         }
-        data_02733FC8.f1b0++;
-        if (data_02733FC8.f1b0 < 10) {
+        data_02733FC8.monitorCount++;
+        if (data_02733FC8.monitorCount < 10) {
             continue;
         }
-        data_02733FC8.f1b0 = 0;
+        data_02733FC8.monitorCount = 0;
         d = (s32)(OS_GetTick() - data_02732FC8.tick);
         if ((u64)(s64)d < 0x7FD88) {
             continue;
         }
         data_02732FC8.busy = 1;
-        data_02733FC8.f1ac++;
+        data_02733FC8.retryCount++;
 handle:
         if (CAMERA_CheckRetryCount() == 7) {
             data_02732FC8.busy = 0;
@@ -562,9 +562,9 @@ u32 CAMERA_InitCore(void) {
     data_02732FC8.callback = 0;
     data_02732FC8.pend1 = 0;
     data_02732FC8.pend2 = 0;
-    data_02733FC8.f124 = 0;
-    data_02733FC8.f1ac = 0;
-    data_02733FC8.f1b0 = 0;
+    data_02733FC8.activeCamera = 0;
+    data_02733FC8.retryCount = 0;
+    data_02733FC8.monitorCount = 0;
     PXI_Init();
     if (PXI_IsCallbackReady(0x15, 1) == 0) {
         return 7;
@@ -573,47 +573,47 @@ u32 CAMERA_InitCore(void) {
     CAMERA_ResetCore();
     CAMERA_StopCaptureCore();
     CAMERA_ClearBufferCore();
-    data_02732FC8.f30 = CameraStandbyCallback;
-    data_02732FC8.f34 = 0;
+    data_02732FC8.preSleepCallback = CameraStandbyCallback;
+    data_02732FC8.preSleepArg = 0;
     PMi_InsertPreSleepCallbackEx(data_02732FF8, 0x3FC);
-    data_02732FC8.f40 = CameraStandbyCallback;
-    data_02732FC8.f44 = 0;
+    data_02732FC8.postExitCallback = CameraStandbyCallback;
+    data_02732FC8.postExitArg = 0;
     PMi_InsertPostExitCallbackEx(data_02733008, 0x3FC);
     CAMERA_SetVsyncInterruptCore(0x200);
     CAMERA_SetBufferErrorInterruptCore(1);
     CAMERA_SetMasterInterruptCore(1);
     OS_SetIrqFunction(0x02000000, CAMERA_CameraIntr);
     OS_EnableIrqMask(0x02000000);
-    data_02733FC8.f128 = 5;
-    data_02733FC8.f12c = 0;
-    data_02733FC8.f130 = 0;
-    data_02733FC8.f134 = 0;
-    data_02733FC8.f138 = 2;
-    data_02733FC8.f13c = 2;
-    data_02733FC8.f140 = 1;
-    data_02733FC8.f144 = 0;
-    data_02733FC8.f148 = 0;
-    data_02733FC8.f14c = 0;
-    data_02733FC8.f150 = -2;
-    data_02733FC8.f154 = 1;
-    data_02733FC8.f158 = 1;
-    data_02733FC8.f15c = 1;
+    data_02733FC8.inSize1 = 5;
+    data_02733FC8.inSize2 = 0;
+    data_02733FC8.inEffect1 = 0;
+    data_02733FC8.inEffect2 = 0;
+    data_02733FC8.inFlip1 = 2;
+    data_02733FC8.inFlip2 = 2;
+    data_02733FC8.inPhotoMode = 1;
+    data_02733FC8.inWhiteBalance = 0;
+    data_02733FC8.inFrameRate = 0;
+    data_02733FC8.inExposure = 0;
+    data_02733FC8.inSharpness = -2;
+    data_02733FC8.inAutoExposure = 1;
+    data_02733FC8.inAutoWhiteBalance = 1;
+    data_02733FC8.inContext = 1;
     data_02733FC8.f160 = 0;
-    data_02733FC8.f164 = 5;
-    data_02733FC8.f168 = 0;
-    data_02733FC8.f16c = 0;
-    data_02733FC8.f170 = 0;
-    data_02733FC8.f174 = 0;
-    data_02733FC8.f178 = 0;
-    data_02733FC8.f17c = 0;
-    data_02733FC8.f180 = 0;
-    data_02733FC8.f184 = 0;
-    data_02733FC8.f188 = 0;
-    data_02733FC8.f18c = 0;
-    data_02733FC8.f190 = 1;
-    data_02733FC8.f194 = 1;
-    data_02733FC8.f198 = 1;
-    data_02733FC8.f19c = 0;
+    data_02733FC8.outSize1 = 5;
+    data_02733FC8.outSize2 = 0;
+    data_02733FC8.outEffect1 = 0;
+    data_02733FC8.outEffect2 = 0;
+    data_02733FC8.outFlip1 = 0;
+    data_02733FC8.outFlip2 = 0;
+    data_02733FC8.outPhotoMode = 0;
+    data_02733FC8.outWhiteBalance = 0;
+    data_02733FC8.outFrameRate = 0;
+    data_02733FC8.outExposure = 0;
+    data_02733FC8.outSharpness = 0;
+    data_02733FC8.outAutoExposure = 1;
+    data_02733FC8.outAutoWhiteBalance = 1;
+    data_02733FC8.outContext = 1;
+    data_02733FC8.ledEnabled = 0;
     OS_InitMessageQueue(data_0273417C, data_0273419C, 1);
     OS_CreateThread(data_0273302C, CAMERA_MonitorThread, 0, data_027340EC, 0x1000, 4);
     OS_WakeupThreadDirect(data_0273302C);
@@ -656,14 +656,14 @@ entry:
 }
 
 
-u32 CAMERA_I2CInitAsyncCore(u32 a0, CamPxiCallback a1, u32 a2) {
+u32 CAMERA_I2CInitAsyncCore(u32 camera, CamPxiCallback callback, u32 arg) {
     u32 st = CAMERA_CheckRetryCount();
     u32 irq;
     u32 ret;
     if (st == 7) {
         return st;
     }
-    if (a0 != 1 && a0 != 2 && a0 != 3) {
+    if (camera != 1 && camera != 2 && camera != 3) {
         return 3;
     }
     irq = OS_DisableInterrupts();
@@ -677,28 +677,28 @@ u32 CAMERA_I2CInitAsyncCore(u32 a0, CamPxiCallback a1, u32 a2) {
     }
     data_02732FC8.busy = 1;
     OS_RestoreInterrupts(irq);
-    data_02732FC8.callback = a1;
+    data_02732FC8.callback = callback;
     ret = 0;
-    data_02732FC8.arg = a2;
+    data_02732FC8.arg = arg;
     data_02732FC8.pend2 = 1;
-    if (CameraSendPxiCommand(0, 1, a0 & 0xFF) == 0) {
+    if (CameraSendPxiCommand(0, 1, camera & 0xFF) == 0) {
         ret = 4;
     }
     return ret;
 }
 
 
-u32 CAMERA_I2CInitCore(u32 a0) {
-    u32 ret = CAMERA_I2CInitAsyncCore(a0, CameraSyncCallback, 0);
-    data_02732FC8.f08 = ret;
+u32 CAMERA_I2CInitCore(u32 camera) {
+    u32 ret = CAMERA_I2CInitAsyncCore(camera, CameraSyncCallback, 0);
+    data_02732FC8.syncResult = ret;
     if (ret == 0) {
         CameraWaitBusy();
     }
-    return data_02732FC8.f08;
+    return data_02732FC8.syncResult;
 }
 
 
-u32 CAMERA_I2CActivateAsyncCore(u32 a0, CamPxiCallback a1, u32 a2)
+u32 CAMERA_I2CActivateAsyncCore(u32 camera, CamPxiCallback callback, u32 arg)
 {
     u32 status = CAMERA_CheckRetryCount();
     u64 tick;
@@ -708,7 +708,7 @@ u32 CAMERA_I2CActivateAsyncCore(u32 a0, CamPxiCallback a1, u32 a2)
     if (status == 7) {
         return status;
     }
-    if (a0 != 0 && a0 != 1 && a0 != 2) {
+    if (camera != 0 && camera != 1 && camera != 2) {
         return 3;
     }
     irq = OS_DisableInterrupts();
@@ -722,34 +722,34 @@ u32 CAMERA_I2CActivateAsyncCore(u32 a0, CamPxiCallback a1, u32 a2)
     }
     data_02732FC8.busy = 1;
     OS_RestoreInterrupts(irq);
-    data_02732FC8.callback = a1;
-    data_02732FC8.arg = a2;
-    if (a0 == 0) {
+    data_02732FC8.callback = callback;
+    data_02732FC8.arg = arg;
+    if (camera == 0) {
         data_02732FC8.pend2 = 1;
     } else {
         data_02732FC8.pend1 = 1;
     }
-    data_02733FC8.f124 = a0;
-    if (data_02733FC8.f1ac == 0) {
+    data_02733FC8.activeCamera = camera;
+    if (data_02733FC8.retryCount == 0) {
         data_02733FC8.value = 0;
     }
     tick = OS_GetTick();
     data_02732FC8.tick = tick;
-    return CameraSendPxiCommand(0x10, 1, a0 & 0xff) != 0 ? 0 : 4;
+    return CameraSendPxiCommand(0x10, 1, camera & 0xff) != 0 ? 0 : 4;
 }
 
 
-u32 CAMERA_I2CActivateCore(u32 a0) {
-    u32 ret = CAMERA_I2CActivateAsyncCore(a0, CameraSyncCallback, 0);
-    data_02732FC8.f08 = ret;
+u32 CAMERA_I2CActivateCore(u32 camera) {
+    u32 ret = CAMERA_I2CActivateAsyncCore(camera, CameraSyncCallback, 0);
+    data_02732FC8.syncResult = ret;
     if (ret == 0) {
         CameraWaitBusy();
     }
-    return data_02732FC8.f08;
+    return data_02732FC8.syncResult;
 }
 
 
-u32 CAMERA_I2CContextSwitchAsyncCore(u32 a0, u32 a1, CamPxiCallback a2, u32 a3)
+u32 CAMERA_I2CContextSwitchAsyncCore(u32 camera, u32 context, CamPxiCallback callback, u32 arg)
 {
     u32 status = CAMERA_CheckRetryCount();
     u32 irq;
@@ -759,10 +759,10 @@ u32 CAMERA_I2CContextSwitchAsyncCore(u32 a0, u32 a1, CamPxiCallback a2, u32 a3)
     if (status == 7) {
         return status;
     }
-    if (a0 != 1 && a0 != 2) {
+    if (camera != 1 && camera != 2) {
         return 3;
     }
-    if (a1 != 1 && a1 != 2) {
+    if (context != 1 && context != 2) {
         return 3;
     }
     irq = OS_DisableInterrupts();
@@ -776,12 +776,12 @@ u32 CAMERA_I2CContextSwitchAsyncCore(u32 a0, u32 a1, CamPxiCallback a2, u32 a3)
     }
     data_02732FC8.busy = 1;
     OS_RestoreInterrupts(irq);
-    data_02732FC8.callback = a2;
-    data_02732FC8.arg = a3;
-    buf[0] = a0;
-    buf[1] = a1;
-    data_02733FC8.flagsA = a0;
-    data_02733FC8.value = a1;
+    data_02732FC8.callback = callback;
+    data_02732FC8.arg = arg;
+    buf[0] = camera;
+    buf[1] = context;
+    data_02733FC8.flagsA = camera;
+    data_02733FC8.value = context;
     if (CameraSendPxiCommand(0x12, 2, buf[0]) == 0) {
         return 4;
     }
@@ -790,7 +790,7 @@ u32 CAMERA_I2CContextSwitchAsyncCore(u32 a0, u32 a1, CamPxiCallback a2, u32 a3)
 }
 
 
-u32 CAMERA_I2CSizeExAsyncCore(u32 a0, u32 a1, u32 a2, CamPxiCallback a3, u32 a4)
+u32 CAMERA_I2CSizeExAsyncCore(u32 camera, u32 context, u32 size, CamPxiCallback callback, u32 arg)
 {
     u32 status = CAMERA_CheckRetryCount();
     u32 irq;
@@ -800,13 +800,13 @@ u32 CAMERA_I2CSizeExAsyncCore(u32 a0, u32 a1, u32 a2, CamPxiCallback a3, u32 a4)
     if (status == 7) {
         return status;
     }
-    if (a0 != 1 && a0 != 2 && a0 != 3) {
+    if (camera != 1 && camera != 2 && camera != 3) {
         return 3;
     }
-    if (a1 != 1 && a1 != 2 && a1 != 3) {
+    if (context != 1 && context != 2 && context != 3) {
         return 3;
     }
-    switch (a2) {
+    switch (size) {
     case 0:
     case 1:
     case 2:
@@ -829,14 +829,14 @@ u32 CAMERA_I2CSizeExAsyncCore(u32 a0, u32 a1, u32 a2, CamPxiCallback a3, u32 a4)
     }
     data_02732FC8.busy = 1;
     OS_RestoreInterrupts(irq);
-    data_02732FC8.callback = a3;
-    data_02732FC8.arg = a4;
-    buf[0] = a0;
-    buf[1] = a1;
-    buf[2] = a2;
-    data_02733FC8.flagsA = a0;
-    data_02733FC8.flagsB = a1;
-    data_02733FC8.value = a2;
+    data_02732FC8.callback = callback;
+    data_02732FC8.arg = arg;
+    buf[0] = camera;
+    buf[1] = context;
+    buf[2] = size;
+    data_02733FC8.flagsA = camera;
+    data_02733FC8.flagsB = context;
+    data_02733FC8.value = size;
     if (CameraSendPxiCommand(0x30, 3, buf[0]) == 0) {
         return 4;
     }
@@ -845,17 +845,17 @@ u32 CAMERA_I2CSizeExAsyncCore(u32 a0, u32 a1, u32 a2, CamPxiCallback a3, u32 a4)
 }
 
 
-u32 CAMERA_I2CSizeExCore(u32 a0, u32 a1, u32 a2) {
-    u32 ret = CAMERA_I2CSizeExAsyncCore(a0, a1, a2, CameraSyncCallback, 0);
-    data_02732FC8.f08 = ret;
+u32 CAMERA_I2CSizeExCore(u32 camera, u32 context, u32 size) {
+    u32 ret = CAMERA_I2CSizeExAsyncCore(camera, context, size, CameraSyncCallback, 0);
+    data_02732FC8.syncResult = ret;
     if (ret == 0) {
         CameraWaitBusy();
     }
-    return data_02732FC8.f08;
+    return data_02732FC8.syncResult;
 }
 
 
-u32 CAMERA_I2CFrameRateAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3)
+u32 CAMERA_I2CFrameRateAsyncCore(u32 camera, s32 frameRate, CamPxiCallback callback, u32 arg)
 {
     u32 status = CAMERA_CheckRetryCount();
     u32 irq;
@@ -865,10 +865,10 @@ u32 CAMERA_I2CFrameRateAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3)
     if (status == 7) {
         return status;
     }
-    if (a0 != 1 && a0 != 2 && a0 != 3) {
+    if (camera != 1 && camera != 2 && camera != 3) {
         return 3;
     }
-    switch (a1) {
+    switch (frameRate) {
     case 0:
     case 1:
     case 2:
@@ -896,12 +896,12 @@ u32 CAMERA_I2CFrameRateAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3)
     }
     data_02732FC8.busy = 1;
     OS_RestoreInterrupts(irq);
-    data_02732FC8.callback = a2;
-    data_02732FC8.arg = a3;
-    buf[0] = a0;
-    buf[1] = a1;
-    data_02733FC8.flagsA = a0;
-    data_02733FC8.value = a1;
+    data_02732FC8.callback = callback;
+    data_02732FC8.arg = arg;
+    buf[0] = camera;
+    buf[1] = frameRate;
+    data_02733FC8.flagsA = camera;
+    data_02733FC8.value = frameRate;
     if (CameraSendPxiCommand(0x31, 2, buf[0]) == 0) {
         return 4;
     }
@@ -910,7 +910,7 @@ u32 CAMERA_I2CFrameRateAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3)
 }
 
 
-u32 CAMERA_I2CEffectExAsyncCore(u32 a0, u32 a1, u32 a2, CamPxiCallback a3, u32 a4)
+u32 CAMERA_I2CEffectExAsyncCore(u32 camera, u32 context, u32 effect, CamPxiCallback callback, u32 arg)
 {
     u32 status = CAMERA_CheckRetryCount();
     u32 irq;
@@ -920,13 +920,13 @@ u32 CAMERA_I2CEffectExAsyncCore(u32 a0, u32 a1, u32 a2, CamPxiCallback a3, u32 a
     if (status == 7) {
         return status;
     }
-    if (a0 != 1 && a0 != 2 && a0 != 3) {
+    if (camera != 1 && camera != 2 && camera != 3) {
         return 3;
     }
-    if (a1 != 1 && a1 != 2 && a1 != 3) {
+    if (context != 1 && context != 2 && context != 3) {
         return 3;
     }
-    switch (a2) {
+    switch (effect) {
     case 0:
     case 1:
     case 2:
@@ -948,14 +948,14 @@ u32 CAMERA_I2CEffectExAsyncCore(u32 a0, u32 a1, u32 a2, CamPxiCallback a3, u32 a
     }
     data_02732FC8.busy = 1;
     OS_RestoreInterrupts(irq);
-    data_02732FC8.callback = a3;
-    data_02732FC8.arg = a4;
-    buf[0] = a0;
-    buf[1] = a1;
-    buf[2] = a2;
-    data_02733FC8.flagsA = a0;
-    data_02733FC8.flagsB = a1;
-    data_02733FC8.value = a2;
+    data_02732FC8.callback = callback;
+    data_02732FC8.arg = arg;
+    buf[0] = camera;
+    buf[1] = context;
+    buf[2] = effect;
+    data_02733FC8.flagsA = camera;
+    data_02733FC8.flagsB = context;
+    data_02733FC8.value = effect;
     if (CameraSendPxiCommand(0x32, 3, buf[0]) == 0) {
         return 4;
     }
@@ -964,30 +964,30 @@ u32 CAMERA_I2CEffectExAsyncCore(u32 a0, u32 a1, u32 a2, CamPxiCallback a3, u32 a
 }
 
 
-u32 CAMERA_I2CEffectExCore(u32 a0, u32 a1, u32 a2) {
-    u32 ret = CAMERA_I2CEffectExAsyncCore(a0, a1, a2, CameraSyncCallback, 0);
-    data_02732FC8.f08 = ret;
+u32 CAMERA_I2CEffectExCore(u32 camera, u32 context, u32 effect) {
+    u32 ret = CAMERA_I2CEffectExAsyncCore(camera, context, effect, CameraSyncCallback, 0);
+    data_02732FC8.syncResult = ret;
     if (ret == 0) {
         CameraWaitBusy();
     }
-    return data_02732FC8.f08;
+    return data_02732FC8.syncResult;
 }
 
 
-u32 CAMERA_I2CFlipExAsyncCore(u32 a0, u32 a1, s32 a2, CamPxiCallback a3, u32 a4) {
+u32 CAMERA_I2CFlipExAsyncCore(u32 camera, u32 context, s32 flip, CamPxiCallback callback, u32 arg) {
     u8 buf[8];
     u32 st = CAMERA_CheckRetryCount();
     u32 irq;
     if (st == 7) {
         return st;
     }
-    if (a0 != 1 && a0 != 2 && a0 != 3) {
+    if (camera != 1 && camera != 2 && camera != 3) {
         return 3;
     }
-    if (a1 != 1 && a1 != 2 && a1 != 3) {
+    if (context != 1 && context != 2 && context != 3) {
         return 3;
     }
-    switch (a2) {
+    switch (flip) {
     case 0:
     case 1:
     case 2:
@@ -1003,14 +1003,14 @@ u32 CAMERA_I2CFlipExAsyncCore(u32 a0, u32 a1, s32 a2, CamPxiCallback a3, u32 a4)
     }
     data_02732FC8.busy = 1;
     OS_RestoreInterrupts(irq);
-    data_02732FC8.callback = a3;
-    data_02732FC8.arg = a4;
-    buf[0] = a0;
-    buf[1] = a1;
-    buf[2] = a2;
-    data_02733FC8.flagsA = a0;
-    data_02733FC8.flagsB = a1;
-    data_02733FC8.value = a2;
+    data_02732FC8.callback = callback;
+    data_02732FC8.arg = arg;
+    buf[0] = camera;
+    buf[1] = context;
+    buf[2] = flip;
+    data_02733FC8.flagsA = camera;
+    data_02733FC8.flagsB = context;
+    data_02733FC8.value = flip;
     if (CameraSendPxiCommand(0x33, 3, buf[0]) == 0) {
         return 4;
     }
@@ -1019,17 +1019,17 @@ u32 CAMERA_I2CFlipExAsyncCore(u32 a0, u32 a1, s32 a2, CamPxiCallback a3, u32 a4)
 }
 
 
-u32 CAMERA_I2CPhotoModeAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3) {
+u32 CAMERA_I2CPhotoModeAsyncCore(u32 camera, s32 mode, CamPxiCallback callback, u32 arg) {
     u8 buf[2];
     u32 st = CAMERA_CheckRetryCount();
     u32 irq;
     if (st == 7) {
         return st;
     }
-    if (a0 != 1 && a0 != 2 && a0 != 3) {
+    if (camera != 1 && camera != 2 && camera != 3) {
         return 3;
     }
-    switch (a1) {
+    switch (mode) {
     case 0:
     case 1:
     case 2:
@@ -1046,12 +1046,12 @@ u32 CAMERA_I2CPhotoModeAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3) {
     }
     data_02732FC8.busy = 1;
     OS_RestoreInterrupts(irq);
-    data_02732FC8.callback = a2;
-    data_02732FC8.arg = a3;
-    buf[0] = a0;
-    buf[1] = a1;
-    data_02733FC8.flagsA = a0;
-    data_02733FC8.value = a1;
+    data_02732FC8.callback = callback;
+    data_02732FC8.arg = arg;
+    buf[0] = camera;
+    buf[1] = mode;
+    data_02733FC8.flagsA = camera;
+    data_02733FC8.value = mode;
     if (CameraSendPxiCommand(0x34, 2, buf[0]) == 0) {
         return 4;
     }
@@ -1060,17 +1060,17 @@ u32 CAMERA_I2CPhotoModeAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3) {
 }
 
 
-u32 CAMERA_I2CWhiteBalanceAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3) {
+u32 CAMERA_I2CWhiteBalanceAsyncCore(u32 camera, s32 whiteBalance, CamPxiCallback callback, u32 arg) {
     u8 buf[2];
     u32 st = CAMERA_CheckRetryCount();
     u32 irq;
     if (st == 7) {
         return st;
     }
-    if (a0 != 1 && a0 != 2 && a0 != 3) {
+    if (camera != 1 && camera != 2 && camera != 3) {
         return 3;
     }
-    switch (a1) {
+    switch (whiteBalance) {
     case 0:
     case 1:
     case 2:
@@ -1088,12 +1088,12 @@ u32 CAMERA_I2CWhiteBalanceAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3) {
     }
     data_02732FC8.busy = 1;
     OS_RestoreInterrupts(irq);
-    data_02732FC8.callback = a2;
-    data_02732FC8.arg = a3;
-    buf[0] = a0;
-    buf[1] = a1;
-    data_02733FC8.flagsA = a0;
-    data_02733FC8.value = a1;
+    data_02732FC8.callback = callback;
+    data_02732FC8.arg = arg;
+    buf[0] = camera;
+    buf[1] = whiteBalance;
+    data_02733FC8.flagsA = camera;
+    data_02733FC8.value = whiteBalance;
     if (CameraSendPxiCommand(0x35, 2, buf[0]) == 0) {
         return 4;
     }
@@ -1102,17 +1102,17 @@ u32 CAMERA_I2CWhiteBalanceAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3) {
 }
 
 
-u32 CAMERA_I2CExposureAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3) {
+u32 CAMERA_I2CExposureAsyncCore(u32 camera, s32 exposure, CamPxiCallback callback, u32 arg) {
     u8 buf[2];
     u32 st = CAMERA_CheckRetryCount();
     u32 irq;
     if (st == 7) {
         return st;
     }
-    if (a0 != 1 && a0 != 2 && a0 != 3) {
+    if (camera != 1 && camera != 2 && camera != 3) {
         return 3;
     }
-    if (a1 < -5 || a1 > 5) {
+    if (exposure < -5 || exposure > 5) {
         return 3;
     }
     irq = OS_DisableInterrupts();
@@ -1122,12 +1122,12 @@ u32 CAMERA_I2CExposureAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3) {
     }
     data_02732FC8.busy = 1;
     OS_RestoreInterrupts(irq);
-    data_02732FC8.callback = a2;
-    data_02732FC8.arg = a3;
-    buf[0] = a0;
-    buf[1] = a1;
-    data_02733FC8.flagsA = a0;
-    data_02733FC8.value = a1;
+    data_02732FC8.callback = callback;
+    data_02732FC8.arg = arg;
+    buf[0] = camera;
+    buf[1] = exposure;
+    data_02733FC8.flagsA = camera;
+    data_02733FC8.value = exposure;
     if (CameraSendPxiCommand(0x36, 2, buf[0]) == 0) {
         return 4;
     }
@@ -1136,17 +1136,17 @@ u32 CAMERA_I2CExposureAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3) {
 }
 
 
-u32 CAMERA_I2CSharpnessAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3) {
+u32 CAMERA_I2CSharpnessAsyncCore(u32 camera, s32 sharpness, CamPxiCallback callback, u32 arg) {
     u8 buf[2];
     u32 st = CAMERA_CheckRetryCount();
     u32 irq;
     if (st == 7) {
         return st;
     }
-    if (a0 != 1 && a0 != 2 && a0 != 3) {
+    if (camera != 1 && camera != 2 && camera != 3) {
         return 3;
     }
-    if (a1 < -3 || a1 > 5) {
+    if (sharpness < -3 || sharpness > 5) {
         return 3;
     }
     irq = OS_DisableInterrupts();
@@ -1156,12 +1156,12 @@ u32 CAMERA_I2CSharpnessAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3) {
     }
     data_02732FC8.busy = 1;
     OS_RestoreInterrupts(irq);
-    data_02732FC8.callback = a2;
-    data_02732FC8.arg = a3;
-    buf[0] = a0;
-    buf[1] = a1;
-    data_02733FC8.flagsA = a0;
-    data_02733FC8.value = a1;
+    data_02732FC8.callback = callback;
+    data_02732FC8.arg = arg;
+    buf[0] = camera;
+    buf[1] = sharpness;
+    data_02733FC8.flagsA = camera;
+    data_02733FC8.value = sharpness;
     if (CameraSendPxiCommand(0x37, 2, buf[0]) == 0) {
         return 4;
     }
@@ -1170,14 +1170,14 @@ u32 CAMERA_I2CSharpnessAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3) {
 }
 
 
-u32 CAMERA_I2CAutoExposureAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3) {
+u32 CAMERA_I2CAutoExposureAsyncCore(u32 camera, s32 enable, CamPxiCallback callback, u32 arg) {
     u8 buf[2];
     u32 st = CAMERA_CheckRetryCount();
     u32 irq;
     if (st == 7) {
         return st;
     }
-    if (a0 != 1 && a0 != 2 && a0 != 3) {
+    if (camera != 1 && camera != 2 && camera != 3) {
         return 3;
     }
     irq = OS_DisableInterrupts();
@@ -1187,12 +1187,12 @@ u32 CAMERA_I2CAutoExposureAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3) {
     }
     data_02732FC8.busy = 1;
     OS_RestoreInterrupts(irq);
-    data_02732FC8.callback = a2;
-    data_02732FC8.arg = a3;
-    buf[0] = a0;
-    buf[1] = (a1 != 0) ? 1 : 0;
-    data_02733FC8.flagsA = a0;
-    data_02733FC8.value = a1;
+    data_02732FC8.callback = callback;
+    data_02732FC8.arg = arg;
+    buf[0] = camera;
+    buf[1] = (enable != 0) ? 1 : 0;
+    data_02733FC8.flagsA = camera;
+    data_02733FC8.value = enable;
     if (CameraSendPxiCommand(0x39, 2, buf[0]) == 0) {
         return 4;
     }
@@ -1201,30 +1201,30 @@ u32 CAMERA_I2CAutoExposureAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3) {
 }
 
 
-u32 CAMERA_I2CAutoExposureCore(u32 a0, u32 a1) {
-    u32 ret = CAMERA_I2CAutoExposureAsyncCore(a0, a1, CameraSyncCallback, 0);
-    data_02732FC8.f08 = ret;
+u32 CAMERA_I2CAutoExposureCore(u32 camera, u32 enable) {
+    u32 ret = CAMERA_I2CAutoExposureAsyncCore(camera, enable, CameraSyncCallback, 0);
+    data_02732FC8.syncResult = ret;
     if (ret == 0) {
         CameraWaitBusy();
     }
-    return data_02732FC8.f08;
+    return data_02732FC8.syncResult;
 }
 
 
-u32 CAMERA_I2CAutoWhiteBalanceAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3) {
+u32 CAMERA_I2CAutoWhiteBalanceAsyncCore(u32 camera, s32 enable, CamPxiCallback callback, u32 arg) {
     u8 buf[2];
     u32 st = CAMERA_CheckRetryCount();
     u32 irq;
     if (st == 7) {
         return st;
     }
-    if (a0 != 1 && a0 != 2 && a0 != 3) {
+    if (camera != 1 && camera != 2 && camera != 3) {
         return 3;
     }
-    if ((a0 & 1) && data_02733FC8.f144 != 0) {
+    if ((camera & 1) && data_02733FC8.inWhiteBalance != 0) {
         return 5;
     }
-    if ((a0 & 2) && data_02733FC8.f180 != 0) {
+    if ((camera & 2) && data_02733FC8.outWhiteBalance != 0) {
         return 5;
     }
     irq = OS_DisableInterrupts();
@@ -1234,12 +1234,12 @@ u32 CAMERA_I2CAutoWhiteBalanceAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a
     }
     data_02732FC8.busy = 1;
     OS_RestoreInterrupts(irq);
-    data_02732FC8.callback = a2;
-    data_02732FC8.arg = a3;
-    buf[0] = a0;
-    buf[1] = (a1 != 0) ? 1 : 0;
-    data_02733FC8.flagsA = a0;
-    data_02733FC8.value = a1;
+    data_02732FC8.callback = callback;
+    data_02732FC8.arg = arg;
+    buf[0] = camera;
+    buf[1] = (enable != 0) ? 1 : 0;
+    data_02733FC8.flagsA = camera;
+    data_02733FC8.value = enable;
     if (CameraSendPxiCommand(0x3a, 2, buf[0]) == 0) {
         return 4;
     }
@@ -1248,13 +1248,13 @@ u32 CAMERA_I2CAutoWhiteBalanceAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a
 }
 
 
-u32 CAMERA_I2CAutoWhiteBalanceCore(u32 a0, u32 a1) {
-    u32 ret = CAMERA_I2CAutoWhiteBalanceAsyncCore(a0, a1, CameraSyncCallback, 0);
-    data_02732FC8.f08 = ret;
+u32 CAMERA_I2CAutoWhiteBalanceCore(u32 camera, u32 enable) {
+    u32 ret = CAMERA_I2CAutoWhiteBalanceAsyncCore(camera, enable, CameraSyncCallback, 0);
+    data_02732FC8.syncResult = ret;
     if (ret == 0) {
         CameraWaitBusy();
     }
-    return data_02732FC8.f08;
+    return data_02732FC8.syncResult;
 }
 
 
@@ -1276,8 +1276,8 @@ int CAMERA_SetLEDAsyncCore(u32 command, CamPxiCallback callback, u32 arg) {
 }
 
 
-int CameraSendPxiCommand(u32 a0, u32 a1, u32 a2) {
-    u32 word = ((a0 << 8) & 0x7f00) | 0x2000000 | ((a1 << 16) & 0xff0000) | (a2 & 0xff);
+int CameraSendPxiCommand(u32 command, u32 paramCount, u32 firstParam) {
+    u32 word = ((command << 8) & 0x7f00) | 0x2000000 | ((paramCount << 16) & 0xff0000) | (firstParam & 0xff);
     u32 irq = OS_DisableInterrupts();
     u16 old = reg_04004004;
     s32 had;
@@ -1300,8 +1300,8 @@ int CameraSendPxiCommand(u32 a0, u32 a1, u32 a2) {
 }
 
 
-void CameraSendPxiData(const u8 *ptr) {
-    u32 word = (ptr[0] << 16) | (ptr[1] << 8) | ptr[2];
+void CameraSendPxiData(const u8 *params) {
+    u32 word = (params[0] << 16) | (params[1] << 8) | params[2];
     do {
     } while (PXI_SendWordByFifo(0x15, word, 0) < 0);
 }
@@ -1352,136 +1352,136 @@ void CameraPxiCallback(int tag, u32 data, int err)
     case 0:
         switch (data_02732FC8.command) {
         case 0x10:
-            data_02733FC8.f19c = data_02733FC8.value;
+            data_02733FC8.ledEnabled = data_02733FC8.value;
             break;
         case 0x12:
-            if (data_02733FC8.flagsA & 1) data_02733FC8.f15c = data_02733FC8.value;
-            if (data_02733FC8.flagsA & 2) data_02733FC8.f198 = data_02733FC8.value;
+            if (data_02733FC8.flagsA & 1) data_02733FC8.inContext = data_02733FC8.value;
+            if (data_02733FC8.flagsA & 2) data_02733FC8.outContext = data_02733FC8.value;
             break;
         case 0x30:
             if (data_02733FC8.flagsA & 1) {
-                if (data_02733FC8.flagsB & 1) data_02733FC8.f128 = data_02733FC8.value;
+                if (data_02733FC8.flagsB & 1) data_02733FC8.inSize1 = data_02733FC8.value;
             }
-            if (data_02733FC8.flagsB & 2) data_02733FC8.f12c = data_02733FC8.value;
+            if (data_02733FC8.flagsB & 2) data_02733FC8.inSize2 = data_02733FC8.value;
             if (data_02733FC8.flagsA & 2) {
-                if (data_02733FC8.flagsB & 1) data_02733FC8.f164 = data_02733FC8.value;
+                if (data_02733FC8.flagsB & 1) data_02733FC8.outSize1 = data_02733FC8.value;
             }
-            if (data_02733FC8.flagsB & 2) data_02733FC8.f168 = data_02733FC8.value;
+            if (data_02733FC8.flagsB & 2) data_02733FC8.outSize2 = data_02733FC8.value;
             break;
         case 0x31:
-            if (data_02733FC8.flagsA & 1) data_02733FC8.f148 = data_02733FC8.value;
-            if (data_02733FC8.flagsA & 2) data_02733FC8.f184 = data_02733FC8.value;
+            if (data_02733FC8.flagsA & 1) data_02733FC8.inFrameRate = data_02733FC8.value;
+            if (data_02733FC8.flagsA & 2) data_02733FC8.outFrameRate = data_02733FC8.value;
             break;
         case 0x32:
             if (data_02733FC8.flagsA & 1) {
-                if (data_02733FC8.flagsB & 1) data_02733FC8.f130 = data_02733FC8.value;
+                if (data_02733FC8.flagsB & 1) data_02733FC8.inEffect1 = data_02733FC8.value;
             }
-            if (data_02733FC8.flagsB & 2) data_02733FC8.f134 = data_02733FC8.value;
+            if (data_02733FC8.flagsB & 2) data_02733FC8.inEffect2 = data_02733FC8.value;
             if (data_02733FC8.flagsA & 2) {
-                if (data_02733FC8.flagsB & 1) data_02733FC8.f16c = data_02733FC8.value;
+                if (data_02733FC8.flagsB & 1) data_02733FC8.outEffect1 = data_02733FC8.value;
             }
-            if (data_02733FC8.flagsB & 2) data_02733FC8.f170 = data_02733FC8.value;
+            if (data_02733FC8.flagsB & 2) data_02733FC8.outEffect2 = data_02733FC8.value;
             break;
         case 0x33:
             if (data_02733FC8.flagsA & 1) {
-                if (data_02733FC8.flagsB & 1) data_02733FC8.f138 = data_02733FC8.value;
+                if (data_02733FC8.flagsB & 1) data_02733FC8.inFlip1 = data_02733FC8.value;
             }
-            if (data_02733FC8.flagsB & 2) data_02733FC8.f13c = data_02733FC8.value;
+            if (data_02733FC8.flagsB & 2) data_02733FC8.inFlip2 = data_02733FC8.value;
             if (data_02733FC8.flagsA & 2) {
-                if (data_02733FC8.flagsB & 1) data_02733FC8.f174 = data_02733FC8.value;
+                if (data_02733FC8.flagsB & 1) data_02733FC8.outFlip1 = data_02733FC8.value;
             }
-            if (data_02733FC8.flagsB & 2) data_02733FC8.f178 = data_02733FC8.value;
+            if (data_02733FC8.flagsB & 2) data_02733FC8.outFlip2 = data_02733FC8.value;
             break;
         case 0x34:
             if (data_02733FC8.flagsA & 1) {
-                data_02733FC8.f140 = data_02733FC8.value;
+                data_02733FC8.inPhotoMode = data_02733FC8.value;
                 switch (data_02733FC8.value) {
                 case 0:
-                    data_02733FC8.f150 = 0;
-                    data_02733FC8.f14c = 0;
-                    data_02733FC8.f144 = 0;
+                    data_02733FC8.inSharpness = 0;
+                    data_02733FC8.inExposure = 0;
+                    data_02733FC8.inWhiteBalance = 0;
                     break;
                 case 1:
-                    data_02733FC8.f150 = -2;
-                    data_02733FC8.f14c = 0;
-                    data_02733FC8.f144 = 0;
+                    data_02733FC8.inSharpness = -2;
+                    data_02733FC8.inExposure = 0;
+                    data_02733FC8.inWhiteBalance = 0;
                     break;
                 case 2:
-                    data_02733FC8.f150 = 1;
-                    data_02733FC8.f14c = 0;
-                    data_02733FC8.f144 = 3;
+                    data_02733FC8.inSharpness = 1;
+                    data_02733FC8.inExposure = 0;
+                    data_02733FC8.inWhiteBalance = 3;
                     break;
                 case 3:
-                    data_02733FC8.f150 = -1;
-                    data_02733FC8.f14c = 2;
-                    data_02733FC8.f144 = 0;
+                    data_02733FC8.inSharpness = -1;
+                    data_02733FC8.inExposure = 2;
+                    data_02733FC8.inWhiteBalance = 0;
                     break;
                 case 4:
-                    data_02733FC8.f150 = 2;
-                    data_02733FC8.f14c = 2;
-                    data_02733FC8.f144 = 0;
+                    data_02733FC8.inSharpness = 2;
+                    data_02733FC8.inExposure = 2;
+                    data_02733FC8.inWhiteBalance = 0;
                     break;
                 }
             }
             if (data_02733FC8.flagsA & 2) {
-                data_02733FC8.f17c = data_02733FC8.value;
+                data_02733FC8.outPhotoMode = data_02733FC8.value;
                 switch (data_02733FC8.value) {
                 case 0:
-                    data_02733FC8.f18c = 0;
-                    data_02733FC8.f188 = 0;
-                    data_02733FC8.f180 = 0;
+                    data_02733FC8.outSharpness = 0;
+                    data_02733FC8.outExposure = 0;
+                    data_02733FC8.outWhiteBalance = 0;
                     break;
                 case 1:
-                    data_02733FC8.f18c = -2;
-                    data_02733FC8.f188 = 0;
-                    data_02733FC8.f180 = 0;
+                    data_02733FC8.outSharpness = -2;
+                    data_02733FC8.outExposure = 0;
+                    data_02733FC8.outWhiteBalance = 0;
                     break;
                 case 2:
-                    data_02733FC8.f18c = 1;
-                    data_02733FC8.f188 = 0;
-                    data_02733FC8.f180 = 3;
+                    data_02733FC8.outSharpness = 1;
+                    data_02733FC8.outExposure = 0;
+                    data_02733FC8.outWhiteBalance = 3;
                     break;
                 case 3:
-                    data_02733FC8.f18c = -1;
-                    data_02733FC8.f188 = 2;
-                    data_02733FC8.f180 = 0;
+                    data_02733FC8.outSharpness = -1;
+                    data_02733FC8.outExposure = 2;
+                    data_02733FC8.outWhiteBalance = 0;
                     break;
                 case 4:
-                    data_02733FC8.f18c = 2;
-                    data_02733FC8.f188 = 2;
-                    data_02733FC8.f180 = 0;
+                    data_02733FC8.outSharpness = 2;
+                    data_02733FC8.outExposure = 2;
+                    data_02733FC8.outWhiteBalance = 0;
                     break;
                 }
             }
             break;
         case 0x35:
             if (data_02733FC8.flagsA & 1) {
-                data_02733FC8.f144 = data_02733FC8.value;
-                data_02733FC8.f158 = 1;
+                data_02733FC8.inWhiteBalance = data_02733FC8.value;
+                data_02733FC8.inAutoWhiteBalance = 1;
             }
             if (data_02733FC8.flagsA & 2) {
-                data_02733FC8.f180 = data_02733FC8.value;
-                data_02733FC8.f194 = 1;
+                data_02733FC8.outWhiteBalance = data_02733FC8.value;
+                data_02733FC8.outAutoWhiteBalance = 1;
             }
             break;
         case 0x36:
-            if (data_02733FC8.flagsA & 1) data_02733FC8.f14c = data_02733FC8.value;
-            if (data_02733FC8.flagsA & 2) data_02733FC8.f188 = data_02733FC8.value;
+            if (data_02733FC8.flagsA & 1) data_02733FC8.inExposure = data_02733FC8.value;
+            if (data_02733FC8.flagsA & 2) data_02733FC8.outExposure = data_02733FC8.value;
             break;
         case 0x37:
-            if (data_02733FC8.flagsA & 1) data_02733FC8.f150 = data_02733FC8.value;
-            if (data_02733FC8.flagsA & 2) data_02733FC8.f18c = data_02733FC8.value;
+            if (data_02733FC8.flagsA & 1) data_02733FC8.inSharpness = data_02733FC8.value;
+            if (data_02733FC8.flagsA & 2) data_02733FC8.outSharpness = data_02733FC8.value;
             break;
         case 0x39:
-            if (data_02733FC8.flagsA & 1) data_02733FC8.f154 = data_02733FC8.value;
-            if (data_02733FC8.flagsA & 2) data_02733FC8.f190 = data_02733FC8.value;
+            if (data_02733FC8.flagsA & 1) data_02733FC8.inAutoExposure = data_02733FC8.value;
+            if (data_02733FC8.flagsA & 2) data_02733FC8.outAutoExposure = data_02733FC8.value;
             break;
         case 0x3a:
-            if (data_02733FC8.flagsA & 1) data_02733FC8.f158 = data_02733FC8.value;
-            if (data_02733FC8.flagsA & 2) data_02733FC8.f194 = data_02733FC8.value;
+            if (data_02733FC8.flagsA & 1) data_02733FC8.inAutoWhiteBalance = data_02733FC8.value;
+            if (data_02733FC8.flagsA & 2) data_02733FC8.outAutoWhiteBalance = data_02733FC8.value;
             break;
         case 0x40:
-            data_02733FC8.f19c = data_02733FC8.value;
+            data_02733FC8.ledEnabled = data_02733FC8.value;
             break;
         }
         break;
@@ -1505,8 +1505,8 @@ void CameraPxiCallback(int tag, u32 data, int err)
 }
 
 
-void CameraSyncCallback(u32 a0, u32 a1) {
-    data_02732FC8.f08 = a0;
+void CameraSyncCallback(u32 result, u32 arg) {
+    data_02732FC8.syncResult = result;
 }
 
 

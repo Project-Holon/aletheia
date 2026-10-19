@@ -198,7 +198,7 @@ typedef unsigned long long u64;
 
 struct Arc { int f0; int f4; int f8; u8 *fC; };
 
-extern struct WifiBsubwayCodeInParam *CODEIN_PARAM_Create(u32 heap, u32 a1, u32 a2, u32 a3, u32 *src);
+extern struct WifiBsubwayCodeInParam *CODEIN_PARAM_Create(u32 heap, u32 mode, u32 initialPage, u32 maxLength, u32 *src);
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 extern void CODEIN_PARAM_Delete(void *p);
 extern u16 STRBUF_GetEosChar(void);
@@ -227,7 +227,7 @@ extern int DWC_GetDateTime(void *date, void *time);
 extern int GDS_PROFILE_QuerySubwaySaveBit(struct BlkB90 *p, u8 a, u8 b, const struct Stamp *q);
 extern void WIFI_BSUBWAY_ClearTrainers(void *a);
 extern struct Sub020097BCObj *WIFILIST_GetWork(struct Sub020097BCObj *obj);
-extern int WIFILIST_GetGsProfileId(void *a0);
+extern int WIFILIST_GetGsProfileId(void *list);
 extern void MYSTATUS_SetProfileIdOnce(struct Sub0200852CObj *obj, u32 value);
 extern u32 MYSTATUS_GetProfileId(const struct Sub0200852CObj *obj);
 extern unsigned long long DWC_CreateFriendKey(struct DWCstAccUserData *userdata);
@@ -245,7 +245,7 @@ extern int WIFI_BSUBWAY_AsyncHasError(u8 *p);
 extern int WIFI_BSUBWAY_CheckFatalError(int *p);
 extern int WIFI_BSUBWAY_GetErrorState(int *p);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
@@ -253,7 +253,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BG_SYS_SetFlagField06(u32);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *TCBL_Create(u32, u32, u32, u32);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32);
@@ -274,7 +274,7 @@ extern void *ARC_TOOL_CreateHandle(unsigned int, unsigned int);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *, int, int, int, int, unsigned int);
 extern unsigned int ARC_UTIL_RegisterObjCharFromHandle(void *, int, int, int, int, unsigned int);
 extern void ARC_UTIL_UploadBgPaletteAddFromHandle(void *, int, int, int, u16, int, int, unsigned int);
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, unsigned int a1, unsigned int a2, unsigned int a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, unsigned int memberIdx, unsigned int unpackedOut, unsigned int flags);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern int ARC_UTIL_UploadPaletteFromArchiveWhole(int, int, int, int, int, unsigned int);
 extern void MI_CpuCopy8(const void *, void *, unsigned int);
@@ -283,7 +283,7 @@ extern void *GFL_USE_AddMainTask(void *, void *, int);
 extern void DC_FlushRange(void *, unsigned int);
 extern void G2x_SetBlendAlpha_(void *, int, int, int, int);
 extern unsigned int BG_SYS_CreateRun(unsigned int layer, unsigned int size, unsigned int top);
-extern void *BMP_MENUWORK_LoadFrameGfx(void *a0, unsigned int a1, unsigned int a2, unsigned int a3);
+extern void *BMP_MENUWORK_LoadFrameGfx(void *layer, unsigned int palSlot, unsigned int frameId, unsigned int heapId);
 extern void PALANM_BlendColors(void *, void *, u16, u8, u16);
 extern void GX_LoadBGPltt(void *,int,int);
 extern void GXS_LoadBGPltt(void *,int,int);
@@ -303,7 +303,7 @@ extern void WORDSET_SetSlotNumber(struct WordSet *p, unsigned int i, unsigned in
 extern struct BmpMenu *BMP_MENU_CreateYesNo(const struct WinDat *,u16,u8,u8,u16);
 extern unsigned int BMP_MENU_ProcessYesNo(u8 *);
 extern unsigned int GFL_USE_GetMainTaskList(void);
-extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
+extern u8 *TIME_ICON_Create(void *owner, void *refWin, u8 fillColor, u8 waitInterval, volatile u16 heap);
 extern void TIME_ICON_Delete(u8 *);
 extern int GAME_DATA_SaveStart(int);
 extern int GAME_DATA_SaveMain(u8 *);
@@ -329,10 +329,10 @@ void WIFI_BSUBWAY_GRAPHIC_SetupTextParam(struct WifiBsubwayWork *p, u32 heap);
 void WIFI_BSUBWAY_GRAPHIC_DeleteTextParam(struct WifiBsubwayWork *p);
 u32 WIFI_BSUBWAY_GRAPHIC_ParseCodeIn(struct WifiBsubwayWork *p);
 void WIFI_BSUBWAY_GRAPHIC_StartSaveProc(struct WifiBsubwayWork *p);
-void WIFI_BSUBWAY_GRAPHIC_Noop(void *a0);
+void WIFI_BSUBWAY_GRAPHIC_Noop(void *work);
 int WIFI_BSUBWAY_GRAPHIC_GetSaveState(struct WifiBsubwayWork *p);
 void WIFI_BSUBWAY_GRAPHIC_StartRetryProc(struct WifiBsubwayWork *p);
-void WIFI_BSUBWAY_GRAPHIC_NoopRetry(void *a0);
+void WIFI_BSUBWAY_GRAPHIC_NoopRetry(void *work);
 void WIFI_BSUBWAY_GRAPHIC_DispatchTable(int **p, int x);
 int WIFI_BSUBWAY_GRAPHIC_Step(struct WifiBsubwayWork *p,int b);
 int WIFI_BSUBWAY_GRAPHIC_StepWithInput(struct WifiBsubwayWork *p,short heap);
@@ -362,7 +362,7 @@ void *WIFI_BSUBWAY_GRAPHIC_Create(int a,unsigned heap);
 void WIFI_BSUBWAY_GRAPHIC_Delete(struct WifiBsubwayBg *p);
 void WIFI_BSUBWAY_GRAPHIC_OnRedraw(void *a,void *b);
 void WIFI_BSUBWAY_GRAPHIC_SetupBg(struct WifiBsubwayBg *p,unsigned heap);
-void WIFI_BSUBWAY_GRAPHIC_TeardownBg(void *a0);
+void WIFI_BSUBWAY_GRAPHIC_TeardownBg(void *work);
 extern u32 d_021D8574[];
 extern u32 d_021DA62C[];
 extern u8 ov129_id[];
@@ -427,7 +427,7 @@ void WIFI_BSUBWAY_GRAPHIC_StartSaveProc(struct WifiBsubwayWork *p) {
 /*
  * extent: two-byte zero alignment padding, then already matched getter WIFI_BSUBWAY_GRAPHIC_GetSaveState.c.
  */
-void WIFI_BSUBWAY_GRAPHIC_Noop(void *a0) { }
+void WIFI_BSUBWAY_GRAPHIC_Noop(void *work) { }
 
 
 int WIFI_BSUBWAY_GRAPHIC_GetSaveState(struct WifiBsubwayWork *p) { return p->saveState; }
@@ -443,7 +443,7 @@ void WIFI_BSUBWAY_GRAPHIC_StartRetryProc(struct WifiBsubwayWork *p) {
 
 
 
-void WIFI_BSUBWAY_GRAPHIC_NoopRetry(void *a0) { }
+void WIFI_BSUBWAY_GRAPHIC_NoopRetry(void *work) { }
 
 
 void WIFI_BSUBWAY_GRAPHIC_DispatchTable(int **p, int x)
@@ -580,11 +580,11 @@ int WIFI_BSUBWAY_GRAPHIC_StepRetry(struct WifiBsubwayWork *p,short heap)
 
 
 void WIFI_BSUBWAY_GRAPHIC_InitBt(struct WifiBsubwayWork *p) {
-    void *a=WIFILIST_GetWork(p->field184C);
+    void *a=WIFILIST_GetWork(p->wifiList);
     void *b;
     u64 value;
-    MYSTATUS_SetProfileIdOnce(p->field1850,(u32)WIFILIST_GetGsProfileId(p->field184C));
-    b=(void *)MYSTATUS_GetProfileId(p->field1850);
+    MYSTATUS_SetProfileIdOnce(p->myStatus,(u32)WIFILIST_GetGsProfileId(p->wifiList));
+    b=(void *)MYSTATUS_GetProfileId(p->myStatus);
     value=DWC_CreateFriendKey(a);
     DPW_BT_Init((unsigned int)b,(u32)value,(u32)(value>>32),0);
     DPW_BT_GetServerStateAsync();
@@ -903,7 +903,7 @@ void WIFI_BSUBWAY_GRAPHIC_SetupBg(struct WifiBsubwayBg *p,unsigned heap) {
 
 
 
-void WIFI_BSUBWAY_GRAPHIC_TeardownBg(void *a0)
+void WIFI_BSUBWAY_GRAPHIC_TeardownBg(void *work)
 {
     unsigned int i;
 
@@ -912,7 +912,7 @@ void WIFI_BSUBWAY_GRAPHIC_TeardownBg(void *a0)
     }
     BMP_WIN_Exit();
     BG_SYS_Delete();
-    MI_CpuFill8(a0, 0, 4);
+    MI_CpuFill8(work, 0, 4);
 }
 
 

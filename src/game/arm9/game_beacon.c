@@ -45,11 +45,11 @@
  *   BEACON_AddRecentValue  0x0200C364  thumb
  *   SAVEDATA_GetExtraBlockThunk    0x0200E6E8  thumb
  *   OS_GetOwnerInfo  0x02087C88  arm
- *   GAME_DATA_GetField114    0x020127A4  thumb
+ *   GAME_DATA_GetMyPlayerWork    0x020127A4  thumb
  *   GAME_DATA_GetPlayerZoneId    0x02012AC8  thumb
  *   ZONEDATA_IsZone1A6    0x02013CC8  thumb
  *   ZONEDATA_IsZone96Pair    0x02013CE0  thumb
- *   GAME_DATA_GetField168    0x02012894  thumb
+ *   GAME_DATA_GetSpecialLocation    0x02012894  thumb
  *   SYMBOL_MAP_ResolveZoneId    0x02166C7C  thumb
  *   MYSTATUS_GetIdLow16    0x02008534  thumb
  *   MYSTATUS_GetOutfit    0x02008554  thumb
@@ -195,7 +195,7 @@ typedef struct GameBeaconActionInfo {
     u32 frames : 24;
 } GameBeaconActionInfo;
 
-/* Only the zone id of the location GAME_DATA_GetField168 answers is read here. */
+/* Only the zone id of the location GAME_DATA_GetSpecialLocation answers is read here. */
 struct WarpLocation {
     u32 locationType;
     s16 zoneId;
@@ -246,11 +246,11 @@ extern u32 BEACON_GetThanksCount(struct MiscSave *misc);
 extern u16 *BEACON_GetGreetMessage(struct MiscSave *misc);
 extern struct PmsSave *SAVEDATA_GetExtraBlockThunk(struct SaveControl *save);
 extern void MISC_SAVEDATA_CopyQuadRecord(struct PmsSave *pmsSave, int index, GameBeaconPms *dst);
-extern struct PlayerWork *GAME_DATA_GetField114(struct GameData *gameData);
+extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *player);
 extern u32 ZONEDATA_IsZone1A6(u16 zoneId);
 extern u32 ZONEDATA_IsZone96Pair(u16 zoneId);
-extern struct WarpLocation *GAME_DATA_GetField168(const struct GameData *gameData);
+extern struct WarpLocation *GAME_DATA_GetSpecialLocation(const struct GameData *gameData);
 extern u32 SYMBOL_MAP_ResolveZoneId();
 extern u16 MYSTATUS_GetIdLow16(const struct MyStatus *status);
 extern u8 MYSTATUS_GetOutfit(const struct MyStatus *status);
@@ -1695,9 +1695,9 @@ void GAME_BEACON_BuildMyInfo(GameBeaconInfo *info, struct GameData *gameData)
     pmsSave = SAVEDATA_GetExtraBlockThunk(save);
     OS_GetOwnerInfo(&ownerInfo);
     info->versionBit = 0xff;
-    info->zoneId = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetField114(gameData));
+    info->zoneId = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameData));
     if (ZONEDATA_IsZone1A6(info->zoneId) == 1 || ZONEDATA_IsZone96Pair(info->zoneId) == 1) {
-        info->zoneId = GAME_DATA_GetField168(gameData)->zoneId;
+        info->zoneId = GAME_DATA_GetSpecialLocation(gameData)->zoneId;
     }
     info->townmapRootZoneId = SYMBOL_MAP_ResolveZoneId(gameData, (u16)info->zoneId);
     info->infoVersion = 0x30;

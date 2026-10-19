@@ -44,9 +44,9 @@ struct tagCOORD;
 struct tagRECT;
 struct MEMBTN {
     char pad[0xc];
-    int f0C;
+    int task;
     char pad2[9];
-    unsigned char f19;
+    unsigned char ended;
 };
 
 typedef _Bool bool;
@@ -129,8 +129,8 @@ void DWCi_BTNlInit(int kind)
 
 void DWCi_BTNlEnd(void)
 {
-    MemBtn->f19 = 1;
-    DWCi_TSKlChangeFunc(MemBtn->f0C, DWCi_ButtonTaskEnd);
+    MemBtn->ended = 1;
+    DWCi_TSKlChangeFunc(MemBtn->task, DWCi_ButtonTaskEnd);
 }
 
 signed char DWCi_BTNlGet(void)

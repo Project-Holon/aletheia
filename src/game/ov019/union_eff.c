@@ -113,7 +113,7 @@ extern void ARC_TOOL_DeleteHandle(void *h);
 extern int G3D_SYSTEM_FreeVramTexture(void *p);
 extern void G3D_SYSTEM_DeleteResource(void *p);
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
-extern void *G3D_SYSTEM_CreateRender(void *a0, u32 n, void *a2);
+extern void *G3D_SYSTEM_CreateRender(void *mdlRes, u32 n, void *texRes);
 extern void *G3D_SYSTEM_CreateAnime(void *render, const void *resAnime, int index);
 extern void *G3D_SYSTEM_CreateObject(void *render, void **anime, int animeCount);
 extern u32 G3D_SYSTEM_EnableObjectAnime(void *sys, u32 idx);

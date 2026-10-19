@@ -41,10 +41,10 @@ typedef struct OekakiParam {
 
 /* One stroke segment as it travels over the net (6 bytes). */
 typedef struct StrokeRec {
-    u8 x0;               /* 0x00 first point x (canvas x + 9) */
-    u8 x1;               /* 0x01 last point x */
-    u8 y0;               /* 0x02 first point y (canvas y + 0x11) */
-    u8 y1;               /* 0x03 last point y */
+    u8 startX;               /* 0x00 first point x (canvas x + 9) */
+    u8 endX;               /* 0x01 last point x */
+    u8 startY;               /* 0x02 first point y (canvas y + 0x11) */
+    u8 endY;               /* 0x03 last point y */
     u8 color : 3;        /* 0x04 pen colour 0..7 */
     u8 count : 3;        /* 0x04 points in the record: 0 none, 1 dot, 2 line */
     u8 size : 2;         /* 0x04 pen size 0..2 */

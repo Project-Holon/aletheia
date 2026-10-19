@@ -16,11 +16,11 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   ICA_ANIME_GetField24 0x02012138 thumb
+ *   GAMESYSTEM_GetGameComm 0x02012138 thumb
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BG_SYS_SetScrollY 0x02041F6C arm
  *   BG_SYS_SetAffine 0x02041FB0 arm
- *   ICA_ANIME_GetField1C 0x020120F4 thumb
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   SAVE_CONTROL_Get 0x020070A4 thumb
  *   IRC_RANKING_GetFromSave 0x0200A8A0 thumb
@@ -290,11 +290,11 @@ typedef struct IrcMenuWork {
 extern void GFL_HEAP_CreateChildHeap(u32 parentId, u32 heapId, u32 size);
 extern void *PROCSYS_AllocProcWork(void *proc, u32 size, u32 heapId);
 extern void MI_CpuFill8(void *dest, int value, u32 size);
-extern u32 ICA_ANIME_GetField24(void *gameSystem);
-extern void BMP_MENUWORK_DrawWindow(void *bmpWin, int a1, int a2, int a3);
+extern u32 GAMESYSTEM_GetGameComm(void *gameSystem);
+extern void BMP_MENUWORK_DrawWindow(void *bmpWin, int commitMode, int tileBase, int palette);
 extern void BG_SYS_SetScrollY(u32 which, u32 op, u32 value);
 extern void BG_SYS_SetAffine(u32 which, u32 op, u16 value);
-extern void *ICA_ANIME_GetField1C(void *gameSystem);
+extern void *GAMESYSTEM_GetGameData(void *gameSystem);
 extern void *GAME_DATA_GetSaveControl(void *gameData);
 extern void *SAVE_CONTROL_Get(void);
 extern void *IRC_RANKING_GetFromSave(void *saveControl);
@@ -351,7 +351,7 @@ extern void CLACT_ExitSystem(void);
 extern void CLACT_DrawSystem(void);
 extern void CLACT_VBlankSystem(void);
 extern void GF_FONT_InitTextColor(void);
-extern void *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern void *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern void *PRINTSYS_QUE_Create(u32 heapId);
 extern void *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *WORDSET_CreateDefault(u32 heap);
@@ -499,7 +499,7 @@ int IRC_COMPATIBLE_MENU_ProcInit(void *proc, int unused, IrcMenuArgs *args)
     IRC_COMPATIBLE_MENU_InitText(&work->text, 59);
     IRC_COMPATIBLE_MENU_InitDisplay(work, 59);
     IRC_COMPATIBLE_MENU_InitBackgrounds(&work->bg, 59);
-    if (work->args->gameSystem) ICA_ANIME_GetField24(work->args->gameSystem);
+    if (work->args->gameSystem) GAMESYSTEM_GetGameComm(work->args->gameSystem);
     IRC_COMPATIBLE_MENU_InitButtons(&work->buttons, 2, (const IrcButtonRow *)IRC_COMPATIBLE_MENU_ButtonRows, 2, &work->text, 59);
     IRC_COMPATIBLE_MENU_InitTitleWindow(&work->title, 5, 1, 18, 30, 5, 8, 59);
     BMP_MENUWORK_DrawWindow(work->title.bmpWin, 0, (u16)work->bg.charRange, 6);
@@ -512,7 +512,7 @@ int IRC_COMPATIBLE_MENU_ProcInit(void *proc, int unused, IrcMenuArgs *args)
     BG_SYS_SetAffine(7, 12, 40);
     IRC_COMPATIBLE_MENU_InitScrollEffect(&work->scroll, 59);
     saveData = work->args->gameSystem;
-    if (saveData) saveData = GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(saveData));
+    if (saveData) saveData = GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(saveData));
     else saveData = SAVE_CONTROL_Get();
     IRC_COMPATIBLE_MENU_InitFloaters(&work->floaters, work, IRC_RANKING_GetFromSave(saveData), 59);
     unit = IRC_COMPATIBLE_MENU_GetSpriteUnit(work);
@@ -891,7 +891,7 @@ void IRC_COMPATIBLE_MENU_HandleStartTests(IrcMenuWork *work, u16 *state)
         if (COMPATIBLE_IRC_SYS_StepSendProfile(work->args->view, work->args->gameSystem)) {
             COMPATIBLE_IRC_SYS_GetPartnerProfile(work->args->view, work->args->profile);
             if (work->args->gameSystem) {
-                saveData = MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(work->args->gameSystem)));
+                saveData = MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(work->args->gameSystem)));
                 MISC_SAVEDATA_InsertRecentValue(saveData, MYSTATUS_GetId(work->args->profile->myStatus));
             }
             *state = 6;

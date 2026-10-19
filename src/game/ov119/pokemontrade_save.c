@@ -487,7 +487,7 @@ typedef struct {
     char pad0[0xc];
     AnimSlot *sub;
     char pad10[0x83c - 0x10];
-    void *x83c;
+    void *camera;
 } DrawState3D;
 
 typedef enum { SHADING_TOON, SHADING_HIGHLIGHT } Shading;
@@ -500,7 +500,7 @@ extern void G2x_SetBlendBrightness_(u32,int,int);
 
 extern u32 WIPE_SYS_EndCheck(void);
 
-extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
 
 extern int POKETRADE_PROC_IsNetSession(void *);
 
@@ -546,7 +546,7 @@ extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
 extern void GFL_USE_FadeOutBgm(u32 a);
 
-extern void *BMP_MENUWORK_LoadFrameGfx(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *BMP_MENUWORK_LoadFrameGfx(void *layer, u32 palSlot, u32 frameId, u32 heapId);
 
 extern void *POKETRADE_PROC_GetSideMon(void *,int);
 
@@ -578,7 +578,7 @@ extern unsigned TRADE_HISTORY_GetSize(void);
 
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 
-extern int GAME_DATA_GetPlayTime(int p0);
+extern int GAME_DATA_GetPlayTime(int gd);
 
 
 extern struct Sub02007AC8Entry *GAME_DATA_GetBoxSave(void *p);
@@ -635,7 +635,7 @@ extern void WIFI_HISTORY_SetCountryRegionState(struct Sub02009470Obj *obj, int r
 
 extern void POKE_TOOL_HealFull(void *mon);
 
-extern void SAVE_EVENT_Write(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void SAVE_EVENT_Write(void *gameData, u32 mode, u32 record, u32 eventId, u16 index);
 
 extern u32 RECORD_AddOne(struct Sub02008C20Obj *obj, int i);
 
@@ -670,7 +670,7 @@ extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
 extern void FADE_Start(u32 a, int b, int c, int d);
 
-extern void *GFL_NET_SAVE_CreateWithCallback(u32 heap, u32 a1, u32 a2, u32 a3);
+extern void *GFL_NET_SAVE_CreateWithCallback(u32 heap, u32 gameData, u32 a2, u32 callbackArg);
 
 extern u32 GFL_NET_SAVE_CheckFinished(struct Sub0201088CObj *p);
 
@@ -730,7 +730,7 @@ extern void PRINTSYS_CTRL_Init(u8 *,u32);
 
 extern void PRINTSYS_Print(void *,short,short,void *,void *);
 
-extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
 
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 
@@ -744,7 +744,7 @@ extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
@@ -754,11 +754,11 @@ extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 
 extern void *APP_KEYCURSOR_CreateDefault(u32,u32,u32,u32);
 
-extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
+extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, u32 font, u32 printQue, u16 heap);
 
 extern void GFL_USE_ClearVBlankHook(void);
 
-extern int APP_KEYCURSOR_Delete(int a0);
+extern int APP_KEYCURSOR_Delete(int cursor);
 
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 
@@ -780,7 +780,7 @@ extern void APP_KEYCURSOR_Update(struct Ctx *ctx, void *p, void *cell);
 
 extern int PRINTSYS_CTRL_Update(struct Blk *blk, void *h);
 
-extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
+extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *res);
 
 extern void WORDSET_SetSlotMonName(struct WordSet *p, u32 i, void *mon);
 
@@ -834,7 +834,7 @@ extern void POKETRADE_2D_UpdateOfferWindowActors(int p);
 
 extern void POKETRADE_2D_DeleteOfferWindowActors(int p);
 
-extern u32 *APP_TASKMENU_WIN_CreateEx(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5, u32 a6, u32 a7, u16 a8);
+extern u32 *APP_TASKMENU_WIN_CreateEx(u32 res, u32 item, u32 charPosX, u32 charPosY, u8 width, u8 height, u32 anmSpeed, u32 isCenter, u16 heapId);
 
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 
@@ -860,9 +860,9 @@ extern void G3D_CAMERA_SetNear(struct Light *l, const u32 *in);
 
 extern void MTX_Identity33_(MtxFx33 *m);
 
-extern void ICA_ANIME_SetCameraPos(void *a0, void *a1);
+extern void ICA_ANIME_SetCameraPos(void *camera, void *anime);
 
-extern void ICA_ANIME_SetCameraTarget(void *a0, void *a1);
+extern void ICA_ANIME_SetCameraTarget(void *camera, void *anime);
 
 extern void G3X_SetFog(int, int, int, int);
 
@@ -1004,13 +1004,13 @@ void POKETRADE_SAVE_DeleteOfferStatusIcons(char *p);
 
 void POKETRADE_SAVE_DeleteTypeIcons(char *p);
 
-void POKETRADE_SAVE_CloseSummaryPage(void *p, int a1);
+void POKETRADE_SAVE_CloseSummaryPage(void *p, int disableSubWindows);
 
 void POKETRADE_SAVE_OpenSummaryScreen(char *p,void *a);
 
 void POKETRADE_SAVE_DrawSummaryPage(char *p,int mode,void *mon);
 
-void POKETRADE_SAVE_PrepareSummaryWindow(char *p, void *a, int b, int a3);
+void POKETRADE_SAVE_PrepareSummaryWindow(char *p, void *a, int b, int unusedFlag);
 
 void POKETRADE_SAVE_CreateTypeIcons(char *p,void *mon,IntQuad *t);
 
@@ -1022,11 +1022,11 @@ void POKETRADE_SAVE_DeleteOfferCardWindow(char *p,int i);
 
 void POKETRADE_SAVE_CloseSummaryWindow(char *p,int a);
 
-void POKETRADE_SAVE_DrawOfferListWindows(char *p, int a1);
+void POKETRADE_SAVE_DrawOfferListWindows(char *p, int unused);
 
 void POKETRADE_SAVE_DeleteOfferListWindows(char *p);
 
-void POKETRADE_SAVE_SetupWindowRegsSummary(void *a0);
+void POKETRADE_SAVE_SetupWindowRegsSummary(void *unused);
 
 void POKETRADE_SAVE_DrawPartnerOfferCard(char *p,int i,void *mon);
 
@@ -1036,7 +1036,7 @@ void *POKETRADE_SAVE_OpenTaskMenuWindow(char *p,int a);
 
 void POKETRADE_SAVE_CloseTaskMenuWindow(char *p,int a,int b);
 
-int POKETRADE_SAVE_IsTouchOutsideArea(void *a0);
+int POKETRADE_SAVE_IsTouchOutsideArea(void *unused);
 
 void POKETRADE_SAVE_VBlankSetupWindowRegs(void *a,char *p);
 
@@ -1076,7 +1076,7 @@ void POKETRADE_2D_LoadMainGfxAndMessageWindow(char *p);
 
 void POKETRADE_2D_CreateFontResource(char *p);
 
-void POKETRADE_2D_LoadSummaryBackground(char *p, int a1, int a2);
+void POKETRADE_2D_LoadSummaryBackground(char *p, int shiftScroll, int bgIndex);
 
 void POKETRADE_2D_CreateBoxWindows(char *p);
 
@@ -2051,14 +2051,14 @@ void POKETRADE_SAVE_DeleteTypeIcons(char *p)
     }
 }
 
-void POKETRADE_SAVE_CloseSummaryPage(void *p, int a1)
+void POKETRADE_SAVE_CloseSummaryPage(void *p, int disableSubWindows)
 {
     unsigned int v;
 
     POKETRADE_2D_DeleteMarkingIcon((char *)p + 0x964);
     POKETRADE_2D_DeleteMarkingIcon((char *)p + 0x978);
     POKETRADE_2D_DeleteSummaryIcons(p);
-    if (a1 != 0) {
+    if (disableSubWindows != 0) {
         v = *(volatile unsigned int *)0x04001000;
         v &= 0xFFFF1FFF;
         *(volatile unsigned int *)0x04001000 = v;
@@ -2170,7 +2170,7 @@ void POKETRADE_SAVE_DrawSummaryPage(char *p,int mode,void *mon)
     BG_SYS_SetFlagField06(6);
 }
 
-void POKETRADE_SAVE_PrepareSummaryWindow(char *p, void *a, int b, int a3)
+void POKETRADE_SAVE_PrepareSummaryWindow(char *p, void *unusedData, int b, int unusedFlag)
 {
     POKETRADE_3D_DeleteMcssSlot(p, b);
     if ((*(void * *)&((TradeWork *)p)->subWin)) {
@@ -2313,7 +2313,7 @@ void POKETRADE_SAVE_CloseSummaryWindow(char *p,int a)
 /*
  * zero: the literal 0 arguments of the first loop are hoisted and spilled to the slot k then reuses; k=0 is written just before the second GF_FONT_SetTextColor call, not before the loop.
  */
-void POKETRADE_SAVE_DrawOfferListWindows(char *p, int a1)
+void POKETRADE_SAVE_DrawOfferListWindows(char *p, int unused)
 {
     void *arr[2];
     void *mon;
@@ -2366,7 +2366,7 @@ void POKETRADE_SAVE_DeleteOfferListWindows(char *p)
     POKETRADE_2D_DeleteOfferWindowActors((int)p);
 }
 
-void POKETRADE_SAVE_SetupWindowRegsSummary(void *a0)
+void POKETRADE_SAVE_SetupWindowRegsSummary(void *unused)
 {
     u32 v;
 
@@ -2480,7 +2480,7 @@ void POKETRADE_SAVE_CloseTaskMenuWindow(char *p,int a,int b) {
     }
 }
 
-int POKETRADE_SAVE_IsTouchOutsideArea(void *a0)
+int POKETRADE_SAVE_IsTouchOutsideArea(void *unused)
 {
     if (TOUCHPANEL_HitTrg(gOutsideAreaHitRect) == 0) return 1;
     return 0;
@@ -2590,8 +2590,8 @@ static inline void edge(int b) { if(b) *(volatile u16 *)0x04000060 = (u16)((*(vo
 void POKETRADE_SAVE_Setup3DDrawState(DrawState3D *w, Transform *t)
 {
     unsigned i;
-    VecFx32 v1;
-    VecFx32 v2;
+    VecFx32 emitterPosA;
+    VecFx32 emitterPosB;
     t->trans.x = 0;
     t->trans.y = 0;
     t->trans.z = 0;
@@ -2600,10 +2600,10 @@ void POKETRADE_SAVE_Setup3DDrawState(DrawState3D *w, Transform *t)
     t->scale.z = 0x1000;
     MTX_Identity33_(&t->rot);
     if (w->sub != 0) {
-        if (w->sub->objA8 == 0) ICA_ANIME_SetCameraPos(w->x83c, (void *)w->sub->anim90);
-        if (w->sub->objAC == 0) ICA_ANIME_SetCameraTarget(w->x83c, (void *)w->sub->anim94);
+        if (w->sub->objA8 == 0) ICA_ANIME_SetCameraPos(w->camera, (void *)w->sub->anim90);
+        if (w->sub->objAC == 0) ICA_ANIME_SetCameraTarget(w->camera, (void *)w->sub->anim94);
     }
-    G3D_CAMERA_Reset(w->x83c);
+    G3D_CAMERA_Reset(w->camera);
     shading(SHADING_HIGHLIGHT); antialias(1); alphatest(0); blend(0); edge(0);
     G3X_SetFog(1, 0, 0, 0);
     G3X_SetClearColor(0, 0, 0x7fff, 0x3f, 0);
@@ -2611,12 +2611,12 @@ void POKETRADE_SAVE_Setup3DDrawState(DrawState3D *w, Transform *t)
     for (i = 0; i < 4; i++) G3D_SYSTEM_SetLight((u8)i, (const u16 *)(gDrawLightTable + i * 8));
     if (w->sub != 0) {
         if (w->sub->objA0 != 0) {
-            ICA_ANIME_Get((struct IcaAnime *)w->sub->anim98, (struct Rec12 *)&v1);
-            BUTTON_MAN_SetEmitterPos(w->sub->objA0, &v1);
+            ICA_ANIME_Get((struct IcaAnime *)w->sub->anim98, (struct Rec12 *)&emitterPosA);
+            BUTTON_MAN_SetEmitterPos(w->sub->objA0, &emitterPosA);
         }
         if (w->sub->objA4 != 0) {
-            ICA_ANIME_Get((struct IcaAnime *)w->sub->anim9c, (struct Rec12 *)&v2);
-            BUTTON_MAN_SetEmitterPos(w->sub->objA4, &v2);
+            ICA_ANIME_Get((struct IcaAnime *)w->sub->anim9c, (struct Rec12 *)&emitterPosB);
+            BUTTON_MAN_SetEmitterPos(w->sub->objA4, &emitterPosB);
         }
     }
 }

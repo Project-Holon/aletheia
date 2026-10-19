@@ -139,7 +139,7 @@ extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size,
 
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 
-extern u32 PALANM_Delete(void *a0);
+extern u32 PALANM_Delete(void *ctx);
 
 extern void TCB_Noop(void *);
 
@@ -157,11 +157,11 @@ extern int PALANM_RequestFade(void *,unsigned short,unsigned short,short,unsigne
 
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
-extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
+extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
 
-extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
+extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
 
-extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
 
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
@@ -175,11 +175,11 @@ extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 
 void *ZUKAN_DETAIL_COMMON_CreateContext(u32 a, void *b, void *c, void *d, void *e, void *f, void *g, int h, unsigned short i, void *j);
 
-void ZUKAN_DETAIL_COMMON_DeleteContext(void *a0);
+void ZUKAN_DETAIL_COMMON_DeleteContext(void *ctx);
 
 void *ZUKAN_DETAIL_COMMON_AllocBlendWork(u32 heap);
 
-void ZUKAN_DETAIL_COMMON_FreeBlendWork(void *a0);
+void ZUKAN_DETAIL_COMMON_FreeBlendWork(void *blend);
 
 void ZUKAN_DETAIL_COMMON_UpdateBlendFades(struct Ov208Blend *main, struct Ov208Blend *sub);
 
@@ -239,29 +239,29 @@ extern const u8 data_021C80E8[2][4];
 
 extern const struct Ov208BgArc data_021C80F0[2];
 
-void *ZUKAN_DETAIL_COMMON_CreateContext(u32 a, void *b, void *c, void *d, void *e, void *f, void *g, int h,
-                    unsigned short i, void *j)
+void *ZUKAN_DETAIL_COMMON_CreateContext(u32 heapId, void *blk, void *display, void *font, void *graphics, void *work, void *headbar, int speciesTable,
+                    unsigned short entryCount, void *cursorPtr)
 {
-    struct Ov208Ctx *p = (struct Ov208Ctx *)GFL_HEAP_Alloc(a, 0x24, 1, d_021C8D98, 0x60);
+    struct Ov208Ctx *p = (struct Ov208Ctx *)GFL_HEAP_Alloc(heapId, 0x24, 1, d_021C8D98, 0x60);
 
-    p->blk = b;
-    p->display = c;
-    p->font = d;
-    p->graphics = e;
-    p->work = f;
-    p->headbar = g;
-    p->speciesTable = (unsigned short *)h;
-    p->entryCount = i;
-    p->cursorPtr = (unsigned short *)j;
+    p->blk = blk;
+    p->display = display;
+    p->font = font;
+    p->graphics = graphics;
+    p->work = work;
+    p->headbar = headbar;
+    p->speciesTable = (unsigned short *)speciesTable;
+    p->entryCount = entryCount;
+    p->cursorPtr = (unsigned short *)cursorPtr;
     return p;
 }
 
 /*
  * Tail call to the ARM9 function at 0x020307B0: loads the pointer from the pool and branches through it.
  */
-void ZUKAN_DETAIL_COMMON_DeleteContext(void *a0)
+void ZUKAN_DETAIL_COMMON_DeleteContext(void *ctx)
 {
-    GFL_HEAP_Free(a0);
+    GFL_HEAP_Free(ctx);
 }
 
 /*
@@ -347,9 +347,9 @@ void *ZUKAN_DETAIL_COMMON_AllocBlendWork(u32 heap)
     return GFL_HEAP_Alloc(heap, 20, 1, d_021C8D98, 0x113);
 }
 
-void ZUKAN_DETAIL_COMMON_FreeBlendWork(void *a0)
+void ZUKAN_DETAIL_COMMON_FreeBlendWork(void *blend)
 {
-    GFL_HEAP_Free(a0);
+    GFL_HEAP_Free(blend);
 }
 
 void ZUKAN_DETAIL_COMMON_UpdateBlendFades(struct Ov208Blend *main, struct Ov208Blend *sub)
@@ -539,9 +539,9 @@ void ZUKAN_DETAIL_COMMON_StartFadeIn(struct Ov208PalFade *p)
     p->fadeState = 1;
 }
 
-void ZUKAN_DETAIL_COMMON_LoadPaletteToSlot(struct Ov208PalFade *p, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f, u16 g)
+void ZUKAN_DETAIL_COMMON_LoadPaletteToSlot(struct Ov208PalFade *p, u32 arcHandle, u32 fileId, u32 heapId, u32 slotIdx, u32 byteSize, u16 dstOffset, u16 srcOffset)
 {
-    PALANM_LoadHandlePaletteToSlotAt(p->slots, (void *)a, b, c, d, e, f, g);
+    PALANM_LoadHandlePaletteToSlotAt(p->slots, (void *)arcHandle, fileId, heapId, slotIdx, byteSize, dstOffset, srcOffset);
 }
 
 void ZUKAN_DETAIL_COMMON_CopyHwPalettesToSlots(struct Ov208PalFade *p)
@@ -556,12 +556,12 @@ void ZUKAN_DETAIL_COMMON_CopyHwPalettesToSlots(struct Ov208PalFade *p)
         PALANM_CopyHwPaletteToSlot(p->slots, 3, 0, 0x1c0);
 }
 
-void ZUKAN_DETAIL_COMMON_RequestFade(struct Ov208PalFade *p, short b, unsigned char c, unsigned char d)
+void ZUKAN_DETAIL_COMMON_RequestFade(struct Ov208PalFade *p, short step, unsigned char startLevel, unsigned char endLevel)
 {
-    if(p->slotMask&1)PALANM_RequestFade(p->slots,1,0x1fff,b,c,d,0,p->tcb);
-    if(p->slotMask&4)PALANM_RequestFade(p->slots,4,0xff,b,c,d,0,p->tcb);
-    if(p->slotMask&2)PALANM_RequestFade(p->slots,2,0x1fff,b,c,d,0,p->tcb);
-    if(p->slotMask&8)PALANM_RequestFade(p->slots,8,0x3fff,b,c,d,0,p->tcb);
+    if(p->slotMask&1)PALANM_RequestFade(p->slots,1,0x1fff,step,startLevel,endLevel,0,p->tcb);
+    if(p->slotMask&4)PALANM_RequestFade(p->slots,4,0xff,step,startLevel,endLevel,0,p->tcb);
+    if(p->slotMask&2)PALANM_RequestFade(p->slots,2,0x1fff,step,startLevel,endLevel,0,p->tcb);
+    if(p->slotMask&8)PALANM_RequestFade(p->slots,8,0x3fff,step,startLevel,endLevel,0,p->tcb);
 }
 
 struct Ov208Win *ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc(u16 heap, u32 kind, u8 layer, u8 pal, u8 objPal)
@@ -646,7 +646,7 @@ u32 ZUKAN_DETAIL_COMMON_LoadBgPaletteRange(int skip, u16 heap, u8 layer, u8 coun
     return chrOfs;
 }
 
-void ZUKAN_DETAIL_COMMON_SetBgScrollPacked(u32 a, u32 packed)
+void ZUKAN_DETAIL_COMMON_SetBgScrollPacked(u32 layer, u32 packed)
 {
-    BG_SYS_DeleteHalf(a, (u16)packed, (u16)(packed >> 16));
+    BG_SYS_DeleteHalf(layer, (u16)packed, (u16)(packed >> 16));
 }

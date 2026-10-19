@@ -88,7 +88,7 @@ extern void CDEMO_MAIN_Noop(char *);
 extern void CDEMO_MAIN_HidePlane(void);
 extern u64 OS_GetTick(void);
 extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
-extern void *ARC_UTIL_LoadHandleMember(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadHandleMember(void *narc, u32 fileID, u32 decompress, u32 heapID);
 extern void DC_FlushRange(int, int);
 extern void GX_LoadBG2Scr(int, int, int);
 extern void GX_LoadBG3Scr(int, int, int);

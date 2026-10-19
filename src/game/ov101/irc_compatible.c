@@ -17,7 +17,7 @@
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   GFL_NET_IsParentAid 0x0203D378 arm
- *   ICA_ANIME_GetField1C 0x020120F4 thumb
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GFL_HEAP_Free 0x020307B0 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
@@ -110,7 +110,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int align, const char *file, u
 extern void MI_CpuFill8(void *dst, int value, u32 size);
 extern u32 GFL_HEAP_Free(void *mem);
 extern u32 GFL_NET_IsParentAid(void);
-extern void *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 extern void GFL_USE_SetBgmPlayerParam(void *p);
@@ -184,7 +184,7 @@ int IRC_COMPATIBLE_ProcInit(struct Proc *proc, int seq, IrcCompatibleParam *para
     work->partnerProfile = GFL_HEAP_Alloc(IRC_COMPATIBLE_HEAP_ID, 44, 0, IRC_COMPATIBLE_SourceFileName, 0x119);
     MI_CpuFill8(work->partnerProfile, 0, 44);
     IRC_COMPATIBLE_StepRunnerInit(&work->runner, IRC_COMPATIBLE_HEAP_ID);
-    if (work->param->gameSystem) gameData = (int)ICA_ANIME_GetField1C(work->param->gameSystem);
+    if (work->param->gameSystem) gameData = (int)GAMESYSTEM_GetGameData(work->param->gameSystem);
     work->view = COMPATIBLE_IRC_SYS_Create(-1, gameData, IRC_COMPATIBLE_HEAP_ID, 0);
     work->isFirstRun = 1;
     IRC_COMPATIBLE_SetHandler(work, IRC_COMPATIBLE_HandleEntry);
@@ -504,7 +504,7 @@ void IRC_COMPATIBLE_FirstTestDestroyArgs(void *args, IrcCompatibleWork *work) {
  * GFL_HEAP_Alloc 0x02030734 arm
  * GFL_HEAP_Free 0x020307B0 arm
  * MI_CpuFill8 0x02082BCC arm
- * ICA_ANIME_GetField1C 0x020120F4 thumb
+ * GAMESYSTEM_GetGameData 0x020120F4 thumb
  * GAME_DATA_GetSaveControl 0x02012EBC thumb
  * IRC_RANKING_GetFromSave 0x0200A8A0 thumb
  * MYSTATUS_GetId 0x02008530 thumb
@@ -530,8 +530,8 @@ void *IRC_COMPATIBLE_ResultStepCreateArgs(u32 heapId, IrcCompatibleWork *work)
     if(work->firstTestScore && work->secondTestScore) {
         partnerName=work->partnerProfile->myStatus;
         /* the first call below discards its result; kept as in the original code */
-        ICA_ANIME_GetField1C(work->param->gameSystem);
-        saveBlock=IRC_RANKING_GetFromSave(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(work->param->gameSystem)));
+        GAMESYSTEM_GetGameData(work->param->gameSystem);
+        saveBlock=IRC_RANKING_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(work->param->gameSystem)));
         if(IRC_RANKING_HasEntry(saveBlock,MYSTATUS_GetId(partnerName))==0) isNewPartner=1;
         useBonus=0;
         if(work->secondTestBonus && isNewPartner) useBonus=1;

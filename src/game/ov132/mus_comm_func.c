@@ -34,7 +34,7 @@
  *   GFL_NET_SetLoginOption 0x0203D7BC arm
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
- *   ICA_ANIME_SetField30 0x02012124 thumb
+ *   GAMESYSTEM_SetFieldMapState 0x02012124 thumb
  *   GFL_NET_IsSessionNull 0x0203CDBC arm
  *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
  *   d_021FDC38 0x021FDC38 data a4
@@ -61,7 +61,7 @@
  *   MYSTATUS_IsNameEmpty 0x020084BC thumb
  *   MYSTATUS_Copy  0x02008494  thumb  arm9
  *   GAME_COMM_Start  0x020263D8  thumb  arm9
- *   ICA_ANIME_GetField1C  0x020120F4  thumb  arm9
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb  arm9
  *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  */
 #include "ov132_types.h"
@@ -86,13 +86,13 @@ struct Big;
 struct Link;
 
 struct Pl {
-    u32 a;
-    u32 b;
-    u32 c;
-    u8 d;
+    u32 partyReceived;
+    u32 boxReceived;
+    u32 used;
+    u8 value;
     u8 pad[3];
-    u32 x;
-    u32 e;
+    u32 pad_74;
+    u32 orderValue;
     u8 rest[0x18];
 };
 
@@ -122,15 +122,15 @@ extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, u16);
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 
-extern void GAME_COMM_Start(struct Comm *p, u32 a1, u32 a2);
+extern void GAME_COMM_Start(struct Comm *p, u32 kind, u32 param);
 
 extern void GAME_COMM_RequestExitNoCallback(struct Comm *);
 
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 
-extern void GFL_NET_StartSession(struct Req *req, u32 a2, u32 a3);
+extern void GFL_NET_StartSession(struct Req *req, u32 transportArg, u32 userArg);
 
 extern void MYSTATUS_Copy(void *, void *);
 
@@ -142,7 +142,7 @@ extern int GFL_NET_Exit(int);
 
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32);
 
-extern void GFL_NET_SetLoginOption(u8 a0);
+extern void GFL_NET_SetLoginOption(u8 loginOption);
 
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 
@@ -150,7 +150,7 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 
 extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 
-extern void ICA_ANIME_SetField30(struct Ctx *p, u32 v);
+extern void GAMESYSTEM_SetFieldMapState(struct Ctx *p, u32 v);
 
 extern int GFL_NET_IsSessionNull(void);
 
@@ -274,32 +274,32 @@ extern char d_021FDDEC[];
 
 extern char d_021FDC38[];
 
-void MUS_COMM_FUNC_Create(int a, void *b, void *c, int d)
+void MUS_COMM_FUNC_Create(int unused, void *icaCtx, void *comm, int useExistingSession)
 {
     char *p;
     p = GFL_HEAP_Alloc(4, 0x1ac, 1, d_021FDE5C, 0x14c);
-    ((struct ActingHost *)p)->fC = d;
-    ((struct ActingHost *)p)->f54 = b;
-    ((struct ActingHost *)p)->f58 = ICA_ANIME_GetField1C(b);
-    ((struct ActingHost *)p)->f50 = c;
-    ((struct ActingHost *)p)->f4 = 0;
-    ((struct ActingHost *)p)->f8 = 0;
-    GAME_COMM_Start(c, 4, (u32)p);
+    ((struct ActingHost *)p)->useExistingSession = useExistingSession;
+    ((struct ActingHost *)p)->icaCtx = icaCtx;
+    ((struct ActingHost *)p)->gameData = GAMESYSTEM_GetGameData(icaCtx);
+    ((struct ActingHost *)p)->comm = comm;
+    ((struct ActingHost *)p)->hasError = 0;
+    ((struct ActingHost *)p)->isInitialized = 0;
+    GAME_COMM_Start(comm, 4, (u32)p);
 }
 
-void MUS_COMM_FUNC_Delete(char *p) { MUS_COMM_FUNC_DeleteBuffers(p); GAME_COMM_RequestExitNoCallback(*(struct Comm * *)&((struct ActingHost *)p)->f50); }
+void MUS_COMM_FUNC_Delete(char *p) { MUS_COMM_FUNC_DeleteBuffers(p); GAME_COMM_RequestExitNoCallback(*(struct Comm * *)&((struct ActingHost *)p)->comm); }
 
-void *MUS_COMM_FUNC_StartSession(int a,char *p)
+void *MUS_COMM_FUNC_StartSession(int unused,char *p)
 {
-    ((struct ScriptCtx *)p)->f5C=GAME_DATA_GetMyStatus(((struct ScriptCtx *)p)->f58);
-    if(((struct ScriptCtx *)p)->fC==1) d_021FDE4C[5]=4;
+    ((struct ActingHost *)p)->myStatus=GAME_DATA_GetMyStatus(((struct ActingHost *)p)->gameData);
+    if(((struct ActingHost *)p)->useExistingSession==1) d_021FDE4C[5]=4;
     else {
         d_021FDE4C[5]=0;
         GFL_NET_StartSession((struct Req *)d_021FDDEC,(u32)MUS_COMM_FUNC_SetReady,(u32)p);
     }
-    MYSTATUS_Copy(((struct ScriptCtx *)p)->f5C,p+0x20);
+    MYSTATUS_Copy(((struct ActingHost *)p)->myStatus,p+0x20);
     OS_GetMacAddress(p+0x40);
-    ((struct ScriptCtx *)p)->f46=0x3a0b;
+    ((struct ActingHost *)p)->sessionId=0x3a0b;
     return p;
 }
 
@@ -312,8 +312,8 @@ int MUS_COMM_FUNC_UpdateNetState(int *state,u8 *p)
  switch(*state) {
  case 0:
   if(GFL_NET_GetNegotiationNum()<=1) {GFL_NET_Exit(0);return 1;}
-  if(((struct ActingHost *)p)->fC==1) GFL_NET_COMMAND_DeleteCommandTable(0x1100);
-  if(((struct ActingHost *)p)->f8==1) {GFL_NET_SetLoginOption(0);MUS_COMM_FUNC_SetTimingSync((int)p,0x41);*state=1;}
+  if(((struct ActingHost *)p)->useExistingSession==1) GFL_NET_COMMAND_DeleteCommandTable(0x1100);
+  if(((struct ActingHost *)p)->isInitialized==1) {GFL_NET_SetLoginOption(0);MUS_COMM_FUNC_SetTimingSync((int)p,0x41);*state=1;}
   else *state=2;
   break;
  case 1:
@@ -321,14 +321,14 @@ int MUS_COMM_FUNC_UpdateNetState(int *state,u8 *p)
   if(GFL_NET_GetNegotiationNum()<=1 || GFL_NET_ERR_GetErrorLevel()!=0) *state=10;
   break;
  case 2:
-  if(((struct ActingHost *)p)->f8==0) {GFL_NET_Exit(0);return 1;}
+  if(((struct ActingHost *)p)->isInitialized==0) {GFL_NET_Exit(0);return 1;}
   if(GFL_NET_IsParentAid()==0) {
    if(GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),1,0,0)==1) return 1;
   } else if(GFL_NET_GetNegotiationNum()<=1) {GFL_NET_Exit(0);return 1;}
   if(GFL_NET_ERR_GetErrorLevel()!=0) *state=10;
   break;
  case 10:
-  if(GFL_NET_ERR_GetErrorLevel()!=0) ICA_ANIME_SetField30(*(struct Ctx * *)&((struct ActingHost *)p)->f54,1);
+  if(GFL_NET_ERR_GetErrorLevel()!=0) GAMESYSTEM_SetFieldMapState(*(struct Ctx * *)&((struct ActingHost *)p)->icaCtx,1);
   GFL_NET_Exit(0);return 1;
  }
  return 0;
@@ -338,9 +338,9 @@ int MUS_COMM_FUNC_WaitSessionNull(int unused,int unused1,void *p) { if(GFL_NET_I
 
 void MUS_COMM_FUNC_Task(int unused,int unused1,char *p) { MUS_COMM_FUNC_Update(p); }
 
-void MUS_COMM_FUNC_SetHostFlag(char *p) { if(GFL_NET_IsParentAid()==1) ((struct ActingHost *)p)->f48=1; else ((struct ActingHost *)p)->f48=2; }
+void MUS_COMM_FUNC_SetHostFlag(char *p) { if(GFL_NET_IsParentAid()==1) ((struct ActingHost *)p)->role=1; else ((struct ActingHost *)p)->role=2; }
 
-void MUS_COMM_FUNC_InitCommandTable(char *p) { GFL_NET_COMMAND_AddCommandTable(0x1100,(u32)d_021FDC38,9,(u32)p); if(GFL_NET_IsParentAid()==1) ((struct ActingHost *)p)->f48=1; else ((struct ActingHost *)p)->f48=2; }
+void MUS_COMM_FUNC_InitCommandTable(char *p) { GFL_NET_COMMAND_AddCommandTable(0x1100,(u32)d_021FDC38,9,(u32)p); if(GFL_NET_IsParentAid()==1) ((struct ActingHost *)p)->role=1; else ((struct ActingHost *)p)->role=2; }
 
 static inline void clear8(void *dest,u32 size)
 {
@@ -354,13 +354,13 @@ static inline void clear8(void *dest,u32 size)
  * The SDK MI_CpuClear8 inline spelling restores both fill-call setup orders
  * (direct MI_CpuFill8 leaves 15 bytes; data/size signedness changes are flat).
  */
-void MUS_COMM_FUNC_InitWork(u8 *p,void *a,void *b,int unused,void *d,u16 heap)
+void MUS_COMM_FUNC_InitWork(u8 *p,void *myStatusSrc,void *boxParamSrc,int unused,void *hostEntry,u16 heap)
 {
  void *data;
  u32 size1,size2;
  u8 i,j;
  data=GAME_DATA_GetSaveBlock2A(P(p,0x58));
- ((struct ActingHost *)p)->f0=heap;
+ ((struct ActingHost *)p)->heapId=heap;
  for(i=0;i<4;i++) {
   u8 *row;
   row=p+i*0x30;
@@ -369,9 +369,9 @@ void MUS_COMM_FUNC_InitWork(u8 *p,void *a,void *b,int unused,void *d,u16 heap)
   W(row,0x78)=0;
   W(row,0x64)=0;W(row,0x68)=0;W(row,0x6C)=0;
   row[0x70]=10;row[0x71]=10;
-  P(row,0x7C)=GFL_HEAP_Alloc(((struct ActingHost *)p)->f0,POKE_TOOL_GetPartyParamSize()+0x7C,0,d_021FDE5C,0x20E);
+  P(row,0x7C)=GFL_HEAP_Alloc(((struct ActingHost *)p)->heapId,POKE_TOOL_GetPartyParamSize()+0x7C,0,d_021FDE5C,0x20E);
   size1=MYSTATUS_GetSize();
-  P(row,0x8C)=GFL_HEAP_Alloc(((struct ActingHost *)p)->f0,(size1+4)+POKE_TOOL_GetBoxParamSize(),0,d_021FDE5C,0x20F);
+  P(row,0x8C)=GFL_HEAP_Alloc(((struct ActingHost *)p)->heapId,(size1+4)+POKE_TOOL_GetBoxParamSize(),0,d_021FDE5C,0x20F);
   clear8(P(row,0x7C),POKE_TOOL_GetPartyParamSize()+0x7C);
   size2=MYSTATUS_GetSize();
   clear8(P(row,0x8C),(size2+4)+POKE_TOOL_GetBoxParamSize());
@@ -380,12 +380,12 @@ void MUS_COMM_FUNC_InitWork(u8 *p,void *a,void *b,int unused,void *d,u16 heap)
   P(row,0x88)=P(row,0x8C)+4+MYSTATUS_GetSize();
   for(j=0;j<2;j++) row[0x73+j]=0xFF;
  }
- ((struct ActingHost *)p)->f12C=MUSICAL_SAVE_GetFanPoints(data);
- ((struct ActingHost *)p)->f130=a;((struct ActingHost *)p)->f134=b;
+ ((struct ActingHost *)p)->fanPoints=MUSICAL_SAVE_GetFanPoints(data);
+ ((struct ActingHost *)p)->myStatusSrc=myStatusSrc;((struct ActingHost *)p)->boxParamSrc=boxParamSrc;
  W(p,0x138)=0;W(p,0x124)=0;
- P(p,0x128)=GFL_HEAP_Alloc(((struct ActingHost *)p)->f0,(POKE_TOOL_GetPartyParamSize()+0x7C)*4,0,d_021FDE5C,0x221);
+ P(p,0x128)=GFL_HEAP_Alloc(((struct ActingHost *)p)->heapId,(POKE_TOOL_GetPartyParamSize()+0x7C)*4,0,d_021FDE5C,0x221);
  size1=MYSTATUS_GetSize();
- P(p,0x13C)=GFL_HEAP_Alloc(((struct ActingHost *)p)->f0,((size1+4)+POKE_TOOL_GetBoxParamSize())*4,0,d_021FDE5C,0x222);
+ P(p,0x13C)=GFL_HEAP_Alloc(((struct ActingHost *)p)->heapId,((size1+4)+POKE_TOOL_GetBoxParamSize())*4,0,d_021FDE5C,0x222);
  p[0x1C]=0;W(p,0x14)=0;W(p,0x18)=0;
  p[0x14C]=0;W(p,0x150)=0;
  W(p,0x158)=0;W(p,0x15C)=0;W(p,0x160)=0;W(p,0x164)=0;
@@ -397,7 +397,7 @@ void MUS_COMM_FUNC_InitWork(u8 *p,void *a,void *b,int unused,void *d,u16 heap)
   u8 *entry=p+j*4;
   W(entry,0x18C)=0xFFFF;
  }
- ((struct ActingHost *)p)->f140.p=d;
+ ((struct ActingHost *)p)->hostEntry.p=hostEntry;
  W(p,0x4C)=1;
 }
 
@@ -407,27 +407,27 @@ void MUS_COMM_FUNC_DeleteBuffers(char *p)
     char *q;
     for(i=0;i<4;i++) {
         q=p+i*0x30;
-        if(((struct ActingScene *)q)->f7C) {
-            GFL_HEAP_Free(((struct ActingScene *)q)->f8C);
-            GFL_HEAP_Free(((struct ActingScene *)q)->f7C);
+        if(((struct ActingHost *)q)->rec[0].partyBuffer) {
+            GFL_HEAP_Free(((struct ActingHost *)q)->rec[0].boxBuffer);
+            GFL_HEAP_Free(((struct ActingHost *)q)->rec[0].partyBuffer);
         }
     }
-    if(((struct ActingHost *)p)->f124) GFL_HEAP_Free(((struct ActingHost *)p)->f124);
-    if(((struct ActingHost *)p)->f138) GFL_HEAP_Free(((struct ActingHost *)p)->f138);
-    if(((struct ActingHost *)p)->f128) GFL_HEAP_Free(((struct ActingHost *)p)->f128);
-    if(((struct ActingHost *)p)->f13C) GFL_HEAP_Free(((struct ActingHost *)p)->f13C);
+    if(((struct ActingHost *)p)->statusSendBuf) GFL_HEAP_Free(((struct ActingHost *)p)->statusSendBuf);
+    if(((struct ActingHost *)p)->myStatusSendBuf) GFL_HEAP_Free(((struct ActingHost *)p)->myStatusSendBuf);
+    if(((struct ActingHost *)p)->partyRecordBuf) GFL_HEAP_Free(((struct ActingHost *)p)->partyRecordBuf);
+    if(((struct ActingHost *)p)->boxRecvBuf) GFL_HEAP_Free(((struct ActingHost *)p)->boxRecvBuf);
 }
 
 void MUS_COMM_FUNC_SetReady(char *p)
 {
-    ((struct ActingScene *)p)->f10=1;
+    ((struct ActingHost *)p)->netReady=1;
 }
 
-static inline u32 random_below(u32 n)
+static inline u32 random_below(u32 bound)
 {
     u32 draw;
     draw = GF_STANDARD_Rand();
-    return ((u64)draw * n) >> 32;
+    return ((u64)draw * bound) >> 32;
 }
 
 /*
@@ -472,7 +472,7 @@ void MUS_COMM_FUNC_Update(char *p)
     case 4:
         cnt = 0;
         for (i = 0; i < 4; i++)
-            if (((struct MusCommPlayerTable *)p)->pl[i].b == 1) cnt++;
+            if (((struct MusCommPlayerTable *)p)->pl[i].boxReceived == 1) cnt++;
         if (cnt == GFL_NET_GetNegotiationNum() && MUS_COMM_FUNC_SendBoxData(p) == 1) *(int *)(p + 0x4c) = 5;
         break;
     case 6:
@@ -524,7 +524,7 @@ void MUS_COMM_FUNC_Update(char *p)
     case 19:
         cnt = 0;
         for (i = 0; i < 4; i++)
-            if (((struct MusCommPlayerTable *)p)->pl[i].a == 1) cnt++;
+            if (((struct MusCommPlayerTable *)p)->pl[i].partyReceived == 1) cnt++;
         if (cnt == GFL_NET_GetNegotiationNum() && MUS_COMM_FUNC_SendRecordBlock(p) == 1) *(int *)(p + 0x4c) = 0x15;
         break;
     case 20:
@@ -535,29 +535,29 @@ void MUS_COMM_FUNC_Update(char *p)
     }
     if (*(int *)(p + 0x184) == 1) {
         v = 0;
-        v += ((struct MusCommPlayerTable *)p)->pl[0].e;
-        v += ((struct MusCommPlayerTable *)p)->pl[1].e << 4;
-        v += ((struct MusCommPlayerTable *)p)->pl[2].e << 8;
-        v += ((struct MusCommPlayerTable *)p)->pl[3].e << 12;
+        v += ((struct MusCommPlayerTable *)p)->pl[0].orderValue;
+        v += ((struct MusCommPlayerTable *)p)->pl[1].orderValue << 4;
+        v += ((struct MusCommPlayerTable *)p)->pl[2].orderValue << 8;
+        v += ((struct MusCommPlayerTable *)p)->pl[3].orderValue << 12;
         if (MUS_COMM_FUNC_SendCommandWait((int)p, 3, v, 0xff) == 1) *(int *)(p + 0x184) = 0;
     }
     {
         u32 sum = 0;
         n = 0;
         for (i = 0; i < 4; i++) {
-            if (((struct MusCommPlayerTable *)p)->pl[i].c == 1) {
+            if (((struct MusCommPlayerTable *)p)->pl[i].used == 1) {
                 list[n] = i;
                 n++;
             }
-            sum += ((struct MusCommPlayerTable *)p)->pl[i].d << (i * 4);
+            sum += ((struct MusCommPlayerTable *)p)->pl[i].value << (i * 4);
         }
         if (n != 0) {
             u32 k = random_below(n);
             sum += list[k] << 16;
             if (MUS_COMM_FUNC_SendCommandWait((int)p, 0xb, sum, 0xff) == 1) {
                 for (j = 0; j < n; j++) {
-                    ((struct MusCommPlayerTable *)p)->pl[list[j]].c = 0;
-                    ((struct MusCommPlayerTable *)p)->pl[list[j]].d = 10;
+                    ((struct MusCommPlayerTable *)p)->pl[list[j]].used = 0;
+                    ((struct MusCommPlayerTable *)p)->pl[list[j]].value = 10;
                 }
             }
         }
@@ -575,28 +575,28 @@ void MUS_COMM_FUNC_Update(char *p)
     STA_NET_UpdateTransferState(p);
 }
 
-void MUS_COMM_FUNC_SetTimingSync(int a, int b)
+void MUS_COMM_FUNC_SetTimingSync(int unused, int timingId)
 {
-    GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), b, 0x11);
+    GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), timingId, 0x11);
 }
 
-int MUS_COMM_FUNC_CheckTimingSync(char *p,int id) {if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),id,0x11)==1)return 1;if(((struct ActingHost *)p)->f4==1)return 1;return 0;}
+int MUS_COMM_FUNC_CheckTimingSync(char *p,int id) {if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),id,0x11)==1)return 1;if(((struct ActingHost *)p)->hasError==1)return 1;return 0;}
 
-int MUS_COMM_FUNC_GetSlotValueA(char *p,u32 index) {if(((struct ActingHost *)p)->f4C!=0 && *(int *)((u32)p+index*0x30+0x68)==1)return *(int *)((u32)p+index*0x30+0x84);return 0;}
+int MUS_COMM_FUNC_GetSlotValueA(char *p,u32 index) {if(((struct ActingHost *)p)->state!=0 && *(int *)((u32)p+index*0x30+0x68)==1)return *(int *)((u32)p+index*0x30+0x84);return 0;}
 
-int MUS_COMM_FUNC_GetSlotValueB(char *p,u32 index) {if(((struct ActingHost *)p)->f4C!=0 && *(int *)((u32)p+index*0x30+0x68)==1)return *(int *)((u32)p+index*0x30+0x88);return 0;}
+int MUS_COMM_FUNC_GetSlotValueB(char *p,u32 index) {if(((struct ActingHost *)p)->state!=0 && *(int *)((u32)p+index*0x30+0x68)==1)return *(int *)((u32)p+index*0x30+0x88);return 0;}
 
 char *MUS_COMM_FUNC_GetRecordPtr(char *p){return p+0x20;}
 
 u32 MUS_COMM_FUNC_GetRecordSize(void){return 40;}
 
-int MUS_COMM_FUNC_Equals(int a,int b){if(a==b)return 1;return 0;}
+int MUS_COMM_FUNC_Equals(int lhs,int rhs){if(lhs==rhs)return 1;return 0;}
 
 void MUS_COMM_FUNC_SendCommand(int unused,int kind,u32 value,u32 id) {struct Entry *e;struct Request request;e=GFL_NET_HANDLE_GetCurrentHandle();request.kind=kind;request.value=value;GFL_NET_SendData((u32)e,id,0x1100,8,(u32)&request,1,0,0);}
 
 u32 MUS_COMM_FUNC_SendCommandWait(int unused,int kind,u32 value,u32 id) {struct Entry *e;struct Request request;e=GFL_NET_HANDLE_GetNetHandle(255);request.kind=kind;request.value=value;return GFL_NET_SendData((u32)e,id,0x1100,8,(u32)&request,1,0,0);}
 
-void MUS_COMM_FUNC_HandlePacket(unsigned long slot, int unused, const Packet *q, char *p)
+void MUS_COMM_FUNC_HandlePacket(unsigned long slot, int unused, const Packet *packet, char *p)
 {
   u8 i;
   u8 t;
@@ -605,9 +605,9 @@ void MUS_COMM_FUNC_HandlePacket(unsigned long slot, int unused, const Packet *q,
   u8 item;
   u32 mask;
   u32 v;
-  u32 tmp;
-  u32 tmp1;
-  switch (q->tag)
+  u32 rowAddr;
+  u32 itemAddr;
+  switch (packet->tag)
   {
     case 0:
       *((u32 *) (p + 0x18)) = 1;
@@ -617,14 +617,14 @@ void MUS_COMM_FUNC_HandlePacket(unsigned long slot, int unused, const Packet *q,
       mask = 15;
       for (i = 0; i < 4; i++)
     {
-      *((u8 *) ((p + (i * 0x30)) + 0x72)) = (q->data & mask) >> (i * 4);
+      *((u8 *) ((p + (i * 0x30)) + 0x72)) = (packet->data & mask) >> (i * 4);
       mask <<= 4;
     }
 
       break;
 
     case 2:
-      *((u32 *) ((p + (slot * 0x30)) + 0x78)) = q->data;
+      *((u32 *) ((p + (slot * 0x30)) + 0x78)) = packet->data;
       if ((*((u32 *) (p + 0x48))) == 1)
       *((u32 *) (p + 0x184)) = 1;
       break;
@@ -632,7 +632,7 @@ void MUS_COMM_FUNC_HandlePacket(unsigned long slot, int unused, const Packet *q,
     case 3:
       if ((*((u32 *) (p + 0x48))) != 1)
     {
-      v = q->data;
+      v = packet->data;
       *((u32 *) (p + 0x78)) = v & 15;
       *((u32 *) (p + 0xa8)) = (v & 0xf0) >> 4;
       *((u32 *) (p + 0xd8)) = (v & 0xf00) >> 8;
@@ -643,8 +643,8 @@ void MUS_COMM_FUNC_HandlePacket(unsigned long slot, int unused, const Packet *q,
     case 4:
       if ((*((u32 *) (p + 0x48))) == 2)
     {
-      *((void **) ((*((char **) (p + 0x140))) + 4)) = GFL_HEAP_Alloc(4, q->data, 0, d_021FDE5C, 0x4c4);
-      *((u32 *) ((*((char **) (p + 0x140))) + 0x20)) = q->data;
+      *((void **) ((*((char **) (p + 0x140))) + 4)) = GFL_HEAP_Alloc(4, packet->data, 0, d_021FDE5C, 0x4c4);
+      *((u32 *) ((*((char **) (p + 0x140))) + 0x20)) = packet->data;
     }
       *((u32 *) (p + 0x164)) = 1;
       break;
@@ -652,8 +652,8 @@ void MUS_COMM_FUNC_HandlePacket(unsigned long slot, int unused, const Packet *q,
     case 5:
       if ((*((u32 *) (p + 0x48))) == 2)
     {
-      *((void **) ((*((char **) (p + 0x140))) + 8)) = GFL_HEAP_Alloc(44, q->data, 0, d_021FDE5C, 0x4cd);
-      *((u32 *) ((*((char **) (p + 0x140))) + 0x24)) = q->data;
+      *((void **) ((*((char **) (p + 0x140))) + 8)) = GFL_HEAP_Alloc(44, packet->data, 0, d_021FDE5C, 0x4cd);
+      *((u32 *) ((*((char **) (p + 0x140))) + 0x24)) = packet->data;
     }
       *((u32 *) (p + 0x168)) = 1;
       break;
@@ -661,8 +661,8 @@ void MUS_COMM_FUNC_HandlePacket(unsigned long slot, int unused, const Packet *q,
     case 6:
       if ((*((u32 *) (p + 0x48))) == 2)
     {
-      *((void **) ((*((char **) (p + 0x140))) + 12)) = GFL_HEAP_Alloc(44, q->data, 0, d_021FDE5C, 0x4d6);
-      *((u32 *) ((*((char **) (p + 0x140))) + 0x28)) = q->data;
+      *((void **) ((*((char **) (p + 0x140))) + 12)) = GFL_HEAP_Alloc(44, packet->data, 0, d_021FDE5C, 0x4d6);
+      *((u32 *) ((*((char **) (p + 0x140))) + 0x28)) = packet->data;
     }
       *((u32 *) (p + 0x16c)) = 1;
       break;
@@ -672,24 +672,24 @@ void MUS_COMM_FUNC_HandlePacket(unsigned long slot, int unused, const Packet *q,
       *((u32 *) (p + 0x17c)) = 3;
     else
     {
-      *((void **) ((*((char **) (0x140 + p))) + 16)) = GFL_HEAP_Alloc(44, q->data, 0, d_021FDE5C, 0x4e3);
-      *((u32 *) ((*((char **) (p + 0x140))) + 0x2c)) = q->data;
+      *((void **) ((*((char **) (0x140 + p))) + 16)) = GFL_HEAP_Alloc(44, packet->data, 0, d_021FDE5C, 0x4e3);
+      *((u32 *) ((*((char **) (p + 0x140))) + 0x2c)) = packet->data;
     }
       break;
 
     case 8:
-      *((u32 *) (p + 0x144)) = q->data;
+      *((u32 *) (p + 0x144)) = packet->data;
       break;
 
     case 9:
-      *((u32 *) (p + 0x148)) = q->data;
+      *((u32 *) (p + 0x148)) = packet->data;
       break;
 
     case 10:
       if ((*((u32 *) (p + 0x48))) == 1)
     {
       *((u32 *) ((((u32) p) + (slot * 0x30)) + 0x6c)) = 1;
-      *((u8 *) ((p + (slot * 0x30)) + 0x70)) = q->data;
+      *((u8 *) ((p + (slot * 0x30)) + 0x70)) = packet->data;
     }
       break;
 
@@ -701,13 +701,13 @@ void MUS_COMM_FUNC_HandlePacket(unsigned long slot, int unused, const Packet *q,
       mask = 15;
       for (i = 0; i < 4; i++)
       {
-        t = (q->data & mask) >> (i * 4);
+        t = (packet->data & mask) >> (i * 4);
         if (t != 10)
           *((u8 *) ((p + (i * 0x30)) + 0x71)) = t;
         mask <<= 4;
       }
 
-      *((u8 *) (p + 0x180)) = (q->data & 0xf0000) >> 16;
+      *((u8 *) (p + 0x180)) = (packet->data & 0xf0000) >> 16;
       break;
     }
 
@@ -718,19 +718,19 @@ void MUS_COMM_FUNC_HandlePacket(unsigned long slot, int unused, const Packet *q,
       int item;
       u16 index;
       u32 v;
-      v = q->data;
+      v = packet->data;
       code = (u8) ((v & 0xff0000) >> 16);
       index = (u8) ((v & 0xff00) >> 8);
       item = (u8) v;
       for (i = 0; i < 2; i++)
       {
-        tmp1 = ((u32) p) + (index * 0x30);
-        tmp1 = tmp1 + i;
-        if ((*((u8 *) (tmp1 + 0x73))) == 255)
+        itemAddr = ((u32) p) + (index * 0x30);
+        itemAddr = itemAddr + i;
+        if ((*((u8 *) (itemAddr + 0x73))) == 255)
         {
-          tmp = (u32) p;
-          tmp = tmp + (index * 0x30);
-          *((u8 *) ((tmp + i) + 0x73)) = item;
+          rowAddr = (u32) p;
+          rowAddr = rowAddr + (index * 0x30);
+          *((u8 *) ((rowAddr + i) + 0x73)) = item;
           break;
         }
       }
@@ -760,21 +760,21 @@ u32 MUS_COMM_FUNC_SendMyStatus(struct ActingHost *p)
 {
     u32 a, b;
     char *q, *t;
-    if(p->f138) GFL_HEAP_Free(p->f138);
+    if(p->myStatusSendBuf) GFL_HEAP_Free(p->myStatusSendBuf);
     a=MYSTATUS_GetSize();
     b=POKE_TOOL_GetBoxParamSize();
-    q=GFL_HEAP_Alloc(p->f0,a+4+b,0,d_021FDE5C,0x533);
-    p->f138=q;
+    q=GFL_HEAP_Alloc(p->heapId,a+4+b,0,d_021FDE5C,0x533);
+    p->myStatusSendBuf=q;
     t=q+4+MYSTATUS_GetSize();
-    MI_CpuCopy8(&p->f12C,q,4);
-    MI_CpuCopy8(p->f130,q+4,MYSTATUS_GetSize());
-    MI_CpuCopy8(p->f134,t,POKE_TOOL_GetBoxParamSize());
-    return GFL_NET_SendData((u32)GFL_NET_HANDLE_GetCurrentHandle(),0xff,0x1101,MYSTATUS_GetSize()+4+POKE_TOOL_GetBoxParamSize(),(u32)p->f138,1,0,1);
+    MI_CpuCopy8(&p->fanPoints,q,4);
+    MI_CpuCopy8(p->myStatusSrc,q+4,MYSTATUS_GetSize());
+    MI_CpuCopy8(p->boxParamSrc,t,POKE_TOOL_GetBoxParamSize());
+    return GFL_NET_SendData((u32)GFL_NET_HANDLE_GetCurrentHandle(),0xff,0x1101,MYSTATUS_GetSize()+4+POKE_TOOL_GetBoxParamSize(),(u32)p->myStatusSendBuf,1,0,1);
 }
 
-void MUS_COMM_FUNC_SetEntryFlag(int i, int b, int c, T *p) { p->e[i].w[2] = 1; p->e[i].w[0] = 1; }
+void MUS_COMM_FUNC_SetEntryFlag(int index, int unused, int unused1, T *p) { p->e[index].w[2] = 1; p->e[index].w[0] = 1; }
 
-u32 MUS_COMM_FUNC_ClearEntryFlag(int i, T *p) { p->e[i].w[2] = 0; return p->e[i].w[11]; }
+u32 MUS_COMM_FUNC_ClearEntryFlag(int index, T *p) { p->e[index].w[2] = 0; return p->e[index].w[11]; }
 
 int MUS_COMM_FUNC_SendBoxData(char *p)
 {
@@ -787,7 +787,7 @@ int MUS_COMM_FUNC_SendBoxData(char *p)
     for(i=0;i<4;i++) {
         m=MYSTATUS_GetSize();
         n=POKE_TOOL_GetBoxParamSize();
-        q=*(char * *)&((struct ActingHost *)p)->f13C;
+        q=*(char * *)&((struct ActingHost *)p)->boxRecvBuf;
         k=i*(m+4+n);
         m=MYSTATUS_GetSize();
         n=POKE_TOOL_GetBoxParamSize();
@@ -796,13 +796,13 @@ int MUS_COMM_FUNC_SendBoxData(char *p)
     h=GFL_NET_HANDLE_GetNetHandle(0xff);
     m=MYSTATUS_GetSize();
     n=POKE_TOOL_GetBoxParamSize();
-    return GFL_NET_SendData((u32)h,0xff,0x1102,(m+4+n)*4,(u32)(((struct ActingHost *)p)->f13C),1,0,1);
+    return GFL_NET_SendData((u32)h,0xff,0x1102,(m+4+n)*4,(u32)(((struct ActingHost *)p)->boxRecvBuf),1,0,1);
 }
 
 /*
  * follower: loop leaf filed as MUS_COMM_FUNC_ResetBoxFlags.c.
  */
-void MUS_COMM_FUNC_ReceiveBoxData(int a,int b,int c,char *p)
+void MUS_COMM_FUNC_ReceiveBoxData(int unused,int unused1,int unused2,char *p)
 {
     u8 i;
     int n;
@@ -812,25 +812,25 @@ void MUS_COMM_FUNC_ReceiveBoxData(int a,int b,int c,char *p)
     for(i=0;i<4;i++) {
         m=MYSTATUS_GetSize();
         n=POKE_TOOL_GetBoxParamSize();
-        q=*(char * *)&((struct ActingHost *)p)->f13C;
+        q=*(char * *)&((struct ActingHost *)p)->boxRecvBuf;
         k=i*(m+4+n);
         m=MYSTATUS_GetSize();
         n=m+4+POKE_TOOL_GetBoxParamSize();
         s=p+i*0x30;
-        MI_CpuCopy8(q+k,((struct ActingScene *)s)->f8C,n);
-        flag=MYSTATUS_IsNameEmpty(((struct ActingScene *)s)->f84)==0 ? 1 : 0;
-        ((struct ActingScene *)s)->f60=flag;
-        ((struct ActingScene *)s)->f68=flag;
+        MI_CpuCopy8(q+k,((struct ActingHost *)s)->rec[0].boxBuffer,n);
+        flag=MYSTATUS_IsNameEmpty(((struct ActingHost *)s)->rec[0].myStatus)==0 ? 1 : 0;
+        ((struct ActingHost *)s)->rec[0].statusReceived=flag;
+        ((struct ActingHost *)s)->rec[0].boxReceived=flag;
     }
-    ((struct ActingHost *)p)->f158=1;
+    ((struct ActingHost *)p)->boxesReceived=1;
 }
 
-void *MUS_COMM_FUNC_ResetBoxFlags(int a,char *p)
+void *MUS_COMM_FUNC_ResetBoxFlags(int unused,char *p)
 {
     u8 i;
     for(i=0;i<4;i++) *(int *)(p+i*0x30+0x68)=0;
-    ((struct ActingHost *)p)->f158=0;
-    return ((struct ActingHost *)p)->f13C;
+    ((struct ActingHost *)p)->boxesReceived=0;
+    return ((struct ActingHost *)p)->boxRecvBuf;
 }
 
 /*
@@ -842,39 +842,39 @@ int MUS_COMM_FUNC_SendStatusBlock(char *p, char *src)
     void *h;
     u32 n;
     int zero;
-    if(((struct ActingHost *)p)->f124) GFL_HEAP_Free(((struct ActingHost *)p)->f124);
+    if(((struct ActingHost *)p)->statusSendBuf) GFL_HEAP_Free(((struct ActingHost *)p)->statusSendBuf);
     n=POKE_TOOL_GetPartyParamSize();
-    q=GFL_HEAP_Alloc(((struct ActingHost *)p)->f0,n+0x7c,0,d_021FDE5C,0x5be);
+    q=GFL_HEAP_Alloc(((struct ActingHost *)p)->heapId,n+0x7c,0,d_021FDE5C,0x5be);
     zero=0;
-    ((struct ActingHost *)p)->f124=q;
+    ((struct ActingHost *)p)->statusSendBuf=q;
     MI_CpuCopy8(src,q,0x7c);
     n=POKE_TOOL_GetPartyParamSize();
     q+=0x7c;
     MI_CpuCopy8(((struct MusCommBlockHeader *)src)->payload,q,n);
     h=GFL_NET_HANDLE_GetCurrentHandle();
     n=POKE_TOOL_GetPartyParamSize();
-    return GFL_NET_SendData((u32)h,0xff,0x1103,n+0x7c,(u32)(((struct ActingHost *)p)->f124),1,zero,1);
+    return GFL_NET_SendData((u32)h,0xff,0x1103,n+0x7c,(u32)(((struct ActingHost *)p)->statusSendBuf),1,zero,1);
 }
 
 /*
  * layout: 021FC862..021FC93E initializes four 48-byte records at +0x60.
  * padding: two zero bytes at 021FD3EE before 021FD3F0.
  */
-void MUS_COMM_FUNC_SetRecordData(long i,int b,int c,struct Context *p)
+void MUS_COMM_FUNC_SetRecordData(long index,int unused,int unused1,struct Context *p)
 {
     char *s;
-    p->rec[i].flag=1;
-    s=p->rec[i].data;
+    p->rec[index].partyReceived=1;
+    s=p->rec[index].partyBuffer;
     ((struct MusCommBlockHeader *)s)->payload=s+0x7c;
 }
 
 /*
  * layout: 021FC862..021FC93E initializes four 48-byte records at +0x60.
  */
-void *MUS_COMM_FUNC_ClearRecordData(long i,struct Context *p)
+void *MUS_COMM_FUNC_ClearRecordData(long index,struct Context *p)
 {
-    p->rec[i].flag=0;
-    return p->rec[i].data;
+    p->rec[index].partyReceived=0;
+    return p->rec[index].partyBuffer;
 }
 
 /*
@@ -903,7 +903,7 @@ int MUS_COMM_FUNC_SendRecordBlock(const char *p)
 /*
  * note: 2026-10-05 length kept in a local before the call (n = f()+0x7c; call(q+k, src, n)); the inline n+0x7c form swapped two adds (4 B). Older DIFF notes superseded.
  */
-void MUS_COMM_FUNC_ReceiveRecordBlock(int a,int b,int c,const struct ActingHost *p)
+void MUS_COMM_FUNC_ReceiveRecordBlock(int unused,int unused1,int unused2,const struct ActingHost *p)
 {
     u8 i;
     char *s;
@@ -914,7 +914,7 @@ void MUS_COMM_FUNC_ReceiveRecordBlock(int a,int b,int c,const struct ActingHost 
         s=(char *)p+i*0x30;
         if(MYSTATUS_IsNameEmpty(*(u16 **)(s+0x84))==0) {
             n=POKE_TOOL_GetPartyParamSize()+0x7c;
-            q=p->f128;
+            q=p->partyRecordBuf;
             k=i*n;
             n=POKE_TOOL_GetPartyParamSize()+0x7c;
             MI_CpuCopy8(q+k,*(void **)(s+0x7c),n);
@@ -927,11 +927,11 @@ void MUS_COMM_FUNC_ReceiveRecordBlock(int a,int b,int c,const struct ActingHost 
 }
 
 /* Clears the flag of the four records, clears the word at +0x15C and returns the buffer pointer. */
-char *MUS_COMM_FUNC_ClearRecords(int a, struct ActingHost *p)
+char *MUS_COMM_FUNC_ClearRecords(int unused, struct ActingHost *p)
 {
     u8 i;
     for (i = 0; i < 4; i++)
-        p->rec[i].flag = 0;
-    p->f15C = 0;
-    return p->f128;
+        p->rec[i].partyReceived = 0;
+    p->recordsReceived = 0;
+    return p->partyRecordBuf;
 }

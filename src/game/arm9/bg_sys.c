@@ -394,7 +394,7 @@ void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
 
 void BG_SYS_LoadPltt(u32 r7, void *r6, u32 r5, u32 r4);
 
-void BG_SYS_LoadPlttEntry(u32 a0, u32 a1);
+void BG_SYS_LoadPlttEntry(u32 bgId, u32 color);
 
 u16 BG_SYS_GetTileMapEntry(u8 x, u8 y, u8 code);
 
@@ -454,7 +454,7 @@ void BG_SYS_SetAffine(u32 which, u32 op, u16 value);
 
 u32 BG_SYS_CheckPixelColor(u32 layer, u16 x, u16 y, u16 *flags);
 
-int BG_SYS_ResolveScroll(int a0, int a1);
+int BG_SYS_ResolveScroll(int screenSize, int bgType);
 
 void BG_SYS_GetModeValue(u32 mode, u8 *a, u8 *b);
 
@@ -1623,19 +1623,19 @@ void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile)
     }
 }
 
-void BG_SYS_LoadPltt(u32 r7, void *r6, u32 r5, u32 r4)
+void BG_SYS_LoadPltt(u32 bgId, void *src, u32 size, u32 offset)
 {
-    DC_FlushRange(r6, r5);
-    if (r7 < 4) {
-        GX_LoadBGPltt(r6, r4, r5);
+    DC_FlushRange(src, size);
+    if (bgId < 4) {
+        GX_LoadBGPltt(src, offset, size);
     } else {
-        GXS_LoadBGPltt(r6, r4, r5);
+        GXS_LoadBGPltt(src, offset, size);
     }
 }
 
-void BG_SYS_LoadPlttEntry(u32 a0, u32 a1)
+void BG_SYS_LoadPlttEntry(u32 bgId, u32 color)
 {
-    BG_SYS_LoadPltt(a0, &a1, 2, 0);
+    BG_SYS_LoadPltt(bgId, &color, 2, 0);
 }
 
 /*
@@ -2544,37 +2544,37 @@ u32 BG_SYS_CheckPixelColor(u32 layer, u16 x, u16 y, u16 *flags)
  *   python tools/match.py one --src src/matched/BG_SYS_ResolveScroll.c \
  *       --func BG_SYS_ResolveScroll --addr 0x02042218 --cc 1.1p1 --arm
  */
-int BG_SYS_ResolveScroll(int a0, int a1)
+int BG_SYS_ResolveScroll(int screenSize, int bgType)
 {
-    switch (a1) {
+    switch (bgType) {
     case 0:
-        if (a0 == 1)
+        if (screenSize == 1)
             return 0;
-        if (a0 == 2)
+        if (screenSize == 2)
             return 2;
-        if (a0 == 3)
+        if (screenSize == 3)
             return 1;
-        if (a0 == 4)
+        if (screenSize == 4)
             return 3;
         break;
     case 1:
-        if (a0 == 0)
+        if (screenSize == 0)
             return 0;
-        if (a0 == 1)
+        if (screenSize == 1)
             return 1;
-        if (a0 == 4)
+        if (screenSize == 4)
             return 2;
-        if (a0 == 5)
+        if (screenSize == 5)
             return 3;
         break;
     case 2:
-        if (a0 == 0)
+        if (screenSize == 0)
             return 0;
-        if (a0 == 1)
+        if (screenSize == 1)
             return 1;
-        if (a0 == 4)
+        if (screenSize == 4)
             return 2;
-        if (a0 == 5)
+        if (screenSize == 5)
             return 3;
         break;
     }

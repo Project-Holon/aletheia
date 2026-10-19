@@ -336,7 +336,7 @@ void DEMO3D_DATA_PlaySe(void *unused,int ignored,int *s);
 
 void DEMO3D_DATA_StopSe(u32 a, u32 b, int *c);
 
-void DEMO3D_DATA_FadeSeVolume(int a0, int a1, int *src);
+void DEMO3D_DATA_FadeSeVolume(int ctx, int unused, int *src);
 
 void DEMO3D_DATA_FadeSeSlotParam1(Demo3dCmdContext *p,int unused,int *v);
 
@@ -448,9 +448,9 @@ void DEMO3D_DATA_StopSe(u32 a, u32 b, int *c)
     GFL_USE_StopSeSlot(ch);
 }
 
-void DEMO3D_DATA_FadeSeVolume(int a0, int a1, int *src)
+void DEMO3D_DATA_FadeSeVolume(int ctx, int unused, int *src)
 {
-    DEMO3D_DATA_CreateSeFade((Demo3dCmdContext *)a0, 0, (unsigned short)src[0], src[1], src[2], src[3], src[4]);
+    DEMO3D_DATA_CreateSeFade((Demo3dCmdContext *)ctx, 0, (unsigned short)src[0], src[1], src[2], src[3], src[4]);
 }
 
 void DEMO3D_DATA_FadeSeSlotParam1(Demo3dCmdContext *p,int unused,int *v) {DEMO3D_DATA_CreateSeFade(p,1,(u16)v[0],v[1],v[2],v[3],v[4]);}
@@ -591,7 +591,7 @@ extern void GFL_USE_SetBgmPlayerParam(void *);
 
 extern int GFL_USE_PushBgm(void),GFL_USE_PopBgm(void);
 
-extern void BRIGHTNESS_Set(u32 a0, u32 a1, u32 mask);
+extern void BRIGHTNESS_Set(u32 brightness, u32 plane, u32 mask);
 
 extern void DEMO3D_GRAPHIC_SetLightSlot(char *p, unsigned i, unsigned short val);
 

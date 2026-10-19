@@ -62,7 +62,7 @@ void FLD_PARTICLE_DeleteEffect(FldParticle *particle);
 
 void *FLD_PARTICLE_LoadResource(FldParticle *particle, int kind, int resourceId);
 
-int FLD_PARTICLE_StartEmitter(FldParticle *particle, u32 resource, u32 arg0, u32 arg1);
+int FLD_PARTICLE_StartEmitter(FldParticle *particle, u32 resource, u32 applyNow, u32 taskMgr);
 
 int FLD_PARTICLE_IsEffectFinished(FldParticle *particle);
 
@@ -118,9 +118,9 @@ void *FLD_PARTICLE_LoadResource(FldParticle *particle, int kind, int resourceId)
     return (void *)PARTICLE_LoadArchiveMember(kind, resourceId, particle->heapId);
 }
 
-int FLD_PARTICLE_StartEmitter(FldParticle *particle, u32 resource, u32 arg0, u32 arg1)
+int FLD_PARTICLE_StartEmitter(FldParticle *particle, u32 resource, u32 applyNow, u32 taskMgr)
 {
-    return PARTICLE_SetupSystem((u32)particle->effect, resource, arg0, arg1);
+    return PARTICLE_SetupSystem((u32)particle->effect, resource, applyNow, taskMgr);
 }
 
 /* Returns 1 when the effect is gone or finished. */

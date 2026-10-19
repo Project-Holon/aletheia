@@ -193,7 +193,7 @@ GHIConnection *ghiNewConnection(void)
     connection->proxyOverridePort = 80;
     connection->proxyOverrideServer = 0;
     connection->encryptor.mInterface = 0;
-    connection->encryptor.field_08 = 0;
+    connection->encryptor.interfaceCreated = 0;
     connection->receiveFileIdleTime = 0;
     connection->handle = 0;
 
@@ -283,11 +283,11 @@ int ghiFreeConnectionData(GHIConnection *connection)
     ghiFreeBuffer(&connection->getFileBuffer);
     if (connection->postingState.states != 0)
         ghiPostCleanupState(connection);
-    if (connection->encryptor.field_08 != 0)
+    if (connection->encryptor.interfaceCreated != 0)
     {
         if (connection->encryptor.cleanupFunc != 0)
             connection->encryptor.cleanupFunc(connection, &connection->encryptor);
-        connection->encryptor.field_08 = 0;
+        connection->encryptor.interfaceCreated = 0;
     }
     connection->receiveFileIdleTime = 0;
     connection->inUse = 0;
@@ -387,10 +387,10 @@ void ghiRedirectConnection(GHIConnection *connection)
     connection->statusStringIndex = 0;
     connection->headerStringIndex = 0;
     connection->connectionClosed = 0;
-    if (connection->encryptor.field_08 != 0) {
+    if (connection->encryptor.interfaceCreated != 0) {
         if (connection->encryptor.cleanupFunc != 0)
             connection->encryptor.cleanupFunc(connection, &connection->encryptor);
-        connection->encryptor.field_08 = 0;
+        connection->encryptor.interfaceCreated = 0;
         if (strncmp((const char *)sGhttpHttps2, (const char *)connection->URL, 8) != 0) {
             connection->encryptor.engine = 0;
             connection->encryptor.mInterface = 0;

@@ -19,7 +19,7 @@
 typedef unsigned int   u32;
 typedef unsigned short u16;
 
-extern void *ARC_UTIL_LoadMemberWithSize(int a0, int a1, int a2, int memberId, u32 *out);
+extern void *ARC_UTIL_LoadMemberWithSize(int archiveID, int memberIdx, int decompress, int memberId, u32 *out);
 
 /* Load the group table member (id 0x62, index 5) and report its u16 count. */
 u16 *BR_MEMBER_COUNT_GetU16Count(void *member, unsigned *countOut)

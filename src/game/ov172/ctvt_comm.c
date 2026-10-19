@@ -154,7 +154,7 @@ extern u8 *GAME_DATA_GetMyStatus(void *p);
 
 extern void MYSTATUS_Copy(void *src, void *dst);
 
-extern void GFL_NET_LOWER_DATA_Init(int a0, int a1);
+extern void GFL_NET_LOWER_DATA_Init(int heapId, int ackMode);
 
 extern void GFL_NET_LOWER_DATA_Exit(void);
 
@@ -193,9 +193,9 @@ extern void GFL_NET_COMMAND_DeleteCommandTable(u32 key);
 
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 
-extern void GFL_NET_StartSession(struct GflNetSessionReq *req, u32 a2, u32 a3);
+extern void GFL_NET_StartSession(struct GflNetSessionReq *req, u32 transportArg, u32 userArg);
 
-extern void GFL_NET_SetLoginOption(u8 a0);
+extern void GFL_NET_SetLoginOption(u8 loginOption);
 
 extern u32 GFL_NET_GetHandleNetID(struct GflNetLink *p);
 
@@ -273,7 +273,7 @@ u32 CTVT_CAMVIEW_GetWindowWidth(void *p, u32 unused);
 
 u32 CTVT_CAMVIEW_GetOwnSlotBuffer(void *p, void *q);
 
-int CTVT_CAMVIEW_GetSlotBuffer(void *a0, char *a1, int a2);
+int CTVT_CAMVIEW_GetSlotBuffer(void *work, char *view, int slot);
 
 u32 CTVT_CAMVIEW_GetSlotBufferStep(void *p, u32 unused);
 

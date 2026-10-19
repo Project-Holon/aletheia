@@ -26,7 +26,7 @@ extern void DC_InvalidateRange(u32, u32);
 extern void NWMi_SetCallbackTable(u32, u32);
 extern u32 NWMi_SendCommand(u32, u32);
 
-u32 NWM_Close(u32 a0) {
+u32 NWM_Close(u32 callback) {
     u32 r = NWMi_CheckState(1, 3);
     u32 base;
     u32 busy;
@@ -47,7 +47,7 @@ u32 NWM_Close(u32 a0) {
     if (busy == 1) {
         return 3;
     }
-    NWMi_SetCallbackTable(6, a0);
+    NWMi_SetCallbackTable(6, callback);
     NWMi_GetSystemWork();
     r = NWMi_SendCommand(6, 0);
     if (r == 0 || r == 2) {

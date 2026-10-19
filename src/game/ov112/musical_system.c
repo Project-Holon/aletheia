@@ -67,7 +67,7 @@ extern u32 MUSICAL_DIST_SAVE_GetPayload(struct Blk2C *p);
 
 extern u32 MUSICAL_DIST_SAVE_GetPayloadSize(struct Blk2C *p);
 
-extern void *ARC_TOOL_CreateHandleFromMemory(void *a0, u32 a1, u32 heap);
+extern void *ARC_TOOL_CreateHandleFromMemory(void *buf, u32 size, u32 heap);
 
 extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 
@@ -102,7 +102,7 @@ char *MUSICAL_MCSS_CreateMon(void *a,u16 heap)
     p[10]=POKE_TOOL_GetPartyValue(a,110,0);
     p[11]=POKE_TOOL_GetPartyValue(a,111,0);
     p[12]=POKE_TOOL_IsShiny(a);
-    ((McssMon *)p)->field10=POKE_TOOL_GetPartyValue(a,0,0);
+    ((McssMon *)p)->personalRnd=POKE_TOOL_GetPartyValue(a,0,0);
     return p;
 }
 
@@ -116,7 +116,7 @@ char *MUSICAL_MCSS_AllocMon(u16 a,u8 b,u8 c,u8 d,u32 e,u16 heap)
     for(i=0;i<9;i++) { *(u16 *)(p+20+6*i)=255; *(u16 *)(p+22+6*i)=0; *(u32 *)(p+84+4*i)=0; }
     for(j=0;j<4;j++) *(u16 *)(p+76+2*j)=0;
     ((McssMon *)p)->field78=0;
-    ((McssMon *)p)->species=a; p[10]=b; p[11]=c; p[12]=d; ((McssMon *)p)->field10=e;
+    ((McssMon *)p)->species=a; p[10]=b; p[11]=c; p[12]=d; ((McssMon *)p)->personalRnd=e;
     return p;
 }
 

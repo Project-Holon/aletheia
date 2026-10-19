@@ -68,8 +68,8 @@ typedef signed int     s32;
 extern BOOL NNS_G2dTickAnimCtrl(NNSG2dAnimController *pAnimCtrl, fx32 frames);
 void NNS_G2dResetCellAnimation(NNSG2dAnimController *pAnimCtrl);
 void NNS_G2dSetCellAnimationBank(struct CellAnim *anim, void *bank);
-void NNS_G2dSetCellAnimationParam(struct CellAnim *anim, int p1, int p2, int p3);
-void NNS_G2dSetCellAnimationParamTagged(struct CellAnim *anim, u32 a, u32 b, u16 tag);
+void NNS_G2dSetCellAnimationParam(struct CellAnim *anim, int type, int param, int func);
+void NNS_G2dSetCellAnimationParamTagged(struct CellAnim *anim, u32 param, u32 func, u16 frameIdx);
 s32 NNS_G2dIsCellAnimationBoundingBox(struct CellAnim *anim);
 
 
@@ -121,12 +121,12 @@ void NNS_G2dSetCellAnimationBank(struct CellAnim *anim, void *bank)
 
 
 
-void NNS_G2dSetCellAnimationParam(struct CellAnim *anim, int p1, int p2, int p3)
+void NNS_G2dSetCellAnimationParam(struct CellAnim *anim, int type, int param, int func)
 {
-    anim->unk28 = p3;
-    anim->unk24 = p2;
-    anim->unk20 = p1;
-    anim->unk2C = 0;
+    anim->callBackFunc = func;
+    anim->callBackParam = param;
+    anim->callBackType = type;
+    anim->callBackFrameIdx = 0;
 }
 
 
@@ -139,12 +139,12 @@ void NNS_G2dSetCellAnimationParam(struct CellAnim *anim, int p1, int p2, int p3)
  * Verified with:
  *   python tools/match.py one --src src/matched/NNS_G2dSetCellAnimationParamTagged.c  *       --func NNS_G2dSetCellAnimationParamTagged --addr 0x02063018 --cc 1.1p1
  */
-void NNS_G2dSetCellAnimationParamTagged(struct CellAnim *anim, u32 a, u32 b, u16 tag)
+void NNS_G2dSetCellAnimationParamTagged(struct CellAnim *anim, u32 param, u32 func, u16 frameIdx)
 {
-    anim->unk20 = 2;
-    anim->unk28 = b;
-    anim->unk24 = a;
-    anim->unk2C = tag;
+    anim->callBackType = 2;
+    anim->callBackFunc = func;
+    anim->callBackParam = param;
+    anim->callBackFrameIdx = frameIdx;
 }
 
 

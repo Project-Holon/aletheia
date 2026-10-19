@@ -227,9 +227,9 @@ void ZUKAN_DETAIL_GRAPHIC_CreateWindows(void *p,u32 heap);
 
 void ZUKAN_DETAIL_GRAPHIC_DeleteWindows(void *p);
 
-void ZUKAN_DETAIL_GRAPHIC_NoOp(char *a0);
+void ZUKAN_DETAIL_GRAPHIC_NoOp(char *unused);
 
-void ZUKAN_DETAIL_GRAPHIC_TransferOam(char *a0);
+void ZUKAN_DETAIL_GRAPHIC_TransferOam(char *unused);
 
 void ZUKAN_DETAIL_GRAPHIC_InitActorSystem(unsigned char *p, int a, int b);
 
@@ -237,7 +237,7 @@ void ZUKAN_DETAIL_GRAPHIC_ExitActorSystem(char *p);
 
 void ZUKAN_DETAIL_GRAPHIC_DrawActors(char *p);
 
-void ZUKAN_DETAIL_GRAPHIC_VBlankActors(char *a0);
+void ZUKAN_DETAIL_GRAPHIC_VBlankActors(char *unused);
 
 int ZUKAN_DETAIL_GRAPHIC_ResetCameraState(int *p);
 
@@ -392,23 +392,23 @@ void ZUKAN_DETAIL_GRAPHIC_DeleteWindows(void *p)
 /*
  * Empty stub; the listing pads it with two zero bytes.
  */
-void ZUKAN_DETAIL_GRAPHIC_NoOp(char *a0)
+void ZUKAN_DETAIL_GRAPHIC_NoOp(char *unused)
 {
 }
 
 /*
  * Tail call to the ARM9 function at 0x020419E4: loads the pointer from the pool and branches through it.
  */
-void ZUKAN_DETAIL_GRAPHIC_TransferOam(char *a0)
+void ZUKAN_DETAIL_GRAPHIC_TransferOam(char *unused)
 {
     BG_SYS_Update();
 }
 
-void ZUKAN_DETAIL_GRAPHIC_InitActorSystem(unsigned char *p, int a, int b)
+void ZUKAN_DETAIL_GRAPHIC_InitActorSystem(unsigned char *p, int resCfg, int heapId)
 {
     MI_CpuFill8(p, 0, 4);
-    CLACT_InitSystem((const struct Cfg *)0x021C8148, a, b);
-    ((struct Ov208ActorSystem *)p)->unit = CLACT_CreateUnit(0x50, 0, b);
+    CLACT_InitSystem((const struct Cfg *)0x021C8148, resCfg, heapId);
+    ((struct Ov208ActorSystem *)p)->unit = CLACT_CreateUnit(0x50, 0, heapId);
     CLACT_SetUnitDefaultRenderer(((struct Ov208ActorSystem *)p)->unit);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
@@ -426,7 +426,7 @@ void ZUKAN_DETAIL_GRAPHIC_DrawActors(char *p)
     CLACT_DrawSystem(p);
 }
 
-void ZUKAN_DETAIL_GRAPHIC_VBlankActors(char *a0)
+void ZUKAN_DETAIL_GRAPHIC_VBlankActors(char *unused)
 {
     CLACT_VBlankSystem();
 }

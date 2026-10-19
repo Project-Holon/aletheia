@@ -29,7 +29,7 @@ extern u32 GFL_HEAP_Free(void *p);
 
 extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, unsigned short);
 
-extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
+extern int ARC_UTIL_LoadMember(int archiveID, int memberIdx, int decompress, int heapID);
 
 extern void WORDSET_CopyString(const u16 *,u16 *,u32);
 

@@ -181,7 +181,7 @@ void GX_ResetBankForBGExtPltt(void);
 void GX_ResetBankForOBJExtPltt(void);
 int GX_ResetBankForTex(void);
 void GX_ResetBankForTexPltt(void);
-void GX_ResetBankForClearImage(int a0, int a1, int a2, int a3);
+void GX_ResetBankForClearImage(void);
 int GX_ResetBankForSubBG(void);
 void GX_ResetBankForSubOBJ(void);
 void GX_ResetBankForSubBGExtPltt(void);
@@ -195,8 +195,8 @@ GXVRam GX_DisableBankForTexPltt(void);
 GXVRam GX_DisableBankForClearImage(void);
 GXVRam GX_DisableBankForARM7(void);
 void GX_DisableBankForLCDC(void);
-void GX_DisableBankForSubBG(int a0, int a1, int a2, int a3);
-void GX_DisableBankForSubOBJ(int a0, int a1, int a2, int a3);
+void GX_DisableBankForSubBG(void);
+void GX_DisableBankForSubOBJ(void);
 GXVRam GX_DisableBankForSubBGExtPltt(void);
 GXVRam GX_DisableBankForSubOBJExtPltt(void);
 u16 GX_GetBankForOBJ(void);
@@ -836,7 +836,7 @@ void GX_ResetBankForTexPltt(void){ resetBankForX_((u16 *)((int)0x2150E56)); }
 
 
 
-void GX_ResetBankForClearImage(int a0, int a1, int a2, int a3){ resetBankForX_((u16 *)((int)0x2150E58)); }
+void GX_ResetBankForClearImage(void){ resetBankForX_((u16 *)((int)0x2150E58)); }
 
 
 
@@ -1030,12 +1030,12 @@ void GX_DisableBankForLCDC(void){ disableBankForX_((void *)0x02150E4C); }
 
 
 
-void GX_DisableBankForSubBG(int a0, int a1, int a2, int a3){ disableBankForX_((u16 *)((int)0x2150E5E)); }
+void GX_DisableBankForSubBG(void){ disableBankForX_((u16 *)((int)0x2150E5E)); }
 
 
 
 
-void GX_DisableBankForSubOBJ(int a0, int a1, int a2, int a3){ disableBankForX_((u16 *)((int)0x2150E60)); }
+void GX_DisableBankForSubOBJ(void){ disableBankForX_((u16 *)((int)0x2150E60)); }
 
 
 

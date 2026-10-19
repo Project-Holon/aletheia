@@ -20,7 +20,7 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   MSGDATA_CreateFromArchive  0x02045B38  arm
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
  *   BG_SYS_FillScrollArea  0x02040618  arm
@@ -246,9 +246,9 @@ extern int GF_OVERLAY_Load(s32 handle);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(struct HeapTask *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *p, int v, int n);
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void GF_FONT_SetTextColor(u32 a, u32 b, u32 c);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern void BG_SYS_FillScrollArea(u32 a, u32 b, u32 c);
@@ -462,7 +462,7 @@ int TOWNMAP_Create(void *taskArg, void *unused, TownMapArgs *args)
     work->gfx = TOWNMAP_GRH_Create(0x44);
     work->mapInfo = TOWNMAP_GRH_LoadTownInfo(0x44);
     TOWNMAP_ProcInit(&work->proc, work, (TownMapStepFunc)TOWNMAP_StepFadeIn);
-    ctx = (u32)ICA_ANIME_GetField1C((const struct Ctx *)work->args->gameCtx);
+    ctx = (u32)GAMESYSTEM_GetGameData((const struct Ctx *)work->args->gameCtx);
     if (work->args->mode != 1) {
         TOWNMAP_GRH_InitTextBox(&work->panel, TOWNMAP_GRH_GetBgId(work->gfx, 1), work->fontSystem, work->detailMsg, 0, 0x15, 0x18, 3, 0x44);
         GF_FONT_SetTextColor(0xf, 1, 0);
@@ -472,7 +472,7 @@ int TOWNMAP_Create(void *taskArg, void *unused, TownMapArgs *args)
     TOWNMAP_BackButtonInit(&work->buttonBar, work->args->mode, TOWNMAP_GRH_GetHandle(work->gfx, 0), TOWNMAP_GRH_GetBgId(work->gfx, 0), 0xf, 8, ctx, 0x44);
     TOWNMAP_GRH_InitLabel(&work->label, TOWNMAP_GRH_GetBgId(work->gfx, 1), work->fontSystem, work->nameMsg, TOWNMAP_GRH_GetActor(work->gfx, 0), 0x44);
     BG_SYS_FillScrollArea(TOWNMAP_GRH_GetBgId(work->gfx, 1), 3, -4);
-    TOWNMAP_MapInit(&work->map, args->townId, args->townSubId, work->mapInfo, work->gfx, (u32)ICA_ANIME_GetField1C((const struct Ctx *)work->args->gameCtx), (u16)0x44, pickMode);
+    TOWNMAP_MapInit(&work->map, args->townId, args->townSubId, work->mapInfo, work->gfx, (u32)GAMESYSTEM_GetGameData((const struct Ctx *)work->args->gameCtx), (u16)0x44, pickMode);
     TOWNMAP_CursorInit(&work->cursor, (void *)TOWNMAP_GRH_GetActor(work->gfx, 1), (void *)TOWNMAP_GRH_GetActor(work->gfx, 2), 0x44);
     town = TOWNMAP_MapFindTownById(&work->map, args->townId, args->townSubId);
     if (town != 0) {
@@ -1349,20 +1349,20 @@ u32 TOWNMAP_TownHitTest(TownMapTown *town, const TownMapPoint *pos, const TownMa
 {
     struct Ball ball;
     struct Seg seg;
-    struct Vec3 v0;
-    struct Vec3 v1;
+    struct Vec3 segStart;
+    struct Vec3 segEnd;
 
-    v0.x = FX_F32_TO_FX32(pos->x);
-    v0.y = FX_F32_TO_FX32(pos->y);
-    v0.z = 0;
-    BUTTON_MAN_InitSphere(&ball, (struct Vec *)(&v0), 0);
-    v0.x = FX_F32_TO_FX32(scroll->x + TOWNMAP_TownGetField(town, 6));
-    v0.y = FX_F32_TO_FX32(scroll->y + TOWNMAP_TownGetField(town, 7));
-    v0.z = 0;
-    v1.x = FX_F32_TO_FX32(scroll->x + TOWNMAP_TownGetField(town, 8));
-    v1.y = FX_F32_TO_FX32(scroll->y + TOWNMAP_TownGetField(town, 9));
-    v1.z = 0;
-    BUTTON_MAN_InitSegment((char *)(&seg), (struct Vec3 *)(&v0), (struct Vec3 *)(&v1), FX_F32_TO_FX32(TOWNMAP_TownGetField(town, 10)));
+    segStart.x = FX_F32_TO_FX32(pos->x);
+    segStart.y = FX_F32_TO_FX32(pos->y);
+    segStart.z = 0;
+    BUTTON_MAN_InitSphere(&ball, (struct Vec *)(&segStart), 0);
+    segStart.x = FX_F32_TO_FX32(scroll->x + TOWNMAP_TownGetField(town, 6));
+    segStart.y = FX_F32_TO_FX32(scroll->y + TOWNMAP_TownGetField(town, 7));
+    segStart.z = 0;
+    segEnd.x = FX_F32_TO_FX32(scroll->x + TOWNMAP_TownGetField(town, 8));
+    segEnd.y = FX_F32_TO_FX32(scroll->y + TOWNMAP_TownGetField(town, 9));
+    segEnd.z = 0;
+    BUTTON_MAN_InitSegment((char *)(&seg), (struct Vec3 *)(&segStart), (struct Vec3 *)(&segEnd), FX_F32_TO_FX32(TOWNMAP_TownGetField(town, 10)));
     if (town->locked != 0)
         return 0;
     return BUTTON_MAN_SegmentSphereTest(&seg, &ball, 0);

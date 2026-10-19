@@ -116,7 +116,7 @@ extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,unsigned);
 extern u32 PRINTSYS_QUE_Create(void *);
 extern u32 BR_GRAPHIC_GetActorUnit(u8 *p);
-extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
+extern void *BMP_OAM_CreateSys(unsigned int heapId, void *clact);
 extern char *BR_UTIL_CreateHandles(unsigned owner, char *resources, int index, int heap);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *MUSICAL_SAVE_GetFromSave(void *sys);
@@ -420,26 +420,26 @@ void BR_DOWNLOAD_CreateButtons(char *p, const char *q)
 {
   Config cfg;
   int resources[3];
-  void *v;
-  int v0;
-  int v1;
+  void *actorUnit;
+  int font;
+  int msgData;
   int i;
   int kind;
-  int tmp;
-  char **tmp1;
+  int oamHandle;
+  char **resHandlePtr;
   (void) (&kind);
   if (((struct BrDownloadWork *)p)->buttons[0])
     return;
-  tmp1 = (char **) &((struct BrDownloadOwner *)q)->res.res;
-  BR_RES_LoadBgGraphics((void *)(*(u32 *) tmp1), 23, ((struct BrDownloadWork *)p)->heapId);
-  BR_RES_LoadSprite(*tmp1, 6, ((struct BrDownloadWork *)p)->heapId);
-  v0 = BR_RES_GetFont(*tmp1);
-  v1 = BR_RES_GetMsgData(*tmp1);
+  resHandlePtr = (char **) &((struct BrDownloadOwner *)q)->res.res;
+  BR_RES_LoadBgGraphics((void *)(*(u32 *) resHandlePtr), 23, ((struct BrDownloadWork *)p)->heapId);
+  BR_RES_LoadSprite(*resHandlePtr, 6, ((struct BrDownloadWork *)p)->heapId);
+  font = BR_RES_GetFont(*resHandlePtr);
+  msgData = BR_RES_GetMsgData(*resHandlePtr);
   MI_CpuFill8(&cfg, 0, 8);
   cfg.y = 168;
   cfg.flag = 1;
-  v = (void *)BR_GRAPHIC_GetActorUnit(((struct BrDownloadOwner *)q)->graphic.graphic);
-  BR_RES_GetSprite(*tmp1, 6, resources);
+  actorUnit = (void *)BR_GRAPHIC_GetActorUnit(((struct BrDownloadOwner *)q)->graphic.graphic);
+  BR_RES_GetSprite(*resHandlePtr, 6, resources);
   for (i = 0; i < 2; i++)
   {
     if (i == 0)
@@ -454,21 +454,21 @@ void BR_DOWNLOAD_CreateButtons(char *p, const char *q)
       cfg.x = 128;
       cfg.index = 4;
     }
-    tmp = ((struct BrDownloadWork *)p)->oamSys.oamHandle;
-    ((struct BrDownloadWork *)p)->buttons[i] = BR_BTN_CreateFromMessage(&cfg, kind, 96, 1, v, tmp, v0, v1, resources, ((struct BrDownloadWork *)p)->heapId);
+    oamHandle = ((struct BrDownloadWork *)p)->oamSys.oamHandle;
+    ((struct BrDownloadWork *)p)->buttons[i] = BR_BTN_CreateFromMessage(&cfg, kind, 96, 1, actorUnit, oamHandle, font, msgData, resources, ((struct BrDownloadWork *)p)->heapId);
   }
 }
 
 
-void BR_DOWNLOAD_ResetSlots(int *a, char *p)
+void BR_DOWNLOAD_ResetSlots(int *slots, char *p)
 {
     int i;
-    if (a[1] != 0) {
+    if (slots[1] != 0) {
         BR_RES_ReleaseSprite(((struct BrDownloadOwner *)p)->res.resHandle, 6);
         BR_RES_ApplyBgSet(((struct BrDownloadOwner *)p)->res.resHandle, 0x17);
         for (i = 0; i < 2; i++) {
-            BR_BTN_DeleteObject(a[i + 1]);
-            a[i + 1] = 0;
+            BR_BTN_DeleteObject(slots[i + 1]);
+            slots[i + 1] = 0;
         }
     }
 }

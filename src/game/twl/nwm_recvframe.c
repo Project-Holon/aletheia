@@ -47,11 +47,11 @@ extern void DC_StoreRange(void *, u32);
 extern void NWMi_SetCallbackTable(u32, u32);
 extern void NWMi_SetReceiveCallbackTable(u32, u32);
 extern u32 NWMi_SendCommand();
-u32 NWM_SetReceivingFrameBuffer(u32 a0, u32 a1, u32 a2, u32 a3);
-u32 NWM_UnsetReceivingFrameBuffer(u32 a0, u32 a1);
-void NWMi_ReceivingFrameCallback(TwlMsg *a0);
+u32 NWM_SetReceivingFrameBuffer(u32 callback, u32 recvBuf, u32 recvBufSize, u32 protocol);
+u32 NWM_UnsetReceivingFrameBuffer(u32 callback, u32 protocol);
+void NWMi_ReceivingFrameCallback(TwlMsg *msg);
 
-u32 NWM_SetReceivingFrameBuffer(u32 a0, u32 a1, u32 a2, u32 a3) {
+u32 NWM_SetReceivingFrameBuffer(u32 callback, u32 recvBuf, u32 recvBufSize, u32 protocol) {
     TwlWork *w;
     u32 r;
 
@@ -60,18 +60,18 @@ u32 NWM_SetReceivingFrameBuffer(u32 a0, u32 a1, u32 a2, u32 a3) {
     if (r != 0 && r != 2) {
         return r;
     }
-    MIi_DmaFill32(w->h2280, a1, 0, a2, 1);
-    DC_StoreRange((void *)a1, a2);
+    MIi_DmaFill32(w->h2280, recvBuf, 0, recvBufSize, 1);
+    DC_StoreRange((void *)recvBuf, recvBufSize);
     NWMi_SetCallbackTable(0xA, (u32)NWMi_ReceivingFrameCallback);
-    NWMi_SetReceiveCallbackTable(a3, a0);
-    r = NWMi_SendCommand(0xA, 3, a1, a2, a3);
+    NWMi_SetReceiveCallbackTable(protocol, callback);
+    r = NWMi_SendCommand(0xA, 3, recvBuf, recvBufSize, protocol);
     if (r == 0) {
         r = 2;
     }
     return r;
 }
 
-u32 NWM_UnsetReceivingFrameBuffer(u32 a0, u32 a1) {
+u32 NWM_UnsetReceivingFrameBuffer(u32 callback, u32 protocol) {
     u32 st;
     u32 res;
 
@@ -80,33 +80,33 @@ u32 NWM_UnsetReceivingFrameBuffer(u32 a0, u32 a1) {
     if (st != 0 && st != 2) {
         return st;
     }
-    NWMi_SetCallbackTable(0xC, a0);
-    NWMi_SetReceiveCallbackTable(a1, 0);
-    res = NWMi_SendCommand(0xC, 1, a1);
+    NWMi_SetCallbackTable(0xC, callback);
+    NWMi_SetReceiveCallbackTable(protocol, 0);
+    res = NWMi_SendCommand(0xC, 1, protocol);
     if (res == 0) {
         return 2;
     }
     return res;
 }
 
-void NWMi_ReceivingFrameCallback(TwlMsg *a0) {
+void NWMi_ReceivingFrameCallback(TwlMsg *msg) {
     TwlWork *w;
     u32 first;
 
     w = NWMi_GetSystemWork();
-    if (a0->kind != 0) {
-        if (a0->kind != 0xB) {
+    if (msg->kind != 0) {
+        if (msg->kind != 0xB) {
             return;
         }
         first = 0;
     } else {
         first = 1;
     }
-    if (w->cb[a0->idx] != 0) {
-        DC_StoreRange(a0, 0x10);
-        w->cb[a0->idx](a0);
+    if (w->cb[msg->idx] != 0) {
+        DC_StoreRange(msg, 0x10);
+        w->cb[msg->idx](msg);
     }
     if (first == 0) {
-        NWMi_SendCommand(0xA, 3, a0->arg, 0, a0->idx);
+        NWMi_SendCommand(0xA, 3, msg->arg, 0, msg->idx);
     }
 }

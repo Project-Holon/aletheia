@@ -187,7 +187,7 @@ extern void WIFIBATTLEMATCH_UTIL_SetRequest(u32, u32);
 extern void WIFIBATTLEMATCH_UTIL_CommitRequest(u32);
 extern void BATTLE_BOX_ClearLockFlags(struct Obj *p, int v);
 extern void REGULATION_Card_SetValue(struct Reg2 *p, u32 id, s32 value);
-extern int GAME_DATA_SaveStart(int a0);
+extern int GAME_DATA_SaveStart(int gd);
 extern int GAME_DATA_SaveMain(u8 *p);
 extern void WIFIBATTLEMATCH_UTIL_ClearCallback(int);
 extern void *MISC_SAVEDATA_GetBlock3C(void *);
@@ -351,7 +351,7 @@ void DIGITALCARDCHECK_CreateRecord3(char *p)
     if (((struct LiveBattleMatchWork *)p)->record3 == 0) {
         a = WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)(*(int *)&((struct LiveBattleMatchWork *)p)->graphic));
         ((struct LiveBattleMatchWork *)p)->record3 = (void *)WIFIBATTLEMATCH_VIEW_CreatePartyWindow((int)BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)(*(int *)&((struct LiveBattleMatchWork *)p)->save))), a,
-            ((struct LiveBattleMatchWork *)p)->view, ((struct LiveBattleMatchWork *)p)->arg28, *(int *)&((struct LiveBattleMatchWork *)p)->printQue, *(int *)&((struct LiveBattleMatchWork *)p)->mgr, ((struct LiveBattleMatchWork *)p)->heap);
+            ((struct LiveBattleMatchWork *)p)->view, ((struct LiveBattleMatchWork *)p)->partyFont, *(int *)&((struct LiveBattleMatchWork *)p)->printQue, *(int *)&((struct LiveBattleMatchWork *)p)->mgr, ((struct LiveBattleMatchWork *)p)->heap);
     }
 }
 

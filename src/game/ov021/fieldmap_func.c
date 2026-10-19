@@ -62,7 +62,7 @@
  *   WORDSET_CopyString  0x0201F41C  thumb
  *   OS_GetMacAddress  0x02087C6C  arm
  *   MI_CpuCopy8  0x02082D44  arm
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetField1A0  0x0201283C  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
@@ -216,7 +216,7 @@ void FLDMMDL_GetCheckInfo(Mmdl *mmdl, MmdlCheckInfo *info);
 
 void *FIELD_EFFECT_GetFieldMap(void *fieldEffectCtrl);
 
-void *FIELD_EFFECT_AddObject(void *fieldEffectCtrl, const void *taskHeader, int a2, int a3, FldeffGyoeTaskParam *param, int a5);
+void *FIELD_EFFECT_AddObject(void *fieldEffectCtrl, const void *taskHeader, int pos, int mode, FldeffGyoeTaskParam *param, int priority);
 
 extern void *FIELD_EFFECT_GetObjectWork(void *task);
 
@@ -298,7 +298,7 @@ void OS_GetMacAddress(u8 *outMac);
 
 void MI_CpuCopy8(const void *src, void *dst, int n);
 
-void *ICA_ANIME_GetField1C(void *gameSystem);
+void *GAMESYSTEM_GetGameData(void *gameSystem);
 
 void *GAME_DATA_GetField1A0(void *gameData);
 
@@ -693,7 +693,7 @@ void UNION_CHAT_LOG_Add(UnionRoomWork *work, UnionBeaconPc *beaconPc, u16 *chatP
         line->chatCount = beaconPc->beacon.chatCount;
         MI_CpuCopy8(beaconPc->mac, line->senderMac, 6);
         line->sex = beaconPc->beacon.sex;
-        saveControl = ICA_ANIME_GetField1C(work->parent->gameSystem);
+        saveControl = GAMESYSTEM_GetGameData(work->parent->gameSystem);
         wifiList = GAME_DATA_GetField1A0(saveControl);
         saveControl = MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(saveControl));
         if (UNION_CHARA_IsWifiFriendBeacon(wifiList, &beaconPc->beacon) == 1) {

@@ -261,7 +261,7 @@ extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 
 extern void STRBUF_Delete(struct U16Vec *vec);
 
-extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
 
 #define MK(c, p, a1, a2, a3, sp) CLACT_CreateActor((void *)COMM_TVT_SYS_GetClactUnit(c), COMM_TVT_SYS_GetResId(c, a1), COMM_TVT_SYS_GetResId(c, a2), COMM_TVT_SYS_GetResId(c, a3), &d, sp, v)
 
@@ -311,7 +311,7 @@ struct S02031140;
 
 struct Rec {
     u8 pad0[4];
-    unsigned long f4;
+    unsigned long trainerId;
     u8 pad8[3];
     u8 bB_0 : 7;
     u8 bB_7 : 1;
@@ -425,7 +425,7 @@ extern void CTVT_CAMVIEW_RequestShutterSound1(int x, char *p);
 
 extern void CTVT_COMM_StopSession(void *a, char *q);
 
-extern void WIPE_SYS_Start(void *p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned int p5, unsigned int p6, unsigned int p7);
+extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned int color, unsigned int frames, unsigned int wait, unsigned int heapId);
 
 extern unsigned int  WIPE_SYS_EndCheck(void);
 
@@ -523,13 +523,13 @@ extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
 extern unsigned long WORDSET_DeleteStrbufED04(struct WordSet *p);
 
-extern unsigned long APP_TASKMENU_WIN_Create(unsigned long a0, unsigned long a1, unsigned long a2, unsigned long a3, u8 a4, u16 a5);
+extern unsigned long APP_TASKMENU_WIN_Create(unsigned long res, unsigned long item, unsigned long charPosX, unsigned long charPosY, u8 width, u16 heapId);
 
 extern unsigned long GAME_DATA_GetField1A0(const struct BigObj *p);
 
 extern int WIFILIST_FindFriendByStatusAndOutfit(struct Sub020097BCObj *obj, const void *unused, unsigned long id, unsigned long kind, unsigned long *out);
 
-extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 a0, u16 a1, unsigned int a2, unsigned int a3, u16 heap);
+extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, unsigned int font, unsigned int printQue, u16 heap);
 
 extern char *CTVT_CAMVIEW_Create(void *a, u16 b);
 
@@ -633,9 +633,9 @@ extern void BG_SYS_FreeSlot(u32 which);
 
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern int CLACT_RegisterPaletteCompressed(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
 
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
@@ -653,7 +653,7 @@ extern u32 APP_ICON_GetStatusCellFileId(u32 a);
 
 extern u32 APP_ICON_GetStatusPaletteFileId(u32 a);
 
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, u32 unpackedOut, u32 flags);
 
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 
@@ -663,7 +663,7 @@ extern void CLACT_ReleaseCharacter(u32);
 
 extern void CLACT_ReleaseCellAnim(u32);
 
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
@@ -707,21 +707,21 @@ char *CTVT_DRAW_Create(void *a, u16 b);
 
 void CTVT_DRAW_Free(int unused, int v);
 
-void CTVT_DRAW_Init(void *a0, u8 *p);
+void CTVT_DRAW_Init(void *work, u8 *p);
 
-void CTVT_DRAW_Exit(u16 *a0, char *p);
+void CTVT_DRAW_Exit(u16 *work, char *p);
 
-int CTVT_DRAW_Main(void *a0, char *p);
+int CTVT_DRAW_Main(void *work, char *p);
 
 void *CTVT_CALL_Create(int unused, void *p);
 
 void CTVT_CALL_Free(int unused, int v);
 
-void CTVT_CALL_Init(void *a0, u8 *p);
+void CTVT_CALL_Init(void *ctx, u8 *p);
 
-void CTVT_CALL_Exit(void *a0, char *a1);
+void CTVT_CALL_Exit(void *ctx, char *st);
 
-int CTVT_CALL_Update(void *a0, char *p);
+int CTVT_CALL_Update(void *ctx, char *p);
 
 void CTVT_CALL_HandleTouch(void *ctx, u8 *list);
 
@@ -739,7 +739,7 @@ void CTVT_CALL_UpdateTimeWindow(void *ctx, char *st);
 
 int CTVT_CALL_CheckJoinRequest(void *ctx, unsigned long unused, unsigned long a, unsigned long b, unsigned long c);
 
-void CTVT_CALL_PrintMessage(void *a0, char *a1, int a2);
+void CTVT_CALL_PrintMessage(void *ctx, char *st, int msgId);
 
 void CTVT_CALL_PrintTimeMessage(void *ctx, char *st, unsigned long msgId);
 
@@ -753,7 +753,7 @@ void CTVT_CALL_VBlank(int unused, char *ctx);
 
 void CTVT_CALL_InitDisplay(u8 *p);
 
-void CTVT_CALL_ExitDisplay(void *a0);
+void CTVT_CALL_ExitDisplay(void *work);
 
 void CTVT_CALL_InitBgLayer(const struct BgTemplate *tmpl, u32 bgId, u32 type);
 
@@ -763,7 +763,7 @@ void CTVT_CALL_ReleaseGraphics(u8 *p);
 
 void CTVT_CALL_InitText(u8 *p);
 
-void CTVT_CALL_DeleteText(u32 *a0);
+void CTVT_CALL_DeleteText(u32 *slots);
 
 void CTVT_CALL_SwitchScreen(u8 *p);
 
@@ -829,7 +829,7 @@ void CTVT_CALL_Free(int unused, int v)
  * the third object of each row (logic error in the draft), row computed after the descriptor
  * stores, and separate pointer locals for loop 2 and loop 3 (spill slots 0x10 and 0xc).
  */
-void CTVT_CALL_Init(void *a0, u8 *p)
+void CTVT_CALL_Init(void *ctx, u8 *p)
 {
     struct Desc d;
     u16 v;
@@ -844,10 +844,10 @@ void CTVT_CALL_Init(void *a0, u8 *p)
     unsigned int owner;
     int o1, o2, o3, o4, o5, o6, o7;
 
-    v = COMM_TVT_SYS_GetHeapId(a0);
-    owner = (unsigned int)COMM_TVT_SYS_GetArc(a0);
-    o = (unsigned int)COMM_TVT_SYS_GetLaunchParams(a0);
-    if (((CtvtLaunchParams *)o)->mode != 2 && ((CtvtLaunchParams *)o)->mode != 3 && COMM_TVT_SYS_GetHostBusy(a0) == 0) {
+    v = COMM_TVT_SYS_GetHeapId(ctx);
+    owner = (unsigned int)COMM_TVT_SYS_GetArc(ctx);
+    o = (unsigned int)COMM_TVT_SYS_GetLaunchParams(ctx);
+    if (((CtvtLaunchParams *)o)->mode != 2 && ((CtvtLaunchParams *)o)->mode != 3 && COMM_TVT_SYS_GetHostBusy(ctx) == 0) {
         ARC_UTIL_UploadBgCharFromHandle((void *)owner, 0xb, 4, 0, 0xa << 10, 0, v);
         ARC_UTIL_UploadBgPaletteFromHandle((void *)owner, 0x12, 4, 0, 0, 0, v);
         BG_SYS_PushTile(4);
@@ -859,36 +859,36 @@ void CTVT_CALL_Init(void *a0, u8 *p)
         d.z = 8;
         d.a = 0x20;
         row = p + i * 0x1c;
-        ((CtvtCallRow *)(row + 0x40))->actorA = (void *)MK(a0, p, 5, 1, 9, 1);
+        ((CtvtCallRow *)(row + 0x40))->actorA = (void *)MK(ctx, p, 5, 1, 9, 1);
         CLACT_SetActorDrawEnable((struct Obj *)((CtvtCallRow *)(row + 0x40))->actorA, 0);
         CLACT_SetActorAutoAnim((struct Obj *)((CtvtCallRow *)(row + 0x40))->actorA, 1);
         d.x = 0x12;
         d.z = 9;
         d.a = 0x10;
-        ((CtvtCallRow *)(row + 0x40))->actorB = (void *)MK(a0, p, 5, 1, 9, 1);
+        ((CtvtCallRow *)(row + 0x40))->actorB = (void *)MK(ctx, p, 5, 1, 9, 1);
         CLACT_SetActorDrawEnable((struct Obj *)((CtvtCallRow *)(row + 0x40))->actorB, 0);
         d.x = 0xc8;
         d.z = 0x12;
         d.a = 0x10;
-        ((CtvtCallRow *)(row + 0x40))->actorC = (void *)MK(a0, p, 5, 1, 9, 1);
+        ((CtvtCallRow *)(row + 0x40))->actorC = (void *)MK(ctx, p, 5, 1, 9, 1);
         CLACT_SetActorDrawEnable((struct Obj *)((CtvtCallRow *)(row + 0x40))->actorC, 0);
     }
     d.x = 0xe0;
     d.y = 0xa8;
-    if (COMM_TVT_SYS_GetHostBusy(a0) == 0)
+    if (COMM_TVT_SYS_GetHostBusy(ctx) == 0)
         d.z = 1;
     else
         d.z = 0xf;
     j = 0;
     d.a = j;
     d.b = j;
-    ((CtvtCall *)p)->actorBack = (void *)MK(a0, p, 6, 2, 10, 1);
+    ((CtvtCall *)p)->actorBack = (void *)MK(ctx, p, 6, 2, 10, 1);
     CLACT_SetActorDrawEnable((struct Obj *)((CtvtCall *)p)->actorBack, 1);
     CLACT_SetActorAutoAnim((struct Obj *)((CtvtCall *)p)->actorBack, 1);
     d.x = 0xf8;
     d.y = 0x18;
     d.z = 0xc;
-    ((CtvtCall *)p)->actorSlider = (void *)MK(a0, p, 5, 1, 9, 1);
+    ((CtvtCall *)p)->actorSlider = (void *)MK(ctx, p, 5, 1, 9, 1);
     CLACT_SetActorDrawEnable((struct Obj *)((CtvtCall *)p)->actorSlider, 0);
     o1 = 0x14A;
     o1 += 0x9a;
@@ -944,39 +944,39 @@ void CTVT_CALL_Init(void *a0, u8 *p)
     ((CtvtCall *)p)->state = 0;
     ((CtvtCall *)p)->timerA = 0;
     BG_SYS_ResetSlot(6, 3, 0);
-    if ((unsigned int)(((CtvtLaunchParams *)o)->mode - 2) <= 1 && COMM_TVT_SYS_GetHostBusy(a0) == 0) {
+    if ((unsigned int)(((CtvtLaunchParams *)o)->mode - 2) <= 1 && COMM_TVT_SYS_GetHostBusy(ctx) == 0) {
         CLACT_SetActorAnimSeq((struct Obj *)((CtvtCall *)p)->actorBack, 0xf);
-        CTVT_CALL_PrintTimeMessage(a0, (char *)p, 0x18);
+        CTVT_CALL_PrintTimeMessage(ctx, (char *)p, 0x18);
         ((CtvtCall *)p)->timePending = 1;
         ((CtvtCall *)p)->substate = 3;
     }
 }
 
-void CTVT_CALL_Exit(void *a0, char *a1)
+void CTVT_CALL_Exit(void *ctx, char *st)
 {
     unsigned int p;
     u8 i, j;
 
-    if (((CtvtCall *)a1)->menuWin != 0) {
-        APP_TASKMENU_WIN_Delete((u8 *)(*(unsigned int *)&((CtvtCall *)a1)->menuWin));
-        *(unsigned int *)&((CtvtCall *)a1)->menuWin = 0;
+    if (((CtvtCall *)st)->menuWin != 0) {
+        APP_TASKMENU_WIN_Delete((u8 *)(*(unsigned int *)&((CtvtCall *)st)->menuWin));
+        *(unsigned int *)&((CtvtCall *)st)->menuWin = 0;
     }
 
-    p = ((CtvtCall *)a1)->msgWin;
+    p = ((CtvtCall *)st)->msgWin;
     BMP_WIN_ClearScreen((struct Descriptor *)p);
     BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)p));
-    BMP_WIN_Delete((struct Descriptor *)(((CtvtCall *)a1)->msgWin));
+    BMP_WIN_Delete((struct Descriptor *)(((CtvtCall *)st)->msgWin));
 
-    p = ((CtvtCall *)a1)->timeWin;
+    p = ((CtvtCall *)st)->timeWin;
     BMP_WIN_ClearScreen((struct Descriptor *)p);
     BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)p));
-    BMP_WIN_Delete((struct Descriptor *)(((CtvtCall *)a1)->timeWin));
+    BMP_WIN_Delete((struct Descriptor *)(((CtvtCall *)st)->timeWin));
 
-    CLACT_DeleteActor((struct Obj *)(((CtvtCall *)a1)->actorSlider));
-    CLACT_DeleteActor((struct Obj *)(((CtvtCall *)a1)->actorBack));
+    CLACT_DeleteActor((struct Obj *)(((CtvtCall *)st)->actorSlider));
+    CLACT_DeleteActor((struct Obj *)(((CtvtCall *)st)->actorBack));
 
     for (i = 0; i < 0xf; i++) {
-        char *q = a1 + i * 0x1c;
+        char *q = st + i * 0x1c;
 
         BMP_WIN_Delete((struct Descriptor *)(((CtvtCallRow *)(q + 0x40))->win));
         CLACT_DeleteActor((struct Obj *)(((CtvtCallRow *)(q + 0x40))->actorC));
@@ -985,7 +985,7 @@ void CTVT_CALL_Exit(void *a0, char *a1)
     }
 
     for (j = 0; j < 0xf; j++)
-        GFL_HEAP_Free((void *)(((CtvtCallEntry *)(a1 + j * 0x24 + 0x1e4))->peer));
+        GFL_HEAP_Free((void *)(((CtvtCallEntry *)(st + j * 0x24 + 0x1e4))->peer));
 
     BG_SYS_ClearSlot(6);
     BG_SYS_PushTile(6);
@@ -1004,7 +1004,7 @@ void CTVT_CALL_Exit(void *a0, char *a1)
  *   Keys: cnt is block-local in the fC==1 block (sets its stack slot);
  *   case 6 jumps into case 10 by tail merge (code written twice).
  */
-int CTVT_CALL_Update(void *a0, char *p)
+int CTVT_CALL_Update(void *ctx, char *p)
 {
     unsigned int t;
     u16 v;
@@ -1017,11 +1017,11 @@ int CTVT_CALL_Update(void *a0, char *p)
     unsigned int w;
     struct Descriptor *d;
 
-    v = COMM_TVT_SYS_GetHeapId(a0);
-    st = (unsigned int *)COMM_TVT_SYS_GetLaunchParams(a0);
+    v = COMM_TVT_SYS_GetHeapId(ctx);
+    st = (unsigned int *)COMM_TVT_SYS_GetLaunchParams(ctx);
     switch (W(8)) {
     case 0:
-        if (COMM_TVT_SYS_GetReturnedFromChild(a0) == 1)
+        if (COMM_TVT_SYS_GetReturnedFromChild(ctx) == 1)
             WIPE_SYS_Start((void *)0, 1, 1, 0, 6, 1, v);
         else
             WIPE_SYS_Start((void *)4, 1, 1, 0, 6, 1, v);
@@ -1029,8 +1029,8 @@ int CTVT_CALL_Update(void *a0, char *p)
         break;
     case 1:
         if (WIPE_SYS_EndCheck() == 1) {
-            unsigned int *s = (unsigned int *)COMM_TVT_SYS_GetLaunchParams(a0);
-            if (COMM_TVT_SYS_GetHostBusy(a0) == 1)
+            unsigned int *s = (unsigned int *)COMM_TVT_SYS_GetLaunchParams(ctx);
+            if (COMM_TVT_SYS_GetHostBusy(ctx) == 1)
                 W(8) = 11;
             else if (((CtvtLaunchParams *)s)->mode == 2 || ((CtvtLaunchParams *)s)->mode == 3)
                 W(8) = 8;
@@ -1040,13 +1040,13 @@ int CTVT_CALL_Update(void *a0, char *p)
         break;
     case 2:
         WIPE_SYS_Start((void *)4, 0, 0, 0, 6, 1, v);
-        COMM_TVT_SYS_SetReturnedFromChild(a0, 0);
+        COMM_TVT_SYS_SetReturnedFromChild(ctx, 0);
         W(8) = 4;
         break;
     case 3:
-        if (CTVT_CAMVIEW_IsShutterIdle((int)a0, (char *)COMM_TVT_SYS_GetCamView(a0)) == 1) {
+        if (CTVT_CAMVIEW_IsShutterIdle((int)ctx, (char *)COMM_TVT_SYS_GetCamView(ctx)) == 1) {
             WIPE_SYS_Start((void *)0, 0, 0, 0, 6, 1, v);
-            COMM_TVT_SYS_SetReturnedFromChild(a0, 0);
+            COMM_TVT_SYS_SetReturnedFromChild(ctx, 0);
             W(8) = 4;
         }
         break;
@@ -1058,13 +1058,13 @@ int CTVT_CALL_Update(void *a0, char *p)
         }
         break;
     case 5:
-        CTVT_CALL_HandleTouch(a0, (u8 *)p);
-        CTVT_CALL_UpdateTimeWindow(a0, p);
+        CTVT_CALL_HandleTouch(ctx, (u8 *)p);
+        CTVT_CALL_UpdateTimeWindow(ctx, p);
         break;
     case 6:
         if (W(0x18) == 0 || W(0x18) == 5) {
             if (CLACT_IsActorAnimActive((struct Actor *)OBJ) == 0) {
-                CTVT_CAMVIEW_StopCapture((int)a0, (char *)COMM_TVT_SYS_GetCamView(a0));
+                CTVT_CAMVIEW_StopCapture((int)ctx, (char *)COMM_TVT_SYS_GetCamView(ctx));
                 W(0x18) = 0;
                 W(8) = 3;
             }
@@ -1073,10 +1073,10 @@ int CTVT_CALL_Update(void *a0, char *p)
         if (APP_TASKMENU_WIN_IsFinish((void *)W(0x1c)) != 1)
             break;
         if (W(0x18) == 2) {
-            t = (unsigned int)COMM_TVT_SYS_GetComm(a0);
-            CTVT_COMM_SetRequestedMode((int)a0, (char *)t, 4);
-            CTVT_COMM_SetConnectMac((int)a0, (char *)t, (const u8 *)(p + 0x1fd + B(3) * 0x24));
-            CTVT_CALL_PrintTimeMessage(a0, p, 0x18);
+            t = (unsigned int)COMM_TVT_SYS_GetComm(ctx);
+            CTVT_COMM_SetRequestedMode((int)ctx, (char *)t, 4);
+            CTVT_COMM_SetConnectMac((int)ctx, (char *)t, (const u8 *)(p + 0x1fd + B(3) * 0x24));
+            CTVT_CALL_PrintTimeMessage(ctx, p, 0x18);
             W(0x38) = 1;
             W(8) = 7;
             H(0x34) = 0;
@@ -1084,15 +1084,15 @@ int CTVT_CALL_Update(void *a0, char *p)
             APP_TASKMENU_WIN_Delete((void *)W(0x1c));
             W(0x1c) = 0;
         } else {
-            t2 = (unsigned int)COMM_TVT_SYS_GetComm(a0);
+            t2 = (unsigned int)COMM_TVT_SYS_GetComm(ctx);
             W(8) = 9;
-            CTVT_CALL_PrintTimeMessage(a0, p, 0x14);
+            CTVT_CALL_PrintTimeMessage(ctx, p, 0x14);
             W(0x38) = 1;
             H(0x36) = 0;
-            CTVT_COMM_SetRequestedMode((int)a0, (char *)t2, 3);
+            CTVT_COMM_SetRequestedMode((int)ctx, (char *)t2, 3);
             APP_TASKMENU_WIN_Delete((void *)W(0x1c));
             W(0x1c) = 0;
-            ip = CTVT_COMM_GetMyStatusPtr(a0, (u8 *)t2);
+            ip = CTVT_COMM_GetMyStatusPtr(ctx, (u8 *)t2);
             for (i = 0; i < 3; i++) {
                 if (B(i) == 0xff) {
                     for (j = 0; j < 6; j++)
@@ -1103,20 +1103,20 @@ int CTVT_CALL_Update(void *a0, char *p)
                 }
             }
             ip[0x21] |= 2;
-            CTVT_COMM_ResetSlotTimer(a0, (u8 *)t2);
+            CTVT_COMM_ResetSlotTimer(ctx, (u8 *)t2);
         }
         CLACT_SetActorAnimSeq(OBJ, 0xf);
         break;
     case 7:
     case 8:
     case 9:
-        COMM_TVT_SYS_GetComm(a0);
-        if (COMM_TVT_SYS_GetMemberCount(a0) >= 2) {
+        COMM_TVT_SYS_GetComm(ctx);
+        if (COMM_TVT_SYS_GetMemberCount(ctx) >= 2) {
             if (W(0x28) == 0) {
-                t = (unsigned int)COMM_TVT_SYS_GetCamView(a0);
+                t = (unsigned int)COMM_TVT_SYS_GetCamView(ctx);
                 GFL_USE_StopAllSe();
                 GFL_USE_PlaySeDefaultVolume(0x73e);
-                CTVT_CAMVIEW_RequestShutterSound0((int)a0, (char *)t);
+                CTVT_CAMVIEW_RequestShutterSound0((int)ctx, (char *)t);
             }
             W(8) = 2;
         }
@@ -1128,24 +1128,24 @@ int CTVT_CALL_Update(void *a0, char *p)
             }
         }
         if (W(8) == 9) {
-            if (CTVT_COMM_IsSlotTimerDone(a0, (u8 *)COMM_TVT_SYS_GetComm(a0)) == 1) {
-                CTVT_COMM_SetRequestedMode((int)a0, (char *)COMM_TVT_SYS_GetComm(a0), 2);
-                CTVT_CALL_PrintTimeMessage(a0, p, 0x27);
+            if (CTVT_COMM_IsSlotTimerDone(ctx, (u8 *)COMM_TVT_SYS_GetComm(ctx)) == 1) {
+                CTVT_COMM_SetRequestedMode((int)ctx, (char *)COMM_TVT_SYS_GetComm(ctx), 2);
+                CTVT_CALL_PrintTimeMessage(ctx, p, 0x27);
                 W(8) = 10;
             }
         } else if (W(8) == 7 || W(8) == 8) {
             H(0x34)++;
             if (H(0x34) >= 0x4b0) {
-                CTVT_COMM_SetRequestedMode((int)a0, (char *)COMM_TVT_SYS_GetComm(a0), 2);
-                CTVT_CALL_PrintTimeMessage(a0, p, 0x28);
+                CTVT_COMM_SetRequestedMode((int)ctx, (char *)COMM_TVT_SYS_GetComm(ctx), 2);
+                CTVT_CALL_PrintTimeMessage(ctx, p, 0x28);
                 W(8) = 10;
             }
         }
         break;
     case 10:
         if (TOUCHPANEL_GetTrg() == 1) {
-            if (((unsigned int *)COMM_TVT_SYS_GetLaunchParams(a0))[1] == 2) {
-                CTVT_CAMVIEW_StopCapture((int)a0, (char *)COMM_TVT_SYS_GetCamView(a0));
+            if (((unsigned int *)COMM_TVT_SYS_GetLaunchParams(ctx))[1] == 2) {
+                CTVT_CAMVIEW_StopCapture((int)ctx, (char *)COMM_TVT_SYS_GetCamView(ctx));
                 W(0x18) = 0;
                 W(8) = 3;
             } else {
@@ -1157,7 +1157,7 @@ int CTVT_CALL_Update(void *a0, char *p)
                 d = (struct Descriptor *)W(0x30);
                 BMP_WIN_ClearScreen(d);
                 BG_SYS_PushTile(BMP_WIN_GetBgLayer(d));
-                COMM_TVT_SYS_DeleteTimeIcon(a0);
+                COMM_TVT_SYS_DeleteTimeIcon(ctx);
                 CLACT_SetActorAnimSeq(OBJ, 1);
                 W(0x18) = 4;
             }
@@ -1166,16 +1166,16 @@ int CTVT_CALL_Update(void *a0, char *p)
     case 11:
         BMP_WIN_Delete((struct Descriptor *)W(0x2c));
         W(0x2c) = BMP_WIN_Create(4, 2, 5, 0x1c, 0xe, 0xa, 1);
-        CTVT_CALL_PrintMessage(a0, p, 0x29);
+        CTVT_CALL_PrintMessage(ctx, p, 0x29);
         W(8) = 12;
         break;
     case 12:
-        if (COMM_TVT_SYS_GetMemberCount(a0) >= 2 && W(0x28) == 0) {
+        if (COMM_TVT_SYS_GetMemberCount(ctx) >= 2 && W(0x28) == 0) {
             GFL_USE_StopAllSe();
             W(0x28) = 1;
             GFL_USE_PlaySeDefaultVolume(0x73e);
         }
-        if (TOUCHPANEL_GetTrg() == 1 || COMM_TVT_SYS_GetEndRequested(a0) == 1) {
+        if (TOUCHPANEL_GetTrg() == 1 || COMM_TVT_SYS_GetEndRequested(ctx) == 1) {
             GFL_USE_PlaySeDefaultVolume(0x54c);
             BMP_MENUWORK_DrawWindowBorder((void *)W(0x2c), 1);
             d = (struct Descriptor *)W(0x2c);
@@ -1183,11 +1183,11 @@ int CTVT_CALL_Update(void *a0, char *p)
             BG_SYS_PushTile(BMP_WIN_GetBgLayer(d));
             BMP_WIN_Delete((struct Descriptor *)W(0x2c));
             W(0x2c) = BMP_WIN_Create(4, 1, 0x15, 0x15, 2, 0xa, 1);
-            COMM_TVT_SYS_ClearHostBusy(a0);
+            COMM_TVT_SYS_ClearHostBusy(ctx);
             if (((CtvtLaunchParams *)st)->mode == 2 || ((CtvtLaunchParams *)st)->mode == 3) {
                 CLACT_SetActorAnimSeq(OBJ, 0xf);
-                if (COMM_TVT_SYS_GetMemberCount(a0) < 2)
-                    CTVT_CALL_PrintTimeMessage(a0, p, 0x18);
+                if (COMM_TVT_SYS_GetMemberCount(ctx) < 2)
+                    CTVT_CALL_PrintTimeMessage(ctx, p, 0x18);
                 W(0x38) = 1;
                 W(0x18) = 3;
                 W(8) = 8;
@@ -1195,8 +1195,8 @@ int CTVT_CALL_Update(void *a0, char *p)
                 W(8) = 5;
                 W(0x18) = 4;
                 CLACT_SetActorAnimSeq(OBJ, 1);
-                v = COMM_TVT_SYS_GetHeapId(a0);
-                w = (unsigned int)COMM_TVT_SYS_GetArc(a0);
+                v = COMM_TVT_SYS_GetHeapId(ctx);
+                w = (unsigned int)COMM_TVT_SYS_GetArc(ctx);
                 ARC_UTIL_UploadBgCharFromHandle((void *)w, 0xb, 4, 0, 0x2800, 0, v);
                 ARC_UTIL_UploadBgPaletteFromHandle((void *)w, 0x12, 4, 0, 0, 0, v);
                 BG_SYS_PushTile(4);
@@ -1204,12 +1204,12 @@ int CTVT_CALL_Update(void *a0, char *p)
         }
         break;
     }
-    if (((CtvtLaunchParams *)st)->mode != 3 && COMM_TVT_SYS_GetHostBusy(a0) == 0) {
-        CTVT_CALL_RefreshPeers(a0, (u8 *)p);
+    if (((CtvtLaunchParams *)st)->mode != 3 && COMM_TVT_SYS_GetHostBusy(ctx) == 0) {
+        CTVT_CALL_RefreshPeers(ctx, (u8 *)p);
         for (i = 0; i < 15; i++) {
             r = p + i * 0x1c;
             if (((CtvtCallRow *)(r + 0x40))->pending == 1) {
-                struct PrintSys *ps = (struct PrintSys *)COMM_TVT_SYS_GetPrintQue(a0);
+                struct PrintSys *ps = (struct PrintSys *)COMM_TVT_SYS_GetPrintQue(ctx);
                 if (PRINTSYS_QUE_IsExistTarget(ps, BMP_WIN_GetBmp(*(struct Descriptor **)(r + 0x54))) == 0) {
                     d = *(struct Descriptor **)(r + 0x54);
                     BMP_WIN_TransferChars(d);
@@ -1222,7 +1222,7 @@ int CTVT_CALL_Update(void *a0, char *p)
         if (W(0xc) == 1) {
             u8 cnt = 0;
             for (i = 0; i < 15; i++)
-                CTVT_CALL_PlaceCursor(a0, p, p + 0x40 + i * 0x1c, i);
+                CTVT_CALL_PlaceCursor(ctx, p, p + 0x40 + i * 0x1c, i);
             BG_SYS_ResetSlot(6, 3, H(4));
             for (i = 0; i < 3; i++) {
                 if (B(i) != 0xff)
@@ -1248,7 +1248,7 @@ int CTVT_CALL_Update(void *a0, char *p)
         }
     }
     if (W(0x20) == 1) {
-        struct PrintSys *ps = (struct PrintSys *)COMM_TVT_SYS_GetPrintQue(a0);
+        struct PrintSys *ps = (struct PrintSys *)COMM_TVT_SYS_GetPrintQue(ctx);
         if (PRINTSYS_QUE_IsExistTarget(ps, BMP_WIN_GetBmp((struct Descriptor *)W(0x2c))) == 0) {
             BMP_WIN_TransferChars((struct Descriptor *)W(0x2c));
             BMP_WIN_MakeScreen((struct Cfg *)W(0x2c));
@@ -1257,7 +1257,7 @@ int CTVT_CALL_Update(void *a0, char *p)
         }
     }
     if (W(0x24) == 1) {
-        struct PrintSys *ps = (struct PrintSys *)COMM_TVT_SYS_GetPrintQue(a0);
+        struct PrintSys *ps = (struct PrintSys *)COMM_TVT_SYS_GetPrintQue(ctx);
         if (PRINTSYS_QUE_IsExistTarget(ps, BMP_WIN_GetBmp((struct Descriptor *)W(0x30))) == 0) {
             BMP_WIN_TransferChars((struct Descriptor *)W(0x30));
             BMP_WIN_MakeScreen((struct Cfg *)W(0x30));
@@ -1265,7 +1265,7 @@ int CTVT_CALL_Update(void *a0, char *p)
             W(0x24) = 0;
             if (W(0x38) == 1) {
                 W(0x38) = 0;
-                COMM_TVT_SYS_CreateTimeIcon(a0, (void *)W(0x30));
+                COMM_TVT_SYS_CreateTimeIcon(ctx, (void *)W(0x30));
             }
         }
     }
@@ -1460,7 +1460,7 @@ void CTVT_CALL_RefreshPeers(void *ctx, u8 *list)
                 if (p->f21_1 == 0 || CTVT_COMM_FindPeerName((u8 *)p, buf) == 1)
                     ok = CTVT_CALL_CheckJoinRequest(ctx, (unsigned long)list, a, c, b);
             } else if (ZONEDATA_IsZone117((u16)p->fC_17) == 0 && ZONEDATA_IsZoneGroup118To120((u16)p->fC_17) == 0) {
-                ok = CTVT_CALL_CheckJoinRequest(ctx, (unsigned long)list, (unsigned long)((u8 *)p + 0x1a), p->f4, p->bB_7);
+                ok = CTVT_CALL_CheckJoinRequest(ctx, (unsigned long)list, (unsigned long)((u8 *)p + 0x1a), p->trainerId, p->bB_7);
             }
             if (ok == 0)
                 continue;
@@ -1816,9 +1816,9 @@ void CTVT_CALL_UpdateTimeWindow(void *ctx, char *st)
     ((CtvtCall *)st)->prevRowCount = ((CtvtCall *)st)->rowCount;
 }
 
-int CTVT_CALL_CheckJoinRequest(void *ctx, unsigned long unused, unsigned long a, unsigned long b, unsigned long c)
+int CTVT_CALL_CheckJoinRequest(void *ctx, unsigned long unused, unsigned long name, unsigned long trainerId, unsigned long outfitVariant)
 {
-    return WIFILIST_FindFriendByStatusAndOutfit((struct Sub020097BCObj *)GAME_DATA_GetField1A0((const struct BigObj *)(*((unsigned long *)COMM_TVT_SYS_GetLaunchParams(ctx)))), (const void *)a, b, c, 0);
+    return WIFILIST_FindFriendByStatusAndOutfit((struct Sub020097BCObj *)GAME_DATA_GetField1A0((const struct BigObj *)(*((unsigned long *)COMM_TVT_SYS_GetLaunchParams(ctx)))), (const void *)name, trainerId, outfitVariant, 0);
 }
 
 #undef W
@@ -1841,19 +1841,19 @@ int CTVT_CALL_CheckJoinRequest(void *ctx, unsigned long unused, unsigned long a,
 
 #define B(o) (*(u8 *)(self + (o)))
 
-void CTVT_CALL_PrintMessage(void *a0, char *a1, int a2)
+void CTVT_CALL_PrintMessage(void *ctx, char *st, int msgId)
 {
-    unsigned int x = COMM_TVT_SYS_GetFont(a0);
-    unsigned int y = (unsigned int)COMM_TVT_SYS_GetMsgData(a0);
-    unsigned int z = (unsigned int)COMM_TVT_SYS_GetPrintQue(a0);
+    unsigned int x = COMM_TVT_SYS_GetFont(ctx);
+    unsigned int y = (unsigned int)COMM_TVT_SYS_GetMsgData(ctx);
+    unsigned int z = (unsigned int)COMM_TVT_SYS_GetPrintQue(ctx);
     unsigned int w;
 
-    BMP_Clear((struct CharBuf *)((unsigned int)BMP_WIN_GetBmp((struct Descriptor *)((CtvtCall *)a1)->msgWin)), 0xf);
-    w = (unsigned int)MSGDATA_AllocString((struct MsgBank *)y, a2);
-    PRINTSYS_PrintQueColor((void *)z, BMP_WIN_GetBmp((struct Descriptor *)((CtvtCall *)a1)->msgWin), 0, 0, (void *)w, x, 0x440);
+    BMP_Clear((struct CharBuf *)((unsigned int)BMP_WIN_GetBmp((struct Descriptor *)((CtvtCall *)st)->msgWin)), 0xf);
+    w = (unsigned int)MSGDATA_AllocString((struct MsgBank *)y, msgId);
+    PRINTSYS_PrintQueColor((void *)z, BMP_WIN_GetBmp((struct Descriptor *)((CtvtCall *)st)->msgWin), 0, 0, (void *)w, x, 0x440);
     STRBUF_Delete((struct U16Vec *)w);
-    BMP_MENUWORK_DrawWindow((void *)(((CtvtCall *)a1)->msgWin), 2, 0x140, 9);
-    ((CtvtCall *)a1)->msgDirty = 1;
+    BMP_MENUWORK_DrawWindow((void *)(((CtvtCall *)st)->msgWin), 2, 0x140, 9);
+    ((CtvtCall *)st)->msgDirty = 1;
 }
 
 void CTVT_CALL_PrintTimeMessage(void *ctx, char *st, unsigned long msgId)
@@ -2143,10 +2143,10 @@ void CTVT_CALL_InitDisplay(u8 *p)
  *
  * Addresses are Black-image addresses.
  */
-void CTVT_CALL_ExitDisplay(void *a0)
+void CTVT_CALL_ExitDisplay(void *work)
 {
     *(volatile u32 *)0x04000000 &= 0xFFFF1FFF;
-    CLACT_ExitSystem(CLACT_DeleteUnit((struct Bank *)(((CtvtWork *)a0)->clactUnit)));
+    CLACT_ExitSystem(CLACT_DeleteUnit((struct Bank *)(((CtvtWork *)work)->clactUnit)));
     BG_SYS_FreeLayerBuf(7);
     BG_SYS_FreeLayerBuf(6);
     BG_SYS_FreeLayerBuf(5);
@@ -2259,23 +2259,23 @@ void CTVT_CALL_InitText(u8 *p)
     ((CtvtWork *)p)->timeIcon=0;
 }
 
-void CTVT_CALL_DeleteText(u32 *a0)
+void CTVT_CALL_DeleteText(u32 *slots)
 {
     u32 i;
     u32 v;
 
     i = 0x77;
-    v = a0[i];
+    v = slots[i];
     if (v != 0) {
         TIME_ICON_Delete((u8 *)v);
-        a0[i] = 0;
+        slots[i] = 0;
     }
     i = 0x76;
-    TCBL_Destroy((struct S02031140 *)a0[i]);
-    PRINTSYS_QUE_Clear((struct PrintSys *)a0[i - 2]);
-    PRINTSYS_QUE_Delete((struct PrintSys *)a0[i - 2]);
-    MSGDATA_Delete((struct Rec *)a0[i - 3]);
-    GF_FONT_Delete((void *)a0[i - 4]);
+    TCBL_Destroy((struct S02031140 *)slots[i]);
+    PRINTSYS_QUE_Clear((struct PrintSys *)slots[i - 2]);
+    PRINTSYS_QUE_Delete((struct PrintSys *)slots[i - 2]);
+    MSGDATA_Delete((struct Rec *)slots[i - 3]);
+    GF_FONT_Delete((void *)slots[i - 4]);
 }
 
 void CTVT_CALL_SwitchScreen(u8 *p)

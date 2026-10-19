@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_NETWORK_InitCommBattleOv180Param
+ * function: EVENT_GAMECLEAR_InitHallOfFameParam
  * address:  0x0215F900
  * packet:   pkt_0215F900
  * region:   ov010
@@ -27,7 +27,7 @@ extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern int GAME_DATA_GetPlayTime(int p0);
 
-void SCRCMD_NETWORK_InitCommBattleOv180Param(void *a0)
+void EVENT_GAMECLEAR_InitHallOfFameParam(void *a0)
 {
     char *p = (char *)a0;
 

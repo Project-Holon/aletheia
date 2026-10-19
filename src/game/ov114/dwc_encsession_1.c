@@ -109,13 +109,13 @@ int DWCi_EncValidateKey(char *gameName, const char *secretKey, unsigned long mul
         unsigned char *d = (unsigned char *)gDwcEncSession.secretKey;
         unsigned char *s = (unsigned char *)secretKey;
         for (n = 10; n != 0; n--) {
-            unsigned char x0;
-            unsigned char x1;
-            x1 = s[1];
-            x0 = s[0];
-            d[1] = x1;
+            unsigned char byte0;
+            unsigned char byte1;
+            byte1 = s[1];
+            byte0 = s[0];
+            d[1] = byte1;
             s += 2;
-            d[0] = x0;
+            d[0] = byte0;
             d += 2;
         }
     }

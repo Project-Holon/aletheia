@@ -221,7 +221,7 @@ extern void G3D_LIGHT_DeleteSlots(void *p);
 extern void G3D_SYSTEM_Exit(void);
 extern void *G3D_UTIL_Create(int a, int b, int heap);
 extern u16 G3D_UTIL_AddUnit(void *p, const void *q);
-extern u32 G3D_UTIL_GetObject(u8 *a0, int i);
+extern u32 G3D_UTIL_GetObject(u8 *util, int i);
 extern int G3D_SYSTEM_GetObjectAnimeCount(int *p);
 extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
 extern void *G3D_CAMERA_Create(int a, int s, int c, int d, int e, int f, int g, int h, VecFx32 *pos, VecFx32 *up, VecFx32 *tgt, int heap);
@@ -234,7 +234,7 @@ extern u32 G3D_SYSTEM_GetObjectAnimeFrame(struct AnmCtl *c, u32 idx, s32 *frame)
 extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame);
 extern void G3D_SYSTEM_DrawStart(void);
 extern void G3D_SYSTEM_ApplyLookAt(void);
-extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
+extern void G3D_SYSTEM_DrawObject(void *obj, struct Arg *status);
 extern void G3D_SYSTEM_DrawEnd(void);
 extern void BMP_WIN_Init(u16 heapId);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
@@ -247,7 +247,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void BG_SYS_PushTile(unsigned int index);
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
@@ -256,7 +256,7 @@ extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern u32 WIPE_SYS_EndCheck(void);
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
-extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
@@ -272,7 +272,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void VIEWER_ACTOR_HandleTouchDrag(ViewerTextWork *p, int idx);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void UI_SetInputMode(u8 v);
-extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
+extern int GAME_DATA_CheckSaveFlag(int gd, int id);
 extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void *GAME_DATA_GetMiscSave(int *p);
@@ -285,7 +285,7 @@ extern void RTC_ConvertSecondToDateTime(RTCDate *date, RTCTime *time, s64 sec);
 extern unsigned long long TRCARD_SIGN_GetLastBadgeTime(const struct Sub020089A8Obj *obj);
 extern u16 TRCARD_SIGN_GetBadgeTimer(const struct Sub020089A8Obj *obj, u32 i);
 extern void GX_LoadOBJPltt(const void *src, int ofs, int size);
-extern u32 G3D_UTIL_GetResource(u8 *a0, int i);
+extern u32 G3D_UTIL_GetResource(u8 *util, int i);
 extern ViewerTexInfo *DWCi_LSTlPopFront(void *p);
 extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 void VIEWER_ACTOR_CreateObjects(ViewerTextWork *p);
@@ -629,15 +629,15 @@ int VIEWER_ACTOR_CheckWipeEnd(ViewerTextWork *p)
 {
     if (WIPE_SYS_EndCheck()) {
         if (p->action == 0x12) {
-            p->parent->fC = 0;
-            p->parent->f10 = 1;
+            p->parent->exitCode = 0;
+            p->parent->nextScreen = 1;
             p->state = 0;
         } else if (p->action == 0x13) {
-            p->parent->fC = 0;
-            p->parent->f10 = 0;
+            p->parent->exitCode = 0;
+            p->parent->nextScreen = 0;
             p->state = 0;
         } else if (p->action == 0x10) {
-            p->parent->fC = 3;
+            p->parent->exitCode = 3;
             p->state = 0;
         }
         return 0;
@@ -952,10 +952,10 @@ void VIEWER_ACTOR_SelectActor(ViewerTextWork *p, int sel, int flag)
 
 void VIEWER_ACTOR_ToggleFavorite(ViewerTextWork *p)
 {
-    int v = GAME_DATA_CheckSaveFlag((int)p->parent->f4, 0x17) ^ 1;
+    int v = GAME_DATA_CheckSaveFlag((int)p->parent->gameData, 0x17) ^ 1;
 
     CLACT_SetActorAnimSeq(p->actors.named.actorD, v + 6);
-    GAME_DATA_SetSaveFlag(p->parent->f4, 0x17, v);
+    GAME_DATA_SetSaveFlag(p->parent->gameData, 0x17, v);
     GFL_USE_PlaySeDefaultVolume(0x646);
 }
 
@@ -1016,7 +1016,7 @@ void VIEWER_ACTOR_UpdateRowVisibility(ViewerTextWork *p, int a, int b)
     void *obj;
     int i;
 
-    obj = GAME_DATA_GetMiscSave(p->parent->f4);
+    obj = GAME_DATA_GetMiscSave(p->parent->gameData);
     for (i = 0; i < 8; i++) {
         if (BEACON_GetFlag(obj, i)) {
             CLACT_SetActorDrawEnable(p->actors.named.rowActor[i], 1);
@@ -1028,7 +1028,7 @@ void VIEWER_ACTOR_UpdateRowVisibility(ViewerTextWork *p, int a, int b)
             p->rowEnabled[i] = 0;
         }
     }
-    CLACT_SetActorAnimSeq(p->actors.named.actorD, GAME_DATA_CheckSaveFlag((int)p->parent->f4, 0x17) + 6);
+    CLACT_SetActorAnimSeq(p->actors.named.actorD, GAME_DATA_CheckSaveFlag((int)p->parent->gameData, 0x17) + 6);
 }
 
 

@@ -17,9 +17,9 @@
  *   BTLV_CORE_SkipBagPartyPrompt 0x021E9E70 thumb ov093
  *   BTLV_CORE_PollBagMenu 0x021E9E80 thumb ov093
  *   BTLV_CORE_GetSelectedItem 0x021EA01C thumb ov093
- *   BTLV_CORE_GetInputTargetSlot 0x021EA044 thumb ov093
- *   BTLV_CORE_GetSelectedItemPocket 0x021EA030 thumb ov093
- *   BTLV_CORE_GetInputResultFlag 0x021EA04C thumb ov093
+ *   BTLV_CORE_GetItemTargetSlot 0x021EA044 thumb ov093
+ *   BTLV_CORE_GetSelectedItemCost 0x021EA030 thumb ov093
+ *   BTLV_CORE_GetItemTargetFlag 0x021EA04C thumb ov093
  *   BTL_CLIENT_SetSlotFlag 0x021CF430 thumb ov093
  *   BTL_ACTION_SetItem 0x021D8358 thumb ov093
  *   BTLV_CORE_SaveBagCursors 0x021EA058 thumb ov093
@@ -43,9 +43,9 @@ extern int BTL_CLIENT_PollTimeLimitAndSetSub(u8 *p, void *q);
 extern void BTLV_CORE_SkipBagPartyPrompt(u8 *p);
 extern int BTLV_CORE_PollBagMenu(u8 *p);
 extern u16 BTLV_CORE_GetSelectedItem(u8 *p);
-extern u8 BTLV_CORE_GetInputTargetSlot(struct QV *p);
-extern u8 BTLV_CORE_GetSelectedItemPocket(u8 *p);
-extern u8 BTLV_CORE_GetInputResultFlag(u8 *p);
+extern u8 BTLV_CORE_GetItemTargetSlot(struct QV *p);
+extern u8 BTLV_CORE_GetSelectedItemCost(u8 *p);
+extern u8 BTLV_CORE_GetItemTargetFlag(u8 *p);
 extern void BTL_CLIENT_SetSlotFlag(u8 *, u32, u32);
 extern void BTL_ACTION_SetItem(u32 *p, u32 id, u32 sub, u32 val);
 extern void BTLV_CORE_SaveBagCursors(char *p);
@@ -84,10 +84,10 @@ u32 BTL_CLIENT_StepSelectItem(u8 *p, int *st)
         }
         if (BTLV_CORE_PollBagMenu(((struct Obj00967 *)p)->f54)) {
             a = BTLV_CORE_GetSelectedItem(((struct Obj00967 *)p)->f54);
-            b = BTLV_CORE_GetInputTargetSlot(((struct Obj00967 *)p)->f54);
+            b = BTLV_CORE_GetItemTargetSlot(((struct Obj00967 *)p)->f54);
             if (a && b != 6) {
-                c = BTLV_CORE_GetSelectedItemPocket(((struct Obj00967 *)p)->f54);
-                d = BTLV_CORE_GetInputResultFlag(((struct Obj00967 *)p)->f54);
+                c = BTLV_CORE_GetSelectedItemCost(((struct Obj00967 *)p)->f54);
+                d = BTLV_CORE_GetItemTargetFlag(((struct Obj00967 *)p)->f54);
                 if (p[0x1ab] >= c) p[0x1ab] = p[0x1ab] - c;
                 else {
                     p[0x1ab] = z;

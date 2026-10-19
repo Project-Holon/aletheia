@@ -24,7 +24,7 @@
  *   SAVEDATA_PanicFail 0x02034714 arm
  *   gUnionEmptyString0 0x021807E0 data a1
  *   FLDMMDL_SetStatusBitVanish  0x0216DAC8  thumb  ov010
- *   ICA_ANIME_GetField20  0x0201210C  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetUnionEff  0x02188CE0  thumb  ov021
  *   UNION_EFF_DeleteIcon  0x0217F958  thumb  ov019
  *   FLDMMDL_DeleteMmdl  0x0216CF2C  thumb  ov010
@@ -34,7 +34,7 @@
  *   MISC_SAVEDATA_ContainsRecentValue  0x0200EDC4  thumb
  *   UNION_EFF_AddIcon  0x0217F948  thumb  ov019
  *   memcmp  0x0203EFC8  arm
- *   ICA_ANIME_Check2114 0x02012114  thumb
+ *   GAMESYSTEM_IsFieldMapActive 0x02012114  thumb
  *   UNION_EFF_AddAnimEffect 0x0217F93C  thumb  ov019
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
@@ -92,7 +92,7 @@ extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
 extern void FLDMMDL_SetStatusBitVanish(unsigned int *mmdl, unsigned int vanish);
 
-extern void *ICA_ANIME_GetField20(struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 
 extern u32 FIELDMAP_GetUnionEff(void *fieldMap);
 
@@ -108,7 +108,7 @@ extern int MISC_SAVEDATA_ContainsRecentValue(void *metTrainers, u32 trainerId);
 
 extern void UNION_EFF_AddIcon(char *markSys, u32 mmdl, u32 kind);
 
-extern unsigned int ICA_ANIME_Check2114(struct GameSystem *gameSystem);
+extern unsigned int GAMESYSTEM_IsFieldMapActive(struct GameSystem *gameSystem);
 
 extern void UNION_EFF_AddAnimEffect(int markSys, int mmdl);
 
@@ -315,7 +315,7 @@ void UNION_CHARA_DeleteSlot(UnionRoomWork *work, UnionBeaconPc *beaconPc, UnionC
     void *fieldMap;
     void *mmdl;
 
-    fieldMap = ICA_ANIME_GetField20(work->parent->gameSystem);
+    fieldMap = GAMESYSTEM_GetFieldMap(work->parent->gameSystem);
     mmdl = UNION_CHARA_GetMmdl(work, beaconPc, slot);
     if (fieldMap != 0 && mmdl != 0)
         UNION_EFF_DeleteIcon((char *)FIELDMAP_GetUnionEff(fieldMap), (u32)mmdl);
@@ -386,8 +386,8 @@ int UNION_CHARA_FocusRequestedMember(UnionRoomWork *work, UnionBeaconPc *beaconP
         if (memcmp(beaconPc->beacon.group.member[i].mac, work->mySituation.focusMac, 6) != 0) {
             continue;
         }
-        if (ICA_ANIME_Check2114(work->parent->gameSystem) == 1) {
-            markSys = FIELDMAP_GetUnionEff(ICA_ANIME_GetField20(work->parent->gameSystem));
+        if (GAMESYSTEM_IsFieldMapActive(work->parent->gameSystem) == 1) {
+            markSys = FIELDMAP_GetUnionEff(GAMESYSTEM_GetFieldMap(work->parent->gameSystem));
             if (markSys != 0) {
                 objId = UNION_CHARA_MakeObjId(beaconPc, slot);
                 objId = (int)FLDMMDL_SysSearchObjId((void *)GAME_DATA_GetOccupyInfo(work->parent->gameData), objId);

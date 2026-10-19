@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "SCRCMD_NETWORK_InitCommBattleOv180Param",
+   "name": "EVENT_GAMECLEAR_InitHallOfFameParam",
    "address": "0x0215F900",
    "kind": "game",
    "region": "ov010",

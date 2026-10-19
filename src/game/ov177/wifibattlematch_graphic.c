@@ -157,7 +157,7 @@ void WIFIBATTLEMATCH_GRAPHIC_DeleteBg(void *p);
 
 void WIFIBATTLEMATCH_GRAPHIC_Noop(void *p);
 
-void WIFIBATTLEMATCH_GRAPHIC_TickDisplay(int *a0);
+void WIFIBATTLEMATCH_GRAPHIC_TickDisplay(int *unused);
 
 void WIFIBATTLEMATCH_GRAPHIC_InitClact(int *p, int b, int c);
 
@@ -165,7 +165,7 @@ void WIFIBATTLEMATCH_GRAPHIC_DeleteClact(int *p);
 
 void WIFIBATTLEMATCH_GRAPHIC_DrawClact(void *p);
 
-void WIFIBATTLEMATCH_GRAPHIC_VBlankClact(int *a0);
+void WIFIBATTLEMATCH_GRAPHIC_VBlankClact(int *unused);
 
 int WIFIBATTLEMATCH_GRAPHIC_GetClactBank(int *p);
 
@@ -269,7 +269,7 @@ void WIFIBATTLEMATCH_GRAPHIC_Noop(void *p)
 {
 }
 
-void WIFIBATTLEMATCH_GRAPHIC_TickDisplay(int *a0)
+void WIFIBATTLEMATCH_GRAPHIC_TickDisplay(int *unused)
 {
     BG_SYS_Update();
 }
@@ -300,7 +300,7 @@ void WIFIBATTLEMATCH_GRAPHIC_DrawClact(void *p)
     CLACT_DrawSystem();
 }
 
-void WIFIBATTLEMATCH_GRAPHIC_VBlankClact(int *a0)
+void WIFIBATTLEMATCH_GRAPHIC_VBlankClact(int *unused)
 {
     CLACT_VBlankSystem();
 }

@@ -93,7 +93,7 @@ extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
 extern signed int CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 

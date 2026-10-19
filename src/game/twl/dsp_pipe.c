@@ -73,8 +73,8 @@ typedef void (*DspCb)(void *, int, int);
    the same address as data_02734534[0]; the original code names both. */
 typedef struct DspIoState {
     DspPipeInfo *base;
-    u32 f4;
-    u32 f8;
+    u32 pad4;
+    u32 pad8;
     DspCb callback;
 } DspIoState;
 
@@ -124,7 +124,7 @@ extern void DSP_LoadData(u32, u8 *, u32);
 
 void DSPi_FileIOProc(void *arg);
 void DSPi_NotifyFileIOUpdation(u32 ch);
-void DSPi_PipeCallbackToConsole(void *a0, int a1, int a2);
+void DSPi_PipeCallbackToConsole(void *userdata, int port, int peer);
 static void DSPi_WaitForPipe(DspRing *r);
 void DSP_InitPipe(void);
 void DSP_SetPipeCallback(int i, DspCb a, void *b);
@@ -275,7 +275,7 @@ void DSPi_NotifyFileIOUpdation(u32 ch)
     OS_RestoreInterrupts(ints);
 }
 
-void DSPi_PipeCallbackToConsole(void *a0, int a1, int a2)
+void DSPi_PipeCallbackToConsole(void *userdata, int port, int peer)
 {
     DspRing ring;
     u8 buf[0x80];
@@ -284,10 +284,10 @@ void DSPi_PipeCallbackToConsole(void *a0, int a1, int a2)
     int left;
     u32 total;
 
-    if (a2 != 0) {
+    if (peer != 0) {
         return;
     }
-    DSP_LoadPipe(&ring, a1, a2);
+    DSP_LoadPipe(&ring, port, peer);
     total = DSP_GetPipeReadableSize(&ring);
     done = 0;
     if (total == 0) {
@@ -304,10 +304,10 @@ void DSPi_PipeCallbackToConsole(void *a0, int a1, int a2)
     }
 }
 
-static void DSPi_WaitForPipe(DspRing *r)
+static void DSPi_WaitForPipe(DspRing *pipe)
 {
     OS_SleepThread(&data_0273452C);
-    DSP_SyncPipe(r);
+    DSP_SyncPipe(pipe);
 }
 
 void DSP_InitPipe(void)
@@ -315,8 +315,8 @@ void DSP_InitPipe(void)
     int i;
 
     data_02734528.base = 0;
-    data_02734528.f8 = 0;
-    data_02734528.f4 = 0;
+    data_02734528.pad8 = 0;
+    data_02734528.pad4 = 0;
     for (i = 0; i < 8; i++) {
         data_02734534[i] = 0;
         data_02734554[i] = 0;
@@ -324,10 +324,10 @@ void DSP_InitPipe(void)
     data_02734528.callback = DSPi_PipeCallbackToConsole;
 }
 
-void DSP_SetPipeCallback(int i, DspCb a, void *b)
+void DSP_SetPipeCallback(int index, DspCb callback, void *userdata)
 {
-    data_02734534[i] = a;
-    data_02734554[i] = b;
+    data_02734534[index] = callback;
+    data_02734554[index] = userdata;
 }
 
 DspRing *DSP_LoadPipe(DspRing *out, int ch, int dir)
@@ -347,45 +347,45 @@ DspRing *DSP_LoadPipe(DspRing *out, int ch, int dir)
     return out;
 }
 
-DspRing *DSP_SyncPipe(DspRing *r)
+DspRing *DSP_SyncPipe(DspRing *pipe)
 {
-    return DSP_LoadPipe(r, (r->id & 0xFF) >> 1, r->id & 1);
+    return DSP_LoadPipe(pipe, (pipe->id & 0xFF) >> 1, pipe->id & 1);
 }
 
-void DSP_FlushPipe(DspRing *r)
+void DSP_FlushPipe(DspRing *pipe)
 {
-    int id = r->id;
+    int id = pipe->id;
     u32 addr = (u32)data_02734528.base + ((id & 0xFF) >> 1) * 0x14;
     u32 dir = id & 1;
     u32 n;
 
     addr += dir * 0xA;
     if (dir == 0) {
-        DSP_StoreData(addr + 4, (u8 *)&r->rd, 2);
+        DSP_StoreData(addr + 4, (u8 *)&pipe->rd, 2);
     } else {
-        DSP_StoreData(addr + 6, (u8 *)&r->wr, 2);
+        DSP_StoreData(addr + 6, (u8 *)&pipe->wr, 2);
     }
-    n = r->id & 0xFF;
+    n = pipe->id & 0xFF;
     if (OS_IsRunOnTwl() == 1) {
         DSP_SendDataCore(2, n);
     }
 }
 
-u16 DSP_GetPipeReadableSize(DspRing *r)
+u16 DSP_GetPipeReadableSize(DspRing *pipe)
 {
-    int t = r->rd ^ r->wr;
+    int t = pipe->rd ^ pipe->wr;
     int d;
 
     if (t < 0x8000) {
         t = 0;
     } else {
-        t = r->size;
+        t = pipe->size;
     }
-    d = r->wr - r->rd;
+    d = pipe->wr - pipe->rd;
     return (d + t) & ~0x8000;
 }
 
-void DSP_ReadPipe(DspRing *r, void *dst, u16 count)
+void DSP_ReadPipe(DspRing *pipe, void *dst, u16 count)
 {
     u8 *buf = dst;
     u32 ints;
@@ -401,24 +401,24 @@ void DSP_ReadPipe(DspRing *r, void *dst, u16 count)
 
     ints = OS_DisableInterrupts();
     dirty = 0;
-    DSP_SyncPipe(r);
+    DSP_SyncPipe(pipe);
     if (count != 0) {
         do {
-            wr = r->wr;
-            rd = r->rd;
+            wr = pipe->wr;
+            rd = pipe->rd;
             diff = (u16)(rd ^ wr);
             if (diff == 0) {
                 if (dirty != 0) {
-                    DSP_FlushPipe(r);
+                    DSP_FlushPipe(pipe);
                     dirty = 0;
                 }
-                DSPi_WaitForPipe(r);
+                DSPi_WaitForPipe(pipe);
             } else {
                 rdIdx = rd & ~0x8000;
                 if (diff < 0x8000) {
                     limit = wr & ~0x8000;
                 } else {
-                    limit = r->size;
+                    limit = pipe->size;
                 }
                 n = (u16)limit - rdIdx;
                 if (count < n) {
@@ -426,27 +426,27 @@ void DSP_ReadPipe(DspRing *r, void *dst, u16 count)
                 }
                 n = (u16)n;
                 chunk = n;
-                DSP_LoadData(r->base * 2 + rdIdx, buf, chunk);
+                DSP_LoadData(pipe->base * 2 + rdIdx, buf, chunk);
                 count = count - chunk;
                 buf += chunk;
                 next = chunk + rdIdx;
-                if (next < r->size) {
+                if (next < pipe->size) {
                     next = rd + chunk;
                 } else {
                     next = ~rd & 0x8000;
                 }
                 dirty = 1;
-                r->rd = next;
+                pipe->rd = next;
             }
         } while (count != 0);
     }
     if (dirty != 0) {
-        DSP_FlushPipe(r);
+        DSP_FlushPipe(pipe);
     }
     OS_RestoreInterrupts(ints);
 }
 
-void DSP_WritePipe(DspRing *r, void *src, u16 count)
+void DSP_WritePipe(DspRing *pipe, void *src, u16 count)
 {
     u8 *buf = src;
     u32 ints;
@@ -462,22 +462,22 @@ void DSP_WritePipe(DspRing *r, void *src, u16 count)
 
     ints = OS_DisableInterrupts();
     dirty = 0;
-    DSP_SyncPipe(r);
+    DSP_SyncPipe(pipe);
     if (count != 0) {
         do {
-            wr = r->wr;
-            rd = r->rd;
+            wr = pipe->wr;
+            rd = pipe->rd;
             diff = (u16)(rd ^ wr);
             if (diff == 0x8000) {
                 if (dirty != 0) {
-                    DSP_FlushPipe(r);
+                    DSP_FlushPipe(pipe);
                     dirty = 0;
                 }
-                DSPi_WaitForPipe(r);
+                DSPi_WaitForPipe(pipe);
             } else {
                 wrIdx = wr & ~0x8000;
                 if (diff < 0x8000) {
-                    limit = r->size;
+                    limit = pipe->size;
                 } else {
                     limit = rd & ~0x8000;
                 }
@@ -487,22 +487,22 @@ void DSP_WritePipe(DspRing *r, void *src, u16 count)
                 }
                 n = (u16)n;
                 chunk = n;
-                DSP_StoreData(r->base * 2 + wrIdx, buf, chunk);
+                DSP_StoreData(pipe->base * 2 + wrIdx, buf, chunk);
                 count = count - chunk;
                 buf += chunk;
                 next = chunk + wrIdx;
-                if (next < r->size) {
+                if (next < pipe->size) {
                     next = wr + chunk;
                 } else {
                     next = ~wr & 0x8000;
                 }
                 dirty = 1;
-                r->wr = next;
+                pipe->wr = next;
             }
         } while (count != 0);
     }
     if (dirty != 0) {
-        DSP_FlushPipe(r);
+        DSP_FlushPipe(pipe);
     }
     OS_RestoreInterrupts(ints);
 }

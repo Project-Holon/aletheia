@@ -289,45 +289,45 @@ typedef struct MysteryUtilMenuListSrc {
 
 struct MysteryUtilDetailDef {
     void *bank;
-    u32 f4;
-    u32 f8;
-    u32 *fC_;
+    u32 font;
+    u32 printQueue;
+    u32 *actor;
     u32 ids[4];
-    u32 f20;
-    u16 f24;
-    u16 f26;
+    u32 count;
+    u16 bgLayer;
+    u16 windowPalette;
     u16 f28;
-    u16 f2a;
-    s16 f2c;
-    s16 f2e;
-    u16 f30;
+    u16 paletteBank;
+    s16 rowOffset;
+    s16 colOffset;
+    u16 animSeq;
     u16 pad32;
-    u32 f34;
-    u32 f38;
-    u32 *f3c;
+    u32 callback;
+    u32 callbackArg;
+    u32 *outIndex;
 };
 
 struct MysteryUtilDetailWindow {
-    void *f0;
-    u32 f4;
-    u32 f8;
-    u32 fC;
+    void *windowList;
+    u32 actor;
+    u32 index;
+    u32 count;
     u16 pad10;
     u16 pal[5];
     u16 pad1c[3];
-    u16 f22;
-    u16 f24;
-    u16 f26;
-    u16 f28;
+    u16 blendColor;
+    u16 phase;
+    u16 windowPalette;
+    u16 bgLayer;
     u16 f2a;
-    u16 f2c;
-    u16 f2e;
-    u16 f30;
+    u16 paletteBank;
+    u16 rowOffset;
+    u16 animSeq;
     u16 pad32;
-    u32 f34;
-    u32 f38;
+    u32 callback;
+    u32 callbackArg;
     u8 pad3c[0x24];
-    u32 *f60;
+    u32 *outIndex;
 };
 
 struct MysteryUtilDetailEntry {
@@ -399,7 +399,7 @@ extern void PRINTSYS_PrintStreamDelete(void *p);
 
 extern void TIME_ICON_Delete(void *);
 
-extern int APP_KEYCURSOR_Delete(int a0);
+extern int APP_KEYCURSOR_Delete(int cursor);
 
 extern void TCBL_Destroy(void *p);
 
@@ -413,7 +413,7 @@ extern void TCBL_Main(void *p);
 
 extern u32 GFL_USE_GetMainTaskList(void);
 
-extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
+extern u8 *TIME_ICON_Create(void *owner, void *refWin, u8 fillColor, u8 waitInterval, volatile u16 heap);
 
 extern void PRINTSYS_PrintQue(void *p, u32 a, u32 b, u32 c, void *s, u32 e);
 
@@ -1090,49 +1090,49 @@ struct MysteryUtilDetailWindow *MYSTERY_UTIL_CreateDetailWindow(const struct Mys
     u16 w;
     struct MysteryUtilDetailWindow *out = GFL_HEAP_Alloc(heap, 0x64, 0, d_021DFBA0, 0x4e7);
     MI_CpuFill8(out, 0, 0x64);
-    out->fC = in->f20;
-    out->f4 = (u32)in->fC_;
-    out->f26 = in->f26;
+    out->count = in->count;
+    out->actor = (u32)in->actor;
+    out->windowPalette = in->windowPalette;
     out->f2a = in->f28;
-    out->f2c = in->f2a;
-    out->f28 = in->f24;
-    out->f34 = in->f34;
-    out->f38 = in->f38;
-    out->f2e = in->f2c;
-    out->f30 = in->f30;
-    out->f60 = in->f3c;
-    if (in->f3c) {
-        u32 v = *in->f3c;
-        out->f8 = v;
-        out->f8 = (v > out->fC - 1) ? out->fC - 1 : v;
+    out->paletteBank = in->paletteBank;
+    out->bgLayer = in->bgLayer;
+    out->callback = in->callback;
+    out->callbackArg = in->callbackArg;
+    out->rowOffset = in->rowOffset;
+    out->animSeq = in->animSeq;
+    out->outIndex = in->outIndex;
+    if (in->outIndex) {
+        u32 v = *in->outIndex;
+        out->index = v;
+        out->index = (v > out->count - 1) ? out->count - 1 : v;
     }
-    for (i = 0; i < out->fC; i++)
-        out->pal[i] = *(u16 *)(0x05000000 + in->f2a * 32 + (i + 10) * 2);
-    out->f22 = *(u16 *)(0x0500001E + in->f2a * 32);
+    for (i = 0; i < out->count; i++)
+        out->pal[i] = *(u16 *)(0x05000000 + in->paletteBank * 32 + (i + 10) * 2);
+    out->blendColor = *(u16 *)(0x0500001E + in->paletteBank * 32);
     t = d_021DF7C0;
-    for (i = 0; i < out->fC; i++) {
+    for (i = 0; i < out->count; i++) {
         struct MysteryUtilDetailEntry *r = &t.r[i];
-        r->b += (u8)in->f2c;
-        r->a += (u8)in->f2e;
+        r->b += (u8)in->rowOffset;
+        r->a += (u8)in->colOffset;
         if (in->bank) r->h = MSGDATA_AllocString(in->bank, in->ids[i]);
         else r->h = STRBUF_Clone((struct U16Vec *)in->ids[i], (u16)((heap & 0x7FFF) | 0x8000));
     }
-    c = in->f26;
-    w = in->f24;
+    c = in->windowPalette;
+    w = in->bgLayer;
     /* stand-in: unprototyped call; the prototype's u16/u8 parameters narrow the arguments and change the bytes */
-    out->f0 = ((void *(*)())MYSTERY_UTIL_CreateWindowList)(0, (const char *)&t, out->fC, w, c, in->f8, (u32)in->bank, in->f4, heap);
-    for (i = 0; i < out->fC; i++)
+    out->windowList = ((void *(*)())MYSTERY_UTIL_CreateWindowList)(0, (const char *)&t, out->count, w, c, in->printQueue, (u32)in->bank, in->font, heap);
+    for (i = 0; i < out->count; i++)
         if (t.r[i].h) STRBUF_Delete(t.r[i].h);
-    pt.x = d_021DF76C[out->f8].x;
-    pt.y = d_021DF770[out->f8].x + in->f2c * 8;
-    CLACT_AddActorSurfacePos((void *)out->f4, (const struct Vec2 *)(&pt), 0);
-    CLACT_SetActorDrawEnable((void *)out->f4, 1);
-    CLACT_SetActorAnimSeq((void *)out->f4, out->f30);
-    CLACT_SetActorAutoAnim((void *)out->f4, 1);
+    pt.x = d_021DF76C[out->index].x;
+    pt.y = d_021DF770[out->index].x + in->rowOffset * 8;
+    CLACT_AddActorSurfacePos((void *)out->actor, (const struct Vec2 *)(&pt), 0);
+    CLACT_SetActorDrawEnable((void *)out->actor, 1);
+    CLACT_SetActorAnimSeq((void *)out->actor, out->animSeq);
+    CLACT_SetActorAutoAnim((void *)out->actor, 1);
     return out;
 }
 
-void MYSTERY_UTIL_DeleteDetailWindow(u8 *p) { if(((struct MysteryUtilDetailWindow *)p)->f60 && ((struct MysteryUtilDetailWindow *)p)->f8!=3) *((struct MysteryUtilDetailWindow *)p)->f60=((struct MysteryUtilDetailWindow *)p)->f8; CLACT_SetActorDrawEnable((void *)((struct MysteryUtilDetailWindow *)p)->f4,0); MYSTERY_UTIL_ClearWindowList((u8 *)((struct MysteryUtilDetailWindow *)p)->f0); MYSTERY_UTIL_DeleteWindowList((u8 *)((struct MysteryUtilDetailWindow *)p)->f0); BG_SYS_PushTile((u8)((struct MysteryUtilDetailWindow *)p)->f28); GFL_HEAP_Free(p); }
+void MYSTERY_UTIL_DeleteDetailWindow(u8 *p) { if(((struct MysteryUtilDetailWindow *)p)->outIndex && ((struct MysteryUtilDetailWindow *)p)->index!=3) *((struct MysteryUtilDetailWindow *)p)->outIndex=((struct MysteryUtilDetailWindow *)p)->index; CLACT_SetActorDrawEnable((void *)((struct MysteryUtilDetailWindow *)p)->actor,0); MYSTERY_UTIL_ClearWindowList((u8 *)((struct MysteryUtilDetailWindow *)p)->windowList); MYSTERY_UTIL_DeleteWindowList((u8 *)((struct MysteryUtilDetailWindow *)p)->windowList); BG_SYS_PushTile((u8)((struct MysteryUtilDetailWindow *)p)->bgLayer); GFL_HEAP_Free(p); }
 
 /*
  * arithmetic: direct division helper uses quotient r0/remainder r1 as a scalar u64;

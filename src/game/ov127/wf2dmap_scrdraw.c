@@ -83,7 +83,7 @@ typedef struct Wf2dmapSurface {
 } Wf2dmapSurface;
 
 extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
-extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
 extern u32 GFL_HEAP_Free(void *p);
 extern void CLACT_SetSurfacePos(void *,int,void *);
 extern void BG_SYS_FreeLayerBuf(u32 i);

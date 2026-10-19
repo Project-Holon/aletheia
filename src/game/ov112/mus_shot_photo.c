@@ -213,7 +213,7 @@ extern void BG_SYS_FillScrollArea(u32, u32, u32);
 
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
-extern u32 ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
+extern u32 ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
 
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
@@ -335,40 +335,40 @@ u8 *MUSICAL_SHOT_SYS_CreateScene(u8 *src, u16 heap)
     return o;
 }
 
-void MUSICAL_SHOT_SYS_DeleteScene(u8 *p)
+void MUSICAL_SHOT_SYS_DeleteScene(u8 *scene)
 {
     u8 i;
-    STA_ACT_LIGHT_DeleteUnit((char *)((ShotScene *)p)->unit);
-    STA_ACT_LIGHT_DeleteModel((u8 *)((ShotScene *)p)->model);
-    STA_ACT_LIGHT_DeleteBillboardImage(((ShotScene *)p)->sprite);
-    MUSICAL_MCSS_DeleteRenderObj((int)((ShotScene *)p)->renderObj);
-    MUSICAL_MCSS_DeleteActorPool(((ShotScene *)p)->actorPool);
-    BMP_WIN_Delete(((ShotScene *)p)->winB);
-    BMP_WIN_Delete(((ShotScene *)p)->winA);
-    GF_FONT_Delete(((ShotScene *)p)->fontB);
-    GF_FONT_Delete(((ShotScene *)p)->fontA);
-    MUSICAL_SHOT_SYS_Exit3D(p);
-    for(i=0;i<4;i++) GFL_HEAP_Free(*(void **)(p+i*4+8));
-    GFL_HEAP_Free(p);
+    STA_ACT_LIGHT_DeleteUnit((char *)((ShotScene *)scene)->unit);
+    STA_ACT_LIGHT_DeleteModel((u8 *)((ShotScene *)scene)->model);
+    STA_ACT_LIGHT_DeleteBillboardImage(((ShotScene *)scene)->sprite);
+    MUSICAL_MCSS_DeleteRenderObj((int)((ShotScene *)scene)->renderObj);
+    MUSICAL_MCSS_DeleteActorPool(((ShotScene *)scene)->actorPool);
+    BMP_WIN_Delete(((ShotScene *)scene)->winB);
+    BMP_WIN_Delete(((ShotScene *)scene)->winA);
+    GF_FONT_Delete(((ShotScene *)scene)->fontB);
+    GF_FONT_Delete(((ShotScene *)scene)->fontA);
+    MUSICAL_SHOT_SYS_Exit3D(scene);
+    for(i=0;i<4;i++) GFL_HEAP_Free(*(void **)(scene+i*4+8));
+    GFL_HEAP_Free(scene);
 }
 
 /*
  * extent: two-byte padding at 0x021F3CA2.
  */
-void MUSICAL_SHOT_SYS_DrawScene(u8 *p)
+void MUSICAL_SHOT_SYS_DrawScene(u8 *scene)
 {
-    STA_ACT_LIGHT_UpdateBillboard((u8 *)((ShotScene *)p)->sprite);
-    MUSICAL_MCSS_TickAnim(((ShotScene *)p)->renderObj);
-    STA_ACT_LIGHT_UpdateElemActors((char *)((ShotScene *)p)->unit);
+    STA_ACT_LIGHT_UpdateBillboard((u8 *)((ShotScene *)scene)->sprite);
+    MUSICAL_MCSS_TickAnim(((ShotScene *)scene)->renderObj);
+    STA_ACT_LIGHT_UpdateElemActors((char *)((ShotScene *)scene)->unit);
     G3D_SYSTEM_DrawStart();
     G3D_SYSTEM_ApplyLookAt();
-    STA_ACT_LIGHT_NoOp((u32)((ShotScene *)p)->unit);
-    STA_ACT_LIGHT_UpdateElem((u8 *)((ShotScene *)p)->sprite);
-    MUSICAL_MCSS_DrawRenderObj((void **)((ShotScene *)p)->renderObj);
-    STA_ACT_LIGHT_UpdateSprite((char *)((ShotScene *)p)->sprite);
-    STA_ACT_LIGHT_DrawModel((u8 *)((ShotScene *)p)->model);
-    BILLBOARD_Draw((struct Board *)((ShotScene *)p)->board,(struct Camera *)((ShotScene *)p)->camera,0);
-    MUSICAL_MCSS_NoOp(p);
+    STA_ACT_LIGHT_NoOp((u32)((ShotScene *)scene)->unit);
+    STA_ACT_LIGHT_UpdateElem((u8 *)((ShotScene *)scene)->sprite);
+    MUSICAL_MCSS_DrawRenderObj((void **)((ShotScene *)scene)->renderObj);
+    STA_ACT_LIGHT_UpdateSprite((char *)((ShotScene *)scene)->sprite);
+    STA_ACT_LIGHT_DrawModel((u8 *)((ShotScene *)scene)->model);
+    BILLBOARD_Draw((struct Board *)((ShotScene *)scene)->board,(struct Camera *)((ShotScene *)scene)->camera,0);
+    MUSICAL_MCSS_NoOp(scene);
     G3D_SYSTEM_DrawEnd();
 }
 
@@ -451,7 +451,7 @@ void MUSICAL_SHOT_SYS_Init3D(char *p)
 
 void MUSICAL_SHOT_SYS_LoadBg(const void *a,u32 b,u32 c) { BG_SYS_InitBgLayer(b,a,c); BG_SYS_SetPlaneVisible(b,1); BG_SYS_FreeSlot(b); BG_SYS_PushTile(b); }
 
-void MUSICAL_SHOT_SYS_Exit3D(u8 *p) { BG_SYS_FreeLayerBuf(3); BG_SYS_FreeLayerBuf(1); BG_SYS_FreeLayerBuf(2); BILLBOARD_Delete(((ShotScene *)p)->board); G3D_CAMERA_Delete(((ShotScene *)p)->camera); G3D_SYSTEM_Exit(); BG_SYS_FreeLayerBuf(0); }
+void MUSICAL_SHOT_SYS_Exit3D(u8 *scene) { BG_SYS_FreeLayerBuf(3); BG_SYS_FreeLayerBuf(1); BG_SYS_FreeLayerBuf(2); BILLBOARD_Delete(((ShotScene *)scene)->board); G3D_CAMERA_Delete(((ShotScene *)scene)->camera); G3D_SYSTEM_Exit(); BG_SYS_FreeLayerBuf(0); }
 
 /*
  * checks: retry rederived all callees; prior permuter 300 retained. Original table pool is 8240,8234,824C; declaration order restores it and all three resolve.
@@ -473,7 +473,7 @@ void MUSICAL_SHOT_SYS_InitActors(ShotScene *p)
   int current;
   void *q;
   u8 *row;
-  int tmp1;
+  int scaleY;
   void *tmp;
   current = 5 << 16;
   p->renderObj = MUSICAL_MCSS_CreateRenderObj(p->heap);
@@ -544,8 +544,8 @@ void MUSICAL_SHOT_SYS_InitActors(ShotScene *p)
       pos.y = 155 << 12;
       pos.z = *((int *) (((u32) z) + offset));
       STA_ACT_LIGHT_SetActorPos(p->sprite, *((void **) (actor + 0x30)), (const u32 *)(&pos));
-      tmp1 = 2 << 18;
-      scale.y = tmp1;
+      scaleY = 2 << 18;
+      scale.y = scaleY;
     }
     *((void **) (row + 0x44)) = STA_ACT_LIGHT_CreateActor(p->unit, 1);
     STA_ACT_LIGHT_CopyElemA(p->unit, *((void **) (row + 0x44)), (const u32 *)(&scale));
@@ -565,7 +565,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
 extern u32 ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
 
@@ -601,47 +601,47 @@ u32 MUSICAL_MCSS_SetObjectValue(void *p,u32 i,u16 c);
 
 void MUSICAL_MCSS_DrawLabel(u8 *p);
 
-void MUSICAL_MCSS_NoOp(u8 *a0);
+void MUSICAL_MCSS_NoOp(u8 *unused);
 
 extern const Quad d_021F8264;
 
 u32 MUSICAL_MCSS_SetObjectValue(void *p,u32 i,u16 c) { Quad q=d_021F8264; return q.words[i]; }
 
-void MUSICAL_MCSS_DrawLabel(u8 *p)
+void MUSICAL_MCSS_DrawLabel(u8 *scene)
 {
     void *buf;
     void *t;
     void *f;
     void *b;
-    ((ShotScene *)p)->winA=(void *)BMP_WIN_Create(1,24,22,8,2,10,1);
-    ((ShotScene *)p)->winB=(void *)BMP_WIN_Create(1,1,1,30,2,10,1);
-    BMP_Clear(BMP_WIN_GetBmp(((ShotScene *)p)->winA),0);
-    BMP_Clear(BMP_WIN_GetBmp(((ShotScene *)p)->winB),0);
-    ((ShotScene *)p)->fontA=GF_FONT_Create(23,3,0,0,((ShotScene *)p)->heap);
-    ((ShotScene *)p)->fontB=GF_FONT_Create(23,0,0,0,((ShotScene *)p)->heap);
-    ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,320,32,((ShotScene *)p)->heap);
-    buf=STRBUF_Create(128,((ShotScene *)p)->heap);
-    t=WORDSET_CreateDefault(((ShotScene *)p)->heap);
-    f=MSGDATA_CreateFromArchive(0,2,78,((ShotScene *)p)->heap);
+    ((ShotScene *)scene)->winA=(void *)BMP_WIN_Create(1,24,22,8,2,10,1);
+    ((ShotScene *)scene)->winB=(void *)BMP_WIN_Create(1,1,1,30,2,10,1);
+    BMP_Clear(BMP_WIN_GetBmp(((ShotScene *)scene)->winA),0);
+    BMP_Clear(BMP_WIN_GetBmp(((ShotScene *)scene)->winB),0);
+    ((ShotScene *)scene)->fontA=GF_FONT_Create(23,3,0,0,((ShotScene *)scene)->heap);
+    ((ShotScene *)scene)->fontB=GF_FONT_Create(23,0,0,0,((ShotScene *)scene)->heap);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,320,32,((ShotScene *)scene)->heap);
+    buf=STRBUF_Create(128,((ShotScene *)scene)->heap);
+    t=WORDSET_CreateDefault(((ShotScene *)scene)->heap);
+    f=MSGDATA_CreateFromArchive(0,2,78,((ShotScene *)scene)->heap);
     b=MSGDATA_AllocString(f,0);
-    WORDSET_SetSlotNumber(t,0,((ShotScene *)p)->record->year,2,2,1);
-    WORDSET_SetSlotNumber(t,1,((ShotScene *)p)->record->month,2,2,1);
-    WORDSET_SetSlotNumber(t,2,((ShotScene *)p)->record->day,2,2,1);
+    WORDSET_SetSlotNumber(t,0,((ShotScene *)scene)->record->year,2,2,1);
+    WORDSET_SetSlotNumber(t,1,((ShotScene *)scene)->record->month,2,2,1);
+    WORDSET_SetSlotNumber(t,2,((ShotScene *)scene)->record->day,2,2,1);
     WORDSET_CopyTaggedText(t,buf,b);
-    PRINTSYS_PrintColor(BMP_WIN_GetBmp(((ShotScene *)p)->winA),0,0,buf,((ShotScene *)p)->fontA,3424);
+    PRINTSYS_PrintColor(BMP_WIN_GetBmp(((ShotScene *)scene)->winA),0,0,buf,((ShotScene *)scene)->fontA,3424);
     STRBUF_Delete(buf);
     STRBUF_Delete(b);
     WORDSET_DeleteStrbufED04(t);
     MSGDATA_Delete(f);
-    buf=STRBUF_Create(37,((ShotScene *)p)->heap);
-    STRBUF_SetString(buf,(const u16 *)(*(u8 * *)&((ShotScene *)p)->record+356));
-    PRINTSYS_PrintColor(BMP_WIN_GetBmp(((ShotScene *)p)->winB),0,0,buf,((ShotScene *)p)->fontB,15424);
+    buf=STRBUF_Create(37,((ShotScene *)scene)->heap);
+    STRBUF_SetString(buf,(const u16 *)(*(u8 * *)&((ShotScene *)scene)->record+356));
+    PRINTSYS_PrintColor(BMP_WIN_GetBmp(((ShotScene *)scene)->winB),0,0,buf,((ShotScene *)scene)->fontB,15424);
     STRBUF_Delete(buf);
-    BMP_WIN_TransferChars(((ShotScene *)p)->winA);
-    BMP_WIN_MakeScreen(((ShotScene *)p)->winA);
-    BMP_WIN_TransferChars(((ShotScene *)p)->winB);
-    BMP_WIN_MakeScreen(((ShotScene *)p)->winB);
+    BMP_WIN_TransferChars(((ShotScene *)scene)->winA);
+    BMP_WIN_MakeScreen(((ShotScene *)scene)->winA);
+    BMP_WIN_TransferChars(((ShotScene *)scene)->winB);
+    BMP_WIN_MakeScreen(((ShotScene *)scene)->winB);
     BG_SYS_PushTile(1);
 }
 
-void MUSICAL_MCSS_NoOp(u8 *a0) { }
+void MUSICAL_MCSS_NoOp(u8 *unused) { }

@@ -17,21 +17,21 @@ typedef unsigned char u8;
 extern int PXI_SendWordByFifo(int tag, u32 data, int err);
 
 void AESi_PxiSendFirst(int tag, u32 a, u32 b);
-void AESi_PxiSendSecond(int tag, u32 a);
+void AESi_PxiSendSecond(int tag, u32 payload);
 void AESi_PxiSendData(int tag, const u8 *buf, u32 len);
 void AESi_PxiSendCmd(u32 a, const u8 *buf, u32 len);
 void AESi_PxiSendResult(u32 a, u32 b);
 
-void AESi_PxiSendFirst(int tag, u32 a, u32 b)
+void AESi_PxiSendFirst(int tag, u32 command, u32 param)
 {
-    u32 data = ((a << 21) & 0x1E00000) | 0x2000000 | (b & 0xFFFF);
+    u32 data = ((command << 21) & 0x1E00000) | 0x2000000 | (param & 0xFFFF);
     while (PXI_SendWordByFifo(tag, data, 0) < 0) {
     }
 }
 
-void AESi_PxiSendSecond(int tag, u32 a)
+void AESi_PxiSendSecond(int tag, u32 payload)
 {
-    u32 data = a & 0xFFFFFF;
+    u32 data = payload & 0xFFFFFF;
     while (PXI_SendWordByFifo(tag, data, 0) < 0) {
     }
 }
@@ -50,13 +50,13 @@ void AESi_PxiSendData(int tag, const u8 *buf, u32 len)
     }
 }
 
-void AESi_PxiSendCmd(u32 a, const u8 *buf, u32 len)
+void AESi_PxiSendCmd(u32 command, const u8 *buf, u32 len)
 {
-    AESi_PxiSendFirst(0x13, (unsigned short)a, 0);
+    AESi_PxiSendFirst(0x13, (unsigned short)command, 0);
     AESi_PxiSendData(0x13, buf, len);
 }
 
-void AESi_PxiSendResult(u32 a, u32 b)
+void AESi_PxiSendResult(u32 command, u32 result)
 {
-    AESi_PxiSendFirst(0x13, (unsigned short)a, (unsigned short)b);
+    AESi_PxiSendFirst(0x13, (unsigned short)command, (unsigned short)result);
 }

@@ -114,7 +114,7 @@ extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, 
 
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
-extern u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+extern u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
 
 extern void BG_SYS_SetFlagField06(u32);
 
@@ -156,9 +156,9 @@ void MANUAL_CATEGORY_OptionTaskNoop(void *p);
 
 void MANUAL_CATEGORY_LoadOptionAssets(char *p);
 
-void MANUAL_CATEGORY_SetOptionBgMode(char *a0);
+void MANUAL_CATEGORY_SetOptionBgMode(char *work);
 
-void MANUAL_CATEGORY_OptionNoop(char *a0);
+void MANUAL_CATEGORY_OptionNoop(char *work);
 
 void MANUAL_CATEGORY_CreateOptionSlots(u8 *p);
 
@@ -267,9 +267,9 @@ void MANUAL_CATEGORY_LoadOptionAssets(char *p)
     ARC_UTIL_UploadBgPaletteAddFromHandleExt((void *)(((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->arc[0]), 6, 4, 0, 0, 0, 0, ((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->heap);
 }
 
-void MANUAL_CATEGORY_SetOptionBgMode(char *a0) { BG_SYS_SetFlagField06(4); }
+void MANUAL_CATEGORY_SetOptionBgMode(char *work) { BG_SYS_SetFlagField06(4); }
 
-void MANUAL_CATEGORY_OptionNoop(char *a0) {}
+void MANUAL_CATEGORY_OptionNoop(char *work) {}
 
 void MANUAL_CATEGORY_CreateOptionSlots(u8 *p)
 {

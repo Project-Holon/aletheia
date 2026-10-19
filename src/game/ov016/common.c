@@ -51,7 +51,7 @@ extern void DC_FlushRange(void *startAddr, unsigned long nBytes);
 extern void DWCi_ARClRelease(void *file);
 extern void DWCi_STEPlBegin(int step);
 extern void DWCi_STEPlChange(int step);
-extern void DWCi_GetParam_(void **param0, void **param1);
+extern void DWCi_GetParam_(void **outStepParam, void **outButtonParam);
 extern void DWCi_BTNlInit(int kind);
 extern void *DWCi_FNTlFormBgEx(int lcd, int font);
 extern unsigned short *DWCi_MSGlGet(void *msg, int id);

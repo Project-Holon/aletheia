@@ -4659,18 +4659,18 @@ unsigned short invert_checksum(unsigned short sum)
 unsigned long calc_checksum_do(unsigned char *s, unsigned long len, unsigned long sum)
 {
 	int align;
-	unsigned long tmp;
-	unsigned long tmp2;
+	unsigned long acc;
+	unsigned long word;
 	unsigned long tmps;
 
-	tmp = 0;
+	acc = 0;
 	align = (unsigned long)s & 3;
 	if (align != 0) {
-		tmp2 = *(unsigned long *)((unsigned long)s & ~3);
+		word = *(unsigned long *)((unsigned long)s & ~3);
 		s = (unsigned char *)(((unsigned long)s & ~3) + 4);
 		switch (align) {
 		case 1:
-			tmp2 &= 0xffffff00;
+			word &= 0xffffff00;
 			if (len < 3) {
 				len += 1;
 				goto partial;
@@ -4678,7 +4678,7 @@ unsigned long calc_checksum_do(unsigned char *s, unsigned long len, unsigned lon
 			len -= 3;
 			break;
 		case 2:
-			tmp2 &= 0xffff0000;
+			word &= 0xffff0000;
 			if (len < 2) {
 				len += 2;
 				goto partial;
@@ -4686,34 +4686,34 @@ unsigned long calc_checksum_do(unsigned char *s, unsigned long len, unsigned lon
 			len -= 2;
 			break;
 		default:
-			tmp2 &= 0xff000000;
+			word &= 0xff000000;
 			len -= 1;
 			break;
 		}
-		tmp = tmp2;
+		acc = word;
 	}
 	while (len >= 4) {
-		tmp2 = *(unsigned long *)s;
+		word = *(unsigned long *)s;
 		len -= 4;
-		tmp += tmp2;
-		if (tmp < tmp2)
-			tmp++;
+		acc += word;
+		if (acc < word)
+			acc++;
 		s += 4;
 	}
 	if (len != 0) {
-		tmp2 = *(unsigned long *)s;
+		word = *(unsigned long *)s;
 partial:
 		if (len == 1)
-			tmp2 &= 0xff;
+			word &= 0xff;
 		else if (len == 2)
-			tmp2 &= 0xffff;
+			word &= 0xffff;
 		else
-			tmp2 &= 0xffffff;
-		tmp += tmp2;
-		if (tmp < tmp2)
-			tmp++;
+			word &= 0xffffff;
+		acc += word;
+		if (acc < word)
+			acc++;
 	}
-	tmps = (tmp & 0xffff) + (tmp >> 16);
+	tmps = (acc & 0xffff) + (acc >> 16);
 	tmps = (tmps & 0xffff) + (tmps >> 16);
 	if ((align & 1) == 0)
 		tmps = ((tmps << 8) & 0xff00) + (tmps >> 8);

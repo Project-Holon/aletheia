@@ -115,7 +115,7 @@ extern unsigned long FS_GetArchiveBase(void *arc);
 extern int CARDi_ReadRom(int dma, unsigned long src, void *dst, unsigned long len, void (*cb)(void *), void *arg, int async);
 extern void FS_NotifyArchiveAsyncEnd(void *arc, int result);
 extern void *DWCi_QUElPopBack(void *queue);
-extern u32 FS_GetLength(FSFile *a0);
+extern u32 FS_GetLength(FSFile *file);
 extern void MI_UncompressLZ8(void *src, void *dst);
 extern void DWCi_QUElPushBack(void *que, void *elem);
 extern int strlen(const u8 *s);

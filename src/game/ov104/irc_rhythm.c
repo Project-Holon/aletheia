@@ -16,7 +16,7 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   ICA_ANIME_GetField24 0x02012138 thumb
+ *   GAMESYSTEM_GetGameComm 0x02012138 thumb
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BG_SYS_SetScrollY 0x02041F6C arm
  *   BG_SYS_SetAffine 0x02041FB0 arm
@@ -232,8 +232,8 @@ typedef void (*IrcTaskProc)(void *task, void *work);
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 extern void *PROCSYS_AllocProcWork(struct Proc *proc,u32 size,u32 heapId);
 extern void MI_CpuFill8(void *,int,int);
-extern u32 ICA_ANIME_GetField24(const void *gameSystem);
-extern void BMP_MENUWORK_DrawWindow(void *window, int a1, int a2, int a3);
+extern u32 GAMESYSTEM_GetGameComm(const void *gameSystem);
+extern void BMP_MENUWORK_DrawWindow(void *window, int commitMode, int tileBase, int palette);
 extern void BG_SYS_SetScrollY(u32 which, u32 op, u32 value);
 extern void BG_SYS_SetAffine(u32,u32,u16);
 extern void COMPATIBLE_IRC_SYS_SetOwnValue(IrcSys *sys,int value);
@@ -261,7 +261,7 @@ extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, 
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void BG_SYS_Init(u32,u32,u32,u32);
-extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
+extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
 extern void BG_SYS_SetTileUnit(u32,u32,u32);
@@ -276,7 +276,7 @@ extern void CLACT_SetUnitDefaultRenderer(struct Bank *);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 extern signed int CLACT_RegisterPalette(void *archive, u32 b, u32 c, u32 d, u16 heapId);
-extern signed int CLACT_RegisterCharacter(void *archive, u32 b, u32 c, u32 a3, u16 flags);
+extern signed int CLACT_RegisterCharacter(void *archive, u32 b, u32 c, u32 vram_mode, u16 flags);
 extern signed int CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern signed int CLACT_RegisterPaletteEx(void *archive, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern struct Obj *CLACT_CreateActor(struct Bank *unit,unsigned int character,unsigned int palette,unsigned int cellAnim,const IrcActorPlacement *placement,unsigned short,unsigned short heapId);
@@ -294,7 +294,7 @@ extern void CLACT_ExitSystem(void);
 extern void CLACT_DrawSystem(void);
 extern void CLACT_VBlankSystem(void);
 extern void GF_FONT_InitTextColor(void);
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern void *PRINTSYS_QUE_Create(u32 heapId);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
@@ -444,7 +444,7 @@ int IRC_RHYTHM_Init(struct Proc *proc,void *state,IrcRhythmContext *context) {
  work->context=context;
  IRC_RHYTHM_InitScreen(&work->screen,0x38);
  IRC_RHYTHM_InitTextSystem(&work->text,0,0x38);
- if(work->context->gameSystem) ICA_ANIME_GetField24(work->context->gameSystem);
+ if(work->context->gameSystem) GAMESYSTEM_GetGameComm(work->context->gameSystem);
  IRC_RHYTHM_InitMessageWindow(&work->messageWindow,5,1,18,30,5,8,0x38);
  BMP_MENUWORK_DrawWindow(work->messageWindow.window,0,(u16)(work->screen.bgCharRegion),6);
  IRC_RHYTHM_InitPulse(&work->pulse,0x38);

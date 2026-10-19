@@ -164,10 +164,11 @@ int ACTOR_TOOL_LoadCharSimple(struct ActorTool *tool, void *src, u32 resId, u32 
 }
 
 /*
- * Create one map tile: a4's flag word picks the 3-versus-2 mode, the tile is
- * built by ACTOR_TOOL_LoadChar over (a1, a2, a3, a4, a5, a6), its width comes back
- * from ACTOR_TOOL_GetCharBlock packed into the low half of a5's shifted word and the
- * tile is handed to PALANM_CopyHwPaletteToSlot with a5 shifted up five.
+ * Load a palette run with ACTOR_TOOL_LoadChar, then copy the loaded palette
+ * into palSlots: the bank selects the engine's palette type (2 for bank 0,
+ * 3 otherwise), the destination offset is the block index from
+ * ACTOR_TOOL_GetCharBlock shifted up four, and the size is len shifted up
+ * five.  Returns the char offset.
  */
 u32 ACTOR_TOOL_LoadCharPalAnm(void *palSlots, struct ActorTool *tool, void *src, u32 resId, u32 bank, u32 len, u32 flags)
 {

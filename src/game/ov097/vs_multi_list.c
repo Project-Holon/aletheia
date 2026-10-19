@@ -288,7 +288,7 @@ extern void ARC_UTIL_UploadPaletteFromHandleWhole(struct ArcHandle *a, u32 b, u3
 extern void ARC_TOOL_DeleteHandle(struct ArcHandle *h);
 extern void BG_SYS_LoadPlttEntry(u32 a, u32 b);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct PrintSys *PRINTSYS_QUE_CreateEx(u16 n, u32 heap);
 extern u32 MSGDATA_Delete(struct MsgBank *msgBank);
@@ -355,7 +355,7 @@ extern void CLACT_DeleteActor(struct ClactActor *);
 extern u32 CLACT_DeleteUnit(struct ClactUnit *unit);
 extern void CLACT_GetActorSurfacePos(struct ClactActor *actor, struct PosS16 *out, u16 space);
 extern void CLACT_AddActorSurfacePos(struct ClactActor *actor, const struct PosS16 *delta, u32 which);
-extern struct WinMgr *BGWINFRM_Create(u32 a0, u32 a1, u32 heap);
+extern struct WinMgr *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heap);
 extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
 extern void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, struct BmpWin *window);
 extern void BGWINFRM_SetFrameData(struct WinMgr *mgr, u32 idx, const void *src);

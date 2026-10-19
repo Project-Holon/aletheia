@@ -67,7 +67,7 @@ void PMS_WORD_Delete(struct PmsWordSys *p);
 void PMS_WORD_GetString(struct PmsWordSys *p, u32 id, void *dest);
 void PMS_WORD_LoadString(u32 id, void *dest, u16 heap);
 u16 PMS_WORD_MakeWordId(u32 idx, u16 add);
-int PMS_WORD_SplitWordId(u32 v, u32 *a1, u32 *a2);
+int PMS_WORD_SplitWordId(u32 v, u32 *bankIndex, u32 *wordIndex);
 void *PMS_WORD_GetSaveEntry(char *p, int idx);
 void PMS_WORD_SetSaveEntry(struct PmsWord *p, s32 idx, const void *src);
 u32 PMS_WORD_GetSaveSize(void);
@@ -165,20 +165,20 @@ u16 PMS_WORD_MakeWordId(u32 idx, u16 add)
     return 0xFFFF;
 }
 
-int PMS_WORD_SplitWordId(u32 v, u32 *a1, u32 *a2)
+int PMS_WORD_SplitWordId(u32 wordId, u32 *bankIndex, u32 *wordIndex)
 {
     u32 i;
     u32 sum;
 
-    v &= 0x7ff;
+    wordId &= 0x7ff;
     sum = 0;
     for (i = 0; i < 0xd; i++) {
         u16 n = g_pmsWordBankSizes[i];
 
         sum += n;
-        if (v < sum) {
-            *a1 = i;
-            *a2 = v - (sum - n);
+        if (wordId < sum) {
+            *bankIndex = i;
+            *wordIndex = wordId - (sum - n);
             return 1;
         }
     }

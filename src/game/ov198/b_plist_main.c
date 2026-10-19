@@ -198,25 +198,25 @@ typedef struct {short x,y;} Pair;
 
 
 
-struct BgVramReq {u32 unk00,unk04,unk08,unk0c;};
+struct BgVramReq {u32 dispMode,bgMode,subBgMode,bg0As;};
 
 struct BgTemplate {
-    u32 unk00,unk04,bufSize,unk0c;
-    u8 unk10,unk11,unk12,unk13;
-    u32 unk14;
-    u8 unk18,unk19,unk1a,unk1b;
-    u32 unk1c;
+    u32 scrollX,scrollY,bufSize,baseTile;
+    u8 screenSize,colorMode,screenBase,charBase;
+    u32 tileDataSize;
+    u8 extPltt,priority,areaOver,pad1b;
+    u32 mosaic;
 };
 
 struct Move {u16 id;u8 pp,up,kind,power,type,accuracy;};
 
 struct Summary {
     void *mon;
-    u16 species,hp,attack,defense,speed,stat6,spatk,spdef;
+    u16 species,attack,defense,speed,spAttack,spDefense,hp,maxHp;
     u8 ability,form;
     u8 level:7,egg:1;
     u8 gender:3,nature:4,flag:1;
-    u16 item,unknown;
+    u16 abilityId,heldItem;
     u32 exp,lower,upper,personality;
     struct Move moves[4];
 };
@@ -324,7 +324,7 @@ extern void MI_CpuCopy8(const void *,void *,u32);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32,u32,u32,u32,u16);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *,u32,u32,u32);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void *PRINTSYS_QUE_CreateEx(u16,u32);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
@@ -335,7 +335,7 @@ extern void PRINTSYS_QUE_Delete(struct PrintSys *);
 extern void STRBUF_Delete(struct U16Vec *);
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern u8 POKE_TOOL_GetGender(void *);
-extern int APP_ICON_GetStatusIconAnim(int a0);
+extern int APP_ICON_GetStatusIconAnim(int pp);
 extern u32 POKE_TOOL_GetLevelMinExp(void *);
 extern u32 POKE_TOOL_GetExpForLevel(u16,u16,u16);
 extern u8 WAZA_TOOL_GetMaxPP(u16,u32);
@@ -348,8 +348,8 @@ extern void BG_SYS_SetFlagField06(u8);
 extern void B_PLIST_DRAW_DeleteStateWindows(char *);
 extern void B_PLIST_DRAW_CreateStateWindows(u8 *,u32);
 extern void BG_SYS_ClearLayerEx(int channel, u16 val);
-extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void BG_SYS_DrawTile(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
+extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
+extern void BG_SYS_DrawTile(u32 index, u32 src, u32 dx, u32 dy, u8 cw, u8 ch);
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
@@ -358,7 +358,7 @@ extern void B_PLIST_DRAW_PrintHeader10(char *p);
 extern void B_PLIST_DRAW_ShowSubWindow(u8 *p);
 extern u32 BG_SYS_GetBuf(int channel);
 extern void MIi_CpuCopy16(const void *, void *, unsigned);
-extern struct WinMgr *BGWINFRM_Create(u32 a0, u32 a1, u32 heap);
+extern struct WinMgr *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heap);
 extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 a, u32 b, u32 c);
 extern void BGWINFRM_SetFrameData(struct WinMgr *mgr, u32 idx, const void *src);
 extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
@@ -372,7 +372,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern struct CursorMove *CURSOR_MOVE_Create(u32,u32,u32,u32,u8,u16);
 extern void CURSOR_MOVE_EnableInput(struct CursorMove *);
 extern void CURSOR_MOVE_SetMode(struct CursorMove *);
-extern u32 CURSOR_MOVE_Delete(void *a0);
+extern u32 CURSOR_MOVE_Delete(void *cursor);
 extern void *CURSOR_MOVE_GetEntry(void **obj, u32 idx);
 extern void B_APP_TOOL_LayoutActors(int *p, u8 *q);
 void B_PLIST_MAIN_SyncMoveActors(u8 *p);
@@ -381,7 +381,7 @@ int B_PLIST_MAIN_GetMonAnimState(char *p);
 void B_PLIST_MAIN_UpdateActorAnims(u8 *p);
 void B_PLIST_MAIN_CreateToolActors(u8 *p);
 void B_PLIST_MAIN_ShiftActors(u8 *p,int a,short delta);
-void B_PLIST_MAIN_SwapActorPos(char *p, int a1, int a2);
+void B_PLIST_MAIN_SwapActorPos(char *p, int slotA, int slotB);
 void B_PLIST_MAIN_Create(u8 *p);
 void B_PLIST_MAIN_Task(void *task,u8 *p);
 int B_PLIST_MAIN_Init(u8 *p);
@@ -577,7 +577,7 @@ void B_PLIST_MAIN_UpdateActorAnims(u8 *p)
 
 
 
-void B_PLIST_MAIN_CreateToolActors(u8 *p) { B_APP_TOOL_CreateActors(*(char * *)&((struct B_PlistWork *)p)->u2188.ptr,*(int *)&((struct B_PlistWork *)p)->u1EB8.unitId,((struct B_PlistWork *)p)->field2504,((struct B_PlistWork *)p)->field251C,((struct B_PlistWork *)p)->field2534);B_APP_TOOL_SetActorsVisible(*(char * *)&((struct B_PlistWork *)p)->u2188.ptr,0); }
+void B_PLIST_MAIN_CreateToolActors(u8 *p) { B_APP_TOOL_CreateActors(*(char * *)&((struct B_PlistWork *)p)->u2188.ptr,*(int *)&((struct B_PlistWork *)p)->u1EB8.unitId,((struct B_PlistWork *)p)->toolChar,((struct B_PlistWork *)p)->toolPal,((struct B_PlistWork *)p)->toolCell);B_APP_TOOL_SetActorsVisible(*(char * *)&((struct B_PlistWork *)p)->u2188.ptr,0); }
 
 
 
@@ -604,10 +604,10 @@ void B_PLIST_MAIN_ShiftActors(u8 *p,int a,short delta)
 
 
 
-void B_PLIST_MAIN_SwapActorPos(char *p, int a1, int a2)
+void B_PLIST_MAIN_SwapActorPos(char *p, int slotA, int slotB)
 {
-    int i1 = B_PLIST_MAIN_GetOrderIndex((u8 *)p, a1);
-    int i2 = B_PLIST_MAIN_GetOrderIndex((u8 *)p, a2);
+    int i1 = B_PLIST_MAIN_GetOrderIndex((u8 *)p, slotA);
+    int i2 = B_PLIST_MAIN_GetOrderIndex((u8 *)p, slotB);
     u32 x;
     u32 y;
 
@@ -660,7 +660,7 @@ extern int (*const d_0221221C[])(u8 *);
 
 void B_PLIST_MAIN_Task(void *task,u8 *p)
 {
-    if (((struct B_PlistWork *)p)->owner->field34==1) {
+    if (((struct B_PlistWork *)p)->owner->exitRequest==1) {
         B_PLIST_MAIN_ClearSelection((u8 **)p);
         ((struct B_PlistWork *)p)->state=33;
     }
@@ -693,7 +693,7 @@ int B_PLIST_MAIN_Init(u8 *p)
     B_PLIST_DRAW_Init((char *)p);
     if((*(u8 **)p)[31]==5) B_PLIST_MAIN_SyncMoveActors(p);
     B_PLIST_DRAW_LayoutActors((char *)p,p[0x2180]);B_PLIST_ANM_CreateTileWindows(p);B_PLIST_DRAW_DrawModePage((char *)p,p[0x2180]);B_PLIST_DRAW_ShowToolWindows(p);
-    if(**(u8 * *)&((struct B_PlistWork *)p)->owner->field44==1) *(u32 *)&((struct B_PlistWork *)p)->u218C.ptr=1;
+    if(**(u8 * *)&((struct B_PlistWork *)p)->owner->syncFlagPtr==1) *(u32 *)&((struct B_PlistWork *)p)->u218C.ptr=1;
     else *(u32 *)&((struct B_PlistWork *)p)->u218C.ptr=0;
     B_APP_TOOL_SetActorsVisible((char *)(*(u8 * *)&((struct B_PlistWork *)p)->u2188.ptr),((struct B_PlistWork *)p)->u218C.ptr);
     if(p[0x2180]==0) {
@@ -702,7 +702,7 @@ int B_PLIST_MAIN_Init(u8 *p)
     } else if((*(u8 **)p)[31]==5) B_PLIST_MAIN_CreateCursor(p,p[0x2180],(*(u8 **)p)[75]);
     else B_PLIST_MAIN_CreateCursor(p,p[0x2180],0);
     B_PLIST_MAIN_DrawExpBar(p,p[0x2180]);
-    PALANM_RequestFade(((struct B_PlistWork *)p)->u1D8.palAnm,10,65535,0,16,0,0,((struct B_PlistWork *)p)->owner->field28);
+    PALANM_RequestFade(((struct B_PlistWork *)p)->u1D8.palAnm,10,65535,0,16,0,0,((struct B_PlistWork *)p)->owner->fadeContext);
     ((struct B_PlistWork *)p)->done=1;
     return 1;
 }
@@ -1361,7 +1361,7 @@ int B_PLIST_MAIN_BeginFadeOut(char *p)
 {
     if (B_PLIST_MAIN_GetOwnerFlag18((char **)((unsigned)p))==1 && (*(u8 **)p)[0x20]!=6)
         (*(u8 **)p)[0x20]/=2u;
-    PALANM_RequestFade(((struct B_PlistWork *)p)->u1D8.palAnm,10,0xffff,0,0,0x10,0,((struct B_PlistWork *)p)->owner->field28);
+    PALANM_RequestFade(((struct B_PlistWork *)p)->u1D8.palAnm,10,0xffff,0,0,0x10,0,((struct B_PlistWork *)p)->owner->fadeContext);
     return 0x20;
 }
 
@@ -1384,11 +1384,11 @@ int B_PLIST_MAIN_Delete(struct Node *task,char *p)
 {
     if(((struct B_PlistWork *)p)->done==1) {
         if(PRINTSYS_QUE_IsFinished(*(struct PrintSys * *)&((struct B_PlistWork *)p)->u1EAC.printQue)==0) {
-            if(((struct B_PlistWork *)p)->owner->field34==1) PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct B_PlistWork *)p)->u1EAC.printQue);
+            if(((struct B_PlistWork *)p)->owner->exitRequest==1) PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct B_PlistWork *)p)->u1EAC.printQue);
             else return 0;
         }
         if(WIPE_SYS_EndCheck()==0) {
-            if(((struct B_PlistWork *)p)->owner->field34==1) WIPE_SYS_ExeEnd();
+            if(((struct B_PlistWork *)p)->owner->exitRequest==1) WIPE_SYS_ExeEnd();
             else return 0;
         }
         if(*(struct Rec3 * *)&((struct B_PlistWork *)p)->u1EB0.printStream) PRINTSYS_PrintStreamDelete(*(struct Rec3 * *)&((struct B_PlistWork *)p)->u1EB0.printStream);
@@ -1400,8 +1400,8 @@ int B_PLIST_MAIN_Delete(struct Node *task,char *p)
         TCBL_Destroy(*(struct S02031140 * *)&((struct B_PlistWork *)p)->u1D4.tcbl);
         B_PLIST_MAIN_DeleteCursor((u8 *)p);
         B_APP_TOOL_Delete(((struct B_PlistWork *)p)->u2188.ptr);
-        if(((struct B_PlistWork *)p)->u218C.ival==1) **(u8 * *)&((struct B_PlistWork *)p)->owner->field44=1;
-        else **(u8 * *)&((struct B_PlistWork *)p)->owner->field44=0;
+        if(((struct B_PlistWork *)p)->u218C.ival==1) **(u8 * *)&((struct B_PlistWork *)p)->owner->syncFlagPtr=1;
+        else **(u8 * *)&((struct B_PlistWork *)p)->owner->syncFlagPtr=0;
     }
     (*(u8 **)p)[0x4c]=1;
     TCB_DeleteTask(task);
@@ -1477,15 +1477,15 @@ void B_PLIST_MAIN_CreateTextResources(char *p)
 {
     ((struct B_PlistWork *)p)->msgBank=MSGDATA_CreateFromArchive(0,2,0x12,((struct B_PlistWork *)p)->owner->heapId);
     ((struct B_PlistWork *)p)->u1E9C.fontSmall=GF_FONT_Create(0x17,3,0,0,((struct B_PlistWork *)p)->owner->heapId);
-    ((struct B_PlistWork *)p)->font=WORDSET_CreateDefault(((struct B_PlistWork *)p)->owner->heapId);
+    ((struct B_PlistWork *)p)->wordSet=WORDSET_CreateDefault(((struct B_PlistWork *)p)->owner->heapId);
     ((struct B_PlistWork *)p)->u1EAC.printQue=PRINTSYS_QUE_CreateEx(0x800,((struct B_PlistWork *)p)->owner->heapId);
-    ((struct B_PlistWork *)p)->u1EA8.wordSet=STRBUF_Create(0x200,((struct B_PlistWork *)p)->owner->heapId);
+    ((struct B_PlistWork *)p)->u1EA8.strBuf=STRBUF_Create(0x200,((struct B_PlistWork *)p)->owner->heapId);
 }
 
 
 
 
-void B_PLIST_MAIN_DeleteTextResources(u8 *p) { MSGDATA_Delete(*(struct Rec * *)&((struct B_PlistWork *)p)->msgBank);GF_FONT_Delete(((struct B_PlistWork *)p)->u1E9C.fontSmall);WORDSET_DeleteStrbufED04(*(struct WordSet * *)&((struct B_PlistWork *)p)->font);PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct B_PlistWork *)p)->u1EAC.printQue);STRBUF_Delete(*(struct U16Vec * *)&((struct B_PlistWork *)p)->u1EA8.wordSet); }
+void B_PLIST_MAIN_DeleteTextResources(u8 *p) { MSGDATA_Delete(*(struct Rec * *)&((struct B_PlistWork *)p)->msgBank);GF_FONT_Delete(((struct B_PlistWork *)p)->u1E9C.fontSmall);WORDSET_DeleteStrbufED04(*(struct WordSet * *)&((struct B_PlistWork *)p)->wordSet);PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct B_PlistWork *)p)->u1EAC.printQue);STRBUF_Delete(*(struct U16Vec * *)&((struct B_PlistWork *)p)->u1EA8.strBuf); }
 
 
 
@@ -1514,13 +1514,13 @@ void B_PLIST_MAIN_ReadSummary(void *unused,void *mon,struct Summary *p)
     }
     p->species=POKE_TOOL_GetPartyValue(mon,5,0);
     if(p->species==0) return;
-    p->hp=POKE_TOOL_GetPartyValue(p->mon,0xa2,0);
-    p->attack=POKE_TOOL_GetPartyValue(p->mon,0xa3,0);
-    p->defense=POKE_TOOL_GetPartyValue(p->mon,0xa4,0);
-    p->speed=POKE_TOOL_GetPartyValue(p->mon,0xa5,0);
-    p->stat6=POKE_TOOL_GetPartyValue(p->mon,0xa6,0);
-    p->spatk=POKE_TOOL_GetPartyValue(p->mon,0xa0,0);
-    p->spdef=POKE_TOOL_GetPartyValue(p->mon,0xa1,0);
+    p->attack=POKE_TOOL_GetPartyValue(p->mon,0xa2,0);
+    p->defense=POKE_TOOL_GetPartyValue(p->mon,0xa3,0);
+    p->speed=POKE_TOOL_GetPartyValue(p->mon,0xa4,0);
+    p->spAttack=POKE_TOOL_GetPartyValue(p->mon,0xa5,0);
+    p->spDefense=POKE_TOOL_GetPartyValue(p->mon,0xa6,0);
+    p->hp=POKE_TOOL_GetPartyValue(p->mon,0xa0,0);
+    p->maxHp=POKE_TOOL_GetPartyValue(p->mon,0xa1,0);
     p->ability=POKE_TOOL_GetPartyValue(p->mon,0xae,0);
     p->form=POKE_TOOL_GetPartyValue(p->mon,0xaf,0);
     p->level=(u8)POKE_TOOL_GetPartyValue(p->mon,0x9e,0);
@@ -1529,8 +1529,8 @@ void B_PLIST_MAIN_ReadSummary(void *unused,void *mon,struct Summary *p)
     p->gender=POKE_TOOL_GetGender(p->mon);
     p->nature=(u8)APP_ICON_GetStatusIconAnim((int)p->mon);
     p->flag=(u8)POKE_TOOL_GetPartyValue(p->mon,0x4c,0);
-    p->item=POKE_TOOL_GetPartyValue(p->mon,10,0);
-    p->unknown=POKE_TOOL_GetPartyValue(p->mon,6,0);
+    p->abilityId=POKE_TOOL_GetPartyValue(p->mon,10,0);
+    p->heldItem=POKE_TOOL_GetPartyValue(p->mon,6,0);
     p->personality=POKE_TOOL_GetPartyValue(p->mon,0x6f,0);
     p->exp=POKE_TOOL_GetPartyValue(p->mon,8,0);
     exp=POKE_TOOL_GetLevelMinExp(p->mon);
@@ -1565,17 +1565,17 @@ void B_PLIST_MAIN_ReadParty(u8 *p)
     unsigned i;
     if (((struct B_PlistWork *)p)->owner->ownerKind==0) {
         for (i=0;i<6;i++) {
-            if (i<POKEPARTY_GetCount(((struct B_PlistWork *)p)->owner->field04))
-                B_PLIST_MAIN_ReadSummary(p,POKEPARTY_GetMember(((struct B_PlistWork *)p)->owner->field04,i),(struct Summary *)(p+4+i*76));
+            if (i<POKEPARTY_GetCount(((struct B_PlistWork *)p)->owner->party))
+                B_PLIST_MAIN_ReadSummary(p,POKEPARTY_GetMember(((struct B_PlistWork *)p)->owner->party,i),(struct Summary *)(p+4+i*76));
             else B_PLIST_MAIN_ReadSummary(p,0,(struct Summary *)(p+4+i*76));
         }
     } else {
         for (i=0;i<3;i++) {
-            if (i<POKEPARTY_GetCount(((struct B_PlistWork *)p)->owner->field04))
-                B_PLIST_MAIN_ReadSummary(p,POKEPARTY_GetMember(((struct B_PlistWork *)p)->owner->field04,i),(struct Summary *)(p+4+i*76));
+            if (i<POKEPARTY_GetCount(((struct B_PlistWork *)p)->owner->party))
+                B_PLIST_MAIN_ReadSummary(p,POKEPARTY_GetMember(((struct B_PlistWork *)p)->owner->party,i),(struct Summary *)(p+4+i*76));
             else B_PLIST_MAIN_ReadSummary(p,0,(struct Summary *)(p+4+i*76));
-            if (i<POKEPARTY_GetCount(((struct B_PlistWork *)p)->owner->field08))
-                B_PLIST_MAIN_ReadSummary(p,POKEPARTY_GetMember(((struct B_PlistWork *)p)->owner->field08,i),(struct Summary *)(p+4+(i+3)*76));
+            if (i<POKEPARTY_GetCount(((struct B_PlistWork *)p)->owner->partnerParty))
+                B_PLIST_MAIN_ReadSummary(p,POKEPARTY_GetMember(((struct B_PlistWork *)p)->owner->partnerParty,i),(struct Summary *)(p+4+(i+3)*76));
             else B_PLIST_MAIN_ReadSummary(p,0,(struct Summary *)(p+4+(i+3)*76));
         }
     }
@@ -1743,11 +1743,11 @@ int B_PLIST_MAIN_GetRowStatus(u8 *p)
     int index=B_PLIST_MAIN_GetOrderIndex(p,(*(u8 **)p)[32]);
     u8 *q=p+4+76*index;
     if(B_PLIST_MAIN_IsBattleSlot((u32)p,index)==1) return 1;
-    if(((struct B_PlistSlot *)q)->field10==0) return 2;
+    if(((struct B_PlistSlot *)q)->hp==0) return 2;
     if(B_PLIST_MAIN_IsSlotSelectable(p,(*(u8 **)p)[32])==1) return 3;
     if(B_PLIST_MAIN_IsRowFlagged(p)==1) return 5;
     if(B_PLIST_MAIN_IsIndexInParty(p,(*(u8 **)p)[32])==1) return 4;
-    if(((struct B_PlistWork *)p)->owner->field26!=0) return 6;
+    if(((struct B_PlistWork *)p)->owner->moveId!=0) return 6;
     return 0;
 }
 
@@ -1827,7 +1827,7 @@ u32 B_PLIST_MAIN_IsBattleSlot(u32 a, u32 b)
 /*
  * lever: Group the unsigned address sum as base plus row, then column, then offset.
  */
-u32 B_PLIST_MAIN_CheckMoveUsable(u8 *p) { u8 *q;unsigned long i;int row;q=*(u8 * *)&((struct B_PlistWork *)p)->owner;i=q[75];if(i==4)return 0;row=(u32)p+q[32]*76;return EVENT_ID_Check(((struct B_PlistHost *)q)->field00,*(u16 *)(row+i*8+48),((struct B_PlistHost *)q)->heapId); }
+u32 B_PLIST_MAIN_CheckMoveUsable(u8 *p) { u8 *q;unsigned long i;int row;q=*(u8 * *)&((struct B_PlistWork *)p)->owner;i=q[75];if(i==4)return 0;row=(u32)p+q[32]*76;return EVENT_ID_Check(((struct B_PlistHost *)q)->config,*(u16 *)(row+i*8+48),((struct B_PlistHost *)q)->heapId); }
 
 
 
@@ -1970,9 +1970,9 @@ void B_PLIST_MAIN_PushSelectionPair(u8 *p, int a, int b)
     u8 i;
     for (i = 0; i < 2; i++) {
         u8 *q = p + i * 4;
-        if (((struct B_PlistWork *)q)->field249C == 0xff) {
-            ((struct B_PlistWork *)q)->field249C = a;
-            ((struct B_PlistWork *)q)->field249E = b;
+        if (((struct B_PlistWork *)q)->selPairFirst == 0xff) {
+            ((struct B_PlistWork *)q)->selPairFirst = a;
+            ((struct B_PlistWork *)q)->selPairSecond = b;
             return;
         }
     }
@@ -2022,7 +2022,7 @@ int B_PLIST_MAIN_PrintRowMessage(u8 *p)
     row = p + 4 + idx * 0x4c;
     if (B_PLIST_MAIN_IsBattleSlot((u32)p, idx) == 1) {
         text = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x5a);
-        WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->font, ((struct B_PlistWork *)p)->u1EA8.wordSet, text);
+        WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->wordSet, ((struct B_PlistWork *)p)->u1EA8.strBuf, text);
         STRBUF_Delete(text);
         return 0;
     }
@@ -2031,22 +2031,22 @@ int B_PLIST_MAIN_PrintRowMessage(u8 *p)
             text = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x6b);
         else
             text = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x6a);
-        WORDSET_SetSlotMonSpecies(((struct B_PlistWork *)p)->font, 0, ((struct B_PlistSlot *)row)->u00.ptr);
-        WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->font, ((struct B_PlistWork *)p)->u1EA8.wordSet, text);
+        WORDSET_SetSlotMonSpecies(((struct B_PlistWork *)p)->wordSet, 0, ((struct B_PlistSlot *)row)->u00.ptr);
+        WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->wordSet, ((struct B_PlistWork *)p)->u1EA8.strBuf, text);
         STRBUF_Delete(text);
         return 0;
     }
     if (B_PLIST_MAIN_IsIndexInParty(p, (*(u8 **)p)[0x20]) == 1) {
         text = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x56);
-        WORDSET_SetSlotMonSpecies(((struct B_PlistWork *)p)->font, 0, ((struct B_PlistSlot *)row)->u00.ptr);
-        WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->font, ((struct B_PlistWork *)p)->u1EA8.wordSet, text);
+        WORDSET_SetSlotMonSpecies(((struct B_PlistWork *)p)->wordSet, 0, ((struct B_PlistSlot *)row)->u00.ptr);
+        WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->wordSet, ((struct B_PlistWork *)p)->u1EA8.strBuf, text);
         STRBUF_Delete(text);
         return 0;
     }
-    if (((struct B_PlistSlot *)row)->field10 != 0) {
+    if (((struct B_PlistSlot *)row)->hp != 0) {
         text = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x56);
-        WORDSET_SetSlotMonSpecies(((struct B_PlistWork *)p)->font, 0, ((struct B_PlistSlot *)row)->u00.ptr);
-        WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->font, ((struct B_PlistWork *)p)->u1EA8.wordSet, text);
+        WORDSET_SetSlotMonSpecies(((struct B_PlistWork *)p)->wordSet, 0, ((struct B_PlistSlot *)row)->u00.ptr);
+        WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->wordSet, ((struct B_PlistWork *)p)->u1EA8.strBuf, text);
         STRBUF_Delete(text);
         return 0;
     }
@@ -2289,7 +2289,7 @@ int B_PLIST_MAIN_HasSwappable(u8 *p)
     if(i==1) return 0;
     for(;i<6;i++) {
         u8 *record=p+B_PLIST_MAIN_GetOrderIndex(p,i)*0x4c;
-        if(((struct B_PlistSlot *)record)->active!=0 && ((struct B_PlistSlot *)record)->u1A.bits.flags.high==0 && ((struct B_PlistSlot *)record)->field14!=0) return 1;
+        if(((struct B_PlistSlot *)record)->active!=0 && ((struct B_PlistSlot *)record)->u1A.bits.flags.high==0 && ((struct B_PlistSlot *)record)->hpRawBase!=0) return 1;
     }
     return 0;
 }
@@ -2331,7 +2331,7 @@ void B_PLIST_MAIN_ClearSelection(u8 **p)
 
 u32 B_PLIST_MAIN_CheckCancel(u8 **p)
 {
-    if (((struct B_PlistWork *)p)->owner->field30 == 1) {
+    if (((struct B_PlistWork *)p)->owner->cancelRequest == 1) {
         B_PLIST_MAIN_ClearSelection(p);
         return 1;
     }
@@ -2343,7 +2343,7 @@ u32 B_PLIST_MAIN_CheckCancel(u8 **p)
 
 void B_PLIST_MAIN_PlaySe(u8 **p, u32 b)
 {
-    if (((struct B_PlistWork *)p)->owner->field40 == 1) {
+    if (((struct B_PlistWork *)p)->owner->seEnabled == 1) {
         GFL_USE_PlaySeDefaultVolume(b);
     }
 }
@@ -2353,7 +2353,7 @@ void B_PLIST_MAIN_PlaySe(u8 **p, u32 b)
 
 void B_PLIST_MAIN_PlaySe2(u8 **p, u32 b)
 {
-    if (((struct B_PlistWork *)p)->owner->field40 == 1) {
+    if (((struct B_PlistWork *)p)->owner->seEnabled == 1) {
         GFL_USE_PlaySeDefaultVolume(b);
     }
 }

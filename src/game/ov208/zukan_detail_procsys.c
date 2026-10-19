@@ -59,20 +59,20 @@ void ZUKAN_DETAIL_PROCSYS_FreeNode(void *p)
     GFL_HEAP_Free(p);
 }
 
-int ZUKAN_DETAIL_PROCSYS_RunStateCallbacks(struct Ov208Fsm *p,int arg)
+int ZUKAN_DETAIL_PROCSYS_RunStateCallbacks(struct Ov208Fsm *p,int ctx)
 {
     int result=1;
     switch(p->state) {
     case 0:
-        if(p->callbacks[0]) result=p->callbacks[0](p,&p->counter,p->a,p->work,arg);
+        if(p->callbacks[0]) result=p->callbacks[0](p,&p->counter,p->a,p->work,ctx);
         if(result==1) { p->state=1; p->counter=0; }
         break;
     case 1:
-        if(p->callbacks[1]) result=p->callbacks[1](p,&p->counter,p->a,p->work,arg);
+        if(p->callbacks[1]) result=p->callbacks[1](p,&p->counter,p->a,p->work,ctx);
         if(result==1) { p->state=2; p->counter=0; }
         break;
     case 2:
-        if(p->callbacks[2]) result=p->callbacks[2](p,&p->counter,p->a,p->work,arg);
+        if(p->callbacks[2]) result=p->callbacks[2](p,&p->counter,p->a,p->work,ctx);
         if(result==1) return 1;
         break;
     }
@@ -83,21 +83,21 @@ int ZUKAN_DETAIL_PROCSYS_RunStateCallbacks(struct Ov208Fsm *p,int arg)
  * Virtual call through the handler table entry at +0xc of the node, passing the
  * node, its counter word, its two payload words and the two arguments.
  */
-void ZUKAN_DETAIL_PROCSYS_CallOwnerUpdate(char *p, int a, int b)
+void ZUKAN_DETAIL_PROCSYS_CallOwnerUpdate(char *p, int ctx, int buttonId)
 {
     void (*fn)(char *, char *, int, int, int, int);
 
     fn = (void (*)(char *, char *, int, int, int, int))((struct Ov208Fsm *)p)->callbacks[3];
     if (fn != 0)
-        fn(p, p + 8, ((struct Ov208Fsm *)p)->a, (int)((struct Ov208Fsm *)p)->work, a, b);
+        fn(p, p + 8, ((struct Ov208Fsm *)p)->a, (int)((struct Ov208Fsm *)p)->work, ctx, buttonId);
 }
 
-void ZUKAN_DETAIL_PROCSYS_CallOwnerHook(char *p, int v)
+void ZUKAN_DETAIL_PROCSYS_CallOwnerHook(char *p, int ctx)
 {
     Vfn fn = (Vfn)((struct Ov208Fsm *)p)->callbacks[4];
 
     if (fn != 0)
-        fn(p, p + 8, ((struct Ov208Fsm *)p)->a, (int)((struct Ov208Fsm *)p)->work, v);
+        fn(p, p + 8, ((struct Ov208Fsm *)p)->a, (int)((struct Ov208Fsm *)p)->work, ctx);
 }
 
 void *ZUKAN_DETAIL_PROCSYS_AllocBuffer(struct Ov208Fsm *p, u32 size, u32 heap)

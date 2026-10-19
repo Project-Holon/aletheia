@@ -330,7 +330,7 @@ typedef struct {
 
 typedef struct {
     u32 active;             /* 0x000 */
-    u32 field04;
+    u32 enabled;
     u16 step;               /* 0x008 */
     u8 pad_00A[2];
     int scroll;             /* 0x00C */
@@ -341,7 +341,7 @@ typedef struct {
     void *clactUnit;        /* 0x118 */
     MysteryPtrWord callback;/* 0x11C */
     u8 pad_120[4];
-    u16 field124;           /* 0x124 */
+    u16 heapId;           /* 0x124 */
     u8 pad_126[2];
 } MysteryScroll;
 
@@ -350,7 +350,7 @@ typedef struct {
     MysteryPtrWord character; /* 0x004 */
     MysteryPtrWord cellAnim;  /* 0x008 */
     void *actors[35];       /* 0x00C */
-    u16 field98;            /* 0x098 */
+    u16 angle;            /* 0x098 */
     u8 pad_09A[2];
 } MysteryClactActor;
 
@@ -426,7 +426,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *MYSTERY_DATA_Create(void *, void *, void *);
 extern u8 *MYSTERY_GRAPHIC_Create(int arg, u16 heap);
 extern unsigned MYSTERY_GRAPHIC_GetClactUnit(char *p);
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
@@ -471,7 +471,7 @@ extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern int CLACT_RegisterPalette(void *,u32,u32,u32,u16);
 extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
 extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, u32 unpackedOut, u32 flags);
 extern void MI_CpuCopy8(const void *,void *,int);
 extern u32 GFL_HEAP_Free(void *p);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
@@ -481,7 +481,7 @@ extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
-extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, u32 unpackedOut, u32 flags);
 extern void CLACT_TransferPalette(void *,void *,int);
 extern s32 MYSTERY_UTIL_BlendPalette(int a, u16 *p, int angle, int bank, u8 index, u16 c1, u16 c2);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -512,13 +512,13 @@ extern void MYSTERY_DATA_SetEventFlag(void *p, unsigned int idx);
 extern u32 MYSTERY_DATA_HasCardSpace(u8 *p);
 extern u32 MYSTERY_DATA_GetCardSlotNum(struct Obj *);
 extern int MYSTERY_DATA_IsCardReceived(char *p, unsigned int idx);
-extern int MYSTERY_DATA_IsMainSave(struct Obj *a0);
+extern int MYSTERY_DATA_IsMainSave(struct Obj *data);
 extern int APP_ENV_InitParentalControl(void);
 extern void *MYSTERY_NET_GetResult(char *p);
 extern void MYSTERY_UTIL_SetListValue(u8 *p, u32 i, u32 value);
 extern void MYSTERY_GRAPHIC_StartRender(u8 *p);
-extern void MYSTERY_DATA_SaveStart(void *a0, int a1);
-extern int MYSTERY_DATA_SaveMain(void *a0, int a1);
+extern void MYSTERY_DATA_SaveStart(void *data, int gameData);
+extern int MYSTERY_DATA_SaveMain(void *data, int gameData);
 extern void MYSTERY_GRAPHIC_StopRender(char *p);
 extern void *MYSTERY_ALBUM_CreateSlotWork(MysteryAlbumDesc *,u16);
 extern void *MYSTERY_ALBUM_CreateAlbumView(void *,void *,void *,u16);
@@ -557,7 +557,7 @@ extern u32 GFL_USE_GetRandom(u32);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u32 MYSTATUS_GetId(const struct Sub0200852CObj *obj);
 extern void *POKE_TOOL_Create(u16,u16,u32,u32,u32);
-extern u32 POKE_TOOL_CreatePersonalRnd(u32 a0, int a1, int a2, int a3, int a4, int a5);
+extern u32 POKE_TOOL_CreatePersonalRnd(u32 otId, int species, int form, int ratioMode, int shinyWanted, int mode);
 extern void POKE_TOOL_SetupPartyParamEx(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 extern void POKE_TOOL_SetPartyValue(void *,u32,u32);
 extern u32 POKE_TOOL_SetDefaultMoves(void *);
@@ -588,7 +588,7 @@ extern void CLACT_GetActorPos(const struct Actor *actor, struct Pt *out);
 extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 extern void CLACT_SetActorPos(struct Actor *actor, const struct Pt *src);
 extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
-extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
+extern void *BMP_OAM_CreateSys(unsigned int heapId, void *clact);
 extern void *MYSTERY_UTIL_CreateTaskEx(const char *p, u16 a, u16 b, int c, u8 d, int e, void *f, void *g, u16 heap);
 extern void MYSTERY_UTIL_SetFlag(u8 *p, int a);
 extern void MYSTERY_UTIL_SetVec(u32 *p, u32 a, u32 b, u32 c);
@@ -597,7 +597,7 @@ extern void MYSTERY_UTIL_UpdateActorPair(char *p);
 extern void MYSTERY_UTIL_DeleteActorPair(unsigned char *p);
 extern void BMP_OAM_DeleteSys(void *);
 extern int MYSTERY_UTIL_IsMenuFinished(u8 *p);
-extern u32 POKEGRA_LoadCharDataPP(void *a0, void *mon, u32 a2, u32 a3);
+extern u32 POKEGRA_LoadCharDataPP(void *outCharData, void *mon, u32 dir, u32 heapId);
 extern void POKEGRA_ConvertCharTo2D(void *,u16);
 extern int MYSTERY_DATA_CheckPacketCrc(u8 *obj);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
@@ -609,7 +609,7 @@ int MYSTERY_Create(void *a, u32 b, u32 c);
 int MYSTERY_Delete(void *a, int b, int c, char *p);
 int MYSTERY_Main(int a, int b, int c, char *p);
 void MYSTERY_InitBgHeap(u16 *p,u16 heap);
-void MYSTERY_ExitBgHeap(void *a0);
+void MYSTERY_ExitBgHeap(void *work);
 void MYSTERY_SetupBg(u16 *p,int mode);
 void MYSTERY_CreateClact(char *p, void *owner, u16 heap);
 void MYSTERY_DeleteClact(u8 *p);
@@ -642,7 +642,7 @@ int MYSTERY_PollCardMenu(char *p);
 void MYSTERY_CardMenuCallback(char *p);
 void MYSTERY_CreatePartyMenu(u8 *p,int heap);
 void MYSTERY_DeletePartyMenu(char *p);
-void MYSTERY_CreateReceivedMon(u8 *out,void *owner,const u8 *desc,void *save,void *list,void *a5,void *a6,u16 heap);
+void MYSTERY_CreateReceivedMon(u8 *out,void *owner,const u8 *desc,void *save,void *list,void *bgHeap,void *scroll,u16 heap);
 void MYSTERY_InitCardView(u8 *p,int mode);
 void MYSTERY_DeleteCardView(u8 *p);
 void MYSTERY_StepCardView(char *p);
@@ -782,7 +782,7 @@ void MYSTERY_InitBgHeap(u16 *p,u16 heap)
 
 
 
-void MYSTERY_ExitBgHeap(void *a0) { }
+void MYSTERY_ExitBgHeap(void *work) { }
 
 
 
@@ -936,16 +936,16 @@ static inline int wrap(int n, u16 *p)
 void MYSTERY_RotateActors(u8 *p)
 {
     int i;
-    ((MysteryClactActor *)p)->field98 = wrap(1024, (u16 *)(p + 0x98));
+    ((MysteryClactActor *)p)->angle = wrap(1024, (u16 *)(p + 0x98));
     for (i = 0; i < 5; i++)
-        MYSTERY_UTIL_BlendPalette(14, (u16 *)(p + 0x9a) + i, ((MysteryClactActor *)p)->field98, 0, (u8)i, *(u16 *)(p + 0xba + i * 2), *(u16 *)(p + 0xda + i * 2));
+        MYSTERY_UTIL_BlendPalette(14, (u16 *)(p + 0x9a) + i, ((MysteryClactActor *)p)->angle, 0, (u8)i, *(u16 *)(p + 0xba + i * 2), *(u16 *)(p + 0xda + i * 2));
 }
 
 
 
 
 
-void MYSTERY_ResetActorAngle(u8 *p) { ((MysteryClactActor *)p)->field98=0; }
+void MYSTERY_ResetActorAngle(u8 *p) { ((MysteryClactActor *)p)->angle=0; }
 
 
 
@@ -1898,7 +1898,7 @@ void MYSTERY_DeletePartyMenu(char *p) {
  *   `adds r1,r6,#0`, as in the original (docs/idioms/a-reload-kept-below-outgoing-stack-
  *   stores-is-a-narrow-local.md read the other way round). Compiles this lane: 3.
  */
-void MYSTERY_CreateReceivedMon(u8 *out,void *owner,const u8 *desc,void *save,void *list,void *a5,void *a6,u16 heap)
+void MYSTERY_CreateReceivedMon(u8 *out,void *owner,const u8 *desc,void *save,void *list,void *bgHeap,void *scroll,u16 heap)
 {
     u32 palette;
     void *buf,*mon,*allocated,*str;
@@ -1919,7 +1919,7 @@ void MYSTERY_CreateReceivedMon(u8 *out,void *owner,const u8 *desc,void *save,voi
     u32 packed,j,place,value;
     u8 day;
     MI_CpuFill8(out,0,300);
-    O(40)=(u32)a6;O(36)=(u32)a5;OH(0)=heap;O(276)=(u32)desc;OH(296)=0;OH(298)=0;
+    O(40)=(u32)scroll;O(36)=(u32)bgHeap;OH(0)=heap;O(276)=(u32)desc;OH(296)=0;OH(298)=0;
     if(desc[714]) palette=3;
     else palette=d_021DF4F2[desc[179]];
     buf=ARC_UTIL_LoadPaletteBlockFromArchive(34,2,(u32)&work.resdesc,heap);
@@ -2342,7 +2342,7 @@ void MYSTERY_InitScroll(u8 *p,void *q,u16 h)
     ((MysteryScroll *)p)->value=-819;
     ((MysteryScroll *)p)->clactUnit=q;
     ((MysteryScroll *)p)->startValue=-819;
-    ((MysteryScroll *)p)->field124=h;
+    ((MysteryScroll *)p)->heapId=h;
     for(i=0;i<32;i++) {
         CLACT_GetActorPos(MYSTERY_GetClactActor(((MysteryScroll *)p)->clactUnit,i+1),(struct Pt *)xy);
         ((MysteryScroll *)p)->y[i]=xy[1]<<12;
@@ -2361,7 +2361,7 @@ void MYSTERY_ClearScroll(void *p)
 
 void MYSTERY_StepScroll(char *p)
 {
-    if (((MysteryScroll *)p)->field04 != 0 && ((MysteryScroll *)p)->active != 0) {
+    if (((MysteryScroll *)p)->enabled != 0 && ((MysteryScroll *)p)->active != 0) {
         void (*fp)(char *) = *(void (**)(char *))(p + 0x11c);
         if (fp != 0)
             fp(p);

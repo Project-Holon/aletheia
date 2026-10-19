@@ -25,7 +25,7 @@
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   UNION_COMM_SetSituationParam 0x021734A8  thumb  ov012
- *   ICA_ANIME_GetField24 0x02012138 thumb
+ *   GAMESYSTEM_GetGameComm 0x02012138 thumb
  *   GAME_COMM_GetWork 0x02026474 thumb
  *   UNION_MAIN_CreateSubEvent 0x0217413C thumb ov012
  *   gUnionOneselfActionStart  0x02180074  data  a4
@@ -54,7 +54,7 @@
  *   KEY_GetTrg  0x020362DC  arm
  *   UNION_ONESELF_IsPlayerAtReceptionSpot  0x0217F7E4  thumb  ov019
  *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb  ov019
- *   ICA_ANIME_SetField30  0x02012124  thumb
+ *   GAMESYSTEM_SetFieldMapState  0x02012124  thumb
  *   UNION_COMM_RequestShutdown  0x02172D38  thumb  ov012
  *   UNION_COMM_ReleaseWorks  0x02173420  thumb  ov012
  *   UNION_COMM_RequestStart  0x02172D50  thumb  ov012
@@ -243,7 +243,7 @@ extern void *FIELDMAP_GetFieldPlayer(void *fieldMap);
 
 extern void UNION_COMM_SetSituationParam(void *unisys, u32 commandId, u32 value);
 
-extern unsigned int ICA_ANIME_GetField24(struct GameSystem *gameSystem);
+extern unsigned int GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
 
 extern u32 GAME_COMM_GetWork(void *gameComm);
 
@@ -293,7 +293,7 @@ extern int UNION_ONESELF_IsPlayerAtReceptionSpot(u32 fieldMap);
 
 u32 UNION_MSG_CheckTalkPrintEnd(UnionRoomWork *unisys);
 
-extern void ICA_ANIME_SetField30(struct GameSystem *gameSystem, u32 state);
+extern void GAMESYSTEM_SetFieldMapState(struct GameSystem *gameSystem, u32 state);
 
 void UNION_COMM_RequestShutdown(void *unisys);
 
@@ -365,7 +365,7 @@ int UNION_ONESELF_TryStartSubEvent(struct GameSystem *gameSystem, void *fieldMap
     UnionRoomWork *work;
     UnionSubEvent *subEvent;
     int result;
-    work = (UnionRoomWork *)GAME_COMM_GetWork((void *)ICA_ANIME_GetField24(gameSystem));
+    work = (UnionRoomWork *)GAME_COMM_GetWork((void *)GAMESYSTEM_GetGameComm(gameSystem));
     result = 0;
     subEvent = &work->subEvent;
     if (subEvent->id != 0 && subEvent->active == 0) result = UNION_MAIN_CreateSubEvent(gameSystem, fieldMap, work);
@@ -659,7 +659,7 @@ int UNION_ONESELF_ErrorMain(UnionRoomWork *work, UnionMySituation *situation, vo
         break;
     case 2:
         if (GFL_NET_ERR_GetErrorLevel() != 0) {
-            ICA_ANIME_SetField30(work->parent->gameSystem, 1);
+            GAMESYSTEM_SetFieldMapState(work->parent->gameSystem, 1);
             return 0;
         }
         UNION_COMM_RequestShutdown(work);
@@ -949,7 +949,6 @@ void UNION_COMM_ClearBeaconPcs(void *unisys);
 
 void COLOSSEUM_Delete(ColosseumWork *colosseum, struct GameSystem *gameSystem);
 
-void GAMESYSTEM_SetFieldMapState(void *gameSystem, u32 value);
 
 u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 

@@ -35,7 +35,7 @@
  *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
  *   GFL_NET_COMMAND_DeleteCommandTable 0x0203A5E4 arm
  *   OS_GetOwnerInfo 0x02087C88 arm
- *   ICA_ANIME_GetField1C 0x020120F4 thumb
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   MYSTATUS_Copy 0x02008494 thumb
  *   GAME_DATA_GetMyParty 0x02012934 thumb
@@ -69,7 +69,7 @@ extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 extern void MI_CpuFill8(void *,int,u32);
 extern u32 GFL_HEAP_Free(void *p);
 extern int GFL_NET_GetRunState(void);
-extern void GFL_NET_StartSession(struct Req *req, u32 a2, u32 a3);
+extern void GFL_NET_StartSession(struct Req *req, u32 transportArg, u32 userArg);
 extern int GFL_NET_Exit(int a0);
 extern int GFL_NET_StartChangeoverChild(int);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
@@ -83,7 +83,7 @@ extern u32 GFL_NET_SendData(u32,u32,u32,u32,u32,u32,u32,u32);
 extern void GFL_NET_COMMAND_AddCommandTable(u32,u32,u32,u32);
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32);
 extern void OS_GetOwnerInfo(struct OSOwnerInfo *info);
-extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void MYSTATUS_Copy(void *,void *);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
@@ -386,7 +386,7 @@ void COMPATIBLE_IRC_SYS_BuildProfile(void *playerData,IrcCompatibleProfile *out)
     void *record;
     int flag;
     OS_GetOwnerInfo((struct OSOwnerInfo *)(&ownerInfo));
-    sub=ICA_ANIME_GetField1C(playerData);
+    sub=GAMESYSTEM_GetGameData(playerData);
     playerData=GAME_DATA_GetMyStatus(sub);
     out->birthMonth=ownerInfo[2];
     out->birthDay=ownerInfo[3];

@@ -165,7 +165,7 @@ extern unsigned char __lower_mapC[];
 
 
 extern int strcmp(const char *a, const char *b);
-extern int atoi(u32 a0);
+extern int atoi(u32 s);
 extern int strnicmp(const char *s1, const char *s2, unsigned int n);
 int RefStringHash(void *elem, int numbuckets)
 {

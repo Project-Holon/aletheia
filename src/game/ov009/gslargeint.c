@@ -88,7 +88,7 @@ extern char gGsLargeIntHexFormatNibble[];
 extern char gGsLargeIntHexFormatByte[];
 extern void *MSL_C_LIB_AllocFromHeap(unsigned long heap);
 extern void CRT_Free(void *p);
-extern void *MSL_C_LIB_ReallocResource(unsigned long a0, unsigned long a1);
+extern void *MSL_C_LIB_ReallocResource(unsigned long resSet, unsigned long heap);
 void *gsiMemoryMalloc(unsigned long size);
 void gsiMemoryFree(void *p);
 void *gsiMemoryRealloc(unsigned long block, unsigned long size);

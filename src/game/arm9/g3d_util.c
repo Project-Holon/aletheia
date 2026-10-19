@@ -149,11 +149,11 @@ int G3D_SYSTEM_GetResourceSize(void);
 
 void G3D_SYSTEM_InitResourceByFile(struct G3dNodeInit *out, u32 *tag);
 
-void *G3D_SYSTEM_CreateResourceArc(u32 a0, u32 a1);
+void *G3D_SYSTEM_CreateResourceArc(u32 arcId, u32 dataId);
 
-void *G3D_SYSTEM_CreateResourceArcHandle(struct ArcHandle *a0, u32 a1);
+void *G3D_SYSTEM_CreateResourceArcHandle(struct ArcHandle *arc, u32 dataId);
 
-void *G3D_SYSTEM_CreateResourcePath(u32 a0, u32 a1);
+void *G3D_SYSTEM_CreateResourcePath(u32 path, u32 dataId);
 
 void G3D_SYSTEM_DeleteResource(struct G3dResourceRef *p);
 
@@ -165,7 +165,7 @@ int G3D_SYSTEM_FreeVramTexture(u32 *p);
 
 int G3D_SYSTEM_IsTextureInVram(struct G3dModelRef *layer);
 
-void *G3D_SYSTEM_CreateRender(void *a0, u32 n, void *a2);
+void *G3D_SYSTEM_CreateRender(void *mdlRes, u32 n, void *texRes);
 
 void G3D_SYSTEM_DeleteRender(struct G3dNode *p);
 
@@ -173,11 +173,11 @@ int G3D_SYSTEM_GetRenderMdlRes(int *p);
 
 int G3D_SYSTEM_GetRenderTexRes(int *p);
 
-struct G3dAnim *G3D_SYSTEM_CreateAnime(struct G3dRenderObj *a0, const struct G3dRenderObj *a1, int a2);
+struct G3dAnim *G3D_SYSTEM_CreateAnime(struct G3dRenderObj *render, const struct G3dRenderObj *anmRes, int anmIdx);
 
 void G3D_SYSTEM_DeleteAnime(struct G3dNode *p);
 
-void *G3D_SYSTEM_CreateObject(u32 a0, u32 *a1, int a2);
+void *G3D_SYSTEM_CreateObject(u32 render, u32 *anmTbl, int anmCount);
 
 void G3D_SYSTEM_DeleteObject(struct G3dNode *p);
 

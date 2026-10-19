@@ -191,7 +191,7 @@ extern u16 BILLBOARD_ACT_CreateSlots(struct BbActSys *sys, const struct BbActRec
 extern void BILLBOARD_ACT_DeleteSlots(struct BbActSys *sys, u32 first, u32 count);
 extern void FLDMMDL_MOVE_GridToVectorPos(int x, int y, int *p);
 extern void *FIELD_EFFECT_GetResource(FieldEffectSys *fieldEffect, u32 effectId);
-extern void FIELD_EFFECT_AddObject(FieldEffectSys *fieldEffect, const void *funcs, const VecFx32 *pos, u32 arg4, void *param, u32 priority);
+extern void FIELD_EFFECT_AddObject(FieldEffectSys *fieldEffect, const void *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
 extern void *gSpeciesNameBank;
 
 int SCRCMD_PLAYER_GRID_EVENT_WaitA(void *vm, void *scriptWork);

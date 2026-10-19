@@ -154,7 +154,7 @@ extern void *WF2DMAP_SCRDRAW_CreateBitmapDesc(void *a, void *b, LayerParams *par
 extern void WF2DMAP_SCRDRAW_DeleteBitmapDesc(u8 *layer);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void BG_SYS_LoadPlttEntry(u32 a, u32 b);
-extern u32 ARC_UTIL_UploadBgCharFromArchive(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
+extern u32 ARC_UTIL_UploadBgCharFromArchive(void *archiveID, void *memberIdx, void *bgId, void *tileOffset, u32 size, u32 heapID, u16 allocFlags);
 extern u16 WF2DMAP_MAP_GetWidth(u16 *tileMap);
 extern u16 WF2DMAP_MAP_GetHeight(u16 *tileMap);
 extern u8 *WF2DMAP_OBJDRAW_AddActor(u8 *, void *, int, u32);

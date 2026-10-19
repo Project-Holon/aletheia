@@ -398,3 +398,28 @@ How the last names were closed:
   one name mwcc merges them and the code is 4 bytes short on every compiler
   build. See
   `docs/idioms/a-duplicated-pool-word-is-a-second-extern-name-for-the-same-address.md`.
+
+## Fields, parameters and locals (wave 15, 2026-10-19)
+
+`tools/placeholdernames.py` counts names that stand for an offset or a position instead of
+a meaning: struct fields `fXX`, `fieldXX`, `unkXX`, `xXX` (a digit, upper-case hex, or at
+most two hex characters, so a word such as `fade` is not counted), parameters of
+definitions `aN`, `argN`, `paramN`, `pN`, and locals `aN`, `vN`, `tmpN`, `varN`. Prototype
+parameters are counted apart. Before wave 15: 3,299 (1,849 fields, 1,243 parameters, 207
+locals) plus 5,296 prototype parameters. After: 212 plus 330.
+
+Rules the lanes followed: a name comes from evidence (what the code stores and reads, the
+parameter name of the callee it is passed to, the vendor name for SDK, NitroSystem, DWC,
+GameSpy and MSL code); never another placeholder; a field nothing reads keeps a `pad`
+name or stays, listed with the reason; a header field is renamed only when every user is
+in the lane's files, otherwise the integrator renames it. `tools/protonames.py` then gave
+every prototype the parameter names of its definition (byte-neutral, verified).
+
+What is left (212): fields that are declared but never read or written, or only cleared,
+so no name can be proven; structs that are several objects overlaid at one offset (ov120,
+ov183, ov198) carry names that fit the most common use and need splitting into real
+per-object types; the remaining prototype parameters belong to functions whose definitions
+have no names either (vendor asm).
+
+Function names corrected on evidence in the same wave are listed in the README
+(Source cleanup, wave 15).

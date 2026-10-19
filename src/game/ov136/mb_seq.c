@@ -396,7 +396,7 @@ extern void STRBUF_Delete(struct Strbuf *vec);
 
 extern signed char MSG_SPEED_GetWait(void);
 
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 
@@ -535,7 +535,7 @@ extern void BG_SYS_SetFlagField06(u32);
 
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 
-extern u32 PALANM_Delete(void *a0);
+extern u32 PALANM_Delete(void *ctx);
 
 extern void TCB_Noop(void *);
 
@@ -865,11 +865,11 @@ void MB_SEQ_SetVramBanks(void)
     BG_SYS_SetVramBanks(&d_021C78E0);
 }
 
-extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *a0, u32 a1, u32 a2, struct BgCharData **out, u16 a4);
+extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *arc, u32 memberIdx, u32 heapID, struct BgCharData **out, u16 flags);
 
 extern void MIi_CpuCopyFast(void *, const void *, u32);
 
-extern struct BgWinFrm *BGWINFRM_Create(u32 a0, u32 a1, u32 heap);
+extern struct BgWinFrm *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heap);
 
 extern void BGWINFRM_AddFrame(struct BgWinFrm *mgr, u32 idx, u32 bg, u32 w, u32 h);
 
@@ -1171,7 +1171,7 @@ extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 i, struct Strbuf *sr
 
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
 
-extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
 
 extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 v);
 
@@ -1255,7 +1255,7 @@ void MB_SEQ_EmptyHookDetailClose(struct MailBoxView *view);
 
 void MB_SEQ_EmptyHookDetailReturn(struct MailBoxView *view);
 
-void MB_SEQ_SetWriterWord(struct MailBoxProc *p, u32 a1);
+void MB_SEQ_SetWriterWord(struct MailBoxProc *p, u32 unused);
 
 void MB_SEQ_StartMessagePrint(struct MailBoxProc *p);
 
@@ -1546,7 +1546,7 @@ void MB_SEQ_EmptyHookDetailReturn(struct MailBoxView *view)
 {
 }
 
-void MB_SEQ_SetWriterWord(struct MailBoxProc *p, u32 a1)
+void MB_SEQ_SetWriterWord(struct MailBoxProc *p, u32 unused)
 {
     struct Mail *mail;
     struct Strbuf *text;
@@ -1913,13 +1913,13 @@ extern u16 FILE_UTIL_GetItemId(u32);
 
 extern u32 CLACT_IsActorAnimActive(struct ClactActor *actor);
 
-extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
 
 extern void BGWINFRM_GetPos(struct BgWinFrm *mgr, u32 idx, s8 *x, s8 *y);
 
 extern void BGWINFRM_GetSize(struct BgWinFrm *mgr, u32 idx, u16 *w, u16 *h);
 
-extern void PMS_DRAW_Clear(struct PmsDraw *draw, int index, u32 a1);
+extern void PMS_DRAW_Clear(struct PmsDraw *draw, int index, u32 isTrans);
 
 extern void *GAME_DATA_GetMyItem(struct GameData *gameData);
 
@@ -1949,7 +1949,7 @@ extern u32 MYITEM_SAVEDATA_RemoveItem(u8 *base, u16 id, u16 qty, u16 d);
 
 extern int TOUCHPANEL_HitTrg(const void *);
 
-extern struct TouchSelect *CURSOR_MOVE_Create(const struct TouchRect *rects, const u8 *keyTable, void *owner, u32 a3, u8 a4, u16 heapId);
+extern struct TouchSelect *CURSOR_MOVE_Create(const struct TouchRect *rects, const u8 *keyTable, void *owner, u32 state, u8 start, u16 heapId);
 
 extern u32 CURSOR_MOVE_Delete(struct TouchSelect *select);
 

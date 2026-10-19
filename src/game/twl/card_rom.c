@@ -45,18 +45,18 @@ struct SysState {
     int state;
 };
 struct Hook {
-    int f0;
+    int pad0;
     void *callback;
 };
 
 struct Request {
-    int f0;
+    int command;
     void (*callback)(void *);
-    u32 a;
-    u32 c;
-    u32 b;
-    u32 d;
-    int f18;
+    u32 userdata;
+    u32 src;
+    u32 dst;
+    u32 len;
+    int work;
 };
 
 extern struct SysState data_02150200;
@@ -83,27 +83,27 @@ extern void CARD_InitRomHashContext(void *, void *, u32, u32, void *, void *, vo
 
 void CARD_ReadRomHashImage(void *obj, u8 *buf, u32 off, u32 len);
 
-int CARDi_ReadCardWithHash(int a0, int a1, int a2, int a3) {
-    CARD_ReadRomHashImage(data_02732DC4, (u8 *)a1, a2, a3);
-    return a3;
+int CARDi_ReadCardWithHash(int userdata, int buffer, int offset, int length) {
+    CARD_ReadRomHashImage(data_02732DC4, (u8 *)buffer, offset, length);
+    return length;
 }
 
-u32 CARDi_ReadCardWithHashInternalAsync(u32 a, u32 b, u32 c, u32 d)
+u32 CARDi_ReadCardWithHashInternalAsync(u32 userdata, u32 buffer, u32 offset, u32 length)
 {
     if (data_02150200.state == -1) {
-        d = 0;
+        length = 0;
     } else {
-        DC_FlushRange(b, d);
+        DC_FlushRange(buffer, length);
         data_02732DA8.callback = CARD_NotifyRomHashReadAsync;
-        data_02732DA8.a = a;
-        data_02732DA8.c = c;
-        data_02732DA8.b = b;
-        data_02732DA8.d = d;
-        data_02732DA8.f0 = 0;
-        data_02732DA8.f18 = 0;
+        data_02732DA8.userdata = userdata;
+        data_02732DA8.src = offset;
+        data_02732DA8.dst = buffer;
+        data_02732DA8.len = length;
+        data_02732DA8.command = 0;
+        data_02732DA8.work = 0;
         CARDi_ReadRomWithDMA(&data_02732DA8);
     }
-    return d;
+    return length;
 }
 
 void CARDi_InitRomHash(void)

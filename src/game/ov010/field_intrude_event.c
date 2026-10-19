@@ -13,17 +13,17 @@
  * Cut from unit_0216B24C.c by tools/splitfile.py.
  *
  * symbols:
- *   ICA_ANIME_GetField1C 0x020120F4 thumb
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_EVENT_Create 0x020122C0 thumb
  *   GAME_EVENT_GetWork 0x020124E8 thumb
  *   MI_CpuFill8 0x02082BCC arm
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
- *   ICA_ANIME_GetField24  0x02012138  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   INTRUDE_COMM_SendValueNow  0x02176850  thumb  ov011
  *   INTRUDE_COMM_IsRecordReceived  0x02176870  thumb  ov011
  *   INTRUDE_COMM_GetPartnerSlot  0x021767A0  thumb  ov011
- *   ICA_ANIME_GetField20  0x0201210C  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb
  *   FLDMMDL_GetPosPtr  0x0216D888  thumb  ov010
@@ -65,7 +65,7 @@ typedef struct {
     u32 solo;           /* 0x20 */
 } SymbolEntryWork;
 
-extern void *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 
 extern struct GameEvent *GAME_EVENT_Create(void *owner, void *parent, void *proc, u32 workSize);
 
@@ -75,7 +75,7 @@ extern void MI_CpuFill8(void *dest, int value, int size);
 
 extern void *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 
-extern void *ICA_ANIME_GetField24(const struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
 
 extern u8 *INTRUDE_COMM_GetWorkIfRunning(void *gameComm);
 
@@ -85,7 +85,7 @@ extern u32 INTRUDE_COMM_IsRecordReceived(u8 *intrudeComm);
 
 extern u8 INTRUDE_COMM_GetPartnerSlot(void *gameComm, void *gameData);
 
-extern void *ICA_ANIME_GetField20(const struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 
 extern void *FIELDMAP_GetFieldPlayer(void *fieldMap);
 
@@ -128,7 +128,7 @@ struct GameEvent *FIELD_INTRUDE_EVENT_CreateIntrudeRequestEvent(struct GameSyste
 {
     struct GameEvent *event;
     IntrudeRequestWork *work;
-    ICA_ANIME_GetField1C(gameSystem);
+    GAMESYSTEM_GetGameData(gameSystem);
     event = GAME_EVENT_Create(gameSystem, 0, FIELD_INTRUDE_EVENT_IntrudeRequestEventMain, 8);
     work = GAME_EVENT_GetWork(event);
     MI_CpuFill8(work, 0, 8);
@@ -142,7 +142,7 @@ int FIELD_INTRUDE_EVENT_IntrudeRequestEventMain(struct GameEvent *event, int *st
     u8 *intrudeComm;
     u16 *result;
 
-    intrudeComm = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(GAME_EVENT_GetGameSystem(event)));
+    intrudeComm = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(GAME_EVENT_GetGameSystem(event)));
     if (intrudeComm == 0) {
         result = work->result;
         if (result != 0)
@@ -203,7 +203,7 @@ struct GameEvent *FIELD_INTRUDE_EVENT_CreateSymbolEntryEvent(struct GameSystem *
     struct GameEvent *event;
     SymbolEntryWork *work;
 
-    gameData = ICA_ANIME_GetField1C(gameSystem);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
     event = GAME_EVENT_Create(gameSystem, 0, FIELD_INTRUDE_EVENT_SymbolEntryEventMain, 0x24);
     work = GAME_EVENT_GetWork(event);
     MI_CpuFill8(work, 0, 0x24);
@@ -212,7 +212,7 @@ struct GameEvent *FIELD_INTRUDE_EVENT_CreateSymbolEntryEvent(struct GameSystem *
     work->result = 0;
     work->cellId = cellId;
     work->playSe = playSe;
-    if (INTRUDE_COMM_GetPartnerSlot(ICA_ANIME_GetField24(gameSystem), gameData) == 4)
+    if (INTRUDE_COMM_GetPartnerSlot(GAMESYSTEM_GetGameComm(gameSystem), gameData) == 4)
         work->solo = 1;
     return event;
 }
@@ -222,8 +222,8 @@ struct GameEvent *FIELD_INTRUDE_EVENT_StartSymbolEntry(struct GameSystem *gameSy
     FxVec3 position;
     void *fieldMap;
 
-    fieldMap = ICA_ANIME_GetField20(gameSystem);
-    ICA_ANIME_GetField1C(gameSystem);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
+    GAMESYSTEM_GetGameData(gameSystem);
     FIELD_INTRUDE_EVENT_GetEdgePosition(FLDMMDL_GetPosPtr(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap))), edge, &position);
     return FIELD_INTRUDE_EVENT_CreateSymbolEntryEvent(gameSystem, edge != 9, &position, edge, cellId);
 }
@@ -239,9 +239,9 @@ int FIELD_INTRUDE_EVENT_SymbolEntryEventMain(struct GameEvent *event, u32 *state
     void *gameData;
     void *fieldMap;
 
-    ICA_ANIME_GetField24(gameSystem);
-    gameData = ICA_ANIME_GetField1C(gameSystem);
-    fieldMap = ICA_ANIME_GetField20(gameSystem);
+    GAMESYSTEM_GetGameComm(gameSystem);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     switch (*state) {
     case 0:
         FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys(fieldMap));
@@ -274,7 +274,7 @@ int FIELD_INTRUDE_EVENT_SymbolEntryEventMain(struct GameEvent *event, u32 *state
         (*state)++;
         break;
     case 4:
-        if (FLDMMDL_BLACT_IsReservePending(FIELDMAP_GetMmdlSys(ICA_ANIME_GetField20(gameSystem))) == 1)
+        if (FLDMMDL_BLACT_IsReservePending(FIELDMAP_GetMmdlSys(GAMESYSTEM_GetFieldMap(gameSystem))) == 1)
             break;
         GAME_EVENT_CallEvent(event, EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, fieldMap, 9, 0, 0, 0, 0));
         (*state)++;

@@ -34,8 +34,8 @@
  *   GAME_EVENT_Create  0x020122C0  thumb
  *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   FIELD_SOUND_SYSTEM_IsBusy  0x020289B8  thumb
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
- *   ICA_ANIME_GetField20  0x0201210C  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  */
 #include "field_status_shared_types.h"
@@ -116,13 +116,13 @@ extern struct FieldSoundSystem *GAME_DATA_GetBgmInfo(struct GameData *gameData);
 
 extern u32 GAMESYSTEM_GetProcStatus(struct GameSystem *gameSystem);
 
-extern struct GameData *ICA_ANIME_GetField1C(struct GameSystem *gameSystem);
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 
 extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *procWork);
 
 extern void GAMESYSTEM_CallFieldProc(struct GameSystem *gameSystem);
 
-extern struct FieldMap *ICA_ANIME_GetField20(struct GameSystem *gameSystem);
+extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
 
@@ -395,7 +395,7 @@ struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSyst
 
     wk->gameSystem = gameSystem;
     wk->fieldMap = fieldMap;
-    wk->gameData = ICA_ANIME_GetField1C(gameSystem);
+    wk->gameData = GAMESYSTEM_GetGameData(gameSystem);
     wk->notifyClose = 1;
     return event;
 }
@@ -461,7 +461,7 @@ struct GameEvent *FIELD_STATUS_CreateFieldCloseNoSoundWaitEvent(struct GameSyste
 
     wk->gameSystem = gameSystem;
     wk->fieldMap = fieldMap;
-    wk->gameData = ICA_ANIME_GetField1C(gameSystem);
+    wk->gameData = GAMESYSTEM_GetGameData(gameSystem);
     wk->notifyClose = 0;
     return event;
 }
@@ -506,7 +506,7 @@ int FIELD_STATUS_FieldOpenEvent(struct GameEvent *event, u32 *seq, void *work)
         }
         break;
     case 1:
-        if (FIELDMAP_IsReady(ICA_ANIME_GetField20(gameSystem)) != 0) {
+        if (FIELDMAP_IsReady(GAMESYSTEM_GetFieldMap(gameSystem)) != 0) {
             *seq = *seq + 1;
         }
         break;
@@ -536,7 +536,7 @@ struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSyste
 
     wk->gameSystem = gameSystem;
     wk->unused04 = 0;
-    wk->gameData = ICA_ANIME_GetField1C(gameSystem);
+    wk->gameData = GAMESYSTEM_GetGameData(gameSystem);
     SCRCMD_NETWORK_LoadOv020();
     return event;
 }
@@ -548,7 +548,7 @@ struct GameEvent *FIELD_STATUS_CreateFieldOpenNoNotifyEvent(struct GameSystem *g
 
     wk->gameSystem = gameSystem;
     wk->unused04 = 0;
-    wk->gameData = ICA_ANIME_GetField1C(gameSystem);
+    wk->gameData = GAMESYSTEM_GetGameData(gameSystem);
     return event;
 }
 

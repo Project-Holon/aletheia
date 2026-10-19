@@ -15,9 +15,9 @@
  * symbols:
  *   GAME_EVENT_Create 0x020122C0 thumb
  *   GAME_EVENT_GetWork 0x020124E8 thumb
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
- *   ICA_ANIME_GetField20  0x0201210C  thumb
- *   ICA_ANIME_GetField24  0x02012138  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GFL_HEAP_Free  0x020307B0  arm
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   GAME_COMM_GetKind  0x02026454  thumb
@@ -35,7 +35,7 @@
  *   ZONEDATA_IsZone96Pair 0x02013CE0 thumb
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
- *   GAME_DATA_GetField114  0x020127A4  thumb
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
@@ -55,14 +55,14 @@
  *   FIELD_SOUND_SYSTEM_RestoreVolume 0x02029DD8 thumb
  *   GFL_HEAP_Alloc   0x02030734  arm
  *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
- *   ICA_ANIME_GetField114 0x020120F8 thumb
+ *   GAMESYSTEM_GetMyPlayerWork 0x020120F8 thumb
  *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
  *   ZONEDATA_IsZone1A6 0x02013CC8 thumb
  *   BAG_PARAM_Create  0x0202E474  thumb
  *   MYITEM_SAVEDATA_SetLastFieldPocket  0x02008298  thumb
  *   FILE_UTIL_Check136C  0x0202136C  thumb
  *   TRCARD_SYS_CreateViewWork  0x0216F7BC  thumb  ov010
- *   GAME_DATA_GetField16C  0x020128B8  thumb
+ *   GAME_DATA_GetEscapeLocation  0x020128B8  thumb
  *   FILE_UTIL_GetItemSlot  0x0202138C  thumb
  *   MAILTOOL_CreateWriteArgs  0x021C3CC0  thumb  ov136
  *   MAILTOOL_CreateArgsFromPartyMon  0x021C3D44  thumb  ov136
@@ -304,13 +304,13 @@ typedef struct RtcTime {
 
 extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, void *parent, void *func, u32 workSize);
 extern void *GAME_EVENT_GetWork(GameEvent *event);
-extern GameData *ICA_ANIME_GetField1C(const GameSystem *gameSystem);
+extern GameData *GAMESYSTEM_GetGameData(const GameSystem *gameSystem);
 
 
-extern void *ICA_ANIME_GetField20(const GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(const GameSystem *gameSystem);
 
 
-extern GameComm *ICA_ANIME_GetField24(const GameSystem *gameSystem);
+extern GameComm *GAMESYSTEM_GetGameComm(const GameSystem *gameSystem);
 
 
 extern int GFL_HEAP_Free();
@@ -350,7 +350,7 @@ extern void *FIELDMAP_GetMmdlSys(void *fieldMap);
 extern void FLDMMDL_SysPauseMove(void *fieldObjects);
 
 
-extern u16 *GAME_DATA_GetField114(GameData *gameData);
+extern u16 *GAME_DATA_GetMyPlayerWork(GameData *gameData);
 
 
 extern void *FIELDMAP_GetMsgBg(void *);
@@ -374,14 +374,14 @@ extern void FIELD_SOUND_SYSTEM_LowerVolume(u8 *a, u32 b);
 extern int FIELD_SOUND_SYSTEM_RestoreVolume(int,int);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 ZUKAN_SAVE_IsNationalDexEnabled(void *zukanSave);
-extern u8 *ICA_ANIME_GetField114(const GameSystem *gameSystem);
+extern u8 *GAMESYSTEM_GetMyPlayerWork(const GameSystem *gameSystem);
 extern u16 GAME_DATA_GetPlayerZoneId(const void *playerWork);
 extern u32 ZONEDATA_IsZone1A6(u32);
 extern BagParam *BAG_PARAM_Create(const GameData *gameData, u8 *itemCheck, int mode, int heapId);
 extern void MYITEM_SAVEDATA_SetLastFieldPocket(void *myItem, u16 pocket);
 extern u32 FILE_UTIL_Check136C(u16 v);
 extern TrainerCardViewWork *TRCARD_SYS_CreateViewWork(GameData *gameData, int mode, int canFly);
-extern struct EscapeLocation *GAME_DATA_GetField16C(const GameData *gameData);
+extern struct EscapeLocation *GAME_DATA_GetEscapeLocation(const GameData *gameData);
 extern u8 FILE_UTIL_GetItemSlot(u16 v);
 extern void *MAILTOOL_CreateWriteArgs(void *a, unsigned b, unsigned c, unsigned d, unsigned heap);
 extern void *MAILTOOL_CreateArgsFromPartyMon(void *a, void *b, unsigned heap);
@@ -499,7 +499,7 @@ PokeListParam *EVENT_FIELD_PROCLINK_CreatePokeListParam(ProcLinkWork *work, int 
     const PStatusParam *statusResult = source;
     u32 value;
 
-    gameData = ICA_ANIME_GetField1C(work->context->gameSystem);
+    gameData = GAMESYSTEM_GetGameData(work->context->gameSystem);
     list = GFL_HEAP_Alloc(4, 0x98, 1, d_02172978, 0x330);
     list->party = GAME_DATA_GetMyParty(gameData);
     list->carry = work->carry;
@@ -511,7 +511,7 @@ PokeListParam *EVENT_FIELD_PROCLINK_CreatePokeListParam(ProcLinkWork *work, int 
     list->argValue2 = 0;
     value = 0xFF;
     list->fieldIndex = value;
-    list->zoneId = *GAME_DATA_GetField114(gameData);
+    list->zoneId = *GAME_DATA_GetMyPlayerWork(gameData);
     list->season = GAME_DATA_GetSeason(gameData);
     if (kind == 5) {
         list->selectedSlot = 0;
@@ -678,7 +678,7 @@ ZukanParam *EVENT_FIELD_PROCLINK_CreateZukanParam(ProcLinkWork *work, int startS
 
     param = GFL_HEAP_Alloc(4, 0x10, 0, (const char *)d_02172978, 0x49b);
     MI_CpuFill8(param, 0, 0x10);
-    gameData = ICA_ANIME_GetField1C(work->context->gameSystem);
+    gameData = GAMESYSTEM_GetGameData(work->context->gameSystem);
     param->gameData = gameData;
     param->zukanSave = ZUKAN_SAVE_GetFromGameData(gameData);
     param->myStatus = GAME_DATA_GetMyStatus(param->gameData);
@@ -724,7 +724,7 @@ PStatusParam *EVENT_FIELD_PROCLINK_CreatePokeStatusParam(ProcLinkWork *work, int
     int i;
 
     param = GFL_HEAP_Alloc(4, sizeof(PStatusParam), 1, d_02172978, 0x4DE);
-    gameData = ICA_ANIME_GetField1C(work->context->gameSystem);
+    gameData = GAMESYSTEM_GetGameData(work->context->gameSystem);
     saveControl = GAME_DATA_GetSaveControl(gameData);
     zukanSave = ZUKAN_SAVE_GetFromGameData(gameData);
     param->ppt = 1;
@@ -817,7 +817,7 @@ int EVENT_FIELD_PROCLINK_ReturnPokeStatus(ProcLinkWork *work, PStatusParam *para
 
 int EVENT_FIELD_PROCLINK_IsSpecialZone(GameSystem *gameSystem)
 {
-    unsigned short zoneId = GAME_DATA_GetPlayerZoneId(ICA_ANIME_GetField114(gameSystem));
+    unsigned short zoneId = GAME_DATA_GetPlayerZoneId(GAMESYSTEM_GetMyPlayerWork(gameSystem));
 
     if (ZONEDATA_IsZone1A6(zoneId) == 1)
         return 1;
@@ -836,7 +836,7 @@ int EVENT_FIELD_PROCLINK_IsSpecialZone(GameSystem *gameSystem)
  */
 BagParam *EVENT_FIELD_PROCLINK_CreateBagParam(ProcLinkWork *work, int lastFieldPocket, int bagMode, const PokeListParam *listResult)
 {
-    GameData *gameData = ICA_ANIME_GetField1C(work->context->gameSystem);
+    GameData *gameData = GAMESYSTEM_GetGameData(work->context->gameSystem);
     BagParam *bag;
 
     switch (bagMode) {
@@ -922,7 +922,7 @@ int EVENT_FIELD_PROCLINK_ReturnBag(ProcLinkWork *work, PokeListParam *listResult
         work->nextState = 9;
         return 4;
     case 18:
-        party = GAME_DATA_GetMyParty(ICA_ANIME_GetField1C(work->context->gameSystem));
+        party = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(work->context->gameSystem));
         if (POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(party, work->context->partySlot), 6, 0) != 0)
             work->nextState = 0;
         else
@@ -945,8 +945,8 @@ int EVENT_FIELD_PROCLINK_ReturnBag(ProcLinkWork *work, PokeListParam *listResult
 
 void EVENT_FIELD_PROCLINK_CreateTrainerCardView(ProcLinkWork *work, int startPage)
 {
-    GameData *gameData = ICA_ANIME_GetField1C(work->context->gameSystem);
-    u32 zoneId = *GAME_DATA_GetField114(gameData);
+    GameData *gameData = GAMESYSTEM_GetGameData(work->context->gameSystem);
+    u32 zoneId = *GAME_DATA_GetMyPlayerWork(gameData);
     int canFly = 1;
     int bgmInfo;
     TrainerCardViewWork *viewWork;
@@ -968,7 +968,7 @@ int EVENT_FIELD_PROCLINK_ReturnTrainerCardView(ProcLinkWork *work, TrainerCardVi
     GameData *gameData;
     int bgmInfo;
 
-    gameData = ICA_ANIME_GetField1C(work->context->gameSystem);
+    gameData = GAMESYSTEM_GetGameData(work->context->gameSystem);
     bgmInfo = GAME_DATA_GetBgmInfo(gameData);
     FIELD_SOUND_SYSTEM_RestoreVolume(bgmInfo, GAMESYSTEM_GetIssSystem(work->context->gameSystem));
     if (param->result != 1)
@@ -989,10 +989,10 @@ TownMapParam *EVENT_FIELD_PROCLINK_CreateTownMapParam(ProcLinkWork *work)
 
     param->viewMode = 1;
     param->gameSystem = work->context->gameSystem;
-    playerWork = GAME_DATA_GetField114(ICA_ANIME_GetField1C(work->context->gameSystem));
-    gameData = ICA_ANIME_GetField1C(work->context->gameSystem);
+    playerWork = GAME_DATA_GetMyPlayerWork(GAMESYSTEM_GetGameData(work->context->gameSystem));
+    gameData = GAMESYSTEM_GetGameData(work->context->gameSystem);
     param->zoneId = GAME_DATA_GetPlayerZoneId(playerWork);
-    param->escapeZoneId = GAME_DATA_GetField16C(gameData)->zoneId;
+    param->escapeZoneId = GAME_DATA_GetEscapeLocation(gameData)->zoneId;
     if (work->context->originKind == 0)
         param->viewMode = 0;
     else
@@ -1053,7 +1053,7 @@ ConfigParam *EVENT_FIELD_PROCLINK_CreateConfigParam(ProcLinkWork *work)
 {
     ConfigParam *param;
 
-    SYSTEM_DATA_GetConfig(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(work->context->gameSystem)));
+    SYSTEM_DATA_GetConfig(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(work->context->gameSystem)));
     param = GFL_HEAP_Alloc(4, 8, 1, d_02172978, 0x705);
     param->gameSystem = work->context->gameSystem;
     return param;
@@ -1094,7 +1094,7 @@ TrainerCardParam *EVENT_FIELD_PROCLINK_CreateTrainerCardParam(ProcLinkWork *work
     TrainerCardParam *param;
 
     param = GFL_HEAP_Alloc(4, 8, 1, d_02172978, 0x74C);
-    param->gameData = ICA_ANIME_GetField1C(work->context->gameSystem);
+    param->gameData = GAMESYSTEM_GetGameData(work->context->gameSystem);
     return param;
 }
 
@@ -1127,7 +1127,7 @@ int EVENT_FIELD_PROCLINK_CreateMailParam(ProcLinkWork *work, int kind, int mode,
     int mailParam;
     u16 itemId;
 
-    gameData = ICA_ANIME_GetField1C(work->context->gameSystem);
+    gameData = GAMESYSTEM_GetGameData(work->context->gameSystem);
     GF_OVERLAY_Load((u32)ov136_id);
     if (mode == 0) {
         party = GAME_DATA_GetMyParty(gameData);
@@ -1159,7 +1159,7 @@ int EVENT_FIELD_PROCLINK_ReturnMail(ProcLinkWork *work, void *mailParam)
     GameData *gameData;
     u32 nextState;
 
-    gameData = ICA_ANIME_GetField1C(work->context->gameSystem);
+    gameData = GAMESYSTEM_GetGameData(work->context->gameSystem);
     if (work->childResult == 0) {
         if (work->purpose == 0 || work->purpose == 2) {
             if (MAILTOOL_HasMail(mailParam) == 1) {
@@ -1215,7 +1215,7 @@ EvolutionRequest *EVENT_FIELD_PROCLINK_CreateEvolutionParam(ProcLinkWork *work, 
     u32 targetSpecies;
     u8 season;
 
-    gameData = ICA_ANIME_GetField1C(work->context->gameSystem);
+    gameData = GAMESYSTEM_GetGameData(work->context->gameSystem);
     request = 0;
     if (mode == 0) {
         party = GAME_DATA_GetMyParty(gameData);
@@ -1227,7 +1227,7 @@ EvolutionRequest *EVENT_FIELD_PROCLINK_CreateEvolutionParam(ProcLinkWork *work, 
         } else {
             work->purpose = 4;
             mon = POKEPARTY_GetMember(party, listResult->selectedSlot);
-            targetSpecies = SHINKA_CHECK_CheckEvolution(party, mon, 0, *GAME_DATA_GetField114(gameData), GAME_DATA_GetSeason(gameData), &method, 4);
+            targetSpecies = SHINKA_CHECK_CheckEvolution(party, mon, 0, *GAME_DATA_GetMyPlayerWork(gameData), GAME_DATA_GetSeason(gameData), &method, 4);
         }
         request = GFL_HEAP_Alloc(4, 0x14, 0, d_02172978, 0x868);
         request->gameData = gameData;
@@ -1244,7 +1244,7 @@ EvolutionRequest *EVENT_FIELD_PROCLINK_CreateEvolutionParam(ProcLinkWork *work, 
 
 int EVENT_FIELD_PROCLINK_ReturnEvolution(ProcLinkWork *work)
 {
-    ICA_ANIME_GetField1C(work->context->gameSystem);
+    GAMESYSTEM_GetGameData(work->context->gameSystem);
     if (work->purpose == 3) {
         work->nextState = 2;
         return 4;
@@ -1266,7 +1266,7 @@ ReportParam *EVENT_FIELD_PROCLINK_CreateReportParam(ProcLinkWork *work)
     ReportParam *param;
 
     param = GFL_HEAP_Alloc(4, 0x10, 1, d_02172978, 0x8AC);
-    param->gameData = ICA_ANIME_GetField1C(work->context->gameSystem);
+    param->gameData = GAMESYSTEM_GetGameData(work->context->gameSystem);
     return param;
 }
 
@@ -1308,7 +1308,7 @@ GameEvent *EVENT_FIELD_PROCLINK_CreateFreeEvent(GameSystem *gameSystem, void *fi
     work->heapId = heapId;
     work->gameSystem = gameSystem;
     work->fieldMap = fieldObject;
-    work->saveControl = GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem));
+    work->saveControl = GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem));
     work->resultOut = resultOut;
     return event;
 }
@@ -1413,7 +1413,7 @@ GameEvent *EVENT_FIELD_PROCLINK_CreateAnimEvent(GameSystem *gameSystem, void *fi
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
-    work->gameData = ICA_ANIME_GetField1C(gameSystem);
+    work->gameData = GAMESYSTEM_GetGameData(gameSystem);
     return event;
 }
 
@@ -1451,7 +1451,7 @@ GameEvent *EVENT_FIELD_PROCLINK_CreateObjAnimEvent(GameSystem *gameSystem, void 
     EVENT_FIELD_PROCLINK_ClearAnimNode(work);
     work->gameSystem = gameSystem;
     work->source = source;
-    work->gameData = ICA_ANIME_GetField1C(gameSystem);
+    work->gameData = GAMESYSTEM_GetGameData(gameSystem);
     work->fieldObjectId = fieldObjectId;
     work->animName = animName;
     return event;
@@ -1598,7 +1598,7 @@ GameEvent *EVENT_FIELD_PROCLINK_CreateHopEvent(GameSystem *gameSystem, void *obj
     event = GAME_EVENT_Create(gameSystem, 0, EVENT_FIELD_PROCLINK_HopEventMain, 0x24);
     work = GAME_EVENT_GetWork(event);
     work->object = object;
-    work->owner = (void *)FIELDMAP_GetEffect(ICA_ANIME_GetField20(gameSystem));
+    work->owner = (void *)FIELDMAP_GetEffect(GAMESYSTEM_GetFieldMap(gameSystem));
     work->start = *start;
     VEC_Subtract(target, start, &work->delta);
     GFL_USE_PlaySeDefaultVolume(0x55E);
@@ -1650,7 +1650,7 @@ GameEvent *EVENT_FIELD_PROCLINK_CreateCommExitEvent(GameSystem *gameSystem, Game
     work = GAME_EVENT_GetWork(event);
     MI_CpuFill8(work, 0, 0x24);
     work->gameSystem = gameSystem;
-    work->gameComm = ICA_ANIME_GetField24(gameSystem);
+    work->gameComm = GAMESYSTEM_GetGameComm(gameSystem);
     if (useRealTime != 0)
         EVENT_FIELD_PROCLINK_StartCommProc(&work->procParam, gameSystem, kind, sub);
     else
@@ -1703,7 +1703,7 @@ void EVENT_FIELD_PROCLINK_SetCommProcParam(CommProcParam *param, GameSystem *gam
     param->hour = hour;
     param->minute = minute;
     param->season = season;
-    param->flag = (u8)(int)MYSTATUS_GetOutfitVariant(GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem)));
+    param->flag = (u8)(int)MYSTATUS_GetOutfitVariant(GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(gameSystem)));
 }
 
 
@@ -1725,7 +1725,7 @@ void EVENT_FIELD_PROCLINK_StartCommProc(CommProcParam *param, GameSystem *gameSy
  */
 void EVENT_FIELD_PROCLINK_StartSeasonCommProc(CommProcParam *param, GameSystem *gameSystem, u8 kind, u8 sub)
 {
-    GameData *gameData = ICA_ANIME_GetField1C(gameSystem);
+    GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
     int hour = FIELD_CLOCK_GetHour(gameData);
     int minute = FIELD_CLOCK_GetMinute(gameData);
     u8 season = GAME_DATA_GetSeason(gameData);

@@ -83,10 +83,10 @@ typedef long           s32;
 typedef _Bool bool;
 
 typedef struct {
-    unsigned char f0 : 1;
-    unsigned char f1 : 1;
-    unsigned char f2 : 1;
-    unsigned char f3 : 1;
+    unsigned char touch : 1;
+    unsigned char trigger : 1;
+    unsigned char repeat : 1;
+    unsigned char release : 1;
     unsigned char f4 : 1;
     unsigned char f5 : 1;
     unsigned char f6 : 1;
@@ -307,7 +307,7 @@ int DWCi_TPlCheck(u16 *a)
 
     p = *(u8 **)(g + 4);
 
-    if (((ByteBits *)(p + 0x38))->f0 == 0)
+    if (((ByteBits *)(p + 0x38))->touch == 0)
         return 0;
 
     if (a[0] > *(u16 *)(p + 0x28))
@@ -330,7 +330,7 @@ int DWCi_TPlCheckTrigger(u16 *a)
 
     p = *(u8 **)(g + 4);
 
-    if (((ByteBits *)(p + 0x38))->f1 == 0)
+    if (((ByteBits *)(p + 0x38))->trigger == 0)
         return 0;
 
     if (a[0] > *(u16 *)(p + 0x28))
@@ -353,7 +353,7 @@ int DWCi_TPlCheckRepeat(u16 *a)
 
     p = *(u8 **)(g + 4);
 
-    if (((ByteBits *)(p + 0x38))->f2 == 0)
+    if (((ByteBits *)(p + 0x38))->repeat == 0)
         return 0;
 
     if (a[0] > *(u16 *)(p + 0x28))
@@ -382,7 +382,7 @@ int DWCi_TPlCheckRelease(u16 *a)
 
     p = *(u8 **)(g + 4);
 
-    if (((ByteBits *)(p + 0x38))->f3 == 0)
+    if (((ByteBits *)(p + 0x38))->release == 0)
         return 0;
 
     if (a[0] > *(u16 *)(p + 0x28))

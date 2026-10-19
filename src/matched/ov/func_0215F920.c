@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_NETWORK_InitCommBattleOv181Param
+ * function: EVENT_GAMECLEAR_InitStaffRollParam
  * address:  0x0215F920
  * packet:   pkt_0215F920
  * region:   ov010
@@ -28,7 +28,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern int CONFIG_GetAppliedFlag(unsigned short *p);
 
-int SCRCMD_NETWORK_InitCommBattleOv181Param(int a0)
+int EVENT_GAMECLEAR_InitStaffRollParam(int a0)
 {
     int t4;
     void *big;

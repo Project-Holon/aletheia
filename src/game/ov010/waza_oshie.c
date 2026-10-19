@@ -123,7 +123,7 @@ extern void POKE_PERSONAL_LoadDataDirect(unsigned int a, int b, void *buf);
 extern TexResource *DWCi_LSTlPopFront(void *p);
 extern int STD_GetStringLength(const char *s);
 extern void *NNS_G3dGetResDataByName(const void *dict, const char *name);
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern u32 BMP_GetByteSize(const struct Bmp *bmp);

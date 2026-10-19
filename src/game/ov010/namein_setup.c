@@ -69,8 +69,8 @@
  *   FIELD_STATUS_CreateSubProcListEvent  0x02014910  thumb
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   MI_CpuCopy8  0x02082D44  arm
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
- *   ICA_ANIME_GetField20  0x0201210C  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   MI_CpuFill8    0x02082BCC  arm
  *   POKE_REGULATION_Load  0x0201A354  thumb
@@ -337,8 +337,8 @@ extern int FIELD_CAMERA_ANIME_Start(u32 a);
 extern int FIELD_TASK_MANAGER_IsEmpty(void *cameraStatus);
 extern void FIELD_CAMERA_ANIME_Delete(void *playerObj);
 extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
-extern void *ICA_ANIME_CreateFull(u32 heap, u32 a1, u32 a2);
-extern int GFL_USE_GetSeSlot(u32 a0);
+extern void *ICA_ANIME_CreateFull(u32 heap, u32 arcId, u32 dataId);
+extern int GFL_USE_GetSeSlot(u32 seqNo);
 extern void GFL_USE_PlaySeInSlot(void *arg, int i);
 extern u32 ICA_ANIME_Get(struct IcaAnime *anim, VecFx32 *out);
 extern void *FIELDMAP_GetExpObj(FieldMap *fieldMap);
@@ -376,8 +376,8 @@ extern GameEvent *FIELD_STATUS_CreateFieldCloseEvent(GameSystem *gameSystem, Fie
 extern GameEvent *FIELD_STATUS_CreateSubProcListEvent(GameSystem *gameSystem, FieldMap *fieldMap, PartyScreenArgs *partyScreen, SummaryArgs *summary);
 extern GameEvent *FIELD_STATUS_CreateFieldOpenEvent(GameSystem *gameSystem);
 extern void MI_CpuCopy8(const void *src, void *dst, int size);
-extern GameData *ICA_ANIME_GetField1C(GameSystem *gameSystem);
-extern FieldMap *ICA_ANIME_GetField20(GameSystem *gameSystem);
+extern GameData *GAMESYSTEM_GetGameData(GameSystem *gameSystem);
+extern FieldMap *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
 extern void *GAME_DATA_GetMyParty(GameData *gameData);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void *POKE_REGULATION_Load(int a, int b);
@@ -927,8 +927,8 @@ GameEvent *NAMEIN_SETUP_StartPartyPickEvent(EncounterContext *ctx, GameSystem *g
     u32 screenMode;
     u32 selectMode;
 
-    gameData = ICA_ANIME_GetField1C(gameSystem);
-    fieldMap = ICA_ANIME_GetField20(gameSystem);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     event = GAME_EVENT_Create(gameSystem, 0, NAMEIN_SETUP_RunPartyPickEvent, sizeof(PartyTaskWork));
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
@@ -1121,8 +1121,8 @@ GameEvent *NAMEIN_SETUP_StartNameBalloonFromRecord(NameBalloonRecord *records, G
     void *camera;
     u16 msgIndex;
 
-    gameData = ICA_ANIME_GetField1C(gameSystem);
-    fieldMap = ICA_ANIME_GetField20(gameSystem);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     balloonManager = FIELDMAP_GetMsgBg(fieldMap);
     event = GAME_EVENT_Create(gameSystem, 0, NAMEIN_SETUP_RunNameBalloonEvent, 0xD8);
     work = GAME_EVENT_GetWork(event);
@@ -1168,7 +1168,7 @@ int NAMEIN_SETUP_RunHistoryScreenEvent(GameEvent *event, int *state, HistoryScre
     void *history;
     switch (*state) {
     case 0:
-        work->gameData = ICA_ANIME_GetField1C(work->gameSystem);
+        work->gameData = GAMESYSTEM_GetGameData(work->gameSystem);
         history = GAME_DATA_GetSaveBlock3B(work->gameData);
         work->historyTagA = BSUBWAY_SAVEDATA_GetHistoryTagA(history);
         work->historyTagB = BSUBWAY_SAVEDATA_GetHistoryTagB(history);
@@ -1193,7 +1193,7 @@ GameEvent *NAMEIN_SETUP_StartHistoryScreenEvent(GameSystem *gameSystem)
     GameEvent *event;
     HistoryScreenWork *work;
 
-    fieldMap = ICA_ANIME_GetField20(gameSystem);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     event = GAME_EVENT_Create(gameSystem, 0, (void *)NAMEIN_SETUP_RunHistoryScreenEvent, 0x14);
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
@@ -1298,7 +1298,7 @@ int NAMEIN_SETUP_RunProcCallEvent(GameEvent *event, int *state, ProcCallWork *wo
     switch (*state) {
     case 0:
         param = &work->param;
-        param->gameData = ICA_ANIME_GetField1C(gameSystem);
+        param->gameData = GAMESYSTEM_GetGameData(gameSystem);
         param->transitionInfo = work->transitionInfo;
         param->extra = work->extra;
         GAMESYSTEM_CallProc(gameSystem, ~0, d_02172548, param);
@@ -1480,8 +1480,8 @@ GameEvent *NAMEIN_SETUP_StartNameBalloonFromHistory(GameSystem *gameSystem, int 
     HistoryEntry *entries;
     int dir;
 
-    gameData = ICA_ANIME_GetField1C(gameSystem);
-    fieldMap = ICA_ANIME_GetField20(gameSystem);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     balloonManager = FIELDMAP_GetMsgBg(fieldMap);
     event = GAME_EVENT_Create(gameSystem, 0, NAMEIN_SETUP_RunNameBalloonWaitEvent, 0x1C);
     work = GAME_EVENT_GetWork(event);
@@ -1528,5 +1528,5 @@ int NAMEIN_SETUP_ScrCmdSetFieldSaveFlag(void *scriptCtx, void *scriptWork)
  */
 void NAMEIN_SETUP_SetFieldSaveFlag(GameSystem *gameSystem)
 {
-    *GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(ICA_ANIME_GetField1C(gameSystem)), 0x34) = 1;
+    *GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(gameSystem)), 0x34) = 1;
 }

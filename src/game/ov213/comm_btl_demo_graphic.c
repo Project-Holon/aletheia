@@ -146,12 +146,12 @@ u32 COMM_BTL_DEMO_GRAPHIC_GetCamera(char *p);
 void COMM_BTL_DEMO_GRAPHIC_VBlank(void *unused,char *p);
 void COMM_BTL_DEMO_GRAPHIC_InitBg(void *p, unsigned heap);
 void COMM_BTL_DEMO_GRAPHIC_DeleteBg(void *p);
-void COMM_BTL_DEMO_GRAPHIC_Noop(void *a0);
-void COMM_BTL_DEMO_GRAPHIC_TickDisplay(void *a0);
+void COMM_BTL_DEMO_GRAPHIC_Noop(void *work);
+void COMM_BTL_DEMO_GRAPHIC_TickDisplay(void *work);
 void COMM_BTL_DEMO_GRAPHIC_InitClact(void **out, int a, int b);
 void COMM_BTL_DEMO_GRAPHIC_DeleteClact(void *p);
-void COMM_BTL_DEMO_GRAPHIC_DrawClact(void *a0);
-void COMM_BTL_DEMO_GRAPHIC_VBlankClact(void *a0);
+void COMM_BTL_DEMO_GRAPHIC_DrawClact(void *work);
+void COMM_BTL_DEMO_GRAPHIC_VBlankClact(void *work);
 void *COMM_BTL_DEMO_GRAPHIC_GetClactBank(void **p);
 void COMM_BTL_DEMO_GRAPHIC_InitG3d(u32 **p,unsigned heap);
 void COMM_BTL_DEMO_GRAPHIC_DeleteG3d(int *p);
@@ -250,10 +250,10 @@ void COMM_BTL_DEMO_GRAPHIC_DeleteBg(void *p){unsigned i;for(i=0;i<6;i++)BG_SYS_F
 /*
  * Tail: two zero alignment bytes at 021BAD4E.
  */
-void COMM_BTL_DEMO_GRAPHIC_Noop(void *a0){}
+void COMM_BTL_DEMO_GRAPHIC_Noop(void *work){}
 
 
-void COMM_BTL_DEMO_GRAPHIC_TickDisplay(void *a0){BG_SYS_Update();}
+void COMM_BTL_DEMO_GRAPHIC_TickDisplay(void *work){BG_SYS_Update();}
 
 
 
@@ -274,10 +274,10 @@ void COMM_BTL_DEMO_GRAPHIC_InitClact(void **out, int a, int b)
 void COMM_BTL_DEMO_GRAPHIC_DeleteClact(void *p){CLACT_DeleteUnit(((struct CommBtlDemoClact *)p)->bank);CLACT_ExitSystem();MI_CpuFill8(p,0,4);}
 
 
-void COMM_BTL_DEMO_GRAPHIC_DrawClact(void *a0){CLACT_DrawSystem();}
+void COMM_BTL_DEMO_GRAPHIC_DrawClact(void *work){CLACT_DrawSystem();}
 
 
-void COMM_BTL_DEMO_GRAPHIC_VBlankClact(void *a0){CLACT_VBlankSystem();}
+void COMM_BTL_DEMO_GRAPHIC_VBlankClact(void *work){CLACT_VBlankSystem();}
 
 
 void *COMM_BTL_DEMO_GRAPHIC_GetClactBank(void **p){return *p;}

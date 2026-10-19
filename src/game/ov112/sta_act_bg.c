@@ -70,15 +70,15 @@ extern void MTX_Identity33_(void *);
 
 extern void G3D_SYSTEM_DrawObject(void *,struct Arg *);
 
-extern void *G3D_SYSTEM_CreateResourceArc(u32 a0, u32 a1);
+extern void *G3D_SYSTEM_CreateResourceArc(u32 arcId, u32 dataId);
 
 extern int G3D_SYSTEM_TransVramTexture(int *self);
 
-extern void *G3D_SYSTEM_CreateRender(void *a0, u32 n, void *a2);
+extern void *G3D_SYSTEM_CreateRender(void *mdlRes, u32 n, void *texRes);
 
-extern struct G3dRec *G3D_SYSTEM_CreateAnime(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
+extern struct G3dRec *G3D_SYSTEM_CreateAnime(struct G3dOwner *render, const struct G3dOwner *anmRes, int anmIdx);
 
-extern void *G3D_SYSTEM_CreateObject(u32 a0, u32 *a1, int a2);
+extern void *G3D_SYSTEM_CreateObject(u32 render, u32 *anmTbl, int anmCount);
 
 extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
 

@@ -114,7 +114,7 @@ extern void BG_SYS_SetFlagField06(u32 bit);
 
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
@@ -142,7 +142,7 @@ extern signed char MSG_SPEED_GetWait(void);
 
 extern void *PRINTSYS_PrintStream(void *, int, int, void *, void *, int textSpeed, void *tcbl, int, u16 heapId, int);
 
-extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
 
 extern void BMP_WIN_Init(u16);
 
@@ -154,7 +154,7 @@ extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 
 extern void *PRINTSYS_QUE_Create(u32 heapId);
 
-extern void *APP_TASKMENU_RES_Create(u16 a0, u16 a1, void *font, void *printQue, u16 heap);
+extern void *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, void *font, void *printQue, u16 heap);
 
 extern void TCBL_Main(struct Tcbl *p);
 

@@ -46,7 +46,7 @@ struct Mt {
     u32 mt[624];
     s32 mti;
     u32 mag01[2];
-    u8  unk_9cc[0x200];
+    u8  crc16Table[0x200];
 };
 
 typedef long long          s64;
@@ -64,9 +64,9 @@ struct Lcg64 {
 };
 
 struct Block {
-    u32 unk_00;
-    u32 unk_04;
-    s32 unk_08;
+    u32 hasResult;
+    u32 busy;
+    s32 frameCount;
     u8  pad_0c[0x3c];
 };
 
@@ -84,9 +84,9 @@ struct RtcTime {
 };
 
 struct RtcRequest {
-    u32            unk_00;
-    u32            unk_04;
-    s32            unk_08;
+    u32            hasResult;
+    u32            busy;
+    s32            frameCount;
     u32            result;
     struct RtcDate date;
     struct RtcTime time;
@@ -193,7 +193,7 @@ short GF_STANDARD_Sin(s32 x);
 
 u16 GF_STANDARD_DegToAngle(int x);
 
-int GF_STANDARD_CalcAngle(int a0, int a1, int a2, int a3, int a4, int a5, int a6);
+int GF_STANDARD_CalcAngle(int ax, int ay, int bx, int by, int cx, int cy, int radius);
 
 s32 GF_STANDARD_SetupCalc_F7C4(s32 ax, s32 ay, s32 bx, s32 by, s32 cx, s32 cy);
 
@@ -235,7 +235,7 @@ void GF_STANDARD_Init(u32 heapId)
     g_021469F8->mti = 625;
     g_021469F8->mag01[0] = 0;
     g_021469F8->mag01[1] = 0x9908b0df;
-    MATHi_CRC16InitTable((struct MATHCRC16Table *)g_021469F8->unk_9cc, 4129);
+    MATHi_CRC16InitTable((struct MATHCRC16Table *)g_021469F8->crc16Table, 4129);
 }
 
 /*
@@ -377,9 +377,9 @@ u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len)
 
         pair[0] = src[0];
         pair[1] = src[0];
-        return MATH_CalcCRC16CCITT((struct MATHCRC16Table *)g_021469F8->unk_9cc, pair, 2);
+        return MATH_CalcCRC16CCITT((struct MATHCRC16Table *)g_021469F8->crc16Table, pair, 2);
     } else {
-        return MATH_CalcCRC16CCITT((struct MATHCRC16Table *)g_021469F8->unk_9cc, (void *)src, len);
+        return MATH_CalcCRC16CCITT((struct MATHCRC16Table *)g_021469F8->crc16Table, (void *)src, len);
     }
 }
 
@@ -498,9 +498,9 @@ void GF_STANDARD_Reset(void)
 {
     RTC_Init();
     MI_CpuFill8(&g_021469FC, 0, 0x48);
-    g_021469FC.unk_00 = 0;
-    g_021469FC.unk_04 = 0;
-    g_021469FC.unk_08 = 0;
+    g_021469FC.hasResult = 0;
+    g_021469FC.busy = 0;
+    g_021469FC.frameCount = 0;
     GF_STANDARD_GetRtc((struct RtcRequest *)(&g_021469FC));
 }
 
@@ -517,14 +517,14 @@ void GF_STANDARD_Reset(void)
  */
 void GF_STANDARD_Setup(void)
 {
-    if (g_021469FC.unk_04 != 0) {
+    if (g_021469FC.busy != 0) {
         return;
     }
-    g_021469FC.unk_08++;
-    if (g_021469FC.unk_08 <= 10) {
+    g_021469FC.frameCount++;
+    if (g_021469FC.frameCount <= 10) {
         return;
     }
-    g_021469FC.unk_08 = 0;
+    g_021469FC.frameCount = 0;
     GF_STANDARD_GetRtc((struct RtcRequest *)(&g_021469FC));
 }
 
@@ -548,10 +548,10 @@ void GF_STANDARD_Setup(void)
 void GF_STANDARD_Task(u32 result, struct RtcRequest *req)
 {
     req->result = result;
-    req->unk_00 = 1;
+    req->hasResult = 1;
     req->date = req->stagedDate;
     req->time = req->stagedTime;
-    req->unk_04 = 0;
+    req->busy = 0;
 }
 
 /*
@@ -568,7 +568,7 @@ void GF_STANDARD_Task(u32 result, struct RtcRequest *req)
  */
 void GF_STANDARD_GetRtc(struct RtcRequest *req)
 {
-    req->unk_04 = 1;
+    req->busy = 1;
     req->result = RTC_GetDateTimeAsync(&req->stagedDate, &req->stagedTime,
                                 GF_STANDARD_Task, req);
 }
@@ -827,10 +827,10 @@ u16 GF_STANDARD_DegToAngle(int x)
  *   python tools/match.py one --src src/pending/GF_STANDARD_CalcAngle.c \
  *       --func GF_STANDARD_CalcAngle --addr 0x0203F768 --cc 1.1p1 --arm
  */
-int GF_STANDARD_CalcAngle(int a0, int a1, int a2, int a3, int a4, int a5, int a6)
+int GF_STANDARD_CalcAngle(int ax, int ay, int bx, int by, int cx, int cy, int radius)
 {
-    int v = GF_STANDARD_SetupCalc_F7C4(a0, a1, a2, a3, a4, a5);
-    int d = (int)(((s64)(a6 << 13) * 0x323d + 0x800) >> 12);
+    int v = GF_STANDARD_SetupCalc_F7C4(ax, ay, bx, by, cx, cy);
+    int d = (int)(((s64)(radius << 13) * 0x323d + 0x800) >> 12);
 
     return (v << 16) / (d >> 12);
 }

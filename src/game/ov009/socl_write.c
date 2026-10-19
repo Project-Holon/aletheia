@@ -56,8 +56,8 @@ struct SOCLSocket {
         unsigned char pad0[0xa];
         unsigned short local_port;
         unsigned char padc[0x54 - 0xc];
-        long field54;
-        unsigned char *field58;
+        long sndbuf_len;
+        unsigned char *sndbuf;
         unsigned char pad5c[0xa0 - 0x5c];
     } cps_socket;
     void *recv_pipe;
@@ -74,9 +74,9 @@ struct SOCLSocket {
 struct SOCLiCommandWrite {
     int (*handler)(void *);
     struct SOCLSocket *socket;
-    long field8;
-    signed char fieldC;
-    signed char fieldD;
+    long response_queue;
+    signed char pipeIndex;
+    signed char blockFlag;
     unsigned char padE[2];
     unsigned char *buffer1;
     long buffer1_len;
@@ -205,7 +205,7 @@ static int SOCLi_WriteBuffer(struct SOCLSocket *socket, unsigned char *buffer, l
     long wrtbuf_in;
     long sndbuf_len;
 
-    sndbuf_len = socket->send_pipe->exe_socket->cps_socket.field54;
+    sndbuf_len = socket->send_pipe->exe_socket->cps_socket.sndbuf_len;
     copied_len = 0;
     if (socket->flag_mode == 1) {
         sndbuf_len -= 0x2a;
@@ -337,9 +337,9 @@ static int SOCLi_ExecWriteCommand(struct SOCLSocket *socket, unsigned char *buff
     if (command == 0)
         return -0x21;
     if ((flag_block & 1) && socket->flag_mode != 1)
-        command->fieldD = 3;
+        command->blockFlag = 3;
     else
-        command->fieldD = 0;
+        command->blockFlag = 0;
     wrtbuf_size = send_pipe->buffer.size;
     wrtbuf = send_pipe->buffer.area;
     if (wrtbuf_in + buffer_len < wrtbuf_size) {
@@ -412,11 +412,11 @@ static int SOCLi_WriteCallBack(void *arg)
     hdr = 0x36;
     if (!isStream(socket->flag_mode))
         hdr = 0x2a;
-    sndbuf = socket->cps_socket.field58;
+    sndbuf = socket->cps_socket.sndbuf;
     if (socket->flag_mode == 0 || socket->flag_mode == 4)
-        sndbuf_len = SOCLi_GetOptimumSendBufLen(socket->cps_socket.field54 - hdr);
+        sndbuf_len = SOCLi_GetOptimumSendBufLen(socket->cps_socket.sndbuf_len - hdr);
     else
-        sndbuf_len = socket->cps_socket.field54 - hdr;
+        sndbuf_len = socket->cps_socket.sndbuf_len - hdr;
     for (;;) {
         int n = SOCLi_MemCpy(sndbuf + hdr, sndbuf_len, cpacket);
         if (n <= 0)

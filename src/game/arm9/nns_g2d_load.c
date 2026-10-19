@@ -140,7 +140,7 @@ struct NodeRec *NNSi_G2dGetCellAnimationCurrentSequence(AnimCtrl *anim);
 BOOL NNS_G2dTickAnimCtrl(AnimCtrl *p, fx32 frames);
 int NNSi_G2dSetCellAnimationCurrentFrame(void *s, u32 i);
 u16 NNSi_G2dGetCellAnimFrameIdx(const struct Node *n);
-int NNS_G2dInitAnimCtrl(int a0);
+int NNS_G2dInitAnimCtrl(int pAnimCtrl);
 void NNSi_G2dResetCellAnimationState(AnimCallBack *callBack);
 
 
@@ -613,9 +613,9 @@ u16 NNSi_G2dGetCellAnimFrameIdx(const struct Node *n)
 
 
 
-int NNS_G2dInitAnimCtrl(int a0)
+int NNS_G2dInitAnimCtrl(int pAnimCtrl)
 {
-    AnimCtrl *c = (AnimCtrl *)a0;
+    AnimCtrl *c = (AnimCtrl *)pAnimCtrl;
     NNSi_G2dResetCellAnimationState(&c->callBack);
     c->pCurrent = 0;
     c->pActiveCurrent = 0;

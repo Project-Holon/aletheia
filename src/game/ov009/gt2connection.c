@@ -59,7 +59,7 @@ struct GTI2Connection {
     struct GTI2Socket *socket;                    /* +0x08 */
     int state;                                    /* +0x0c */
     int initiated;                                /* +0x10 */
-    int field_14;                                 /* +0x14 */
+    int freeAtAcceptReject;                                 /* +0x14 */
     char pad18[4];
     unsigned int startTime;                       /* +0x1c */
     unsigned int timeout;                         /* +0x20 */
@@ -76,7 +76,7 @@ struct GTI2Connection {
     struct DArrayImplementation *outgoingBuffers; /* +0x60 */
     char pad64[4];
     unsigned char response[0x20];                 /* +0x68 */
-    unsigned int lastSend;                        /* +0x88 */
+    unsigned int sendTime;                        /* +0x88 */
     int pad8c;
     int pendingAck;                               /* +0x90 */
     unsigned int lastAck;                         /* +0x94 */
@@ -86,7 +86,7 @@ struct GTI2Connection {
 
 struct GTI2OutgoingBufferMessage {
     char pad00[0xc];
-    unsigned int field_0c;
+    unsigned int sendTime;
 };
 
 struct GTI2Socket {
@@ -211,12 +211,12 @@ int gti2StartConnectionAttempt(struct GTI2Connection *c, unsigned char *message,
 int gti2AcceptConnection(struct GTI2Connection *connection,
                          struct GT2ConnectionCallbacks *callbacks)
 {
-    if (connection->field_14)
+    if (connection->freeAtAcceptReject)
     {
-        connection->field_14 = 0;
+        connection->freeAtAcceptReject = 0;
         return 0;
     }
-    connection->field_14 = 0;
+    connection->freeAtAcceptReject = 0;
     if (connection->state != 4)
         return 0;
     gti2SendAccept(connection);
@@ -234,7 +234,7 @@ int gti2AcceptConnection(struct GTI2Connection *connection,
 void gti2RejectConnection(struct GTI2Connection *connection,
                           unsigned char *message, int len)
 {
-    connection->field_14 = 0;
+    connection->freeAtAcceptReject = 0;
     if (connection->state != 4)
         return;
     gti2MessageCheck(&message, &len);
@@ -253,7 +253,7 @@ int gti2ConnectionSendData(struct GTI2Connection *connection,
     if (gti2SocketSend(connection->socket, connection->ip, connection->port,
                        message, len) == 0)
         return 0;
-    connection->lastSend = current_time();
+    connection->sendTime = current_time();
     return 1;
 }
 
@@ -305,7 +305,7 @@ static int gti2SendRetries(struct GTI2Connection *connection, unsigned int now)
         struct GTI2OutgoingBufferMessage *message =
             ArrayNth(connection->outgoingBuffers, i);
 
-        if ((now - message->field_0c) > 1000)
+        if ((now - message->sendTime) > 1000)
         {
             if (gti2ResendMessage(connection, message) == 0)
                 return 0;
@@ -338,7 +338,7 @@ static int gti2CheckPendingAck(struct GTI2Connection *connection,
 static int gti2CheckKeepAlive(struct GTI2Connection *connection,
                               unsigned int now)
 {
-    if ((now - connection->lastSend) > 30000)
+    if ((now - connection->sendTime) > 30000)
     {
         if (gti2SendKeepAlive(connection) == 0)
             return 0;

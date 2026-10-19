@@ -66,8 +66,8 @@ typedef struct DspProc {
     struct DspProc *next;
     char name[16];
     void *file;
-    u16 f18;
-    u16 f1a;
+    u16 bankMaskA;
+    u16 bankMaskB;
     u32 flags;
     u32 busy[2];
     u32 tabA[8];
@@ -98,15 +98,15 @@ typedef struct Hdr {
     u16 pad0;
     u16 count;
     u32 pad4;
-    u32 f8;
-    u32 fC;
+    u32 recordsOffset;
+    u32 recordCount;
     u16 base;
 } Hdr;
 typedef struct Ent {
     u32 name0;
     u32 nameOff;
-    u32 f8;
-    u32 fC;
+    u32 sizeA;
+    u32 sizeB;
     u32 len;
     u32 off;
     u32 pad18[3];
@@ -181,19 +181,19 @@ s32 DSPi_MapAndLoadProcessImageCallback(DspProc *c, Hdr *h, Ent *e);
 void DSP_InitProcessContext(DspProc *o, void *src);
 u32 DSP_EnumSections(DspProc *c, s32 (*cb)(DspProc *, Hdr *, Ent *));
 u32 DSP_SwitchProcessMemory(DspProc *c, s32 sel, u32 start, u32 count, s32 mode);
-u32 DSP_MapAndLoadProcessImage(DspProc *c, void *file, u16 a, u16 b);
+u32 DSP_MapAndLoadProcessImage(DspProc *c, void *file, u16 bankMaskA, u16 bankMaskB);
 void DSP_SetProcessHook(DspProc *s, s32 mask, void (*h)(u32), u32 arg);
 void DSP_HookPostStartProcess(void);
 u32 DSP_ExecuteProcess(DspProc *p, void *a, u16 b, u16 c);
 void DSP_QuitProcess(DspProc *p);
 DspProc *DSP_FindProcess(const char *name);
-void DSP_WriteProcessPipe(u32 a0, int port, void *buf, u32 len);
+void DSP_WriteProcessPipe(u32 process, int port, void *buf, u32 len);
 
-static inline void *chanPtr(DspProc *c, s32 sel, s32 a)
+static inline void *chanPtr(DspProc *proc, s32 sel, s32 offset)
 {
-    s32 q = a / 0x4000;
-    s32 rem = a - q * 0x4000;
-    u32 slot = sel == 1 ? c->tabA[q] : c->tabB[q];
+    s32 q = offset / 0x4000;
+    s32 rem = offset - q * 0x4000;
+    u32 slot = sel == 1 ? proc->tabA[q] : proc->tabB[q];
     return (void *)(MI_GetWramMapStart(sel) + (slot << 15) + rem * 2);
 }
 
@@ -254,11 +254,11 @@ void DSPi_MasterInterrupts(void)
     sp->flags |= 0x01000000;
 }
 
-u32 DSPi_ReadProcessImage(DspProc *p, u32 a, void *buf, s32 len)
+u32 DSPi_ReadProcessImage(DspProc *proc, u32 offset, void *buf, s32 len)
 {
     u32 ok = 0;
-    if (FS_SeekFile(p->file, a, 0)) {
-        s32 n = FS_ReadFile(p->file, buf, len);
+    if (FS_SeekFile(proc->file, offset, 0)) {
+        s32 n = FS_ReadFile(proc->file, buf, len);
         if (len == n) {
             ok = 1;
         }
@@ -266,15 +266,15 @@ u32 DSPi_ReadProcessImage(DspProc *p, u32 a, void *buf, s32 len)
     return ok;
 }
 
-u32 DSPi_CommitWram(DspProc *c, s32 sel, u32 idx, s32 mode)
+u32 DSPi_CommitWram(DspProc *proc, s32 sel, u32 idx, s32 mode)
 {
     u32 ok;
     u32 id;
     u8 *p;
     if (sel == 1) {
-        id = c->tabA[idx];
+        id = proc->tabA[idx];
     } else {
-        id = c->tabB[idx];
+        id = proc->tabB[idx];
     }
     ok = 0;
     if (MI_IsWramSlotUsed(sel, id) == 0 || MI_FreeWramSlot(sel, id, 1, MI_GetWramBankMaster(sel, id)) > 0) {
@@ -304,7 +304,7 @@ s32 DSPi_MapAndLoadProcessImageCallback(DspProc *c, Hdr *h, Ent *e)
     u32 size;
     s32 f;
     if (*(u32 *)name == 0) {
-        u32 pos = h->f8 + h->fC * 0x12;
+        u32 pos = h->recordsOffset + h->recordCount * 0x12;
         if (!DSPi_ReadProcessImage(c, pos + e->nameOff, buf, 0x80)) {
             return n;
         }
@@ -314,7 +314,7 @@ s32 DSPi_MapAndLoadProcessImageCallback(DspProc *c, Hdr *h, Ent *e)
         c->flags |= 1;
     }
     if (e->flags & 8) {
-        size = e->f8 * 2;
+        size = e->sizeA * 2;
         f = (e->flags & 0x20) ? 1 : 0;
         if (STD_SearchString(name, (char *)0x02732D64)) {
             selv[n] = 1;
@@ -330,7 +330,7 @@ s32 DSPi_MapAndLoadProcessImageCallback(DspProc *c, Hdr *h, Ent *e)
         }
     }
     if (e->flags & 0x10) {
-        size = e->fC * 2;
+        size = e->sizeB * 2;
         f = (e->flags & 0x40) ? 1 : 0;
         if (STD_SearchString(name, (char *)0x02732D6C)) {
             selv[n] = 2;
@@ -357,7 +357,7 @@ s32 DSPi_MapAndLoadProcessImageCallback(DspProc *c, Hdr *h, Ent *e)
             }
             if ((sel == 1 ? c->tabA[pos / 0x8000] : c->tabB[pos / 0x8000]) == (-0x8000 >> 15)) {
                 s32 idx = pos / 0x8000;
-                u16 *pm = sel == 1 ? &c->f18 : &c->f1a;
+                u16 *pm = sel == 1 ? &c->bankMaskA : &c->bankMaskB;
                 u32 *busy = sel == 1 ? &c->busy[0] : &c->busy[1];
                 u32 *tab = sel == 1 ? c->tabA : c->tabB;
                 u32 x = *pm;
@@ -416,19 +416,19 @@ void DSP_InitProcessContext(DspProc *o, void *src)
     }
 }
 
-u32 DSP_EnumSections(DspProc *c, s32 (*cb)(DspProc *, Hdr *, Ent *))
+u32 DSP_EnumSections(DspProc *proc, s32 (*cb)(DspProc *, Hdr *, Ent *))
 {
     Hdr h;
     Ent e;
     s32 i = 0;
-    if (DSPi_ReadProcessImage(c, 0, &h, 0x14)) {
+    if (DSPi_ReadProcessImage(proc, 0, &h, 0x14)) {
         u32 base = h.base + 0x14;
         for (; i < h.count; i++) {
-            if (!DSPi_ReadProcessImage(c, base + i * 0x28, &e, 0x28)) {
+            if (!DSPi_ReadProcessImage(proc, base + i * 0x28, &e, 0x28)) {
                 break;
             }
             if (!(e.flags & 0x80) && e.len != 0 && cb != 0) {
-                if (!cb(c, &h, &e)) {
+                if (!cb(proc, &h, &e)) {
                     break;
                 }
             }
@@ -438,7 +438,7 @@ u32 DSP_EnumSections(DspProc *c, s32 (*cb)(DspProc *, Hdr *, Ent *))
     return i;
 }
 
-u32 DSP_SwitchProcessMemory(DspProc *c, s32 sel, u32 start, u32 count, s32 mode)
+u32 DSP_SwitchProcessMemory(DspProc *proc, s32 sel, u32 start, u32 count, s32 mode)
 {
     u32 end;
     s32 i;
@@ -448,10 +448,10 @@ u32 DSP_SwitchProcessMemory(DspProc *c, s32 sel, u32 start, u32 count, s32 mode)
         count = 1;
     }
     end = start + count * 2 - 1;
-    tab = sel == 1 ? &c->busy[0] : &c->busy[1];
+    tab = sel == 1 ? &proc->busy[0] : &proc->busy[1];
     for (i = start >> 15; i <= (s32)(end >> 15); i++) {
         if (*tab & (1 << i)) {
-            if (!DSPi_CommitWram(c, sel, i, mode)) {
+            if (!DSPi_CommitWram(proc, sel, i, mode)) {
                 return 0;
             }
         }
@@ -459,18 +459,18 @@ u32 DSP_SwitchProcessMemory(DspProc *c, s32 sel, u32 start, u32 count, s32 mode)
     return 1;
 }
 
-u32 DSP_MapAndLoadProcessImage(DspProc *c, void *file, u16 a, u16 b)
+u32 DSP_MapAndLoadProcessImage(DspProc *proc, void *file, u16 bankMaskA, u16 bankMaskB)
 {
     u32 ok;
-    c->file = file;
-    c->f18 = a;
-    c->f1a = b;
+    proc->file = file;
+    proc->bankMaskA = bankMaskA;
+    proc->bankMaskB = bankMaskB;
     ok = 0;
-    if (DSP_EnumSections(c, DSPi_MapAndLoadProcessImageCallback)) {
+    if (DSP_EnumSections(proc, DSPi_MapAndLoadProcessImageCallback)) {
         DC_FlushRange(MI_GetWramMapStart_B(), 0x40000);
         DC_FlushRange(MI_GetWramMapStart_C(), 0x40000);
-        if (DSP_SwitchProcessMemory(c, 1, 0, 0x20000, 2)) {
-            if (DSP_SwitchProcessMemory(c, 2, 0, 0x20000, 2)) {
+        if (DSP_SwitchProcessMemory(proc, 1, 0, 0x20000, 2)) {
+            if (DSP_SwitchProcessMemory(proc, 2, 0, 0x20000, 2)) {
                 ok = 1;
             }
         }
@@ -478,7 +478,7 @@ u32 DSP_MapAndLoadProcessImage(DspProc *c, void *file, u16 a, u16 b)
     return ok;
 }
 
-void DSP_SetProcessHook(DspProc *s, s32 mask, void (*h)(u32), u32 arg)
+void DSP_SetProcessHook(DspProc *proc, s32 mask, void (*handler)(u32), u32 arg)
 {
     s32 en = OS_DisableInterrupts();
     vu16 *r = (vu16 *)0x04004308;
@@ -487,23 +487,23 @@ void DSP_SetProcessHook(DspProc *s, s32 mask, void (*h)(u32), u32 arg)
     u32 hi, lo;
     for (i = 0; i < 19; i++) {
         if (mask & (1 << i)) {
-            s->handler[i] = h;
-            s->arg[i] = arg;
-            s->clear[i] = mask;
+            proc->handler[i] = handler;
+            proc->arg[i] = arg;
+            proc->clear[i] = mask;
         }
     }
     a = r[0];
     b = r[6];
     hi = ((mask >> 16) & 7) << 9;
     lo = mask & 0xffff;
-    if (h != 0) {
+    if (handler != 0) {
         r[0] = a | hi;
         r[6] = b & ~lo;
-        s->mask |= mask;
+        proc->mask |= mask;
     } else {
         r[0] = a & ~hi;
         r[6] = b | lo;
-        s->mask &= ~mask;
+        proc->mask &= ~mask;
     }
     OS_RestoreInterrupts(en);
 }
@@ -512,7 +512,7 @@ void DSP_HookPostStartProcess(void)
 {
 }
 
-u32 DSP_ExecuteProcess(DspProc *p, void *a, u16 b, u16 c)
+u32 DSP_ExecuteProcess(DspProc *proc, void *file, u16 bankMaskA, u16 bankMaskB)
 {
     u32 ret = 0;
     u32 irq;
@@ -526,16 +526,16 @@ u32 DSP_ExecuteProcess(DspProc *p, void *a, u16 b, u16 c)
     }
     DSP_InitPipe();
     OS_SetIrqFunction(0x1000000, DSPi_MasterInterrupts);
-    DSP_SetProcessHook(p, 0x48000, DSP_HookPipeNotification, 0);
+    DSP_SetProcessHook(proc, 0x48000, DSP_HookPipeNotification, 0);
     OS_EnableIrqMask(0x1000000);
-    if (DSP_MapAndLoadProcessImage(p, a, b, c) != 0) {
+    if (DSP_MapAndLoadProcessImage(proc, file, bankMaskA, bankMaskB) != 0) {
         irq = OS_DisableInterrupts();
         pp = &DSPi_ProcList;
-        while (*pp != 0 && *pp != p) {
+        while (*pp != 0 && *pp != proc) {
             pp = &(*pp)->next;
         }
-        *pp = p;
-        p->file = 0;
+        *pp = proc;
+        proc->file = 0;
         if (DAT_027344AC.thrInit == 0) {
             DAT_027344AC.thrFn = DSPi_ShutdownCallback;
             DAT_027344AC.thrArg = 0;
@@ -551,16 +551,16 @@ u32 DSP_ExecuteProcess(DspProc *p, void *a, u16 b, u16 c)
         if (OS_IsRunOnTwl() == 1) {
             DSP_PowerOnCore();
         }
-        en = (u16)(p->mask >> 16);
+        en = (u16)(proc->mask >> 16);
         if (OS_IsRunOnTwl() == 1) {
             DSP_ResetOffExCore(en);
         }
-        dis = (u16)~p->mask;
+        dis = (u16)~proc->mask;
         if (OS_IsRunOnTwl() == 1) {
             DSP_MaskSemaphoreCore(dis);
         }
         DSP_HookPostStartProcess();
-        if (p->flags & 1) {
+        if (proc->flags & 1) {
             for (i = 0; i < 3; i++) {
                 do {
                     v = DSP_RecvDataCore(i);
@@ -574,7 +574,7 @@ u32 DSP_ExecuteProcess(DspProc *p, void *a, u16 b, u16 c)
     return ret;
 }
 
-void DSP_QuitProcess(DspProc *p)
+void DSP_QuitProcess(DspProc *proc)
 {
     u32 irq;
     DspProc *q;
@@ -594,14 +594,14 @@ void DSP_QuitProcess(DspProc *p)
     q = DAT_027344AC.head;
     pp = &DSPi_ProcList;
     while (q != 0) {
-        if (q == p) {
+        if (q == proc) {
             *pp = q->next;
             break;
         }
         pp = &q->next;
         q = q->next;
     }
-    p->next = 0;
+    proc->next = 0;
     OS_RestoreInterrupts(irq);
     PM_DeletePreSleepCallback(&DAT_027344AC.preFn);
     DAT_027344AC.preInit = 0;
@@ -622,7 +622,7 @@ DspProc *DSP_FindProcess(const char *name)
     return p;
 }
 
-void DSP_WriteProcessPipe(u32 a0, int port, void *buf, u32 len)
+void DSP_WriteProcessPipe(u32 process, int port, void *buf, u32 len)
 {
     DspRing pipe;
     DSP_LoadPipe(&pipe, port, 1);

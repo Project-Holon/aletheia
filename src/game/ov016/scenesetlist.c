@@ -362,7 +362,7 @@ extern void DWCi_FOCUSlDelete(void);
 extern void DWCi_FOCUSlDisp(int kind, int x0, int x1, int y);
 extern void DWCi_GXlInvisible(int lcd, int plane);
 extern void DWCi_GXlVisible(int lcd, int plane);
-extern void DWCi_GetParam2_(void **param2, void **param3);
+extern void DWCi_GetParam2_(void **a, void **b);
 extern void DWCi_HEAPlFree_(void **mem);
 extern void DWCi_HLlLoadSet(void);
 extern bool DWCi_IPTlCheckRelease(unsigned short input);

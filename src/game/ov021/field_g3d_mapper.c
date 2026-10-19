@@ -14,7 +14,7 @@
  * Split from field_msgbg.c at 0x0218C9E8: field_g3d_mapper.c __FILE__ anchor; the functions before it are called only from field_buildmodel.c or use its data.
  *
  * symbols:
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   GFL_HEAP_Free  0x020307B0  arm
@@ -113,7 +113,7 @@ extern void MI_CpuFill8(void *dst, u8 value, u32 size);
 extern int FX_Div(int a, int b);
 extern int FX_ModS32(int a, int b);
 extern struct GameSystem *FIELDMAP_GetGameSystem(FieldMap *fieldMap);
-extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern u32 GAME_DATA_GetFieldWork(const struct GameData *gameData);
 extern void *GFL_HEAP_Alloc(u16 heapId, u32 size, u32 clear, const void *site, u32 line);
 extern u32 GFL_HEAP_Free(void *p);
@@ -477,7 +477,7 @@ int FIELD_G3D_MAPPER_AppendMatrix(FieldMap *fieldMap, FieldG3dMapper *mapper, st
     mapper->gridWidth = newWidth;
     mapper->gridDepth = newDepth;
     mapper->blockCount = newCount;
-    MAP_MATRIX_SetSize((struct MapMatrix *)GAME_DATA_GetFieldWork(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(fieldMap))), newWidth, newDepth);
+    MAP_MATRIX_SetSize((struct MapMatrix *)GAME_DATA_GetFieldWork(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), newWidth, newDepth);
     GFL_HEAP_Free(newGrid);
     return 1;
 }

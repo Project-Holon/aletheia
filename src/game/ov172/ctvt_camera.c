@@ -96,7 +96,7 @@ extern void CTVT_CAMERA_SetSize(struct Camera *, int);
 extern void CTVT_CAMERA_SelectCamera(struct Camera *p, u32 v);
 extern void CTVT_CAMERA_AllocFrames(struct Camera *, int, u16);
 extern void CTVT_CAMERA_SetFrameCallback(struct Camera *p, u32 a, u32 b);
-extern void CTVT_CAMERA_StartCapture(struct Camera *a0);
+extern void CTVT_CAMERA_StartCapture(struct Camera *camera);
 extern int FX_Inv(int);
 extern void G2x_SetBGyAffine_(void *, int *, int, int, int, int);
 extern void CTVT_CAMERA_Delete(struct Camera *p);

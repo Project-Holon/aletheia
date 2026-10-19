@@ -44,7 +44,7 @@ typedef struct MBUserInfo {
 } MBUserInfo;
 
 typedef struct MbGameInfo {
-    u8  unk000[0x358];
+    u8  fixedData[0x358];
     u8  nowPlayerNum;
     u8  pad359;
     u16 nowPlayerFlag;
@@ -52,11 +52,11 @@ typedef struct MbGameInfo {
     MBUserInfo member[15];
     u8  userVolatData[8];
     u16 broadcastedPlayerFlag;
-    u8  unk4b2;
+    u8  iconDisable;
     u8  fileNo;
     u8  seqNoVolat;
     u8  dataAttr;
-    u16 unk4b6;
+    u16 pad4b6;
     u32 ggid;
     struct MbGameInfo *next;
 } MbGameInfo;
@@ -342,7 +342,7 @@ void MBi_InitSendFixedBeacon(void)
 {
     if (mbss.state != 2)
         return;
-    if (mbss.nowGInfop->unk4b2 == 0) {
+    if (mbss.nowGInfop->iconDisable == 0) {
         mbss.fragmentMaxNum = 9;
         mbss.nowFixedp = (u8 *)mbss.nowGInfop;
     } else {
@@ -368,7 +368,7 @@ static void MBi_SendFixedBeacon(u32 ggid, u16 tgid, u8 attribute)
         MbGameInfo *gi = mbss.nowGInfop;
         bsendBuff.data.fixed.fragmentNo = mbss.fragmentNo;
         bsendBuff.data.fixed.fragmentMaxNum = mbss.fragmentMaxNum;
-        bsendBuff.unk4.bf.lo = gi->unk4b2;
+        bsendBuff.unk4.bf.lo = gi->iconDisable;
         bsendBuff.seqNoFixed = gi->fileNo;
         bsendBuff.seqNoVolat = mbss.seqNoVolat;
         bsendBuff.ggid = gi->ggid;

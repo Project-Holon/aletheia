@@ -51,8 +51,8 @@ struct RTCTime;
 struct DWCSvlResult;
 struct DWCAuthParam;
 typedef struct AuthId {
-    int f0[4];
-    int f10;
+    int ids[4];
+    int useA;
 } AuthId;
 
 typedef unsigned char  u8;
@@ -149,7 +149,7 @@ int DWC_SVLGetTokenAsync(char *svl, void *result)
     int flag;
 
     DWC_Auth_GetId(&id);
-    if (id.f10 == 0)
+    if (id.useA == 0)
         return 0;
     if (DWC_Svl_Init(DWC_Alloc, DWC_Free) == 0)
         return 0;

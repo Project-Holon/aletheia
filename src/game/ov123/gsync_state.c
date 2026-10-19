@@ -232,7 +232,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 extern int GAME_DATA_SaveMain(u8 *p);
 
-extern int GAME_DATA_SaveStart(int a0);
+extern int GAME_DATA_SaveStart(int gd);
 
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 
@@ -322,7 +322,7 @@ extern void BLOCK20_SAVEDATA_SetMode(struct Sub02009210Obj *obj, u8 value);
 
 extern void BLOCK20_SAVEDATA_SetEntry(struct Sub02009210Obj *obj, int i, u16 a, u8 b);
 
-extern int GAME_DATA_PartSaveMain(char *p, int a1);
+extern int GAME_DATA_PartSaveMain(char *p, int blockId);
 
 extern void SAVE_CONTROL_DeleteExtraSaveBuffered(struct Sub02007324Ctrl *,unsigned int);
 

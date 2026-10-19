@@ -75,7 +75,7 @@ void *BILLBOARD_Create(u8 *src, void *heap);
 
 void BILLBOARD_Delete(void *p);
 
-void BILLBOARD_SetFixedNormal(u8 *a0, short *a1);
+void BILLBOARD_SetFixedNormal(u8 *board, short *normal);
 
 void BILLBOARD_SetScale(u8 *dst, struct Blk3 *src);
 
@@ -166,30 +166,30 @@ void BILLBOARD_Delete(void *p)
  * 0x0204ED4C in layout/function_starts.txt turns that EXACT* into EXACT and
  * changes nothing else - it is the integrator's file, not this packet's.
  *
- * The three `ldrsh` leave the array backwards (a1[2] first) and the three
+ * The three `ldrsh` leave the array backwards (normal[2] first) and the three
  * `strh` write in order, so the values have to live in three registers at
  * once: the source holds them in locals, and the locals have to be *declared*
- * in reverse order (`v2`, `v1`, `v0`) while being assigned in the same
- * reverse order.  Declared v0, v1, v2 the compiler gives a1[1] the higher of
- * the two scratch registers and a1[2] the lower one, which is four bytes of
+ * in reverse order (`z`, `y`, `x`) while being assigned in the same
+ * reverse order.  Declared x, y, z the compiler gives normal[1] the higher of
+ * the two scratch registers and normal[2] the lower one, which is four bytes of
  * register field wrong - see
  * docs/idioms/declaration-order-decides-which-register-a-local-gets.md.
  * Writing the three stores straight from the array (no locals) interleaves
  * each load with its store and is eight bytes wrong.
  */
-void BILLBOARD_SetFixedNormal(u8 *a0, short *a1)
+void BILLBOARD_SetFixedNormal(u8 *board, short *normal)
 {
-    short v2;
-    short v1;
-    short v0;
+    short z;
+    short y;
+    short x;
 
-    ((struct BbBoard *)a0)->useFixedNormal = 1;
-    v2 = a1[2];
-    v1 = a1[1];
-    v0 = a1[0];
-    ((struct BbBoard *)a0)->normalX = v0;
-    ((struct BbBoard *)a0)->normalY = v1;
-    ((struct BbBoard *)a0)->normalZ = v2;
+    ((struct BbBoard *)board)->useFixedNormal = 1;
+    z = normal[2];
+    y = normal[1];
+    x = normal[0];
+    ((struct BbBoard *)board)->normalX = x;
+    ((struct BbBoard *)board)->normalY = y;
+    ((struct BbBoard *)board)->normalZ = z;
 }
 
 /*

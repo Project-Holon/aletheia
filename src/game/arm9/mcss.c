@@ -503,7 +503,7 @@ extern void G3i_FrustumW_(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f,
 
 extern void MCSS_DeleteTextureTask(void *taskHandle);
 
-extern void NNS_G2dSetCellAnimationParam(int p0, int p1, int p2, int p3);
+extern void NNS_G2dSetCellAnimationParam(int anim, int type, int param, int func);
 
 extern void NNSi_G2dMCEnumAnimBank(void *, void *, unsigned);
 

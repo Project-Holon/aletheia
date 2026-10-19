@@ -72,101 +72,101 @@ u32 MIi_DoCancelWramSlot(u32 ch, int start, int n, u32 val);
 u32 MIi_DoGetAllocatableWramSlot(u32 ch, u32 val);
 u32 MI_IsWramSlotUsed(u32 ch, u32 idx);
 void MIi_SendToPxi(u32 a, u32 b);
-void MIi_TakeApartData(u32 data, u32 *cmd, u32 *p2, u32 *p3, u32 *p4);
+void MIi_TakeApartData(u32 data, u32 *cmd, u32 *ch, u32 *sub, u32 *arg);
 void MI_LockWramManager(u16 *p);
 void MI_UnlockWramManager(u32 id);
 u32 MIi_LockWramManagerDI(u16 *p);
 void MIi_UnlockWramManagerRI(u32 id, u32 irq);
 
 /* Register accessors: the argument is a register-block base. */
-u32 MIi_GetWramBank_A(u32 a)
+u32 MIi_GetWramBank_A(u32 bank)
 {
-    return *(u8 *)(a + 0x04004040);
+    return *(u8 *)(bank + 0x04004040);
 }
 
 
-u32 MIi_GetWramBank_B(u32 a)
+u32 MIi_GetWramBank_B(u32 bank)
 {
-    return *(u8 *)(a + 0x04004044);
+    return *(u8 *)(bank + 0x04004044);
 }
 
 
-u32 MIi_GetWramBank_C(u32 a)
+u32 MIi_GetWramBank_C(u32 bank)
 {
-    return *(u8 *)(a + 0x0400404C);
+    return *(u8 *)(bank + 0x0400404C);
 }
 
 
-void MIi_SetWramBankMaster_A(u32 a, u32 v)
+void MIi_SetWramBankMaster_A(u32 bank, u32 master)
 {
-    *(u8 *)(a + 0x04004040) = (*(u8 *)(a + 0x04004040) & ~1) | v;
+    *(u8 *)(bank + 0x04004040) = (*(u8 *)(bank + 0x04004040) & ~1) | master;
 }
 
 
-void MIi_SetWramBankMaster_B(u32 a, u32 v)
+void MIi_SetWramBankMaster_B(u32 bank, u32 master)
 {
-    *(u8 *)(a + 0x04004044) = (*(u8 *)(a + 0x04004044) & ~3) | v;
+    *(u8 *)(bank + 0x04004044) = (*(u8 *)(bank + 0x04004044) & ~3) | master;
 }
 
 
-void MIi_SetWramBankMaster_C(u32 a, u32 v)
+void MIi_SetWramBankMaster_C(u32 bank, u32 master)
 {
-    *(u8 *)(a + 0x0400404C) = (*(u8 *)(a + 0x0400404C) & ~3) | v;
+    *(u8 *)(bank + 0x0400404C) = (*(u8 *)(bank + 0x0400404C) & ~3) | master;
 }
 
-void MIi_SetWramBankMaster(u32 i, u32 a, u32 b)
+void MIi_SetWramBankMaster(u32 type, u32 bank, u32 master)
 {
-    data_02730204[i](a, b);
+    data_02730204[type](bank, master);
 }
 
 /* Register field writers: bit 7 of a byte register set or cleared by a flag. */
-void MIi_SetWramBankEnable_A(u32 a, u32 on)
+void MIi_SetWramBankEnable_A(u32 bank, u32 enable)
 {
-    volatile u8 *p = (volatile u8 *)(a + 0x04004040);
-    u32 v = on ? 0x80 : 0;
+    volatile u8 *p = (volatile u8 *)(bank + 0x04004040);
+    u32 v = enable ? 0x80 : 0;
     *p = (*p & ~0x80) | v;
 }
 
-void MIi_SetWramBankEnable_B(u32 a, u32 on)
+void MIi_SetWramBankEnable_B(u32 bank, u32 enable)
 {
-    volatile u8 *p = (volatile u8 *)(a + 0x04004044);
-    u32 v = on ? 0x80 : 0;
+    volatile u8 *p = (volatile u8 *)(bank + 0x04004044);
+    u32 v = enable ? 0x80 : 0;
     *p = (*p & ~0x80) | v;
 }
 
-void MIi_SetWramBankEnable_C(u32 a, u32 on)
+void MIi_SetWramBankEnable_C(u32 bank, u32 enable)
 {
-    volatile u8 *p = (volatile u8 *)(a + 0x0400404C);
-    u32 v = on ? 0x80 : 0;
+    volatile u8 *p = (volatile u8 *)(bank + 0x0400404C);
+    u32 v = enable ? 0x80 : 0;
     *p = (*p & ~0x80) | v;
 }
 
-void MIi_SetWramBankEnable(u32 i, u32 a, u32 b)
+void MIi_SetWramBankEnable(u32 type, u32 bank, u32 enable)
 {
-    data_027301F8[i](a, b);
+    data_027301F8[type](bank, enable);
 }
 
 /* Register readers: the argument is a register-block base, the mask picks the field. */
-u32 MI_GetWramBankMaster_A(u32 a)
+u32 MI_GetWramBankMaster_A(u32 bank)
 {
-    return *(u8 *)(a + 0x04004040) & 1;
+    return *(u8 *)(bank + 0x04004040) & 1;
 }
 
 
-u32 MI_GetWramBankMaster_B(u32 a)
+u32 MI_GetWramBankMaster_B(u32 bank)
 {
-    return *(u8 *)(a + 0x04004044) & 3;
+    return *(u8 *)(bank + 0x04004044) & 3;
 }
 
 
-u32 MI_GetWramBankMaster_C(u32 a)
+u32 MI_GetWramBankMaster_C(u32 bank)
 {
-    return *(u8 *)(a + 0x0400404C) & 3;
+    return *(u8 *)(bank + 0x0400404C) & 3;
 }
 
-u32 MI_GetWramBankMaster(u32 i, u32 a)
+u32 MI_GetWramBankMaster(u32 type, u32 bank)
 {
-    return data_027301E0[i](a);
+    return data_027301E0[type](bank);
 }
 
 u32 MI_GetWramMapStart_A(void)
@@ -184,24 +184,24 @@ u32 MI_GetWramMapStart_C(void)
     return ((((*(volatile u32 *)0x0400405C) & 0xFF8) >> 3) << 15) + 0x03000000;
 }
 
-u32 MI_GetWramMapStart(u32 i)
+u32 MI_GetWramMapStart(u32 type)
 {
-    return data_027301EC[i]();
+    return data_027301EC[type]();
 }
 
-u32 MIi_GetAddress_A(u32 a)
+u32 MIi_GetAddress_A(u32 bank)
 {
-    return MI_GetWramMapStart_A() + (a << 16);
+    return MI_GetWramMapStart_A() + (bank << 16);
 }
 
-static u32 MIi_GetAddress_B(u32 a)
+static u32 MIi_GetAddress_B(u32 bank)
 {
-    return MI_GetWramMapStart_B() + (a << 15);
+    return MI_GetWramMapStart_B() + (bank << 15);
 }
 
-static u32 MIi_GetAddress_C(u32 a)
+static u32 MIi_GetAddress_C(u32 bank)
 {
-    return MI_GetWramMapStart_C() + (a << 15);
+    return MI_GetWramMapStart_C() + (bank << 15);
 }
 
 void MIi_InitWramManager(void)
@@ -317,12 +317,12 @@ void MIi_CallbackForPxi(u32 tag, u32 data, int err)
     }
 }
 
-u32 MIi_DoAllocWram(u32 ch, int n, u32 val)
+u32 MIi_DoAllocWram(u32 ch, int num, u32 proc)
 {
     int run, start, i, lim;
 
     if (ch == 0) {
-        n = n / 2;
+        num = num / 2;
     }
     run = 0;
     lim = 4;
@@ -332,24 +332,24 @@ u32 MIi_DoAllocWram(u32 ch, int n, u32 val)
     for (i = 0; i < lim; i++) {
         u16 v = data_02732F6C[ch][i];
         u32 cur = (v & 0x300) >> 8;
-        if ((v & 3) == 3 && (cur == val || cur == 3)) {
+        if ((v & 3) == 3 && (cur == proc || cur == 3)) {
             if (run == 0) {
                 start = i;
             }
             run++;
-            if (run >= n) {
+            if (run >= num) {
                 break;
             }
         } else {
             run = 0;
         }
     }
-    if (run < n) {
+    if (run < num) {
         return 0;
     }
-    for (i = 0; i < n; i++) {
-        data_02732F6C[ch][start + i] = (data_02732F6C[ch][start + i] & ~3) | val;
-        MIi_SetWramBankMaster(ch, start + i, val);
+    for (i = 0; i < num; i++) {
+        data_02732F6C[ch][start + i] = (data_02732F6C[ch][start + i] & ~3) | proc;
+        MIi_SetWramBankMaster(ch, start + i, proc);
         MIi_SetWramBankEnable(ch, start + i, 1);
     }
     if (ch == 0) {
@@ -364,35 +364,35 @@ u32 MIi_DoAllocWram(u32 ch, int n, u32 val)
     return 0;
 }
 
-u32 MI_AllocWramSlot(u32 ch, int start, int n, u32 val)
+u32 MI_AllocWramSlot(u32 ch, int start, int num, u32 proc)
 {
     u16 sv;
     u32 irq, r;
 
     irq = MIi_LockWramManagerDI(&sv);
-    r = MIi_DoAllocWramSlot(ch, start, n, val);
+    r = MIi_DoAllocWramSlot(ch, start, num, proc);
     MIi_UnlockWramManagerRI(sv, irq);
     return r;
 }
 
-u32 MIi_DoAllocWramSlot(u32 ch, int start, int n, u32 val)
+u32 MIi_DoAllocWramSlot(u32 ch, int start, int num, u32 proc)
 {
     int end, i;
 
     if (ch == 0) {
-        n = n / 2;
+        num = num / 2;
     }
-    end = start + n;
+    end = start + num;
     for (i = start; i < end; i++) {
         u16 v = data_02732F6C[ch][i];
         u32 cur = (v & 0x300) >> 8;
-        if ((v & 3) != 3 || (cur != val && cur != 3)) {
+        if ((v & 3) != 3 || (cur != proc && cur != 3)) {
             return 0;
         }
     }
     for (i = start; i < end; i++) {
-        data_02732F6C[ch][i] = (data_02732F6C[ch][i] & ~3) | val;
-        MIi_SetWramBankMaster(ch, i, val);
+        data_02732F6C[ch][i] = (data_02732F6C[ch][i] & ~3) | proc;
+        MIi_SetWramBankMaster(ch, i, proc);
         MIi_SetWramBankEnable(ch, i, 1);
     }
     if (ch == 0) {
@@ -407,18 +407,18 @@ u32 MIi_DoAllocWramSlot(u32 ch, int start, int n, u32 val)
     return 0;
 }
 
-u32 MI_FreeWram(u32 ch, u32 val)
+u32 MI_FreeWram(u32 ch, u32 proc)
 {
     u16 sv;
     u32 irq, r;
 
     irq = MIi_LockWramManagerDI(&sv);
-    r = MIi_DoFreeWram(ch, val);
+    r = MIi_DoFreeWram(ch, proc);
     MIi_UnlockWramManagerRI(sv, irq);
     return r;
 }
 
-u32 MIi_DoFreeWram(u32 ch, u32 val)
+u32 MIi_DoFreeWram(u32 ch, u32 proc)
 {
     int lim, i, count;
 
@@ -426,7 +426,7 @@ u32 MIi_DoFreeWram(u32 ch, u32 val)
     lim = (ch == 0) ? 4 : 8;
     for (i = 0; i < lim; i++) {
         u16 v = data_02732F6C[ch][i];
-        if ((v & 3) == val) {
+        if ((v & 3) == proc) {
             data_02732F6C[ch][i] = (v & ~3) | 3;
             MIi_SetWramBankMaster(ch, i, 1);
             MIi_SetWramBankEnable(ch, i, 0);
@@ -436,29 +436,29 @@ u32 MIi_DoFreeWram(u32 ch, u32 val)
     return count;
 }
 
-u32 MI_FreeWramSlot(u32 ch, int start, int n, u32 val)
+u32 MI_FreeWramSlot(u32 ch, int start, int num, u32 proc)
 {
     u16 sv;
     u32 irq, r;
 
     irq = MIi_LockWramManagerDI(&sv);
-    r = MIi_DoFreeWramSlot(ch, start, n, val);
+    r = MIi_DoFreeWramSlot(ch, start, num, proc);
     MIi_UnlockWramManagerRI(sv, irq);
     return r;
 }
 
-u32 MIi_DoFreeWramSlot(u32 ch, int start, int n, u32 val)
+u32 MIi_DoFreeWramSlot(u32 ch, int start, int num, u32 proc)
 {
     int count, i, end;
 
     if (ch == 0) {
-        n = n / 2;
+        num = num / 2;
     }
-    end = start + n;
+    end = start + num;
     count = 0;
     for (i = start; i < end; i++) {
         u16 v = data_02732F6C[ch][i];
-        if ((v & 3) == val) {
+        if ((v & 3) == proc) {
             data_02732F6C[ch][i] = (v & ~3) | 3;
             MIi_SetWramBankMaster(ch, i, 1);
             MIi_SetWramBankEnable(ch, i, 0);
@@ -468,7 +468,7 @@ u32 MIi_DoFreeWramSlot(u32 ch, int start, int n, u32 val)
     return count;
 }
 
-u32 MIi_DoSwitchWram(u32 ch, u32 val, u32 newval)
+u32 MIi_DoSwitchWram(u32 ch, u32 proc, u32 newProc)
 {
     int lim, i, count;
 
@@ -476,9 +476,9 @@ u32 MIi_DoSwitchWram(u32 ch, u32 val, u32 newval)
     lim = (ch == 0) ? 4 : 8;
     for (i = 0; i < lim; i++) {
         u16 v = data_02732F6C[ch][i];
-        if ((v & 3) == val) {
-            data_02732F6C[ch][i] = newval | (v & ~3);
-            MIi_SetWramBankMaster(ch, i, newval);
+        if ((v & 3) == proc) {
+            data_02732F6C[ch][i] = newProc | (v & ~3);
+            MIi_SetWramBankMaster(ch, i, newProc);
             MIi_SetWramBankEnable(ch, i, 1);
             count++;
         }
@@ -486,20 +486,20 @@ u32 MIi_DoSwitchWram(u32 ch, u32 val, u32 newval)
     return count;
 }
 
-u32 MIi_DoSwitchWramSlot(u32 ch, int start, int n, u32 val, u32 newval)
+u32 MIi_DoSwitchWramSlot(u32 ch, int start, int num, u32 proc, u32 newProc)
 {
     int count, i, end;
 
     if (ch == 0) {
-        n = n / 2;
+        num = num / 2;
     }
-    end = start + n;
+    end = start + num;
     count = 0;
     for (i = start; i < end; i++) {
         u16 v = data_02732F6C[ch][i];
-        if ((v & 3) == val) {
-            data_02732F6C[ch][i] = newval | (v & ~3);
-            MIi_SetWramBankMaster(ch, i, newval);
+        if ((v & 3) == proc) {
+            data_02732F6C[ch][i] = newProc | (v & ~3);
+            MIi_SetWramBankMaster(ch, i, newProc);
             MIi_SetWramBankEnable(ch, i, 1);
             count++;
         }
@@ -507,12 +507,12 @@ u32 MIi_DoSwitchWramSlot(u32 ch, int start, int n, u32 val, u32 newval)
     return count;
 }
 
-u32 MIi_DoReserveWram(u32 ch, int n, u32 val)
+u32 MIi_DoReserveWram(u32 ch, int num, u32 proc)
 {
     int run, start, i, lim;
 
     if (ch == 0) {
-        n = n / 2;
+        num = num / 2;
     }
     run = 0;
     lim = 4;
@@ -527,18 +527,18 @@ u32 MIi_DoReserveWram(u32 ch, int n, u32 val)
                 start = i;
             }
             run++;
-            if (run >= n) {
+            if (run >= num) {
                 break;
             }
         } else {
             run = 0;
         }
     }
-    if (run < n) {
+    if (run < num) {
         return 0;
     }
-    for (i = 0; i < n; i++) {
-        data_02732F6C[ch][start + i] = (data_02732F6C[ch][start + i] & ~0x300) | (val << 8);
+    for (i = 0; i < num; i++) {
+        data_02732F6C[ch][start + i] = (data_02732F6C[ch][start + i] & ~0x300) | (proc << 8);
     }
     if (ch == 0) {
         return MIi_GetAddress_A(start);
@@ -552,14 +552,14 @@ u32 MIi_DoReserveWram(u32 ch, int n, u32 val)
     return 0;
 }
 
-u32 MIi_DoReserveWramSlot(u32 ch, int start, int n, u32 val)
+u32 MIi_DoReserveWramSlot(u32 ch, int start, int num, u32 proc)
 {
     int i, end;
 
     if (ch == 0) {
-        n = n / 2;
+        num = num / 2;
     }
-    end = start + n;
+    end = start + num;
     for (i = start; i < end; i++) {
         u16 v = data_02732F6C[ch][start];
         int hi = v & 0x300;
@@ -568,7 +568,7 @@ u32 MIi_DoReserveWramSlot(u32 ch, int start, int n, u32 val)
         }
     }
     for (i = start; i < end; i++) {
-        data_02732F6C[ch][i] = (data_02732F6C[ch][i] & ~0x300) | (val << 8);
+        data_02732F6C[ch][i] = (data_02732F6C[ch][i] & ~0x300) | (proc << 8);
     }
     if (ch == 0) {
         return MIi_GetAddress_A(start);
@@ -582,18 +582,18 @@ u32 MIi_DoReserveWramSlot(u32 ch, int start, int n, u32 val)
     return 0;
 }
 
-u32 MI_CancelWram(u32 ch, u32 val)
+u32 MI_CancelWram(u32 ch, u32 proc)
 {
     u16 sv;
     u32 irq, r;
 
     irq = MIi_LockWramManagerDI(&sv);
-    r = MIi_DoCancelWram(ch, val);
+    r = MIi_DoCancelWram(ch, proc);
     MIi_UnlockWramManagerRI(sv, irq);
     return r;
 }
 
-u32 MIi_DoCancelWram(u32 ch, u32 val)
+u32 MIi_DoCancelWram(u32 ch, u32 proc)
 {
     int count, i, lim;
 
@@ -601,7 +601,7 @@ u32 MIi_DoCancelWram(u32 ch, u32 val)
     lim = (ch == 0) ? 4 : 8;
     for (i = 0; i < lim; i++) {
         u16 v = data_02732F6C[ch][i];
-        if (val == ((v & 0x300) >> 8)) {
+        if (proc == ((v & 0x300) >> 8)) {
             data_02732F6C[ch][i] = (v & ~0x300) | 0x300;
             count++;
         }
@@ -609,18 +609,18 @@ u32 MIi_DoCancelWram(u32 ch, u32 val)
     return count;
 }
 
-u32 MIi_DoCancelWramSlot(u32 ch, int start, int n, u32 val)
+u32 MIi_DoCancelWramSlot(u32 ch, int start, int num, u32 proc)
 {
     int count, i, end;
 
     if (ch == 0) {
-        n = n / 2;
+        num = num / 2;
     }
-    end = start + n;
+    end = start + num;
     count = 0;
     for (i = start; i < end; i++) {
         u16 v = data_02732F6C[ch][i];
-        if (val == ((v & 0x300) >> 8)) {
+        if (proc == ((v & 0x300) >> 8)) {
             data_02732F6C[ch][i] = (v & ~0x300) | 0x300;
             count++;
         }
@@ -628,7 +628,7 @@ u32 MIi_DoCancelWramSlot(u32 ch, int start, int n, u32 val)
     return count;
 }
 
-u32 MIi_DoGetAllocatableWramSlot(u32 ch, u32 val)
+u32 MIi_DoGetAllocatableWramSlot(u32 ch, u32 proc)
 {
     u32 mask;
     int i, lim;
@@ -638,7 +638,7 @@ u32 MIi_DoGetAllocatableWramSlot(u32 ch, u32 val)
     for (i = 0; i < lim; i++) {
         u16 v = data_02732F6C[ch][i];
         u32 cur = (v & 0x300) >> 8;
-        if ((v & 3) == 3 && (cur == val || cur == 3)) {
+        if ((v & 3) == 3 && (cur == proc || cur == 3)) {
             mask |= 1 << i;
         }
     }
@@ -650,33 +650,33 @@ u32 MI_IsWramSlotUsed(u32 ch, u32 idx)
     return (data_02732F6C[ch][idx] & 3) != 3;
 }
 
-void MIi_SendToPxi(u32 a, u32 b)
+void MIi_SendToPxi(u32 err, u32 data)
 {
-    while (PXI_SendWordByFifo(0x12, b, a) != 0) {
+    while (PXI_SendWordByFifo(0x12, data, err) != 0) {
         SVC_WaitByLoop(1);
     }
 }
 
-void MIi_TakeApartData(u32 data, u32 *cmd, u32 *p2, u32 *p3, u32 *p4)
+void MIi_TakeApartData(u32 data, u32 *cmd, u32 *ch, u32 *sub, u32 *arg)
 {
     if (cmd != 0) {
         *cmd = (data >> 20) & 0xF;
     }
-    if (p2 != 0) {
-        *p2 = (data >> 18) & 3;
+    if (ch != 0) {
+        *ch = (data >> 18) & 3;
     }
-    if (p3 != 0) {
-        *p3 = (data >> 16) & 3;
+    if (sub != 0) {
+        *sub = (data >> 16) & 3;
     }
-    if (p4 != 0) {
-        *p4 = (u16)data;
+    if (arg != 0) {
+        *arg = (u16)data;
     }
 }
 
-void MI_LockWramManager(u16 *p)
+void MI_LockWramManager(u16 *id)
 {
-    *p = OS_GetLockID();
-    OS_LockByWord(*p, (void *)0x02FFF680, 0);
+    *id = OS_GetLockID();
+    OS_LockByWord(*id, (void *)0x02FFF680, 0);
 }
 
 void MI_UnlockWramManager(u32 id)
@@ -685,10 +685,10 @@ void MI_UnlockWramManager(u32 id)
     OS_ReleaseLockID(id);
 }
 
-u32 MIi_LockWramManagerDI(u16 *p)
+u32 MIi_LockWramManagerDI(u16 *id)
 {
     u32 irq = OS_DisableInterrupts();
-    MI_LockWramManager(p);
+    MI_LockWramManager(id);
     return irq;
 }
 

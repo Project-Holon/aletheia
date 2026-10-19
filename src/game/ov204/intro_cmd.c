@@ -115,7 +115,7 @@ extern void FADE_Start(unsigned,int,int,int);
 
 extern int FADE_IsActive(void);
 
-extern void BRIGHTNESS_Set(u32 a0, u32 a1, u32 mask);
+extern void BRIGHTNESS_Set(u32 brightness, u32 plane, u32 mask);
 
 extern void BRIGHTNESS_ChangeRequest(int, int, int, int, int);
 
@@ -209,7 +209,7 @@ extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
 extern u8 MYSTATUS_GetOutfitVariant(const struct IntroGameState *obj);
 
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 
@@ -245,7 +245,7 @@ int INTRO_CMD_CmdFade(char *p,int *state,int *q);
 
 u32 INTRO_CMD_CmdBrightnessSet(u32 a, u32 b, u32 *c);
 
-int INTRO_CMD_CmdBrightnessChange(int a0, int a1, int *src);
+int INTRO_CMD_CmdBrightnessChange(int ctx, int unused, int *src);
 
 int INTRO_CMD_CmdBrightnessWait(void);
 
@@ -388,7 +388,7 @@ u32 INTRO_CMD_CmdBrightnessSet(u32 a, u32 b, u32 *c)
     return 1;
 }
 
-int INTRO_CMD_CmdBrightnessChange(int a0, int a1, int *src)
+int INTRO_CMD_CmdBrightnessChange(int ctx, int unused, int *src)
 {
     BRIGHTNESS_ChangeRequest((unsigned char)src[0], (short)src[1], (short)src[2], 0x1d, 1);
     return 1;
@@ -396,9 +396,9 @@ int INTRO_CMD_CmdBrightnessChange(int a0, int a1, int *src)
 
 int INTRO_CMD_CmdBrightnessWait(void) {BRIGHTNESS_IsFinished(1);return 1;}
 
-u32 INTRO_CMD_CmdBgmChange(u32 a, u32 b, u32 *c)
+u32 INTRO_CMD_CmdBgmChange(u32 ctx, u32 unused, u32 *src)
 {
-    GFL_USE_CancelChangeAndPlayBgm(*c, 0xffff);
+    GFL_USE_CancelChangeAndPlayBgm(*src, 0xffff);
     return 1;
 }
 

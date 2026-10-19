@@ -45,7 +45,7 @@ typedef struct {
 
 typedef struct {
     u8 pad[0x14];
-    u32 f14;
+    u32 exitFactor;
 } S2153;
 extern S2153 d_02153000;
 #define G2153 (&d_02153000)
@@ -59,7 +59,7 @@ extern u32 d_020A8724[];
 extern PMiGenCallbackInfo *d_02732FA4;
 extern PMiGenCallbackInfo *PMi_PostExitCallbackList;
 extern u32 data_02732FA8;
-extern void OSi_SyncWithOtherProc(int a0, volatile u8 *p);
+extern void OSi_SyncWithOtherProc(int direction, volatile u8 *p);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 state);
 extern void PMi_InsertList(PMiGenCallbackInfo **listp, PMiGenCallbackInfo *info, int priority, int method);
@@ -111,14 +111,14 @@ void PMi_PreSleepForNdma(int ch)
     }
 }
 
-void PMi_ProceedToExit(u32 x)
+void PMi_ProceedToExit(u32 factor)
 {
     PMiGenCallbackInfo *list;
     if (PMi_TryLockForReset() == 0) {
         return;
     }
     list = *(PMiGenCallbackInfo **)0x02732FA4;
-    G2153->f14 = x;
+    G2153->exitFactor = factor;
     PMi_ExecuteList(list);
     if (d_020A8724[1] != 0) {
         PM_ReadyToExit();
@@ -142,7 +142,7 @@ void PMi_FinalizeDebugger(void)
 
 u32 PM_GetExitFactor(void)
 {
-    return G2153->f14;
+    return G2153->exitFactor;
 }
 
 void PM_AppendPreExitCallback(PMiGenCallbackInfo *info)
@@ -166,9 +166,9 @@ void PMi_ExecutePostExitCallbackList(void)
     PMi_ExecuteList(PMi_PostExitCallbackList);
 }
 
-void PM_SetAutoExit(u32 v)
+void PM_SetAutoExit(u32 enable)
 {
-    d_020A8724[1] = v;
+    d_020A8724[1] = enable;
 }
 
 u32 PM_GetAutoExit(void)

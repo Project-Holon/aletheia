@@ -77,7 +77,7 @@ typedef struct Socket {
 
 struct SOCLCommand {
 	unsigned char pad[8];
-	int field8;
+	int response_queue;
 };
 
 typedef struct {
@@ -89,7 +89,7 @@ extern int SOCL_SocketIsInTrash(int b);
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern int SOCL_SocketIsInvalid(Socket * socket);
-extern int SOCLi_SendCommandPacket(int a0, char *a1);
+extern int SOCLi_SendCommandPacket(int queue, char *packet);
 extern struct SOCLCommand *SOCLi_CreateCommandPacket(int (*handler)(void *), Socket *socket, long flag);
 extern void SOCLi_SendCommandPacketToCtrlPipe(int a, int b);
 extern void OS_JoinThread(void *thread);
@@ -218,7 +218,7 @@ int SOCL_Close(int s)
 		}
 	}
 	command = SOCLi_CreateCommandPacket(SOCLi_CloseCallBack, socket, 1);
-	command->field8 = result;
+	command->response_queue = result;
 	SOCLi_SendCommandPacketToCtrlPipe((int)socket, (int)command);
 	return result;
 }

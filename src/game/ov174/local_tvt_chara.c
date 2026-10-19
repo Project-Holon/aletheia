@@ -198,7 +198,7 @@ extern u32 CLACT_IsActorAnimActive(struct ClactActor *a);
 
 extern u16 CLACT_GetActorAnimSeqCount(struct ClactActor *p);
 
-extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
+extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
 
 extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *archive, unsigned id, unsigned flags, void *out, unsigned short heapId);
 

@@ -66,9 +66,9 @@ extern void PARTICLE_InitManager(unsigned);
 
 extern int PARTICLE_CreateSystemDefault(int a, int b, int c, int d);
 
-extern int PARTICLE_ReleaseCamera(int a0);
+extern int PARTICLE_ReleaseCamera(int sys);
 
-extern void PARTICLE_InitCamera(struct ParticleSys *sys, IntroParticleCameraParams *params, u16 a2, int *a3, int *a4, int *a5, u32 a6);
+extern void PARTICLE_InitCamera(struct ParticleSys *sys, IntroParticleCameraParams *params, u16 angle, int *pos, int *target, int *up, u32 heapId);
 
 extern int PARTICLE_LoadArchiveMember(unsigned,unsigned,unsigned);
 
@@ -84,9 +84,9 @@ char *INTRO_PARTICLE_Create(void *owner,unsigned heap);
 
 void INTRO_PARTICLE_Delete(char *a);
 
-void INTRO_PARTICLE_Main(int a0);
+void INTRO_PARTICLE_Main(int unused);
 
-void INTRO_PARTICLE_StartEffect(u32 *a0, u32 a1, u32 a2, u32 a3);
+void INTRO_PARTICLE_StartEffect(u32 *work, u32 x, u32 y, u32 z);
 
 extern const char d_021C0B30[];
 
@@ -123,16 +123,16 @@ void INTRO_PARTICLE_Delete(char *a)
     GFL_HEAP_Free(a);
 }
 
-void INTRO_PARTICLE_Main(int a0) { PARTICLE_Main(); }
+void INTRO_PARTICLE_Main(int unused) { PARTICLE_Main(); }
 
-void INTRO_PARTICLE_StartEffect(u32 *a0, u32 a1, u32 a2, u32 a3)
+void INTRO_PARTICLE_StartEffect(u32 *work, u32 x, u32 y, u32 z)
 {
-    u32 *p = a0;
+    u32 *p = work;
     u32 buf[3] = { 0 };
 
-    buf[0] = a1;
-    buf[1] = a2;
-    buf[2] = a3;
+    buf[0] = x;
+    buf[1] = y;
+    buf[2] = z;
     PARTICLE_StartEffect((void *)p[2], 0, (int)buf);
     PARTICLE_StartEffect((void *)p[2], 1, (int)buf);
     PARTICLE_StartEffect((void *)p[2], 2, (int)buf);

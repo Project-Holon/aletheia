@@ -59,10 +59,10 @@ typedef enum { FALSE = 0, TRUE = 1 } BOOL;
 struct Copy24 { int x[6]; };
 
 struct Unk021BD1E0 {
-    u16 f0;
-    u8 f2;
-    u8 f3;
-    u8 f4;
+    u16 moveId;
+    u8 userPos;
+    u8 targetPos;
+    u8 doneFlag;
     u8 b0 : 1;
     u8 b1 : 1;
     u8 rest : 6;

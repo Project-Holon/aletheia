@@ -109,14 +109,14 @@ void ZKNSEARCH_RESULT_InitFrameList(char *ctx)
 /*
  * Addresses are Black-image addresses.
  */
-void ZKNSEARCH_RESULT_DeleteFrameList(int p)
+void ZKNSEARCH_RESULT_DeleteFrameList(int work)
 {
     unsigned i;
 
-    FRAME_LIST_Delete((struct FrameList *)(((ZknSearchWork *)p)->frameList));
-    ((ZknSearchWork *)p)->frameList = 0;
+    FRAME_LIST_Delete((struct FrameList *)(((ZknSearchWork *)work)->frameList));
+    ((ZknSearchWork *)work)->frameList = 0;
     for (i = 0; i < 0x32; i++) {
-        int *q = (int *)(p + i * 4);
+        int *q = (int *)(work + i * 4);
 
         if (q[0x79] != 0) {
             STRBUF_Delete((struct U16Vec *)q[0x79]);
@@ -130,11 +130,11 @@ void ZKNSEARCH_RESULT_DeleteFrameList(int p)
 
 
 
-void ZKNSEARCH_RESULT_SetRow1(int p, unsigned a, int b, int c, int d)
+void ZKNSEARCH_RESULT_SetRow1(int work, unsigned row, int window, int y, int flag)
 {
-    ZKNSEARCH_MAIN_PrintListRow(p, (int *)b, *(int *)(p + a * 4 + 0x1e4));
-    if ((*(u8 **)(*(int * *)&((ZknSearchWork *)p)->save + 2))[1] == a)
-        ZKNSEARCH_MAIN_PlaceColumnActor((char *)p, 0, c, d);
+    ZKNSEARCH_MAIN_PrintListRow(work, (int *)window, *(int *)(work + row * 4 + 0x1e4));
+    if ((*(u8 **)(*(int * *)&((ZknSearchWork *)work)->save + 2))[1] == row)
+        ZKNSEARCH_MAIN_PlaceColumnActor((char *)work, 0, y, flag);
 }
 
 
@@ -161,11 +161,11 @@ void ZKNSEARCH_RESULT_Noop2(void)
 
 
 
-void ZKNSEARCH_RESULT_SetRow2(int p, unsigned a, int b, int c, int d)
+void ZKNSEARCH_RESULT_SetRow2(int work, unsigned row, int window, int y, int flag)
 {
-    ZKNSEARCH_MAIN_PrintListRow(p, (int *)b, *(int *)(p + a * 4 + 0x1e4));
-    if ((*(u8 **)(*(int * *)&((ZknSearchWork *)p)->save + 2))[2] == a)
-        ZKNSEARCH_MAIN_PlaceColumnActor((char *)p, 0, c, d);
+    ZKNSEARCH_MAIN_PrintListRow(work, (int *)window, *(int *)(work + row * 4 + 0x1e4));
+    if ((*(u8 **)(*(int * *)&((ZknSearchWork *)work)->save + 2))[2] == row)
+        ZKNSEARCH_MAIN_PlaceColumnActor((char *)work, 0, y, flag);
 }
 
 
@@ -183,10 +183,10 @@ void ZKNSEARCH_RESULT_Noop3(void)
 
 
 
-void ZKNSEARCH_RESULT_MoveRow1(int p, int v)
+void ZKNSEARCH_RESULT_MoveRow1(int work, int delta)
 {
-    ZKNSEARCH_MAIN_MoveColumnActors(p, (signed char)(-v));
-    ZKNSEARCH_MAIN_UpdateCursorActors((u8 *)p, 1);
+    ZKNSEARCH_MAIN_MoveColumnActors(work, (signed char)(-delta));
+    ZKNSEARCH_MAIN_UpdateCursorActors((u8 *)work, 1);
 }
 
 
@@ -198,11 +198,11 @@ void ZKNSEARCH_RESULT_MoveRow1(int p, int v)
  * trailing: unit aligns the bx-lr follower at 021C065C after zero pad
  * 021C065A; two additional zero alignment bytes at 021C065E follow the unit.
  */
-void ZKNSEARCH_RESULT_SetRowMulti(char *p,int index,void *data,int value,int flag)
+void ZKNSEARCH_RESULT_SetRowMulti(char *work,int index,void *data,int value,int flag)
 {
-    ZKNSEARCH_MAIN_PrintListRow((int)p,data,(*(unsigned *)(p+484+index*4)));
-    if(index==ZKNSEARCH_MAIN_GetListIndexB((u32)p,(unsigned char)(*(char **)(*(char * *)&((ZknSearchWork *)p)->save+8))[3]))ZKNSEARCH_MAIN_PlaceColumnActor(p,0,value,flag);
-    if(index==ZKNSEARCH_MAIN_GetListIndexB((u32)p,(unsigned char)(*(char **)(*(char * *)&((ZknSearchWork *)p)->save+8))[4]))ZKNSEARCH_MAIN_PlaceColumnActor(p,1,value,flag);
+    ZKNSEARCH_MAIN_PrintListRow((int)work,data,(*(unsigned *)(work+484+index*4)));
+    if(index==ZKNSEARCH_MAIN_GetListIndexB((u32)work,(unsigned char)(*(char **)(*(char * *)&((ZknSearchWork *)work)->save+8))[3]))ZKNSEARCH_MAIN_PlaceColumnActor(work,0,value,flag);
+    if(index==ZKNSEARCH_MAIN_GetListIndexB((u32)work,(unsigned char)(*(char **)(*(char * *)&((ZknSearchWork *)work)->save+8))[4]))ZKNSEARCH_MAIN_PlaceColumnActor(work,1,value,flag);
 }
 
 
@@ -218,21 +218,21 @@ void ZKNSEARCH_RESULT_Noop4(void){}
 
 
 
-void ZKNSEARCH_RESULT_MoveRow2(int p, int v)
+void ZKNSEARCH_RESULT_MoveRow2(int work, int delta)
 {
-    ZKNSEARCH_MAIN_MoveColumnActors(p, (signed char)(-v));
-    ZKNSEARCH_MAIN_UpdateCursorActors((u8 *)p, 1);
+    ZKNSEARCH_MAIN_MoveColumnActors(work, (signed char)(-delta));
+    ZKNSEARCH_MAIN_UpdateCursorActors((u8 *)work, 1);
 }
 
 
 
 
 
-void ZKNSEARCH_RESULT_SetRow3(int p, unsigned a, int b, int c, int d)
+void ZKNSEARCH_RESULT_SetRow3(int work, unsigned row, int window, int y, int flag)
 {
-    ZKNSEARCH_MAIN_PrintListRow(p, (int *)b, *(int *)(p + a * 4 + 0x1e4));
-    if ((*(u8 **)(*(int * *)&((ZknSearchWork *)p)->save + 2))[5] == a)
-        ZKNSEARCH_MAIN_PlaceColumnActor((char *)p, 0, c, d);
+    ZKNSEARCH_MAIN_PrintListRow(work, (int *)window, *(int *)(work + row * 4 + 0x1e4));
+    if ((*(u8 **)(*(int * *)&((ZknSearchWork *)work)->save + 2))[5] == row)
+        ZKNSEARCH_MAIN_PlaceColumnActor((char *)work, 0, y, flag);
 }
 
 
@@ -252,21 +252,21 @@ void ZKNSEARCH_RESULT_Noop5(void)
 
 
 
-void ZKNSEARCH_RESULT_MoveRow3(int p, int v)
+void ZKNSEARCH_RESULT_MoveRow3(int work, int delta)
 {
-    ZKNSEARCH_MAIN_MoveColumnActors(p, (signed char)(-v));
-    ZKNSEARCH_MAIN_UpdateCursorActors((u8 *)p, 1);
+    ZKNSEARCH_MAIN_MoveColumnActors(work, (signed char)(-delta));
+    ZKNSEARCH_MAIN_UpdateCursorActors((u8 *)work, 1);
 }
 
 
 
 
-void ZKNSEARCH_RESULT_SetRow4(int p, unsigned a, unsigned *b, int c, int d)
+void ZKNSEARCH_RESULT_SetRow4(int work, unsigned row, unsigned *window, int y, int flag)
 {
-    ZKNSEARCH_MAIN_TransferRowChars(p, b);
-    if ((*(u8 **)(*(int * *)&((ZknSearchWork *)p)->save + 2))[6] == a)
-        ZKNSEARCH_MAIN_PlaceColumnActor3((char *)p, c, d);
-    ZKNSEARCH_MAIN_PlacePageActor((char *)p, (unsigned short)a, c, d);
+    ZKNSEARCH_MAIN_TransferRowChars(work, window);
+    if ((*(u8 **)(*(int * *)&((ZknSearchWork *)work)->save + 2))[6] == row)
+        ZKNSEARCH_MAIN_PlaceColumnActor3((char *)work, y, flag);
+    ZKNSEARCH_MAIN_PlacePageActor((char *)work, (unsigned short)row, y, flag);
 }
 
 
@@ -276,8 +276,8 @@ void ZKNSEARCH_RESULT_Noop6(void)
 }
 
 
-void ZKNSEARCH_RESULT_MoveRow4(int a, int b)
+void ZKNSEARCH_RESULT_MoveRow4(int work, int delta)
 {
-    ZKNSEARCH_MAIN_MoveScrollActors((char *)a, (signed char)(-b));
-    ZKNSEARCH_MAIN_UpdateCursorActors((u8 *)a, 1);
+    ZKNSEARCH_MAIN_MoveScrollActors((char *)work, (signed char)(-delta));
+    ZKNSEARCH_MAIN_UpdateCursorActors((u8 *)work, 1);
 }

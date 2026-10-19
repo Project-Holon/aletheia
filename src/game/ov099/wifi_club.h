@@ -418,7 +418,7 @@ void WIFICLUB_OpenPanelOrRedrawPage(WifiClubWork *work, int v);
 void WIFICLUB_RequestPanelRedraw(WifiClubWork *work);
 void WIFICLUB_EmptyHook(WifiClubWork *work);
 void WIFICLUB_RedrawSlotPanels(WifiClubWork *work);
-void WIFICLUB_DrawSlotFrame(WifiClubWork *work, u32 a1, u32 a2, u32 mode, u8 slot);
+void WIFICLUB_DrawSlotFrame(WifiClubWork *work, u32 tileX, u32 tileY, u32 mode, u8 slot);
 void WIFICLUB_PrintSlotName(WifiClubWork *work, void *window, int id, int slot, int i);
 void WIFICLUB_DrawSlotStatusIcons(WifiClubWork *work, void *unused, int id, int flag, int x, int y);
 void WIFICLUB_SetFriendNameWord(WifiClubWork *work, int id);

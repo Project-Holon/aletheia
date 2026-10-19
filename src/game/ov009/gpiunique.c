@@ -54,7 +54,7 @@ typedef struct {
 extern int gpiCheckForError(int *connection, const char *input, int fatal);
 extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
 extern void gpiSetError(int *connection, int result, int errorString);
-extern int gpiCallErrorCallback(int *connection, int a1, int a2);
+extern int gpiCallErrorCallback(int *connection, int result, int fatal);
 extern void *gsimalloc(unsigned long size);
 extern void gpiSetErrorString(int *p, int b);
 extern int gpiAddCallback(void **connection, GPICallback callback, void *arg, GPIOperation *operation, int type);

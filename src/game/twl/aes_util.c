@@ -104,7 +104,7 @@ void AESi_InitRand(void) {
     }
 }
 
-u32 AESi_Rand(u8 *dst, u32 n) {
+u32 AESi_Rand(u8 *dst, u32 size) {
     u32 count;
     u32 pos;
     u32 r;
@@ -114,37 +114,37 @@ u32 AESi_Rand(u8 *dst, u32 n) {
     }
     count = data_02735AE8;
     if (count != 0) {
-        if (count > n) {
-            count = n;
+        if (count > size) {
+            count = size;
         }
         data_02735AE8 -= count;
         pos = data_02735AE8;
         MI_CpuCopy8(data_02735B00 + pos, dst, count);
-        n -= count;
+        size -= count;
         dst += count;
     }
-    while (n >= 0x10) {
+    while (size >= 0x10) {
         r = AESi_RandUnit(data_02735B00);
         if (r != 1) {
             return r;
         }
         MI_CpuCopy8(data_02735B00, dst, 0x10);
         dst += 0x10;
-        n -= 0x10;
+        size -= 0x10;
     }
-    if (n != 0) {
+    if (size != 0) {
         r = AESi_RandUnit(data_02735B00);
         if (r != 1) {
             return r;
         }
-        pos = 0x10 - n;
+        pos = 0x10 - size;
         data_02735AE8 = pos;
-        MI_CpuCopy8(data_02735B00 + pos, dst, n);
+        MI_CpuCopy8(data_02735B00 + pos, dst, size);
     }
     return 1;
 }
 
-int AESi_SignForJpeg(u8 *p, u32 a, u32 b)
+int AESi_SignForJpeg(u8 *sign, u32 data, u32 length)
 {
     OSEventLike ev;
     int r;
@@ -154,7 +154,7 @@ int AESi_SignForJpeg(u8 *p, u32 a, u32 b)
         AESi_InitRand();
     }
     OS_InitEvent(&ev);
-    r = AESi_Rand(p, 0xC);
+    r = AESi_Rand(sign, 0xC);
     if (r != 1) {
         return r;
     }
@@ -162,11 +162,11 @@ int AESi_SignForJpeg(u8 *p, u32 a, u32 b)
         if (data_02735AE4 == 0) {
             AESi_PxiSendFirst(0x13, 8, 1);
         }
-        r = AESi_CalcMac(p, a, b, data_02735AEC, CallbackForJpeg, &ev);
+        r = AESi_CalcMac(sign, data, length, data_02735AEC, CallbackForJpeg, &ev);
         if (r == 1) {
             r = OS_WaitEventEx(&ev, -1, 1, -1);
             if (r == 1) {
-                MI_CpuCopy8(data_02735AEC, p + 0xC, 0x10);
+                MI_CpuCopy8(data_02735AEC, sign + 0xC, 0x10);
             }
         }
     } while (r == 4);
@@ -177,7 +177,7 @@ int AESi_SignForJpeg(u8 *p, u32 a, u32 b)
     return r;
 }
 
-int AESi_VerifySignForJpeg(u8 *p, u32 a, u32 b)
+int AESi_VerifySignForJpeg(u8 *sign, u32 data, u32 length)
 {
     OSEventLike ev;
     int r;
@@ -191,11 +191,11 @@ int AESi_VerifySignForJpeg(u8 *p, u32 a, u32 b)
         if (data_02735AE4 == 0) {
             AESi_PxiSendFirst(0x13, 8, 1);
         }
-        r = AESi_CalcMac(p, a, b, data_02735AEC, CallbackForJpeg, &ev);
+        r = AESi_CalcMac(sign, data, length, data_02735AEC, CallbackForJpeg, &ev);
         if (r == 1) {
             r = OS_WaitEventEx(&ev, -1, 1, -1);
             if (r == 1) {
-                if (MI_CpuComp8(data_02735AEC, p + 0xC, 0x10) != 0) {
+                if (MI_CpuComp8(data_02735AEC, sign + 0xC, 0x10) != 0) {
                     r = 2;
                 }
             }

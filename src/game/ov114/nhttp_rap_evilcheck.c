@@ -100,9 +100,9 @@ void *NHTTP_RAP_EvilCheckCryptoAlloc(int size)
     return p;
 }
 
-void NHTTP_RAP_EvilCheckCryptoFree(void *p)
+void NHTTP_RAP_EvilCheckCryptoFree(void *block)
 {
-    GFL_HEAP_Free(p);
+    GFL_HEAP_Free(block);
 }
 
 void NHTTP_RAP_InitTrainerInfo(NHTTPRapTrainerInfo *info_p, const struct MYSTATUS *mystatus_p)

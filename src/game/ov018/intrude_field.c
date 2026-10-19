@@ -13,12 +13,12 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   ICA_ANIME_GetField24  0x02012138  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAME_COMM_GetWork  0x02026474  thumb
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_IsSaving  0x02012E40  thumb
  *   GAME_COMM_GetKind  0x02026454  thumb
- *   GAME_DATA_GetField114  0x020127A4  thumb
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   ZONEDATA_IsZone117  0x02013D5C  thumb
  *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb
@@ -76,12 +76,12 @@
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb
  *   FIELD_MSGBG_MsgWinPrintStr  0x02190758  thumb
  *   FIELD_PLACE_NAME_ForceShowForZone  0x021BC5A0  thumb
- *   ICA_ANIME_GetField114  0x020120F8  thumb
+ *   GAMESYSTEM_GetMyPlayerWork  0x020120F8  thumb
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   FIELD_INTRUDE_EVENT_CreateSymbolEntryEvent  0x0216B340  thumb  ov010
  *   INTRUDE_FIELD_gSymbolMarkerPos     0x02182B90  data   a4
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
- *   ICA_ANIME_GetField20  0x0201210C  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   GAME_DATA_GetPlayerWork  0x02012798  thumb
  *   GAME_DATA_SetPlayerPosition  0x02012A90  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
@@ -101,7 +101,7 @@
  *   GAME_COMM_IsTransition  0x02026460  thumb
  *   DWCi_IsFold  0x02035390  arm
  *   UI_IsPowerConnected  0x020353B0  arm
- *   ICA_ANIME_GetUnk330  0x02012204  thumb
+ *   GAMESYSTEM_IsNetOffBySleep  0x02012204  thumb
  *   GAMESYSTEM_IsEventActive  0x020120D8  thumb
  *   GFL_NET_SYSTEM_GetConnectNum  0x020392B8  arm
  *   GAME_COMM_RequestExit  0x0202640C  thumb
@@ -120,7 +120,7 @@
  *   MAP_MATRIX_Load  0x02159B94  thumb  ov010
  *   MAP_MATRIX_Delete  0x02159BBC  thumb
  *   FIELD_G3D_MAPPER_AppendMatrix  0x0218CD20  thumb  ov021
- *   ICA_ANIME_Check2114  0x02012114  thumb
+ *   GAMESYSTEM_IsFieldMapActive  0x02012114  thumb
  *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  *   FIELD_PLAYER_SetObjCode  0x021A3220  thumb  ov021
  *   FLDMMDL_SetDrawOffset  0x0216D8C0  thumb  ov010
@@ -364,15 +364,15 @@ typedef struct OfferEventWork {
 } OfferEventWork;
 
 /* GAMESYSTEM, GAME_DATA, GAME_COMM and GAME_EVENT access */
-extern struct GameComm *ICA_ANIME_GetField24(const struct GameSystem *gameSystem);
+extern struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
 extern void *GAME_COMM_GetWork(struct GameComm *gameComm);
-extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
-extern struct PlayerWork *ICA_ANIME_GetField114(const struct GameSystem *gameSystem);
-extern struct FieldMap *ICA_ANIME_GetField20(const struct GameSystem *gameSystem);
-extern u32 ICA_ANIME_Check2114(const struct GameSystem *gameSystem);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+extern struct PlayerWork *GAMESYSTEM_GetMyPlayerWork(const struct GameSystem *gameSystem);
+extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
+extern u32 GAMESYSTEM_IsFieldMapActive(const struct GameSystem *gameSystem);
 extern u8 GAME_DATA_IsSaving(const struct GameData *gameData);
 extern u32 GAME_COMM_GetKind(struct GameComm *gameComm);
-extern struct PlayerWork *GAME_DATA_GetField114(struct GameData *gameData);
+extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *playerWork);
 extern u32 GAME_DATA_GetPlayerDirectionType(const struct PlayerWork *playerWork);
 extern u32 ZONEDATA_IsZone117(u32 zoneId);
@@ -385,7 +385,7 @@ extern struct PlayerStatus *GAME_DATA_GetPlayerStatusById(struct GameData *gameD
 extern struct PlayerStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern struct PlayerWork *GAME_DATA_GetPlayerWork(struct GameData *gameData, int index);
 extern void GAME_DATA_SetPlayerPosition(struct PlayerWork *playerWork, const VecFx32 *pos);
-extern u32 ICA_ANIME_GetUnk330(const struct GameSystem *gameSystem);
+extern u32 GAMESYSTEM_IsNetOffBySleep(const struct GameSystem *gameSystem);
 extern int GAMESYSTEM_IsEventActive(struct GameSystem *gameSystem);
 extern u32 GAME_COMM_GetCounter(struct GameComm *gameComm);
 extern u32 GAME_COMM_IsTransition(struct GameComm *gameComm);
@@ -410,7 +410,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
 extern int GFL_USE_IsBgmPlaying(void);
 extern int GFL_NET_GetNegotiationNum(void);
 extern struct GameEvent *FIELD_SOUND_SYSTEM_StartPushAndPlayTask(struct GameSystem *gameSystem, u32 bgmId);
-extern struct GameEvent *FIELD_SOUND_SYSTEM_StartPopAndWaitTask(struct GameSystem *gameSystem, u32 a1, u32 a2);
+extern struct GameEvent *FIELD_SOUND_SYSTEM_StartPopAndWaitTask(struct GameSystem *gameSystem, u32 fadeOutFrames, u32 fadeInFrames);
 /* MyStatus, Pokemon and message helpers */
 extern u8 MYSTATUS_GetId(const struct PlayerStatus *status);
 extern u8 MYSTATUS_GetOutfitVariant(const struct PlayerStatus *status);
@@ -422,9 +422,9 @@ extern struct STRBUF *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct STRBUF *MSGDATA_AllocString(struct MsgData *msgData, u32 index);
 extern void STRBUF_Delete(struct STRBUF *strbuf);
 extern u32 MSGDATA_Delete(struct MsgData *msgData);
-extern u8 *ARC_UTIL_LoadMember(int arcId, int a1, int a2, int heapId);
+extern u8 *ARC_UTIL_LoadMember(int arcId, int memberIdx, int decompress, int heapId);
 extern void GFL_HEAP_Free(void *ptr);
-extern u32 POKE_TOOL_CreatePersonalRnd(u32 trainerId, int species, int form, int sex, int a4, int a5);
+extern u32 POKE_TOOL_CreatePersonalRnd(u32 trainerId, int species, int form, int sex, int shinyWanted, int mode);
 extern void *POKE_TOOL_Create(u16 species, u16 level, u64 id, int heapId);
 extern void POKE_TOOL_SetupPartyParamEx(void *mon, u16 species, u16 level, unsigned long long id, u32 power, unsigned long long rnd);
 extern void POKE_TOOL_SetAbility(void *mon, u32 species, u32 form);
@@ -600,15 +600,15 @@ void INTRUDE_FIELD_Update(struct FieldMap *fieldMap, struct GameSystem *gameSyst
     int i;
     int objCode;
 
-    gameComm = ICA_ANIME_GetField24(gameSystem);
+    gameComm = GAMESYSTEM_GetGameComm(gameSystem);
     work = GAME_COMM_GetWork(gameComm);
-    gameData = ICA_ANIME_GetField1C(gameSystem);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
     if (GAME_DATA_IsSaving(gameData) == 1)
         return;
     INTRUDE_FIELD_UpdateCommState(fieldMap, gameSystem, gameComm, player);
     if (GAME_COMM_GetKind(gameComm) != 2 || work == 0)
         return;
-    zoneId = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetField114(gameData));
+    zoneId = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameData));
     if (work->specialZoneEntered == 0 && ZONEDATA_IsZone117(zoneId) == 1)
         work->specialZoneEntered = 1;
     INTRUDE_FIELD_AddAreaMaps(fieldMap, gameSystem, work);
@@ -800,8 +800,8 @@ int INTRUDE_FIELD_TaskAreaChange(struct GameEvent *event, u32 *seq, AreaChangeWo
     PlayerLook look;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    gameComm = ICA_ANIME_GetField24(gameSystem);
-    gameData = ICA_ANIME_GetField1C(gameSystem);
+    gameComm = GAMESYSTEM_GetGameComm(gameSystem);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
     intrudeWork = INTRUDE_COMM_GetWorkIfRunning(gameComm);
     switch (*seq) {
     case 0:
@@ -890,8 +890,8 @@ int INTRUDE_FIELD_CreateTileEvent(struct FieldMap *fieldMap, struct GameSystem *
     VecFx32 playerPos;
     VecFx32 markerPos;
 
-    zoneId = GAME_DATA_GetPlayerZoneId(ICA_ANIME_GetField114(gameSystem));
-    work = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
+    zoneId = GAME_DATA_GetPlayerZoneId(GAMESYSTEM_GetMyPlayerWork(gameSystem));
+    work = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(gameSystem));
     if (ZONEDATA_IsZone117(zoneId) == 0)
         return 0;
     FIELD_PLAYER_GetPos(player, &playerPos);
@@ -920,7 +920,7 @@ struct GameEvent *INTRUDE_FIELD_CreateEdgeTask(struct GameSystem *gameSystem, st
     int areaCount;
     int offsetInArea;
 
-    work = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
+    work = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(gameSystem));
     edgeDir = 9;
     x = *posX;
     areaCount = 1;
@@ -965,7 +965,7 @@ struct GameEvent *INTRUDE_FIELD_CreateExitConfirmEvent(struct GameSystem *gameSy
  * Byte-correct (528 of 528 bytes).  Sole blocker: the THM_CALL at +0x13C to
  * 0x02012798, an unlabelled arm9 leaf that disasm.py prints as .word data in
  * the pool at 02012794 (asm/arm9/main.s), after the pop at 0x02012790 and before
- * GAME_DATA_GetField114; no listing labels it and this call is its only witness, so
+ * GAME_DATA_GetMyPlayerWork; no listing labels it and this call is its only witness, so
  * every class refuses it.  Verified EXACT at 0x02012798 (arm9, thumb, 10 B):
  *
  *     u8 *GAME_DATA_GetPlayerWork(u8 *p, int i) { return p + 4 + i * 0x44; }
@@ -990,8 +990,8 @@ int INTRUDE_FIELD_EventExitConfirm(struct GameEvent *event, u32 *seq, ExitConfir
     Mmdl *playerMmdl;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    fieldMap = ICA_ANIME_GetField20(gameSystem);
-    gameComm = ICA_ANIME_GetField24(gameSystem);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
+    gameComm = GAMESYSTEM_GetGameComm(gameSystem);
     switch (*seq) {
     case 0:
         FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys(fieldMap));
@@ -1038,7 +1038,7 @@ int INTRUDE_FIELD_EventExitConfirm(struct GameEvent *event, u32 *seq, ExitConfir
             break;
         if (GAME_COMM_GetKind(gameComm) == 2)
             break;
-        gameData = ICA_ANIME_GetField1C(gameSystem);
+        gameData = GAMESYSTEM_GetGameData(gameSystem);
         zeroPosView = (VecFx32 *)zeroPos;
         zeroPosView->x = 0;
         zeroPosView->y = 0;
@@ -1054,7 +1054,7 @@ int INTRUDE_FIELD_EventExitConfirm(struct GameEvent *event, u32 *seq, ExitConfir
         *seq += 1;
         break;
     case 7:
-        fieldMap = ICA_ANIME_GetField20(gameSystem);
+        fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
         if (FIELDMAP_IsReady(fieldMap) != 1)
             break;
         if (FIELD_PLAYER_CheckFormModel(FIELDMAP_GetFieldPlayer(fieldMap)) == 0) {
@@ -1114,8 +1114,8 @@ int INTRUDE_FIELD_EventNotice(struct GameEvent *event, u32 *seq, NoticeEventWork
     struct FieldMsgBg *msgBg;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    fieldMap = ICA_ANIME_GetField20(gameSystem);
-    ICA_ANIME_GetField24(gameSystem);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
+    GAMESYSTEM_GetGameComm(gameSystem);
     switch (*seq) {
     case 0:
         FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys(fieldMap));
@@ -1133,7 +1133,7 @@ int INTRUDE_FIELD_EventNotice(struct GameEvent *event, u32 *seq, NoticeEventWork
         }
         break;
     case 2:
-        fieldMap = ICA_ANIME_GetField20(gameSystem);
+        fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
         if (FIELDMAP_IsReady(fieldMap) == 1) {
             if (FIELD_PLAYER_CheckFormModel(FIELDMAP_GetFieldPlayer(fieldMap)) == 0) {
                 INTRUDE_FIELD_InitPlayerSpin(&work->spin, gameSystem, fieldMap, 0, 0, 0);
@@ -1187,11 +1187,11 @@ void INTRUDE_FIELD_UpdateCommState(struct FieldMap *fieldMap, struct GameSystem 
         return;
     if (DWCi_IsFold() == 1 && UI_IsPowerConnected() == 1)
         return;
-    if (ICA_ANIME_GetUnk330(gameSystem) == 1)
+    if (GAMESYSTEM_IsNetOffBySleep(gameSystem) == 1)
         return;
     if (GAMESYSTEM_IsEventActive(gameSystem) == 1)
         return;
-    if (ZONEDATA_IsZone117(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetField114(ICA_ANIME_GetField1C(gameSystem)))) == 0)
+    if (ZONEDATA_IsZone117(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(GAMESYSTEM_GetGameData(gameSystem)))) == 0)
         return;
     FIELD_PLAYER_GetPos(player, &playerPos);
     switch (GAME_COMM_GetKind(gameComm)) {
@@ -1226,10 +1226,10 @@ void INTRUDE_FIELD_StartComm(struct GameSystem *gameSystem)
     struct GameComm *gameComm;
     IntrudeStartParam *param;
 
-    gameComm = ICA_ANIME_GetField24(gameSystem);
+    gameComm = GAMESYSTEM_GetGameComm(gameSystem);
     if (GFL_NET_ERR_GetErrorLevel() != 0)
         return;
-    if (ICA_ANIME_GetUnk330(gameSystem) == 1)
+    if (GAMESYSTEM_IsNetOffBySleep(gameSystem) == 1)
         return;
     if (DWCi_IsFold() == 1 && UI_IsPowerConnected() == 1)
         return;
@@ -1253,12 +1253,12 @@ void INTRUDE_FIELD_UpdateAreaIndex(struct FieldMap *fieldMap, struct GameSystem 
     struct PlayerWork *playerWork;
     struct GameComm *gameComm;
 
-    playerWork = ICA_ANIME_GetField114(gameSystem);
+    playerWork = GAMESYSTEM_GetMyPlayerWork(gameSystem);
     zoneId = GAME_DATA_GetPlayerZoneId(playerWork);
     GAME_DATA_GetPlayerDirectionType(playerWork);
-    gameComm = ICA_ANIME_GetField24(gameSystem);
+    gameComm = GAMESYSTEM_GetGameComm(gameSystem);
     wrapped = 0;
-    ICA_ANIME_GetField1C(gameSystem);
+    GAMESYSTEM_GetGameData(gameSystem);
     if ((int)GAME_COMM_GetKind(gameComm) != 2)
         return;
     if (work == 0)
@@ -1365,12 +1365,12 @@ void INTRUDE_FIELD_ChangePlayerLook(IntrudeCommSys *work, struct GameSystem *gam
     struct FieldPlayer *player;
     int gender;
     struct PlayerStatus *myStatus;
-    struct GameData *gameData = ICA_ANIME_GetField1C(gameSystem);
+    struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
     VecFx32 drawOffset = { 0, 0, 0 };
 
-    if (ICA_ANIME_Check2114(gameSystem) == 0)
+    if (GAMESYSTEM_IsFieldMapActive(gameSystem) == 0)
         return;
-    myStatus = GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem));
+    myStatus = GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(gameSystem));
     gender = MYSTATUS_GetOutfitVariant(myStatus);
     if (work != 0) {
         if (objCode == 0xFFFF) {
@@ -1394,7 +1394,7 @@ void INTRUDE_FIELD_ChangePlayerLook(IntrudeCommSys *work, struct GameSystem *gam
         if (gender)
             playerForm = 4;
     }
-    player = FIELDMAP_GetFieldPlayer(ICA_ANIME_GetField20(gameSystem));
+    player = FIELDMAP_GetFieldPlayer(GAMESYSTEM_GetFieldMap(gameSystem));
     FIELD_PLAYER_SetObjCode(player, (u16)playerForm);
     FLDMMDL_SetDrawOffset(FIELD_PLAYER_GetMmdl(player), &drawOffset);
     if (objCode == 0)
@@ -1421,7 +1421,7 @@ int INTRUDE_FIELD_TryStartOfferEvent(struct GameSystem *gameSystem, IntrudeCommS
         goto fail;
     if (INTRUDE_COMM_GetJoinStatus(work, &work->session) != 0)
         goto fail;
-    zoneId = GAME_DATA_GetPlayerZoneId(ICA_ANIME_GetField114(gameSystem));
+    zoneId = GAME_DATA_GetPlayerZoneId(GAMESYSTEM_GetMyPlayerWork(gameSystem));
     FLDMMDL_GetGridNowPos(FIELD_PLAYER_GetMmdl(player), &playerGrid);
     offerIndex = offer->head.param.x;
     if (zoneId != gIntrudeOfferZoneIds[offerIndex])
@@ -1527,14 +1527,14 @@ int INTRUDE_FIELD_IsCommAllowed(struct GameSystem *gameSystem, int zoneId)
     struct GameComm *gameComm;
     IntrudeCommSys *work;
 
-    gameData = ICA_ANIME_GetField1C(gameSystem);
-    gameComm = ICA_ANIME_GetField24(gameSystem);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
+    gameComm = GAMESYSTEM_GetGameComm(gameSystem);
     work = INTRUDE_COMM_GetWorkIfRunning(gameComm);
     if (GAME_DATA_GetIntrudeCount(gameData) == 0)
         return 0;
     if (work != 0)
         return 0;
-    if (ICA_ANIME_GetUnk330(gameSystem) == 1)
+    if (GAMESYSTEM_IsNetOffBySleep(gameSystem) == 1)
         return 1;
     if (ZONEDATA_IsZone117(zoneId) == 1) {
         if (GAME_COMM_GetCounter(gameComm) != 0)
@@ -1767,7 +1767,7 @@ struct GameEvent *INTRUDE_FIELD_CreateOfferInfoEvent(struct GameSystem *gameSyst
     struct GameEvent *event;
 
     offer = INTRUDE_COMM_GetActiveSessionRequest(&work->session);
-    ICA_ANIME_GetField1C(gameSystem);
+    GAMESYSTEM_GetGameData(gameSystem);
     event = GAME_EVENT_Create(gameSystem, 0, INTRUDE_FIELD_EventOfferInfo, sizeof(OfferEventWork));
     eventWork = GAME_EVENT_GetWork(event);
     MI_CpuFill8(eventWork, 0, sizeof(OfferEventWork));
@@ -1792,7 +1792,7 @@ int INTRUDE_FIELD_EventOfferInfo(struct GameEvent *event, u32 *seq, OfferEventWo
     u8 ownId;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    intrudeWork = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
+    intrudeWork = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(gameSystem));
     if (intrudeWork == 0 && *seq == 0)
         *seq = 8;
 
@@ -1824,7 +1824,7 @@ int INTRUDE_FIELD_EventOfferInfo(struct GameEvent *event, u32 *seq, OfferEventWo
         (*seq)++;
         break;
     case 4:
-        ownId = (int)GAME_DATA_GetOwnNetId(ICA_ANIME_GetField1C(gameSystem));
+        ownId = (int)GAME_DATA_GetOwnNetId(GAMESYSTEM_GetGameData(gameSystem));
         INTRUDE_FIELD_InitPlayerSpin(&work->spin, gameSystem, work->fieldMap, work->record.head.ids[ownId], work->record.head.grades[ownId], ((IntrudeNetIdMask *)&work->record.head.reserved08)->netIds & (1 << ownId));
         (*seq)++;
         break;
@@ -1901,7 +1901,7 @@ int INTRUDE_FIELD_StepPlayerSpin(PlayerSpinWork *spin, IntrudeCommSys *work)
                 if (spin->switched == 0) {
                     spin->stepFrames--;
                     if (spin->stepFrames <= 1) {
-                        ICA_ANIME_GetField1C(spin->gameSystem);
+                        GAMESYSTEM_GetGameData(spin->gameSystem);
                         INTRUDE_FIELD_ChangePlayerLook(work, spin->gameSystem, spin->objCode, spin->kind, spin->flag);
                         spin->switched++;
                     }

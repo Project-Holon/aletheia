@@ -236,7 +236,7 @@ extern int FIELD_G3DOBJ_SetResDescModel(FieldG3dResDesc *desc, ArcHandle *arc, u
 extern void FIELD_G3DOBJ_SetResDescAnimeArc(FieldG3dResDesc *desc, ArcHandle *arc);
 extern void FIELD_G3DOBJ_AddResDescAnimeFile(FieldG3dResDesc *desc, u32 animeFile);
 extern int FIELD_G3DOBJ_AddResourceDefaultPal(FieldG3dObjSys *g3dObjSys, FieldG3dResDesc *desc, u32 flags);
-extern u16 FIELD_G3DOBJ_AddObject(FieldG3dObjSys *g3dObjSys, u32 resId, u32 arg2, u32 arg3);
+extern u16 FIELD_G3DOBJ_AddObject(FieldG3dObjSys *g3dObjSys, u32 resId, u32 modelIdx, u32 pos);
 extern void FIELD_G3DOBJ_SetObjectManualDraw(FieldG3dObjSys *g3dObjSys, u32 objId, u32 manualDraw);
 extern u32 FIELD_G3DOBJ_DeleteObject(FieldG3dObjSys *g3dObjSys, u32 objId);
 extern void FIELD_G3DOBJ_DeleteResource(FieldG3dObjSys *g3dObjSys, int resId);

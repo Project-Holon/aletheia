@@ -229,13 +229,13 @@ extern void G3X_SetDisp1DotDepth(int);
 
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32,u32);
 
-extern void *ICA_ANIME_CreateStream(u32 heap, u32 a1, u32 a2, u32 a3);
+extern void *ICA_ANIME_CreateStream(u32 heap, u32 arcId, u32 dataId, u32 bufFrameNum);
 
 void DEMO3D_GRAPHIC_UpdateLookAt(Demo3dGraphic *p);
 
 void DEMO3D_GRAPHIC_EndDraw(Demo3dGraphic *p);
 
-void DEMO3D_GRAPHIC_SetupLightBlock(Demo3dGraphic *graphic, unsigned short *colors, int a2);
+void DEMO3D_GRAPHIC_SetupLightBlock(Demo3dGraphic *graphic, unsigned short *colors, int unused);
 
 void DEMO3D_GRAPHIC_DeleteDouble3d(void);
 

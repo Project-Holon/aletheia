@@ -126,7 +126,7 @@
  *   GFL_USE_PushBgm  0x02005E64  thumb  arm9
  *   GFL_USE_PopBgm  0x02005E9C  thumb  arm9
  *   BSUBWAY_SAVEDATA_SetTrainers  0x0200DE6C  thumb  arm9
- *   ICA_ANIME_GetField1C  0x020120F4  thumb  arm9
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb  arm9
  *   GDS_PROFILE_GetScoreRecScoreHigh  0x0200DCFC  thumb  arm9
  *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb  arm9
  *   MYSTATUS_NameFromStrbuf  0x020084E4  thumb  arm9
@@ -179,7 +179,7 @@ extern int GF_OVERLAY_Load(int handle);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(void *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,unsigned);
-extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008AECObj *CONSOLE_STAMP_GetFromSave(void *sys);
 extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
@@ -202,7 +202,7 @@ extern void WIFI_BSUBWAY_GRAPHIC_PrintMessage(void *,u32);
 extern void WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon(u8 *p);
 extern int WIFI_BSUBWAY_StatusCheckMessage(u8 *,unsigned),WIFI_BSUBWAY_FinishProfileUpload(u8 *,u8 *),WIFI_BSUBWAY_GRAPHIC_DispatchTable(u8 *,int),WIFI_BSUBWAY_GRAPHIC_EndBt(u8 *);
 extern void WIFI_BSUBWAY_StartProfileUpload(u8 *,void *,u8 *),WIFI_BSUBWAY_GRAPHIC_CancelBt(u8 *),WIFI_BSUBWAY_GRAPHIC_DeleteWindow(u8 *),WIFI_BSUBWAY_GRAPHIC_StartRetryProc(u8 *);
-extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
+extern u32 GFL_NET_ERR_ShowScreen(u32 isFatal);
 extern int WIFI_BSUBWAY_GRAPHIC_CheckNetError(u8 *);
 extern int WIFI_BSUBWAY_GRAPHIC_IsPrintDone(u8 *);
 extern void WIFI_BSUBWAY_AbortHttpRequest(u8 *),DPW_BT_Main(void),WIFI_BSUBWAY_GRAPHIC_UpdateText(u8 *);
@@ -278,7 +278,7 @@ extern int DPW_BT_IsAsyncEnd(void);
 extern int DPW_BT_GetAsyncResult(void);
 extern void DPW_BT_CancelAsync(void);
 extern void GFL_NET_ERR_RaiseFatal(unsigned int x);
-extern struct Param *CODEIN_PARAM_Create(u32 heap, u32 a1, u32 a2, u32 a3, u32 *src);
+extern struct Param *CODEIN_PARAM_Create(u32 heap, u32 mode, u32 initialPage, u32 maxLength, u32 *src);
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 int WIFI_BSUBWAY_Create(void *ctx,int unused,u8 *q);
 int WIFI_BSUBWAY_Step(void *a,int *state,int b,u8 *p);
@@ -336,7 +336,7 @@ int WIFI_BSUBWAY_Create(void *task,int unused,u8 *parent) {
     MI_CpuFill8(work,0,0x185c);
     *(u8 **)work=parent;
     *(int *)(parent+8)=1;
-    saveControl=ICA_ANIME_GetField1C(*(void **)(*(u8 **)work+4));
+    saveControl=GAMESYSTEM_GetGameData(*(void **)(*(u8 **)work+4));
     parent=GAME_DATA_GetSaveControl(saveControl);
     *(void **)(work+0x1844)=saveControl;
     *(int *)(work+0x1848)=(int)CONSOLE_STAMP_GetFromSave(parent);

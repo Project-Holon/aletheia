@@ -528,9 +528,9 @@
  *   BTLV_CORE_SkipBagPartyPrompt 0x021E9E70 thumb ov093
  *   BTLV_CORE_PollBagMenu 0x021E9E80 thumb ov093
  *   BTLV_CORE_GetSelectedItem 0x021EA01C thumb ov093
- *   BTLV_CORE_GetInputTargetSlot 0x021EA044 thumb ov093
- *   BTLV_CORE_GetSelectedItemPocket 0x021EA030 thumb ov093
- *   BTLV_CORE_GetInputResultFlag 0x021EA04C thumb ov093
+ *   BTLV_CORE_GetItemTargetSlot 0x021EA044 thumb ov093
+ *   BTLV_CORE_GetSelectedItemCost 0x021EA030 thumb ov093
+ *   BTLV_CORE_GetItemTargetFlag 0x021EA04C thumb ov093
  *   BTL_ACTION_SetItem 0x021D8358 thumb ov093
  *   BTLV_CORE_SaveBagCursors 0x021EA058 thumb ov093
  *   BTLV_CORE_ConsumeMessageFlag 0x021EA720 thumb ov093
@@ -638,7 +638,7 @@
  *   gExpGainWork 0x021F3B64 data a4
  *   GFL_USE_IsSeqPlaying 0x02006254 thumb
  *   POKE_TOOL_SetMoveSlot   0x020181F4  thumb
- *   POKE_TOOL_GetLevelUpMove   0x02018328  thumb
+ *   POKE_TOOL_LearnLevelUpMove   0x02018328  thumb
  *   BTLV_CORE_BuildAndPrintMessageFlag   0x021EA638  thumb ov093
  *   BTLV_CORE_StartMoveForgetScreen   0x021EAC64  thumb ov093
  *   BTLV_CORE_ProcMoveForgetScreen   0x021EAC80  thumb ov093
@@ -862,10 +862,10 @@ void BTL_SERVER_CMD_WriteCommand(BtlServerCmdQueue *queue, u32 id, int layout, s
         BTL_SERVER_CMD_WriteU16(queue, args[4]);
         break;
     case 0x06: {
-        u16 v0 = (args[2] & 0x1F) | (((args[1] & 0x1F) << 5) | ((args[0] & 0x1F) << 10));
-        u16 v1 = (args[5] & 0x1F) | (((args[4] & 0x1F) << 5) | ((args[3] & 0x1F) << 10));
-        BTL_SERVER_CMD_WriteU16(queue, v0);
-        BTL_SERVER_CMD_WriteU16(queue, v1);
+        u16 packedFirst = (args[2] & 0x1F) | (((args[1] & 0x1F) << 5) | ((args[0] & 0x1F) << 10));
+        u16 packedSecond = (args[5] & 0x1F) | (((args[4] & 0x1F) << 5) | ((args[3] & 0x1F) << 10));
+        BTL_SERVER_CMD_WriteU16(queue, packedFirst);
+        BTL_SERVER_CMD_WriteU16(queue, packedSecond);
         break;
     }
     case 0x16:
@@ -1027,14 +1027,14 @@ void BTL_SERVER_CMD_ReadFixedArgs(BtlServerCmdQueue *queue, int layout, s32 *arg
         args[4] = BTL_SERVER_CMD_ReadU16(queue);
         break;
     case 0x06: {
-        u32 v0 = BTL_SERVER_CMD_ReadU16(queue);
-        u32 v1 = BTL_SERVER_CMD_ReadU16(queue);
-        args[0] = (v0 >> 10) & 0x1F;
-        args[1] = (v0 >> 5) & 0x1F;
-        args[2] = v0 & 0x1F;
-        args[3] = (v1 >> 10) & 0x1F;
-        args[4] = (v1 >> 5) & 0x1F;
-        args[5] = v1 & 0x1F;
+        u32 packedFirst = BTL_SERVER_CMD_ReadU16(queue);
+        u32 packedSecond = BTL_SERVER_CMD_ReadU16(queue);
+        args[0] = (packedFirst >> 10) & 0x1F;
+        args[1] = (packedFirst >> 5) & 0x1F;
+        args[2] = packedFirst & 0x1F;
+        args[3] = (packedSecond >> 10) & 0x1F;
+        args[4] = (packedSecond >> 5) & 0x1F;
+        args[5] = packedSecond & 0x1F;
         break;
     }
     case 0x16:

@@ -43,7 +43,7 @@
  *   NNS_G3dMdlSetMdlPolygonMode  0x0206E40C  arm
  *   G3D_SYSTEM_DrawObject  0x02047A60  arm
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
- *   ICA_ANIME_GetField20  0x0201210C  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetFld3dCi  0x02189A00  thumb  ov021
  *   VM_ReadU16  0x02011330  thumb
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
@@ -56,7 +56,7 @@
  *   gFld3dCiIdTable     0x021DAAE2  data  a2
  *   GAME_EVENT_Create  0x020122C0  thumb
  *   GAME_EVENT_GetWork  0x020124E8  thumb
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  *   ZONEDATA_SetZoneStartLocation  0x02014204  thumb
@@ -216,7 +216,7 @@ extern void G3D_SYSTEM_DrawObject(void *object, G3dObjectStatus *status);
 
 extern GameSystem *SCRCMD_WORK_GetGameSystem(ScrCmdWork *work);
 
-extern FieldMap *ICA_ANIME_GetField20(GameSystem *gameSystem);
+extern FieldMap *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
 
 extern Fld3dCi *FIELDMAP_GetFld3dCi(FieldMap *fieldMap);
 
@@ -238,7 +238,7 @@ extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, i
 
 extern void *GAME_EVENT_GetWork(GameEvent *event);
 
-extern void *ICA_ANIME_GetField1C(GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetGameData(GameSystem *gameSystem);
 
 extern MyStatus *GAME_DATA_GetMyStatus(void *gameData);
 
@@ -391,7 +391,7 @@ int SCRCMD_StartFld3dCi(ScriptVm *vm, ScrCmdWork *work)
     ScriptSystem *scriptSys;
     GameEvent *event;
     gameSystem = SCRCMD_WORK_GetGameSystem(work);
-    ci = FIELDMAP_GetFld3dCi(ICA_ANIME_GetField20(gameSystem));
+    ci = FIELDMAP_GetFld3dCi(GAMESYSTEM_GetFieldMap(gameSystem));
     ciId = VM_ReadU16(vm);
     scriptSys = SCRCMD_WORK_GetScriptWork(work);
     event = FLD3D_CI_StartSequence(gameSystem, ci, (unsigned char)ciId);
@@ -410,7 +410,7 @@ int SCRCMD_StartFld3dCiByVar(ScriptVm *vm, ScrCmdWork *work)
     ScriptSystem *scriptSys;
     GameEvent *event;
     gameSystem = SCRCMD_WORK_GetGameSystem(work);
-    ci = FIELDMAP_GetFld3dCi(ICA_ANIME_GetField20(gameSystem));
+    ci = FIELDMAP_GetFld3dCi(GAMESYSTEM_GetFieldMap(gameSystem));
     ciId = SCRIPT_WORK_ReadWorkValue(vm, work);
     scriptSys = SCRCMD_WORK_GetScriptWork(work);
     event = FLD3D_CI_StartPartyMemberSequence(gameSystem, ci, (unsigned char)ciId);
@@ -429,7 +429,7 @@ int SCRCMD_RunFld3dCiMain(ScriptVm *vm, ScrCmdWork *work)
     ScriptSystem *scriptSys;
     GameEvent *event;
     gameSystem = SCRCMD_WORK_GetGameSystem(work);
-    ci = FIELDMAP_GetFld3dCi(ICA_ANIME_GetField20(gameSystem));
+    ci = FIELDMAP_GetFld3dCi(GAMESYSTEM_GetFieldMap(gameSystem));
     value = (int)SCRIPT_WORK_ReadWorkValue(vm, work);
     scriptSys = SCRCMD_WORK_GetScriptWork(work);
     event = FLD3D_CI_StartMessageSequence(gameSystem, ci, value);
@@ -451,7 +451,7 @@ int SCRCMD_StartFld3dCiByTable(ScriptVm *vm, ScrCmdWork *work)
     unsigned short ciId;
     GameEvent *event;
     gameSystem = SCRCMD_WORK_GetGameSystem(work);
-    ci = FIELDMAP_GetFld3dCi(ICA_ANIME_GetField20(gameSystem));
+    ci = FIELDMAP_GetFld3dCi(GAMESYSTEM_GetFieldMap(gameSystem));
     value = (int)SCRIPT_WORK_ReadWorkValue(vm, work);
     found = 0;
     for (i = 0; i < 17; i++) {
@@ -482,7 +482,7 @@ GameEvent *FLD_WIPE_3DOBJ_CreateMapChangeEvent(GameSystem *gameSystem, int unuse
     MI_CpuFill8(work, 0, 0x30);
     work->gameSystem = gameSystem;
     work->zoneId = zoneId;
-    if (MYSTATUS_GetOutfitVariant(GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem))) == 0) {
+    if (MYSTATUS_GetOutfitVariant(GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(gameSystem))) == 0) {
         work->cutInIdBefore = 11;
         cutInIdAfter = 12;
     } else {
@@ -505,12 +505,12 @@ int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeW
     void *msgBg;
     u32 visiblePlanes;
     Mmdl *mmdl;
-    CameraAnimParam param1;
-    CameraAnimParam param2;
+    CameraAnimParam firstCameraParam;
+    CameraAnimParam secondCameraParam;
     VecFx32 playerPos1;
     VecFx32 playerPos2;
     CameraAnimFlags flags;
-    fieldMap = ICA_ANIME_GetField20(work->gameSystem);
+    fieldMap = GAMESYSTEM_GetFieldMap(work->gameSystem);
     camera = FIELDMAP_GetCamera(fieldMap);
     ci = FIELDMAP_GetFld3dCi(fieldMap);
     bg = FIELDMAP_GetNogridMapper(fieldMap);
@@ -528,21 +528,21 @@ int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeW
         FIELD_CAMERA_StopTargetTrace(camera);
         FIELD_CAMERA_PushState(camera);
         FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(fieldMap), &playerPos1);
-        param1.pitch = 0x25d8;
-        param1.yaw = 0;
-        param1.distance = 0xed000;
-        param1.targetOffset.x = 0;
-        param1.targetOffset.y = 0x4000;
-        param1.targetOffset.z = 0;
-        param1.targetPos = playerPos1;
-        param1.fovy = 0xe38;
-        param1.flags.apply[0] = 1;
-        param1.flags.apply[1] = 1;
-        param1.flags.apply[2] = 0;
-        param1.flags.apply[3] = 1;
-        param1.flags.apply[4] = 1;
-        param1.flags.apply[5] = 1;
-        FIELD_CAMERA_StartMove(camera, &param1, 10);
+        firstCameraParam.pitch = 0x25d8;
+        firstCameraParam.yaw = 0;
+        firstCameraParam.distance = 0xed000;
+        firstCameraParam.targetOffset.x = 0;
+        firstCameraParam.targetOffset.y = 0x4000;
+        firstCameraParam.targetOffset.z = 0;
+        firstCameraParam.targetPos = playerPos1;
+        firstCameraParam.fovy = 0xe38;
+        firstCameraParam.flags.apply[0] = 1;
+        firstCameraParam.flags.apply[1] = 1;
+        firstCameraParam.flags.apply[2] = 0;
+        firstCameraParam.flags.apply[3] = 1;
+        firstCameraParam.flags.apply[4] = 1;
+        firstCameraParam.flags.apply[5] = 1;
+        FIELD_CAMERA_StartMove(camera, &firstCameraParam, 10);
         (*seq)++;
     case 2:
         if (FIELD_CAMERA_IsMoving(camera) != 0)
@@ -578,21 +578,21 @@ int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeW
         FIELD_CAMERA_PushStateConstrained(camera);
         FIELD_CAMERA_SetAreasEnabled(camera, 0);
         FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(fieldMap), &playerPos2);
-        param2.pitch = 0x25d8;
-        param2.yaw = 0;
-        param2.distance = 0xed000;
-        param2.targetOffset.x = 0;
-        param2.targetOffset.y = 0x4000;
-        param2.targetOffset.z = 0;
-        param2.targetPos = playerPos2;
-        param2.fovy = 0xe38;
-        param2.flags.apply[0] = 1;
-        param2.flags.apply[1] = 1;
-        param2.flags.apply[2] = 0;
-        param2.flags.apply[3] = 1;
-        param2.flags.apply[4] = 1;
-        param2.flags.apply[5] = 1;
-        FIELD_CAMERA_StartMove(camera, &param2, 1);
+        secondCameraParam.pitch = 0x25d8;
+        secondCameraParam.yaw = 0;
+        secondCameraParam.distance = 0xed000;
+        secondCameraParam.targetOffset.x = 0;
+        secondCameraParam.targetOffset.y = 0x4000;
+        secondCameraParam.targetOffset.z = 0;
+        secondCameraParam.targetPos = playerPos2;
+        secondCameraParam.fovy = 0xe38;
+        secondCameraParam.flags.apply[0] = 1;
+        secondCameraParam.flags.apply[1] = 1;
+        secondCameraParam.flags.apply[2] = 0;
+        secondCameraParam.flags.apply[3] = 1;
+        secondCameraParam.flags.apply[4] = 1;
+        secondCameraParam.flags.apply[5] = 1;
+        FIELD_CAMERA_StartMove(camera, &secondCameraParam, 1);
         (*seq)++;
     case 7:
         if (FIELD_CAMERA_IsMoving(camera) != 0)
@@ -645,7 +645,7 @@ int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeW
 /* Fades the screen out, then ends. */
 int FLD_WIPE_3DOBJ_FadeOutEventMain(GameEvent *event, int *seq)
 {
-    ICA_ANIME_GetField20(GAME_EVENT_GetGameSystem(event));
+    GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
     switch (*seq) {
     case 0:
         FADE_Start(3, 0x10, 0, 0);

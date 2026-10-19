@@ -59,10 +59,10 @@ typedef struct NNSG2dRenderSurface NNSG2dRenderSurface;
 struct NNSG2dRenderSurface {
     u8   viewRect[0x10];
     int  isActive;
-    int  isSoftwareSprite;
+    int  type;
     u8   pad_18[0x10];
-    int  viewOffsetX;
-    int  viewOffsetY;
+    int  pFuncOamRegister;
+    int  pFuncOamAffineRegister;
     NNSG2dRenderSurface *pNextSurface;
     int  (*pFuncVisibilityCulling)(void *pCellData, MtxFx32 *pMtx, void *pSurface);
     void (*pBeforeDrawCellBackFunc)(void *pRend, void *pSurface, void *pCellData, MtxFx32 *pMtx);

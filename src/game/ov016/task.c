@@ -48,10 +48,10 @@
 struct ListCB;
 struct TCB;
 typedef struct TaskNode {
-    int f0;
+    int prev;
     struct TCB *first;          /* +0x04 */
-    int f8;
-    int fc;
+    int func;
+    int work;
 } TaskNode;
 
 typedef struct {

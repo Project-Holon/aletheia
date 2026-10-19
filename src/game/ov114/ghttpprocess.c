@@ -342,7 +342,7 @@ void ghiDoSocketInit(GHIConnection *connection)
         ghttpSetRequestEncryptionEngine(connection->request, 0);
         gsDebugFormat(8, 0, 2, sGhttpEncryptionEngineSetForUnsecured);
     }
-    if (connection->protocol == 1 && connection->encryptor.field_08 == 0) {
+    if (connection->protocol == 1 && connection->encryptor.interfaceCreated == 0) {
         gsDebugFormat(8, (char *)3, 15, sGhttpInitializingSslEngine);
         aResult = connection->encryptor.initFunc(connection, &connection->encryptor);
         if (aResult == 3) {
@@ -628,7 +628,7 @@ void ghiDoSendingRequest(GHIConnection *connection)
         else
             writeBuffer = &connection->encodeBuffer;
 
-        if (connection->post != 0 && !connection->postingState.field_1C)
+        if (connection->post != 0 && !connection->postingState.completed)
             requestType = sGhttpPost;
         else if (connection->type == 3)
             requestType = sGhttpHead;
@@ -663,7 +663,7 @@ void ghiDoSendingRequest(GHIConnection *connection)
         else
             ghiAppendHeaderToBuffer(writeBuffer, sGhttpConnection, sGhttpClose);
 
-        if (connection->post != 0 && !connection->postingState.field_1C)
+        if (connection->post != 0 && !connection->postingState.completed)
         {
             OS_SPrintf(buf, sGhttpIntFormatProcess, connection->postingState.totalBytes);
             ghiAppendHeaderToBuffer(writeBuffer, sGhttpContentLength, buf);
@@ -692,7 +692,7 @@ void ghiDoSendingRequest(GHIConnection *connection)
         return;
     ghiResetBuffer(&connection->sendBuffer);
 
-    if (connection->post != 0 && !connection->postingState.field_1C)
+    if (connection->post != 0 && !connection->postingState.completed)
         connection->state = 6;
     else
         connection->state = 7;
@@ -736,7 +736,7 @@ void ghiDoPosting(GHIConnection *connection)
     if (result != 1)
         return;
     ghiPostCleanupState(connection);
-    connection->postingState.field_1C = 1;
+    connection->postingState.completed = 1;
     connection->state = 7;
     ghiCallProgressCallback(connection, 0, 0);
 }

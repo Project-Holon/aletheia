@@ -142,17 +142,17 @@ void BR_GRAPHIC_InitBgWindows(void *bgState,unsigned heapId);
 
 void BR_GRAPHIC_ExitBgWindows(void *bgState);
 
-void BR_GRAPHIC_DrawBg(void *a0);
+void BR_GRAPHIC_DrawBg(void *bgState);
 
-void BR_GRAPHIC_VBlankBg(void *a0);
+void BR_GRAPHIC_VBlankBg(void *bgState);
 
 void BR_GRAPHIC_InitActors(int *p, int b, int c);
 
 void BR_GRAPHIC_ExitActors(struct BrActorSys *actorSys);
 
-void BR_GRAPHIC_DrawActors(void *a0);
+void BR_GRAPHIC_DrawActors(void *actorSys);
 
-void BR_GRAPHIC_VBlankActors(void *a0);
+void BR_GRAPHIC_VBlankActors(void *actorSys);
 
 u32 BR_GRAPHIC_GetUnitFromActorSys(u32*p);
 

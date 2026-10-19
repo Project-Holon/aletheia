@@ -33,7 +33,7 @@ extern void DC_InvalidateRange(u8 *, u32);
 extern void NWMi_SetCallbackTable(u32, u32);
 extern u32 NWMi_SendCommand(u32, u32, u32);
 
-u32 NWM_SetPowerSaveMode(u32 a0, u32 a1) {
+u32 NWM_SetPowerSaveMode(u32 callback, u32 powerSave) {
     u32 r;
     u32 busy;
     TwlWork *w;
@@ -52,9 +52,9 @@ u32 NWM_SetPowerSaveMode(u32 a0, u32 a1) {
     if (busy == 1) {
         return 3;
     }
-    NWMi_SetCallbackTable(14, a0);
+    NWMi_SetCallbackTable(14, callback);
     NWMi_GetSystemWork();
-    r = NWMi_SendCommand(14, 1, a1);
+    r = NWMi_SendCommand(14, 1, powerSave);
     if (r == 0 || r == 2) {
         r = 2;
     }

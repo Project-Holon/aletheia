@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_NETWORK_RecordLinkOnFinish
+ * function: EVENT_FIELD_MENU_OnFinish
  * address:  0x0215FEF4
  * packet:   pkt_ov010_0215FEF4
  * region:   ov010
@@ -24,7 +24,7 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct BigObj;
 extern void GAME_DATA_SetSubscreenType(struct BigObj *p, u32 v);
 
-int SCRCMD_NETWORK_RecordLinkOnFinish(u32 *a0, u32 *a1)
+int EVENT_FIELD_MENU_OnFinish(u32 *a0, u32 *a1)
 {
     void *h = GAMESYSTEM_GetGameData((const struct Ctx *)a1[2]);
 

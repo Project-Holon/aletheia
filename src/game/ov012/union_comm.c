@@ -52,7 +52,7 @@
  *   MYSTATUS_GetId  0x02008530  thumb
  *   MYSTATUS_GetLanguage  0x0200856C  thumb
  *   MYSTATUS_GetVersion  0x02008570  thumb
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetField1A0  0x0201283C  thumb
  *   WIFILIST_MakeExchangeToken  0x02009CB0  thumb
  *   UNION_APP_IsClosed  0x021840C8  thumb  ov022
@@ -145,7 +145,7 @@ extern u8 MYSTATUS_GetLanguage(const struct MyStatus *status);
 
 extern u8 MYSTATUS_GetVersion(const struct MyStatus *status);
 
-extern struct GameData *ICA_ANIME_GetField1C(struct GameSystem *gameSystem);
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 
 extern struct WifiList *GAME_DATA_GetField1A0(struct GameData *gameData);
 
@@ -613,7 +613,7 @@ void UNION_COMM_BuildBeacon(UnionRoomWork *work, UnionBeacon *beacon)
     beacon->nation = MYSTATUS_GetLanguage(work->parent->myStatus);
     beacon->area = MYSTATUS_GetVersion(work->parent->myStatus);
     beacon->group = situation->connect.group;
-    WIFILIST_MakeExchangeToken(GAME_DATA_GetField1A0(ICA_ANIME_GetField1C(work->parent->gameSystem)), beacon->friendKey);
+    WIFILIST_MakeExchangeToken(GAME_DATA_GetField1A0(GAMESYSTEM_GetGameData(work->parent->gameSystem)), beacon->friendKey);
     if (work->app != 0)
         beacon->appActive = UNION_APP_IsClosed(work->app);
     else

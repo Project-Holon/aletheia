@@ -263,7 +263,7 @@ extern int strncmp(const char *s1, const char *s2, u32 n);
 extern int strcmp(const char *s1, const char *s2);
 extern const char *strncpy(const char *dest, const char *src, unsigned int n);
 extern const char *strstr(const char *s1, const char *s2);
-extern int atoi(u32 a0);
+extern int atoi(u32 s);
 extern void *memmove(void *dst, const void *src, unsigned long n);
 /*
  * sdk:      DWC_Http_Create (libdwcauth.TWL.HYB.a dwc_http.o)

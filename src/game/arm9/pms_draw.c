@@ -183,9 +183,9 @@ extern u8 BMP_WIN_GetPosX(struct Descriptor *p);
 
 extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
 
-extern u32 CLACT_RegisterPaletteEx(void *h, u32 a1, u32 engine, u32 a3, u32 s0, u32 s1, u32 s2);
+extern u32 CLACT_RegisterPaletteEx(void *h, u32 file_idx, u32 engine, u32 vram_offset, u32 s0, u32 s1, u32 s2);
 
-extern u32 CLACT_RegisterCharacter(void *h, u32 a1, u32 a2, u32 engine, u32 s0);
+extern u32 CLACT_RegisterCharacter(void *h, u32 file_idx, u32 compressed, u32 engine, u32 s0);
 
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
@@ -252,7 +252,7 @@ extern void CLACT_SetActorPos(struct Actor *actor, const struct PmsPoint *src);
 
 extern void PMSI_PARAM_Copy(struct Rec8 *dst, const struct Rec8 *src);
 
-extern u32 PMSI_PARAM_Validate(struct PmsData *p, u32 a1, u32 a2);
+extern u32 PMSI_PARAM_Validate(struct PmsData *p, u32 allowEmpty, u32 heapId);
 
 extern void *PMSI_PARAM_GetSourceString(const struct PmsData *obj, u32 heapId);
 

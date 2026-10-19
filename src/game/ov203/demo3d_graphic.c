@@ -204,7 +204,7 @@ void DEMO3D_GRAPHIC_EndDraw(Demo3dGraphic *p);
 
 int DEMO3D_GRAPHIC_GetUnit(Demo3dGraphic *p);
 
-void DEMO3D_GRAPHIC_SetupLightBlock(Demo3dGraphic *graphic, unsigned short *colors, int a2);
+void DEMO3D_GRAPHIC_SetupLightBlock(Demo3dGraphic *graphic, unsigned short *colors, int unused);
 
 void DEMO3D_GRAPHIC_SetLightSlot(Demo3dGraphic *p, unsigned i, unsigned short val);
 
@@ -216,17 +216,17 @@ void DEMO3D_GRAPHIC_InitBg(Demo3dGraphic *ctx, unsigned heap);
 
 void DEMO3D_GRAPHIC_DeleteBg(Demo3dGraphic *ctx);
 
-void DEMO3D_GRAPHIC_Noop(void *a0);
+void DEMO3D_GRAPHIC_Noop(void *unused);
 
-void DEMO3D_GRAPHIC_UpdateBg(void *a0);
+void DEMO3D_GRAPHIC_UpdateBg(void *unused);
 
 void DEMO3D_GRAPHIC_InitClact(Demo3dGraphicClact *p, int a, int b);
 
 void DEMO3D_GRAPHIC_DeleteClact(Demo3dGraphicClact *p);
 
-void DEMO3D_GRAPHIC_DrawClact(void *a0);
+void DEMO3D_GRAPHIC_DrawClact(void *unused);
 
-void DEMO3D_GRAPHIC_VBlankClact(u8 *a0);
+void DEMO3D_GRAPHIC_VBlankClact(u8 *unused);
 
 int DEMO3D_GRAPHIC_GetClactUnit(Demo3dGraphicClact *p);
 
@@ -316,7 +316,7 @@ void DEMO3D_GRAPHIC_EndDraw(Demo3dGraphic *p){DEMO3D_GRAPHIC_DrawEnd(&p->g3dTag)
 
 int DEMO3D_GRAPHIC_GetUnit(Demo3dGraphic *p){return DEMO3D_GRAPHIC_GetClactUnit((Demo3dGraphicClact *)&p->clact);}
 
-void DEMO3D_GRAPHIC_SetupLightBlock(Demo3dGraphic *graphic, unsigned short *colors, int a2)
+void DEMO3D_GRAPHIC_SetupLightBlock(Demo3dGraphic *graphic, unsigned short *colors, int unused)
 {
     Demo3dGraphicG3d *p = (Demo3dGraphicG3d *)&graphic->g3dTag;
     G3D_LIGHT_SetColor(p->lightSlots,0,colors);
@@ -377,9 +377,9 @@ void DEMO3D_GRAPHIC_DeleteBg(Demo3dGraphic *ctx)
     MI_CpuFill8(ctx, 0, 4);
 }
 
-void DEMO3D_GRAPHIC_Noop(void *a0){}
+void DEMO3D_GRAPHIC_Noop(void *unused){}
 
-void DEMO3D_GRAPHIC_UpdateBg(void *a0){BG_SYS_Update();}
+void DEMO3D_GRAPHIC_UpdateBg(void *unused){BG_SYS_Update();}
 
 void DEMO3D_GRAPHIC_InitClact(Demo3dGraphicClact *p, int a, int b)
 {
@@ -397,9 +397,9 @@ void DEMO3D_GRAPHIC_DeleteClact(Demo3dGraphicClact *p)
     MI_CpuFill8(p, 0, 4);
 }
 
-void DEMO3D_GRAPHIC_DrawClact(void *a0){CLACT_DrawSystem();}
+void DEMO3D_GRAPHIC_DrawClact(void *unused){CLACT_DrawSystem();}
 
-void DEMO3D_GRAPHIC_VBlankClact(u8 *a0) { CLACT_VBlankSystem(); }
+void DEMO3D_GRAPHIC_VBlankClact(u8 *unused) { CLACT_VBlankSystem(); }
 
 int DEMO3D_GRAPHIC_GetClactUnit(Demo3dGraphicClact *p){return (int)p->unit;}
 

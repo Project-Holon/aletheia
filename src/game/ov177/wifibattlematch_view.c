@@ -237,8 +237,8 @@ typedef struct {
 typedef struct {
     char pad0[0x28];
     unsigned score;      /* 0x28 */
-    u32 f2c;             /* 0x2c */
-    void *f30;           /* 0x30 */
+    u32 losses;          /* 0x2c */
+    void *total;           /* 0x30 */
     unsigned count;      /* 0x34 */
     char name[1];        /* 0x38 */
 } WifiBattleMatchViewRecord;
@@ -277,11 +277,11 @@ extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, 
 
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u16 mode);
 
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, u32 unpackedOut, u32 flags);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
@@ -381,7 +381,7 @@ extern int POKE_TOOL_GetIconCellArcId(void);
 
 extern int POKE_TOOL_GetIconCellEntryId(void);
 
-extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern int CLACT_RegisterPaletteCompressed(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
 
 extern s32 REGULATION_Party_GetValue(struct Rec1E *p, u32 id, u8 n);
 
@@ -415,7 +415,7 @@ extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
 
 extern u8 MYSTATUS_GetOutfit(const struct PlayerStatus *obj);
 
-extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
+extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 archiveID, u32 memberIdx, u32 channel, u32 offset, u32 size, u32 heapID, u16 flags);
 
 extern u32 BG_SYS_GetBuf(int);
 
@@ -447,7 +447,7 @@ extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 
 extern void GFL_USE_StopSeSlot(int i);
 
-extern void *BATTLE_BOX_CreateParty(int a0, int a1);
+extern void *BATTLE_BOX_CreateParty(int box, int heap);
 
 extern unsigned POKEPARTY_GetCount(void *party);
 
@@ -459,7 +459,7 @@ extern void *POKE_TOOL_GetBoxParam(void *);
 
 extern unsigned POKE_TOOL_GetGraphicIndex(void *);
 
-extern int POKE_TOOL_GetIconPalette(void *a0);
+extern int POKE_TOOL_GetIconPalette(void *box);
 
 u32 *WIFIBATTLEMATCH_VIEW_Create(int unused, int mode, int heap);
 
@@ -475,7 +475,7 @@ void WIFIBATTLEMATCH_VIEW_BlendColors(u32 slot, u16 *out, const u16 *phase, u32 
 
 void WIFIBATTLEMATCH_VIEW_DrawTaggedText(u32 *p, struct PrintSys *win, u32 str, u32 c2, u32 c1, u16 heap);
 
-Work *WIFIBATTLEMATCH_VIEW_CreateMainWindow(const WifiBattleMatchViewMainInfo *info, u32 a1, void *a2, void *owner, void *table, int a5, void *a6, void *a7, void *a8, u16 heap);
+Work *WIFIBATTLEMATCH_VIEW_CreateMainWindow(const WifiBattleMatchViewMainInfo *info, u32 headerMsgId, void *myStatus, void *owner, void *table, int font, void *printQue, void *msgData, void *wordSet, u16 heap);
 
 void WIFIBATTLEMATCH_VIEW_DeleteMainWindow(void *p);
 
@@ -483,13 +483,13 @@ char *WIFIBATTLEMATCH_VIEW_CreateStatusWindow(char *info, u32 a, void *b, void *
 
 void WIFIBATTLEMATCH_VIEW_DeleteStatusWindow(void *p);
 
-void WIFIBATTLEMATCH_VIEW_DrawStatusWindow(char *p, int mode, void *mgr, void *print, int font, u16 a5);
+void WIFIBATTLEMATCH_VIEW_DrawStatusWindow(char *p, int mode, void *mgr, void *print, int font, u16 unused);
 
 char *WIFIBATTLEMATCH_VIEW_CreateDateWindow(char *info, void *a, void *owner, void *table, int b, void *c, void *d, void *e, void *record, int mode, u16 heap);
 
 void WIFIBATTLEMATCH_VIEW_DeleteDateWindow(void *p);
 
-void WIFIBATTLEMATCH_VIEW_DrawDateWindow(char *p, int mode, void *mgr, void *print, int font, u32 a5);
+void WIFIBATTLEMATCH_VIEW_DrawDateWindow(char *p, int mode, void *mgr, void *print, int font, u32 unused);
 
 int WIFIBATTLEMATCH_VIEW_UpdatePokeList(unsigned char *p, void *mgr);
 
@@ -497,11 +497,11 @@ int WIFIBATTLEMATCH_VIEW_StepMainWindow(Work *w);
 
 int WIFIBATTLEMATCH_VIEW_StepMainWindowIdle(Work *w);
 
-void WIFIBATTLEMATCH_VIEW_SetupMainWindow(Work *w, unsigned a1, const WifiBattleMatchViewMainInfo *info, void *a3, u32 a4, void *a5, void *a6, void *a7, int a8, u16 h);
+void WIFIBATTLEMATCH_VIEW_SetupMainWindow(Work *w, unsigned headerMsgId, const WifiBattleMatchViewMainInfo *info, void *myStatus, u32 font, void *printQue, void *msgData, void *wordSet, int highlight, u16 h);
 
-void WIFIBATTLEMATCH_VIEW_SetupDateWindow(Work *w, unsigned a1, const WifiBattleMatchViewStatusInfo *info, void *a3, u32 a4, void *a5, void *a6, void *a7, u16 heap);
+void WIFIBATTLEMATCH_VIEW_SetupDateWindow(Work *w, unsigned drawTotal, const WifiBattleMatchViewStatusInfo *info, void *myStatus, u32 font, void *printQue, void *msgData, void *wordSet, u16 heap);
 
-void WIFIBATTLEMATCH_VIEW_SetupTimeWindow(Work *w, const WifiBattleMatchViewTimeInfo *info, void *a3, int a4, void *a5, void *a6, void *a7, u16 heap);
+void WIFIBATTLEMATCH_VIEW_SetupTimeWindow(Work *w, const WifiBattleMatchViewTimeInfo *info, void *myStatus, int font, void *printQue, void *msgData, void *wordSet, u16 heap);
 
 int WIFIBATTLEMATCH_VIEW_UpdateWindow(unsigned char *p, void *mgr);
 
@@ -523,7 +523,7 @@ void WIFIBATTLEMATCH_VIEW_CreateActorFromInfo(char *p, const WifiBattleMatchView
 
 void WIFIBATTLEMATCH_VIEW_DeleteActorFromInfo(char *p);
 
-WifiBattleMatchViewRecordWork *WIFIBATTLEMATCH_VIEW_CreateRecordWindow(const WifiBattleMatchViewRecord *rec, void *a1, void *a2, void *a3, void *a4, void *a5, void *a6, u32 mode, u32 owner, int style, u16 heap);
+WifiBattleMatchViewRecordWork *WIFIBATTLEMATCH_VIEW_CreateRecordWindow(const WifiBattleMatchViewRecord *rec, void *clunit, void *table, void *font, void *printQue, void *msgData, void *wordSet, u32 mode, u32 owner, int style, u16 heap);
 
 void WIFIBATTLEMATCH_VIEW_DeleteRecordWindow(char *p);
 
@@ -545,7 +545,7 @@ void WIFIBATTLEMATCH_VIEW_CreateRecordActorFromRec(char *p, const WifiBattleMatc
 
 void WIFIBATTLEMATCH_VIEW_DeleteRecordActorObj(WifiBattleMatchViewRecordWork *p);
 
-unsigned WIFIBATTLEMATCH_VIEW_GetEntryValue(void *p, unsigned v, unsigned w);
+unsigned WIFIBATTLEMATCH_VIEW_GetEntryValue(void *total, unsigned wins, unsigned losses);
 
 void **WIFIBATTLEMATCH_VIEW_CreateActorArray(void *owner, void *src, u16 heap);
 
@@ -794,8 +794,8 @@ void WIFIBATTLEMATCH_VIEW_DrawTaggedText(u32 *p, struct PrintSys *win, u32 str, 
 /*
  * note 2026-10-05 (recoup R4): EXACT. Lever: heap parameter u16 with u16 heap parameters on every callee (02030734 first, 021E6718 last, 021E72FC fourth, 021E7464 fifth), no heapId local. u8 also gives EXACT; u16 chosen to match the sibling constructors 5D68/6118/7520. The earlier u16-only try changed only this function and gave 264 B.
  */
-Work *WIFIBATTLEMATCH_VIEW_CreateMainWindow(const WifiBattleMatchViewMainInfo *info, u32 a1, void *a2, void *owner,
-                    void *table, int a5, void *a6, void *a7, void *a8, u16 heap)
+Work *WIFIBATTLEMATCH_VIEW_CreateMainWindow(const WifiBattleMatchViewMainInfo *info, u32 headerMsgId, void *myStatus, void *owner,
+                    void *table, int font, void *printQue, void *msgData, void *wordSet, u16 heap)
 {
     Work *w;
     u32 kind;
@@ -814,7 +814,7 @@ Work *WIFIBATTLEMATCH_VIEW_CreateMainWindow(const WifiBattleMatchViewMainInfo *i
     G2x_SetBlendAlpha_((void *)0x04001050, 4, 8, 15, 3);
     kind = WIFIBATTLEMATCH_VIEW_GetEntryValue(info->total, info->a, info->b);
     if (kind != 5) alt = 0;
-    WIFIBATTLEMATCH_VIEW_SetupMainWindow(w, a1, info, a2, a5, a6, a7, a8, alt, heap);
+    WIFIBATTLEMATCH_VIEW_SetupMainWindow(w, headerMsgId, info, myStatus, font, printQue, msgData, wordSet, alt, heap);
     WIFIBATTLEMATCH_VIEW_CreatePokeActor((u8 *)w, info->name, owner, heap);
     pos.x = 0x120;
     pos.y = 0x44;
@@ -913,7 +913,7 @@ void WIFIBATTLEMATCH_VIEW_DeleteStatusWindow(void *p)
  * --lang c: the output bytes do not change. Older text in this header that
  * asks for the double assignment is superseded.
  */
-void WIFIBATTLEMATCH_VIEW_DrawStatusWindow(char *p, int mode, void *mgr, void *print, int font, u16 a5)
+void WIFIBATTLEMATCH_VIEW_DrawStatusWindow(char *p, int mode, void *mgr, void *print, int font, u16 unused)
 {
     int i;
     void *s;
@@ -1062,7 +1062,7 @@ void WIFIBATTLEMATCH_VIEW_DeleteDateWindow(void *p)
     GFL_HEAP_Free(p);
 }
 
-void WIFIBATTLEMATCH_VIEW_DrawDateWindow(char *p, int mode, void *mgr, void *print, int font, u32 a5)
+void WIFIBATTLEMATCH_VIEW_DrawDateWindow(char *p, int mode, void *mgr, void *print, int font, u32 unused)
 {
     int i;
     void *s;
@@ -1221,7 +1221,7 @@ int WIFIBATTLEMATCH_VIEW_StepMainWindowIdle(Work *w)
     return ret;
 }
 
-void WIFIBATTLEMATCH_VIEW_SetupMainWindow(Work *w, unsigned a1, const WifiBattleMatchViewMainInfo *info, void *a3, u32 a4, void *a5, void *a6, void *a7, int a8, u16 h)
+void WIFIBATTLEMATCH_VIEW_SetupMainWindow(Work *w, unsigned headerMsgId, const WifiBattleMatchViewMainInfo *info, void *myStatus, u32 font, void *printQue, void *msgData, void *wordSet, int highlight, u16 h)
 {
     unsigned i;
     void *s1, *s2;
@@ -1245,65 +1245,65 @@ void WIFIBATTLEMATCH_VIEW_SetupMainWindow(Work *w, unsigned a1, const WifiBattle
     s1 = STRBUF_Create(0x80, h);
     s2 = STRBUF_Create(0x80, h);
     for (j = 0; j < 11; j++) {
-        color = (a8 == 1) ? 0x3c40 : 0x440;
+        color = (highlight == 1) ? 0x3c40 : 0x440;
         draw = 1;
         switch (j) {
         case 0:
-            MSGDATA_ReadString(a6, a1, s2);
+            MSGDATA_ReadString(msgData, headerMsgId, s2);
             color = 0x3c40;
             break;
         case 1:
-            MSGDATA_ReadString(a6, info->kind + 2, s2);
+            MSGDATA_ReadString(msgData, info->kind + 2, s2);
             color = 0x3c40;
             break;
         case 2:
-            MSGDATA_ReadString(a6, 7, s1);
-            WORDSET_SetSlotMyStatus(a7, 0, a3);
-            WORDSET_CopyTaggedText(a7, s2, s1);
+            MSGDATA_ReadString(msgData, 7, s1);
+            WORDSET_SetSlotMyStatus(wordSet, 0, myStatus);
+            WORDSET_CopyTaggedText(wordSet, s2, s1);
             color = 0x3c40;
             break;
         case 3:
-            if (a1)
-                MSGDATA_ReadString(a6, 8, s2);
+            if (headerMsgId)
+                MSGDATA_ReadString(msgData, 8, s2);
             else
                 draw = 0;
             break;
         case 4:
-            if (a1) {
-                MSGDATA_ReadString(a6, 9, s1);
-                WORDSET_SetSlotNumber(a7, 0, info->count, 4, 1, 1);
-                WORDSET_CopyTaggedText(a7, s2, s1);
+            if (headerMsgId) {
+                MSGDATA_ReadString(msgData, 9, s1);
+                WORDSET_SetSlotNumber(wordSet, 0, info->count, 4, 1, 1);
+                WORDSET_CopyTaggedText(wordSet, s2, s1);
             } else {
                 draw = 0;
             }
             break;
         case 5:
-            MSGDATA_ReadString(a6, 10, s2);
+            MSGDATA_ReadString(msgData, 10, s2);
             break;
         case 6:
-            MSGDATA_ReadString(a6, 11, s1);
-            WORDSET_SetSlotNumber(a7, 0, (u32)info->total, 6, 1, 1);
-            WORDSET_CopyTaggedText(a7, s2, s1);
+            MSGDATA_ReadString(msgData, 11, s1);
+            WORDSET_SetSlotNumber(wordSet, 0, (u32)info->total, 6, 1, 1);
+            WORDSET_CopyTaggedText(wordSet, s2, s1);
             break;
         case 7:
-            MSGDATA_ReadString(a6, 12, s2);
+            MSGDATA_ReadString(msgData, 12, s2);
             break;
         case 8:
-            MSGDATA_ReadString(a6, 13, s1);
-            WORDSET_SetSlotNumber(a7, 0, info->a, 5, 1, 1);
-            WORDSET_CopyTaggedText(a7, s2, s1);
+            MSGDATA_ReadString(msgData, 13, s1);
+            WORDSET_SetSlotNumber(wordSet, 0, info->a, 5, 1, 1);
+            WORDSET_CopyTaggedText(wordSet, s2, s1);
             break;
         case 9:
-            MSGDATA_ReadString(a6, 14, s2);
+            MSGDATA_ReadString(msgData, 14, s2);
             break;
         case 10:
-            MSGDATA_ReadString(a6, 15, s1);
-            WORDSET_SetSlotNumber(a7, 0, info->b, 5, 1, 1);
-            WORDSET_CopyTaggedText(a7, s2, s1);
+            MSGDATA_ReadString(msgData, 15, s1);
+            WORDSET_SetSlotNumber(wordSet, 0, info->b, 5, 1, 1);
+            WORDSET_CopyTaggedText(wordSet, s2, s1);
             break;
         }
         if (draw) {
-            PRINTSYS_PrintQueColor(a5, BMP_WIN_GetBmp(w->slots[j].win), 0, 0, s2, a4, color);
+            PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(w->slots[j].win), 0, 0, s2, font, color);
             w->slots[j].shown = 1;
         }
     }
@@ -1311,7 +1311,7 @@ void WIFIBATTLEMATCH_VIEW_SetupMainWindow(Work *w, unsigned a1, const WifiBattle
     STRBUF_Delete(s2);
 }
 
-void WIFIBATTLEMATCH_VIEW_SetupDateWindow(Work *w, unsigned a1, const WifiBattleMatchViewStatusInfo *info, void *a3, u32 a4, void *a5, void *a6, void *a7, u16 heap)
+void WIFIBATTLEMATCH_VIEW_SetupDateWindow(Work *w, unsigned drawTotal, const WifiBattleMatchViewStatusInfo *info, void *myStatus, u32 font, void *printQue, void *msgData, void *wordSet, u16 heap)
 {
     unsigned i;
     void *s1, *s2;
@@ -1346,48 +1346,48 @@ void WIFIBATTLEMATCH_VIEW_SetupDateWindow(Work *w, unsigned a1, const WifiBattle
         case 1:
             d1 = info->date1;
             d2 = info->date2;
-            MSGDATA_ReadString(a6, 0x10, s1);
-            WORDSET_SetSlotNumber(a7, 0, (u16)((u8)(d1 >> 24) + 2000), 4, 0, 1);
-            WORDSET_SetSlotMonth(a7, 1, (u8)(d1 >> 16));
-            WORDSET_SetSlotNumber(a7, 2, (u8)(d1 >> 8), 2, 0, 1);
-            WORDSET_SetSlotNumber(a7, 3, (u16)((u8)(d2 >> 24) + 2000), 4, 0, 1);
-            WORDSET_SetSlotMonth(a7, 4, (u8)(d2 >> 16));
-            WORDSET_SetSlotNumber(a7, 5, (u8)(d2 >> 8), 2, 0, 1);
-            WORDSET_CopyTaggedText(a7, s2, s1);
+            MSGDATA_ReadString(msgData, 0x10, s1);
+            WORDSET_SetSlotNumber(wordSet, 0, (u16)((u8)(d1 >> 24) + 2000), 4, 0, 1);
+            WORDSET_SetSlotMonth(wordSet, 1, (u8)(d1 >> 16));
+            WORDSET_SetSlotNumber(wordSet, 2, (u8)(d1 >> 8), 2, 0, 1);
+            WORDSET_SetSlotNumber(wordSet, 3, (u16)((u8)(d2 >> 24) + 2000), 4, 0, 1);
+            WORDSET_SetSlotMonth(wordSet, 4, (u8)(d2 >> 16));
+            WORDSET_SetSlotNumber(wordSet, 5, (u8)(d2 >> 8), 2, 0, 1);
+            WORDSET_CopyTaggedText(wordSet, s2, s1);
             color = 0x3c40;
             break;
         case 2:
-            MYSTATUS_NameToStrbuf(a3, s2);
+            MYSTATUS_NameToStrbuf(myStatus, s2);
             color = 0x3c40;
             break;
         case 3:
-            MSGDATA_ReadString(a6, 8, s2);
+            MSGDATA_ReadString(msgData, 8, s2);
             break;
         case 4:
-            MSGDATA_ReadString(a6, 9, s1);
-            WORDSET_SetSlotNumber(a7, 0, info->statA0, 4, 1, 1);
-            WORDSET_CopyTaggedText(a7, s2, s1);
+            MSGDATA_ReadString(msgData, 9, s1);
+            WORDSET_SetSlotNumber(wordSet, 0, info->statA0, 4, 1, 1);
+            WORDSET_CopyTaggedText(wordSet, s2, s1);
             break;
         case 5:
-            MSGDATA_ReadString(a6, 10, s2);
+            MSGDATA_ReadString(msgData, 10, s2);
             break;
         case 6:
-            if (a1) {
-                WIFIBATTLEMATCH_VIEW_DrawTaggedText((u32 *)(&w->slots[j]), a5, a4, info->statTotal.total, info->statA8, heap);
+            if (drawTotal) {
+                WIFIBATTLEMATCH_VIEW_DrawTaggedText((u32 *)(&w->slots[j]), printQue, font, info->statTotal.total, info->statA8, heap);
                 draw = 0;
             } else {
-                MSGDATA_ReadString(a6, 11, s1);
-                WORDSET_SetSlotNumber(a7, 0, info->statTotal.total, 6, 1, 1);
-                WORDSET_CopyTaggedText(a7, s2, s1);
+                MSGDATA_ReadString(msgData, 11, s1);
+                WORDSET_SetSlotNumber(wordSet, 0, info->statTotal.total, 6, 1, 1);
+                WORDSET_CopyTaggedText(wordSet, s2, s1);
             }
             break;
         case 7:
-            MSGDATA_ReadString(a6, 0x11, s2);
+            MSGDATA_ReadString(msgData, 0x11, s2);
             color = 0x3c40;
             break;
         }
         if (draw) {
-            PRINTSYS_PrintQueColor(a5, BMP_WIN_GetBmp(w->slots[j].win), 0, 0, s2, a4, color);
+            PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(w->slots[j].win), 0, 0, s2, font, color);
             w->slots[j].shown = 1;
         }
     }
@@ -1395,7 +1395,7 @@ void WIFIBATTLEMATCH_VIEW_SetupDateWindow(Work *w, unsigned a1, const WifiBattle
     STRBUF_Delete(s2);
 }
 
-void WIFIBATTLEMATCH_VIEW_SetupTimeWindow(Work *w, const WifiBattleMatchViewTimeInfo *info, void *a3, int a4, void *a5, void *a6, void *a7, u16 heap)
+void WIFIBATTLEMATCH_VIEW_SetupTimeWindow(Work *w, const WifiBattleMatchViewTimeInfo *info, void *myStatus, int font, void *printQue, void *msgData, void *wordSet, u16 heap)
 {
     unsigned i;
     void *s1, *s2;
@@ -1430,50 +1430,50 @@ void WIFIBATTLEMATCH_VIEW_SetupTimeWindow(Work *w, const WifiBattleMatchViewTime
         case 1:
             d1 = info->date1;
             d2 = info->date2;
-            MSGDATA_ReadString(a6, 0x10, s1);
-            WORDSET_SetSlotNumber(a7, 0, (u16)((u8)(d1 >> 24) + 2000), 4, 0, 1);
-            WORDSET_SetSlotMonth(a7, 1, (u8)(d1 >> 16));
-            WORDSET_SetSlotNumber(a7, 2, (u8)(d1 >> 8), 2, 0, 1);
-            WORDSET_SetSlotNumber(a7, 3, (u16)((u8)(d2 >> 24) + 2000), 4, 0, 1);
-            WORDSET_SetSlotMonth(a7, 4, (u8)(d2 >> 16));
-            WORDSET_SetSlotNumber(a7, 5, (u8)(d2 >> 8), 2, 0, 1);
-            WORDSET_CopyTaggedText(a7, s2, s1);
+            MSGDATA_ReadString(msgData, 0x10, s1);
+            WORDSET_SetSlotNumber(wordSet, 0, (u16)((u8)(d1 >> 24) + 2000), 4, 0, 1);
+            WORDSET_SetSlotMonth(wordSet, 1, (u8)(d1 >> 16));
+            WORDSET_SetSlotNumber(wordSet, 2, (u8)(d1 >> 8), 2, 0, 1);
+            WORDSET_SetSlotNumber(wordSet, 3, (u16)((u8)(d2 >> 24) + 2000), 4, 0, 1);
+            WORDSET_SetSlotMonth(wordSet, 4, (u8)(d2 >> 16));
+            WORDSET_SetSlotNumber(wordSet, 5, (u8)(d2 >> 8), 2, 0, 1);
+            WORDSET_CopyTaggedText(wordSet, s2, s1);
             color = 0x3c40;
             break;
         case 2:
-            MYSTATUS_NameToStrbuf(a3, s2);
+            MYSTATUS_NameToStrbuf(myStatus, s2);
             color = 0x3c40;
             break;
         case 3:
-            MSGDATA_ReadString(a6, 12, s2);
+            MSGDATA_ReadString(msgData, 12, s2);
             break;
         case 4:
-            MSGDATA_ReadString(a6, 13, s1);
-            WORDSET_SetSlotNumber(a7, 0, info->statA0, 5, 1, 1);
-            WORDSET_CopyTaggedText(a7, s2, s1);
+            MSGDATA_ReadString(msgData, 13, s1);
+            WORDSET_SetSlotNumber(wordSet, 0, info->statA0, 5, 1, 1);
+            WORDSET_CopyTaggedText(wordSet, s2, s1);
             break;
         case 5:
-            MSGDATA_ReadString(a6, 14, s2);
+            MSGDATA_ReadString(msgData, 14, s2);
             break;
         case 6:
-            MSGDATA_ReadString(a6, 15, s1);
-            WORDSET_SetSlotNumber(a7, 0, info->statA2, 5, 1, 1);
-            WORDSET_CopyTaggedText(a7, s2, s1);
+            MSGDATA_ReadString(msgData, 15, s1);
+            WORDSET_SetSlotNumber(wordSet, 0, info->statA2, 5, 1, 1);
+            WORDSET_CopyTaggedText(wordSet, s2, s1);
             break;
         case 7:
-            MSGDATA_ReadString(a6, 10, s2);
+            MSGDATA_ReadString(msgData, 10, s2);
             break;
         case 8:
-            WIFIBATTLEMATCH_VIEW_DrawTaggedText((u32 *)(&w->slots[j]), a5, a4, info->statTotal.h.a4, info->statTotal.h.a6, heap);
+            WIFIBATTLEMATCH_VIEW_DrawTaggedText((u32 *)(&w->slots[j]), printQue, font, info->statTotal.h.a4, info->statTotal.h.a6, heap);
             draw = 0;
             break;
         case 9:
-            MSGDATA_ReadString(a6, 0x11, s2);
+            MSGDATA_ReadString(msgData, 0x11, s2);
             color = 0x3c40;
             break;
         }
         if (draw) {
-            PRINTSYS_PrintQueColor(a5, BMP_WIN_GetBmp(w->slots[j].win), 0, 0, s2, a4, color);
+            PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(w->slots[j].win), 0, 0, s2, font, color);
             w->slots[j].shown = 1;
         }
     }
@@ -1667,7 +1667,7 @@ void WIFIBATTLEMATCH_VIEW_DeleteActorFromInfo(char *p)
     }
 }
 
-WifiBattleMatchViewRecordWork *WIFIBATTLEMATCH_VIEW_CreateRecordWindow(const WifiBattleMatchViewRecord *rec, void *a1, void *a2, void *a3, void *a4, void *a5, void *a6, u32 mode, u32 owner, int style, u16 heap)
+WifiBattleMatchViewRecordWork *WIFIBATTLEMATCH_VIEW_CreateRecordWindow(const WifiBattleMatchViewRecord *rec, void *clunit, void *table, void *font, void *printQue, void *msgData, void *wordSet, u32 mode, u32 owner, int style, u16 heap)
 {
     WifiBattleMatchViewRecordWork *w;
     u32 kind;
@@ -1676,20 +1676,20 @@ WifiBattleMatchViewRecordWork *WIFIBATTLEMATCH_VIEW_CreateRecordWindow(const Wif
     MI_CpuFill8(w, 0, 0x9c);
     w->owner = owner;
     w->mode = mode;
-    w->menu = PMS_DRAW_Create((u32)a1, 0, (u32)a4, (u32)a3, 5, 1, heap);
+    w->menu = PMS_DRAW_Create((u32)clunit, 0, (u32)printQue, (u32)font, 5, 1, heap);
     PMS_DRAW_SetFollowBgScroll(w->menu, 1);
     PMS_DRAW_SetNullColorPalette(w->menu, 0);
-    kind = WIFIBATTLEMATCH_VIEW_GetEntryValue(rec->f30, rec->score, rec->f2c);
+    kind = WIFIBATTLEMATCH_VIEW_GetEntryValue(rec->total, rec->score, rec->losses);
     alt = 0;
     if (mode - 2 <= 1)
         alt = kind == 5;
-    WIFIBATTLEMATCH_VIEW_SetupRecordWindow(w, rec, (unsigned)a3, a4, a5, a6, alt, heap);
-    WIFIBATTLEMATCH_VIEW_CreateRecordActor((char *)w, MYSTATUS_GetOutfit((const struct PlayerStatus *)rec), a1, heap);
+    WIFIBATTLEMATCH_VIEW_SetupRecordWindow(w, rec, (unsigned)font, printQue, msgData, wordSet, alt, heap);
+    WIFIBATTLEMATCH_VIEW_CreateRecordActor((char *)w, MYSTATUS_GetOutfit((const struct PlayerStatus *)rec), clunit, heap);
     ARC_UTIL_UploadBgPaletteFromArchive(0x85, 9, 2, 0, 0, 0, (heap & 0x7fff) | 0x8000);
     switch (mode) {
     case 2:
     case 3:
-        WIFIBATTLEMATCH_VIEW_CreateRecordActorFromRec((char *)w, rec, a1, a2, heap);
+        WIFIBATTLEMATCH_VIEW_CreateRecordActorFromRec((char *)w, rec, clunit, table, heap);
         BG_SYS_FillTileMap(2, 0, 0, 0x20, 2, 1);
         BG_SYS_FillTileMap(2, 0, 3, 0x20, 0x20, kind + 3);
         BG_SYS_FillTileMap(2, 0, 3, 1, 2, 1);
@@ -1946,7 +1946,7 @@ void WIFIBATTLEMATCH_VIEW_CreateRecordActorFromRec(char *p, const WifiBattleMatc
 {
  unsigned i,n;
  Request b;
- n=WIFIBATTLEMATCH_VIEW_GetEntryValue(q->f30, q->score, q->f2c);
+ n=WIFIBATTLEMATCH_VIEW_GetEntryValue(q->total, q->score, q->losses);
  MI_CpuFill8(&b,0,8);
  b.x=0x100;b.y=0x10;
  for(i=0;i<n;i++) {
@@ -1968,21 +1968,21 @@ void WIFIBATTLEMATCH_VIEW_DeleteRecordActorObj(WifiBattleMatchViewRecordWork *p)
     }
 }
 
-unsigned WIFIBATTLEMATCH_VIEW_GetEntryValue(void *p, unsigned v, unsigned w)
+unsigned WIFIBATTLEMATCH_VIEW_GetEntryValue(void *total, unsigned wins, unsigned losses)
 {
-    if (v >= 1000) {
+    if (wins >= 1000) {
         return 5;
     }
-    if (v >= 500) {
+    if (wins >= 500) {
         return 4;
     }
-    if (v >= 200) {
+    if (wins >= 200) {
         return 3;
     }
-    if (v >= 100) {
+    if (wins >= 100) {
         return 2;
     }
-    if (v >= 50) {
+    if (wins >= 50) {
         return 1;
     }
     return 0;

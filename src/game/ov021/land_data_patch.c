@@ -37,7 +37,7 @@ typedef struct LandAttrBlock {
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 GFL_HEAP_Free(void *p);
-extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
+extern int ARC_UTIL_LoadMember(int archiveID, int memberIdx, int decompress, int heapID);
 extern void MI_CpuCopy8(void *src, void *dst, int n);
 extern void FIELD_BUILDMODEL_RegisterObject(u32 a, u32 b, u32 *c, u32 d);
 u32 *LAND_DATA_PATCH_Create(u32 patchId, u32 heapId);

@@ -118,9 +118,10 @@ struct ExpHeap {
 };
 
 struct HeapBlock {
-    u32 unk_00;
+    u16 signature;
+    u16 attribute;
     u32 size;
-    u32 unk_08;
+    struct HeapBlock *prev;
     struct HeapBlock *next;
 };
 
@@ -131,7 +132,7 @@ struct Heap {
 
 extern void           MIi_CpuClear32(u32 data, void *dest, u32 size);
 extern s32 abs(s32 x);
-void NNS_FndInitList(int p0, int p1);
+void NNS_FndInitList(int list, int offset);
 void NNSi_FndSetFirstObject(volatile struct DList *list, void *elem);
 void NNS_FndAppendListObject(NNSFndList *list, void *object);
 void NNS_FndPrependListObject(NNSFndList *list, void *object);
@@ -173,7 +174,7 @@ extern NNSFndList sRootList;
 
 
 
-void NNS_FndInitList(int p0, int p1){ ((NNSFndList *)p0)->headObject = 0; ((NNSFndList *)p0)->tailObject = 0; ((NNSFndList *)p0)->numObjects = (unsigned short)0; ((NNSFndList *)p0)->offset = (unsigned short)p1; }
+void NNS_FndInitList(int list, int offset){ ((NNSFndList *)list)->headObject = 0; ((NNSFndList *)list)->tailObject = 0; ((NNSFndList *)list)->numObjects = (unsigned short)0; ((NNSFndList *)list)->offset = (unsigned short)offset; }
 
 
 

@@ -109,7 +109,7 @@ extern s32 NNS_G2dGetUnpackedPaletteCompressInfo(struct NitroFileHeader *file, v
 extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
 extern void MIi_CpuClear16(int value, u32 dst, u32 size);
 extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 depth, u16 heapId);
-extern struct GfFont *GF_FONT_Create(int fontId, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int fontId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);

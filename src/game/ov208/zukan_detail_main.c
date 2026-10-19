@@ -80,7 +80,7 @@ extern char *ZUKAN_DETAIL_GRAPHIC_InitBgGraphics(u32 display, u32 heap, int thre
 
 extern void ZUKAN_DETAIL_GRAPHIC_ExitBgGraphics(char *p);
 
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
 extern u32 PRINTSYS_QUE_Create(void *p);
 
@@ -138,7 +138,7 @@ void ZUKAN_DETAIL_PROCSYS_CallOwnerHook(char *p, int v);
 
 void *ZUKAN_DETAIL_COMMON_CreateContext(u32 a, void *b, void *c, void *d, void *e, void *f, void *g, int h, unsigned short i, void *j);
 
-void ZUKAN_DETAIL_COMMON_DeleteContext(void *a0);
+void ZUKAN_DETAIL_COMMON_DeleteContext(void *ctx);
 
 int ZUKAN_DETAIL_MAIN_Init(void *owner, int unused, struct Ov208Args *args);
 
@@ -184,7 +184,7 @@ int ZUKAN_DETAIL_MAIN_Init(void *owner, int unused, struct Ov208Args *args)
 /*
  * extent: 102 code bytes, then two zero alignment bytes at 021BCBB2.
  */
-int ZUKAN_DETAIL_MAIN_Exit(void *a,int b,int c,char *p)
+int ZUKAN_DETAIL_MAIN_Exit(void *owner,int seq,int args,char *p)
 {
     FADE_Start(3,16,16,0);
     if(((struct Ov208Main *)p)->node)ZUKAN_DETAIL_PROCSYS_FreeNode(((struct Ov208Main *)p)->node);
@@ -197,49 +197,49 @@ int ZUKAN_DETAIL_MAIN_Exit(void *a,int b,int c,char *p)
     PRINTSYS_QUE_Delete(((struct Ov208Main *)p)->printer);
     GF_FONT_Delete(((struct Ov208Main *)p)->font);
     ZUKAN_DETAIL_GRAPHIC_ExitBgGraphics(*(char * *)&((struct Ov208Main *)p)->display);
-    PROCSYS_FreeProcWork(a);
+    PROCSYS_FreeProcWork(owner);
     GFL_HEAP_DeleteChecked(149);
     return 1;
 }
 
-int ZUKAN_DETAIL_MAIN_Main(void *unused, int *cnt, struct Ov208Args *a, struct Ov208Main *m)
+int ZUKAN_DETAIL_MAIN_Main(void *unused, int *cnt, struct Ov208Args *args, struct Ov208Main *work)
 {
     int done = 0;
     u32 v;
     if (*cnt <= 8)
         *cnt = *cnt + 1;
-    if (ZUKAN_DETAIL_PROCSYS_RunStateCallbacks(m->node, (int)m->context) != 0) {
-        if (m->pendingMode != 0) {
-            a->mode = m->pendingMode;
-            ZUKAN_DETAIL_MAIN_SwitchScreen(a, m);
-            m->pendingMode = 0;
+    if (ZUKAN_DETAIL_PROCSYS_RunStateCallbacks(work->node, (int)work->context) != 0) {
+        if (work->pendingMode != 0) {
+            args->mode = work->pendingMode;
+            ZUKAN_DETAIL_MAIN_SwitchScreen(args, work);
+            work->pendingMode = 0;
             done = 1;
         } else {
             return 1;
         }
     }
     if (done == 0) {
-        v = ZUKAN_DETAIL_TOUCHBAR_GetPressedButtonId(m->touchbar);
+        v = ZUKAN_DETAIL_TOUCHBAR_GetPressedButtonId(work->touchbar);
         if (v == 0)
-            v = ZUKAN_DETAIL_TOUCHBAR_GetHeldButtonId(m->touchbar);
-        ZUKAN_DETAIL_PROCSYS_CallOwnerUpdate(m->node, (int)m->context, v);
+            v = ZUKAN_DETAIL_TOUCHBAR_GetHeldButtonId(work->touchbar);
+        ZUKAN_DETAIL_PROCSYS_CallOwnerUpdate(work->node, (int)work->context, v);
         switch (v) {
-        case 1: a->speciesStep = 0; break;
-        case 2: a->speciesStep = 1; break;
-        case 6: m->pendingMode = 1; break;
-        case 7: m->pendingMode = 2; break;
-        case 8: m->pendingMode = 3; break;
-        case 9: m->pendingMode = 4; break;
+        case 1: args->speciesStep = 0; break;
+        case 2: args->speciesStep = 1; break;
+        case 6: work->pendingMode = 1; break;
+        case 7: work->pendingMode = 2; break;
+        case 8: work->pendingMode = 3; break;
+        case 9: work->pendingMode = 4; break;
         }
     }
-    ZUKAN_DETAIL_TOUCHBAR_Update(m->touchbar);
-    ZUKAN_DETAIL_HEADBAR_Update(m->headbar);
-    PRINTSYS_QUE_Main(m->printer);
-    ZUKAN_DETAIL_GRAPHIC_DrawFrame(m->display);
-    ZUKAN_DETAIL_GRAPHIC_ApplyCamera(m->display);
+    ZUKAN_DETAIL_TOUCHBAR_Update(work->touchbar);
+    ZUKAN_DETAIL_HEADBAR_Update(work->headbar);
+    PRINTSYS_QUE_Main(work->printer);
+    ZUKAN_DETAIL_GRAPHIC_DrawFrame(work->display);
+    ZUKAN_DETAIL_GRAPHIC_ApplyCamera(work->display);
     if (done == 0)
-        ZUKAN_DETAIL_PROCSYS_CallOwnerHook(m->node, (int)m->context);
-    ZUKAN_DETAIL_GRAPHIC_EndDraw3d(m->display);
+        ZUKAN_DETAIL_PROCSYS_CallOwnerHook(work->node, (int)work->context);
+    ZUKAN_DETAIL_GRAPHIC_EndDraw3d(work->display);
     return 0;
 }
 

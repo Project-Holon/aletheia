@@ -70,7 +70,7 @@ extern u32 GFL_HEAP_Free(void *p);
 
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
@@ -92,9 +92,9 @@ extern void BG_SYS_ClearSlot(u32 i);
 
 extern void BG_SYS_PushTile(u32 index);
 
-extern u32 CLACT_RegisterCharacter(void *h, u32 a1, u32 a2, u32 a3, u32 s0);
+extern u32 CLACT_RegisterCharacter(void *h, u32 file_idx, u32 compressed, u32 vram_mode, u32 s0);
 
-extern u32 CLACT_RegisterPaletteEx(void *h, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2);
+extern u32 CLACT_RegisterPaletteEx(void *h, u32 file_idx, u32 vram_mode, u32 vram_offset, u32 s0, u32 s1, u32 s2);
 
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 

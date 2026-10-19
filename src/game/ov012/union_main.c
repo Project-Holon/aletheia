@@ -23,10 +23,10 @@
  *   MI_CpuCopy8       0x02082D44  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   OS_GetMacAddress  0x02087C6C  arm
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   UNION_APP_Delete  0x02183BE0  thumb  ov022
  *   COLOSSEUM_Delete  0x0217505C  thumb  ov012
- *   ICA_ANIME_GetField24  0x02012138  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   SAVEDATA_PanicFail  0x02034714  arm
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
@@ -36,13 +36,13 @@
  *   sUnionMainFile     0x02175614  data   ov012  a1
  *   GAME_COMM_GetWork  0x02026474  thumb
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
- *   ICA_ANIME_GetField30  0x0201212C  thumb
+ *   GAMESYSTEM_GetFieldMapState  0x0201212C  thumb
  *   GAME_EVENT_IsRunning  0x020123C4  thumb
  *   UNION_ONESELF_RunPlayCategory  0x0217B840  thumb  ov019
  *   UNION_CHARA_ProcessBeaconUpdates  0x0217B75C  thumb  ov019
  *   UNION_CHARA_Main  0x0217B264  thumb  ov019
- *   ICA_ANIME_Check2114 0x02012114 thumb
- *   ICA_ANIME_GetField20 0x0201210C thumb
+ *   GAMESYSTEM_IsFieldMapActive 0x02012114 thumb
+ *   GAMESYSTEM_GetFieldMap 0x0201210C thumb
  *   FIELDMAP_IsReady 0x02188BE8 thumb ov021
  *   FIELDMAP_CTRL_GRID_SetBusy  0x021A2E44  thumb  ov021
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
@@ -201,13 +201,13 @@ extern void MI_CpuFill8(void *dst, int value, int size);
 
 extern void OS_GetMacAddress(void *mac);
 
-extern struct GameData *ICA_ANIME_GetField1C(struct GameSystem *gameSystem);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 
 extern void UNION_APP_Delete(struct UnionAppWork *app);
 
 extern void COLOSSEUM_Delete(ColosseumWork *colosseum, struct GameSystem *gameSystem);
 
-extern struct GameComm *ICA_ANIME_GetField24(struct GameSystem *gameSystem);
+extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
 
 extern unsigned int GAME_COMM_GetKind(struct GameComm *gameComm);
 
@@ -223,7 +223,7 @@ extern void *GAME_COMM_GetWork(struct GameComm *gameComm);
 
 extern struct GameSystem *FIELDMAP_GetGameSystem(void *fieldMap);
 
-extern u8 ICA_ANIME_GetField30(struct GameSystem *gameSystem);
+extern u8 GAMESYSTEM_GetFieldMapState(struct GameSystem *gameSystem);
 
 extern int GAME_EVENT_IsRunning(struct GameSystem *gameSystem);
 
@@ -233,9 +233,9 @@ extern void UNION_CHARA_ProcessBeaconUpdates(UnionRoomWork *work);
 
 extern void UNION_CHARA_Main(UnionRoomWork *work, struct GameData *gameData, void *fieldMap);
 
-extern u32 ICA_ANIME_Check2114(struct GameSystem *gameSystem);
+extern u32 GAMESYSTEM_IsFieldMapActive(struct GameSystem *gameSystem);
 
-extern void *ICA_ANIME_GetField20(struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 
 extern int FIELDMAP_IsReady(void *fieldMap);
 
@@ -422,8 +422,8 @@ void UNION_MAIN_StartComm(struct GameSystem *gameSystem)
     struct GameData *gameData;
     UnionParentWork *parent;
 
-    gameComm = ICA_ANIME_GetField24(gameSystem);
-    gameData = ICA_ANIME_GetField1C(gameSystem);
+    gameComm = GAMESYSTEM_GetGameComm(gameSystem);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
     if (GAME_COMM_GetKind(gameComm) != 0) {
         SAVEDATA_PanicFail(sUnionMainAssertText, 0, sUnionMainAssertText);
     }
@@ -448,7 +448,7 @@ void UNION_MAIN_UpdateField(struct GameComm *gameComm, void *fieldMap)
     if (work == 0) {
         SAVEDATA_PanicFail(sUnionMainAssertText, 0, sUnionMainAssertText);
     }
-    if (ICA_ANIME_GetField30(FIELDMAP_GetGameSystem(fieldMap)) == 1) {
+    if (GAMESYSTEM_GetFieldMapState(FIELDMAP_GetGameSystem(fieldMap)) == 1) {
         return;
     }
     if (GAME_EVENT_IsRunning(work->parent->gameSystem) == 1) {
@@ -478,8 +478,8 @@ void UNION_MAIN_UpdateField(struct GameComm *gameComm, void *fieldMap)
 
 int UNION_MAIN_IsFieldReady(UnionRoomWork *work)
 {
-    if (work->fieldActive == 1 && ICA_ANIME_Check2114(work->parent->gameSystem) == 1
-        && FIELDMAP_IsReady(ICA_ANIME_GetField20(work->parent->gameSystem)) == 1)
+    if (work->fieldActive == 1 && GAMESYSTEM_IsFieldMapActive(work->parent->gameSystem) == 1
+        && FIELDMAP_IsReady(GAMESYSTEM_GetFieldMap(work->parent->gameSystem)) == 1)
         return 1;
     return 0;
 }
@@ -494,7 +494,7 @@ void UNION_MAIN_FieldCreateCallback(void *gameSystem, UnionRoomWork *work, void 
         FIELDMAP_CTRL_GRID_SetBusy(fieldMap, 1);
     }
     if (ZONEDATA_IsZone1A6(FIELDMAP_GetZoneId(fieldMap)) == 1) {
-        UNION_CHARA_RefreshParentMarks(work, ICA_ANIME_GetField1C(work->parent->gameSystem), fieldMap);
+        UNION_CHARA_RefreshParentMarks(work, GAMESYSTEM_GetGameData(work->parent->gameSystem), fieldMap);
     }
     if (colosseum != 0 && colosseum->startFlag == 1) {
         COMM_PLAYER_Resume(colosseum->commPlayer);
@@ -539,7 +539,7 @@ u8 UNION_MAIN_GetAppealNo(UnionRoomWork *work)
 
 int UNION_MAIN_IsIdle(struct GameSystem *gameSystem)
 {
-    UnionRoomWork *work = GAME_COMM_GetWork(ICA_ANIME_GetField24(gameSystem));
+    UnionRoomWork *work = GAME_COMM_GetWork(GAMESYSTEM_GetGameComm(gameSystem));
     if (work == 0) return 0;
     if ((work->mySituation.playCategory == 0
          || work->mySituation.playCategory == UNION_PLAY_CATEGORY_COLOSSEUM)
@@ -655,7 +655,7 @@ void UNION_COMMAND_RecvColosseumEntry(int netId, int size, const ColosseumPlayer
     struct GameData *gameData;
     u32 macBuffer[2];
     colosseum = work->colosseum;
-    gameData = ICA_ANIME_GetField1C(work->parent->gameSystem);
+    gameData = GAMESYSTEM_GetGameData(work->parent->gameSystem);
     if (colosseum == 0 || colosseum->commPlayer == 0 || colosseum->entryMenu == 0) {
         SAVEDATA_PanicFail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
         return;
@@ -1046,7 +1046,7 @@ extern u8 GAME_DATA_GetSeason(const struct GameData *gameData);
 
 extern unsigned int FIELD_SOUND_SYSTEM_GetFieldBgmForZoneEx(struct GameData *gameData, unsigned int zoneId, unsigned int season);
 
-extern void GFL_USE_ChangeBgm(unsigned int bgmNo, unsigned short fadeFrames, int arg3, int arg4);
+extern void GFL_USE_ChangeBgm(unsigned int bgmNo, unsigned short fadeFrames, int fadeOutFrames, int fadeInFrames);
 
 extern int   GFL_USE_IsBgmFading(void);
 
@@ -1058,7 +1058,6 @@ extern void PLIST_COMM_Start(PartyListParam *listParam);
 
 extern void PLIST_COMM_End(PartyListParam *listParam);
 
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 
 extern u32   POKEPARTY_GetCount(struct Party *party);
 

@@ -156,11 +156,11 @@ extern void ENV_SetResourceSet(void *p);
 
 extern u32 BG_SYS_CreateTileRun(u32 index, const void *src, u32 size);
 
-extern u32 ARC_UTIL_UploadScreen(void *buf, u32 kind, u32 a2, u32 size);
+extern u32 ARC_UTIL_UploadScreen(void *buf, u32 kind, u32 dest, u32 size);
 
 extern s32 NNS_G2dGetUnpackedCharacterData(struct NitroFileHeader *file, void **out);
 
-extern u32 ARC_UTIL_UploadBgPalette(void *file, u32 channel, u32 a2, u32 add, u32 size, u32 flag);
+extern u32 ARC_UTIL_UploadBgPalette(void *file, u32 channel, u32 offset, u32 add, u32 size, u32 flag);
 
 extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
 
@@ -178,7 +178,7 @@ extern void BG_SYS_SetFlagField06(u8 channel);
 
 extern void ARC_UTIL_UploadPaletteFromArchive(u32 a, u32 b, u32 c, u32 zero, u32 d, u32 e, u16 f);
 
-extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
+extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
 
 extern s32 NNS_G2dGetUnpackedPaletteCompressInfo(struct NitroFileHeader *file, void **out);
 
@@ -232,7 +232,7 @@ u32 ARC_TOOL_GetMemberSize(u32 a, u32 b);
 
 void *ARC_TOOL_CreateHandle(u32 id, u16 heap);
 
-void *ARC_TOOL_CreateHandleFromMemory(void *a0, u32 a1, u16 heap);
+void *ARC_TOOL_CreateHandleFromMemory(void *buf, u32 size, u16 heap);
 
 void ARC_TOOL_ReadHandleHeader(struct ArcHandle *arc);
 
@@ -256,79 +256,79 @@ int ARC_TOOL_SeekHandle(struct FSFile *file, long offset);
 
 u16 ARC_TOOL_GetHandleFileCount(void *obj);
 
-u32 ARC_UTIL_UploadBgCharFromArchive(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
+u32 ARC_UTIL_UploadBgCharFromArchive(void *archiveID, void *memberIdx, void *bgId, void *tileOffset, u32 size, u32 heapID, u16 allocFlags);
 
 u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
-u32 ARC_UTIL_UploadBgChar(void *buf, u32 a1, u32 a2, u32 a3, u32 unused);
+u32 ARC_UTIL_UploadBgChar(void *buf, u32 bgId, u32 tileOffset, u32 size, u32 unused);
 
-u32 ARC_UTIL_RegisterObjCharFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
+u32 ARC_UTIL_RegisterObjCharFromArchive(u32 archiveID, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
 
-u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
+u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
 
-u32 ARC_UTIL_RegisterObjChar(void *buf, u32 a1, u32 a2);
+u32 ARC_UTIL_RegisterObjChar(void *buf, u32 bgId, u32 size);
 
-u32 ARC_UTIL_UploadScreenFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
+u32 ARC_UTIL_UploadScreenFromHandle(void *arc, u32 memberIdx, u32 kind, u32 dest, u32 size, u32 heapID, u16 allocFlags);
 
-u32 ARC_UTIL_UploadScreen(void *buf, u32 kind, u32 a2, u32 size);
+u32 ARC_UTIL_UploadScreen(void *buf, u32 kind, u32 dest, u32 size);
 
-void ARC_UTIL_UploadBgPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
+void ARC_UTIL_UploadBgPaletteFromArchive(u32 archiveID, u32 memberIdx, u32 channel, u32 offset, u32 size, u32 heapID, u16 flags);
 
 void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
-u32 ARC_UTIL_UploadBgPaletteAddFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+u32 ARC_UTIL_UploadBgPaletteAddFromArchive(u32 archiveID, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
 
-u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
 
-u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
 
-u32 ARC_UTIL_UploadBgPalette(void *file, u32 channel, u32 a2, u32 add, u32 size, u32 flag);
+u32 ARC_UTIL_UploadBgPalette(void *file, u32 channel, u32 offset, u32 add, u32 size, u32 flag);
 
 void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-void ARC_UTIL_UploadPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
+void ARC_UTIL_UploadPaletteFromArchive(u32 archiveID, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
 
-void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
+void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
 
 void ARC_UTIL_UploadPalette(void *file, u32 kind, u32 offset, u32 dest, u32 size);
 
-void *ARC_UTIL_LoadBgCharDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+void *ARC_UTIL_LoadBgCharDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
 
-void *ARC_UTIL_LoadBgCharDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+void *ARC_UTIL_LoadBgCharDataFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
 
-void *ARC_UTIL_LoadScreenDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+void *ARC_UTIL_LoadScreenDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
 
-void *ARC_UTIL_LoadScreenDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+void *ARC_UTIL_LoadScreenDataFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
 
-void *ARC_UTIL_LoadPaletteDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+void *ARC_UTIL_LoadPaletteDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
 
-void *ARC_UTIL_LoadPaletteDataFromHandle(void *a0, u32 a1, u32 a2, void **out, u16 a4);
+void *ARC_UTIL_LoadPaletteDataFromHandle(void *arc, u32 memberIdx, u32 heapID, void **out, u16 flags);
 
-void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u16 a3);
+void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, u32 unpackedOut, u16 flags);
 
-void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u16 a3);
+void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, u32 unpackedOut, u16 flags);
 
-void *ARC_UTIL_LoadCellBankFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+void *ARC_UTIL_LoadCellBankFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
 
-void *ARC_UTIL_LoadCellBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+void *ARC_UTIL_LoadCellBankFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
 
-void *ARC_UTIL_LoadMultiCellBankFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+void *ARC_UTIL_LoadMultiCellBankFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
 
-void *ARC_UTIL_LoadMultiCellBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+void *ARC_UTIL_LoadMultiCellBankFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
 
-void *ARC_UTIL_LoadAnimBankFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+void *ARC_UTIL_LoadAnimBankFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
 
-void *ARC_UTIL_LoadAnimBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+void *ARC_UTIL_LoadAnimBankFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
 
-void *ARC_UTIL_LoadMultiAnimBankFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+void *ARC_UTIL_LoadMultiAnimBankFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
 
-void *ARC_UTIL_LoadMultiAnimBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+void *ARC_UTIL_LoadMultiAnimBankFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
 
-int ARC_UTIL_LoadMember(int a0, int a1, int a2, u16 a3);
+int ARC_UTIL_LoadMember(int archiveID, int memberIdx, int decompress, u16 heapID);
 
-void *ARC_UTIL_LoadHandleMember(void *a0, u32 a1, u32 a2, u16 a3);
+void *ARC_UTIL_LoadHandleMember(void *narc, u32 fileID, u32 decompress, u16 heapID);
 
 extern struct ArcTableInfo ARC_TOOL_gArchiveTable;
 
@@ -1004,15 +1004,15 @@ int ARC_TOOL_SeekHandle(struct FSFile *file, long offset)
     return FS_SeekFile((struct ArcHandle *)file, offset, 0);
 }
 
-u16 ARC_TOOL_GetHandleFileCount(void *obj)
+u16 ARC_TOOL_GetHandleFileCount(void *arc)
 {
-    return ((struct ArcHandle *)obj)->count;
+    return ((struct ArcHandle *)arc)->count;
 }
 
-u32 ARC_UTIL_UploadBgCharFromArchive(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6)
+u32 ARC_UTIL_UploadBgCharFromArchive(void *archiveID, void *memberIdx, void *bgId, void *tileOffset, u32 size, u32 heapID, u16 allocFlags)
 {
-    u32 ret = ARC_UTIL_LoadMember((int)a0, (int)a1, a5, a6);
-    return ARC_UTIL_UploadBgChar((void *)ret, (u32)a2, (u32)a3, a4, a5);
+    u32 ret = ARC_UTIL_LoadMember((int)archiveID, (int)memberIdx, heapID, allocFlags);
+    return ARC_UTIL_UploadBgChar((void *)ret, (u32)bgId, (u32)tileOffset, size, heapID);
 }
 
 /*
@@ -1033,9 +1033,9 @@ u32 ARC_UTIL_UploadBgCharFromArchive(void *a0, void *a1, void *a2, void *a3, u32
  *   python tools/match.py one --src src/matched/ARC_UTIL_UploadBgCharFromHandle.c \
  *       --func ARC_UTIL_UploadBgCharFromHandle --addr 0x02049658 --cc 1.1p1 --arm
  */
-u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g)
+u32 ARC_UTIL_UploadBgCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 tileOffset, u32 size, u32 heapID, u16 allocFlags)
 {
-    return ARC_UTIL_UploadBgChar((void *)((u32)ARC_UTIL_LoadHandleMember(a, b, f, g)), c, d, e, f);
+    return ARC_UTIL_UploadBgChar((void *)((u32)ARC_UTIL_LoadHandleMember(arc, memberIdx, heapID, allocFlags)), bgId, tileOffset, size, heapID);
 }
 
 /*
@@ -1054,19 +1054,19 @@ u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, 
  *   python tools/match.py one --src src/matched/ARC_UTIL_UploadBgChar.c \
  *       --func ARC_UTIL_UploadBgChar --addr 0x0204968C --cc 1.1p1 --arm
  */
-u32 ARC_UTIL_UploadBgChar(void *buf, u32 a1, u32 a2, u32 a3, u32 unused)
+u32 ARC_UTIL_UploadBgChar(void *buf, u32 bgId, u32 tileOffset, u32 size, u32 unused)
 {
     struct UnpackedGfxBlock *res;
 
     if (NNS_G2dGetUnpackedCharacterDataEx(buf, (void **)(&res)) != 0) {
-        if (a3 == 0) {
-            a3 = res->size;
+        if (size == 0) {
+            size = res->size;
         }
-        BG_SYS_LoadTileData((u8)a1, (const void *)res->data, a3, a2);
+        BG_SYS_LoadTileData((u8)bgId, (const void *)res->data, size, tileOffset);
     }
 
     ENV_SetResourceSet(buf);
-    return a3;
+    return size;
 }
 
 /*
@@ -1090,17 +1090,17 @@ u32 ARC_UTIL_UploadBgChar(void *buf, u32 a1, u32 a2, u32 a3, u32 unused)
  *   python tools/match.py one --src src/matched/ARC_UTIL_RegisterObjCharFromArchive.c \
  *       --func ARC_UTIL_RegisterObjCharFromArchive --addr 0x020496E4 --cc 1.1p1 --arm
  */
-u32 ARC_UTIL_RegisterObjCharFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags)
+u32 ARC_UTIL_RegisterObjCharFromArchive(u32 archiveID, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags)
 {
     void *buf;
     u32 res;
 
-    buf = (void *)ARC_UTIL_LoadMember((u32)a0, (u32)a1, (u32)a4, (u16)((flags & 0x7FFF) | 0x8000));
+    buf = (void *)ARC_UTIL_LoadMember((u32)archiveID, (u32)memberIdx, (u32)heapID, (u16)((flags & 0x7FFF) | 0x8000));
     if (buf == 0) {
         return 0;
     }
 
-    res = ARC_UTIL_RegisterObjChar(buf, a2, a3);
+    res = ARC_UTIL_RegisterObjChar(buf, bgId, size);
     ENV_SetResourceSet(buf);
     return res;
 }
@@ -1125,17 +1125,17 @@ u32 ARC_UTIL_RegisterObjCharFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, 
  *   python tools/match.py one --src src/matched/ARC_UTIL_RegisterObjCharFromHandle.c \
  *       --func ARC_UTIL_RegisterObjCharFromHandle --addr 0x02049740 --cc 1.1p1 --arm
  */
-u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags)
+u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags)
 {
     void *buf;
     u32 res;
 
-    buf = ARC_UTIL_LoadHandleMember(a0, a1, a4, (u16)((flags & 0x7FFF) | 0x8000));
+    buf = ARC_UTIL_LoadHandleMember(arc, memberIdx, heapID, (u16)((flags & 0x7FFF) | 0x8000));
     if (buf == 0) {
         return 0;
     }
 
-    res = ARC_UTIL_RegisterObjChar(buf, a2, a3);
+    res = ARC_UTIL_RegisterObjChar(buf, bgId, size);
     ENV_SetResourceSet(buf);
     return res;
 }
@@ -1168,7 +1168,7 @@ u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4,
  *   python tools/match.py one --src src/matched/ARC_UTIL_RegisterObjChar.c \
  *       --func ARC_UTIL_RegisterObjChar --addr 0x0204979C --cc 1.1p1 --arm
  */
-u32 ARC_UTIL_RegisterObjChar(void *buf, u32 a1, u32 a2)
+u32 ARC_UTIL_RegisterObjChar(void *buf, u32 bgId, u32 size)
 {
     struct UnpackedGfxBlock *res;
     s32 slot;
@@ -1177,16 +1177,16 @@ u32 ARC_UTIL_RegisterObjChar(void *buf, u32 a1, u32 a2)
         goto fail;
     }
 
-    if (a2 == 0) {
-        a2 = res->size;
+    if (size == 0) {
+        size = res->size;
     }
 
-    slot = BG_SYS_CreateTileRun(a1, (const void *)res->data, a2);
+    slot = BG_SYS_CreateTileRun(bgId, (const void *)res->data, size);
     if (slot == -1) {
         goto fail;
     }
 
-    return ((u16)a2 << 16) | (u16)slot;
+    return ((u16)size << 16) | (u16)slot;
 
 fail:
     return 0;
@@ -1217,9 +1217,9 @@ fail:
  *   python tools/match.py one --src src/pending/ARC_UTIL_UploadScreenFromHandle.c \
  *       --func ARC_UTIL_UploadScreenFromHandle --addr 0x02049800 --cc 1.1p1 --arm
  */
-u32 ARC_UTIL_UploadScreenFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6)
+u32 ARC_UTIL_UploadScreenFromHandle(void *arc, u32 memberIdx, u32 kind, u32 dest, u32 size, u32 heapID, u16 allocFlags)
 {
-    return ARC_UTIL_UploadScreen(ARC_UTIL_LoadHandleMember(a0, a1, a5, a6), a2, a3, a4);
+    return ARC_UTIL_UploadScreen(ARC_UTIL_LoadHandleMember(arc, memberIdx, heapID, allocFlags), kind, dest, size);
 }
 
 extern void (*ARC_UTIL_gScreenLoadFns[])(void *addr, u32 a1, u32 size);
@@ -1247,7 +1247,7 @@ extern void (*ARC_UTIL_gScreenLoadFns[])(void *addr, u32 a1, u32 size);
  *   python tools/match.py one --src src/pending/ARC_UTIL_UploadScreen.c \
  *       --func ARC_UTIL_UploadScreen --addr 0x0204982C --cc 1.1p1 --arm
  */
-u32 ARC_UTIL_UploadScreen(void *buf, u32 kind, u32 a2, u32 size)
+u32 ARC_UTIL_UploadScreen(void *buf, u32 kind, u32 dest, u32 size)
 {
     struct UnpackedGfxBlock *res;
 
@@ -1256,7 +1256,7 @@ u32 ARC_UTIL_UploadScreen(void *buf, u32 kind, u32 a2, u32 size)
             size = res->size;
         }
         DC_FlushRange(res->data, size);
-        ARC_UTIL_gScreenLoadFns[kind](res->data, a2, size);
+        ARC_UTIL_gScreenLoadFns[kind](res->data, dest, size);
     }
 
     ENV_SetResourceSet(buf);
@@ -1279,10 +1279,10 @@ u32 ARC_UTIL_UploadScreen(void *buf, u32 kind, u32 a2, u32 size)
  *   python tools/match.py one --src src/matched/ARC_UTIL_UploadBgPaletteFromArchive.c \
  *       --func ARC_UTIL_UploadBgPaletteFromArchive --addr 0x0204989C --cc 1.1p1 --arm
  */
-void ARC_UTIL_UploadBgPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags)
+void ARC_UTIL_UploadBgPaletteFromArchive(u32 archiveID, u32 memberIdx, u32 channel, u32 offset, u32 size, u32 heapID, u16 flags)
 {
-    ARC_UTIL_UploadBgPalette((void *)ARC_UTIL_LoadMember((u32)a0, (u32)a1, (u32)a5, (u16)((flags & 0x7FFF) | 0x8000)),
-                  a2, a3, 0, a4, 0);
+    ARC_UTIL_UploadBgPalette((void *)ARC_UTIL_LoadMember((u32)archiveID, (u32)memberIdx, (u32)heapID, (u16)((flags & 0x7FFF) | 0x8000)),
+                  channel, offset, 0, size, 0);
 }
 
 /*
@@ -1302,10 +1302,10 @@ void ARC_UTIL_UploadBgPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4,
  *   python tools/match.py one --src src/matched/ARC_UTIL_UploadBgPaletteFromHandle.c \
  *       --func ARC_UTIL_UploadBgPaletteFromHandle --addr 0x020498F4 --cc 1.1p1 --arm
  */
-void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g)
+void ARC_UTIL_UploadBgPaletteFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 size, u32 heapID, u16 flags)
 {
-    ARC_UTIL_UploadBgPalette(ARC_UTIL_LoadHandleMember(a, b, f, (u16)((g & 0x7fff) | 0x8000)),
-                 c, d, 0, e, 0);
+    ARC_UTIL_UploadBgPalette(ARC_UTIL_LoadHandleMember(arc, memberIdx, heapID, (u16)((flags & 0x7fff) | 0x8000)),
+                 channel, offset, 0, size, 0);
 }
 
 /*
@@ -1317,22 +1317,22 @@ void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32
  *   python tools/match.py tu --src src/matched/unit_0204994C.c \
  *       --addr 0x0204994C --arm
  */
-u32 ARC_UTIL_UploadBgPaletteAddFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7)
+u32 ARC_UTIL_UploadBgPaletteAddFromArchive(u32 archiveID, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags)
 {
-    u32 res = ARC_UTIL_LoadMember(a0, a1, a6, a7);
-    return ARC_UTIL_UploadBgPalette((void *)res, a2, a3, a4, a5, 0);
+    u32 res = ARC_UTIL_LoadMember(archiveID, memberIdx, heapID, flags);
+    return ARC_UTIL_UploadBgPalette((void *)res, channel, offset, add, size, 0);
 }
 
-u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7)
+u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags)
 {
-    u32 res = (u32)ARC_UTIL_LoadHandleMember(a0, a1, a6, a7);
-    return ARC_UTIL_UploadBgPalette((void *)res, a2, a3, a4, a5, 0);
+    u32 res = (u32)ARC_UTIL_LoadHandleMember(arc, memberIdx, heapID, flags);
+    return ARC_UTIL_UploadBgPalette((void *)res, channel, offset, add, size, 0);
 }
 
-u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7)
+u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags)
 {
-    u32 res = (u32)ARC_UTIL_LoadHandleMember(a0, a1, a6, a7);
-    return ARC_UTIL_UploadBgPalette((void *)res, a2, a3, a4, a5, 1);
+    u32 res = (u32)ARC_UTIL_LoadHandleMember(arc, memberIdx, heapID, flags);
+    return ARC_UTIL_UploadBgPalette((void *)res, channel, offset, add, size, 1);
 }
 
 /*
@@ -1353,7 +1353,7 @@ u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *a0, u32 a1, u32 a2, u32 a3, u
  * block the counter is declared BEFORE the element pointer (the other order
  * swaps the two registers in both loops, 17 bytes).
  */
-u32 ARC_UTIL_UploadBgPalette(void *file, u32 channel, u32 a2, u32 add, u32 size, u32 flag)
+u32 ARC_UTIL_UploadBgPalette(void *file, u32 channel, u32 offset, u32 add, u32 size, u32 flag)
 {
     struct UnpackedPalette *pal;
 
@@ -1374,13 +1374,13 @@ u32 ARC_UTIL_UploadBgPalette(void *file, u32 channel, u32 a2, u32 add, u32 size,
             }
         }
         if ((int)BG_SYS_GetBuf((u8)channel) != 0) {
-            BG_SYS_DecodeTileSource((u8)channel, pal->data, size, a2);
+            BG_SYS_DecodeTileSource((u8)channel, pal->data, size, offset);
             if (flag != 0)
                 BG_SYS_SetFlagField06(channel);
             else
                 BG_SYS_PushTile(channel);
         } else {
-            BG_SYS_PushTileSource((u8)channel, pal->data, size, a2);
+            BG_SYS_PushTileSource((u8)channel, pal->data, size, offset);
         }
     }
     return GFL_HEAP_Free(file);
@@ -1405,14 +1405,14 @@ u32 ARC_UTIL_UploadBgPalette(void *file, u32 channel, u32 a2, u32 add, u32 size,
  *   python tools/match.py tu --src src/matched/unit_02049B40.c \
  *       --addr 0x02049B40 --arm
  */
-void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f)
+void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 archiveID, u32 memberIdx, u32 kind, u32 dest, u32 size, u16 flags)
 {
-    ARC_UTIL_UploadPaletteFromArchive(a, b, c, 0, d, e, f);
+    ARC_UTIL_UploadPaletteFromArchive(archiveID, memberIdx, kind, 0, dest, size, flags);
 }
 
-void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f)
+void ARC_UTIL_UploadPaletteFromHandleWhole(void *arc, u32 memberIdx, u32 kind, u32 dest, u32 size, u16 flags)
 {
-    ARC_UTIL_UploadPaletteFromHandle(a, b, c, 0, d, e, f);
+    ARC_UTIL_UploadPaletteFromHandle(arc, memberIdx, kind, 0, dest, size, flags);
 }
 
 /*
@@ -1437,10 +1437,10 @@ void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, 
  * 0x02049C28 itself, so a `tu` spanning both wrappers loses every witness and
  * only the two single-function ranges keep one each.
  */
-void ARC_UTIL_UploadPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6)
+void ARC_UTIL_UploadPaletteFromArchive(u32 archiveID, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags)
 {
-    u32 r = ARC_UTIL_LoadMember(a0, a1, 0, (u16)((a6 & 0x7fff) | 0x8000));
-    ARC_UTIL_UploadPalette((void *)r, a2, a3, a4, a5);
+    u32 buf = ARC_UTIL_LoadMember(archiveID, memberIdx, 0, (u16)((flags & 0x7fff) | 0x8000));
+    ARC_UTIL_UploadPalette((void *)buf, kind, offset, dest, size);
 }
 
 /*
@@ -1454,10 +1454,10 @@ void ARC_UTIL_UploadPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u
  * for either call and caps at MATCH; as two single-function ranges each is the
  * other's witness and both are EXACT.
  */
-void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6)
+void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags)
 {
-    u32 r = (u32)ARC_UTIL_LoadHandleMember(a0, a1, 0, (u16)((a6 & 0x7fff) | 0x8000));
-    ARC_UTIL_UploadPalette((void *)r, a2, a3, a4, a5);
+    u32 buf = (u32)ARC_UTIL_LoadHandleMember(arc, memberIdx, 0, (u16)((flags & 0x7fff) | 0x8000));
+    ARC_UTIL_UploadPalette((void *)buf, kind, offset, dest, size);
 }
 
 /*
@@ -1542,11 +1542,11 @@ void ARC_UTIL_UploadPalette(void *file, u32 kind, u32 offset, u32 dest, u32 size
  * the actor again when the hook fails.  ARC_UTIL_LoadPaletteBlockFromArchive / ARC_UTIL_LoadPaletteBlockFromHandle are
  * the 4-argument forms and pass 0 as the third argument.
  */
-void *ARC_UTIL_LoadBgCharDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *ARC_UTIL_LoadBgCharDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags)
 {
-    void *res = (void *)ARC_UTIL_LoadMember(a0, a1, a2, a4);
+    void *res = (void *)ARC_UTIL_LoadMember(archiveID, memberIdx, heapID, flags);
     if (res != 0) {
-        if (!NNS_G2dGetUnpackedCharacterDataEx(res, (void **)a3)) {
+        if (!NNS_G2dGetUnpackedCharacterDataEx(res, (void **)unpackedOut)) {
             GFL_HEAP_Free(res);
             return 0;
         }
@@ -1554,11 +1554,11 @@ void *ARC_UTIL_LoadBgCharDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
     return res;
 }
 
-void *ARC_UTIL_LoadBgCharDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *ARC_UTIL_LoadBgCharDataFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags)
 {
-    void *res = ARC_UTIL_LoadHandleMember(a0, a1, a2, a4);
+    void *res = ARC_UTIL_LoadHandleMember(arc, memberIdx, heapID, flags);
     if (res != 0) {
-        if (!NNS_G2dGetUnpackedCharacterDataEx(res, (void **)a3)) {
+        if (!NNS_G2dGetUnpackedCharacterDataEx(res, (void **)unpackedOut)) {
             GFL_HEAP_Free(res);
             return 0;
         }
@@ -1566,11 +1566,11 @@ void *ARC_UTIL_LoadBgCharDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4
     return res;
 }
 
-void *ARC_UTIL_LoadScreenDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *ARC_UTIL_LoadScreenDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags)
 {
-    void *res = (void *)ARC_UTIL_LoadMember(a0, a1, a2, a4);
+    void *res = (void *)ARC_UTIL_LoadMember(archiveID, memberIdx, heapID, flags);
     if (res != 0) {
-        if (!NNS_G2dGetUnpackedCharacterData(res, (void **)a3)) {
+        if (!NNS_G2dGetUnpackedCharacterData(res, (void **)unpackedOut)) {
             GFL_HEAP_Free(res);
             return 0;
         }
@@ -1578,11 +1578,11 @@ void *ARC_UTIL_LoadScreenDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
     return res;
 }
 
-void *ARC_UTIL_LoadScreenDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *ARC_UTIL_LoadScreenDataFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags)
 {
-    void *res = ARC_UTIL_LoadHandleMember(a0, a1, a2, a4);
+    void *res = ARC_UTIL_LoadHandleMember(arc, memberIdx, heapID, flags);
     if (res != 0) {
-        if (!NNS_G2dGetUnpackedCharacterData(res, (void **)a3)) {
+        if (!NNS_G2dGetUnpackedCharacterData(res, (void **)unpackedOut)) {
             GFL_HEAP_Free(res);
             return 0;
         }
@@ -1590,11 +1590,11 @@ void *ARC_UTIL_LoadScreenDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4
     return res;
 }
 
-void *ARC_UTIL_LoadPaletteDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *ARC_UTIL_LoadPaletteDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags)
 {
-    void *res = (void *)ARC_UTIL_LoadMember(a0, a1, a2, a4);
+    void *res = (void *)ARC_UTIL_LoadMember(archiveID, memberIdx, heapID, flags);
     if (res != 0) {
-        if (!NNS_G2dGetUnpackedScreenData(res, (void **)a3)) {
+        if (!NNS_G2dGetUnpackedScreenData(res, (void **)unpackedOut)) {
             GFL_HEAP_Free(res);
             return 0;
         }
@@ -1602,9 +1602,9 @@ void *ARC_UTIL_LoadPaletteDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4
     return res;
 }
 
-void *ARC_UTIL_LoadPaletteDataFromHandle(void *a0, u32 a1, u32 a2, void **out, u16 a4)
+void *ARC_UTIL_LoadPaletteDataFromHandle(void *arc, u32 memberIdx, u32 heapID, void **out, u16 flags)
 {
-    void *res = ARC_UTIL_LoadHandleMember(a0, a1, a2, a4);
+    void *res = ARC_UTIL_LoadHandleMember(arc, memberIdx, heapID, flags);
     if (res != 0) {
         if (!NNS_G2dGetUnpackedScreenData(res, out)) {
             GFL_HEAP_Free(res);
@@ -1614,11 +1614,11 @@ void *ARC_UTIL_LoadPaletteDataFromHandle(void *a0, u32 a1, u32 a2, void **out, u
     return res;
 }
 
-void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u16 a3)
+void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, u32 unpackedOut, u16 flags)
 {
-    void *res = (void *)ARC_UTIL_LoadMember(a0, a1, 0, a3);
+    void *res = (void *)ARC_UTIL_LoadMember(archiveID, memberIdx, 0, flags);
     if (res != 0) {
-        if (!NNS_G2dGetUnpackedPaletteData(res, (void **)a2)) {
+        if (!NNS_G2dGetUnpackedPaletteData(res, (void **)unpackedOut)) {
             GFL_HEAP_Free(res);
             return 0;
         }
@@ -1626,11 +1626,11 @@ void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u16 a3)
     return res;
 }
 
-void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u16 a3)
+void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, u32 unpackedOut, u16 flags)
 {
-    void *res = ARC_UTIL_LoadHandleMember(a0, a1, 0, a3);
+    void *res = ARC_UTIL_LoadHandleMember(arc, memberIdx, 0, flags);
     if (res != 0) {
-        if (!NNS_G2dGetUnpackedPaletteData(res, (void **)a2)) {
+        if (!NNS_G2dGetUnpackedPaletteData(res, (void **)unpackedOut)) {
             GFL_HEAP_Free(res);
             return 0;
         }
@@ -1638,11 +1638,11 @@ void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u16 a3)
     return res;
 }
 
-void *ARC_UTIL_LoadCellBankFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *ARC_UTIL_LoadCellBankFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags)
 {
-    void *res = (void *)ARC_UTIL_LoadMember(a0, a1, a2, a4);
+    void *res = (void *)ARC_UTIL_LoadMember(archiveID, memberIdx, heapID, flags);
     if (res != 0) {
-        if (!NNS_G2dGetUnpackedCellBank((int)res, (int *)a3)) {
+        if (!NNS_G2dGetUnpackedCellBank((int)res, (int *)unpackedOut)) {
             GFL_HEAP_Free(res);
             return 0;
         }
@@ -1650,11 +1650,11 @@ void *ARC_UTIL_LoadCellBankFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
     return res;
 }
 
-void *ARC_UTIL_LoadCellBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *ARC_UTIL_LoadCellBankFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags)
 {
-    void *res = ARC_UTIL_LoadHandleMember(a0, a1, a2, a4);
+    void *res = ARC_UTIL_LoadHandleMember(arc, memberIdx, heapID, flags);
     if (res != 0) {
-        if (!NNS_G2dGetUnpackedCellBank((int)res, (int *)a3)) {
+        if (!NNS_G2dGetUnpackedCellBank((int)res, (int *)unpackedOut)) {
             GFL_HEAP_Free(res);
             return 0;
         }
@@ -1662,11 +1662,11 @@ void *ARC_UTIL_LoadCellBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
     return res;
 }
 
-void *ARC_UTIL_LoadMultiCellBankFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *ARC_UTIL_LoadMultiCellBankFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags)
 {
-    void *res = (void *)ARC_UTIL_LoadMember(a0, a1, a2, a4);
+    void *res = (void *)ARC_UTIL_LoadMember(archiveID, memberIdx, heapID, flags);
     if (res != 0) {
-        if (!NNS_G2dGetUnpackedAnimBankEx(res, a3)) {
+        if (!NNS_G2dGetUnpackedAnimBankEx(res, unpackedOut)) {
             GFL_HEAP_Free(res);
             return 0;
         }
@@ -1677,11 +1677,11 @@ void *ARC_UTIL_LoadMultiCellBankFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 
 /*
  * A whole translation unit, matched as one byte range.
  */
-void *ARC_UTIL_LoadMultiCellBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *ARC_UTIL_LoadMultiCellBankFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags)
 {
-    void *res = ARC_UTIL_LoadHandleMember(a0, a1, a2, a4);
+    void *res = ARC_UTIL_LoadHandleMember(arc, memberIdx, heapID, flags);
     if (res != 0) {
-        if (!NNS_G2dGetUnpackedAnimBankEx(res, a3)) {
+        if (!NNS_G2dGetUnpackedAnimBankEx(res, unpackedOut)) {
             GFL_HEAP_Free(res);
             return 0;
         }
@@ -1689,11 +1689,11 @@ void *ARC_UTIL_LoadMultiCellBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16
     return res;
 }
 
-void *ARC_UTIL_LoadAnimBankFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *ARC_UTIL_LoadAnimBankFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags)
 {
-    void *res = (void *)ARC_UTIL_LoadMember(a0, a1, a2, a4);
+    void *res = (void *)ARC_UTIL_LoadMember(archiveID, memberIdx, heapID, flags);
     if (res != 0) {
-        if (!NNS_G2dGetUnpackedMultiCellBank((u32)res, (u32 *)a3)) {
+        if (!NNS_G2dGetUnpackedMultiCellBank((u32)res, (u32 *)unpackedOut)) {
             GFL_HEAP_Free(res);
             return 0;
         }
@@ -1701,11 +1701,11 @@ void *ARC_UTIL_LoadAnimBankFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
     return res;
 }
 
-void *ARC_UTIL_LoadAnimBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *ARC_UTIL_LoadAnimBankFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags)
 {
-    void *res = ARC_UTIL_LoadHandleMember(a0, a1, a2, a4);
+    void *res = ARC_UTIL_LoadHandleMember(arc, memberIdx, heapID, flags);
     if (res != 0) {
-        if (!NNS_G2dGetUnpackedMultiCellBank((u32)res, (u32 *)a3)) {
+        if (!NNS_G2dGetUnpackedMultiCellBank((u32)res, (u32 *)unpackedOut)) {
             GFL_HEAP_Free(res);
             return 0;
         }
@@ -1713,11 +1713,11 @@ void *ARC_UTIL_LoadAnimBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
     return res;
 }
 
-void *ARC_UTIL_LoadMultiAnimBankFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *ARC_UTIL_LoadMultiAnimBankFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags)
 {
-    void *res = (void *)ARC_UTIL_LoadMember(a0, a1, a2, a4);
+    void *res = (void *)ARC_UTIL_LoadMember(archiveID, memberIdx, heapID, flags);
     if (res != 0) {
-        if (!NNSi_G2dGetUnpackedAnimBank(res, a3)) {
+        if (!NNSi_G2dGetUnpackedAnimBank(res, unpackedOut)) {
             GFL_HEAP_Free(res);
             return 0;
         }
@@ -1725,11 +1725,11 @@ void *ARC_UTIL_LoadMultiAnimBankFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 
     return res;
 }
 
-void *ARC_UTIL_LoadMultiAnimBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *ARC_UTIL_LoadMultiAnimBankFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags)
 {
-    void *res = ARC_UTIL_LoadHandleMember(a0, a1, a2, a4);
+    void *res = ARC_UTIL_LoadHandleMember(arc, memberIdx, heapID, flags);
     if (res != 0) {
-        if (!NNSi_G2dGetUnpackedAnimBank(res, a3)) {
+        if (!NNSi_G2dGetUnpackedAnimBank(res, unpackedOut)) {
             GFL_HEAP_Free(res);
             return 0;
         }

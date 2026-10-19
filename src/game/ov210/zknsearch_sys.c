@@ -71,7 +71,7 @@ extern unsigned d_02FE0000[];
 extern u8 d_021C0754[];
 
 
-u32 ZKNSEARCH_SYS_Create(void *man, u32 b, u32 arg)
+u32 ZKNSEARCH_SYS_Create(void *man, u32 unused, u32 arg)
 {
     u32 *p;
     GFL_HEAP_CreateChildHeap(1, 0x7b, 0x60000);
@@ -85,58 +85,58 @@ u32 ZKNSEARCH_SYS_Create(void *man, u32 b, u32 arg)
 /*
  * Addresses are Black-image addresses.
  */
-u32 ZKNSEARCH_SYS_IsReady(u32 a, u32 b, u32 c, u32 d)
+u32 ZKNSEARCH_SYS_IsReady(u32 man, u32 unused, u32 args, u32 work)
 {
-    return ZKNSEARCH_MAIN_RunState((u8 *)d) == 0;
+    return ZKNSEARCH_MAIN_RunState((u8 *)work) == 0;
 }
 
 
-u32 ZKNSEARCH_SYS_Delete(void *p)
+u32 ZKNSEARCH_SYS_Delete(void *work)
 {
-    PROCSYS_FreeProcWork(p);
+    PROCSYS_FreeProcWork(work);
     GFL_HEAP_DeleteChecked(0x7b);
     return 1;
 }
 
 
-void ZKNSEARCH_SYS_RegisterVBlank(u8 *p)
+void ZKNSEARCH_SYS_RegisterVBlank(u8 *work)
 {
-    ((ZknSearchWork *)p)->vblank = GFL_USE_AddMainTask((void (*)(void))ZKNSEARCH_SYS_VBlankHandler, p, 0);
+    ((ZknSearchWork *)work)->vblank = GFL_USE_AddMainTask((void (*)(void))ZKNSEARCH_SYS_VBlankHandler, work, 0);
 }
 
 
-u32 ZKNSEARCH_SYS_UnregisterVBlank(u8 *p)
+u32 ZKNSEARCH_SYS_UnregisterVBlank(u8 *work)
 {
-    return TCB_DeleteTask(((ZknSearchWork *)p)->vblank);
+    return TCB_DeleteTask(((ZknSearchWork *)work)->vblank);
 }
 
-void ZKNSEARCH_SYS_VBlankHandler(void *unused,unsigned char *p)
+void ZKNSEARCH_SYS_VBlankHandler(void *unused,unsigned char *work)
 {
     BG_SYS_Update();
     CLACT_VBlankSystem();
-    PALANM_TransferPalettes(((ZknSearchWork *)p)->palAnm);
-    if (p[0x2b8]==1) {
+    PALANM_TransferPalettes(((ZknSearchWork *)work)->palAnm);
+    if (work[0x2b8]==1) {
         BG_SYS_SetMainPlaneVisible(10,1);
         BG_SYS_SetSubPlaneVisible(2,1);
-        p[0x2b8]=0;
-    } else if (p[0x2b8]==2) {
+        work[0x2b8]=0;
+    } else if (work[0x2b8]==2) {
         BG_SYS_SetMainPlaneVisible(10,0);
         BG_SYS_SetSubPlaneVisible(2,0);
-        p[0x2b8]=0;
+        work[0x2b8]=0;
     }
     *(volatile unsigned *)((unsigned)d_02FE0000+0x3ff8) |= 1;
 }
 
 
-void ZKNSEARCH_SYS_RegisterHBlank(u8 *p)
+void ZKNSEARCH_SYS_RegisterHBlank(u8 *work)
 {
-    ((ZknSearchWork *)p)->hblank = (u32)GFL_USE_AddHBlankTask((u32)ZKNSEARCH_SYS_HBlankHandler, (u32)p, 0);
+    ((ZknSearchWork *)work)->hblank = (u32)GFL_USE_AddHBlankTask((u32)ZKNSEARCH_SYS_HBlankHandler, (u32)work, 0);
 }
 
 
-u32 ZKNSEARCH_SYS_UnregisterHBlank(u8 *p)
+u32 ZKNSEARCH_SYS_UnregisterHBlank(u8 *work)
 {
-    return TCB_DeleteTask(((ZknSearchWork *)p)->hblank);
+    return TCB_DeleteTask(((ZknSearchWork *)work)->hblank);
 }
 
 /*
@@ -147,10 +147,10 @@ u32 ZKNSEARCH_SYS_UnregisterHBlank(u8 *p)
  * halfword from the IO register at 0x04000006, then writes one of six packed
  * halfwords to the register at 0x04001052.
  */
-void ZKNSEARCH_SYS_HBlankHandler(void *ctx, unsigned char *p)
+void ZKNSEARCH_SYS_HBlankHandler(void *ctx, unsigned char *work)
 {
     int v = *(volatile unsigned short *)0x04000006;
-    int b = p[0x2b9];
+    int b = work[0x2b9];
 
     if (b == 4) {
         if (v >= 0x98)

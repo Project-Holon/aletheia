@@ -185,7 +185,7 @@ extern void DWC_Http_StartThread(DWCHttp *http, unsigned long prio);
 extern int DWC_Http_ParseResult(DWCHttp *http, int noparsebody);
 extern char *DWC_Http_GetResult(DWCHttp *http, char *label);
 extern int DWC_Auth_SetNasTimeDiff(char *datestr);
-extern int atoi(u32 a0);
+extern int atoi(u32 s);
 extern int DWC_Http_GetBase64DecodedResult(DWCHttp *http, char *label, char *buffer, unsigned long buffer_len);
 int DWCi_Svl_ParseHttp(void);
 

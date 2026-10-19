@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_NETWORK_BattleRecordLinkEventMain
+ * function: EVENT_FIELD_MENU_Main
  * address:  0x0215FD0C
  * packet:   pkt_ov010_0215FD0C
  * region:   ov010
@@ -25,7 +25,7 @@
  *   FIELD_COMM_ACTOR_CreateSubscreenChangeEvent  0x021945A4  thumb  ov021
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
  *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
- *   SCRCMD_NETWORK_GetRecordKindByFrameRate  0x0215FEC8  thumb  ov010
+ *   EVENT_FIELD_MENU_GetProcKindOfButton  0x0215FEC8  thumb  ov010
  *   MOVE_POKEMON_InitSkillInfo  0x0215E840  thumb  ov010
  *   MOVE_POKEMON_InitSkillTarget  0x0215EA30  thumb  ov010
  *   MOVE_POKEMON_CreateSkillEvent  0x0215EA38  thumb  ov010
@@ -89,7 +89,7 @@ extern u32 FIELD_SUBSCREEN_GetMenuSelectedButton(void *link);
 extern void *FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(void *a, u32 b, u32 c);
 extern void FLDMMDL_SysPauseMove(void *map);
 extern u32 *FLDMMDL_SysResumeMove(void *c);
-extern u32 SCRCMD_NETWORK_GetRecordKindByFrameRate(u32 n);
+extern u32 EVENT_FIELD_MENU_GetProcKindOfButton(u32 n);
 extern void MOVE_POKEMON_InitSkillInfo(void *field, Info *out);
 extern void MOVE_POKEMON_InitSkillTarget(Query *q, u16 a, u16 b, u32 c);
 extern int MOVE_POKEMON_CreateSkillEvent(int a0, int a1, int a2);
@@ -103,7 +103,7 @@ extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern void GAME_EVENT_ChangeEvent(struct S0201235C *o, u32 *out);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 
-int SCRCMD_NETWORK_BattleRecordLinkEventMain(void *task, void *unused, Ctx *c)
+int EVENT_FIELD_MENU_Main(void *task, void *unused, Ctx *c)
 {
     Query q;
     Info info;
@@ -139,7 +139,7 @@ int SCRCMD_NETWORK_BattleRecordLinkEventMain(void *task, void *unused, Ctx *c)
         n = FIELD_SUBSCREEN_GetMenuSelectedButton((void *)FIELDMAP_GetSubscreen(c->field));
         GAME_DATA_SetFrameRate(sys, n);
         c->f10 = FIELD_SUBSCREEN_GetMenuSelectedButton((void *)FIELDMAP_GetSubscreen(c->field));
-        c->f28 = SCRCMD_NETWORK_GetRecordKindByFrameRate(n);
+        c->f28 = EVENT_FIELD_MENU_GetProcKindOfButton(n);
         c->state = 5;
         break;
     case 3:

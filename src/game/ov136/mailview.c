@@ -75,7 +75,7 @@ extern void CLACT_VBlankSystem(void);
 extern void BG_SYS_Update(void);
 extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern struct AppTaskMenuRes *APP_TASKMENU_RES_Create(u16 a0, u16 a1, struct GfFont *font, struct PrintQue *printQue, u16 heap);
+extern struct AppTaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GfFont *font, struct PrintQue *printQue, u16 heap);
 extern void PALANM_SetAutoTransfer(struct PalAnmSlot *o, int v);
 extern u32 TCB_GetTaskOffset(u32 idx);
 extern void *TCB_Init(u32 capacity, void *mem);

@@ -210,7 +210,7 @@ void DWCi_Ndi_unprepareHttpCallback(void);
 void DWCi_Ndi_kickThread(void *threadEvent);
 void DWCi_Ndi_getMacAddress(char *macaddr);
 unsigned long DWCi_Ndi_strlen(char *p);
-int DWCi_Ndi_strncmp(char *p1, char *p2, unsigned long size);
+int DWCi_Ndi_strncmp(char *str1, char *str2, unsigned long size);
 void DWCi_Ndi_memclr(void *p, int size);
 int DWCi_Ndi_strToInt(char *s, int len);
 int DWCi_Ndi_intToStr(char *p, unsigned long n);
@@ -311,17 +311,17 @@ int DWCi_NdSetAttr(char *attr1, char *attr2, char *attr3)
 /*
  * sdk:      getNchar (libdwcnd.TWL.HYB.a dwci_nd.o)
  */
-int getNchar(unsigned char *dst, char *p, int n)
+int getNchar(unsigned char *dst, char *src, int count)
 {
     int i;
     int len;
 
     len = 0;
-    for (i = 0; i < n; i++) {
-        if (*p != 0) {
-            *dst++ = *p;
+    for (i = 0; i < count; i++) {
+        if (*src != 0) {
+            *dst++ = *src;
             len++;
-            p++;
+            src++;
         } else {
             *dst++ = 0;
         }
@@ -1282,25 +1282,25 @@ void DWCi_Ndi_getMacAddress(char *macaddr)
 /*
  * strlen thunk.
  */
-unsigned long DWCi_Ndi_strlen(char *p)
+unsigned long DWCi_Ndi_strlen(char *str)
 {
-    return strlen(p);
+    return strlen(str);
 }
 
 /*
  * strncmp thunk.
  */
-int DWCi_Ndi_strncmp(char *p1, char *p2, unsigned long size)
+int DWCi_Ndi_strncmp(char *str1, char *str2, unsigned long size)
 {
-    return strncmp(p1, p2, size);
+    return strncmp(str1, str2, size);
 }
 
 /*
  * Clears `size` bytes at `p`.
  */
-void DWCi_Ndi_memclr(void *p, int size)
+void DWCi_Ndi_memclr(void *dst, int size)
 {
-    MI_CpuFill8(p, 0, size);
+    MI_CpuFill8(dst, 0, size);
 }
 
 /*
@@ -1322,7 +1322,7 @@ int DWCi_Ndi_strToInt(char *s, int len)
 /*
  * Writes the decimal text of `n` to `p`.
  */
-int DWCi_Ndi_intToStr(char *p, unsigned long n)
+int DWCi_Ndi_intToStr(char *buf, unsigned long value)
 {
-    return NHTTPi_intToStr(p, n);
+    return NHTTPi_intToStr(buf, value);
 }

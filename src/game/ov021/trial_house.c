@@ -23,11 +23,11 @@
  *   abs_id_4b      0x0000004B  data
  *   abs_id_4d      0x0000004D  data
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   ICA_ANIME_GetField20  0x0201210C  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   abs_id_39      0x00000039  data
  *   BATTLE_EXAMINATION_GetBlockSize  0x0200E588  thumb
  *   POKEPARTY_Create  0x0201A920  thumb
@@ -203,9 +203,9 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u
 extern u32 GFL_HEAP_Free(void *p);
 extern void *GAME_EVENT_GetWork(GameEvent *event);
 extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, void *arg, int (*func)(GameEvent *event, u32 *seq, void *work), u32 workSize);
-extern GameData *ICA_ANIME_GetField1C(GameSystem *gameSystem);
+extern GameData *GAMESYSTEM_GetGameData(GameSystem *gameSystem);
 extern SaveControl *GAME_DATA_GetSaveControl(GameData *gameData);
-extern FieldMap *ICA_ANIME_GetField20(GameSystem *gameSystem);
+extern FieldMap *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
 extern void *POKEPARTY_GetMember(Party *party, u32 index);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 paramId, u32 arg);
 extern u32 BATTLE_EXAMINATION_GetBlockSize(void);
@@ -278,7 +278,7 @@ TrialHouseWork *TRIAL_HOUSE_CreateWork(GameSystem *gameSystem)
     u32 deliverySize;
 
     deliverySize = BATTLE_EXAMINATION_GetBlockSize();
-    GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem)); /* result unused in the original */
+    GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem)); /* result unused in the original */
     work = GFL_HEAP_Alloc(TRIAL_HOUSE_HEAP_ID, sizeof(TrialHouseWork), 1, d_021DE674, 0x5D);
     work->heapId = TRIAL_HOUSE_HEAP_ID;
     work->delivery = GFL_HEAP_Alloc(TRIAL_HOUSE_HEAP_ID, deliverySize, 1, d_021DE674, 0x5F);
@@ -295,7 +295,7 @@ void TRIAL_HOUSE_LoadDeliveryState(GameSystem *gameSystem, TrialHouseWork *work)
     SaveControl *saveControl;
     void *buf;
 
-    saveControl = GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem));
+    saveControl = GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem));
     buf = GFL_HEAP_Alloc(TRIAL_HOUSE_SAVE_HEAP_ID, TRIAL_HOUSE_SAVE_BUF_SIZE, 1, d_021DE674, 0x79);
     SAVE_CONTROL_LoadExtraSaveWithBuffer(saveControl, TRIAL_HOUSE_SAVE_BLOCK, TRIAL_HOUSE_SAVE_HEAP_ID, buf, TRIAL_HOUSE_SAVE_BUF_SIZE);
     state = TRIAL_HOUSE_DELIVERY_NONE;
@@ -416,7 +416,7 @@ void TRIAL_HOUSE_LoadDeliveredTrainer(GameSystem *gameSystem, BtlInstTrainer *ds
     SaveControl *saveControl;
     void *buf;
 
-    saveControl = GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem));
+    saveControl = GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem));
     buf = GFL_HEAP_Alloc(TRIAL_HOUSE_SAVE_HEAP_ID, TRIAL_HOUSE_SAVE_BUF_SIZE, 1, d_021DE674, 0x14C);
     if (SAVE_CONTROL_LoadExtraSaveWithBuffer(saveControl, TRIAL_HOUSE_SAVE_BLOCK, TRIAL_HOUSE_SAVE_HEAP_ID, buf, TRIAL_HOUSE_SAVE_BUF_SIZE) == 1) {
         *dst = *BATTLE_EXAMINATION_GetTrainerSlot(SAVE_CONTROL_GetExtraSaveRecord(saveControl, TRIAL_HOUSE_SAVE_BLOCK, 0), index);
@@ -527,7 +527,7 @@ int TRIAL_HOUSE_DeliveryTaskMain(GameEvent *event, u32 *seq, void *work)
         if (DELIVERY_BEACON_TryComplete(task->beacon) == 0) {
             break;
         }
-        gameData = ICA_ANIME_GetField1C(gameSystem);
+        gameData = GAMESYSTEM_GetGameData(gameSystem);
         saveControl = GAME_DATA_GetSaveControl(gameData);
         save = MISC_SAVEDATA_GetBlock41(saveControl);
         delivery = task->trialHouse->delivery;
@@ -623,7 +623,7 @@ void TRIAL_HOUSE_ComputeScoreAndRank(GameSystem *gameSystem, TrialHouseWork *wor
     *outRank = rank;
     *outScore = score;
 
-    saveControl = GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem));
+    saveControl = GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem));
     save = MISC_SAVEDATA_GetBlock41(saveControl);
     slot = &save->slot[(u8)(work->deliveryState != 0)];
     slot->valid = 1;
@@ -645,7 +645,7 @@ void TRIAL_HOUSE_ComputeScoreAndRank(GameSystem *gameSystem, TrialHouseWork *wor
     }
 
     if (work->deliveryState != 0) {
-        saveControl2 = GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem));
+        saveControl2 = GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem));
         buf = GFL_HEAP_Alloc(TRIAL_HOUSE_SAVE_HEAP_ID, TRIAL_HOUSE_SAVE_BUF_SIZE, 1, d_021DE674, 0x277);
         if (SAVE_CONTROL_LoadExtraSaveWithBuffer(saveControl2, TRIAL_HOUSE_SAVE_BLOCK, TRIAL_HOUSE_SAVE_HEAP_ID, buf, TRIAL_HOUSE_SAVE_BUF_SIZE) == 1) {
             MI_CpuCopy8(SAVE_CONTROL_GetExtraSaveRecord(saveControl2, TRIAL_HOUSE_SAVE_BLOCK, 0)->profile, save->profile, sizeof(save->profile));
@@ -681,7 +681,7 @@ GameEvent *TRIAL_HOUSE_CreateSaveTask(GameSystem *gameSystem, int unused, int mo
     task->gameSystem = gameSystem;
     task->buffer = 0;
     task->mode = mode;
-    saveAnime = FIELD_SAVEANIME_Create(0x8015, ICA_ANIME_GetField20(gameSystem));
+    saveAnime = FIELD_SAVEANIME_Create(0x8015, GAMESYSTEM_GetFieldMap(gameSystem));
     task->saveAnime = saveAnime;
     FIELD_SAVEANIME_Start(saveAnime);
     return event;
@@ -690,7 +690,7 @@ GameEvent *TRIAL_HOUSE_CreateSaveTask(GameSystem *gameSystem, int unused, int mo
 /* Returns a bit mask of the saved results: bit 0 = first slot, bit 1 = second slot. */
 int TRIAL_HOUSE_GetRecordSlotsState(GameSystem *gameSystem)
 {
-    TrialHouseSave *save = MISC_SAVEDATA_GetBlock41(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem)));
+    TrialHouseSave *save = MISC_SAVEDATA_GetBlock41(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem)));
 
     if (save->slot[0].valid != 0) {
         if (save->slot[1].valid != 0) {
@@ -729,7 +729,7 @@ void TRIAL_HOUSE_MarkDeliveryIdReceived(TrialHouseSave *save, u32 id)
 int TRIAL_HOUSE_SaveTaskMain(GameEvent *event, u32 *seq, void *work)
 {
     TrialHouseSaveTaskWork *task = work;
-    GameData *gameData = ICA_ANIME_GetField1C(task->gameSystem);
+    GameData *gameData = GAMESYSTEM_GetGameData(task->gameSystem);
     SaveControl *saveControl = GAME_DATA_GetSaveControl(gameData);
     TrialHouseDelivery *delivery;
 

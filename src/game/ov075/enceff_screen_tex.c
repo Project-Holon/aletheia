@@ -25,7 +25,7 @@
  *   d_020A1EB8     0x020A1EB8  data  a4
  *   d_021F55F8     0x021F55F8  data  ov075  a4
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
- *   ICA_ANIME_GetField20  0x0201210C  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   BG_SYS_SetVisibleLayer  0x0204047C  arm
  *   FIELDMAP_GetDrawMode  0x021899F0  thumb  ov021
  *   GX_GetBankForTex  0x02080C44  arm
@@ -61,7 +61,7 @@ extern void G3i_PerspectiveW_(int a, int b, int c, int d, int e, int f, int g, i
 extern void G3X_Reset(void);
 extern void G3i_LookAt_(VecFx32 *eye, VecFx32 *up, VecFx32 *target, int d, int e);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
-extern struct FieldMap *ICA_ANIME_GetField20(const struct GameSystem *gameSystem);
+extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 extern void BG_SYS_SetVisibleLayer(int idx, u16 val);
 extern int FIELDMAP_GetDrawMode(struct FieldMap *fieldMap);
 extern void FIELDMAP_SetDrawMode(struct FieldMap *fieldMap, int drawMode);
@@ -77,7 +77,6 @@ extern int FADE_IsActive(void);
 extern void GX_SetBankForLCDC(int);
 extern void *GFL_USE_AddMainTask(u32, u32, u32);
 extern void TCB_DeleteTask(void *task);
-extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 struct GameEvent *ENCEFF_StartScreenTexEffectFlash(struct GameSystem *gameSystem, VecFx32 *cameraPos, EncEffScreenTexStartFunc start, EncEffScreenTexDrawFunc draw);
 struct GameEvent *ENCEFF_StartScreenTexEffect(struct GameSystem *gameSystem, VecFx32 *cameraPos, EncEffScreenTexStartFunc start, EncEffScreenTexDrawFunc draw);
 void ENCEFF_DrawScreenTexEffect(EncEffScreenTexWork *work);
@@ -168,7 +167,7 @@ int ENCEFF_ScreenTexFlashEventMain(struct GameEvent *event, int *state, EncEffSc
     struct GameEvent *child;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    fieldMap = ICA_ANIME_GetField20(gameSystem);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     switch (*state) {
     case 0:
         FADE_Start(4, 0, 0x10, 0);

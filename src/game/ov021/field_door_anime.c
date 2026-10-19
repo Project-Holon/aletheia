@@ -48,13 +48,13 @@ typedef struct DoorAnimeWork {
     u32 silent;    /* +0x10: close without the close SE */
 } DoorAnimeWork;
 
-extern int GFL_USE_GetSeSlot(u32 a0);
+extern int GFL_USE_GetSeSlot(u32 seqNo);
 extern struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
 extern void *GAME_EVENT_GetWork(struct Obj *p);
 extern void *FIELDMAP_GetFieldPlayer(struct FieldMap *p);
 extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
 extern u32 FIELDMAP_GetG3dMapper(u8 *p);
-extern int GFL_USE_IsSeSlotBusy(u32 a0);
+extern int GFL_USE_IsSeSlotBusy(u32 slot);
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern u32 FIELD_G3D_MAPPER_GetBuildModel(u8 *p);
 extern int FIELD_BUILDMODEL_GetFirstEntryInRect(int a, int b, int c);

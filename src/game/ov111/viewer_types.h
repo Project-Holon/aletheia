@@ -157,11 +157,11 @@ typedef struct {
 /* The args block passed to VIEWER_MAIN_Create / VIEWER_TEXT_Create. */
 typedef struct {
     ViewerInfo *info;
-    void *f4;
-    u32 f8;
-    u32 fC;
-    u32 f10;
-    u32 f14;
+    void *gameData;
+    u32 editMode;
+    u32 exitCode;
+    u32 nextScreen;
+    u32 decoMode;
 } ViewerArgs;
 
 /*

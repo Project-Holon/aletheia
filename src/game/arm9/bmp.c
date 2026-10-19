@@ -113,7 +113,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
+extern int ARC_UTIL_LoadMember(int archiveID, int memberIdx, int decompress, int heapID);
 
 extern s32 NNS_G2dGetUnpackedCharacterDataEx(void *resource, struct CharData **out);
 

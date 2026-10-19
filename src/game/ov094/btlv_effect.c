@@ -285,7 +285,7 @@ extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size,
 
 extern int BTL_MAIN_CheckSetupStatusFlag(char **p, int m);
 
-extern void ZONEDATA_GetTimeLightColors(u32 id, u32 a1, u32 a2, u32 a3, u32 b0, u16 *b1, u16 heap);
+extern void ZONEDATA_GetTimeLightColors(u32 id, u32 hour, u32 minute, u32 lightTableId, u32 b0, u16 *b1, u16 heap);
 
 extern void G3D_SYSTEM_SetLight(u32 idx, const BtlvEffLight *light);
 
@@ -303,7 +303,7 @@ extern void PM_VOICE_FreeBuffers(void);
 
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 
-extern u32 PALANM_Delete(void *a0);
+extern u32 PALANM_Delete(void *ctx);
 
 void BTLV_TIMER_Delete(BtlvTimer *timer);
 
@@ -686,7 +686,7 @@ int BTLV_EFFVM_Main(BtlvEffVmWork *vm);
 
 void BTLV_EFFVM_Destroy(BtlvEffVmWork *vm);
 
-void BTLV_EFFVM_StartScript(BtlvEffVmWork *vm, u32 a1, u32 a2, u16 id, BtlvEffVmParams *q);
+void BTLV_EFFVM_StartScript(BtlvEffVmWork *vm, u32 attackerPos, u32 defenderPos, u16 id, BtlvEffVmParams *q);
 
 void BTLV_EFFVM_StopScript(BtlvEffVmWork *vm);
 
@@ -801,32 +801,32 @@ BtlvEffSetup *BTLV_EFFECT_CreateSetup(int rule, int competitor, const BtlvEffFie
     return o;
 }
 
-BtlvEffSetup *BTLV_EFFECT_CreateSetupFromBattleMain(u8 *p, int a, u16 heap)
+BtlvEffSetup *BTLV_EFFECT_CreateSetupFromBattleMain(u8 *battleMain, int param, u16 heap)
 {
-    u16 h[4];
+    u16 trainerTypes[4];
     unsigned int i;
     int side, idx, other;
     int mode, type;
-    BtlvEffFieldSituation *q;
-    for (i = 0; i < 4; i++) h[i] = 0;
-    if (BTL_MAIN_IsMultiMode((unsigned char **)p) == 1) {
-        side = BTL_MAIN_IsOwnClientSecondTeam(p);
-        idx = BTL_MAIN_GetOwnClientId(p);
-        other = BTL_MAIN_GetOwnPartnerClient(p);
-        h[side * 2] = BTL_MAIN_GetTrainerType((char *)p, idx);
-        if (other != 4) h[(side ^ 1) * 2] = BTL_MAIN_GetTrainerType((char *)p, other);
-        h[1] = BTL_MAIN_GetTrainerType((char *)p, BTL_MAIN_GetOwnOpponentClient(p, 0));
-        h[3] = BTL_MAIN_GetTrainerType((char *)p, BTL_MAIN_GetOwnOpponentClient(p, 1));
+    BtlvEffFieldSituation *fieldSituation;
+    for (i = 0; i < 4; i++) trainerTypes[i] = 0;
+    if (BTL_MAIN_IsMultiMode((unsigned char **)battleMain) == 1) {
+        side = BTL_MAIN_IsOwnClientSecondTeam(battleMain);
+        idx = BTL_MAIN_GetOwnClientId(battleMain);
+        other = BTL_MAIN_GetOwnPartnerClient(battleMain);
+        trainerTypes[side * 2] = BTL_MAIN_GetTrainerType((char *)battleMain, idx);
+        if (other != 4) trainerTypes[(side ^ 1) * 2] = BTL_MAIN_GetTrainerType((char *)battleMain, other);
+        trainerTypes[1] = BTL_MAIN_GetTrainerType((char *)battleMain, BTL_MAIN_GetOwnOpponentClient(battleMain, 0));
+        trainerTypes[3] = BTL_MAIN_GetTrainerType((char *)battleMain, BTL_MAIN_GetOwnOpponentClient(battleMain, 1));
     } else {
-        h[0] = BTL_MAIN_GetTrainerType((char *)p, BTL_MAIN_GetOwnClientId(p));
-        h[1] = BTL_MAIN_GetTrainerType((char *)p, BTL_MAIN_GetOwnOpponentClient(p, 0));
-        h[2] = 0;
-        h[3] = 0;
+        trainerTypes[0] = BTL_MAIN_GetTrainerType((char *)battleMain, BTL_MAIN_GetOwnClientId(battleMain));
+        trainerTypes[1] = BTL_MAIN_GetTrainerType((char *)battleMain, BTL_MAIN_GetOwnOpponentClient(battleMain, 0));
+        trainerTypes[2] = 0;
+        trainerTypes[3] = 0;
     }
-    mode = BTL_MAIN_GetRule((void **)p);
-    type = (int)BTL_MAIN_GetCompetitor((void ***)p);
-    q = (BtlvEffFieldSituation *)BTL_MAIN_GetFieldSituation((char **)p);
-    return BTLV_EFFECT_CreateSetup(mode, type, q, BTL_MAIN_IsMultiMode((unsigned char **)p), h, p, a, heap);
+    mode = BTL_MAIN_GetRule((void **)battleMain);
+    type = (int)BTL_MAIN_GetCompetitor((void ***)battleMain);
+    fieldSituation = (BtlvEffFieldSituation *)BTL_MAIN_GetFieldSituation((char **)battleMain);
+    return BTLV_EFFECT_CreateSetup(mode, type, fieldSituation, BTL_MAIN_IsMultiMode((unsigned char **)battleMain), trainerTypes, battleMain, param, heap);
 }
 
 /*
@@ -834,7 +834,7 @@ BtlvEffSetup *BTLV_EFFECT_CreateSetupFromBattleMain(u8 *p, int a, u16 heap)
  *           the compiler tail-merges them, which is what keeps the 0x194-based
  *           offsets and the reload of &gBtlvEff seen in the listing.
  */
-void BTLV_EFFECT_Init(BtlvEffSetup *p, void *font, u16 heap)
+void BTLV_EFFECT_Init(BtlvEffSetup *setup, void *font, u16 heap)
 {
     BtlvEff *w;
     BtlvEffStageRow *tbl;
@@ -845,7 +845,7 @@ void BTLV_EFFECT_Init(BtlvEffSetup *p, void *font, u16 heap)
 
     w = GFL_HEAP_Alloc(heap, sizeof(BtlvEff), 1, gBtlvEffectFileName, 0x116);
     gBtlvEff = w;
-    w->setup = *p;
+    w->setup = *setup;
     w->heap = heap;
     gBtlvEff->taskBuf = GFL_HEAP_Alloc(heap, TCB_GetTaskOffset(0x20), 1, gBtlvEffectFileName, 0x11c);
     gBtlvEff->owner = TCB_Init(0x20, gBtlvEff->taskBuf);
@@ -857,19 +857,19 @@ void BTLV_EFFECT_Init(BtlvEffSetup *p, void *font, u16 heap)
     PALANM_AllocSlotBuffers(gBtlvEff->palanm, 2, 0x200, heap);
     PALANM_AllocSlotBuffers(gBtlvEff->palanm, 3, 0x1e0, heap);
     v = 0;
-    gBtlvEff->mcss = BTLV_MCSS_Create(p->mode, gBtlvEff->owner, heap);
+    gBtlvEff->mcss = BTLV_MCSS_Create(setup->mode, gBtlvEff->owner, heap);
     tbl = ARC_TOOL_LoadMember(0x98, 0, (u16)((gBtlvEff->heap & 0x7fff) | 0x8000));
-    if (tbl[p->situation.stageGroup].hasVariant != 0) {
-        v = p->situation.variant;
+    if (tbl[setup->situation.stageGroup].hasVariant != 0) {
+        v = setup->situation.variant;
     }
-    gBtlvEff->stage = BTLV_STAGE_Create(p->mode, tbl[p->situation.stageGroup].stageId[p->situation.stageIndex], v, heap);
+    gBtlvEff->stage = BTLV_STAGE_Create(setup->mode, tbl[setup->situation.stageGroup].stageId[setup->situation.stageIndex], v, heap);
     if (gBtlvEff->setup.battle != 0) {
-        gBtlvEff->field = BTLV_FIELD_Create(BTL_MAIN_CheckSetupStatusFlag(gBtlvEff->setup.battle, 0x400), tbl[p->situation.stageGroup].fieldId[p->situation.stageIndex], v, heap);
+        gBtlvEff->field = BTLV_FIELD_Create(BTL_MAIN_CheckSetupStatusFlag(gBtlvEff->setup.battle, 0x400), tbl[setup->situation.stageGroup].fieldId[setup->situation.stageIndex], v, heap);
     } else {
-        gBtlvEff->field = BTLV_FIELD_Create(0, tbl[p->situation.stageGroup].fieldId[p->situation.stageIndex], v, heap);
+        gBtlvEff->field = BTLV_FIELD_Create(0, tbl[setup->situation.stageGroup].fieldId[setup->situation.stageIndex], v, heap);
     }
-    if (tbl[p->situation.stageGroup].hasLight != 0) {
-        ZONEDATA_GetTimeLightColors(p->situation.lightArg1, p->situation.lightArg2, p->situation.lightArg3, p->situation.lightArg0, p->situation.variant, out, gBtlvEff->heap);
+    if (tbl[setup->situation.stageGroup].hasLight != 0) {
+        ZONEDATA_GetTimeLightColors(setup->situation.lightArg1, setup->situation.lightArg2, setup->situation.lightArg3, setup->situation.lightArg0, setup->situation.variant, out, gBtlvEff->heap);
         r.color = out[0];
         r.x = 0;
         r.y = -0x1000;
@@ -953,76 +953,76 @@ void BTLV_EFFECT_Main(void)
     }
 }
 
-void BTLV_EFFECT_StartEffect(u32 a)
+void BTLV_EFFECT_StartEffect(u32 scriptId)
 {
     BtlvEffQueuedScript *o;
 
     if (BTLV_EFFECT_IsBusy() == 0) {
-        BTLV_EFFVM_StartScript(gBtlvEff->effvm, 0xff, 0xff, a, 0);
+        BTLV_EFFVM_StartScript(gBtlvEff->effvm, 0xff, 0xff, scriptId, 0);
         gBtlvEff->effvmActive = 1;
         return;
     }
     o = GFL_HEAP_Alloc((u16)((gBtlvEff->heap & 0x7fff) | 0x8000), 0x14, 1, gBtlvEffectFileName, 0x210);
     o->attackerPos = 0xff;
     o->defenderPos = 0xff;
-    o->scriptId = a;
+    o->scriptId = scriptId;
     BTLV_EFFECT_RegisterTask(TCB_AddTask(gBtlvEff->owner, BTLV_EFFECT_DelayedStartEffectTaskMain, o, 0), BTLV_EFFECT_FreeTaskArg, 0);
 }
 
-void BTLV_EFFECT_StartEffectOnPoke(int a, u32 b)
+void BTLV_EFFECT_StartEffectOnPoke(int attackerPos, u32 scriptId)
 {
     BtlvEffQueuedScript *o;
 
     if (BTLV_EFFECT_IsBusy() == 0) {
-        BTLV_EFFVM_StartScript(gBtlvEff->effvm, a, 0xff, b, 0);
+        BTLV_EFFVM_StartScript(gBtlvEff->effvm, attackerPos, 0xff, scriptId, 0);
         gBtlvEff->effvmActive = 1;
         return;
     }
     o = GFL_HEAP_Alloc(gBtlvEff->heap, 0x14, 1, gBtlvEffectFileName, 0x22c);
-    o->attackerPos = a;
+    o->attackerPos = attackerPos;
     o->defenderPos = 0xff;
-    o->scriptId = b;
+    o->scriptId = scriptId;
     BTLV_EFFECT_RegisterTask(TCB_AddTask(gBtlvEff->owner, BTLV_EFFECT_DelayedStartEffectTaskMain, o, 0), BTLV_EFFECT_FreeTaskArg, 0);
 }
 
-void BTLV_EFFECT_StartEffectBetweenPokes(int a, int b, u32 c)
+void BTLV_EFFECT_StartEffectBetweenPokes(int attackerPos, int defenderPos, u32 scriptId)
 {
     BtlvEffQueuedScript *o;
 
     if (BTLV_EFFECT_IsBusy() == 0) {
-        BTLV_EFFVM_StartScript(gBtlvEff->effvm, a, b, c, 0);
+        BTLV_EFFVM_StartScript(gBtlvEff->effvm, attackerPos, defenderPos, scriptId, 0);
         gBtlvEff->effvmActive = 1;
         return;
     }
     o = GFL_HEAP_Alloc(gBtlvEff->heap, 0x14, 1, gBtlvEffectFileName, 0x249);
-    o->attackerPos = a;
-    o->defenderPos = b;
-    o->scriptId = c;
+    o->attackerPos = attackerPos;
+    o->defenderPos = defenderPos;
+    o->scriptId = scriptId;
     BTLV_EFFECT_RegisterTask(TCB_AddTask(gBtlvEff->owner, BTLV_EFFECT_DelayedStartEffectTaskMain, o, 0), BTLV_EFFECT_FreeTaskArg, 0);
 }
 
-void BTLV_EFFECT_StartEffectWithRequest(const BtlvEffScriptRequest *r)
+void BTLV_EFFECT_StartEffectWithRequest(const BtlvEffScriptRequest *request)
 {
     BtlvEffQueuedScript *o;
     BtlvEffVmParams l;
 
     if (BTLV_EFFECT_IsBusy() == 0) {
         BTLV_EFFVM_InitParams(&l);
-        l.kind = r->kind;
-        l.variant = r->variant;
-        l.option = r->option;
-        BTLV_EFFVM_StartScript(gBtlvEff->effvm, r->attackerPos, r->defenderPos, r->scriptId, &l);
+        l.kind = request->kind;
+        l.variant = request->variant;
+        l.option = request->option;
+        BTLV_EFFVM_StartScript(gBtlvEff->effvm, request->attackerPos, request->defenderPos, request->scriptId, &l);
         gBtlvEff->effvmActive = 1;
         return;
     }
     o = GFL_HEAP_Alloc(gBtlvEff->heap, 0x14, 1, gBtlvEffectFileName, 0x26b);
     o->params = GFL_HEAP_Alloc(gBtlvEff->heap, 0x10, 1, gBtlvEffectFileName, 0x26c);
-    o->attackerPos = r->attackerPos;
-    o->defenderPos = r->defenderPos;
-    o->scriptId = r->scriptId;
-    o->params->kind = r->kind;
-    o->params->variant = r->variant;
-    o->params->option = r->option;
+    o->attackerPos = request->attackerPos;
+    o->defenderPos = request->defenderPos;
+    o->scriptId = request->scriptId;
+    o->params->kind = request->kind;
+    o->params->variant = request->variant;
+    o->params->option = request->option;
     BTLV_EFFECT_RegisterTask(TCB_AddTask(gBtlvEff->owner, BTLV_EFFECT_DelayedStartEffectTaskMain, o, 0), BTLV_EFFECT_FreeTaskArg, 0);
 }
 
@@ -1047,108 +1047,108 @@ void BTLV_EFFECT_ResumeVm(void)
 /*
  * witness: arm9 WAZA_TOOL_GetDamageType filed as src/matched/arm9/WAZA_TOOL_GetDamageType.c.
  */
-void BTLV_EFFECT_StartDamageTintTask(int a, int b)
+void BTLV_EFFECT_StartDamageTintTask(int pos, int moveId)
 {
     BtlvEffDamageTintTask *o;
 
     o = GFL_HEAP_Alloc((u16)((gBtlvEff->heap & 0x7fff) | 0x8000), 0x18, 0, gBtlvEffectFileName, 0x29b);
     o->step = 0;
-    o->pos = a;
+    o->pos = pos;
     o->cyclesLeft = 3;
     o->wait = 0;
-    o->skip = BTLV_MCSS_IsVanished(gBtlvEff->mcss, a);
-    if (WAZA_TOOL_GetDamageType(b) == 1)
+    o->skip = BTLV_MCSS_IsVanished(gBtlvEff->mcss, pos);
+    if (WAZA_TOOL_GetDamageType(moveId) == 1)
         o->color = 0x842;
     else
         o->color = 0x6318;
-    gBtlvEff->damageTintTaskMask |= BTLV_EFFECT_GetBitMask(a);
+    gBtlvEff->damageTintTaskMask |= BTLV_EFFECT_GetBitMask(pos);
     BTLV_EFFECT_RegisterTask(TCB_AddTask(gBtlvEff->owner, BTLV_EFFECT_DamageTintTaskMain, o, 0), BTLV_EFFECT_ClearTaskMaskM0, 0);
 }
 
 /*
  * Runs BTLV_EFFECT_StartEffectOnPoke with code 0x23b, then BTLV_EFFECT_SetPokeEffectValue with 0.
  */
-void BTLV_EFFECT_StartPokeAppearEffect(int a)
+void BTLV_EFFECT_StartPokeAppearEffect(int pos)
 {
-    BTLV_EFFECT_StartEffectOnPoke(a, 0x23b);
-    BTLV_EFFECT_SetPokeEffectValue(a, 0);
+    BTLV_EFFECT_StartEffectOnPoke(pos, 0x23b);
+    BTLV_EFFECT_SetPokeEffectValue(pos, 0);
 }
 
-void BTLV_EFFECT_StartEffectWithColor(u32 a, u16 b, u8 c, int d, int e)
+void BTLV_EFFECT_StartEffectWithColor(u32 defenderPos, u16 typeCode, u8 side, int argA, int argB)
 {
     BtlvEffVmParams l;
 
     BTLV_EFFVM_InitParams(&l);
-    l.side = c;
-    l.argB = e;
-    l.argA = d;
-    l.typeCode = b;
-    BTLV_EFFVM_StartScript(gBtlvEff->effvm, 0, a, 0x23a, &l);
+    l.side = side;
+    l.argB = argB;
+    l.argA = argA;
+    l.typeCode = typeCode;
+    BTLV_EFFVM_StartScript(gBtlvEff->effvm, 0, defenderPos, 0x23a, &l);
     gBtlvEff->effvmActive = 1;
 }
 
 /*
  * Queues request 0x23d with value b on the handle at 0x188, then sets the word at 0x1e8 to 1.
  */
-void BTLV_EFFECT_StartEffectWithValue(int a, unsigned short b)
+void BTLV_EFFECT_StartEffectWithValue(int defenderPos, unsigned short typeCode)
 {
     BtlvEffVmParams req;
 
     BTLV_EFFVM_InitParams(&req);
-    req.typeCode = b;
-    BTLV_EFFVM_StartScript(gBtlvEff->effvm, 0, a, 0x23d, (BtlvEffVmParams *)&req);
+    req.typeCode = typeCode;
+    BTLV_EFFVM_StartScript(gBtlvEff->effvm, 0, defenderPos, 0x23d, (BtlvEffVmParams *)&req);
     gBtlvEff->effvmActive = 1;
 }
 
-void BTLV_EFFECT_StartHitTask(void *a, int b)
+void BTLV_EFFECT_StartHitTask(void *poke, int pos)
 {
     BtlvEffHitTask *o;
 
     o = GFL_HEAP_Alloc((u16)((gBtlvEff->heap & 0x7fff) | 0x8000), 0x2c, 0, gBtlvEffectFileName, 0x2f9);
     o->step = 0;
-    o->pos = b;
-    BTLV_MCSS_RefreshSpriteFromParty(gBtlvEff->mcss, b, a);
-    BTLV_MCSS_MakeAddWorkFromPoke(gBtlvEff->mcss, a, &o->addWork, b);
-    gBtlvEff->hitTaskMask |= BTLV_EFFECT_GetBitMask(b);
+    o->pos = pos;
+    BTLV_MCSS_RefreshSpriteFromParty(gBtlvEff->mcss, pos, poke);
+    BTLV_MCSS_MakeAddWorkFromPoke(gBtlvEff->mcss, poke, &o->addWork, pos);
+    gBtlvEff->hitTaskMask |= BTLV_EFFECT_GetBitMask(pos);
     BTLV_EFFECT_RegisterTask(TCB_AddTask(gBtlvEff->owner, BTLV_EFFECT_SequenceTaskMain, o, 0), BTLV_EFFECT_ClearTaskMaskM1, 0);
 }
 
-void BTLV_EFFECT_ResetPokeSprite(void *a, int b)
+void BTLV_EFFECT_ResetPokeSprite(void *poke, int pos)
 {
     BtlvMcssAddWork buf;
 
-    BTLV_MCSS_RefreshSpriteFromParty(gBtlvEff->mcss, b, a);
-    BTLV_MCSS_MakeAddWorkFromPoke(gBtlvEff->mcss, a, &buf, b);
-    BTLV_MCSS_ReloadSpriteResource(gBtlvEff->mcss, b, &buf);
+    BTLV_MCSS_RefreshSpriteFromParty(gBtlvEff->mcss, pos, poke);
+    BTLV_MCSS_MakeAddWorkFromPoke(gBtlvEff->mcss, poke, &buf, pos);
+    BTLV_MCSS_ReloadSpriteResource(gBtlvEff->mcss, pos, &buf);
 }
 
-void BTLV_EFFECT_StartPokeEffectId285(u32 a)
+void BTLV_EFFECT_StartPokeEffectId285(u32 pos)
 {
-    BTLV_EFFECT_StartEffectOnPoke(a, 0x285);
+    BTLV_EFFECT_StartEffectOnPoke(pos, 0x285);
 }
 
 /*
  * Unlabelled tail-call stub, filed as a witness for the caller ov093 BTLV_CORE_SetMonShown (wave B3 lane 17).
  */
-void BTLV_EFFECT_StartPokeEffectId286(u32 a)
+void BTLV_EFFECT_StartPokeEffectId286(u32 pos)
 {
-    BTLV_EFFECT_StartEffectOnPoke(a, 0x286);
+    BTLV_EFFECT_StartEffectOnPoke(pos, 0x286);
 }
 
 /*
  * Thumb tail call through r3 with a constant second argument. Labelled in wave D8.
  */
-void BTLV_EFFECT_StartPokeEffectId26E(int a)
+void BTLV_EFFECT_StartPokeEffectId26E(int pos)
 {
-    BTLV_EFFECT_StartEffectOnPoke(a, 0x26E);
+    BTLV_EFFECT_StartEffectOnPoke(pos, 0x26E);
 }
 
 /*
  * Unlabelled tail-call stub, filed for the caller ov093 BTL_CLIENT_StepPlayEffectOnMonFast (lane S16).
  */
-void BTLV_EFFECT_StartPokeEffectId26F(u32 a)
+void BTLV_EFFECT_StartPokeEffectId26F(u32 pos)
 {
-    BTLV_EFFECT_StartEffectOnPoke(a, 0x26F);
+    BTLV_EFFECT_StartEffectOnPoke(pos, 0x26F);
 }
 
 int BTLV_EFFECT_IsBusy(void)
@@ -1164,17 +1164,17 @@ int BTLV_EFFECT_IsBusy(void)
 /*
  * Unlabelled leaf, filed as the blocker of ov093 callers (lane S15).
  */
-void BTLV_EFFECT_SetPokeSpriteKey(void *m, int key)
+void BTLV_EFFECT_SetPokeSpriteKey(void *poke, int key)
 {
-    BTLV_MCSS_AddPoke(gBtlvEff->mcss, m, key);
+    BTLV_MCSS_AddPoke(gBtlvEff->mcss, poke, key);
 }
 
 /*
  * Tail call to BTLV_MCSS_RemoveSprite with the handle at 0x190 of the global work block.
  */
-void BTLV_EFFECT_DeletePokeSprite(int a)
+void BTLV_EFFECT_DeletePokeSprite(int pos)
 {
-    BTLV_MCSS_RemoveSprite(gBtlvEff->mcss, a);
+    BTLV_MCSS_RemoveSprite(gBtlvEff->mcss, pos);
 }
 
 int BTLV_EFFECT_IsPokeSpriteLoaded(int i)
@@ -1186,47 +1186,47 @@ int BTLV_EFFECT_IsPokeSpriteLoaded(int i)
     return 0;
 }
 
-void BTLV_EFFECT_AddPokeSprite(int a, u32 b, u32 c, u32 d, u32 e)
+void BTLV_EFFECT_AddPokeSprite(int trainerId, u32 pos, u32 x, u32 y, u32 z)
 {
-    if (!(b & 1)) {
-        switch (a) {
+    if (!(pos & 1)) {
+        switch (trainerId) {
         case 0:
         case 1:
             if (BTLV_EFFECT_IsRecordEnabledInComm())
-                a += 4;
+                trainerId += 4;
             break;
         case 0x3D:
-            a = 2;
+            trainerId = 2;
             break;
         case 0x25:
-            a = 3;
+            trainerId = 3;
             break;
         default:
-            if (d_02209D0C[a] == 0)
-                a = 0;
+            if (d_02209D0C[trainerId] == 0)
+                trainerId = 0;
             else
-                a = 1;
+                trainerId = 1;
             break;
         }
     } else {
-        switch (a) {
+        switch (trainerId) {
         case 0:
         case 1:
             if (BTLV_EFFECT_IsRecordEnabledInComm())
-                a += 0x67;
+                trainerId += 0x67;
             break;
         }
     }
-    BTLV_MCSS_AddTrainer(gBtlvEff->mcss, (void *)a, b);
-    if (c != 0 || d != 0 || e != 0)
-        BTLV_MCSS_SetPosition(gBtlvEff->mcss, b, c, d, e);
-    gBtlvEff->pokeSprite[b - 8] = b;
+    BTLV_MCSS_AddTrainer(gBtlvEff->mcss, (void *)trainerId, pos);
+    if (x != 0 || y != 0 || z != 0)
+        BTLV_MCSS_SetPosition(gBtlvEff->mcss, pos, x, y, z);
+    gBtlvEff->pokeSprite[pos - 8] = pos;
 }
 
-void BTLV_EFFECT_ReleasePokeSprite(int a)
+void BTLV_EFFECT_ReleasePokeSprite(int pos)
 {
-    BTLV_MCSS_RemoveSprite(gBtlvEff->mcss, a);
-    gBtlvEff->pokeSprite[a - 8] = -1;
+    BTLV_MCSS_RemoveSprite(gBtlvEff->mcss, pos);
+    gBtlvEff->pokeSprite[pos - 8] = -1;
 }
 
 void BTLV_EFFECT_GaugeInitSlotFromBattlePoke(struct BtlMain *battleMain, struct BtlPokeParam *battlePoke, u32 slotIdx)
@@ -1265,19 +1265,19 @@ void BTLV_EFFECT_GaugeInitSlotFromPartyPoke(struct ZukanSave *zukanSave, void *p
 /*
  * Unlabelled leaf, filed as the blocker of ov093 callers (lane S17).
  */
-void BTLV_EFFECT_GaugeDeleteSlot(u32 a)
+void BTLV_EFFECT_GaugeDeleteSlot(u32 slotIdx)
 {
-    BTLV_GAUGE_DeleteSlotTask(gBtlvEff->gauge, a);
+    BTLV_GAUGE_DeleteSlotTask(gBtlvEff->gauge, slotIdx);
 }
 
-void BTLV_EFFECT_GaugeStartHpChangeAnimated(u32 a, u32 b)
+void BTLV_EFFECT_GaugeStartHpChangeAnimated(u32 slotIdx, u32 newHp)
 {
-    BTLV_GAUGE_StartHpChangeAnimated(gBtlvEff->gauge, a, b);
+    BTLV_GAUGE_StartHpChangeAnimated(gBtlvEff->gauge, slotIdx, newHp);
 }
 
-void BTLV_EFFECT_GaugeStartHpChangeInstant(u32 a, u32 b)
+void BTLV_EFFECT_GaugeStartHpChangeInstant(u32 slotIdx, u32 newHp)
 {
-    BTLV_GAUGE_StartHpChangeInstant(gBtlvEff->gauge, a, b);
+    BTLV_GAUGE_StartHpChangeInstant(gBtlvEff->gauge, slotIdx, newHp);
 }
 
 void BTLV_EFFECT_GaugeStartExpGain(int index, u32 amount)
@@ -1309,22 +1309,22 @@ int BTLV_EFFECT_GaugeIsAnimating(void)
 /*
  * Tail call to BTLV_GAUGE_SetSideVisible with the handle at 0x1a4 of the global work block.
  */
-void BTLV_EFFECT_GaugeSetSideVisible(int a, int b)
+void BTLV_EFFECT_GaugeSetSideVisible(int visible, int side)
 {
-    BTLV_GAUGE_SetSideVisible(gBtlvEff->gauge, a, b);
+    BTLV_GAUGE_SetSideVisible(gBtlvEff->gauge, visible, side);
 }
 
-void BTLV_EFFECT_GaugeSetSlotVisible(u32 a, u32 b)
+void BTLV_EFFECT_GaugeSetSlotVisible(u32 visible, u32 slotIdx)
 {
-    BTLV_GAUGE_SetSlotVisible(gBtlvEff->gauge, a, b);
+    BTLV_GAUGE_SetSlotVisible(gBtlvEff->gauge, visible, slotIdx);
 }
 
 /*
  * Unlabelled leaf, filed as the blocker of ov093 BTL_CLIENT_StepStartEffectForMon (lane S15).
  */
-void BTLV_EFFECT_GaugeSetStatusIcon(u32 a, u32 b)
+void BTLV_EFFECT_GaugeSetStatusIcon(u32 status, u32 slotIdx)
 {
-    BTLV_GAUGE_SetStatusIcon(gBtlvEff->gauge, a, b);
+    BTLV_GAUGE_SetStatusIcon(gBtlvEff->gauge, status, slotIdx);
 }
 
 void BTLV_EFFECT_GaugeSelectSlot(int sel)
@@ -1340,16 +1340,16 @@ int BTLV_EFFECT_GaugeIsSlotOccupied(int index)
 /*
  * Forwards three arguments to BTLV_GAUGE_GetSlotHealthInfo with the handle at 0x1a4 of the global work block.
  */
-int BTLV_EFFECT_GaugeGetSlotHealthInfo(int a, int *b, int *c)
+int BTLV_EFFECT_GaugeGetSlotHealthInfo(int slotIdx, int *hpState, int *statusAnim)
 {
-    return BTLV_GAUGE_GetSlotHealthInfo(gBtlvEff->gauge, a, b, c);
+    return BTLV_GAUGE_GetSlotHealthInfo(gBtlvEff->gauge, slotIdx, hpState, statusAnim);
 }
 
-void BTLV_EFFECT_CreatePartyBallBar(const BtlvPartyBallBarParam *p)
+void BTLV_EFFECT_CreatePartyBallBar(const BtlvPartyBallBarParam *param)
 {
-    BtlvPartyBallBar *r = BTLV_B_GAUGE_CreatePartyBallBar(p, gBtlvEff->heap);
+    BtlvPartyBallBar *r = BTLV_B_GAUGE_CreatePartyBallBar(param, gBtlvEff->heap);
 
-    gBtlvEff->partyBallBar[p->side] = r;
+    gBtlvEff->partyBallBar[param->side] = r;
 }
 
 /*
@@ -1365,27 +1365,27 @@ int BTLV_EFFECT_IsPartyBallBarActive(u32 i)
     return BTLV_B_GAUGE_IsPartyBallBarActive(gBtlvEff->partyBallBar[i]);
 }
 
-void BTLV_EFFECT_SetStageFieldTint(u32 a, u8 b, u8 c, u8 d, u16 e)
+void BTLV_EFFECT_SetStageFieldTint(u32 scope, u8 startLevel, u8 targetLevel, u8 interval, u16 color)
 {
-    if (a == 0 || a == 2 || a == 4)
-        BTLV_STAGE_InitLayerEntry(gBtlvEff->stage, b, c, d, e);
-    if (a == 1 || a == 2 || a == 4)
-        BTLV_FIELD_InitEntry(gBtlvEff->field, b, c, d, e);
-    if (a - 3 <= 1)
-        PALANM_RequestFade(gBtlvEff->palanm, 1, 0xFF00, (s8)d, b, c, e, *(void **)gBtlvEff);
+    if (scope == 0 || scope == 2 || scope == 4)
+        BTLV_STAGE_InitLayerEntry(gBtlvEff->stage, startLevel, targetLevel, interval, color);
+    if (scope == 1 || scope == 2 || scope == 4)
+        BTLV_FIELD_InitEntry(gBtlvEff->field, startLevel, targetLevel, interval, color);
+    if (scope - 3 <= 1)
+        PALANM_RequestFade(gBtlvEff->palanm, 1, 0xFF00, (s8)interval, startLevel, targetLevel, color, *(void **)gBtlvEff);
 }
 
-int BTLV_EFFECT_IsStageFieldBusy(u32 a)
+int BTLV_EFFECT_IsStageFieldBusy(u32 scope)
 {
     int x = 0;
     int y = 0;
     int z = 0;
 
-    if (a == 0 || a == 2 || a == 4)
+    if (scope == 0 || scope == 2 || scope == 4)
         x = BTLV_STAGE_IsEffectActive(gBtlvEff->stage);
-    if (a == 1 || a == 2 || a == 4)
+    if (scope == 1 || scope == 2 || scope == 4)
         y = BTLV_FIELD_IsEffectActive(gBtlvEff->field);
-    if (a - 3 <= 1) {
+    if (scope - 3 <= 1) {
         z = PALANM_GetFadeRequestBits((const char *)gBtlvEff->palanm) != 0;
     }
     if (x == 1 || y == 1 || z == 1)
@@ -1393,65 +1393,65 @@ int BTLV_EFFECT_IsStageFieldBusy(u32 a)
     return 0;
 }
 
-void BTLV_EFFECT_SetStageLayerEnable(u32 a, u32 b)
+void BTLV_EFFECT_SetStageLayerEnable(u32 layer, u32 hide)
 {
-    switch (a) {
+    switch (layer) {
     case 0:
-        BTLV_STAGE_SetLayerEnableMask(gBtlvEff->stage, 2, b);
+        BTLV_STAGE_SetLayerEnableMask(gBtlvEff->stage, 2, hide);
         break;
     case 1:
-        BTLV_FIELD_SetState(gBtlvEff->field, b);
+        BTLV_FIELD_SetState(gBtlvEff->field, hide);
         break;
     case 2:
-        BG_SYS_SetPlaneVisible(3, (u8)(b ^ 1));
+        BG_SYS_SetPlaneVisible(3, (u8)(hide ^ 1));
         break;
     case 3:
-        BTLV_STAGE_SetLayerEnableMask(gBtlvEff->stage, 0, b);
+        BTLV_STAGE_SetLayerEnableMask(gBtlvEff->stage, 0, hide);
         break;
     case 4:
-        BTLV_STAGE_SetLayerEnableMask(gBtlvEff->stage, 1, b);
+        BTLV_STAGE_SetLayerEnableMask(gBtlvEff->stage, 1, hide);
         break;
     }
 }
 
-void BTLV_EFFECT_StartPokeSpriteTransitionTask(int a, int b, int c)
+void BTLV_EFFECT_StartPokeSpriteTransitionTask(int kind, int pos, int playSound)
 {
     BtlvEffSpriteTransitionTask *s = GFL_HEAP_Alloc((u16)((gBtlvEff->heap & 0x7FFF) | 0x8000), 0x10, 0, gBtlvEffectFileName, 0x538);
 
-    if (a != 1) {
+    if (kind != 1) {
         s->step = 0;
-        s->dir = (a == 3) ? 0 : 1;
-        s->pos = b;
-        s->playSound = c;
-        gBtlvEff->spriteTransitionTaskMask |= BTLV_EFFECT_GetBitMask(b);
+        s->dir = (kind == 3) ? 0 : 1;
+        s->pos = pos;
+        s->playSound = playSound;
+        gBtlvEff->spriteTransitionTaskMask |= BTLV_EFFECT_GetBitMask(pos);
         BTLV_EFFECT_RegisterTask(TCB_AddTask(gBtlvEff->owner, BTLV_EFFECT_PokeSpriteTransitionTaskMain, s, 0), BTLV_EFFECT_ClearTaskMaskM2, 0);
     }
 }
 
-void BTLV_EFFECT_SetPokeSpriteVisible(u32 a, u32 b)
+void BTLV_EFFECT_SetPokeSpriteVisible(u32 posA, u32 posB)
 {
-    BTLV_MCSS_SwapSprites(gBtlvEff->mcss, a, b);
+    BTLV_MCSS_SwapSprites(gBtlvEff->mcss, posA, posB);
 }
 
 /*
  * Returns slot a-8 of the table at 0x1f8 of the global work block.
  */
-int BTLV_EFFECT_GetPokeSlot(int a)
+int BTLV_EFFECT_GetPokeSlot(int pos)
 {
-    return gBtlvEff->pokeSprite[a - 8];
+    return gBtlvEff->pokeSprite[pos - 8];
 }
 
 /*
  * Tail call to BTLV_TIMER_Start with the handle at 0x1b0 of the global work block.
  */
-void BTLV_EFFECT_TimerStart(int a, int b)
+void BTLV_EFFECT_TimerStart(int secondsPlayer, int secondsEnemy)
 {
-    BTLV_TIMER_Start(gBtlvEff->timer, a, b);
+    BTLV_TIMER_Start(gBtlvEff->timer, secondsPlayer, secondsEnemy);
 }
 
-void BTLV_EFFECT_TimerSetVisible(u32 a, u32 b, u32 c)
+void BTLV_EFFECT_TimerSetVisible(u32 side, u32 visible, u32 restart)
 {
-    BTLV_TIMER_SetVisible(gBtlvEff->timer, a, b, c);
+    BTLV_TIMER_SetVisible(gBtlvEff->timer, side, visible, restart);
 }
 
 /*
@@ -1466,12 +1466,12 @@ int BTLV_EFFECT_TimerIsExpired(int i)
  * Tail call to BTLV_MCSS_IsVanished with the handle at 0x190 of the global work block.
  * Unlabelled; filed as a witness for the caller ov093 BTLV_CORE_SetMonShown (wave B3 lane 17).
  */
-int BTLV_EFFECT_GetPokeSpriteState(int a)
+int BTLV_EFFECT_GetPokeSpriteState(int pos)
 {
-    return BTLV_MCSS_IsVanished(gBtlvEff->mcss, a);
+    return BTLV_MCSS_IsVanished(gBtlvEff->mcss, pos);
 }
 
-void BTLV_EFFECT_StartCameraMove(u32 flags, int kind, int n, int s, int t)
+void BTLV_EFFECT_StartCameraMove(u32 flags, int kind, int frames, int delay, int easeCount)
 {
     BtlvVec3 a;
     BtlvVec3 b;
@@ -1483,7 +1483,7 @@ void BTLV_EFFECT_StartCameraMove(u32 flags, int kind, int n, int s, int t)
             BTLV_CAMERA_SetEyeAndTarget(gBtlvEff->camera, &a, &b);
             break;
         case 1:
-            BTLV_CAMERA_StartMove(gBtlvEff->camera, &a, &b, n, s, t);
+            BTLV_CAMERA_StartMove(gBtlvEff->camera, &a, &b, frames, delay, easeCount);
             break;
         }
         return;
@@ -1612,9 +1612,9 @@ int BTLV_EFFECT_GetFieldSituationFlags(void)
 /*
  * Returns halfword a of the table at 0x1d4 of the global work block.
  */
-unsigned short BTLV_EFFECT_GetTrainerType(int a)
+unsigned short BTLV_EFFECT_GetTrainerType(int index)
 {
-    return gBtlvEff->setup.trainerType[a];
+    return gBtlvEff->setup.trainerType[index];
 }
 
 /*
@@ -1641,28 +1641,28 @@ void BTLV_EFFECT_PollLowHpBgm(void)
     BTLV_GAUGE_IsLowHpBgmPlaying(gBtlvEff->gauge);
 }
 
-void BTLV_EFFECT_StopLowHpBgm(u32 a)
+void BTLV_EFFECT_StopLowHpBgm(u32 bgmNo)
 {
     if (BTLV_GAUGE_IsLowHpBgmPlaying(gBtlvEff->gauge)) {
         BTLV_GAUGE_SetLowHpBgmPlaying(gBtlvEff->gauge, 0);
         GFL_USE_PopBgm();
     }
     BTLV_GAUGE_SetLowHpBgmSuppressed(gBtlvEff->gauge, 1);
-    GFL_USE_CancelChangeAndPlayBgm(a, 0xFFFF);
+    GFL_USE_CancelChangeAndPlayBgm(bgmNo, 0xFFFF);
 }
 
 /*
  * Witness leaf for ov093 BTLV_SCU_HideMonPair: tail call (obj, v) to BTLV_GAUGE_SetLowHpBgmSuppressed.
  */
-void BTLV_EFFECT_SetLowHpBgmSuppressed(u32 v)
+void BTLV_EFFECT_SetLowHpBgmSuppressed(u32 suppressed)
 {
-    BTLV_GAUGE_SetLowHpBgmSuppressed(gBtlvEff->gauge, v);
+    BTLV_GAUGE_SetLowHpBgmSuppressed(gBtlvEff->gauge, suppressed);
 }
 
-void BTLV_EFFECT_SaveBgmNo(u32 v)
+void BTLV_EFFECT_SaveBgmNo(u32 bgmNo)
 {
     gBtlvEff->bgmSaved = 1;
-    BTLV_GAUGE_SetSavedBgmNo(gBtlvEff->gauge, v);
+    BTLV_GAUGE_SetSavedBgmNo(gBtlvEff->gauge, bgmNo);
     if (BTLV_GAUGE_IsLowHpBgmPlaying(gBtlvEff->gauge) == 0)
         BTLV_GAUGE_SetBgmReplaced(gBtlvEff->gauge, 1);
 }
@@ -1672,21 +1672,21 @@ int BTLV_EFFECT_IsBgmSaved(void)
     return gBtlvEff->bgmSaved;
 }
 
-void BTLV_EFFECT_StopLowHpBgmAndSuppress(u32 a)
+void BTLV_EFFECT_StopLowHpBgmAndSuppress(u32 bgmNo)
 {
     if (BTLV_GAUGE_IsLowHpBgmPlaying(gBtlvEff->gauge) == 1)
         GFL_USE_PopBgm();
     BTLV_GAUGE_SetLowHpBgmSuppressed(gBtlvEff->gauge, 1);
     BTLV_GAUGE_SetLowHpBgmPlaying(gBtlvEff->gauge, 0);
-    GFL_USE_CancelChangeAndPlayBgm(a, 0x0000FFFF);
+    GFL_USE_CancelChangeAndPlayBgm(bgmNo, 0x0000FFFF);
 }
 
 /*
  * Stores the low 8 bits of the argument in bits 18..25 of the word at 0x1ec of the global work block.
  */
-void BTLV_EFFECT_SetVisibilityMode(int a)
+void BTLV_EFFECT_SetVisibilityMode(int mode)
 {
-    gBtlvEff->visibilityMode = a;
+    gBtlvEff->visibilityMode = mode;
 }
 
 /*
@@ -1700,9 +1700,9 @@ int BTLV_EFFECT_GetVisibilityMode(void)
 /*
  * Sets flag bit 26 of the word at 0x1ec of the global work block.
  */
-void BTLV_EFFECT_SetFlag26(int a)
+void BTLV_EFFECT_SetFlag26(int value)
 {
-    gBtlvEff->flag26 = a;
+    gBtlvEff->flag26 = value;
 }
 
 int BTLV_EFFECT_GetFlag26(void)
@@ -1737,49 +1737,49 @@ int BTLV_EFFECT_IsRecordAllowed(void)
 /*
  * Runs BTLV_MCSS_SetSpriteWorkFlagForRule with a (enum counter keeps the entry guard) on each of the first 8 active slots of the handle at 0x190.
  */
-void BTLV_EFFECT_SetAllPokeSpriteAnim(int a)
+void BTLV_EFFECT_SetAllPokeSpriteAnim(int mode)
 {
     BtlvSlotIndex i;
 
     for (i = 0; i < 8; i++) {
         if (BTLV_MCSS_IsSpriteLoaded(gBtlvEff->mcss, i) != 0)
-            BTLV_MCSS_SetSpriteWorkFlagForRule(gBtlvEff->mcss, i, a);
+            BTLV_MCSS_SetSpriteWorkFlagForRule(gBtlvEff->mcss, i, mode);
     }
 }
 
-void BTLV_EFFECT_RegisterTask(void *h, void (*cb)(void *), int arg)
+void BTLV_EFFECT_RegisterTask(void *task, void (*cb)(void *), int arg)
 {
     int i = BTLV_EFFECT_FindFreeTaskSlot();
 
-    gBtlvEff->taskHandle[i] = h;
+    gBtlvEff->taskHandle[i] = task;
     gBtlvEff->taskCallback[i] = cb;
     gBtlvEff->taskArg[i] = arg;
 }
 
-int BTLV_EFFECT_FindTaskIndex(void *h)
+int BTLV_EFFECT_FindTaskIndex(void *task)
 {
     int i;
 
     for (i = 0; i < 32; i++) {
-        if (gBtlvEff->taskHandle[i] == h)
+        if (gBtlvEff->taskHandle[i] == task)
             break;
     }
     return i;
 }
 
-void BTLV_EFFECT_DeleteTask(void *h)
+void BTLV_EFFECT_DeleteTask(void *task)
 {
-    int i = BTLV_EFFECT_FindTaskIndex(h);
+    int i = BTLV_EFFECT_FindTaskIndex(task);
     void *w;
 
-    if (h == 0)
+    if (task == 0)
         return;
-    w = TCBL_GetTaskUserData(h);
+    w = TCBL_GetTaskUserData(task);
     if (gBtlvEff->taskCallback[i] != 0)
-        gBtlvEff->taskCallback[i](h);
+        gBtlvEff->taskCallback[i](task);
     if (w != 0)
         GFL_HEAP_Free(w);
-    TCB_DeleteTask(h);
+    TCB_DeleteTask(task);
     gBtlvEff->taskHandle[i] = 0;
     gBtlvEff->taskCallback[i] = 0;
 }
@@ -1787,24 +1787,24 @@ void BTLV_EFFECT_DeleteTask(void *h)
 /*
  * Runs BTLV_EFFECT_DeleteTask on each live object owned by a.
  */
-void BTLV_EFFECT_DeleteTasksByArg(int a)
+void BTLV_EFFECT_DeleteTasksByArg(int arg)
 {
     int i;
 
     for (i = 0; i < 32; i++) {
-        if (gBtlvEff->taskHandle[i] != 0 && a == gBtlvEff->taskArg[i])
+        if (gBtlvEff->taskHandle[i] != 0 && arg == gBtlvEff->taskArg[i])
             BTLV_EFFECT_DeleteTask(gBtlvEff->taskHandle[i]);
     }
 }
 
-void BTLV_EFFECT_SetIntroState(int a)
+void BTLV_EFFECT_SetIntroState(int state)
 {
-    gBtlvEff->introState = a;
+    gBtlvEff->introState = state;
     if (gBtlvEff->introState != 2) {
         gBtlvEff->introPhase = 0;
         gBtlvEff->introTimer = 0;
     }
-    if (a == 3)
+    if (state == 3)
         BTLV_MCSS_SaveVanishStates(gBtlvEff->mcss);
 }
 
@@ -1821,17 +1821,17 @@ void BTLV_EFFECT_StartIntroEffect(void)
 /*
  * Calls BTLV_EFFECT_PauseVm, then stores the argument at 0x238 and clears 0x23c and 0x240 of the global work block.
  */
-void BTLV_EFFECT_ResetIntroState(int a)
+void BTLV_EFFECT_ResetIntroState(int state)
 {
     BTLV_EFFECT_PauseVm();
-    gBtlvEff->introState = a;
+    gBtlvEff->introState = state;
     gBtlvEff->introPhase = 0;
     gBtlvEff->introTimer = 0;
 }
 
-void BTLV_EFFECT_SetPokeEffectValue(int i, u32 v)
+void BTLV_EFFECT_SetPokeEffectValue(int i, u32 value)
 {
-    gBtlvEff->pokeEffectValue[i] = v;
+    gBtlvEff->pokeEffectValue[i] = value;
 }
 
 int BTLV_EFFECT_GetPokeEffectValue(int i)
@@ -1883,13 +1883,13 @@ void BTLV_EFFECT_DeleteAllTasks(void)
 /*
  * Calls CLACT_VBlankSystem, then PALANM_TransferPalettes on the handle at 0x18c of the global work block.
  */
-void BTLV_EFFECT_VBlankTask(void *h, void *arg)
+void BTLV_EFFECT_VBlankTask(void *task, void *arg)
 {
     CLACT_VBlankSystem();
     PALANM_TransferPalettes(gBtlvEff->palanm);
 }
 
-void BTLV_EFFECT_DamageTintTaskMain(void *h, void *arg)
+void BTLV_EFFECT_DamageTintTaskMain(void *task, void *arg)
 {
     BtlvEffDamageTintTask *p = arg;
 
@@ -1918,7 +1918,7 @@ void BTLV_EFFECT_DamageTintTaskMain(void *h, void *arg)
         }
         p->wait = 3;
         if (--p->cyclesLeft == 0)
-            BTLV_EFFECT_DeleteTask(h);
+            BTLV_EFFECT_DeleteTask(task);
         break;
     }
 }
@@ -1926,14 +1926,14 @@ void BTLV_EFFECT_DamageTintTaskMain(void *h, void *arg)
 /*
  * Clears the current task's mask bits from the low byte at 0x1ec of the global work block.
  */
-void BTLV_EFFECT_ClearTaskMaskM0(void *h)
+void BTLV_EFFECT_ClearTaskMaskM0(void *tcb)
 {
-    BtlvEffDamageTintTask *task = TCBL_GetTaskUserData(h);
+    BtlvEffDamageTintTask *task = TCBL_GetTaskUserData(tcb);
     int m = BTLV_EFFECT_GetBitMask(task->pos);
     gBtlvEff->damageTintTaskMask &= m ^ 0xffffffff;
 }
 
-void BTLV_EFFECT_SequenceTaskMain(void *h, void *arg)
+void BTLV_EFFECT_SequenceTaskMain(void *task, void *arg)
 {
     BtlvEffHitTask *p = arg;
 
@@ -1991,7 +1991,7 @@ void BTLV_EFFECT_SequenceTaskMain(void *h, void *arg)
         break;
     case 7:
         if (gBtlvEff->effvmActive == 0)
-            BTLV_EFFECT_DeleteTask(h);
+            BTLV_EFFECT_DeleteTask(task);
         break;
     }
 }
@@ -1999,16 +1999,16 @@ void BTLV_EFFECT_SequenceTaskMain(void *h, void *arg)
 /*
  * Clears the current task's mask bits from bits 8..15 of the word at 0x1ec of the global work block.
  */
-void BTLV_EFFECT_ClearTaskMaskM1(void *h)
+void BTLV_EFFECT_ClearTaskMaskM1(void *tcb)
 {
-    BtlvEffHitTask *task = TCBL_GetTaskUserData(h);
+    BtlvEffHitTask *task = TCBL_GetTaskUserData(tcb);
     int m = BTLV_EFFECT_GetBitMask(task->pos);
     gBtlvEff->hitTaskMask &= m ^ 0xffffffff;
 }
 
-void BTLV_EFFECT_PokeSpriteTransitionTaskMain(void *h, void *p)
+void BTLV_EFFECT_PokeSpriteTransitionTaskMain(void *task, void *arg)
 {
-    BtlvEffSpriteTransitionTask *s = p;
+    BtlvEffSpriteTransitionTask *s = arg;
     int st;
     u32 m;
 
@@ -2028,26 +2028,26 @@ void BTLV_EFFECT_PokeSpriteTransitionTaskMain(void *h, void *p)
             return;
         if (BTLV_MCSS_IsAnySpriteBusy(gBtlvEff->mcss))
             return;
-        BTLV_EFFECT_DeleteTask(h);
+        BTLV_EFFECT_DeleteTask(task);
         return;
     }
 }
 
-void BTLV_EFFECT_ClearTaskMaskM2(void *h)
+void BTLV_EFFECT_ClearTaskMaskM2(void *tcb)
 {
-    BtlvEffSpriteTransitionTask *task = TCBL_GetTaskUserData(h);
+    BtlvEffSpriteTransitionTask *task = TCBL_GetTaskUserData(tcb);
     int m = BTLV_EFFECT_GetBitMask(task->pos);
     gBtlvEff->spriteTransitionTaskMask &= m ^ 0xffffffff;
 }
 
-void BTLV_EFFECT_DelayedStartEffectTaskMain(void *h, void *arg)
+void BTLV_EFFECT_DelayedStartEffectTaskMain(void *task, void *arg)
 {
     BtlvEffQueuedScript *p = arg;
 
     if (BTLV_EFFECT_IsBusy() == 0) {
         BTLV_EFFVM_StartScript(gBtlvEff->effvm, p->attackerPos, p->defenderPos, p->scriptId, p->params);
         gBtlvEff->effvmActive = 1;
-        BTLV_EFFECT_DeleteTask(h);
+        BTLV_EFFECT_DeleteTask(task);
     }
 }
 
@@ -2056,9 +2056,9 @@ void BTLV_EFFECT_DelayedStartEffectTaskMain(void *h, void *arg)
  *
  * Frees the buffer at 0x10 of the current task's work, if any.
  */
-void BTLV_EFFECT_FreeTaskArg(void *h)
+void BTLV_EFFECT_FreeTaskArg(void *tcb)
 {
-    BtlvEffQueuedScript *task = TCBL_GetTaskUserData(h);
+    BtlvEffQueuedScript *task = TCBL_GetTaskUserData(tcb);
     if (task->params != 0)
         GFL_HEAP_Free(task->params);
 }
@@ -2183,62 +2183,62 @@ void BTLV_EFFECT_StepScalarWithLimit(fx32 *value, fx32 *step, fx32 *limit, int *
     }
 }
 
-int BTLV_EFFECT_StepMover(BtlvMover *m, BtlvVec3 *out)
+int BTLV_EFFECT_StepMover(BtlvMover *mover, BtlvVec3 *out)
 {
     int ret = 1;
 
-    switch (m->mode) {
+    switch (mover->mode) {
     case 0:
-        out->x = m->end.x;
-        out->y = m->end.y;
-        out->z = m->end.z;
+        out->x = mover->end.x;
+        out->y = mover->end.y;
+        out->z = mover->end.z;
         break;
     case 1:
     case 4:
-        if (m->wait == 0) {
-            m->wait = m->waitReset;
-            BTLV_EFFECT_StepScalarWithLimit(&out->x, &m->step.x, &m->end.x, &ret);
-            BTLV_EFFECT_StepScalarWithLimit(&out->y, &m->step.y, &m->end.y, &ret);
-            BTLV_EFFECT_StepScalarWithLimit(&out->z, &m->step.z, &m->end.z, &ret);
+        if (mover->wait == 0) {
+            mover->wait = mover->waitReset;
+            BTLV_EFFECT_StepScalarWithLimit(&out->x, &mover->step.x, &mover->end.x, &ret);
+            BTLV_EFFECT_StepScalarWithLimit(&out->y, &mover->step.y, &mover->end.y, &ret);
+            BTLV_EFFECT_StepScalarWithLimit(&out->z, &mover->step.z, &mover->end.z, &ret);
         } else {
-            m->wait--;
+            mover->wait--;
             ret = 0;
         }
         break;
     case 2:
     case 3:
-        if (m->wait == 0) {
-            m->wait = m->waitReset;
-            out->x += m->step.x;
-            out->y += m->step.y;
-            out->z += m->step.z;
-            if (--m->count == 0) {
-                m->repeat--;
-                m->count = m->countReset;
-                if (m->mode == 2 || (m->mode == 3 && (m->repeat & 1))) {
-                    m->step.x *= -1;
-                    m->step.y *= -1;
-                    m->step.z *= -1;
+        if (mover->wait == 0) {
+            mover->wait = mover->waitReset;
+            out->x += mover->step.x;
+            out->y += mover->step.y;
+            out->z += mover->step.z;
+            if (--mover->count == 0) {
+                mover->repeat--;
+                mover->count = mover->countReset;
+                if (mover->mode == 2 || (mover->mode == 3 && (mover->repeat & 1))) {
+                    mover->step.x *= -1;
+                    mover->step.y *= -1;
+                    mover->step.z *= -1;
                 }
             }
         } else {
-            m->wait--;
+            mover->wait--;
         }
-        if (m->repeat != 0) {
+        if (mover->repeat != 0) {
             ret = 0;
         } else {
-            out->x = m->start.x;
-            out->y = m->start.y;
-            out->z = m->start.z;
+            out->x = mover->start.x;
+            out->y = mover->start.y;
+            out->z = mover->start.z;
         }
         break;
     }
     return ret;
 }
 
-int BTLV_EFFECT_GetBitMask(int x)
+int BTLV_EFFECT_GetBitMask(int pos)
 {
-    return 1 << x;
+    return 1 << pos;
 }
 
 void BTLV_EFFECT_UpdateTexturePaletteFade(BtlvPalFade *fade)

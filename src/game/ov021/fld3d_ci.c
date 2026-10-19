@@ -38,7 +38,7 @@
  *   G3D_SYSTEM_DrawObject  0x02047A60  arm
  *   GFL_HEAP_GetAllocatableSize  0x0203038C  arm
  *   d_021DA7F4     0x021DA7F4  data  ov021  a4
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
@@ -48,7 +48,7 @@
  *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   FLD3D_CI_GetNameRow  0x021F54E0  thumb  ov074
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
- *   ICA_ANIME_GetField20  0x0201210C  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
  *   GAME_EVENT_CallEvent  0x02012374  thumb
@@ -199,7 +199,7 @@ extern void *GAME_EVENT_Create(void *gameSystem, void *parent, void *func, u32 w
 
 extern void *GAME_EVENT_GetWork(void *event);
 
-void *ICA_ANIME_GetField1C(const void *p);
+void *GAMESYSTEM_GetGameData(const void *p);
 
 void *GAME_DATA_GetMyParty(const void *p);
 
@@ -226,7 +226,7 @@ const Fld3dCiNameRow *FLD3D_CI_GetNameRow(int index);
 
 extern void *GAME_EVENT_GetGameSystem(void *event);
 
-extern void *ICA_ANIME_GetField20(const void *p);
+extern void *GAMESYSTEM_GetFieldMap(const void *p);
 
 extern void *FIELDMAP_GetMmdlSys(unsigned char *p);
 
@@ -274,7 +274,7 @@ extern u32 FIELDMAP_GetLight(u8 *p);
 
 extern void FIELD_LIGHT_Reflect(u8 *p, int force);
 
-extern void *GFL_USE_AddMainTask(void *callback, void *ctx, int a2);
+extern void *GFL_USE_AddMainTask(void *callback, void *ctx, int priority);
 
 extern u32 FIELDMAP_GetMsgBg(u8 *p);
 
@@ -320,7 +320,7 @@ void BMP_Delete(void *bmp);
 
 void PM_VOICE_GetPerapVoiceSave(void **out);
 
-unsigned int PM_VOICE_Play(unsigned int a0, unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4, unsigned int a5, unsigned int a6, unsigned int a7);
+unsigned int PM_VOICE_Play(unsigned int species, unsigned int form, unsigned int pan, unsigned int dual, unsigned int volumeBiasB, unsigned int frequencyOffsetB, unsigned int reverse, unsigned int recordedVoice);
 
 int PM_VOICE_IsAnyActive(void);
 
@@ -340,13 +340,13 @@ extern u32 G3D_SYSTEM_GetPlttVramKey(void *texBlock);
 
 extern int POKEGRA_GetArcID(void);
 
-extern s32 POKEGRA_GetCgrArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
+extern s32 POKEGRA_GetCgrArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 s5, u32 s6, u32 s7);
 
-extern s32 POKEGRA_GetPalArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
+extern s32 POKEGRA_GetPalArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 s5, u32 s6, u32 s7);
 
-extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
 
-extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, u32 unpackedOut, u32 flags);
 
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 
@@ -366,7 +366,7 @@ extern void *G3D_SYSTEM_GetResourceFile(void *p);
 
 extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 
-extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
 
 extern void *GAME_DATA_GetMyStatus(void *gameData);
 
@@ -396,7 +396,7 @@ extern u32 WORDSET_DeleteStrbufED04(void *p);
 
 extern void WORDSET_ParsePackedLimits(void *dst, void *src);
 
-extern void *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern void *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
 extern u32 GF_FONT_MeasureWidestLine(void *s, u32 a, u32 b);
 
@@ -418,7 +418,7 @@ void FLD_PARTICLE_DeleteEffect(FldParticle *particle);
 
 void *FLD_PARTICLE_LoadResource(FldParticle *particle, int kind, int resourceId);
 
-int FLD_PARTICLE_StartEmitter(FldParticle *particle, u32 resource, u32 arg0, u32 arg1);
+int FLD_PARTICLE_StartEmitter(FldParticle *particle, u32 resource, u32 applyNow, u32 taskMgr);
 
 int FLD_PARTICLE_IsEffectFinished(FldParticle *particle);
 
@@ -550,10 +550,10 @@ extern Fld3dCiCue *d_021DA720[];
 
 extern const Fld3dCiDispSetup d_021DA700;
 
-static inline void *MakeCamera(int kind, int param1, int param2, int param3, int param4, int nearClip, int farClip, int scaleW, VecFx32 *pos, const VecFx32 *upsrc, VecFx32 *target, int heapId)
+static inline void *MakeCamera(int kind, int fovSin, int fovCos, int aspect, int orthoExtent, int nearClip, int farClip, int scaleW, VecFx32 *pos, const VecFx32 *upsrc, VecFx32 *target, int heapId)
 {
     VecFx32 up = *upsrc;
-    return G3D_CAMERA_Create(kind, param1, param2, param3, param4, nearClip, farClip, scaleW, pos, &up, target, heapId);
+    return G3D_CAMERA_Create(kind, fovSin, fovCos, aspect, orthoExtent, nearClip, farClip, scaleW, pos, &up, target, heapId);
 }
 
 static inline void *MakePerspCamera(VecFx32 *pos, const VecFx32 *upsrc, VecFx32 *target, int heapId)
@@ -691,7 +691,7 @@ void *FLD3D_CI_StartPartyMemberSequence(void *gameSystem, Fld3dCi *ci, int party
     int personality;
     int attr4C;
 
-    mon = (int)POKEPARTY_GetMember(GAME_DATA_GetMyParty(ICA_ANIME_GetField1C(gameSystem)), partyPos);
+    mon = (int)POKEPARTY_GetMember(GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(gameSystem)), partyPos);
     species = POKE_TOOL_GetPartyValue((void *)mon, 5, 0);
     form = POKE_TOOL_GetPartyValue((void *)mon, 0x6f, 0);
     attr6E = POKE_TOOL_GetPartyValue((void *)mon, 0x6e, 0);
@@ -754,7 +754,7 @@ int FLD3D_CI_EventMain(void *event, int *state, Fld3dCiEventWork *work)
 
     ci = work->ci;
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    fieldMap = ICA_ANIME_GetField20(gameSystem);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     switch (*state) {
     case 0:
         if (work->hideFieldObjects)
@@ -1221,7 +1221,7 @@ int FLD3D_CI_PokemonExtraTask(void *event, int *state)
 
     parentWork = GAME_EVENT_GetWork(GAME_EVENT_GetParent(event));
     ci = parentWork->ci;
-    ICA_ANIME_GetField20(GAME_EVENT_GetGameSystem(event));
+    GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
     switch (*state) {
     case 0:
         FLD3D_CI_LoadPokemonIconTexture(ci);
@@ -1351,7 +1351,7 @@ void FLD3D_CI_LoadPokemonIconTexture(Fld3dCi *ci)
 /* Fade task: fades the screen out. */
 int FLD3D_CI_FadeOutTask(void *event, int *state)
 {
-    ICA_ANIME_GetField20(GAME_EVENT_GetGameSystem(event));
+    GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
     switch (*state) {
     case 0:
         FADE_Start(4, 0, 0x10, -1);
@@ -1370,7 +1370,7 @@ int FLD3D_CI_FadeOutTask(void *event, int *state)
  */
 int FLD3D_CI_FadeInTask(void *event, int *state)
 {
-    ICA_ANIME_GetField20(GAME_EVENT_GetGameSystem(event));
+    GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
     switch (*state) {
     case 0:
         FADE_Start(4, 0x10, 0, -1);
@@ -1386,7 +1386,7 @@ int FLD3D_CI_FadeInTask(void *event, int *state)
 
 int FLD3D_CI_FadeInAltTask(void *event, u32 *state)
 {
-    ICA_ANIME_GetField20(GAME_EVENT_GetGameSystem(event));
+    GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
     switch (state[0]) {
     case 0:
         FADE_Start(3, 0x10, 0, 0);
@@ -1490,9 +1490,9 @@ int FLD3D_CI_NameExtraTask(void *event, int *state)
 
     parentWork = GAME_EVENT_GetWork(GAME_EVENT_GetParent(event));
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    playerStatus = GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem));
+    playerStatus = GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(gameSystem));
     ci = parentWork->ci;
-    ICA_ANIME_GetField20(gameSystem);
+    GAMESYSTEM_GetFieldMap(gameSystem);
     icon = &ci->arg.icon;
     switch (*state) {
     case 0:

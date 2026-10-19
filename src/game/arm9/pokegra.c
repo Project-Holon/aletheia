@@ -81,11 +81,11 @@ extern u32 POKE_TOOL_GetBoxValue(void *mon, u32 id, u32 v);
 
 extern u32 POKE_TOOL_IsBoxShiny(void *mon);
 
-extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
 
-extern u32 CLACT_RegisterPaletteEx(void *h, u32 a1, u32 engine, u32 a3, u32 s0, u32 s1, u32 s2);
+extern u32 CLACT_RegisterPaletteEx(void *h, u32 file_idx, u32 engine, u32 vram_offset, u32 s0, u32 s1, u32 s2);
 
-extern u32 CLACT_RegisterCharacter(void *h, u32 a1, u32 a2, u32 engine, u32 s0);
+extern u32 CLACT_RegisterCharacter(void *h, u32 file_idx, u32 compressed, u32 engine, u32 s0);
 
 extern void CLACT_TransferCharacter(int a, struct Sub0204A9D0 *b);
 
@@ -107,7 +107,7 @@ extern int APP_ICON_GetBallFrameFileId(int a);
 
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 
-extern void *ARC_UTIL_LoadScreenDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadScreenDataFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
 
 extern void  CLACT_TransferPalette(void *dst, void *src, u32 flag);
 

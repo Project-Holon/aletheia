@@ -97,7 +97,7 @@ u32 CURSOR_MOVE_FindTableGroupIndex(u32 v);
 
 struct Cursor *CURSOR_MOVE_Create(struct CursorEntry *entries, struct CursorVtbl *vt, u32 ctx, u32 state, u8 start, u16 heapId);
 
-u32 CURSOR_MOVE_Delete(void *a0);
+u32 CURSOR_MOVE_Delete(void *cursor);
 
 void CURSOR_MOVE_EnableInput(struct Cursor *obj);
 
@@ -213,9 +213,9 @@ struct Cursor *CURSOR_MOVE_Create(struct CursorEntry *entries, struct CursorVtbl
  * `ldr r3,[pc,#0]; bx r3` (the pool word names 0x02030164).  Disasm.py did
  * not label it because it has no prologue; the live bytes decode as Thumb.
  */
-u32 CURSOR_MOVE_Delete(void *a0)
+u32 CURSOR_MOVE_Delete(void *cursor)
 {
-    return GFL_HEAP_FreeMemory(a0);
+    return GFL_HEAP_FreeMemory(cursor);
 }
 
 void CURSOR_MOVE_EnableInput(struct Cursor *obj)

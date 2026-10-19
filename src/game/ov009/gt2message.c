@@ -151,7 +151,7 @@ extern int gti2PingCallback(GTI2Connection *c, int latency);
 extern int gti2HandleClosed(GTI2Connection *c);
 extern int gti2DumpCallback(GTI2Socket *socket, GTI2Connection *connection, unsigned int ip,
                          unsigned short port, int reset, unsigned char *message, int len, int outgoing);
-extern int gti2UnrecognizedMessageCallback(char *p, int a1, int a2, int a3, int a4, int *a5);
+extern int gti2UnrecognizedMessageCallback(char *p, int ip, int port, int message, int len, int *handled);
 extern int gti2NewIncomingConnection(GTI2Socket *socket, GTI2Connection **connection,
                          unsigned int ip, unsigned short port);
 extern GTI2Connection *gti2SocketFindConnection();

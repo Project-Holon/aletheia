@@ -100,9 +100,9 @@ extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern int DELIVERY_IRC_Delete(void *a0);
 extern u32 GFL_NET_ERR_WaitLinkClosed(void);
 extern void GFL_NET_ERR_ShowSimpleScreen(void);
-extern void GFL_NET_StartSession(struct Req *req, unsigned int a2, unsigned int a3);
+extern void GFL_NET_StartSession(struct Req *req, unsigned int transportArg, unsigned int userArg);
 extern void IRCNET_SetFilter(int);
-extern int GFL_NET_StartChangeoverChild(int a0);
+extern int GFL_NET_StartChangeoverChild(int changeoverParam);
 extern int GFL_NET_GetNegotiationNum(void);
 extern int GFL_NET_Exit(int a0);
 extern int GFL_NET_IsSessionNull(void);
@@ -123,7 +123,7 @@ void LIVEBATTLEMATCH_IRC_DeleteWindow(int *p);
 int LIVEBATTLEMATCH_IRC_GetWindowResult(int *p);
 void LIVEBATTLEMATCH_IRC_SetMenuValue(int *p, int a, int b);
 int LIVEBATTLEMATCH_IRC_GetMenuValue(int *p);
-int LIVEBATTLEMATCH_IRC_ToggleSe(int a0, int b);
+int LIVEBATTLEMATCH_IRC_ToggleSe(int unused, int b);
 void LIVEBATTLEMATCH_IRC_DeleteMenuRecord(int *p);
 void *LIVEBATTLEMATCH_IRC_Create(int unused, int heap);
 void LIVEBATTLEMATCH_IRC_Delete(int *p);
@@ -171,9 +171,9 @@ void LIVEBATTLEMATCH_IRC_CreateWindow(char *p, int mode)
     int layout, x, y, width, height;
     if (*(int *)&((Request *)p)->window == 0) {
         MI_CpuFill8(&rec, 0, 0x30);
-        rec.x0 = *(u32 *)&((Request *)p)->msgBank;
-        rec.x1 = *(u32 *)&((Request *)p)->config.param1C;
-        rec.x2 = *(u32 *)&((Request *)p)->config.mgr;
+        rec.msgBank = *(u32 *)&((Request *)p)->msgBank;
+        rec.font = *(u32 *)&((Request *)p)->config.param1C;
+        rec.printQue = *(u32 *)&((Request *)p)->config.mgr;
         rec.a = 0; rec.b = 15; rec.c = 13; rec.d = 1;
         switch (mode) {
         case 0:
@@ -228,9 +228,9 @@ int LIVEBATTLEMATCH_IRC_GetMenuValue(int *p) {return WIFIBATTLEMATCH_UTIL_GetBus
 /*
  * Extent runs long: 0x0217E000 is an unlabelled follower leaf, so EXACT*.
  */
-int LIVEBATTLEMATCH_IRC_ToggleSe(int a0, int b)
+int LIVEBATTLEMATCH_IRC_ToggleSe(int unused, int visible)
 {
-    return BG_SYS_SetPlaneVisible(0, (unsigned char)b);
+    return BG_SYS_SetPlaneVisible(0, (unsigned char)visible);
 }
 
 

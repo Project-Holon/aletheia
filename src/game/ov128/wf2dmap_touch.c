@@ -177,7 +177,7 @@ extern u32 GFL_HEAP_Free(void *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern void Wf2dmapFriend_DrawText(u8 *p, u8 *q, unsigned v);
-extern void BG_SYS_DrawTile(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
+extern void BG_SYS_DrawTile(u32 index, u32 src, u32 dx, u32 dy, u8 cw, u8 ch);
 extern void BG_SYS_SetFlagField06(u32 bit);
 extern void Wf2dmapFriend_ClearWindow(u8 *p);
 extern void BG_SYS_SetTileEntry(u32,int,u8,u8,u8,u8,u8);
@@ -202,16 +202,16 @@ extern u32 CURSOR_MOVE_GetTableGroup(u32);
 extern int POKEGRA_OpenTrainerHandle(int);
 extern u32 POKEGRA_RegisterTrainerCgr(u32,u32,u32,u32);
 extern s32 POKEGRA_RegisterTrainerPalette(u32 a, u32 b, u32 c, u32 d, u16 e);
-extern int POKEGRA_RegisterTrainerCellAnim(int a0, int a1, int a2, unsigned short a3);
+extern int POKEGRA_RegisterTrainerCellAnim(int unusedArg, int mapping, int drawType, unsigned short heapId);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern struct Obj *CLACT_CreateActor(void *,u32,u32,u32,const void *,u16,u16);
-extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
+extern void BG_SYS_DrawTileEx(u32 index, u32 dx, u32 dy, u32 cw, u8 ch, u32 src, u8 sx, u8 sy, u8 sw, u8 sh);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u16 STRBUF_GetEosChar(void);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern int TOUCHPANEL_GetTrg(void);
-extern struct CodeIn *BLINK_PALANM_Create(u16 a0, u16 a1, u32 a2, u16 heap);
-extern void BLINK_PALANM_LoadPalettes(struct CodeIn *p, u8 *a1, u32 a2, u32 a3, u32 a4);
+extern struct CodeIn *BLINK_PALANM_Create(u16 firstColor, u16 colorCount, u32 mode, u16 heap);
+extern void BLINK_PALANM_LoadPalettes(struct CodeIn *p, u8 *archive, u32 fileId, u32 srcStart, u32 dstStart);
 extern u32 BLINK_PALANM_Delete(struct BlinkPalAnm *p);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void BLINK_PALANM_ResetPhase(struct CodeIn *p);
@@ -250,7 +250,7 @@ void WF2DMAP_TOUCH_CloseEditScreen(u8 *p,u8 *q);
 void WF2DMAP_TOUCH_ReleaseEditWidgets(char *p,u8 *q);
 void WF2DMAP_TOUCH_CreateTrainerWidgets(u8 *p,u8 *q,u8 *ctx,u16 heap);
 void WF2DMAP_TOUCH_ClearTrainerScreens(u32 p);
-void WF2DMAP_TOUCH_SetValue(u16 *p, void *b, void *c, int flag, int value, int a5);
+void WF2DMAP_TOUCH_SetValue(u16 *p, void *b, void *c, int flag, int value, int unused);
 void WF2DMAP_TOUCH_DrawSlider(u8 *p,u8 *q,int idx);
 void WF2DMAP_TOUCH_DrawCursorBg(void *unused,u8 *p);
 int WF2DMAP_TOUCH_FindPrevEntry(u8 *p,int direction);
@@ -258,9 +258,9 @@ int WF2DMAP_TOUCH_FindNextEntry(u8 *p,int direction);
 void WF2DMAP_TOUCH_CreateWidgetHandles(u8 *p,u8 *q,u16 heap);
 void WF2DMAP_TOUCH_DeleteWidgetHandles(u8 *p);
 void WF2DMAP_TOUCH_CreateTileWidgets(u8 *p,void *q);
-void WF2DMAP_TOUCH_DeleteTileScreens(u8 *p, void *a1);
+void WF2DMAP_TOUCH_DeleteTileScreens(u8 *p, void *unused);
 void WF2DMAP_TOUCH_InitTileRecord(u32 p,int unused,const u16 *q,u32 value,u16 heap);
-void WF2DMAP_TOUCH_Noop(void *a0);
+void WF2DMAP_TOUCH_Noop(void *unused);
 void WF2DMAP_TOUCH_SetTileRecordField(u32 p,int unused,u32 index,u32 value,u32 unused5,u16 heap);
 void WF2DMAP_TOUCH_ClearTileRecord(Wf2dmapTouchTileRecord *p,u32 index);
 void WF2DMAP_TOUCH_ClearScreenAt(char *p,u32 index);
@@ -871,7 +871,7 @@ void WF2DMAP_TOUCH_ClearTrainerScreens(u32 p) { int i;void *q;for(i=0;i<10;i++) 
 
 
 
-void WF2DMAP_TOUCH_SetValue(u16 *p, void *b, void *c, int flag, int value, int a5) { if(flag==0) *p=value; }
+void WF2DMAP_TOUCH_SetValue(u16 *p, void *b, void *c, int flag, int value, int unused) { if(flag==0) *p=value; }
 
 
 
@@ -1033,7 +1033,7 @@ void WF2DMAP_TOUCH_CreateTileWidgets(u8 *p,void *q)
 
 
 
-void WF2DMAP_TOUCH_DeleteTileScreens(u8 *p, void *a1)
+void WF2DMAP_TOUCH_DeleteTileScreens(u8 *p, void *unused)
 {
     int i;
     for (i = 0; i < 10; i++)
@@ -1049,7 +1049,7 @@ void WF2DMAP_TOUCH_InitTileRecord(u32 p,int unused,const u16 *q,u32 value,u16 he
 
 
 
-void WF2DMAP_TOUCH_Noop(void *a0) {}
+void WF2DMAP_TOUCH_Noop(void *unused) {}
 
 
 

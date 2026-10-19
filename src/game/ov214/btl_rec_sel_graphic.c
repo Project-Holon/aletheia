@@ -156,7 +156,7 @@ u32 BTL_REC_SEL_GRAPHIC_GetClactBank(u32 *p);
 void BTL_REC_SEL_GRAPHIC_InitG3d(u32 **out,u32 heap);
 void BTL_REC_SEL_GRAPHIC_DeleteG3d(int *p);
 void BTL_REC_SEL_GRAPHIC_DrawG3d(unsigned int *p);
-void BTL_REC_SEL_GRAPHIC_DrawG3dEnd(void *a0);
+void BTL_REC_SEL_GRAPHIC_DrawG3dEnd(void *work);
 extern const char site[];
 extern const u32 config[];
 extern const u32 config2[];
@@ -350,4 +350,4 @@ void BTL_REC_SEL_GRAPHIC_DrawG3d(unsigned int *p)
     G3D_SYSTEM_ApplyLookAt();
 }
 
-void BTL_REC_SEL_GRAPHIC_DrawG3dEnd(void *a0) { G3D_SYSTEM_DrawEnd(); }
+void BTL_REC_SEL_GRAPHIC_DrawG3dEnd(void *work) { G3D_SYSTEM_DrawEnd(); }

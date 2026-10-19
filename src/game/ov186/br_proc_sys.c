@@ -110,14 +110,14 @@ typedef struct { u8 pad[0x24]; BrProcStack *s; } BrProcStackWork;
 
 typedef struct Inner {
     int f0;
-    int f4;
+    int saveControl;
 } Inner;
 
 typedef struct Mid {
     int pad0;
     int pad4;
-    int f8;
-    Inner *p0c;
+    int data;
+    Inner *shared;
 } Mid;
 
 typedef struct Top {
@@ -127,12 +127,12 @@ typedef struct Top {
     int w3;
     int w4;
     int w5;
-    Mid *f18;
+    Mid *gameState;
     int w7;
     int w8;
     int w9;
-    int f28;
-    int f2c;
+    int hasRecord;
+    int recordId;
 } Top;
 
 typedef struct { int w0, w4, w8, wc, w10, w14, w18; } BrProcWords;
@@ -365,7 +365,7 @@ extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int ind
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void *PROCSYS_Create(int a0);
+extern void *PROCSYS_Create(int heapId);
 
 extern void PROCSYS_Delete(struct S020314B8 *);
 
@@ -835,10 +835,10 @@ void BR_PROC_SYS_LoadBattleRecord(Top *p, Top *q)
 {
     int buf[1];
 
-    if (p->f28 == 0)
+    if (p->hasRecord == 0)
         return;
-    BR_PROC_SYS_LoadRecords((char *)q->f18->f8 + 0x1748, 0, (void *)q->f18->p0c->f4, 0x5a);
-    BATTLE_REC_Load((void *)((int)GAME_DATA_GetSaveControl((struct Big *)q->f18->p0c->f4)), 0x805a, (u32 *)buf, p->f2c);
+    BR_PROC_SYS_LoadRecords((char *)q->gameState->data + 0x1748, 0, (void *)q->gameState->shared->saveControl, 0x5a);
+    BATTLE_REC_Load((void *)((int)GAME_DATA_GetSaveControl((struct Big *)q->gameState->shared->saveControl)), 0x805a, (u32 *)buf, p->recordId);
 }
 
 void BR_PROC_SYS_CopyWordsA(BrProcWords *a, BrProcWordsSrc *b) { a->wc = b->w4; a->w0 = b->wc; a->w10 = b->w8; a->w8 = b->w0; a->w14 = b->w14; a->w4 = b->w10; a->w18 = b->w18->q->v; }

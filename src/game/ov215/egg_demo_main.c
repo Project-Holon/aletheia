@@ -27,7 +27,7 @@
  *   FADE_IsActive 0x0204E804 arm
  *   EGG_DEMO_VIEW_SetActive 0x021F6A3C thumb ov215
  *   EGG_DEMO_VIEW_GetActive 0x021F6A44 thumb ov215
- *   GAME_DATA_GetField114 0x020127A4 thumb
+ *   GAME_DATA_GetMyPlayerWork 0x020127A4 thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
  *   ZONEDATA_GetPlaceNameId 0x02013E4C thumb
@@ -144,14 +144,14 @@ extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,u32,u32);
 extern void FADE_Start(u32,int,int,int);
-extern void *PROCSYS_Create(int a0);
+extern void *PROCSYS_Create(int heapId);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 extern void PROCSYS_Delete(struct S020314B8 *),PROCSYS_FreeProcWork(struct Proc *),GFL_HEAP_DeleteChecked(u32);
 extern u32 KEY_GetTrg(void),PROCSYS_Main(void *);
 extern int FADE_IsActive(void);
 extern void EGG_DEMO_VIEW_SetActive(char *);
 extern int EGG_DEMO_VIEW_GetActive(char *);
-extern void *GAME_DATA_GetField114(struct SaveBlock *);
+extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *);
 extern u8 *GAME_DATA_GetMyStatus(void *);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *);
 extern u32 ZONEDATA_GetPlaceNameId(u32);
@@ -188,7 +188,7 @@ extern void G2x_SetBlendAlpha_(u32 *,u32,u32,int,int);
 extern void BG_SYS_LoadPlttEntry(u32,u32);
 extern char *EGG_DEMO_VIEW_Create(u32,void *);
 extern void EGG_DEMO_VIEW_Delete(char *p);
-extern void EGG_DEMO_MENU_Noop(int a0, char *a1);
+extern void EGG_DEMO_MENU_Noop(int args, char *work);
 extern void EGG_DEMO_MENU_Delete(void *unused, char *p);
 extern void TCB_DeleteTask(struct Node *n);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
@@ -211,7 +211,7 @@ extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleaseCellAnim(unsigned);
 extern void CLACT_ReleaseCharacter(unsigned);
 extern void CLACT_ReleasePalette(unsigned);
-extern void CLACT_SetActorAnimIndex(int a0, int a1);
+extern void CLACT_SetActorAnimIndex(int actor, int anim_idx);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern void GFL_USE_FadeOutBgm(u32 a);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
@@ -219,7 +219,7 @@ extern void GFL_USE_SetBgmPlayerParam(void *p);
 extern int  GFL_USE_IsBgmFading(void);
 extern int GFL_USE_PushBgm(void);
 extern int  GFL_USE_IsBgmPlaying(void);
-extern u32 GFL_USE_StepBgmLoad(u8 *a0, u32 *a1, u32 a2);
+extern u32 GFL_USE_StepBgmLoad(u8 *bgmNo, u32 *step, u32 abort);
 extern void GFL_USE_CancelChangeAndPlayBgm(unsigned, unsigned);
 extern int GFL_USE_PopBgm(void);
 extern void GFL_USE_FadeInBgmFull(u32 a);
@@ -230,7 +230,7 @@ void EGG_DEMO_MAIN_OnVBlank(void *unused, char *p);
 void EGG_DEMO_MAIN_Init(int a,char *p);
 void EGG_DEMO_MAIN_DeleteResources(u32 a,char *p);
 void EGG_DEMO_MAIN_LoadGraphics(int unused, char *p);
-void EGG_DEMO_MAIN_Noop(int a0, char *a1);
+void EGG_DEMO_MAIN_Noop(int args, char *work);
 void EGG_DEMO_MAIN_InitActors(int unused, struct EggDemoWork *p);
 void EGG_DEMO_MAIN_DeleteActors(void *unused, char *p);
 void EGG_DEMO_MAIN_StartActorAnims(int unused, struct EggDemoWork *p);
@@ -243,8 +243,8 @@ void EGG_DEMO_MAIN_PlayBgm(void *unused, char *p);
 int EGG_DEMO_MAIN_IsBgmPlaying(void *unused, char *p);
 void EGG_DEMO_MAIN_LoadBgm1(void *unused, char *p);
 int EGG_DEMO_MAIN_IsBgm1Loaded(void *unused, char *p);
-void EGG_DEMO_MAIN_PushBgm(void *a0, void *a1);
-void EGG_DEMO_MAIN_PopBgm(void *a0, void *a1);
+void EGG_DEMO_MAIN_PushBgm(void *args, void *work);
+void EGG_DEMO_MAIN_PopBgm(void *args, void *work);
 void EGG_DEMO_MAIN_LoadBgm2(void *unused, char *p);
 int EGG_DEMO_MAIN_IsBgm2Loading(void *unused, char *p);
 void EGG_DEMO_MAIN_StopBgm(void *unused, char *p);
@@ -312,7 +312,7 @@ int EGG_DEMO_MAIN_Update(u32 unused0,u32 unused1,u32 *args,u32 *work)
     case 5:if(EGG_DEMO_VIEW_GetActive((char *)((struct EggDemoWork *)work)->view)){((struct EggDemoWork *)work)->state=6;EGG_DEMO_MAIN_PushBgm(args,work);}break;
     case 6:
         ((struct EggDemoWork *)work)->state=7;
-        save=GAME_DATA_GetField114((struct SaveBlock *)args[0]);trainer=GAME_DATA_GetMyStatus((void *)args[0]);
+        save=GAME_DATA_GetMyPlayerWork((struct SaveBlock *)args[0]);trainer=GAME_DATA_GetMyStatus((void *)args[0]);
         POKE_TOOL_HatchEgg((void *)args[1],(u32)trainer,ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId(save)),((struct EggDemoWork *)work)->heapId);
         dex=ZUKAN_SAVE_GetFromGameData((void *)args[0]);ZUKAN_SAVE_RegisterSeen(dex,(void *)args[1]);ZUKAN_SAVE_RegisterCaught(dex,(void *)args[1]);
         EGG_DEMO_VIEW_SetSpecies((char *)((struct EggDemoWork *)work)->view,(int)((void *)args[1]));break;
@@ -419,7 +419,7 @@ void EGG_DEMO_MAIN_LoadGraphics(int unused, char *work)
 }
 
 
-void EGG_DEMO_MAIN_Noop(int a0, char *a1)
+void EGG_DEMO_MAIN_Noop(int args, char *work)
 {
 
 }
@@ -435,8 +435,8 @@ void EGG_DEMO_MAIN_InitActors(int unused, struct EggDemoWork *work)
 {
     unsigned char i;
     void *h = ARC_TOOL_CreateHandle(189, work->heapId);
-    char *tmp1;
-    unsigned int tmp2;
+    char *slotBase;
+    unsigned int actorTemplate;
     int tmp;
     work->paletteId = CLACT_RegisterPaletteEx(h, 3, 0, 0, 0, 1, work->heapId);
     tmp = CLACT_RegisterCharacter(h, 2, 0, 0, work->heapId);
@@ -448,11 +448,11 @@ void EGG_DEMO_MAIN_InitActors(int unused, struct EggDemoWork *work)
     for (i = 0; i < 6; i++) {
         struct EggDemoWork *out;
         unsigned int o;
-        tmp1 = (char *)work;
-        tmp1 = tmp1 + (i * 4);
-        out = (struct EggDemoWork *)tmp1;
-        tmp2 = (unsigned int)table[i];
-        o = (unsigned int)CLACT_CreateActor((void *)EGG_DEMO_GRAPHIC_GetClactBank2((char *)work->graphic), work->charId, work->paletteId, work->cellAnimId, (const void *)tmp2, 0, work->heapId);
+        slotBase = (char *)work;
+        slotBase = slotBase + (i * 4);
+        out = (struct EggDemoWork *)slotBase;
+        actorTemplate = (unsigned int)table[i];
+        o = (unsigned int)CLACT_CreateActor((void *)EGG_DEMO_GRAPHIC_GetClactBank2((char *)work->graphic), work->charId, work->paletteId, work->cellAnimId, (const void *)actorTemplate, 0, work->heapId);
         out->actors[0] = (void *)o;
         CLACT_SetActorAutoAnim((struct Obj *)o, 0);
     }
@@ -599,7 +599,7 @@ int EGG_DEMO_MAIN_IsBgm1Loaded(void *unused, char *work)
 
 
 
-void EGG_DEMO_MAIN_PushBgm(void *a0, void *a1)
+void EGG_DEMO_MAIN_PushBgm(void *args, void *work)
 {
     GFL_USE_SetBgmPlayerParam((void *)1);
     GFL_USE_PushBgm();
@@ -607,7 +607,7 @@ void EGG_DEMO_MAIN_PushBgm(void *a0, void *a1)
 
 
 
-void EGG_DEMO_MAIN_PopBgm(void *a0, void *a1)
+void EGG_DEMO_MAIN_PopBgm(void *args, void *work)
 {
     GFL_USE_PopBgm();
     GFL_USE_SetBgmPlayerParam(0);

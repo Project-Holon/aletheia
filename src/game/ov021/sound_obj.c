@@ -127,7 +127,7 @@ extern u32 ISS_SYS_Get3dsSys(void *obj);
 extern int ISS_3DS_SYS_IsSourceActive(int a, int b);
 extern void ISS_3DS_SYS_StartSource(void *m, int i, int a, int b);
 extern void ICA_ANIME_Delete(struct IcaAnime *p);
-extern void *ICA_ANIME_CreateStream(u32 heap, u32 a1, u32 a2, u32 a3);
+extern void *ICA_ANIME_CreateStream(u32 heap, u32 arcId, u32 dataId, u32 bufFrameNum);
 extern u32 ICA_ANIME_IncFrameLoop(struct IcaAnime *p, s32 v);
 extern void ICA_ANIME_SetFrame(struct IcaAnime *p, s32 v);
 extern u32 ICA_ANIME_GetFrame(struct IcaAnime *p);
@@ -140,7 +140,7 @@ extern void BUTTON_MAN_MakeRotMtxXYZ(int h, int s, int v, struct Mtx33 *out);
 SoundObj *SOUND_OBJ_Create(FieldMap *fieldMap, VecFx32 *pos, u32 sourceId, u32 startArg0, u32 startArg1);
 SoundObj *SOUND_OBJ_CreateNoSource(FieldMap *fieldMap, SoundObjTarget *target);
 int SOUND_OBJ_Delete(SoundObj *obj);
-void SOUND_OBJ_SetAnime(SoundObj *obj, u32 arg0, u32 arg1, u32 arg2);
+void SOUND_OBJ_SetAnime(SoundObj *obj, u32 arcId, u32 dataId, u32 bufFrameNum);
 u32 SOUND_OBJ_AdvanceAnime(SoundObj *obj, s32 deltaFrame);
 void SOUND_OBJ_SetAnimeFrame(SoundObj *obj, s32 frame);
 u32 SOUND_OBJ_GetAnimeFrame(SoundObj *obj);
@@ -193,11 +193,11 @@ int SOUND_OBJ_Delete(SoundObj *obj)
 }
 
 /* Restarts the animation with a new stream. */
-void SOUND_OBJ_SetAnime(SoundObj *obj, u32 arg0, u32 arg1, u32 arg2)
+void SOUND_OBJ_SetAnime(SoundObj *obj, u32 arcId, u32 dataId, u32 bufFrameNum)
 {
     if (obj->anime != 0)
         ICA_ANIME_Delete((struct IcaAnime *)obj->anime);
-    obj->anime = ICA_ANIME_CreateStream(obj->heapId, arg0, arg1, arg2);
+    obj->anime = ICA_ANIME_CreateStream(obj->heapId, arcId, dataId, bufFrameNum);
 }
 
 /* Advances the animation by deltaFrame, then applies position and rotation. Returns the frame result. */

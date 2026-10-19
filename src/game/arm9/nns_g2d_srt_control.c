@@ -37,9 +37,9 @@ extern void MIi_CpuClear16(u32 data, void *dest, u32 size);
 void NNSi_G2dSrtcInitTable(s32 *tbl);
 void NNSi_G2dSrtcSetTable(s32 *tbl, u32 i, u32 v);
 s32 NNSi_G2dSrtcGetTable(const s32 *tbl, u32 i);
-void NNS_G2dSetSRTTranslate(struct NNSG2dSRTControl *obj, u16 a, u16 b);
-void NNS_G2dSetSRTRotate(struct NNSG2dSRTControl *obj, u16 val);
-void NNS_G2dSetSRTScale(struct NNSG2dSRTControl *obj, u32 a1, u32 a2);
+void NNS_G2dSetSRTTranslate(struct NNSG2dSRTControl *obj, u16 x, u16 y);
+void NNS_G2dSetSRTRotate(struct NNSG2dSRTControl *obj, u16 rotZ);
+void NNS_G2dSetSRTScale(struct NNSG2dSRTControl *obj, u32 scaleX, u32 scaleY);
 void NNSi_G2dSrtcInitControl(struct NNSG2dSRTControl *pSrtCtrl, u32 mode);
 int NNSi_G2dSrtcResetSrtData(struct NNSG2dSRTControl *pSrtCtrl);
 
@@ -113,31 +113,31 @@ s32 NNSi_G2dSrtcGetTable(const s32 *tbl, u32 i)
 
 
 
-void NNS_G2dSetSRTTranslate(struct NNSG2dSRTControl *obj, u16 a, u16 b)
+void NNS_G2dSetSRTTranslate(struct NNSG2dSRTControl *obj, u16 x, u16 y)
 {
     if (obj->mode != 1) return;
     obj->dirtyFlags |= 8;
-    obj->transX = a;
-    obj->transY = b;
+    obj->transX = x;
+    obj->transY = y;
 }
 
 
 
-void NNS_G2dSetSRTRotate(struct NNSG2dSRTControl *obj, u16 val)
+void NNS_G2dSetSRTRotate(struct NNSG2dSRTControl *obj, u16 rotZ)
 {
     if (obj->mode != 1) return;
     obj->dirtyFlags |= 4;
-    obj->rotZ = val;
+    obj->rotZ = rotZ;
 }
 
 
 
-void NNS_G2dSetSRTScale(struct NNSG2dSRTControl *obj, u32 a1, u32 a2)
+void NNS_G2dSetSRTScale(struct NNSG2dSRTControl *obj, u32 scaleX, u32 scaleY)
 {
     if (obj->mode != 1) return;
     obj->dirtyFlags |= 2;
-    obj->scaleX = a1;
-    obj->scaleY = a2;
+    obj->scaleX = scaleX;
+    obj->scaleY = scaleY;
 }
 
 

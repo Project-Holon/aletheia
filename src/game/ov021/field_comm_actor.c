@@ -44,9 +44,9 @@
  *   FIELD_SUBSCREEN_IsIdle  0x021A0ED4  thumb  ov021
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
- *   GAME_DATA_SetFrameRate  0x020129D0  thumb
+ *   GAME_DATA_SetFieldMenuCursor  0x020129D0  thumb
  *   FIELD_SUBSCREEN_RequestMode  0x021A0F30  thumb  ov021
  *   GAME_DATA_SetSubscreenType  0x020129B8  thumb
  *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
@@ -128,9 +128,9 @@ extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 extern int FIELD_SUBSCREEN_IsIdle(struct FieldSubscreen *subscreen);
 extern MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
-extern struct GameData *ICA_ANIME_GetField1C(struct GameSystem *gameSystem);
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 extern void FLDMMDL_SysPauseMove(MmdlSys *mmdlSys);
-extern void GAME_DATA_SetFrameRate(struct GameData *gameData, u8 flag);
+extern void GAME_DATA_SetFieldMenuCursor(struct GameData *gameData, u8 flag);
 extern int FIELD_SUBSCREEN_RequestMode(struct FieldSubscreen *subscreen, u32 mode);
 extern void GAME_DATA_SetSubscreenType(struct GameData *gameData, u32 mode);
 extern void FLDMMDL_SysResumeMove(MmdlSys *mmdlSys);
@@ -376,16 +376,16 @@ int FIELD_COMM_ACTOR_SubscreenChangeMain(struct GameEvent *event, int *seq, void
     case 0:
         if (FIELD_SUBSCREEN_IsIdle(FIELDMAP_GetSubscreen(evWork->fieldMap)) == 1) {
             mmdlSys = FIELDMAP_GetMmdlSys(evWork->fieldMap);
-            gameData = ICA_ANIME_GetField1C(GAME_EVENT_GetGameSystem(event));
+            gameData = GAMESYSTEM_GetGameData(GAME_EVENT_GetGameSystem(event));
             FLDMMDL_SysPauseMove(mmdlSys);
-            GAME_DATA_SetFrameRate(gameData, 1);
+            GAME_DATA_SetFieldMenuCursor(gameData, 1);
             FIELD_SUBSCREEN_RequestMode(FIELDMAP_GetSubscreen(evWork->fieldMap), evWork->mode);
             evWork->seq++;
         }
         break;
     case 1:
         if (FIELD_SUBSCREEN_IsIdle(FIELDMAP_GetSubscreen(evWork->fieldMap)) == 1) {
-            GAME_DATA_SetSubscreenType(ICA_ANIME_GetField1C(GAME_EVENT_GetGameSystem(event)), evWork->mode & 0xff);
+            GAME_DATA_SetSubscreenType(GAMESYSTEM_GetGameData(GAME_EVENT_GetGameSystem(event)), evWork->mode & 0xff);
             evWork->seq++;
         }
         break;

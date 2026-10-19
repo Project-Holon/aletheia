@@ -16,7 +16,7 @@ typedef struct SoclResource {
  * 0x1c (the command-packet size) are read. */
 typedef struct CpsConfig {
     unsigned char reserved0[0x1c];
-    unsigned long field1c;              /* 0x1c */
+    unsigned long lan_buf;              /* 0x1c */
     unsigned char reserved20[4];
     int bufSize;                        /* 0x24 */
 } CpsConfig;

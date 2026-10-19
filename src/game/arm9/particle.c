@@ -370,7 +370,7 @@ extern void NNS_GfdSaveVramManager(u32 *table);
 extern void NNSi_GfdGetVramManagerWork(u32 *table);
 extern void SPL_EMITTER_FreeNodeToHeap(struct ParticleEngine *engine, void *block);
 extern void TCB_AddTask(u32 taskMgr, void (*proc)(struct TaskNode *task, struct ParticleSys *sys), struct ParticleSys *work, u32 priority);
-unsigned int BUTTON_MAN_Func1A3C(int a0, int a1, int a2, int a3);
+unsigned int BUTTON_MAN_Func1A3C(int szByte, int is4x4comp, int unused2, int unused3);
 u32 BUTTON_MAN_AppendList0(u32 a, u32 b);
 int BUTTON_MAN_Func1AA0(int a, int b);
 u32 BUTTON_MAN_AppendList1(u32 a, u32 b);
@@ -2985,11 +2985,11 @@ int BUTTON_MAN_GetUserData(struct Obj3D *p)
 
 /*
  * Calls NNSi_GfdDefaultAllocTexVram with a constant 0 as its third argument and returns the
- * low halfword of the result scaled by eight (a2 and a3 are unused).
+ * low halfword of the result scaled by eight (unused2 and unused3 are unused).
  */
-unsigned int BUTTON_MAN_Func1A3C(int a0, int a1, int a2, int a3)
+unsigned int BUTTON_MAN_Func1A3C(int szByte, int is4x4comp, int unused2, int unused3)
 {
-    int t0 = NNSi_GfdDefaultAllocTexVram(a0, a1, 0);
+    int t0 = NNSi_GfdDefaultAllocTexVram(szByte, is4x4comp, 0);
 
     return (unsigned int)(t0 << 16) >> 13;
 }
@@ -3013,9 +3013,9 @@ unsigned int BUTTON_MAN_Func1A3C(int a0, int a1, int a2, int a3)
  * The twin at 0x02051AB8 is the same shape over the parallel table 0x100
  * higher (count at +0x25e, elements at +0x158).
  */
-u32 BUTTON_MAN_AppendList0(u32 a, u32 b)
+u32 BUTTON_MAN_AppendList0(u32 szByte, u32 is4x4comp)
 {
-    u32 v = NNS_GfdDefaultFuncAllocTexVram(a, b, 0);
+    u32 v = NNS_GfdDefaultFuncAllocTexVram(szByte, is4x4comp, 0);
     struct ParticleSys *base = g_pParticleMan->current;
     u16 n = base->texCount;
 

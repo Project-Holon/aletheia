@@ -254,9 +254,9 @@ extern void NNS_G2dRestartMCAnimation(struct Obj *x);
 
 extern void MCSS_ResetAnmStopFlag(void *);
 
-extern void NNS_G2dSetCellAnimationParam(int p0, int p1, int p2, int p3);
+extern void NNS_G2dSetCellAnimationParam(int anim, int type, int param, int func);
 
-extern int MCSS_TOOL_SetAnimeStopCallback(int a0);
+extern int MCSS_TOOL_SetAnimeStopCallback(int work);
 
 extern u8 MCSS_GetAlpha(struct Data *);
 

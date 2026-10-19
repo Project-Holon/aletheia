@@ -50,10 +50,10 @@ void DSPi_OpenStaticComponentG711Core(u32 *file) {
     FS_CreateFileFromMemory(file, data_02707CB4 /* start of the embedded data blob 0x02707CB4..0x0272E9E8 */, 0x1000000);
 }
 
-u32 DSPi_LoadG711Core(u32 a, u32 b, u32 c) {
+u32 DSPi_LoadG711Core(u32 file, u32 bankMaskA, u32 bankMaskB) {
     if (data_02735940.ready == 0) {
         DSP_InitProcessContext(data_0273594C, "g711");
-        if (DSP_ExecuteProcess(data_0273594C, a, b, c) != 0) {
+        if (DSP_ExecuteProcess(data_0273594C, file, bankMaskA, bankMaskB) != 0) {
             data_02735940.ready = 1;
         }
     }

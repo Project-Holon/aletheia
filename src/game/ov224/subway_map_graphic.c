@@ -212,12 +212,12 @@ void SUBWAY_MAP_GRAPHIC_DrawScreen(void *p);
 void SUBWAY_MAP_GRAPHIC_VBlankScreen(void *unused, char *p);
 void SUBWAY_MAP_GRAPHIC_CreateBg(void *p, u32 heap);
 void SUBWAY_MAP_GRAPHIC_DeleteBg(void *p);
-void SUBWAY_MAP_GRAPHIC_DrawBg(void *a0);
-void SUBWAY_MAP_GRAPHIC_VBlankBg(void *a0);
+void SUBWAY_MAP_GRAPHIC_DrawBg(void *work);
+void SUBWAY_MAP_GRAPHIC_VBlankBg(void *work);
 void SUBWAY_MAP_GRAPHIC_CreateClactUnit(unsigned char *p, int a, int b);
 void SUBWAY_MAP_GRAPHIC_DeleteClactUnit(char *p);
-void SUBWAY_MAP_GRAPHIC_DrawClactUnit(void *a0);
-void SUBWAY_MAP_GRAPHIC_VBlankClactUnit(void *a0);
+void SUBWAY_MAP_GRAPHIC_DrawClactUnit(void *work);
+void SUBWAY_MAP_GRAPHIC_VBlankClactUnit(void *work);
 void SUBWAY_MAP_GRAPHIC_CreateCamera(void **p,u32 heap);
 void SUBWAY_MAP_GRAPHIC_DeleteCamera(u32 *p);
 extern const struct Entry gSubwayMapGraphicSubBgLayerTable[];
@@ -547,11 +547,11 @@ void SUBWAY_MAP_GRAPHIC_DeleteBg(void *p) {
 
 
 
-void SUBWAY_MAP_GRAPHIC_DrawBg(void *a0) {}
+void SUBWAY_MAP_GRAPHIC_DrawBg(void *work) {}
 
 
 
-void SUBWAY_MAP_GRAPHIC_VBlankBg(void *a0) { BG_SYS_Update(); }
+void SUBWAY_MAP_GRAPHIC_VBlankBg(void *work) { BG_SYS_Update(); }
 
 
 
@@ -578,11 +578,11 @@ void SUBWAY_MAP_GRAPHIC_DeleteClactUnit(char *p)
 
 
 
-void SUBWAY_MAP_GRAPHIC_DrawClactUnit(void *a0) { CLACT_DrawSystem(); }
+void SUBWAY_MAP_GRAPHIC_DrawClactUnit(void *work) { CLACT_DrawSystem(); }
 
 
 
-void SUBWAY_MAP_GRAPHIC_VBlankClactUnit(void *a0) { CLACT_VBlankSystem(); }
+void SUBWAY_MAP_GRAPHIC_VBlankClactUnit(void *work) { CLACT_VBlankSystem(); }
 
 
 

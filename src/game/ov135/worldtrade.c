@@ -89,7 +89,7 @@
  *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   GFL_HEAP_Alloc 0x02030734 arm
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GF_OVERLAY_Load  0x02034AC4  arm
  *   GFL_USE_CancelChangeAndStopBgm  0x02005D28  thumb  arm9
  *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
@@ -195,7 +195,7 @@ extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
 extern void *WORLDTRADE_ADAPTER_AllocHeapBuf(u32 heap);
 
-extern void *PROCSYS_Create(int a0);
+extern void *PROCSYS_Create(int heapId);
 
 extern u32 TCB_GetTaskOffset(u32 n);
 
@@ -269,7 +269,7 @@ extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 
@@ -277,7 +277,7 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
 extern void ARC_TOOL_DeleteHandle(void *h);
 
-extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, u32 unpackedOut, u32 flags);
 
 extern void DC_FlushRange(void *p, u32 size);
 
@@ -291,9 +291,9 @@ extern void BG_SYS_SetMainPlaneVisible(u32 a, u32 b);
 
 extern void BG_SYS_SetSubPlaneVisible(u32 a, u32 b);
 
-extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
+extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, u32 font, u32 printQue, u16 heap);
 
-extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
+extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *res);
 
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
@@ -329,7 +329,7 @@ extern void CLACT_ExitSystem(void);
 
 extern u32 GFL_USE_GetMainTaskList(void);
 
-extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
+extern u8 *TIME_ICON_Create(void *owner, void *refWin, u8 fillColor, u8 waitInterval, volatile u16 heap);
 
 extern void TIME_ICON_Delete(u8 *p);
 
@@ -355,7 +355,7 @@ extern void BMP_WIN_Init(u16 heapId);
 
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
-extern void *GFL_USE_AddMainTask(void *callback, void *ctx, int a2);
+extern void *GFL_USE_AddMainTask(void *callback, void *ctx, int priority);
 
 extern void TCB_DeleteTask(struct Node *n);
 
@@ -363,7 +363,7 @@ extern void BMP_WIN_Exit(void);
 
 extern void BG_SYS_Delete(void);
 
-extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 
 extern void GAME_DATA_SaveCancel(char *p);
 
@@ -379,11 +379,11 @@ int WORLDTRADE_ProcExit(void *ctx, int unused1, int unused2, Work *p);
 
 void WORLDTRADE_VBlankTask(void *unused, Work *p);
 
-void WORLDTRADE_SetupVramBanks(const struct DispVram *a0);
+void WORLDTRADE_SetupVramBanks(const struct DispVram *vram);
 
 void WORLDTRADE_CallStateHandler(Work *p, Args *args);
 
-void WORLDTRADE_Nop(Work *a0);
+void WORLDTRADE_Nop(Work *p);
 
 void WORLDTRADE_SetupWindowPlanes(void);
 
@@ -475,11 +475,11 @@ int WORLDTRADE_ProcInit(void *proc, int *seq, Args *args)
     p = PROCSYS_AllocProcWork(proc, sizeof(Work), 0x48);
     MI_CpuFill8(p, 0, sizeof(Work));
     g_02203F80 = p;
-    p->fEA8 = WORLDTRADE_ADAPTER_AllocHeapBuf(0x48);
-    p->f12F0 = PROCSYS_Create(0x48);
+    p->tradeMon = WORLDTRADE_ADAPTER_AllocHeapBuf(0x48);
+    p->procSys = PROCSYS_Create(0x48);
     p->recMem = GFL_HEAP_Alloc(0x48, TCB_GetTaskOffset(8), 0, str_02203AF8, 0xA1);
     p->rec_p = TCB_Init(8, p->recMem);
-    WORLDTRADE_ADAPTER_InitPrinter(p->tail, (u32)args->a20);
+    WORLDTRADE_ADAPTER_InitPrinter(p->tail, (u32)args->statusConfig);
     p->words = WORDSET_Create(0xB, 0x40, 0x48);
     p->msg[0] = MSGDATA_CreateFromArchive(0, 2, 0xD0, 0x48);
     p->msg[2] = MSGDATA_CreateFromArchive(0, 2, 0xD1, 0x48);
@@ -501,27 +501,27 @@ int WORLDTRADE_ProcMain(void *unused0, int *state, void *unused2, Work *p)
         GFL_NET_WM_ICON_EasySetLevel(WORLDTRADE_GetWifiLinkLevel());
     }
     DPW_TR_Main();
-    p->busy_u = PROCSYS_Main(p->f12F0);
+    p->busy_u = PROCSYS_Main(p->procSys);
     TCB_Main(p->rec_p);
     WORLDTRADE_ADAPTER_UpdatePrinter((u8 *)p + 0xfa0);
     switch (*state) {
     case 0:
-        *state = d_02203A80[p->x10].init((u8 *)p, *state);
+        *state = d_02203A80[p->screenId].init((u8 *)p, *state);
         WORLDTRADE_SetupWindowPlanes();
         break;
     case 1:
         if (WIPE_SYS_EndCheck() != 0) *state = 2;
         break;
     case 2:
-        *state = d_02203A80[p->x10].update((u8 *)p, *state);
+        *state = d_02203A80[p->screenId].update((u8 *)p, *state);
         break;
     case 3:
         if (WIPE_SYS_EndCheck() != 0) {
-            *state = d_02203A80[p->x10].finish((u8 *)p, *state);
-            if (p->fB8 != 0) {
+            *state = d_02203A80[p->screenId].finish((u8 *)p, *state);
+            if (p->subLcdRefresh != 0) {
                 WORLDTRADE_SUBLCD_CreateActors(p);
                 WORLDTRADE_SUBLCD_UpdateSlotPalettes(p, (*(int *)&p->d0), 0);
-                p->fB8 = 0;
+                p->subLcdRefresh = 0;
             }
         }
         break;
@@ -533,7 +533,7 @@ int WORLDTRADE_ProcMain(void *unused0, int *state, void *unused2, Work *p)
     }
     WORLDTRADE_DecrementTimer(p);
     if (*(u32 *)&p->res != 0) CLACT_DrawSystem(p->res);
-    if (p->f12E8 > 0) p->f12E8 -= 1;
+    if (p->countdownFrames > 0) p->countdownFrames -= 1;
     return 0;
 }
 
@@ -550,8 +550,8 @@ int WORLDTRADE_ProcExit(void *ctx, int unused1, int unused2, Work *p)
     WORDSET_DeleteStrbufED04(p->words);
     TCB_Noop(p->rec_p);
     GFL_HEAP_Free(p->recMem);
-    PROCSYS_Delete(p->f12F0);
-    GFL_HEAP_Free(p->fEA8);
+    PROCSYS_Delete(p->procSys);
+    GFL_HEAP_Free(p->tradeMon);
     WORLDTRADE_ADAPTER_ExitPrinter((u8 *)p + 0xfa0);
     PROCSYS_FreeProcWork(ctx);
     GFL_HEAP_DeleteChecked(0x48);
@@ -573,45 +573,45 @@ void WORLDTRADE_VBlankTask(void *unused, Work *p)
     }
 }
 
-void WORLDTRADE_SetupVramBanks(const struct DispVram *a0)
+void WORLDTRADE_SetupVramBanks(const struct DispVram *vram)
 {
-    BG_SYS_SetVramBanks(a0);
+    BG_SYS_SetVramBanks(vram);
 }
 
 void WORLDTRADE_CallStateHandler(Work *p, Args *args)
 {
-    ASSERT(args->a3C);
-    ASSERT(args->a0);
+    ASSERT(args->saveData);
+    ASSERT(args->sys);
     ASSERT(args->a4);
-    ASSERT(args->a8);
-    ASSERT(args->aC);
-    ASSERT(args->a14);
-    ASSERT(args->a18);
-    ASSERT(args->a1C);
-    ASSERT(args->a20);
-    ASSERT(args->a24);
+    ASSERT(args->party);
+    ASSERT(args->save);
+    ASSERT(args->wifiList);
+    ASSERT(args->status);
+    ASSERT(args->myStatus);
+    ASSERT(args->statusConfig);
+    ASSERT(args->trainerRecord);
     p->args = args;
-    p->x10 = 0;
+    p->screenId = 0;
     WORLDTRADE_SetStateAndReturn(p, 0, 0x13);
     p->sel = 0;
     p->sel_h = 0;
-    p->xB58 = 3;
-    p->xB59 = 0;
-    p->xB5A = 0;
-    p->xB5C = 0;
+    p->recMode = 3;
+    p->recKey = 0;
+    p->recVal = 0;
+    p->rec2Name = 0;
     p->active = 0;
     p->box = 0xFF;
     p->species = 0;
-    p->xEB2 = 0;
-    p->fE1A = 0;
-    p->xDF8 = 0;
-    p->fF84 = 0;
+    p->speciesCleared = 0;
+    p->historyFlag = 0;
+    p->timeIcon = 0;
+    p->countryFilter = 0;
 }
 
 /*
  * Empty stub: a bare `bx lr`, the overlay's no-op placeholder body.
  */
-void WORLDTRADE_Nop(Work *a0)
+void WORLDTRADE_Nop(Work *p)
 {
 }
 
@@ -666,15 +666,15 @@ void WORLDTRADE_InitClactSystem(Work *p, u32 mode)
 
     arc = ARC_TOOL_CreateHandle(0x60, 0x48);
     CLACT_InitSystem((const struct Cfg *)d_02202BE0, mode, 0x48);
-    p->res_res.f0 = (u32)CLACT_CreateUnit(0x60, 0, 0x48);
-    p->res_res.f4 = CLACT_RegisterCharacter(arc, 0x11, 1, 0, 0x48);
-    p->res_res.f8 = CLACT_RegisterPalette(arc, 8, 0, 0, 0x48);
-    p->res_res.fC = CLACT_RegisterCellAnim(arc, 0x12, 0x13, 0x48);
-    p->res_res.f28 = CLACT_RegisterCharacter(arc, 0x27, 1, 0, 0x48);
-    p->res_res.f30 = CLACT_RegisterCellAnim(arc, 0x28, 0x29, 0x48);
-    p->res_res.f10 = CLACT_RegisterCharacter(arc, 0x24, 1, 1, 0x48);
-    p->res_res.f14 = CLACT_RegisterPalette(arc, 7, 1, 0, 0x48);
-    p->res_res.f18 = CLACT_RegisterCellAnim(arc, 0x25, 0x26, 0x48);
+    p->res_res.unit = (u32)CLACT_CreateUnit(0x60, 0, 0x48);
+    p->res_res.mainChar = CLACT_RegisterCharacter(arc, 0x11, 1, 0, 0x48);
+    p->res_res.mainPlt = CLACT_RegisterPalette(arc, 8, 0, 0, 0x48);
+    p->res_res.mainCell = CLACT_RegisterCellAnim(arc, 0x12, 0x13, 0x48);
+    p->res_res.mainIconChar = CLACT_RegisterCharacter(arc, 0x27, 1, 0, 0x48);
+    p->res_res.mainIconCell = CLACT_RegisterCellAnim(arc, 0x28, 0x29, 0x48);
+    p->res_res.slotChar = CLACT_RegisterCharacter(arc, 0x24, 1, 1, 0x48);
+    p->res_res.slotPlt = CLACT_RegisterPalette(arc, 7, 1, 0, 0x48);
+    p->res_res.slotCell = CLACT_RegisterCellAnim(arc, 0x25, 0x26, 0x48);
     ARC_TOOL_DeleteHandle(arc);
 
     buf = ARC_UTIL_LoadPaletteBlockFromArchive(7, 0, (u32)(&pd), 0x48);
@@ -689,7 +689,7 @@ void WORLDTRADE_InitClactSystem(Work *p, u32 mode)
     GX_LoadOBJPltt(pd->data, 0x100, 0x60);
     GFL_HEAP_Free(buf);
 
-    if ((u8)(u32)MYSTATUS_GetOutfitVariant(p->ctx->f1C) == 1) {
+    if ((u8)(u32)MYSTATUS_GetOutfitVariant(p->ctx->myStatus) == 1) {
         chr = 0x11;
         anm = 0x10;
         cell = 0xF;
@@ -701,9 +701,9 @@ void WORLDTRADE_InitClactSystem(Work *p, u32 mode)
         pal = 4;
     }
     arc = ARC_TOOL_CreateHandle(0x1f, 0x48);
-    p->res_res.f1C = CLACT_RegisterCharacter(arc, chr, 0, 1, 0x48);
-    p->res_res.f20 = CLACT_RegisterPaletteEx(arc, pal, 1, 0, 0, 1, 0x48);
-    p->res_res.f24 = CLACT_RegisterCellAnim(arc, cell, anm, 0x48);
+    p->res_res.primaryChar = CLACT_RegisterCharacter(arc, chr, 0, 1, 0x48);
+    p->res_res.primaryPlt = CLACT_RegisterPaletteEx(arc, pal, 1, 0, 0, 1, 0x48);
+    p->res_res.primaryCell = CLACT_RegisterCellAnim(arc, cell, anm, 0x48);
     ARC_TOOL_DeleteHandle(arc);
 }
 
@@ -719,19 +719,19 @@ void WORLDTRADE_SetPlaneVisibleAll(Work *p)
 /*
  * Forward four register arguments plus a zero and the u8 stack argument.
  */
-void WORLDTRADE_OpenTaskMenuYesNoDefault(u32 a, u32 b, u32 c, u32 d, u8 e)
+void WORLDTRADE_OpenTaskMenuYesNoDefault(u32 work, u32 y, u32 unused, u32 plttIdx, u8 flag)
 {
-    WORLDTRADE_OpenTaskMenuYesNo((Work *)a, b, c, d, 0, e);
+    WORLDTRADE_OpenTaskMenuYesNo((Work *)work, y, unused, plttIdx, 0, flag);
 }
 
-void WORLDTRADE_OpenTaskMenuYesNo(Work *p,int b,int unused,int a,int c,u8 flag)
+void WORLDTRADE_OpenTaskMenuYesNo(Work *p,int y,int unused,int plttIdx,int bgLayer,u8 flag)
 {
     BoxItems2 items;
     struct TaskMenuTmpl menu;
     int on;
-    if (p->fE04) SAVEDATA_PanicFail(str_02203B08,0,str_02203B08);
-    if (p->fE08) SAVEDATA_PanicFail(str_02203B08,0,str_02203B08);
-    p->fE04=APP_TASKMENU_RES_Create((u8)c,(u8)a,p->uiResA,p->uiResB,0x48);
+    if (p->taskMenuRes) SAVEDATA_PanicFail(str_02203B08,0,str_02203B08);
+    if (p->taskMenu) SAVEDATA_PanicFail(str_02203B08,0,str_02203B08);
+    p->taskMenuRes=APP_TASKMENU_RES_Create((u8)bgLayer,(u8)plttIdx,p->uiResA,p->uiResB,0x48);
     items=data_02202BC8;
     on=0;
     MI_CpuFill8(&menu,0,20);
@@ -742,30 +742,30 @@ void WORLDTRADE_OpenTaskMenuYesNo(Work *p,int b,int unused,int a,int c,u8 flag)
     menu.entries=items.item;
     menu.mode=1;
     menu.a=0x20;
-    menu.b=b;
+    menu.b=y;
     menu.c=8;
     menu.d=3;
-    p->fE08=APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&menu),p->fE04);
+    p->taskMenu=APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&menu),p->taskMenuRes);
     STRBUF_Delete(items.item[0].text);
     STRBUF_Delete(items.item[1].text);
     if (flag) {
-        if(c<=3) on=1;
+        if(bgLayer<=3) on=1;
         WORLDTRADE_SetBrightnessIn(on);
     }
 }
 
-void WORLDTRADE_CloseTaskMenu(Work *p) { if(p->fE08) { APP_TASKMENU_CloseMenu(p->fE08); p->fE08=0; } if(p->fE04) { APP_TASKMENU_RES_Delete(p->fE04); p->fE04=0; } }
+void WORLDTRADE_CloseTaskMenu(Work *p) { if(p->taskMenu) { APP_TASKMENU_CloseMenu(p->taskMenu); p->taskMenu=0; } if(p->taskMenuRes) { APP_TASKMENU_RES_Delete(p->taskMenuRes); p->taskMenuRes=0; } }
 
-int WORLDTRADE_UpdateTaskMenuYesNo(Work *p) { int result; result=0; if(p->fE08) { APP_TASKMENU_UpdateMenu(p->fE08); if(APP_TASKMENU_IsFinish(p->fE08)) { result=APP_TASKMENU_GetCursorPos(p->fE08); if(result==0) result=1; else if(result==1) result=2; WORLDTRADE_ClearBlendRegs(); } } return result; }
+int WORLDTRADE_UpdateTaskMenuYesNo(Work *p) { int result; result=0; if(p->taskMenu) { APP_TASKMENU_UpdateMenu(p->taskMenu); if(APP_TASKMENU_IsFinish(p->taskMenu)) { result=APP_TASKMENU_GetCursorPos(p->taskMenu); if(result==0) result=1; else if(result==1) result=2; WORLDTRADE_ClearBlendRegs(); } } return result; }
 
-void WORLDTRADE_OpenTaskMenuList(Work *p, u16 a, int count, int b)
+void WORLDTRADE_OpenTaskMenuList(Work *p, u16 bgLayer, int count, int y)
 {
     BoxItems3 items;
     struct TaskMenuTmpl menu;
     int i;
-    if (p->fE04) SAVEDATA_PanicFail(str_02203B08,0,str_02203B08);
-    if (p->fE08) SAVEDATA_PanicFail(str_02203B08,0,str_02203B08);
-    p->fE04=APP_TASKMENU_RES_Create(a,10,p->uiResA,p->uiResB,0x48);
+    if (p->taskMenuRes) SAVEDATA_PanicFail(str_02203B08,0,str_02203B08);
+    if (p->taskMenu) SAVEDATA_PanicFail(str_02203B08,0,str_02203B08);
+    p->taskMenuRes=APP_TASKMENU_RES_Create(bgLayer,10,p->uiResA,p->uiResB,0x48);
     items=data_02202C2C;
     MI_CpuFill8(&menu,0,20);
     if ((u32)count>3) SAVEDATA_PanicFail(str_02203B08,0,str_02203B08);
@@ -775,10 +775,10 @@ void WORLDTRADE_OpenTaskMenuList(Work *p, u16 a, int count, int b)
     menu.entries=items.item;
     menu.mode=1;
     menu.a=0x20;
-    menu.b=b;
+    menu.b=y;
     menu.c=13;
     menu.d=3;
-    p->fE08=APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&menu),p->fE04);
+    p->taskMenu=APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&menu),p->taskMenuRes);
     WORLDTRADE_SetBrightnessIn(1);
 }
 
@@ -786,10 +786,10 @@ u32 WORLDTRADE_UpdateTaskMenuList(Work *p)
 {
     u32 r = (u32)-1;
 
-    if (p->fE08 != 0) {
-        APP_TASKMENU_UpdateMenu(p->fE08);
-        if (APP_TASKMENU_IsFinish(p->fE08) != 0) {
-            r = APP_TASKMENU_GetCursorPos(p->fE08) + 1;
+    if (p->taskMenu != 0) {
+        APP_TASKMENU_UpdateMenu(p->taskMenu);
+        if (APP_TASKMENU_IsFinish(p->taskMenu) != 0) {
+            r = APP_TASKMENU_GetCursorPos(p->taskMenu) + 1;
             WORLDTRADE_ClearBlendRegs();
         }
     }
@@ -798,21 +798,21 @@ u32 WORLDTRADE_UpdateTaskMenuList(Work *p)
 
 void WORLDTRADE_CloseTaskMenuList(Work *p)
 {
-    if (p->fE08 != 0) {
-        APP_TASKMENU_CloseMenu(p->fE08);
-        p->fE08 = 0;
+    if (p->taskMenu != 0) {
+        APP_TASKMENU_CloseMenu(p->taskMenu);
+        p->taskMenu = 0;
     }
-    if (p->fE04 != 0) {
-        APP_TASKMENU_RES_Delete(p->fE04);
-        p->fE04 = 0;
+    if (p->taskMenuRes != 0) {
+        APP_TASKMENU_RES_Delete(p->taskMenuRes);
+        p->taskMenuRes = 0;
     }
     WORLDTRADE_ClearBlendRegs();
 }
 
-void WORLDTRADE_SetNextState(Work *p, u32 a, u32 b)
+void WORLDTRADE_SetNextState(Work *p, u32 state, u32 returnState)
 {
-    p->state = a;
-    p->returnState = b;
+    p->state = state;
+    p->returnState = returnState;
 }
 
 /*
@@ -820,13 +820,13 @@ void WORLDTRADE_SetNextState(Work *p, u32 a, u32 b)
 /*
  * Send a one-entry u16 table {b, c} to CLACT_AddActorSurfacePos.
  */
-void WORLDTRADE_SetActorSurfacePos(u32 a, u16 b, u16 c)
+void WORLDTRADE_SetActorSurfacePos(u32 obj, u16 x, u16 y)
 {
     u16 t[2];
 
-    t[0] = b;
-    t[1] = c;
-    CLACT_AddActorSurfacePos((struct Obj *)a, (const struct Vec2 *)t, 1);
+    t[0] = x;
+    t[1] = y;
+    CLACT_AddActorSurfacePos((struct Obj *)obj, (const struct Vec2 *)t, 1);
 }
 
 int WORLDTRADE_GetWifiLinkLevel(void)
@@ -837,10 +837,10 @@ int WORLDTRADE_GetWifiLinkLevel(void)
 /*
  * Store two words into the object at +0x14 and +0x20.
  */
-void WORLDTRADE_SetStateAndReturn(Work *p, u32 a, u32 b)
+void WORLDTRADE_SetStateAndReturn(Work *p, u32 nextScreenId, u32 kind)
 {
-    p->x14 = a;
-    *(u32 *)&p->kind = b;
+    p->nextScreenId = nextScreenId;
+    *(u32 *)&p->kind = kind;
 }
 
 /*
@@ -848,8 +848,8 @@ void WORLDTRADE_SetStateAndReturn(Work *p, u32 a, u32 b)
  */
 void WORLDTRADE_ClearBusyFlag(Work *p)
 {
-    p->f1C_u = p->x10;
-    p->x10 = p->x14;
+    p->prevScreenId = p->screenId;
+    p->screenId = p->nextScreenId;
 }
 
 int WORLDTRADE_QueryGameData(void)
@@ -870,19 +870,19 @@ void WORLDTRADE_SetupGraphics(Work *p)
 void WORLDTRADE_ReleaseGraphics(Work *p)
 {
     WORLDTRADE_SUBLCD_FreeResources(p);
-    CLACT_ReleasePalette(p->res_res.f20);
-    CLACT_ReleaseCharacter(p->res_res.f1C);
-    CLACT_ReleaseCellAnim(p->res_res.f24);
-    CLACT_ReleasePalette(p->res_res.f14);
-    CLACT_ReleaseCharacter(p->res_res.f10);
-    CLACT_ReleaseCellAnim(p->res_res.f18);
-    CLACT_ReleasePalette(p->sub.f8);
-    CLACT_ReleaseCharacter(p->sub.f4);
-    CLACT_ReleaseCellAnim(p->sub.fC);
-    CLACT_ReleaseCharacter(p->sub.f28);
-    CLACT_ReleaseCellAnim(p->sub.f30);
-    CLACT_DeleteUnit((struct Bank *)(p->sub.f0));
-    p->sub.f0 = 0;
+    CLACT_ReleasePalette(p->res_res.primaryPlt);
+    CLACT_ReleaseCharacter(p->res_res.primaryChar);
+    CLACT_ReleaseCellAnim(p->res_res.primaryCell);
+    CLACT_ReleasePalette(p->res_res.slotPlt);
+    CLACT_ReleaseCharacter(p->res_res.slotChar);
+    CLACT_ReleaseCellAnim(p->res_res.slotCell);
+    CLACT_ReleasePalette(p->sub.mainPlt);
+    CLACT_ReleaseCharacter(p->sub.mainChar);
+    CLACT_ReleaseCellAnim(p->sub.mainCell);
+    CLACT_ReleaseCharacter(p->sub.mainIconChar);
+    CLACT_ReleaseCellAnim(p->sub.mainIconCell);
+    CLACT_DeleteUnit((struct Bank *)(p->sub.unit));
+    p->sub.unit = 0;
     CLACT_ExitSystem();
 }
 
@@ -891,10 +891,10 @@ void WORLDTRADE_ReleaseGraphics(Work *p)
  */
 void WORLDTRADE_DecrementTimer(Work *p)
 {
-    u16 v = p->f36;
+    u16 v = p->cooldownFrames;
 
     if (v != 0) {
-        p->f36 = v - 1;
+        p->cooldownFrames = v - 1;
     }
 }
 
@@ -903,7 +903,7 @@ void WORLDTRADE_DecrementTimer(Work *p)
  */
 void WORLDTRADE_ClearSelectedSpecies(Work *p)
 {
-    p->xEB2 = 1;
+    p->speciesCleared = 1;
     p->species = 0;
 }
 
@@ -919,35 +919,35 @@ void WORLDTRADE_ClearSelectedSpecies(Work *p)
  */
 void WORLDTRADE_CreateTimeIcon(Work *p)
 {
-    p->xDF8 = (u32)TIME_ICON_Create((void *)GFL_USE_GetMainTaskList(), (void *)(p->frame),
+    p->timeIcon = (u32)TIME_ICON_Create((void *)GFL_USE_GetMainTaskList(), (void *)(p->frame),
                                         0xf, 0x10, 0x48);
 }
 
 void WORLDTRADE_DeleteTimeIcon(Work *p)
 {
-    if (p->xDF8 != 0) {
-        TIME_ICON_Delete((u8 *)(p->xDF8));
-        p->xDF8 = 0;
+    if (p->timeIcon != 0) {
+        TIME_ICON_Delete((u8 *)(p->timeIcon));
+        p->timeIcon = 0;
         BMP_WIN_MakeScreen((struct Cfg *)(p->frame));
         BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)(p->frame)));
     }
 }
 
-void WORLDTRADE_SetActorPos(u32 a, u32 b, u32 c)
+void WORLDTRADE_SetActorPos(u32 obj, u32 x, u32 y)
 {
     u16 t[2];
 
-    t[0] = b;
-    t[1] = c;
-    CLACT_AddActorSurfacePos((struct Obj *)a, (const struct Vec2 *)t, 0);
+    t[0] = x;
+    t[1] = y;
+    CLACT_AddActorSurfacePos((struct Obj *)obj, (const struct Vec2 *)t, 0);
 }
 
 /*
  * Pick the 0x04000050 or 0x04001050 hardware register from the flag and write the 0x1e/-7 pair.
  */
-void WORLDTRADE_SetBrightnessIn(u32 x)
+void WORLDTRADE_SetBrightnessIn(u32 isMain)
 {
-    if (x != 0) {
+    if (isMain != 0) {
         G2x_SetBlendBrightness_(0x04000050, 0x1e, -7);
     } else {
         G2x_SetBlendBrightness_(0x04001050, 0x1e, -7);
@@ -957,9 +957,9 @@ void WORLDTRADE_SetBrightnessIn(u32 x)
 /*
  * Pick the 0x04000050 or 0x04001050 hardware register from the flag and write the 0x1b/-7 pair.
  */
-void WORLDTRADE_SetBrightnessOut(u32 x)
+void WORLDTRADE_SetBrightnessOut(u32 isMain)
 {
-    if (x != 0) {
+    if (isMain != 0) {
         G2x_SetBlendBrightness_(0x04000050, 0x1b, -7);
     } else {
         G2x_SetBlendBrightness_(0x04001050, 0x1b, -7);
@@ -1014,6 +1014,6 @@ void WORLDTRADE_ExitPlanes(Work *p)
 
 void WORLDTRADE_CancelSave(Work *p)
 {
-    GAME_DATA_SaveCancel(ICA_ANIME_GetField1C((const struct Ctx *)p->ctx->f40));
+    GAME_DATA_SaveCancel(GAMESYSTEM_GetGameData((const struct Ctx *)p->ctx->gameData));
     GFL_NET_ERR_HaltWithMessage(0x29);
 }

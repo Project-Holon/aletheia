@@ -45,7 +45,7 @@ extern void MI_CpuCopy8(const void *, void *, u32);
 extern u32 NWMi_SendCommandDirect(void *, u32);
 extern u32 DAT_027341cc[];
 
-u32 NWM_Connect(u32 a0, u32 a1, const u16 *a2) {
+u32 NWM_Connect(u32 callback, u32 authMode, const u16 *bssDesc) {
     u32 r;
     u32 busy;
     u32 len;
@@ -66,25 +66,25 @@ u32 NWM_Connect(u32 a0, u32 a1, const u16 *a2) {
     if (busy == 1) {
         return 3;
     }
-    if (a2 == 0) {
+    if (bssDesc == 0) {
         return 5;
     }
-    len = a2[0];
+    len = bssDesc[0];
     if (len > 0x200) {
         return 5;
     }
-    if (a1 >= 3) {
+    if (authMode >= 3) {
         return 5;
     }
-    if (a2[5] == 0) {
+    if (bssDesc[5] == 0) {
         return 5;
     }
-    DC_StoreRange(a2, len * 2);
-    NWMi_SetCallbackTable(8, a0);
+    DC_StoreRange(bssDesc, len * 2);
+    NWMi_SetCallbackTable(8, callback);
     msg.buf = (u32)DAT_027341cc;
     msg.len = 8;
-    msg.idx = a1;
-    MI_CpuCopy8(a2, DAT_027341cc, a2[0]);
+    msg.idx = authMode;
+    MI_CpuCopy8(bssDesc, DAT_027341cc, bssDesc[0]);
     DC_StoreRange((void *)msg.buf, 0x200);
     DC_StoreRange(&msg, 8);
     r = NWMi_SendCommandDirect(&msg, 8);

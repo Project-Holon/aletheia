@@ -88,17 +88,17 @@ extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 
 void ZUKAN_SEARCH_ENGINE_Create(struct Search *p, struct Query *b, int heap);
 
-void ZUKAN_SEARCH_ENGINE_ReleaseWork(int a0);
+void ZUKAN_SEARCH_ENGINE_ReleaseWork(int work);
 
 int ZUKAN_SEARCH_ENGINE_Filter(struct Search *p, u16 heap, u16 *outCount, u16 **out);
 
 u32 ZUKAN_SEARCH_ENGINE_LoadSpeciesIds(u32 mode,int heap,u16 **out);
 
-unsigned int ZUKAN_SEARCH_ENGINE_LoadFormIds(int a0, int a1, int a2, int a3, u16 **out);
+unsigned int ZUKAN_SEARCH_ENGINE_LoadFormIds(int archive, int mode, int rule, int heapId, u16 **out);
 
-void ZUKAN_SEARCH_ENGINE_LoadTables(u32 a0, u32 a1, u16 *a2, u32 *a3, u16 *a4, u32 *a5, u16 *a6, u32 *a7, u16 *a8, u32 *a9);
+void ZUKAN_SEARCH_ENGINE_LoadTables(u32 archive, u32 heapId, u16 *count1, u32 *table1, u16 *count2, u32 *table2, u16 *count3, u32 *table3, u16 *count4, u32 *table4);
 
-u8 ZUKAN_SEARCH_ENGINE_FinalTest(const u8 *t, const u16 *u, u32 s, u32 f);
+u8 ZUKAN_SEARCH_ENGINE_FinalTest(const u8 *table, const u16 *nextLink, u32 species, u32 steps);
 
 extern const char site[];
 
@@ -127,9 +127,9 @@ void ZUKAN_SEARCH_ENGINE_Create(struct Search *p, struct Query *b, int heap)
  * disasm emits it as an unlabelled `.word` run, so no listing class attests
  * it.  Addresses are Black-image addresses.
  */
-void ZUKAN_SEARCH_ENGINE_ReleaseWork(int a0)
+void ZUKAN_SEARCH_ENGINE_ReleaseWork(int work)
 {
-    GFL_HEAP_Free((void *)a0);
+    GFL_HEAP_Free((void *)work);
 }
 
 /*
@@ -279,14 +279,14 @@ u32 ZUKAN_SEARCH_ENGINE_LoadSpeciesIds(u32 mode,int heap,u16 **out)
     return count;
 }
 
-unsigned int ZUKAN_SEARCH_ENGINE_LoadFormIds(int a0, int a1, int a2, int a3, u16 **out)
+unsigned int ZUKAN_SEARCH_ENGINE_LoadFormIds(int archive, int mode, int rule, int heapId, u16 **out)
 {
     u16 *buf;
     unsigned int n;
 
-    if (a1 == 0 && a2 == 0) {
+    if (mode == 0 && rule == 0) {
         u16 i;
-        buf = GFL_HEAP_Alloc(a3, 0x512, 0, g_021C99A8, 0x3B1);
+        buf = GFL_HEAP_Alloc(heapId, 0x512, 0, g_021C99A8, 0x3B1);
         for (i = 0; i < 0x289;) {
             buf[i] = i + 1;
             i++;
@@ -294,7 +294,7 @@ unsigned int ZUKAN_SEARCH_ENGINE_LoadFormIds(int a0, int a1, int a2, int a3, u16
         n = 0x289;
     } else {
         unsigned int tmp;
-        buf = (u16 *)ARC_UTIL_LoadHandleMemberWithSize((void *)a0, g_021C9968[a2], 0, a3, &tmp);
+        buf = (u16 *)ARC_UTIL_LoadHandleMemberWithSize((void *)archive, g_021C9968[rule], 0, heapId, &tmp);
         n = (tmp >> 1) & 0xFFFF;
     }
     *out = buf;
@@ -304,19 +304,19 @@ unsigned int ZUKAN_SEARCH_ENGINE_LoadFormIds(int a0, int a1, int a2, int a3, u16
 /*
  * Addresses are Black-image addresses.
  */
-void ZUKAN_SEARCH_ENGINE_LoadTables(u32 a0, u32 a1, u16 *a2, u32 *a3,
-                   u16 *a4, u32 *a5, u16 *a6, u32 *a7, u16 *a8, u32 *a9)
+void ZUKAN_SEARCH_ENGINE_LoadTables(u32 archive, u32 heapId, u16 *count1, u32 *table1,
+                   u16 *count2, u32 *table2, u16 *count3, u32 *table3, u16 *count4, u32 *table4)
 {
     u32 buf;
 
-    *a3 = (u32)POKE_PERSONAL_LoadFormTable(a1, 0);
-    *a2 = 0x28A;
-    *a5 = (u32)ARC_UTIL_LoadHandleMemberWithSize((void *)a0, 1, 0, a1, &buf);
-    *a4 = buf;
-    *a7 = (u32)ARC_UTIL_LoadHandleMemberWithSize((void *)a0, 2, 0, a1, &buf);
-    *a6 = buf;
-    *a9 = (u32)ARC_UTIL_LoadHandleMemberWithSize((void *)a0, 0, 0, a1, &buf);
-    *a8 = buf >> 1;
+    *table1 = (u32)POKE_PERSONAL_LoadFormTable(heapId, 0);
+    *count1 = 0x28A;
+    *table2 = (u32)ARC_UTIL_LoadHandleMemberWithSize((void *)archive, 1, 0, heapId, &buf);
+    *count2 = buf;
+    *table3 = (u32)ARC_UTIL_LoadHandleMemberWithSize((void *)archive, 2, 0, heapId, &buf);
+    *count3 = buf;
+    *table4 = (u32)ARC_UTIL_LoadHandleMemberWithSize((void *)archive, 0, 0, heapId, &buf);
+    *count4 = buf >> 1;
 }
 
 u8 ZUKAN_SEARCH_ENGINE_FinalTest(const u8 *t, const u16 *u, u32 s, u32 f)

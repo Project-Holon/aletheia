@@ -27,11 +27,11 @@ extern void OS_RestoreInterrupts(u32);
 void DSP_PowerOnCore(void);
 void DSP_PowerOffCore(void);
 void DSP_ResetOnCore(void);
-void DSP_ResetOffExCore(u32 a0);
+void DSP_ResetOffExCore(u32 mask);
 void DSP_ResetInterfaceCore(void);
-u32 DSP_SendDataIsEmptyCore(u32 a0);
-u32 DSP_RecvDataIsReadyCore(u32 a0);
-void DSP_SendDataCore(u32 a0, u32 a1);
+u32 DSP_SendDataIsEmptyCore(u32 index);
+u32 DSP_RecvDataIsReadyCore(u32 index);
+void DSP_SendDataCore(u32 index, u32 data);
 u16 DSP_RecvDataCore(u32 ch);
 void DSP_SendFifoExCore(u32 a, u16 v, u16 *src, s32 n, u16 flags);
 void DSP_RecvFifoExCore(u32 a, u16 *dst, u16 v, s32 n, u16 flags);
@@ -88,12 +88,12 @@ void DSP_ResetOnCore(void)
 
 
 
-void DSP_ResetOffExCore(u32 a0)
+void DSP_ResetOffExCore(u32 mask)
 {
     while (REG_STAT & 4) {
     }
     DSP_ResetInterfaceCore();
-    REG_MODE |= a0 << 9;
+    REG_MODE |= mask << 9;
     REG_MODE &= ~1;
 }
 
@@ -116,27 +116,27 @@ void DSP_ResetInterfaceCore(void)
 
 
 
-u32 DSP_SendDataIsEmptyCore(u32 a0)
+u32 DSP_SendDataIsEmptyCore(u32 index)
 {
-    return (REG_STAT & ((1u << a0) << 13)) ? 0 : 1;
+    return (REG_STAT & ((1u << index) << 13)) ? 0 : 1;
 }
 
 
 
 
-u32 DSP_RecvDataIsReadyCore(u32 a0)
+u32 DSP_RecvDataIsReadyCore(u32 index)
 {
-    return (REG_STAT & ((1u << a0) << 10)) ? 1 : 0;
+    return (REG_STAT & ((1u << index) << 10)) ? 1 : 0;
 }
 
 
 
 
-void DSP_SendDataCore(u32 a0, u32 a1)
+void DSP_SendDataCore(u32 index, u32 data)
 {
-    while (!DSP_SendDataIsEmptyCore(a0)) {
+    while (!DSP_SendDataIsEmptyCore(index)) {
     }
-    *(vu16 *)(0x04004300 + a0 * 8 + 0x20) = a1;
+    *(vu16 *)(0x04004300 + index * 8 + 0x20) = data;
 }
 
 
@@ -148,20 +148,20 @@ u16 DSP_RecvDataCore(u32 ch)
 }
 
 
-void DSP_SendFifoExCore(u32 a, u16 v, u16 *src, s32 n, u16 flags)
+void DSP_SendFifoExCore(u32 mode, u16 control, u16 *src, s32 count, u16 flags)
 {
     u32 irq = OS_DisableInterrupts();
     u32 x = (u16)((flags & 2) ? 0 : 2);
-    REG_CTRL = v;
-    REG_MODE = (REG_MODE & ~0xF002) | a | x;
+    REG_CTRL = control;
+    REG_MODE = (REG_MODE & ~0xF002) | mode | x;
     if (flags & 1) {
-        while (n-- > 0) {
+        while (count-- > 0) {
             while (REG_STAT & 0x80) {
             }
             REG_DATA = *src;
         }
     } else {
-        while (n-- > 0) {
+        while (count-- > 0) {
             while (REG_STAT & 0x80) {
             }
             REG_DATA = *src++;
@@ -171,27 +171,27 @@ void DSP_SendFifoExCore(u32 a, u16 v, u16 *src, s32 n, u16 flags)
 }
 
 
-void DSP_RecvFifoExCore(u32 a, u16 *dst, u16 v, s32 n, u16 flags)
+void DSP_RecvFifoExCore(u32 mode, u16 *dst, u16 control, s32 count, u16 flags)
 {
     u32 irq = OS_DisableInterrupts();
     u32 x = (u16)((flags & 1) ? 0 : 2);
     u32 sel;
     switch (flags & 0x300) {
-    case 0x100: sel = 0; n = 1; break;
-    case 0x200: sel = 4; n = 8; break;
-    case 0x300: sel = 8; n = 16; break;
+    case 0x100: sel = 0; count = 1; break;
+    case 0x200: sel = 4; count = 8; break;
+    case 0x300: sel = 8; count = 16; break;
     default: sel = 12; break;
     }
-    REG_CTRL = v;
-    REG_MODE = (REG_MODE & ~0xF00E) | a | sel | x | 0x10;
+    REG_CTRL = control;
+    REG_MODE = (REG_MODE & ~0xF00E) | mode | sel | x | 0x10;
     if (flags & 2) {
-        while (n-- > 0) {
+        while (count-- > 0) {
             while (!(REG_STAT & 0x40)) {
             }
             *dst = REG_DATA;
         }
     } else {
-        while (n-- > 0) {
+        while (count-- > 0) {
             while (!(REG_STAT & 0x40)) {
             }
             *dst++ = REG_DATA;
@@ -206,12 +206,12 @@ u16 DSP_GetSemaphoreCore(void)
     return *(volatile u16 *)0x0400431C;
 }
 
-void DSP_ClearSemaphoreCore(u16 v)
+void DSP_ClearSemaphoreCore(u16 mask)
 {
-    *(volatile u16 *)0x04004318 = v;
+    *(volatile u16 *)0x04004318 = mask;
 }
 
-void DSP_MaskSemaphoreCore(u16 v)
+void DSP_MaskSemaphoreCore(u16 mask)
 {
-    *(volatile u16 *)0x04004314 = v;
+    *(volatile u16 *)0x04004314 = mask;
 }

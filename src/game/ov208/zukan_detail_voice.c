@@ -216,7 +216,7 @@ extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u3
 
 extern u32  CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
-extern u32  CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern u32  CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
@@ -296,7 +296,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 
-extern void ARC_UTIL_UploadPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
+extern void ARC_UTIL_UploadPaletteFromArchive(u32 archiveID, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
 
 extern void CLACT_GetActorSurfacePos(struct Obj *actor, struct PtS *out, u16 space);
 
@@ -342,17 +342,17 @@ extern int GFL_USE_PushBgm(void);
 
 extern void CLACT_SetActorAnimIndex(struct Obj *actor, int animIndex);
 
-extern int POKEGRA_OpenHandle(int a0);
+extern int POKEGRA_OpenHandle(int heapId);
 
 extern u32 POKEGRA_RegisterCgr(u32,u32,u32,u32,u32,u32,u32,u32,u32,u16);
 
-extern int POKEGRA_RegisterPalette(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7, unsigned short a8, unsigned short a9);
+extern int POKEGRA_RegisterPalette(int handle, int monsNo, int formNo, int sex, int rare, int dir, int egg, int drawType, unsigned short palOffset, unsigned short heapId);
 
 extern u32 POKEGRA_RegisterCellAnim(u32,u32,u32,u32,u32,u32,u32,u32,u16);
 
 extern int POKEGRA_GetArcID(void);
 
-extern s32 POKEGRA_GetPalArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
+extern s32 POKEGRA_GetPalArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 s5, u32 s6, u32 s7);
 
 extern void ZUKAN_DETAIL_COMMON_LoadPaletteToSlot(void *p, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f, u16 g);
 
@@ -396,7 +396,7 @@ extern void BMP_Clear(struct CharBuf *p, u8 v);
 
 extern u64 OS_GetTick(void);
 
-extern u32 PM_VOICE_Play(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
+extern u32 PM_VOICE_Play(u32 species, u32 form, u32 pan, u32 dual, u32 volumeBiasB, u32 frequencyOffsetB, u32 reverse, u32 recordedVoice);
 
 extern void *GFL_HEAP_Alloc(u32 heap,u32 size,int clear,const char *file,u16 line);
 
@@ -421,7 +421,7 @@ extern u16 BMP_WIN_GetCharOffset(struct Descriptor *p);
 
 extern void BG_SYS_DrawTile(u32 index,u32 a,u32 b,u32 c,u8 d,u8 e);
 
-extern void G2x_SetBlendAlpha_(u32 reg,int p1,int p2,int ev1,int ev2);
+extern void G2x_SetBlendAlpha_(u32 reg,int a,int b,int ev1,int ev2);
 
 extern struct MsgBank *gSpeciesNameBank;
 

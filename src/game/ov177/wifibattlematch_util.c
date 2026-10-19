@@ -129,9 +129,9 @@ typedef struct WifibattlematchUtilWork {
  * Menu descriptor (0x30 bytes).  ov175 views the same object with its own stand-in, so its fields must keep one name across the tree.
  */
 typedef struct WifibattlematchMenuDesc {
-    u32 x0;             /* 0x00 first button label id */
-    u32 x1;             /* 0x04 second button label id */
-    u32 x2;             /* 0x08 PRINTSYS_QUE handle */
+    u32 msgBank;             /* 0x00 message bank */
+    u32 font;                  /* 0x04 font (BmpMenuList font) */
+    u32 printQue;             /* 0x08 PRINTSYS_QUE handle */
     u32 items[4];       /* 0x0C up to four item value ids */
     u32 count;          /* 0x1C item count */
     u16 a;              /* 0x20 */
@@ -208,7 +208,7 @@ extern u32 PRINTSYS_QUE_Create(void *p);
 
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 
-extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
 
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 
@@ -234,7 +234,7 @@ extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 
 extern u32 GFL_USE_GetMainTaskList(void);
 
-extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
+extern u8 *TIME_ICON_Create(void *owner, void *refWin, u8 fillColor, u8 waitInterval, volatile u16 heap);
 
 extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
@@ -537,7 +537,7 @@ WifibattlematchMenu *WIFIBATTLEMATCH_UTIL_CreateMenu(const WifibattlematchMenuDe
     WifibattlematchMenuConfig config;
     out=GFL_HEAP_Alloc((u16)heap,28,0,d_021E8DD4,0x1a2);
     MI_CpuFill8(out,0,28);
-    out->printQue=p->x2;
+    out->printQue=p->printQue;
     out->counter=p->kind;
     /* stand-in: *(u8 *)&height reads the low byte of the stack argument (ldrb); (u8)height and a u8 parameter both compile to lsls/lsrs */
     out->win=(void *)BMP_WIN_Create((u8)p->a,(u8)x,(u8)y,(u8)width,*(u8 *)&height,p->b,1);
@@ -550,16 +550,16 @@ WifibattlematchMenu *WIFIBATTLEMATCH_UTIL_CreateMenu(const WifibattlematchMenuDe
     out->flag=0;
     out->entries=BMP_MENUWORK_Create(p->count,heap);
     for(index=0;index<p->count;index++)
-        BMP_MENUWORK_AddMsgItem(out->entries,p->x0,p->items[index],index,(u16)heap);
+        BMP_MENUWORK_AddMsgItem(out->entries,p->msgBank,p->items[index],index,(u16)heap);
     config=d_021E8D68;
     config.word[0]=(u32)out->entries;
     *(u16 *)((u8 *)&config+0x10)=p->count;
     *(u16 *)((u8 *)&config+0x12)=p->count;
     config.word[3]=(u32)out->win;
-    config.word[9]=p->x0;
+    config.word[9]=p->msgBank;
     config.word[10]=(u32)&out->win2;
-    config.word[11]=p->x2;
-    config.word[12]=p->x1;
+    config.word[11]=p->printQue;
+    config.word[12]=p->font;
     out->menu=BMP_MENULIST_Create(&config,0,p->row,heap);
     BMP_MENULIST_ResetCursorTile(out->menu,(u16)heap);
     if(p->enabled)

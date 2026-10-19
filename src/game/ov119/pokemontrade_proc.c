@@ -357,9 +357,9 @@ extern struct Sub02008F80Obj *MAIL_GetBox(void *sys);
 
 extern int MAIL_FindEmptySlot(void *obj, int v);
 
-extern void GFL_NET_SetAutoExit(u8 a0);
+extern void GFL_NET_SetAutoExit(u8 autoExit);
 
-extern void GFL_NET_SetLoginOption(u8 a0);
+extern void GFL_NET_SetLoginOption(u8 loginOption);
 
 extern void GFL_NET_STATE_WifiDisconnect(u32 a);
 
@@ -393,7 +393,7 @@ extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
 extern void MI_CpuFill8(void *,int,int);
 
-extern void POKETRADE_2D_SetIconObjMode(int a0, int a1, int a2);
+extern void POKETRADE_2D_SetIconObjMode(int unused, int actor, int enable);
 
 extern void POKETRADE_2D_CreateFloatingIconActor(int p, int i, int j, int x, int y, void *q);
 
@@ -437,7 +437,7 @@ extern u32 BMP_OAM_CheckRangeGetId(u32 a, u32 b, u32 c);
 
 extern u32 BMP_OAM_CheckRangeGetMin(u32 a, u32 b, u32 c);
 
-extern u32 COMM_HISTORY_InsertIfNamed(u32 a0, u32 a1);
+extern u32 COMM_HISTORY_InsertIfNamed(u32 owner, u32 entry);
 
 extern void POKETRADE_2D_DeleteOfferIconActor(void *, int, int);
 
@@ -447,7 +447,7 @@ extern void POKETRADE_NEGO_FlashMarker(void *, int, int);
 
 extern u32 WIPE_SYS_EndCheck(void);
 
-extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
 
 extern void POKETRADE_3D_DeleteMcssSlot(void *p, int idx);
 
@@ -461,7 +461,7 @@ extern u32 POKEPARTY_GetAliveNonEggCount(void *p);
 
 extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 
-extern int EVENT_ID_AreSlotsClear(void *p, int a1);
+extern int EVENT_ID_AreSlotsClear(void *p, int unused);
 
 extern u32 FILE_UTIL_Check136C(u16 v);
 
@@ -643,7 +643,7 @@ extern void MCSS_SetTextureTransAdrs(void *, unsigned int);
 
 extern void MCSS_SetOrthoMode(void *);
 
-extern void MCSS_Exit(u8 *a0);
+extern void MCSS_Exit(u8 *sys);
 
 extern u32 G3D_CAMERA_Delete(void *ptr);
 
@@ -859,7 +859,7 @@ void POKETRADE_PROC_ClearDragIcon(void *p);
 
 void POKETRADE_PROC_ShowDragIcon(void *p);
 
-void POKETRADE_PROC_BeginDrag(void *p, int x, int y, int z, int a4);
+void POKETRADE_PROC_BeginDrag(void *p, int x, int y, int z, int mon);
 
 void *POKETRADE_PROC_LoadSlotMon(void **a, int b, int c, char *p);
 
@@ -867,7 +867,7 @@ void *POKETRADE_PROC_LoadSlotMonAlt(void *a, int b, int c, char *p);
 
 char *POKETRADE_PROC_GetSlotMonPtr(int a, int b, char *p);
 
-void POKETRADE_PROC_StepNone(void *a0);
+void POKETRADE_PROC_StepNone(void *unused);
 
 void POKETRADE_PROC_SetStep(void *p, int v);
 
@@ -909,7 +909,7 @@ void POKETRADE_PROC_RecvPeerFlags(int a,int b,const u8 *c,u8 *p,int e);
 
 void POKETRADE_PROC_RecvPeerState(u32 a, u32 b, u8 *src, u8 *base, void *e);
 
-void POKETRADE_PROC_RecvTradeSummary(void *p, int a1, void *a2, char *a3, int a4);
+void POKETRADE_PROC_RecvTradeSummary(void *p, int size, void *data, char *work, int handle);
 
 void POKETRADE_PROC_RecvStateByte(u32 a, u32 b, u8 *src, u8 *base, void *e);
 
@@ -955,7 +955,7 @@ void POKETRADE_PROC_BuildPartyPacket(char *p);
 
 void POKETRADE_PROC_ShowIntroMessage(char *p);
 
-void POKETRADE_PROC_PlaceCursorIcon(char *p, int a1, int a2);
+void POKETRADE_PROC_PlaceCursorIcon(char *p, int cursorIndex, int showSummary);
 
 void POKETRADE_PROC_StepReturnFromSummary(char *p);
 
@@ -1131,7 +1131,7 @@ void POKETRADE_PROC_ExitMcssSystem(char *p);
 
 void POKETRADE_PROC_InitDisplay(char *p);
 
-void POKETRADE_PROC_ExitDisplay(void *a0);
+void POKETRADE_PROC_ExitDisplay(void *unused);
 
 void POKETRADE_PROC_LoadSceneResources(char *p);
 
@@ -1139,7 +1139,7 @@ void POKETRADE_PROC_VBlank(int a, char *p);
 
 void POKETRADE_PROC_SetupGameData(char *p,void *q,u16 r);
 
-void POKETRADE_PROC_FreeMons(char *p, int a1);
+void POKETRADE_PROC_FreeMons(char *p, int unused);
 
 void POKETRADE_PROC_SetupBoxCounts(char *p);
 
@@ -1446,7 +1446,7 @@ void POKETRADE_PROC_ShowDragIcon(void *p) {
  }
 }
 
-void POKETRADE_PROC_BeginDrag(void *p, int x, int y, int z, int a4)
+void POKETRADE_PROC_BeginDrag(void *p, int x, int y, int z, int mon)
 {
     int o1, o2;
 
@@ -1460,7 +1460,7 @@ void POKETRADE_PROC_BeginDrag(void *p, int x, int y, int z, int a4)
     POKETRADE_2D_CreateFloatingIconActor((int)p, y, z,
                   o1 + (s16)((TradeWork *)p)->offsetX,
                   o2 + (s16)((TradeWork *)p)->offsetY,
-                  (void *)a4);
+                  (void *)mon);
     ((TradeWork *)p)->dragActor = ((TradeWork *)p)->iconActorC;
 }
 
@@ -1531,7 +1531,7 @@ char *POKETRADE_PROC_GetSlotMonPtr(int a, int b, char *p)
 /*
  * Empty stub.
  */
-void POKETRADE_PROC_StepNone(void *a0)
+void POKETRADE_PROC_StepNone(void *unused)
 {
 }
 
@@ -1705,19 +1705,19 @@ void POKETRADE_PROC_RecvPeerState(u32 a, u32 b, u8 *src, u8 *base, void *e)
     }
 }
 
-void POKETRADE_PROC_RecvTradeSummary(void *p, int a1, void *a2, char *a3, int a4)
+void POKETRADE_PROC_RecvTradeSummary(void *netId, int size, void *data, char *work, int handle)
 {
     u8 buf[0x28];
     u8 x, y;
     u32 r1, r2;
     void *saved;
 
-    if (a4 != (int)GFL_NET_HANDLE_GetCurrentHandle())
+    if (handle != (int)GFL_NET_HANDLE_GetCurrentHandle())
         return;
-    if (p == (void *)GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle())))
+    if (netId == (void *)GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle())))
         return;
-    saved = WIFI_HISTORY_GetBlock(GAME_DATA_GetSaveControl(((TradeWork *)a3)->gameData));
-    MI_CpuCopy8(a2, buf, 0x28);
+    saved = WIFI_HISTORY_GetBlock(GAME_DATA_GetSaveControl(((TradeWork *)work)->gameData));
+    MI_CpuCopy8(data, buf, 0x28);
     x = MYSTATUS_GetLanguage((const struct Sub0200852CObj *)buf);
     y = MYSTATUS_GetVersion((const struct Sub0200852CObj *)buf);
     r1 = BMP_OAM_CheckRangeGetId(x, y, MYSTATUS_GetGender((const struct Sub0200852CObj *)buf));
@@ -1941,10 +1941,10 @@ void POKETRADE_PROC_ShowIntroMessage(char *p)
  *  by the compiler, so the 0xf0c pool constant is not hoisted across blocks);
  *  020355C4 is a void getter called on its own; the 021D8FA4 result is a local.
  */
-void POKETRADE_PROC_PlaceCursorIcon(char *p, int a1, int a2)
+void POKETRADE_PROC_PlaceCursorIcon(char *p, int cursorIndex, int showSummary)
 {
     Pt t0, t1;
-    if (a1 == 0) {
+    if (cursorIndex == 0) {
         t0 = gCursorIconPos0;
         CLACT_AddActorSurfacePos((struct Obj *)(((TradeWork *)p)->actorF0C), (const struct Vec2 *)(&t0), 1);
     } else {
@@ -1952,13 +1952,13 @@ void POKETRADE_PROC_PlaceCursorIcon(char *p, int a1, int a2)
         CLACT_AddActorSurfacePos((struct Obj *)(((TradeWork *)p)->actorF0C), (const struct Vec2 *)(&t1), 1);
     }
     if (UI_GetInputMode()) {
-        POKETRADE_2D_PlaceTouchbarActors((int)p, a1, 0);
+        POKETRADE_2D_PlaceTouchbarActors((int)p, cursorIndex, 0);
         CLACT_SetActorDrawEnable((struct Obj *)((TradeWork *)p)->actorF0C, 0);
     } else {
-        POKETRADE_2D_PlaceTouchbarActors((int)p, a1, 1);
+        POKETRADE_2D_PlaceTouchbarActors((int)p, cursorIndex, 1);
         CLACT_SetActorDrawEnable((struct Obj *)((TradeWork *)p)->actorF0C, 1);
     }
-    if (a2 != 0) {
+    if (showSummary != 0) {
         void *v;
 
         v = POKETRADE_PROC_GetSideMon(p, ((TradeWork *)p)->cursorIndex);
@@ -3305,7 +3305,7 @@ void POKETRADE_PROC_InitDisplay(char *p)
     POKETRADE_2D_SetupSubBgs(p);
 }
 
-void POKETRADE_PROC_ExitDisplay(void *a0)
+void POKETRADE_PROC_ExitDisplay(void *unused)
 {
     CLACT_ExitSystem();
     BMP_WIN_Exit();
@@ -3326,7 +3326,7 @@ void POKETRADE_PROC_VBlank(int a, char *p)
 
 void POKETRADE_PROC_SetupGameData(char *p,void *q,u16 r) {unsigned i;for(i=0;i<3;i++)*(int *)(p+0x1064+i*4)=(int)GFL_HEAP_Alloc(0x91,POKE_TOOL_GetPartyParamSize(),1,gGameDataAllocTag,0xfde);if(q){((TradeWork *)p)->gameData=q;((TradeWork *)p)->boxManager=GAME_DATA_GetBoxManager(q);((TradeWork *)p)->trainerRecord=GAME_DATA_GetMyStatus(q);((TradeWork *)p)->partyData=GAME_DATA_GetMyParty(q);if(((TradeWork *)p)->playerStatus==0){if(POKETRADE_PROC_IsNetSession(p)){((TradeWork *)p)->playerStatus=GAME_DATA_GetPlayerStatusById(q,1-GFL_NET_SYSTEM_GetCurrentAid());return;}((TradeWork *)p)->playerStatus=GAME_DATA_GetPlayerStatusById(q,1);}}}
 
-void POKETRADE_PROC_FreeMons(char *p, int a1)
+void POKETRADE_PROC_FreeMons(char *p, int unused)
 {
     unsigned i;
     for (i = 0; i < 3; i++)

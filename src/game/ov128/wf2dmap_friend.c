@@ -384,7 +384,7 @@ extern void BG_SYS_Delete(void);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
-extern struct Obj *CLACT_CreateRenderer(u8 *a0, u32 a1, u32 heap);
+extern struct Obj *CLACT_CreateRenderer(u8 *inits, u32 count, u32 heap);
 extern void CLACT_SetUnitRenderer(struct Bank *bank, void *p);
 extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u32);
 extern int CLACT_RegisterPalette(void *,u32,u32,u32,u32);
@@ -403,7 +403,7 @@ extern void CLACT_ExitSystem(void);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern void *TCBL_Create(unsigned,unsigned,unsigned,unsigned);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
@@ -439,7 +439,7 @@ extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_RestartActorAnim(struct Actor *a);
-extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
+extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *res);
 extern void APP_TASKMENU_UpdateMenu(void *);
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *);
@@ -456,10 +456,10 @@ extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
+extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, u32 font, u32 printQue, u16 heap);
 extern void WF2DMAP_TOUCH_ClearSlotArray(char *);
 extern unsigned int APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
-extern void BG_SYS_DrawTile(unsigned int index, unsigned int a1, unsigned int a2, unsigned int a3, u8 a4, u8 a5);
+extern void BG_SYS_DrawTile(unsigned int index, unsigned int src, unsigned int dx, unsigned int dy, u8 cw, u8 ch);
 extern void BG_SYS_FillScrollArea(unsigned,unsigned,unsigned);
 extern void WF2DMAP_TOUCH_SetTopHighlight3(u8 *,int);
 extern u32 KEY_GetTrg(void);
@@ -504,7 +504,7 @@ extern u32 PROCSYS_Main(void *);
 extern void PROCSYS_Delete(struct S020314B8 *p);
 extern void PROCSYS_Push(void *, u32, void *, void *);
 extern char *WF2DMAP_TOUCH_CreateNameEntry(void *unused, char *q, int mode, int heap);
-extern struct Param *CODEIN_PARAM_Create(u32 heap, u32 a1, u32 a2, u32 a3, u32 *src);
+extern struct Param *CODEIN_PARAM_Create(u32 heap, u32 mode, u32 initialPage, u32 maxLength, u32 *src);
 extern void CODEIN_PARAM_Delete(struct CodeinParam *p);
 extern int NAMEIN_SETUP_FreeArgs(int a0);
 int Wf2dmapFriend_Create(void *p,int unused,void *q);
@@ -515,7 +515,7 @@ void Wf2dmapFriend_Setup(char *p,u16 heap);
 void Wf2dmapFriend_Teardown(u8 *p);
 void Wf2dmapFriend_CreateWindow(void *p,u32 *out,u32 a,u32 b,u8 c,u8 d,u8 e,u8 f,u32 unused,u8 g);
 void Wf2dmapFriend_InitText(u8 *p, const u32 *q, int heap);
-void Wf2dmapFriend_DeleteText(u8 *p, void *a1);
+void Wf2dmapFriend_DeleteText(u8 *p, void *unused);
 void Wf2dmapFriend_SetState(u8 *p, u8 a, u8 b);
 void Wf2dmapFriend_CopyText(u8 *p,void *a,void *b);
 int Wf2dmapFriend_SubmitFriendKey(char *p,void *q,u32 arg);
@@ -526,9 +526,9 @@ void Wf2dmapFriend_InitGfx(char *p,void *q,u16 heap);
 void Wf2dmapFriend_Draw(u8 *p);
 void Wf2dmapFriend_VBlank(void *p);
 void Wf2dmapFriend_DeleteGfx(u8 *p);
-void Wf2dmapFriend_SetVramBanks(void *a0);
+void Wf2dmapFriend_SetVramBanks(void *unused);
 void Wf2dmapFriend_InitBg(char *p,int heap);
-void Wf2dmapFriend_DeleteBg(u8 *a0);
+void Wf2dmapFriend_DeleteBg(u8 *unused);
 void Wf2dmapFriend_InitActors(char *p,int heap);
 void Wf2dmapFriend_DeleteActors(char *p);
 void Wf2dmapFriend_InitFont(u8 *p, int heap);
@@ -597,15 +597,15 @@ int Wf2dmapFriend_CheckEntryPrintStream(void *p,int *state,u8 *q);
 void Wf2dmapFriend_ShowEntryDetail(char *p,char *q);
 void Wf2dmapFriend_ClearEntryWindow(char *p);
 int Wf2dmapFriend_GetEntryIndex(s16 *p);
-void Wf2dmapFriend_ShowEntryActor(u8 *p, u8 *a1);
-int Wf2dmapFriend_StepEntryActor(u8 *p, u8 *a1);
+void Wf2dmapFriend_ShowEntryActor(u8 *p, u8 *unused);
+int Wf2dmapFriend_StepEntryActor(u8 *p, u8 *unused);
 void Wf2dmapFriend_HideEntryActor(u8 *p, u8 *unused);
 void Wf2dmapFriend_CopyPos(u16 *d, u16 *unused, u16 *s, u32 unused2, u16 heap);
-void Wf2dmapFriend_NoopC(void *a0, void *a1);
+void Wf2dmapFriend_NoopC(void *unused0, void *unused1);
 void Wf2dmapFriend_DrawEntryBg(s16 *p, void *unused, u8 *q);
 void Wf2dmapFriend_DrawEntryPage(char *p,char *q,void *r,void *s,int t,char *table,int page,u16 heap);
 void Wf2dmapFriend_DrawEntryPageTransfer(char *p,char *q,void *r,void *s,int t,char *table,int page,u16 heap);
-void Wf2dmapFriend_ClearEntryPage(char *p, void *q, void *a2);
+void Wf2dmapFriend_ClearEntryPage(char *p, void *q, void *unused);
 void Wf2dmapFriend_DeleteEntryActors(char *p,int unused);
 void Wf2dmapFriend_DrawEntrySlot(u8 *p, void *a, u8 *b, int unused, int i, void *base, int idx, u16 heap);
 void Wf2dmapFriend_CreateEntryActor(char *p,char *q,int unused,int i,u16 h);
@@ -761,7 +761,7 @@ void Wf2dmapFriend_InitText(u8 *p, const u32 *q, int heap) {((Wf2dmapTouchFriend
 
 
 
-void Wf2dmapFriend_DeleteText(u8 *p, void *a1) { UI_SetInputMode(((Wf2dmapTouchFriendData *)p)->textSpeed); STRBUF_Delete(((Wf2dmapTouchFriendData *)p)->textBufA); STRBUF_Delete(((Wf2dmapTouchFriendData *)p)->textBufB); }
+void Wf2dmapFriend_DeleteText(u8 *p, void *unused) { UI_SetInputMode(((Wf2dmapTouchFriendData *)p)->textSpeed); STRBUF_Delete(((Wf2dmapTouchFriendData *)p)->textBufA); STRBUF_Delete(((Wf2dmapTouchFriendData *)p)->textBufB); }
 
 
 
@@ -908,7 +908,7 @@ void Wf2dmapFriend_DeleteGfx(u8 *p) {WF2DMAP_TOUCH_DeletePalAnims(p);Wf2dmapFrie
 
 
 
-void Wf2dmapFriend_SetVramBanks(void *a0)
+void Wf2dmapFriend_SetVramBanks(void *unused)
 {
     BG_SYS_SetVramBanks((const struct DispVram *)gWf2dmapVramBanks);
 }
@@ -950,7 +950,7 @@ void Wf2dmapFriend_InitBg(char *p,int heap)
 
 
 
-void Wf2dmapFriend_DeleteBg(u8 *a0)
+void Wf2dmapFriend_DeleteBg(u8 *unused)
 {
     int i;
     for (i = 0; i < 5; i++)
@@ -2469,7 +2469,7 @@ static inline void Outside(int wnd,int effect)
 /*
  * volatile: 021C8808, 021C8814 read WINOUT; 021C8828 reads DISPCNT.
  */
-void Wf2dmapFriend_ShowEntryActor(u8 *p, u8 *a1)
+void Wf2dmapFriend_ShowEntryActor(u8 *p, u8 *unused)
 {
     Wf2dmapScreenPoint pos;
     CLACT_SetActorDrawEnable(((Wf2dmapFriendItemScreen *)p)->actor,1);
@@ -2490,7 +2490,7 @@ void Wf2dmapFriend_ShowEntryActor(u8 *p, u8 *a1)
 
 
 
-int Wf2dmapFriend_StepEntryActor(u8 *p, u8 *a1) {u32 n;if(CLACT_IsActorAnimActive(*(struct Actor * *)&((Wf2dmapFriendItemScreen *)p)->actor)==0)return 1;n=CLACT_GetActorAnimFrame(*(struct Obj * *)&((Wf2dmapFriendItemScreen *)p)->actor);if(n-((Wf2dmapFriendItemScreen *)p)->animFrame>=2) ((Wf2dmapFriendItemScreen *)p)->animFrame=n;return 0;}
+int Wf2dmapFriend_StepEntryActor(u8 *p, u8 *unused) {u32 n;if(CLACT_IsActorAnimActive(*(struct Actor * *)&((Wf2dmapFriendItemScreen *)p)->actor)==0)return 1;n=CLACT_GetActorAnimFrame(*(struct Obj * *)&((Wf2dmapFriendItemScreen *)p)->actor);if(n-((Wf2dmapFriendItemScreen *)p)->animFrame>=2) ((Wf2dmapFriendItemScreen *)p)->animFrame=n;return 0;}
 
 
 
@@ -2520,7 +2520,7 @@ void Wf2dmapFriend_CopyPos(u16 *d, u16 *unused, u16 *s, u32 unused2, u16 heap)
 /*
  * extent: bx lr followed by two zero alignment bytes.
  */
-void Wf2dmapFriend_NoopC(void *a0, void *a1) {}
+void Wf2dmapFriend_NoopC(void *unused0, void *unused1) {}
 
 
 
@@ -2578,9 +2578,9 @@ static inline int ab(int v) {return v<0?-v:v;}
 /*
  * extent: trailing two-byte zero padding at 0x021C8A4E; next label 0x021C8A50.
  */
-void Wf2dmapFriend_ClearEntryPage(char *p, void *q, void *a2) {
+void Wf2dmapFriend_ClearEntryPage(char *p, void *unusedArg, void *unused) {
  void *v;
- Wf2dmapFriend_DeleteEntryActors(p,(int)q);
+ Wf2dmapFriend_DeleteEntryActors(p,(int)unusedArg);
  v=**(void ** *)&((Wf2dmapFriendEntryPage *)p)->window;BMP_WIN_ClearScreen(v);BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(v));
  BG_SYS_SetTileEntry(2,0,ab(((Wf2dmapFriendEntryPage *)p)->x),ab(((Wf2dmapFriendEntryPage *)p)->y),p[4],p[5],0);
  BG_SYS_SetFlagField06(2);

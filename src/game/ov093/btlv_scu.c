@@ -309,7 +309,7 @@ extern void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *slots, u32 arcId, u
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 extern void BG_SYS_SetTileEntry(u32, int, int, int, u8, u8, u8);
 extern void BG_SYS_Init(u32, u32, u32, u32);
-extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
+extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 archiveID, u32 memberIdx, u32 channel, u32 offset, u32 size, u32 heapID, u16 flags);
 extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern struct CharBuf *BMP_WIN_GetBmp(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
@@ -320,7 +320,7 @@ extern void BG_SYS_PushTile(u32 index);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
+extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern void BG_SYS_FreeLayerBuf(u32 i);
@@ -588,10 +588,10 @@ extern int (*const gBtlvScuDoubleLinkCommPhases[])(BtlvScu *, int *);
 
 
 
-void BTLV_SCU_PlaySeUnlessMainStep(struct BtlvCore *core, int a)
+void BTLV_SCU_PlaySeUnlessMainStep(struct BtlvCore *core, int seNo)
 {
     if (BTL_CLIENT_IsMainStepActive(core->client) == 0)
-        GFL_USE_PlaySeDefaultVolume(a);
+        GFL_USE_PlaySeDefaultVolume(seNo);
 }
 
 

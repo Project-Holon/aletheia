@@ -1,5 +1,5 @@
 /*
- * function: BTLV_CORE_GetInputResultFlag
+ * function: BTLV_CORE_GetItemTargetFlag
  * address:  0x021EA04C
  * packet:   pkt_021EA04C
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   BTLV_CORE_GetInputResultFlag   0x021EA04C  thumb ov093
+ *   BTLV_CORE_GetItemTargetFlag   0x021EA04C  thumb ov093
  *
  * ldrb at #0x157 (pool constant)
  */
@@ -23,7 +23,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-u8 BTLV_CORE_GetInputResultFlag(u8 *p)
+u8 BTLV_CORE_GetItemTargetFlag(u8 *p)
 {
     return ((struct Obj18477 *)p)->f157;
 }

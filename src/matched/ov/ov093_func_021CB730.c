@@ -26,7 +26,7 @@
  *   BTL_SERVER_CMD_PushVariable 0x021CD64C thumb ov093
  *   BTL_CALC_GetMonParamWithHeap 0x021D805C thumb ov093
  *   BTL_SERVER_FLOW_TryThrowBall 0x021CBA40 thumb ov093
- *   BTL_MAIN_AddItemToBag 0x021B9090 thumb ov093
+ *   BTL_MAIN_RemoveItemFromBag 0x021B9090 thumb ov093
  *   BTL_MAIN_GetOwnClientId 0x021B8FF4 thumb ov093
  *   BTL_MAIN_TrainerRecordAdd 0x021BA1B4 thumb ov093
  *   BTL_SERVER_CMD_Push 0x021CD4B0 thumb ov093
@@ -34,7 +34,7 @@
  *   BTL_SERVER_CMD_Reserve 0x021CD4FC thumb ov093
  *   BTL_SERVER_CMD_FillReserved 0x021CD568 thumb ov093
  *   BTL_SERVER_FLOW_BeginHandExScope 0x021CC8D8 thumb ov093
- *   BTL_MAIN_AddItemToBag 0x021B9090 thumb ov093
+ *   BTL_MAIN_RemoveItemFromBag 0x021B9090 thumb ov093
  *   BTL_MAIN_UpdateFriendshipUseItem 0x021BA250 thumb ov093
  *   BTL_SERVER_FLOW_EndHandExScope 0x021CC95C thumb ov093
  *   gBagItemEffectTable 0x021EFDE4 data a4
@@ -68,7 +68,7 @@ extern u32 BTL_MAIN_GetRule(void **p);
 extern void BTL_SERVER_CMD_PushVariable(void *, u8, ...);
 extern u32 BTL_CALC_GetMonParamWithHeap(void *p, u32 n);
 extern int BTL_SERVER_FLOW_TryThrowBall(u8 *, void *, u16);
-extern void BTL_MAIN_AddItemToBag(u8 *, u32, u32);
+extern void BTL_MAIN_RemoveItemFromBag(u8 *, u32, u32);
 extern u8 BTL_MAIN_GetOwnClientId(u8 *);
 extern void BTL_MAIN_TrainerRecordAdd(char **p, int i);
 extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
@@ -119,12 +119,12 @@ int BTL_SERVER_FLOW_ProcBagItemUse(u8 *p, u8 *a, u16 move, u8 arg, u8 slot)
     if (BTL_CALC_GetMonParamWithHeap((void *)move, 15) == 4)
     {
       if (BTL_SERVER_FLOW_TryThrowBall(p, a, move))
-        BTL_MAIN_AddItemToBag(*((u8 **) (p + 4)), side, move);
+        BTL_MAIN_RemoveItemFromBag(*((u8 **) (p + 4)), side, move);
       return 0;
     }
     if (BTL_CALC_GetMonParamWithHeap((void *)move, 7) == 3)
     {
-      BTL_MAIN_AddItemToBag(*((u8 **) (p + 4)), side, move);
+      BTL_MAIN_RemoveItemFromBag(*((u8 **) (p + 4)), side, move);
       return 1;
     }
   }
@@ -206,7 +206,7 @@ int BTL_SERVER_FLOW_ProcBagItemUse(u8 *p, u8 *a, u16 move, u8 arg, u8 slot)
     BTL_SERVER_CMD_FillReserved(*((void **) (p + 12)), pos, 0x4d, state, (u16) ((state != 6) ? (0x25e) : (0x292)));
     if ((*((u32 *) (p + 24))) != 1)
     {
-      BTL_MAIN_AddItemToBag(*((u8 **) (p + 4)), side, move);
+      BTL_MAIN_RemoveItemFromBag(*((u8 **) (p + 4)), side, move);
       BTL_MAIN_UpdateFriendshipUseItem(*((char **) (p + 4)), mon, move);
     }
   }

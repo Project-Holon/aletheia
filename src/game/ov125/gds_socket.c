@@ -929,7 +929,7 @@ void GDS_SOCKET_InitSslTemplate(void)
     CPS_SslAddRandomSeed(gGdsEntropyBuffer, 32);
     if (gGdsSslTemplatePtr) return;
     MI_CpuFill8(&gGdsSslTemplate, 0, sizeof(CPSSslConnection));
-    gGdsSslTemplate.f800 = 0;
+    gGdsSslTemplate.hostName = 0;
     GDS_SOCKET_SetSslTemplate(&gGdsSslTemplate);
     GDS_SOCKET_SetRootCa(sGdsRootCaList, 1);
     GDS_SOCKET_SetSslAuthCallback(GDS_SOCKET_SslAuthCallback);
@@ -976,8 +976,8 @@ void GDS_SOCKET_CopySslTemplate(const char *host, CPSSslConnection *con)
 {
     MI_CpuCopy8(gGdsSslTemplatePtr, con, sizeof(CPSSslConnection));
     if (host) {
-        con->f800 = GDS_SOCKET_Alloc(STD_GetStringLength(host) + 1);
-        STD_CopyString(con->f800, host);
+        con->hostName = GDS_SOCKET_Alloc(STD_GetStringLength(host) + 1);
+        STD_CopyString(con->hostName, host);
     }
 }
 
@@ -986,9 +986,9 @@ void GDS_SOCKET_FreeSslServerName(CPSSslConnection *con)
 {
     char *name;
 
-    name = con->f800;
+    name = con->hostName;
     if (name == 0)
         return;
     GDS_SOCKET_Free((int)name);
-    con->f800 = 0;
+    con->hostName = 0;
 }

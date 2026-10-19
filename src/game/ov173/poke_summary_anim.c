@@ -31,32 +31,32 @@ int POKE_SUMMARY_ANIM_ShowTextKind5(u8 *p);
 int POKE_SUMMARY_ANIM_Finish(u8 *p);
 
 
-int POKE_SUMMARY_ANIM_ShowTextKind7(int *p)
+int POKE_SUMMARY_ANIM_ShowTextKind7(int *work)
 {
-    POKE_SUMMARY_MAIN_StartTextStream((char *)p, 7);
-    ((struct PokeSummaryWork *)p)->textKind = 3;
-    ((struct PokeSummaryWork *)p)->state = 3;
+    POKE_SUMMARY_MAIN_StartTextStream((char *)work, 7);
+    ((struct PokeSummaryWork *)work)->textKind = 3;
+    ((struct PokeSummaryWork *)work)->state = 3;
     return 2;
 }
 
 
-int POKE_SUMMARY_ANIM_ShowTextKind8(int *p)
+int POKE_SUMMARY_ANIM_ShowTextKind8(int *work)
 {
-    POKE_SUMMARY_MAIN_StartTextStream((char *)p, 8);
-    ((struct PokeSummaryWork *)p)->state = 8;
-    ((struct PokeSummaryWork *)p)->mon->applyFlag = 1;
+    POKE_SUMMARY_MAIN_StartTextStream((char *)work, 8);
+    ((struct PokeSummaryWork *)work)->state = 8;
+    ((struct PokeSummaryWork *)work)->mon->applyFlag = 1;
     return 2;
 }
 
 
-int POKE_SUMMARY_ANIM_ShowTextKind4(int *p)
+int POKE_SUMMARY_ANIM_ShowTextKind4(int *work)
 {
-    POKE_SUMMARY_MAIN_StartTextStream((char *)p, 4);
-    ((struct PokeSummaryWork *)p)->textKind = 2;
-    ((struct PokeSummaryWork *)p)->state = 3;
+    POKE_SUMMARY_MAIN_StartTextStream((char *)work, 4);
+    ((struct PokeSummaryWork *)work)->textKind = 2;
+    ((struct PokeSummaryWork *)work)->state = 3;
     return 2;
 }
 
-int POKE_SUMMARY_ANIM_ShowTextKind5(u8 *p) {POKE_SUMMARY_MAIN_StartTextStream((char *)p,5);((struct PokeSummaryWork *)p)->state=6;return 2;}
+int POKE_SUMMARY_ANIM_ShowTextKind5(u8 *work) {POKE_SUMMARY_MAIN_StartTextStream((char *)work,5);((struct PokeSummaryWork *)work)->state=6;return 2;}
 
-int POKE_SUMMARY_ANIM_Finish(u8 *p) {((struct PokeSummaryWork *)p)->state=10;return 0;}
+int POKE_SUMMARY_ANIM_Finish(u8 *work) {((struct PokeSummaryWork *)work)->state=10;return 0;}

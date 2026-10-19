@@ -68,75 +68,75 @@
  */
 
 typedef struct PartyStatusObj1 {
-    unsigned int f0;
+    unsigned int state;
     unsigned char pad4[64];
-    unsigned int f44;
-    unsigned int f48;
+    unsigned int selectedIndex;
+    unsigned int exitCode;
     unsigned char pad4C[28];
-    unsigned short f68;
+    unsigned short timeLeft;
     unsigned char pad6A[1];
-    unsigned char f6B;
+    unsigned char closeRequested;
     unsigned char pad6C[44];
-    unsigned int f98;
+    unsigned int timerRunning;
     unsigned char pad9C[19];
-    unsigned char fAF;
+    unsigned char savedPosition;
     unsigned char padB0[20];
-    unsigned int fC4;
-    unsigned char fC8;
+    unsigned int forceExit;
+    unsigned char tickAccum;
     unsigned char padC9[3];
-    unsigned int fCC;
-    void *fD0;
+    unsigned int lastTick;
+    void *procSys;
 } PartyStatusObj1;
 
 typedef struct PartyStatusObj2 {
-    int f0;
-    int f4;
-    int f8;
-    signed char fC;
-    signed char fD;
-    signed char fE;
-    signed char fF;
-    signed char f10;
-    signed char f11;
-    signed char f12;
+    int party;
+    int config;
+    int gameData;
+    signed char ppt;
+    signed char mode;
+    signed char max;
+    signed char pos;
+    signed char page;
+    signed char retMovePos;
+    signed char retSel;
     unsigned char pad13[1];
-    short f14;
+    short newMove;
     unsigned char pad16[2];
-    int f18;
+    int isNationalDex;
     unsigned char pad1C[4];
-    int f20;
-    int f24;
+    int canUseButtons;
+    int forceExit;
 } PartyStatusObj2;
 
 typedef struct PartyStatusObj3 {
-    unsigned int f0;
-    unsigned int f4;
+    unsigned int state;
+    unsigned int party;
     unsigned char pad8[192];
-    unsigned char fC8;
+    unsigned char tickAccum;
     unsigned char padC9[3];
-    unsigned int fCC;
-    void *fD0;
+    unsigned int lastTick;
+    void *procSys;
     unsigned char padD4[36];
-    unsigned short fF8;
+    unsigned short heapId;
 } PartyStatusObj3;
 
 typedef struct PartyStatusObj4 {
     unsigned char pad0[32];
-    unsigned int f20;
+    unsigned int exitReason;
 } PartyStatusObj4;
 
 typedef struct PartyStatusObj5 {
     unsigned char pad0[4];
-    unsigned int f4;
+    unsigned int party;
     unsigned char pad8[24];
-    unsigned int f20;
+    unsigned int exitReason;
 } PartyStatusObj5;
 
 typedef struct PartyStatusObj6 {
     unsigned char pad0[4];
-    void *f4;
+    void *party;
     unsigned char pad8[20];
-    void *f1C;
+    void *resultParty;
 } PartyStatusObj6;
 
 typedef struct PartyStatusObj7 {
@@ -166,28 +166,28 @@ typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-typedef struct { u8 *a; void *party; u32 f8; u8 fC, padD[3]; u32 f10; void *save; u8 tail[20]; } Args;
+typedef struct { u8 *regulation; void *party; u32 opponentName; u8 opponentGender, padD[3]; u32 opponentParty; void *gameData; u8 tail[20]; } Args;
 
 typedef struct { u8 pad[4]; void *party; } Other;
 
 typedef struct {
     void *party;
-    u32 f4, f8, fC, f10;
-    u8 *a;
+    u32 bag, mailBox, config, f10;
+    u8 *regulation;
     u8 pad18[24];
-    u16 f30, pad32;
-    u32 f34, f38, f3C, f40;
-    u16 f44, f46;
-    u8 f48, marks[6], pad4F;
-    u32 f50;
+    u16 itemUseParam, pad32;
+    u32 mode, f38, selectedIndex, exitCode;
+    u16 itemId, moveId;
+    u8 moveSlot, slotOrder[6], pad4F;
+    u32 levelUpCursor;
     u16 f54, pad56;
     u32 f58, pad5C;
-    u16 f60, pad62;
-    u32 f64;
+    u16 timeLeft, pad62;
+    u32 battleKind;
     u8 pad68[12];
-    u32 f74, f78;
-    u8 f7C, pad7D[15];
-    u32 f8C, f90;
+    u32 opponentParty, opponentName;
+    u8 opponentGender, pad7D[15];
+    u32 timerShown, timerRunning;
 } Output;
 
 
@@ -197,7 +197,7 @@ typedef struct {
 extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,int);
-extern void *PROCSYS_Create(int a0);
+extern void *PROCSYS_Create(int heapId);
 extern void *POKEPARTY_GetMember(void *,unsigned);
 extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern void PLIST_COMM_End(void *);
@@ -240,7 +240,7 @@ void PARTY_STATUS_InitRecord(int *r5, int *r6, PartyStatusObj2 *r4);
 int PARTY_STATUS_CreateSub(struct Proc *a, int b, int *p);
 int PARTY_STATUS_DestroySub(void *a, u32 b, u32 *c, void *d);
 int PARTY_STATUS_UpdateSub(u32 a, u32 b, u32 *c, void *d);
-void PARTY_STATUS_Noop(int a0, int *a1, int a2);
+void PARTY_STATUS_Noop(int work, int *param, int heapId);
 int PARTY_STATUS_NetSync(char **out,u32 *ctx,u32 *state);
 void PARTY_STATUS_DestroySubWork(void **pp, u32 *c);
 void PARTY_STATUS_CreateSubWork(u32 *out, u32 **pp, u32 v);
@@ -266,13 +266,13 @@ int PARTY_STATUS_Create(void *handle,int unused,PartyStatusObj5 *q)
  p=(PartyStatusObj3 *) PROCSYS_AllocProcWork(handle,0xFC,0x58);
  MI_CpuFill8(p,0,0xFC);
  *(Copy *)((char *)p+0xD4)=*(Copy *)q;
- p->fF8=0x58;
- p->fD0=PROCSYS_Create(p->fF8);
- p->f4=q->f4;
+ p->heapId=0x58;
+ p->procSys=PROCSYS_Create(p->heapId);
+ p->party=q->party;
  PARTY_STATUS_SetupDisplay((Args *)q, (Other *)p, (Output *)((char *)p+8));PARTY_STATUS_InitRecord((int *)q,(int *)p,(PartyStatusObj2 *)((char *)p+0xA0));
- p->fC8=0;
- p->fCC=d_02FFFC3C;
- p->f0=0;q->f20=0;
+ p->tickAccum=0;
+ p->lastTick=d_02FFFC3C;
+ p->state=0;q->exitReason=0;
  return 1;
 }
 
@@ -285,10 +285,10 @@ int PARTY_STATUS_Destroy(void *handle,int unused,PartyStatusObj6 *q,PartyStatusO
  unsigned char i;
  for(i=0;i<6;i++) {
  unsigned n=*(unsigned char *)((char *)p+i+0x51);
- if(n!=0)POKEPARTY_Add(q->f1C,POKEPARTY_GetMember(q->f4,n-1));
+ if(n!=0)POKEPARTY_Add(q->resultParty,POKEPARTY_GetMember(q->party,n-1));
  }
  PLIST_COMM_End((char *)p+8);GF_OVERLAY_Unload((unsigned)ov090_id);
- PROCSYS_Delete(p->fD0);PROCSYS_FreeProcWork(handle);GFL_HEAP_DeleteChecked(0x58);
+ PROCSYS_Delete(p->procSys);PROCSYS_FreeProcWork(handle);GFL_HEAP_DeleteChecked(0x58);
  return 1;
 }
 
@@ -298,52 +298,52 @@ int PARTY_STATUS_Destroy(void *handle,int unused,PartyStatusObj6 *q,PartyStatusO
 
 int PARTY_STATUS_Update(void *unused,int unused2,PartyStatusObj4 *q,char *p)
 {
-    if(((PartyStatusObj1 *)p)->f98==1 && ((PartyStatusObj1 *)p)->f68!=0) {
+    if(((PartyStatusObj1 *)p)->timerRunning==1 && ((PartyStatusObj1 *)p)->timeLeft!=0) {
         u32 now;
         now=d_02FFFC3C;
-        ((PartyStatusObj1 *)p)->fC8+=(u8)(now-((PartyStatusObj1 *)p)->fCC);
-        ((PartyStatusObj1 *)p)->fCC=now;
-        if(((PartyStatusObj1 *)p)->fC8>60) {
-            --((PartyStatusObj1 *)p)->f68;
-            ((PartyStatusObj1 *)p)->fC8-=60;
+        ((PartyStatusObj1 *)p)->tickAccum+=(u8)(now-((PartyStatusObj1 *)p)->lastTick);
+        ((PartyStatusObj1 *)p)->lastTick=now;
+        if(((PartyStatusObj1 *)p)->tickAccum>60) {
+            --((PartyStatusObj1 *)p)->timeLeft;
+            ((PartyStatusObj1 *)p)->tickAccum-=60;
         }
     }
     if(GFL_NET_GetRunState()) {
         if(*((u8 *)GFL_NET_GetInitParam()+0x65)==3) {
             if(GFL_NET_ERR_GetErrorLevel()) {
                 GFL_NET_ERR_RequestScreen();
-                q->f20=2;
-                ((PartyStatusObj1 *)p)->f6B=1;((PartyStatusObj1 *)p)->fC4=1;
+                q->exitReason=2;
+                ((PartyStatusObj1 *)p)->closeRequested=1;((PartyStatusObj1 *)p)->forceExit=1;
             }
         } else {
             int one;
             one=1;
             switch(DWC_RAPCOMMON_HandleNetError((void *)1,(void *)1)) {
             case 0:case 3:break;
-            case 4:q->f20=3;((PartyStatusObj1 *)p)->f6B=one;((PartyStatusObj1 *)p)->fC4=one;break;
-            case 1:case 2:default:q->f20=1;((PartyStatusObj1 *)p)->f6B=1;((PartyStatusObj1 *)p)->fC4=1;break;
+            case 4:q->exitReason=3;((PartyStatusObj1 *)p)->closeRequested=one;((PartyStatusObj1 *)p)->forceExit=one;break;
+            case 1:case 2:default:q->exitReason=1;((PartyStatusObj1 *)p)->closeRequested=1;((PartyStatusObj1 *)p)->forceExit=1;break;
             }
         }
     }
-    switch(((PartyStatusObj1 *)p)->f0) {
+    switch(((PartyStatusObj1 *)p)->state) {
     case 0:GF_OVERLAY_Load((int)ov091_id);
-        PROCSYS_Push(((PartyStatusObj1 *)p)->fD0,-1,gPartyListProcData,p+8);((PartyStatusObj1 *)p)->f0=1;break;
-    case 1:if(PROCSYS_Main(((PartyStatusObj1 *)p)->fD0)==0)((PartyStatusObj1 *)p)->f0=2;break;
+        PROCSYS_Push(((PartyStatusObj1 *)p)->procSys,-1,gPartyListProcData,p+8);((PartyStatusObj1 *)p)->state=1;break;
+    case 1:if(PROCSYS_Main(((PartyStatusObj1 *)p)->procSys)==0)((PartyStatusObj1 *)p)->state=2;break;
     case 2:GF_OVERLAY_Unload((int)ov091_id);
-        if(((PartyStatusObj1 *)p)->f48==1) {((PartyStatusObj1 *)p)->fAF=((PartyStatusObj1 *)p)->f44;((PartyStatusObj1 *)p)->f0=3;}
+        if(((PartyStatusObj1 *)p)->exitCode==1) {((PartyStatusObj1 *)p)->savedPosition=((PartyStatusObj1 *)p)->selectedIndex;((PartyStatusObj1 *)p)->state=3;}
         else return 1;
         break;
     case 3:GF_OVERLAY_Load((int)ov131_id);
-        PROCSYS_Push(((PartyStatusObj1 *)p)->fD0,-1,gPokeStatusProcData,p+0xa0);((PartyStatusObj1 *)p)->f0=4;break;
+        PROCSYS_Push(((PartyStatusObj1 *)p)->procSys,-1,gPokeStatusProcData,p+0xa0);((PartyStatusObj1 *)p)->state=4;break;
     case 4:
-        if(((PartyStatusObj1 *)p)->f98==1 && ((PartyStatusObj1 *)p)->f68==0)((PartyStatusObj1 *)p)->fC4=1;
-        if(PROCSYS_Main(((PartyStatusObj1 *)p)->fD0)==0)((PartyStatusObj1 *)p)->f0=5;break;
+        if(((PartyStatusObj1 *)p)->timerRunning==1 && ((PartyStatusObj1 *)p)->timeLeft==0)((PartyStatusObj1 *)p)->forceExit=1;
+        if(PROCSYS_Main(((PartyStatusObj1 *)p)->procSys)==0)((PartyStatusObj1 *)p)->state=5;break;
     case 5:GF_OVERLAY_Unload((int)ov131_id);
-        if(((PartyStatusObj1 *)p)->f6B==0) {((PartyStatusObj1 *)p)->f44=((PartyStatusObj1 *)p)->fAF;((PartyStatusObj1 *)p)->f0=0;}
+        if(((PartyStatusObj1 *)p)->closeRequested==0) {((PartyStatusObj1 *)p)->selectedIndex=((PartyStatusObj1 *)p)->savedPosition;((PartyStatusObj1 *)p)->state=0;}
         else return 1;
         break;
     }
-    if(((PartyStatusObj1 *)p)->f6B==0) {
+    if(((PartyStatusObj1 *)p)->closeRequested==0) {
         p+=8;
         PLIST_COMM_Update((u8 *)p);
     }
@@ -380,45 +380,45 @@ int PARTY_STATUS_Update(void *unused,int unused2,PartyStatusObj4 *q,char *p)
  */
 void PARTY_STATUS_SetupDisplay(Args *p, Other *o, Output *out)
 {
-    u8 *a;
-    void *b;
+    u8 *regulation;
+    void *saveControl;
     u8 i;
-    a = p->a;
-    b = GAME_DATA_GetSaveControl(p->save);
+    regulation = p->regulation;
+    saveControl = GAME_DATA_GetSaveControl(p->gameData);
     out->party = o->party;
-    out->f4 = 0;
-    out->f8 = 0;
-    out->fC = (u32)SYSTEM_DATA_GetConfig(b);
+    out->bag = 0;
+    out->mailBox = 0;
+    out->config = (u32)SYSTEM_DATA_GetConfig(saveControl);
     out->f10 = 0;
-    out->a = a;
-    out->f34 = 26;
-    out->f30 = 0;
-    switch (a[0xba]) {
-    case 0: out->f38 = 0; out->f64 = 1; break;
-    case 1: out->f38 = 1; out->f64 = 1; break;
-    case 2: out->f38 = 1; out->f64 = 1; break;
-    case 3: out->f38 = 1; out->f64 = 1; break;
-    case 4: out->f38 = 2; out->f64 = 2; break;
+    out->regulation = regulation;
+    out->mode = 26;
+    out->itemUseParam = 0;
+    switch (regulation[0xba]) {
+    case 0: out->f38 = 0; out->battleKind = 1; break;
+    case 1: out->f38 = 1; out->battleKind = 1; break;
+    case 2: out->f38 = 1; out->battleKind = 1; break;
+    case 3: out->f38 = 1; out->battleKind = 1; break;
+    case 4: out->f38 = 2; out->battleKind = 2; break;
     }
-    out->f44 = 0;
-    out->f46 = 0;
-    out->f48 = 0;
-    out->f3C = 0;
-    out->f40 = 0;
-    for (i = 0; i < 6; i++) out->marks[i] = 0;
-    out->f50 = 0;
+    out->itemId = 0;
+    out->moveId = 0;
+    out->moveSlot = 0;
+    out->selectedIndex = 0;
+    out->exitCode = 0;
+    for (i = 0; i < 6; i++) out->slotOrder[i] = 0;
+    out->levelUpCursor = 0;
     out->f58 = 0;
     out->f54 = 0;
-    out->f74 = p->f10;
-    out->f78 = p->f8;
-    out->f7C = p->fC;
-    out->f8C = a[184];
-    if (a[185] != 0) {
-        out->f90 = 1;
-        out->f60 = a[185];
+    out->opponentParty = p->opponentParty;
+    out->opponentName = p->opponentName;
+    out->opponentGender = p->opponentGender;
+    out->timerShown = regulation[184];
+    if (regulation[185] != 0) {
+        out->timerRunning = 1;
+        out->timeLeft = regulation[185];
     } else {
-        out->f90 = 0;
-        out->f60 = 0;
+        out->timerRunning = 0;
+        out->timeLeft = 0;
     }
     GF_OVERLAY_Load((int)ov90_id);
     PLIST_COMM_Start((u8 *)out);
@@ -432,27 +432,27 @@ void PARTY_STATUS_SetupDisplay(Args *p, Other *o, Output *out)
 /*
  * Populate the 0x28-byte record from the two source objects.
  */
-void PARTY_STATUS_InitRecord(int *r5, int *r6, PartyStatusObj2 *r4)
+void PARTY_STATUS_InitRecord(int *args, int *work, PartyStatusObj2 *record)
 {
-    int a;
-    int b;
-    a = (int)GAME_DATA_GetSaveControl((struct Big *)r5[5]);
-    GAME_DATA_GetMyStatus((void *)r5[5]);
-    b = (int)ZUKAN_SAVE_GetFromGameData((void *)r5[5]);
-    r4->f0 = r6[1];
-    r4->f8 = r5[5];
-    r4->f4 = (int)SYSTEM_DATA_GetConfig((void *)a);
-    r4->fC = 1;
-    r4->fD = 1;
-    r4->fE = POKEPARTY_GetCount((void *)r6[1]);
-    r4->fF = 0;
-    r4->f10 = 0;
-    r4->f11 = 0;
-    r4->f12 = 0;
-    r4->f14 = 0;
-    r4->f18 = ZUKAN_SAVE_IsNationalDexEnabled((struct Blk37 *)b);
-    r4->f20 = 0;
-    r4->f24 = 0;
+    int saveControl;
+    int zukanSave;
+    saveControl = (int)GAME_DATA_GetSaveControl((struct Big *)args[5]);
+    GAME_DATA_GetMyStatus((void *)args[5]);
+    zukanSave = (int)ZUKAN_SAVE_GetFromGameData((void *)args[5]);
+    record->party = work[1];
+    record->gameData = args[5];
+    record->config = (int)SYSTEM_DATA_GetConfig((void *)saveControl);
+    record->ppt = 1;
+    record->mode = 1;
+    record->max = POKEPARTY_GetCount((void *)work[1]);
+    record->pos = 0;
+    record->page = 0;
+    record->retMovePos = 0;
+    record->retSel = 0;
+    record->newMove = 0;
+    record->isNationalDex = ZUKAN_SAVE_IsNationalDexEnabled((struct Blk37 *)zukanSave);
+    record->canUseButtons = 0;
+    record->forceExit = 0;
 }
 
 
@@ -463,19 +463,19 @@ void PARTY_STATUS_InitRecord(int *r5, int *r6, PartyStatusObj2 *r4)
 /*
  * Allocate the 0x58-byte subobject and dispatch on track[1].
  */
-int PARTY_STATUS_CreateSub(struct Proc *a, int b, int *p)
+int PARTY_STATUS_CreateSub(struct Proc *proc, int unused, int *param)
 {
-    int h;
+    int work;
     GFL_HEAP_CreateChildHeap(1, 0x58, 0x10000);
-    h = (int)PROCSYS_AllocProcWork(a, 4, 0x58);
-    MI_CpuFill8((void *)h, 0, 4);
-    p[2] = 0;
-    switch (p[1]) {
+    work = (int)PROCSYS_AllocProcWork(proc, 4, 0x58);
+    MI_CpuFill8((void *)work, 0, 4);
+    param[2] = 0;
+    switch (param[1]) {
     case 0:
-        PARTY_STATUS_Noop(h, p, 0x58);
+        PARTY_STATUS_Noop(work, param, 0x58);
         break;
     case 1:
-        PARTY_STATUS_CreateSubWork((u32 *)((u32 *)h), (u32 * *)((u32 **)p), 0x58);
+        PARTY_STATUS_CreateSubWork((u32 *)((u32 *)work), (u32 * *)((u32 **)param), 0x58);
         break;
     }
     return 1;
@@ -485,17 +485,17 @@ int PARTY_STATUS_CreateSub(struct Proc *a, int b, int *p)
 
 
 
-int PARTY_STATUS_DestroySub(void *a, u32 b, u32 *c, void *d)
+int PARTY_STATUS_DestroySub(void *proc, u32 unused, u32 *param, void *work)
 {
-    switch (c[1]) {
+    switch (param[1]) {
     case 0:
-        PARTY_STATUS_DestroySubWork(d, (u32 *)c);
+        PARTY_STATUS_DestroySubWork(work, (u32 *)param);
         break;
     case 1:
-        PARTY_STATUS_ExitSubWork(d, c);
+        PARTY_STATUS_ExitSubWork(work, param);
         break;
     }
-    PROCSYS_FreeProcWork(a);
+    PROCSYS_FreeProcWork(proc);
     GFL_HEAP_DeleteChecked(0x58);
     return 1;
 }
@@ -504,16 +504,16 @@ int PARTY_STATUS_DestroySub(void *a, u32 b, u32 *c, void *d)
 
 
 
-int PARTY_STATUS_UpdateSub(u32 a, u32 b, u32 *c, void *d)
+int PARTY_STATUS_UpdateSub(u32 unused, u32 state, u32 *param, void *work)
 {
     u32 r;
 
-    switch (c[1]) {
+    switch (param[1]) {
     case 0:
-        r = PARTY_STATUS_NetSync(d, (u32 *)c, (u32 *)((u32 *)b));
+        r = PARTY_STATUS_NetSync(work, (u32 *)param, (u32 *)((u32 *)state));
         break;
     case 1:
-        r = PARTY_STATUS_NetSync2(d, c, (unsigned int *)b);
+        r = PARTY_STATUS_NetSync2(work, param, (unsigned int *)state);
         break;
     }
     return r != 0;
@@ -525,7 +525,7 @@ int PARTY_STATUS_UpdateSub(u32 a, u32 b, u32 *c, void *d)
 /*
  * extent: bx lr followed by two zero alignment bytes.
  */
-void PARTY_STATUS_Noop(int a0, int *a1, int a2) {}
+void PARTY_STATUS_Noop(int work, int *param, int heapId) {}
 
 
 
@@ -560,11 +560,11 @@ int PARTY_STATUS_NetSync(char **out,u32 *ctx,u32 *state)
 
 
 
-void PARTY_STATUS_DestroySubWork(void **pp, u32 *c)
+void PARTY_STATUS_DestroySubWork(void **work, u32 *param)
 {
-    if (*pp == 0)
+    if (*work == 0)
         return;
-    WIFIBATTLEMATCH_NET_DeleteNetContext((u8 *)((u32)*pp));
+    WIFIBATTLEMATCH_NET_DeleteNetContext((u8 *)((u32)*work));
     GF_OVERLAY_Unload((u32)ov175_id);
     GF_OVERLAY_Unload((u32)ov114_id);
     GF_OVERLAY_Unload((u32)ov067_id);
@@ -573,31 +573,31 @@ void PARTY_STATUS_DestroySubWork(void **pp, u32 *c)
 
 
 
-void PARTY_STATUS_CreateSubWork(u32 *out, u32 **pp, u32 v)
+void PARTY_STATUS_CreateSubWork(u32 *work, u32 **param, u32 heapId)
 {
     GF_OVERLAY_Load((u32)ov176_id);
-    *out = (u32)LIVEBATTLEMATCH_IRC_Create(*(u32 *)*pp, v);
+    *work = (u32)LIVEBATTLEMATCH_IRC_Create(*(u32 *)*param, heapId);
 }
 
 
 
-unsigned PARTY_STATUS_NetSync2(void **d,unsigned *c,unsigned *state)
+unsigned PARTY_STATUS_NetSync2(void **netWork,unsigned *ctx,unsigned *state)
 {
- if(GFL_NET_ERR_GetErrorLevel()!=0){GFL_NET_ERR_RequestScreen();c[2]=2;return 1;}
+ if(GFL_NET_ERR_GetErrorLevel()!=0){GFL_NET_ERR_RequestScreen();ctx[2]=2;return 1;}
  switch(*state) {
  case 0:++*state;break;
  case 1:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x11,0x1F);++*state;break;
  case 2:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x11,0x1F)!=0)++*state;break;
- case 3:if(LIVEBATTLEMATCH_IRC_SendSaveData((int)(*d),c[3])!=0)++*state;break;
- case 4:if(LIVEBATTLEMATCH_IRC_RecvSaveData(*d,(const void *)c[4])!=0)++*state;break;
+ case 3:if(LIVEBATTLEMATCH_IRC_SendSaveData((int)(*netWork),ctx[3])!=0)++*state;break;
+ case 4:if(LIVEBATTLEMATCH_IRC_RecvSaveData(*netWork,(const void *)ctx[4])!=0)++*state;break;
  case 5:return 1;
  }
- LIVEBATTLEMATCH_IRC_NoOp(*d);return 0;
+ LIVEBATTLEMATCH_IRC_NoOp(*netWork);return 0;
 }
 
 
-void PARTY_STATUS_ExitSubWork(int *p, void *c)
+void PARTY_STATUS_ExitSubWork(int *work, void *param)
 {
-    LIVEBATTLEMATCH_IRC_Delete(*p);
+    LIVEBATTLEMATCH_IRC_Delete(*work);
     GF_OVERLAY_Unload((int)ov176_id);
 }

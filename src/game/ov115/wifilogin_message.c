@@ -161,7 +161,7 @@ extern void GFL_NET_ERR_ResetState(void);
 
 extern void GFL_NET_STATE_ClearErrorMode(void);
 
-extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
 
 extern void GFL_USE_FadeOutBgm(u32 a);
 
@@ -253,7 +253,7 @@ extern signed char MSG_SPEED_GetWait(void);
 
 extern u32 PRINTSYS_PrintStream(u32, u32, u32, u32, u32, u32, u32, u32, u16, u16);
 
-extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
 
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 
@@ -263,7 +263,7 @@ extern void BG_SYS_SetFlagField06(u32);
 
 extern unsigned int GFL_USE_GetMainTaskList(void);
 
-extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
+extern u8 *TIME_ICON_Create(void *owner, void *refWin, u8 fillColor, u8 waitInterval, volatile u16 heap);
 
 extern int PRINTSYS_CTRL_Update(Blk *,void *);
 
@@ -273,7 +273,7 @@ extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 
 extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
 
-extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
+extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *res);
 
 extern void G2x_SetBlendBrightness_(u32, int, int);
 
@@ -307,7 +307,7 @@ extern int GFL_NET_Exit(int a0);
 
 extern void WIFILOGIN_MSG_SetExitFlag(u8 *p);
 
-u8 *WIFILOGIN_DISP_CreateDisplay(u16 heap, u32 mode, int a2);
+u8 *WIFILOGIN_DISP_CreateDisplay(u16 heap, u32 mode, int reconnect);
 
 void WIFILOGIN_DISP_Draw(u8 *p);
 
@@ -363,7 +363,7 @@ int WIFILOGIN_MSG_Update(int a,int b,int c,u8 *p);
 
 void WIFILOGIN_MSG_SetStepHandler(int *p, int v);
 
-void WIFILOGIN_MSG_RunStep(void *a0, StepFn fn, int a2);
+void WIFILOGIN_MSG_RunStep(void *p, StepFn fn, int line);
 
 int WIFILOGIN_MSG_CallStep(u8 *p);
 
@@ -385,7 +385,7 @@ void WIFILOGIN_MSG_StepWaitMessage2(u8 *p);
 
 void WIFILOGIN_MSG_StepWipe2(u8 *p);
 
-void WIFILOGIN_MSG_StepFinish(u8 *a0);
+void WIFILOGIN_MSG_StepFinish(u8 *p);
 
 extern const char d_021D6628[];
 
@@ -625,7 +625,7 @@ void WIFILOGIN_MSG_SetStepHandler(int *p, int v)
  * Byte-correct but witness-blocked (MATCH).
  * +0004 ABS32 WIFILOGIN_MSG_SetStepHandler          -> unresolved: 021D6130 (arm, from name) has no witness outside 021D6134..021D613C; 9 overlays overlap this address (ov016, ov021, ov093, ov115, ov118, ov120, ov123, ov131, ov175), none resolvable without a region hint on the symbols: line
  */
-void WIFILOGIN_MSG_RunStep(void *a0, StepFn fn, int a2) { WIFILOGIN_MSG_SetStepHandler(a0, (int)fn); }
+void WIFILOGIN_MSG_RunStep(void *p, StepFn fn, int line) { WIFILOGIN_MSG_SetStepHandler(p, (int)fn); }
 
 int WIFILOGIN_MSG_CallStep(u8 *p) { void (*cb)(u8 *);cb=*(void (**)(u8 *))(p+12);if(cb){cb(p);return 0;}return 1; }
 
@@ -670,10 +670,10 @@ void WIFILOGIN_MSG_StepWipe2(u8 *p) {
     WIFILOGIN_MSG_RunStep(p, WIFILOGIN_MSG_StepFinish, 0x213);
 }
 
-void WIFILOGIN_MSG_StepFinish(u8 *a0)
+void WIFILOGIN_MSG_StepFinish(u8 *p)
 {
     if (WIPE_SYS_EndCheck())
-        WIFILOGIN_MSG_RunStep(a0, 0, 0x221);
+        WIFILOGIN_MSG_RunStep(p, 0, 0x221);
 }
 
 void WIFILOGIN_MSG_SetExitFlag(u8 *p) { ((struct WifiloginMsgWork *)p)->flag18=1; }

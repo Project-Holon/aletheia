@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "SCRCMD_NETWORK_AdvanceStep",
+   "name": "EVENT_GAMECLEAR_AdvanceStep",
    "address": "0x0215F9DC",
    "kind": "game",
    "region": "ov010",

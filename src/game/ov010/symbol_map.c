@@ -13,10 +13,10 @@
  * Cut from symbol_map_work.c by tools/splitfile.py.
  *
  * symbols:
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   SYMBOL_SAVE_GetBlock  0x0200E0B0  thumb
- *   ICA_ANIME_GetField24  0x02012138  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetPartnerSlot  0x021767A0  thumb  ov011
  *   COMM_PLAYER_GetState849  0x021673C4  thumb  ov010
  *   COMM_PLAYER_GetState848  0x021673A8  thumb  ov010
@@ -71,7 +71,7 @@
  *   ov215_id       0x000000D7  data   a1
  *   gEggDemoViewProcData     0x021F7118  data   ov215  a4
  *   ZONEDATA_GetParentZoneId  0x02013E40  thumb
- *   GAME_DATA_GetField168  0x02012894  thumb
+ *   GAME_DATA_GetSpecialLocation  0x02012894  thumb
  *   g_ZoneRemapTable  0x02171F2C  data  ov010  a4
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
@@ -94,7 +94,7 @@
  *   PMSI_PARAM_Delete  0x020240FC  thumb
  *   ov110_id       0x0000006E  data   a1
  *   gPmsSelectProcData     0x021C39B8  data   ov110  a4
- *   ICA_ANIME_GetField20  0x0201210C  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetWeather  0x02188C6C  thumb  ov021
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
  *   ISS_SWITCH_GetSubscreenMode  0x0202C794  thumb
@@ -232,13 +232,13 @@ typedef struct PmsInputSentence {
     u16 second;
 } PmsInputSentence;
 
-extern void *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 
 extern void *GAME_DATA_GetSaveControl(struct GameData *gameData);
 
 extern void *SYMBOL_SAVE_GetBlock(void *saveControl);
 
-extern u32 ICA_ANIME_GetField24(const struct GameSystem *gameSystem);
+extern u32 GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
 
 extern u8 INTRUDE_COMM_GetPartnerSlot(void *comm, void *gameData);
 
@@ -330,7 +330,7 @@ extern void  GAME_BEACON_SEARCH_SetSymbolMapPoke(u16 species);
 
 extern u32 ZONEDATA_GetParentZoneId(u32 zoneId);
 
-extern SpecialLocation *GAME_DATA_GetField168(void *gameData);
+extern SpecialLocation *GAME_DATA_GetSpecialLocation(void *gameData);
 
 extern u32 GAME_DATA_GetEventWork(const struct GameData *gameData);
 
@@ -348,7 +348,7 @@ extern void *SCRCMD_WORK_GetGameData(void *work);
 
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 
-extern void *PMSI_PARAM_Create(u32 mode, u32 a1, void *src, u32 flag, void *saveControl, u32 hh);
+extern void *PMSI_PARAM_Create(u32 mode, u32 unused, void *src, u32 flag, void *saveControl, u32 hh);
 
 extern void *SAVEDATA_GetExtraBlock(u32 saveControl);
 
@@ -370,13 +370,13 @@ extern void MISC_SAVEDATA_StoreQuadRecord(void *table, int index, void *src);
 
 extern void  PMSI_PARAM_Delete(void *pmsParam);
 
-extern void *ICA_ANIME_GetField20(const struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 
 extern u32 FIELDMAP_GetWeather(u8 *fieldMap);
 
 extern u16 FIELDMAP_GetZoneId(u8 *fieldMap);
 
-extern u8 ISS_SWITCH_GetSubscreenMode(void *gameSystem, u32 a1);
+extern u8 ISS_SWITCH_GetSubscreenMode(void *gameSystem, u32 zoneId);
 
 extern void WEATHER_RequestChangeNoFade(int a, int b);
 
@@ -600,9 +600,9 @@ int SYMBOL_MAP_GetSelection(void *gameSystem, u32 *outSymbolIndex, u32 *outSymbo
     void *comm;
     SymbolMapLinkRecord *record;
 
-    gameData = ICA_ANIME_GetField1C(gameSystem);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
     saveData = SYMBOL_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData));
-    comm = (void *)ICA_ANIME_GetField24(gameSystem);
+    comm = (void *)GAMESYSTEM_GetGameComm(gameSystem);
     if (INTRUDE_COMM_GetPartnerSlot(comm, gameData) == 4) {
         *outSymbolIndex = COMM_PLAYER_GetState849(saveData);
         *outSymbolGroup = COMM_PLAYER_GetState848(saveData);
@@ -661,9 +661,9 @@ SymbolMapLinkRecord *SYMBOL_MAP_CreateLinkRecord(u16 heapId, void *gameSystem, u
     u32 page;
     u8 count;
 
-    gameData = ICA_ANIME_GetField1C(gameSystem);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
     saveData = SYMBOL_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData));
-    comm = (void *)ICA_ANIME_GetField24(gameSystem);
+    comm = (void *)GAMESYSTEM_GetGameComm(gameSystem);
     if (INTRUDE_COMM_GetPartnerSlot(comm, gameData) == 4) {
         page = GAME_DATA_GetSymbolMapFlag(gameData);
         record = GFL_HEAP_Alloc(heapId, sizeof(SymbolMapLinkRecord), 1, g_SymbolMapFileName, 0x1C9);
@@ -839,7 +839,7 @@ int SYMBOL_MAP_ScrCmdGetEventStateValue(void *vm, void *work)
     u16 *out;
 
     SCRCMD_WORK_GetScriptWork(work);
-    eventState = GAME_DATA_GetEventState(ICA_ANIME_GetField1C(SCRCMD_WORK_GetGameSystem(work)));
+    eventState = GAME_DATA_GetEventState(GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem(work)));
     index = SCRIPT_WORK_ReadWorkValue(vm, work);
     subCommand = VM_ReadU16(vm);
     index2 = SCRIPT_WORK_ReadWorkValue(vm, work);
@@ -885,7 +885,7 @@ int SYMBOL_MAP_ScrCmdStartRecordTask(void *vm, void *work)
     void *gameSystem = SCRCMD_WORK_GetGameSystem(work);
     void **eventState;
     void *task;
-    eventState = (void **)GAME_DATA_GetEventState(ICA_ANIME_GetField1C(gameSystem));
+    eventState = (void **)GAME_DATA_GetEventState(GAMESYSTEM_GetGameData(gameSystem));
     task = SYMBOL_MAP_CreateRecordTask(gameSystem, *eventState, SCRIPT_WORK_ReadWorkPointer(vm, work));
     if (task == 0)
         return 1;
@@ -935,7 +935,7 @@ void *SYMBOL_MAP_CreatePickerTask(void *gameSystem, int mode, u32 outKind, u32 o
     work->outPicked = (u16 *)outPicked;
     work->outKind = (u16 *)outKind;
     work->outValue = (u16 *)outValue;
-    save = WIFI_HISTORY_GetBlock(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem)));
+    save = WIFI_HISTORY_GetBlock(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem)));
     for (i = 1; i < 0xE9; i++) {
         flagIndex = i - 1;
         if (WIFI_HISTORY_IsCountryVisited(save, i))
@@ -996,7 +996,7 @@ int SYMBOL_MAP_ScrCmdGetSyncBlockItem(void *vm, void *work)
 
     SCRCMD_WORK_GetScriptWork(work);
     gameData = SCRCMD_WORK_GetGameSystem(work);
-    gameData = ICA_ANIME_GetField1C(gameData);
+    gameData = GAMESYSTEM_GetGameData(gameData);
     block = GAME_DATA_GetSaveSyncBlock(gameData);
     index = (u8)VM_ReadU16(vm);
     out = SCRIPT_WORK_ReadWorkPointer(vm, work);
@@ -1014,7 +1014,7 @@ int SYMBOL_MAP_ScrCmdGetSyncBlockHeader(void *vm, void *work)
 
     SCRCMD_WORK_GetScriptWork(work);
     gameData = SCRCMD_WORK_GetGameSystem(work);
-    gameData = ICA_ANIME_GetField1C(gameData);
+    gameData = GAMESYSTEM_GetGameData(gameData);
     block = GAME_DATA_GetSaveSyncBlock(gameData);
     sel = SCRIPT_WORK_ReadWorkValue(vm, work);
     out = SCRIPT_WORK_ReadWorkPointer(vm, work);
@@ -1035,7 +1035,7 @@ int SYMBOL_MAP_ScrCmdStartPicker(void *vm, void *work)
     unsigned short *outValue;
     unsigned short *outPicked;
     int task;
-    GAME_DATA_GetSaveSyncBlock(ICA_ANIME_GetField1C(gameSystem));
+    GAME_DATA_GetSaveSyncBlock(GAMESYSTEM_GetGameData(gameSystem));
     mode = SCRIPT_WORK_ReadWorkValue(vm, work);
     outKind = SCRIPT_WORK_ReadWorkPointer(vm, work);
     outValue = SCRIPT_WORK_ReadWorkPointer(vm, work);
@@ -1147,7 +1147,7 @@ void *SYMBOL_MAP_CreatePokeEventTask(void *gameSystem, void *transitionArg, void
     work = GAME_EVENT_GetWork(task);
     work->gameSystem = gameSystem;
     work->transitionArg = (u32)transitionArg;
-    work->gameData = ICA_ANIME_GetField1C(gameSystem);
+    work->gameData = GAMESYSTEM_GetGameData(gameSystem);
     work->poke = poke;
     return task;
 }
@@ -1167,7 +1167,7 @@ u32 SYMBOL_MAP_ResolveZoneId(void *gameData, u32 zoneId)
     u32 remapped;
     int i;
     if (parentZone == 0x1A6)
-        return ZONEDATA_GetParentZoneId(GAME_DATA_GetField168(gameData)->zoneId);
+        return ZONEDATA_GetParentZoneId(GAME_DATA_GetSpecialLocation(gameData)->zoneId);
     for (i = 0; i < 2; i++) {
         if (g_ZoneRemapTable[i].source == parentZone) {
             remapped = (u16)*(u32 *)((char *)g_ZoneRemapTable + i * 8);
@@ -1280,7 +1280,7 @@ int SYMBOL_MAP_ScrCmdStartPmsInput(void *vm, void *work)
     }
     inputWork->pmsParam = PMSI_PARAM_Create(mode, 0, 0, 0, GAME_DATA_GetSaveControl(gameData), 1);
     if (inputWork->hasSentence) {
-        MISC_SAVEDATA_CopyQuadRecord(SAVEDATA_GetExtraBlock((u32)GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem))), inputWork->sentenceId, sentenceBuf);
+        MISC_SAVEDATA_CopyQuadRecord(SAVEDATA_GetExtraBlock((u32)GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))), inputWork->sentenceId, sentenceBuf);
         PMSI_PARAM_SetSentence(inputWork->pmsParam, (const u16 *)sentenceBuf);
     }
     SCRIPT_SYS_CallEvent(scriptSystem, task);
@@ -1339,7 +1339,7 @@ u32 SYMBOL_MAP_PmsInputTaskMain(void *task, u32 *state)
             } else {
                 PMSI_PARAM_GetSentence(pmsParam, &sentence);
                 if (work->hasSentence != 0) {
-                    MISC_SAVEDATA_StoreQuadRecord(SAVEDATA_GetExtraBlock((u32)GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(GAME_EVENT_GetGameSystem(task)))), work->sentenceId, (&sentence));
+                    MISC_SAVEDATA_StoreQuadRecord(SAVEDATA_GetExtraBlock((u32)GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(GAME_EVENT_GetGameSystem(task)))), work->sentenceId, (&sentence));
                 }
                 *work->outWord0 = sentence.first;
                 second = sentence.second;
@@ -1369,7 +1369,7 @@ int SYMBOL_MAP_ScrCmdSetSubscreenMode(void *vm, void *work)
     SCRCMD_WORK_GetScriptWork(work);
     gameSystem = SCRCMD_WORK_GetGameSystem(work);
     gameData = SCRCMD_WORK_GetGameData(work);
-    fieldMap = ICA_ANIME_GetField20(gameSystem);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     fieldState = FIELDMAP_GetWeather(fieldMap);
     modeId = SCRIPT_WORK_ReadWorkValue(vm, work);
     enable = SCRIPT_WORK_ReadWorkValue(vm, work);

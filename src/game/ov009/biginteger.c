@@ -582,9 +582,9 @@ void CPSi_big_montpower(unsigned short *c, unsigned short *m, unsigned short *e,
     unsigned short *tmp_var;
     unsigned short *ri;
     unsigned short *mr;
-    unsigned short *tmp;
-    unsigned short *tmp2;
-    unsigned short *tmp3;
+    unsigned short *mwork;
+    unsigned short *mwork2;
+    unsigned short *awork;
     unsigned short *divwork;
 
     tmp_var = (unsigned short *)CPSiAlloc(digits * 22);
@@ -594,25 +594,25 @@ void CPSi_big_montpower(unsigned short *c, unsigned short *m, unsigned short *e,
     MI_CpuFill8(tmp_var, 0, digits * 22);
     ri = tmp_var + digits;
     mr = ri + digits;
-    tmp = mr + digits;
-    tmp2 = tmp + digits;
-    tmp3 = tmp2 + digits;
-    divwork = tmp3 + digits;
+    mwork = mr + digits;
+    mwork2 = mwork + digits;
+    awork = mwork2 + digits;
+    divwork = awork + digits;
     rdigits = count_digits(n, digits);
     tmp_var[rdigits] = 1;
     CPSi_big_modinv(ri, tmp_var, n, digits, mr);
-    CPSi_big_mult(tmp, tmp_var, ri, digits);
-    CPSi_big_sub_small(ri, tmp, 1, digits);
+    CPSi_big_mult(mwork, tmp_var, ri, digits);
+    CPSi_big_sub_small(ri, mwork, 1, digits);
     CPSi_big_div(ri, ri, n, 0, digits, divwork);
     CPSi_big_mult(mr, m, tmp_var, digits);
     CPSi_big_div(0, mr, n, mr, digits, divwork);
     CPSi_big_div(0, tmp_var, n, c, digits, divwork);
     for (i = 0; (unsigned)i < (unsigned)(rdigits * 16); i++) {
-        CPSi_big_montmult(c, tmp3, (unsigned short *)1, digits, rdigits, n, ri, tmp, tmp2);
+        CPSi_big_montmult(c, awork, (unsigned short *)1, digits, rdigits, n, ri, mwork, mwork2);
         if (e[rdigits - (i >> 4) - 1] & (0x8000u >> (i & 15)))
-            CPSi_big_montmult(c, tmp3, mr, digits, rdigits, n, ri, tmp, tmp2);
+            CPSi_big_montmult(c, awork, mr, digits, rdigits, n, ri, mwork, mwork2);
     }
-    CPSi_big_montmult(c, tmp3, 0, digits, rdigits, n, ri, tmp, tmp2);
+    CPSi_big_montmult(c, awork, 0, digits, rdigits, n, ri, mwork, mwork2);
     CPSiFree(tmp_var);
 }
 

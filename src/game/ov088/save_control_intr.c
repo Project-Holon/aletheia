@@ -37,7 +37,7 @@ extern u8 SAVE_CONTROL_GetOutsideSaveLoaded(const struct Sub020071E4Ctrl *ctrl);
 extern void *GFL_HEAP_Alloc(unsigned int, unsigned int, int, const char *, unsigned short);
 extern unsigned char SAVE_CONTROL_HasFlashSave(const struct Sub020071E4Ctrl *);
 extern void UI_SetIntrDataGlobal(u32 a, u32 b);
-int SAVE_CONTROL_StartSave(int a0);
+int SAVE_CONTROL_StartSave(int saveControl);
 void SYSTEM_DATA_SetActive(void *);
 u8 SAVE_CONTROL_GetOutsideSaveBroken(const struct Sub020071E4Ctrl *ctrl);
 void SAVE_CONTROL_SetOutsideSaveLoaded(void *, u32);
@@ -154,7 +154,7 @@ int SAVE_CONTROL_INTR_IsPausedOrFinished(SaveControlIntr *intr){if(intr->cancell
  * an empty function called as a no-op by INTRO_CMD_CmdSaveNoOp.  ov088 is the only
  * overlay in the window not overlapping the caller's ov204.
  */
-void SAVE_CONTROL_INTR_NoOp(int a0)
+void SAVE_CONTROL_INTR_NoOp(int intr)
 {
 }
 

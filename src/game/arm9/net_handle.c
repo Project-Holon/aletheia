@@ -129,7 +129,7 @@ extern void GFL_NET_SYSTEM_SetNoSend(void);
 
 extern void GFL_NET_SYSTEM_ResetError(void);
 
-int GFL_NET_SYSTEM_InitWork(u32 a0, u32 heap, u32 c);
+int GFL_NET_SYSTEM_InitWork(u32 packetSize, u32 heap, u32 c);
 
 void GFL_NET_SYSTEM_ResetMachineBuffer(u32 a);
 

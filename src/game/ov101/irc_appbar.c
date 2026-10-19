@@ -66,11 +66,11 @@ typedef struct { u16 x,y,z; u8 pad,n; } ActorTemplate;
 
 extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 extern void MI_CpuFill8(void *,int,u32);
-extern struct TaskMenuState *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
+extern struct TaskMenuState *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, u32 font, u32 printQue, u16 heap);
 extern u8 BG_SYS_Get(u32);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern u32 APP_TASKMENU_WIN_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
+extern u32 APP_TASKMENU_WIN_Create(u32 res, u32 item, u32 charPosX, u32 charPosY, u8 width, u16 heapId);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void APP_TASKMENU_WIN_Delete(unsigned char *);

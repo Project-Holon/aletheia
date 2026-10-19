@@ -221,13 +221,13 @@ typedef struct FxPair { int x, y; } FxPair;
 
 typedef struct PselEntry {
     u8 pad0[0x18];
-    struct Obj *f18;
-    struct Obj *f1C;
+    struct Obj *baseActor;
+    struct Obj *animActor;
     u8 pad20[0x84 - 0x20];
-    u16 f84;
+    u16 frame;
     u16 pad86;
-    u32 f88;
-    int f8C;
+    u32 phase;
+    int direction;
     int f90;
 } PselEntry;
 
@@ -235,7 +235,7 @@ typedef struct Main {
     u8 pad0[0x54];
     PselEntry ents[3];
     u8 pad210[0x230 - 0x210];
-    int f230;
+    int animDone;
 } Main;
 
 typedef struct BytePair {u8 x,y;} BytePair;
@@ -268,7 +268,7 @@ extern void G3D_SYSTEM_DrawObject(void *,struct Arg *);
 extern int G3D_UTIL_Create(int, int, u16);
 extern void G3D_UTIL_Delete(struct Rec *);
 extern u16 G3D_UTIL_AddUnit(void *, const void *);
-extern u32 G3D_UTIL_GetUnitObjIdx(u8 *a0, int i);
+extern u32 G3D_UTIL_GetUnitObjIdx(u8 *util, int i);
 extern int G3D_SYSTEM_GetObjectAnimeCount(int *p);
 extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
 extern void *ICA_ANIME_CreateStream(u32 heap, u32 b, u32 c, u32 d);
@@ -281,8 +281,8 @@ extern void G3D_UTIL_RemoveUnit(struct Ctx *,u32);
 extern int G3D_SYSTEM_DisableObjectAnime(struct Owner *owner, u32 index);
 extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame);
 /* B908 reads only r0, forwarding its live r1 to D478; legacy r2/r3 unused. */
-extern void CLACT_SetActorAnimIndex(int a0, int a1);
-extern int POKEGRA_OpenHandle(int a0);
+extern void CLACT_SetActorAnimIndex(int actor, int anim_idx);
+extern int POKEGRA_OpenHandle(int heapId);
 extern u32 POKEGRA_RegisterCgr(u32,u32,u32,u32,u32,u32,u32,u32,u32,u16);
 extern u32 POKEGRA_RegisterPalette(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
 extern u32 POKEGRA_RegisterCellAnim(u32,u32,u32,u32,u32,u32,u32,u32,u16);
@@ -292,7 +292,7 @@ extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigne
 extern struct Obj *CLACT_CreateAffineActor(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g);
 extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleaseCellAnim(unsigned);
@@ -310,7 +310,7 @@ extern int CLACT_RegisterPaletteEx(void *,unsigned,unsigned,unsigned,u16,u16,u16
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void BG_SYS_LoadPltt(unsigned,void *,unsigned,unsigned);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
-extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern void BMP_FillRect(struct Bmp *b, u32 x, u32 y, u32 w, u32 h, u32 value);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern u32 BMP_GetByteSize(const struct Bmp *bmp);
 extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
@@ -318,7 +318,7 @@ extern void BMP_Delete(struct Bmp *p);
 extern void BG_SYS_DrawTile(unsigned,unsigned,unsigned,unsigned,u8,u8);
 extern void BG_SYS_SetFlagField06(unsigned);
 extern int BG_SYS_ClearLayerEx(int, int);
-extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
+extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
 extern void BG_SYS_PushTile(unsigned);
@@ -367,7 +367,7 @@ extern void APP_TASKMENU_WIN_Update(u8 *);
 extern void APP_TASKMENU_WIN_SetActive(struct Obj *,u32);
 extern void APP_TASKMENU_WIN_SetDecide(char *,int);
 extern u32 APP_TASKMENU_WIN_IsFinish(u8 *);
-int PSEL_SetAnimFrame(int a0, int a1);
+int PSEL_SetAnimFrame(int anime, int frame);
 struct Record *PSEL_CreateRecords(u32 heap,u32 count);
 void PSEL_DeleteRecords(void *p);
 int PSEL_Init(void *a,int unused,void *c);
@@ -403,15 +403,15 @@ void PSEL_DeleteActors(char *p);
 void PSEL_SetActorPosition(char *p,int flag);
 void PSEL_UpdateActorPosition(char *p, int unused);
 void PSEL_CreateBmpWindows(u16 *p);
-void PSEL_NopBgWindows(int *a0);
+void PSEL_NopBgWindows(int *unused);
 void PSEL_InitBgLayers(u16 *p);
 int PSEL_IsBgReady(void);
 void PSEL_DeleteBgLayers(u16 *p);
 void PSEL_NopBgDelete(void);
 void PSEL_SetBgSys(const u16 *p);
-void PSEL_ClearBgLayerEx(char *a0);
+void PSEL_ClearBgLayerEx(char *unused);
 void PSEL_UploadBgPalette(u16 *p);
-void PSEL_NopBgUpdate(char *a0);
+void PSEL_NopBgUpdate(char *unused);
 void PSEL_CreateWin(char *p);
 void PSEL_DeleteWin(char *p);
 void PSEL_UpdateTcbl(int *p);
@@ -454,9 +454,9 @@ extern const u16 d_021BC710[];
 
 
 
-int PSEL_SetAnimFrame(int a0, int a1)
+int PSEL_SetAnimFrame(int anime, int frame)
 {
-    return ICA_ANIME_SetFrame(a0, a1 / 2);
+    return ICA_ANIME_SetFrame(anime, frame / 2);
 }
 
 
@@ -984,142 +984,142 @@ void PSEL_UpdateUnitPositions(Main *p)
         PselEntry *e = &p->ents[i];
         const u8 *t = d_021BC7F0[i];
         int d = 0;
-        if (e->f8C == 0)
+        if (e->direction == 0)
             continue;
-        switch (e->f8C) {
+        switch (e->direction) {
         case 0: break;
         case 1: d = 1; break;
         case 2: d = -1; break;
         }
         if (d < 0) {
-            e->f84 = 0;
-            e->f88 = 1;
+            e->frame = 0;
+            e->phase = 1;
         }
-        switch (e->f88) {
+        switch (e->phase) {
         case 0:
             if (d > 0) {
-                CLACT_SetActorDrawEnable(e->f18, 0);
-                CLACT_SetActorDrawEnable(e->f1C, 1);
-                e->f84 = 0;
-                e->f88 = 1;
+                CLACT_SetActorDrawEnable(e->baseActor, 0);
+                CLACT_SetActorDrawEnable(e->animActor, 1);
+                e->frame = 0;
+                e->phase = 1;
                 e->f90 = 0;
             } else {
-                if (e->f8C == 2)
-                    e->f8C = 0;
+                if (e->direction == 2)
+                    e->direction = 0;
                 break;
             }
         case 1:
-            if (e->f84 == 0) {
-                Vec2 v1;
+            if (e->frame == 0) {
+                Vec2 startPos;
                 FxPair s1;
                 u8 n1;
-                v1.x = t[0];
-                v1.y = t[1];
+                startPos.x = t[0];
+                startPos.y = t[1];
                 n1 = t[6];
                 s1.x = s1.y = FIX((float)n1 / 16.0f);
-                CLACT_AddActorSurfacePos(e->f1C, &v1, 1);
-                CLACT_SetActorScale(e->f1C, (struct Pair *)(&s1));
+                CLACT_AddActorSurfacePos(e->animActor, &startPos, 1);
+                CLACT_SetActorScale(e->animActor, (struct Pair *)(&s1));
             } else {
-                Vec2 a1;
+                Vec2 tweenPos;
                 FxPair b1;
-                res[i] = PSEL_InterpolateCurve((s16 *)(&a1), (int *)(&b1), t[0], t[1], t[2], t[3], t[6], t[7], t[10], t[12], e->f84);
+                res[i] = PSEL_InterpolateCurve((s16 *)(&tweenPos), (int *)(&b1), t[0], t[1], t[2], t[3], t[6], t[7], t[10], t[12], e->frame);
                 flags[i] = 1;
-                CLACT_AddActorSurfacePos(e->f1C, &a1, 1);
-                CLACT_SetActorScale(e->f1C, (struct Pair *)(&b1));
+                CLACT_AddActorSurfacePos(e->animActor, &tweenPos, 1);
+                CLACT_SetActorScale(e->animActor, (struct Pair *)(&b1));
             }
-            if (e->f84 == 0 && d < 0) {
-                CLACT_SetActorDrawEnable(e->f18, 1);
-                CLACT_SetActorDrawEnable(e->f1C, 0);
-                e->f84 = 0;
-                e->f88 = 0;
+            if (e->frame == 0 && d < 0) {
+                CLACT_SetActorDrawEnable(e->baseActor, 1);
+                CLACT_SetActorDrawEnable(e->animActor, 0);
+                e->frame = 0;
+                e->phase = 0;
                 e->f90 = 0;
                 break;
             }
-            e->f84 = e->f84 + d;
+            e->frame = e->frame + d;
             e->f90 = 0;
-            if (e->f84 == t[10]) {
-                e->f84 = 0;
-                e->f88 = 2;
+            if (e->frame == t[10]) {
+                e->frame = 0;
+                e->phase = 2;
             }
             break;
         case 2: {
-            Vec2 v2;
+            Vec2 midPos;
             FxPair s2;
             u8 n2;
-            v2.x = t[2];
-            v2.y = t[3];
+            midPos.x = t[2];
+            midPos.y = t[3];
             n2 = t[7];
             s2.x = s2.y = FIX((float)n2 / 16.0f);
-            CLACT_AddActorSurfacePos(e->f1C, &v2, 1);
-            CLACT_SetActorScale(e->f1C, (struct Pair *)(&s2));
-            if (e->f84 == 0 && d < 0) {
-                e->f84 = t[10] - 1;
-                e->f88 = 1;
+            CLACT_AddActorSurfacePos(e->animActor, &midPos, 1);
+            CLACT_SetActorScale(e->animActor, (struct Pair *)(&s2));
+            if (e->frame == 0 && d < 0) {
+                e->frame = t[10] - 1;
+                e->phase = 1;
                 e->f90 = 0;
                 break;
             }
-            e->f84 = e->f84 + d;
+            e->frame = e->frame + d;
             e->f90 = 0;
-            if (e->f84 == t[9]) {
-                e->f84 = 0;
-                e->f88 = 3;
+            if (e->frame == t[9]) {
+                e->frame = 0;
+                e->phase = 3;
             }
             break;
         }
         case 3:
-            if (e->f84 == 0) {
-                Vec2 v3;
+            if (e->frame == 0) {
+                Vec2 midPos;
                 FxPair s3;
                 u8 n3;
-                v3.x = t[2];
-                v3.y = t[3];
+                midPos.x = t[2];
+                midPos.y = t[3];
                 n3 = t[7];
                 s3.x = s3.y = FIX((float)n3 / 16.0f);
-                CLACT_AddActorSurfacePos(e->f1C, &v3, 1);
-                CLACT_SetActorScale(e->f1C, (struct Pair *)(&s3));
+                CLACT_AddActorSurfacePos(e->animActor, &midPos, 1);
+                CLACT_SetActorScale(e->animActor, (struct Pair *)(&s3));
             } else {
-                Vec2 a3;
+                Vec2 tweenPos;
                 FxPair b3;
-                res[i] = PSEL_InterpolateCurve((s16 *)(&a3), (int *)(&b3), t[2], t[3], t[4], t[5], t[7], t[8], t[11], t[13], e->f84);
+                res[i] = PSEL_InterpolateCurve((s16 *)(&tweenPos), (int *)(&b3), t[2], t[3], t[4], t[5], t[7], t[8], t[11], t[13], e->frame);
                 flags[i] = 1;
-                CLACT_AddActorSurfacePos(e->f1C, &a3, 1);
-                CLACT_SetActorScale(e->f1C, (struct Pair *)(&b3));
+                CLACT_AddActorSurfacePos(e->animActor, &tweenPos, 1);
+                CLACT_SetActorScale(e->animActor, (struct Pair *)(&b3));
             }
-            if (e->f84 == 0 && d < 0) {
-                e->f84 = t[9] - 1;
-                e->f88 = 2;
+            if (e->frame == 0 && d < 0) {
+                e->frame = t[9] - 1;
+                e->phase = 2;
                 e->f90 = 0;
                 break;
             }
-            e->f84 = e->f84 + d;
+            e->frame = e->frame + d;
             e->f90 = 0;
-            if (e->f84 == t[11]) {
-                e->f84 = 0;
-                e->f88 = 4;
+            if (e->frame == t[11]) {
+                e->frame = 0;
+                e->phase = 4;
             }
             break;
         case 4: {
-            Vec2 v4;
+            Vec2 endPos;
             FxPair s4;
             u8 n4;
-            v4.x = t[4];
-            v4.y = t[5];
+            endPos.x = t[4];
+            endPos.y = t[5];
             n4 = t[8];
             s4.x = s4.y = FIX((float)n4 / 16.0f);
-            CLACT_AddActorSurfacePos(e->f1C, &v4, 1);
-            CLACT_SetActorScale(e->f1C, (struct Pair *)(&s4));
+            CLACT_AddActorSurfacePos(e->animActor, &endPos, 1);
+            CLACT_SetActorScale(e->animActor, (struct Pair *)(&s4));
             if (d < 0) {
-                CLACT_SetActorBgPriority(e->f1C, 3);
-                e->f84 = t[11] - 1;
-                e->f88 = 3;
+                CLACT_SetActorBgPriority(e->animActor, 3);
+                e->frame = t[11] - 1;
+                e->phase = 3;
                 e->f90 = 0;
                 break;
             }
-            if (e->f8C == 1) {
-                CLACT_SetActorBgPriority(e->f1C, 2);
-                e->f8C = 0;
+            if (e->direction == 1) {
+                CLACT_SetActorBgPriority(e->animActor, 2);
+                e->direction = 0;
                 if (e->f90 == 0)
-                    p->f230 = 1;
+                    p->animDone = 1;
             }
             break;
         }
@@ -1137,7 +1137,7 @@ void PSEL_UpdateUnitPositions(Main *p)
         if (flags[i]) {
             z[i] = res[i];
         } else {
-            CLACT_GetActorSurfacePos((struct Actor *)p->ents[i].f1C, (struct PtS *)(&pos), 1);
+            CLACT_GetActorSurfacePos((struct Actor *)p->ents[i].animActor, (struct PtS *)(&pos), 1);
             z[i] = pos.y;
         }
     }
@@ -1160,7 +1160,7 @@ void PSEL_UpdateUnitPositions(Main *p)
             if (order[1] != i)
                 pr = 2;
         }
-        CLACT_SetActorDrawPriority((struct Node *)p->ents[i].f1C, pr);
+        CLACT_SetActorDrawPriority((struct Node *)p->ents[i].animActor, pr);
     }
     }
 }
@@ -1310,7 +1310,7 @@ void PSEL_CreateBmpWindows(u16 *p)
 
 
 
-void PSEL_NopBgWindows(int *a0) {}
+void PSEL_NopBgWindows(int *unused) {}
 
 
 
@@ -1402,7 +1402,7 @@ void PSEL_SetBgSys(const u16 *p)
 
 
 
-void PSEL_ClearBgLayerEx(char *a0)
+void PSEL_ClearBgLayerEx(char *unused)
 {
     BG_SYS_ClearLayerEx(2, 0xd000);
     BG_SYS_ClearLayerEx(6, 0);
@@ -1430,7 +1430,7 @@ void PSEL_UploadBgPalette(u16 *p)
 
 
 
-void PSEL_NopBgUpdate(char *a0) {}
+void PSEL_NopBgUpdate(char *unused) {}
 
 
 

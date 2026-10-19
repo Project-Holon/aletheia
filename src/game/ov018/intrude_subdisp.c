@@ -14,7 +14,7 @@
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetOccupyInfo  0x02012964  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
@@ -45,7 +45,7 @@
  *   INTRUDE_COMM_SendReply  0x02173AE0  thumb  ov011
  *   INTRUDE_FIELD_GetZoneAnchor 0x0217BED4 thumb ov018
  *   EVENT_MAPCHANGE_CreateWarpEventWithIntrudeOffset 0x02185588 thumb ov020
- *   ICA_ANIME_GetField24  0x02012138  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   GAME_DATA_SetIntrudeId  0x02012B8C  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
@@ -55,15 +55,15 @@
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_GetWork  0x02026474  thumb
  *   GAME_COMM_GetLastKind  0x0202647C  thumb
- *   ICA_ANIME_GetUnk330  0x02012204  thumb
+ *   GAMESYSTEM_IsNetOffBySleep  0x02012204  thumb
  *   INTRUDE_FIELD_SetSingleAreaMode  0x0217C094  thumb
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb
  *   GAME_COMM_IsTransition  0x02026460  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
- *   ICA_ANIME_Check2114  0x02012114  thumb
- *   ICA_ANIME_GetField20  0x0201210C  thumb
+ *   GAMESYSTEM_IsFieldMapActive  0x02012114  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_IsReady  0x02188BE8  thumb  ov021
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   FIELD_MSGBG_CreateMsgData  0x021904B0  thumb  ov021
@@ -82,7 +82,7 @@
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   SCRIPT_SYS_CallScriptEvent  0x02158780  thumb  ov010
- *   ICA_ANIME_GetField30  0x0201212C  thumb
+ *   GAMESYSTEM_GetFieldMapState  0x0201212C  thumb
  *   EVENT_COMM_ERROR_Create  0x021C06CC  thumb  ov021
  *   GAME_COMM_ClearCounter  0x02026484  thumb
  *   GAME_COMM_ClearPlayerStatus  0x020264F4  thumb
@@ -106,7 +106,7 @@
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   GFL_NET_WM_ICON_EasyObjWindowOn  0x02037174  arm
  *   GFL_USE_AddMainTask  0x020056A0  thumb
- *   ICA_ANIME_GetField114  0x020120F8  thumb
+ *   GAMESYSTEM_GetMyPlayerWork  0x020120F8  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   str_02183B14   0x02183B14  data  a1
  *   TCB_DeleteTask  0x02030EAC  arm
@@ -229,7 +229,7 @@
  *   INTRUDE_COMM_SetWordSetMemberName  0x021762C0  thumb  ov011
  *   INTRUDE_COMM_SetWordSetRequest  0x021762D8  thumb  ov011
  *   FIELD_PALACE_SYS_IsZoneFlagSet  0x021D3554  thumb  ov021
- *   GAME_DATA_GetField1D4 0x020127AC thumb
+ *   GAME_DATA_GetBattleRecSlot 0x020127AC thumb
  *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   FIELD_SUBSCREEN_GetPanelResult  0x021A0F94  thumb  ov021
  *   ZONEDATA_IsZoneInTableDFC0  0x02013DD0  thumb
@@ -307,7 +307,7 @@ struct BgTemplate {
     u32 bgType;             /* 0x1C */
 };
 extern void MI_CpuFill8(void *, int, int);
-extern void *ICA_ANIME_GetField1C(const void *p);
+extern void *GAMESYSTEM_GetGameData(const void *p);
 extern u32 GAME_DATA_GetOccupyInfo(const void *p);
 extern void *FIELDMAP_GetFieldPlayer(void *p);
 extern void *FIELD_PLAYER_GetMmdl(void *p);
@@ -318,7 +318,7 @@ extern int FLDMMDL_GetGridNowZ(void *);
 extern u32 FLDMMDL_GetPosY(void *p);
 extern void FLDMMDL_InitPosRecord(MmdlHeader *, u16, u16, int);
 extern void *FLDMMDL_AddMmdl(int, MmdlHeader *, int);
-extern void INTRUDE_FIELD_ChangePlayerLook(void *p, void *a1, int id, u8 kind, u8 flag);
+extern void INTRUDE_FIELD_ChangePlayerLook(void *p, void *gameSystem, int id, u8 kind, u8 flag);
 extern void FLDMMDL_SetStatusBitVanish(void *, unsigned int);
 extern void FLDMMDL_SetAcmd(void *, int);
 extern void FIELD_PLAYER_GetPos(void *, void *);
@@ -336,7 +336,7 @@ extern void INTRUDE_COMM_NextRequestToken(void *);
 extern int INTRUDE_COMM_SendReply(int a, int b, int c, int d);
 extern int INTRUDE_FIELD_GetZoneAnchor(int, void *);
 extern void *EVENT_MAPCHANGE_CreateWarpEventWithIntrudeOffset(void *owner, u16 id, const void *pos);
-extern unsigned int ICA_ANIME_GetField24(const void *p);
+extern unsigned int GAMESYSTEM_GetGameComm(const void *p);
 extern u8 GAME_DATA_GetOwnNetId(const void *p);
 extern void GAME_DATA_SetIntrudeId(void *p, unsigned int v);
 extern IntrudeCommSys *INTRUDE_COMM_GetWorkIfRunning(void *gameComm);
@@ -346,15 +346,15 @@ void *GAME_EVENT_GetWork(void *p);
 u32 GAME_COMM_GetKind(void *obj);
 u32 GAME_COMM_GetWork(void *obj);
 u32 GAME_COMM_GetLastKind(void *obj);
-u32 ICA_ANIME_GetUnk330(const void *p);
+u32 GAMESYSTEM_IsNetOffBySleep(const void *p);
 void INTRUDE_FIELD_SetSingleAreaMode(void *);
 void *GAME_EVENT_GetGameSystem(void *p);
 void GAME_EVENT_CallEvent(void *evt, void *out);
 u32 GFL_NET_ERR_GetErrorLevel(void);
 u32 GAME_COMM_IsTransition(void *obj);
 void GAME_COMM_RequestExitNoCallback(void *p);
-u32 ICA_ANIME_Check2114(const void *p);
-void *ICA_ANIME_GetField20(const void *p);
+u32 GAMESYSTEM_IsFieldMapActive(const void *p);
+void *GAMESYSTEM_GetFieldMap(const void *p);
 int FIELDMAP_IsReady(void *);
 u32 FIELDMAP_GetMsgBg(void *p);
 int FIELD_MSGBG_CreateMsgData(u32 a, u32 b);
@@ -373,7 +373,7 @@ int INTRUDE_FIELD_StepPlayerSpin(void *, int);
 u32 GAME_DATA_GetEventWork(const void *p);
 u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
 int SCRIPT_SYS_CallScriptEvent(void *p, u16 b, int c, int d, u16 e);
-u8 ICA_ANIME_GetField30(const void *p);
+u8 GAMESYSTEM_GetFieldMapState(const void *p);
 int EVENT_COMM_ERROR_Create(void *, void *);
 void GAME_COMM_ClearCounter(void *);
 void GAME_COMM_ClearPlayerStatus(void *p);
@@ -397,7 +397,7 @@ void ARC_TOOL_DeleteHandle(void *bg);
 void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 void GFL_NET_WM_ICON_EasyObjWindowOn(void);
 struct TcbTask *GFL_USE_AddMainTask(void (*cb)(void *, void *), void *arg, int pri);
-u8 *ICA_ANIME_GetField114(const void *p);
+u8 *GAMESYSTEM_GetMyPlayerWork(const void *p);
 u16 GAME_DATA_GetPlayerZoneId(const void *p);
 extern void TCB_DeleteTask(void *n);
 extern void MIi_CpuClear16();
@@ -426,11 +426,11 @@ extern void DC_FlushRange();
 extern void GXS_LoadOBJPltt();
 extern void GXS_LoadOBJ();
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern struct ClactRenderer *CLACT_CreateRenderer(void *a0, unsigned int a1, unsigned int heap);
+extern struct ClactRenderer *CLACT_CreateRenderer(void *inits, unsigned int count, unsigned int heap);
 extern void CLACT_SetUnitRenderer(void *bank, void *p);
 extern struct BmpOamSys *BMP_OAM_CreateSys(unsigned int heapId, struct ClactUnit *unit);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct PrintQue *PRINTSYS_QUE_Create(u32 heapId);
 extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -460,10 +460,10 @@ extern u8 BMP_WIN_GetBgLayer(void *p);
 extern void BG_SYS_PushTile(unsigned int);
 extern u32 BMP_WIN_Delete(void *d);
 extern struct ClactRes *CLACT_RegisterPaletteEx(void *a, unsigned int b, unsigned int c, unsigned int d, u16 e, u16 f, u16 g);
-extern struct ClactRes *CLACT_RegisterCharacter(void *a, unsigned int b, unsigned int c, unsigned int a3, u16 flags);
+extern struct ClactRes *CLACT_RegisterCharacter(void *a, unsigned int b, unsigned int c, unsigned int vram_mode, u16 flags);
 extern struct ClactRes *CLACT_RegisterCellAnim(void *owner, unsigned int first, unsigned int second, unsigned int mode);
-extern struct ClactRes *CLACT_RegisterPaletteCompressed(void *a0, unsigned int a1, unsigned int a2, unsigned int a3, u16 a4);
-extern struct ClactRes *ARC_UTIL_LoadBgCharDataFromHandle(void *a0, unsigned int a1, unsigned int a2, void *out, u16 a4);
+extern struct ClactRes *CLACT_RegisterPaletteCompressed(void *archive, unsigned int file_idx, unsigned int vram_mode, unsigned int vram_offset, u16 heap_id);
+extern struct ClactRes *ARC_UTIL_LoadBgCharDataFromHandle(void *arc, unsigned int memberIdx, unsigned int heapID, void *out, u16 flags);
 extern u32 CLACT_GetCharacterVramAddress(struct ClactRes *res, unsigned int flag);
 extern void CLACT_ReleasePalette(struct ClactRes *);
 extern void CLACT_ReleaseCharacter(struct ClactRes *);
@@ -504,36 +504,36 @@ int GAME_DATA_GetMyStatusByNetId(void *a0, int a1);
 void INTRUDE_COMM_SetWordSetMemberName(void *win, u32 slot, void *src, u16 heap);
 void INTRUDE_COMM_SetWordSetRequest();
 int FIELD_PALACE_SYS_IsZoneFlagSet(void *arg0, int arg1);
-extern void *GAME_DATA_GetField1D4(void *p, u32 idx);
+extern void *GAME_DATA_GetBattleRecSlot(void *p, u32 idx);
 extern u32 TOUCHPANEL_GetPointTrg(void *outA, void *outB);
 extern int FIELD_SUBSCREEN_GetPanelResult(u32 a);
-extern int ZONEDATA_IsZoneInTableDFC0(int a0);
+extern int ZONEDATA_IsZoneInTableDFC0(int zoneId);
 extern int BMP_OAM_GetEnabled(const void *p);
-extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
+extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 archiveID, u32 memberIdx, u32 channel, u32 offset, u32 size, u32 heapID, u16 flags);
 extern void BG_SYS_SetFlagField06(u32 bit);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern int MATH_CountPopulation(unsigned int x);
 extern int INTRUDE_COMM_GetSessionRemaining(void *o);
 extern int INTRUDE_FIELD_IsStartRequested(void *p);
 extern void BG_SYS_SetTileEntry(unsigned int, int, int, int, u8, u8, u8);
-extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, const void *palette, u8 a6, u8 a7, u8 a8, u8 a9);
+extern void BG_SYS_DrawTileEx(u32 index, u32 dx, u32 dy, u32 cw, u8 ch, const void *palette, u8 sx, u8 sy, u8 sw, u8 sh);
 extern int INTRUDE_COMM_HasUnlockFlags(void *);
 
-void INTRUDE_FIELD_InitMmdlCopyAnime(PlayerSpinWork *r, void *a1, void *a2, void *a3, u16 id, u8 kind, u8 flag, u16 idx, int place);
+void INTRUDE_FIELD_InitMmdlCopyAnime(PlayerSpinWork *r, void *gameSystem, void *fieldMap, void *intrudeWork, u16 id, u8 kind, u8 flag, u16 idx, int place);
 int INTRUDE_FIELD_MainMmdlCopyAnime(PlayerSpinWork *r);
 int INTRUDE_SUBDISP_MainRequestAnswerSeq(IntrudeCommSys *sys, EventCommCommonWork *work, u8 *state);
 void *INTRUDE_SUBDISP_CreatePalaceWarpEvent(void *p);
-void *INTRUDE_SUBDISP_CreateReturnPalaceEvent(int a0);
+void *INTRUDE_SUBDISP_CreateReturnPalaceEvent(int gameSystem);
 int INTRUDE_SUBDISP_CreateDisconnectEvent(void *a, int b);
 int INTRUDE_SUBDISP_DisconnectEventMain(void *a, int *seq, IntrudeDisconnectWork *work);
 void *INTRUDE_SUBDISP_CreateGuideScriptEvent(void *p);
 int INTRUDE_SUBDISP_GuideScriptEventMain(void *p, int *state);
-void *INTRUDE_SUBDISP_CreateTownWarpEvent(void *a0, void *a1, u16 a2, int a3);
-void *INTRUDE_SUBDISP_CreatePlayerWarpEvent(void *a0, void *a1, int a2);
+void *INTRUDE_SUBDISP_CreateTownWarpEvent(void *gameSystem, void *fieldMap, u16 zoneId, int mode);
+void *INTRUDE_SUBDISP_CreatePlayerWarpEvent(void *gameSystem, void *fieldMap, int netId);
 void *INTRUDE_SUBDISP_CreateBrightFadeEvent(void *p, int a, int b);
-int INTRUDE_SUBDISP_BrightFadeEventMain(int a0, int *state, IntrudeBrightFadeWork *o);
+int INTRUDE_SUBDISP_BrightFadeEventMain(int event, int *state, IntrudeBrightFadeWork *o);
 int INTRUDE_SUBDISP_ScriptResetFieldState(void *unused, void *p);
-int INTRUDE_SUBDISP_ScriptApplyCommState(int a0, int a1);
+int INTRUDE_SUBDISP_ScriptApplyCommState(int unused, int scriptWork);
 IntrudeSubdispWork *INTRUDE_SUBDISP_Init(void *gameSystem);
 void INTRUDE_SUBDISP_Exit(IntrudeSubdispWork *work);
 void INTRUDE_SUBDISP_Update(IntrudeSubdispWork *work, int mode);
@@ -616,7 +616,7 @@ extern const s8 d_021836A4[3][2];
  * 0x02183AF0 twice (stores, then call arguments), so two extern names:
  * see docs/idioms/a-duplicated-pool-word-is-a-second-extern-name-for-the-same-address.md.
  */
-void INTRUDE_FIELD_InitMmdlCopyAnime(PlayerSpinWork *r, void *a1, void *a2, void *a3, u16 id, u8 kind,
+void INTRUDE_FIELD_InitMmdlCopyAnime(PlayerSpinWork *spinWork, void *gameSystem, void *fieldMap, void *intrudeWork, u16 id, u8 kind,
                    u8 flag, u16 idx, int place)
 {
     int sys;
@@ -625,28 +625,28 @@ void INTRUDE_FIELD_InitMmdlCopyAnime(PlayerSpinWork *r, void *a1, void *a2, void
     int x;
     int y;
 
-    MI_CpuFill8(r, 0, 0x18);
-    r->gameSystem = a1;
-    r->fieldMap = a2;
-    r->objCode = id;
-    r->kind = kind;
-    r->flag = flag;
-    r->stepFrames = 15;
-    r->shownStep = r->stepFrames;
-    r->copyIndex = idx;
+    MI_CpuFill8(spinWork, 0, 0x18);
+    spinWork->gameSystem = gameSystem;
+    spinWork->fieldMap = fieldMap;
+    spinWork->objCode = id;
+    spinWork->kind = kind;
+    spinWork->flag = flag;
+    spinWork->stepFrames = 15;
+    spinWork->shownStep = spinWork->stepFrames;
+    spinWork->copyIndex = idx;
     if (place != 0) {
-        sys = GAME_DATA_GetOccupyInfo(ICA_ANIME_GetField1C(a1));
-        obj = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(a2));
-        zone = FIELDMAP_GetZoneId(a2);
+        sys = GAME_DATA_GetOccupyInfo(GAMESYSTEM_GetGameData(gameSystem));
+        obj = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap));
+        zone = FIELDMAP_GetZoneId(fieldMap);
         d_02183AF0.objCode = FLDMMDL_GetObjCode(obj);
         d_02183AF0.dirHeader = idx;
         x = FLDMMDL_GetGridNowX(obj);
         y = FLDMMDL_GetGridNowZ(obj);
         FLDMMDL_InitPosRecord((&g_02183AF0), x, y, FLDMMDL_GetPosY(obj));
-        r->copyMmdl = FLDMMDL_AddMmdl(sys, (&g_02183AF0), zone);
-        INTRUDE_FIELD_ChangePlayerLook(a3, r->gameSystem, r->objCode, r->kind, r->flag);
+        spinWork->copyMmdl = FLDMMDL_AddMmdl(sys, (&g_02183AF0), zone);
+        INTRUDE_FIELD_ChangePlayerLook(intrudeWork, spinWork->gameSystem, spinWork->objCode, spinWork->kind, spinWork->flag);
         FLDMMDL_SetStatusBitVanish(obj, 1);
-        FLDMMDL_SetStatusBitVanish(r->copyMmdl, 0);
+        FLDMMDL_SetStatusBitVanish(spinWork->copyMmdl, 0);
     }
 }
 void EVENT_COMM_COMMON_ChangeTalkedItemSaleEvent(void *a, void *b);
@@ -656,52 +656,52 @@ void EVENT_COMM_COMMON_ChangeTalkedItemPurchaseEvent(void *a, void *b);
 /*
  * Per-frame step of the 0x18-byte record (same layout as INTRUDE_FIELD_StepPlayerSpin's).
  */
-int INTRUDE_FIELD_MainMmdlCopyAnime(PlayerSpinWork *r)
+int INTRUDE_FIELD_MainMmdlCopyAnime(PlayerSpinWork *spinWork)
 {
     void *fld;
     void *obj;
     u16 anim;
     VecFx32 v;
 
-    fld = FIELDMAP_GetFieldPlayer(r->fieldMap);
+    fld = FIELDMAP_GetFieldPlayer(spinWork->fieldMap);
     obj = FIELD_PLAYER_GetMmdl((void *)fld);
-    switch (r->state) {
+    switch (spinWork->state) {
     case 0:
-        anim = r->copyIndex == 3 ? 7 : 6;
+        anim = spinWork->copyIndex == 3 ? 7 : 6;
         FLDMMDL_SetAcmd(obj, anim);
-        if (r->copyMmdl != 0)
-            FLDMMDL_SetAcmd(r->copyMmdl, anim);
+        if (spinWork->copyMmdl != 0)
+            FLDMMDL_SetAcmd(spinWork->copyMmdl, anim);
         FIELD_PLAYER_GetPos(fld, &v);
-        if (r->copyIndex == 3)
+        if (spinWork->copyIndex == 3)
             v.x += 0x8000;
         else
             v.x -= 0x8000;
-        FIELD_GIMMICK_GAUGE_EFFECT_StartEffectAt((int)r->fieldMap, &v);
+        FIELD_GIMMICK_GAUGE_EFFECT_StartEffectAt((int)spinWork->fieldMap, &v);
         GFL_USE_PlaySeDefaultVolume(0x774);
-        r->state++;
+        spinWork->state++;
         break;
     case 1:
-        r->stepFrames--;
-        if (r->stepFrames <= 0) {
-            if (r->copyMmdl != 0) {
+        spinWork->stepFrames--;
+        if (spinWork->stepFrames <= 0) {
+            if (spinWork->copyMmdl != 0) {
                 FLDMMDL_SetStatusBitVanish(obj, 0);
-                FLDMMDL_SetStatusBitVanish(r->copyMmdl, 1);
+                FLDMMDL_SetStatusBitVanish(spinWork->copyMmdl, 1);
             }
-            r->state++;
+            spinWork->state++;
         }
         break;
     case 2:
-        if (FIELD_GIMMICK_GAUGE_EFFECT_IsEffectActive(r->fieldMap) == 0 && FLDMMDL_CheckEndAcmd((int)obj) == 1) {
+        if (FIELD_GIMMICK_GAUGE_EFFECT_IsEffectActive(spinWork->fieldMap) == 0 && FLDMMDL_CheckEndAcmd((int)obj) == 1) {
             FLDMMDL_EndAcmd(obj);
-            if (r->copyMmdl != 0)
-                FLDMMDL_EndAcmd(r->copyMmdl);
-            r->state++;
+            if (spinWork->copyMmdl != 0)
+                FLDMMDL_EndAcmd(spinWork->copyMmdl);
+            spinWork->state++;
         }
         break;
     case 3:
-        if (r->copyMmdl != 0) {
-            FLDMMDL_DeleteMmdl((int)r->copyMmdl);
-            r->copyMmdl = 0;
+        if (spinWork->copyMmdl != 0) {
+            FLDMMDL_DeleteMmdl((int)spinWork->copyMmdl);
+            spinWork->copyMmdl = 0;
         }
         return 1;
     }
@@ -770,43 +770,43 @@ int INTRUDE_SUBDISP_MainRequestAnswerSeq(IntrudeCommSys *sys, EventCommCommonWor
 }
 
 
-void *INTRUDE_SUBDISP_CreatePalaceWarpEvent(void *p)
+void *INTRUDE_SUBDISP_CreatePalaceWarpEvent(void *gameSystem)
 {
     VecFx32 v;
     INTRUDE_FIELD_GetZoneAnchor(0x117, &v);
-    return EVENT_MAPCHANGE_CreateWarpEventWithIntrudeOffset(p, 0x117, (&v));
+    return EVENT_MAPCHANGE_CreateWarpEventWithIntrudeOffset(gameSystem, 0x117, (&v));
 }
 
 
-void *INTRUDE_SUBDISP_CreateReturnPalaceEvent(int a0)
+void *INTRUDE_SUBDISP_CreateReturnPalaceEvent(int gameSystem)
 {
     void *gameComm;
     void *gameData;
     IntrudeCommSys *sys;
 
-    gameComm = (void *)ICA_ANIME_GetField24((void *)a0);
-    gameData = ICA_ANIME_GetField1C((void *)a0);
+    gameComm = (void *)GAMESYSTEM_GetGameComm((void *)gameSystem);
+    gameData = GAMESYSTEM_GetGameData((void *)gameSystem);
     sys = INTRUDE_COMM_GetWorkIfRunning(gameComm);
     if (sys != 0) {
         INTRUDE_COMM_SetIntrudeId(sys, GAME_DATA_GetOwnNetId(gameData));
     } else {
         GAME_DATA_SetIntrudeId(gameData, GAME_DATA_GetOwnNetId(gameData));
     }
-    return INTRUDE_SUBDISP_CreatePalaceWarpEvent((void *)a0);
+    return INTRUDE_SUBDISP_CreatePalaceWarpEvent((void *)gameSystem);
 }
 
 
-int INTRUDE_SUBDISP_CreateDisconnectEvent(void *a, int b)
+int INTRUDE_SUBDISP_CreateDisconnectEvent(void *gameSystem, int cause)
 {
     void *sys;
     int ret;
     IntrudeDisconnectWork *work;
     unsigned char *x;
 
-    sys = (void *)ICA_ANIME_GetField24(a);
-    ret = (int)GAME_EVENT_Create(a, 0, INTRUDE_SUBDISP_DisconnectEventMain, 0x28);
+    sys = (void *)GAMESYSTEM_GetGameComm(gameSystem);
+    ret = (int)GAME_EVENT_Create(gameSystem, 0, INTRUDE_SUBDISP_DisconnectEventMain, 0x28);
     work = GAME_EVENT_GetWork((void *)ret);
-    work->cause = b;
+    work->cause = cause;
     if (GAME_COMM_GetKind(sys) == 2) {
         x = (unsigned char *)GAME_COMM_GetWork(sys);
         if (x != 0) {
@@ -814,7 +814,7 @@ int INTRUDE_SUBDISP_CreateDisconnectEvent(void *a, int b)
             x[0x8F8] |= 0x80;
         }
     }
-    if (ICA_ANIME_GetUnk330(a) == 1) {
+    if (GAMESYSTEM_IsNetOffBySleep(gameSystem) == 1) {
         if (GAME_COMM_GetLastKind(sys) == 1) {
             work->alone = 1;
         }
@@ -824,7 +824,7 @@ int INTRUDE_SUBDISP_CreateDisconnectEvent(void *a, int b)
 }
 
 
-int INTRUDE_SUBDISP_DisconnectEventMain(void *a, int *seq, IntrudeDisconnectWork *work)
+int INTRUDE_SUBDISP_DisconnectEventMain(void *event, int *seq, IntrudeDisconnectWork *work)
 {
     void *x;
     void *s2;
@@ -837,12 +837,12 @@ int INTRUDE_SUBDISP_DisconnectEventMain(void *a, int *seq, IntrudeDisconnectWork
     int v;
     int r;
 
-    x = GAME_EVENT_GetGameSystem(a);
-    s2 = ICA_ANIME_GetField1C(x);
-    s1 = (void *)ICA_ANIME_GetField24(x);
+    x = GAME_EVENT_GetGameSystem(event);
+    s2 = GAMESYSTEM_GetGameData(x);
+    s1 = (void *)GAMESYSTEM_GetGameComm(x);
     switch (*seq) {
     case 0:
-        GAME_EVENT_CallEvent(a, INTRUDE_SUBDISP_CreateReturnPalaceEvent((int)x));
+        GAME_EVENT_CallEvent(event, INTRUDE_SUBDISP_CreateReturnPalaceEvent((int)x));
         (*seq)++;
         break;
     case 1:
@@ -865,11 +865,11 @@ int INTRUDE_SUBDISP_DisconnectEventMain(void *a, int *seq, IntrudeDisconnectWork
         }
         break;
     case 3:
-        if (ICA_ANIME_Check2114(x) != 1) {
+        if (GAMESYSTEM_IsFieldMapActive(x) != 1) {
             break;
         }
         flag = 0;
-        y = ICA_ANIME_GetField20(x);
+        y = GAMESYSTEM_GetFieldMap(x);
         if (FIELDMAP_IsReady(y) != 1) {
             break;
         }
@@ -912,7 +912,7 @@ int INTRUDE_SUBDISP_DisconnectEventMain(void *a, int *seq, IntrudeDisconnectWork
         }
         FIELD_MSGBG_SysWinPrintMsg(work->msgBox, (int)0, (int)0, (int)msg);
         if (flag == 1) {
-            GAME_EVENT_CallEvent(a, FIELD_SOUND_SYSTEM_StartPushAndPlayTask(x, 0x52D));
+            GAME_EVENT_CallEvent(event, FIELD_SOUND_SYSTEM_StartPushAndPlayTask(x, 0x52D));
             *seq = 4;
         } else {
             *seq = 5;
@@ -920,7 +920,7 @@ int INTRUDE_SUBDISP_DisconnectEventMain(void *a, int *seq, IntrudeDisconnectWork
         break;
     case 4:
         if (GFL_USE_IsBgmPlaying() == 0) {
-            GAME_EVENT_CallEvent(a, FIELD_SOUND_SYSTEM_StartPopAndWaitTask(x, 0, 6));
+            GAME_EVENT_CallEvent(event, FIELD_SOUND_SYSTEM_StartPopAndWaitTask(x, 0, 6));
             *seq = 5;
         }
         break;
@@ -937,7 +937,7 @@ int INTRUDE_SUBDISP_DisconnectEventMain(void *a, int *seq, IntrudeDisconnectWork
         }
         break;
     case 7:
-        y = ICA_ANIME_GetField20(x);
+        y = GAMESYSTEM_GetFieldMap(x);
         if (FIELDMAP_IsReady(y) == 1) {
             if (FIELD_PLAYER_CheckFormModel(FIELDMAP_GetFieldPlayer(y)) == 0) {
                 INTRUDE_FIELD_InitPlayerSpin(&work->copyRecord, x, y, 0, 0, 0);
@@ -974,21 +974,21 @@ int INTRUDE_SUBDISP_DisconnectEventMain(void *a, int *seq, IntrudeDisconnectWork
             case 5:
                 break;
             }
-            SCRIPT_SYS_CallScriptEvent(a, (u16)v, 0, 0, (int)0x8015);
+            SCRIPT_SYS_CallScriptEvent(event, (u16)v, 0, 0, (int)0x8015);
         }
         *seq = 10;
         break;
     case 10:
-        if ((GAME_DATA_GetOwnNetId(s2) != 0 || (int)ICA_ANIME_GetUnk330(x) == 1) && ICA_ANIME_GetField30(x) == 1) {
-            GAME_EVENT_CallEvent(a, (void *)EVENT_COMM_ERROR_Create(x, ICA_ANIME_GetField20(x)));
+        if ((GAME_DATA_GetOwnNetId(s2) != 0 || (int)GAMESYSTEM_IsNetOffBySleep(x) == 1) && GAMESYSTEM_GetFieldMapState(x) == 1) {
+            GAME_EVENT_CallEvent(event, (void *)EVENT_COMM_ERROR_Create(x, GAMESYSTEM_GetFieldMap(x)));
         }
         (*seq)++;
         break;
     case 11:
         GAME_COMM_ClearCounter(s1);
         GAME_COMM_ClearPlayerStatus(s1);
-        if (GAME_DATA_GetOwnNetId(s2) != 0 || (int)ICA_ANIME_GetUnk330(x) == 1) {
-            GAME_EVENT_CallEvent(a, EVENT_MAPCHANGE_CreateIntrudeReturnEvent(x));
+        if (GAME_DATA_GetOwnNetId(s2) != 0 || (int)GAMESYSTEM_IsNetOffBySleep(x) == 1) {
+            GAME_EVENT_CallEvent(event, EVENT_MAPCHANGE_CreateIntrudeReturnEvent(x));
         }
         (*seq)++;
         break;
@@ -999,17 +999,17 @@ int INTRUDE_SUBDISP_DisconnectEventMain(void *a, int *seq, IntrudeDisconnectWork
 }
 
 
-void *INTRUDE_SUBDISP_CreateGuideScriptEvent(void *p)
+void *INTRUDE_SUBDISP_CreateGuideScriptEvent(void *gameSystem)
 {
-    return GAME_EVENT_Create(p, 0, INTRUDE_SUBDISP_GuideScriptEventMain, 0);
+    return GAME_EVENT_Create(gameSystem, 0, INTRUDE_SUBDISP_GuideScriptEventMain, 0);
 }
 
 
-int INTRUDE_SUBDISP_GuideScriptEventMain(void *p, int *state)
+int INTRUDE_SUBDISP_GuideScriptEventMain(void *event, int *state)
 {
     switch (*state) {
     case 0:
-        SCRIPT_SYS_CallScriptEvent(p, 0x279e, 0, 0, 0x15);
+        SCRIPT_SYS_CallScriptEvent(event, 0x279e, 0, 0, 0x15);
         ++*state;
         break;
     case 1:
@@ -1019,71 +1019,71 @@ int INTRUDE_SUBDISP_GuideScriptEventMain(void *p, int *state)
 }
 
 
-void *INTRUDE_SUBDISP_CreateTownWarpEvent(void *a0, void *a1, u16 a2, int a3)
+void *INTRUDE_SUBDISP_CreateTownWarpEvent(void *gameSystem, void *fieldMap, u16 zoneId, int mode)
 {
     void *gameComm;
     void *c;
     VecFx32 v;
 
-    gameComm = (void *)ICA_ANIME_GetField24(a0);
-    c = ICA_ANIME_GetField1C((void *)a0);
+    gameComm = (void *)GAMESYSTEM_GetGameComm(gameSystem);
+    c = GAMESYSTEM_GetGameData((void *)gameSystem);
     INTRUDE_COMM_GetWorkIfRunning(gameComm);
-    if (INTRUDE_FIELD_GetZoneAnchor(a2, &v) == 0)
+    if (INTRUDE_FIELD_GetZoneAnchor(zoneId, &v) == 0)
         return 0;
-    if (GAME_DATA_GetIntrudeCount(c) == 0 && a2 == 0x117)
-        return EVENT_MAPCHANGE_CreateIntrudeWarpEvent(a0, a2, &v, a3);
-    return EVENT_MAPCHANGE_CreateWarpEventWithIntrudeOffset(a0, a2, &v);
+    if (GAME_DATA_GetIntrudeCount(c) == 0 && zoneId == 0x117)
+        return EVENT_MAPCHANGE_CreateIntrudeWarpEvent(gameSystem, zoneId, &v, mode);
+    return EVENT_MAPCHANGE_CreateWarpEventWithIntrudeOffset(gameSystem, zoneId, &v);
 }
 
 
-void *INTRUDE_SUBDISP_CreatePlayerWarpEvent(void *a0, void *a1, int a2)
+void *INTRUDE_SUBDISP_CreatePlayerWarpEvent(void *gameSystem, void *fieldMap, int netId)
 {
     IntrudeCommSys *sys;
     IntrudeZonePos *q;
     VecFx32 v;
     u16 s;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning((void *)ICA_ANIME_GetField24(a0));
-    if (sys == 0 || !(sys->peerMask & (1 << a2)))
+    sys = INTRUDE_COMM_GetWorkIfRunning((void *)GAMESYSTEM_GetGameComm(gameSystem));
+    if (sys == 0 || !(sys->peerMask & (1 << netId)))
         return 0;
-    q = INTRUDE_FIELD_FindZonePos(sys->peers[a2].zoneId);
+    q = INTRUDE_FIELD_FindZonePos(sys->peers[netId].zoneId);
     if (q == 0)
         return 0;
     s = q->townId;
-    v = *(VecFx32 *)&sys->peers[a2].package.pos;
+    v = *(VecFx32 *)&sys->peers[netId].package.pos;
     v.z += 0x20000;
-    return EVENT_MAPCHANGE_CreateWarpEvent(a0, (int)a1, s, (const int *)(&v), 0, 0);
+    return EVENT_MAPCHANGE_CreateWarpEvent(gameSystem, (int)fieldMap, s, (const int *)(&v), 0, 0);
 }
 
 
-void *INTRUDE_SUBDISP_CreateBrightFadeEvent(void *p, int a, int b)
+void *INTRUDE_SUBDISP_CreateBrightFadeEvent(void *gameSystem, int fieldMap, int subscreen)
 {
     void *task;
     int *work;
-    task = GAME_EVENT_Create(p, 0, INTRUDE_SUBDISP_BrightFadeEventMain, 12);
+    task = GAME_EVENT_Create(gameSystem, 0, INTRUDE_SUBDISP_BrightFadeEventMain, 12);
     work = GAME_EVENT_GetWork(task);
-    work[0] = a;
-    work[1] = b;
+    work[0] = fieldMap;
+    work[1] = subscreen;
     return task;
 }
 
 
-int INTRUDE_SUBDISP_BrightFadeEventMain(int a0, int *state, IntrudeBrightFadeWork *o)
+int INTRUDE_SUBDISP_BrightFadeEventMain(int event, int *state, IntrudeBrightFadeWork *work)
 {
     switch (*state) {
     case 0:
-        o->frame += 1;
-        if (o->frame > 15) {
-            BTL_CLIENT_StepSetAbilityWithPopup(FIELDMAP_GetVReq((u8 *)o->fieldMap), -16);
+        work->frame += 1;
+        if (work->frame > 15) {
+            BTL_CLIENT_StepSetAbilityWithPopup(FIELDMAP_GetVReq((u8 *)work->fieldMap), -16);
             *state += 1;
         }
         break;
     case 1:
-        FIELD_SUBSCREEN_ChangeModeNow((u32 *)o->subscreen, 0);
+        FIELD_SUBSCREEN_ChangeModeNow((u32 *)work->subscreen, 0);
         *state += 1;
         break;
     case 2:
-        BTL_CLIENT_StepSetAbilityWithPopup(FIELDMAP_GetVReq((u8 *)o->fieldMap), 0);
+        BTL_CLIENT_StepSetAbilityWithPopup(FIELDMAP_GetVReq((u8 *)work->fieldMap), 0);
         *state += 1;
         break;
     case 3:
@@ -1093,29 +1093,29 @@ int INTRUDE_SUBDISP_BrightFadeEventMain(int a0, int *state, IntrudeBrightFadeWor
 }
 
 
-int INTRUDE_SUBDISP_ScriptResetFieldState(void *unused, void *p)
+int INTRUDE_SUBDISP_ScriptResetFieldState(void *unused, void *scriptWork)
 {
     void *sys;
     void *obj;
-    sys = SCRCMD_WORK_GetGameSystem(p);
-    obj = ICA_ANIME_GetField20(sys);
-    ICA_ANIME_GetField24(sys);
+    sys = SCRCMD_WORK_GetGameSystem(scriptWork);
+    obj = GAMESYSTEM_GetFieldMap(sys);
+    GAMESYSTEM_GetGameComm(sys);
     INTRUDE_FIELD_AddAreaMmdls((int)obj);
     return 0;
 }
 
 
-int INTRUDE_SUBDISP_ScriptApplyCommState(int a0, int a1)
+int INTRUDE_SUBDISP_ScriptApplyCommState(int unused, int scriptWork)
 {
     void *w;
     void *c;
     int h;
     int v;
 
-    w = SCRCMD_WORK_GetGameSystem((void *)a1);
-    ICA_ANIME_GetField1C(w);
-    c = ICA_ANIME_GetField20((void *)w);
-    h = ICA_ANIME_GetField24(w);
+    w = SCRCMD_WORK_GetGameSystem((void *)scriptWork);
+    GAMESYSTEM_GetGameData(w);
+    c = GAMESYSTEM_GetFieldMap((void *)w);
+    h = GAMESYSTEM_GetGameComm(w);
     v = 0;
     if (GAME_COMM_GetKind((void *)h) == 2)
         v = GAME_COMM_GetWork((void *)h);
@@ -1142,7 +1142,7 @@ IntrudeSubdispWork *INTRUDE_SUBDISP_Init(void *gameSystem)
     void *target;
     u32 tmp;
 
-    gameComm = (void *)ICA_ANIME_GetField24(gameSystem);
+    gameComm = (void *)GAMESYSTEM_GetGameComm(gameSystem);
     work = GFL_HEAP_Alloc(0x70, 0x170, 1, str_02183B14, 0x240);
     work->gameSystem = gameSystem;
     work->lastBgPalette = 0xFF;
@@ -1177,7 +1177,7 @@ IntrudeSubdispWork *INTRUDE_SUBDISP_Init(void *gameSystem)
     REG_WINOUT_SUB = (u16)tmp;
     REG_DB_DISPCNT_SUB = (REG_DB_DISPCNT_SUB & ~0xE000) | 0x8000;
     work->vblankTask = GFL_USE_AddMainTask(INTRUDE_SUBDISP_VBlankTask, work, 10);
-    zoneId = GAME_DATA_GetPlayerZoneId(ICA_ANIME_GetField114(work->gameSystem));
+    zoneId = GAME_DATA_GetPlayerZoneId(GAMESYSTEM_GetMyPlayerWork(work->gameSystem));
     target = INTRUDE_SUBDISP_GetTargetPlayerData(work);
     INTRUDE_SUBDISP_PrintTitle(work, zoneId);
     INTRUDE_SUBDISP_UpdateTownActors(work, target);
@@ -1217,10 +1217,10 @@ void INTRUDE_SUBDISP_Update(IntrudeSubdispWork *work, int mode)
     int v;
     void *printQue;
 
-    gameComm = (void *)ICA_ANIME_GetField24(work->gameSystem);
-    gameData = ICA_ANIME_GetField1C(work->gameSystem);
+    gameComm = (void *)GAMESYSTEM_GetGameComm(work->gameSystem);
+    gameData = GAMESYSTEM_GetGameData(work->gameSystem);
     sys = INTRUDE_COMM_GetWorkIfRunning(gameComm);
-    zoneId = GAME_DATA_GetPlayerZoneId(ICA_ANIME_GetField114(work->gameSystem));
+    zoneId = GAME_DATA_GetPlayerZoneId(GAMESYSTEM_GetMyPlayerWork(work->gameSystem));
     WIH_DWC_PollStatus((void *)GAME_DATA_GetField1A0(gameData));
     GFL_NET_WM_ICON_EasyObjWindowOn();
     if (sys == 0 || (sys != 0 && sys->flagBit7 == 0)) {
@@ -1280,7 +1280,7 @@ void INTRUDE_SUBDISP_Update(IntrudeSubdispWork *work, int mode)
             break;
         case 1:
             if (INTRUDE_COMM_GetUnionInfoReceived(sys) == 1) {
-                FIELDMAP_GetSubscreen(ICA_ANIME_GetField20(work->gameSystem));
+                FIELDMAP_GetSubscreen(GAMESYSTEM_GetFieldMap(work->gameSystem));
                 work->targetZone = 0x126;
                 work->selectionKind = 1;
                 work->warpPending = 0;
@@ -1303,10 +1303,10 @@ void INTRUDE_SUBDISP_Draw(IntrudeSubdispWork *work)
     int flag;
     void *target;
 
-    gameComm = (void *)ICA_ANIME_GetField24(work->gameSystem);
-    gameData = ICA_ANIME_GetField1C(work->gameSystem);
+    gameComm = (void *)GAMESYSTEM_GetGameComm(work->gameSystem);
+    gameData = GAMESYSTEM_GetGameData(work->gameSystem);
     sys = INTRUDE_COMM_GetWorkIfRunning(gameComm);
-    zoneId = GAME_DATA_GetPlayerZoneId(ICA_ANIME_GetField114(work->gameSystem));
+    zoneId = GAME_DATA_GetPlayerZoneId(GAMESYSTEM_GetMyPlayerWork(work->gameSystem));
     flag = 0;
     target = INTRUDE_SUBDISP_GetTargetPlayerData(work);
     if (sys != 0 && INTRUDE_COMM_HasResult(&sys->session) == 0) {
@@ -1347,9 +1347,9 @@ void *INTRUDE_SUBDISP_EventCheck(IntrudeSubdispWork *work, int touched, int para
     void *fieldMap;
     void *event;
 
-    gameComm = (void *)ICA_ANIME_GetField24(work->gameSystem);
-    gameData = ICA_ANIME_GetField1C(work->gameSystem);
-    fieldMap = ICA_ANIME_GetField20(work->gameSystem);
+    gameComm = (void *)GAMESYSTEM_GetGameComm(work->gameSystem);
+    gameData = GAMESYSTEM_GetGameData(work->gameSystem);
+    fieldMap = GAMESYSTEM_GetFieldMap(work->gameSystem);
     event = 0;
     if (touched == 0 || fieldMap == 0) {
         return 0;
@@ -1626,7 +1626,7 @@ void INTRUDE_SUBDISP_CreateMyPlayerActor(IntrudeSubdispWork *work, void *bg)
     void *gameData;
 
     param = d_021836D4;
-    gameData = ICA_ANIME_GetField1C(work->gameSystem);
+    gameData = GAMESYSTEM_GetGameData(work->gameSystem);
     if (MYSTATUS_GetOutfitVariant(GAME_DATA_GetMyStatus(gameData)) == 1) {
         param.anim = 3;
     }
@@ -1671,7 +1671,7 @@ void INTRUDE_SUBDISP_CreateButtonActors(IntrudeSubdispWork *work, void *bg)
     IntrudeSubdispBmpOamTmpl copy;
     IntrudeSubdispBmpOamTmpl tmpl;
 
-    gameData = ICA_ANIME_GetField1C(work->gameSystem);
+    gameData = GAMESYSTEM_GetGameData(work->gameSystem);
     work->actors[16] = CLACT_CreateActor(work->clactUnit, work->charRes, work->palRes, work->cellRes, d_021836AA, 0, 0x70);
     CLACT_SetActorDrawEnable(work->actors[16], 0);
     tmpl = d_021836F4;
@@ -1711,7 +1711,7 @@ void INTRUDE_SUBDISP_UpdateTownActors(IntrudeSubdispWork *work, void *target)
     int index;
     struct ClactActor *actor;
 
-    gameData = ICA_ANIME_GetField1C(work->gameSystem);
+    gameData = GAMESYSTEM_GetGameData(work->gameSystem);
     if (INTRUDE_SUBDISP_IsAlone(work) == 1) {
         for (i = 0; i <= 7; i++) {
             CLACT_SetActorDrawEnable(work->actors[i], 0);
@@ -1797,7 +1797,7 @@ void INTRUDE_SUBDISP_UpdatePlayerMarkActors(IntrudeSubdispWork *work, void *targ
     int j;
     IntrudeSubdispMarkLayout layout;
 
-    ICA_ANIME_GetField1C(work->gameSystem);
+    GAMESYSTEM_GetGameData(work->gameSystem);
     s = layout.slot;
     s[0] = 0;
     s[1] = 0;
@@ -1860,7 +1860,7 @@ void INTRUDE_SUBDISP_UpdatePlayerTownActors(IntrudeSubdispWork *work, IntrudeCom
     struct ClactActor *icon;
     IntrudeSubdispPosPair pair;
 
-    gameData = ICA_ANIME_GetField1C(work->gameSystem);
+    gameData = GAMESYSTEM_GetGameData(work->gameSystem);
     cur = work->town.homeSlot;
     INTRUDE_SUBDISP_UpdateTownMarkPalette(work);
     for (i = 0; i < 3; i++) {
@@ -1994,7 +1994,7 @@ void INTRUDE_SUBDISP_UpdateMyPlayerActor(IntrudeSubdispWork *work, void *target,
     int v;
     struct ClactActor *actor;
 
-    idx = GAME_DATA_GetOwnNetId(ICA_ANIME_GetField1C(work->gameSystem));
+    idx = GAME_DATA_GetOwnNetId(GAMESYSTEM_GetGameData(work->gameSystem));
     sel = 0xFF;
     if (ZONEDATA_IsZone117(zoneId) == 1) {
         pos.x = d_021836A4[idx][0] + 0x80;
@@ -2038,7 +2038,7 @@ void INTRUDE_SUBDISP_UpdateButtonActors(IntrudeSubdispWork *work, void *target)
 {
     void *gameData;
 
-    gameData = ICA_ANIME_GetField1C(work->gameSystem);
+    gameData = GAMESYSTEM_GetGameData(work->gameSystem);
     if (work->town.busyFlag == 0 && GAME_DATA_GetIntrudeCount(gameData) == 1) {
         switch (work->town.sessionState) {
         case 0:
@@ -2062,7 +2062,7 @@ void INTRUDE_SUBDISP_UpdateInfoIcon(IntrudeSubdispWork *work, void *target)
     int digit;
     u8 *tiles;
 
-    gameData = ICA_ANIME_GetField1C(work->gameSystem);
+    gameData = GAMESYSTEM_GetGameData(work->gameSystem);
     if (INTRUDE_SUBDISP_IsInfoActive(work) == 0) {
         if (CLACT_GetActorDrawEnable(work->actors[20]) == 1) {
             CLACT_SetActorDrawEnable(work->actors[20], 0);
@@ -2102,7 +2102,7 @@ void INTRUDE_SUBDISP_PrintTitle(IntrudeSubdispWork *work, int zoneId)
     int mode;
     int v;
 
-    gameData = ICA_ANIME_GetField1C(work->gameSystem);
+    gameData = GAMESYSTEM_GetGameData(work->gameSystem);
     if (PRINTSYS_QUE_IsExistTarget(work->printQue, BMP_WIN_GetBmp(work->titleWin)) == 1) {
         return;
     }
@@ -2157,8 +2157,8 @@ void INTRUDE_SUBDISP_PrintInfoMessage(IntrudeSubdispWork *work, IntrudeCommSys *
     IntrudeSubdispMsgReq req;
     VecFx32 pos;
 
-    gameComm = (void *)ICA_ANIME_GetField24(work->gameSystem);
-    gameData = ICA_ANIME_GetField1C(work->gameSystem);
+    gameComm = (void *)GAMESYSTEM_GetGameComm(work->gameSystem);
+    gameData = GAMESYSTEM_GetGameData(work->gameSystem);
     done = 0;
     if (work->msgTimer > 0) {
         work->msgTimer--;
@@ -2234,7 +2234,7 @@ void INTRUDE_SUBDISP_PrintInfoMessage(IntrudeSubdispWork *work, IntrudeCommSys *
             IntrudeZonePos *peerTown;
             void *fieldMap;
 
-            fieldMap = ICA_ANIME_GetField20(work->gameSystem);
+            fieldMap = GAMESYSTEM_GetFieldMap(work->gameSystem);
             peer = &sys->peers[work->town.selection->peerIndex];
             FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(fieldMap), &pos);
             INTRUDE_COMM_SetWordSetMemberName(work->wordSet, 0, work->town.selection->words, 0x70);
@@ -2338,18 +2338,18 @@ void INTRUDE_SUBDISP_PrintInfoMessage(IntrudeSubdispWork *work, IntrudeCommSys *
 
 /*
  * extent: two zero padding bytes at 0x0217EC06.
- * interface: GAME_DATA_GetLastBattleRecSlot tail-forwards GAME_DATA_GetField1D4's pointer result.
+ * interface: GAME_DATA_GetLastBattleRecSlot tail-forwards GAME_DATA_GetBattleRecSlot's pointer result.
  */
 void *INTRUDE_SUBDISP_GetTargetPlayerData(IntrudeSubdispWork *work)
 {
     void *gameData;
     int i;
-    gameData = ICA_ANIME_GetField1C(work->gameSystem);
+    gameData = GAMESYSTEM_GetGameData(work->gameSystem);
     i = work->town.homeSlot;
     if (i == GAME_DATA_GetOwnNetId(gameData) || i == 0x80) {
         return GAME_DATA_GetLastBattleRecSlot(gameData);
     } else {
-        return GAME_DATA_GetField1D4(gameData, i);
+        return GAME_DATA_GetBattleRecSlot(gameData, i);
     }
 }
 
@@ -2413,9 +2413,9 @@ void INTRUDE_SUBDISP_UpdateTouch(IntrudeCommSys *sys, IntrudeSubdispWork *work, 
     const IntrudeTownEntry *entry;
     IntrudeZonePos *town;
 
-    fieldObj = FIELDMAP_GetSubscreen(ICA_ANIME_GetField20(work->gameSystem));
-    ICA_ANIME_GetField24(work->gameSystem);
-    gameData = ICA_ANIME_GetField1C(work->gameSystem);
+    fieldObj = FIELDMAP_GetSubscreen(GAMESYSTEM_GetFieldMap(work->gameSystem));
+    GAMESYSTEM_GetGameComm(work->gameSystem);
+    gameData = GAMESYSTEM_GetGameData(work->gameSystem);
     if (work->selectionKind != 0 || work->warpPending == 1 || !TOUCHPANEL_GetPointTrg(&touchX, &touchY) || FIELD_SUBSCREEN_GetPanelResult(fieldObj) != 0) {
         return;
     }
@@ -2533,8 +2533,8 @@ void INTRUDE_SUBDISP_ReloadBgScreens(IntrudeSubdispWork *work)
  */
 void INTRUDE_SUBDISP_UpdateBgPalette(IntrudeSubdispWork *work, IntrudeCommSys *sys)
 {
-    ICA_ANIME_GetField1C(work->gameSystem);
-    ICA_ANIME_GetField24(work->gameSystem);
+    GAMESYSTEM_GetGameData(work->gameSystem);
+    GAMESYSTEM_GetGameComm(work->gameSystem);
     if (work->town.homeSlot != work->lastBgPalette) INTRUDE_SUBDISP_SetBgPalette(work, work->town.homeSlot);
 }
 
@@ -2563,7 +2563,7 @@ void INTRUDE_SUBDISP_InitTownState(IntrudeSubdispWork *work, IntrudeCommSys *sys
     IntrudeSubdispTownState *state;
     void *gameData;
     state = &work->town;
-    gameData = ICA_ANIME_GetField1C(work->gameSystem);
+    gameData = GAMESYSTEM_GetGameData(work->gameSystem);
     if (sys == 0) {
         state->homeSlot = GAME_DATA_GetOwnNetId(gameData);
         state->peerMask = 1 << state->homeSlot;
@@ -2585,7 +2585,7 @@ void INTRUDE_SUBDISP_UpdateTownState(IntrudeSubdispWork *work, IntrudeCommSys *s
     int i;
 
     state = &work->town;
-    gameData = (int)ICA_ANIME_GetField1C(work->gameSystem);
+    gameData = (int)GAMESYSTEM_GetGameData(work->gameSystem);
     if (sys == 0) {
         MI_CpuFill8(&work->town, 0, 0x14);
         work->lastPeerCount = 1;
@@ -2682,7 +2682,7 @@ void INTRUDE_SUBDISP_UpdateButtonBlink(IntrudeSubdispWork *work)
  */
 int INTRUDE_SUBDISP_IsInfoActive(IntrudeSubdispWork *work)
 {
-    if (GAME_DATA_GetIntrudeCount(ICA_ANIME_GetField1C(work->gameSystem)) == 1) {
+    if (GAME_DATA_GetIntrudeCount(GAMESYSTEM_GetGameData(work->gameSystem)) == 1) {
         switch (work->town.sessionState) {
         case 2: case 3: case 4: return 1;
         }
@@ -2714,7 +2714,7 @@ void INTRUDE_SUBDISP_DrawInfoPanel(IntrudeSubdispWork *work, int mode)
  */
 int INTRUDE_SUBDISP_IsAlone(IntrudeSubdispWork *work)
 {
-    void *gameData = ICA_ANIME_GetField1C(work->gameSystem);
+    void *gameData = GAMESYSTEM_GetGameData(work->gameSystem);
     if (work->town.selection == 0 && GAME_DATA_GetOwnNetId(gameData) == 0 && INTRUDE_COMM_HasUnlockFlags(gameData) == 0) return 1;
     return 0;
 }

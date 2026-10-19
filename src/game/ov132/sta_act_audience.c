@@ -77,13 +77,13 @@ void STA_ACT_AUDIENCE_Delete(u8 *p);
 
 void STA_ACT_AUDIENCE_Update(char *p);
 
-void STA_ACT_AUDIENCE_Noop(char *a0);
+void STA_ACT_AUDIENCE_Noop(char *audience);
 
 void STA_ACT_AUDIENCE_Noop2(void *p);
 
 void STA_ACT_AUDIENCE_SetupRecords(char *p, char *q);
 
-void STA_ACT_AUDIENCE_Noop3(void *a0);
+void STA_ACT_AUDIENCE_Noop3(void *audience);
 
 void STA_ACT_AUDIENCE_UpdateRecords(char *p);
 
@@ -105,17 +105,17 @@ extern const char d_021FDCC4[];
 
 extern u16 d_021FDC16[];
 
-char *STA_ACT_AUDIENCE_Create(unsigned heap, void *a, unsigned b)
+char *STA_ACT_AUDIENCE_Create(unsigned heap, void *scene, unsigned input)
 {
     u8 i = 0;
     char *p = GFL_HEAP_Alloc(heap, 0x3e4, 0, d_021FDCC4, 115);
-    ((struct ScriptOwner *)p)->f0 = heap;
+    ((struct ActAudience *)p)->heapId = heap;
     STA_ACT_AUDIENCE_Noop(p);
-    STA_ACT_AUDIENCE_SetupRecords(p, (char *)b);
-    ((struct ScriptOwner *)p)->f1E8 = a;
-    ((struct ScriptOwner *)p)->f200 = 0;
+    STA_ACT_AUDIENCE_SetupRecords(p, (char *)input);
+    ((struct ActAudience *)p)->scene = scene;
+    ((struct ActAudience *)p)->dirty = 0;
     for (; i < 4; i++) *(int *)(p + i * 4 + 0x1ec) = 0;
-    ((struct ScriptOwner *)p)->f1FC = 255;
+    ((struct ActAudience *)p)->highlight = 255;
     return p;
 }
 
@@ -132,7 +132,7 @@ void STA_ACT_AUDIENCE_Delete(u8 *p)
 void STA_ACT_AUDIENCE_Update(char *p)
 {
     u8 i;
-    if (STA_ACTING_GetCameraPos(((struct ScriptOwner *)p)->f1E8) == 0) {
+    if (STA_ACTING_GetCameraPos(((struct ActAudience *)p)->scene) == 0) {
         if (GFL_USE_GetRandomBelow(10) == 0) {
             for (i = 0; i < 3; i++) {
                 u8 a = GFL_USE_GetRandomBelow(4);
@@ -141,15 +141,15 @@ void STA_ACT_AUDIENCE_Update(char *p)
             }
         }
     } else {
-        if (((struct ScriptOwner *)p)->f200 == 1) {
+        if (((struct ActAudience *)p)->dirty == 1) {
             STA_ACT_AUDIENCE_ApplyChoices(p);
-            ((struct ScriptOwner *)p)->f200 = 0;
+            ((struct ActAudience *)p)->dirty = 0;
         }
         STA_ACT_AUDIENCE_UpdateRecords(p);
     }
 }
 
-void STA_ACT_AUDIENCE_Noop(char *a0) { }
+void STA_ACT_AUDIENCE_Noop(char *audience) { }
 
 void STA_ACT_AUDIENCE_Noop2(void *p) { }
 
@@ -161,7 +161,7 @@ void STA_ACT_AUDIENCE_Noop2(void *p) { }
  * the rec/off register pair is swapped). Callee STA_ACT_AUDIENCE_DrawRecord takes (p, rec, type).
  * Caller passes q as a pointer: field 0x14 is a byte table read by MUSICAL_PROGRAM_GetCategoryBonus.
  */
-void STA_ACT_AUDIENCE_SetupRecords(char *p, char *q)
+void STA_ACT_AUDIENCE_SetupRecords(char *p, char *input)
 {
     u16 sum = 0;
     u8 b[4];
@@ -174,7 +174,7 @@ void STA_ACT_AUDIENCE_SetupRecords(char *p, char *q)
     int off;
     u8 *rec;
     for (i = 0; i < 4; i++) {
-        b[i] = MUSICAL_PROGRAM_GetCategoryBonus(*(u8 **)(q + 0x14), i);
+        b[i] = MUSICAL_PROGRAM_GetCategoryBonus(*(u8 **)(input + 0x14), i);
         sum = sum + b[i];
     }
     for (i = 0; i < 4; i++) {
@@ -224,7 +224,7 @@ void STA_ACT_AUDIENCE_SetupRecords(char *p, char *q)
 
 #pragma opt_common_subs reset
 
-void STA_ACT_AUDIENCE_Noop3(void *a0)
+void STA_ACT_AUDIENCE_Noop3(void *audience)
 {
 }
 
@@ -249,21 +249,21 @@ void STA_ACT_AUDIENCE_UpdateRecord(char *p,u8 *rec)
     short delta;
     if(rec[1]!=0) rec[1]--;
     if(rec[1]==0) {
-        if(rec[0]==255 && ((struct ScriptOwner *)p)->f1FC==255) {
+        if(rec[0]==255 && ((struct ActAudience *)p)->highlight==255) {
             ((struct AudienceRecord *)rec)->value=65535;
             if(rec[6]<2) STA_ACT_AUDIENCE_DrawRecord(p,rec,3);
             else if(rec[6]<4) STA_ACT_AUDIENCE_DrawRecord(p,rec,2);
             else if(rec[6]<6) STA_ACT_AUDIENCE_DrawRecord(p,rec,1);
             else STA_ACT_AUDIENCE_DrawRecord(p,rec,0);
         } else {
-            STA_ACTING_GetCameraTarget(((struct ScriptOwner *)p)->f1E8);
+            STA_ACTING_GetCameraTarget(((struct ActAudience *)p)->scene);
             x=((rec[6]*32-64)*4)/3;
             if(rec[0]!=255) {
-                a=STA_ACTING_GetActorSystem(((struct ScriptOwner *)p)->f1E8);
-                STA_ACT_LIGHT_CopyActorPos(a,STA_ACTING_GetActor(((struct ScriptOwner *)p)->f1E8,rec[0]),(u32 *)(&v));
+                a=STA_ACTING_GetActorSystem(((struct ActAudience *)p)->scene);
+                STA_ACT_LIGHT_CopyActorPos(a,STA_ACTING_GetActor(((struct ActAudience *)p)->scene,rec[0]),(u32 *)(&v));
             } else {
-                b=STA_ACTING_GetCharSystem(((struct ScriptOwner *)p)->f1E8);
-                STA_ACT_LIGHT_GetElemPos(b,(char *)STA_ACTING_GetCharSlot(((struct ScriptOwner *)p)->f1E8,((struct ScriptOwner *)p)->f1FC),&v);
+                b=STA_ACTING_GetCharSystem(((struct ActAudience *)p)->scene);
+                STA_ACT_LIGHT_GetElemPos(b,(char *)STA_ACTING_GetCharSlot(((struct ActAudience *)p)->scene,((struct ActAudience *)p)->highlight),&v);
             }
             delta=(float)v.x/4096.f-(float)(u32)x;
             if(delta < -64) STA_ACT_AUDIENCE_DrawRecord(p,rec,0);
@@ -325,28 +325,28 @@ void STA_ACT_AUDIENCE_RandomizeRecords(char *p)
     u8 i;
     for (i = 0; i < 60; i++) {
         char *q = p + i * 8;
-        ((struct ScriptOwner *)q)->f205 = GFL_USE_GetRandomBelow(60) + 1;
-        ((struct ScriptOwner *)q)->f204 = 255;
+        ((struct ActAudience *)q)->records[0].timer = GFL_USE_GetRandomBelow(60) + 1;
+        ((struct ActAudience *)q)->records[0].actorIndex = 255;
     }
 }
 
-void STA_ACT_AUDIENCE_SetSlotValue(char *p, int i, int v)
+void STA_ACT_AUDIENCE_SetSlotValue(char *p, int player, int value)
 {
-    char *q = p + i * 4;
+    char *q = p + player * 4;
 
-    ((struct ActingScene *)q)->f1EC.s = v;
-    ((struct ScriptOwner *)p)->f200 = 1;
+    ((struct ActAudience *)q)->choices[0] = value;
+    ((struct ActAudience *)p)->dirty = 1;
 }
 
-void STA_ACT_AUDIENCE_SetHighlight(char *p, u8 v)
+void STA_ACT_AUDIENCE_SetHighlight(char *p, u8 actor)
 {
-    ((struct ScriptOwner *)p)->f1FC = v;
-    ((struct ScriptOwner *)p)->f200 = 1;
+    ((struct ActAudience *)p)->highlight = actor;
+    ((struct ActAudience *)p)->dirty = 1;
 }
 
-void STA_ACT_AUDIENCE_SetBgScroll(void *unused, int x)
+void STA_ACT_AUDIENCE_SetBgScroll(void *unused, int scroll)
 {
-    u16 v = ((x << 7) / 256) + 64;
+    u16 v = ((scroll << 7) / 256) + 64;
     BG_SYS_FillScrollArea(4, 0, v);
     BG_SYS_FillScrollArea(6, 0, v);
     BG_SYS_FillScrollArea(5, 0, v);

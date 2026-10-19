@@ -47,7 +47,7 @@ typedef unsigned short u16;
 
 #include "../ov021/bsubway_scr_types.h"
 
-extern void GFL_NET_StartSession(struct Req *req, u32 a2, u32 a3);
+extern void GFL_NET_StartSession(struct Req *req, u32 transportArg, u32 userArg);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void MYSTATUS_Copy(void *, void *);
 extern void OS_GetMacAddress(void *);

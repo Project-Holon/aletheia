@@ -158,7 +158,7 @@ extern void DWCi_TSKlDeleteEx(int a, void *task);
 extern void *G2_GetBG0CharPtr(void);
 extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
 extern void NNSi_G2dTextCanvasDrawText(TextCanvas *tc, int x, int y, int color, u32 flag, u16 *txt, Pair p);
-extern s8 NNSi_G2dCharCanvasDrawChar(struct Ctx *ctx, struct Fnt2 **font, int x, int y, int a6, u16 code);
+extern s8 NNSi_G2dCharCanvasDrawChar(struct Ctx *ctx, struct Fnt2 **font, int x, int y, int cl, u16 code);
 extern int NNS_G2dFontFindGlyphIndex(void *font, u16 c);
 extern CharWidths *NNS_G2dFontGetCharWidthsFromIndex(void *font, int idx);
 int DWCi_FNTlDrawCharEx(void *canvas, int x, int y, int color, unsigned short chr, int font);

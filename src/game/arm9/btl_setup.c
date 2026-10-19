@@ -20,7 +20,7 @@
  *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
  *   MI_CpuCopy8  0x02082D44  arm
  *   BEACON_CountFlags  0x0200C258  thumb
- *   GAME_DATA_GetField114         0x020127A4  thumb
+ *   GAME_DATA_GetMyPlayerWork         0x020127A4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   sBtlSetupFileName  0x020A729C  data
  *   POKEPARTY_Copy  0x0201AC2C  thumb
@@ -70,7 +70,7 @@ struct StrBuf;
 
 struct NetHandle;
 
-extern struct PlayerWork *GAME_DATA_GetField114(struct GameData *gd);
+extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gd);
 
 extern struct Config *SYSTEM_DATA_GetConfig(struct SaveControl *save);
 
@@ -527,7 +527,7 @@ void BTL_SETUP_SetTrainer(struct BattleSetupParam *param, struct GameData *gd, u
 
 void BTL_SETUP_SetPlayerParty(struct BattleSetupParam *param, struct GameData *gd, u16 heap)
 {
-    GAME_DATA_GetField114(gd);
+    GAME_DATA_GetMyPlayerWork(gd);
     param->party[0] = POKEPARTY_Create(heap);
     POKEPARTY_Copy(GAME_DATA_GetMyParty(gd), param->party[0]);
 }

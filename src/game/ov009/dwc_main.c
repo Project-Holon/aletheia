@@ -147,7 +147,7 @@ extern void MIi_CpuCopy16(void *srcp, void *destp, u32 size);
 extern int DWC_GetInetStatus(void);
 extern void GSIStartAvailableCheckA(char *gamename);
 extern int DWCi_IsServerUpdating(void);
-extern void DWCi_UpdateServersAsync(char *authToken, char *partnerChallenge, void (*callback)(int, int), int a3, void *statusCallback, void *statusParam, void *deleteCallback, void *deleteParam);
+extern void DWCi_UpdateServersAsync(char *authToken, char *partnerChallenge, void (*callback)(int, int), int finishParam, void *statusCallback, void *statusParam, void *deleteCallback, void *deleteParam);
 extern void DWCi_SetupGameServer(int topology, unsigned char numEntry, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *attemptCallback, void *connectionUserData, void *attemptParam);
 extern int DWCi_GetProfileIDFromList(int index);
 extern int gpIsBuddy(void **connection, int profile);

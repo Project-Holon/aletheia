@@ -97,7 +97,7 @@ extern void VEC_Add(const FieldG3dMapVec *a, const FieldG3dMapVec *b, FieldG3dMa
 extern void MTX_RotY33_(void *m, short sinv, short cosv);
 extern void VEC_Subtract(const FieldG3dMapVec *pos, const FieldG3dMapVec *origin, FieldG3dMapVec *out);
 extern void *G3D_SYSTEM_GetResourceFile(void *handle);
-extern int NNS_G3dGetMdlSet(int p0);
+extern int NNS_G3dGetMdlSet(int pFile);
 extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 extern void NNS_G3dBindMdlTex(void *a, void *b);
 extern void NNS_G3dBindMdlPltt(void *a, void *b);

@@ -204,7 +204,7 @@ extern void STRBUF_SetStringN(struct Strbuf *strbuf, const u16 *src, u32 length)
 extern int POKE_TOOL_FilterSpecies(u16 a, int b);
 extern u32 BMP_OAM_CheckRangeGetId(u32 a, u32 b, u32 c);
 extern u32 BMP_OAM_CheckRangeGetMin(u32 a, u32 b, u32 c);
-extern int PMS_WORD_SplitWordId(u32 v, u32 *a1, u32 *a2);
+extern int PMS_WORD_SplitWordId(u32 v, u32 *bankIndex, u32 *wordIndex);
 extern void  PMSI_PARAM_InitSentence(void *rec, u32 n);
 extern u16 PMS_WORD_MakeWordId(u32 idx, u16 add);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);

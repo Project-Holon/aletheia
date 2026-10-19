@@ -15,8 +15,8 @@
  *
  * symbols:
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
- *   ICA_ANIME_GetField20  0x0201210C  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   GFL_HEAP_Free  0x020307B0  arm
  *   PROCSYS_Main  0x02031330  arm
@@ -208,8 +208,8 @@ typedef struct EditWork {
 } EditWork;
 
 extern void *ZUKAN_SAVE_GetFromGameData(void *a);
-extern void *ICA_ANIME_GetField1C(const struct GameSystem *p);
-extern void *ICA_ANIME_GetField20(const struct GameSystem *p);
+extern void *GAMESYSTEM_GetGameData(const struct GameSystem *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *p);
 extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern u32 GFL_HEAP_Free(void *p);
 extern unsigned int PROCSYS_Main(void *p);
@@ -222,7 +222,7 @@ extern u8 MYSTATUS_GetOutfit(const struct MyStatus *obj);
 extern int GAME_BEACON_SetTrainerView();
 extern void PROCSYS_FreeProcWork(struct ProcSys *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heapId);
-extern void *PROCSYS_Create(int a0);
+extern void *PROCSYS_Create(int heapId);
 extern void PROCSYS_Push(void *,u32,const void *,void *);
 int TRCARD_SYS_RunChildProc(void **childSlot);
 int TRCARD_SYS_Init(void *proc, int state, TrainerCardParam *param);
@@ -236,7 +236,7 @@ int TRCARD_SYS_StateWaitCardProc(TrainerCardWork *work);
 extern void *GAME_DATA_GetSaveControl(struct PlayerSave *p);
 extern int SAVEDATA_GetExtraBlock(void);
 extern void MISC_SAVEDATA_StoreQuadRecord(struct BeaconRecord *dst, int idx, struct BeaconRecord *src);
-extern void GAME_BEACON_SetPms(u32 a0);
+extern void GAME_BEACON_SetPms(u32 pms);
 extern u32 RECORD_GetCounterClamped(struct RecordBlock *obj, int i);
 extern struct TrainerCardSignature *TRCARD_SIGN_GetFromSave(void *gameSystem);
 extern void *GAME_DATA_GetMiscSave(int *p);
@@ -249,7 +249,7 @@ extern u8 MYSTATUS_GetOutfitVariant(const struct MyStatus *obj);
 extern u32 MYSTATUS_GetId(const struct MyStatus *obj);
 extern u32 BEACON_GetPoints(struct BadgeSave *p);
 extern u32 BEACON_GetFlag(struct BadgeSave *p, u32 bit);
-extern int GAME_DATA_GetPlayTime(int p0);
+extern int GAME_DATA_GetPlayTime(int gd);
 extern u16 PLAYTIME_GetHours(const struct PlayTime *p);
 extern u8 PLAYTIME_GetMinutes(const struct PlayTime *p);
 extern u16 TRCARD_SIGN_GetColor(const struct TrainerCardSignature *obj);
@@ -284,7 +284,7 @@ extern u32 GDS_PROFILE_ScoreRecFlag(struct FlagSave *p, s32 i, u32 op);
 extern u32 MUSICAL_SAVE_HasAllProps(struct PlayerSave *p);
 extern u16 INTRUDE_GetMissionScore(struct BattleRecSave *p);
 extern u16 INTRUDE_GetMissionBonusScore(struct BattleRecSave *p);
-extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *SCRCMD_WORK_GetGameSystem(void *work);
 extern void SP_POKE_GIMMICK_UpdatePairB(void *);
 extern void *SCRCMD_WORK_GetScriptWork(void *p);
 extern void *FIELD_GIMMICK_TIME_EFFECT_CallWaitEvent();
@@ -836,7 +836,7 @@ int TRCARD_SYS_ScrCmdSetRecordFlag36(void *unused, void *scriptCtx)
  */
 int TRCARD_SYS_ScrCmdStartFieldProc(void *unused, void *scriptCtx)
 {
-    SP_POKE_GIMMICK_UpdatePairB(ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(scriptCtx)));
+    SP_POKE_GIMMICK_UpdatePairB(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(scriptCtx)));
     return 0;
 }
 
@@ -866,5 +866,5 @@ int TRCARD_SYS_ScrCmdRunScriptTask(void *unused, void *scriptCtx)
  */
 void TRCARD_SYS_SetRecordFlag36(void *gameSystem)
 {
-    *GIMMICK_WORK_GetWork((struct RecordFlags *)GAME_DATA_GetFieldSave(ICA_ANIME_GetField1C(gameSystem)), 0x36) = 1;
+    *GIMMICK_WORK_GetWork((struct RecordFlags *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(gameSystem)), 0x36) = 1;
 }

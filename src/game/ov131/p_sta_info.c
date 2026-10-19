@@ -166,7 +166,7 @@ extern void CLACT_SetActorBgPriority(struct Actor *actor, u32 enable);
 extern void BG_SYS_SetTileEntry(unsigned int, int, int, int, unsigned char, unsigned char, unsigned char);
 extern void BG_SYS_ClearLayerEx(int channel, u16 val);
 extern u32 POKE_TOOL_GetExpForLevel(u16,u16,u16);
-extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern void BMP_FillRect(struct Bmp *b, u32 x, u32 y, u32 w, u32 h, u32 value);
 extern int SAVE_EVENT_CheckStage(void *mon, int index);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u32 POKE_TOOL_IsBoxOwnedByPlayer(void *mon, void *trainer);

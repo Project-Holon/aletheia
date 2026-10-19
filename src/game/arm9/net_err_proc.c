@@ -77,14 +77,14 @@ extern void  BG_SYS_SetSubVisiblePlanes(u32 a);
 extern void  GFL_HEAP_CreateChildHeap(u32 a, u32 heap, u32 size);
 extern void *PROCSYS_AllocProcWork(struct ProcSysParent *obj, u32 size, u32 heap);
 extern void  MI_CpuFill8(void *dst, int val, unsigned n);
-extern void *PROCSYS_Create(int a0);
+extern void *PROCSYS_Create(int heapId);
 extern unsigned int PROCSYS_Main(void *p);
 extern void PROCSYS_Push(u32 h, void *ovl, void *proc, void *arg);
-extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
+extern u32 GFL_NET_ERR_ShowScreen(u32 isFatal);
 extern int DWC_UpdateConnection(void);
-int GFL_NET_SAVE_DeleteScreenWork(int a0, int a1, int a2, int a3);
-int GFL_NET_SAVE_CreateScreenWork(void *ctx, int a1, int a2);
-int GFL_NET_SAVE_ScreenMain(u32 a0, u32 *seq, u32 a2, u8 *ctx);
+int GFL_NET_SAVE_DeleteScreenWork(int proc, int seq, int pwork, int work);
+int GFL_NET_SAVE_CreateScreenWork(void *ctx, int seq, int pwork);
+int GFL_NET_SAVE_ScreenMain(u32 proc, u32 *seq, u32 pwork, u8 *ctx);
 extern u8 ov115_id[];
 extern u8 ov187_id[];
 extern u8 gNetSaveMainProc[];
@@ -92,7 +92,7 @@ extern u8 d_0220B294[];
 extern u8 gNetSaveRetryProc[];
 
 
-int GFL_NET_SAVE_DeleteScreenWork(int a0, int a1, int a2, int a3){ int t2, t3; GAME_DATA_Delete((unsigned char *)((NetSaveDeleteWork *)(char *)(a3))->gameData); PROCSYS_FreeProcWork((struct ProcSysProc *)((a0 + 0) + 0)); t2 = GFL_HEAP_DeleteChecked((int)0x67); t3 = OS_ResetSystem((int)0); return 1; }
+int GFL_NET_SAVE_DeleteScreenWork(int proc, int seq, int pwork, int work){ int t2, t3; GAME_DATA_Delete((unsigned char *)((NetSaveDeleteWork *)(char *)(work))->gameData); PROCSYS_FreeProcWork((struct ProcSysProc *)((proc + 0) + 0)); t2 = GFL_HEAP_DeleteChecked((int)0x67); t3 = OS_ResetSystem((int)0); return 1; }
 
 
 /*
@@ -115,7 +115,7 @@ int GFL_NET_SAVE_DeleteScreenWork(int a0, int a1, int a2, int a3){ int t2, t3; G
  *   python tools/match.py one --src src/matched/GFL_NET_SAVE_CreateScreenWork.c \
  *       --func GFL_NET_SAVE_CreateScreenWork --addr 0x02010BB8 --cc 1.1p1 --thumb
  */
-int GFL_NET_SAVE_CreateScreenWork(void *ctx, int a1, int a2)
+int GFL_NET_SAVE_CreateScreenWork(void *ctx, int seq, int pwork)
 {
     u8 *p;
 
@@ -130,7 +130,7 @@ int GFL_NET_SAVE_CreateScreenWork(void *ctx, int a1, int a2)
     GFL_HEAP_CreateChildHeap(1, 0x5b, 0x800);
     p = PROCSYS_AllocProcWork(ctx, 0x1a8, 0x5b);
     MI_CpuFill8(p, 0, 0x1a8);
-    ((NetSaveScreenWork *)p)->data = (u32)a2;
+    ((NetSaveScreenWork *)p)->data = (u32)pwork;
     ((NetSaveScreenWork *)p)->proc = (unsigned int)PROCSYS_Create(0x5b);
     return 1;
 }
@@ -168,7 +168,7 @@ int GFL_NET_SAVE_CreateScreenWork(void *ctx, int a1, int a2)
  * spelling: the +0x194 flag is an if/else of two constant stores, which
  * lets the 1 already in r0 from the +0x188 store be reused.
  */
-int GFL_NET_SAVE_ScreenMain(u32 a0, u32 *seq, u32 a2, u8 *ctx)
+int GFL_NET_SAVE_ScreenMain(u32 proc, u32 *seq, u32 pwork, u8 *ctx)
 {
     int st;
     int flag;

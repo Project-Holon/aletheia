@@ -74,7 +74,7 @@ extern u32 FIELD_EFFECT_GetResource(void *fieldEffectCtrl, u32 effectId);
 extern void FLDMMDL_GetCheckInfo(Mmdl *mmdl, MmdlCheckInfo *info);
 extern u32 FIELD_EFFECT_GetFieldMap(void *fieldEffectCtrl);
 extern void FLDEFF_GYOE_PlaySe(int type);
-extern void *FIELD_EFFECT_AddObject(void *fieldEffectCtrl, const void *taskHeader, int a2, int a3, FldeffGyoeTaskParam *param, int a5);
+extern void *FIELD_EFFECT_AddObject(void *fieldEffectCtrl, const void *taskHeader, int pos, int mode, FldeffGyoeTaskParam *param, int priority);
 
 FldeffGyoe *FLDEFF_GYOE_Init(void *fieldEffectCtrl, int heapId);
 void FLDEFF_GYOE_Delete(void *fieldEffectCtrl, FldeffGyoe *gyoe);

@@ -180,7 +180,7 @@ extern void STRBUF_Delete(void *vec);
 extern void *MSGDATA_AllocString(void *bank, u32 index);
 extern void WORDSET_SetSlotFromMsgE7(void *p, u32 i, u32 n);
 extern void WORDSET_DeleteMsgdataF094(void *p, u32 i, u32 a, u32 n);
-extern void *PMS_WORD_GetSaveData(int a0);
+extern void *PMS_WORD_GetSaveData(int ctrl);
 extern void PMS_WORD_SetFlag(void *p, int bit);
 extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 extern u32 WORDSET_DeleteStrbufED04(void *p);
@@ -203,7 +203,7 @@ extern struct Handle *FIELD_MSGBG_CreateMenuFuncWork(void *a, const void *b, u32
 extern int FIELD_MSGBG_IsPrintQueFinished(void *p);
 extern int FIELD_MSGBG_MenuFuncMain(void *h);
 extern void FIELD_MSGBG_PlainWinPrintMsg(void *r, int b, int c, u32 d);
-extern u8 *POKE_REGULATION_CreateText(void *a0, u32 a1, u16 a2, u32 a3);
+extern u8 *POKE_REGULATION_CreateText(void *reg, u32 wordSet, u16 heapId, u32 battleMode);
 extern void *REGULATION_CreateCupName(void *p, u32 heap);
 extern void FIELD_MSGBG_PlainWinPrintStr(void *r, int b, int c, u32 d);
 extern void  FIELD_MSGBG_PlainWinPrintStrColor(void *a, int b, u16 c, u32 d, int e);

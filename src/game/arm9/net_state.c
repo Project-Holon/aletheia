@@ -175,21 +175,21 @@ extern void GFL_NET_SYSTEM_ResetError(void);
 
 void GFL_NET_WM_ICON_EasyEnd(void);
 
-int GFL_NET_SYSTEM_InitWork(u32 a0, u32 heap, u32 c);
+int GFL_NET_SYSTEM_InitWork(u32 packetSize, u32 heap, u32 c);
 
-int GFL_NET_SYSTEM_InitDevice(u32 a0, u32 a1);
+int GFL_NET_SYSTEM_InitDevice(u32 packetSize, u32 heapId);
 
 u32 GFL_NET_SYSTEM_SetDeviceOption(u32 p);
 
-u32 GFL_NET_SYSTEM_ConnectDevice(u8 arg0);
+u32 GFL_NET_SYSTEM_ConnectDevice(u8 renewTgid);
 
-u32 GFL_NET_SYSTEM_StartParent(u8 a0, u16 a1, u32 a2, u32 a3);
+u32 GFL_NET_SYSTEM_StartParent(u8 renewTgid, u16 packetSize, u32 sendArg0, u32 sendArg1);
 
-u32 GFL_NET_SYSTEM_StartBeaconScan(u32 a0, u16 a1);
+u32 GFL_NET_SYSTEM_StartBeaconScan(u32 sendArg, u16 packetSize);
 
 int GFL_NET_SYSTEM_EndDevice(u32 p);
 
-u32 GFL_NET_SYSTEM_ConnectToParent(u32 a0, u32 a1, u16 a2, u32 a3);
+u32 GFL_NET_SYSTEM_ConnectToParent(u32 beaconArg0, u32 beaconArg1, u16 packetSize, u32 beaconArg2);
 
 void GFL_NET_SYSTEM_FreeWork(void);
 
@@ -218,7 +218,7 @@ int GFL_NET_HANDLE_GetNegotiationNum(void);
 
 int GFL_NET_HANDLE_CheckNegotiation(void);
 
-void GFL_NET_COMMAND_Init(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
+void GFL_NET_COMMAND_Init(u32 groupKey, u32 commandList, u32 listNum, u32 userData, u32 unusedArg);
 
 void GFL_NET_COMMAND_Exit(void);
 

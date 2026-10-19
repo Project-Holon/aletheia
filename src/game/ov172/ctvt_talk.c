@@ -201,7 +201,7 @@ extern int CTVT_MIC_GetPlayPos(void *t);
 
 extern int CTVT_MIC_GetPlayRatio(void *t);
 
-extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
 
 extern u32 WIPE_SYS_EndCheck(void);
 
@@ -251,7 +251,7 @@ extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 
 
 extern void STRBUF_Delete(struct U16Vec *vec);
 
-extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
 
 extern void APP_TASKMENU_UpdateMenu(void *p);
 
@@ -297,11 +297,11 @@ u32 CTVT_COMM_GetVoiceStatePending(void *ctx, u8 *rec);
 
 char *CTVT_TALK_Create(char *unused, u16 heap);
 
-void CTVT_TALK_Delete(void *a0, char *a1);
+void CTVT_TALK_Delete(void *ctx, char *talk);
 
 void CTVT_TALK_Init(void *a, char *p);
 
-void CTVT_TALK_Exit(void *a0, char *a1);
+void CTVT_TALK_Exit(void *ctx, char *talk);
 
 u32 CTVT_TALK_Main(void *p, CtvtTalk *s);
 
@@ -311,11 +311,11 @@ void CTVT_TALK_HandleInput(u8 *c, u8 *q);
 
 void CTVT_TALK_UpdateVoiceSend(void *ctx, CtvtTalk *st);
 
-void CTVT_TALK_UpdateVoiceIcon(void *a0, char *a1);
+void CTVT_TALK_UpdateVoiceIcon(void *ctx, char *talk);
 
 void CTVT_TALK_HandleLevelSlider(void *unused, u8 *q);
 
-void CTVT_TALK_DrawLine(int a0, char *a1, u8 *p, u8 x0, u8 y0, u8 x1, u8 y1, u8 value);
+void CTVT_TALK_DrawLine(int ctx, char *talk, u8 *p, u8 x0, u8 y0, u8 x1, u8 y1, u8 value);
 
 void CTVT_TALK_PlotPixel(u8 *p, u8 x, u8 y, u8 value);
 
@@ -329,7 +329,7 @@ int CTVT_TALK_CheckEnd(void *p, int *out);
 
 void CTVT_TALK_BeginWaveform(void *p, char *q);
 
-void CTVT_TALK_DrawWaveform(int a0, char *obj, s16 *tbl, u8 a3, int idx, u16 v);
+void CTVT_TALK_DrawWaveform(int ctx, char *obj, s16 *tbl, u8 value, int idx, u16 v);
 
 int CTVT_TALK_HitCenter(int a, int b, int mode);
 
@@ -380,11 +380,11 @@ char *CTVT_TALK_Create(char *unused, u16 heap)
     return q;
 }
 
-void CTVT_TALK_Delete(void *a0, char *a1)
+void CTVT_TALK_Delete(void *ctx, char *talk)
 {
-    GFL_HEAP_Free(((CtvtTalk *)a1)->packet);
-    CTVT_MIC_Delete((char *)((CtvtTalk *)a1)->mic);
-    GFL_HEAP_Free(a1);
+    GFL_HEAP_Free(((CtvtTalk *)talk)->packet);
+    CTVT_MIC_Delete((char *)((CtvtTalk *)talk)->mic);
+    GFL_HEAP_Free(talk);
 }
 
 /*
@@ -467,28 +467,28 @@ void CTVT_TALK_Init(void *a, char *p)
         ((CtvtTalk *)p)->voiceIconState = 2;
 }
 
-void CTVT_TALK_Exit(void *a0, char *a1)
+void CTVT_TALK_Exit(void *ctx, char *talk)
 {
     void *p;
 
-    if (((CtvtTalk *)a1)->confirmMenu != 0)
-        APP_TASKMENU_CloseMenu(((CtvtTalk *)a1)->confirmMenu);
+    if (((CtvtTalk *)talk)->confirmMenu != 0)
+        APP_TASKMENU_CloseMenu(((CtvtTalk *)talk)->confirmMenu);
 
-    p = ((CtvtTalk *)a1)->waveformWin;
+    p = ((CtvtTalk *)talk)->waveformWin;
     BMP_WIN_ClearScreen(p);
     BG_SYS_PushTile(BMP_WIN_GetBgLayer(p));
 
-    p = ((CtvtTalk *)a1)->messageWin;
+    p = ((CtvtTalk *)talk)->messageWin;
     BMP_WIN_ClearScreen(p);
     BG_SYS_PushTile(BMP_WIN_GetBgLayer(p));
 
-    BMP_WIN_Delete((struct Descriptor *)((CtvtTalk *)a1)->waveformWin);
-    BMP_WIN_Delete((struct Descriptor *)((CtvtTalk *)a1)->messageWin);
-    CLACT_DeleteActor(((CtvtTalk *)a1)->cancelActor);
-    CLACT_DeleteActor(((CtvtTalk *)a1)->voiceActor);
-    CLACT_DeleteActor(((CtvtTalk *)a1)->backActor);
-    CLACT_DeleteActor(((CtvtTalk *)a1)->swapActor);
-    CLACT_DeleteActor(((CtvtTalk *)a1)->levelActor);
+    BMP_WIN_Delete((struct Descriptor *)((CtvtTalk *)talk)->waveformWin);
+    BMP_WIN_Delete((struct Descriptor *)((CtvtTalk *)talk)->messageWin);
+    CLACT_DeleteActor(((CtvtTalk *)talk)->cancelActor);
+    CLACT_DeleteActor(((CtvtTalk *)talk)->voiceActor);
+    CLACT_DeleteActor(((CtvtTalk *)talk)->backActor);
+    CLACT_DeleteActor(((CtvtTalk *)talk)->swapActor);
+    CLACT_DeleteActor(((CtvtTalk *)talk)->levelActor);
     BG_SYS_ClearSlot(6);
     BG_SYS_PushTile(6);
     *(u16 *)0x04001050 = 0;
@@ -915,22 +915,22 @@ void CTVT_TALK_UpdateVoiceSend(void *ctx, CtvtTalk *st)
  *
  * Addresses are Black-image addresses.
  */
-void CTVT_TALK_UpdateVoiceIcon(void *a0, char *a1)
+void CTVT_TALK_UpdateVoiceIcon(void *ctx, char *talk)
 {
-    u32 v = ((CtvtTalk *)a1)->voiceIconState;
-    u32 w = ((CtvtTalk *)a1)->voiceIconPrev;
+    u32 v = ((CtvtTalk *)talk)->voiceIconState;
+    u32 w = ((CtvtTalk *)talk)->voiceIconPrev;
 
     if (v == w)
         return;
     if (v == 1) {
-        CLACT_SetActorAnimSeq(((CtvtTalk *)a1)->voiceActor, 0x17);
+        CLACT_SetActorAnimSeq(((CtvtTalk *)talk)->voiceActor, 0x17);
         return;
     }
     if (v == 2) {
-        CLACT_SetActorAnimSeq(((CtvtTalk *)a1)->voiceActor, 0x23);
+        CLACT_SetActorAnimSeq(((CtvtTalk *)talk)->voiceActor, 0x23);
         return;
     }
-    CLACT_SetActorAnimSeq(((CtvtTalk *)a1)->voiceActor, 0x18);
+    CLACT_SetActorAnimSeq(((CtvtTalk *)talk)->voiceActor, 0x18);
 }
 
 void CTVT_TALK_HandleLevelSlider(void *unused, u8 *q)
@@ -989,7 +989,7 @@ static inline int Abs(int a)
  *   into locals after the dx abs, the y0 read `*(u8 *)&y0` before the loop in an explicit
  *   `if (n > 0)` do/while, stepy declared before stepx.
  */
-void CTVT_TALK_DrawLine(int a0, char *a1, u8 *p, u8 x0, u8 y0, u8 x1, u8 y1, u8 value)
+void CTVT_TALK_DrawLine(int ctx, char *talk, u8 *p, u8 x0, u8 y0, u8 x1, u8 y1, u8 value)
 {
     int stepx, stepy;
     int dx = Abs(x0 - x1);
@@ -1147,7 +1147,7 @@ void CTVT_TALK_BeginWaveform(void *p, char *q)
     BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)((CtvtTalk *)q)->waveformWin)), 0);
 }
 
-void CTVT_TALK_DrawWaveform(int a0, char *obj, s16 *tbl, u8 a3, int idx, u16 v)
+void CTVT_TALK_DrawWaveform(int ctx, char *obj, s16 *tbl, u8 value, int idx, u16 v)
 {
     u32 n;
     void *dev;
@@ -1179,7 +1179,7 @@ void CTVT_TALK_DrawWaveform(int a0, char *obj, s16 *tbl, u8 a3, int idx, u16 v)
                 if (h < t)
                     h = t;
             }
-            CTVT_TALK_DrawLine(a0, obj, dev, c, ((CtvtTalk *)obj)->waveY, (u8)c1, (u8)h, a3);
+            CTVT_TALK_DrawLine(ctx, obj, dev, c, ((CtvtTalk *)obj)->waveY, (u8)c1, (u8)h, value);
             ((CtvtTalk *)obj)->waveX += 1;
             ((CtvtTalk *)obj)->waveY = (u8)h;
             c = ((CtvtTalk *)obj)->waveX;

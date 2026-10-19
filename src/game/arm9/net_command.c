@@ -162,7 +162,7 @@ extern void GFL_NET_SYSTEM_SetNoSend(void);
 
 extern void GFL_NET_SYSTEM_ResetError(void);
 
-int GFL_NET_SYSTEM_InitWork(u32 a0, u32 heap, u32 c);
+int GFL_NET_SYSTEM_InitWork(u32 packetSize, u32 heap, u32 c);
 
 int GFL_NET_SYSTEM_SetSendQueue(u32 command, const void *data, u32 size, u32 isQueued, u32 handleId, u32 destMask, u32 isChunk);
 
@@ -181,7 +181,7 @@ int GFL_NET_HANDLE_GetNetHandleID(GFLNetHandle *a);
 
 u32 GFL_NET_HANDLE_IsNegotiationDone(u8 *p);
 
-void GFL_NET_HANDLE_RecvNegotiation(u32 idx, u32 a1, const u8 *a2, u32 a3, u8 *base);
+void GFL_NET_HANDLE_RecvNegotiation(u32 idx, u32 size, const u8 *msg, u32 work, u8 *base);
 
 void GFL_NET_COMMAND_Init(u32 groupKey, u32 commandList, u32 listNum, u32 userData, u32 unusedArg);
 

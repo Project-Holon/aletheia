@@ -93,7 +93,7 @@ typedef struct {
 	unsigned short f0fc;
 	char pad1[0xc];
 	unsigned short f10a;
-	int f10c;
+	int exeSocket;
 	int f110;
 } SendPipe;
 
@@ -103,7 +103,7 @@ typedef struct {
 	char pad1[0x4];
 	int f104;
 	int f108;
-	void *f10c;
+	void *exeSocket;
 } RecvPipe;
 
 typedef struct Sock {
@@ -448,7 +448,7 @@ unsigned char *SOCLi_InitSocket(Sock *socket, const Param *param)
 		ptr = SOCLi_InitSocketBuffer(ptr, &socket->b5c, param->sendbuf);
 		spipe->f10a = param->cfg;
 		spipe->f110 = 0;
-		spipe->f10c = 0;
+		spipe->exeSocket = 0;
 	}
 	if (param->recv == 0) {
 		socket->pipe_recv = SOCLiUDPSendSocket->pipe_recv;
@@ -457,7 +457,7 @@ unsigned char *SOCLi_InitSocket(Sock *socket, const Param *param)
 
 		socket->pipe_recv = ptr;
 		rpipe = (RecvPipe *)ptr;
-		rpipe->f10c = socket;
+		rpipe->exeSocket = socket;
 		ptr = SOCLi_InitCommandPipe(ptr + 0x110, (SOCLSocketCommandPipe *)rpipe, (const SOCLSocketThreadParam *)param->pipe2);
 		ptr = SOCLi_InitSocketBuffer(ptr, &socket->b54, param->recv);
 		ptr = SOCLi_InitSocketBuffer(ptr, &socket->b64, param->rbuf1);

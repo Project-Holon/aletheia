@@ -182,11 +182,12 @@ struct TaskMenuTmpl {
     unsigned heapId;
     u8 count;
     u8 pad05[3];
-    const void *unk08;
-    unsigned unk0c;
-    u8 pad10[2];
-    u8 unk12;
-    u8 unk13;
+    const void *items;
+    unsigned posType;
+    u8 charPosX;
+    u8 charPosY;
+    u8 width;
+    u8 height;
 };
 
 struct Ent { u8 a, b, c, d, e; };
@@ -210,7 +211,7 @@ extern void APP_TASKMENU_UpdateMenu(Obj *);
 extern unsigned APP_TASKMENU_IsFinish(struct TaskMenu *);
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, u32 unpackedOut, u32 flags);
 extern void MI_CpuCopy8(const void *, void *, unsigned);
 extern u32 GFL_HEAP_Free(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
@@ -330,10 +331,10 @@ unsigned PSEL_GRAPHIC_IsMenuFinished(char *work);
 int PSEL_GRAPHIC_GetMenuChoice(int *work);
 void PSEL_GRAPHIC_SplitColor(int v, unsigned short *a, unsigned short *b, unsigned short *c);
 void PSEL_GRAPHIC_LoadFadeSources(u8 *work);
-void PSEL_GRAPHIC_NopFade(void *a0);
+void PSEL_GRAPHIC_NopFade(void *unused);
 void PSEL_GRAPHIC_StepFade(struct PselWork *work);
 void PSEL_GRAPHIC_LoadPaletteBuffers(char *work);
-void PSEL_GRAPHIC_NopBlend(void *a0);
+void PSEL_GRAPHIC_NopBlend(void *unused);
 void PSEL_GRAPHIC_BlendPalettes(char *work);
 void PSEL_GRAPHIC_InitFadePalettes(char *work);
 void PSEL_GRAPHIC_UpdateFadeNop(char *work);
@@ -365,12 +366,12 @@ unsigned PSEL_GRAPHIC_GetCamera(unsigned char *work);
 void PSEL_GRAPHIC_VBlank(void *unused, char *sys);
 void PSEL_GRAPHIC_InitBg(void *sys,int heap);
 void PSEL_GRAPHIC_ExitBg(void *work);
-void PSEL_GRAPHIC_NopDraw(void *a0);
-void PSEL_GRAPHIC_UpdateBg(void *a0);
+void PSEL_GRAPHIC_NopDraw(void *unused);
+void PSEL_GRAPHIC_UpdateBg(void *unused);
 void PSEL_GRAPHIC_InitClact(int *out, int a, int b);
 void PSEL_GRAPHIC_ExitClact(char *bank);
-void PSEL_GRAPHIC_ClactDraw(void *a0);
-void PSEL_GRAPHIC_ClactVBlank(void *a0);
+void PSEL_GRAPHIC_ClactDraw(void *unused);
+void PSEL_GRAPHIC_ClactVBlank(void *unused);
 u32 PSEL_GRAPHIC_LoadWord(const u32 *work);
 void PSEL_GRAPHIC_InitG3d(int *camera,int heap);
 void PSEL_GRAPHIC_ExitG3d(int *camera);
@@ -424,12 +425,12 @@ void PSEL_GRAPHIC_OpenMenu(char *work)
     }
     tmpl.heapId = ((struct PselWork *)work)->heapId;
     tmpl.count = 2;
-    tmpl.unk0c = 1;
-    tmpl.pad10[0] = 32;
-    tmpl.pad10[1] = 17;
-    tmpl.unk12 = 9;
-    tmpl.unk13 = 3;
-    tmpl.unk08 = items;
+    tmpl.posType = 1;
+    tmpl.charPosX = 32;
+    tmpl.charPosY = 17;
+    tmpl.width = 9;
+    tmpl.height = 3;
+    tmpl.items = items;
     *(struct TaskMenu * *)&((struct PselWork *)work)->taskMenu = APP_TASKMENU_OpenMenu(&tmpl, ((struct PselWork *)work)->taskRes);
     for (i = 0; i < 2; i++)
         STRBUF_Delete(items[i].text);
@@ -529,7 +530,7 @@ void PSEL_GRAPHIC_LoadFadeSources(u8 *work)
 
 
 
-void PSEL_GRAPHIC_NopFade(void *a0){}
+void PSEL_GRAPHIC_NopFade(void *unused) {}
 
 
 
@@ -616,7 +617,7 @@ void PSEL_GRAPHIC_LoadPaletteBuffers(char *work)
 
 
 
-void PSEL_GRAPHIC_NopBlend(void *a0){}
+void PSEL_GRAPHIC_NopBlend(void *unused) {}
 
 
 
@@ -1202,13 +1203,13 @@ void PSEL_GRAPHIC_ExitBg(void *sys){unsigned i;for(i=0;i<7;i++)BG_SYS_FreeLayerB
 
 
 
-void PSEL_GRAPHIC_NopDraw(void *a0){}
+void PSEL_GRAPHIC_NopDraw(void *unused) {}
 
 
 
 
 
-void PSEL_GRAPHIC_UpdateBg(void *a0){BG_SYS_Update();}
+void PSEL_GRAPHIC_UpdateBg(void *unused) {BG_SYS_Update();}
 
 
 
@@ -1240,12 +1241,12 @@ void PSEL_GRAPHIC_ExitClact(char *bank)
 
 
 
-void PSEL_GRAPHIC_ClactDraw(void *a0) { CLACT_DrawSystem(); }
+void PSEL_GRAPHIC_ClactDraw(void *unused) { CLACT_DrawSystem(); }
 
 
 
 
-void PSEL_GRAPHIC_ClactVBlank(void *a0) { CLACT_VBlankSystem(); }
+void PSEL_GRAPHIC_ClactVBlank(void *unused) { CLACT_VBlankSystem(); }
 
 
 

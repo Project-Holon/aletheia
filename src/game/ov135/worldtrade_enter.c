@@ -27,7 +27,7 @@
  *   BMP_WIN_TransferChars   0x02045334  arm
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   WORLDTRADE_ADAPTER_QueuePrintDefaultColor  0x02202858  thumb  ov135
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   PROCSYS_Push  0x02031348  arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   WORLDTRADE_ENTER_ClearListRange 0x021F8990 thumb ov135
@@ -101,7 +101,7 @@ extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern void STRBUF_Delete(struct U16Vec *vec);
 
-extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 
@@ -153,7 +153,7 @@ extern int DWC_NASLoginProcess(void);
 
 extern struct Sub020097BCObj *WIFILIST_GetWork(struct Sub020097BCObj *obj);
 
-extern int WIFILIST_GetGsProfileId(void *a0);
+extern int WIFILIST_GetGsProfileId(void *list);
 
 extern void MYSTATUS_SetProfileIdOnce(struct Sub0200852CObj *obj, u32 value);
 
@@ -183,7 +183,7 @@ extern void MI_CpuFill8(void *p, u32 value, u32 size);
 
 extern void PROCSYS_Push(void *h, u32 id, const void *a, void *b);
 
-extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
+extern u32 GFL_NET_ERR_ShowScreen(u32 isFatal);
 
 extern void DPW_TR_End();
 
@@ -228,15 +228,15 @@ int WORLDTRADE_ENTER_CallStateHandler(Work *p);
 
 u32 WORLDTRADE_ENTER_Exit(Work *p);
 
-void WORLDTRADE_ENTER_EmptyInitHook(Work *a0);
+void WORLDTRADE_ENTER_EmptyInitHook(Work *p);
 
 void WORLDTRADE_ENTER_EmptyExitHook(void);
 
 int WORLDTRADE_ENTER_SetState(Work *p);
 
-int WORLDTRADE_ENTER_StateStartServerCheck(Work *a0);
+int WORLDTRADE_ENTER_StateStartServerCheck(Work *p);
 
-int WORLDTRADE_ENTER_StatePollServerCheck(Work *a0);
+int WORLDTRADE_ENTER_StatePollServerCheck(Work *p);
 
 int WORLDTRADE_ENTER_InitDwcTrade(Work *p);
 
@@ -280,7 +280,7 @@ int WORLDTRADE_INPUT_PrintStringAlignedWrapped(u8 *p, u32 b, u32 c, u32 d, u32 e
 
 void WORLDTRADE_INPUT_PrintCentered(void *win, void *bank, int idx, void *g);
 
-void WORLDTRADE_ENTER_RestartNetTimeout(u8 *a0);
+void WORLDTRADE_ENTER_RestartNetTimeout(u8 *p);
 
 void WORLDTRADE_INPUT_CreateModeWindows(Menu *p, u32 mode);
 
@@ -308,7 +308,7 @@ extern const u8 data_02203242[5][2];
 
 extern const u8 data_022032AE[9][2];
 
-void WORLDTRADE_ENTER_ClearFlags(Work *p,u32 n) { if(n==0){p->fF84=0;return;}n--;if(n<130)p->fF84=d_022030E8[n]; }
+void WORLDTRADE_ENTER_ClearFlags(Work *p,u32 index) { if(index==0){p->countryFilter=0;return;}index--;if(index<130)p->countryFilter=d_022030E8[index]; }
 
 int WORLDTRADE_ENTER_GetListRange(u32 id, u32 *start)
 {
@@ -381,10 +381,10 @@ void WORLDTRADE_ENTER_ClearListRange(SelTable *p)
 /*
  * Store a pair of u16 values at +4 and +0x18 of record i.
  */
-void WORLDTRADE_ENTER_SetListRangeEntry(SelTable *p, int i, u16 a, u16 b)
+void WORLDTRADE_ENTER_SetListRangeEntry(SelTable *p, int index, u16 restoreScroll, u16 restoreRow)
 {
-    p->a[i] = a;
-    p->b[i] = b;
+    p->a[index] = restoreScroll;
+    p->b[index] = restoreRow;
 }
 
 /*
@@ -394,7 +394,7 @@ int WORLDTRADE_ENTER_Init(Work *p) {WORLDTRADE_ExitPlanes(p);WORLDTRADE_ENTER_Em
 
 extern int (*const d_02203C1C[])(Work *);
 
-int WORLDTRADE_ENTER_CallStateHandler(Work *p) { int prevState,result;prevState=p->state_i;result=d_02203C1C[prevState](p);if(prevState!=p->state_i){p->fF88=0;p->fF8A=0;}return result; }
+int WORLDTRADE_ENTER_CallStateHandler(Work *p) { int prevState,result;prevState=p->state_i;result=d_02203C1C[prevState](p);if(prevState!=p->state_i){p->subStep=0;p->stepTimer=0;}return result; }
 
 /*
  * Run the three teardown steps, then report 4 while the +0x10 handle is gone.
@@ -404,7 +404,7 @@ u32 WORLDTRADE_ENTER_Exit(Work *p)
     WORLDTRADE_ENTER_EmptyExitHook();
     WORLDTRADE_ClearAndShowPlanes(p);
     WORLDTRADE_ClearBusyFlag(p);
-    if (p->x10 == 0) {
+    if (p->screenId == 0) {
         return 4;
     }
     return 0;
@@ -413,7 +413,7 @@ u32 WORLDTRADE_ENTER_Exit(Work *p)
 /*
  * Empty stub.
  */
-void WORLDTRADE_ENTER_EmptyInitHook(Work *a0)
+void WORLDTRADE_ENTER_EmptyInitHook(Work *p)
 {
 }
 
@@ -425,8 +425,8 @@ int WORLDTRADE_ENTER_SetState(Work *p)
 {
     GFL_USE_CancelChangeAndPlayBgm(0x486, 0xFFFF);
     p->state = 1;
-    p->xEB2 = 1;
-    p->x30 = 0;
+    p->speciesCleared = 1;
+    p->titleEntered = 0;
     WORLDTRADE_SetStateAndReturn(p, 1, 0);
     return 2;
 }
@@ -434,7 +434,7 @@ int WORLDTRADE_ENTER_SetState(Work *p)
 /*
  * Call DWC_NASLoginAsync and report success.
  */
-int WORLDTRADE_ENTER_StateStartServerCheck(Work *a0)
+int WORLDTRADE_ENTER_StateStartServerCheck(Work *p)
 {
     DWC_NASLoginAsync();
     return 1;
@@ -443,7 +443,7 @@ int WORLDTRADE_ENTER_StateStartServerCheck(Work *a0)
 /*
  * Extent remainder: 2-byte zero alignment padding.
  */
-int WORLDTRADE_ENTER_StatePollServerCheck(Work *a0) { switch(DWC_NASLoginProcess()) {case 3:return 1;case 0:case 4:case 5:return 2;default:return 0;} }
+int WORLDTRADE_ENTER_StatePollServerCheck(Work *p) { switch(DWC_NASLoginProcess()) {case 3:return 1;case 0:case 4:case 5:return 2;default:return 0;} }
 
 /*
  * extent: 0x021F8AF2..0x021F8AF4 is two zero alignment bytes.
@@ -454,8 +454,8 @@ int WORLDTRADE_ENTER_InitDwcTrade(Work *p)
     u32 id;
     u64 key;
     handle = WIFILIST_GetWork(p->ctx->wifiList);
-    MYSTATUS_SetProfileIdOnce(p->ctx->f1C, WIFILIST_GetGsProfileId(p->ctx->wifiList));
-    id = MYSTATUS_GetProfileId(p->ctx->f1C);
+    MYSTATUS_SetProfileIdOnce(p->ctx->myStatus, WIFILIST_GetGsProfileId(p->ctx->wifiList));
+    id = MYSTATUS_GetProfileId(p->ctx->myStatus);
     key = DWC_CreateFriendKey(handle);
     DPW_TR_Init(id, (u32)key, (u32)(key >> 32), 0);
     return 1;
@@ -529,7 +529,7 @@ int WORLDTRADE_ENTER_WaitServerCheck(Work *p)
     return 0;
 }
 
-int WORLDTRADE_ENTER_SendProfile(Work *p) { NHTTP_RAP_InitTrainerInfo(p->trInfo,p->ctx->f1C);DPW_TR_SetProfileAsync(p->trInfo,(u32)&p->state_iF7C);p->timer=0;return 1; }
+int WORLDTRADE_ENTER_SendProfile(Work *p) { NHTTP_RAP_InitTrainerInfo(p->trInfo,p->ctx->myStatus);DPW_TR_SetProfileAsync(p->trInfo,(u32)&p->state_iF7C);p->timer=0;return 1; }
 
 /*
  * note: 2026-10-05 wave P19: the sub switch exit (state 0, sub out of range) is a cross-jumped copy of the tail, `b 0x021F8CEC` in the image. Written as `WORLDTRADE_CancelSave(p); goto done;` after the sub switch, with `done: return 0;` at the end. EXACT in c99 and c (296 bytes). Idiom: a-conditional-branch-onto-an-unconditional-b-is-a-cross-jumped-tail-copy.
@@ -613,17 +613,17 @@ int WORLDTRADE_ENTER_PushWifiSetup(Work *p)
     p->saveArgs = GFL_HEAP_Alloc(0x48, sizeof(NetSaveProcArgs), 0, str_02203C34, 0x263);
     MI_CpuFill8(p->saveArgs, 0, sizeof(NetSaveProcArgs));
     args = p->saveArgs;
-    args->handle = ICA_ANIME_GetField1C(p->ctx->f40);
+    args->handle = GAMESYSTEM_GetGameData(p->ctx->gameData);
     args->mode = 0;
     args->enabled = 1;
     args->buf = p->netBuf;
     args->timeout = 30;
     args->callback = WORLDTRADE_ENTER_RunDialog;
     args->user = p;
-    p->f12EC = 0;
+    p->connectStep = 0;
     if ((u32)p->kind == 21) args->isTrade = 1;
     else args->isTrade = 0;
-    PROCSYS_Push(p->f12F0, (u32)ov115_id, gNetSaveMainProc, p->saveArgs);
+    PROCSYS_Push(p->procSys, (u32)ov115_id, gNetSaveMainProc, p->saveArgs);
     GFL_NET_ERR_ShowScreen(0);
     p->state = 3;
     return 2;
@@ -651,12 +651,12 @@ int WORLDTRADE_ENTER_PushWifiError(Work *p)
     p->netArgs = GFL_HEAP_Alloc(72, sizeof(NetProcArgs), 0, str_02203C34, 689);
     MI_CpuFill8(p->netArgs, 0, sizeof(NetProcArgs));
     args = p->netArgs;
-    args->save = ICA_ANIME_GetField1C(p->ctx->f40);
+    args->save = GAMESYSTEM_GetGameData(p->ctx->gameData);
     args->zero = 0;
     args->enabled = 1;
     args->callback = WORLDTRADE_ENTER_StateAbortConnect;
     args->context = p;
-    PROCSYS_Push(p->f12F0, (u32)ov115_id, tbl_021D654C, p->netArgs);
+    PROCSYS_Push(p->procSys, (u32)ov115_id, tbl_021D654C, p->netArgs);
     p->state_i = 5;
     GFL_NET_ERR_ShowScreen(0);
     return 2;
@@ -675,49 +675,49 @@ int WORLDTRADE_ENTER_StateWaitWifiError(Work *p)
 int WORLDTRADE_ENTER_RunDialog(void *dialog, Work *p)
 {
     int result;
-    switch (p->f12EC) {
+    switch (p->connectStep) {
     case 0:
         if (WORLDTRADE_ENTER_StateStartServerCheck(p))
-            p->f12EC++;
+            p->connectStep++;
         break;
     case 1:
         result = WORLDTRADE_ENTER_StatePollServerCheck(p);
         switch (result) {
-        case 1: p->f12EC++; break;
-        case 2: p->f12EC = 9; break;
+        case 1: p->connectStep++; break;
+        case 2: p->connectStep = 9; break;
         }
         break;
     case 2:
-        if (WORLDTRADE_ENTER_InitDwcTrade(p)) p->f12EC++;
+        if (WORLDTRADE_ENTER_InitDwcTrade(p)) p->connectStep++;
         break;
     case 3:
-        if (WORLDTRADE_ENTER_StateStartConnect(p)) p->f12EC++;
+        if (WORLDTRADE_ENTER_StateStartConnect(p)) p->connectStep++;
         break;
     case 4:
         result = WORLDTRADE_ENTER_WaitServerCheck(p);
         switch (result) {
-        case 1: p->f12EC++; break;
-        case 2: p->f12EC = 7; break;
+        case 1: p->connectStep++; break;
+        case 2: p->connectStep = 7; break;
         }
         break;
     case 5:
-        if (WORLDTRADE_ENTER_SendProfile(p)) p->f12EC++;
+        if (WORLDTRADE_ENTER_SendProfile(p)) p->connectStep++;
         break;
     case 6:
         result = WORLDTRADE_ENTER_WaitProfileResult(p);
         switch (result) {
-        case 1: p->f12EC = 0; return 0;
-        case 2: p->f12EC = 7; break;
+        case 1: p->connectStep = 0; return 0;
+        case 2: p->connectStep = 7; break;
         }
         break;
     case 7:
-        if (WORLDTRADE_ENTER_ShowErrorMessage(p, dialog)) p->f12EC++;
+        if (WORLDTRADE_ENTER_ShowErrorMessage(p, dialog)) p->connectStep++;
         break;
     case 8:
-        if (WORLDTRADE_ENTER_ShutdownDwcStep(p, dialog)) p->f12EC++;
+        if (WORLDTRADE_ENTER_ShutdownDwcStep(p, dialog)) p->connectStep++;
         break;
     case 9:
-        p->f12EC = 0;
+        p->connectStep = 0;
         return 1;
     }
     return 2;
@@ -774,31 +774,31 @@ int WORLDTRADE_ENTER_ShowErrorMessage(Work *p, void *dialog)
     default: text = 159; break;
     }
     WIFILOGIN_MSG_DrawWindow(dialog, p->bank, text);
-    p->fF88 = 0;
+    p->subStep = 0;
     return 1;
 }
 
 int WORLDTRADE_ENTER_ShutdownDwcStep(Work *p, void *dialog)
 {
-    switch (p->fF88) {
+    switch (p->subStep) {
     case 0:
-        (p->fF88)++;
+        (p->subStep)++;
         break;
     case 1:
-        if (WIFILOGIN_MSG_IsPrintDone(dialog)) (p->fF88)++;
+        if (WIFILOGIN_MSG_IsPrintDone(dialog)) (p->subStep)++;
         break;
     case 2:
-        (p->fF88)++;
+        (p->subStep)++;
         break;
     case 3:
         DPW_TR_End();
         DWC_ShutdownFriendsMatch();
         DWC_CleanupInet();
-        (p->fF88)++;
+        (p->subStep)++;
         break;
     default:
-        (p->fF8A)++;
-        if (p->fF8A > 60) return 1;
+        (p->stepTimer)++;
+        if (p->stepTimer > 60) return 1;
         break;
     }
     return 0;
@@ -807,17 +807,17 @@ int WORLDTRADE_ENTER_ShutdownDwcStep(Work *p, void *dialog)
 /*
  * Forward the u16 stack argument to WORLDTRADE_INPUT_PrintBankString with mode 1.
  */
-void WORLDTRADE_INPUT_PrintStringTop(u32 a, u32 b, u32 c, u32 d, u16 e)
+void WORLDTRADE_INPUT_PrintStringTop(u32 work, u32 bank, u32 msgId, u32 unused1, u16 unused2)
 {
-    WORLDTRADE_INPUT_PrintBankString((Work *)a, (void *)b, c, d, e, 1);
+    WORLDTRADE_INPUT_PrintBankString((Work *)work, (void *)bank, msgId, unused1, unused2, 1);
 }
 
 /*
  * Forward the u16 stack argument to WORLDTRADE_INPUT_PrintBankString with mode 0.
  */
-void WORLDTRADE_INPUT_PrintStringPlain(u32 a, u32 b, u32 c, u32 d, u16 e)
+void WORLDTRADE_INPUT_PrintStringPlain(u32 work, u32 bank, u32 msgId, u32 unused1, u16 unused2)
 {
-    WORLDTRADE_INPUT_PrintBankString((Work *)a, (void *)b, c, d, e, 0);
+    WORLDTRADE_INPUT_PrintBankString((Work *)work, (void *)bank, msgId, unused1, unused2, 0);
 }
 
 void WORLDTRADE_INPUT_PrintBankString(Work *p, void *bank, u32 index, int unused1, int unused2, int slow)
@@ -858,33 +858,33 @@ int WORLDTRADE_INPUT_PrintStringAligned(void *win, void *str, int x, int align, 
 /*
  * Seven-argument wrapper: forwards the object, three words, the 0 and the u16/g pair to the two helpers.
  */
-int WORLDTRADE_INPUT_PrintStringAlignedLine(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g)
+int WORLDTRADE_INPUT_PrintStringAlignedLine(u8 *win, u32 str, u32 x, u32 y, u32 align, u16 color, u32 printer)
 {
-    u32 r = WORLDTRADE_INPUT_PrintStringAligned(p, (void *)b, c, e, f, 0, (void *)g);
+    u32 r = WORLDTRADE_INPUT_PrintStringAligned(win, (void *)str, x, align, color, 0, (void *)printer);
 
-    return WORLDTRADE_ADAPTER_PrintQueColor(p, 0, b, r, d, 0, f, g);
+    return WORLDTRADE_ADAPTER_PrintQueColor(win, 0, str, r, y, 0, color, printer);
 }
 
-int WORLDTRADE_INPUT_PrintStringAlignedWrapped(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g)
+int WORLDTRADE_INPUT_PrintStringAlignedWrapped(u8 *win, u32 str, u32 x, u32 y, u32 align, u16 color, u32 printer)
 {
-    u32 r = WORLDTRADE_INPUT_PrintStringAligned(p, (void *)b, c, e, f, 0, (void *)g);
+    u32 r = WORLDTRADE_INPUT_PrintStringAligned(win, (void *)str, x, align, color, 0, (void *)printer);
 
-    return WORLDTRADE_ADAPTER_PrintQueColor(p, 0, b, r, d, 0, f, g);
+    return WORLDTRADE_ADAPTER_PrintQueColor(win, 0, str, r, y, 0, color, printer);
 }
 
-void WORLDTRADE_INPUT_PrintCentered(void *win, void *bank, int idx, void *g)
+void WORLDTRADE_INPUT_PrintCentered(void *win, void *bank, int idx, void *printer)
 {
     void *str;
 
     str = MSGDATA_AllocString(bank, tbl_022031EC[idx]);
-    WORLDTRADE_INPUT_PrintStringAlignedLine(win, (u32)str, 0, 0, 0, 0x440, (u32)g);
+    WORLDTRADE_INPUT_PrintStringAlignedLine(win, (u32)str, 0, 0, 0, 0x440, (u32)printer);
     STRBUF_Delete(str);
 }
 
 /*
  * Tail call into GFL_NET_RestartWithDefaultTimeout with the fixed 0/0x48 pair.
  */
-void WORLDTRADE_ENTER_RestartNetTimeout(u8 *a0)
+void WORLDTRADE_ENTER_RestartNetTimeout(u8 *p)
 {
     GFL_NET_RestartWithDefaultTimeout(0, 0x48);
 }

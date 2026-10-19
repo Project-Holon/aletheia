@@ -581,8 +581,8 @@ typedef struct Work Work;
 
 
 typedef struct WifibattlematchMenuDesc {
-    u32 labelA;         /* 0x00 first button label id */
-    u32 labelB;         /* 0x04 second button label id */
+    u32 msgBank;        /* 0x00 message bank */
+    u32 font;           /* 0x04 font */
     u32 printQue;       /* 0x08 PRINTSYS_QUE handle */
     u32 items[4];       /* 0x0C up to four item value ids */
     u32 count;          /* 0x1C item count */
@@ -968,7 +968,7 @@ extern void MI_CpuFill8(void *, int, u32);
 extern int *WIFIBATTLEMATCH_GRAPHIC_Create(unsigned, int);
 extern int WIFIBATTLEMATCH_GRAPHIC_GetCamera(int *);
 extern u32 *WIFIBATTLEMATCH_VIEW_Create(int unused, int mode, int heap);
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *WORDSET_Create(u32 n, u32 size, unsigned short heap);
@@ -1048,7 +1048,7 @@ extern int MYSTATUS_GetSize(void);
 extern void *SAVEDATA_GetExtraBlockThunk(u32 a);
 extern void MISC_SAVEDATA_CopyQuadRecord(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
 extern u32 GAME_DATA_GetField1A0(const struct BigObj *gameData);
-extern int WIFILIST_GetGsProfileId(void *a0);
+extern int WIFILIST_GetGsProfileId(void *list);
 extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern u32 POKEPARTY_GetCount(void *party);
 extern void *POKEPARTY_GetMember(void *party, u32 idx);
@@ -1070,7 +1070,7 @@ extern int REGULATION_NoOp();
 extern int POKE_REGULATION_CheckParty(void *rules, void *party, u32 *mask);
 extern void * BATTLE_BOX_GetFromSave(void *);
 extern struct Rec1E *REGULATION_GetParty(struct RecBig *card, u32 index);
-extern void *BATTLE_BOX_CreateParty(int a0, int a1);
+extern void *BATTLE_BOX_CreateParty(int box, int heap);
 extern void BATTLE_BOX_SetLockFlags(void *box, u32 v);
 extern void REGULATION_Card_SetValue(struct Reg2 *card, u32 id, s32 value);
 extern void REGULATION_BuildParty(int,int);
@@ -1141,21 +1141,21 @@ extern u8 DWC_AddMatchKeyInt(u8 keyID, const char *keyString, const int *valueSr
 extern int DWC_GetMatchIntValue(int index, const char *key, int idefault);
 extern int DWC_ScInitialize(int theGameId, int ssl_type);
 extern int DWC_ScGetLoginCertificate(void **cert);
-extern int DWC_ScCreateSessionAsync(u32 a0, u32 a1, u32 a2);
+extern int DWC_ScCreateSessionAsync(u32 callback, u32 timeoutMs, u32 userData);
 extern void *DWC_ScGetSessionId(void);
 extern s32 DWC_ScProcess(void);
 extern void *DWC_ScGetConnectionId(void);
 extern u32 DWC_ScSetSessionId(u32 a);
-extern int DWC_ScSetReportIntentionAsync(u32 a0, u32 a1, u32 a2, u32 a3);
-extern int DWC_ScSubmitReportAsync(u32 a0, u32 a1, u32 a2, u32 a3, char *a4);
+extern int DWC_ScSetReportIntentionAsync(u32 isAuthoritative, u32 callback, u32 timeoutMs, u32 userData);
+extern int DWC_ScSubmitReportAsync(u32 report, u32 isAuthoritative, u32 callback, u32 timeoutMs, char *userData);
 extern void DWC_ScDestroyReport(u32 report);
 extern void DWC_ScShutdown(void);
-extern int DWC_ScCreateReport(u32 a0, u32 a1, u32 a2, u32 a3);
-extern int DWC_ScReportBeginGlobalData(u32 *a0);
-extern int DWC_ScReportBeginPlayerData(u32 *a0);
-extern int DWC_ScReportBeginTeamData(u32 *a0);
-extern int DWC_ScReportBeginNewPlayer(u8 *a0);
-extern s32 DWC_ScReportSetPlayerData(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, char *a5, s32 a6);
+extern int DWC_ScCreateReport(u32 headerVersion, u32 playerCount, u32 teamCount, u32 reportOut);
+extern int DWC_ScReportBeginGlobalData(u32 *report);
+extern int DWC_ScReportBeginPlayerData(u32 *report);
+extern int DWC_ScReportBeginTeamData(u32 *report);
+extern int DWC_ScReportBeginNewPlayer(u8 *report);
+extern s32 DWC_ScReportSetPlayerData(s32 report, s32 playerIndex, s32 playerConnectionId, s32 playerTeamId, s32 playerResult, char *certificate, s32 authHash);
 extern int DWC_ScReportEnd(u32 h, u32 a, int flag);
 extern int DWC_ScReportAddIntValue(int,int,int);
 extern int DWC_ScReportAddByteValue(int,int,int);
@@ -1304,7 +1304,7 @@ void WIFIBATTLEMATCH_NET_CompClearError(char *obj);
 int WIFIBATTLEMATCH_NET_GetSetCompStat(char *obj, u32 *rec);
 char *WIFIBATTLEMATCH_NET_CreateNetContext(u32 a, void *save, u32 b, u16 heap);
 void WIFIBATTLEMATCH_NET_DeleteNetContext(u8 *ctx);
-void WIFIBATTLEMATCH_NET_Noop(int a0);
+void WIFIBATTLEMATCH_NET_Noop(int unused);
 void WIFIBATTLEMATCH_NET_SetTimingSyncRange(char *obj, u32 v);
 int WIFIBATTLEMATCH_NET_IsTimingSyncRange(char *obj);
 int WIFIBATTLEMATCH_NET_HandleNetError(char *ctx, void *a, void *b);
@@ -1322,14 +1322,14 @@ void WIFIBATTLEMATCH_NET_AddMatchKey(char *obj, int i, int value);
 int WIFIBATTLEMATCH_NET_GetMatchKeyInt(int index, void *param);
 int WIFIBATTLEMATCH_NET_GetMatchKeyDefault(int index, void *param);
 int WIFIBATTLEMATCH_NET_GetMatchKeyValue(int index, void *param);
-void WIFIBATTLEMATCH_NET_SetupMatchReport(char *obj, int mode, int kind, u32 a3, u32 *rec, u32 slot);
+void WIFIBATTLEMATCH_NET_SetupMatchReport(char *obj, int mode, int kind, u32 teamArg, u32 *rec, u32 slot);
 int WIFIBATTLEMATCH_NET_ScProcess(char *ctx, u32 *out);
 u32 WIFIBATTLEMATCH_NET_GetReportState(u8 *ctx);
 void WIFIBATTLEMATCH_NET_OnReportResultA(int result, char *obj);
 void WIFIBATTLEMATCH_NET_OnReportResultB(int result, char *obj);
 void WIFIBATTLEMATCH_NET_OnReportResultC(int result, char *obj);
 void WIFIBATTLEMATCH_NET_ShutdownReport(char *obj);
-int WIFIBATTLEMATCH_NET_SubmitReport(char *ctx, char *other, char *peer, u32 a3, RoundFn cb, int flag, int have, int twoway);
+int WIFIBATTLEMATCH_NET_SubmitReport(char *ctx, char *other, char *peer, u32 isAuthoritative, RoundFn cb, int flag, int have, int twoway);
 void WIFIBATTLEMATCH_NET_ReportAddRecord(int *ctx,const u32 *record,int invert);
 void WIFIBATTLEMATCH_NET_ReportAddTeam(int *ctx, int *input, int invert);
 int WIFIBATTLEMATCH_NET_ReportAddWin(u32 *ctx);
@@ -1387,11 +1387,11 @@ int WIFIBATTLEMATCH_NET_ProfanityProcess(char *obj, int *out);
 void WIFIBATTLEMATCH_NET_SetupPostData(char *ctx,void *party,int mode);
 int WIFIBATTLEMATCH_NET_HttpRapPost(char *ctx,u8 *out);
 void WIFIBATTLEMATCH_NET_SetErrorA(char *ctx, u32 v, int line);
-void WIFIBATTLEMATCH_NET_SetErrorB(char *ctx, int v, int a2);
+void WIFIBATTLEMATCH_NET_SetErrorB(char *ctx, int v, int unused);
 void WIFIBATTLEMATCH_NET_SetResultA(char *ctx, u32 v, int line);
 void WIFIBATTLEMATCH_NET_SetResultB(char *ctx, u32 v, int line);
 void WIFIBATTLEMATCH_NET_SetResultC(char *ctx, u32 v, int line);
-void WIFIBATTLEMATCH_NET_SetResultD(char *ctx, u32 v, u32 a2);
+void WIFIBATTLEMATCH_NET_SetResultD(char *ctx, u32 v, u32 unused);
 u32 WIFIBATTLEMATCH_NET_GetErrorMsg(int a);
 u32 WIFIBATTLEMATCH_NET_GetErrorCode(int a, int b, int c);
 u32 WIFIBATTLEMATCH_NET_MapErrorCode(u32 v);
@@ -5703,7 +5703,7 @@ void WIFIBATTLEMATCH_NET_SetupRegSprite(u32 *comp, int mode) {
     WifibattlematchMenuDesc d;
     if (comp[12] == 0) {
         MI_CpuFill8(&d, 0, 48);
-        d.labelA=comp[5]; d.labelB=comp[2]; d.printQue=comp[4];
+        d.msgBank=comp[5]; d.font=comp[2]; d.printQue=comp[4];
         d.a=0; d.b=15; d.c=13; d.d=1;
         switch (mode) {
         case 5: d.row=1;
@@ -6076,7 +6076,7 @@ void WIFIBATTLEMATCH_NET_DeleteNetContext(u8 *ctx) { DWC_RAP_SetErrorHookCallbac
  *     WIFIBATTLEMATCH_NET_SetTimingSyncRange; nothing calls into it, disasm.py labelled it from its
  *     alignment padding.
  */
-void WIFIBATTLEMATCH_NET_Noop(int a0)
+void WIFIBATTLEMATCH_NET_Noop(int unused)
 {
 }
 
@@ -6619,7 +6619,7 @@ int WIFIBATTLEMATCH_NET_GetMatchKeyValue(int index, void *param)
 /*
  * Arms a storage-server report: resets the report state words, stores mode and the result slot, and picks the report callback at +0x158 from mode (0: plain, 1 with a result slot, or 1 without one, which also stores a3 and the two record words) and kind (0 or 2; anything else asserts).
  */
-void WIFIBATTLEMATCH_NET_SetupMatchReport(char *obj, int mode, int kind, u32 a3, u32 *rec, u32 slot)
+void WIFIBATTLEMATCH_NET_SetupMatchReport(char *obj, int mode, int kind, u32 teamArg, u32 *rec, u32 slot)
 {
     ((struct WifiBattleMatchNetCtx *)obj)->reportFlag = 0;
     ((struct WifiBattleMatchNetCtx *)obj)->state = 0;
@@ -6658,7 +6658,7 @@ void WIFIBATTLEMATCH_NET_SetupMatchReport(char *obj, int mode, int kind, u32 a3,
             }
         } else {
             GFL_NET_IsParentAid();
-            ((struct WifiBattleMatchNetCtx *)obj)->teamArg = a3;
+            ((struct WifiBattleMatchNetCtx *)obj)->teamArg = teamArg;
             ((struct WifiBattleMatchNetCtx *)obj)->teamRec0 = rec[0];
             ((struct WifiBattleMatchNetCtx *)obj)->teamRec4 = rec[4];
             switch (kind) {
@@ -7060,7 +7060,7 @@ void WIFIBATTLEMATCH_NET_ShutdownReport(char *obj)
 /*
  * One exchange round: bails with the first nonzero status of the four session checks, sends the local record (mode from the peer kind), runs the callback, optionally sends the peer's record back and runs the callback again, then closes with the flag.
  */
-int WIFIBATTLEMATCH_NET_SubmitReport(char *ctx, char *other, char *peer, u32 a3, RoundFn cb, int flag, int have, int twoway)
+int WIFIBATTLEMATCH_NET_SubmitReport(char *ctx, char *other, char *peer, u32 isAuthoritative, RoundFn cb, int flag, int have, int twoway)
 {
     int result;
     int mode;
@@ -7133,8 +7133,8 @@ int WIFIBATTLEMATCH_NET_SubmitReport(char *ctx, char *other, char *peer, u32 a3,
     if ((result = DWC_ScReportBeginTeamData((u32 *)(((struct WifiBattleMatchReportPlayer *)ctx)->report))) != 0)
         return result;
     if (flag != 0)
-        return DWC_ScReportEnd(((struct WifiBattleMatchReportPlayer *)ctx)->report, a3, 1);
-    return DWC_ScReportEnd(((struct WifiBattleMatchReportPlayer *)ctx)->report, a3, 0);
+        return DWC_ScReportEnd(((struct WifiBattleMatchReportPlayer *)ctx)->report, isAuthoritative, 1);
+    return DWC_ScReportEnd(((struct WifiBattleMatchReportPlayer *)ctx)->report, isAuthoritative, 0);
 }
 
 
@@ -8710,7 +8710,7 @@ void WIFIBATTLEMATCH_NET_SetErrorA(char *ctx, u32 v, int line)
  * Set the word at +0 and mark the object armed at +0x1c, then start the
  * 0x3f7 service with a zeroed first three arguments.
  */
-void WIFIBATTLEMATCH_NET_SetErrorB(char *ctx, int v, int a2)
+void WIFIBATTLEMATCH_NET_SetErrorB(char *ctx, int v, int unused)
 {
     ((struct NetErrRecord *)ctx)->errValue = v;
     ((struct NetErrRecord *)ctx)->errKind = 1;
@@ -8773,7 +8773,7 @@ void WIFIBATTLEMATCH_NET_SetResultC(char *ctx, u32 v, int line)
  * +0x14 and hard-codes 4 at +0x1c.  A leaf with no prologue, so disasm.py
  * only found it through a branch target.
  */
-void WIFIBATTLEMATCH_NET_SetResultD(char *ctx, u32 v, u32 a2)
+void WIFIBATTLEMATCH_NET_SetResultD(char *ctx, u32 v, u32 unused)
 {
     ((struct NetErrRecord *)ctx)->resultD = v;
     ((struct NetErrRecord *)ctx)->errKind = 4;

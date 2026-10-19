@@ -151,7 +151,7 @@ extern int G3D_SYSTEM_GetObjectAnimeFrameMax(G3dObject *obj, int anmIdx, int *ou
 extern u32 G3D_SYSTEM_SetObjectAnimeFrame(G3dObject *obj, u16 anmIdx, s32 *frame);
 extern int G3D_SYSTEM_DrawObjectCulling(G3dObject *obj, G3dObjectStatus *status);
 extern void *FIELD_EFFECT_GetResource(FieldEffectSys *fieldEffect, u32 effectId);
-extern void FIELD_EFFECT_AddObject(FieldEffectSys *fieldEffect, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 arg4, void *param, u32 priority);
+extern void FIELD_EFFECT_AddObject(FieldEffectSys *fieldEffect, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
 extern void *FIELD_EFFECT_GetObjectParam(FieldEffectObj *effect);
 extern void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *out);
 extern int FLDMMDL_CheckPossibleAcmd(Mmdl *mmdl);

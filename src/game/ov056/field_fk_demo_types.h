@@ -232,7 +232,7 @@ extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
 extern struct FieldmapFunc *FIELDMAP_GetMapFunc(struct FieldMap *fieldMap);
 extern struct BuildModelMan *FIELD_G3D_MAPPER_GetBuildModel(struct FieldG3dMapper *mapper);
-extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct EventWork *GAME_DATA_GetEventWork(const struct GameData *gameData);
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern struct FieldSoundSystem *GAME_DATA_GetBgmInfo(const struct GameData *gameData);

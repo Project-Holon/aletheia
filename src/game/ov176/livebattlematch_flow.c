@@ -173,7 +173,7 @@ extern int WIFIBATTLEMATCH_UTIL_IsCallbackNull(int **);
 
 extern int WIFIBATTLEMATCH_GRAPHIC_GetCamera(int *p);
 
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
@@ -878,9 +878,9 @@ void LIVEBATTLEMATCH_FLOW_DrawMenu(u8 *p, int mode)
     int layout;
     u8 x, y, width, height;
     MI_CpuFill8(&rec, 0, 0x30);
-    rec.x0 = ((struct LiveBattleMatchWork *)p)->menuValue;
-    rec.x1 = *(unsigned int *)&((struct LiveBattleMatchWork *)p)->font;
-    rec.x2 = *(unsigned int *)&((struct LiveBattleMatchWork *)p)->printQue;
+    rec.msgBank = ((struct LiveBattleMatchWork *)p)->menuValue;
+    rec.font = *(unsigned int *)&((struct LiveBattleMatchWork *)p)->font;
+    rec.printQue = *(unsigned int *)&((struct LiveBattleMatchWork *)p)->printQue;
     switch (mode) {
     case 3: rec.row = 1;
     case 0:

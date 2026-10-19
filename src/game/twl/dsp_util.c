@@ -41,16 +41,16 @@ typedef void (*DspCb)(void *, int, int);
 /* 0x50 bytes: the OSAlarm at 0x027344FC (0x2C bytes) is the field at 0x24 and
    the object ends at data_02734528. */
 typedef struct DspSys {
-    u16 f0;
-    u16 f2;
-    u32 f4;
-    u32 f8;
-    u32 fc;
-    u32 f10;
-    u32 f14;
-    u32 f18;
-    u32 f1c;
-    u32 f20;
+    u16 soundReply;
+    u16 pad2;
+    u32 sampleRateMode;
+    u32 pad8;
+    u32 padC;
+    u32 pad10;
+    u32 shutterBusy;
+    u32 soundBusy;
+    u32 pad1C;
+    u32 pad20;
     u32 alarm[11];
 } DspSys;
 
@@ -72,8 +72,8 @@ extern void OS_Sleep(u32);
 
 void DSPiShutterPostProcessCallback(u32 mode);
 void sound_handler(void);
-void DSPi_PipeCallbackForSound(void *a0, int port, int dir);
-void DSPi_PlaySoundEx(u8 *a0, u32 a1, u32 a2, int a3);
+void DSPi_PipeCallbackForSound(void *userdata, int port, int dir);
+void DSPi_PlaySoundEx(u8 *data, u32 size, u32 mode, int priority);
 u32 DSPi_PlayShutterSoundCore(u8 *p, u32 len);
 void DSPi_StopSoundCore(void);
 u32 DSPi_IsShutterSoundPlayingCore(void);
@@ -89,22 +89,22 @@ void DSPiShutterPostProcessCallback(u32 mode)
     if (mode != 0) {
         OS_Terminate();
     }
-    data_027344D8.f14 = 0;
+    data_027344D8.shutterBusy = 0;
 }
 
 void sound_handler(void)
 {
-    data_027344D8.f18 = 0;
+    data_027344D8.soundBusy = 0;
 }
 
-void DSPi_PipeCallbackForSound(void *a0, int port, int dir)
+void DSPi_PipeCallbackForSound(void *userdata, int port, int peer)
 {
     DspRing pipe;
     u32 w[2];
-    if (dir != 0) {
+    if (peer != 0) {
         return;
     }
-    DSP_LoadPipe(&pipe, port, dir);
+    DSP_LoadPipe(&pipe, port, peer);
     if (DSP_GetPipeReadableSize(&pipe) < 8) {
         return;
     }
@@ -121,11 +121,11 @@ void DSPi_PipeCallbackForSound(void *a0, int port, int dir)
         data_02732D78 = 0x20;
     }
     if ((w[0] & 0xF000) == 0x2000 && (w[0] & 0xF00) == 0x100) {
-        data_027344D8.f0 = w[1];
+        data_027344D8.soundReply = w[1];
     }
 }
 
-void DSPi_PlaySoundEx(u8 *a0, u32 a1, u32 a2, int a3)
+void DSPi_PlaySoundEx(u8 *data, u32 size, u32 mode, int priority)
 {
     u32 msg[4];
     int zero = 0;
@@ -133,15 +133,15 @@ void DSPi_PlaySoundEx(u8 *a0, u32 a1, u32 a2, int a3)
     if (h == 0) {
         return;
     }
-    if (data_02732D78 < a3) {
+    if (data_02732D78 < priority) {
         return;
     }
-    data_02732D78 = a3;
+    data_02732D78 = priority;
     DSP_SetPipeCallback(2, DSPi_PipeCallbackForSound, (void *)zero);
-    data_027344D8.f18 = 1;
-    msg[0] = SWAP16(a2 | 0x1100);
-    msg[1] = SWAP16((u32)a0);
-    msg[2] = SWAP16(a1 / 2);
+    data_027344D8.soundBusy = 1;
+    msg[0] = SWAP16(mode | 0x1100);
+    msg[1] = SWAP16((u32)data);
+    msg[2] = SWAP16(size / 2);
     msg[3] = zero;
     DSP_WriteProcessPipe(h, 2, msg, 0x10);
 }
@@ -161,7 +161,7 @@ u32 DSPi_PlayShutterSoundCore(u8 *p, u32 len)
     if (RD32(p, 8) != 0x45564157) {
         return 0;
     }
-    mode = data_027344D8.f4;
+    mode = data_027344D8.sampleRateMode;
     v = RD32(p, 0x18);
     if ((mode == 0 && v != 0x7FDA) || (mode == 1 && v != 0xB9FA)) {
         return 0;
@@ -177,7 +177,7 @@ u32 DSPi_PlayShutterSoundCore(u8 *p, u32 len)
         } while (SNDEXi_PreProcessForShutterSound() != 0);
     }
     DSPi_PlaySoundEx(p + 0x2c, size, 2, 0);
-    data_027344D8.f14 = 1;
+    data_027344D8.shutterBusy = 1;
     return 1;
 }
 
@@ -186,7 +186,7 @@ void DSPi_StopSoundCore(void)
     u32 msg[4];
     int zero = 0;
     void *h = DSP_FindProcess(zero);
-    if (h == 0 || data_027344D8.f18 == 0) {
+    if (h == 0 || data_027344D8.soundBusy == 0) {
         return;
     }
     msg[0] = 0x12000000;
@@ -198,5 +198,5 @@ void DSPi_StopSoundCore(void)
 
 u32 DSPi_IsShutterSoundPlayingCore(void)
 {
-    return data_027344D8.f18 | data_027344D8.f14;
+    return data_027344D8.soundBusy | data_027344D8.shutterBusy;
 }

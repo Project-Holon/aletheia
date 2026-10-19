@@ -171,14 +171,14 @@ typedef struct MbYesNoMsgWork {
 } MbYesNoMsgWork;
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern struct PrintSys *PRINTSYS_QUE_Create(void *heapId);
-extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 a0, u16 a1, struct GfFont *font, struct PrintSys *que, u16 heap);
+extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GfFont *font, struct PrintSys *que, u16 heap);
 extern unsigned APP_KEYCURSOR_CreateDefault(int, int, int, unsigned);
 extern int GF_OVERLAY_Load(int);
 extern struct TalkMsgWin *TALKMSGWIN_Create(u16 *param);

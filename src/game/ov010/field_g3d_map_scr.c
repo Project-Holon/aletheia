@@ -41,7 +41,7 @@ extern void *SCRCMD_WORK_GetGameData(void *scriptCtx);
 extern void *GAME_DATA_GetSaveControl(struct ScriptWorkRef *p);
 extern void *MOVE_POKEMON_SAVE_GetBlock(void *saveSys);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *, void *);
-extern unsigned short *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern unsigned short *SCRIPT_WORK_ReadWorkPointer(void *vm, void *cmdWork);
 extern u8 MOVE_POKEMON_SAVE_GetEntryState(struct ScriptSaveBlock *p, u32 i);
 extern u32 MYSTATUS_GetId(const struct TrainerRec *obj);
 extern void BEACON_SetHashedId(struct BeaconSave *p, s32 i, u32 v);

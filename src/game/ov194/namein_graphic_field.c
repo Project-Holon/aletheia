@@ -202,7 +202,7 @@ u32 NAMEIN_GRAPHIC_GetLength(const u8 *p);
 u32 NAMEIN_GRAPHIC_GetSecondaryLength(const u8 *p);
 int NAMEIN_GRAPHIC_PickCandidate(u8 *p,int direction);
 int NAMEIN_GRAPHIC_HasNonSpace(u8 *p);
-void NAMEIN_GRAPHIC_InitPicker(char *p, unsigned mode, int index, void *table, u32 a4);
+void NAMEIN_GRAPHIC_InitPicker(char *p, unsigned mode, int index, void *table, u32 unused);
 void NAMEIN_GRAPHIC_LoadGrid(int *a, int b, int c);
 void NAMEIN_GRAPHIC_ClearPicker(void *p);
 unsigned NAMEIN_GRAPHIC_PickerToChar(char *p,int *input,unsigned short *out);
@@ -592,7 +592,7 @@ int NAMEIN_GRAPHIC_HasNonSpace(u8 *p) {int i,spaces,n;n=*(volatile u16 *)&((Name
 
 
 
-void NAMEIN_GRAPHIC_InitPicker(char *p, unsigned mode, int index, void *table, u32 a4) {
+void NAMEIN_GRAPHIC_InitPicker(char *p, unsigned mode, int index, void *table, u32 unused) {
  int i;
  MI_CpuFill8(p,0,36);((NameinGraphicPicker *)p)->table=(void *)NAMEIN_GRAPHIC_GetWord(table,index);
  switch(mode) {

@@ -241,14 +241,14 @@ extern void GTSNEGO_DISP_CreateTouchbar(u8 *, int);
 extern void GTSNEGO_DISP_Noop(u8 *, int);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *, u32, u32, void **, u16);
-extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
+extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern u32 GFL_HEAP_Free(void *p);
 extern void BG_SYS_SetupTileScreen(u32 idx, u32 x, u32 y, u16 value);
 extern void *GTSNEGO_DISP_GetEntry(void **p, int i);
 extern void BG_SYS_SetFlagField06(u32 bit);
 extern void BG_SYS_SetTileEntry(u32, int, int, int, u8, u8, u8);
-extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
 extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 extern void BG_SYS_PushTile(u32);
@@ -258,7 +258,7 @@ extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 s
 extern int _s32_div_f(int, int);
 extern void CLACT_ApplyActorAnimCommand(struct Actor *a, const struct Cmd *cmd);
 extern void BG_SYS_SetMainVisiblePlanes(u32);
-extern void CLACT_SetActorAnimIndex(int a0, int a1);
+extern void CLACT_SetActorAnimIndex(int actor, int anim_idx);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BUTTON_MAN_Delete(void *);
 extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
@@ -267,10 +267,10 @@ extern void GF_FONT_InitTextColor(void);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
-extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
+extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, u32 font, u32 printQue, u16 heap);
 extern void *BMP_MENUWORK_LoadFrameGfx(void *,u32,u32,u32);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
 extern void GF_FONT_SetTextColor(u32, u32, u32);
@@ -297,7 +297,7 @@ extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slo
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
-extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u32 PRINTSYS_PrintStreamGetState(void *p);
@@ -305,12 +305,12 @@ extern void PRINTSYS_PrintStreamReleasePause(void *);
 extern u32 KEY_GetTrg(void);
 extern void BMP_MENUWORK_DrawWindowBorder(void *,u32);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
-extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
+extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *res);
 extern s32 BUTTON_MAN_UpdateSlots(struct Ctx *c);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void *BUTTON_MAN_Create(u8 *a0, int a1, int a2, int a3);
+extern void *BUTTON_MAN_Create(u8 *rects, int a1, int arg, int heap);
 extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
-extern u32 *APP_TASKMENU_WIN_CreateEx(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5, u32 a6, u32 a7, u16 a8);
+extern u32 *APP_TASKMENU_WIN_CreateEx(u32 res, u32 item, u32 charPosX, u32 charPosY, u8 width, u8 height, u32 anmSpeed, u32 isCenter, u16 heapId);
 extern u8 MYSTATUS_GetLanguage(const struct Sub0200852CObj *obj);
 extern u8 MYSTATUS_GetVersion(const struct Sub0200852CObj *obj);
 extern u8 MYSTATUS_GetGender(const struct Sub0200852CObj *obj);
@@ -336,16 +336,16 @@ extern u8 UI_GetInputMode(void);
 extern void APP_TASKMENU_WIN_SetActive(struct Obj *obj, u32 a);
 extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
-int GTSNEGO_MSG_SetCursorAnimSeq(struct GtsnegoMsgCtx *p,u32 n);
-int GTSNEGO_MSG_IsCursorAnimDone(struct GtsnegoMsgCtx *p);
+int GTSNEGO_MSG_SetCursorAnimSeq(struct GtsnegoActorSys *p,u32 n);
+int GTSNEGO_MSG_IsCursorAnimDone(struct GtsnegoActorSys *p);
 void GTSNEGO_MSG_CreateActorAt(u8 *p,u16 x,u16 y,int flag);
 void GTSNEGO_MSG_DeleteActors(u8 *p);
 void GTSNEGO_MSG_SetActorMode(u8 *p,u32 n);
 void GTSNEGO_MSG_InitWindows(u8 *p, int n);
 void GTSNEGO_MSG_DeleteTileHandle(u8 *p);
-void GTSNEGO_MSG_DrawTileRow(struct GtsnegoMsgCtx *p, int n);
-void GTSNEGO_MSG_FillTileRow(struct GtsnegoMsgCtx *p, int n);
-void GTSNEGO_MSG_DrawTileRows(struct GtsnegoMsgCtx *p,void *list,int first);
+void GTSNEGO_MSG_DrawTileRow(struct GtsnegoActorSys *p, int n);
+void GTSNEGO_MSG_FillTileRow(struct GtsnegoActorSys *p, int n);
+void GTSNEGO_MSG_DrawTileRows(struct GtsnegoActorSys *p,void *list,int first);
 void GTSNEGO_MSG_TeardownActorList(u8 *p);
 void GTSNEGO_MSG_TeardownTileRows(u8 *p);
 int GTSNEGO_MSG_CursorDown(void *unused,int *p);
@@ -355,12 +355,12 @@ void GTSNEGO_MSG_CreateCursorActor(u8 *p);
 void GTSNEGO_MSG_DeleteCursorActor(u8 *p);
 void GTSNEGO_MSG_CreateIconActors(u8 *p,int flag);
 void GTSNEGO_MSG_DeleteIconActors(u8 *p);
-void GTSNEGO_MSG_RestartIconAnim(struct GtsnegoMsgCtx *p, u32 flag);
-void GTSNEGO_MSG_SetScrollState(struct GtsnegoMsgCtx *p, int state);
-void GTSNEGO_MSG_ClearScrollState(struct GtsnegoMsgCtx *p);
+void GTSNEGO_MSG_RestartIconAnim(struct GtsnegoActorSys *p, u32 flag);
+void GTSNEGO_MSG_SetScrollState(struct GtsnegoActorSys *p, int state);
+void GTSNEGO_MSG_ClearScrollState(struct GtsnegoActorSys *p);
 int GTSNEGO_MSG_StepScroll(u8 *p, int *out);
 void GTSNEGO_MSG_ScrollAllRows(u8 *p, int flag);
-void GTSNEGO_MSG_SetupRowBg(void *a0);
+void GTSNEGO_MSG_SetupRowBg(void *actorSys);
 void GTSNEGO_MSG_CreateListActor(u8 *p, int n, int k);
 void GTSNEGO_MSG_SetListActorPos(u8 *p, int index, int x, int y);
 void GTSNEGO_MSG_SetListEntry(u8 *p, void *entry, int index);
@@ -368,16 +368,16 @@ void GTSNEGO_MSG_MoveListActor(u8 *p, int index, int delta);
 void GTSNEGO_MSG_ScrollListDown(u8 *p, void *q);
 void GTSNEGO_MSG_ScrollListUp(u8 *p, void *q);
 void GTSNEGO_MSG_FillListRange(u8 *p, void *container, int offset);
-int GTSNEGO_MSG_GetListRowY(struct GtsnegoMsgCtx *p, int index, int count);
-int GTSNEGO_MSG_GetListRowYF(struct GtsnegoMsgCtx *p, int n, int count);
-void GTSNEGO_MSG_SetIconY(struct GtsnegoMsgCtx *p, int index, int count);
-int GTSNEGO_MSG_SetIconYClamped(struct GtsnegoMsgCtx *p,int y,int count);
+int GTSNEGO_MSG_GetListRowY(struct GtsnegoActorSys *p, int index, int count);
+int GTSNEGO_MSG_GetListRowYF(struct GtsnegoActorSys *p, int n, int count);
+void GTSNEGO_MSG_SetIconY(struct GtsnegoActorSys *p, int index, int count);
+int GTSNEGO_MSG_SetIconYClamped(struct GtsnegoActorSys *p,int y,int count);
 void GTSNEGO_MSG_CycleIdleAnim(char *p);
 void GTSNEGO_MSG_CreateIdleActors(u8 *p);
 void GTSNEGO_MSG_DeleteIdleActors(char *p);
-void GTSNEGO_MSG_SetIdleAnim(struct GtsnegoMsgCtx *p,int n);
+void GTSNEGO_MSG_SetIdleAnim(struct GtsnegoActorSys *p,int n);
 void GTSNEGO_MSG_CreateIdleUi(u8 *p);
-void GTSNEGO_MSG_StepIdleFade(struct GtsnegoMsgCtx *p);
+void GTSNEGO_MSG_StepIdleFade(struct GtsnegoActorSys *p);
 void GTSNEGO_MSG_Teardown(u8 *p);
 void GTSNEGO_MSG_DeleteButtons(u8 *p);
 char *GTSNEGO_MSG_Create(u32 heap,u32 n);
@@ -393,7 +393,7 @@ void GTSNEGO_MSG_DeleteRows(char *p);
 int GTSNEGO_MSG_CreateRow(u8 *p, int n, int a, int b, int c, int d);
 int GTSNEGO_MSG_CreateRowEx(int a, int b, int c, int d);
 void GTSNEGO_MSG_RedrawRow(char *p,u16 n,int i);
-void GTSNEGO_MSG_FlushRowLayer(char *a0);
+void GTSNEGO_MSG_FlushRowLayer(char *msgCtx);
 void GTSNEGO_MSG_ClearRows(char *p);
 void GTSNEGO_MSG_CreateYesNoUi(char *p,int a,int b);
 void GTSNEGO_MSG_CreateListUi(char *p,int a,int b,int c,int d,int e);
@@ -436,18 +436,18 @@ extern const u16 gGtsnegoRowLabelA[];
 extern const Pair gGtsnegoMsgDrawConfig;
 extern const int gGtsnegoButtonConfirm[];
 
-int GTSNEGO_MSG_SetCursorAnimSeq(struct GtsnegoMsgCtx *p,u32 n){void *obj=p->f134;if(!obj)return 0;CLACT_SetActorAnimSeq(obj,gGtsnegoEntryTable[n][3]);return 1;}
+int GTSNEGO_MSG_SetCursorAnimSeq(struct GtsnegoActorSys *actorSys,u32 position){void *obj=actorSys->cursorActor;if(!obj)return 0;CLACT_SetActorAnimSeq(obj,gGtsnegoEntryTable[position][3]);return 1;}
 
-int GTSNEGO_MSG_IsCursorAnimDone(struct GtsnegoMsgCtx *p){if(!p->f134)return 0;if((u32)CLACT_GetActorAnimSeq(p->f134)>=29){if(CLACT_IsActorAnimActive(p->f134)==0)return 1;return 0;}return 0;}
+int GTSNEGO_MSG_IsCursorAnimDone(struct GtsnegoActorSys *actorSys){if(!actorSys->cursorActor)return 0;if((u32)CLACT_GetActorAnimSeq(actorSys->cursorActor)>=29){if(CLACT_IsActorAnimActive(actorSys->cursorActor)==0)return 1;return 0;}return 0;}
 
-void GTSNEGO_MSG_CreateActorAt(u8 *p,u16 x,u16 y,int flag) {
-PosRecord r;int i;
+void GTSNEGO_MSG_CreateActorAt(u8 *actorSys,u16 x,u16 y,int isRightSide) {
+PosRecord actorPos;int i;
 for(i=0;i<12;i++) {
-if(!*(void **)(p+i*4+0xc4)) {
-r.x=x;r.y=y;r.z=flag?2:0;r.a=0;r.b=1;
-*(void **)(p+0xc4+i*4)=CLACT_CreateActor((void *)((struct GtsnegoMsgCtx *)p)->f10,((struct GtsnegoMsgCtx *)p)->f28,*(unsigned int *)&((struct GtsnegoMsgCtx *)p)->f18,((struct GtsnegoMsgCtx *)p)->f74,&r,1,((struct GtsnegoMsgCtx *)p)->fF4);
-CLACT_SetActorAutoAnim(*(void **)(p+0xc4+i*4),1);
-CLACT_SetActorDrawEnable(*(void **)(p+0xc4+i*4),1);
+if(!*(void **)(actorSys+i*4+0xc4)) {
+actorPos.x=x;actorPos.y=y;actorPos.z=isRightSide?2:0;actorPos.a=0;actorPos.b=1;
+*(void **)(actorSys+0xc4+i*4)=CLACT_CreateActor((void *)((struct GtsnegoActorSys *)actorSys)->clactUnit,((struct GtsnegoActorSys *)actorSys)->uiChar,*(unsigned int *)&((struct GtsnegoActorSys *)actorSys)->uiPalette,((struct GtsnegoActorSys *)actorSys)->uiCellAnim,&actorPos,1,((struct GtsnegoActorSys *)actorSys)->heapId);
+CLACT_SetActorAutoAnim(*(void **)(actorSys+0xc4+i*4),1);
+CLACT_SetActorDrawEnable(*(void **)(actorSys+0xc4+i*4),1);
 return;
 }
 }
@@ -457,100 +457,100 @@ return;
  * extent: two-byte zero alignment padding follows.
  * lever: base + index*4 + 0xc4 preserves the original add order.
  */
-void GTSNEGO_MSG_DeleteActors(u8 *p){int i;for(i=0;i<12;i++){if(*(void **)(p+i*4+0xc4)){CLACT_DeleteActor(*(void **)(p+i*4+0xc4));*(int *)(p+i*4+0xc4)=0;}}}
+void GTSNEGO_MSG_DeleteActors(u8 *actorSys){int i;for(i=0;i<12;i++){if(*(void **)(actorSys+i*4+0xc4)){CLACT_DeleteActor(*(void **)(actorSys+i*4+0xc4));*(int *)(actorSys+i*4+0xc4)=0;}}}
 
-void GTSNEGO_MSG_SetActorMode(u8 *p,u32 n){int got;int mode;got=CLACT_GetActorAnimSeq(*(void **)(p+0xc4+n*4));mode=1;if(got>=2)mode=3;CLACT_SetActorAnimSeq(*(void **)(p+0xc4+n*4),mode);CLACT_SetActorAutoAnim(*(void **)(p+0xc4+n*4),1);}
+void GTSNEGO_MSG_SetActorMode(u8 *actorSys,u32 slot){int got;int mode;got=CLACT_GetActorAnimSeq(*(void **)(actorSys+0xc4+slot*4));mode=1;if(got>=2)mode=3;CLACT_SetActorAnimSeq(*(void **)(actorSys+0xc4+slot*4),mode);CLACT_SetActorAutoAnim(*(void **)(actorSys+0xc4+slot*4),1);}
 
-void GTSNEGO_MSG_InitWindows(u8 *p, int n)
+void GTSNEGO_MSG_InitWindows(u8 *actorSys, int includeFirstIcon)
 {
-    void *t;
-    GTSNEGO_DISP_DeleteTouchbar(p);
-    GTSNEGO_DISP_CreateTouchbar(p, 8);
-    GTSNEGO_DISP_Noop(p, 1);
-    t = ARC_TOOL_CreateHandle(144, ((struct GtsnegoMsgCtx *)p)->fF4);
-    ((struct GtsnegoMsgCtx *)p)->f120 = ARC_UTIL_LoadPaletteDataFromHandle(t, 21, 0, (void **)(p + 0x11c), ((struct GtsnegoMsgCtx *)p)->fF4);
-    ARC_UTIL_UploadPaletteFromHandle(t, 0, 5, 0, 320, 32, ((struct GtsnegoMsgCtx *)p)->fF4);
-    ARC_TOOL_DeleteHandle(t);
-    t = ARC_TOOL_CreateHandle(32, ((struct GtsnegoMsgCtx *)p)->fF4);
-    ARC_UTIL_UploadPaletteFromHandle(t, 0, 5, 0, 0, 256, ((struct GtsnegoMsgCtx *)p)->fF4);
-    ARC_TOOL_DeleteHandle(t);
-    GTSNEGO_MSG_CreateCursorActor(p);
-    GTSNEGO_MSG_CreateIconActors(p, n);
-    *(unsigned int *)&((struct GtsnegoMsgCtx *)p)->f100 = 1;
+    void *arcHandle;
+    GTSNEGO_DISP_DeleteTouchbar(actorSys);
+    GTSNEGO_DISP_CreateTouchbar(actorSys, 8);
+    GTSNEGO_DISP_Noop(actorSys, 1);
+    arcHandle = ARC_TOOL_CreateHandle(144, ((struct GtsnegoActorSys *)actorSys)->heapId);
+    ((struct GtsnegoActorSys *)actorSys)->tileScreenBuf = ARC_UTIL_LoadPaletteDataFromHandle(arcHandle, 21, 0, (void **)(actorSys + 0x11c), ((struct GtsnegoActorSys *)actorSys)->heapId);
+    ARC_UTIL_UploadPaletteFromHandle(arcHandle, 0, 5, 0, 320, 32, ((struct GtsnegoActorSys *)actorSys)->heapId);
+    ARC_TOOL_DeleteHandle(arcHandle);
+    arcHandle = ARC_TOOL_CreateHandle(32, ((struct GtsnegoActorSys *)actorSys)->heapId);
+    ARC_UTIL_UploadPaletteFromHandle(arcHandle, 0, 5, 0, 0, 256, ((struct GtsnegoActorSys *)actorSys)->heapId);
+    ARC_TOOL_DeleteHandle(arcHandle);
+    GTSNEGO_MSG_CreateCursorActor(actorSys);
+    GTSNEGO_MSG_CreateIconActors(actorSys, includeFirstIcon);
+    *(unsigned int *)&((struct GtsnegoActorSys *)actorSys)->scrollDirty = 1;
 }
 
 
 /*
  * Addresses are Black-image addresses.
  */
-void GTSNEGO_MSG_DeleteTileHandle(u8 *p)
+void GTSNEGO_MSG_DeleteTileHandle(u8 *actorSys)
 {
-    void *q = ((struct GtsnegoMsgCtx *)p)->f120;
-    if (q) {
-        GFL_HEAP_Free(q);
-        *(u32 *)&((struct GtsnegoMsgCtx *)p)->f120 = 0;
+    void *buf = ((struct GtsnegoActorSys *)actorSys)->tileScreenBuf;
+    if (buf) {
+        GFL_HEAP_Free(buf);
+        *(u32 *)&((struct GtsnegoActorSys *)actorSys)->tileScreenBuf = 0;
     }
 }
 
-void GTSNEGO_MSG_DrawTileRow(struct GtsnegoMsgCtx *p, int n)
+void GTSNEGO_MSG_DrawTileRow(struct GtsnegoActorSys *actorSys, int row)
 {
-    u16 *q = (u16 *)(*(u8 * *)&p->f11C + 0xc);
-    int base = (u16)p->f0;
+    u16 *tiles = (u16 *)(*(u8 * *)&actorSys->tileScreen + 0xc);
+    int base = (u16)actorSys->bgCharLayer4;
     int off;
     int index = 0;
     int y, x;
     y = 0;
-    off = 6 * n;
+    off = 6 * row;
     for (; y < 6; y++)
         for (x = 0; x < 32; x++, index++)
-            BG_SYS_SetupTileScreen(4, x, y + off, base + q[index]);
+            BG_SYS_SetupTileScreen(4, x, y + off, base + tiles[index]);
 }
 
-void GTSNEGO_MSG_FillTileRow(struct GtsnegoMsgCtx *p, int n)
+void GTSNEGO_MSG_FillTileRow(struct GtsnegoActorSys *actorSys, int row)
 {
-    u8 *q = *(u8 * *)&p->f11C + 0xc;
-    int base = (u16)p->f0;
+    u8 *screen = *(u8 * *)&actorSys->tileScreen + 0xc;
+    int base = (u16)actorSys->bgCharLayer4;
     int off;
     int x, y;
     y = 0;
-    off = 6 * n;
+    off = 6 * row;
     for (; y < 6; y++)
         for (x = 0; x < 32; x++)
-            BG_SYS_SetupTileScreen(4, x, y + off, ((struct GtsnegoMsgCtx *)q)->f3E + base);
+            BG_SYS_SetupTileScreen(4, x, y + off, ((struct GtsnegoTileScreen *)screen)->blankTile + base);
 }
 
 /*
  * extent: two-byte zero alignment padding follows.
  */
-void GTSNEGO_MSG_DrawTileRows(struct GtsnegoMsgCtx *p,void *list,int first){int i;for(i=0;i<6;i++){if(GTSNEGO_DISP_GetEntry(list,first+i))GTSNEGO_MSG_DrawTileRow(p,i);else GTSNEGO_MSG_FillTileRow(p,i);}BG_SYS_SetFlagField06(4);}
+void GTSNEGO_MSG_DrawTileRows(struct GtsnegoActorSys *actorSys,void *list,int first){int i;for(i=0;i<6;i++){if(GTSNEGO_DISP_GetEntry(list,first+i))GTSNEGO_MSG_DrawTileRow(actorSys,i);else GTSNEGO_MSG_FillTileRow(actorSys,i);}BG_SYS_SetFlagField06(4);}
 
-void GTSNEGO_MSG_TeardownActorList(u8 *p)
+void GTSNEGO_MSG_TeardownActorList(u8 *actorSys)
 {
-    void *t = ARC_TOOL_CreateHandle(144, ((struct GtsnegoMsgCtx *)p)->fF4);
+    void *arcHandle = ARC_TOOL_CreateHandle(144, ((struct GtsnegoActorSys *)actorSys)->heapId);
     int i;
     for (i = 0; i < 6; i++) {
-        if (*(void **)(p + i * 4 + 0x14c)) {
-            CLACT_DeleteActor(*(void **)(p + i * 4 + 0x14c));
-            *(void **)(p + i * 4 + 0x14c) = 0;
+        if (*(void **)(actorSys + i * 4 + 0x14c)) {
+            CLACT_DeleteActor(*(void **)(actorSys + i * 4 + 0x14c));
+            *(void **)(actorSys + i * 4 + 0x14c) = 0;
         }
     }
-    GTSNEGO_DISP_DeleteTouchbar(p);
-    GTSNEGO_DISP_CreateTouchbar(p, 0);
-    GTSNEGO_MSG_DeleteCursorActor(p);
-    ARC_TOOL_DeleteHandle(t);
+    GTSNEGO_DISP_DeleteTouchbar(actorSys);
+    GTSNEGO_DISP_CreateTouchbar(actorSys, 0);
+    GTSNEGO_MSG_DeleteCursorActor(actorSys);
+    ARC_TOOL_DeleteHandle(arcHandle);
 }
 
-void GTSNEGO_MSG_TeardownTileRows(u8 *p)
+void GTSNEGO_MSG_TeardownTileRows(u8 *actorSys)
 {
-    void *t = ARC_TOOL_CreateHandle(144, ((struct GtsnegoMsgCtx *)p)->fF4);
-    GTSNEGO_MSG_DeleteTileHandle(p);
-    GTSNEGO_MSG_DeleteIconActors(p);
+    void *arcHandle = ARC_TOOL_CreateHandle(144, ((struct GtsnegoActorSys *)actorSys)->heapId);
+    GTSNEGO_MSG_DeleteTileHandle(actorSys);
+    GTSNEGO_MSG_DeleteIconActors(actorSys);
     BG_SYS_SetTileEntry(6, 0, 0, 0, 32, 32, 17);
     BG_SYS_SetFlagField06(6);
-    ARC_UTIL_UploadPaletteFromHandle(t, 2, 5, 0, 256, 256, ((struct GtsnegoMsgCtx *)p)->fF4);
-    ARC_UTIL_UploadBgPaletteAddFromHandle(t, 18, 4, 0, (u16)(((struct GtsnegoMsgCtx *)p)->f0), 0, 0, ((struct GtsnegoMsgCtx *)p)->fF4);
+    ARC_UTIL_UploadPaletteFromHandle(arcHandle, 2, 5, 0, 256, 256, ((struct GtsnegoActorSys *)actorSys)->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(arcHandle, 18, 4, 0, (u16)(((struct GtsnegoActorSys *)actorSys)->bgCharLayer4), 0, 0, ((struct GtsnegoActorSys *)actorSys)->heapId);
     BG_SYS_SetFlagField06(4);
-    ARC_TOOL_DeleteHandle(t);
+    ARC_TOOL_DeleteHandle(arcHandle);
 }
 
 
@@ -558,55 +558,55 @@ void GTSNEGO_MSG_TeardownTileRows(u8 *p)
  * lever: name the p[2]+3 bound and reread p[2] for the increment;
  * retaining a named offset instead exchanges r3 and r4 (4-byte DIFF).
  */
-int GTSNEGO_MSG_CursorDown(void *unused,int *p){int idx=p[1];int ret=0;if(idx<2 && idx<p[0]-1){p[1]=idx+1;return 1;}else if(idx==2){int bound=p[2]+3;if(bound<p[0]){p[2]=p[2]+1;ret=2;}}return ret;}
+int GTSNEGO_MSG_CursorDown(void *unused,int *listState){int idx=listState[1];int ret=0;if(idx<2 && idx<listState[0]-1){listState[1]=idx+1;return 1;}else if(idx==2){int bound=listState[2]+3;if(bound<listState[0]){listState[2]=listState[2]+1;ret=2;}}return ret;}
 
 
-int GTSNEGO_MSG_CursorUp(void *unused,int *p){int idx=p[1];int ret=0;if(idx>0){p[1]=idx-1;return 1;}else if(idx==0 && p[2]!=0){p[2]=p[2]-1;ret=2;}return ret;}
+int GTSNEGO_MSG_CursorUp(void *unused,int *listState){int idx=listState[1];int ret=0;if(idx>0){listState[1]=idx-1;return 1;}else if(idx==0 && listState[2]!=0){listState[2]=listState[2]-1;ret=2;}return ret;}
 
-void GTSNEGO_MSG_SetCursorIndex(void *unused, int *p, int n)
+void GTSNEGO_MSG_SetCursorIndex(void *unused, int *listState, int index)
 {
-    if(n<(u32)p[0])p[1]=n;
-    if(p[1]>2)p[1]=2;
+    if(index<(u32)listState[0])listState[1]=index;
+    if(listState[1]>2)listState[1]=2;
 }
 
 /*
  * trailing: 2-byte zero alignment padding at 0x021D6ED6.
  */
-void GTSNEGO_MSG_CreateCursorActor(u8 *p)
+void GTSNEGO_MSG_CreateCursorActor(u8 *actorSys)
 {
-    PosRecord r;
-    r.x = 128; r.y = 200; r.z = 0; r.a = 1; r.b = 1;
-    ((struct GtsnegoMsgCtx *)p)->f138 = CLACT_CreateActor((void *)*(unsigned int *)&((struct GtsnegoMsgCtx *)p)->f10, *(unsigned int *)&((struct GtsnegoMsgCtx *)p)->f70, *(unsigned int *)&((struct GtsnegoMsgCtx *)p)->f24, *(unsigned int *)&((struct GtsnegoMsgCtx *)p)->fBC, &r, 1, ((struct GtsnegoMsgCtx *)p)->fF4);
-    CLACT_SetActorAutoAnim(((struct GtsnegoMsgCtx *)p)->f138, 1);
-    CLACT_SetActorDrawEnable(((struct GtsnegoMsgCtx *)p)->f138, 1);
+    PosRecord actorPos;
+    actorPos.x = 128; actorPos.y = 200; actorPos.z = 0; actorPos.a = 1; actorPos.b = 1;
+    ((struct GtsnegoActorSys *)actorSys)->selectorActor = CLACT_CreateActor((void *)*(unsigned int *)&((struct GtsnegoActorSys *)actorSys)->clactUnit, *(unsigned int *)&((struct GtsnegoActorSys *)actorSys)->cursorChar, *(unsigned int *)&((struct GtsnegoActorSys *)actorSys)->cursorPalette, *(unsigned int *)&((struct GtsnegoActorSys *)actorSys)->cursorCellAnim, &actorPos, 1, ((struct GtsnegoActorSys *)actorSys)->heapId);
+    CLACT_SetActorAutoAnim(((struct GtsnegoActorSys *)actorSys)->selectorActor, 1);
+    CLACT_SetActorDrawEnable(((struct GtsnegoActorSys *)actorSys)->selectorActor, 1);
 }
 
 
-void GTSNEGO_MSG_DeleteCursorActor(u8 *p)
+void GTSNEGO_MSG_DeleteCursorActor(u8 *actorSys)
 {
-    void *q = ((struct GtsnegoMsgCtx *)p)->f138;
-    if (q)
-        CLACT_DeleteActor(q);
-    *(u32 *)&((struct GtsnegoMsgCtx *)p)->f138 = 0;
+    void *actor = ((struct GtsnegoActorSys *)actorSys)->selectorActor;
+    if (actor)
+        CLACT_DeleteActor(actor);
+    *(u32 *)&((struct GtsnegoActorSys *)actorSys)->selectorActor = 0;
 }
 
 /*
  * lever: declarations x,y,z,b reproduce the descending stack slots; p+i*4+offset keeps the per-element pointer.
  */
-void GTSNEGO_MSG_CreateIconActors(u8 *p,int flag)
+void GTSNEGO_MSG_CreateIconActors(u8 *actorSys,int flag)
 {
-    PosRecord r;
-    Triple x=gGtsnegoIconX;
-    Triple y=gGtsnegoIconY;
-    Triple z=gGtsnegoIconZ;
+    PosRecord actorPos;
+    Triple iconX=gGtsnegoIconX;
+    Triple iconY=gGtsnegoIconY;
+    Triple iconZ=gGtsnegoIconZ;
     Triple b=gGtsnegoIconW;
     int i;
     for(i=0;i<3;i++) {
         if(flag || i!=0) {
-            r.x=x.a[i]; r.y=y.a[i]; r.z=z.a[i]; r.a=i; r.b=b.a[i];
-            *(void **)(p+i*4+0x140)=CLACT_CreateActor((void *)*(unsigned int *)&((struct GtsnegoMsgCtx *)p)->f10,((struct GtsnegoMsgCtx *)p)->f28,*(unsigned int *)&((struct GtsnegoMsgCtx *)p)->f18,((struct GtsnegoMsgCtx *)p)->f74,&r,1,((struct GtsnegoMsgCtx *)p)->fF4);
-            CLACT_SetActorAutoAnim(*(void **)(p+i*4+0x140),1);
-            CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x140),1);
+            actorPos.x=iconX.a[i]; actorPos.y=iconY.a[i]; actorPos.z=iconZ.a[i]; actorPos.a=i; actorPos.b=b.a[i];
+            *(void **)(actorSys+i*4+0x140)=CLACT_CreateActor((void *)*(unsigned int *)&((struct GtsnegoActorSys *)actorSys)->clactUnit,((struct GtsnegoActorSys *)actorSys)->uiChar,*(unsigned int *)&((struct GtsnegoActorSys *)actorSys)->uiPalette,((struct GtsnegoActorSys *)actorSys)->uiCellAnim,&actorPos,1,((struct GtsnegoActorSys *)actorSys)->heapId);
+            CLACT_SetActorAutoAnim(*(void **)(actorSys+i*4+0x140),1);
+            CLACT_SetActorDrawEnable(*(void **)(actorSys+i*4+0x140),1);
         }
     }
 }
@@ -614,74 +614,74 @@ void GTSNEGO_MSG_CreateIconActors(u8 *p,int flag)
 /*
  * matching: declaring element after i puts the element in r4 and the counter in r5.
  */
-void GTSNEGO_MSG_DeleteIconActors(u8 *p)
+void GTSNEGO_MSG_DeleteIconActors(u8 *actorSys)
 {
     int i;
     u32 element;
     for (i = 0; i < 3; i++) {
-        element = (u32)p + (u32)i * 4;
-        if (((struct GtsnegoMsgCtx *)element)->f140 != 0) {
-            CLACT_DeleteActor(((struct GtsnegoMsgCtx *)element)->f140);
-            ((struct GtsnegoMsgCtx *)element)->f140 = 0;
+        element = (u32)actorSys + (u32)i * 4;
+        if (((struct GtsnegoActorSys *)element)->iconActor != 0) {
+            CLACT_DeleteActor(((struct GtsnegoActorSys *)element)->iconActor);
+            ((struct GtsnegoActorSys *)element)->iconActor = 0;
         }
     }
 }
 
-void GTSNEGO_MSG_RestartIconAnim(struct GtsnegoMsgCtx *p, u32 flag)
+void GTSNEGO_MSG_RestartIconAnim(struct GtsnegoActorSys *actorSys, u32 flag)
 {
-    if (p->f140 != 0) {
-        CLACT_RestartActorAnim(p->f140);
-        CLACT_SetActorAutoAnim(p->f140, flag);
+    if (actorSys->iconActor != 0) {
+        CLACT_RestartActorAnim(actorSys->iconActor);
+        CLACT_SetActorAutoAnim(actorSys->iconActor, flag);
     }
 }
 
 
-void GTSNEGO_MSG_SetScrollState(struct GtsnegoMsgCtx *p, int state)
+void GTSNEGO_MSG_SetScrollState(struct GtsnegoActorSys *actorSys, int state)
 {
-    p->f108 = state;
-    if (state == 2) p->f10C = *(unsigned int *)&p->f104 + 48;
-    else if (state == 1) p->f10C = *(unsigned int *)&p->f104 - 48;
+    actorSys->scrollState = state;
+    if (state == 2) actorSys->scrollTarget = *(unsigned int *)&actorSys->scrollOffset + 48;
+    else if (state == 1) actorSys->scrollTarget = *(unsigned int *)&actorSys->scrollOffset - 48;
 }
 
 
-void GTSNEGO_MSG_ClearScrollState(struct GtsnegoMsgCtx *p)
+void GTSNEGO_MSG_ClearScrollState(struct GtsnegoActorSys *actorSys)
 {
-    *(unsigned int *)&p->f108 = 0;
+    *(unsigned int *)&actorSys->scrollState = 0;
 }
 
 /*
  * lever: pass the named loaded state to out instead of rematerializing 1 or 2.
  */
-int GTSNEGO_MSG_StepScroll(u8 *p, int *out)
+int GTSNEGO_MSG_StepScroll(u8 *actorSys, int *out)
 {
     int i;
     int state;
-    state=((struct GtsnegoMsgCtx *)p)->f108;
+    state=((struct GtsnegoActorSys *)actorSys)->scrollState;
     if (state==2) {
-        ((struct GtsnegoMsgCtx *)p)->f104+=8;
-        if (*(int *)&((struct GtsnegoMsgCtx *)p)->f10C==((struct GtsnegoMsgCtx *)p)->f104) {
+        ((struct GtsnegoActorSys *)actorSys)->scrollOffset+=8;
+        if (*(int *)&((struct GtsnegoActorSys *)actorSys)->scrollTarget==((struct GtsnegoActorSys *)actorSys)->scrollOffset) {
             *out=state;
-            ((struct GtsnegoMsgCtx *)p)->f108=0;
-            ((struct GtsnegoMsgCtx *)p)->f104-=48;
+            ((struct GtsnegoActorSys *)actorSys)->scrollState=0;
+            ((struct GtsnegoActorSys *)actorSys)->scrollOffset-=48;
         }
-        for (i=0;i<6;i++) GTSNEGO_MSG_MoveListActor(p,i,-8);
-        ((struct GtsnegoMsgCtx *)p)->f100=1;
+        for (i=0;i<6;i++) GTSNEGO_MSG_MoveListActor(actorSys,i,-8);
+        ((struct GtsnegoActorSys *)actorSys)->scrollDirty=1;
     }
-    state=((struct GtsnegoMsgCtx *)p)->f108;
+    state=((struct GtsnegoActorSys *)actorSys)->scrollState;
     if (state==1) {
-        ((struct GtsnegoMsgCtx *)p)->f104-=8;
-        if (*(int *)&((struct GtsnegoMsgCtx *)p)->f10C==((struct GtsnegoMsgCtx *)p)->f104) {
+        ((struct GtsnegoActorSys *)actorSys)->scrollOffset-=8;
+        if (*(int *)&((struct GtsnegoActorSys *)actorSys)->scrollTarget==((struct GtsnegoActorSys *)actorSys)->scrollOffset) {
             *out=state;
-            ((struct GtsnegoMsgCtx *)p)->f108=0;
-            ((struct GtsnegoMsgCtx *)p)->f104+=48;
+            ((struct GtsnegoActorSys *)actorSys)->scrollState=0;
+            ((struct GtsnegoActorSys *)actorSys)->scrollOffset+=48;
         }
-        for (i=0;i<6;i++) GTSNEGO_MSG_MoveListActor(p,i,8);
-        ((struct GtsnegoMsgCtx *)p)->f100=1;
+        for (i=0;i<6;i++) GTSNEGO_MSG_MoveListActor(actorSys,i,8);
+        ((struct GtsnegoActorSys *)actorSys)->scrollDirty=1;
     }
-    return ((struct GtsnegoMsgCtx *)p)->f108;
+    return ((struct GtsnegoActorSys *)actorSys)->scrollState;
 }
 
-void GTSNEGO_MSG_ScrollAllRows(u8 *p, int flag)
+void GTSNEGO_MSG_ScrollAllRows(u8 *actorSys, int flag)
 {
     int i;
     int direction = 1;
@@ -689,10 +689,10 @@ void GTSNEGO_MSG_ScrollAllRows(u8 *p, int flag)
     if (flag != 0) direction -= 2;
     i = 0;
     step = direction * 48;
-    for (; i < 6; i++) GTSNEGO_MSG_MoveListActor(p, i, step);
+    for (; i < 6; i++) GTSNEGO_MSG_MoveListActor(actorSys, i, step);
 }
 
-void GTSNEGO_MSG_SetupRowBg(void *a0)
+void GTSNEGO_MSG_SetupRowBg(void *actorSys)
 {
     BG_SYS_FillScrollArea(4, 3, 0);
     BG_SYS_FillScrollArea(6, 3, 0);
@@ -700,80 +700,80 @@ void GTSNEGO_MSG_SetupRowBg(void *a0)
     BG_SYS_PushTile(1);
 }
 
-void GTSNEGO_MSG_CreateListActor(u8 *p, int n, int k)
+void GTSNEGO_MSG_CreateListActor(u8 *actorSys, int slot, int outfit)
 {
-    PosRecord r;
-    if (*(void **)(p + 0x14c + n * 4)) CLACT_DeleteActor(*(void **)(p + 0x14c + n * 4));
-    r.x = 0; r.y = 0; r.z = 1; r.a = 10; r.b = 2;
-    *(void **)(p + 0x14c + n * 4) = CLACT_CreateActor((void *)*(unsigned int *)&((struct GtsnegoMsgCtx *)p)->f10, *(u32 *)(p + (k + 6) * 4 + 0x18), *(unsigned int *)&((struct GtsnegoMsgCtx *)p)->f20, *(u32 *)(p + (k + 25) * 4 + 0x18), &r, 1, ((struct GtsnegoMsgCtx *)p)->fF4);
-    CLACT_SetActorAutoAnim(*(void **)(p + 0x14c + n * 4), 1);
-    CLACT_SetActorDrawEnable(*(void **)(p + 0x14c + n * 4), 0);
+    PosRecord actorPos;
+    if (*(void **)(actorSys + 0x14c + slot * 4)) CLACT_DeleteActor(*(void **)(actorSys + 0x14c + slot * 4));
+    actorPos.x = 0; actorPos.y = 0; actorPos.z = 1; actorPos.a = 10; actorPos.b = 2;
+    *(void **)(actorSys + 0x14c + slot * 4) = CLACT_CreateActor((void *)*(unsigned int *)&((struct GtsnegoActorSys *)actorSys)->clactUnit, *(u32 *)(actorSys + (outfit + 6) * 4 + 0x18), *(unsigned int *)&((struct GtsnegoActorSys *)actorSys)->listPalette, *(u32 *)(actorSys + (outfit + 25) * 4 + 0x18), &actorPos, 1, ((struct GtsnegoActorSys *)actorSys)->heapId);
+    CLACT_SetActorAutoAnim(*(void **)(actorSys + 0x14c + slot * 4), 1);
+    CLACT_SetActorDrawEnable(*(void **)(actorSys + 0x14c + slot * 4), 0);
 }
 
-void GTSNEGO_MSG_SetListActorPos(u8 *p, int index, int x, int y)
+void GTSNEGO_MSG_SetListActorPos(u8 *actorSys, int index, int x, int y)
 {
     Vec pos;
     if (index < 6) {
         pos.x = x;
         pos.y = y;
-        CLACT_AddActorSurfacePos(*(void **)((u32)p + 0x14c + (u32)index * 4), (const struct Vec2 *)(&pos), 1);
-        CLACT_SetActorDrawEnable(*(void **)((u32)p + 0x14c + (u32)index * 4), 1);
+        CLACT_AddActorSurfacePos(*(void **)((u32)actorSys + 0x14c + (u32)index * 4), (const struct Vec2 *)(&pos), 1);
+        CLACT_SetActorDrawEnable(*(void **)((u32)actorSys + 0x14c + (u32)index * 4), 1);
     }
 }
 
-void GTSNEGO_MSG_SetListEntry(u8 *p, void *entry, int index)
+void GTSNEGO_MSG_SetListEntry(u8 *actorSys, void *entry, int index)
 {
     if (entry != 0) {
-        GTSNEGO_MSG_CreateListActor(p, index, MYSTATUS_GetOutfit((const struct Sub0200852CObj *)((int)entry)));
-        GTSNEGO_MSG_SetListActorPos(p, index, 16, -48 * (1 - index));
+        GTSNEGO_MSG_CreateListActor(actorSys, index, MYSTATUS_GetOutfit((const struct Sub0200852CObj *)((int)entry)));
+        GTSNEGO_MSG_SetListActorPos(actorSys, index, 16, -48 * (1 - index));
     }
 }
 
-void GTSNEGO_MSG_MoveListActor(u8 *p, int index, int delta)
+void GTSNEGO_MSG_MoveListActor(u8 *actorSys, int index, int delta)
 {
     Vec pos;
-    if (*(void **)((u32)p + 0x14c + (u32)index * 4) != 0) {
-        CLACT_GetActorSurfacePos(*(void **)((u32)p + 0x14c + (u32)index * 4), (struct PtS *)&pos, 1);
+    if (*(void **)((u32)actorSys + 0x14c + (u32)index * 4) != 0) {
+        CLACT_GetActorSurfacePos(*(void **)((u32)actorSys + 0x14c + (u32)index * 4), (struct PtS *)&pos, 1);
         pos.y += (s16)delta;
-        CLACT_AddActorSurfacePos(*(void **)((u32)p + 0x14c + (u32)index * 4), (const struct Vec2 *)(&pos), 1);
+        CLACT_AddActorSurfacePos(*(void **)((u32)actorSys + 0x14c + (u32)index * 4), (const struct Vec2 *)(&pos), 1);
     }
 }
 
-void GTSNEGO_MSG_ScrollListDown(u8 *p, void *q)
+void GTSNEGO_MSG_ScrollListDown(u8 *actorSys, void *entry)
 {
     int i;
-    if (q) {
-        if (((struct GtsnegoMsgCtx *)p)->f14C) CLACT_DeleteActor(((struct GtsnegoMsgCtx *)p)->f14C);
-        for (i = 0; i < 5; i++) *(void **)(p + 0x14c + i * 4) = *(void **)(p + 0x150 + i * 4);
-        ((struct GtsnegoMsgCtx *)p)->f160 = 0;
-        GTSNEGO_MSG_SetListEntry(p, q, 5);
+    if (entry) {
+        if (((struct GtsnegoActorSys *)actorSys)->listActorFirst) CLACT_DeleteActor(((struct GtsnegoActorSys *)actorSys)->listActorFirst);
+        for (i = 0; i < 5; i++) *(void **)(actorSys + 0x14c + i * 4) = *(void **)(actorSys + 0x150 + i * 4);
+        ((struct GtsnegoActorSys *)actorSys)->listActorLast = 0;
+        GTSNEGO_MSG_SetListEntry(actorSys, entry, 5);
     }
 }
 
-void GTSNEGO_MSG_ScrollListUp(u8 *p, void *q)
+void GTSNEGO_MSG_ScrollListUp(u8 *actorSys, void *entry)
 {
     int i;
-    if (q) {
-        if (((struct GtsnegoMsgCtx *)p)->f160) CLACT_DeleteActor(((struct GtsnegoMsgCtx *)p)->f160);
-        for (i = 5; i > 0; i--) *(void **)(p + 0x14c + i * 4) = *(void **)(p + 0x148 + i * 4);
-        ((struct GtsnegoMsgCtx *)p)->f14C = 0;
-        GTSNEGO_MSG_SetListEntry(p, q, 0);
+    if (entry) {
+        if (((struct GtsnegoActorSys *)actorSys)->listActorLast) CLACT_DeleteActor(((struct GtsnegoActorSys *)actorSys)->listActorLast);
+        for (i = 5; i > 0; i--) *(void **)(actorSys + 0x14c + i * 4) = *(void **)(actorSys + 0x148 + i * 4);
+        ((struct GtsnegoActorSys *)actorSys)->listActorFirst = 0;
+        GTSNEGO_MSG_SetListEntry(actorSys, entry, 0);
     }
 }
 
-void GTSNEGO_MSG_FillListRange(u8 *p, void *container, int offset)
+void GTSNEGO_MSG_FillListRange(u8 *actorSys, void *container, int offset)
 {
     int i;
     void *entry;
     for (i = 0; i < 6; i++) {
         if ((int)((u32)i + (u32)offset) >= 0) {
             entry = GTSNEGO_DISP_GetEntry(container, (int)((u32)i + (u32)offset));
-            if (entry != 0) GTSNEGO_MSG_SetListEntry(p, entry, i);
+            if (entry != 0) GTSNEGO_MSG_SetListEntry(actorSys, entry, i);
         }
     }
 }
 
-int GTSNEGO_MSG_GetListRowY(struct GtsnegoMsgCtx *p, int index, int count)
+int GTSNEGO_MSG_GetListRowY(struct GtsnegoActorSys *actorSys, int index, int count)
 {
     if (index == 0) return 0;
     count = (int)((u32)count - 1);
@@ -781,11 +781,11 @@ int GTSNEGO_MSG_GetListRowY(struct GtsnegoMsgCtx *p, int index, int count)
     return _s32_div_f((int)((u32)index * 132), count);
 }
 
-int GTSNEGO_MSG_GetListRowYF(struct GtsnegoMsgCtx *p, int n, int count)
+int GTSNEGO_MSG_GetListRowYF(struct GtsnegoActorSys *actorSys, int y, int count)
 {
     float f;
     float scale;
-    f = (float)(n - 26);
+    f = (float)(y - 26);
     scale = 132.0f;
     if (count <= 3) return 0;
     f = f / (scale / (float)(count - 2));
@@ -793,147 +793,147 @@ int GTSNEGO_MSG_GetListRowYF(struct GtsnegoMsgCtx *p, int n, int count)
     return (int)f;
 }
 
-void GTSNEGO_MSG_SetIconY(struct GtsnegoMsgCtx *p, int index, int count)
+void GTSNEGO_MSG_SetIconY(struct GtsnegoActorSys *actorSys, int index, int count)
 {
     Vec pos;
-    if (p->f140 != 0) {
-        CLACT_GetActorSurfacePos(p->f140, (struct PtS *)&pos, 1);
-        pos.y = GTSNEGO_MSG_GetListRowY(p, index, count) + 26;
-        CLACT_AddActorSurfacePos(p->f140, (const struct Vec2 *)(&pos), 1);
+    if (actorSys->iconActor != 0) {
+        CLACT_GetActorSurfacePos(actorSys->iconActor, (struct PtS *)&pos, 1);
+        pos.y = GTSNEGO_MSG_GetListRowY(actorSys, index, count) + 26;
+        CLACT_AddActorSurfacePos(actorSys->iconActor, (const struct Vec2 *)(&pos), 1);
     }
 }
 
-int GTSNEGO_MSG_SetIconYClamped(struct GtsnegoMsgCtx *p,int y,int count) { Pt pt; int result; result=0; if(p->f140) { CLACT_GetActorSurfacePos(p->f140,(struct PtS *)&pt,1); pt.y=y; CLACT_AddActorSurfacePos(p->f140,(const struct Vec2 *)(&pt),1); result=GTSNEGO_MSG_GetListRowYF(p,y,count); } return result; }
+int GTSNEGO_MSG_SetIconYClamped(struct GtsnegoActorSys *actorSys,int y,int count) { Pt pt; int result; result=0; if(actorSys->iconActor) { CLACT_GetActorSurfacePos(actorSys->iconActor,(struct PtS *)&pt,1); pt.y=y; CLACT_AddActorSurfacePos(actorSys->iconActor,(const struct Vec2 *)(&pt),1); result=GTSNEGO_MSG_GetListRowYF(actorSys,y,count); } return result; }
 
 /*
  * extent: trailing 2-byte alignment padding only.
  */
-void GTSNEGO_MSG_CycleIdleAnim(char *p) { u16 next; next=CLACT_GetActorAnimSeq(((struct GtsnegoMsgCtx *)p)->f130)+1; if(next>26) next=11; CLACT_SetActorAnimSeq(((struct GtsnegoMsgCtx *)p)->f130,next); }
+void GTSNEGO_MSG_CycleIdleAnim(char *actorSys) { u16 next; next=CLACT_GetActorAnimSeq(((struct GtsnegoActorSys *)actorSys)->idleCharActor)+1; if(next>26) next=11; CLACT_SetActorAnimSeq(((struct GtsnegoActorSys *)actorSys)->idleCharActor,next); }
 
-void GTSNEGO_MSG_CreateIdleActors(u8 *p)
+void GTSNEGO_MSG_CreateIdleActors(u8 *actorSys)
 {
     Callback c;
-    PosRecord r;
-    r.x=128; r.y=52; r.z=27; r.a=2; r.b=1;
-    ((struct GtsnegoMsgCtx *)p)->f12C=CLACT_CreateActor((void *)*(unsigned int *)&((struct GtsnegoMsgCtx *)p)->f10,*(unsigned int *)&((struct GtsnegoMsgCtx *)p)->f2C,*(unsigned int *)&((struct GtsnegoMsgCtx *)p)->f1C,*(unsigned int *)&((struct GtsnegoMsgCtx *)p)->f78,&r,0,((struct GtsnegoMsgCtx *)p)->fF4);
-    CLACT_SetActorAutoAnim(((struct GtsnegoMsgCtx *)p)->f12C,1);
-    CLACT_SetActorDrawEnable(((struct GtsnegoMsgCtx *)p)->f12C,1);
-    r.z=11; r.a=1;
-    ((struct GtsnegoMsgCtx *)p)->f130=CLACT_CreateActor((void *)*(unsigned int *)&((struct GtsnegoMsgCtx *)p)->f10,*(unsigned int *)&((struct GtsnegoMsgCtx *)p)->f2C,*(unsigned int *)&((struct GtsnegoMsgCtx *)p)->f1C,*(unsigned int *)&((struct GtsnegoMsgCtx *)p)->f78,&r,0,((struct GtsnegoMsgCtx *)p)->fF4);
-    CLACT_SetActorAutoAnim(((struct GtsnegoMsgCtx *)p)->f130,1);
-    CLACT_SetActorDrawEnable(((struct GtsnegoMsgCtx *)p)->f130,1);
-    c.n=0; c.p=p; c.f=(void (*)(u8 *))GTSNEGO_MSG_CycleIdleAnim;
-    CLACT_ApplyActorAnimCommand(((struct GtsnegoMsgCtx *)p)->f130,(const struct Cmd *)(&c));
+    PosRecord actorPos;
+    actorPos.x=128; actorPos.y=52; actorPos.z=27; actorPos.a=2; actorPos.b=1;
+    ((struct GtsnegoActorSys *)actorSys)->idleFrameActor=CLACT_CreateActor((void *)*(unsigned int *)&((struct GtsnegoActorSys *)actorSys)->clactUnit,*(unsigned int *)&((struct GtsnegoActorSys *)actorSys)->idleChar,*(unsigned int *)&((struct GtsnegoActorSys *)actorSys)->idlePalette,*(unsigned int *)&((struct GtsnegoActorSys *)actorSys)->idleCellAnim,&actorPos,0,((struct GtsnegoActorSys *)actorSys)->heapId);
+    CLACT_SetActorAutoAnim(((struct GtsnegoActorSys *)actorSys)->idleFrameActor,1);
+    CLACT_SetActorDrawEnable(((struct GtsnegoActorSys *)actorSys)->idleFrameActor,1);
+    actorPos.z=11; actorPos.a=1;
+    ((struct GtsnegoActorSys *)actorSys)->idleCharActor=CLACT_CreateActor((void *)*(unsigned int *)&((struct GtsnegoActorSys *)actorSys)->clactUnit,*(unsigned int *)&((struct GtsnegoActorSys *)actorSys)->idleChar,*(unsigned int *)&((struct GtsnegoActorSys *)actorSys)->idlePalette,*(unsigned int *)&((struct GtsnegoActorSys *)actorSys)->idleCellAnim,&actorPos,0,((struct GtsnegoActorSys *)actorSys)->heapId);
+    CLACT_SetActorAutoAnim(((struct GtsnegoActorSys *)actorSys)->idleCharActor,1);
+    CLACT_SetActorDrawEnable(((struct GtsnegoActorSys *)actorSys)->idleCharActor,1);
+    c.n=0; c.p=actorSys; c.f=(void (*)(u8 *))GTSNEGO_MSG_CycleIdleAnim;
+    CLACT_ApplyActorAnimCommand(((struct GtsnegoActorSys *)actorSys)->idleCharActor,(const struct Cmd *)(&c));
     BG_SYS_SetMainVisiblePlanes(31);
 }
 
-void GTSNEGO_MSG_DeleteIdleActors(char *p) { CLACT_SetActorDrawEnable(((struct GtsnegoMsgCtx *)p)->f12C,0); CLACT_DeleteActor(((struct GtsnegoMsgCtx *)p)->f12C); CLACT_SetActorDrawEnable(((struct GtsnegoMsgCtx *)p)->f130,0); CLACT_DeleteActor(((struct GtsnegoMsgCtx *)p)->f130); }
+void GTSNEGO_MSG_DeleteIdleActors(char *actorSys) { CLACT_SetActorDrawEnable(((struct GtsnegoActorSys *)actorSys)->idleFrameActor,0); CLACT_DeleteActor(((struct GtsnegoActorSys *)actorSys)->idleFrameActor); CLACT_SetActorDrawEnable(((struct GtsnegoActorSys *)actorSys)->idleCharActor,0); CLACT_DeleteActor(((struct GtsnegoActorSys *)actorSys)->idleCharActor); }
 
-void GTSNEGO_MSG_SetIdleAnim(struct GtsnegoMsgCtx *p,int n)
+void GTSNEGO_MSG_SetIdleAnim(struct GtsnegoActorSys *actorSys,int outfit)
 {
     Table a=gGtsnegoIdleAnimTable;
-    void *t=ARC_TOOL_CreateHandle(144,p->fF4);
-    ARC_UTIL_UploadBgPaletteAddFromHandle(t,15,0,0,(u16)(p->f4),0,0,p->fF4);
-    ARC_TOOL_DeleteHandle(t);
-    CLACT_SetActorAutoAnim(p->f130,0);
-    CLACT_SetActorAnimSeq(p->f130,a.a[n]+11);
-    CLACT_SetActorAnimIndex((int)(p->f130),4);
-    CLACT_SetActorAnimSeq(p->f12C,28);
+    void *arcHandle=ARC_TOOL_CreateHandle(144,actorSys->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(arcHandle,15,0,0,(u16)(actorSys->bgCharLayer0),0,0,actorSys->heapId);
+    ARC_TOOL_DeleteHandle(arcHandle);
+    CLACT_SetActorAutoAnim(actorSys->idleCharActor,0);
+    CLACT_SetActorAnimSeq(actorSys->idleCharActor,a.a[outfit]+11);
+    CLACT_SetActorAnimIndex((int)(actorSys->idleCharActor),4);
+    CLACT_SetActorAnimSeq(actorSys->idleFrameActor,28);
     BG_SYS_SetFlagField06(0);
-    p->f110=0;
-    p->f114=0;
+    actorSys->idleFadePos=0;
+    actorSys->idleFadeActive=0;
 }
 
-void GTSNEGO_MSG_CreateIdleUi(u8 *p)
+void GTSNEGO_MSG_CreateIdleUi(u8 *actorSys)
 {
-    void *t=ARC_TOOL_CreateHandle(144,((struct GtsnegoMsgCtx *)p)->fF4);
-    ARC_UTIL_UploadBgPaletteAddFromHandle(t,14,2,0,(u16)(((struct GtsnegoMsgCtx *)p)->f4),0,0,((struct GtsnegoMsgCtx *)p)->fF4);
-    ARC_UTIL_UploadBgPaletteAddFromHandle(t,13,0,0,(u16)(((struct GtsnegoMsgCtx *)p)->f4),0,0,((struct GtsnegoMsgCtx *)p)->fF4);
-    ARC_UTIL_UploadBgPaletteAddFromHandle(t,16,3,0,(u16)(((struct GtsnegoMsgCtx *)p)->f4),0,0,((struct GtsnegoMsgCtx *)p)->fF4);
-    ARC_TOOL_DeleteHandle(t);
-    GTSNEGO_MSG_CreateIdleActors(p);
+    void *arcHandle=ARC_TOOL_CreateHandle(144,((struct GtsnegoActorSys *)actorSys)->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(arcHandle,14,2,0,(u16)(((struct GtsnegoActorSys *)actorSys)->bgCharLayer0),0,0,((struct GtsnegoActorSys *)actorSys)->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(arcHandle,13,0,0,(u16)(((struct GtsnegoActorSys *)actorSys)->bgCharLayer0),0,0,((struct GtsnegoActorSys *)actorSys)->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(arcHandle,16,3,0,(u16)(((struct GtsnegoActorSys *)actorSys)->bgCharLayer0),0,0,((struct GtsnegoActorSys *)actorSys)->heapId);
+    ARC_TOOL_DeleteHandle(arcHandle);
+    GTSNEGO_MSG_CreateIdleActors(actorSys);
     BG_SYS_SetFlagField06(2); BG_SYS_SetFlagField06(0); BG_SYS_SetFlagField06(3);
-    ((struct GtsnegoMsgCtx *)p)->f110=0;
-    ((struct GtsnegoMsgCtx *)p)->f114=1;
+    ((struct GtsnegoActorSys *)actorSys)->idleFadePos=0;
+    ((struct GtsnegoActorSys *)actorSys)->idleFadeActive=1;
 }
 
-void GTSNEGO_MSG_StepIdleFade(struct GtsnegoMsgCtx *p) { if(p->f114) { BG_SYS_FillScrollArea(2,3,p->f110); p->f110+=1; } }
+void GTSNEGO_MSG_StepIdleFade(struct GtsnegoActorSys *actorSys) { if(actorSys->idleFadeActive) { BG_SYS_FillScrollArea(2,3,actorSys->idleFadePos); actorSys->idleFadePos+=1; } }
 
 /*
  * trailing: 2-byte zero alignment padding at 0x021D770E.
  * lever: indexed pointer sum before the far field offset preserves the base.
  */
-void GTSNEGO_MSG_Teardown(u8 *p)
+void GTSNEGO_MSG_Teardown(u8 *actorSys)
 {
     int i;
-    void *t;
+    void *arcHandle;
     for(i=0;i<6;i++) {
-        if(*(void **)(p+i*4+0x14c)) {
-            CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x14c),0);
-            CLACT_DeleteActor(*(void **)(p+i*4+0x14c));
-            *(u32 *)(p+i*4+0x14c)=0;
+        if(*(void **)(actorSys+i*4+0x14c)) {
+            CLACT_SetActorDrawEnable(*(void **)(actorSys+i*4+0x14c),0);
+            CLACT_DeleteActor(*(void **)(actorSys+i*4+0x14c));
+            *(u32 *)(actorSys+i*4+0x14c)=0;
         }
     }
-    GTSNEGO_MSG_DeleteCursorActor(p);
-    GTSNEGO_MSG_DeleteTileHandle(p);
-    GTSNEGO_MSG_DeleteIdleActors((char *)p);
-    GTSNEGO_MSG_DeleteIconActors(p);
-    GTSNEGO_MSG_DeleteActors(p);
-    t=ARC_TOOL_CreateHandle((u32)((void *)144),((struct GtsnegoMsgCtx *)p)->fF4);
-    ARC_UTIL_UploadBgPaletteAddFromHandle(t,12,0,0,(u16)(((struct GtsnegoMsgCtx *)p)->f4),0,0,((struct GtsnegoMsgCtx *)p)->fF4);
-    ARC_UTIL_UploadBgPaletteAddFromHandle(t,18,4,0,(u16)(((struct GtsnegoMsgCtx *)p)->f0),0,0,((struct GtsnegoMsgCtx *)p)->fF4);
-    ARC_UTIL_UploadPaletteFromHandle(t,2,5,0,0x100,0x100,((struct GtsnegoMsgCtx *)p)->fF4);
-    ARC_TOOL_DeleteHandle(t);
-    GTSNEGO_DISP_DeleteTouchbar(p);
-    GTSNEGO_DISP_CreateTouchbar(p,0);
+    GTSNEGO_MSG_DeleteCursorActor(actorSys);
+    GTSNEGO_MSG_DeleteTileHandle(actorSys);
+    GTSNEGO_MSG_DeleteIdleActors((char *)actorSys);
+    GTSNEGO_MSG_DeleteIconActors(actorSys);
+    GTSNEGO_MSG_DeleteActors(actorSys);
+    arcHandle=ARC_TOOL_CreateHandle((u32)((void *)144),((struct GtsnegoActorSys *)actorSys)->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(arcHandle,12,0,0,(u16)(((struct GtsnegoActorSys *)actorSys)->bgCharLayer0),0,0,((struct GtsnegoActorSys *)actorSys)->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(arcHandle,18,4,0,(u16)(((struct GtsnegoActorSys *)actorSys)->bgCharLayer4),0,0,((struct GtsnegoActorSys *)actorSys)->heapId);
+    ARC_UTIL_UploadPaletteFromHandle(arcHandle,2,5,0,0x100,0x100,((struct GtsnegoActorSys *)actorSys)->heapId);
+    ARC_TOOL_DeleteHandle(arcHandle);
+    GTSNEGO_DISP_DeleteTouchbar(actorSys);
+    GTSNEGO_DISP_CreateTouchbar(actorSys,0);
     BG_SYS_SetPlaneVisible(2,0);
     BG_SYS_SetFlagField06(0);
     BG_SYS_SetPlaneVisible(3,0);
-    ((struct GtsnegoMsgCtx *)p)->f110=0;
-    ((struct GtsnegoMsgCtx *)p)->f114=0;
+    ((struct GtsnegoActorSys *)actorSys)->idleFadePos=0;
+    ((struct GtsnegoActorSys *)actorSys)->idleFadeActive=0;
 }
 
 
-void GTSNEGO_MSG_DeleteButtons(u8 *p)
+void GTSNEGO_MSG_DeleteButtons(u8 *msgCtx)
 {
-    if (((struct GtsnegoMsgCtx *)p)->f8) {
-        BUTTON_MAN_Delete(((struct GtsnegoMsgCtx *)p)->f8);
-        *(u32 *)&((struct GtsnegoMsgCtx *)p)->f8 = 0;
+    if (((struct GtsnegoMsgCtx *)msgCtx)->buttonMan) {
+        BUTTON_MAN_Delete(((struct GtsnegoMsgCtx *)msgCtx)->buttonMan);
+        *(u32 *)&((struct GtsnegoMsgCtx *)msgCtx)->buttonMan = 0;
     }
 }
 
 /*
  * interfaces: 0201EC74 heap widened because caller passes the entire ldrh value without byte truncation.
  */
-char *GTSNEGO_MSG_Create(u32 heap,u32 n)
+char *GTSNEGO_MSG_Create(u32 heap,u32 msgFileId)
 {
     char *p=GFL_HEAP_Alloc(heap,0xd0,1,sGtsnegoMsgHeapName,0xa9);
-    ((struct GtsnegoMsgCtx *)p)->fC8=heap;
-    BMP_WIN_Init(((struct GtsnegoMsgCtx *)p)->fC8);
+    ((struct GtsnegoMsgCtx *)p)->heapId=heap;
+    BMP_WIN_Init(((struct GtsnegoMsgCtx *)p)->heapId);
     GF_FONT_InitTextColor();
-    ((struct GtsnegoMsgCtx *)p)->fA0=TCBL_Create(((struct GtsnegoMsgCtx *)p)->fC8,((struct GtsnegoMsgCtx *)p)->fC8,1,0);
-    ((struct GtsnegoMsgCtx *)p)->fA4=(void *)PRINTSYS_QUE_Create((void *)(u32)((struct GtsnegoMsgCtx *)p)->fC8);
-    ((struct GtsnegoMsgCtx *)p)->f1C=STRBUF_Create(240,((struct GtsnegoMsgCtx *)p)->fC8);
-    ((struct GtsnegoMsgCtx *)p)->f18=STRBUF_Create(240,((struct GtsnegoMsgCtx *)p)->fC8);
-    ((struct GtsnegoMsgCtx *)p)->f20=STRBUF_Create(240,((struct GtsnegoMsgCtx *)p)->fC8);
-    ((struct GtsnegoMsgCtx *)p)->f14=GF_FONT_Create(23,0,0,0,((struct GtsnegoMsgCtx *)p)->fC8);
-    ((struct GtsnegoMsgCtx *)p)->fC=MSGDATA_CreateFromArchive(0,2,(u16)n,(u16)(((struct GtsnegoMsgCtx *)p)->fC8));
-    ((struct GtsnegoMsgCtx *)p)->f10=WORDSET_Create(6,64,((struct GtsnegoMsgCtx *)p)->fC8);
-    ((struct GtsnegoMsgCtx *)p)->fC0=APP_TASKMENU_RES_Create(5,9,*(u32 *)&((struct GtsnegoMsgCtx *)p)->f14,*(u32 *)&((struct GtsnegoMsgCtx *)p)->fA4,((struct GtsnegoMsgCtx *)p)->fC8);
-    *(void * *)&((struct GtsnegoMsgCtx *)p)->f4=BMP_MENUWORK_LoadFrameGfx((void *)1,12,0,((struct GtsnegoMsgCtx *)p)->fC8);
-    *(void * *)&((struct GtsnegoMsgCtx *)p)->f0=BMP_MENUWORK_LoadFrameGfx((void *)6,12,0,((struct GtsnegoMsgCtx *)p)->fC8);
-    ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,4,0x160,32,((struct GtsnegoMsgCtx *)p)->fC8);
-    ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,0x160,32,((struct GtsnegoMsgCtx *)p)->fC8);
+    ((struct GtsnegoMsgCtx *)p)->tcbList=TCBL_Create(((struct GtsnegoMsgCtx *)p)->heapId,((struct GtsnegoMsgCtx *)p)->heapId,1,0);
+    ((struct GtsnegoMsgCtx *)p)->printQueue=(void *)PRINTSYS_QUE_Create((void *)(u32)((struct GtsnegoMsgCtx *)p)->heapId);
+    ((struct GtsnegoMsgCtx *)p)->windowText=STRBUF_Create(240,((struct GtsnegoMsgCtx *)p)->heapId);
+    ((struct GtsnegoMsgCtx *)p)->srcText=STRBUF_Create(240,((struct GtsnegoMsgCtx *)p)->heapId);
+    ((struct GtsnegoMsgCtx *)p)->expandedText=STRBUF_Create(240,((struct GtsnegoMsgCtx *)p)->heapId);
+    ((struct GtsnegoMsgCtx *)p)->font=GF_FONT_Create(23,0,0,0,((struct GtsnegoMsgCtx *)p)->heapId);
+    ((struct GtsnegoMsgCtx *)p)->msgData=MSGDATA_CreateFromArchive(0,2,(u16)msgFileId,(u16)(((struct GtsnegoMsgCtx *)p)->heapId));
+    ((struct GtsnegoMsgCtx *)p)->wordSet=WORDSET_Create(6,64,((struct GtsnegoMsgCtx *)p)->heapId);
+    ((struct GtsnegoMsgCtx *)p)->taskMenuRes=APP_TASKMENU_RES_Create(5,9,*(u32 *)&((struct GtsnegoMsgCtx *)p)->font,*(u32 *)&((struct GtsnegoMsgCtx *)p)->printQueue,((struct GtsnegoMsgCtx *)p)->heapId);
+    *(void * *)&((struct GtsnegoMsgCtx *)p)->windowFrameTiles=BMP_MENUWORK_LoadFrameGfx((void *)1,12,0,((struct GtsnegoMsgCtx *)p)->heapId);
+    *(void * *)&((struct GtsnegoMsgCtx *)p)->sysFrameTiles=BMP_MENUWORK_LoadFrameGfx((void *)6,12,0,((struct GtsnegoMsgCtx *)p)->heapId);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,4,0x160,32,((struct GtsnegoMsgCtx *)p)->heapId);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,0x160,32,((struct GtsnegoMsgCtx *)p)->heapId);
     return p;
 }
 
-void GTSNEGO_MSG_Main(struct GtsnegoMsgCtx *p)
+void GTSNEGO_MSG_Main(struct GtsnegoMsgCtx *msgCtx)
 {
     GF_FONT_SetTextColor(1, 2, 15);
-    TCBL_Main(p->fA0);
-    PRINTSYS_QUE_Main(p->fA4);
-    if (p->fC4) APP_TASKMENU_WIN_Update(p->fC4);
-    if (p->fCC) PMS_DRAW_Main(p->fCC);
+    TCBL_Main(msgCtx->tcbList);
+    PRINTSYS_QUE_Main(msgCtx->printQueue);
+    if (msgCtx->taskMenuWin) APP_TASKMENU_WIN_Update(msgCtx->taskMenuWin);
+    if (msgCtx->pmsDraw) PMS_DRAW_Main(msgCtx->pmsDraw);
 }
 
 static inline u16 decodeHighHalfword(u32 value)
@@ -947,138 +947,138 @@ static inline u16 decodeHighHalfword(u32 value)
  * lever: decode the high halfword, retain u16 payload arguments, remove
  * the p+16 address temporary and declare every Thumb callee explicitly.
  */
-void GTSNEGO_MSG_Delete(char *p)
+void GTSNEGO_MSG_Delete(char *msgCtx)
 {
     int i;
-    u32 t;
-    t=((struct GtsnegoMsgCtx *)p)->f4;
-    BG_SYS_DeleteHalf(1,(u16)t,decodeHighHalfword(t));
-    t=((struct GtsnegoMsgCtx *)p)->f0;
-    BG_SYS_DeleteHalf(6,(u16)t,decodeHighHalfword(t));
-    GTSNEGO_MSG_DeleteButtons((u8 *)p);
+    u32 frameTiles;
+    frameTiles=((struct GtsnegoMsgCtx *)msgCtx)->windowFrameTiles;
+    BG_SYS_DeleteHalf(1,(u16)frameTiles,decodeHighHalfword(frameTiles));
+    frameTiles=((struct GtsnegoMsgCtx *)msgCtx)->sysFrameTiles;
+    BG_SYS_DeleteHalf(6,(u16)frameTiles,decodeHighHalfword(frameTiles));
+    GTSNEGO_MSG_DeleteButtons((u8 *)msgCtx);
     GF_FONT_SetDefaultTextColor();
-    MSGDATA_Delete(((struct GtsnegoMsgCtx *)p)->fC);
-    GF_FONT_Delete(((struct GtsnegoMsgCtx *)p)->f14);
-    STRBUF_Delete(((struct GtsnegoMsgCtx *)p)->f18);
-    STRBUF_Delete(((struct GtsnegoMsgCtx *)p)->f1C);
-    STRBUF_Delete(((struct GtsnegoMsgCtx *)p)->f20);
-    GTSNEGO_MSG_DeleteDraw((u8 *)p);
-    if(((struct GtsnegoMsgCtx *)p)->f9C) {PRINTSYS_PrintStreamDelete(((struct GtsnegoMsgCtx *)p)->f9C);((struct GtsnegoMsgCtx *)p)->f9C=0;}
-    WORDSET_DeleteStrbufED04(((struct GtsnegoMsgCtx *)p)->f10);
-    if(((struct GtsnegoMsgCtx *)p)->fC4) {APP_TASKMENU_WIN_Delete(((struct GtsnegoMsgCtx *)p)->fC4);((struct GtsnegoMsgCtx *)p)->fC4=0;}
-    APP_TASKMENU_RES_Delete(((struct GtsnegoMsgCtx *)p)->fC0);
-    TCBL_Destroy(((struct GtsnegoMsgCtx *)p)->fA0);
-    PRINTSYS_QUE_Clear(((struct GtsnegoMsgCtx *)p)->fA4);
-    PRINTSYS_QUE_Delete(((struct GtsnegoMsgCtx *)p)->fA4);
-    if(((struct GtsnegoMsgCtx *)p)->f30) BMP_WIN_Delete(((struct GtsnegoMsgCtx *)p)->f30);
-    if(((struct GtsnegoMsgCtx *)p)->f84) BMP_WIN_Delete(((struct GtsnegoMsgCtx *)p)->f84);
-    if(((struct GtsnegoMsgCtx *)p)->f98) BMP_WIN_Delete(((struct GtsnegoMsgCtx *)p)->f98);
-    if(((struct GtsnegoMsgCtx *)p)->f90) BMP_WIN_Delete(((struct GtsnegoMsgCtx *)p)->f90);
-    if(((struct GtsnegoMsgCtx *)p)->f8C) BMP_WIN_Delete(((struct GtsnegoMsgCtx *)p)->f8C);
-    if(((struct GtsnegoMsgCtx *)p)->f94) BMP_WIN_Delete(((struct GtsnegoMsgCtx *)p)->f94);
-    if(((struct GtsnegoMsgCtx *)p)->f88) BMP_WIN_Delete(((struct GtsnegoMsgCtx *)p)->f88);
-    if(((struct GtsnegoMsgCtx *)p)->f34) BMP_WIN_Delete(((struct GtsnegoMsgCtx *)p)->f34);
-    if(((struct GtsnegoMsgCtx *)p)->f68) BMP_WIN_Delete(((struct GtsnegoMsgCtx *)p)->f68);
-    for(i=0;i<12;i++) if(*(void **)(p+i*4+0x38)) BMP_WIN_Delete(*(void **)(p+i*4+0x38));
-    for(i=0;i<6;i++) if(*(void **)(p+i*4+0x6c)) BMP_WIN_Delete(*(void **)(p+i*4+0x6c));
+    MSGDATA_Delete(((struct GtsnegoMsgCtx *)msgCtx)->msgData);
+    GF_FONT_Delete(((struct GtsnegoMsgCtx *)msgCtx)->font);
+    STRBUF_Delete(((struct GtsnegoMsgCtx *)msgCtx)->srcText);
+    STRBUF_Delete(((struct GtsnegoMsgCtx *)msgCtx)->windowText);
+    STRBUF_Delete(((struct GtsnegoMsgCtx *)msgCtx)->expandedText);
+    GTSNEGO_MSG_DeleteDraw((u8 *)msgCtx);
+    if(((struct GtsnegoMsgCtx *)msgCtx)->printStream) {PRINTSYS_PrintStreamDelete(((struct GtsnegoMsgCtx *)msgCtx)->printStream);((struct GtsnegoMsgCtx *)msgCtx)->printStream=0;}
+    WORDSET_DeleteStrbufED04(((struct GtsnegoMsgCtx *)msgCtx)->wordSet);
+    if(((struct GtsnegoMsgCtx *)msgCtx)->taskMenuWin) {APP_TASKMENU_WIN_Delete(((struct GtsnegoMsgCtx *)msgCtx)->taskMenuWin);((struct GtsnegoMsgCtx *)msgCtx)->taskMenuWin=0;}
+    APP_TASKMENU_RES_Delete(((struct GtsnegoMsgCtx *)msgCtx)->taskMenuRes);
+    TCBL_Destroy(((struct GtsnegoMsgCtx *)msgCtx)->tcbList);
+    PRINTSYS_QUE_Clear(((struct GtsnegoMsgCtx *)msgCtx)->printQueue);
+    PRINTSYS_QUE_Delete(((struct GtsnegoMsgCtx *)msgCtx)->printQueue);
+    if(((struct GtsnegoMsgCtx *)msgCtx)->messageWindow) BMP_WIN_Delete(((struct GtsnegoMsgCtx *)msgCtx)->messageWindow);
+    if(((struct GtsnegoMsgCtx *)msgCtx)->entryWindow) BMP_WIN_Delete(((struct GtsnegoMsgCtx *)msgCtx)->entryWindow);
+    if(((struct GtsnegoMsgCtx *)msgCtx)->singleWindow) BMP_WIN_Delete(((struct GtsnegoMsgCtx *)msgCtx)->singleWindow);
+    if(((struct GtsnegoMsgCtx *)msgCtx)->pairWindowBottom) BMP_WIN_Delete(((struct GtsnegoMsgCtx *)msgCtx)->pairWindowBottom);
+    if(((struct GtsnegoMsgCtx *)msgCtx)->pairWindowTop) BMP_WIN_Delete(((struct GtsnegoMsgCtx *)msgCtx)->pairWindowTop);
+    if(((struct GtsnegoMsgCtx *)msgCtx)->tooltipWindow) BMP_WIN_Delete(((struct GtsnegoMsgCtx *)msgCtx)->tooltipWindow);
+    if(((struct GtsnegoMsgCtx *)msgCtx)->drawWindow) BMP_WIN_Delete(((struct GtsnegoMsgCtx *)msgCtx)->drawWindow);
+    if(((struct GtsnegoMsgCtx *)msgCtx)->extraWindow) BMP_WIN_Delete(((struct GtsnegoMsgCtx *)msgCtx)->extraWindow);
+    if(((struct GtsnegoMsgCtx *)msgCtx)->statusWindow) BMP_WIN_Delete(((struct GtsnegoMsgCtx *)msgCtx)->statusWindow);
+    for(i=0;i<12;i++) if(*(void **)(msgCtx+i*4+0x38)) BMP_WIN_Delete(*(void **)(msgCtx+i*4+0x38));
+    for(i=0;i<6;i++) if(*(void **)(msgCtx+i*4+0x6c)) BMP_WIN_Delete(*(void **)(msgCtx+i*4+0x6c));
     BMP_WIN_Exit();
-    GFL_HEAP_Free(p);
+    GFL_HEAP_Free(msgCtx);
 }
 
 /*
  * extent: two bytes of zero alignment padding after the return.
  */
-void GTSNEGO_MSG_PrintWindow(struct GtsnegoMsgCtx *p,u16 n)
+void GTSNEGO_MSG_PrintWindow(struct GtsnegoMsgCtx *msgCtx,u16 msgId)
 {
-    void *q;
-    MSGDATA_ReadString(p->fC,n,(void *)(*(int *)&p->f1C));
-    if (!p->f30) p->f30=(void *)BMP_WIN_Create(1,1,19,30,4,11,1);
-    q=p->f30;
-    BMP_Clear(BMP_WIN_GetBmp(q),15);
+    void *window;
+    MSGDATA_ReadString(msgCtx->msgData,msgId,(void *)(*(int *)&msgCtx->windowText));
+    if (!msgCtx->messageWindow) msgCtx->messageWindow=(void *)BMP_WIN_Create(1,1,19,30,4,11,1);
+    window=msgCtx->messageWindow;
+    BMP_Clear(BMP_WIN_GetBmp(window),15);
     GF_FONT_SetTextColor(1,2,15);
-    PRINTSYS_Print(BMP_WIN_GetBmp(q),0,0,(void *)(*(int *)&p->f1C),(void *)(*(int *)&p->f14));
-    BMP_MENUWORK_DrawWindow(q,1,(u16)(p->f4),12);
-    BMP_WIN_TransferChars(q);
-    BMP_WIN_MakeScreen(q);
+    PRINTSYS_Print(BMP_WIN_GetBmp(window),0,0,(void *)(*(int *)&msgCtx->windowText),(void *)(*(int *)&msgCtx->font));
+    BMP_MENUWORK_DrawWindow(window,1,(u16)(msgCtx->windowFrameTiles),12);
+    BMP_WIN_TransferChars(window);
+    BMP_WIN_MakeScreen(window);
     BG_SYS_SetFlagField06(1);
 }
 
-void GTSNEGO_MSG_PrintWindowB(u8 *p, int n)
+void GTSNEGO_MSG_PrintWindowB(u8 *msgCtx, int msgId)
 {
-    void *q;
-    MSGDATA_ReadString(((struct GtsnegoMsgCtx *)p)->fC,n,(void *)(*(int *)&((struct GtsnegoMsgCtx *)p)->f18));
-    if (!((struct GtsnegoMsgCtx *)p)->f30) ((struct GtsnegoMsgCtx *)p)->f30=(void *)BMP_WIN_Create(1,1,21,30,2,11,1);
-    q=((struct GtsnegoMsgCtx *)p)->f30;
-    BMP_Clear(BMP_WIN_GetBmp(q),15);
+    void *window;
+    MSGDATA_ReadString(((struct GtsnegoMsgCtx *)msgCtx)->msgData,msgId,(void *)(*(int *)&((struct GtsnegoMsgCtx *)msgCtx)->srcText));
+    if (!((struct GtsnegoMsgCtx *)msgCtx)->messageWindow) ((struct GtsnegoMsgCtx *)msgCtx)->messageWindow=(void *)BMP_WIN_Create(1,1,21,30,2,11,1);
+    window=((struct GtsnegoMsgCtx *)msgCtx)->messageWindow;
+    BMP_Clear(BMP_WIN_GetBmp(window),15);
     GF_FONT_SetTextColor(1,2,15);
-    PRINTSYS_Print(BMP_WIN_GetBmp(q),0,0,(void *)(*(int *)&((struct GtsnegoMsgCtx *)p)->f18),(void *)(*(int *)&((struct GtsnegoMsgCtx *)p)->f14));
-    BMP_MENUWORK_DrawWindow(q,1,(u16)(((struct GtsnegoMsgCtx *)p)->f4),12);
-    BMP_WIN_TransferChars(q);
-    BMP_WIN_MakeScreen(q);
+    PRINTSYS_Print(BMP_WIN_GetBmp(window),0,0,(void *)(*(int *)&((struct GtsnegoMsgCtx *)msgCtx)->srcText),(void *)(*(int *)&((struct GtsnegoMsgCtx *)msgCtx)->font));
+    BMP_MENUWORK_DrawWindow(window,1,(u16)(((struct GtsnegoMsgCtx *)msgCtx)->windowFrameTiles),12);
+    BMP_WIN_TransferChars(window);
+    BMP_WIN_MakeScreen(window);
     BG_SYS_SetFlagField06(1);
 }
 
 /*
  * follower: two zero padding bytes at 021D7B36.
  */
-int GTSNEGO_MSG_UpdatePrintStream(struct GtsnegoMsgCtx *p)
+int GTSNEGO_MSG_UpdatePrintStream(struct GtsnegoMsgCtx *msgCtx)
 {
-    if (p->f9C) {
-        switch (PRINTSYS_PrintStreamGetState(p->f9C)) {
-        case 2: PRINTSYS_PrintStreamDelete(p->f9C); p->f9C=0; break;
-        case 1: if (KEY_GetTrg()==1) PRINTSYS_PrintStreamReleasePause(p->f9C); break;
+    if (msgCtx->printStream) {
+        switch (PRINTSYS_PrintStreamGetState(msgCtx->printStream)) {
+        case 2: PRINTSYS_PrintStreamDelete(msgCtx->printStream); msgCtx->printStream=0; break;
+        case 1: if (KEY_GetTrg()==1) PRINTSYS_PrintStreamReleasePause(msgCtx->printStream); break;
         }
         return 0;
     }
     return 1;
 }
 
-void GTSNEGO_MSG_DeleteWindow(struct GtsnegoMsgCtx *p) { if(p->f30) { BMP_MENUWORK_DrawWindowBorder(p->f30,2); BMP_WIN_ClearScreen(p->f30); BG_SYS_SetFlagField06(1); BMP_WIN_Delete(p->f30); p->f30=0; } }
+void GTSNEGO_MSG_DeleteWindow(struct GtsnegoMsgCtx *msgCtx) { if(msgCtx->messageWindow) { BMP_MENUWORK_DrawWindowBorder(msgCtx->messageWindow,2); BMP_WIN_ClearScreen(msgCtx->messageWindow); BG_SYS_SetFlagField06(1); BMP_WIN_Delete(msgCtx->messageWindow); msgCtx->messageWindow=0; } }
 
-void *GTSNEGO_MSG_OpenMenu(char *p,int n)
+void *GTSNEGO_MSG_OpenMenu(char *msgCtx,int position)
 {
     TextConfig config;
     void *result;
     void *text;
-    config.heap=((struct GtsnegoMsgCtx *)p)->fC8;
+    config.heap=((struct GtsnegoMsgCtx *)msgCtx)->heapId;
     config.count=2;
-    config.entries=p+0xa8;
-    switch(n) {
+    config.entries=msgCtx+0xa8;
+    switch(position) {
     case 0: config.x=32;config.y=14;config.mode=1;break;
     case 1: config.x=32;config.y=24;config.mode=1;break;
     }
     config.a=13;config.b=3;
-    text=STRBUF_Create(100,((struct GtsnegoMsgCtx *)p)->fC8);
-    ((struct GtsnegoMsgCtx *)p)->fA8=text;
-    MSGDATA_ReadString(((struct GtsnegoMsgCtx *)p)->fC,25,text);
-    ((struct GtsnegoMsgCtx *)p)->fAC=0x39e0;
-    text=STRBUF_Create(100,((struct GtsnegoMsgCtx *)p)->fC8);
-    ((struct GtsnegoMsgCtx *)p)->fB4=text;
-    MSGDATA_ReadString(((struct GtsnegoMsgCtx *)p)->fC,26,text);
-    ((struct GtsnegoMsgCtx *)p)->fB8=0x39e0;
-    result=APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&config),((struct GtsnegoMsgCtx *)p)->fC0);
-    STRBUF_Delete(((struct GtsnegoMsgCtx *)p)->fA8);
-    STRBUF_Delete(((struct GtsnegoMsgCtx *)p)->fB4);
+    text=STRBUF_Create(100,((struct GtsnegoMsgCtx *)msgCtx)->heapId);
+    ((struct GtsnegoMsgCtx *)msgCtx)->menuEntryText0=text;
+    MSGDATA_ReadString(((struct GtsnegoMsgCtx *)msgCtx)->msgData,25,text);
+    ((struct GtsnegoMsgCtx *)msgCtx)->menuEntryColor0=0x39e0;
+    text=STRBUF_Create(100,((struct GtsnegoMsgCtx *)msgCtx)->heapId);
+    ((struct GtsnegoMsgCtx *)msgCtx)->menuEntryText1=text;
+    MSGDATA_ReadString(((struct GtsnegoMsgCtx *)msgCtx)->msgData,26,text);
+    ((struct GtsnegoMsgCtx *)msgCtx)->menuEntryColor1=0x39e0;
+    result=APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&config),((struct GtsnegoMsgCtx *)msgCtx)->taskMenuRes);
+    STRBUF_Delete(((struct GtsnegoMsgCtx *)msgCtx)->menuEntryText0);
+    STRBUF_Delete(((struct GtsnegoMsgCtx *)msgCtx)->menuEntryText1);
     return result;
 }
 
-int GTSNEGO_MSG_UpdateButtons(struct GtsnegoMsgCtx *p) { return BUTTON_MAN_UpdateSlots(p->f8); }
+int GTSNEGO_MSG_UpdateButtons(struct GtsnegoMsgCtx *msgCtx) { return BUTTON_MAN_UpdateSlots(msgCtx->buttonMan); }
 
-void GTSNEGO_MSG_DeleteRows(char *p) { int i; char *q; for(i=0;i<12;i++) { q=(char *)((u32)p+(u32)i*4); if(((struct GtsnegoMsgCtx *)q)->f38) { BMP_WIN_Delete(((struct GtsnegoMsgCtx *)q)->f38); ((struct GtsnegoMsgCtx *)q)->f38=0; } } GF_FONT_SetTextColor(1,2,0); }
+void GTSNEGO_MSG_DeleteRows(char *msgCtx) { int i; char *q; for(i=0;i<12;i++) { q=(char *)((u32)msgCtx+(u32)i*4); if(((struct GtsnegoMsgCtx *)q)->rowWindow) { BMP_WIN_Delete(((struct GtsnegoMsgCtx *)q)->rowWindow); ((struct GtsnegoMsgCtx *)q)->rowWindow=0; } } GF_FONT_SetTextColor(1,2,0); }
 
-int GTSNEGO_MSG_CreateRow(u8 *p, int n, int a, int b, int c, int d)
+int GTSNEGO_MSG_CreateRow(u8 *msgCtx, int msgId, int x, int y, int width, int bgLayer)
 {
     int i;
-    void *q;
+    void *window;
     for(i=0;i<12;i++) {
-        if(!*(void **)(p+i*4+0x38)) {
-            ((void **)(p+0x38))[i]=(void *)BMP_WIN_Create((u8)d,(u8)a,(u8)b,(u8)c,2,11,1);
-            q=((void **)(p+0x38))[i];
-            BMP_Clear((struct CharBuf *)BMP_WIN_GetBmp((struct Descriptor *)q),0);
-            MSGDATA_ReadString(*(struct MsgBank **)(p+0xc),n,*(void **)(p+0x18));
-            PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)q),2,2,*(void **)(p+0x18),*(void **)(p+0x14));
-            BMP_WIN_TransferChars((struct Descriptor *)q);
-            BMP_WIN_MakeScreen((struct Cfg *)q);
+        if(!*(void **)(msgCtx+i*4+0x38)) {
+            ((void **)(msgCtx+0x38))[i]=(void *)BMP_WIN_Create((u8)bgLayer,(u8)x,(u8)y,(u8)width,2,11,1);
+            window=((void **)(msgCtx+0x38))[i];
+            BMP_Clear((struct CharBuf *)BMP_WIN_GetBmp((struct Descriptor *)window),0);
+            MSGDATA_ReadString(*(struct MsgBank **)(msgCtx+0xc),msgId,*(void **)(msgCtx+0x18));
+            PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)window),2,2,*(void **)(msgCtx+0x18),*(void **)(msgCtx+0x14));
+            BMP_WIN_TransferChars((struct Descriptor *)window);
+            BMP_WIN_MakeScreen((struct Cfg *)window);
             return i;
         }
     }
@@ -1086,424 +1086,424 @@ int GTSNEGO_MSG_CreateRow(u8 *p, int n, int a, int b, int c, int d)
 }
 
 
-int GTSNEGO_MSG_CreateRowEx(int a, int b, int c, int d)
+int GTSNEGO_MSG_CreateRowEx(int msgCtx, int msgId, int x, int y)
 {
-    return GTSNEGO_MSG_CreateRow((u8 *)a, b, c, d, 0x14, 6);
+    return GTSNEGO_MSG_CreateRow((u8 *)msgCtx, msgId, x, y, 0x14, 6);
 }
 
 /*
  * follower: two zero padding bytes at 021D7D2E.
  */
-void GTSNEGO_MSG_RedrawRow(char *p,u16 n,int i)
+void GTSNEGO_MSG_RedrawRow(char *msgCtx,u16 msgId,int row)
 {
-    void *q=*(void **)(p+0x38+4*i);
+    void *q=*(void **)(msgCtx+0x38+4*row);
     if(q) {
         BMP_Clear(BMP_WIN_GetBmp(q),0);
-        MSGDATA_ReadString(((struct GtsnegoMsgCtx *)p)->fC,n,(void *)(*(int *)&((struct GtsnegoMsgCtx *)p)->f18));
-        PRINTSYS_Print(BMP_WIN_GetBmp(q),2,2,(void *)(*(int *)&((struct GtsnegoMsgCtx *)p)->f18),(void *)(*(int *)&((struct GtsnegoMsgCtx *)p)->f14));
+        MSGDATA_ReadString(((struct GtsnegoMsgCtx *)msgCtx)->msgData,msgId,(void *)(*(int *)&((struct GtsnegoMsgCtx *)msgCtx)->srcText));
+        PRINTSYS_Print(BMP_WIN_GetBmp(q),2,2,(void *)(*(int *)&((struct GtsnegoMsgCtx *)msgCtx)->srcText),(void *)(*(int *)&((struct GtsnegoMsgCtx *)msgCtx)->font));
         BMP_WIN_TransferChars(q);
     }
 }
 
-void GTSNEGO_MSG_FlushRowLayer(char *a0) { BG_SYS_SetFlagField06(6); }
+void GTSNEGO_MSG_FlushRowLayer(char *msgCtx) { BG_SYS_SetFlagField06(6); }
 
-void GTSNEGO_MSG_ClearRows(char *p) { int i; char *q; for(i=0;i<12;i++) { q=(char *)((u32)p+(u32)i*4); if(((struct GtsnegoMsgCtx *)q)->f38) { BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(((struct GtsnegoMsgCtx *)q)->f38)); BMP_MENUWORK_DrawWindowBorder(((struct GtsnegoMsgCtx *)q)->f38,2); BMP_WIN_ClearScreen(((struct GtsnegoMsgCtx *)q)->f38); } } }
+void GTSNEGO_MSG_ClearRows(char *msgCtx) { int i; char *q; for(i=0;i<12;i++) { q=(char *)((u32)msgCtx+(u32)i*4); if(((struct GtsnegoMsgCtx *)q)->rowWindow) { BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(((struct GtsnegoMsgCtx *)q)->rowWindow)); BMP_MENUWORK_DrawWindowBorder(((struct GtsnegoMsgCtx *)q)->rowWindow,2); BMP_WIN_ClearScreen(((struct GtsnegoMsgCtx *)q)->rowWindow); } } }
 
-void GTSNEGO_MSG_CreateYesNoUi(char *p,int a,int b)
+void GTSNEGO_MSG_CreateYesNoUi(char *msgCtx,int callback,int callbackWork)
 {
-    GTSNEGO_MSG_DeleteRows(p);
-    GTSNEGO_MSG_CreateRow((unsigned char *)p,0,8,7,16,6);
-    GTSNEGO_MSG_CreateRow((unsigned char *)p,1,8,13,16,6);
-    GTSNEGO_MSG_FlushRowLayer(p);
-    GTSNEGO_MSG_DeleteButtons((unsigned char *)p);
-    ((struct GtsnegoMsgCtx *)p)->f8=BUTTON_MAN_Create((u8 *)gGtsnegoButtonYesNo,a,b,((struct GtsnegoMsgCtx *)p)->fC8);
+    GTSNEGO_MSG_DeleteRows(msgCtx);
+    GTSNEGO_MSG_CreateRow((unsigned char *)msgCtx,0,8,7,16,6);
+    GTSNEGO_MSG_CreateRow((unsigned char *)msgCtx,1,8,13,16,6);
+    GTSNEGO_MSG_FlushRowLayer(msgCtx);
+    GTSNEGO_MSG_DeleteButtons((unsigned char *)msgCtx);
+    ((struct GtsnegoMsgCtx *)msgCtx)->buttonMan=BUTTON_MAN_Create((u8 *)gGtsnegoButtonYesNo,callback,callbackWork,((struct GtsnegoMsgCtx *)msgCtx)->heapId);
 }
 
 /*
  * follower: existing 021D7E88, 021D7E9C, 021D7EB0 files remain separate.
  */
-void GTSNEGO_MSG_CreateListUi(char *p,int a,int b,int c,int d,int e)
+void GTSNEGO_MSG_CreateListUi(char *msgCtx,int callback,int callbackWork,int rowAIndex,int rowBIndex,int rowCIndex)
 {
-    GTSNEGO_MSG_DeleteRows(p);
+    GTSNEGO_MSG_DeleteRows(msgCtx);
     GF_FONT_SetTextColor(15,2,0);
-    GTSNEGO_MSG_CreateRowEx((int)p,2,0,0);
+    GTSNEGO_MSG_CreateRowEx((int)msgCtx,2,0,0);
     GF_FONT_SetTextColor(15,2,0);
-    GTSNEGO_MSG_CreateRowEx((int)p,3,3,6);
-    GTSNEGO_MSG_CreateRowEx((int)p,23,1,11);
-    GTSNEGO_MSG_CreateRowEx((int)p,24,1,16);
+    GTSNEGO_MSG_CreateRowEx((int)msgCtx,3,3,6);
+    GTSNEGO_MSG_CreateRowEx((int)msgCtx,23,1,11);
+    GTSNEGO_MSG_CreateRowEx((int)msgCtx,24,1,16);
     GF_FONT_SetTextColor(1,2,0);
-    *(int *)&((struct GtsnegoMsgCtx *)p)->f24=GTSNEGO_MSG_CreateRowEx((int)p,gGtsnegoRowLabelA[c],13,6);
-    *(int *)&((struct GtsnegoMsgCtx *)p)->f28=GTSNEGO_MSG_CreateRowEx((int)p,gGtsnegoRowLabelB[d],16,11);
-    *(int *)&((struct GtsnegoMsgCtx *)p)->f2C=GTSNEGO_MSG_CreateRowEx((int)p,gGtsnegoRowLabelB[e],16,16);
-    GTSNEGO_MSG_FlushRowLayer(p);
-    GTSNEGO_MSG_DeleteButtons((unsigned char *)p);
-    ((struct GtsnegoMsgCtx *)p)->f8=BUTTON_MAN_Create((u8 *)gGtsnegoButtonList,a,b,((struct GtsnegoMsgCtx *)p)->fC8);
+    *(int *)&((struct GtsnegoMsgCtx *)msgCtx)->rowAHandle=GTSNEGO_MSG_CreateRowEx((int)msgCtx,gGtsnegoRowLabelA[rowAIndex],13,6);
+    *(int *)&((struct GtsnegoMsgCtx *)msgCtx)->rowBHandle=GTSNEGO_MSG_CreateRowEx((int)msgCtx,gGtsnegoRowLabelB[rowBIndex],16,11);
+    *(int *)&((struct GtsnegoMsgCtx *)msgCtx)->rowCHandle=GTSNEGO_MSG_CreateRowEx((int)msgCtx,gGtsnegoRowLabelB[rowCIndex],16,16);
+    GTSNEGO_MSG_FlushRowLayer(msgCtx);
+    GTSNEGO_MSG_DeleteButtons((unsigned char *)msgCtx);
+    ((struct GtsnegoMsgCtx *)msgCtx)->buttonMan=BUTTON_MAN_Create((u8 *)gGtsnegoButtonList,callback,callbackWork,((struct GtsnegoMsgCtx *)msgCtx)->heapId);
 }
 
 /*
  * follower: separately filed 021D7E9C.
  */
-void GTSNEGO_MSG_RedrawRowA(char *p,int i) {GTSNEGO_MSG_RedrawRow(p,gGtsnegoRowLabelA[i],*(int *)&((struct GtsnegoMsgCtx *)p)->f24);}
+void GTSNEGO_MSG_RedrawRowA(char *msgCtx,int index) {GTSNEGO_MSG_RedrawRow(msgCtx,gGtsnegoRowLabelA[index],*(int *)&((struct GtsnegoMsgCtx *)msgCtx)->rowAHandle);}
 
 /*
  * follower: separately filed 021D7EB0.
  */
-void GTSNEGO_MSG_RedrawRowB(char *p,int i) {GTSNEGO_MSG_RedrawRow(p,gGtsnegoRowLabelB[i],*(int *)&((struct GtsnegoMsgCtx *)p)->f28);}
+void GTSNEGO_MSG_RedrawRowB(char *msgCtx,int index) {GTSNEGO_MSG_RedrawRow(msgCtx,gGtsnegoRowLabelB[index],*(int *)&((struct GtsnegoMsgCtx *)msgCtx)->rowBHandle);}
 
-void GTSNEGO_MSG_RedrawRowC(char *p,int i) {GTSNEGO_MSG_RedrawRow(p,gGtsnegoRowLabelB[i],*(int *)&((struct GtsnegoMsgCtx *)p)->f2C);}
+void GTSNEGO_MSG_RedrawRowC(char *msgCtx,int index) {GTSNEGO_MSG_RedrawRow(msgCtx,gGtsnegoRowLabelB[index],*(int *)&((struct GtsnegoMsgCtx *)msgCtx)->rowCHandle);}
 
-void GTSNEGO_MSG_DeleteButtonsKeep(u8 *p) { GTSNEGO_MSG_DeleteButtons(p); }
+void GTSNEGO_MSG_DeleteButtonsKeep(u8 *msgCtx) { GTSNEGO_MSG_DeleteButtons(msgCtx); }
 
-void *GTSNEGO_MSG_CreateTooltip(char *p,u16 n)
+void *GTSNEGO_MSG_CreateTooltip(char *msgCtx,u16 msgId)
 {
     int width;
     void *result;
     void *text;
-    text=STRBUF_Create(100,((struct GtsnegoMsgCtx *)p)->fC8);
-    ((struct GtsnegoMsgCtx *)p)->fA8=text;
-    MSGDATA_ReadString(((struct GtsnegoMsgCtx *)p)->fC,n,text);
-    ((struct GtsnegoMsgCtx *)p)->fAC=0x39e3;
-    ((struct GtsnegoMsgCtx *)p)->fB0=0;
-    width=((int)GF_FONT_MeasureWidestLine(((struct GtsnegoMsgCtx *)p)->fA8,(int)(*(int *)&((struct GtsnegoMsgCtx *)p)->f14),(int)0)+32)/16;
-    result=APP_TASKMENU_WIN_CreateEx((u32)(((struct GtsnegoMsgCtx *)p)->fC0),(u32)(p+0xa8),(u8)(16-width),(u8)21,width*2,3,(int)0,(int)1,((struct GtsnegoMsgCtx *)p)->fC8);
-    STRBUF_Delete(((struct GtsnegoMsgCtx *)p)->fA8);
+    text=STRBUF_Create(100,((struct GtsnegoMsgCtx *)msgCtx)->heapId);
+    ((struct GtsnegoMsgCtx *)msgCtx)->menuEntryText0=text;
+    MSGDATA_ReadString(((struct GtsnegoMsgCtx *)msgCtx)->msgData,msgId,text);
+    ((struct GtsnegoMsgCtx *)msgCtx)->menuEntryColor0=0x39e3;
+    ((struct GtsnegoMsgCtx *)msgCtx)->menuEntryType0=0;
+    width=((int)GF_FONT_MeasureWidestLine(((struct GtsnegoMsgCtx *)msgCtx)->menuEntryText0,(int)(*(int *)&((struct GtsnegoMsgCtx *)msgCtx)->font),(int)0)+32)/16;
+    result=APP_TASKMENU_WIN_CreateEx((u32)(((struct GtsnegoMsgCtx *)msgCtx)->taskMenuRes),(u32)(msgCtx+0xa8),(u8)(16-width),(u8)21,width*2,3,(int)0,(int)1,((struct GtsnegoMsgCtx *)msgCtx)->heapId);
+    STRBUF_Delete(((struct GtsnegoMsgCtx *)msgCtx)->menuEntryText0);
     return result;
 }
 
-void GTSNEGO_MSG_PrintTooltip(char *p,u16 n)
+void GTSNEGO_MSG_PrintTooltip(char *msgCtx,u16 msgId)
 {
-    void *q;
-    MSGDATA_ReadString(((struct GtsnegoMsgCtx *)p)->fC,n,(void *)(*(int *)&((struct GtsnegoMsgCtx *)p)->f18));
-    if(!((struct GtsnegoMsgCtx *)p)->f94) ((struct GtsnegoMsgCtx *)p)->f94=(void *)BMP_WIN_Create(1,1,13,14,3,4,1);
-    q=((struct GtsnegoMsgCtx *)p)->f94;
-    BMP_Clear(BMP_WIN_GetBmp(q),0);
+    void *window;
+    MSGDATA_ReadString(((struct GtsnegoMsgCtx *)msgCtx)->msgData,msgId,(void *)(*(int *)&((struct GtsnegoMsgCtx *)msgCtx)->srcText));
+    if(!((struct GtsnegoMsgCtx *)msgCtx)->tooltipWindow) ((struct GtsnegoMsgCtx *)msgCtx)->tooltipWindow=(void *)BMP_WIN_Create(1,1,13,14,3,4,1);
+    window=((struct GtsnegoMsgCtx *)msgCtx)->tooltipWindow;
+    BMP_Clear(BMP_WIN_GetBmp(window),0);
     GF_FONT_SetTextColor(15,14,0);
-    PRINTSYS_Print(BMP_WIN_GetBmp(q),2,3,(void *)(*(int *)&((struct GtsnegoMsgCtx *)p)->f18),(void *)(*(int *)&((struct GtsnegoMsgCtx *)p)->f14));
-    BMP_WIN_TransferChars(q);
-    BMP_WIN_MakeScreen(q);
+    PRINTSYS_Print(BMP_WIN_GetBmp(window),2,3,(void *)(*(int *)&((struct GtsnegoMsgCtx *)msgCtx)->srcText),(void *)(*(int *)&((struct GtsnegoMsgCtx *)msgCtx)->font));
+    BMP_WIN_TransferChars(window);
+    BMP_WIN_MakeScreen(window);
 }
 
 /*
  * follower: two zero padding bytes at 021D80D2.
  */
-void GTSNEGO_MSG_PrintEntry(char *p,void *r)
+void GTSNEGO_MSG_PrintEntry(char *msgCtx,void *status)
 {
-    u32 a,b,c,d;
-    void *q;
-    a=MYSTATUS_GetLanguage(r);
-    b=MYSTATUS_GetVersion(r);
-    c=BMP_OAM_CheckRangeGetId(a,b,MYSTATUS_GetGender(r));
-    d=BMP_OAM_CheckRangeGetMin(a,b,MYSTATUS_GetGender(r));
-    if(a==c && b==d) {
-        WORDSET_SetSlotFromMsgE7(((struct GtsnegoMsgCtx *)p)->f10,0,MYSTATUS_GetLanguage(r));
-        a=MYSTATUS_GetLanguage(r);
-        WORDSET_DeleteMsgdataF094(((struct GtsnegoMsgCtx *)p)->f10,1,a,MYSTATUS_GetVersion(r));
+    u32 language,version,checkedLanguage,checkedVersion;
+    void *window;
+    language=MYSTATUS_GetLanguage(status);
+    version=MYSTATUS_GetVersion(status);
+    checkedLanguage=BMP_OAM_CheckRangeGetId(language,version,MYSTATUS_GetGender(status));
+    checkedVersion=BMP_OAM_CheckRangeGetMin(language,version,MYSTATUS_GetGender(status));
+    if(language==checkedLanguage && version==checkedVersion) {
+        WORDSET_SetSlotFromMsgE7(((struct GtsnegoMsgCtx *)msgCtx)->wordSet,0,MYSTATUS_GetLanguage(status));
+        language=MYSTATUS_GetLanguage(status);
+        WORDSET_DeleteMsgdataF094(((struct GtsnegoMsgCtx *)msgCtx)->wordSet,1,language,MYSTATUS_GetVersion(status));
     } else {
-        WORDSET_SetSlotFromMsgE7(((struct GtsnegoMsgCtx *)p)->f10,0,0);
-        WORDSET_DeleteMsgdataF094(((struct GtsnegoMsgCtx *)p)->f10,1,0,0);
+        WORDSET_SetSlotFromMsgE7(((struct GtsnegoMsgCtx *)msgCtx)->wordSet,0,0);
+        WORDSET_DeleteMsgdataF094(((struct GtsnegoMsgCtx *)msgCtx)->wordSet,1,0,0);
     }
-    MSGDATA_ReadString(((struct GtsnegoMsgCtx *)p)->fC,34,((struct GtsnegoMsgCtx *)p)->f20);
-    WORDSET_CopyTaggedText(((struct GtsnegoMsgCtx *)p)->f10,((struct GtsnegoMsgCtx *)p)->f18,((struct GtsnegoMsgCtx *)p)->f20);
-    if(!((struct GtsnegoMsgCtx *)p)->f84) ((struct GtsnegoMsgCtx *)p)->f84=(void *)BMP_WIN_Create(1,1,15,30,5,11,1);
-    q=((struct GtsnegoMsgCtx *)p)->f84;
-    BMP_Clear(BMP_WIN_GetBmp(q),0);
+    MSGDATA_ReadString(((struct GtsnegoMsgCtx *)msgCtx)->msgData,34,((struct GtsnegoMsgCtx *)msgCtx)->expandedText);
+    WORDSET_CopyTaggedText(((struct GtsnegoMsgCtx *)msgCtx)->wordSet,((struct GtsnegoMsgCtx *)msgCtx)->srcText,((struct GtsnegoMsgCtx *)msgCtx)->expandedText);
+    if(!((struct GtsnegoMsgCtx *)msgCtx)->entryWindow) ((struct GtsnegoMsgCtx *)msgCtx)->entryWindow=(void *)BMP_WIN_Create(1,1,15,30,5,11,1);
+    window=((struct GtsnegoMsgCtx *)msgCtx)->entryWindow;
+    BMP_Clear(BMP_WIN_GetBmp(window),0);
     GF_FONT_SetTextColor(15,2,0);
-    PRINTSYS_Print(BMP_WIN_GetBmp(q),5,5,((struct GtsnegoMsgCtx *)p)->f18,((struct GtsnegoMsgCtx *)p)->f14);
-    BMP_WIN_TransferChars(q);
-    BMP_WIN_MakeScreen(q);
+    PRINTSYS_Print(BMP_WIN_GetBmp(window),5,5,((struct GtsnegoMsgCtx *)msgCtx)->srcText,((struct GtsnegoMsgCtx *)msgCtx)->font);
+    BMP_WIN_TransferChars(window);
+    BMP_WIN_MakeScreen(window);
     BG_SYS_SetFlagField06(1);
 }
 
 /*
  * follower: two zero padding bytes at 021D8116.
  */
-void GTSNEGO_MSG_DeleteEntryWindow(struct GtsnegoMsgCtx *p)
+void GTSNEGO_MSG_DeleteEntryWindow(struct GtsnegoMsgCtx *msgCtx)
 {
-    if (p->f84) {
-        BMP_Clear(BMP_WIN_GetBmp(p->f84),0);
-        BMP_WIN_TransferChars(p->f84);
-        BMP_WIN_ClearScreen(p->f84);
+    if (msgCtx->entryWindow) {
+        BMP_Clear(BMP_WIN_GetBmp(msgCtx->entryWindow),0);
+        BMP_WIN_TransferChars(msgCtx->entryWindow);
+        BMP_WIN_ClearScreen(msgCtx->entryWindow);
         BG_SYS_SetFlagField06(1);
-        BMP_WIN_Delete(p->f84);
-        p->f84=0;
+        BMP_WIN_Delete(msgCtx->entryWindow);
+        msgCtx->entryWindow=0;
     }
 }
 
-int GTSNEGO_MSG_PrintListEntry(char *p, void *r, int n)
+int GTSNEGO_MSG_PrintListEntry(char *msgCtx, void *status, int row)
 {
-    void **t=(void **)(p+0x6c);
-    void *q;
-    if(!t[n]) t[n]=(void *)BMP_WIN_Create((u8)6,(u8)6,(u8)(n*6+1),(u8)24,4,11,1);
-    q=t[n];
-    BMP_Clear(BMP_WIN_GetBmp(q),0);
-    STRBUF_Clear(*(void **)(p+0x20));
-    STRBUF_Clear(*(void **)(p+0x18));
-    WORDSET_SetSlotMyStatus(*(void **)(p+0x10),0,r);
-    WORDSET_SetSlotNumber(*(void **)(p+0x10),1,MYSTATUS_GetIdLow16(r),5,2,1);
-    WORDSET_SetSlotFromMsgE7(*(void **)(p+0x10),2,MYSTATUS_GetLanguage(r));
-    MSGDATA_ReadString(*(void **)(p+0xc),28,*(void **)(p+0x20));
-    WORDSET_CopyTaggedText(*(void **)(p+0x10),*(void **)(p+0x18),*(void **)(p+0x20));
+    void **listWindows=(void **)(msgCtx+0x6c);
+    void *window;
+    if(!listWindows[row]) listWindows[row]=(void *)BMP_WIN_Create((u8)6,(u8)6,(u8)(row*6+1),(u8)24,4,11,1);
+    window=listWindows[row];
+    BMP_Clear(BMP_WIN_GetBmp(window),0);
+    STRBUF_Clear(*(void **)(msgCtx+0x20));
+    STRBUF_Clear(*(void **)(msgCtx+0x18));
+    WORDSET_SetSlotMyStatus(*(void **)(msgCtx+0x10),0,status);
+    WORDSET_SetSlotNumber(*(void **)(msgCtx+0x10),1,MYSTATUS_GetIdLow16(status),5,2,1);
+    WORDSET_SetSlotFromMsgE7(*(void **)(msgCtx+0x10),2,MYSTATUS_GetLanguage(status));
+    MSGDATA_ReadString(*(void **)(msgCtx+0xc),28,*(void **)(msgCtx+0x20));
+    WORDSET_CopyTaggedText(*(void **)(msgCtx+0x10),*(void **)(msgCtx+0x18),*(void **)(msgCtx+0x20));
     GF_FONT_SetTextColor(15,2,0);
-    PRINTSYS_Print(BMP_WIN_GetBmp(q),0,0,*(void **)(p+0x18),*(void **)(p+0x14));
-    BMP_WIN_TransferChars(q);
-    BMP_WIN_MakeScreen(q);
+    PRINTSYS_Print(BMP_WIN_GetBmp(window),0,0,*(void **)(msgCtx+0x18),*(void **)(msgCtx+0x14));
+    BMP_WIN_TransferChars(window);
+    BMP_WIN_MakeScreen(window);
     return 0;
 }
 
-void GTSNEGO_MSG_PrintList(char *p,void *q)
+void GTSNEGO_MSG_PrintList(char *msgCtx,void *list)
 {
     int i;
-    void *r;
+    void *entry;
     GF_FONT_SetTextColor(15,2,0);
-    GTSNEGO_MSG_CreateRow((u8 *)p,30,0,0,20,5);
+    GTSNEGO_MSG_CreateRow((u8 *)msgCtx,30,0,0,20,5);
     for(i=0;i<3;i++) {
-        r=GTSNEGO_DISP_GetEntry(q,i);
-        if(r) GTSNEGO_MSG_PrintListEntry(p,r,i+2);
+        entry=GTSNEGO_DISP_GetEntry(list,i);
+        if(entry) GTSNEGO_MSG_PrintListEntry(msgCtx,entry,i+2);
     }
     BG_SYS_SetFlagField06(5);
 }
 
-void GTSNEGO_MSG_PrintListEntryAt(char *p,void *q,int index) { GTSNEGO_MSG_PrintListEntry(p,GTSNEGO_DISP_GetEntry(q,index),5); BG_SYS_SetFlagField06(6); }
+void GTSNEGO_MSG_PrintListEntryAt(char *msgCtx,void *list,int index) { GTSNEGO_MSG_PrintListEntry(msgCtx,GTSNEGO_DISP_GetEntry(list,index),5); BG_SYS_SetFlagField06(6); }
 
-void GTSNEGO_MSG_ShiftListDown(char *p)
+void GTSNEGO_MSG_ShiftListDown(char *msgCtx)
 {
     int i;
-    char *t;
-    if(((struct GtsnegoMsgCtx *)p)->f6C) {BMP_WIN_Delete(((struct GtsnegoMsgCtx *)p)->f6C);((struct GtsnegoMsgCtx *)p)->f6C=0;}
+    char *slot;
+    if(((struct GtsnegoMsgCtx *)msgCtx)->listWindow) {BMP_WIN_Delete(((struct GtsnegoMsgCtx *)msgCtx)->listWindow);((struct GtsnegoMsgCtx *)msgCtx)->listWindow=0;}
     for(i=1;i<6;i++) {
-        t=p+4*i;
-        if(((struct GtsnegoMsgCtx *)t)->f6C) {
-            BMP_WIN_SetPosY(((struct GtsnegoMsgCtx *)t)->f6C,BMP_WIN_GetPosY(((struct GtsnegoMsgCtx *)t)->f6C)-6);
-            BMP_WIN_MakeScreen(((struct GtsnegoMsgCtx *)t)->f6C);
+        slot=msgCtx+4*i;
+        if(((struct GtsnegoMsgCtx *)slot)->listWindow) {
+            BMP_WIN_SetPosY(((struct GtsnegoMsgCtx *)slot)->listWindow,BMP_WIN_GetPosY(((struct GtsnegoMsgCtx *)slot)->listWindow)-6);
+            BMP_WIN_MakeScreen(((struct GtsnegoMsgCtx *)slot)->listWindow);
         }
     }
     BG_SYS_SetFlagField06(6);
-    for(i=0;i<5;i++) *(void **)(p+0x6c+4*i)=*(void **)(p+0x70+4*i);
-    ((struct GtsnegoMsgCtx *)p)->f80=0;
+    for(i=0;i<5;i++) *(void **)(msgCtx+0x6c+4*i)=*(void **)(msgCtx+0x70+4*i);
+    ((struct GtsnegoMsgCtx *)msgCtx)->lastListWindow=0;
 }
 
-void GTSNEGO_MSG_PrintListRange(char *p,void *q,int start) { int i; void *r; for(i=0;i<6;i++) { if((int)((u32)i+(u32)start)>=0) { r=GTSNEGO_DISP_GetEntry(q,(int)((u32)i+(u32)start)); if(r) GTSNEGO_MSG_PrintListEntry(p,r,i); } } BG_SYS_SetFlagField06(6); }
+void GTSNEGO_MSG_PrintListRange(char *msgCtx,void *list,int start) { int i; void *entry; for(i=0;i<6;i++) { if((int)((u32)i+(u32)start)>=0) { entry=GTSNEGO_DISP_GetEntry(list,(int)((u32)i+(u32)start)); if(entry) GTSNEGO_MSG_PrintListEntry(msgCtx,entry,i); } } BG_SYS_SetFlagField06(6); }
 
 /*
  * Extent remainder: two-byte zero alignment padding.
  */
-void GTSNEGO_MSG_PrintListEntryN(char *p,void *q,int n)
+void GTSNEGO_MSG_PrintListEntryN(char *msgCtx,void *list,int index)
 {
-    GTSNEGO_MSG_PrintListEntry(p,GTSNEGO_DISP_GetEntry(q,n),0);
+    GTSNEGO_MSG_PrintListEntry(msgCtx,GTSNEGO_DISP_GetEntry(list,index),0);
     BG_SYS_SetFlagField06(6);
 }
 
-void GTSNEGO_MSG_ShiftListUp(char *p)
+void GTSNEGO_MSG_ShiftListUp(char *msgCtx)
 {
     int i;
-    char *t;
-    if(((struct GtsnegoMsgCtx *)p)->f80) {BMP_WIN_Delete(((struct GtsnegoMsgCtx *)p)->f80);((struct GtsnegoMsgCtx *)p)->f80=0;}
+    char *slot;
+    if(((struct GtsnegoMsgCtx *)msgCtx)->lastListWindow) {BMP_WIN_Delete(((struct GtsnegoMsgCtx *)msgCtx)->lastListWindow);((struct GtsnegoMsgCtx *)msgCtx)->lastListWindow=0;}
     for(i=0;i<6;i++) {
-        t=p+4*i;
-        if(((struct GtsnegoMsgCtx *)t)->f6C) {
-            BMP_WIN_SetPosY(((struct GtsnegoMsgCtx *)t)->f6C,BMP_WIN_GetPosY(((struct GtsnegoMsgCtx *)t)->f6C)+6);
-            BMP_WIN_MakeScreen(((struct GtsnegoMsgCtx *)t)->f6C);
+        slot=msgCtx+4*i;
+        if(((struct GtsnegoMsgCtx *)slot)->listWindow) {
+            BMP_WIN_SetPosY(((struct GtsnegoMsgCtx *)slot)->listWindow,BMP_WIN_GetPosY(((struct GtsnegoMsgCtx *)slot)->listWindow)+6);
+            BMP_WIN_MakeScreen(((struct GtsnegoMsgCtx *)slot)->listWindow);
         }
     }
     BG_SYS_SetFlagField06(6);
-    for(i=5;i>0;i--) *(void **)(p+0x6c+4*i)=*(void **)(p+0x68+4*i);
-    ((struct GtsnegoMsgCtx *)p)->f6C=0;
+    for(i=5;i>0;i--) *(void **)(msgCtx+0x6c+4*i)=*(void **)(msgCtx+0x68+4*i);
+    ((struct GtsnegoMsgCtx *)msgCtx)->listWindow=0;
 }
 
-void *GTSNEGO_MSG_OpenMenuB(char *p,int n)
+void *GTSNEGO_MSG_OpenMenuB(char *msgCtx,int position)
 {
     TextConfig config;
     void *result;
     void *text;
-    config.heap=((struct GtsnegoMsgCtx *)p)->fC8;
+    config.heap=((struct GtsnegoMsgCtx *)msgCtx)->heapId;
     config.count=2;
-    config.entries=p+0xa8;
-    switch(n) {
+    config.entries=msgCtx+0xa8;
+    switch(position) {
     case 0: config.x=32;config.y=14;config.mode=1;break;
     case 1: config.x=32;config.y=24;config.mode=1;break;
     }
     config.a=13;config.b=3;
-    text=STRBUF_Create(100,((struct GtsnegoMsgCtx *)p)->fC8);
-    ((struct GtsnegoMsgCtx *)p)->fA8=text;
-    MSGDATA_ReadString(((struct GtsnegoMsgCtx *)p)->fC,27,text);
-    ((struct GtsnegoMsgCtx *)p)->fAC=0x39e0;
-    ((struct GtsnegoMsgCtx *)p)->fB0=0;
-    text=STRBUF_Create(100,((struct GtsnegoMsgCtx *)p)->fC8);
-    ((struct GtsnegoMsgCtx *)p)->fB4=text;
-    MSGDATA_ReadString(((struct GtsnegoMsgCtx *)p)->fC,33,text);
-    ((struct GtsnegoMsgCtx *)p)->fB8=0x39e0;
-    *(int *)&((struct GtsnegoMsgCtx *)p)->fBC=0;
-    result=APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&config),((struct GtsnegoMsgCtx *)p)->fC0);
-    STRBUF_Delete(((struct GtsnegoMsgCtx *)p)->fA8);
-    STRBUF_Delete(((struct GtsnegoMsgCtx *)p)->fB4);
+    text=STRBUF_Create(100,((struct GtsnegoMsgCtx *)msgCtx)->heapId);
+    ((struct GtsnegoMsgCtx *)msgCtx)->menuEntryText0=text;
+    MSGDATA_ReadString(((struct GtsnegoMsgCtx *)msgCtx)->msgData,27,text);
+    ((struct GtsnegoMsgCtx *)msgCtx)->menuEntryColor0=0x39e0;
+    ((struct GtsnegoMsgCtx *)msgCtx)->menuEntryType0=0;
+    text=STRBUF_Create(100,((struct GtsnegoMsgCtx *)msgCtx)->heapId);
+    ((struct GtsnegoMsgCtx *)msgCtx)->menuEntryText1=text;
+    MSGDATA_ReadString(((struct GtsnegoMsgCtx *)msgCtx)->msgData,33,text);
+    ((struct GtsnegoMsgCtx *)msgCtx)->menuEntryColor1=0x39e0;
+    *(int *)&((struct GtsnegoMsgCtx *)msgCtx)->menuEntryType1=0;
+    result=APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&config),((struct GtsnegoMsgCtx *)msgCtx)->taskMenuRes);
+    STRBUF_Delete(((struct GtsnegoMsgCtx *)msgCtx)->menuEntryText0);
+    STRBUF_Delete(((struct GtsnegoMsgCtx *)msgCtx)->menuEntryText1);
     return result;
 }
 
 
-void GTSNEGO_MSG_CloseMenu(int a)
+void GTSNEGO_MSG_CloseMenu(int taskMenu)
 {
-    if (a != 0) {
+    if (taskMenu != 0) {
         *(volatile u16 *)0x04000050 = 0;
-        APP_TASKMENU_CloseMenu((struct TaskMenu *)a);
+        APP_TASKMENU_CloseMenu((struct TaskMenu *)taskMenu);
     }
 }
 
-void GTSNEGO_MSG_CreateDraw(struct GtsnegoMsgCtx *p,void *q)
+void GTSNEGO_MSG_CreateDraw(struct GtsnegoMsgCtx *msgCtx,void *actorSys)
 {
-    if(!p->fCC)
-        p->fCC=PMS_DRAW_Create(GTSNEGO_DISP_GetUnit(q),0,(u32)(p->fA4),(u32)(p->f14),8,4,p->fC8);
+    if(!msgCtx->pmsDraw)
+        msgCtx->pmsDraw=PMS_DRAW_Create(GTSNEGO_DISP_GetUnit(actorSys),0,(u32)(msgCtx->printQueue),(u32)(msgCtx->font),8,4,msgCtx->heapId);
 }
 
 
-void GTSNEGO_MSG_DeleteDraw(u8 *p)
+void GTSNEGO_MSG_DeleteDraw(u8 *msgCtx)
 {
-    if (((struct GtsnegoMsgCtx *)p)->fCC) {
-        PMS_DRAW_Delete(((struct GtsnegoMsgCtx *)p)->fCC);
-        *(u32 *)&((struct GtsnegoMsgCtx *)p)->fCC = 0;
+    if (((struct GtsnegoMsgCtx *)msgCtx)->pmsDraw) {
+        PMS_DRAW_Delete(((struct GtsnegoMsgCtx *)msgCtx)->pmsDraw);
+        *(u32 *)&((struct GtsnegoMsgCtx *)msgCtx)->pmsDraw = 0;
     }
 }
 
-void GTSNEGO_MSG_PrintDraw(struct GtsnegoMsgCtx *p, void *n)
+void GTSNEGO_MSG_PrintDraw(struct GtsnegoMsgCtx *msgCtx, void *sentence)
 {
     Pair c = gGtsnegoMsgDrawConfig;
-    void *q;
-    if (!p->f88) p->f88 = (void *)BMP_WIN_Create(1, 1, 15, 30, 5, 11, 1);
-    q = p->f88;
-    BMP_Clear(BMP_WIN_GetBmp(q), 0);
+    void *window;
+    if (!msgCtx->drawWindow) msgCtx->drawWindow = (void *)BMP_WIN_Create(1, 1, 15, 30, 5, 11, 1);
+    window = msgCtx->drawWindow;
+    BMP_Clear(BMP_WIN_GetBmp(window), 0);
     GF_FONT_SetTextColor(15, 2, 0);
-    PMS_DRAW_SetNullColorPalette(p->fCC, 0);
-    PMS_DRAW_SetPrintColor(p->fCC, 0x3c40);
-    PMS_DRAW_PrintOffset(p->fCC, (u32)q, n, 0, (u32)(&c));
-    BMP_WIN_TransferChars(q);
-    BMP_WIN_MakeScreen(q);
+    PMS_DRAW_SetNullColorPalette(msgCtx->pmsDraw, 0);
+    PMS_DRAW_SetPrintColor(msgCtx->pmsDraw, 0x3c40);
+    PMS_DRAW_PrintOffset(msgCtx->pmsDraw, (u32)window, sentence, 0, (u32)(&c));
+    BMP_WIN_TransferChars(window);
+    BMP_WIN_MakeScreen(window);
     BG_SYS_SetFlagField06(1);
 }
 
-void GTSNEGO_MSG_PrintStatus(struct GtsnegoMsgCtx *p, u16 n)
+void GTSNEGO_MSG_PrintStatus(struct GtsnegoMsgCtx *msgCtx, u16 msgId)
 {
-    void *q;
-    MSGDATA_ReadString(p->fC, n, (void *)(*(int *)&p->f18));
-    if (!p->f68) p->f68 = (void *)BMP_WIN_Create(1, 0, 0, 14, 2, 11, 1);
-    q = p->f68;
-    BMP_Clear(BMP_WIN_GetBmp(q), 0);
+    void *window;
+    MSGDATA_ReadString(msgCtx->msgData, msgId, (void *)(*(int *)&msgCtx->srcText));
+    if (!msgCtx->statusWindow) msgCtx->statusWindow = (void *)BMP_WIN_Create(1, 0, 0, 14, 2, 11, 1);
+    window = msgCtx->statusWindow;
+    BMP_Clear(BMP_WIN_GetBmp(window), 0);
     GF_FONT_SetTextColor(15, 2, 0);
-    PRINTSYS_Print(BMP_WIN_GetBmp(q), 2, 2, (void *)(*(int *)&p->f18), (void *)(*(int *)&p->f14));
-    BMP_WIN_TransferChars(q);
-    BMP_WIN_MakeScreen(q);
+    PRINTSYS_Print(BMP_WIN_GetBmp(window), 2, 2, (void *)(*(int *)&msgCtx->srcText), (void *)(*(int *)&msgCtx->font));
+    BMP_WIN_TransferChars(window);
+    BMP_WIN_MakeScreen(window);
     BG_SYS_SetFlagField06(1);
 }
 
-void GTSNEGO_MSG_CreateConfirmUi(u8 *p, int a, int b)
+void GTSNEGO_MSG_CreateConfirmUi(u8 *msgCtx, int callback, int callbackWork)
 {
-    void *q = STRBUF_Create(100, ((struct GtsnegoMsgCtx *)p)->fC8);
-    ((struct GtsnegoMsgCtx *)p)->fA8 = q;
-    MSGDATA_ReadString(((struct GtsnegoMsgCtx *)p)->fC, 15, q);
-    ((struct GtsnegoMsgCtx *)p)->fAC = 0x39e3;
-    ((struct GtsnegoMsgCtx *)p)->fB0 = 0;
-    ((struct GtsnegoMsgCtx *)p)->fC4 = APP_TASKMENU_WIN_CreateEx((u32)(((struct GtsnegoMsgCtx *)p)->fC0), (u32)(p + 0xa8), 10, 21, 12, 3, 0, 1, ((struct GtsnegoMsgCtx *)p)->fC8);
-    if (!UI_GetInputMode()) APP_TASKMENU_WIN_SetActive(((struct GtsnegoMsgCtx *)p)->fC4, 1);
-    STRBUF_Delete(((struct GtsnegoMsgCtx *)p)->fA8);
-    GTSNEGO_MSG_DeleteButtons(p);
-    ((struct GtsnegoMsgCtx *)p)->f8 = BUTTON_MAN_Create((u8 *)gGtsnegoButtonConfirm, a, b, ((struct GtsnegoMsgCtx *)p)->fC8);
+    void *label = STRBUF_Create(100, ((struct GtsnegoMsgCtx *)msgCtx)->heapId);
+    ((struct GtsnegoMsgCtx *)msgCtx)->menuEntryText0 = label;
+    MSGDATA_ReadString(((struct GtsnegoMsgCtx *)msgCtx)->msgData, 15, label);
+    ((struct GtsnegoMsgCtx *)msgCtx)->menuEntryColor0 = 0x39e3;
+    ((struct GtsnegoMsgCtx *)msgCtx)->menuEntryType0 = 0;
+    ((struct GtsnegoMsgCtx *)msgCtx)->taskMenuWin = APP_TASKMENU_WIN_CreateEx((u32)(((struct GtsnegoMsgCtx *)msgCtx)->taskMenuRes), (u32)(msgCtx + 0xa8), 10, 21, 12, 3, 0, 1, ((struct GtsnegoMsgCtx *)msgCtx)->heapId);
+    if (!UI_GetInputMode()) APP_TASKMENU_WIN_SetActive(((struct GtsnegoMsgCtx *)msgCtx)->taskMenuWin, 1);
+    STRBUF_Delete(((struct GtsnegoMsgCtx *)msgCtx)->menuEntryText0);
+    GTSNEGO_MSG_DeleteButtons(msgCtx);
+    ((struct GtsnegoMsgCtx *)msgCtx)->buttonMan = BUTTON_MAN_Create((u8 *)gGtsnegoButtonConfirm, callback, callbackWork, ((struct GtsnegoMsgCtx *)msgCtx)->heapId);
 }
 
 
-void GTSNEGO_MSG_SetDecide(struct GtsnegoMsgCtx *p)
+void GTSNEGO_MSG_SetDecide(struct GtsnegoMsgCtx *msgCtx)
 {
-    APP_TASKMENU_WIN_SetDecide(p->fC4, 1);
+    APP_TASKMENU_WIN_SetDecide(msgCtx->taskMenuWin, 1);
 }
 
 
-void GTSNEGO_MSG_DeleteConfirmWindow(u8 *p)
+void GTSNEGO_MSG_DeleteConfirmWindow(u8 *msgCtx)
 {
-    APP_TASKMENU_WIN_Delete(((struct GtsnegoMsgCtx *)p)->fC4);
+    APP_TASKMENU_WIN_Delete(((struct GtsnegoMsgCtx *)msgCtx)->taskMenuWin);
     BG_SYS_SetFlagField06(5);
-    *(u32 *)&((struct GtsnegoMsgCtx *)p)->fC4 = 0;
+    *(u32 *)&((struct GtsnegoMsgCtx *)msgCtx)->taskMenuWin = 0;
 }
 
-int GTSNEGO_MSG_IsConfirmFinished(u8 *p)
+int GTSNEGO_MSG_IsConfirmFinished(u8 *msgCtx)
 {
-    if(APP_TASKMENU_WIN_IsFinish(((struct GtsnegoMsgCtx *)p)->fC4)){
-        GTSNEGO_MSG_DeleteConfirmWindow((u8 *)((int)p));
+    if(APP_TASKMENU_WIN_IsFinish(((struct GtsnegoMsgCtx *)msgCtx)->taskMenuWin)){
+        GTSNEGO_MSG_DeleteConfirmWindow((u8 *)((int)msgCtx));
         return 1;
     }
     return 0;
 }
 
-void GTSNEGO_MSG_PrintPair(char *p,int unused,u32 n)
+void GTSNEGO_MSG_PrintPair(char *msgCtx,int unused,u32 tradeCount)
 {
-    void *q;
-    MSGDATA_ReadString(((struct GtsnegoMsgCtx *)p)->fC,40,((struct GtsnegoMsgCtx *)p)->f18);
-    if(!((struct GtsnegoMsgCtx *)p)->f8C) ((struct GtsnegoMsgCtx *)p)->f8C=(void *)BMP_WIN_Create(1,21,4,10,2,4,1);
-    q=((struct GtsnegoMsgCtx *)p)->f8C;
-    BMP_Clear(BMP_WIN_GetBmp(q),0);
+    void *window;
+    MSGDATA_ReadString(((struct GtsnegoMsgCtx *)msgCtx)->msgData,40,((struct GtsnegoMsgCtx *)msgCtx)->srcText);
+    if(!((struct GtsnegoMsgCtx *)msgCtx)->pairWindowTop) ((struct GtsnegoMsgCtx *)msgCtx)->pairWindowTop=(void *)BMP_WIN_Create(1,21,4,10,2,4,1);
+    window=((struct GtsnegoMsgCtx *)msgCtx)->pairWindowTop;
+    BMP_Clear(BMP_WIN_GetBmp(window),0);
     GF_FONT_SetTextColor(15,14,0);
-    PRINTSYS_Print(BMP_WIN_GetBmp(q),0,3,((struct GtsnegoMsgCtx *)p)->f18,((struct GtsnegoMsgCtx *)p)->f14);
-    BMP_WIN_TransferChars(q);
-    BMP_WIN_MakeScreen(q);
-    WORDSET_SetSlotNumber(((struct GtsnegoMsgCtx *)p)->f10,0,n,5,1,1);
-    MSGDATA_ReadString(((struct GtsnegoMsgCtx *)p)->fC,36,((struct GtsnegoMsgCtx *)p)->f20);
-    WORDSET_CopyTaggedText(((struct GtsnegoMsgCtx *)p)->f10,((struct GtsnegoMsgCtx *)p)->f18,((struct GtsnegoMsgCtx *)p)->f20);
-    if(!((struct GtsnegoMsgCtx *)p)->f90) ((struct GtsnegoMsgCtx *)p)->f90=(void *)BMP_WIN_Create(1,21,6,10,3,11,1);
-    q=((struct GtsnegoMsgCtx *)p)->f90;
-    BMP_Clear(BMP_WIN_GetBmp(q),0);
+    PRINTSYS_Print(BMP_WIN_GetBmp(window),0,3,((struct GtsnegoMsgCtx *)msgCtx)->srcText,((struct GtsnegoMsgCtx *)msgCtx)->font);
+    BMP_WIN_TransferChars(window);
+    BMP_WIN_MakeScreen(window);
+    WORDSET_SetSlotNumber(((struct GtsnegoMsgCtx *)msgCtx)->wordSet,0,tradeCount,5,1,1);
+    MSGDATA_ReadString(((struct GtsnegoMsgCtx *)msgCtx)->msgData,36,((struct GtsnegoMsgCtx *)msgCtx)->expandedText);
+    WORDSET_CopyTaggedText(((struct GtsnegoMsgCtx *)msgCtx)->wordSet,((struct GtsnegoMsgCtx *)msgCtx)->srcText,((struct GtsnegoMsgCtx *)msgCtx)->expandedText);
+    if(!((struct GtsnegoMsgCtx *)msgCtx)->pairWindowBottom) ((struct GtsnegoMsgCtx *)msgCtx)->pairWindowBottom=(void *)BMP_WIN_Create(1,21,6,10,3,11,1);
+    window=((struct GtsnegoMsgCtx *)msgCtx)->pairWindowBottom;
+    BMP_Clear(BMP_WIN_GetBmp(window),0);
     GF_FONT_SetTextColor(15,2,0);
-    PRINTSYS_Print(BMP_WIN_GetBmp(q),0,5,((struct GtsnegoMsgCtx *)p)->f18,((struct GtsnegoMsgCtx *)p)->f14);
-    BMP_WIN_TransferChars(q);
-    BMP_WIN_MakeScreen(q);
+    PRINTSYS_Print(BMP_WIN_GetBmp(window),0,5,((struct GtsnegoMsgCtx *)msgCtx)->srcText,((struct GtsnegoMsgCtx *)msgCtx)->font);
+    BMP_WIN_TransferChars(window);
+    BMP_WIN_MakeScreen(window);
 }
 
-void GTSNEGO_MSG_PrintSingle(char *p, void *n)
+void GTSNEGO_MSG_PrintSingle(char *msgCtx, void *status)
 {
-    void *q;
-    WORDSET_SetSlotMyStatus(((struct GtsnegoMsgCtx *)p)->f10, 0, n);
-    MSGDATA_ReadString(((struct GtsnegoMsgCtx *)p)->fC, 37, (void *)(*(int *)&((struct GtsnegoMsgCtx *)p)->f20));
-    WORDSET_CopyTaggedText(((struct GtsnegoMsgCtx *)p)->f10, (void *)(*(int *)&((struct GtsnegoMsgCtx *)p)->f18), (void *)(*(int *)&((struct GtsnegoMsgCtx *)p)->f20));
-    if (!((struct GtsnegoMsgCtx *)p)->f98) ((struct GtsnegoMsgCtx *)p)->f98 = (void *)BMP_WIN_Create(1, 11, 10, 10, 3, 11, 1);
-    q = ((struct GtsnegoMsgCtx *)p)->f98;
-    BMP_Clear(BMP_WIN_GetBmp(q), 0);
+    void *window;
+    WORDSET_SetSlotMyStatus(((struct GtsnegoMsgCtx *)msgCtx)->wordSet, 0, status);
+    MSGDATA_ReadString(((struct GtsnegoMsgCtx *)msgCtx)->msgData, 37, (void *)(*(int *)&((struct GtsnegoMsgCtx *)msgCtx)->expandedText));
+    WORDSET_CopyTaggedText(((struct GtsnegoMsgCtx *)msgCtx)->wordSet, (void *)(*(int *)&((struct GtsnegoMsgCtx *)msgCtx)->srcText), (void *)(*(int *)&((struct GtsnegoMsgCtx *)msgCtx)->expandedText));
+    if (!((struct GtsnegoMsgCtx *)msgCtx)->singleWindow) ((struct GtsnegoMsgCtx *)msgCtx)->singleWindow = (void *)BMP_WIN_Create(1, 11, 10, 10, 3, 11, 1);
+    window = ((struct GtsnegoMsgCtx *)msgCtx)->singleWindow;
+    BMP_Clear(BMP_WIN_GetBmp(window), 0);
     GF_FONT_SetTextColor(1, 2, 0);
-    PRINTSYS_Print(BMP_WIN_GetBmp(q), 0, 0, (void *)(*(int *)&((struct GtsnegoMsgCtx *)p)->f18), (void *)(*(int *)&((struct GtsnegoMsgCtx *)p)->f14));
-    BMP_WIN_TransferChars(q);
-    BMP_WIN_MakeScreen(q);
+    PRINTSYS_Print(BMP_WIN_GetBmp(window), 0, 0, (void *)(*(int *)&((struct GtsnegoMsgCtx *)msgCtx)->srcText), (void *)(*(int *)&((struct GtsnegoMsgCtx *)msgCtx)->font));
+    BMP_WIN_TransferChars(window);
+    BMP_WIN_MakeScreen(window);
 }
 
-void GTSNEGO_MSG_PrintSummary(char *p,void *q,u32 n)
+void GTSNEGO_MSG_PrintSummary(char *msgCtx,void *status,u32 tradeCount)
 {
-    GTSNEGO_MSG_PrintSingle(p,(void *)q);
-    GTSNEGO_MSG_PrintPair(p,36,n);
-    GTSNEGO_MSG_PrintTooltip(p,41);
-    GTSNEGO_MSG_PrintEntry(p,q);
-    GTSNEGO_MSG_PrintWindowB((u8 *)p,17);
+    GTSNEGO_MSG_PrintSingle(msgCtx,(void *)status);
+    GTSNEGO_MSG_PrintPair(msgCtx,36,tradeCount);
+    GTSNEGO_MSG_PrintTooltip(msgCtx,41);
+    GTSNEGO_MSG_PrintEntry(msgCtx,status);
+    GTSNEGO_MSG_PrintWindowB((u8 *)msgCtx,17);
 }
 
 
-void GTSNEGO_MSG_DeleteAll(char *p)
+void GTSNEGO_MSG_DeleteAll(char *msgCtx)
 {
     int i;
 
-    if (((struct GtsnegoMsgCtx *)p)->f68 != 0) {
-        BMP_MENUWORK_DrawWindowBorder(((struct GtsnegoMsgCtx *)p)->f68, 2);
-        BMP_WIN_ClearScreen(((struct GtsnegoMsgCtx *)p)->f68);
+    if (((struct GtsnegoMsgCtx *)msgCtx)->statusWindow != 0) {
+        BMP_MENUWORK_DrawWindowBorder(((struct GtsnegoMsgCtx *)msgCtx)->statusWindow, 2);
+        BMP_WIN_ClearScreen(((struct GtsnegoMsgCtx *)msgCtx)->statusWindow);
         BG_SYS_SetFlagField06(1);
-        BMP_WIN_Delete(((struct GtsnegoMsgCtx *)p)->f68);
-        ((struct GtsnegoMsgCtx *)p)->f68 = 0;
+        BMP_WIN_Delete(((struct GtsnegoMsgCtx *)msgCtx)->statusWindow);
+        ((struct GtsnegoMsgCtx *)msgCtx)->statusWindow = 0;
     }
-    if (((struct GtsnegoMsgCtx *)p)->fC4 != 0) {
-        APP_TASKMENU_WIN_Delete(((struct GtsnegoMsgCtx *)p)->fC4);
-        ((struct GtsnegoMsgCtx *)p)->fC4 = 0;
+    if (((struct GtsnegoMsgCtx *)msgCtx)->taskMenuWin != 0) {
+        APP_TASKMENU_WIN_Delete(((struct GtsnegoMsgCtx *)msgCtx)->taskMenuWin);
+        ((struct GtsnegoMsgCtx *)msgCtx)->taskMenuWin = 0;
     }
     for (i = 0; i < 6; i++) {
-        char *q = p + i * 4;
+        char *q = msgCtx + i * 4;
 
-        if (((struct GtsnegoMsgCtx *)q)->f6C != 0) {
-            BMP_WIN_ClearScreen(((struct GtsnegoMsgCtx *)q)->f6C);
-            BMP_WIN_Delete(((struct GtsnegoMsgCtx *)q)->f6C);
-            ((struct GtsnegoMsgCtx *)q)->f6C = 0;
+        if (((struct GtsnegoMsgCtx *)q)->listWindow != 0) {
+            BMP_WIN_ClearScreen(((struct GtsnegoMsgCtx *)q)->listWindow);
+            BMP_WIN_Delete(((struct GtsnegoMsgCtx *)q)->listWindow);
+            ((struct GtsnegoMsgCtx *)q)->listWindow = 0;
         }
     }
-    GTSNEGO_MSG_ClearRows(p);
-    GTSNEGO_MSG_DeleteRows(p);
-    ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0x160, 0x20, ((struct GtsnegoMsgCtx *)p)->fC8);
+    GTSNEGO_MSG_ClearRows(msgCtx);
+    GTSNEGO_MSG_DeleteRows(msgCtx);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0x160, 0x20, ((struct GtsnegoMsgCtx *)msgCtx)->heapId);
     BG_SYS_SetFlagField06(5);
 }

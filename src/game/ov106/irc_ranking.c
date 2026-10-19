@@ -15,7 +15,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   ICA_ANIME_GetField1C 0x020120F4 thumb
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_Create 0x020124F4 thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
@@ -430,14 +430,14 @@ typedef struct IrcRankingWork {
 
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 extern void *PROCSYS_AllocProcWork(struct ProcSys *procSys, u32 size, u32 heapId);
-extern struct GameData *ICA_ANIME_GetField1C(void *param);
+extern struct GameData *GAMESYSTEM_GetGameData(void *param);
 extern struct GameData *GAME_DATA_Create(u16);
 extern struct PrintQue *PRINTSYS_QUE_Create(u32 heapId);
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct BmpOamSys *BMP_OAM_CreateSys(unsigned int heapId, struct ClactUnit *unit);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern int CLACT_RegisterPaletteCompressed(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void CLACT_ReleasePalette(u32 i);
 extern void BMP_OAM_DeleteSys(struct BmpOamSys *sys);
@@ -463,7 +463,7 @@ extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, 
 extern unsigned int ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void BG_SYS_Init(u32, u32, u32, u32);
-extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 flags);
+extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u32 flags);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32, u32, u32, u32, u32, u32);
 extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
@@ -529,7 +529,7 @@ extern void CLACT_GetActorSurfacePos(struct ClactActor *actor, OamPos *out, u16 
 extern void CLACT_AddActorSurfacePos(struct ClactActor *actor, OamPos *delta, u16 space);
 extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 arcId, u32 fileId, u32 flag, void **outData, u16 heapId);
 extern u32 GFL_HEAP_Free(void *p);
-extern void BG_SYS_DrawTile(u32 bgId, const void *src, u32 a2, u32 y, u8 width, u8 height);
+extern void BG_SYS_DrawTile(u32 bgId, const void *src, u32 dx, u32 y, u8 width, u8 height);
 extern void BG_SYS_FillTileMap(u32, u8, u8, u8, u8, u8);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern s32 IRC_RANKING_GetEntryCount(struct IrcRankSave *rank);
@@ -655,7 +655,7 @@ int IRC_RANKING_ProcInit(struct ProcSys *procSys, u32 unused, void **args) {
     GFL_HEAP_CreateChildHeap(1, IRC_RANKING_HEAP_ID, 6 << 16);
     work = PROCSYS_AllocProcWork(procSys, sizeof(IrcRankingWork), IRC_RANKING_HEAP_ID);
     MI_CpuFill8(work, 0, sizeof(IrcRankingWork));
-    if (*args) work->gameData = ICA_ANIME_GetField1C(*args);
+    if (*args) work->gameData = GAMESYSTEM_GetGameData(*args);
     else work->gameData = GAME_DATA_Create(1);
     work->printQue = PRINTSYS_QUE_Create(IRC_RANKING_HEAP_ID);
     work->font = GF_FONT_Create(23, 0, 0, 0, IRC_RANKING_HEAP_ID);

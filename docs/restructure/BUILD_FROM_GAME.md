@@ -316,15 +316,39 @@ listings' data-object starts), the same rule that attested `_start_ModuleParams`
 before. gameverify reports a file without code (no executable section, at least one
 data byte) as `DATA-ONLY ... (checked by gamelink)`, not as not exact.
 
-#### What still comes from the image (arm9_main, 53026 bytes)
+#### ARM9 data mode (2026-10-19, lane D2)
+
+    python tools/arm9data.py                                   # build/datac/arm9/, datalink.json
+    python tools/gamelink.py arm9_main --data --extra=build/datac/arm9
+
+`tools/arm9data.py` is the arm9 form of `datagen.py companions`. It cuts the module's
+`.rodata`/`.data` (0x0209D870..0x020A9E80, 50,613 bytes, 1,365 objects; the word at
+0x0209D86C is the last function's literal pool) and its `.bss` (0x020A9E80..0x021542C0,
+697,292 bytes, 332 objects) into objects with owner files, writes companions
+`<stem>.zdata.c`, `<stem>.zpre.c` and `<stem>.zdata_N.c` into build/datac/arm9 from the
+user's own extract, and the data-mode link places them as three segments. Result: arm9_main
+PASS, 570 files, byte-identical, with 1,980 gap bytes (the secure area) and no other image
+bytes.
+
+- `crt0.zfix.c` holds `_start_BuildParams` (8 words) and the `.version` strings at
+  0x02005030; `sha1.zfix.c` holds the four SHA-1 round constants at 0x02081E6C. Both should
+  move into `src/game/arm9/crt0.c` and the SHA-1 file as source.
+- The 2-byte zero pads after Thumb files come from the linker (`ALIGN(4)`).
+- mwccarm gives every initialised object its own section and orders them by size and type,
+  not by definition order. `arm9data.py` compiles each companion, reads the order back, and
+  tries the reversed form `reverse(defs[:-1]) + defs[-1:]`, then the plain form, then splits
+  the run in halves (`.zdata_N.c`); five companions were split.
+- 416 objects (332 of them `.bss`) have no candidate owner at or after the current file in
+  link order and take their neighbour's owner (`datalink.json` "shifted"): the bytes are
+  proven, the owner file of those objects is not.
+- Only 184 objects are typed beyond raw bytes; the 506 function-pointer words are typed as
+  pointers.
+
+#### What still comes from the image (arm9_main, data mode)
 
 | range | bytes | what it is |
 | --- | --- | --- |
-| 0x0209D86C..0x020A9E80 | 50646 | `.rodata`/`.data` of the module, no file defines it yet: data into C (`datagen.py`) |
-| 0x02004000..0x02004800 | 1980 | secure area around the SVC thunks: opaque bytes, stays a prebuilt binary |
-| 0x02005030..0x02005124 | 244 | crt0's `_start_BuildParams` (0x20 bytes at 0x02005030) and the `.version` middleware strings (`[SDK+NINTENDO:DWC...]`); the crt0 tables at 0x02004F7C (180 bytes) are C now (above) |
-| 14 x 2 bytes | 28 | zero padding after a Thumb file before the next 4-aligned one; a single-section link makes it itself |
-| 0x02081E6C | 16 | SHA-1 round constants inside the code range (an SDK `.rodata`) |
+| 0x02004000..0x02004800 | 1980 | secure area around the SVC thunks: opaque bytes, stays a prebuilt binary from the user's dump |
 
 Also image evidence, not bytes: the addresses of names missing from every header (read
 from the original code), and the typed stubs and absolute names, which stand for code

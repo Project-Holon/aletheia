@@ -314,7 +314,7 @@ typedef struct NameinGraphicGrid {
 /* The name-entry message box (the 0x24 block at work+0x230). */
 typedef struct NameinGraphicMsgBox {
     void *bank;                      /* 0x00 message bank */
-    unsigned int field4;             /* 0x04 text colour */
+    unsigned int font;               /* 0x04 text colour */
     void *bmp;                       /* 0x08 bmp used by the printer */
     unsigned char dirty;             /* 0x0C */
     unsigned char pad_0D[3];
@@ -477,7 +477,7 @@ extern unsigned NAMEIN_GRAPHIC_PickerToChar(char *,int *,unsigned short *);
 
 extern struct U16Vec *STRBUF_Create(unsigned int capacity, unsigned int heapId);
 
-extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
 
 extern void STRBUF_Delete(struct U16Vec *vec);
 
@@ -549,13 +549,13 @@ extern u32  POKE_TOOL_CalcIconPalette(u32 a, u32 b, u32 c, u32 d);
 
 extern void *ARC_TOOL_CreateHandle(unsigned,u16);
 
-extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern int CLACT_RegisterPaletteCompressed(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
 
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 
 extern void ARC_TOOL_DeleteHandle(void *h);
 
@@ -777,7 +777,7 @@ void NAMEIN_GRAPHIC_DeleteTcbl(unsigned char *p);
 
 void NAMEIN_GRAPHIC_PrintNameStream(char *p,char *q,int *w,u32 heap);
 
-void NAMEIN_GRAPHIC_InitIconActor(u8 *o, u32 mode, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void *s3, u32 s4, u16 heap);
+void NAMEIN_GRAPHIC_InitIconActor(u8 *o, u32 mode, u32 iconIndex, u32 iconForm, u32 s0, u32 s1, u32 s2, void *s3, u32 s4, u16 heap);
 
 void NAMEIN_GRAPHIC_DeleteIconActor(unsigned char *p);
 
@@ -841,17 +841,17 @@ void NAMEIN_GRAPHIC_InitBg(void *p, unsigned short heap);
 
 void NAMEIN_GRAPHIC_ExitBg(void *p);
 
-void NAMEIN_GRAPHIC_Empty(u8 *a0);
+void NAMEIN_GRAPHIC_Empty(u8 *unused);
 
-void NAMEIN_GRAPHIC_ResetBg(u8 *a0);
+void NAMEIN_GRAPHIC_ResetBg(u8 *unused);
 
 void NAMEIN_GRAPHIC_InitClact(unsigned char *p, int a, int b);
 
 void NAMEIN_GRAPHIC_ExitClact(u8 *p);
 
-void NAMEIN_GRAPHIC_DrawClact(u8 *a0);
+void NAMEIN_GRAPHIC_DrawClact(u8 *unused);
 
-void NAMEIN_GRAPHIC_VBlankClact(u8 *a0);
+void NAMEIN_GRAPHIC_VBlankClact(u8 *unused);
 
 u32 NAMEIN_GRAPHIC_LoadWord(const u32 *p);
 
@@ -1286,7 +1286,7 @@ void NAMEIN_GRAPHIC_InitMsgBox(unsigned char *p,int a,int b,int c,int d,unsigned
     int window;
     MI_CpuFill8(p,0,0x24);
     ((NameinGraphicMsgBox *)p)->color=15;
-    ((NameinGraphicMsgBox *)p)->field4=a; ((NameinGraphicMsgBox *)p)->wordSet=(void *)d; ((NameinGraphicMsgBox *)p)->bank=(void *)b; ((NameinGraphicMsgBox *)p)->printSys=(void *)c;
+    ((NameinGraphicMsgBox *)p)->font=a; ((NameinGraphicMsgBox *)p)->wordSet=(void *)d; ((NameinGraphicMsgBox *)p)->bank=(void *)b; ((NameinGraphicMsgBox *)p)->printSys=(void *)c;
     ((NameinGraphicMsgBox *)p)->strbuf=STRBUF_Create(255,e);
     ((NameinGraphicMsgBox *)p)->win=(void *)BMP_WIN_Create(4,1,19,30,4,15,1);
     BMP_MENUWORK_DrawWindow((void *)(((NameinGraphicMsgBox *)p)->win),2,1,14);
@@ -1315,7 +1315,7 @@ void NAMEIN_GRAPHIC_PrintMsg(char *p,int value) {
     BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)((NameinGraphicMsgBox *)p)->win)),((NameinGraphicMsgBox *)p)->color);
     MSGDATA_ReadString((struct MsgBank *)(((NameinGraphicMsgBox *)p)->bank),value,(void *)(((NameinGraphicMsgBox *)p)->strbuf));
     window=(int)((NameinGraphicMsgBox *)p)->printSys;
-    PRINTSYS_PrintQue((struct PrintSys *)window,(int)BMP_WIN_GetBmp((struct Descriptor *)((NameinGraphicMsgBox *)p)->bmp),0,0,(void *)(*(int *)&((NameinGraphicMsgBox *)p)->strbuf),((NameinGraphicMsgBox *)p)->field4);
+    PRINTSYS_PrintQue((struct PrintSys *)window,(int)BMP_WIN_GetBmp((struct Descriptor *)((NameinGraphicMsgBox *)p)->bmp),0,0,(void *)(*(int *)&((NameinGraphicMsgBox *)p)->strbuf),((NameinGraphicMsgBox *)p)->font);
     ((NameinGraphicMsgBox *)p)->dirty=1;
 }
 
@@ -1328,7 +1328,7 @@ void NAMEIN_GRAPHIC_PrintMonMsg(char *p,int value,void *mon) {
     text=(int)MSGDATA_AllocString((struct MsgBank *)(((NameinGraphicMsgBox *)p)->bank),value);
     WORDSET_CopyTaggedText((struct WordSet *)(*(int *)&((NameinGraphicMsgBox *)p)->wordSet),((NameinGraphicMsgBox *)p)->strbuf,(void *)text);
     window=(int)((NameinGraphicMsgBox *)p)->printSys;
-    PRINTSYS_PrintQue((struct PrintSys *)window,(int)BMP_WIN_GetBmp((struct Descriptor *)((NameinGraphicMsgBox *)p)->bmp),0,0,(void *)(*(int *)&((NameinGraphicMsgBox *)p)->strbuf),((NameinGraphicMsgBox *)p)->field4);
+    PRINTSYS_PrintQue((struct PrintSys *)window,(int)BMP_WIN_GetBmp((struct Descriptor *)((NameinGraphicMsgBox *)p)->bmp),0,0,(void *)(*(int *)&((NameinGraphicMsgBox *)p)->strbuf),((NameinGraphicMsgBox *)p)->font);
     ((NameinGraphicMsgBox *)p)->dirty=1;
     STRBUF_Delete((struct U16Vec *)text);
 }
@@ -1358,22 +1358,22 @@ void NAMEIN_GRAPHIC_PrintNameStream(char *p,char *q,int *w,u32 heap)
     BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)*(int *)&((NameinGraphicMsgBox *)q)->win)),((NameinGraphicMsgBox *)q)->color);
     STRBUF_Clear(((NameinGraphicMsgBox *)q)->strbuf);
     WORDSET_CopyTaggedText(set,((NameinGraphicMsgBox *)q)->strbuf,(void *)w[3]);
-    ((NameinGraphicTcbl *)p)->stream=(void *)PRINTSYS_PrintStream((u32)((NameinGraphicMsgBox *)q)->win,0,0,*(u32 *)&((NameinGraphicMsgBox *)q)->strbuf,((NameinGraphicMsgBox *)q)->field4,MSG_SPEED_GetWait(),(u32)((NameinGraphicTcbl *)p)->handle,2,heap,((NameinGraphicMsgBox *)q)->color);
+    ((NameinGraphicTcbl *)p)->stream=(void *)PRINTSYS_PrintStream((u32)((NameinGraphicMsgBox *)q)->win,0,0,*(u32 *)&((NameinGraphicMsgBox *)q)->strbuf,((NameinGraphicMsgBox *)q)->font,MSG_SPEED_GetWait(),(u32)((NameinGraphicTcbl *)p)->handle,2,heap,((NameinGraphicMsgBox *)q)->color);
     ((NameinGraphicTcbl *)p)->flag=0;
     *(void (**)(void))(p+8)=(void (*)(void))NAMEIN_GRAPHIC_CallbackFadeOut;
     ((NameinGraphicTcbl *)p)->counter=60;
     WORDSET_DeleteStrbufED04(set);
 }
 
-void NAMEIN_GRAPHIC_InitIconActor(u8 *o, u32 mode, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void *s3, u32 s4, u16 heap)
+void NAMEIN_GRAPHIC_InitIconActor(u8 *o, u32 mode, u32 iconIndex, u32 iconForm, u32 s0, u32 s1, u32 s2, void *s3, u32 s4, u16 heap)
 {
     u32 flagA = 0;
-    u32 v40;
-    u32 v3c;
-    u32 v38;
-    u32 v34;
-    u32 v30;
-    u8 v2c;
+    u32 archiveId;
+    u32 paletteFileId;
+    u32 characterFileId;
+    u32 cellAnimArcId;
+    u32 cellAnimEntryId;
+    u8 paletteSlot;
     void *h;
     u32 w24 = 0x22;
     u32 h20 = 0x14;
@@ -1381,60 +1381,60 @@ void NAMEIN_GRAPHIC_InitIconActor(u8 *o, u32 mode, u32 a2, u32 a3, u32 s0, u32 s
     u32 flagB = 0;
 
     MI_CpuFill8((unsigned char *)o, 0, 0x3c);
-    v2c = 0;
+    paletteSlot = 0;
     switch (mode) {
     case 0:
     case 1:
-        v40 = APP_ICON_GetArchiveId();
-        v3c = APP_ICON_GetItemDataFileId();
-        v38 = APP_ICON_GetItemExtraFileId();
-        v34 = APP_ICON_GetItemAnim2FileId(2);
-        v30 = APP_ICON_GetItemFrame2FileId(2);
-        v1c = a2;
+        archiveId = APP_ICON_GetArchiveId();
+        paletteFileId = APP_ICON_GetItemDataFileId();
+        characterFileId = APP_ICON_GetItemExtraFileId();
+        cellAnimArcId = APP_ICON_GetItemAnim2FileId(2);
+        cellAnimEntryId = APP_ICON_GetItemFrame2FileId(2);
+        v1c = iconIndex;
         break;
     case 2:
-        v40 = 0x20;
-        v3c = flagB;
-        v2c = d_021F5569[a2];
-        v38 = a2 + 0x31;
-        v34 = 0x41;
-        v30 = 0x42;
-        v1c = (a2 >= 8) ? 1 : flagB;
+        archiveId = 0x20;
+        paletteFileId = flagB;
+        paletteSlot = d_021F5569[iconIndex];
+        characterFileId = iconIndex + 0x31;
+        cellAnimArcId = 0x41;
+        cellAnimEntryId = 0x42;
+        v1c = (iconIndex >= 8) ? 1 : flagB;
         break;
     case 3:
         flagA = 1;
-        v1c = (a3 & 0xFF00) >> 8;
+        v1c = (iconForm & 0xFF00) >> 8;
         if (v1c == 2) {
             flagA = 0;
         }
-        v40 = 7;
-        v3c = POKE_TOOL_GetIconPaletteArcId();
-        v38 = POKE_TOOL_CalcGraphicIndex(a2, (u8)a3, v1c, 0);
-        v34 = POKE_TOOL_GetIconCellArcId();
-        v30 = POKE_TOOL_GetIconCellEntryId();
+        archiveId = 7;
+        paletteFileId = POKE_TOOL_GetIconPaletteArcId();
+        characterFileId = POKE_TOOL_CalcGraphicIndex(iconIndex, (u8)iconForm, v1c, 0);
+        cellAnimArcId = POKE_TOOL_GetIconCellArcId();
+        cellAnimEntryId = POKE_TOOL_GetIconCellEntryId();
         w24 = 0x1e;
         h20 = 0x14;
         flagB = 1;
         break;
     case 4:
     case 5:
-        v40 = 0x76;
-        v3c = 9;
-        v38 = 8;
-        v34 = 7;
-        v30 = 6;
-        v2c = 1;
+        archiveId = 0x76;
+        paletteFileId = 9;
+        characterFileId = 8;
+        cellAnimArcId = 7;
+        cellAnimEntryId = 6;
+        paletteSlot = 1;
         break;
     }
-    h = ARC_TOOL_CreateHandle(v40, heap);
+    h = ARC_TOOL_CreateHandle(archiveId, heap);
     if (flagB != 0) {
-        *(void **)(o + 8) = (void *)CLACT_RegisterPaletteCompressed(h, v3c, 0, 0x40, heap);
+        *(void **)(o + 8) = (void *)CLACT_RegisterPaletteCompressed(h, paletteFileId, 0, 0x40, heap);
     } else {
-        *(void **)(o + 8) = (void *)CLACT_RegisterPaletteEx(h, v3c, 0, 0x40, v2c, 1, heap);
+        *(void **)(o + 8) = (void *)CLACT_RegisterPaletteEx(h, paletteFileId, 0, 0x40, paletteSlot, 1, heap);
     }
-    *(void **)(o + 0x10) = (void *)CLACT_RegisterCellAnim(h, v34, v30, heap);
+    *(void **)(o + 0x10) = (void *)CLACT_RegisterCellAnim(h, cellAnimArcId, cellAnimEntryId, heap);
     flagB = 0;
-    *(void **)(o + 0xC) = (void *)CLACT_RegisterCharacter(h, v38, 0, 0, heap);
+    *(void **)(o + 0xC) = (void *)CLACT_RegisterCharacter(h, characterFileId, 0, 0, heap);
     ARC_TOOL_DeleteHandle(h);
     {
         Dim8 dim;
@@ -1446,7 +1446,7 @@ void NAMEIN_GRAPHIC_InitIconActor(u8 *o, u32 mode, u32 a2, u32 a3, u32 s0, u32 s
     CLACT_SetActorAutoAnim(*(void **)o, 1);
     switch (mode) {
     case 0:
-        if (a2 == 0) {
+        if (iconIndex == 0) {
             NAMEIN_GRAPHIC_LoadIconMember(*(void **)o, 0x31, 6, 3, 4, 4, 0, 0, heap);
         } else {
             NAMEIN_GRAPHIC_LoadIconMember(*(void **)o, 0x31, 9, 3, 4, 4, 0, 0, heap);
@@ -1459,7 +1459,7 @@ void NAMEIN_GRAPHIC_InitIconActor(u8 *o, u32 mode, u32 a2, u32 a3, u32 s0, u32 s
         break;
     case 3:
         CLACT_SetActorAnimSeq(*(void **)o, 1);
-        CLACT_SetActorPaletteOffset(*(void **)o, POKE_TOOL_CalcIconPalette(a2, (u8)a3, (a3 & 0xFF00) >> 8, flagB), flagB);
+        CLACT_SetActorPaletteOffset(*(void **)o, POKE_TOOL_CalcIconPalette(iconIndex, (u8)iconForm, (iconForm & 0xFF00) >> 8, flagB), flagB);
         break;
     case 5:
         CLACT_SetActorAnimSeq(*(void **)o, 5);
@@ -1885,9 +1885,9 @@ void NAMEIN_GRAPHIC_ExitBg(void *p)
     MI_CpuFill8(p, 0, 4);
 }
 
-void NAMEIN_GRAPHIC_Empty(u8 *a0) {}
+void NAMEIN_GRAPHIC_Empty(u8 *unused) {}
 
-void NAMEIN_GRAPHIC_ResetBg(u8 *a0) { BG_SYS_Update(); }
+void NAMEIN_GRAPHIC_ResetBg(u8 *unused) { BG_SYS_Update(); }
 
 void NAMEIN_GRAPHIC_InitClact(unsigned char *p, int a, int b)
 {
@@ -1906,9 +1906,9 @@ void NAMEIN_GRAPHIC_ExitClact(u8 *p)
     MI_CpuFill8(p, 0, 4);
 }
 
-void NAMEIN_GRAPHIC_DrawClact(u8 *a0) { CLACT_DrawSystem(); }
+void NAMEIN_GRAPHIC_DrawClact(u8 *unused) { CLACT_DrawSystem(); }
 
-void NAMEIN_GRAPHIC_VBlankClact(u8 *a0) { CLACT_VBlankSystem(); }
+void NAMEIN_GRAPHIC_VBlankClact(u8 *unused) { CLACT_VBlankSystem(); }
 
 /*
  * extent: lead tail-call stub followed by unlabelled load-and-return at 021F4D1C.

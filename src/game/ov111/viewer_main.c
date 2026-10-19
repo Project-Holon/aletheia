@@ -380,7 +380,7 @@ extern struct PmsDraw *PMS_DRAW_Create(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1,
 extern void *GFL_USE_AddMainTask(void (*cb)(void *, ViewerWork *), void *ctx, int pri);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
-extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
 extern void VIEWER_TEXT_InitActors(ViewerAnim *a, const void *cfg);
 extern void VIEWER_TEXT_SetScrollParam(ViewerWork *p, ViewerInfo *info);
 extern void VIEWER_TEXT_CreateActor(ViewerAnim *a);
@@ -409,7 +409,7 @@ extern void TCBL_Destroy(struct S02031140 *p);
 extern void UI_SetInputMode(u32 v);
 extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
@@ -420,15 +420,15 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, u32 unpackedOut, u32 flags);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u32 bgId);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern u32 ARC_UTIL_UploadBgCharFromArchive(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
-extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
+extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
+extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
+extern u32 ARC_UTIL_UploadBgCharFromArchive(void *archiveID, void *memberIdx, void *bgId, void *tileOffset, u32 size, u32 heapID, u16 allocFlags);
+extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 archiveID, u32 memberIdx, u32 channel, u32 offset, u32 size, u32 heapID, u16 flags);
 extern u32 APP_ICON_GetArchiveId(void);
 extern u32 APP_ICON_GetStatusFrameFileId(void);
 extern u32 APP_ICON_GetStatusDataFileId(void);
@@ -445,9 +445,9 @@ extern void VIEWER_TEXT_DrawPage(ViewerWork *p, int scroll, int flush, int idx);
 extern void VIEWER_TEXT_DrawWindow(ViewerWork *p, void **bg, ViewerInfo *info);
 extern void VIEWER_TEXT_FlushWindow(ViewerWork *p, void **bg);
 extern void VIEWER_TEXT_SetActorAnim(ViewerAnim *a, int idx, u8 x, u8 y);
-extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
+extern int GAME_DATA_CheckSaveFlag(int gd, int id);
 extern void PMS_DRAW_SetDecoVisible(struct PmsDraw *p, u32 i, u32 val);
-extern void PMS_DRAW_SetVisible(struct PmsDraw *o, int i, u32 a1);
+extern void PMS_DRAW_SetVisible(struct PmsDraw *o, int i, u32 visible);
 extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 extern fx32 FX_Inv(fx32 v);
 extern void G2x_SetBGyAffine_(void *reg, struct Mtx *m, u32 a, u32 b, u32 x, u32 y);
@@ -468,8 +468,8 @@ extern void BG_SYS_Update(void);
 extern void CLACT_VBlankSystem(void);
 extern void OS_WaitVBlankIntr(void);
 extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
-extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
-extern void BG_SYS_SetTileEntry(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
+extern void BG_SYS_DrawTileEx(u32 index, u32 dx, u32 dy, u32 cw, u8 ch, u32 src, u8 sx, u8 sy, u8 sw, u8 sh);
+extern void BG_SYS_SetTileEntry(u32 layer, int value, int x0, int y0, u8 w, u8 h, u8 mode);
 extern u32 BG_SYS_GetBuf(int channel);
 extern void BG_SYS_SetFlagField06(u32 bit);
 extern void GXS_LoadBGPltt(const void *src, u32 offset, u32 size);
@@ -609,13 +609,13 @@ int VIEWER_MAIN_Create(void *man, int *state, ViewerArgs *args)
     VIEWER_TEXT_Init(p);
     p->pmsDraw = PMS_DRAW_Create((u32)p->anim.unit, 1, (u32)p->printQue, (u32)p->font, 8, 1, 0x27);
     VIEWER_TEXT_NoOp(p, p->bg[4], 1, p->strbuf1);
-    if (p->args->f14 == 2) {
-        p->args->f14 = 0;
+    if (p->args->decoMode == 2) {
+        p->args->decoMode = 0;
         p->decoVisible = 1;
     } else {
         p->decoVisible = 0;
     }
-    p->args->fC = 0;
+    p->args->exitCode = 0;
     p->keyRepeat = 0;
     p->counter = 0;
     if (p->info->f4_4) {
@@ -731,13 +731,13 @@ int VIEWER_MAIN_Main(void *proc, int *seq, int c, ViewerWork *p)
         break;
     case 6:
         WIPE_SYS_Start((void *)2, 4, 4, 0, 6, 1, p->heap);
-        p->args->fC = 1;
+        p->args->exitCode = 1;
         *seq = 4;
         break;
     case 7:
         if (CLACT_IsActorAnimActive(p->anim.obj[2]) == 0) {
             WIPE_SYS_Start((void *)2, 4, 4, 0, 6, 1, p->heap);
-            p->args->fC = 2;
+            p->args->exitCode = 2;
             *seq = 4;
         }
         break;
@@ -777,11 +777,11 @@ int VIEWER_MAIN_Delete(void *man, int *state, ViewerArgs *args, ViewerWork *p)
 
     if (!p->info->f4_5) {
         VIEWER_MAIN_CopyBg6(p->pix, p->info->bitmap);
-        MI_CpuCopy8(p->info->bitmap, TRCARD_SIGN_GetBitmap(GAME_DATA_GetSaveBlock21(p->args->f4)), 0x600);
+        MI_CpuCopy8(p->info->bitmap, TRCARD_SIGN_GetBitmap(GAME_DATA_GetSaveBlock21(p->args->gameData)), 0x600);
     }
-    if (args->f8 != 0) {
-        a = GAME_DATA_GetMyStatus(p->args->f4);
-        b = GAME_DATA_GetSaveBlock21(p->args->f4);
+    if (args->editMode != 0) {
+        a = GAME_DATA_GetMyStatus(p->args->gameData);
+        b = GAME_DATA_GetSaveBlock21(p->args->gameData);
         MYSTATUS_SetOutfit(a, p->info->rowIndex);
         TRCARD_SIGN_SetColor(b, p->info->listIndex);
         TRCARD_SIGN_SetStyle(b, p->info->f4_4);
@@ -1121,7 +1121,7 @@ void VIEWER_MAIN_UpdateRowA(ViewerWork *p, int flag)
         VIEWER_TEXT_SetActorAnim(&p->anim, 4, 0x12, 0);
         VIEWER_TEXT_SetActorAnim(&p->anim, 5, 6, 0);
         VIEWER_TEXT_SetActorAnim(&p->anim, 2, 0x10, 1);
-        VIEWER_TEXT_SetActorAnim(&p->anim, 7, GAME_DATA_CheckSaveFlag((int)p->args->f4, 0x15) + 6, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 7, GAME_DATA_CheckSaveFlag((int)p->args->gameData, 0x15) + 6, 1);
     } else if (p->inputMode == 0) {
         VIEWER_TEXT_SetActorAnim(&p->anim, 0, 1, 1);
         VIEWER_TEXT_SetActorAnim(&p->anim, 1, 0, 1);
@@ -1129,7 +1129,7 @@ void VIEWER_MAIN_UpdateRowA(ViewerWork *p, int flag)
         VIEWER_TEXT_SetActorAnim(&p->anim, 4, 0x12, p->info->f4_4 ^ 1);
         VIEWER_TEXT_SetActorAnim(&p->anim, 5, 8 - p->size * 2, p->info->f4_4 ^ 1);
         VIEWER_MAIN_SetRowState((ViewerWork *)p, p->info->f4_4, 1);
-        VIEWER_TEXT_SetActorAnim(&p->anim, 7, GAME_DATA_CheckSaveFlag((int)p->args->f4, 0x16) + 6, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 7, GAME_DATA_CheckSaveFlag((int)p->args->gameData, 0x16) + 6, 1);
     } else {
         VIEWER_TEXT_SetActorAnim(&p->anim, 0, 0xF, 1);
         VIEWER_TEXT_SetActorAnim(&p->anim, 1, 0xE, 1);
@@ -1156,7 +1156,7 @@ void VIEWER_MAIN_UpdateRowB(ViewerWork *p, int flag)
         VIEWER_TEXT_SetActorAnim(&p->anim, 4, 0x12, 0);
         VIEWER_TEXT_SetActorAnim(&p->anim, 5, 6, 0);
         VIEWER_TEXT_SetActorAnim(&p->anim, 2, 0x10, 1);
-        VIEWER_TEXT_SetActorAnim(&p->anim, 7, GAME_DATA_CheckSaveFlag((int)p->args->f4, 0x15) + 6, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 7, GAME_DATA_CheckSaveFlag((int)p->args->gameData, 0x15) + 6, 1);
     } else {
         VIEWER_TEXT_SetActorAnim(&p->anim, 0, 1, 1);
         VIEWER_TEXT_SetActorAnim(&p->anim, 1, 0, 1);
@@ -1164,7 +1164,7 @@ void VIEWER_MAIN_UpdateRowB(ViewerWork *p, int flag)
         VIEWER_TEXT_SetActorAnim(&p->anim, 6, 0x16, 1);
         VIEWER_TEXT_SetActorAnim(&p->anim, 5, 8 - p->size * 2, 0);
         VIEWER_MAIN_SetRowState((ViewerWork *)p, p->info->f4_4, 0);
-        VIEWER_TEXT_SetActorAnim(&p->anim, 7, GAME_DATA_CheckSaveFlag((int)p->args->f4, 0x16) + 6, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 7, GAME_DATA_CheckSaveFlag((int)p->args->gameData, 0x16) + 6, 1);
     }
 }
 
@@ -1210,7 +1210,7 @@ void VIEWER_MAIN_UpdateRows(ViewerWork *p, int flag)
 {
     if (p->info->f4_7 == 1) {
         VIEWER_MAIN_UpdateRowC((ViewerWork *)p, flag);
-    } else if (p->args->f8 == 0) {
+    } else if (p->args->editMode == 0) {
         VIEWER_MAIN_UpdateRowB((ViewerWork *)p, flag);
     } else {
         VIEWER_MAIN_UpdateRowA((ViewerWork *)p, flag);
@@ -1566,13 +1566,13 @@ void VIEWER_MAIN_ToggleFavorite(ViewerWork *p)
 
     GFL_USE_PlaySeDefaultVolume(0x646);
     if (p->decoVisible == 0) {
-        v = GAME_DATA_CheckSaveFlag((int)p->args->f4, 0x15) ^ 1;
+        v = GAME_DATA_CheckSaveFlag((int)p->args->gameData, 0x15) ^ 1;
         VIEWER_TEXT_SetActorAnim(&p->anim, 7, v + 6, 1);
-        GAME_DATA_SetSaveFlag(p->args->f4, 0x15, v);
+        GAME_DATA_SetSaveFlag(p->args->gameData, 0x15, v);
     } else {
-        v = GAME_DATA_CheckSaveFlag((int)p->args->f4, 0x16) ^ 1;
+        v = GAME_DATA_CheckSaveFlag((int)p->args->gameData, 0x16) ^ 1;
         VIEWER_TEXT_SetActorAnim(&p->anim, 7, v + 6, 1);
-        GAME_DATA_SetSaveFlag(p->args->f4, 0x16, v);
+        GAME_DATA_SetSaveFlag(p->args->gameData, 0x16, v);
     }
 }
 
@@ -1888,17 +1888,17 @@ void VIEWER_MAIN_DrawSelected(ViewerWork *p, int sel, int *seq)
         break;
     case 4:
         *seq = 2;
-        p->args->fC = 0;
-        p->args->f10 = 0;
+        p->args->exitCode = 0;
+        p->args->nextScreen = 0;
         break;
     case 5:
         *seq = 3;
-        p->args->fC = 0;
-        p->args->f10 = 1;
+        p->args->exitCode = 0;
+        p->args->nextScreen = 1;
         break;
     case 6:
         if (p->args->info->f4_6) {
-            TRCARD_SIGN_SetSeenBefore(GAME_DATA_GetSaveBlock21(p->args->f4));
+            TRCARD_SIGN_SetSeenBefore(GAME_DATA_GetSaveBlock21(p->args->gameData));
             GFL_USE_PlaySeDefaultVolume(0x548);
             VIEWER_MAIN_InitInfo((ViewerInfo *)p->info);
             VIEWER_TEXT_DrawTable(p, p->info->rowIndex, 1);

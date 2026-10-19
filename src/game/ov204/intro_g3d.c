@@ -106,7 +106,7 @@ extern void MCSS_TOOL_MakeAddWorkFromPP(void *p, struct Stats *out, u32 lvl);
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern struct Rec *MCSS_Add(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struct Sub150 *src);
+extern struct Rec *MCSS_Add(struct Obj *obj, u32 x, u32 y, u32 z, const struct Sub150 *src);
 
 extern void MCSS_SetScale(void *p, u32 *src);
 
@@ -146,7 +146,7 @@ extern void *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,Vec3 *,Vec3 *,Vec
 
 extern u16 G3D_UTIL_AddUnit(void *,const void *);
 
-extern u32 G3D_UTIL_GetObject(u8 *a0, int i);
+extern u32 G3D_UTIL_GetObject(u8 *util, int i);
 
 extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
 
@@ -162,7 +162,7 @@ extern void G3D_CAMERA_Reset(struct Light *l);
 
 extern void MTX_Identity33_(void *);
 
-extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
+extern void G3D_SYSTEM_DrawObject(void *obj, struct Arg *status);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 

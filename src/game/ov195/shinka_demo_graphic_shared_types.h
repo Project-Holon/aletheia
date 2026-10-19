@@ -18,7 +18,7 @@ typedef signed int     s32;
 typedef s32 fx32;
 
 typedef struct Node {
-    u16 f00;
+    u16 id;
     u16 pad02;
     fx32 tx, ty, tz;
     fx32 sx, sy, sz;

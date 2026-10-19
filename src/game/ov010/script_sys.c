@@ -157,7 +157,7 @@ extern int GFL_USE_PollPowerExit();
 extern void *GAMESYSTEM_GetFieldMap(const void *p);
 extern u32 SCRCMD_WORK_GetCallMode(void *p);
 extern u32 SCRCMD_WORK_GetCallParam(void *p);
-extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *SCRCMD_WORK_GetGameSystem(void *work);
 extern void VM_SetHook(ScriptVm *vm, ScriptHookFn hook, void *hookArg);
 GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *fieldSys, u16 scriptId, void *target, int reserved);
 void *SCRIPT_SYS_CallScriptEvent(void *parentEvent, u16 scriptId, void *target, void *parentWork, u16 reserved);

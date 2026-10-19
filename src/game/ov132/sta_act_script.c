@@ -70,7 +70,7 @@ extern u32 TCB_GetTaskOffset(u32);
 
 extern struct Ctx *TCB_Init(u32 capacity, struct Ctx *c);
 
-extern void NNS_FndInitList(int p0, int p1);
+extern void NNS_FndInitList(int list, int offset);
 
 extern struct ScriptVm *VM_End(struct ScriptVm *vm);
 
@@ -150,10 +150,10 @@ void *STA_ACT_SCRIPT_Create(u32 heap, void *owner)
     char *p;
     i = 0;
     p = GFL_HEAP_Alloc(heap, 0x44, 0, d_021FDCEC, 0x3f);
-    ((struct ScriptSystem *)p)->f0 = heap;
-    ((struct ScriptSystem *)p)->f34 = owner;
-    ((struct ScriptSystem *)p)->f8 = GFL_HEAP_Alloc(((struct ScriptSystem *)p)->f0, TCB_GetTaskOffset(16), 0, d_021FDCEC, 0x43);
-    ((struct ScriptSystem *)p)->f4 = TCB_Init(16, ((struct ScriptSystem *)p)->f8);
+    ((struct ScriptSystem *)p)->heapId = heap;
+    ((struct ScriptSystem *)p)->scene = owner;
+    ((struct ScriptSystem *)p)->tcbBuffer = GFL_HEAP_Alloc(((struct ScriptSystem *)p)->heapId, TCB_GetTaskOffset(16), 0, d_021FDCEC, 0x43);
+    ((struct ScriptSystem *)p)->tcb = TCB_Init(16, ((struct ScriptSystem *)p)->tcbBuffer);
     NNS_FndInitList((int)(p + 0x38), 0);
     for (; i < 10; i++) *(void **)(p + 0xc + i * 4) = 0;
     return p;
@@ -168,9 +168,9 @@ void STA_ACT_SCRIPT_Delete(char *p)
     for (i = 0; i < 10; i++) {
         slot = (char **)(p + i * 4);
         if (slot[3] != 0) {
-            VM_End(((struct ScriptEntry *)(slot[3]))->f4);
-            VM_Delete(((struct ScriptEntry *)(slot[3]))->f4);
-            if (((struct ScriptEntry *)(slot[3]))->f16 & 8) GFL_HEAP_Free(((struct ScriptEntry *)(slot[3]))->fC);
+            VM_End(((struct ScriptEntry *)(slot[3]))->vm);
+            VM_Delete(((struct ScriptEntry *)(slot[3]))->vm);
+            if (((struct ScriptEntry *)(slot[3]))->flags & 8) GFL_HEAP_Free(((struct ScriptEntry *)(slot[3]))->table);
             GFL_HEAP_Free(slot[3]);
             slot[3] = 0;
         }
@@ -181,8 +181,8 @@ void STA_ACT_SCRIPT_Delete(char *p)
         STA_ACT_SCRIPT_RemoveTask(p, cur);
         cur = next;
     }
-    TCB_Noop(((struct ScriptSystem *)p)->f4);
-    GFL_HEAP_Free(((struct ScriptSystem *)p)->f8);
+    TCB_Noop(((struct ScriptSystem *)p)->tcb);
+    GFL_HEAP_Free(((struct ScriptSystem *)p)->tcbBuffer);
     GFL_HEAP_Free(p);
 }
 
@@ -196,7 +196,7 @@ void STA_ACT_SCRIPT_Update(char *p)
     int ready;
     int count;
     ready = 1;
-    count = STA_ACT_EFFECT_GetSceneOwner(((struct ScriptSystem *)p)->f34);
+    count = STA_ACT_EFFECT_GetSceneOwner(((struct ScriptSystem *)p)->scene);
     while (count != 0) {
         for (i = 0; i < 10; i++) {
             slot = (char **)(p + i * 4);
@@ -205,7 +205,7 @@ void STA_ACT_SCRIPT_Update(char *p)
                     GFL_HEAP_Free(slot[3]);
                     slot[3] = 0;
                 } else {
-                    if ((((struct ScriptEntry *)(slot[3]))->f16 & 2) && !(((struct ScriptEntry *)(slot[3]))->f16 & 4)) ready = 0;
+                    if ((((struct ScriptEntry *)(slot[3]))->flags & 2) && !(((struct ScriptEntry *)(slot[3]))->flags & 4)) ready = 0;
                 }
             }
         }
@@ -213,10 +213,10 @@ void STA_ACT_SCRIPT_Update(char *p)
             for (i = 0; i < 10; i++) {
                 char *q;
                 q = *(char **)(p + 0xc + i * 4);
-                if (q != 0 && (((struct ScriptEntry *)q)->f16 & 2) && (((struct ScriptEntry *)q)->f16 & 4)) ((struct ScriptEntry *)q)->f16 ^= 4;
+                if (q != 0 && (((struct ScriptEntry *)q)->flags & 2) && (((struct ScriptEntry *)q)->flags & 4)) ((struct ScriptEntry *)q)->flags ^= 4;
             }
         }
-        TCB_Main(((struct ScriptSystem *)p)->f4);
+        TCB_Main(((struct ScriptSystem *)p)->tcb);
         count--;
     }
 }
@@ -225,44 +225,44 @@ void *STA_ACT_SCRIPT_AddScript(char *p, void *arg, int flag)
 {
     u8 i;
     for (i = 0; i < 10; i++) if (*(void **)(p + 0xc + i * 4) == 0) break;
-    ((char **)(p + 0xc))[i] = GFL_HEAP_Alloc(((struct ScriptSystem *)p)->f0, 0x1c, 0, d_021FDCEC, 0xc4);
-    ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->f8 = arg;
-    ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->fC = 0;
-    ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->f14 = 0;
-    ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->f10 = 0;
-    ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->f16 = 0;
-    ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->f18 = 0;
-    ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->f19 = i;
-    if (flag == 1) ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->f16 |= 2;
+    ((char **)(p + 0xc))[i] = GFL_HEAP_Alloc(((struct ScriptSystem *)p)->heapId, 0x1c, 0, d_021FDCEC, 0xc4);
+    ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->script = arg;
+    ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->table = 0;
+    ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->waitFrames = 0;
+    ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->elapsed = 0;
+    ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->flags = 0;
+    ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->actorMask = 0;
+    ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->slotIndex = i;
+    if (flag == 1) ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->flags |= 2;
     *(char **)((char **)(p + 0xc))[i] = p;
-    ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->f4 = VM_Create(((struct ScriptSystem *)p)->f0, (const struct ScriptVmParams *)d_021FDC2C);
-    VM_Init(((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->f4, ((char **)(p + 0xc))[i]);
-    VM_Start(((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->f4, ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->f8);
+    ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->vm = VM_Create(((struct ScriptSystem *)p)->heapId, (const struct ScriptVmParams *)d_021FDC2C);
+    VM_Init(((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->vm, ((char **)(p + 0xc))[i]);
+    VM_Start(((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->vm, ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->script);
     return ((char **)(p + 0xc))[i];
 }
 
 char *STA_ACT_SCRIPT_AddScriptFromTable(char *p, char *base, unsigned index, unsigned char flag)
 {
     char *q = STA_ACT_SCRIPT_AddScript(p, base + *(unsigned *)(base + index * 4), 0);
-    *(char * *)&((struct ScriptEntry *)q)->fC = base;
-    ((struct ScriptEntry *)q)->f16 |= 8;
-    ((struct ScriptEntry *)q)->f18 = flag;
+    *(char * *)&((struct ScriptEntry *)q)->table = base;
+    ((struct ScriptEntry *)q)->flags |= 8;
+    ((struct ScriptEntry *)q)->actorMask = flag;
     return q;
 }
 
 int STA_ACT_SCRIPT_RunScript(void *unused, char *p)
 {
-    if (((struct ScriptEntry *)p)->f14 != 0) (((struct ScriptEntry *)p)->f14)--;
-    if (((struct ScriptEntry *)p)->f14 == 0 && !(((struct ScriptEntry *)p)->f16 & 4)) {
-        VM_Control(((struct ScriptEntry *)p)->f4);
-        if (((struct ScriptEntry *)p)->f16 & 1) {
-            VM_End(((struct ScriptEntry *)p)->f4);
-            VM_Delete(((struct ScriptEntry *)p)->f4);
-            if (((struct ScriptEntry *)p)->f16 & 8) GFL_HEAP_Free(((struct ScriptEntry *)p)->fC);
+    if (((struct ScriptEntry *)p)->waitFrames != 0) (((struct ScriptEntry *)p)->waitFrames)--;
+    if (((struct ScriptEntry *)p)->waitFrames == 0 && !(((struct ScriptEntry *)p)->flags & 4)) {
+        VM_Control(((struct ScriptEntry *)p)->vm);
+        if (((struct ScriptEntry *)p)->flags & 1) {
+            VM_End(((struct ScriptEntry *)p)->vm);
+            VM_Delete(((struct ScriptEntry *)p)->vm);
+            if (((struct ScriptEntry *)p)->flags & 8) GFL_HEAP_Free(((struct ScriptEntry *)p)->table);
             return 1;
         }
     }
-    (((struct ScriptEntry *)p)->f10)++;
+    (((struct ScriptEntry *)p)->elapsed)++;
     return 0;
 }
 
@@ -278,11 +278,11 @@ u8 STA_ACT_SCRIPT_CountScripts(char *p)
     return count;
 }
 
-void *STA_ACT_SCRIPT_AddTask(char *p, u32 fn, u32 arg, u32 key)
+void *STA_ACT_SCRIPT_AddTask(char *p, u32 taskFunc, u32 arg, u32 key)
 {
     char *q;
-    q = GFL_HEAP_Alloc(((struct ScriptSystem *)p)->f0, 16, 0, d_021FDCEC, 0x115);
-    ((struct ScriptTaskNode *)q)->task = TCB_AddTask(((struct ScriptSystem *)p)->f4, fn, arg, key);
+    q = GFL_HEAP_Alloc(((struct ScriptSystem *)p)->heapId, 16, 0, d_021FDCEC, 0x115);
+    ((struct ScriptTaskNode *)q)->task = TCB_AddTask(((struct ScriptSystem *)p)->tcb, taskFunc, arg, key);
     if (((struct ScriptTaskNode *)q)->task != 0) {
         ((struct ScriptTaskNode *)q)->arg = (void *)arg;
         NNS_FndAppendListObject(p + 0x38, q);
@@ -292,41 +292,41 @@ void *STA_ACT_SCRIPT_AddTask(char *p, u32 fn, u32 arg, u32 key)
     return 0;
 }
 
-void STA_ACT_SCRIPT_RemoveTask(char *p, char *q)
+void STA_ACT_SCRIPT_RemoveTask(char *p, char *node)
 {
-    GFL_HEAP_Free(((struct ScriptTaskNode *)q)->arg);
-    TCB_DeleteTask(((struct ScriptTaskNode *)q)->task);
-    NNS_FndRemoveListObject((volatile struct DList *)(p + 0x38), q);
-    GFL_HEAP_Free(q);
+    GFL_HEAP_Free(((struct ScriptTaskNode *)node)->arg);
+    TCB_DeleteTask(((struct ScriptTaskNode *)node)->task);
+    NNS_FndRemoveListObject((volatile struct DList *)(p + 0x38), node);
+    GFL_HEAP_Free(node);
 }
 
 int STA_ACT_SCRIPT_StepTaskInt(char *p, int *out)
 {
     int start;
     int delta;
-    ((struct ScriptTask *)p)->fE += 1;
-    if (((struct ScriptTask *)p)->fE >= ((struct ScriptTask *)p)->fC) {
-        *out = ((struct ScriptTask *)p)->f8.s;
+    ((struct ScriptTask *)p)->counter += 1;
+    if (((struct ScriptTask *)p)->counter >= ((struct ScriptTask *)p)->duration) {
+        *out = ((struct ScriptTask *)p)->end.s;
         return 1;
     }
-    start = ((struct ScriptTask *)p)->f4.s;
-    delta = ((struct ScriptTask *)p)->f8.s - start;
-    *out = start + (delta * ((struct ScriptTask *)p)->fE) / ((struct ScriptTask *)p)->fC;
+    start = ((struct ScriptTask *)p)->start.s;
+    delta = ((struct ScriptTask *)p)->end.s - start;
+    *out = start + (delta * ((struct ScriptTask *)p)->counter) / ((struct ScriptTask *)p)->duration;
     return 0;
 }
 
 int STA_ACT_SCRIPT_StepTaskVec(char *p, int *out)
 {
     int v;
-    (((struct ScriptOwner *)p)->f2A)++;
-    if (((struct ScriptOwner *)p)->f2A >= ((struct ScriptOwner *)p)->f28) {
-        out[0] = ((struct ScriptOwner *)p)->f10;
-        out[1] = ((struct ScriptOwner *)p)->f14;
-        out[2] = ((struct ScriptOwner *)p)->f18;
+    (((struct ScriptVecTask *)p)->counter)++;
+    if (((struct ScriptVecTask *)p)->counter >= ((struct ScriptVecTask *)p)->duration) {
+        out[0] = ((struct ScriptVecTask *)p)->end[0];
+        out[1] = ((struct ScriptVecTask *)p)->end[1];
+        out[2] = ((struct ScriptVecTask *)p)->end[2];
         return 1;
     }
-    if (((struct ScriptOwner *)p)->f2A != 0) v = (int)(0.5f + (float)(((struct ScriptOwner *)p)->f2A << 12));
-    else v = (int)((float)(((struct ScriptOwner *)p)->f2A << 12) - 0.5f);
+    if (((struct ScriptVecTask *)p)->counter != 0) v = (int)(0.5f + (float)(((struct ScriptVecTask *)p)->counter << 12));
+    else v = (int)((float)(((struct ScriptVecTask *)p)->counter << 12) - 0.5f);
     VEC_MultAdd(v, p + 0x1c, p + 4, out);
     return 0;
 }
@@ -349,11 +349,11 @@ int STA_ACT_SCRIPT_StepTaskActor(char *p, void *out)
  */
 int STA_ACT_SCRIPT_TickSlot(char *p)
 {
-    ((struct ScriptSlot *)p)->f4.u += 1;
-    if (((struct ScriptSlot *)p)->f4.u >= ((struct ScriptSlot *)p)->f8.u) {
-        ((struct ScriptSlot *)p)->fC -= 1;
-        ((struct ScriptSlot *)p)->f4.u = 0;
-        if (((struct ScriptSlot *)p)->fC == 0) return 2;
+    ((struct ScriptTickTask *)p)->counter += 1;
+    if (((struct ScriptTickTask *)p)->counter >= ((struct ScriptTickTask *)p)->interval) {
+        ((struct ScriptTickTask *)p)->remaining -= 1;
+        ((struct ScriptTickTask *)p)->counter = 0;
+        if (((struct ScriptTickTask *)p)->remaining == 0) return 2;
         return 1;
     }
     return 0;
@@ -361,13 +361,13 @@ int STA_ACT_SCRIPT_TickSlot(char *p)
 
 int STA_ACT_SCRIPT_SetWaitFlag(void *unused, char *p)
 {
-    ((struct ScriptCtx *)p)->f16 = 1 | ((struct ScriptCtx *)p)->f16;
+    ((struct ScriptCtx *)p)->flags = 1 | ((struct ScriptCtx *)p)->flags;
     return 1;
 }
 
-int STA_ACT_SCRIPT_SkipArg(void *a, char *p)
+int STA_ACT_SCRIPT_SkipArg(void *unused, char *p)
 {
-    VM_GetU32(((struct ScriptCtx *)p)->f4.p);
+    VM_GetU32(((struct ScriptCtx *)p)->vm.p);
     return 0;
 }
 
@@ -378,9 +378,9 @@ int STA_ACT_SCRIPT_SkipArg(void *a, char *p)
  *
  * Addresses are Black-image addresses.
  */
-int STA_ACT_SCRIPT_SetWaitFromArg(void *a, u8 *p)
+int STA_ACT_SCRIPT_SetWaitFromArg(void *unused, u8 *p)
 {
-    ((struct ScriptCtx *)p)->f14 = (u16)VM_GetU32(((struct ScriptCtx *)p)->f4.p);
+    ((struct ScriptCtx *)p)->waitFrames = (u16)VM_GetU32(((struct ScriptCtx *)p)->vm.p);
     return 1;
 }
 
@@ -391,19 +391,19 @@ int STA_ACT_SCRIPT_SetWaitFromArg(void *a, u8 *p)
  *
  * Addresses are Black-image addresses.
  */
-int STA_ACT_SCRIPT_SetRemainingWait(void *a, u8 *p)
+int STA_ACT_SCRIPT_SetRemainingWait(void *unused, u8 *p)
 {
-    int v = VM_GetU32(((struct ScriptCtx *)p)->f4.p);
-    if (((struct ScriptCtx *)p)->f10 >= (u32)v)
+    int v = VM_GetU32(((struct ScriptCtx *)p)->vm.p);
+    if (((struct ScriptCtx *)p)->elapsed >= (u32)v)
         return 0;
-    ((struct ScriptCtx *)p)->f14 = (u16)(v - ((struct ScriptCtx *)p)->f10);
+    ((struct ScriptCtx *)p)->waitFrames = (u16)(v - ((struct ScriptCtx *)p)->elapsed);
     return 1;
 }
 
-int STA_ACT_SCRIPT_SetPendingFlag(int a, char *b)
+int STA_ACT_SCRIPT_SetPendingFlag(int unused, char *entry)
 {
-    VM_GetU32(((struct ActingRecord *)b)->f4);
-    if (((struct ActingRecord *)b)->f16 & 2)
-        ((struct ActingRecord *)b)->f16 |= 4;
+    VM_GetU32(((struct ScriptEntry *)entry)->vm);
+    if (((struct ScriptEntry *)entry)->flags & 2)
+        ((struct ScriptEntry *)entry)->flags |= 4;
     return 1;
 }

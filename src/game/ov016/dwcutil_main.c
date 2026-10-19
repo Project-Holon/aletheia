@@ -104,8 +104,8 @@ typedef volatile u32 vu32;
 
 struct LANG {
     char pad[0x10];
-    void *f10;
-    void *f14;
+    void *stepParam;
+    void *buttonParam;
 };
 
 struct Ov016Bits8 {
@@ -172,7 +172,7 @@ int DWC_StartUtility(void *work, int language, int param);
 void initGraph(void);
 void DWCi_ChangeScene(unsigned int v);
 void DWCi_SetParam_(unsigned int a, unsigned int b);
-void DWCi_GetParam_(void **param0, void **param1);
+void DWCi_GetParam_(void **outStepParam, void **outButtonParam);
 void DWCi_SetParam2_(unsigned int a, unsigned int b);
 void DWCi_GetParam2_(unsigned int *a, unsigned int *b);
 unsigned char DWCi_Language(void);
@@ -389,20 +389,20 @@ void DWCi_ChangeScene(unsigned int v)
  *   python tools/match.py one --src src/matched/DWCi_SetParam_.c \
  *       --func DWCi_SetParam_ --addr 0x021C0E50 --region ov016 --cc dsi/1.1p1 --arm
  */
-void DWCi_SetParam_(unsigned int a, unsigned int b)
+void DWCi_SetParam_(unsigned int stepParam, unsigned int buttonParam)
 {
     unsigned int *p = (unsigned int *)0x021DE56C;
-    p[4] = a;
-    p[5] = b;
+    p[4] = stepParam;
+    p[5] = buttonParam;
 }
 
 
-void DWCi_GetParam_(void **param0, void **param1)
+void DWCi_GetParam_(void **outStepParam, void **outButtonParam)
 {
-    if (param0)
-        *param0 = Language.f10;
-    if (param1)
-        *param1 = Language.f14;
+    if (outStepParam)
+        *outStepParam = Language.stepParam;
+    if (outButtonParam)
+        *outButtonParam = Language.buttonParam;
 }
 
 

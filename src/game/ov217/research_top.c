@@ -13,10 +13,10 @@
  * Cut from research_top.c, unit_021BFFC8.c, queue.c, palette_anime.c, PALETTE_ANIME_ReleaseOriginal.c by tools/splitfile.py.
  *
  * symbols:
- *   ICA_ANIME_GetUnk330 0x02012204 thumb
+ *   GAMESYSTEM_IsNetOffBySleep 0x02012204 thumb
  *   RESEARCH_COMMON_SetInputFlag 0x021C09FC thumb ov217
  *   WIH_DWC_PollStatus  0x0201058C  thumb
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAMESYSTEM_TryStartAutoComm  0x020121CC  thumb
  *   GAME_DATA_GetField1A0  0x0201283C  thumb
  *   RESEARCH_COMMON_SetScreen  0x021C09BC  thumb  ov217
@@ -222,13 +222,13 @@ extern void BMP_SetDisplaySwap(u32 swap);
 
 extern void PROCSYS_FreeProcWork(struct Proc *);
 
-extern u32 ICA_ANIME_GetUnk330(const struct Ctx *);
+extern u32 GAMESYSTEM_IsNetOffBySleep(const struct Ctx *);
 
 extern void RESEARCH_COMMON_SetInputFlag(void *);
 
 extern u32 WIH_DWC_PollStatus(void *key);
 
-extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 
 extern u32 GAMESYSTEM_TryStartAutoComm(struct IcaAnime *p);
 
@@ -238,15 +238,15 @@ extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
 extern void RESEARCH_COMMON_SetScreen(void *p, u32 v);
 
-extern int RESEARCH_COMMON_Create(int a0, int a1);
+extern int RESEARCH_COMMON_Create(int heapId, int ctx);
 
-extern u32 RESEARCH_COMMON_Destroy(void *a0);
+extern u32 RESEARCH_COMMON_Destroy(void *common);
 
-extern u32 ListViewState_Create(u32 a0);
+extern u32 ListViewState_Create(u32 heapId);
 
 extern void ListViewState_Reset(void *p);
 
-extern void ListViewState_Destroy(void *a0);
+extern void ListViewState_Destroy(void *state);
 
 extern void BG_SYS_Create(unsigned short heapId);
 
@@ -305,9 +305,9 @@ extern u32 GFL_USE_PlaySeDefaultVolume(u32 a);
 
 extern int FADE_IsActive(void);
 
-extern void RESEARCH_COMMON_StopPaletteAnime(u32 a0);
+extern void RESEARCH_COMMON_StopPaletteAnime(u32 common);
 
-extern void RESEARCH_COMMON_RestorePaletteAnime(u32 a0);
+extern void RESEARCH_COMMON_RestorePaletteAnime(u32 common);
 
 extern void RingQueue_Push(u32, u32);
 
@@ -339,7 +339,7 @@ extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 
 extern void PALETTE_ANIME_Start(u8 *p, u32 b, u16 c);
 
-extern void PALETTE_ANIME_Stop(u32 a0);
+extern void PALETTE_ANIME_Stop(u32 anime);
 
 extern void PALETTE_ANIME_Update(int);
 
@@ -353,7 +353,7 @@ extern u32 RESEARCH_COMMON_GetInputFlag(void *p);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
 extern u32 GF_FONT_Delete(void *ptr);
 
@@ -361,7 +361,7 @@ extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fi
 
 extern u32 MSGDATA_Delete(struct Rec *rec);
 
-extern int RingQueue_Create(int a0, int a1);
+extern int RingQueue_Create(int capacity, int heapId);
 
 extern void RingQueue_Destroy(void *p);
 
@@ -379,11 +379,11 @@ extern void BG_SYS_SetTileUnit(u32, u32, u32);
 
 extern struct Record *BgTextLabel_Create(const struct Config *config, u32 a, u32 b, u32 heap);
 
-u32 BgTextLabel_PrintMessage(u32 a0, u32 a1);
+u32 BgTextLabel_PrintMessage(u32 label, u32 msgIndex);
 
 extern void BgTextLabel_Destroy(u8 *p);
 
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 
@@ -405,9 +405,9 @@ extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned i
 
 extern void CLACT_DeleteActor(struct Obj *p);
 
-extern u32 PALETTE_ANIME_Create(u32 a0);
+extern u32 PALETTE_ANIME_Create(u32 heapId);
 
-extern u32 PALETTE_ANIME_Destroy(void *a0);
+extern u32 PALETTE_ANIME_Destroy(void *anime);
 
 extern void PALETTE_ANIME_Bind(void *p, u32 b, u32 c, u32 d);
 
@@ -657,9 +657,9 @@ void RESEARCH_TOP_UnregisterVBlank(void);
 
 void RESEARCH_TOP_RestartNetwork(u32 obj);
 
-u32 RESEARCH_LIST_Create(u32 a0, u32 a1);
+u32 RESEARCH_LIST_Create(u32 owner, u32 listView);
 
-u32 RESEARCH_LIST_Destroy(void *a0);
+u32 RESEARCH_LIST_Destroy(void *list);
 
 void RESEARCH_LIST_Update(void *self);
 
@@ -669,7 +669,7 @@ u32 RESEARCH_LIST_GetActive(void *p);
 
 void *RESEARCH_GRAPH_Create(void *p);
 
-u32 RESEARCH_GRAPH_Destroy(void *a0);
+u32 RESEARCH_GRAPH_Destroy(void *graph);
 
 void RESEARCH_GRAPH_Update(unsigned char *p);
 
@@ -748,7 +748,7 @@ int RESEARCH_TOP_MainProc(void *unused, u32 *state, u32 unused2, u32 *proc)
 {
     u32 next;
     RESEARCH_TOP_UpdateNetwork((u32)proc);
-    if (ICA_ANIME_GetUnk330((const struct Ctx *)proc[1]) != 0)
+    if (GAMESYSTEM_IsNetOffBySleep((const struct Ctx *)proc[1]) != 0)
         RESEARCH_COMMON_SetInputFlag((void *)proc[3]);
     switch (*state) {
     case 0: next = RESEARCH_TOP_StateIdle(proc); break;
@@ -772,7 +772,7 @@ int RESEARCH_TOP_MainProc(void *unused, u32 *state, u32 unused2, u32 *proc)
  */
 void RESEARCH_TOP_UpdateNetwork(u32 proc)
 {
-    WIH_DWC_PollStatus((void *)GAME_DATA_GetField1A0(ICA_ANIME_GetField1C(((struct ResearchProc *)proc)->appResource)));
+    WIH_DWC_PollStatus((void *)GAME_DATA_GetField1A0(GAMESYSTEM_GetGameData(((struct ResearchProc *)proc)->appResource)));
     if (GAMESYSTEM_TryStartAutoComm((struct IcaAnime *)(*(u32 *)&((struct ResearchProc *)proc)->appResource)) != 0) {
     GFL_NET_RestartWithDefaultTimeout(1, ((struct ResearchProc *)proc)->heapId);
     }

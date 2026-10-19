@@ -258,7 +258,7 @@ u32 CTVT_MIC_GetBuffer(CtvtMic *mic) { return (u32)mic->buffer; }
 
 extern void MI_CpuFill8(void *p, int v, int n);
 
-extern int CTVT_ADPCM_Encode(void *a0, unsigned a1, void *a2);
+extern int CTVT_ADPCM_Encode(void *pcm, unsigned pcmBytes, void *out);
 
 
 extern int CTVT_ADPCM_Decode(int a, int b, int c);

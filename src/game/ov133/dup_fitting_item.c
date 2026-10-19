@@ -114,102 +114,102 @@ extern u32 (*d_020A8148)(u32, u32, u32);
 
 void DUP_FITTING_ITEM_NoOp(u8 *p, u8 n){}
 
-u8 *DUP_FITTING_ITEM_CreateList(u16 heap, int n){u8 *p;p=GFL_HEAP_Alloc(heap,16,0,d_021BA610,76);((struct DupFittingItemList *)p)->heapId=heap;((struct DupFittingItemList *)p)->count=0;((struct DupFittingItemList *)p)->max=n;((struct DupFittingItemList *)p)->head=0;((struct DupFittingItemList *)p)->tail=0;return p;}
+u8 *DUP_FITTING_ITEM_CreateList(u16 heap, int max){u8 *list;list=GFL_HEAP_Alloc(heap,16,0,d_021BA610,76);((struct DupFittingItemList *)list)->heapId=heap;((struct DupFittingItemList *)list)->count=0;((struct DupFittingItemList *)list)->max=max;((struct DupFittingItemList *)list)->head=0;((struct DupFittingItemList *)list)->tail=0;return list;}
 
-void DUP_FITTING_ITEM_DeleteList(void *p){GFL_HEAP_Free(p);}
+void DUP_FITTING_ITEM_DeleteList(void *list){GFL_HEAP_Free(list);}
 
-void DUP_FITTING_ITEM_InsertElem(u8*p,u8*q){if(((struct DupFittingItemList *)p)->count<((struct DupFittingItemList *)p)->max){if(!*(u8* *)&((struct DupFittingItemList *)p)->head)*(u8* *)&((struct DupFittingItemList *)p)->head=q;else *(u8* *)&((struct DupFittingItemElem *)(*(u8* *)&((struct DupFittingItemList *)p)->tail))->next=q;*(u8* *)&((struct DupFittingItemList *)p)->tail=q;*(u8* *)&((struct DupFittingItemElem *)q)->next=0;(((struct DupFittingItemList *)p)->count)++;}}
+void DUP_FITTING_ITEM_InsertElem(u8*list,u8*elem){if(((struct DupFittingItemList *)list)->count<((struct DupFittingItemList *)list)->max){if(!*(u8* *)&((struct DupFittingItemList *)list)->head)*(u8* *)&((struct DupFittingItemList *)list)->head=elem;else *(u8* *)&((struct DupFittingItemElem *)(*(u8* *)&((struct DupFittingItemList *)list)->tail))->next=elem;*(u8* *)&((struct DupFittingItemList *)list)->tail=elem;*(u8* *)&((struct DupFittingItemElem *)elem)->next=0;(((struct DupFittingItemList *)list)->count)++;}}
 
-void DUP_FITTING_ITEM_InsertElemTail(u8*p,u8*q){if(((struct DupFittingItemList *)p)->count<((struct DupFittingItemList *)p)->max){if(!*(u8* *)&((struct DupFittingItemList *)p)->head){*(u8* *)&((struct DupFittingItemList *)p)->head=q;*(u8* *)&((struct DupFittingItemList *)p)->tail=q;*(u8* *)&((struct DupFittingItemElem *)q)->next=0;}else{*(u8* *)&((struct DupFittingItemElem *)q)->next=*(u8* *)&((struct DupFittingItemList *)p)->head;*(u8* *)&((struct DupFittingItemList *)p)->head=q;}(((struct DupFittingItemList *)p)->count)++;}}
+void DUP_FITTING_ITEM_InsertElemTail(u8*list,u8*elem){if(((struct DupFittingItemList *)list)->count<((struct DupFittingItemList *)list)->max){if(!*(u8* *)&((struct DupFittingItemList *)list)->head){*(u8* *)&((struct DupFittingItemList *)list)->head=elem;*(u8* *)&((struct DupFittingItemList *)list)->tail=elem;*(u8* *)&((struct DupFittingItemElem *)elem)->next=0;}else{*(u8* *)&((struct DupFittingItemElem *)elem)->next=*(u8* *)&((struct DupFittingItemList *)list)->head;*(u8* *)&((struct DupFittingItemList *)list)->head=elem;}(((struct DupFittingItemList *)list)->count)++;}}
 
-void DUP_FITTING_ITEM_RemoveElem(u8*p,u8*q){u8 *prev;u8 *cur;prev=0;cur=*(u8* *)&((struct DupFittingItemList *)p)->head;while(cur!=q && cur){prev=cur;cur=*(u8* *)&((struct DupFittingItemElem *)cur)->next;}if(cur){if(prev)*(u8* *)&((struct DupFittingItemElem *)prev)->next=*(u8* *)&((struct DupFittingItemElem *)cur)->next;else *(u8* *)&((struct DupFittingItemList *)p)->head=*(u8* *)&((struct DupFittingItemElem *)cur)->next;if(*(u8* *)&((struct DupFittingItemList *)p)->tail==q)*(u8* *)&((struct DupFittingItemList *)p)->tail=prev;*(u8* *)&((struct DupFittingItemElem *)cur)->next=0;(((struct DupFittingItemList *)p)->count)--;}}
+void DUP_FITTING_ITEM_RemoveElem(u8*list,u8*elem){u8 *prev;u8 *cur;prev=0;cur=*(u8* *)&((struct DupFittingItemList *)list)->head;while(cur!=elem && cur){prev=cur;cur=*(u8* *)&((struct DupFittingItemElem *)cur)->next;}if(cur){if(prev)*(u8* *)&((struct DupFittingItemElem *)prev)->next=*(u8* *)&((struct DupFittingItemElem *)cur)->next;else *(u8* *)&((struct DupFittingItemList *)list)->head=*(u8* *)&((struct DupFittingItemElem *)cur)->next;if(*(u8* *)&((struct DupFittingItemList *)list)->tail==elem)*(u8* *)&((struct DupFittingItemList *)list)->tail=prev;*(u8* *)&((struct DupFittingItemElem *)cur)->next=0;(((struct DupFittingItemList *)list)->count)--;}}
 
-void *DUP_FITTING_ITEM_ListGetHead(char *p){return *(void* *)&((struct DupFittingItemList *)p)->head;}
+void *DUP_FITTING_ITEM_ListGetHead(char *list){return *(void* *)&((struct DupFittingItemList *)list)->head;}
 
-unsigned short DUP_FITTING_ITEM_ListGetCount(char *p){return ((struct DupFittingItemList *)p)->count;}
+unsigned short DUP_FITTING_ITEM_ListGetCount(char *list){return ((struct DupFittingItemList *)list)->count;}
 
-int DUP_FITTING_ITEM_ListIsFull(char *p)
+int DUP_FITTING_ITEM_ListIsFull(char *list)
 {
-    return ((struct DupFittingItemList *)p)->count == ((struct DupFittingItemList *)p)->max;
+    return ((struct DupFittingItemList *)list)->count == ((struct DupFittingItemList *)list)->max;
 }
 
-u8 *DUP_FITTING_ITEM_CreateElem(u16 heap, struct Object*q, u8*r, int*v){u8*p;p=GFL_HEAP_Alloc(heap,52,0,d_021BA610,204);*(u32 *)&((struct DupFittingItemElem *)p)->next=0;*(u8* *)&((struct DupFittingItemElem *)p)->data=r;*(u8 **)&((struct DupFittingItemElem *)p)->renderElem=MUSICAL_MCSS_AddImageNoVram((u8 *)q,((struct DupFittingItemData *)r)->id,((struct DupFittingItemData *)r)->f4,(Vec *)v);((struct DupFittingItemElem *)p)->f1C=0;((struct DupFittingItemElem *)p)->f20=10;return p;}
+u8 *DUP_FITTING_ITEM_CreateElem(u16 heap, struct Object*pool, u8*data, int*pos){u8*elem;elem=GFL_HEAP_Alloc(heap,52,0,d_021BA610,204);*(u32 *)&((struct DupFittingItemElem *)elem)->next=0;*(u8* *)&((struct DupFittingItemElem *)elem)->data=data;*(u8 **)&((struct DupFittingItemElem *)elem)->renderElem=MUSICAL_MCSS_AddImageNoVram((u8 *)pool,((struct DupFittingItemData *)data)->id,((struct DupFittingItemData *)data)->imageId,(Vec *)pos);((struct DupFittingItemElem *)elem)->animFrames=0;((struct DupFittingItemElem *)elem)->frameIndex=10;return elem;}
 
-void DUP_FITTING_ITEM_DeleteElem(u8*p,u8*q){MUSICAL_MCSS_FreeElem(q,*(u8* *)&((struct DupFittingItemElem *)p)->renderElem);GFL_HEAP_Free(p);}
+void DUP_FITTING_ITEM_DeleteElem(u8*elem,u8*pool){MUSICAL_MCSS_FreeElem(pool,*(u8* *)&((struct DupFittingItemElem *)elem)->renderElem);GFL_HEAP_Free(elem);}
 
-void DUP_FITTING_ITEM_FreeElemImage(u8*p,u8*q,u8*r){*(u8* *)&((struct DupFittingItemElem *)p)->data=r;MUSICAL_MCSS_FreeElemImage(q,*(u8* *)&((struct DupFittingItemElem *)p)->renderElem,((struct DupFittingItemData *)r)->id,((struct DupFittingItemData *)r)->f4);}
+void DUP_FITTING_ITEM_FreeElemImage(u8*elem,u8*pool,u8*data){*(u8* *)&((struct DupFittingItemElem *)elem)->data=data;MUSICAL_MCSS_FreeElemImage(pool,*(u8* *)&((struct DupFittingItemElem *)elem)->renderElem,((struct DupFittingItemData *)data)->id,((struct DupFittingItemData *)data)->imageId);}
 
-u32 DUP_FITTING_ITEM_ElemGetNext(u8 *p)
+u32 DUP_FITTING_ITEM_ElemGetNext(u8 *elem)
 {
-    return (u32)((struct DupFittingItemElem *)p)->next;
+    return (u32)((struct DupFittingItemElem *)elem)->next;
 }
 
-u32 DUP_FITTING_ITEM_ElemGetData(u8 *p)
+u32 DUP_FITTING_ITEM_ElemGetData(u8 *elem)
 {
-    return (u32)((struct DupFittingItemElem *)p)->data;
+    return (u32)((struct DupFittingItemElem *)elem)->data;
 }
 
-void DUP_FITTING_ITEM_ElemSetSprite(u8 *p, u32 value)
+void DUP_FITTING_ITEM_ElemSetSprite(u8 *elem, u32 value)
 {
-    ((struct DupFittingItemElem *)p)->sprite=value;
+    ((struct DupFittingItemElem *)elem)->sprite=value;
 }
 
-u32 DUP_FITTING_ITEM_ElemGetSprite(u8 *p)
+u32 DUP_FITTING_ITEM_ElemGetSprite(u8 *elem)
 {
-    return ((struct DupFittingItemElem *)p)->sprite;
+    return ((struct DupFittingItemElem *)elem)->sprite;
 }
 
-u32 DUP_FITTING_ITEM_ElemGetRenderElem(u8 *p)
+u32 DUP_FITTING_ITEM_ElemGetRenderElem(u8 *elem)
 {
-    return (u32)((struct DupFittingItemElem *)p)->renderElem;
+    return (u32)((struct DupFittingItemElem *)elem)->renderElem;
 }
 
-void DUP_FITTING_ITEM_ElemSetPos(u8 *p, const u8 *src)
+void DUP_FITTING_ITEM_ElemSetPos(u8 *elem, const u8 *src)
 {
-    *(DupFittingPairU32 *)(p+16)=*(const DupFittingPairU32 *)src;
+    *(DupFittingPairU32 *)(elem+16)=*(const DupFittingPairU32 *)src;
 }
 
-u8 * DUP_FITTING_ITEM_ElemGetPos(u8 *p)
+u8 * DUP_FITTING_ITEM_ElemGetPos(u8 *elem)
 {
-    return p+16;
+    return elem+16;
 }
 
-void DUP_FITTING_ITEM_ElemSetBasePos(u8 *p, const u8 *src)
+void DUP_FITTING_ITEM_ElemSetBasePos(u8 *elem, const u8 *src)
 {
-    *(DupFittingPairU32 *)(p+36)=*(const DupFittingPairU32 *)src;
+    *(DupFittingPairU32 *)(elem+36)=*(const DupFittingPairU32 *)src;
 }
 
-u8 * DUP_FITTING_ITEM_ElemGetBasePos(u8 *p)
+u8 * DUP_FITTING_ITEM_ElemGetBasePos(u8 *elem)
 {
-    return p+36;
+    return elem+36;
 }
 
-void DUP_FITTING_ITEM_ElemSetF2C(u8 *p, u32 value)
+void DUP_FITTING_ITEM_ElemSetF2C(u8 *elem, u32 value)
 {
-    ((struct DupFittingItemElem *)p)->f2C=value;
+    ((struct DupFittingItemElem *)elem)->startScale=value;
 }
 
-u32 DUP_FITTING_ITEM_ElemGetF2C(u8 *p)
+u32 DUP_FITTING_ITEM_ElemGetF2C(u8 *elem)
 {
-    return ((struct DupFittingItemElem *)p)->f2C;
+    return ((struct DupFittingItemElem *)elem)->startScale;
 }
 
-void DUP_FITTING_ITEM_ElemSetF18(u8 *p, u32 value)
+void DUP_FITTING_ITEM_ElemSetF18(u8 *elem, u32 value)
 {
-    ((struct DupFittingItemElem *)p)->f18=value;
+    ((struct DupFittingItemElem *)elem)->scale=value;
 }
 
-int DUP_FITTING_ITEM_ElemGetF18(char *p) { return ((struct DupFittingItemElem *)p)->f18; }
+int DUP_FITTING_ITEM_ElemGetF18(char *elem) { return ((struct DupFittingItemElem *)elem)->scale; }
 
-void DUP_FITTING_ITEM_ElemSetF1C(char *p, u32 v) { ((struct DupFittingItemElem *)p)->f1C=v; }
+void DUP_FITTING_ITEM_ElemSetF1C(char *elem, u32 value) { ((struct DupFittingItemElem *)elem)->animFrames=value; }
 
-u16 DUP_FITTING_ITEM_ElemGetF1C(char *p) { return ((struct DupFittingItemElem *)p)->f1C; }
+u16 DUP_FITTING_ITEM_ElemGetF1C(char *elem) { return ((struct DupFittingItemElem *)elem)->animFrames; }
 
-void DUP_FITTING_ITEM_ElemSetF20(char *p, int v) { ((struct DupFittingItemElem *)p)->f20=v; }
+void DUP_FITTING_ITEM_ElemSetF20(char *elem, int value) { ((struct DupFittingItemElem *)elem)->frameIndex=value; }
 
-u32 DUP_FITTING_ITEM_ElemGetF20(char *p) { return ((struct DupFittingItemElem *)p)->f20; }
+u32 DUP_FITTING_ITEM_ElemGetF20(char *elem) { return ((struct DupFittingItemElem *)elem)->frameIndex; }
 
-int DUP_FITTING_ITEM_ElemHitTest(u8 *p, int x, int y)
+int DUP_FITTING_ITEM_ElemHitTest(u8 *elem, int x, int y)
 {
     short s;
     int pos[2];
@@ -217,24 +217,24 @@ int DUP_FITTING_ITEM_ElemHitTest(u8 *p, int x, int y)
     short c;
     int dx, dy;
     short rx, ry;
-    MUSICAL_MCSS_GetElemOffset((u8 *)((struct DupFittingItemElem *)p)->renderElem, (DupFittingPair *)pos);
-    if (MUSICAL_MCSS_GetElemFlag(0, ((struct DupFittingItemElem *)p)->renderElem) == 1) {
-        MUSICAL_MCSS_GetElemField(0, ((struct DupFittingItemElem *)p)->renderElem, &angle);
+    MUSICAL_MCSS_GetElemOffset((u8 *)((struct DupFittingItemElem *)elem)->renderElem, (DupFittingPair *)pos);
+    if (MUSICAL_MCSS_GetElemFlag(0, ((struct DupFittingItemElem *)elem)->renderElem) == 1) {
+        MUSICAL_MCSS_GetElemField(0, ((struct DupFittingItemElem *)elem)->renderElem, &angle);
         s = ((const short *)FX_SinCosTable_)[(angle >> 4) * 2];
         c = ((const short *)FX_SinCosTable_)[(angle >> 4) * 2 + 1];
         dx = (int)((float)(pos[0] * c - pos[1] * s) / 4096.0f);
         dy = (int)((float)(pos[0] * s + pos[1] * c) / 4096.0f);
-        rx = ((struct DupFittingItemElem *)p)->posX - dx - x;
-        ry = ((struct DupFittingItemElem *)p)->posY - dy - y;
+        rx = ((struct DupFittingItemElem *)elem)->posX - dx - x;
+        ry = ((struct DupFittingItemElem *)elem)->posY - dy - y;
     } else {
-        rx = ((struct DupFittingItemElem *)p)->posX - x;
-        ry = ((struct DupFittingItemElem *)p)->posY - y;
+        rx = ((struct DupFittingItemElem *)elem)->posX - x;
+        ry = ((struct DupFittingItemElem *)elem)->posY - y;
     }
     if (rx < 16 && rx > -16 && ry < 16 && ry > -16) return 1;
     return 0;
 }
 
-unsigned int DUP_FITTING_ITEM_ElemHitDistance(u8 *p, int x, int y)
+unsigned int DUP_FITTING_ITEM_ElemHitDistance(u8 *elem, int x, int y)
 {
     short s;
     int pos[2];
@@ -242,18 +242,18 @@ unsigned int DUP_FITTING_ITEM_ElemHitDistance(u8 *p, int x, int y)
     short c;
     int dx, dy;
     short rx, ry;
-    MUSICAL_MCSS_GetElemOffset((u8 *)((struct DupFittingItemElem *)p)->renderElem, (DupFittingPair *)pos);
-    if (MUSICAL_MCSS_GetElemFlag(0, ((struct DupFittingItemElem *)p)->renderElem) == 1) {
-        MUSICAL_MCSS_GetElemField(0, ((struct DupFittingItemElem *)p)->renderElem, &angle);
+    MUSICAL_MCSS_GetElemOffset((u8 *)((struct DupFittingItemElem *)elem)->renderElem, (DupFittingPair *)pos);
+    if (MUSICAL_MCSS_GetElemFlag(0, ((struct DupFittingItemElem *)elem)->renderElem) == 1) {
+        MUSICAL_MCSS_GetElemField(0, ((struct DupFittingItemElem *)elem)->renderElem, &angle);
         s = ((const short *)FX_SinCosTable_)[(angle >> 4) * 2];
         c = ((const short *)FX_SinCosTable_)[(angle >> 4) * 2 + 1];
         dx = (int)((float)(pos[0] * c - pos[1] * s) / 4096.0f);
         dy = (int)((float)(pos[0] * s + pos[1] * c) / 4096.0f);
-        rx = ((struct DupFittingItemElem *)p)->posX - dx - x;
-        ry = ((struct DupFittingItemElem *)p)->posY - dy - y;
+        rx = ((struct DupFittingItemElem *)elem)->posX - dx - x;
+        ry = ((struct DupFittingItemElem *)elem)->posY - dy - y;
     } else {
-        rx = ((struct DupFittingItemElem *)p)->posX - x;
-        ry = ((struct DupFittingItemElem *)p)->posY - y;
+        rx = ((struct DupFittingItemElem *)elem)->posX - x;
+        ry = ((struct DupFittingItemElem *)elem)->posY - y;
     }
     return rx * rx + ry * ry;
 }

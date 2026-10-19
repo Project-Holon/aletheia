@@ -49,7 +49,7 @@ extern FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
 extern void *FIELDMAP_AllocCommonWork(FieldMap *fieldMap, int id, int heapId, int size);
 extern void FIELDMAP_FreeCommonWork(FieldMap *fieldMap, int id);
 extern void *FIELDMAP_GetCommonWork(FieldMap *fieldMap, int id);
-extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
 extern void *GIMMICK_WORK_GetWork(struct GimmickWork *gimmickWork, u32 gimmickId);
 extern Mmdl *FIELD_PLAYER_GetMmdl(FieldPlayer *player);

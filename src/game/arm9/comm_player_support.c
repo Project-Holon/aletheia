@@ -18,7 +18,7 @@
  *   comm_player_support_File     0x020A77EC  data
  *   MI_CpuFill8  0x02082BCC  arm
  *   MYSTATUS_Init  0x020084A0  thumb
- *   ICA_ANIME_GetField24  0x02012138  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetAreaSlotFlag  0x02158468  thumb
  *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
  *   GAME_DATA_SetSeason  0x0201298C  thumb
@@ -65,7 +65,7 @@ extern void MI_CpuFill8(void *p, u32 value, u32 size);
 
 extern void MYSTATUS_Init(struct PlayerRecord *record);
 
-extern u32 ICA_ANIME_GetField24(const struct PlayerInfo *info);
+extern u32 GAMESYSTEM_GetGameComm(const struct PlayerInfo *info);
 
 extern int INTRUDE_COMM_GetAreaSlotFlag(int value);
 
@@ -207,7 +207,7 @@ struct PlayerRecord *COMM_PLAYER_SUPPORT_GetActiveRecord(struct CommPlayerSuppor
 
 int COMM_PLAYER_SUPPORT_GetInfoCode(struct PlayerInfo *info)
 {
-    return INTRUDE_COMM_GetAreaSlotFlag(ICA_ANIME_GetField24(info));
+    return INTRUDE_COMM_GetAreaSlotFlag(GAMESYSTEM_GetGameComm(info));
 }
 
 /*

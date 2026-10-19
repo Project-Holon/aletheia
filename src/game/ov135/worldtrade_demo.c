@@ -22,7 +22,7 @@
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   WORLDTRADE_NoOp  0x0200ADB4  thumb
  *   WORLDTRADE_CopyPokemon  0x0200AD9C  thumb
  *   POKE_TOOL_CopyPartyPokemon  0x02019CE0  thumb
@@ -82,7 +82,7 @@ extern void GF_OVERLAY_Unload(s32 handle);
 extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
 struct Ctx;
-extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 
@@ -106,7 +106,7 @@ extern struct Party *POKEPARTY_Create(u32 heap);
 
 extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 
-extern void *MYSTATUS_Create(int a0);
+extern void *MYSTATUS_Create(int heap_id);
 
 extern void MYSTATUS_Init(struct Sub0200852CObj *p);
 
@@ -175,50 +175,50 @@ int WORLDTRADE_DEMO_Init(Work *p)
     p->req = GFL_HEAP_Alloc(0x48, 0x44, 0, str_02203B6C, 0x5E);
     MI_CpuFill8(p->req, 0, 0x44);
     d = p->req;
-    p->fEA4 = WORLDTRADE_ADAPTER_AllocHeapBuf(0x48);
-    d->f30 = ICA_ANIME_GetField1C(p->ctx->f40);
-    d->f3C = p->ctx->f1C_u;
+    p->monCopy = WORLDTRADE_ADAPTER_AllocHeapBuf(0x48);
+    d->tradeGameData = GAMESYSTEM_GetGameData(p->ctx->gameData);
+    d->myStatus = p->ctx->myStatus_u;
     switch (p->kind) {
     case 7:
-        d->f38 = d->f34 = WORLDTRADE_NoOp(p->ctx->sys);
-        d->f40 = p->info = (void *)WORLDTRADE_DEMO_ReadMyStatus(p->ent);
+        d->partnerMon = d->ownMon = WORLDTRADE_NoOp(p->ctx->sys);
+        d->partnerStatus = p->info = (void *)WORLDTRADE_DEMO_ReadMyStatus(p->ent);
         tmpl = d_021E75FC;
         break;
     case 8:
-        if (p->f207 != 0) {
-            d->f38 = p->ent;
+        if (p->receivedEgg != 0) {
+            d->partnerMon = p->ent;
         } else {
-            d->f38 = WORLDTRADE_NoOp(p->ctx->sys);
+            d->partnerMon = WORLDTRADE_NoOp(p->ctx->sys);
         }
-        d->f34 = d->f38;
-        d->f40 = p->info = (void *)WORLDTRADE_DEMO_ReadMyStatus(p->ent);
+        d->ownMon = d->partnerMon;
+        d->partnerStatus = p->info = (void *)WORLDTRADE_DEMO_ReadMyStatus(p->ent);
         tmpl = d_021E75B4;
         break;
     case 10:
-        if (p->f207 != 0) {
-            d->f38 = p->ent;
+        if (p->receivedEgg != 0) {
+            d->partnerMon = p->ent;
         } else {
-            d->f38 = WORLDTRADE_NoOp(p->ctx->sys);
+            d->partnerMon = WORLDTRADE_NoOp(p->ctx->sys);
         }
-        WORLDTRADE_CopyPokemon(p->ctx->sys, p->fEA4);
-        d->f34 = p->fEA4;
-        d->f40 = p->info = (void *)WORLDTRADE_DEMO_ReadMyStatus(p->ent);
+        WORLDTRADE_CopyPokemon(p->ctx->sys, p->monCopy);
+        d->ownMon = p->monCopy;
+        d->partnerStatus = p->info = (void *)WORLDTRADE_DEMO_ReadMyStatus(p->ent);
         tmpl = d_021E75CC;
         break;
     case 9:
-        POKE_TOOL_CopyPartyPokemon(p->fEA8, p->fEA4);
-        d->f34 = p->fEA8;
-        d->f38 = &p->arr[p->cur];
-        d->f40 = p->info = (void *)WORLDTRADE_DEMO_ReadMyStatus(&p->arr[p->cur]);
+        POKE_TOOL_CopyPartyPokemon(p->tradeMon, p->monCopy);
+        d->ownMon = p->tradeMon;
+        d->partnerMon = &p->arr[p->cur];
+        d->partnerStatus = p->info = (void *)WORLDTRADE_DEMO_ReadMyStatus(&p->arr[p->cur]);
         tmpl = d_021E75CC;
         break;
     default:
         SAVEDATA_PanicFail((void *)0x02203B80, 0, (void *)0x02203B80);
         break;
     }
-    PROCSYS_Push(p->f12F0, (u32)ov119_id, tmpl, p->req);
-    p->fB8 = 1;
-    p->f12E4 = 0;
+    PROCSYS_Push(p->procSys, (u32)ov119_id, tmpl, p->req);
+    p->subLcdRefresh = 1;
+    p->keepBgLayers = 0;
     return 1;
 }
 
@@ -249,7 +249,7 @@ int WORLDTRADE_DEMO_EvolveStep(Work *p)
             u32 r;
 
             POKE_TOOL_GetPartyValue(e, 6, 0);
-            r = SHINKA_CHECK_CheckEvolution(0, e, 1, (u32)p->fEA4, GAME_DATA_GetSeason(ICA_ANIME_GetField1C((const struct Ctx *)p->ctx->f40)), &out, 0x48);
+            r = SHINKA_CHECK_CheckEvolution(0, e, 1, (u32)p->monCopy, GAME_DATA_GetSeason(GAMESYSTEM_GetGameData((const struct Ctx *)p->ctx->gameData)), &out, 0x48);
             if (r != 0) {
                 Req *w;
 
@@ -260,16 +260,16 @@ int WORLDTRADE_DEMO_EvolveStep(Work *p)
                 p->req = GFL_HEAP_Alloc(0x48, 0x14, 0, str_02203B6C, 0xEB);
                 MI_CpuFill8(p->req, 0, 0x14);
                 w = p->req;
-                w->f0 = ICA_ANIME_GetField1C((const struct Ctx *)p->ctx->f40);
+                w->evoGameData = GAMESYSTEM_GetGameData((const struct Ctx *)p->ctx->gameData);
                 w->list = POKEPARTY_Create(0x48);
                 POKEPARTY_Add(w->list, (const struct PartyMon *)e);
-                w->f8 = r;
-                w->fA = 0;
-                w->fB = out;
-                w->fC = 1;
-                w->f10 = 0;
+                w->evoSpecies = r;
+                w->evoPartyPos = 0;
+                w->evoCondition = out;
+                w->evoFlag = 1;
+                w->evoResult = 0;
                 GF_OVERLAY_Unload((u32)ov067_id);
-                PROCSYS_Push(p->f12F0, (u32)ov195_id, d_02208C40, p->req);
+                PROCSYS_Push(p->procSys, (u32)ov195_id, d_02208C40, p->req);
                 p->state_i = 1;
             } else {
                 WORLDTRADE_SetStateAndReturn(p, 1, 0);
@@ -286,9 +286,9 @@ int WORLDTRADE_DEMO_EvolveStep(Work *p)
                 || POKE_TOOL_GetPartyValue(e, 0, 0) != POKE_TOOL_GetPartyValue(mon, 0, 0)) {
                 POKE_TOOL_GetPartyValue(e, 6, 0);
                 r = 0;
-                if (p->f12F8 != 0) {
-                    p->f12F8 = 0;
-                    r = SHINKA_CHECK_CheckEvolution(0, e, 1, (u32)mon, GAME_DATA_GetSeason(ICA_ANIME_GetField1C((const struct Ctx *)p->ctx->f40)), &out, 0x48);
+                if (p->checkEvolution != 0) {
+                    p->checkEvolution = 0;
+                    r = SHINKA_CHECK_CheckEvolution(0, e, 1, (u32)mon, GAME_DATA_GetSeason(GAMESYSTEM_GetGameData((const struct Ctx *)p->ctx->gameData)), &out, 0x48);
                 }
                 if (r != 0) {
                     Req *w;
@@ -300,16 +300,16 @@ int WORLDTRADE_DEMO_EvolveStep(Work *p)
                     p->req = GFL_HEAP_Alloc(0x48, 0x14, 0, str_02203B6C, 0x130);
                     MI_CpuFill8(p->req, 0, 0x14);
                     w = p->req;
-                    w->f0 = ICA_ANIME_GetField1C((const struct Ctx *)p->ctx->f40);
+                    w->evoGameData = GAMESYSTEM_GetGameData((const struct Ctx *)p->ctx->gameData);
                     w->list = POKEPARTY_Create(0x48);
                     POKEPARTY_Add(w->list, (const struct PartyMon *)e);
-                    w->f8 = r;
-                    w->fA = 0;
-                    w->fB = out;
-                    w->fC = 1;
-                    w->f10 = 0;
+                    w->evoSpecies = r;
+                    w->evoPartyPos = 0;
+                    w->evoCondition = out;
+                    w->evoFlag = 1;
+                    w->evoResult = 0;
                     GF_OVERLAY_Unload((u32)ov067_id);
-                    PROCSYS_Push(p->f12F0, (u32)ov195_id, d_02208C40, p->req);
+                    PROCSYS_Push(p->procSys, (u32)ov195_id, d_02208C40, p->req);
                     p->state_i = 1;
                 } else {
                     WORLDTRADE_SetStateAndReturn(p, 1, 0);
@@ -357,32 +357,32 @@ int WORLDTRADE_DEMO_Exit(Work *p)
         GFL_HEAP_Free(p->info);
         p->info = 0;
     }
-    GFL_HEAP_Free(p->fEA4);
+    GFL_HEAP_Free(p->monCopy);
     if (p->req) {
         GFL_HEAP_Free(p->req);
         p->req = 0;
     }
-    p->f12F8 = 0;
+    p->checkEvolution = 0;
     WORLDTRADE_ClearAndShowPlanes((Work *)p);
     WORLDTRADE_ClearBusyFlag(p);
     *(volatile unsigned short *)0x04000050 = 0;
     return 0;
 }
 
-TradePartnerInfo *WORLDTRADE_DEMO_ReadMyStatus(Entry *e)
+TradePartnerInfo *WORLDTRADE_DEMO_ReadMyStatus(Entry *ent)
 {
     TradePartnerInfo *info;
 
     info = MYSTATUS_Create(0x48);
     MYSTATUS_Init((struct Sub0200852CObj *)info);
-    MYSTATUS_CopyName((u32)info, e->name);
-    MYSTATUS_SetAvatarId((struct Sub0200852CObj *)info, e->region);
-    MYSTATUS_SetGender((struct Sub0200852CObj *)info, e->city);
-    MYSTATUS_SetOutfitVariant((struct Sub0200852CObj *)info, e->gender);
-    MYSTATUS_SetOutfit((struct Sub0200852CObj *)info, e->country);
-    MYSTATUS_SetLanguageAndVersion((struct Sub0200852CObj *)info, e->lang, e->ver);
-    info->trainerId = e->trainerId;
-    info->profileId = e->profileId;
+    MYSTATUS_CopyName((u32)info, ent->name);
+    MYSTATUS_SetAvatarId((struct Sub0200852CObj *)info, ent->region);
+    MYSTATUS_SetGender((struct Sub0200852CObj *)info, ent->city);
+    MYSTATUS_SetOutfitVariant((struct Sub0200852CObj *)info, ent->gender);
+    MYSTATUS_SetOutfit((struct Sub0200852CObj *)info, ent->country);
+    MYSTATUS_SetLanguageAndVersion((struct Sub0200852CObj *)info, ent->lang, ent->ver);
+    info->trainerId = ent->trainerId;
+    info->profileId = ent->profileId;
     return info;
 }
 

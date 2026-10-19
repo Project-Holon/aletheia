@@ -106,7 +106,7 @@ extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *cmdWork);
 extern void SCRIPT_SYS_CallEvent(struct ScriptWork *scriptWork, void *event);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
-extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int mode, int arg3, int arg4, u8 season, u8 seasonAgain);
+extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int mode, int skipWait, int restoreBg, u8 season, u8 seasonAgain);
 extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
 extern u16 VM_GetU16(struct ScriptVm *vm);
@@ -125,7 +125,7 @@ extern void *FIELD_DOOR_ANIME_StartClose(void *event, struct GameSystem *gameSys
 extern void *FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
 extern struct BuildModelMgr *FIELD_G3D_MAPPER_GetBuildModel(void *g3dMapper);
 extern struct BuildModelEntry *FIELD_BUILDMODEL_GetFirstEntryNearPos(struct BuildModelMgr *mgr, int modelId, VecFx32 *pos);
-extern void FIELD_BUILDMODEL_PlayEntryAnim(struct BuildModelMgr *mgr, struct BuildModelEntry *entry, int arg3, int animId);
+extern void FIELD_BUILDMODEL_PlayEntryAnim(struct BuildModelMgr *mgr, struct BuildModelEntry *entry, int slot, int animId);
 extern void FIELD_BUILDMODEL_SwapEntryModelId(struct BuildModelEntry *entry, int modelId);
 extern void FIELD_BUILDMODEL_GetModelIndexOut(struct BuildModelMgr *mgr, struct BuildModelEntry *entry, int modelIndex);
 extern struct BuildModelNode *FIELD_BUILDMODEL_CreateNodeNearPos(struct BuildModelMgr *mgr, int modelId, VecFx32 *pos);

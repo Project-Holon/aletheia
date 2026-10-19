@@ -1274,48 +1274,48 @@ int FIELD_WFBC_DATA_LOCAL_ScrCmdFindTargetPokemonInParty(ScriptVm *vm, struct Sc
     void *s;
     void *w;
     void *b;
-    u16 *f0;
-    u16 *f1;
-    u16 *f2;
+    u16 *outFound;
+    u16 *outDateMatch;
+    u16 *outIndex;
     u32 n;
     int key;
     int d[4];
     u32 i;
     void *e;
-    int v5, v92, v93, v94, v96, v4c, v8f, v90, v91;
+    int memberKey, storedYear, storedMonth, storedDay, v96, v4c, v8f, v90, v91;
 
     (void *)SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)(((void *)work)));
     s = (void *)SCRCMD_WORK_GetGameData((struct ScrcmdWork *)(((void *)work)));
     (u8 *)GAME_DATA_GetSecondUnionInfo((struct GameData *)(s));
     w = (void *)(int)GAME_DATA_GetMysteryRecvFlagB((struct GameData *)((int)s));
     b = GAME_DATA_GetMyParty(s);
-    f0 = SCRIPT_WORK_ReadWorkPointer((ScriptVm *)(((void *)vm)), (struct ScrcmdWork *)(((void *)work)));
-    f1 = SCRIPT_WORK_ReadWorkPointer((ScriptVm *)(((void *)vm)), (struct ScrcmdWork *)(((void *)work)));
-    f2 = SCRIPT_WORK_ReadWorkPointer((ScriptVm *)(((void *)vm)), (struct ScrcmdWork *)(((void *)work)));
+    outFound = SCRIPT_WORK_ReadWorkPointer((ScriptVm *)(((void *)vm)), (struct ScrcmdWork *)(((void *)work)));
+    outDateMatch = SCRIPT_WORK_ReadWorkPointer((ScriptVm *)(((void *)vm)), (struct ScrcmdWork *)(((void *)work)));
+    outIndex = SCRIPT_WORK_ReadWorkPointer((ScriptVm *)(((void *)vm)), (struct ScrcmdWork *)(((void *)work)));
     n = POKEPARTY_GetCount(b);
     key = FIELD_WFBC_DATA_LOCAL_ReadValue((const WfbcDailyState *)(w));
     GF_STANDARD_SetField00_F4E4((struct RtcDate *)d);
-    *f0 = 0;
-    *f1 = 0;
-    *f2 = 0xFFFF;
+    *outFound = 0;
+    *outDateMatch = 0;
+    *outIndex = 0xFFFF;
     for (i = 0; i < n; i++) {
         e = POKEPARTY_GetMember(b, i);
-        v5 = POKE_TOOL_GetPartyValue(e, 5, 0);
-        v92 = POKE_TOOL_GetPartyValue(e, 0x92, 0);
-        v93 = POKE_TOOL_GetPartyValue(e, 0x93, 0);
-        v94 = POKE_TOOL_GetPartyValue(e, 0x94, 0);
+        memberKey = POKE_TOOL_GetPartyValue(e, 5, 0);
+        storedYear = POKE_TOOL_GetPartyValue(e, 0x92, 0);
+        storedMonth = POKE_TOOL_GetPartyValue(e, 0x93, 0);
+        storedDay = POKE_TOOL_GetPartyValue(e, 0x94, 0);
         v96 = POKE_TOOL_GetPartyValue(e, 0x96, 0);
         v4c = POKE_TOOL_GetPartyValue(e, 0x4c, 0);
         v8f = POKE_TOOL_GetPartyValue(e, 0x8f, 0);
         v90 = POKE_TOOL_GetPartyValue(e, 0x90, 0);
         v91 = POKE_TOOL_GetPartyValue(e, 0x91, 0);
-        if (v5 == key && v4c == 0 && v96 == 0x33 && v8f + v91 + v90 == 0) {
-            *f0 = 1;
-            if (*f2 == 0xFFFF)
-                *f2 = i;
-            if (v92 == d[0] && v93 == d[1] && v94 == d[2]) {
-                *f1 = 1;
-                *f2 = i;
+        if (memberKey == key && v4c == 0 && v96 == 0x33 && v8f + v91 + v90 == 0) {
+            *outFound = 1;
+            if (*outIndex == 0xFFFF)
+                *outIndex = i;
+            if (storedYear == d[0] && storedMonth == d[1] && storedDay == d[2]) {
+                *outDateMatch = 1;
+                *outIndex = i;
             }
         }
     }

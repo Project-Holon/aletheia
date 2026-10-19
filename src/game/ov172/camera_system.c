@@ -219,7 +219,7 @@ void CTVT_CAMERA_AllocFrames(Camera *p, int count, u16 heap);
 
 void CTVT_CAMERA_FreeFrames(Camera *p);
 
-void CTVT_CAMERA_StartCapture(Camera *a0);
+void CTVT_CAMERA_StartCapture(Camera *camera);
 
 void CTVT_CAMERA_StopCapture(Camera *p);
 
@@ -533,9 +533,9 @@ void CTVT_CAMERA_FreeFrames(Camera *p)
     p->frames = 0;
 }
 
-void CTVT_CAMERA_StartCapture(Camera *a0)
+void CTVT_CAMERA_StartCapture(Camera *camera)
 {
-    Camera *p = a0;
+    Camera *p = camera;
     int one = 1;
 
     if (p->capturing != 0)

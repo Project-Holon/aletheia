@@ -83,11 +83,11 @@ typedef enum { Z0 } E;
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u8 *GAME_DATA_GetMyStatus(void *a0);
+extern u8 *GAME_DATA_GetMyStatus(void *gd);
 
-extern struct U16Vec *STRBUF_Create(u32 a0, u32 a1);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern void MYSTATUS_NameToStrbuf(void *a0, void *a1);
+extern void MYSTATUS_NameToStrbuf(void *name, void *buf);
 
 extern void STRBUF_Delete(struct U16Vec *vec);
 
@@ -99,23 +99,23 @@ extern u32 g_020A74B0[];
 
 extern struct CursorCommKindFuncs GAME_COMM_KindTable[];
 
-struct VecSet *CURSOR_MOVE_CreateVecSet(u32 a0, void *a1);
+struct VecSet *CURSOR_MOVE_CreateVecSet(u32 heapId, void *gameData);
 
 void CURSOR_MOVE_DeleteVecSet(struct VecSet *obj);
 
 void GAME_COMM_Update(struct CursorComm *p);
 
 /*
- * Allocate the 0x88-byte sprite for a1 (tag 0xe0), keep a1 as its first word,
+ * Allocate the 0x88-byte sprite for gameData (tag 0xe0), keep gameData as its first word,
  * then attach six sub-buffers: each starts at +0x3c with a 0xc stride, gets
- * two 8-byte allocations out of the a0 heap and registers both with the
- * resource handle GAME_DATA_GetMyStatus returned for a1.
+ * two 8-byte allocations out of the heapId heap and registers both with the
+ * resource handle GAME_DATA_GetMyStatus returned for gameData.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/CURSOR_MOVE_CreateVecSet.c \
  *       --func CURSOR_MOVE_CreateVecSet --addr 0x020261E4 --cc 1.1p1 --thumb
  */
-struct VecSet *CURSOR_MOVE_CreateVecSet(u32 a0, void *a1)
+struct VecSet *CURSOR_MOVE_CreateVecSet(u32 heapId, void *gameData)
 {
     int i;
     struct VecSet *p;
@@ -123,14 +123,14 @@ struct VecSet *CURSOR_MOVE_CreateVecSet(u32 a0, void *a1)
     struct VecSetItem *e;
     u8 *q;
 
-    p = (struct VecSet *)GFL_HEAP_Alloc(a0, 0x88, 1, (const char *)g_020A74B0, 0xe0);
-    p->owner = a1;
-    q = GAME_DATA_GetMyStatus(a1);
+    p = (struct VecSet *)GFL_HEAP_Alloc(heapId, 0x88, 1, (const char *)g_020A74B0, 0xe0);
+    p->owner = gameData;
+    q = GAME_DATA_GetMyStatus(gameData);
     base = p->items;
     for (i = 0; i < 6; i++) {
         e = base + i;
-        e->buf1 = STRBUF_Create(8, a0);
-        e->buf2 = STRBUF_Create(8, a0);
+        e->buf1 = STRBUF_Create(8, heapId);
+        e->buf2 = STRBUF_Create(8, heapId);
         MYSTATUS_NameToStrbuf(q, e->buf1);
         MYSTATUS_NameToStrbuf(q, e->buf2);
     }

@@ -78,7 +78,7 @@ extern void *GFL_USE_AddHBlankTask(u32 a, u32 b, u32 c);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *GFL_USE_AddMainTask(void *fn, void *arg, u32 prio);
 extern u32 GFL_HEAP_Free(void *p);
-void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u16 p4, u32 p5, u32 p6, u32 p7);
+void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
 void WIPE_SYS_Main(void);
 u32 WIPE_SYS_EndCheck(void);
 void WIPE_SYS_ExeEnd(void);
@@ -98,10 +98,10 @@ void WIPE_InitHBlankSlots(struct WipeHBlankSlots *p);
 void WIPE_HBlankSlotsTask(void *task, struct WipeHBlankSlots *p);
 void WIPE_SetHBlankSlot(struct WipeHBlankSlots *p, void *ctx, Handler fn, u32 idx);
 void WIPE_ClearHBlankSlot(struct WipeHBlankSlots *p, u32 idx);
-void WIPE_RequestSetHBlankSlot(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
-void WIPE_RequestClearHBlankSlot(u32 a0, u32 a1, u32 a2);
-void WIPE_SetHBlankSlotTask(void *a0, u32 *a1);
-void WIPE_ClearHBlankSlotTask(struct Node *a0, u32 *a1);
+void WIPE_RequestSetHBlankSlot(u32 slots, u32 ctx, u32 fn, u32 slotIdx, u32 heapId);
+void WIPE_RequestClearHBlankSlot(u32 slots, u32 slotIdx, u32 heapId);
+void WIPE_SetHBlankSlotTask(void *task, u32 *args);
+void WIPE_ClearHBlankSlotTask(struct Node *task, u32 *args);
 void WIPE_DummyHBlank(void *ctx);
 u16 WIPE_SUB_ResolveColor(struct WipeSys *obj, u16 value);
 u16 WIPE_SUB_GetEndColor(struct WipeSys *p);
@@ -152,23 +152,23 @@ extern char  g_wipeSourceFile[];
  * Verified with:
  *   python tools/match.py one --src src/pending/WIPE_SYS_Start.c  *       --func WIPE_SYS_Start --addr 0x0202208C --cc 1.1p1 --thumb
  */
-void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u16 p4, u32 p5, u32 p6, u32 p7)
+void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId)
 {
     s32    n;
     struct WipeSys *g;
     u16    obj;
 
-    n = (s32)p6;
+    n = (s32)wait;
     n = n / (s32)CARD_GetBackupSectorSize();
     g = &g_wipeSys;
     WIPE_SUB_ClearSys(g);
-    WIPE_SYS_SetDivision((u32)p1, g);
+    WIPE_SYS_SetDivision((u32)divisionMode, g);
     WIPE_InitHBlankSlots(&g->hblank);
-    obj = WIPE_SUB_ResolveColor(g, p4);
-    WIPE_SYS_InitPanel(&g->mainPanel, p2, p5, n, 0, 0, 0,
-                  &g->windowRequests, &g->hblank, p7, obj);
-    WIPE_SYS_InitPanel(&g->subPanel, p3, p5, n, 0, 0, 1,
-                  &g->windowRequests, &g->hblank, p7, obj);
+    obj = WIPE_SUB_ResolveColor(g, color);
+    WIPE_SYS_InitPanel(&g->mainPanel, mainPattern, frames, n, 0, 0, 0,
+                  &g->windowRequests, &g->hblank, heapId, obj);
+    WIPE_SYS_InitPanel(&g->subPanel, subPattern, frames, n, 0, 0, 1,
+                  &g->windowRequests, &g->hblank, heapId, obj);
     g->active = 1;
     WIPE_SYS_MainPanel(&g->mainActive, &g->mainPanel);
     WIPE_SYS_MainPanel(&g->subActive, &g->subPanel);
@@ -581,19 +581,19 @@ static void WIPE_SYS_SetDivisionFlags(struct WipeSys *p, u32 kind, u32 a, u32 b)
  *   python tools/match.py one --src src/matched/WIPE_SYS_InitPanel.c \
  *       --func WIPE_SYS_InitPanel --addr 0x02022430 --cc 1.1p1 --thumb
  */
-void WIPE_SYS_InitPanel(struct WipePanel *s, u32 a, u32 b, s32 c, u32 d, u32 e,
-                   u32 f, void *g, void *h, u32 i, u16 j)
+void WIPE_SYS_InitPanel(struct WipePanel *panel, u32 pattern, u32 frames, s32 wait, u32 phase, u32 work,
+                   u32 screen, void *windowRequests, void *hblank, u32 heapId, u16 color)
 {
-    s->pattern = a;
-    s->frames = b;
-    s->wait = c;
-    s->phase = d;
-    s->work = (void *)e;
-    s->screen = f;
-    s->windowRequests = (struct WindowRequests *)g;
-    s->hblank = (u32)h;
-    s->heapId = i;
-    s->color = j;
+    panel->pattern = pattern;
+    panel->frames = frames;
+    panel->wait = wait;
+    panel->phase = phase;
+    panel->work = (void *)work;
+    panel->screen = screen;
+    panel->windowRequests = (struct WindowRequests *)windowRequests;
+    panel->hblank = (u32)hblank;
+    panel->heapId = heapId;
+    panel->color = color;
 }
 
 /*
@@ -711,43 +711,43 @@ void WIPE_ClearHBlankSlot(struct WipeHBlankSlots *p, u32 idx)
  *           'matched' class has nothing to offer. Every concrete byte is identical
  *           (0 concrete diffs, 4/4 relocations correct, 3 resolved).
  */
-void WIPE_RequestSetHBlankSlot(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4)
+void WIPE_RequestSetHBlankSlot(u32 slots, u32 ctx, u32 fn, u32 slotIdx, u32 heapId)
 {
     u32 *p;
 
-    p = (u32 *)GFL_HEAP_Alloc((u16)(((u16)a4 & 0x7FFF) | 0x8000), 0x10, 0,
+    p = (u32 *)GFL_HEAP_Alloc((u16)(((u16)heapId & 0x7FFF) | 0x8000), 0x10, 0,
                              g_wipeSourceFile, 0x3E8);
-    p[0] = a0;
-    p[1] = a1;
-    p[2] = a2;
-    p[3] = a3;
+    p[0] = slots;
+    p[1] = ctx;
+    p[2] = fn;
+    p[3] = slotIdx;
     GFL_USE_AddMainTask((void *)WIPE_SetHBlankSlotTask, p, 0x400);
 }
 
-void WIPE_RequestClearHBlankSlot(u32 a0, u32 a1, u32 a2)
+void WIPE_RequestClearHBlankSlot(u32 slots, u32 slotIdx, u32 heapId)
 {
-    u32 *p = GFL_HEAP_Alloc((u16)(((u16)a2 & 0x7fff) | 0x8000), 8, 0, g_wipeSourceFile, 0x401);
+    u32 *p = GFL_HEAP_Alloc((u16)(((u16)heapId & 0x7fff) | 0x8000), 8, 0, g_wipeSourceFile, 0x401);
 
-    p[0] = a0;
-    p[1] = a1;
+    p[0] = slots;
+    p[1] = slotIdx;
     GFL_USE_AddMainTask((void *)WIPE_ClearHBlankSlotTask, p, 8 << 7);
 }
 
 /*
  *           r2 sweep: still capped -- no EXACT manifest entry covers the site; the matched class has no witness to offer.
  */
-void WIPE_SetHBlankSlotTask(void *a0, u32 *a1)
+void WIPE_SetHBlankSlotTask(void *task, u32 *args)
 {
-    WIPE_SetHBlankSlot((struct WipeHBlankSlots *)a1[0], (void *)a1[1], (Handler)a1[2], a1[3]);
-    TCB_DeleteTask(a0);
-    GFL_HEAP_Free(a1);
+    WIPE_SetHBlankSlot((struct WipeHBlankSlots *)args[0], (void *)args[1], (Handler)args[2], args[3]);
+    TCB_DeleteTask(task);
+    GFL_HEAP_Free(args);
 }
 
-void WIPE_ClearHBlankSlotTask(struct Node *a0, u32 *a1)
+void WIPE_ClearHBlankSlotTask(struct Node *task, u32 *args)
 {
-    WIPE_ClearHBlankSlot((struct WipeHBlankSlots *)a1[0], a1[1]);
-    TCB_DeleteTask(a0);
-    GFL_HEAP_Free(a1);
+    WIPE_ClearHBlankSlot((struct WipeHBlankSlots *)args[0], args[1]);
+    TCB_DeleteTask(task);
+    GFL_HEAP_Free(args);
 }
 
 /*

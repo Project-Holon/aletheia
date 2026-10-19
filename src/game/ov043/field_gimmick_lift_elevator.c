@@ -564,16 +564,16 @@ int FIELD_GIMMICK_LIFT_ELEVATOR_IsLiftArrived(FieldGimmickLiftElevatorWork *work
  */
 int FIELD_GIMMICK_LIFT_ELEVATOR_IsInLiftZone(u8 liftIndex, int tileX, int tileZ)
 {
-    int x0;
-    int z0;
+    int zoneX;
+    int zoneZ;
     int width;
     int depth;
 
-    x0 = sLiftElevatorLiftZones[liftIndex].tileX;
-    z0 = sLiftElevatorLiftZones[liftIndex].tileZ;
+    zoneX = sLiftElevatorLiftZones[liftIndex].tileX;
+    zoneZ = sLiftElevatorLiftZones[liftIndex].tileZ;
     width = sLiftElevatorLiftZones[liftIndex].width;
     depth = sLiftElevatorLiftZones[liftIndex].depth;
-    if (x0 <= tileX && tileX <= x0 + width - 1 && z0 <= tileZ && tileZ <= z0 + depth - 1) {
+    if (zoneX <= tileX && tileX <= zoneX + width - 1 && zoneZ <= tileZ && tileZ <= zoneZ + depth - 1) {
         return 1;
     }
     return 0;

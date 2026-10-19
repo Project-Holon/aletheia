@@ -69,7 +69,7 @@ extern int socket(int pf, int type, int protocol);
 extern void FIFOClear(SBServerFIFO *fifo);
 extern int closesocket(int sock);
 extern void QEStartQuery(SBQueryEngine *engine, SBServer *server);
-extern int atoi(u32 a0);
+extern int atoi(u32 s);
 int FIFORemove(SBServerFIFO *fifo, SBServer *server);
 extern int NTSLengthSB(char *buf, int len);
 extern int qr2_internal_is_master_only_key(char *keyname);

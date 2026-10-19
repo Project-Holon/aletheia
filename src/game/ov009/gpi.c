@@ -75,8 +75,8 @@
 
 typedef struct GPIOperation_s {
     char pad[0x1c];
-    int field1c;
-    struct GPIOperation_s *field20;
+    int result;
+    struct GPIOperation_s *pnext;
 } GPIOperation_s;
 
 extern void *gsimalloc(int size);
@@ -120,7 +120,7 @@ extern int atoi(char *s);
 /*
  * gpiInitialize (gpi_engine?): allocate the 0x638-byte GP connection block, * clear it, seed the state words, hand its address to gpiInitProfiles, clear * nine 8-byte pairs, run the two sub-initialisers, then publish the block * through *out. p lives on the stack because &p is taken.
  */
-int gpiInitialize(void **out, int a1, int a2, int a3);
+int gpiInitialize(void **connection, int productID, int namespaceID, int partnerID);
 /*
  * sdk: gpiDestroy (gpi.o)
  */
@@ -152,14 +152,14 @@ extern int gpiReset(void **connection);
  * gpiInitialize (gpi_engine?): allocate the 0x638-byte GP connection block,
  * clear it, seed the state words, hand its address to gpiInitProfiles, clear
  * nine 8-byte pairs, run the two sub-initialisers, then publish the block
- * through *out.  p lives on the stack because &p is taken.
+ * through *connection.  p lives on the stack because &p is taken.
  */
-int gpiInitialize(void **out, int a1, int a2, int a3)
+int gpiInitialize(void **connection, int productID, int namespaceID, int partnerID)
 {
     char *p;
     int i;
 
-    *out = 0;
+    *connection = 0;
     p = gsimalloc(0x638);
     if (p == 0)
         return 1;
@@ -170,9 +170,9 @@ int gpiInitialize(void **out, int a1, int a2, int a3)
     *(int *)(p + 0x104) = 0;
     *(int *)(p + 0x108) = 0;
     *(int *)(p + 0x10c) = 0;
-    *(int *)(p + 0x60c) = a1;
-    *(int *)(p + 0x610) = a2;
-    *(int *)(p + 0x1a4) = a3;
+    *(int *)(p + 0x60c) = productID;
+    *(int *)(p + 0x610) = namespaceID;
+    *(int *)(p + 0x1a4) = partnerID;
 
     if (gpiInitProfiles((void **)&p) == 0) {
         gsifree(p);
@@ -194,7 +194,7 @@ int gpiInitialize(void **out, int a1, int a2, int a3)
     SocketStartUp();
     current_time();
     srand();
-    *out = p;
+    *connection = p;
     return 0;
 }
 
@@ -448,7 +448,7 @@ int gpiProcess(void **connection, int blockingOperationID)
 
         if (result != 0) {
             if (gpiFindOperationByID(connection, &operation, 1))
-                operation->field1c = 4;
+                operation->result = 4;
         }
     }
 
@@ -465,13 +465,13 @@ int gpiProcess(void **connection, int blockingOperationID)
 
     operation = *(GPIOperation_s **)((char *)iconnection + 0x5c4);
     while (operation != 0) {
-        if (operation->field1c == 0) {
-            operation = operation->field20;
+        if (operation->result == 0) {
+            operation = operation->pnext;
         } else {
             GPIOperation_s *op;
             gpiFailedOpCallback(connection, operation);
             op = operation;
-            operation = op->field20;
+            operation = op->pnext;
             gpiRemoveOperation(connection, op);
         }
     }

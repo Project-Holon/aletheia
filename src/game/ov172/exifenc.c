@@ -23,14 +23,14 @@
  * a 4-byte id at `local` (0 unless OS_IsRunOnTwl() reports the firmware id, in
  * which case the hardware word at 0x02FFE230 is taken), copies it into the
  * local buf and NUL-terminates so SSP_SetJpegEncoderSoftware can publish it as the string
- * length.  Then, if the global-outstanding flag g_021CADF0.f0 is clear, it
+ * length.  Then, if the global-outstanding flag g_021CADF0.dateTimeDataFlag is clear, it
  * spins on SSP_SetJpegEncoderDateTimeNow (RTC string rebuild) with 5-tick sleeps until the
  * RTC is readable, and finally runs the Exif/JPEG encoder jpeg_encode_main with
  * encode_option = (a4 != 0) and thumb data a3/thumb_size a4; a non-1 result is
  * a fatal error (OS_Terminate).  The tail clears the g_021CADF0 state and
  * returns its +4 slot, which the encoder filled with the result.
  * The opening block keeps gExifMakerNoteConfig in ip and g_021CADF0 in lr; storing
- * g_021CADF0.f14 before the config block is what reproduces that allocator
+ * g_021CADF0.dst before the config block is what reproduces that allocator
  * choice (see docs/idioms/two-live-pool-global-bases-swap-ip-and-lr.md).
  * Addresses are Black-image addresses.
  *
@@ -96,7 +96,7 @@ struct DateTime {
     u32 year;
     u32 month;
     u32 day;
-    u32 field18;
+    u32 week;
 };
 
 typedef struct exif_tag_entry {
@@ -136,15 +136,15 @@ struct Slot
   u16 tag;
   u16 type;
   u32 count;
-  s8 field8;
+  s8 byteData;
   u8 pad9;
-  s16 fieldA;
-  u32 fieldC;
-  u32 field10;
-  u32 field14;
-  u8 field18[30];
+  s16 shortData;
+  u32 longData;
+  u32 rationalNumerator;
+  u32 rationalDenominator;
+  u8 undefinedData[30];
   char str[30];
-  u32 field54;
+  u32 offset;
 };
 
 struct SlotManager
@@ -152,25 +152,25 @@ struct SlotManager
   struct Slot *ptr0;
   s16 count0;
   u16 pad6;
-  u32 field8;
+  u32 ifd0NextPointer;
   struct Slot *ptrC;
   s16 count1;
   u16 pad12;
-  u32 field14;
+  u32 exifNextPointer;
   struct Slot *ptr18;
   s16 count2;
   u16 pad1E;
-  u32 field20;
+  u32 makerNoteNextPointer;
   struct Slot *ptr24;
   s16 count3;
   u16 pad2A;
-  u32 field2C;
+  u32 interopNextPointer;
   struct Slot *ptr30;
   s16 count4;
   u16 pad36;
-  u32 field38;
+  u32 ifd1NextPointer;
   u32 pad3C[2];
-  u32 field44;
+  u32 thumbLength;
 };
 
 struct UnkObj
@@ -185,15 +185,15 @@ struct UnkObj
 };
 
 struct Adf0 {
-    u32 f0;
-    u32 f4;
-    u32 f8;
-    u32 fc;
-    u32 f10;
-    u32 f14;
-    u32 f18;
-    u32 f1c;
-    u32 f20;
+    u32 dateTimeDataFlag;
+    u32 encodeFileSize;
+    u32 encodeSignCheckMode;
+    u32 softwareSize;
+    u32 makerNoteUserBufferSize;
+    u32 dst;
+    u32 makerNoteBufferSize;
+    u32 makerNoteBuffer;
+    u32 makerNoteUserBuffer;
     u8  pad24[0x13];
     u8  f37;
 };
@@ -219,7 +219,7 @@ void jpeg_encode_ifd_direct(void *unused, exif_ifd_data *ifd, short is_last);
 void jpeg_encode_ifd(jpeg_exif_data_structure *jexif, exif_ifd_data *ifd, short is_last);
 short jpeg_encode_exif(jpeg_exif_data_structure *jexif, short option, unsigned char *thumb_src, unsigned long thumb_size);
 s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u32 thumb_size);
-u32 SSP_ExifEncode(int a0, int a1, int a2, u8 *a3, u32 a4);
+u32 SSP_ExifEncode(int dstBuffer, int width, int height, u8 *thumbSrc, u32 thumbSize);
 extern const char gExifDateTimeFormat[];
 extern struct SlotManager gExifIfdSlotManager;
 extern struct Slot gExifIfd0Slots[];
@@ -721,19 +721,19 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
   s16 cfg_encode_exif_;
   sb->ptr0 = gExifIfd0Slots;
   sb->count0 = 0;
-  sb->field8 = 0;
+  sb->ifd0NextPointer = 0;
   sb->ptrC = gExifExifIfdSlots;
   sb->count1 = 0;
-  sb->field14 = 0;
+  sb->exifNextPointer = 0;
   sb->ptr18 = gExifMakerNoteSlots;
   sb->count2 = 0;
-  sb->field20 = 0;
+  sb->makerNoteNextPointer = 0;
   sb->ptr24 = gExifInteropIfdSlots;
   sb->count3 = 0;
-  sb->field2C = 0;
+  sb->interopNextPointer = 0;
   sb->ptr30 = gExifIfd1Slots;
   sb->count4 = 0;
-  sb->field38 = 0;
+  sb->ifd1NextPointer = 0;
   if (encode_option & 1)
   {
     cfg_encode_exif = 1;
@@ -750,58 +750,58 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
   s->tag = 0x010F;
   s->type = 2;
   s->count = 9;
-  s->field8 = 0;
-  s->fieldA = 0;
-  s->fieldC = 0;
-  s->field10 = 0;
-  s->field14 = 0;
+  s->byteData = 0;
+  s->shortData = 0;
+  s->longData = 0;
+  s->rationalNumerator = 0;
+  s->rationalDenominator = 0;
   STD_CopyLString(s->str, gExifMake, 9);
-  s->field54 = 0;
+  s->offset = 0;
   sb->count0++;
   s = &sb->ptr0[sb->count0];
   s->tag = 0x0110;
   s->type = 2;
   s->count = 11;
-  s->field8 = 0;
-  s->fieldA = 0;
-  s->fieldC = 0;
-  s->field10 = 0;
-  s->field14 = 0;
+  s->byteData = 0;
+  s->shortData = 0;
+  s->longData = 0;
+  s->rationalNumerator = 0;
+  s->rationalDenominator = 0;
   STD_CopyLString(s->str, gExifModel, 11);
-  s->field54 = 0;
+  s->offset = 0;
   sb->count0++;
   s = &sb->ptr0[sb->count0];
   s->tag = 0x011A;
   s->type = 5;
   s->count = 1;
-  s->field8 = 0;
-  s->fieldA = 0;
-  s->fieldC = 0;
-  s->field10 = 72;
-  s->field14 = 1;
-  s->field54 = 0;
+  s->byteData = 0;
+  s->shortData = 0;
+  s->longData = 0;
+  s->rationalNumerator = 72;
+  s->rationalDenominator = 1;
+  s->offset = 0;
   sb->count0++;
   s = &sb->ptr0[sb->count0];
   s->tag = 0x011B;
   s->type = 5;
   s->count = 1;
-  s->field8 = 0;
-  s->fieldA = 0;
-  s->fieldC = 0;
-  s->field10 = 72;
-  s->field14 = 1;
-  s->field54 = 0;
+  s->byteData = 0;
+  s->shortData = 0;
+  s->longData = 0;
+  s->rationalNumerator = 72;
+  s->rationalDenominator = 1;
+  s->offset = 0;
   sb->count0++;
   s = &sb->ptr0[sb->count0];
   s->tag = 0x0128;
   s->type = 3;
   s->count = 1;
-  s->field8 = 0;
-  s->fieldA = 2;
-  s->fieldC = 0;
-  s->field10 = 0;
-  s->field14 = 0;
-  s->field54 = 0;
+  s->byteData = 0;
+  s->shortData = 2;
+  s->longData = 0;
+  s->rationalNumerator = 0;
+  s->rationalDenominator = 0;
+  s->offset = 0;
   sb->count0++;
   if (SSPiSoftwareSize != 0)
   {
@@ -809,162 +809,162 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
     s->tag = 0x0131;
     s->type = 2;
     s->count = SSPiSoftwareSize;
-    s->field8 = 0;
-    s->fieldA = 0;
-    s->fieldC = 0;
-    s->field10 = 0;
-    s->field14 = 0;
+    s->byteData = 0;
+    s->shortData = 0;
+    s->longData = 0;
+    s->rationalNumerator = 0;
+    s->rationalDenominator = 0;
     STD_CopyLString(s->str, SSPiSoftware, s->count);
-    s->field54 = 0;
+    s->offset = 0;
     sb->count0++;
   }
   s = &sb->ptr0[sb->count0];
   s->tag = 0x0132;
   s->type = 2;
   s->count = 20;
-  s->field8 = 0;
-  s->fieldA = 0;
-  s->fieldC = 0;
-  s->field10 = 0;
-  s->field14 = 0;
+  s->byteData = 0;
+  s->shortData = 0;
+  s->longData = 0;
+  s->rationalNumerator = 0;
+  s->rationalDenominator = 0;
   STD_CopyLString(s->str, dateTimeData, 20);
-  s->field54 = 0;
+  s->offset = 0;
   sb->count0++;
   s = &sb->ptr0[sb->count0];
   s->tag = 0x0213;
   s->type = 3;
   s->count = 1;
-  s->field8 = 0;
-  s->fieldA = 2;
-  s->fieldC = 0;
-  s->field10 = 0;
-  s->field14 = 0;
-  s->field54 = 0;
+  s->byteData = 0;
+  s->shortData = 2;
+  s->longData = 0;
+  s->rationalNumerator = 0;
+  s->rationalDenominator = 0;
+  s->offset = 0;
   sb->count0++;
   sb->count1 = 0;
   s = &sb->ptrC[sb->count1];
   s->tag = 0x9000;
   s->type = 7;
   s->count = 4;
-  s->field8 = 0;
-  s->fieldA = 0;
-  s->fieldC = 0;
-  s->field10 = 0;
-  s->field14 = 0;
-  MI_CpuCopy(gExifVersion, s->field18, 4);
-  s->field54 = 0;
+  s->byteData = 0;
+  s->shortData = 0;
+  s->longData = 0;
+  s->rationalNumerator = 0;
+  s->rationalDenominator = 0;
+  MI_CpuCopy(gExifVersion, s->undefinedData, 4);
+  s->offset = 0;
   sb->count1++;
   s = &sb->ptrC[sb->count1];
   s->tag = 0x9003;
   s->type = 2;
   s->count = 20;
-  s->field8 = 0;
-  s->fieldA = 0;
-  s->fieldC = 0;
-  s->field10 = 0;
-  s->field14 = 0;
+  s->byteData = 0;
+  s->shortData = 0;
+  s->longData = 0;
+  s->rationalNumerator = 0;
+  s->rationalDenominator = 0;
   STD_CopyLString(s->str, dateTimeData, 20);
-  s->field54 = 0;
+  s->offset = 0;
   sb->count1++;
   s = &sb->ptrC[sb->count1];
   s->tag = 0x9004;
   s->type = 2;
   s->count = 20;
-  s->field8 = 0;
-  s->fieldA = 0;
-  s->fieldC = 0;
-  s->field10 = 0;
-  s->field14 = 0;
+  s->byteData = 0;
+  s->shortData = 0;
+  s->longData = 0;
+  s->rationalNumerator = 0;
+  s->rationalDenominator = 0;
   STD_CopyLString(s->str, dateTimeData, 20);
-  s->field54 = 0;
+  s->offset = 0;
   sb->count1++;
   s = &sb->ptrC[sb->count1];
   s->tag = 0x9101;
   s->type = 7;
   s->count = 4;
-  s->field8 = 0;
-  s->fieldA = 0;
-  s->fieldC = 0;
-  s->field10 = 0;
-  s->field14 = 0;
-  s->field18[0] = 1;
-  s->field18[1] = 2;
-  s->field18[2] = 3;
-  s->field18[3] = 0;
-  s->field54 = 0;
+  s->byteData = 0;
+  s->shortData = 0;
+  s->longData = 0;
+  s->rationalNumerator = 0;
+  s->rationalDenominator = 0;
+  s->undefinedData[0] = 1;
+  s->undefinedData[1] = 2;
+  s->undefinedData[2] = 3;
+  s->undefinedData[3] = 0;
+  s->offset = 0;
   sb->count1++;
   s = &sb->ptrC[sb->count1];
   s->tag = 0x927C;
   s->type = 7;
   s->count = 0;
-  s->field8 = 0;
-  s->fieldA = 0;
-  s->fieldC = 0;
-  s->field10 = 0;
-  s->field14 = 0;
-  s->field18[0] = 1;
-  s->field18[1] = 2;
-  s->field18[2] = 3;
-  s->field18[3] = 0;
-  s->field54 = 0;
+  s->byteData = 0;
+  s->shortData = 0;
+  s->longData = 0;
+  s->rationalNumerator = 0;
+  s->rationalDenominator = 0;
+  s->undefinedData[0] = 1;
+  s->undefinedData[1] = 2;
+  s->undefinedData[2] = 3;
+  s->undefinedData[3] = 0;
+  s->offset = 0;
   sb->count1++;
   s = &sb->ptrC[sb->count1];
   s->tag = 0xA000;
   s->type = 7;
   s->count = 4;
-  s->field8 = 0;
-  s->fieldA = 0;
-  s->fieldC = 0;
-  s->field10 = 0;
-  s->field14 = 0;
-  MI_CpuCopy(gExifFlashpixVersion, s->field18, 4);
-  s->field54 = 0;
+  s->byteData = 0;
+  s->shortData = 0;
+  s->longData = 0;
+  s->rationalNumerator = 0;
+  s->rationalDenominator = 0;
+  MI_CpuCopy(gExifFlashpixVersion, s->undefinedData, 4);
+  s->offset = 0;
   sb->count1++;
   s = &sb->ptrC[sb->count1];
   s->tag = 0xA001;
   s->type = 3;
   s->count = 1;
-  s->field8 = 0;
-  s->fieldA = 1;
-  s->fieldC = 0;
-  s->field10 = 0;
-  s->field14 = 0;
-  s->field54 = 0;
+  s->byteData = 0;
+  s->shortData = 1;
+  s->longData = 0;
+  s->rationalNumerator = 0;
+  s->rationalDenominator = 0;
+  s->offset = 0;
   sb->count1++;
   s = &sb->ptrC[sb->count1];
   s->tag = 0xA002;
   s->type = 4;
   s->count = 1;
-  s->field8 = 0;
-  s->fieldA = 0;
-  s->fieldC = (u32) cfg_input_width;
-  s->field10 = 0;
-  s->field14 = 0;
-  s->field54 = 0;
+  s->byteData = 0;
+  s->shortData = 0;
+  s->longData = (u32) cfg_input_width;
+  s->rationalNumerator = 0;
+  s->rationalDenominator = 0;
+  s->offset = 0;
   sb->count1++;
   s = &sb->ptrC[sb->count1];
   s->tag = 0xA003;
   s->type = 4;
   s->count = 1;
-  s->field8 = 0;
-  s->fieldA = 0;
-  s->fieldC = (u32) cfg_input_height;
-  s->field10 = 0;
-  s->field14 = 0;
-  s->field54 = 0;
+  s->byteData = 0;
+  s->shortData = 0;
+  s->longData = (u32) cfg_input_height;
+  s->rationalNumerator = 0;
+  s->rationalDenominator = 0;
+  s->offset = 0;
   sb->count2 = 0;
   sb->count1++;
   s = &sb->ptr18[sb->count2];
   s->tag = gExifMakerNoteConfig.tag;
   s->type = gExifMakerNoteConfig.type;
   s->count = gExifMakerNoteConfig.count;
-  s->field8 = gExifMakerNoteConfig.f8;
-  s->fieldA = gExifMakerNoteConfig.fa;
-  s->fieldC = gExifMakerNoteConfig.fc;
-  s->field10 = gExifMakerNoteConfig.f10;
-  s->field14 = gExifMakerNoteConfig.f14;
+  s->byteData = gExifMakerNoteConfig.f8;
+  s->shortData = gExifMakerNoteConfig.fa;
+  s->longData = gExifMakerNoteConfig.fc;
+  s->rationalNumerator = gExifMakerNoteConfig.f10;
+  s->rationalDenominator = gExifMakerNoteConfig.f14;
   STD_CopyLString(s->str, gExifMakerNoteConfigData, s->count);
-  s->field54 = 0;
+  s->offset = 0;
   sb->count2++;
   if (SSPiMakerNoteBufferSize != 0)
   {
@@ -972,12 +972,12 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
     s->tag = 0x1001;
     s->type = 7;
     s->count = SSPiMakerNoteBufferSize;
-    s->field8 = 0;
-    s->fieldA = 0;
-    s->fieldC = 0;
-    s->field10 = 0;
-    s->field14 = 0;
-    s->field54 = 0;
+    s->byteData = 0;
+    s->shortData = 0;
+    s->longData = 0;
+    s->rationalNumerator = 0;
+    s->rationalDenominator = 0;
+    s->offset = 0;
     sb->count2++;
   }
   if (SSPiMakerNoteUserBufferSize != 0)
@@ -986,12 +986,12 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
     s->tag = 0x1002;
     s->type = 7;
     s->count = SSPiMakerNoteUserBufferSize;
-    s->field8 = 0;
-    s->fieldA = 0;
-    s->fieldC = 0;
-    s->field10 = 0;
-    s->field14 = 0;
-    s->field54 = 0;
+    s->byteData = 0;
+    s->shortData = 0;
+    s->longData = 0;
+    s->rationalNumerator = 0;
+    s->rationalDenominator = 0;
+    s->offset = 0;
     sb->count2++;
   }
   sb->count3 = 0;
@@ -999,82 +999,82 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
   s->tag = 0x0001;
   s->type = 2;
   s->count = 4;
-  s->field8 = 0;
-  s->fieldA = 0;
-  s->fieldC = 0;
-  s->field10 = 0;
-  s->field14 = 0;
+  s->byteData = 0;
+  s->shortData = 0;
+  s->longData = 0;
+  s->rationalNumerator = 0;
+  s->rationalDenominator = 0;
   STD_CopyLString(s->str, gExifInteropIndex, 4);
-  s->field54 = 0;
+  s->offset = 0;
   sb->count3++;
   s = &sb->ptr24[sb->count3];
   s->tag = 0x0002;
   s->type = 7;
   s->count = 4;
-  s->field8 = 0;
-  s->fieldA = 0;
-  s->fieldC = 0;
-  s->field10 = 0;
-  s->field14 = 0;
-  MI_CpuCopy(gExifFlashpixVersion, s->field18, 4);
-  s->field54 = 0;
+  s->byteData = 0;
+  s->shortData = 0;
+  s->longData = 0;
+  s->rationalNumerator = 0;
+  s->rationalDenominator = 0;
+  MI_CpuCopy(gExifFlashpixVersion, s->undefinedData, 4);
+  s->offset = 0;
   sb->count3++;
   s = &sb->ptr24[sb->count3];
   s->tag = 0x1000;
   s->type = 2;
   s->count = 18;
-  s->field8 = 0;
-  s->fieldA = 0;
-  s->fieldC = 0;
-  s->field10 = 0;
-  s->field14 = 0;
+  s->byteData = 0;
+  s->shortData = 0;
+  s->longData = 0;
+  s->rationalNumerator = 0;
+  s->rationalDenominator = 0;
   STD_CopyLString(s->str, gExifRelatedImageFormat, 18);
-  s->field54 = 0;
+  s->offset = 0;
   sb->count4 = 0;
   sb->count3++;
   s = &sb->ptr30[sb->count4];
   s->tag = 0x0103;
   s->type = 3;
   s->count = 1;
-  s->field8 = 0;
-  s->fieldA = 6;
-  s->fieldC = 0;
-  s->field10 = 0;
-  s->field14 = 0;
-  s->field54 = 0;
+  s->byteData = 0;
+  s->shortData = 6;
+  s->longData = 0;
+  s->rationalNumerator = 0;
+  s->rationalDenominator = 0;
+  s->offset = 0;
   sb->count4++;
   s = &sb->ptr30[sb->count4];
   s->tag = 0x011A;
   s->type = 5;
   s->count = 1;
-  s->field8 = 0;
-  s->fieldA = 0;
-  s->fieldC = 0;
-  s->field10 = 72;
-  s->field14 = 1;
-  s->field54 = 0;
+  s->byteData = 0;
+  s->shortData = 0;
+  s->longData = 0;
+  s->rationalNumerator = 72;
+  s->rationalDenominator = 1;
+  s->offset = 0;
   sb->count4++;
   s = &sb->ptr30[sb->count4];
   s->tag = 0x011B;
   s->type = 5;
   s->count = 1;
-  s->field8 = 0;
-  s->fieldA = 0;
-  s->fieldC = 0;
-  s->field10 = 72;
-  s->field14 = 1;
-  s->field54 = 0;
+  s->byteData = 0;
+  s->shortData = 0;
+  s->longData = 0;
+  s->rationalNumerator = 72;
+  s->rationalDenominator = 1;
+  s->offset = 0;
   sb->count4++;
   s = &sb->ptr30[sb->count4];
   s->tag = 0x0128;
   s->type = 3;
   s->count = 1;
-  s->field8 = 0;
-  s->fieldA = 2;
-  s->fieldC = 0;
-  s->field10 = 0;
-  s->field14 = 0;
-  s->field54 = 0;
+  s->byteData = 0;
+  s->shortData = 2;
+  s->longData = 0;
+  s->rationalNumerator = 0;
+  s->rationalDenominator = 0;
+  s->offset = 0;
   cfg_encode_exif_ = cfg_encode_exif;
   sb->count4++;
   if (cfg_encode_exif_)
@@ -1128,7 +1128,7 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
     s->tag = 0x0202;
     s->type = 4;
     s->count = 1;
-    sb->field44 = (u32) thumb_size;
+    sb->thumbLength = (u32) thumb_size;
     sb->count4++;
   }
   else
@@ -1182,7 +1182,7 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
     s->tag = 0x0202;
     s->type = 4;
     s->count = 1;
-    sb->field44 = 0;
+    sb->thumbLength = 0;
     sb->count4++;
   }
   dst[encode_file_size++] = 0xFF;
@@ -1209,12 +1209,12 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
 }
 
 
-u32 SSP_ExifEncode(int a0, int a1, int a2, u8 *a3, u32 a4)
+u32 SSP_ExifEncode(int dstBuffer, int width, int height, u8 *thumbSrc, u32 thumbSize)
 {
     char buf[0x20];
     u32 local;
 
-    g_021CADF0.f14 = a0;
+    g_021CADF0.dst = dstBuffer;
     gExifMakerNoteConfig.tag = 0x1000;
     gExifMakerNoteConfig.type = 7;
     gExifMakerNoteConfig.count = 0x1C;
@@ -1234,24 +1234,24 @@ u32 SSP_ExifEncode(int a0, int a1, int a2, u8 *a3, u32 a4)
     buf[4] = 0;
     SSP_SetJpegEncoderSoftware(buf);
 
-    if (g_021CADF0.f0 == 0) {
+    if (g_021CADF0.dateTimeDataFlag == 0) {
         while (SSP_SetJpegEncoderDateTimeNow() == 0)
             OS_SpinWaitSysCycles(5);
     }
 
-    g_021CADF0.f4 = 0;
-    if (a4 == 0) {
-        if (jpeg_encode_main((s16)a1, (s16)a2, 0, a3, a4) != 1)
+    g_021CADF0.encodeFileSize = 0;
+    if (thumbSize == 0) {
+        if (jpeg_encode_main((s16)width, (s16)height, 0, thumbSrc, thumbSize) != 1)
             OS_Terminate();
     } else {
-        if (jpeg_encode_main((s16)a1, (s16)a2, 1, a3, a4) != 1)
+        if (jpeg_encode_main((s16)width, (s16)height, 1, thumbSrc, thumbSize) != 1)
             OS_Terminate();
     }
 
-    g_021CADF0.f1c = 0;
-    g_021CADF0.f18 = 0;
-    g_021CADF0.f20 = 0;
-    g_021CADF0.f10 = 0;
-    g_021CADF0.f0 = 0;
-    return g_021CADF0.f4;
+    g_021CADF0.makerNoteBuffer = 0;
+    g_021CADF0.makerNoteBufferSize = 0;
+    g_021CADF0.makerNoteUserBuffer = 0;
+    g_021CADF0.makerNoteUserBufferSize = 0;
+    g_021CADF0.dateTimeDataFlag = 0;
+    return g_021CADF0.encodeFileSize;
 }

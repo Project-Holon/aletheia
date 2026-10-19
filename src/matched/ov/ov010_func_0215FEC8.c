@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_NETWORK_GetRecordKindByFrameRate
+ * function: EVENT_FIELD_MENU_GetProcKindOfButton
  * address:  0x0215FEC8
  * packet:   pkt_ov010_0215FEC8
  * region:   ov010
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 extern const u32 SCRCMD_NETWORK_sRecordKindByFrameRate[];
 
-u32 SCRCMD_NETWORK_GetRecordKindByFrameRate(u32 n)
+u32 EVENT_FIELD_MENU_GetProcKindOfButton(u32 n)
 {
     return SCRCMD_NETWORK_sRecordKindByFrameRate[n];
 }

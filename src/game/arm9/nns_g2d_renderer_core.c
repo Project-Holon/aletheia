@@ -267,7 +267,7 @@ void NNSi_G2dSetOamSoftEmuAutoZOffsetEnabled(u32 enabled);
 void NNS_G2dResetOamSoftEmuAutoZOffset(void);
 void NNS_G2dSetOamSoftEmuAutoZOffsetStep(fx32 step);
 int NNS_G2dGetOamSoftEmuAutoZOffsetStep(void);
-void NNSi_G2dDrawSoftEmuSprite(int x, int y, int z, const GXOamAttr *oam, u32 a4, u32 a5, u32 a6);
+void NNSi_G2dDrawSoftEmuSprite(int x, int y, int z, const GXOamAttr *oam, u32 pTexImageAttr, u32 texBaseAddr, u32 pltBaseAddr);
 void NNSi_G2dDoAffineTransforme(const MtxFx22 *pMtxSR, GXOamAttr *pOam, NNSG2dFVec2 *pBaseTrans);
 void NNSi_G2dDrawCellToSurface2D(const NNSG2dRndCoreSurface *pSurface, const NNSG2dCellData *pCell);
 void NNSi_G2dDrawOam3D(GXOamAttr *oam);
@@ -767,11 +767,11 @@ static inline GXOamShape G2_GetOBJShape(const GXOamAttr *oam)
  * shape-in-ip / size-in-lr assignment (the `[shape][size]` subscript form is
  * the same instructions with those two registers swapped, 10 bytes out).
  */
-void NNSi_G2dDrawSoftEmuSprite(int x, int y, int z, const GXOamAttr *oam, u32 a4, u32 a5, u32 a6)
+void NNSi_G2dDrawSoftEmuSprite(int x, int y, int z, const GXOamAttr *oam, u32 pTexImageAttr, u32 texBaseAddr, u32 pltBaseAddr)
 {
     fx32 uv[6];
 
-    NNSi_G2dCalcSpriteParams(oam, (const NNSG2dImageAttr *)a4, a5, a6, (SpriteParams *)uv);
+    NNSi_G2dCalcSpriteParams(oam, (const NNSG2dImageAttr *)pTexImageAttr, texBaseAddr, pltBaseAddr, (SpriteParams *)uv);
     if (G2_GetOBJEffect(oam) == GX_OAM_EFFECT_AFFINE_DOUBLE) {
         GXOamShape shape;
         int h;

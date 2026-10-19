@@ -23,7 +23,7 @@
  *   DAYCARE_GetInUseCount  0x0200BCB8  thumb
  *   SODATEYA_GetCompatibility  0x021C34C4  thumb  ov021
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   DAYCARE_GetSlotMon  0x0200BC2C  thumb
  *   GAME_DATA_GetBoxSave  0x02012F98  thumb
@@ -226,7 +226,7 @@ extern u32 POKE_TOOL_GetPersonalParam(u16 species, u16 form, u32 groupField);
 extern int DAYCARE_GetInUseCount(void *dayCare);
 extern u32 GFL_USE_GetRandomBelow(u32 range);
 extern struct FieldMap *FIELDMAP_GetGameSystem(struct FieldMap *p);
-extern void *ICA_ANIME_GetField1C(const void *p);
+extern void *GAMESYSTEM_GetGameData(const void *p);
 extern struct MyStatus *GAME_DATA_GetMyStatus(void *p);
 extern struct Pokemon *DAYCARE_GetSlotMon(void *dayCare, int slot);
 extern u32 PERAPVOICE_ClearIfNoChatot(void *p, void *party);
@@ -247,7 +247,7 @@ extern void POKE_TOOL_SetAbility(struct Pokemon *mon, u32 species, u32 form);
 extern struct StrBuf *MYSTATUS_CreateNameStrbuf(struct MyStatus *status, int heapId);
 extern void STRBUF_Delete(struct StrBuf *str);
 extern struct StrBuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern void SAVE_EVENT_Write(struct Pokemon *mon, u32 a1, struct MyStatus *status, u32 place, u16 heapId);
+extern void SAVE_EVENT_Write(struct Pokemon *mon, u32 mode, struct MyStatus *status, u32 place, u16 heapId);
 extern void POKE_TOOL_RecoverAllPP(struct Pokemon *mon);
 extern void POKE_TOOL_RecalcParam(struct Pokemon *mon);
 extern void POKE_TOOL_HealFull(struct Pokemon *mon);
@@ -431,7 +431,7 @@ void SODATEYA_WithdrawPokemon(SodateyaWork *work, u32 slot, void *party)
  */
 void SODATEYA_ReturnHeldItem(SodateyaWork *work, void *mon)
 {
-    void *bag = ZUKAN_SAVE_GetFromGameData(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(work->fieldMap)));
+    void *bag = ZUKAN_SAVE_GetFromGameData(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(work->fieldMap)));
     if (ZUKAN_SAVE_IsCaught(bag, POKE_TOOL_GetPartyValue(mon, 5, 0)) == 0)
         ZUKAN_SAVE_RegisterCaught(bag, mon);
 }
@@ -448,7 +448,7 @@ void SODATEYA_ReceiveEgg(SodateyaWork *work, void *party)
         POKEPARTY_Add(party, (void *)egg);
         DAYCARE_ClearEggReady(work->dayCare);
         GFL_HEAP_Free((void *)egg);
-        gameData = (u32)ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(work->fieldMap));
+        gameData = (u32)GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(work->fieldMap));
         FORMCHANGE_UpdateSeasonForms((void *)gameData, party, GAME_DATA_GetSeason((void *)gameData));
     }
 }
@@ -481,7 +481,7 @@ int SODATEYA_AddStep(SodateyaWork *work)
  */
 void SODATEYA_SetEggFlag(void *fieldMap)
 {
-    void *gameData = ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(fieldMap));
+    void *gameData = GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap));
     void *eventWork = (void *)GAME_DATA_GetEventWork(gameData);
     void *party = GAME_DATA_GetMyParty(gameData);
     if ((int)POKEPARTY_GetCount(party) < (int)POKEPARTY_GetCapacity(party))
@@ -493,7 +493,7 @@ void SODATEYA_SetEggFlag(void *fieldMap)
  */
 void SODATEYA_ClearEggFlag(void *fieldMap)
 {
-    *((u16 *)ZONEDATA_GetEventWorkAddress(GAME_DATA_GetEventWork(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(fieldMap))), 0x4139)) = 0;
+    *((u16 *)ZONEDATA_GetEventWorkAddress(GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 0x4139)) = 0;
 }
 
 /*
@@ -772,7 +772,7 @@ int SODATEYA_UpdateStepCounter(SodateyaWork *work)
 /* Builds the egg Pokemon from the two Pokemon in the day care. */
 void SODATEYA_CreateEggMon(SodateyaWork *work, struct Pokemon *eggMon)
 {
-    struct MyStatus *myStatus = GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(work->fieldMap)));
+    struct MyStatus *myStatus = GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(work->fieldMap)));
     struct Pokemon *father = DAYCARE_GetSlotMon(work->dayCare, 0);
     struct Pokemon *mother = DAYCARE_GetSlotMon(work->dayCare, 1);
 
@@ -784,7 +784,7 @@ void SODATEYA_CreateEggMon(SodateyaWork *work, struct Pokemon *eggMon)
  */
 int SODATEYA_SyncPartyAfterDeposit(struct FieldMap *fieldMap, void *party)
 {
-    return PERAPVOICE_ClearIfNoChatot(GAME_DATA_GetBoxSave(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(fieldMap))), party);
+    return PERAPVOICE_ClearIfNoChatot(GAME_DATA_GetBoxSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), party);
 }
 
 /*

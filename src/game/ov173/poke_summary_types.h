@@ -24,7 +24,7 @@ struct PokeSummaryMon {
     void          *party;               /* 0x00  party/mon data pointer */
     unsigned int   myStatus;            /* 0x04  my-status word */
     unsigned int   field08;             /* 0x08  forwarded to the proc args */
-    void          *field0C;             /* 0x0C  forwarded to ICA_ANIME_GetField1C */
+    void          *gameSystem;          /* 0x0C  GAMESYSTEM_CallProc and GAMESYSTEM_GetGameData argument */
     unsigned short *moveList;           /* 0x10  u16 move-id array */
     unsigned short selectedIndex;       /* 0x14  highlighted row */
     unsigned short scrollIndex;         /* 0x16  top visible row */
@@ -69,11 +69,11 @@ union PokeSummaryReg {
 struct PokeSummaryProcArgs {
     unsigned int   party;               /* 0x180  mon->party */
     unsigned int   field04;             /* 0x184  mon->field08 */
-    void          *anime;               /* 0x188  ICA_ANIME handle */
+    void          *gameData;            /* 0x188  GAMESYSTEM_GetGameData(gameSystem) */
     unsigned char  field0C;             /* 0x18C */
     unsigned char  field0D;             /* 0x18D */
     unsigned char  field0E;             /* 0x18E */
-    unsigned char  field0F;             /* 0x18F */
+    unsigned char  partyPos;            /* 0x18F  selected party slot, written back by the status proc */
     unsigned char  field10;             /* 0x190 */
     unsigned char  netFlagA;            /* 0x191  net-restart flag */
     unsigned char  netFlagB;            /* 0x192  net-restart flag */

@@ -121,7 +121,7 @@ typedef struct GHIPostingState {
     GHTTPPostCallback callback;         /* 0x10 */
     void *param;                        /* 0x14 */
     int waitPostContinue;               /* 0x18 */
-    int field_1C;                       /* 0x1c */
+    int completed;                       /* 0x1c */
 } GHIPostingState;
 
 /* TWL SSL engine handle (0x08 bytes). */
@@ -134,7 +134,7 @@ typedef struct GsTwlSslInterface {
 typedef struct GHIEncryptor {
     GsTwlSslInterface *mInterface;      /* 0x00 */
     int engine;                         /* 0x04 */
-    int field_08;                       /* 0x08 */
+    int interfaceCreated;               /* 0x08  set once the SSL interface exists */
     int initialized;                    /* 0x0c */
     int sessionEstablished;             /* 0x10 */
     int encryptOnBuffer;                /* 0x14 */

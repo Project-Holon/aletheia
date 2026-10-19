@@ -229,7 +229,7 @@ int MTX_Inverse33(const MtxFx33 *pSrc, MtxFx33 *pDst)
     MtxFx33 tmp;
     MtxFx33 *p;
     fx32 det;
-    fx32 tmp01, tmp02, tmp11, tmp12;
+    fx32 cofactor01, cofactor02, cofactor11, cofactor12;
 
     if (pSrc == pDst) {
         p = &tmp;
@@ -252,19 +252,19 @@ int MTX_Inverse33(const MtxFx33 *pSrc, MtxFx33 *pDst)
 
         FX_InvAsync(det);
 
-        tmp01 = (fx32)(((fx64)pSrc->_01 * pSrc->_22 - (fx64)pSrc->_21 * pSrc->_02) >> FX32_SHIFT);
-        tmp02 = (fx32)(((fx64)pSrc->_01 * pSrc->_12 - (fx64)pSrc->_11 * pSrc->_02) >> FX32_SHIFT);
-        tmp11 = (fx32)(((fx64)pSrc->_00 * pSrc->_22 - (fx64)pSrc->_20 * pSrc->_02) >> FX32_SHIFT);
-        tmp12 = (fx32)(((fx64)pSrc->_00 * pSrc->_12 - (fx64)pSrc->_10 * pSrc->_02) >> FX32_SHIFT);
+        cofactor01 = (fx32)(((fx64)pSrc->_01 * pSrc->_22 - (fx64)pSrc->_21 * pSrc->_02) >> FX32_SHIFT);
+        cofactor02 = (fx32)(((fx64)pSrc->_01 * pSrc->_12 - (fx64)pSrc->_11 * pSrc->_02) >> FX32_SHIFT);
+        cofactor11 = (fx32)(((fx64)pSrc->_00 * pSrc->_22 - (fx64)pSrc->_20 * pSrc->_02) >> FX32_SHIFT);
+        cofactor12 = (fx32)(((fx64)pSrc->_00 * pSrc->_12 - (fx64)pSrc->_10 * pSrc->_02) >> FX32_SHIFT);
 
         det = FX_GetDivResult();
         p->_00 = (fx32)(((fx64)det * det00) >> FX32_SHIFT);
-        p->_01 = -(fx32)(((fx64)det * tmp01) >> FX32_SHIFT);
-        p->_02 = (fx32)(((fx64)det * tmp02) >> FX32_SHIFT);
+        p->_01 = -(fx32)(((fx64)det * cofactor01) >> FX32_SHIFT);
+        p->_02 = (fx32)(((fx64)det * cofactor02) >> FX32_SHIFT);
 
         p->_10 = -(fx32)(((fx64)det * det10) >> FX32_SHIFT);
-        p->_11 = (fx32)(((fx64)det * tmp11) >> FX32_SHIFT);
-        p->_12 = -(fx32)(((fx64)det * tmp12) >> FX32_SHIFT);
+        p->_11 = (fx32)(((fx64)det * cofactor11) >> FX32_SHIFT);
+        p->_12 = -(fx32)(((fx64)det * cofactor12) >> FX32_SHIFT);
 
         p->_20 = (fx32)(((fx64)det * det20) >> FX32_SHIFT);
     }

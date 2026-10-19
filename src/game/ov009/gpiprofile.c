@@ -58,7 +58,7 @@ extern void * TableNew(int elemSize, int nBuckets, int (*hashFn)(void *, int), i
 extern int gpiCheckForError(int *connection, const char *input, int fatal);
 extern int strncmp(const u8 *s1, const u8 *s2, unsigned int n);
 extern void gpiSetError(int *connection, int result, int errorString);
-extern int gpiCallErrorCallback(int *connection, int a1, int a2);
+extern int gpiCallErrorCallback(int *connection, int result, int fatal);
 extern int gpiValueForKey(const char *command, const char *key, char *value, int valueLen);
 extern int atoi(const char *s);
 extern void *gsimalloc(unsigned long size);

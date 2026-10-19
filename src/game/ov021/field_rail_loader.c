@@ -73,7 +73,7 @@ extern u32 GFL_HEAP_Free(void *mem);
 extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short line);
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 extern void *FLDMMDL_SetMoveBit(void *mmdl, u32 bits);
-extern int ARC_UTIL_LoadMemberWithSize(int archive, int member, int a2, int heapId, u32 *outSize);
+extern int ARC_UTIL_LoadMemberWithSize(int archive, int member, int decompress, int heapId, u32 *outSize);
 extern u32 _u32_div_f(u32 a, u32 b);
 extern void *SCRIPT_SYS_CreateScriptEventSimple(int a0, int a1, int a2, int a3);
 extern void FLDMMDL_SetStatusBitVanish(unsigned int *p, unsigned int v);

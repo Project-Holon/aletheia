@@ -138,7 +138,7 @@
  *   CLACT_DrawSystem 0x0204A600 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
- *   ICA_ANIME_GetUnk330 0x02012204 thumb
+ *   GAMESYSTEM_IsNetOffBySleep 0x02012204 thumb
  *   TOUCHBAR_GetPressedButtonIdIfPressing 0x021B6470 thumb ov067
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -490,16 +490,16 @@ extern struct TouchBar *TOUCHBAR_Create(struct TouchBarParam *,int);
 extern void TOUCHBAR_Delete(unsigned char *);
 extern void TOUCHBAR_Update(struct TouchBar *p);
 extern signed int CLACT_RegisterPaletteEx(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned short e, unsigned short f, unsigned short g);
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
-extern int POKEGRA_OpenTrainerHandle(int a0);
+extern int POKEGRA_OpenTrainerHandle(int heapId);
 extern int NNS_G2dGetUnpackedCharacterData(struct NitroFileHeader *,void **);
 extern u32 POKEGRA_RegisterTrainerCgr(u32,u32,u32,u32);
 extern s32 POKEGRA_RegisterTrainerPalette(u32 a, u32 b, u32 c, u32 d, u16 e);
-extern int POKEGRA_RegisterTrainerCellAnim(int a0, int a1, int a2, unsigned short a3);
+extern int POKEGRA_RegisterTrainerCellAnim(int unusedArg, int mapping, int drawType, unsigned short heapId);
 extern unsigned BMP_WIN_Create(unsigned,unsigned,unsigned,unsigned,unsigned char,unsigned char,unsigned char);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *,unsigned char);
@@ -540,8 +540,8 @@ extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern struct ClactActor *CLACT_CreateRenderer(u8 *a0, u32 a1, u32 heap);
-extern void CLACT_SetRendererCulling(struct Actor *a0, int a1);
+extern struct ClactActor *CLACT_CreateRenderer(u8 *inits, u32 count, u32 heap);
+extern void CLACT_SetRendererCulling(struct Actor *renderer, int enable);
 extern void CLACT_SetUnitRenderer(struct Bank *bank, void *p);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
@@ -553,7 +553,7 @@ extern void CLACT_VBlankSystem(void);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern int TOUCHBAR_GetPressedButtonIdIfPressing(unsigned char *);
 extern u32 KEY_GetTrg(void);
-extern unsigned ICA_ANIME_GetUnk330(const struct Ctx *);
+extern unsigned GAMESYSTEM_IsNetOffBySleep(const struct Ctx *);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void DC_FlushRange(void *,unsigned);
@@ -578,7 +578,7 @@ extern void CLACT_AddActorSurfacePos(struct ClactActor *p, const struct Vec2 *de
 extern void MSGDATA_ReadString(struct MsgBank*,u32,void*);
 extern void WORDSET_CopyTaggedText(struct WordSet*,void*,void*);
 extern void CLACT_TransferCharacter(int,struct BeaconDetailGraTransfer*);
-extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern void BMP_FillRect(struct Bmp *b, u32 x, u32 y, u32 w, u32 h, u32 value);
 extern u32 PMS_DRAW_IsActive(const struct BeaconDetailGraPmsDraw *, u32);
 extern void PMS_DRAW_SetVisible(struct BeaconDetailGraPmsDraw *, int, u32);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
@@ -655,11 +655,11 @@ void BEACON_DETAIL_GRA_Task(void *unused, char *p);
 void BEACON_DETAIL_GRA_InitBgSystem(void *p,int heap);
 void BEACON_DETAIL_GRA_ExitBgSystem(void *p);
 void BEACON_DETAIL_GRA_Noop(void *p);
-void BEACON_DETAIL_GRA_UpdateBg(void *a0);
+void BEACON_DETAIL_GRA_UpdateBg(void *work);
 void BEACON_DETAIL_GRA_InitClact(void **p,void *a,int heap);
 void BEACON_DETAIL_GRA_ExitClact(char *p);
-void BEACON_DETAIL_GRA_DrawClact(void *a0);
-void BEACON_DETAIL_GRA_VBlankClact(void *a0);
+void BEACON_DETAIL_GRA_DrawClact(void *work);
+void BEACON_DETAIL_GRA_VBlankClact(void *work);
 u32 BEACON_DETAIL_GRA_ReadPtr(u32*p);
 void BEACON_DETAIL_GRA_SetupBeaconList(unsigned char *p);
 int BEACON_DETAIL_GRA_UpdateInteract(unsigned char *p);
@@ -668,11 +668,11 @@ int BEACON_DETAIL_GRA_IsTouchOnActor(u8*p);
 void BEACON_DETAIL_GRA_PlaySe(int a);
 void BEACON_DETAIL_GRA_LoadPalette(void *p,unsigned mode,unsigned a,unsigned b);
 void BEACON_DETAIL_GRA_UpdateButtons(unsigned char *p);
-int BEACON_DETAIL_GRA_GetPmVersionClass(void *a0);
+int BEACON_DETAIL_GRA_GetPmVersionClass(void *beaconData);
 const u8*BEACON_DETAIL_GRA_FindAppearanceType(u32 n);
 void BEACON_DETAIL_GRA_SetNameSlots(void *p,void *q);
 void BEACON_DETAIL_GRA_SetActorAnim(void *p, unsigned short value);
-void BEACON_DETAIL_GRA_SetActorPos(void *a0, short a1, short a2, int a3);
+void BEACON_DETAIL_GRA_SetActorPos(void *actor, short x, short y, int surface);
 void BEACON_DETAIL_GRA_PrintMsg(u8*p, u8 n);
 void BEACON_DETAIL_GRA_TransferChar(u8*p,u32 n);
 void BEACON_DETAIL_GRA_InitWindows(char *p);
@@ -1322,7 +1322,7 @@ void BEACON_DETAIL_GRA_Noop(void *p) {}
 
 
 
-void BEACON_DETAIL_GRA_UpdateBg(void *a0){BG_SYS_Update();}
+void BEACON_DETAIL_GRA_UpdateBg(void *work){BG_SYS_Update();}
 
 
 
@@ -1353,11 +1353,11 @@ void BEACON_DETAIL_GRA_ExitClact(char *p)
 
 
 
-void BEACON_DETAIL_GRA_DrawClact(void *a0){CLACT_DrawSystem();}
+void BEACON_DETAIL_GRA_DrawClact(void *work){CLACT_DrawSystem();}
 
 
 
-void BEACON_DETAIL_GRA_VBlankClact(void *a0){CLACT_VBlankSystem();}
+void BEACON_DETAIL_GRA_VBlankClact(void *work){CLACT_VBlankSystem();}
 
 
 
@@ -1382,7 +1382,7 @@ int BEACON_DETAIL_GRA_UpdateInteract(unsigned char *p)
 {
     int state=TOUCHBAR_GetPressedButtonIdIfPressing(((struct BeaconDetailGraWork *)p)->touchBar);
     unsigned keys=KEY_GetTrg();
-    if(ICA_ANIME_GetUnk330((const struct Ctx *)**(void ** *)&((struct BeaconDetailGraWork *)p)->config)) { (*(unsigned char **)(p+0x14))[9]=1; return 4; }
+    if(GAMESYSTEM_IsNetOffBySleep((const struct Ctx *)**(void ** *)&((struct BeaconDetailGraWork *)p)->config)) { (*(unsigned char **)(p+0x14))[9]=1; return 4; }
     if(state==1) { (*(unsigned char **)(p+0x14))[9]=0; return 4; }
     if(state==3 && p[0x30]) { BEACON_DETAIL_GRA_AddSlotSlideTask((char *)p,1); return 3; }
     if(state==2 && p[0x30]<p[0x2f]-1) { BEACON_DETAIL_GRA_AddSlotSlideTask((char *)p,0); return 3; }
@@ -1443,9 +1443,9 @@ void BEACON_DETAIL_GRA_UpdateButtons(unsigned char *p)
  *
  * Addresses are Black-image addresses.
  */
-int BEACON_DETAIL_GRA_GetPmVersionClass(void *a0)
+int BEACON_DETAIL_GRA_GetPmVersionClass(void *beaconData)
 {
-    switch (GAME_BEACON_ACCESSOR_GetPmVersion(a0)) {
+    switch (GAME_BEACON_ACCESSOR_GetPmVersion(beaconData)) {
     case 0x15:
         return 0;
     case 0x14:
@@ -1491,12 +1491,12 @@ void BEACON_DETAIL_GRA_SetActorAnim(void *p, unsigned short value)
 
 
 
-void BEACON_DETAIL_GRA_SetActorPos(void *a0, short a1, short a2, int a3)
+void BEACON_DETAIL_GRA_SetActorPos(void *actor, short x, short y, int surface)
 {
     u16 tmp[2];
-    tmp[0] = a1;
-    tmp[1] = a2;
-    CLACT_AddActorSurfacePos(a0, (const struct Vec2 *)tmp, a3);
+    tmp[0] = x;
+    tmp[1] = y;
+    CLACT_AddActorSurfacePos(actor, (const struct Vec2 *)tmp, surface);
 }
 
 

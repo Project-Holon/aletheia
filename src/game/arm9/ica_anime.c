@@ -1,7 +1,7 @@
 /*
  * file:     ica_anime.c
  * unit:     yes
- * function: ICA_ANIME_CreateWithFullBuffer, ICA_ANIME_CreateWithStreamBuffer, ICA_ANIME_CreateFull, ICA_ANIME_CreateStream, ICA_ANIME_Delete, ICA_ANIME_IncFrameLoop, ICA_ANIME_IncFrameNoLoop, ICA_ANIME_SetFrame, ICA_ANIME_GetFrameNum, ICA_ANIME_GetFrame, ICA_ANIME_Get, ICA_ANIME_Check1638, ICA_ANIME_GetScale, ICA_ANIME_GetTranslateAt, ICA_ANIME_Clear, ICA_ANIME_LoadHeader, ICA_ANIME_AllocBuffer, ICA_ANIME_SetBuffer, ICA_ANIME_LoadFrames, ICA_ANIME_SetCameraStatus, ICA_ANIME_SetCameraPos, ICA_ANIME_SetCameraTarget, GAMESYSTEM_CallIfSet, GAMESYSTEM_ReadTimerTwice, GAMESYSTEM_LeakHeapPenalty, GAMESYSTEM_ProbeHeapCreate, GAMESYSTEM_LeakHeapPenaltyRepeat, GAMESYSTEM_ProcInit, GAMESYSTEM_ProcMain, GAMESYSTEM_ProcEnd, GAMESYSTEM_SetupInitWork, GAMESYSTEM_GetWorkSize, GAMESYSTEM_Init, GAMESYSTEM_Exit, GAMESYSTEM_Setup, GAMESYSTEM_Main, GAMESYSTEM_UpdateAutoComm, GAMESYSTEM_Delete, GAMESYSTEM_SetEventCreator, GAMESYSTEM_UpdateEventActiveFlag, GAMESYSTEM_CallProc, GAMESYSTEM_CallFieldProc, GAMESYSTEM_IsEventActive, GAMESYSTEM_GetProcStatus, ICA_ANIME_GetField1C, ICA_ANIME_GetField114, ICA_ANIME_GetField18, GAMESYSTEM_SetEvent, ICA_ANIME_GetField20, ICA_ANIME_SetField20, ICA_ANIME_Check2114, ICA_ANIME_SetField30, ICA_ANIME_GetField30, GAMESYSTEM_GetIssSystem, ICA_ANIME_GetField24, GAMESYSTEM_SetCommBlocked, GAMESYSTEM_IsCommBlocked, ICA_ANIME_IsConfigFlagSet, GAMESYSTEM_SetAlwaysNetFlag, GAMESYSTEM_CanStartAutoComm, GAMESYSTEM_TryStartAutoComm, ICA_ANIME_GetUnk330, ICA_ANIME_SetUnk330, GAMESYSTEM_OnSleep, GAMESYSTEM_RegisterSleepCallback, GAMESYSTEM_ReleaseSleepCallback, GAMESYSTEM_IsSleepBlocked, GAMESYSTEM_RegisterSleepCheck, GAMESYSTEM_ReleaseSleepCheck
+ * function: ICA_ANIME_CreateWithFullBuffer, ICA_ANIME_CreateWithStreamBuffer, ICA_ANIME_CreateFull, ICA_ANIME_CreateStream, ICA_ANIME_Delete, ICA_ANIME_IncFrameLoop, ICA_ANIME_IncFrameNoLoop, ICA_ANIME_SetFrame, ICA_ANIME_GetFrameNum, ICA_ANIME_GetFrame, ICA_ANIME_Get, ICA_ANIME_GetRotate, ICA_ANIME_GetScale, ICA_ANIME_GetTranslateAt, ICA_ANIME_Clear, ICA_ANIME_LoadHeader, ICA_ANIME_AllocBuffer, ICA_ANIME_SetBuffer, ICA_ANIME_LoadFrames, ICA_ANIME_SetCameraStatus, ICA_ANIME_SetCameraPos, ICA_ANIME_SetCameraTarget, GAMESYSTEM_CallIfSet, GAMESYSTEM_ReadTimerTwice, GAMESYSTEM_LeakHeapPenalty, GAMESYSTEM_ProbeHeapCreate, GAMESYSTEM_LeakHeapPenaltyRepeat, GAMESYSTEM_ProcInit, GAMESYSTEM_ProcMain, GAMESYSTEM_ProcEnd, GAMESYSTEM_SetupInitWork, GAMESYSTEM_GetWorkSize, GAMESYSTEM_Init, GAMESYSTEM_Exit, GAMESYSTEM_Setup, GAMESYSTEM_Main, GAMESYSTEM_UpdateAutoComm, GAMESYSTEM_Delete, GAMESYSTEM_SetEventCreator, GAMESYSTEM_UpdateEventActiveFlag, GAMESYSTEM_CallProc, GAMESYSTEM_CallFieldProc, GAMESYSTEM_IsEventActive, GAMESYSTEM_GetProcStatus, GAMESYSTEM_GetGameData, GAMESYSTEM_GetMyPlayerWork, GAMESYSTEM_GetEvent, GAMESYSTEM_SetEvent, GAMESYSTEM_GetFieldMap, GAMESYSTEM_SetFieldMap, GAMESYSTEM_IsFieldMapActive, GAMESYSTEM_SetFieldMapState, GAMESYSTEM_GetFieldMapState, GAMESYSTEM_GetIssSystem, GAMESYSTEM_GetGameComm, GAMESYSTEM_SetCommBlocked, GAMESYSTEM_IsCommBlocked, GAMESYSTEM_IsAlwaysNetFlagSet, GAMESYSTEM_SetAlwaysNetFlag, GAMESYSTEM_CanStartAutoComm, GAMESYSTEM_TryStartAutoComm, GAMESYSTEM_IsNetOffBySleep, GAMESYSTEM_ClearNetOffBySleep, GAMESYSTEM_OnSleep, GAMESYSTEM_RegisterSleepCallback, GAMESYSTEM_ReleaseSleepCallback, GAMESYSTEM_IsSleepBlocked, GAMESYSTEM_RegisterSleepCheck, GAMESYSTEM_ReleaseSleepCheck
  * address:  0x02011428
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -90,7 +90,7 @@
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   BEACON_CountFlags  0x0200C258  thumb
- *   GAME_DATA_GetField114         0x020127A4  thumb
+ *   GAME_DATA_GetMyPlayerWork         0x020127A4  thumb
  *   GAME_EVENT_Control 0x02012380 thumb arm9
  *   GAME_EVENT_IsRunning 0x020123C4 thumb arm9
  *   GAME_EVENT_StartByCreator 0x020123D8 thumb arm9
@@ -304,7 +304,7 @@ u32 ICA_ANIME_GetFrame(struct IcaAnime *anime);
 
 u32 ICA_ANIME_Get(struct IcaAnime *anime, struct Vec3 *trans);
 
-u32 ICA_ANIME_Check1638(struct IcaAnime *anime, struct Vec3 *rot);
+u32 ICA_ANIME_GetRotate(struct IcaAnime *anime, struct Vec3 *rot);
 
 u32 ICA_ANIME_GetScale(struct IcaAnime *anime, struct Vec3 *scale);
 
@@ -366,33 +366,33 @@ int GAMESYSTEM_IsEventActive(struct GameSystem *gameSystem);
 
 u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
 
-struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
+struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 
-struct PlayerWork *ICA_ANIME_GetField114(const struct GameSystem *gameSystem);
+struct PlayerWork *GAMESYSTEM_GetMyPlayerWork(const struct GameSystem *gameSystem);
 
-struct GameEvent *ICA_ANIME_GetField18(const struct GameSystem *gameSystem);
+struct GameEvent *GAMESYSTEM_GetEvent(const struct GameSystem *gameSystem);
 
 void GAMESYSTEM_SetEvent(struct GameSystem *gameSystem, struct GameEvent *event);
 
-void *ICA_ANIME_GetField20(const struct GameSystem *gameSystem);
+void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 
-void ICA_ANIME_SetField20(struct GameSystem *gameSystem, void *fieldMap);
+void GAMESYSTEM_SetFieldMap(struct GameSystem *gameSystem, void *fieldMap);
 
-u32 ICA_ANIME_Check2114(const struct GameSystem *gameSystem);
+u32 GAMESYSTEM_IsFieldMapActive(const struct GameSystem *gameSystem);
 
-void ICA_ANIME_SetField30(struct GameSystem *gameSystem, u32 state);
+void GAMESYSTEM_SetFieldMapState(struct GameSystem *gameSystem, u32 state);
 
-u8 ICA_ANIME_GetField30(const struct GameSystem *gameSystem);
+u8 GAMESYSTEM_GetFieldMapState(const struct GameSystem *gameSystem);
 
 void *GAMESYSTEM_GetIssSystem(const struct GameSystem *gameSystem);
 
-struct GameComm *ICA_ANIME_GetField24(const struct GameSystem *gameSystem);
+struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
 
 void GAMESYSTEM_SetCommBlocked(struct GameSystem *gameSystem, u32 blocked);
 
 u8 GAMESYSTEM_IsCommBlocked(const struct GameSystem *gameSystem);
 
-u32 ICA_ANIME_IsConfigFlagSet(const struct GameSystem *gameSystem);
+u32 GAMESYSTEM_IsAlwaysNetFlagSet(const struct GameSystem *gameSystem);
 
 void GAMESYSTEM_SetAlwaysNetFlag(struct GameSystem *gameSystem, unsigned int on);
 
@@ -400,9 +400,9 @@ u32 GAMESYSTEM_CanStartAutoComm(struct GameSystem *gameSystem);
 
 u32 GAMESYSTEM_TryStartAutoComm(struct GameSystem *gameSystem);
 
-u32 ICA_ANIME_GetUnk330(const struct GameSystem *gameSystem);
+u32 GAMESYSTEM_IsNetOffBySleep(const struct GameSystem *gameSystem);
 
-void ICA_ANIME_SetUnk330(struct GameSystem *gameSystem);
+void GAMESYSTEM_ClearNetOffBySleep(struct GameSystem *gameSystem);
 
 void GAMESYSTEM_OnSleep(struct GameSystem *gameSystem);
 
@@ -426,7 +426,7 @@ struct GameData *GAME_DATA_Create(u16 heapId);
 
 void GAME_DATA_Delete(struct GameData *gameData);
 
-struct PlayerWork *GAME_DATA_GetField114(struct GameData *gameData);
+struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 
 extern const char _IcaAnimeFileName[];
 
@@ -652,7 +652,7 @@ u32 ICA_ANIME_GetFrame(struct IcaAnime *anime)
  * table indexed by the current frame.
  *
  *   ICA_ANIME_Get   guard +0x28, table +0x1C
- *   ICA_ANIME_Check1638   guard +0x2C, table +0x20
+ *   ICA_ANIME_GetRotate   guard +0x2C, table +0x20
  *   (0x02011660)    guard +0x30, table +0x24 - unlabelled in the listing
  *                   (no prologue: the function saves nothing), written here
  *                   as the third copy
@@ -678,7 +678,7 @@ u32 ICA_ANIME_Get(struct IcaAnime *anime, struct Vec3 *trans)
     return 0;
 }
 
-u32 ICA_ANIME_Check1638(struct IcaAnime *anime, struct Vec3 *rot)
+u32 ICA_ANIME_GetRotate(struct IcaAnime *anime, struct Vec3 *rot)
 {
     if (anime->hasRot != 0) {
         *rot = anime->rotBuf[(anime->frame >> 12) - anime->bufTopFrame];
@@ -991,7 +991,7 @@ void ICA_ANIME_SetCameraStatus(void *camera, struct IcaAnime *anime)
     forward = _IcaCameraForward;
     up = _IcaCameraUp;
 
-    ICA_ANIME_Check1638(anime, &rotDeg);
+    ICA_ANIME_GetRotate(anime, &rotDeg);
 
     degX = rotDeg.x / 4096.0f;
     degY = rotDeg.y / 4096.0f;
@@ -1217,7 +1217,7 @@ u32 GAMESYSTEM_ProcInit(struct Proc *proc, u32 *seq, u32 initParam)
     GAMESYSTEM_Setup(gameSystem, 3, initParam);
     GAMESYSTEM_SetEvent(gameSystem, SCRCMD_NETWORK_CreateOv020Event(gameSystem, initParam));
     if ((checkSum + checkPenalty) % 0x12af != 0) {
-        penaltyCount = BEACON_CountFlags(GAME_DATA_GetMiscSave(ICA_ANIME_GetField1C(gameSystem)));
+        penaltyCount = BEACON_CountFlags(GAME_DATA_GetMiscSave(GAMESYSTEM_GetGameData(gameSystem)));
         for (i = 0; i < penaltyCount; i++)
             GAMESYSTEM_LeakHeapPenalty();
     }
@@ -1445,9 +1445,9 @@ extern int FIELDMAP_IsReady(void *fieldMap);   /* overlay-resident */
 
 /*
  * Three nested tests sharing one epilogue: the object is driven through
- * GAMESYSTEM_TryStartAutoComm only when GAMESYSTEM_IsEventActive returns 0, ICA_ANIME_Check2114 returns 1
+ * GAMESYSTEM_TryStartAutoComm only when GAMESYSTEM_IsEventActive returns 0, GAMESYSTEM_IsFieldMapActive returns 1
  * and the overlay call returns 1 as well.  That last call's argument is
- * ICA_ANIME_GetField20(p)'s result - r0 is not reloaded in between, which is what
+ * GAMESYSTEM_GetFieldMap(p)'s result - r0 is not reloaded in between, which is what
  * the source's nesting says.
  *
  * Verified with:
@@ -1457,8 +1457,8 @@ extern int FIELDMAP_IsReady(void *fieldMap);   /* overlay-resident */
 void GAMESYSTEM_UpdateAutoComm(struct GameSystem *gameSystem)
 {
     if (GAMESYSTEM_IsEventActive(gameSystem) == 0) {
-        if (ICA_ANIME_Check2114(gameSystem) == 1) {
-            if (FIELDMAP_IsReady(ICA_ANIME_GetField20(gameSystem)) == 1)
+        if (GAMESYSTEM_IsFieldMapActive(gameSystem) == 1) {
+            if (FIELDMAP_IsReady(GAMESYSTEM_GetFieldMap(gameSystem)) == 1)
                 GAMESYSTEM_TryStartAutoComm(gameSystem);
         }
     }
@@ -1563,9 +1563,9 @@ int GAMESYSTEM_IsEventActive(struct GameSystem *gameSystem)
 }
 
 /*
- *           GAMESYSTEM_SetEvent, ICA_ANIME_GetField20, ICA_ANIME_SetField20, ICA_ANIME_Check2114,
- *           ICA_ANIME_SetField30, ICA_ANIME_GetField30, GAMESYSTEM_GetIssSystem, ICA_ANIME_GetField24,
- *           GAMESYSTEM_SetCommBlocked, GAMESYSTEM_IsCommBlocked, ICA_ANIME_IsConfigFlagSet
+ *           GAMESYSTEM_SetEvent, GAMESYSTEM_GetFieldMap, GAMESYSTEM_SetFieldMap, GAMESYSTEM_IsFieldMapActive,
+ *           GAMESYSTEM_SetFieldMapState, GAMESYSTEM_GetFieldMapState, GAMESYSTEM_GetIssSystem, GAMESYSTEM_GetGameComm,
+ *           GAMESYSTEM_SetCommBlocked, GAMESYSTEM_IsCommBlocked, GAMESYSTEM_IsAlwaysNetFlagSet
  *
  * 104 bytes, 0x020120F0..0x02012158, 15 functions, none of which carries a
  * label: every one of them is a two- or three-instruction accessor on a
@@ -1580,8 +1580,8 @@ int GAMESYSTEM_IsEventActive(struct GameSystem *gameSystem)
  * docs/idioms/thumb-immediate-reach-costs-an-adds.md and not a pointer in the
  * source.
  *
- * ICA_ANIME_GetField114 and ICA_ANIME_IsConfigFlagSet are tail calls through pool words: the
- * first hands +0x1C to GAME_DATA_GetField114 and the second to GAME_DATA_IsConfigFlagSet, and
+ * GAMESYSTEM_GetMyPlayerWork and GAMESYSTEM_IsAlwaysNetFlagSet are tail calls through pool words: the
+ * first hands +0x1C to GAME_DATA_GetMyPlayerWork and the second to GAME_DATA_IsConfigFlagSet, and
  * both are ABS32 against a Thumb target, so the pool word is odd.
  *
  * 0x02012158, 12 bytes, is a third tail call of the same shape and is a near
@@ -1608,17 +1608,17 @@ u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem)
     return gameSystem->procStatus;
 }
 
-struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem)
+struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem)
 {
     return gameSystem->gameData;
 }
 
-struct PlayerWork *ICA_ANIME_GetField114(const struct GameSystem *gameSystem)
+struct PlayerWork *GAMESYSTEM_GetMyPlayerWork(const struct GameSystem *gameSystem)
 {
-    return GAME_DATA_GetField114(gameSystem->gameData);
+    return GAME_DATA_GetMyPlayerWork(gameSystem->gameData);
 }
 
-struct GameEvent *ICA_ANIME_GetField18(const struct GameSystem *gameSystem)
+struct GameEvent *GAMESYSTEM_GetEvent(const struct GameSystem *gameSystem)
 {
     return gameSystem->event;
 }
@@ -1628,17 +1628,17 @@ void GAMESYSTEM_SetEvent(struct GameSystem *gameSystem, struct GameEvent *event)
     gameSystem->event = event;
 }
 
-void *ICA_ANIME_GetField20(const struct GameSystem *gameSystem)
+void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem)
 {
     return gameSystem->fieldMap;
 }
 
-void ICA_ANIME_SetField20(struct GameSystem *gameSystem, void *fieldMap)
+void GAMESYSTEM_SetFieldMap(struct GameSystem *gameSystem, void *fieldMap)
 {
     gameSystem->fieldMap = fieldMap;
 }
 
-u32 ICA_ANIME_Check2114(const struct GameSystem *gameSystem)
+u32 GAMESYSTEM_IsFieldMapActive(const struct GameSystem *gameSystem)
 {
     if (gameSystem->fieldMap != 0) {
         return 1;
@@ -1646,12 +1646,12 @@ u32 ICA_ANIME_Check2114(const struct GameSystem *gameSystem)
     return 0;
 }
 
-void ICA_ANIME_SetField30(struct GameSystem *gameSystem, u32 state)
+void GAMESYSTEM_SetFieldMapState(struct GameSystem *gameSystem, u32 state)
 {
     gameSystem->fieldMapState = state;
 }
 
-u8 ICA_ANIME_GetField30(const struct GameSystem *gameSystem)
+u8 GAMESYSTEM_GetFieldMapState(const struct GameSystem *gameSystem)
 {
     return gameSystem->fieldMapState;
 }
@@ -1661,7 +1661,7 @@ void *GAMESYSTEM_GetIssSystem(const struct GameSystem *gameSystem)
     return gameSystem->issSystem;
 }
 
-struct GameComm *ICA_ANIME_GetField24(const struct GameSystem *gameSystem)
+struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem)
 {
     return gameSystem->gameComm;
 }
@@ -1676,7 +1676,7 @@ u8 GAMESYSTEM_IsCommBlocked(const struct GameSystem *gameSystem)
     return gameSystem->commBlocked;
 }
 
-u32 ICA_ANIME_IsConfigFlagSet(const struct GameSystem *gameSystem)
+u32 GAMESYSTEM_IsAlwaysNetFlagSet(const struct GameSystem *gameSystem)
 {
     return GAME_DATA_IsConfigFlagSet(gameSystem->gameData);
 }
@@ -1694,21 +1694,21 @@ void GAMESYSTEM_SetAlwaysNetFlag(struct GameSystem *gameSystem, unsigned int on)
  *
  * The note's 4-byte r0/r1 "tie" (docs/notes/pkt_02012164.c.txt) was a
  * misread arity: GAME_DATA_GetPlayerZoneId is `ldrh r0, [r0]; bx lr`, a getter taking
- * the pointer ICA_ANIME_GetField114 returns, and ZONEDATA_IsNoGameEventZone takes that u16 in
+ * the pointer GAMESYSTEM_GetMyPlayerWork returns, and ZONEDATA_IsNoGameEventZone takes that u16 in
  * r0 -- so the image keeps it in r0 across the p->commBlocked test and reads the
- * byte through r1.  `id = GAME_DATA_GetPlayerZoneId(ICA_ANIME_GetField114(p))` then
+ * byte through r1.  `id = GAME_DATA_GetPlayerZoneId(GAMESYSTEM_GetMyPlayerWork(p))` then
  * `ZONEDATA_IsNoGameEventZone(id)` closes it.
  */
 u32 GAMESYSTEM_CanStartAutoComm(struct GameSystem *gameSystem)
 {
     u16 zoneId;
 
-    ICA_ANIME_GetField24(gameSystem);
-    zoneId = GAME_DATA_GetPlayerZoneId(ICA_ANIME_GetField114(gameSystem));
+    GAMESYSTEM_GetGameComm(gameSystem);
+    zoneId = GAME_DATA_GetPlayerZoneId(GAMESYSTEM_GetMyPlayerWork(gameSystem));
     if (gameSystem->commBlocked == 0
      && ZONEDATA_IsNoGameEventZone(zoneId) == 0
      && GFL_NET_ERR_GetErrorLevel() == 0
-     && ICA_ANIME_IsConfigFlagSet(gameSystem) == 1
+     && GAMESYSTEM_IsAlwaysNetFlagSet(gameSystem) == 1
      && INTRUDE_COMM_CheckEntryAllowed(gameSystem) == 1
      && !(DWCi_IsFold() == 1 && UI_IsPowerConnected() == 1)) {
         if (CGEAR_SAVE_GetObtained(BLOCK20_SAVEDATA_GetBlockFromSys(gameSystem->gameData)) != 0) {
@@ -1719,7 +1719,7 @@ u32 GAMESYSTEM_CanStartAutoComm(struct GameSystem *gameSystem)
 }
 
 /*
- * Three tests, one epilogue: the handle returned by ICA_ANIME_GetField24(p) is
+ * Three tests, one epilogue: the handle returned by GAMESYSTEM_GetGameComm(p) is
  * checked with two externals (both called with it - r0 is not reloaded), then
  * the object is driven through GAMESYSTEM_CanStartAutoComm and only a result of exactly 1
  * reaches GAME_COMM_Start(handle, 1, p).  The nested ifs are what give all
@@ -1731,7 +1731,7 @@ u32 GAMESYSTEM_CanStartAutoComm(struct GameSystem *gameSystem)
  */
 u32 GAMESYSTEM_TryStartAutoComm(struct GameSystem *gameSystem)
 {
-    struct GameComm *gameComm = ICA_ANIME_GetField24(gameSystem);
+    struct GameComm *gameComm = GAMESYSTEM_GetGameComm(gameSystem);
 
     if (GFL_NET_GetRunState() == 0) {
         if (GAME_COMM_GetKind(gameComm) == 0) {
@@ -1758,18 +1758,18 @@ u32 GAMESYSTEM_TryStartAutoComm(struct GameSystem *gameSystem)
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02012204.c  *       --addr 0x02012204 --thumb
  */
-u32 ICA_ANIME_GetUnk330(const struct GameSystem *gameSystem)
+u32 GAMESYSTEM_IsNetOffBySleep(const struct GameSystem *gameSystem)
 {
     return gameSystem->netOffBySleep;
 }
 
-void ICA_ANIME_SetUnk330(struct GameSystem *gameSystem)
+void GAMESYSTEM_ClearNetOffBySleep(struct GameSystem *gameSystem)
 {
     gameSystem->netOffBySleep = 0;
 }
 
 /*
- * ica_anime.c: when ICA_ANIME_IsConfigFlagSet(p) says yes, stop the playback
+ * ica_anime.c: when GAMESYSTEM_IsAlwaysNetFlagSet(p) says yes, stop the playback
  * (GAMESYSTEM_SetAlwaysNetFlag(p, 0), which is the tail call in the pending file
  * src/pending/GAMESYSTEM_SetAlwaysNetFlag.c) and set bit 0 of the byte at +0x33.
  *
@@ -1784,7 +1784,7 @@ void ICA_ANIME_SetUnk330(struct GameSystem *gameSystem)
  */
 void GAMESYSTEM_OnSleep(struct GameSystem *gameSystem)
 {
-    if (ICA_ANIME_IsConfigFlagSet(gameSystem) != 0) {
+    if (GAMESYSTEM_IsAlwaysNetFlagSet(gameSystem) != 0) {
         GAMESYSTEM_SetAlwaysNetFlag(gameSystem, 0);
         gameSystem->netOffBySleep = 1;
     }
@@ -1819,7 +1819,7 @@ void GAMESYSTEM_ReleaseSleepCallback(struct GameSystem *gameSystem)
 
 int GAMESYSTEM_IsSleepBlocked(struct GameSystem *gameSystem)
 {
-    if (GAME_COMM_GetKind(ICA_ANIME_GetField24(gameSystem)) != 0) {
+    if (GAME_COMM_GetKind(GAMESYSTEM_GetGameComm(gameSystem)) != 0) {
         return 1;
     }
     if (GFL_NET_IRC_WIRELESS_IsActive() != 0) {
@@ -1828,7 +1828,7 @@ int GAMESYSTEM_IsSleepBlocked(struct GameSystem *gameSystem)
     if (UI_IsPowerConnected() != 0) {
         return 0;
     }
-    if (ICA_ANIME_IsConfigFlagSet(gameSystem) != 0) {
+    if (GAMESYSTEM_IsAlwaysNetFlagSet(gameSystem) != 0) {
         return 1;
     }
     return 0;

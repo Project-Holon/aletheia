@@ -36,8 +36,8 @@ typedef struct GPIConnection {
     unsigned char pad0[0x1A8];
     GPICallback callback;
     unsigned char pad1B0[0x5B8 - 0x1B0];
-    int f5B8;
-    int f5BC;
+    int errorCode;
+    int fatalError;
     unsigned char pad5C0[0x5DC - 0x5C0];
     GPICallbackData *callbackList;
     GPICallbackData *lastCallback;
@@ -108,7 +108,7 @@ extern void *gsimalloc(int size);
 extern void gpiSetErrorString(void **connection, void *string);
 extern void gsifree(void *ptr);
 extern int gpiDeleteBuddy(void **connection, int profile, int sendServerRequest);
-int gpiCallErrorCallback(void **connection, int a1, int a2);
+int gpiCallErrorCallback(void **connection, int result, int fatal);
 int gpiAddCallback(void **connection, GPICallback callback, void *arg, int *operation, int type);
 void gpiCallCallback(void **connection, GPICallbackData *data);
 int gpiProcessCallbacks(void **connection, int blockingOperationID);
@@ -127,23 +127,23 @@ extern char gGpiCallbackErrorOutOfMemory[];
  * 0x10-byte argument record ({arg1, iconnection+0x5b8, iconnection, arg2})
  * and hand both to gpiAddCallback with callbackType 1.
  */
-int gpiCallErrorCallback(void **connection, int a1, int a2)
+int gpiCallErrorCallback(void **connection, int result, int fatal)
 {
     GPIConnection *ic = (GPIConnection *)*connection;
     GPICallback cb;
     int *data;
 
-    if (a2 == 1)
-        ic->f5BC = 1;
+    if (fatal == 1)
+        ic->fatalError = 1;
     cb.callback = ic->callback.callback;
     cb.param = ic->callback.param;
     if (cb.callback == 0)
         return (int)cb.param;
     data = (int *)gsimalloc(0x10);
     if (data != 0) {
-        data[0] = a1;
-        data[3] = a2;
-        data[1] = ic->f5B8;
+        data[0] = result;
+        data[3] = fatal;
+        data[1] = ic->errorCode;
         data[2] = (int)ic;
     }
     return gpiAddCallback(connection, cb, data, 0, 1);

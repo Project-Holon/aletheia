@@ -118,7 +118,7 @@ typedef struct AddressLimit {
 } AddressLimit;
 
 extern void *DWCi_HEAPlAllocEx(u32 size, int alignment);
-extern void DWCi_GetParam2_(void **param2, void **param3);
+extern void DWCi_GetParam2_(void **a, void **b);
 extern int memcmp(const void *a, const void *b, u32 n);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 extern void DWCi_HLlLoad(int idx);

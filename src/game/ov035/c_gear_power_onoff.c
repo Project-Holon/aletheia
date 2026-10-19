@@ -15,9 +15,9 @@
  * symbols:
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   sCGearPowerOnOffFileName    0x021F0678 data ov035 a1
- *   ICA_ANIME_GetField24 0x02012138 thumb
+ *   GAMESYSTEM_GetGameComm 0x02012138 thumb
  *   APP_ENV_InitParentalControl 0x0202EB44 thumb
- *   ICA_ANIME_IsConfigFlagSet 0x0201214C thumb
+ *   GAMESYSTEM_IsAlwaysNetFlagSet 0x0201214C thumb
  *   GFL_HEAP_Free 0x020307B0 arm
  *   sPowerOnOffTable 0x021F0640 data ov035 a4
  *   FIELD_SUBSCREEN_SetPanelResult 0x021A0FA0 thumb ov021
@@ -38,7 +38,7 @@
  *   BG_SYS_ClearSlot 0x020414EC arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   ICA_ANIME_GetField1C 0x020120F4 thumb
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   MYSTATUS_GetOutfitVariant 0x02008550 thumb
  *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
@@ -83,7 +83,7 @@
  *   APP_TASKMENU_IsFinish 0x020279E8 thumb
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   ICA_ANIME_GetUnk330 0x02012204 thumb
+ *   GAMESYSTEM_IsNetOffBySleep 0x02012204 thumb
  *   GAME_COMM_GetKind 0x02026454 thumb
  *   GAME_COMM_RequestExitNoCallback 0x02026400 thumb
  *   GAMESYSTEM_SetAlwaysNetFlag 0x02012158 thumb
@@ -137,13 +137,13 @@ typedef struct CGearPowerOnOffTable {
 } CGearPowerOnOffTable;
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *ICA_ANIME_GetField24(const void *gameSystem);
+extern void *GAMESYSTEM_GetGameComm(const void *gameSystem);
 extern int APP_ENV_InitParentalControl(void);
-extern u32 ICA_ANIME_IsConfigFlagSet(const void *gameSystem);
+extern u32 GAMESYSTEM_IsAlwaysNetFlagSet(const void *gameSystem);
 extern u32 GFL_HEAP_Free(void *p);
 extern void FIELD_SUBSCREEN_SetPanelResult(FieldSubscreen *subscreen, int mode);
 extern u32 PRINTSYS_QUE_Main(struct PrintQue *printQue);
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, unsigned int heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, unsigned int heapId);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern struct MsgBank *MSGDATA_CreateFromArchive(unsigned int resident, unsigned int arcId, unsigned int fileId, unsigned int heapId);
 extern struct PrintQue *PRINTSYS_QUE_Create(unsigned int heapId);
@@ -159,20 +159,20 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type
 extern void BG_SYS_ClearSlot(u32 i);
 extern void BG_SYS_PushTile(u32 layer);
 extern struct ArcHandle *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
-extern struct GameData *ICA_ANIME_GetField1C(const void *gameSystem);
+extern struct GameData *GAMESYSTEM_GetGameData(const void *gameSystem);
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern u8 MYSTATUS_GetOutfitVariant(const struct MyStatus *myStatus);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(struct ArcHandle *arc, u32 fileId, u32 bgId, u32 offset, u32 compressed, u32 heapId);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(struct ArcHandle *arc, u32 fileId, u32 layer, u32 ofs, u32 size, u32 heap);
-extern void ARC_UTIL_UploadBgPaletteAddFromHandle(struct ArcHandle *arc, u32 fileId, u32 layer, u32 ofs, u32 chrOfs, u32 a5, u32 a6,
+extern void ARC_UTIL_UploadBgPaletteAddFromHandle(struct ArcHandle *arc, u32 fileId, u32 layer, u32 ofs, u32 chrOfs, u32 size, u32 heapID,
     u32 heap);
 extern void ARC_TOOL_DeleteHandle(struct ArcHandle *arc);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void BG_SYS_FreeLayerBuf(u32 i);
-extern void *APP_TASKMENU_RES_Create(u16 a0, u16 a1, struct GfFont *font, struct PrintQue *printQue, u16 heap);
+extern void *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GfFont *font, struct PrintQue *printQue, u16 heap);
 extern u32 APP_TASKMENU_RES_Delete(void *taskMenuRes);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(int, int, int, int, int, int);
-extern void *BMP_MENUWORK_LoadFrameGfx(u32 layer, unsigned int a1, unsigned int a2, unsigned int a3);
+extern void *BMP_MENUWORK_LoadFrameGfx(u32 layer, unsigned int palSlot, unsigned int frameId, unsigned int heapId);
 extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void BMP_WIN_SetDispHeight(struct BmpWin *window, u8 v);
 extern void *BMP_WIN_GetBmp(struct BmpWin *window);
@@ -192,14 +192,14 @@ extern void PRINTSYS_Print(void *bitmap, s16 x, s16 y, struct Strbuf *msg, struc
 extern void BMP_MENUWORK_DrawWindowEx(struct BmpWin *window, u32 kind, void *menuWork, u32 pal);
 extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *window, u32 kind);
 extern void *APP_TASKMENU_OpenMenuFastDecide(void *menuInit, void *taskMenuRes);
-extern int APP_TASKMENU_SetDisableKey(void *taskMenu, int a1);
+extern int APP_TASKMENU_SetDisableKey(void *taskMenu, int isDisable);
 extern void APP_TASKMENU_CloseMenu(void *taskMenu);
 extern void APP_TASKMENU_UpdateMenu(void *taskMenu);
 extern u8 APP_TASKMENU_GetCursorPos(void *taskMenu);
 extern u32 APP_TASKMENU_IsFinish(void *taskMenu);
 extern u32 WIPE_SYS_EndCheck(void);
 extern int TOUCHPANEL_GetTrg(void);
-extern u32 ICA_ANIME_GetUnk330(const void *gameSystem);
+extern u32 GAMESYSTEM_IsNetOffBySleep(const void *gameSystem);
 extern u32 GAME_COMM_GetKind(void *beacon);
 extern void GAME_COMM_RequestExitNoCallback(void *beacon);
 extern void GAMESYSTEM_SetAlwaysNetFlag(void *gameSystem, unsigned int v);
@@ -242,13 +242,13 @@ CGearPowerOnOffWork *C_GEAR_POWER_ONOFF_Create(FieldSubscreen *subscreen, void *
 {
     CGearPowerOnOffWork *work = GFL_HEAP_Alloc(heapId, 0x50, 1, sCGearPowerOnOffFileName, 0x12D);
     work->gameSystem = gameSystem;
-    work->beacon = ICA_ANIME_GetField24(gameSystem);
+    work->beacon = GAMESYSTEM_GetGameComm(gameSystem);
     work->subscreen = subscreen;
     work->heapId = heapId;
     C_GEAR_POWER_ONOFF_InitScreen(work, heapId);
     if (APP_ENV_InitParentalControl() == 0)
         work->scene = C_GEAR_POWER_ONOFF_SCENE_UNAVAILABLE;
-    else if (ICA_ANIME_IsConfigFlagSet(gameSystem) == 1)
+    else if (GAMESYSTEM_IsAlwaysNetFlagSet(gameSystem) == 1)
         work->scene = C_GEAR_POWER_ONOFF_SCENE_TURN_OFF;
     else
         work->scene = C_GEAR_POWER_ONOFF_SCENE_TURN_ON;
@@ -309,7 +309,7 @@ void C_GEAR_POWER_ONOFF_InitBgs(CGearPowerOnOffWork *work, u32 heapId)
     BG_SYS_PushTile(4);
     BG_SYS_SetPlaneVisible((u8)4, 1);
     arc = ARC_TOOL_CreateHandle(0x1E, heapId);
-    i = MYSTATUS_GetOutfitVariant(GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(work->gameSystem)));
+    i = MYSTATUS_GetOutfitVariant(GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(work->gameSystem)));
     ARC_UTIL_UploadPaletteFromHandleWhole(arc, sBgPaletteFileIds[i], 4, 0, 1, heapId);
     charAlloc = ARC_UTIL_RegisterObjCharFromHandle(arc, sBgCharFileIds[i], 6, 0, 0, heapId);
     work->bgCharAlloc = charAlloc;
@@ -524,11 +524,11 @@ int C_GEAR_POWER_ONOFF_StepTurnOn(CGearPowerOnOffWork *work)
         (work->step)++;
         break;
     case 4:
-        if (TOUCHPANEL_GetTrg() != 0 || ICA_ANIME_GetUnk330(work->gameSystem) != 0)
+        if (TOUCHPANEL_GetTrg() != 0 || GAMESYSTEM_IsNetOffBySleep(work->gameSystem) != 0)
             (work->step)++;
         break;
     case 5:
-        if (ICA_ANIME_GetUnk330(work->gameSystem) != 0) {
+        if (GAMESYSTEM_IsNetOffBySleep(work->gameSystem) != 0) {
             if (GAME_COMM_GetKind(work->beacon))
                 GAME_COMM_RequestExitNoCallback(work->beacon);
             work->step = 6;
@@ -564,8 +564,8 @@ int C_GEAR_POWER_ONOFF_StepTurnOff(CGearPowerOnOffWork *work)
             (work->step)++;
         break;
     case 2:
-        if (C_GEAR_POWER_ONOFF_IsMenuDecided(work) != 0 || ICA_ANIME_GetUnk330(work->gameSystem) == 1) {
-            if (C_GEAR_POWER_ONOFF_GetMenuResult(work) == 0 || ICA_ANIME_GetUnk330(work->gameSystem) == 1) {
+        if (C_GEAR_POWER_ONOFF_IsMenuDecided(work) != 0 || GAMESYSTEM_IsNetOffBySleep(work->gameSystem) == 1) {
+            if (C_GEAR_POWER_ONOFF_GetMenuResult(work) == 0 || GAMESYSTEM_IsNetOffBySleep(work->gameSystem) == 1) {
                 if (GAME_COMM_GetKind(work->beacon))
                     GAME_COMM_RequestExitNoCallback(work->beacon);
                 closeComm = 1;

@@ -73,7 +73,7 @@ extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 
 extern u8 BG_SYS_GetType(int channel);
 
-extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
+extern void BG_SYS_DrawTileEx(u32 index, u32 dx, u32 dy, u32 cw, u8 ch, u32 src, u8 sx, u8 sy, u8 sw, u8 sh);
 
 extern void BG_SYS_SetTileEntry(u32 index, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 m);
 

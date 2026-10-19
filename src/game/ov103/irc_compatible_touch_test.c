@@ -16,7 +16,7 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   ICA_ANIME_GetField24 0x02012138 thumb
+ *   GAMESYSTEM_GetGameComm 0x02012138 thumb
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BG_SYS_SetScrollY 0x02041F6C arm
  *   BG_SYS_SetAffine 0x02041FB0 arm
@@ -156,7 +156,7 @@
  *   COMPATIBLE_IRC_SYS_StepShareValue 0x021B630C thumb ov101
  *   COMPATIBLE_IRC_SYS_SendOwnValue 0x021B6424 thumb ov101
  *   IRC_APPBAR_SetActive 0x021B72A0 thumb ov101
- *   ICA_ANIME_GetField1C 0x020120F4 thumb
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   MYSTATUS_GetId 0x02008530 thumb
  *   IRC_RANKING_HasEntry 0x0200A9D4 thumb
@@ -342,8 +342,8 @@ typedef struct IrcTouchWork {
 extern void GFL_HEAP_CreateChildHeap(u32 parentId, u32 heapId, u32 size);
 extern void *PROCSYS_AllocProcWork(void *proc, u32 size, u32 heapId);
 extern void MI_CpuFill8(void *dest, int value, u32 size);
-extern u32 ICA_ANIME_GetField24(void *gameSystem);
-extern void BMP_MENUWORK_DrawWindow(void *bmpWin, int a1, int a2, int a3);
+extern u32 GAMESYSTEM_GetGameComm(void *gameSystem);
+extern void BMP_MENUWORK_DrawWindow(void *bmpWin, int commitMode, int tileBase, int palette);
 extern void BG_SYS_SetScrollY(u32 which, u32 op, u32 value);
 extern void BG_SYS_SetAffine(u32 which, u32 op, u16 value);
 extern void COMPATIBLE_IRC_SYS_SetOwnValue(IrcSys *sys, int value);
@@ -385,7 +385,7 @@ extern void CLACT_SetUnitDefaultRenderer(void *unit);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 extern void BG_SYS_SetSubPlaneVisible(u32, u32);
 extern int CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
-extern int CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern int CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 extern int CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void CLACT_SetActorDrawEnable(void *, unsigned int);
@@ -431,7 +431,7 @@ extern void G3D_SYSTEM_GetObjectAnimeFrame(void *object, int index, int *frame);
 extern void G3D_SYSTEM_DrawObject(void *object, void *transform);
 extern u32 G3D_SYSTEM_ResetObjectAnimeFrame(void *object, u16 idx);
 extern void GF_FONT_InitTextColor(void);
-extern void *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern void *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern void *PRINTSYS_QUE_Create(u32 heapId);
 extern void *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *WORDSET_CreateDefault(u32 heap);
@@ -467,7 +467,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern int COMPATIBLE_IRC_SYS_GetValueDifference(IrcSys *sys);
 extern int COMPATIBLE_IRC_SYS_StepShareValue(IrcSys *sys, int value);
 extern int COMPATIBLE_IRC_SYS_SendOwnValue(IrcSys *sys);
-extern void *ICA_ANIME_GetField1C(void *gameSystem);
+extern void *GAMESYSTEM_GetGameData(void *gameSystem);
 extern void *GAME_DATA_GetSaveControl(void *gameData);
 extern void *IRC_RANKING_GetFromSave(void *saveControl);
 extern u32 MYSTATUS_GetId(const u8 *myStatus);
@@ -488,7 +488,7 @@ extern void *ARC_UTIL_LoadHandleMember(void *arc, u32 memberId, u32 compressed, 
 extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
 extern u8 BG_SYS_GetField16(int channel);
 extern u32 BG_SYS_GetBuf(int channel);
-extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
+extern void BG_SYS_DrawTileEx(u32 index, u32 dx, u32 dy, u32 cw, u8 ch, u32 src, u8 sx, u8 sy, u8 sw, u8 sh);
 extern void BG_SYS_FillTileMap(u8, u8, u8, u8, u8, u8);
 extern u32 GFL_HEAP_Free(void *p);
 extern void BG_SYS_SetTileEntry(u8, u8, u8, u8, u8, u8, u8);
@@ -600,7 +600,7 @@ int IRC_COMPATIBLE_TOUCH_TEST_ProcInit(void *proc, int unused, IrcSecondTestArgs
     IRC_COMPATIBLE_TOUCH_TEST_InitExchange(&work->exchange, work->args->view);
     IRC_COMPATIBLE_TOUCH_TEST_InitScene(work, 55);
     IRC_COMPATIBLE_TOUCH_TEST_InitText(&work->text, 0, 55);
-    if (work->args->gameSystem) ICA_ANIME_GetField24(work->args->gameSystem);
+    if (work->args->gameSystem) GAMESYSTEM_GetGameComm(work->args->gameSystem);
     IRC_COMPATIBLE_TOUCH_TEST_InitTitleWindow(&work->title, 5, 1, 18, 30, 5, 8, 55);
     BMP_MENUWORK_DrawWindow(work->title.bmpWin, 0, (u16)work->bgCharRange, 6);
     IRC_COMPATIBLE_TOUCH_TEST_InitWindow(&work->bottomWin, 7, 6, 3, 20, 5, 8, 1, 1, 55);
@@ -1339,7 +1339,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_HandleScoring(IrcTouchWork *work, u16 *state)
         own.attempts = work->attempts;
         if (work->args->gameSystem) {
             void *records;
-            records = IRC_RANKING_GetFromSave(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(work->args->gameSystem)));
+            records = IRC_RANKING_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(work->args->gameSystem)));
             own.bonus = IRC_RANKING_HasEntry(records, MYSTATUS_GetId(work->args->profile->myStatus)) == 0;
         }
         if (IRC_COMPATIBLE_TOUCH_TEST_SendDrawing(&work->exchange, &own)) *state = 3;

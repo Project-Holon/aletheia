@@ -25,8 +25,8 @@
  *   ZONEDATA_IsWeatherEnabled 0x02013C50 thumb
  *   FISHING_CheckFacingWater  0x021C5C64  thumb  ov021
  *   ZONEDATA_IsZone34   0x02013D20  thumb
- *   ICA_ANIME_GetField20  0x0201210C  thumb
- *   ICA_ANIME_GetField24  0x02012138  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_IsSessionEndPending  0x0215870C  thumb ov010
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb ov021
  *   FIELDMAP_CheckPlayerRequest  0x02188BF8  thumb ov021
@@ -69,7 +69,7 @@
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FLD_FACEUP_StartClose  0x021F5550  thumb  ov082
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   FIELD_SOUND_SYSTEM_StartPushAndChangeTask  0x020297AC  thumb
@@ -194,8 +194,8 @@ extern u32 ZONEDATA_IsNormalFieldZone(u32 zoneId);
 extern u32 ZONEDATA_IsWeatherEnabled(u32 zoneId);
 extern int FISHING_CheckFacingWater(struct GameData *gameData, struct FieldMap *fieldMap, u32 *out);
 extern u32 ZONEDATA_IsZone34(u32 zoneId);
-extern struct FieldMap *ICA_ANIME_GetField20(const struct GameSystem *gameSystem);
-extern void *ICA_ANIME_GetField24(const struct GameSystem *gameSystem);
+extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
 extern int INTRUDE_COMM_IsSessionEndPending(void *gameComm, int frames);
 extern void *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 extern u32 FIELDMAP_CheckPlayerRequest(struct FieldMap *fieldMap);
@@ -233,7 +233,7 @@ extern void SCRIPT_WORK_ResetCheckFlag(int waitState);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 extern struct GameEvent *FLD_FACEUP_StartClose(struct GameSystem *gameSystem);
-extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int mode, int subMode);
 extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 extern struct GameEvent *FIELD_SOUND_SYSTEM_StartPushAndChangeTask(struct GameSystem *gameSystem, u32 soundId, u32 mode, u32 flag);
@@ -382,11 +382,11 @@ int EVENTDATA_SYSTEM_FieldLinkEnterEvent(struct GameEvent *event, int *seq, Link
     void *gameComm;
     struct FieldMap *fieldMap;
 
-    fieldMap = ICA_ANIME_GetField20(work->gameSystem);
+    fieldMap = GAMESYSTEM_GetFieldMap(work->gameSystem);
     FIELDMAP_GetMmdlSys(fieldMap);
     switch (*seq) {
     case 0:
-        gameComm = ICA_ANIME_GetField24(work->gameSystem);
+        gameComm = GAMESYSTEM_GetGameComm(work->gameSystem);
         work->frameCount++;
         if (INTRUDE_COMM_IsSessionEndPending(gameComm, work->frameCount) == 1 && work->frameCount < 30) {
             break;
@@ -677,7 +677,7 @@ int FLD_FACEUP_ScrCmdPrepareField(struct ScriptVm *vm, struct ScrCmdWork *work)
 
     SCRCMD_WORK_GetScriptWork(work);
     gameSystem = SCRCMD_WORK_GetGameSystem(work);
-    FLD_FACEUP_ResumeLipSync(ICA_ANIME_GetField20(gameSystem));
+    FLD_FACEUP_ResumeLipSync(GAMESYSTEM_GetFieldMap(gameSystem));
     return 0;
 }
 
@@ -697,7 +697,7 @@ int FLD_FACEUP_ScrCmdWaitEnd(struct ScriptVm *vm, struct ScrCmdWork *work)
 /* Ends the face-up scene: releases the field map part, the script state and overlay 82. */
 int FLD_FACEUP_Finish(FaceUpEndWork *work)
 {
-    FLD_FACEUP_Delete(ICA_ANIME_GetField20(work->gameSystem));
+    FLD_FACEUP_Delete(GAMESYSTEM_GetFieldMap(work->gameSystem));
     SCRIPT_WORK_ResetCheckFlag(7);
     GF_OVERLAY_Unload(OVERLAY_ID_52);
     return 1;
@@ -733,8 +733,8 @@ int CALENDER_OverlaySequenceEvent(struct GameEvent *event, u32 *seq, BeaconSearc
     struct FieldMap *fieldMap;
 
     gameSystem = work->gameSystem;
-    ICA_ANIME_GetField1C(gameSystem);
-    fieldMap = ICA_ANIME_GetField20(gameSystem);
+    GAMESYSTEM_GetGameData(gameSystem);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     switch (*seq) {
     case 0:
         GAME_EVENT_CallEvent(event, EVENT_FIELDMAP_CONTROL_StartFadeOut(gameSystem, fieldMap, 0, 0));

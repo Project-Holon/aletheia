@@ -177,7 +177,7 @@ extern u32 *WIFIBATTLEMATCH_VIEW_Create(int unused, int mode, int heap);
 
 extern void WIFIBATTLEMATCH_VIEW_Delete(void *);
 
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
@@ -779,9 +779,9 @@ void BATTLE_CHAMPIONSHIP_FLOW_DrawMenu(int *work, int index)
     u32 height;
     cardBase=BATTLE_COMPETITION_GetFromSave((void *)GAME_DATA_GetSaveControl(((BattleChampionshipFlowMenu *)work)->save));
     MI_CpuFill8(&rec,0,48);
-    rec.x0=(u32)((BattleChampionshipFlowMenu *)work)->msgBank2;
-    rec.x1=(u32)((BattleChampionshipFlowMenu *)work)->font;
-    rec.x2=(u32)((BattleChampionshipFlowMenu *)work)->printQue;
+    rec.msgBank=(u32)((BattleChampionshipFlowMenu *)work)->msgBank2;
+    rec.font=(u32)((BattleChampionshipFlowMenu *)work)->font;
+    rec.printQue=(u32)((BattleChampionshipFlowMenu *)work)->printQue;
     switch(index) {
     case 0:
         rec.items[0]=2;rec.items[1]=3;rec.items[2]=5;rec.items[3]=6;rec.count=4;rec.enabled=1;rec.kind=3;layout=0;break;

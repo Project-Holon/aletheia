@@ -155,7 +155,7 @@ extern int GF_OVERLAY_Load(int);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,int);
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *);
 extern void *ZUKAN_INFO_CreateFromMon(u16,void *,u32,u32,u32,u32,u8,u32,u32,u32,u32,u32,u32);
 extern char *ZUKAN_NICKNAME_Create(u16 heap, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
@@ -191,7 +191,7 @@ extern void BG_SYS_ClearSlot(u32 i);
 extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
+extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void BG_SYS_PushTile(u32 index);
@@ -234,8 +234,8 @@ void ZUKAN_TOROKU_GRAPHIC_ClearTask(int unused, ZukanTorokuWork *work);
 void *ZUKAN_TOROKU_GRAPHIC_CreateDisplay(int a,int heap);
 void ZUKAN_TOROKU_GRAPHIC_DeleteDisplay(ZukanTorokuDisplay *display);
 void ZUKAN_TOROKU_GRAPHIC_Draw(ZukanTorokuDisplay *display);
-void ZUKAN_TOROKU_GRAPHIC_Update(void *a0);
-void ZUKAN_TOROKU_GRAPHIC_UpdateSub(void *a0);
+void ZUKAN_TOROKU_GRAPHIC_Update(void *unused);
+void ZUKAN_TOROKU_GRAPHIC_UpdateSub(void *unused);
 u32 ZUKAN_TOROKU_GRAPHIC_GetDisplay(ZukanTorokuDisplay *display);
 void ZUKAN_TOROKU_GRAPHIC_VBlank(void*unused,ZukanTorokuDisplay *display);
 void ZUKAN_TOROKU_GRAPHIC_InitBg(ZukanTorokuDisplay *display,int heap);
@@ -482,12 +482,12 @@ void ZUKAN_TOROKU_GRAPHIC_Draw(ZukanTorokuDisplay *display){ZUKAN_TOROKU_GRAPHIC
 
 
 
-void ZUKAN_TOROKU_GRAPHIC_Update(void *a0){}
+void ZUKAN_TOROKU_GRAPHIC_Update(void *unused){}
 
 
 
 
-void ZUKAN_TOROKU_GRAPHIC_UpdateSub(void *a0){}
+void ZUKAN_TOROKU_GRAPHIC_UpdateSub(void *unused){}
 
 
 

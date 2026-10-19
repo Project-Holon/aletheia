@@ -164,9 +164,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct RandomVecRange {
-    s16 v0;
-    s16 v1;
-    s16 v2;
+    s16 x;
+    s16 y;
+    s16 z;
     u16 interval;
 };
 
@@ -1035,10 +1035,10 @@ struct RigTransformFrameMain {
     struct MtxFx43 m1;
     struct MtxFx43 m2;
     struct MtxFx43 m3;
-    struct VecFx32 v0;
-    struct VecFx32 v1;
-    struct VecFx32 v2;
-    struct VecFx32 v3;
+    struct VecFx32 dir;
+    struct VecFx32 right;
+    struct VecFx32 up;
+    struct VecFx32 upRef;
     struct MtxFx43 m4;
 };
 
@@ -1440,14 +1440,14 @@ void SPL_EMITTER_UpdateParticles(SPLManager *mgr, SPLEmitter *emtr);
 void SPL_EMITTER_UpdateSubB(struct RigObject *o);
 void SPL_EMITTER_UpdateSubX(struct RigObject *o);
 void SPL_EMITTER_UpdateSubC(struct RigObject *o);
-int SPL_EMITTER_AllocTexVram(u32 a0, u32 a1);
-int SPL_EMITTER_AllocPlttVram(u32 a0, u32 a1);
+int SPL_EMITTER_AllocTexVram(u32 szByte, u32 is4x4comp);
+int SPL_EMITTER_AllocPlttVram(u32 szByte, u32 is4pltt);
 struct VramNodeHeap *SPL_EMITTER_AllocNodeFromHeap(AllocFn alloc, u16 n1, u16 n2, u16 a3, u16 a4, u16 a5);
 void SPL_EMITTER_FreeNodeToHeap(struct VramTexHeap *h, struct VramHeapHeader *d);
 int SPL_EMITTER_AllocTexVramList(struct RigObject *o, AllocTex alloc);
 int SPL_EMITTER_AllocPlttVramList(struct RigObject *o, AllocTex alloc);
-void SPL_EMITTER_AllocTexVramDefault(u32 a0);
-void SPL_EMITTER_AllocPlttVramDefault(u32 a0);
+void SPL_EMITTER_AllocTexVramDefault(u32 rigObject);
+void SPL_EMITTER_AllocPlttVramDefault(u32 rigObject);
 void SPL_EMITTER_FreeTexNode(struct VramFreeList *h);
 void SPL_EMITTER_FreeNodeHeap(struct VramHeapHead *h, u32 a);
 int SPL_EMITTER_AllocResource(char *p, int b, int c);
@@ -1552,9 +1552,9 @@ SPLNode *SPL_EMITTER_FreeNode(SPLList *list, SPLNode *node)
  */
 void SPL_EMITTER_AddVec(struct RandomVecRange *o, void *s, int *dst)
 {
-    dst[0] = dst[0] + o->v0;
-    dst[1] = dst[1] + o->v1;
-    dst[2] = dst[2] + o->v2;
+    dst[0] = dst[0] + o->x;
+    dst[1] = dst[1] + o->y;
+    dst[2] = dst[2] + o->z;
 }
 
 
@@ -1586,15 +1586,15 @@ void SPL_EMITTER_UpdateNode(struct RandomVecRange *o, struct RandomVecSource *s,
 
     g_02146A8C = g_02146A8C * 0x5EEDF715 + 0x1B0CB173;
     r = g_02146A8C >> 23;
-    dst[0] = dst[0] + ((o->v0 * r - (o->v0 << 8)) >> 8);
+    dst[0] = dst[0] + ((o->x * r - (o->x << 8)) >> 8);
 
     g_02146A8C = g_02146A8C * 0x5EEDF715 + 0x1B0CB173;
     r = g_02146A8C >> 23;
-    dst[1] = dst[1] + ((o->v1 * r - (o->v1 << 8)) >> 8);
+    dst[1] = dst[1] + ((o->y * r - (o->y << 8)) >> 8);
 
     g_02146A8C = g_02146A8C * 0x5EEDF715 + 0x1B0CB173;
     r = g_02146A8C >> 23;
-    dst[2] = dst[2] + ((o->v2 * r - (o->v2 << 8)) >> 8);
+    dst[2] = dst[2] + ((o->z * r - (o->z << 8)) >> 8);
 }
 
 
@@ -2914,10 +2914,10 @@ void SPL_EMITTER_UpdateFrame(struct RigObject *obj, struct RenderNode *s)
     struct RigDescriptor *p;
     struct MtxFx43 *mtx;
     s32 n;
-    s32 a;
+    s32 baseScale;
     s32 x;
     s32 y;
-    s64 a64;
+    s64 baseScale64;
     u32 v;
     s32 i;
     s32 sn;
@@ -2943,18 +2943,18 @@ void SPL_EMITTER_UpdateFrame(struct RigObject *obj, struct RenderNode *s)
     if ((n >> 5) == 0)
         return;
 
-    a = s->baseScale;
-    a64 = (s64)(s32)a;
-    n = (s32)((a64 * sc + 0x800) >> 12);
+    baseScale = s->baseScale;
+    baseScale64 = (s64)(s32)baseScale;
+    n = (s32)((baseScale64 * sc + 0x800) >> 12);
     x = n;
-    y = a;
+    y = baseScale;
     if (sel == 0) {
         x = (s32)(((s64)n * k34 + 0x800) >> 12);
-        y = (s32)(((a64 * k34) + 0x800) >> 12);
+        y = (s32)(((baseScale64 * k34) + 0x800) >> 12);
     } else if (sel == 1) {
         x = (s32)(((s64)n * k34 + 0x800) >> 12);
     } else {
-        y = (s32)(((a64 * k34) + 0x800) >> 12);
+        y = (s32)(((baseScale64 * k34) + 0x800) >> 12);
     }
 
     p = obj->renderList->subList->desc;
@@ -3065,10 +3065,10 @@ void SPL_EMITTER_UpdateFrameEx(struct RigObject *obj, struct RenderNode *s)
     struct RigDescriptor *p;
     struct MtxFx43 *mtx;
     s32 n;
-    s32 a;
+    s32 baseScale;
     s32 x;
     s32 y;
-    s64 a64;
+    s64 baseScale64;
     u32 v;
     s32 i;
     s32 sn;
@@ -3087,22 +3087,22 @@ void SPL_EMITTER_UpdateFrameEx(struct RigObject *obj, struct RenderNode *s)
     if ((n >> 5) == 0)
         return;
 
-    a = s->baseScale;
-    a64 = (s64)(s32)a;
-    n = (s32)((a64 * sc + 0x800) >> 12);
+    baseScale = s->baseScale;
+    baseScale64 = (s64)(s32)baseScale;
+    n = (s32)((baseScale64 * sc + 0x800) >> 12);
     x = n;
-    y = a;
+    y = baseScale;
     p = obj->renderList->subList->desc;
     switch (p->flags28.sel) {
     case 0:
         x = (s32)(((s64)n * s->animScale + 0x800) >> 12);
-        y = (s32)(((a64 * s->animScale) + 0x800) >> 12);
+        y = (s32)(((baseScale64 * s->animScale) + 0x800) >> 12);
         break;
     case 1:
         x = (s32)(((s64)n * s->animScale + 0x800) >> 12);
         break;
     case 2:
-        y = (s32)(((a64 * s->animScale) + 0x800) >> 12);
+        y = (s32)(((baseScale64 * s->animScale) + 0x800) >> 12);
         break;
     default:
         break;
@@ -3655,10 +3655,10 @@ void SPL_EMITTER_UpdateFrameA68(struct RigObject *obj, struct RenderNode *s)
     struct RigDescriptor *p;
     s32 n;
     s32 i;
-    s32 a;
+    s32 baseScale;
     s32 x;
     s32 y;
-    s64 a64;
+    s64 baseScale64;
     u32 v;
     s32 c1;
     u32 q4, q8, qc;
@@ -3675,21 +3675,21 @@ void SPL_EMITTER_UpdateFrameA68(struct RigObject *obj, struct RenderNode *s)
     func_02054A68_Hooks[obj->renderList->subList->desc->flags.z.sel2]
         (func_02054A68_Verts[2 * i], func_02054A68_Verts[2 * i + 1], &f.m2);
 
-    a = s->baseScale;
-    n = (s32)(((s64)a * obj->renderList->subList->desc->scale + 0x800) >> 12);
+    baseScale = s->baseScale;
+    n = (s32)(((s64)baseScale * obj->renderList->subList->desc->scale + 0x800) >> 12);
     x = n;
-    y = a;
-    a64 = (s64)(s32)a;
+    y = baseScale;
+    baseScale64 = (s64)(s32)baseScale;
     switch (obj->renderList->subList->desc->flags28.sel) {
     case 0:
         x = (s32)(((s64)n * s->animScale + 0x800) >> 12);
-        y = (s32)(((a64 * s->animScale) + 0x800) >> 12);
+        y = (s32)(((baseScale64 * s->animScale) + 0x800) >> 12);
         break;
     case 1:
         x = (s32)(((s64)n * s->animScale + 0x800) >> 12);
         break;
     case 2:
-        y = (s32)(((a64 * s->animScale) + 0x800) >> 12);
+        y = (s32)(((baseScale64 * s->animScale) + 0x800) >> 12);
         break;
     default:
         break;
@@ -3754,10 +3754,10 @@ void SPL_EMITTER_UpdateFrameA68Ex(struct RigObject *obj, struct RenderNode *s)
     s32 n;
     s32 e;
     s32 i;
-    s32 a;
+    s32 baseScale;
     s32 x;
     s32 y;
-    s64 a64;
+    s64 baseScale64;
     u32 v;
     s32 c1;
     u32 q4, q8, qc;
@@ -3774,21 +3774,21 @@ void SPL_EMITTER_UpdateFrameA68Ex(struct RigObject *obj, struct RenderNode *s)
     func_02054718_Hooks[obj->renderList->subList->hw->hw.sel2]
         (func_02054718_Verts[2 * i], func_02054718_Verts[2 * i + 1], &f.m2);
 
-    a = s->baseScale;
-    n = (s32)(((s64)a * obj->renderList->subList->desc->scale + 0x800) >> 12);
+    baseScale = s->baseScale;
+    n = (s32)(((s64)baseScale * obj->renderList->subList->desc->scale + 0x800) >> 12);
     x = n;
-    y = a;
-    a64 = (s64)(s32)a;
+    y = baseScale;
+    baseScale64 = (s64)(s32)baseScale;
     switch (obj->renderList->subList->desc->flags28.sel) {
     case 0:
         x = (s32)(((s64)n * s->animScale + 0x800) >> 12);
-        y = (s32)(((a64 * s->animScale) + 0x800) >> 12);
+        y = (s32)(((baseScale64 * s->animScale) + 0x800) >> 12);
         break;
     case 1:
         x = (s32)(((s64)n * s->animScale + 0x800) >> 12);
         break;
     case 2:
-        y = (s32)(((a64 * s->animScale) + 0x800) >> 12);
+        y = (s32)(((baseScale64 * s->animScale) + 0x800) >> 12);
         break;
     default:
         break;
@@ -3855,10 +3855,10 @@ void SPL_EMITTER_UpdateFrameMain(struct RigObject *obj, struct RenderNode *s)
     struct RigDescriptor *p;
     s32 n;
     s32 i;
-    s32 a;
+    s32 baseScale;
     s32 x;
     s32 y;
-    s64 a64;
+    s64 baseScale64;
     u32 v;
     s32 c1;
     u32 q4, q8, qc;
@@ -3877,54 +3877,54 @@ void SPL_EMITTER_UpdateFrameMain(struct RigObject *obj, struct RenderNode *s)
 
     MTX_Identity43_(&f.m4);
     if (obj->renderList->subList->desc->flags28.hi == 0) {
-        VEC_Normalize((const VecFx32 *)&s->p2, (VecFx32 *)&f.v0);
+        VEC_Normalize((const VecFx32 *)&s->p2, (VecFx32 *)&f.dir);
     } else {
-        VEC_Normalize((const VecFx32 *)&s->p1, (VecFx32 *)&f.v0);
-        f.v0.x = -f.v0.x;
-        f.v0.y = -f.v0.y;
-        f.v0.z = -f.v0.z;
+        VEC_Normalize((const VecFx32 *)&s->p1, (VecFx32 *)&f.dir);
+        f.dir.x = -f.dir.x;
+        f.dir.y = -f.dir.y;
+        f.dir.z = -f.dir.z;
     }
 
-    f.v3.x = 0;
-    f.v3.y = 0x1000;
-    f.v3.z = 0;
-    i = VEC_DotProduct(&f.v0, &f.v3);
+    f.upRef.x = 0;
+    f.upRef.y = 0x1000;
+    f.upRef.z = 0;
+    i = VEC_DotProduct(&f.dir, &f.upRef);
     if (i > 0xCCD || i < -0xCCD) {
-        f.v3.x = 0x1000;
-        f.v3.y = 0;
-        f.v3.z = 0;
+        f.upRef.x = 0x1000;
+        f.upRef.y = 0;
+        f.upRef.z = 0;
     }
 
-    VEC_CrossProduct(&f.v0, &f.v3, &f.v1);
-    VEC_CrossProduct(&f.v0, &f.v1, &f.v2);
+    VEC_CrossProduct(&f.dir, &f.upRef, &f.right);
+    VEC_CrossProduct(&f.dir, &f.right, &f.up);
 
-    f.m4.m[0] = f.v1.x;
-    f.m4.m[1] = f.v1.y;
-    f.m4.m[2] = f.v1.z;
-    f.m4.m[3] = f.v0.x;
-    f.m4.m[4] = f.v0.y;
-    f.m4.m[5] = f.v0.z;
-    f.m4.m[6] = f.v2.x;
-    f.m4.m[7] = f.v2.y;
-    f.m4.m[8] = f.v2.z;
+    f.m4.m[0] = f.right.x;
+    f.m4.m[1] = f.right.y;
+    f.m4.m[2] = f.right.z;
+    f.m4.m[3] = f.dir.x;
+    f.m4.m[4] = f.dir.y;
+    f.m4.m[5] = f.dir.z;
+    f.m4.m[6] = f.up.x;
+    f.m4.m[7] = f.up.y;
+    f.m4.m[8] = f.up.z;
 
     MTX_Concat43(&f.m2, &f.m4, &f.m2);
 
-    a = s->baseScale;
-    n = (s32)(((s64)a * obj->renderList->subList->desc->scale + 0x800) >> 12);
+    baseScale = s->baseScale;
+    n = (s32)(((s64)baseScale * obj->renderList->subList->desc->scale + 0x800) >> 12);
     x = n;
-    y = a;
-    a64 = (s64)(s32)a;
+    y = baseScale;
+    baseScale64 = (s64)(s32)baseScale;
     switch (obj->renderList->subList->desc->flags28.sel) {
     case 0:
         x = (s32)(((s64)n * s->animScale + 0x800) >> 12);
-        y = (s32)(((a64 * s->animScale) + 0x800) >> 12);
+        y = (s32)(((baseScale64 * s->animScale) + 0x800) >> 12);
         break;
     case 1:
         x = (s32)(((s64)n * s->animScale + 0x800) >> 12);
         break;
     case 2:
-        y = (s32)(((a64 * s->animScale) + 0x800) >> 12);
+        y = (s32)(((baseScale64 * s->animScale) + 0x800) >> 12);
         break;
     default:
         break;
@@ -4018,10 +4018,10 @@ void SPL_EMITTER_UpdateFrameMainEx(struct RigObject *obj, struct RenderNode *s)
     struct RigDescriptor *p;
     s32 n;
     s32 i;
-    s32 a;
+    s32 baseScale;
     s32 x;
     s32 y;
-    s64 a64;
+    s64 baseScale64;
     u32 v;
     s32 c1;
     u32 q4, q8, qc;
@@ -4040,54 +4040,54 @@ void SPL_EMITTER_UpdateFrameMainEx(struct RigObject *obj, struct RenderNode *s)
 
     MTX_Identity43_(&f.m4);
     if (obj->renderList->subList->hw->selFlags.sel == 0) {
-        VEC_Normalize((const VecFx32 *)&s->p2, (VecFx32 *)&f.v0);
+        VEC_Normalize((const VecFx32 *)&s->p2, (VecFx32 *)&f.dir);
     } else {
-        VEC_Normalize((const VecFx32 *)&s->p1, (VecFx32 *)&f.v0);
-        f.v0.x = -f.v0.x;
-        f.v0.y = -f.v0.y;
-        f.v0.z = -f.v0.z;
+        VEC_Normalize((const VecFx32 *)&s->p1, (VecFx32 *)&f.dir);
+        f.dir.x = -f.dir.x;
+        f.dir.y = -f.dir.y;
+        f.dir.z = -f.dir.z;
     }
 
-    f.v3.x = 0;
-    f.v3.y = 0x1000;
-    f.v3.z = 0;
-    i = VEC_DotProduct(&f.v0, &f.v3);
+    f.upRef.x = 0;
+    f.upRef.y = 0x1000;
+    f.upRef.z = 0;
+    i = VEC_DotProduct(&f.dir, &f.upRef);
     if (i > 0xCCD || i < -0xCCD) {
-        f.v3.x = 0x1000;
-        f.v3.y = 0;
-        f.v3.z = 0;
+        f.upRef.x = 0x1000;
+        f.upRef.y = 0;
+        f.upRef.z = 0;
     }
 
-    VEC_CrossProduct(&f.v0, &f.v3, &f.v1);
-    VEC_CrossProduct(&f.v0, &f.v1, &f.v2);
+    VEC_CrossProduct(&f.dir, &f.upRef, &f.right);
+    VEC_CrossProduct(&f.dir, &f.right, &f.up);
 
-    f.m4.m[0] = f.v1.x;
-    f.m4.m[1] = f.v1.y;
-    f.m4.m[2] = f.v1.z;
-    f.m4.m[3] = f.v0.x;
-    f.m4.m[4] = f.v0.y;
-    f.m4.m[5] = f.v0.z;
-    f.m4.m[6] = f.v2.x;
-    f.m4.m[7] = f.v2.y;
-    f.m4.m[8] = f.v2.z;
+    f.m4.m[0] = f.right.x;
+    f.m4.m[1] = f.right.y;
+    f.m4.m[2] = f.right.z;
+    f.m4.m[3] = f.dir.x;
+    f.m4.m[4] = f.dir.y;
+    f.m4.m[5] = f.dir.z;
+    f.m4.m[6] = f.up.x;
+    f.m4.m[7] = f.up.y;
+    f.m4.m[8] = f.up.z;
 
     MTX_Concat43(&f.m2, &f.m4, &f.m2);
 
-    a = s->baseScale;
-    n = (s32)(((s64)a * obj->renderList->subList->desc->scale + 0x800) >> 12);
+    baseScale = s->baseScale;
+    n = (s32)(((s64)baseScale * obj->renderList->subList->desc->scale + 0x800) >> 12);
     x = n;
-    y = a;
-    a64 = (s64)(s32)a;
+    y = baseScale;
+    baseScale64 = (s64)(s32)baseScale;
     switch (obj->renderList->subList->desc->flags28.sel) {
     case 0:
         x = (s32)(((s64)n * s->animScale + 0x800) >> 12);
-        y = (s32)(((a64 * s->animScale) + 0x800) >> 12);
+        y = (s32)(((baseScale64 * s->animScale) + 0x800) >> 12);
         break;
     case 1:
         x = (s32)(((s64)n * s->animScale + 0x800) >> 12);
         break;
     case 2:
-        y = (s32)(((a64 * s->animScale) + 0x800) >> 12);
+        y = (s32)(((baseScale64 * s->animScale) + 0x800) >> 12);
         break;
     default:
         break;
@@ -4911,9 +4911,9 @@ extern u32 (*NNS_GfdDefaultFuncAllocTexVram)(u32 a, u32 b, u32 c);
  *   python tools/match.py one --src src/matched/SPL_EMITTER_AllocTexVram.c \
  *       --func SPL_EMITTER_AllocTexVram --addr 0x02052F90 --arm --cc ../1.2/sp2
  */
-int SPL_EMITTER_AllocTexVram(u32 a0, u32 a1)
+int SPL_EMITTER_AllocTexVram(u32 szByte, u32 is4x4comp)
 {
-    return (NNS_GfdDefaultFuncAllocTexVram(a0, a1, 0) & 0xffff) << 3;
+    return (NNS_GfdDefaultFuncAllocTexVram(szByte, is4x4comp, 0) & 0xffff) << 3;
 }
 
 
@@ -4943,9 +4943,9 @@ int SPL_EMITTER_AllocTexVram(u32 a0, u32 a1)
  *   python tools/match.py one --src src/matched/SPL_EMITTER_AllocPlttVram.c \
  *       --func SPL_EMITTER_AllocPlttVram --addr 0x02052F58 --arm --cc ../1.2/sp2
  */
-int SPL_EMITTER_AllocPlttVram(u32 a0, u32 a1)
+int SPL_EMITTER_AllocPlttVram(u32 szByte, u32 is4pltt)
 {
-    return (NNS_GfdDefaultFuncAllocPlttVram(a0, a1, 0) & 0xffff) << 3;
+    return (NNS_GfdDefaultFuncAllocPlttVram(szByte, is4pltt, 0) & 0xffff) << 3;
 }
 
 
@@ -5207,9 +5207,9 @@ int SPL_EMITTER_AllocPlttVramList(struct RigObject *o, AllocTex alloc)
  *   python tools/match.py one --src src/matched/SPL_EMITTER_AllocTexVramDefault.c \
  *       --func SPL_EMITTER_AllocTexVramDefault --addr 0x020528BC --arm --cc ../1.2/sp2
  */
-void SPL_EMITTER_AllocTexVramDefault(u32 a0)
+void SPL_EMITTER_AllocTexVramDefault(u32 rigObject)
 {
-    SPL_EMITTER_AllocTexVramList((struct RigObject *)a0, (AllocTex)((void *)SPL_EMITTER_AllocTexVram));
+    SPL_EMITTER_AllocTexVramList((struct RigObject *)rigObject, (AllocTex)((void *)SPL_EMITTER_AllocTexVram));
 }
 
 
@@ -5236,9 +5236,9 @@ void SPL_EMITTER_AllocTexVramDefault(u32 a0)
  *   python tools/match.py one --src src/matched/SPL_EMITTER_AllocPlttVramDefault.c \
  *       --func SPL_EMITTER_AllocPlttVramDefault --addr 0x020528A8 --arm --cc ../1.2/sp2
  */
-void SPL_EMITTER_AllocPlttVramDefault(u32 a0)
+void SPL_EMITTER_AllocPlttVramDefault(u32 rigObject)
 {
-    SPL_EMITTER_AllocPlttVramList((struct RigObject *)a0, (AllocTex)((void *)SPL_EMITTER_AllocPlttVram));
+    SPL_EMITTER_AllocPlttVramList((struct RigObject *)rigObject, (AllocTex)((void *)SPL_EMITTER_AllocPlttVram));
 }
 
 

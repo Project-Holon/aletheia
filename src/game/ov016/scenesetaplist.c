@@ -251,7 +251,7 @@ extern void DWCi_FOCUSlDelete(void);
 extern void DWCi_FOCUSlDisp(int kind, int x0, int x1, int y);
 extern void DWCi_GXlInvisible(int lcd, int plane);
 extern void DWCi_GXlVisible(int lcd, int plane);
-extern void DWCi_GetParam2_(void **param2, void **param3);
+extern void DWCi_GetParam2_(void **a, void **b);
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 extern void DWCi_HEAPlFree_(void **mem);
 extern void DWCi_HLlLoadSet(void);
@@ -347,7 +347,7 @@ static void endScene1(void);
 static void endScene2(void);
 static void drawApInfo(void);
 static void drawAp(int ap, int column);
-static void drapApObj(int a0, int a1);
+static void drapApObj(int entryIndex, int objIndex);
 static void setOffset(void);
 static void taskUp(void *task);
 static void taskDown(void *task);
@@ -827,7 +827,7 @@ static void drawAp(int ap, int column)
 }
 
 
-static void drapApObj(int a0, int a1)
+static void drapApObj(int entryIndex, int objIndex)
 {
     u8 *g = (u8 *)0x021DE5D8;
     u8 *p = *(u8 **)(g + 4);
@@ -835,16 +835,16 @@ static void drapApObj(int a0, int a1)
     int mask = -0x400;
     u16 *d;
 
-    if (a0 >= p[0x51])
+    if (entryIndex >= p[0x51])
         return;
 
-    i = a0 * 0x2a;
+    i = entryIndex * 0x2a;
 
-    d = *(u16 **)(p + a1 * 4 + 0x10);
+    d = *(u16 **)(p + objIndex * 4 + 0x10);
     d[2] = (d[2] & mask) | *(u16 *)(p + (*(u8 *)(*(int *)p + i + 0x28) << 1) + 0x42);
 
     p = *(u8 **)(g + 4);
-    d = *(u16 **)(p + a1 * 4 + 0x24);
+    d = *(u16 **)(p + objIndex * 4 + 0x24);
     d[2] = (d[2] & mask) | *(u16 *)(p + (*(u16 *)(*(int *)p + i + 0x26) << 1) + 0x48);
 }
 

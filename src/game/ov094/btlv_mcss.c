@@ -481,23 +481,23 @@ BtlvMcssWork *BTLV_MCSS_Create(int rule, void *taskOwner, u16 heapId)
     return w;
 }
 
-void BTLV_MCSS_Delete(BtlvMcssWork *w)
+void BTLV_MCSS_Delete(BtlvMcssWork *work)
 {
     BtlvMcssPos pos;
 
     for (pos = 0; pos < BTLV_MCSS_SPRITE_MAX; pos++) {
-        if (BTLV_MCSS_IsSpriteLoaded(w, pos))
-            BTLV_MCSS_RemoveSprite(w, pos);
+        if (BTLV_MCSS_IsSpriteLoaded(work, pos))
+            BTLV_MCSS_RemoveSprite(work, pos);
     }
-    MCSS_Exit(w->mcss);
-    GFL_HEAP_Free(w);
+    MCSS_Exit(work->mcss);
+    GFL_HEAP_Free(work);
 }
 
 /*
  * lever: enum loop counter keeps both entry guards; a separate local spriteIdx for the
  *   first loop index puts idx at sp+8 and flag at sp+4 (one shared idx swapped them).
  */
-void BTLV_MCSS_Update(BtlvMcssWork *w)
+void BTLV_MCSS_Update(BtlvMcssWork *work)
 {
     BtlvMcssPos pos;
     int spriteIdx;
@@ -507,120 +507,120 @@ void BTLV_MCSS_Update(BtlvMcssWork *w)
     int statusKind;
 
     for (pos = 0; pos < BTLV_MCSS_POKE_POS_COUNT; pos++) {
-        if (BTLV_MCSS_IsSpriteLoaded(w, pos)) {
-            spriteIdx = BTLV_MCSS_FindSpriteIndex(w, pos);
-            if (w->sprites[spriteIdx].flags.restartAnim) {
-                w->sprites[spriteIdx].flags.restartAnim = 0;
-                MCSS_RestartAnime(w->sprites[spriteIdx].mcss);
+        if (BTLV_MCSS_IsSpriteLoaded(work, pos)) {
+            spriteIdx = BTLV_MCSS_FindSpriteIndex(work, pos);
+            if (work->sprites[spriteIdx].flags.restartAnim) {
+                work->sprites[spriteIdx].flags.restartAnim = 0;
+                MCSS_RestartAnime(work->sprites[spriteIdx].mcss);
             }
         }
     }
-    MCSS_Main(w->mcss);
-    if (w->flags.rotating == 0) {
+    MCSS_Main(work->mcss);
+    if (work->flags.rotating == 0) {
         for (pos = 0; pos < BTLV_MCSS_POKE_POS_COUNT; pos++) {
             /* 1 in 100 frames: start an eye blink */
-            if (BTLV_MCSS_IsSpriteLoaded(w, pos)
+            if (BTLV_MCSS_IsSpriteLoaded(work, pos)
                 && (u32)(((u64)GF_STANDARD_Rand() * 100) >> 32) == 0
-                && (BTLV_EFFECT_GetBitMask(pos) & w->blinkTaskMask) == 0
-                && BTLV_MCSS_IsAnimStopped(w, pos) == 0)
-                BTLV_MCSS_StartBlinkTask(w, pos, 2, 4, 1);
-            if (BTLV_MCSS_IsSpriteLoaded(w, pos) == 0)
+                && (BTLV_EFFECT_GetBitMask(pos) & work->blinkTaskMask) == 0
+                && BTLV_MCSS_IsAnimStopped(work, pos) == 0)
+                BTLV_MCSS_StartBlinkTask(work, pos, 2, 4, 1);
+            if (BTLV_MCSS_IsSpriteLoaded(work, pos) == 0)
                 continue;
-            idx = BTLV_MCSS_FindSpriteIndex(w, pos);
+            idx = BTLV_MCSS_FindSpriteIndex(work, pos);
             tintStepped = 0;
-            if (BTLV_EFFECT_IsBusy() && w->sprites[idx].flags.paletteFadeSet) {
-                w->sprites[idx].flags.paletteFadeSet = 0;
-                w->sprites[idx].flags.paletteFadeHold = 1;
+            if (BTLV_EFFECT_IsBusy() && work->sprites[idx].flags.paletteFadeSet) {
+                work->sprites[idx].flags.paletteFadeSet = 0;
+                work->sprites[idx].flags.paletteFadeHold = 1;
             }
-            if (BTLV_EFFECT_IsBusy() && w->sprites[idx].flags.paletteFadeHold)
+            if (BTLV_EFFECT_IsBusy() && work->sprites[idx].flags.paletteFadeHold)
                 continue;
-            w->sprites[idx].flags.paletteFadeHold = 0;
-            if (BTLV_MCSS_GetSpriteAttrFlags(w, pos) & BTLV_MCSS_ATTR_SUBSTITUTE)
+            work->sprites[idx].flags.paletteFadeHold = 0;
+            if (BTLV_MCSS_GetSpriteAttrFlags(work, pos) & BTLV_MCSS_ATTR_SUBSTITUTE)
                 continue;
             if (BTLV_EFFECT_GaugeGetSlotHealthInfo(pos, &statusArg, &statusKind) == 0)
                 continue;
-            if (w->sprites[idx].flags.statusTinting == 1) {
-                if (w->sprites[idx].tintStep == 0)
-                    w->sprites[idx].tintStep = 1;
-                if (w->sprites[idx].tintTimer++ > 0x18) {
+            if (work->sprites[idx].flags.statusTinting == 1) {
+                if (work->sprites[idx].tintStep == 0)
+                    work->sprites[idx].tintStep = 1;
+                if (work->sprites[idx].tintTimer++ > 0x18) {
                     tintStepped = 1;
-                    w->sprites[idx].tintTimer = 0;
-                    w->sprites[idx].tintLevel += w->sprites[idx].tintStep;
-                    if (w->sprites[idx].tintLevel == 0 || w->sprites[idx].tintLevel == 12)
-                        w->sprites[idx].tintStep *= -1;
+                    work->sprites[idx].tintTimer = 0;
+                    work->sprites[idx].tintLevel += work->sprites[idx].tintStep;
+                    if (work->sprites[idx].tintLevel == 0 || work->sprites[idx].tintLevel == 12)
+                        work->sprites[idx].tintStep *= -1;
                 }
             }
             switch (statusKind) {
             case 3:
-                BTLV_MCSS_StartPaletteCopy(w, pos);
-                BTLV_MCSS_SetBlinkMode(w, pos, 3);
-                BTLV_MCSS_SetAnimStopMode(w, pos, 3);
-                BTLV_MCSS_SetAnimSpeed(w, pos, 0x555);
-                w->sprites[idx].flags.statusTinting = 1;
+                BTLV_MCSS_StartPaletteCopy(work, pos);
+                BTLV_MCSS_SetBlinkMode(work, pos, 3);
+                BTLV_MCSS_SetAnimStopMode(work, pos, 3);
+                BTLV_MCSS_SetAnimSpeed(work, pos, 0x555);
+                work->sprites[idx].flags.statusTinting = 1;
                 break;
             case 1:
                 if (tintStepped == 1)
-                    BTLV_MCSS_StartPaletteTrans(w, pos, (u8)w->sprites[idx].tintLevel, 0x1ef);
-                BTLV_MCSS_SetBlinkMode(w, pos, 4);
-                BTLV_MCSS_SetAnimStopMode(w, pos, 3);
-                w->sprites[idx].flags.statusTinting = 1;
+                    BTLV_MCSS_StartPaletteTrans(work, pos, (u8)work->sprites[idx].tintLevel, 0x1ef);
+                BTLV_MCSS_SetBlinkMode(work, pos, 4);
+                BTLV_MCSS_SetAnimStopMode(work, pos, 3);
+                work->sprites[idx].flags.statusTinting = 1;
                 break;
             case 2:
                 if (tintStepped == 1)
-                    BTLV_MCSS_StartPaletteTrans(w, pos, 8, 0x7def);
-                BTLV_MCSS_SetBlinkMode(w, pos, 4);
-                BTLV_MCSS_SetAnimStopMode(w, pos, 2);
-                w->sprites[idx].flags.statusTinting = 1;
+                    BTLV_MCSS_StartPaletteTrans(work, pos, 8, 0x7def);
+                BTLV_MCSS_SetBlinkMode(work, pos, 4);
+                BTLV_MCSS_SetAnimStopMode(work, pos, 2);
+                work->sprites[idx].flags.statusTinting = 1;
                 break;
             case 5:
                 if (tintStepped == 1)
-                    BTLV_MCSS_StartPaletteTrans(w, pos, (u8)w->sprites[idx].tintLevel, 0xf);
-                BTLV_MCSS_SetBlinkMode(w, pos, 4);
-                BTLV_MCSS_SetAnimStopMode(w, pos, 3);
-                w->sprites[idx].flags.statusTinting = 1;
+                    BTLV_MCSS_StartPaletteTrans(work, pos, (u8)work->sprites[idx].tintLevel, 0xf);
+                BTLV_MCSS_SetBlinkMode(work, pos, 4);
+                BTLV_MCSS_SetAnimStopMode(work, pos, 3);
+                work->sprites[idx].flags.statusTinting = 1;
                 break;
             case 4:
             case 7:
                 if (tintStepped == 1)
-                    BTLV_MCSS_StartPaletteTrans(w, pos, (u8)w->sprites[idx].tintLevel, 0x3c0f);
-                BTLV_MCSS_SetBlinkMode(w, pos, 4);
-                BTLV_MCSS_SetAnimStopMode(w, pos, 3);
-                w->sprites[idx].flags.statusTinting = 1;
+                    BTLV_MCSS_StartPaletteTrans(work, pos, (u8)work->sprites[idx].tintLevel, 0x3c0f);
+                BTLV_MCSS_SetBlinkMode(work, pos, 4);
+                BTLV_MCSS_SetAnimStopMode(work, pos, 3);
+                work->sprites[idx].flags.statusTinting = 1;
                 break;
             case 8:
             default:
-                if (w->sprites[idx].flags.statusTinting == 1) {
-                    BTLV_MCSS_StartPaletteCopy(w, pos);
-                    BTLV_MCSS_SetBlinkMode(w, pos, 4);
-                    BTLV_MCSS_SetAnimStopMode(w, pos, 3);
-                    BTLV_MCSS_SetAnimSpeed(w, pos, 0x1000);
-                    w->sprites[idx].flags.statusTinting = 0;
-                    w->sprites[idx].tintStep = 0;
-                    w->sprites[idx].tintLevel = 0;
-                    w->sprites[idx].tintTimer = 0;
+                if (work->sprites[idx].flags.statusTinting == 1) {
+                    BTLV_MCSS_StartPaletteCopy(work, pos);
+                    BTLV_MCSS_SetBlinkMode(work, pos, 4);
+                    BTLV_MCSS_SetAnimStopMode(work, pos, 3);
+                    BTLV_MCSS_SetAnimSpeed(work, pos, 0x1000);
+                    work->sprites[idx].flags.statusTinting = 0;
+                    work->sprites[idx].tintStep = 0;
+                    work->sprites[idx].tintLevel = 0;
+                    work->sprites[idx].tintTimer = 0;
                 }
                 break;
             }
             if (statusKind == 8) {
                 if ((u32)(statusArg - 2) <= 1)
-                    BTLV_MCSS_SetAnimSpeed(w, pos, 0x555);
+                    BTLV_MCSS_SetAnimSpeed(work, pos, 0x555);
                 else
-                    BTLV_MCSS_SetAnimSpeed(w, pos, 0x1000);
+                    BTLV_MCSS_SetAnimSpeed(work, pos, 0x1000);
             }
         }
     }
 }
 
-void BTLV_MCSS_Draw(BtlvMcssWork *w)
+void BTLV_MCSS_Draw(BtlvMcssWork *work)
 {
-    MCSS_Draw(w->mcss);
+    MCSS_Draw(work->mcss);
 }
 
 /*
  * levers: grouped vectors fix stack order; integer address arithmetic on the
  * second buffer argument prevents CSE; the idle counter is one two-bit assignment.
  */
-void BTLV_MCSS_AddPoke(BtlvMcssWork *w, void *pp, int pos)
+void BTLV_MCSS_AddPoke(BtlvMcssWork *work, void *pp, int pos)
 {
     int i;
     int visible;
@@ -631,31 +631,31 @@ void BTLV_MCSS_AddPoke(BtlvMcssWork *w, void *pp, int pos)
     } vectors;
     u32 hp, maxHp;
     for (i = 0; i < BTLV_MCSS_SPRITE_MAX; i++) {
-        if (w->sprites[i].mcss == 0)
+        if (work->sprites[i].mcss == 0)
             break;
     }
     if (pos < BTLV_MCSS_SPRITE_MAX && i < BTLV_MCSS_SPRITE_MAX) {
-        w->sprites[i].attrFlags = 0;
-        w->sprites[i].flags.blinkLocked = 0;
-        w->sprites[i].flags.statusTinting = 0;
-        w->sprites[i].flags.vanishHeld = 0;
-        w->sprites[i].flags.orthoBillboard = w->orthoActive;
-        w->sprites[i].pos = pos;
-        w->sprites[i].identity.personalRand = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_PERSONAL_RAND, 0);
-        w->sprites[i].colorCode = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_EFFECT_CODE, 0);
+        work->sprites[i].attrFlags = 0;
+        work->sprites[i].flags.blinkLocked = 0;
+        work->sprites[i].flags.statusTinting = 0;
+        work->sprites[i].flags.vanishHeld = 0;
+        work->sprites[i].flags.orthoBillboard = work->orthoActive;
+        work->sprites[i].pos = pos;
+        work->sprites[i].identity.personalRand = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_PERSONAL_RAND, 0);
+        work->sprites[i].colorCode = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_EFFECT_CODE, 0);
         if (POKE_TOOL_IsShiny(pp) == 1)
-            w->sprites[i].attrFlags |= BTLV_MCSS_ATTR_SHINY;
-        BTLV_MCSS_MakeAddWorkFromPoke(w, pp, &w->sprites[i].addWork, pos);
-        BTLV_MCSS_CalcSlotPosition(w, &vectors.position, pos);
-        w->sprites[i].mcss = MCSS_Add(w->mcss, vectors.position.x, vectors.position.y, vectors.position.z, &w->sprites[i].addWork);
-        BTLV_MCSS_SetSpriteWorkFlagForRule(w, pos, 1);
-        w->sprites[i].identity.species = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_SPECIES, 0);
-        w->sprites[i].identity.form = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_FORM, 0);
-        w->sprites[i].identity.personalParam26 = POKE_TOOL_GetPersonalParam(w->sprites[i].identity.species, w->sprites[i].identity.form, 0x26);
+            work->sprites[i].attrFlags |= BTLV_MCSS_ATTR_SHINY;
+        BTLV_MCSS_MakeAddWorkFromPoke(work, pp, &work->sprites[i].addWork, pos);
+        BTLV_MCSS_CalcSlotPosition(work, &vectors.position, pos);
+        work->sprites[i].mcss = MCSS_Add(work->mcss, vectors.position.x, vectors.position.y, vectors.position.z, &work->sprites[i].addWork);
+        BTLV_MCSS_SetSpriteWorkFlagForRule(work, pos, 1);
+        work->sprites[i].identity.species = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_SPECIES, 0);
+        work->sprites[i].identity.form = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_FORM, 0);
+        work->sprites[i].identity.personalParam26 = POKE_TOOL_GetPersonalParam(work->sprites[i].identity.species, work->sprites[i].identity.form, 0x26);
         hp = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_HP, 0);
         maxHp = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_MAX_HP, 0);
-        w->sprites[i].identity.hpState = BGWINFRM_GetScaleRank(hp, maxHp);
-        if (BTLV_MCSS_LookupShadowEntry(w->sprites[i].identity.species, pos, &vectors.shadowOffset, &angle, &visible) == 0) {
+        work->sprites[i].identity.hpState = BGWINFRM_GetScaleRank(hp, maxHp);
+        if (BTLV_MCSS_LookupShadowEntry(work->sprites[i].identity.species, pos, &vectors.shadowOffset, &angle, &visible) == 0) {
             vectors.shadowOffset.x = -0x400;
             vectors.shadowOffset.y = 0;
             vectors.shadowOffset.z = -0x600;
@@ -663,225 +663,225 @@ void BTLV_MCSS_AddPoke(BtlvMcssWork *w, void *pp, int pos)
             visible = 1;
         }
         if (visible == 0)
-            MCSS_SetShadowAlpha(w->sprites[i].mcss, 0);
+            MCSS_SetShadowAlpha(work->sprites[i].mcss, 0);
         else {
-            MCSS_SetShadowOffset(w->sprites[i].mcss, &vectors.shadowOffset);
-            MCSS_SetShadowRotateZ(w->sprites[i].mcss, angle);
+            MCSS_SetShadowOffset(work->sprites[i].mcss, &vectors.shadowOffset);
+            MCSS_SetShadowRotateZ(work->sprites[i].mcss, angle);
         }
-        w->sprites[i].flags.idleCounter = 3;
-        BTLV_MCSS_ApplySlotScale(w, pos);
-        MCSS_SetAnimCallback(w->sprites[i].mcss, i, BTLV_MCSS_IdleAnimCallback, 1);
+        work->sprites[i].flags.idleCounter = 3;
+        BTLV_MCSS_ApplySlotScale(work, pos);
+        MCSS_SetAnimCallback(work->sprites[i].mcss, i, BTLV_MCSS_IdleAnimCallback, 1);
     }
 }
 
-void BTLV_MCSS_AddTrainer(BtlvMcssWork *w, void *trainer, int pos)
+void BTLV_MCSS_AddTrainer(BtlvMcssWork *work, void *trainer, int pos)
 {
     int i;
     BtlvMcssAddWork addWork;
     BtlvMcssVec position;
 
     for (i = 0; i < BTLV_MCSS_SPRITE_MAX; i++) {
-        if (w->sprites[i].mcss == 0)
+        if (work->sprites[i].mcss == 0)
             break;
     }
     if (pos < BTLV_MCSS_SPRITE_MAX && i < BTLV_MCSS_SPRITE_MAX) {
-        w->sprites[i].flags.orthoBillboard = 1;
-        w->sprites[i].pos = pos;
+        work->sprites[i].flags.orthoBillboard = 1;
+        work->sprites[i].pos = pos;
         BTLV_MCSS_MakeAddWorkFromTrainer(trainer, &addWork, pos);
-        BTLV_MCSS_CalcSlotPosition(w, &position, pos);
-        w->sprites[i].mcss = MCSS_Add(w->mcss, position.x, position.y, position.z, &addWork);
-        BTLV_MCSS_ApplySlotScale(w, pos);
+        BTLV_MCSS_CalcSlotPosition(work, &position, pos);
+        work->sprites[i].mcss = MCSS_Add(work->mcss, position.x, position.y, position.z, &addWork);
+        BTLV_MCSS_ApplySlotScale(work, pos);
     }
 }
 
-void BTLV_MCSS_RemoveSprite(BtlvMcssWork *w, int pos)
+void BTLV_MCSS_RemoveSprite(BtlvMcssWork *work, int pos)
 {
-    int idx = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int idx = BTLV_MCSS_FindSpriteIndex(work, pos);
 
-    MCSS_Del(w->mcss, w->sprites[idx].mcss);
-    w->sprites[idx].mcss = 0;
-    if (w->sprites[idx].animWatchTask != 0) {
-        GFL_HEAP_Free(TCBL_GetTaskUserData(w->sprites[idx].animWatchTask));
-        TCB_DeleteTask(w->sprites[idx].animWatchTask);
-        w->sprites[idx].animWatchTask = 0;
+    MCSS_Del(work->mcss, work->sprites[idx].mcss);
+    work->sprites[idx].mcss = 0;
+    if (work->sprites[idx].animWatchTask != 0) {
+        GFL_HEAP_Free(TCBL_GetTaskUserData(work->sprites[idx].animWatchTask));
+        TCB_DeleteTask(work->sprites[idx].animWatchTask);
+        work->sprites[idx].animWatchTask = 0;
     }
 }
 
-void BTLV_MCSS_SetSideScale(BtlvMcssWork *w, int scaleEven, int scaleOdd)
+void BTLV_MCSS_SetSideScale(BtlvMcssWork *work, int scaleEven, int scaleOdd)
 {
-    w->scaleEven = scaleEven;
-    w->scaleOdd = scaleOdd;
+    work->scaleEven = scaleEven;
+    work->scaleOdd = scaleOdd;
 }
 
-void BTLV_MCSS_SetPosition(BtlvMcssWork *w, int pos, int x, int y, int z)
+void BTLV_MCSS_SetPosition(BtlvMcssWork *work, int pos, int x, int y, int z)
 {
-    int idx = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int idx = BTLV_MCSS_FindSpriteIndex(work, pos);
     BtlvMcssVec v;
 
     v.x = x;
     v.y = y;
     v.z = z;
-    MCSS_SetPosition(w->sprites[idx].mcss, &v);
+    MCSS_SetPosition(work->sprites[idx].mcss, &v);
 }
 
-void BTLV_MCSS_EnableOrthoMode(BtlvMcssWork *w)
+void BTLV_MCSS_EnableOrthoMode(BtlvMcssWork *work)
 {
     int i;
     int idx;
 
-    MCSS_SetOrthoMode(w->mcss);
-    w->orthoActive = 1;
+    MCSS_SetOrthoMode(work->mcss);
+    work->orthoActive = 1;
     for (i = 0; i < BTLV_MCSS_SPRITE_MAX; i++) {
-        idx = BTLV_MCSS_FindSpriteIndex(w, i);
+        idx = BTLV_MCSS_FindSpriteIndex(work, i);
         if (idx != -1) {
-            w->sprites[idx].flags.orthoBillboard = 1;
-            BTLV_MCSS_ApplySlotScale(w, i);
+            work->sprites[idx].flags.orthoBillboard = 1;
+            BTLV_MCSS_ApplySlotScale(work, i);
         }
     }
 }
 
-void BTLV_MCSS_DisableOrthoMode(BtlvMcssWork *w)
+void BTLV_MCSS_DisableOrthoMode(BtlvMcssWork *work)
 {
     int i;
     int idx;
 
-    MCSS_ResetOrthoMode(w->mcss);
-    w->orthoActive = 0;
+    MCSS_ResetOrthoMode(work->mcss);
+    work->orthoActive = 0;
     for (i = 0; i < BTLV_MCSS_SPRITE_MAX; i++) {
-        idx = BTLV_MCSS_FindSpriteIndex(w, i);
+        idx = BTLV_MCSS_FindSpriteIndex(work, i);
         if (idx != -1) {
-            w->sprites[idx].flags.orthoBillboard = 0;
-            BTLV_MCSS_ApplySlotScale(w, i);
+            work->sprites[idx].flags.orthoBillboard = 0;
+            BTLV_MCSS_ApplySlotScale(work, i);
         }
     }
 }
 
-void BTLV_MCSS_EnableBillboard(BtlvMcssWork *w, int pos)
+void BTLV_MCSS_EnableBillboard(BtlvMcssWork *work, int pos)
 {
-    int idx = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int idx = BTLV_MCSS_FindSpriteIndex(work, pos);
 
     if (idx == -1)
         return;
-    w->sprites[idx].flags.orthoBillboard = 1;
-    MCSS_SetOrthoBillboardFlag(w->sprites[idx].mcss);
-    BTLV_MCSS_ApplySlotScale(w, pos);
+    work->sprites[idx].flags.orthoBillboard = 1;
+    MCSS_SetOrthoBillboardFlag(work->sprites[idx].mcss);
+    BTLV_MCSS_ApplySlotScale(work, pos);
 }
 
-void BTLV_MCSS_DisableBillboard(BtlvMcssWork *w, int pos)
+void BTLV_MCSS_DisableBillboard(BtlvMcssWork *work, int pos)
 {
-    int idx = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int idx = BTLV_MCSS_FindSpriteIndex(work, pos);
 
     if (idx == -1)
         return;
-    w->sprites[idx].flags.orthoBillboard = 0;
-    MCSS_ResetOrthoBillboardFlag(w->sprites[idx].mcss);
-    BTLV_MCSS_ApplySlotScale(w, pos);
+    work->sprites[idx].flags.orthoBillboard = 0;
+    MCSS_ResetOrthoBillboardFlag(work->sprites[idx].mcss);
+    BTLV_MCSS_ApplySlotScale(work, pos);
 }
 
 /* mode 1 blink on, 2 toggle, 3 blink on and lock, 4 unlock and off, other off */
-void BTLV_MCSS_SetBlinkMode(BtlvMcssWork *w, int pos, int mode)
+void BTLV_MCSS_SetBlinkMode(BtlvMcssWork *work, int pos, int mode)
 {
-    int idx = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int idx = BTLV_MCSS_FindSpriteIndex(work, pos);
 
     if (idx == -1)
         return;
-    if (w->sprites[idx].mcss == 0)
+    if (work->sprites[idx].mcss == 0)
         return;
     if (mode == 4) {
-        MCSS_ResetMepachiFlag(w->sprites[idx].mcss);
-        w->sprites[idx].flags.blinkLocked = 0;
+        MCSS_ResetMepachiFlag(work->sprites[idx].mcss);
+        work->sprites[idx].flags.blinkLocked = 0;
     }
-    if (w->sprites[idx].flags.blinkLocked)
+    if (work->sprites[idx].flags.blinkLocked)
         return;
     if (mode == 2) {
-        MCSS_FlipMepachiFlag(w->sprites[idx].mcss);
+        MCSS_FlipMepachiFlag(work->sprites[idx].mcss);
     } else if (mode == 1) {
-        MCSS_SetMepachiFlag(w->sprites[idx].mcss);
+        MCSS_SetMepachiFlag(work->sprites[idx].mcss);
     } else if (mode == 3) {
-        MCSS_SetMepachiFlag(w->sprites[idx].mcss);
-        w->sprites[idx].flags.blinkLocked = 1;
+        MCSS_SetMepachiFlag(work->sprites[idx].mcss);
+        work->sprites[idx].flags.blinkLocked = 1;
     } else {
-        MCSS_ResetMepachiFlag(w->sprites[idx].mcss);
+        MCSS_ResetMepachiFlag(work->sprites[idx].mcss);
     }
 }
 
-int BTLV_MCSS_IsAnimStopped(BtlvMcssWork *w, int pos)
+int BTLV_MCSS_IsAnimStopped(BtlvMcssWork *work, int pos)
 {
-    int idx = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int idx = BTLV_MCSS_FindSpriteIndex(work, pos);
 
     if (idx == -1)
         return 0;
-    if (w->sprites[idx].mcss == 0)
+    if (work->sprites[idx].mcss == 0)
         return 0;
-    return MCSS_GetAnmStopFlag(w->sprites[idx].mcss);
+    return MCSS_GetAnmStopFlag(work->sprites[idx].mcss);
 }
 
 /* mode 1 stop, 2 stop always, 3 release always, other release */
-void BTLV_MCSS_SetAnimStopMode(BtlvMcssWork *w, int pos, int mode)
+void BTLV_MCSS_SetAnimStopMode(BtlvMcssWork *work, int pos, int mode)
 {
-    int idx = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int idx = BTLV_MCSS_FindSpriteIndex(work, pos);
 
     if (idx == -1)
         return;
-    if (w->sprites[idx].mcss == 0)
+    if (work->sprites[idx].mcss == 0)
         return;
     if (mode == 1)
-        MCSS_SetAnmStopFlag(w->sprites[idx].mcss);
+        MCSS_SetAnmStopFlag(work->sprites[idx].mcss);
     else if (mode == 2)
-        MCSS_SetAnmStopFlagAlways(w->sprites[idx].mcss);
+        MCSS_SetAnmStopFlagAlways(work->sprites[idx].mcss);
     else if (mode == 3)
-        MCSS_ResetAnmStopFlagAlways(w->sprites[idx].mcss);
+        MCSS_ResetAnmStopFlagAlways(work->sprites[idx].mcss);
     else
-        MCSS_ResetAnmStopFlag(w->sprites[idx].mcss);
+        MCSS_ResetAnmStopFlag(work->sprites[idx].mcss);
 }
 
-int BTLV_MCSS_IsVanished(BtlvMcssWork *w, int pos)
+int BTLV_MCSS_IsVanished(BtlvMcssWork *work, int pos)
 {
-    int idx = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int idx = BTLV_MCSS_FindSpriteIndex(work, pos);
 
     if (idx == -1)
         return 0;
-    if (w->sprites[idx].mcss == 0)
+    if (work->sprites[idx].mcss == 0)
         return 0;
-    return MCSS_GetVanishFlag(w->sprites[idx].mcss);
+    return MCSS_GetVanishFlag(work->sprites[idx].mcss);
 }
 
 /* mode 0 show, 1 hide, 2 toggle, 3 hide and remember if it was already hidden, 4 undo mode 3 */
-void BTLV_MCSS_SetVanishMode(BtlvMcssWork *w, int pos, int mode)
+void BTLV_MCSS_SetVanishMode(BtlvMcssWork *work, int pos, int mode)
 {
-    int idx = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int idx = BTLV_MCSS_FindSpriteIndex(work, pos);
 
     if (idx == -1)
         return;
-    if (w->sprites[idx].mcss == 0)
+    if (work->sprites[idx].mcss == 0)
         return;
     switch (mode) {
     case 2:
-        MCSS_FlipVanishFlag(w->sprites[idx].mcss);
+        MCSS_FlipVanishFlag(work->sprites[idx].mcss);
         break;
     case 1:
-        MCSS_SetVanishFlag(w->sprites[idx].mcss);
+        MCSS_SetVanishFlag(work->sprites[idx].mcss);
         break;
     case 0:
-        MCSS_ResetVanishFlag(w->sprites[idx].mcss);
+        MCSS_ResetVanishFlag(work->sprites[idx].mcss);
         break;
     case 3:
-        if (MCSS_GetVanishFlag(w->sprites[idx].mcss))
-            w->sprites[idx].flags.vanishHeld = 1;
-        MCSS_SetVanishFlag(w->sprites[idx].mcss);
+        if (MCSS_GetVanishFlag(work->sprites[idx].mcss))
+            work->sprites[idx].flags.vanishHeld = 1;
+        MCSS_SetVanishFlag(work->sprites[idx].mcss);
         break;
     case 4:
-        if (w->sprites[idx].flags.vanishHeld)
-            w->sprites[idx].flags.vanishHeld = 0;
+        if (work->sprites[idx].flags.vanishHeld)
+            work->sprites[idx].flags.vanishHeld = 0;
         else
-            MCSS_ResetVanishFlag(w->sprites[idx].mcss);
+            MCSS_ResetVanishFlag(work->sprites[idx].mcss);
         break;
     }
 }
 
-void BTLV_MCSS_GetSlotPosition(BtlvMcssWork *w, BtlvMcssVec *out, int pos)
+void BTLV_MCSS_GetSlotPosition(BtlvMcssWork *work, BtlvMcssVec *out, int pos)
 {
-    BTLV_MCSS_CalcSlotPosition(w, out, pos);
+    BTLV_MCSS_CalcSlotPosition(work, out, pos);
 }
 
 /*
@@ -919,42 +919,42 @@ void BTLV_MCSS_GetSlotPositionForRule(const BtlvMcssVec *def, BtlvMcssVec *out, 
     out->z = def->z;
 }
 
-int BTLV_MCSS_GetSlotScale(BtlvMcssWork *w, int pos, int mode)
+int BTLV_MCSS_GetSlotScale(BtlvMcssWork *work, int pos, int mode)
 {
-    return BTLV_MCSS_CalcSlotScale(w, pos, mode);
+    return BTLV_MCSS_CalcSlotScale(work, pos, mode);
 }
 
-void BTLV_MCSS_SetShadowVanish(BtlvMcssWork *w, int pos, u8 vanish)
+void BTLV_MCSS_SetShadowVanish(BtlvMcssWork *work, int pos, u8 vanish)
 {
-    int i = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int i = BTLV_MCSS_FindSpriteIndex(work, pos);
 
     if (i == -1)
         return;
-    if (w->sprites[i].mcss == 0)
+    if (work->sprites[i].mcss == 0)
         return;
-    MCSS_SetShadowVanishFlag(w->sprites[i].mcss, vanish);
+    MCSS_SetShadowVanishFlag(work->sprites[i].mcss, vanish);
 }
 
-void BTLV_MCSS_SetAnimSpeed(BtlvMcssWork *w, int pos, int speed)
+void BTLV_MCSS_SetAnimSpeed(BtlvMcssWork *work, int pos, int speed)
 {
-    int i = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int i = BTLV_MCSS_FindSpriteIndex(work, pos);
 
     if (i == -1)
         return;
-    if (w->sprites[i].mcss == 0)
+    if (work->sprites[i].mcss == 0)
         return;
-    MCSS_SetAnimeSpeed(w->sprites[i].mcss, speed);
+    MCSS_SetAnimeSpeed(work->sprites[i].mcss, speed);
 }
 
-void BTLV_MCSS_StartPositionTween(BtlvMcssWork *w, int pos, int kind, BtlvMcssVec *target, int frames, int waitFrames, int repeat)
+void BTLV_MCSS_StartPositionTween(BtlvMcssWork *work, int pos, int kind, BtlvMcssVec *target, int frames, int waitFrames, int repeat)
 {
-    int idx = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int idx = BTLV_MCSS_FindSpriteIndex(work, pos);
     BtlvMcssVec start;
     if (idx == -1)
         return;
-    if (w->sprites[idx].mcss == 0)
+    if (work->sprites[idx].mcss == 0)
         return;
-    MCSS_GetPosition(w->sprites[idx].mcss, &start);
+    MCSS_GetPosition(work->sprites[idx].mcss, &start);
     if (kind == BTLV_MCSS_TWEEN_ABSOLUTE) {
         if (pos & 1)
             target->x = start.x - target->x;
@@ -964,85 +964,85 @@ void BTLV_MCSS_StartPositionTween(BtlvMcssWork *w, int pos, int kind, BtlvMcssVe
         target->z += start.z;
     }
     if (kind == BTLV_MCSS_TWEEN_SLOT_MOVE) {
-        BTLV_MCSS_CalcSlotPosition(w, target, pos);
+        BTLV_MCSS_CalcSlotPosition(work, target, pos);
         kind = BTLV_MCSS_TWEEN_ABSOLUTE;
     }
     if (kind == BTLV_MCSS_TWEEN_SLOT_SET) {
-        BTLV_MCSS_CalcSlotPosition(w, target, pos);
+        BTLV_MCSS_CalcSlotPosition(work, target, pos);
         kind = BTLV_MCSS_TWEEN_SET;
     }
     if (kind == BTLV_MCSS_TWEEN_SET) {
-        MCSS_SetPosition(w->sprites[idx].mcss, target);
+        MCSS_SetPosition(work->sprites[idx].mcss, target);
         return;
     }
-    w->positionSerial[pos]++;
-    BTLV_MCSS_CreateTweenTask(w, pos, kind, &start, target, frames, waitFrames, repeat, BTLV_MCSS_PositionTweenTaskMain, BTLV_MCSS_PositionTweenTaskEnd, 1, w->positionSerial[pos]);
-    w->positionTweenMask |= BTLV_EFFECT_GetBitMask(pos);
+    work->positionSerial[pos]++;
+    BTLV_MCSS_CreateTweenTask(work, pos, kind, &start, target, frames, waitFrames, repeat, BTLV_MCSS_PositionTweenTaskMain, BTLV_MCSS_PositionTweenTaskEnd, 1, work->positionSerial[pos]);
+    work->positionTweenMask |= BTLV_EFFECT_GetBitMask(pos);
 }
 
-void BTLV_MCSS_StartShadowScaleTween(BtlvMcssWork *w, int pos, int kind, BtlvMcssVec *target, int frames, int waitFrames, int repeat)
+void BTLV_MCSS_StartShadowScaleTween(BtlvMcssWork *work, int pos, int kind, BtlvMcssVec *target, int frames, int waitFrames, int repeat)
 {
-    int idx = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int idx = BTLV_MCSS_FindSpriteIndex(work, pos);
     BtlvMcssVec cur;
 
     if (idx == -1)
         return;
-    if (w->sprites[idx].mcss == 0)
+    if (work->sprites[idx].mcss == 0)
         return;
-    MCSS_GetShadowScale(w->sprites[idx].mcss, &cur);
-    w->shadowScaleSerial[pos]++;
-    BTLV_MCSS_CreateTweenTask(w, pos, kind, &cur, target, frames, waitFrames, repeat, BTLV_MCSS_ShadowScaleTweenTaskMain, BTLV_MCSS_ShadowScaleTweenTaskEnd, 0, w->shadowScaleSerial[pos]);
-    w->shadowScaleTweenMask |= BTLV_EFFECT_GetBitMask(pos);
+    MCSS_GetShadowScale(work->sprites[idx].mcss, &cur);
+    work->shadowScaleSerial[pos]++;
+    BTLV_MCSS_CreateTweenTask(work, pos, kind, &cur, target, frames, waitFrames, repeat, BTLV_MCSS_ShadowScaleTweenTaskMain, BTLV_MCSS_ShadowScaleTweenTaskEnd, 0, work->shadowScaleSerial[pos]);
+    work->shadowScaleTweenMask |= BTLV_EFFECT_GetBitMask(pos);
 }
 
-void BTLV_MCSS_StartScaleTween(BtlvMcssWork *w, int pos, int kind, BtlvMcssVec *target, int frames, int waitFrames, int repeat)
+void BTLV_MCSS_StartScaleTween(BtlvMcssWork *work, int pos, int kind, BtlvMcssVec *target, int frames, int waitFrames, int repeat)
 {
-    int idx = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int idx = BTLV_MCSS_FindSpriteIndex(work, pos);
     BtlvMcssVec cur;
 
     if (idx == -1)
         return;
-    if (w->sprites[idx].mcss == 0)
+    if (work->sprites[idx].mcss == 0)
         return;
-    MCSS_GetScale(w->sprites[idx].mcss, &cur);
-    w->scaleSerial[pos]++;
-    BTLV_MCSS_CreateTweenTask(w, pos, kind, &cur, target, frames, waitFrames, repeat, BTLV_MCSS_ScaleTweenTaskMain, BTLV_MCSS_ScaleTweenTaskEnd, 0, w->scaleSerial[pos]);
-    w->scaleTweenMask |= BTLV_EFFECT_GetBitMask(pos);
+    MCSS_GetScale(work->sprites[idx].mcss, &cur);
+    work->scaleSerial[pos]++;
+    BTLV_MCSS_CreateTweenTask(work, pos, kind, &cur, target, frames, waitFrames, repeat, BTLV_MCSS_ScaleTweenTaskMain, BTLV_MCSS_ScaleTweenTaskEnd, 0, work->scaleSerial[pos]);
+    work->scaleTweenMask |= BTLV_EFFECT_GetBitMask(pos);
 }
 
 /* The start value is read from the shadow scale, the task then moves the draw scale. */
-void BTLV_MCSS_StartDrawScaleTween(BtlvMcssWork *w, int pos, int kind, BtlvMcssVec *target, int frames, int waitFrames, int repeat)
+void BTLV_MCSS_StartDrawScaleTween(BtlvMcssWork *work, int pos, int kind, BtlvMcssVec *target, int frames, int waitFrames, int repeat)
 {
-    int idx = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int idx = BTLV_MCSS_FindSpriteIndex(work, pos);
     BtlvMcssVec cur;
 
     if (idx == -1)
         return;
-    if (w->sprites[idx].mcss == 0)
+    if (work->sprites[idx].mcss == 0)
         return;
-    MCSS_GetShadowScale(w->sprites[idx].mcss, &cur);
-    w->drawScaleSerial[pos]++;
-    BTLV_MCSS_CreateTweenTask(w, pos, kind, &cur, target, frames, waitFrames, repeat, BTLV_MCSS_DrawScaleTweenTaskMain, BTLV_MCSS_DrawScaleTweenTaskEnd, 0, w->drawScaleSerial[pos]);
-    w->drawScaleTweenMask |= BTLV_EFFECT_GetBitMask(pos);
+    MCSS_GetShadowScale(work->sprites[idx].mcss, &cur);
+    work->drawScaleSerial[pos]++;
+    BTLV_MCSS_CreateTweenTask(work, pos, kind, &cur, target, frames, waitFrames, repeat, BTLV_MCSS_DrawScaleTweenTaskMain, BTLV_MCSS_DrawScaleTweenTaskEnd, 0, work->drawScaleSerial[pos]);
+    work->drawScaleTweenMask |= BTLV_EFFECT_GetBitMask(pos);
 }
 
-void BTLV_MCSS_StartRotateTween(BtlvMcssWork *w, int pos, int kind, BtlvMcssVec *target, int frames, int waitFrames, int repeat)
+void BTLV_MCSS_StartRotateTween(BtlvMcssWork *work, int pos, int kind, BtlvMcssVec *target, int frames, int waitFrames, int repeat)
 {
-    int idx = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int idx = BTLV_MCSS_FindSpriteIndex(work, pos);
     BtlvMcssVec cur;
 
     if (idx == -1)
         return;
-    if (w->sprites[idx].mcss == 0)
+    if (work->sprites[idx].mcss == 0)
         return;
-    MCSS_GetRotate(w->sprites[idx].mcss, &cur);
-    w->rotateSerial[pos]++;
-    BTLV_MCSS_CreateTweenTask(w, pos, kind, &cur, target, frames, waitFrames, repeat, BTLV_MCSS_RotateTweenTaskMain, BTLV_MCSS_RotateTweenTaskEnd, 1, w->rotateSerial[pos]);
-    w->rotateTweenMask |= BTLV_EFFECT_GetBitMask(pos);
+    MCSS_GetRotate(work->sprites[idx].mcss, &cur);
+    work->rotateSerial[pos]++;
+    BTLV_MCSS_CreateTweenTask(work, pos, kind, &cur, target, frames, waitFrames, repeat, BTLV_MCSS_RotateTweenTaskMain, BTLV_MCSS_RotateTweenTaskEnd, 1, work->rotateSerial[pos]);
+    work->rotateTweenMask |= BTLV_EFFECT_GetBitMask(pos);
 }
 
 /* Exchange two sprites: each moves to the other's slot position and takes its position number. */
-void BTLV_MCSS_SwapSprites(BtlvMcssWork *w, int posA, int posB)
+void BTLV_MCSS_SwapSprites(BtlvMcssWork *work, int posA, int posB)
 {
     int positions[2];
     int idx[2];
@@ -1052,77 +1052,77 @@ void BTLV_MCSS_SwapSprites(BtlvMcssWork *w, int posA, int posB)
     positions[0] = posA;
     positions[1] = posB;
     for (i = 0; i < 2; i++) {
-        idx[i] = BTLV_MCSS_FindSpriteIndex(w, positions[i]);
-        if (BTLV_MCSS_IsSpriteLoaded(w, positions[i])) {
-            BTLV_MCSS_CalcSlotPosition(w, &slotPosition, positions[i ^ 1]);
-            BTLV_MCSS_StartPositionTween(w, positions[i], 0, &slotPosition, 0, 0, 0);
+        idx[i] = BTLV_MCSS_FindSpriteIndex(work, positions[i]);
+        if (BTLV_MCSS_IsSpriteLoaded(work, positions[i])) {
+            BTLV_MCSS_CalcSlotPosition(work, &slotPosition, positions[i ^ 1]);
+            BTLV_MCSS_StartPositionTween(work, positions[i], 0, &slotPosition, 0, 0, 0);
             BTLV_GAUGE_HideSlot(BTLV_EFFECT_GetGauge(), positions[i]);
-            if (w->sprites[idx[i]].flags.repositionHidden) {
-                w->sprites[idx[i]].flags.repositionHidden = 0;
-                BTLV_MCSS_SetVanishMode(w, positions[i], 0);
+            if (work->sprites[idx[i]].flags.repositionHidden) {
+                work->sprites[idx[i]].flags.repositionHidden = 0;
+                BTLV_MCSS_SetVanishMode(work, positions[i], 0);
             }
         }
     }
     for (i = 0; i < 2; i++) {
         if (idx[i] != -1)
-            w->sprites[idx[i]].pos = positions[i ^ 1];
+            work->sprites[idx[i]].pos = positions[i ^ 1];
     }
 }
 
 /* kind 2 timed blink, 3 blink on, 4 blink off */
-void BTLV_MCSS_StartBlinkTask(BtlvMcssWork *w, int pos, int kind, int interval, int toggles)
+void BTLV_MCSS_StartBlinkTask(BtlvMcssWork *work, int pos, int kind, int interval, int toggles)
 {
     BtlvMcssBlinkTask *task;
 
     switch (kind) {
     case 3:
-        BTLV_MCSS_SetBlinkMode(w, pos, 1);
+        BTLV_MCSS_SetBlinkMode(work, pos, 1);
         return;
     case 4:
-        BTLV_MCSS_SetBlinkMode(w, pos, 0);
+        BTLV_MCSS_SetBlinkMode(work, pos, 0);
         return;
     case 2:
-        task = GFL_HEAP_Alloc((u16)((w->heapId & 0x7fff) | 0x8000), 0x54, 0, gBtlvMcssSourceFileName, 0x5e5);
-        task->work = w;
+        task = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x54, 0, gBtlvMcssSourceFileName, 0x5e5);
+        task->work = work;
         task->pos = pos;
         task->kind = kind;
         task->wait = 0;
         task->reload = interval;
         task->count = toggles * 2;
-        w->blinkSerial[pos]++;
-        task->serial = w->blinkSerial[pos];
-        BTLV_EFFECT_RegisterTask(TCB_AddTask(w->taskOwner, BTLV_MCSS_BlinkTaskMain, task, 0), BTLV_MCSS_BlinkTaskEnd, 2);
-        w->blinkTaskMask |= BTLV_EFFECT_GetBitMask(pos);
+        work->blinkSerial[pos]++;
+        task->serial = work->blinkSerial[pos];
+        BTLV_EFFECT_RegisterTask(TCB_AddTask(work->taskOwner, BTLV_MCSS_BlinkTaskMain, task, 0), BTLV_MCSS_BlinkTaskEnd, 2);
+        work->blinkTaskMask |= BTLV_EFFECT_GetBitMask(pos);
         return;
     }
 }
 
-void BTLV_MCSS_StartAlphaTween(BtlvMcssWork *w, int pos, int kind, int alpha, int frames, int waitFrames, int repeat)
+void BTLV_MCSS_StartAlphaTween(BtlvMcssWork *work, int pos, int kind, int alpha, int frames, int waitFrames, int repeat)
 {
-    int idx = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int idx = BTLV_MCSS_FindSpriteIndex(work, pos);
     BtlvMcssVec start, end;
     if (idx == -1)
         return;
-    if (w->sprites[idx].mcss == 0)
+    if (work->sprites[idx].mcss == 0)
         return;
-    start.x = INT_TO_FX32(MCSS_GetAlpha(w->sprites[idx].mcss));
+    start.x = INT_TO_FX32(MCSS_GetAlpha(work->sprites[idx].mcss));
     start.y = 0;
     start.z = 0;
     end.x = INT_TO_FX32(alpha);
     end.y = 0;
     end.z = 0;
-    w->alphaSerial[pos]++;
-    BTLV_MCSS_CreateTweenTask(w, pos, kind, &start, &end, frames, waitFrames, repeat, BTLV_MCSS_AlphaTweenTaskMain, BTLV_MCSS_AlphaTweenTaskEnd, 0, w->alphaSerial[pos]);
-    w->alphaTweenMask |= BTLV_EFFECT_GetBitMask(pos);
+    work->alphaSerial[pos]++;
+    BTLV_MCSS_CreateTweenTask(work, pos, kind, &start, &end, frames, waitFrames, repeat, BTLV_MCSS_AlphaTweenTaskMain, BTLV_MCSS_AlphaTweenTaskEnd, 0, work->alphaSerial[pos]);
+    work->alphaTweenMask |= BTLV_EFFECT_GetBitMask(pos);
 }
 
 /*
  * lever: the 4/5 mode test is an unsigned range check; individual equality tests cost two bytes.
  */
-void BTLV_MCSS_StartShakeTask(BtlvMcssWork *w, BtlvMcssShakeParams *params)
+void BTLV_MCSS_StartShakeTask(BtlvMcssWork *work, BtlvMcssShakeParams *params)
 {
-    BtlvMcssShakeParams *task = GFL_HEAP_Alloc((u16)((w->heapId & 0x7fff) | 0x8000), 0x3c, 0, gBtlvMcssSourceFileName, 0x627);
-    task->work = w;
+    BtlvMcssShakeParams *task = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x3c, 0, gBtlvMcssSourceFileName, 0x627);
+    task->work = work;
     task->pos = params->pos;
     task->mode = params->mode;
     task->waveStart = params->waveStart;
@@ -1141,209 +1141,209 @@ void BTLV_MCSS_StartShakeTask(BtlvMcssWork *w, BtlvMcssShakeParams *params)
     }
     task->phase = (task->mode & 1) ? 0x10000 : 0;
     task->phaseStep = 0x10000 / params->stepsPerCycle;
-    w->positionSerial[task->pos]++;
-    task->serial = w->positionSerial[task->pos];
-    BTLV_EFFECT_RegisterTask(TCB_AddTask(w->taskOwner, BTLV_MCSS_ShakeTaskMain, task, 0), BTLV_MCSS_ShakeTaskEnd, 2);
-    w->positionTweenMask |= BTLV_EFFECT_GetBitMask(task->pos);
+    work->positionSerial[task->pos]++;
+    task->serial = work->positionSerial[task->pos];
+    BTLV_EFFECT_RegisterTask(TCB_AddTask(work->taskOwner, BTLV_MCSS_ShakeTaskMain, task, 0), BTLV_MCSS_ShakeTaskEnd, 2);
+    work->positionTweenMask |= BTLV_EFFECT_GetBitMask(task->pos);
 }
 
-void BTLV_MCSS_StartBounceTask(BtlvMcssWork *w, BtlvMcssBounceParams *params)
+void BTLV_MCSS_StartBounceTask(BtlvMcssWork *work, BtlvMcssBounceParams *params)
 {
-    BtlvMcssBounceParams *task = GFL_HEAP_Alloc((u16)((w->heapId & 0x7fff) | 0x8000), 0x2c, 0, gBtlvMcssSourceFileName, 0x660);
-    int idx = BTLV_MCSS_FindSpriteIndex(w, params->pos);
+    BtlvMcssBounceParams *task = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x2c, 0, gBtlvMcssSourceFileName, 0x660);
+    int idx = BTLV_MCSS_FindSpriteIndex(work, params->pos);
 
     if (idx == -1)
         return;
-    if (w->sprites[idx].mcss == 0)
+    if (work->sprites[idx].mcss == 0)
         return;
     *task = *params;
-    task->work = w;
-    MCSS_GetPosition(w->sprites[idx].mcss, &task->startPosition);
-    w->positionSerial[task->pos]++;
-    task->serial = w->positionSerial[task->pos];
-    BTLV_EFFECT_RegisterTask(TCB_AddTask(w->taskOwner, BTLV_MCSS_BounceTaskMain, task, 0), BTLV_MCSS_BounceTaskEnd, 2);
-    w->positionTweenMask |= BTLV_EFFECT_GetBitMask(task->pos);
+    task->work = work;
+    MCSS_GetPosition(work->sprites[idx].mcss, &task->startPosition);
+    work->positionSerial[task->pos]++;
+    task->serial = work->positionSerial[task->pos];
+    BTLV_EFFECT_RegisterTask(TCB_AddTask(work->taskOwner, BTLV_MCSS_BounceTaskMain, task, 0), BTLV_MCSS_BounceTaskEnd, 2);
+    work->positionTweenMask |= BTLV_EFFECT_GetBitMask(task->pos);
 }
 
-void BTLV_MCSS_StartMosaicTween(BtlvMcssWork *w, int pos, int kind, int mosaic, int frames, int waitFrames, int repeat)
+void BTLV_MCSS_StartMosaicTween(BtlvMcssWork *work, int pos, int kind, int mosaic, int frames, int waitFrames, int repeat)
 {
-    int idx = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int idx = BTLV_MCSS_FindSpriteIndex(work, pos);
     BtlvMcssVec start, end;
     if (idx == -1)
         return;
-    if (w->sprites[idx].mcss == 0)
+    if (work->sprites[idx].mcss == 0)
         return;
-    start.x = INT_TO_FX32(MCSS_GetMosaic(w->sprites[idx].mcss));
+    start.x = INT_TO_FX32(MCSS_GetMosaic(work->sprites[idx].mcss));
     start.y = 0;
     start.z = 0;
     end.x = INT_TO_FX32(mosaic);
     end.y = 0;
     end.z = 0;
-    w->mosaicSerial[pos]++;
-    BTLV_MCSS_CreateTweenTask(w, pos, kind, &start, &end, frames, waitFrames, repeat, BTLV_MCSS_MosaicTweenTaskMain, BTLV_MCSS_MosaicTweenTaskEnd, 0, w->mosaicSerial[pos]);
-    w->mosaicTweenMask |= BTLV_EFFECT_GetBitMask(pos);
+    work->mosaicSerial[pos]++;
+    BTLV_MCSS_CreateTweenTask(work, pos, kind, &start, &end, frames, waitFrames, repeat, BTLV_MCSS_MosaicTweenTaskMain, BTLV_MCSS_MosaicTweenTaskEnd, 0, work->mosaicSerial[pos]);
+    work->mosaicTweenMask |= BTLV_EFFECT_GetBitMask(pos);
 }
 
-int BTLV_MCSS_IsSpriteBusy(BtlvMcssWork *w, int pos)
+int BTLV_MCSS_IsSpriteBusy(BtlvMcssWork *work, int pos)
 {
     int fading = 0;
 
-    if (BTLV_MCSS_IsSpriteLoaded(w, pos))
-        fading = MCSS_CheckPaletteFade(w->sprites[BTLV_MCSS_FindSpriteIndex(w, pos)].mcss);
-    if (BTLV_EFFECT_GetBitMask(pos) & w->positionTweenMask
-        || BTLV_EFFECT_GetBitMask(pos) & w->shadowScaleTweenMask
-        || BTLV_EFFECT_GetBitMask(pos) & w->drawScaleTweenMask
-        || BTLV_EFFECT_GetBitMask(pos) & w->scaleTweenMask
-        || BTLV_EFFECT_GetBitMask(pos) & w->rotateTweenMask
-        || BTLV_EFFECT_GetBitMask(pos) & w->blinkTaskMask
-        || BTLV_EFFECT_GetBitMask(pos) & w->alphaTweenMask
-        || BTLV_EFFECT_GetBitMask(pos) & w->mosaicTweenMask
-        || w->flags.rotating
+    if (BTLV_MCSS_IsSpriteLoaded(work, pos))
+        fading = MCSS_CheckPaletteFade(work->sprites[BTLV_MCSS_FindSpriteIndex(work, pos)].mcss);
+    if (BTLV_EFFECT_GetBitMask(pos) & work->positionTweenMask
+        || BTLV_EFFECT_GetBitMask(pos) & work->shadowScaleTweenMask
+        || BTLV_EFFECT_GetBitMask(pos) & work->drawScaleTweenMask
+        || BTLV_EFFECT_GetBitMask(pos) & work->scaleTweenMask
+        || BTLV_EFFECT_GetBitMask(pos) & work->rotateTweenMask
+        || BTLV_EFFECT_GetBitMask(pos) & work->blinkTaskMask
+        || BTLV_EFFECT_GetBitMask(pos) & work->alphaTweenMask
+        || BTLV_EFFECT_GetBitMask(pos) & work->mosaicTweenMask
+        || work->flags.rotating
         || fading)
         return 1;
     return 0;
 }
 
-int BTLV_MCSS_IsAnySpriteBusy(BtlvMcssWork *w)
+int BTLV_MCSS_IsAnySpriteBusy(BtlvMcssWork *work)
 {
     BtlvMcssPos pos;
 
     for (pos = 0; pos < BTLV_MCSS_POKE_POS_COUNT; pos++) {
-        if (BTLV_MCSS_IsSpriteLoaded(w, pos) && BTLV_MCSS_IsSpriteBusy(w, pos))
+        if (BTLV_MCSS_IsSpriteLoaded(work, pos) && BTLV_MCSS_IsSpriteBusy(work, pos))
             return 1;
     }
     return 0;
 }
 
-int BTLV_MCSS_IsSpriteLoaded(BtlvMcssWork *w, int pos)
+int BTLV_MCSS_IsSpriteLoaded(BtlvMcssWork *work, int pos)
 {
-    if (BTLV_MCSS_FindSpriteIndex(w, pos) != -1)
+    if (BTLV_MCSS_FindSpriteIndex(work, pos) != -1)
         return 1;
     return 0;
 }
 
-void BTLV_MCSS_SetPaletteFade(BtlvMcssWork *w, int pos, u8 cur, u8 target, u8 step, u32 color)
+void BTLV_MCSS_SetPaletteFade(BtlvMcssWork *work, int pos, u8 cur, u8 target, u8 step, u32 color)
 {
-    int idx = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int idx = BTLV_MCSS_FindSpriteIndex(work, pos);
 
     if (idx == -1)
         return;
-    if (w->sprites[idx].mcss == 0)
+    if (work->sprites[idx].mcss == 0)
         return;
-    MCSS_SetPaletteFade(w->sprites[idx].mcss, cur, target, (s8)step, color);
-    w->sprites[idx].flags.paletteFadeSet = 1;
+    MCSS_SetPaletteFade(work->sprites[idx].mcss, cur, target, (s8)step, color);
+    work->sprites[idx].flags.paletteFadeSet = 1;
 }
 
-void BTLV_MCSS_StartPaletteTrans(BtlvMcssWork *w, int pos, int a, int b)
+void BTLV_MCSS_StartPaletteTrans(BtlvMcssWork *work, int pos, int level, int color)
 {
-    int idx = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int idx = BTLV_MCSS_FindSpriteIndex(work, pos);
 
     if (idx == -1)
         return;
-    if (w->sprites[idx].mcss == 0)
+    if (work->sprites[idx].mcss == 0)
         return;
-    MCSS_CreatePaletteTransTask(w->mcss, w->sprites[idx].mcss, a, b);
+    MCSS_CreatePaletteTransTask(work->mcss, work->sprites[idx].mcss, level, color);
 }
 
-void BTLV_MCSS_StartPaletteCopy(BtlvMcssWork *w, int pos)
+void BTLV_MCSS_StartPaletteCopy(BtlvMcssWork *work, int pos)
 {
-    int idx = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int idx = BTLV_MCSS_FindSpriteIndex(work, pos);
 
     if (idx == -1)
         return;
-    if (w->sprites[idx].mcss == 0)
+    if (work->sprites[idx].mcss == 0)
         return;
-    MCSS_CreatePaletteCopyTask(w->mcss, w->sprites[idx].mcss);
+    MCSS_CreatePaletteCopyTask(work->mcss, work->sprites[idx].mcss);
 }
 
-void BTLV_MCSS_RefreshSpriteFromParty(BtlvMcssWork *w, int pos, void *pp)
+void BTLV_MCSS_RefreshSpriteFromParty(BtlvMcssWork *work, int pos, void *pp)
 {
-    int idx = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int idx = BTLV_MCSS_FindSpriteIndex(work, pos);
 
     if (idx == -1)
         return;
-    if (w->sprites[idx].mcss == 0)
+    if (work->sprites[idx].mcss == 0)
         return;
-    w->sprites[idx].identity.species = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_SPECIES, 0);
-    w->sprites[idx].identity.form = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_FORM, 0);
-    w->sprites[idx].identity.personalParam26 = POKE_TOOL_GetPersonalParam(w->sprites[idx].identity.species, w->sprites[idx].identity.form, 0x26);
-    w->sprites[idx].identity.personalRand = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_PERSONAL_RAND, 0);
-    w->sprites[idx].colorCode = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_EFFECT_CODE, 0);
+    work->sprites[idx].identity.species = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_SPECIES, 0);
+    work->sprites[idx].identity.form = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_FORM, 0);
+    work->sprites[idx].identity.personalParam26 = POKE_TOOL_GetPersonalParam(work->sprites[idx].identity.species, work->sprites[idx].identity.form, 0x26);
+    work->sprites[idx].identity.personalRand = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_PERSONAL_RAND, 0);
+    work->sprites[idx].colorCode = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_EFFECT_CODE, 0);
     if (POKE_TOOL_IsShiny(pp) == 1)
-        w->sprites[idx].attrFlags |= BTLV_MCSS_ATTR_SHINY;
-    w->sprites[idx].identity.hpState = BGWINFRM_GetScaleRank(POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_HP, 0), POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_MAX_HP, 0));
-    w->sprites[idx].flags.refreshed = 1;
+        work->sprites[idx].attrFlags |= BTLV_MCSS_ATTR_SHINY;
+    work->sprites[idx].identity.hpState = BGWINFRM_GetScaleRank(POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_HP, 0), POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_MAX_HP, 0));
+    work->sprites[idx].flags.refreshed = 1;
 }
 
-int BTLV_MCSS_GetSpritePersonalParam26(BtlvMcssWork *w, int pos)
+int BTLV_MCSS_GetSpritePersonalParam26(BtlvMcssWork *work, int pos)
 {
-    int i = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int i = BTLV_MCSS_FindSpriteIndex(work, pos);
 
     if (i == -1)
         return 0;
-    if (w->sprites[i].mcss == 0)
+    if (work->sprites[i].mcss == 0)
         return 0;
-    return w->sprites[i].identity.personalParam26;
+    return work->sprites[i].identity.personalParam26;
 }
 
-int BTLV_MCSS_GetSpriteAttrFlags(BtlvMcssWork *w, int pos)
+int BTLV_MCSS_GetSpriteAttrFlags(BtlvMcssWork *work, int pos)
 {
     int i;
 
     if (pos == 0xff)
         return 0;
-    i = BTLV_MCSS_FindSpriteIndex(w, pos);
+    i = BTLV_MCSS_FindSpriteIndex(work, pos);
     if (i == -1)
         return 0;
-    if (w->sprites[i].mcss == 0)
+    if (work->sprites[i].mcss == 0)
         return 0;
-    return w->sprites[i].attrFlags;
+    return work->sprites[i].attrFlags;
 }
 
-int BTLV_MCSS_HasPersonalParam10(BtlvMcssWork *w, int pos)
+int BTLV_MCSS_HasPersonalParam10(BtlvMcssWork *work, int pos)
 {
-    int idx = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int idx = BTLV_MCSS_FindSpriteIndex(work, pos);
 
     if (idx == -1)
         return 0;
-    if (w->sprites[idx].mcss == 0)
+    if (work->sprites[idx].mcss == 0)
         return 0;
-    if (POKE_TOOL_GetPersonalParam(w->sprites[idx].identity.species, w->sprites[idx].identity.form, 0x10))
+    if (POKE_TOOL_GetPersonalParam(work->sprites[idx].identity.species, work->sprites[idx].identity.form, 0x10))
         return 1;
     return 0;
 }
 
-int BTLV_MCSS_GetStopCellFlags(BtlvMcssWork *w, int pos)
+int BTLV_MCSS_GetStopCellFlags(BtlvMcssWork *work, int pos)
 {
-    int idx = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int idx = BTLV_MCSS_FindSpriteIndex(work, pos);
 
     if (idx == -1)
         return 0;
-    if (w->sprites[idx].mcss == 0)
+    if (work->sprites[idx].mcss == 0)
         return 0;
-    return MCSS_GetStopCellFlags(w->sprites[idx].mcss);
+    return MCSS_GetStopCellFlags(work->sprites[idx].mcss);
 }
 
 /* showSubstitute 0 restores the Pokemon sprite, otherwise the substitute doll resources are loaded. */
-void BTLV_MCSS_SetSubstituteSprite(BtlvMcssWork *w, int pos, int showSubstitute, int setSwapped)
+void BTLV_MCSS_SetSubstituteSprite(BtlvMcssWork *work, int pos, int showSubstitute, int setSwapped)
 {
-    int idx = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int idx = BTLV_MCSS_FindSpriteIndex(work, pos);
     BtlvMcssSprite *sprites;
     BtlvMcssAddWork addWork;
     int odd;
 
     if (idx == -1)
         return;
-    sprites = w->sprites;
+    sprites = work->sprites;
     if (sprites[idx].mcss == 0)
         return;
     if (showSubstitute == 0) {
-        MCSS_TOOL_SetSpindaSpotHook(w->mcss, w->sprites[idx].identity.personalRand);
-        MCSS_ReloadResource(w->mcss, w->sprites[idx].mcss, &w->sprites[idx].addWork.archiveId);
-        MCSS_SetAnimCallback(w->sprites[idx].mcss, idx, BTLV_MCSS_IdleAnimCallback, 1);
+        MCSS_TOOL_SetSpindaSpotHook(work->mcss, work->sprites[idx].identity.personalRand);
+        MCSS_ReloadResource(work->mcss, work->sprites[idx].mcss, &work->sprites[idx].addWork.archiveId);
+        MCSS_SetAnimCallback(work->sprites[idx].mcss, idx, BTLV_MCSS_IdleAnimCallback, 1);
         if (setSwapped)
-            w->sprites[idx].attrFlags &= ~BTLV_MCSS_ATTR_SWAPPED;
-        w->sprites[idx].attrFlags &= ~BTLV_MCSS_ATTR_SUBSTITUTE;
+            work->sprites[idx].attrFlags &= ~BTLV_MCSS_ATTR_SWAPPED;
+        work->sprites[idx].attrFlags &= ~BTLV_MCSS_ATTR_SUBSTITUTE;
     } else {
         addWork.archiveId = POKEGRA_GetArcID();
         odd = pos & 1;
@@ -1355,65 +1355,65 @@ void BTLV_MCSS_SetSubstituteSprite(BtlvMcssWork *w, int pos, int showSubstitute,
         addWork.nmarId = odd ? 0x37a4 : 0x37aa;
         addWork.ncecId = odd ? 0x37a5 : 0x37ab;
         addWork.terminator = 0;
-        MCSS_ReloadResource(w->mcss, sprites[idx].mcss, &addWork.archiveId);
-        BTLV_MCSS_StartPaletteCopy(w, pos);
+        MCSS_ReloadResource(work->mcss, sprites[idx].mcss, &addWork.archiveId);
+        BTLV_MCSS_StartPaletteCopy(work, pos);
         if (setSwapped)
-            w->sprites[idx].attrFlags |= BTLV_MCSS_ATTR_SWAPPED;
-        w->sprites[idx].attrFlags |= BTLV_MCSS_ATTR_SUBSTITUTE;
+            work->sprites[idx].attrFlags |= BTLV_MCSS_ATTR_SWAPPED;
+        work->sprites[idx].attrFlags |= BTLV_MCSS_ATTR_SUBSTITUTE;
     }
 }
 
-void BTLV_MCSS_SetMosaic(BtlvMcssWork *w, int pos, int mosaic)
+void BTLV_MCSS_SetMosaic(BtlvMcssWork *work, int pos, int mosaic)
 {
-    int idx = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int idx = BTLV_MCSS_FindSpriteIndex(work, pos);
 
     if (idx == -1)
         return;
-    if (w->sprites[idx].mcss == 0)
+    if (work->sprites[idx].mcss == 0)
         return;
-    MCSS_TOOL_SetSpindaSpotHook(w->mcss, w->sprites[idx].identity.personalRand);
-    MCSS_SetMosaic(w->mcss, w->sprites[idx].mcss, mosaic);
+    MCSS_TOOL_SetSpindaSpotHook(work->mcss, work->sprites[idx].identity.personalRand);
+    MCSS_SetMosaic(work->mcss, work->sprites[idx].mcss, mosaic);
 }
 
 /* Copy the identity and resources of sprite posA to posB, shifting the resource ids to the other side's set. */
-void BTLV_MCSS_CopySpriteResources(BtlvMcssWork *w, int posA, int posB)
+void BTLV_MCSS_CopySpriteResources(BtlvMcssWork *work, int posA, int posB)
 {
-    int idxA = BTLV_MCSS_FindSpriteIndex(w, posA);
-    int idxB = BTLV_MCSS_FindSpriteIndex(w, posB);
+    int idxA = BTLV_MCSS_FindSpriteIndex(work, posA);
+    int idxB = BTLV_MCSS_FindSpriteIndex(work, posB);
 
-    w->sprites[idxB].addWork.archiveId = w->sprites[idxA].addWork.archiveId;
-    w->sprites[idxB].addWork.nclrId = w->sprites[idxA].addWork.nclrId;
+    work->sprites[idxB].addWork.archiveId = work->sprites[idxA].addWork.archiveId;
+    work->sprites[idxB].addWork.nclrId = work->sprites[idxA].addWork.nclrId;
     if (posA & 1) {
-        w->sprites[idxB].addWork.ncbrId = w->sprites[idxA].addWork.ncbrId + 9;
-        w->sprites[idxB].addWork.ncerId = w->sprites[idxA].addWork.ncerId + 9;
-        w->sprites[idxB].addWork.nanrId = w->sprites[idxA].addWork.nanrId + 9;
-        w->sprites[idxB].addWork.nmcrId = w->sprites[idxA].addWork.nmcrId + 9;
-        w->sprites[idxB].addWork.nmarId = w->sprites[idxA].addWork.nmarId + 9;
-        w->sprites[idxB].addWork.ncecId = w->sprites[idxA].addWork.ncecId + 9;
+        work->sprites[idxB].addWork.ncbrId = work->sprites[idxA].addWork.ncbrId + 9;
+        work->sprites[idxB].addWork.ncerId = work->sprites[idxA].addWork.ncerId + 9;
+        work->sprites[idxB].addWork.nanrId = work->sprites[idxA].addWork.nanrId + 9;
+        work->sprites[idxB].addWork.nmcrId = work->sprites[idxA].addWork.nmcrId + 9;
+        work->sprites[idxB].addWork.nmarId = work->sprites[idxA].addWork.nmarId + 9;
+        work->sprites[idxB].addWork.ncecId = work->sprites[idxA].addWork.ncecId + 9;
     } else {
-        w->sprites[idxB].addWork.ncbrId = w->sprites[idxA].addWork.ncbrId - 9;
-        w->sprites[idxB].addWork.ncerId = w->sprites[idxA].addWork.ncerId - 9;
-        w->sprites[idxB].addWork.nanrId = w->sprites[idxA].addWork.nanrId - 9;
-        w->sprites[idxB].addWork.nmcrId = w->sprites[idxA].addWork.nmcrId - 9;
-        w->sprites[idxB].addWork.nmarId = w->sprites[idxA].addWork.nmarId - 9;
-        w->sprites[idxB].addWork.ncecId = w->sprites[idxA].addWork.ncecId - 9;
+        work->sprites[idxB].addWork.ncbrId = work->sprites[idxA].addWork.ncbrId - 9;
+        work->sprites[idxB].addWork.ncerId = work->sprites[idxA].addWork.ncerId - 9;
+        work->sprites[idxB].addWork.nanrId = work->sprites[idxA].addWork.nanrId - 9;
+        work->sprites[idxB].addWork.nmcrId = work->sprites[idxA].addWork.nmcrId - 9;
+        work->sprites[idxB].addWork.nmarId = work->sprites[idxA].addWork.nmarId - 9;
+        work->sprites[idxB].addWork.ncecId = work->sprites[idxA].addWork.ncecId - 9;
     }
-    w->sprites[idxB].identity = w->sprites[idxA].identity;
-    MCSS_ReloadResource(w->mcss, w->sprites[idxB].mcss, &w->sprites[idxB].addWork.archiveId);
+    work->sprites[idxB].identity = work->sprites[idxA].identity;
+    MCSS_ReloadResource(work->mcss, work->sprites[idxB].mcss, &work->sprites[idxB].addWork.archiveId);
 }
 
-void BTLV_MCSS_ReloadSpriteResource(BtlvMcssWork *w, int pos, BtlvMcssAddWork *addWork)
+void BTLV_MCSS_ReloadSpriteResource(BtlvMcssWork *work, int pos, BtlvMcssAddWork *addWork)
 {
-    int idx = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int idx = BTLV_MCSS_FindSpriteIndex(work, pos);
 
-    w->sprites[idx].addWork = *addWork;
-    MCSS_TOOL_SetSpindaSpotHook(w->mcss, w->sprites[idx].identity.personalRand);
-    MCSS_ReloadResource(w->mcss, w->sprites[idx].mcss, &w->sprites[idx].addWork.archiveId);
+    work->sprites[idx].addWork = *addWork;
+    MCSS_TOOL_SetSpindaSpotHook(work->mcss, work->sprites[idx].identity.personalRand);
+    MCSS_ReloadResource(work->mcss, work->sprites[idx].mcss, &work->sprites[idx].addWork.archiveId);
 }
 
-int BTLV_MCSS_PlayCry(BtlvMcssWork *w, int pos, int pitch, int pan, int chorusParamA, int chorusParamB, int chorusParamC)
+int BTLV_MCSS_PlayCry(BtlvMcssWork *work, int pos, int pitch, int pan, int chorusParamA, int chorusParamB, int chorusParamC)
 {
-    int idx = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int idx = BTLV_MCSS_FindSpriteIndex(work, pos);
     u32 voiceId;
     u32 buf;
     u32 *out;
@@ -1423,7 +1423,7 @@ int BTLV_MCSS_PlayCry(BtlvMcssWork *w, int pos, int pitch, int pan, int chorusPa
 
     if (idx == -1)
         return 0;
-    if (w->sprites[idx].mcss == 0)
+    if (work->sprites[idx].mcss == 0)
         return 0;
     switch (pos) {
     case 0:
@@ -1434,16 +1434,16 @@ int BTLV_MCSS_PlayCry(BtlvMcssWork *w, int pos, int pitch, int pan, int chorusPa
     case 3:
     case 4:
     case 5:
-        if (w->flags.rotation)
+        if (work->flags.rotation)
             voiceId = gBtlvMcssVoiceIdRotation[pos - 2];
-        else if (w->flags.triple)
+        else if (work->flags.triple)
             voiceId = gBtlvMcssVoiceIdTriple[pos - 2];
         else
             voiceId = gBtlvMcssVoiceIdDouble[pos - 2];
         break;
     case 6:
     case 7:
-        if (w->flags.rotation)
+        if (work->flags.rotation)
             voiceId = gBtlvMcssVoiceIdRotation[pos - 2];
         else
             voiceId = gBtlvMcssVoiceIdTriple[pos - 2];
@@ -1461,120 +1461,120 @@ int BTLV_MCSS_PlayCry(BtlvMcssWork *w, int pos, int pitch, int pan, int chorusPa
     if (chorusParamA != 0 || chorusParamB != 0)
         chorus = 1;
     if (pitch == BTLV_MCSS_CRY_PITCH_AUTO) {
-        if (w->sprites[idx].identity.hpState == 1)
+        if (work->sprites[idx].identity.hpState == 1)
             pitch = -0xa00;
         else
             pitch = 0;
     }
-    voice = PM_VOICE_Play(w->sprites[idx].identity.species, w->sprites[idx].identity.form, (u8)voiceId, chorus, chorusParamA, chorusParamB, chorusParamC, out);
+    voice = PM_VOICE_Play(work->sprites[idx].identity.species, work->sprites[idx].identity.form, (u8)voiceId, chorus, chorusParamA, chorusParamB, chorusParamC, out);
     PM_VOICE_AddVolume(voice, (signed char)pan);
     PM_VOICE_AddFrequency(voice, pitch);
     return voice;
 }
 
 /* Start the formation turn of a rotation battle: side 0 or 1, dir 0 or 1. */
-void BTLV_MCSS_StartRotation(BtlvMcssWork *w, int side, int dir, int playSound)
+void BTLV_MCSS_StartRotation(BtlvMcssWork *work, int side, int dir, int playSound)
 {
-    BtlvMcssRotationTask *task = GFL_HEAP_Alloc((u16)((w->heapId & 0x7fff) | 0x8000), 0x24, 0, gBtlvMcssSourceFileName, 0x8f2);
+    BtlvMcssRotationTask *task = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x24, 0, gBtlvMcssSourceFileName, 0x8f2);
 
-    task->work = w;
+    task->work = work;
     task->state = 0;
     task->playSound = playSound;
     task->side = side;
     task->dir = dir;
-    w->flags.rotating = 1;
-    BTLV_EFFECT_RegisterTask(TCB_AddTask(w->taskOwner, BTLV_MCSS_RotationTaskMain, task, 0), BTLV_MCSS_RotationTaskEnd, 2);
+    work->flags.rotating = 1;
+    BTLV_EFFECT_RegisterTask(TCB_AddTask(work->taskOwner, BTLV_MCSS_RotationTaskMain, task, 0), BTLV_MCSS_RotationTaskEnd, 2);
 }
 
-int BTLV_MCSS_GetSpriteColorCode(BtlvMcssWork *w, int pos)
+int BTLV_MCSS_GetSpriteColorCode(BtlvMcssWork *work, int pos)
 {
-    int i = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int i = BTLV_MCSS_FindSpriteIndex(work, pos);
 
     if (i == -1)
         return 0;
-    if (w->sprites[i].mcss == 0)
+    if (work->sprites[i].mcss == 0)
         return 0;
-    return w->sprites[i].colorCode;
+    return work->sprites[i].colorCode;
 }
 
-void BTLV_MCSS_MakeAddWorkFromPoke(BtlvMcssWork *w, void *pp, BtlvMcssAddWork *out, int pos)
+void BTLV_MCSS_MakeAddWorkFromPoke(BtlvMcssWork *work, void *pp, BtlvMcssAddWork *out, int pos)
 {
     int isBack = 1;
 
     if (pos & 1)
         isBack = 0;
     MCSS_TOOL_MakeAddWorkFromPP(pp, out, isBack);
-    MCSS_TOOL_SetSpindaSpotHook(w->mcss, POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_PERSONAL_RAND, 0));
+    MCSS_TOOL_SetSpindaSpotHook(work->mcss, POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_PERSONAL_RAND, 0));
 }
 
 /*
  * The extern takes `int` as return type for MCSS_GetAnimSeqNumEx (u16 not needed at the caller).
  */
-int BTLV_MCSS_SetAnimIndexIfValid(BtlvMcssWork *w, int pos, int animIndex)
+int BTLV_MCSS_SetAnimIndexIfValid(BtlvMcssWork *work, int pos, int animIndex)
 {
     int ok = 0;
-    int i = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int i = BTLV_MCSS_FindSpriteIndex(work, pos);
 
     if (i == -1)
         return 0;
-    if (w->sprites[i].mcss == 0)
+    if (work->sprites[i].mcss == 0)
         return 0;
-    if (animIndex < MCSS_GetAnimSeqNumEx(w->sprites[i].mcss)) {
-        MCSS_SetAnimeIndex(w->sprites[i].mcss, animIndex);
+    if (animIndex < MCSS_GetAnimSeqNumEx(work->sprites[i].mcss)) {
+        MCSS_SetAnimeIndex(work->sprites[i].mcss, animIndex);
         ok = 1;
-        w->sprites[i].animPending = ok;
+        work->sprites[i].animPending = ok;
     }
     return ok;
 }
 
-void BTLV_MCSS_SetAnimPendingCallback(BtlvMcssWork *w, int pos)
+void BTLV_MCSS_SetAnimPendingCallback(BtlvMcssWork *work, int pos)
 {
-    int idx = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int idx = BTLV_MCSS_FindSpriteIndex(work, pos);
 
     if (idx == -1)
         return;
-    if (w->sprites[idx].mcss == 0)
+    if (work->sprites[idx].mcss == 0)
         return;
-    MCSS_SetAnimCallback(w->sprites[idx].mcss, idx, BTLV_MCSS_AnimCallbackClearPending, 1);
+    MCSS_SetAnimCallback(work->sprites[idx].mcss, idx, BTLV_MCSS_AnimCallbackClearPending, 1);
 }
 
-int BTLV_MCSS_IsAnimPending(BtlvMcssWork *w, int pos)
+int BTLV_MCSS_IsAnimPending(BtlvMcssWork *work, int pos)
 {
-    int i = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int i = BTLV_MCSS_FindSpriteIndex(work, pos);
 
     if (i == -1)
         return 0;
-    if (w->sprites[i].mcss == 0)
+    if (work->sprites[i].mcss == 0)
         return 0;
-    return w->sprites[i].animPending;
+    return work->sprites[i].animPending;
 }
 
 /* Put the sprite back on its slot position and hide it when it had to be moved. */
-void BTLV_MCSS_ResetSpritePosition(BtlvMcssWork *w, int pos)
+void BTLV_MCSS_ResetSpritePosition(BtlvMcssWork *work, int pos)
 {
     BtlvMcssVec want;
     BtlvMcssVec cur;
     BtlvMcssVec off;
-    int i = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int i = BTLV_MCSS_FindSpriteIndex(work, pos);
 
     if (i == -1)
         return;
-    if (w->sprites[i].mcss == 0)
+    if (work->sprites[i].mcss == 0)
         return;
-    BTLV_MCSS_CalcSlotPosition(w, &want, pos);
-    MCSS_GetPosition(w->sprites[i].mcss, &cur);
-    MCSS_GetOfsPosition(w->sprites[i].mcss, &off);
-    w->sprites[i].flags.repositionHidden = 0;
+    BTLV_MCSS_CalcSlotPosition(work, &want, pos);
+    MCSS_GetPosition(work->sprites[i].mcss, &cur);
+    MCSS_GetOfsPosition(work->sprites[i].mcss, &off);
+    work->sprites[i].flags.repositionHidden = 0;
     if (want.x == cur.x && want.y == cur.y && want.z == cur.z
         && off.x == 0 && off.y == 0 && off.z == 0)
         return;
-    w->sprites[i].flags.repositionHidden = 1;
+    work->sprites[i].flags.repositionHidden = 1;
     off.x = 0;
     off.y = 0;
     off.z = 0;
-    MCSS_SetPosition(w->sprites[i].mcss, &want);
-    MCSS_SetOfsPosition(w->sprites[i].mcss, &off);
-    MCSS_SetVanishFlag(w->sprites[i].mcss);
+    MCSS_SetPosition(work->sprites[i].mcss, &want);
+    MCSS_SetOfsPosition(work->sprites[i].mcss, &off);
+    MCSS_SetVanishFlag(work->sprites[i].mcss);
 }
 
 /*
@@ -1584,15 +1584,15 @@ void BTLV_MCSS_ResetSpritePosition(BtlvMcssWork *w, int pos)
  *   a shared `set:` label lets the beq be threaded straight to `flag = 1` (2 bytes out),
  *   and `pos == 3 || pos == 4` folds to a range test.
  */
-void BTLV_MCSS_SetSpriteWorkFlagForRule(BtlvMcssWork *w, int pos, int mode)
+void BTLV_MCSS_SetSpriteWorkFlagForRule(BtlvMcssWork *work, int pos, int mode)
 {
     int flag = 0;
     int i;
 
-    i = BTLV_MCSS_FindSpriteIndex(w, pos);
+    i = BTLV_MCSS_FindSpriteIndex(work, pos);
     if (i == -1)
         return;
-    if (w->sprites[i].mcss == 0)
+    if (work->sprites[i].mcss == 0)
         return;
     if (mode == 1) {
         switch (BTLV_EFFECT_GetMode()) {
@@ -1618,49 +1618,49 @@ void BTLV_MCSS_SetSpriteWorkFlagForRule(BtlvMcssWork *w, int pos, int mode)
             break;
         }
     }
-    MCSS_SetWorkFlag(w->sprites[i].mcss, flag);
+    MCSS_SetWorkFlag(work->sprites[i].mcss, flag);
 }
 
-int BTLV_MCSS_TakeSpriteRefreshedFlag(BtlvMcssWork *w, int pos)
+int BTLV_MCSS_TakeSpriteRefreshedFlag(BtlvMcssWork *work, int pos)
 {
-    int i = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int i = BTLV_MCSS_FindSpriteIndex(work, pos);
     int r;
 
     if (i == -1)
         return 0;
-    if (w->sprites[i].mcss == 0)
+    if (work->sprites[i].mcss == 0)
         return 0;
-    if (w->sprites[i].flags.refreshed)
+    if (work->sprites[i].flags.refreshed)
         r = 1;
     else
         r = 0;
-    w->sprites[i].flags.refreshed = 0;
+    work->sprites[i].flags.refreshed = 0;
     return r;
 }
 
-void BTLV_MCSS_SaveVanishStates(BtlvMcssWork *w)
+void BTLV_MCSS_SaveVanishStates(BtlvMcssWork *work)
 {
     BtlvMcssPos pos;
     int j;
 
     for (pos = 0; pos < BTLV_MCSS_POKE_POS_COUNT; pos++) {
-        if (BTLV_MCSS_IsSpriteLoaded(w, pos)) {
-            j = BTLV_MCSS_FindSpriteIndex(w, pos);
-            w->sprites[j].flags.vanishSaved = BTLV_MCSS_IsVanished(w, pos);
+        if (BTLV_MCSS_IsSpriteLoaded(work, pos)) {
+            j = BTLV_MCSS_FindSpriteIndex(work, pos);
+            work->sprites[j].flags.vanishSaved = BTLV_MCSS_IsVanished(work, pos);
         }
     }
 }
 
-void BTLV_MCSS_RestoreVanishStates(BtlvMcssWork *w)
+void BTLV_MCSS_RestoreVanishStates(BtlvMcssWork *work)
 {
     BtlvMcssPos pos;
     int j;
 
     for (pos = 0; pos < BTLV_MCSS_POKE_POS_COUNT; pos++) {
-        if (BTLV_MCSS_IsSpriteLoaded(w, pos)) {
-            j = BTLV_MCSS_FindSpriteIndex(w, pos);
-            BTLV_MCSS_SetVanishMode(w, pos, w->sprites[j].flags.vanishSaved);
-            w->sprites[j].flags.vanishHeld = 0;
+        if (BTLV_MCSS_IsSpriteLoaded(work, pos)) {
+            j = BTLV_MCSS_FindSpriteIndex(work, pos);
+            BTLV_MCSS_SetVanishMode(work, pos, work->sprites[j].flags.vanishSaved);
+            work->sprites[j].flags.vanishHeld = 0;
         }
     }
 }
@@ -1680,39 +1680,39 @@ static inline fx32 FX_Mul(fx32 a, fx32 b)
 }
 
 /* Set the sprite scale from the slot scale and the side factor. */
-void BTLV_MCSS_ApplySlotScale(BtlvMcssWork *w, int pos)
+void BTLV_MCSS_ApplySlotScale(BtlvMcssWork *work, int pos)
 {
-    int idx = BTLV_MCSS_FindSpriteIndex(w, pos);
+    int idx = BTLV_MCSS_FindSpriteIndex(work, pos);
     fx32 scale;
     BtlvMcssVec s;
 
     if (idx == -1)
         return;
-    if (w->sprites[idx].mcss == 0)
+    if (work->sprites[idx].mcss == 0)
         return;
-    scale = BTLV_MCSS_CalcSlotScale(w, pos, w->sprites[idx].flags.orthoBillboard);
+    scale = BTLV_MCSS_CalcSlotScale(work, pos, work->sprites[idx].flags.orthoBillboard);
     if (pos & 1)
-        scale = FX_Mul(scale, w->scaleOdd);
+        scale = FX_Mul(scale, work->scaleOdd);
     else
-        scale = FX_Mul(scale, w->scaleEven);
+        scale = FX_Mul(scale, work->scaleEven);
     s.x = scale;
     s.y = scale;
     s.z = 0x1000;
-    MCSS_SetScale(w->sprites[idx].mcss, &s);
-    scale = BTLV_MCSS_CalcSlotScale(w, pos, 0);
+    MCSS_SetScale(work->sprites[idx].mcss, &s);
+    scale = BTLV_MCSS_CalcSlotScale(work, pos, 0);
     s.x = scale;
     s.y = scale;
     s.z = 0x1000;
-    MCSS_SetOfsScale(w->sprites[idx].mcss, &s);
+    MCSS_SetOfsScale(work->sprites[idx].mcss, &s);
 }
 
 /* Create the task of one tween; fn steps it each frame, endCb clears the work mask bit. */
-void BTLV_MCSS_CreateTweenTask(BtlvMcssWork *w, int pos, int kind, BtlvMcssVec *from, BtlvMcssVec *to, int frames,
+void BTLV_MCSS_CreateTweenTask(BtlvMcssWork *work, int pos, int kind, BtlvMcssVec *from, BtlvMcssVec *to, int frames,
                    int waitFrames, int repeat, void (*fn)(void *, void *), void (*endCb)(void *), int mirrorOdd, u8 serial)
 {
-    BtlvMcssTween *task = GFL_HEAP_Alloc((u16)((w->heapId & 0x7fff) | 0x8000), 0x54, 0, gBtlvMcssSourceFileName, 0xa4e);
+    BtlvMcssTween *task = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x54, 0, gBtlvMcssSourceFileName, 0xa4e);
 
-    task->work = w;
+    task->work = work;
     task->pos = pos;
     task->state.mode = kind;
     task->state.count = frames;
@@ -1749,7 +1749,7 @@ void BTLV_MCSS_CreateTweenTask(BtlvMcssWork *w, int pos, int kind, BtlvMcssVec *
         }
         break;
     }
-    BTLV_EFFECT_RegisterTask(TCB_AddTask(w->taskOwner, fn, task, 0), endCb, 2);
+    BTLV_EFFECT_RegisterTask(TCB_AddTask(work->taskOwner, fn, task, 0), endCb, 2);
 }
 
 /* Position tween task. */
@@ -2364,9 +2364,9 @@ void BTLV_MCSS_IdleAnimCallback(int pos)
  *   folded: it keeps the movs/mvns pair. The two `v = 1` arms cross-jump only when the
  *   found test is `if (found == 0) v = 0; else v = 1;`.
  */
-int BTLV_MCSS_CellCallbackCheckStopCell(u32 flags, int a, int *out, int stopCell)
+int BTLV_MCSS_CellCallbackCheckStopCell(u32 flags, int unused, int *out, int stopCell)
 {
-    BtlvMcssWork *w = BTLV_EFFECT_GetMcss();
+    BtlvMcssWork *work = BTLV_EFFECT_GetMcss();
     u16 idx = flags;
     int found;
     int n;
@@ -2375,13 +2375,13 @@ int BTLV_MCSS_CellCallbackCheckStopCell(u32 flags, int a, int *out, int stopCell
 
     if (idx == -1)
         return 0;
-    if (w->sprites[idx].mcss == 0)
+    if (work->sprites[idx].mcss == 0)
         return 0;
     if (flags & 0x80000000) {
         found = 0;
-        n = MCSS_GetStopCellNum(w->sprites[idx].mcss);
+        n = MCSS_GetStopCellNum(work->sprites[idx].mcss);
         for (i = 0; i < n; i++) {
-            BtlvMcssSprite *s = &w->sprites[idx];
+            BtlvMcssSprite *s = &work->sprites[idx];
 
             if (stopCell == MCSS_GetStopCellIndex(s->mcss, i))
                 found = 1;
@@ -2403,9 +2403,9 @@ void BTLV_MCSS_AnimCallbackClearPending(int pos)
 }
 
 /* Slot position of a sprite, depending on the battle rule. */
-void BTLV_MCSS_CalcSlotPosition(BtlvMcssWork *w, BtlvMcssVec *out, int pos)
+void BTLV_MCSS_CalcSlotPosition(BtlvMcssWork *work, BtlvMcssVec *out, int pos)
 {
-    const BtlvMcssVec *t = (const BtlvMcssVec *)w;
+    const BtlvMcssVec *t = (const BtlvMcssVec *)work;
 
     switch (pos) {
     case 0:
@@ -2416,16 +2416,16 @@ void BTLV_MCSS_CalcSlotPosition(BtlvMcssWork *w, BtlvMcssVec *out, int pos)
     case 3:
     case 4:
     case 5:
-        if (w->flags.rotation)
+        if (work->flags.rotation)
             t = &gBtlvMcssSlotPosRotation[pos - 2];
-        else if (w->flags.triple)
+        else if (work->flags.triple)
             t = &gBtlvMcssSlotPosTriple[pos - 2];
         else
             t = &gBtlvMcssSlotPosDouble[pos - 2];
         break;
     case 6:
     case 7:
-        if (w->flags.rotation)
+        if (work->flags.rotation)
             t = &gBtlvMcssSlotPosRotation[pos - 2];
         else
             t = &gBtlvMcssSlotPosTriple[pos - 2];
@@ -2445,7 +2445,7 @@ void BTLV_MCSS_CalcSlotPosition(BtlvMcssWork *w, BtlvMcssVec *out, int pos)
 }
 
 /* Default scale (fx32) of a slot; mode 0 is the per rule table, otherwise 2.0 / 1.0 by side. */
-int BTLV_MCSS_CalcSlotScale(BtlvMcssWork *w, int pos, int mode)
+int BTLV_MCSS_CalcSlotScale(BtlvMcssWork *work, int pos, int mode)
 {
     if (mode == 0) {
         switch (pos) {
@@ -2456,14 +2456,14 @@ int BTLV_MCSS_CalcSlotScale(BtlvMcssWork *w, int pos, int mode)
         case 3:
         case 4:
         case 5:
-            if (w->flags.rotation)
+            if (work->flags.rotation)
                 return gBtlvMcssSlotScaleRotation[pos - 2];
-            if (w->flags.triple)
+            if (work->flags.triple)
                 return gBtlvMcssSlotScaleTriple[pos - 2];
             return gBtlvMcssSlotScaleDouble[pos - 2];
         case 6:
         case 7:
-            if (w->flags.rotation)
+            if (work->flags.rotation)
                 return gBtlvMcssSlotScaleRotation[pos - 2];
             return gBtlvMcssSlotScaleTriple[pos - 2];
         case 8:
@@ -2484,12 +2484,12 @@ int BTLV_MCSS_CalcSlotScale(BtlvMcssWork *w, int pos, int mode)
     }
 }
 
-int BTLV_MCSS_FindSpriteIndex(BtlvMcssWork *w, int pos)
+int BTLV_MCSS_FindSpriteIndex(BtlvMcssWork *work, int pos)
 {
     int i;
 
     for (i = 0; i < BTLV_MCSS_SPRITE_MAX; i++) {
-        if (w->sprites[i].mcss != 0 && pos == w->sprites[i].pos)
+        if (work->sprites[i].mcss != 0 && pos == work->sprites[i].pos)
             return i;
     }
     return -1;

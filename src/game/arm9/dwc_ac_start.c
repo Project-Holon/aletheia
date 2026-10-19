@@ -93,8 +93,8 @@ typedef struct NCFGSlotInfo {
 } NCFGSlotInfo;
 
 typedef struct NCFGSlotInfoEx {
-    u8 f000[0x20];
-    u8 f020[0x20];
+    u8 ispId[0x20];
+    u8 ispPass[0x20];
     u8 pad0[0xe6 - 0x40];
     u8 wepMode : 2;
     u8 wepNotation : 6;

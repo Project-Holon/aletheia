@@ -15,10 +15,10 @@
  *
  * symbols:
  *   GFL_HEAP_Free  0x020307B0  arm
- *   ICA_ANIME_GetField20  0x0201210C  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   MI_CpuFill8  0x02082BCC  arm
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
@@ -35,7 +35,7 @@
  *   FLDMMDL_GetPos  0x0216D88C  thumb
  *   FIELD_ENCOUNT_SetFieldSituation  0x021AA304  thumb  ov021
  *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb
- *   ICA_ANIME_GetField24  0x02012138  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   GAME_EVENT_CallProc 0x02012444 thumb
  *   POKE_TOOL_ChangeForm  0x02017988  thumb
@@ -228,9 +228,9 @@ extern u16 *SCRIPT_WORK_ReadWorkPointer(ScriptVm *vm, ScrcmdWork *cmdWork);
 extern void SCRIPT_SYS_CallEvent(ScriptWork *scriptWork, struct GameEvent *event);
 extern u32 SCRIPT_WORK_GetWorkValue(ScriptWork *scriptWork, struct GameData *gameData, u32 workId);
 extern struct WordSet *SCRIPT_WORK_GetWordSet(ScriptWork *scriptWork);
-extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
-extern struct FieldMap *ICA_ANIME_GetField20(const struct GameSystem *gameSystem);
-extern struct GameComm *ICA_ANIME_GetField24(const struct GameSystem *gameSystem);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
+extern struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern TrialHouseWork **GAME_DATA_GetListCursor(struct GameData *gameData);
 extern int GAME_DATA_GetSymbolMapFlag(struct GameData *gameData);
@@ -295,7 +295,7 @@ extern void RECORD_SetTrialRank(struct RecordBlock *record, u8 rank);
 extern u8 RECORD_GetTrialRank(struct RecordBlock *record);
 extern struct GameEvent *FLD_BTL_INST_TOOL_CreatePartySelectStepEvent(struct GameSystem *gameSystem, TrialHouseWork *work, int regulationId, int useTempParty, u16 *resultOk);
 extern struct GameEvent *FLD_BTL_INST_TOOL_CreateBattleEvent(struct GameSystem *gameSystem, TrialHouseWork *work);
-extern struct GameEvent *FLD_BTL_INST_TOOL_CreateTrialHouseAwardEvent(struct GameSystem *gameSystem, int arg0, int arg1);
+extern struct GameEvent *FLD_BTL_INST_TOOL_CreateTrialHouseAwardEvent(struct GameSystem *gameSystem, int hasSecondEntry, int fadeOutBgm);
 
 /* Symbol map save and link records. */
 extern struct SymbolSave *SYMBOL_SAVE_GetBlock(struct SaveControl *saveControl);
@@ -501,7 +501,7 @@ void FORMCHANGE_RevertShayminAndRegister(struct GameData *gameData, struct Party
 int SCRCMD_TRIALHOUSE_CreateWork(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    TrialHouseWork **slot = GAME_DATA_GetListCursor(ICA_ANIME_GetField1C(gameSystem));
+    TrialHouseWork **slot = GAME_DATA_GetListCursor(GAMESYSTEM_GetGameData(gameSystem));
 
     if (*slot == 0) {
         *slot = TRIAL_HOUSE_CreateWork(gameSystem);
@@ -514,7 +514,7 @@ int SCRCMD_TRIALHOUSE_FreeWork(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
 
-    TRIAL_HOUSE_DeleteWork(gameSystem, GAME_DATA_GetListCursor(ICA_ANIME_GetField1C(gameSystem)));
+    TRIAL_HOUSE_DeleteWork(gameSystem, GAME_DATA_GetListCursor(GAMESYSTEM_GetGameData(gameSystem)));
     return 0;
 }
 
@@ -527,7 +527,7 @@ int SCRCMD_TRIALHOUSE_SetBattleMode(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    slot = GAME_DATA_GetListCursor(ICA_ANIME_GetField1C(gameSystem));
+    slot = GAME_DATA_GetListCursor(GAMESYSTEM_GetGameData(gameSystem));
     mode = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     TRIAL_HOUSE_SetBattleMode(*slot, mode);
     return 0;
@@ -544,7 +544,7 @@ int SCRCMD_TRIALHOUSE_StartPartySelect(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    slot = GAME_DATA_GetListCursor(ICA_ANIME_GetField1C(gameSystem));
+    slot = GAME_DATA_GetListCursor(GAMESYSTEM_GetGameData(gameSystem));
     regulationId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     useTempParty = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     resultOk = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
@@ -561,7 +561,7 @@ int SCRCMD_TRIALHOUSE_LoadRecord(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    slot = GAME_DATA_GetListCursor(ICA_ANIME_GetField1C(gameSystem));
+    slot = GAME_DATA_GetListCursor(GAMESYSTEM_GetGameData(gameSystem));
     index = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     outValue = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     *outValue = TRIAL_HOUSE_LoadTrainer(gameSystem, *slot, index);
@@ -577,7 +577,7 @@ int SCRCMD_TRIALHOUSE_StartTrainerMessage(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    slot = GAME_DATA_GetListCursor(ICA_ANIME_GetField1C(gameSystem));
+    slot = GAME_DATA_GetListCursor(GAMESYSTEM_GetGameData(gameSystem));
     index = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     SCRIPT_SYS_CallEvent(scriptWork, TRIAL_HOUSE_CreateTrainerMsgEvent(gameSystem, *slot, index, SCRIPT_WORK_ReadWorkValue(vm, cmdWork)));
     return 1;
@@ -591,7 +591,7 @@ int SCRCMD_TRIALHOUSE_StartBattle(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    slot = GAME_DATA_GetListCursor(ICA_ANIME_GetField1C(gameSystem));
+    slot = GAME_DATA_GetListCursor(GAMESYSTEM_GetGameData(gameSystem));
     SCRIPT_SYS_CallEvent(scriptWork, FLD_BTL_INST_TOOL_CreateBattleEvent(gameSystem, *slot));
     return 1;
 }
@@ -603,7 +603,7 @@ int SCRCMD_TRIALHOUSE_SetRecordSource(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    slot = GAME_DATA_GetListCursor(ICA_ANIME_GetField1C(gameSystem));
+    slot = GAME_DATA_GetListCursor(GAMESYSTEM_GetGameData(gameSystem));
     TRIAL_HOUSE_SetUseDeliveredTrainers(*slot, SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
     return 0;
 }
@@ -615,7 +615,7 @@ int SCRCMD_TRIALHOUSE_SetRank(ScriptVm *vm, ScrcmdWork *cmdWork)
     u32 rank;
 
     SCRCMD_WORK_GetScriptWork(cmdWork);
-    gameData = ICA_ANIME_GetField1C(SCRCMD_WORK_GetGameSystem(cmdWork));
+    gameData = GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem(cmdWork));
     rank = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     RECORD_SetTrialRank(RECORD_GetFromSave(GAME_DATA_GetSaveControl(gameData)), rank);
     return 0;
@@ -631,7 +631,7 @@ int SCRCMD_TRIALHOUSE_GetRank(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    gameData = ICA_ANIME_GetField1C(gameSystem);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
     outRank = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     saveControl = GAME_DATA_GetSaveControl(gameData);
     *outRank = RECORD_GetTrialRank(RECORD_GetFromSave(saveControl));
@@ -646,7 +646,7 @@ int SCRCMD_TRIALHOUSE_StartDownload(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    slot = GAME_DATA_GetListCursor(ICA_ANIME_GetField1C(gameSystem));
+    slot = GAME_DATA_GetListCursor(GAMESYSTEM_GetGameData(gameSystem));
     SCRIPT_SYS_CallEvent(scriptWork, TRIAL_HOUSE_CreateDeliveryTask(gameSystem, *slot, SCRIPT_WORK_ReadWorkPointer(vm, cmdWork)));
     return 1;
 }
@@ -659,7 +659,7 @@ int SCRCMD_TRIALHOUSE_GetRankAndScore(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    slot = GAME_DATA_GetListCursor(ICA_ANIME_GetField1C(gameSystem));
+    slot = GAME_DATA_GetListCursor(GAMESYSTEM_GetGameData(gameSystem));
     outRank = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     TRIAL_HOUSE_ComputeScoreAndRank(gameSystem, *slot, outRank, SCRIPT_WORK_ReadWorkPointer(vm, cmdWork));
     return 0;
@@ -673,7 +673,7 @@ int SCRCMD_TRIALHOUSE_GetSaveState(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    slot = GAME_DATA_GetListCursor(ICA_ANIME_GetField1C(gameSystem));
+    slot = GAME_DATA_GetListCursor(GAMESYSTEM_GetGameData(gameSystem));
     outValue = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     *outValue = TRIAL_HOUSE_GetDeliveryState(gameSystem, *slot);
     return 0;
@@ -687,7 +687,7 @@ int SCRCMD_TRIALHOUSE_StartSaveEvent(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    slot = GAME_DATA_GetListCursor(ICA_ANIME_GetField1C(gameSystem));
+    slot = GAME_DATA_GetListCursor(GAMESYSTEM_GetGameData(gameSystem));
     SCRIPT_SYS_CallEvent(scriptWork, TRIAL_HOUSE_CreateSaveTask(gameSystem, *slot, SCRIPT_WORK_ReadWorkValue(vm, cmdWork)));
     return 1;
 }
@@ -696,13 +696,13 @@ int SCRCMD_TRIALHOUSE_StartAward(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     ScriptWork *scriptWork;
     struct GameSystem *gameSystem;
-    int arg0;
+    int hasSecondEntry;
 
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    GAME_DATA_GetListCursor(ICA_ANIME_GetField1C(gameSystem));
-    arg0 = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    SCRIPT_SYS_CallEvent(scriptWork, FLD_BTL_INST_TOOL_CreateTrialHouseAwardEvent(gameSystem, arg0, SCRIPT_WORK_ReadWorkValue(vm, cmdWork)));
+    GAME_DATA_GetListCursor(GAMESYSTEM_GetGameData(gameSystem));
+    hasSecondEntry = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    SCRIPT_SYS_CallEvent(scriptWork, FLD_BTL_INST_TOOL_CreateTrialHouseAwardEvent(gameSystem, hasSecondEntry, SCRIPT_WORK_ReadWorkValue(vm, cmdWork)));
     return 1;
 }
 
@@ -740,7 +740,7 @@ int SCRCMD_MMDL_StartRise(ScriptVm *vm, ScrcmdWork *cmdWork)
     work = GAME_EVENT_GetWork(event);
     work->frames = frames;
     work->frame = 0;
-    mmdl = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys(ICA_ANIME_GetField20(gameSystem)), objId);
+    mmdl = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys(GAMESYSTEM_GetFieldMap(gameSystem)), objId);
     FLDMMDL_GetPos(mmdl, &work->startPos);
     work->mmdl = mmdl;
     FLDMMDL_SetMoveBit(mmdl, MMDL_MOVE_BIT_RISE);
@@ -781,7 +781,7 @@ int SCRCMD_MMDL_StartOrbit(ScriptVm *vm, ScrcmdWork *cmdWork)
     event = GAME_EVENT_Create(gameSystem, 0, SCRCMD_MMDL_OrbitEventMain, sizeof(MmdlOrbitWork));
     work = GAME_EVENT_GetWork(event);
     work->frame = 0;
-    mmdl = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys(ICA_ANIME_GetField20(gameSystem)), objId);
+    mmdl = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys(GAMESYSTEM_GetFieldMap(gameSystem)), objId);
     FLDMMDL_GetPos(mmdl, &work->centerPos);
     work->mmdl = mmdl;
     SCRIPT_SYS_CallEvent(scriptWork, event);
@@ -935,7 +935,7 @@ int SCRCMD_SYMBOL_StartViewEvent(ScriptVm *vm, ScrcmdWork *cmdWork)
             ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
             struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
 
-            SCRIPT_SYS_CallEvent(scriptWork, SCRCMD_SYMBOL_CreateViewEvent(gameSystem, ICA_ANIME_GetField20(gameSystem), mon, key, resultOut, SYMBOL_VIEW_HEAP_ID));
+            SCRIPT_SYS_CallEvent(scriptWork, SCRCMD_SYMBOL_CreateViewEvent(gameSystem, GAMESYSTEM_GetFieldMap(gameSystem), mon, key, resultOut, SYMBOL_VIEW_HEAP_ID));
         }
     }
     return 1;
@@ -950,8 +950,8 @@ int SCRCMD_SYMBOL_ApplyLinkRecord(ScriptVm *vm, ScrcmdWork *cmdWork)
     u32 start;
 
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    fieldMap = ICA_ANIME_GetField20(gameSystem);
-    ICA_ANIME_GetField24(gameSystem);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
+    GAMESYSTEM_GetGameComm(gameSystem);
     record = SYMBOL_MAP_CreateLinkRecord(SCRCMD_WORK_GetHeapId(cmdWork), gameSystem, &start);
     if (record != 0) {
         INTRUDE_FIELD_SpawnSymbolMons(fieldMap, start, record, record->entryCount, record->page);
@@ -1040,7 +1040,7 @@ int SCRCMD_SYMBOL_GetState(ScriptVm *vm, ScrcmdWork *cmdWork)
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     gameData = SCRCMD_WORK_GetGameData(cmdWork);
     SYMBOL_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData));
-    comm = ICA_ANIME_GetField24(gameSystem);
+    comm = GAMESYSTEM_GetGameComm(gameSystem);
     switch (query) {
     case 0:
         if (INTRUDE_COMM_GetPartnerSlot(comm, gameData) == 4)
@@ -1087,9 +1087,9 @@ int SCRCMD_SYMBOL_StartEntryEvent(ScriptVm *vm, ScrcmdWork *cmdWork)
     direction = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     cell = GAME_DATA_GetSymbolMapFlag(gameData);
     if (direction == 1 && SYMBOL_MAP_IsBlankCell(cell) != 0) {
-        fieldMap = ICA_ANIME_GetField20(gameSystem);
+        fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
         player = FIELDMAP_GetFieldPlayer(fieldMap);
-        comm = ICA_ANIME_GetField24(gameSystem);
+        comm = GAMESYSTEM_GetGameComm(gameSystem);
         FIELD_PLAYER_GetPos(player, &playerPos);
         INTRUDE_COMM_GetMarkerPosForPartner(comm, gameData, &markerPos);
         markerPos.x = markerPos.x + (playerPos.x - SYMBOL_MARKER_OFFSET_X);
@@ -1106,7 +1106,7 @@ int SCRCMD_SYMBOL_StartEntryEvent(ScriptVm *vm, ScrcmdWork *cmdWork)
 /* Finds the field model whose object id is the given one. */
 struct Mmdl *SCRCMD_SYMBOL_GetMmdl(ScrcmdWork *cmdWork, u32 objId)
 {
-    return FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys(ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork))), objId);
+    return FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))), objId);
 }
 
 /* Key of the field model that work 0x8011 names. */
@@ -1140,7 +1140,7 @@ void SCRCMD_SYMBOL_SendEntryFlag(ScrcmdWork *cmdWork)
     gameData = SCRCMD_WORK_GetGameData(cmdWork);
     saveControl = GAME_DATA_GetSaveControl(gameData);
     SYMBOL_SAVE_GetBlock(saveControl);
-    linkState = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
+    linkState = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(gameSystem));
     if (linkState != 0) {
         INTRUDE_COMM_SetPendingValue(linkState, GAME_DATA_GetSymbolMapFlag(gameData));
     }
@@ -1154,7 +1154,7 @@ struct GameEvent *SCRCMD_SYMBOL_CreateViewEvent(struct GameSystem *gameSystem, s
     struct GameEvent *event;
     SymbolViewWork *work;
 
-    gameData = ICA_ANIME_GetField1C(gameSystem);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
     event = GAME_EVENT_Create(gameSystem, 0, SCRCMD_SYMBOL_ViewEventMain, sizeof(SymbolViewWork));
     work = GAME_EVENT_GetWork(event);
     MI_CpuFill8(work, 0, sizeof(SymbolViewWork));
@@ -1184,7 +1184,7 @@ int SCRCMD_SYMBOL_ViewEventMain(struct GameEvent *event, u32 *state, void *procW
 {
     SymbolViewWork *work = procWork;
     struct GameSystem *gameSystem = GAME_EVENT_GetGameSystem(event);
-    struct GameData *gameData = ICA_ANIME_GetField1C(gameSystem);
+    struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
     int ok;
 
     switch (*state) {

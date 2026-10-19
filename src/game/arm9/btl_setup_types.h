@@ -105,7 +105,7 @@ struct GameData {
     unsigned char    season;
     unsigned char    subscreenMode;
     unsigned char    subscreenType;
-    unsigned char    frameRate;
+    unsigned char    fieldMenuCursor;
     unsigned char    walkCount;
     unsigned char    walkCountEnabled;
     unsigned char    enterMode;

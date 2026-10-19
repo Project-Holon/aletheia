@@ -25,10 +25,10 @@ struct CellAnim {
     unsigned char       pad10[0x18 - 0x10];
     unsigned int        attrOverride;
     struct CellBank    *bank;
-    unsigned int        unk20;
-    unsigned int        unk24;
-    unsigned int        unk28;
-    unsigned short      unk2C;
+    unsigned int        callBackType;
+    unsigned int        callBackParam;
+    unsigned int        callBackFunc;
+    unsigned short      callBackFrameIdx;
     unsigned char       pad2e[2];
     int                 f30;
     struct CellDataBank *dataBank;

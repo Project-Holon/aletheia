@@ -303,7 +303,7 @@ extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 extern void BG_SYS_LoadPlttEntry(u32,u32);
 extern void FADE_Start(u32,int,int,int);
 extern char *BTL_REC_SEL_GRAPHIC_Create(u32,u32);
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void*);
 extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 extern u32 MYITEM_SAVEDATA_HasItem(u8 *base, u16 id, u16 qty, u16 d);
@@ -331,7 +331,7 @@ extern u8 *BATTLE_REC_GetHeaderOf(struct ObjC4 *p);
 extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
 extern void BTL_REC_SEL_SetEntryA(void*,char*,u32,u32,u32),BATTLE_REC_Delete(void*);
 extern u32 GFL_USE_GetMainTaskList(void);
-extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
+extern u8 *TIME_ICON_Create(void *owner, void *refWin, u8 fillColor, u8 waitInterval, volatile u16 heap);
 extern u32 BATTLE_REC_BeginSave(void*,u16,u32,u32,u32,u16*,u16*);
 extern void BATTLE_REC_DecodeWork(void),TIME_ICON_Delete(u8*),GFL_USE_PlaySeDefaultVolume(u32);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
@@ -359,7 +359,7 @@ extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void TCBL_Main(struct Tcbl *);
 extern u8 UI_GetFrameRate(void);
-extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern unsigned char BMP_WIN_GetBgLayer(struct Descriptor *);
@@ -400,7 +400,7 @@ extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short);
 extern unsigned int ARC_UTIL_RegisterObjCharFromHandle(void *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
+extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 archiveID, u32 memberIdx, u32 channel, u32 offset, u32 size, u32 heapID, u16 flags);
 extern void BG_SYS_ResetSlot(u32,u32,u32);
 extern void BG_SYS_FillScrollArea(u32,u32,u32);
 extern void BG_SYS_ClearLayerEx(int channel, u16 val);
@@ -477,7 +477,7 @@ void BTL_REC_SEL_DeleteBgRun(int unused,u8 *p);
 void BTL_REC_SEL_InitBgGfx1(int unused,u8 *p);
 void BTL_REC_SEL_InitBgGfx2(int unused,u8 *p);
 void BTL_REC_SEL_InitBgGfx3(int unused,u8 *p);
-void BTL_REC_SEL_ClearLayer(void *a0, char *a1);
+void BTL_REC_SEL_ClearLayer(void *work, char *unused);
 void BTL_REC_SEL_InitSubBg(void **a,char *p);
 void BTL_REC_SEL_DeleteSubBg(int unused, char *p);
 void BTL_REC_SEL_CreateUiActor(int unused,u8 *p);
@@ -1473,7 +1473,7 @@ void BTL_REC_SEL_InitBgGfx3(int unused,u8 *work){enum{K=3}k;ARC_UTIL_UploadBgPal
 
 
 
-void BTL_REC_SEL_ClearLayer(void *a0, char *a1){BG_SYS_ClearLayerEx(2,0);}
+void BTL_REC_SEL_ClearLayer(void *work, char *unused){BG_SYS_ClearLayerEx(2,0);}
 
 
 

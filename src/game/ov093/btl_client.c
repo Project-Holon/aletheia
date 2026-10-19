@@ -512,9 +512,9 @@
  *   BTLV_CORE_SkipBagPartyPrompt 0x021E9E70 thumb ov093
  *   BTLV_CORE_PollBagMenu 0x021E9E80 thumb ov093
  *   BTLV_CORE_GetSelectedItem 0x021EA01C thumb ov093
- *   BTLV_CORE_GetInputTargetSlot 0x021EA044 thumb ov093
- *   BTLV_CORE_GetSelectedItemPocket 0x021EA030 thumb ov093
- *   BTLV_CORE_GetInputResultFlag 0x021EA04C thumb ov093
+ *   BTLV_CORE_GetItemTargetSlot 0x021EA044 thumb ov093
+ *   BTLV_CORE_GetSelectedItemCost 0x021EA030 thumb ov093
+ *   BTLV_CORE_GetItemTargetFlag 0x021EA04C thumb ov093
  *   BTL_ACTION_SetItem 0x021D8358 thumb ov093
  *   BTLV_CORE_SaveBagCursors 0x021EA058 thumb ov093
  *   BTLV_CORE_ConsumeMessageFlag 0x021EA720 thumb ov093
@@ -619,7 +619,7 @@
  *   gExpGainWork 0x021F3B64 data a4
  *   GFL_USE_IsSeqPlaying 0x02006254 thumb
  *   POKE_TOOL_SetMoveSlot   0x020181F4  thumb
- *   POKE_TOOL_GetLevelUpMove   0x02018328  thumb
+ *   POKE_TOOL_LearnLevelUpMove   0x02018328  thumb
  *   BTLV_CORE_BuildAndPrintMessageFlag   0x021EA638  thumb ov093
  *   BTLV_CORE_StartMoveForgetScreen   0x021EAC64  thumb ov093
  *   BTLV_CORE_ProcMoveForgetScreen   0x021EAC80  thumb ov093
@@ -650,8 +650,8 @@
  *   BTL_MAIN_IsSameTeamClient  0x021B902C  thumb  ov093
  *   BTL_MAIN_GetOwnOpponentClient  0x021B904C  thumb  ov093
  *   BTL_MAIN_GetOpponentClient  0x021B9064  thumb  ov093
- *   BTL_MAIN_AddItemToBag  0x021B9090  thumb  ov093
- *   BTL_MAIN_SubItemFromBag  0x021B90BC  thumb  ov093
+ *   BTL_MAIN_RemoveItemFromBag  0x021B9090  thumb  ov093
+ *   BTL_MAIN_AddItemToBag  0x021B90BC  thumb  ov093
  *   BTL_MAIN_IsRecordingActive  0x021B90F8  thumb  ov093
  *   BTL_MAIN_SetOutcomeIfUnset  0x021B916C  thumb  ov093
  *   BTL_MAIN_SetRecordInvalid  0x021B9184  thumb  ov093
@@ -1130,9 +1130,9 @@ extern void BTLV_CORE_StartBagMenu(void *, int, int, int, u32, u32);
 extern void BTLV_CORE_SkipBagPartyPrompt(u8 *p);
 extern int BTLV_CORE_PollBagMenu(u8 *p);
 extern u16 BTLV_CORE_GetSelectedItem(u8 *p);
-extern u8 BTLV_CORE_GetInputTargetSlot(struct QV *p);
-extern u8 BTLV_CORE_GetSelectedItemPocket(u8 *p);
-extern u8 BTLV_CORE_GetInputResultFlag(u8 *p);
+extern u8 BTLV_CORE_GetItemTargetSlot(struct QV *p);
+extern u8 BTLV_CORE_GetSelectedItemCost(u8 *p);
+extern u8 BTLV_CORE_GetItemTargetFlag(u8 *p);
 extern void BTL_ACTION_SetItem(u32 *p, u32 id, u32 sub, u32 val);
 extern void BTLV_CORE_SaveBagCursors(char *p);
 extern int BTLV_CORE_ConsumeMessageFlag(u32 *p);
@@ -1144,7 +1144,7 @@ extern int BTLV_CORE_UpdateWaitMessage(u32 *p);
 extern void BTL_CALC_ActionSetForcedSkip(u32 *p);
 extern u8 BTL_POKEPARAM_GetLastMoveSlot(u8 *p);
 extern int BTL_POKEPARAM_HasMove(void *, u32);
-extern void *BTL_FIELD_IsSlotInUse(char *arg0, int arg1);
+extern void *BTL_FIELD_IsSlotInUse(char *state, int slot);
 extern int BTL_FIELD_IsMoveSealedBySlot(int, int, void *, u32);
 extern u8 BTLV_CORE_GetSlotLow(union Slot);
 extern u8 BTL_POKEPARAM_GetSickTurn(u8 *p, int i);
@@ -1181,7 +1181,7 @@ extern void GFL_USE_PlaySeDefaultVolume(unsigned int arg);
 extern void BTLV_CORE_PrintTaggedMessage(char *p, u16 k, int *c);
 extern void BTLV_CORE_PrintItemUseMessage(void *p, u8 b, u16 c);
 extern int BTL_CALC_GetCurseTargetKind(void *p);
-extern void BTLV_CORE_StartSceneEffect(u32 *p, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u8 s7);
+extern void BTLV_CORE_StartSceneEffect(u32 *p, u32 slotFrom, u32 slotTo, u32 sceneId, u32 s5, u32 s6, u8 s7);
 extern int BTLV_CORE_WaitSceneEffect(u32 *p);
 extern void BTLV_CORE_SetMonShown(void *ctx, int a, int b);
 extern void BTLV_CORE_StartDamageEffect(void *s, u32 a, u32 b, u32 c);
@@ -1193,7 +1193,7 @@ extern int BTLV_CORE_WaitMonSpriteUpdate(u32 *p);
 extern void BTLV_EFFECT_GaugeSetStatusIcon(u32 a, u32 b);
 extern void BTLV_CORE_StartMonReset(char *ctx, int a);
 extern int BTLV_CORE_WaitMonReset(u32 *p);
-extern void BTLV_CORE_StartMonRefresh(u32 *p, u32 a2);
+extern void BTLV_CORE_StartMonRefresh(u32 *p, u32 slot);
 extern int BTLV_CORE_WaitMonRefresh(u32 *p);
 extern void BTLV_CORE_StartViewEffect262(void *ctx, int a);
 extern int BTLV_CORE_WaitViewEffectDone(void *w, int v);
@@ -1232,7 +1232,7 @@ extern int BTLV_CORE_UpdateBallWindowRefresh(u8 *);
 extern void BTLV_CORE_StartBallWindowClose(u8 *);
 extern int BTLV_CORE_UpdateBallWindowClose(u8 *);
 extern int GFL_USE_IsSeqPlaying(unsigned int);
-extern u16 POKE_TOOL_GetLevelUpMove(void *p, u32 *idx, u32 heap);
+extern u16 POKE_TOOL_LearnLevelUpMove(void *p, u32 *idx, u32 heap);
 extern void BTLV_CORE_BuildAndPrintMessageFlag(char *p, void *h, int c);
 extern void BTLV_CORE_StartMoveForgetScreen(u8 *p, u8 a, int c);
 extern int BTLV_CORE_ProcMoveForgetScreen(u8 *p, u8 *out);
@@ -1243,11 +1243,11 @@ extern void BTLV_EFFECT_ResumeVm(void);
 extern void BTLV_EFFECT_StartEffectWithValue(int a, u16 b);
 extern void BTLV_CORE_StartClearSidePosition(u32 a, int b, int c);
 extern int BTLV_CORE_RunProc(u32 a);
-extern void BTLV_CORE_ShowPortrait(u32 *p, u32 a2, u32 a3);
-extern int BTLV_CORE_UpdatePortraitSlideIn(u32 *p, u32 a2);
-extern void BTLV_CORE_ReloadPortrait(u32 *p, u32 a2);
-extern int BTLV_CORE_UpdatePortraitMosaic(u32 *p, u32 a2);
-extern void BTLV_CORE_StartMonSpriteLoad(u32 *p, u32 a2, u32 a3);
+extern void BTLV_CORE_ShowPortrait(u32 *p, u32 slot, u32 flag);
+extern int BTLV_CORE_UpdatePortraitSlideIn(u32 *p, u32 slot);
+extern void BTLV_CORE_ReloadPortrait(u32 *p, u32 slot);
+extern int BTLV_CORE_UpdatePortraitMosaic(u32 *p, u32 slot);
+extern void BTLV_CORE_StartMonSpriteLoad(u32 *p, u32 slot, u32 mode);
 extern int BTLV_CORE_WaitMonSpriteLoad(u32 *p);
 extern int BTL_ID_IsSimpleEffectId(u16);
 int BTL_MAIN_IsOpposingPos(int a, int b, int c);
@@ -1262,8 +1262,8 @@ u8 BTL_MAIN_GetOwnClientId(u8 *p);
 int BTL_MAIN_IsSameTeamClient(int a, int b);
 u8 BTL_MAIN_GetOwnOpponentClient(u8 *p,int k);
 u32 BTL_MAIN_GetOpponentClient(u8 *p, int k, int x);
-void BTL_MAIN_AddItemToBag(u8 *p, u32 k, u32 x);
-void BTL_MAIN_SubItemFromBag(u8 *p,u8 k,u32 x);
+void BTL_MAIN_RemoveItemFromBag(u8 *p, u32 k, u32 x);
+void BTL_MAIN_AddItemToBag(u8 *p,u8 k,u32 x);
 int BTL_MAIN_IsRecordingActive(u8 *p);
 void BTL_MAIN_SetOutcomeIfUnset(u8 *p,u32 x);
 void BTL_MAIN_SetRecordInvalid(BtlMainRecordFlags **p);
@@ -1780,9 +1780,9 @@ u32 BTL_CLIENT_IsMainStepActive(BtlClient *client)
  */
 void BTL_CLIENT_AddPoints(BtlClient *client, u8 n) { client->pointCounter+=n; if(client->pointCounter>14) client->pointCounter=14; }
 
-void BTL_CLIENT_SetStepFn(BtlClient *client, u32 v)
+void BTL_CLIENT_SetStepFn(BtlClient *client, u32 stepFn)
 {
-    *(u32 *)&client->tickFn = v;
+    *(u32 *)&client->tickFn = stepFn;
     client->stepPhase = 0;
 }
 
@@ -1994,11 +1994,11 @@ int BTL_CLIENT_StepOpenBattleWindow(BtlClient *client, int *state)
     return 0;
 }
 
-int BTL_CLIENT_PollWindowStep(BtlClient *client, int b)
+int BTL_CLIENT_PollWindowStep(BtlClient *client, int state)
 {
     int r4;
     if (client->view != 0) {
-        r4 = BTL_CLIENT_StepOpenBattleWindow(client, (int *)b);
+        r4 = BTL_CLIENT_StepOpenBattleWindow(client, (int *)state);
         if (r4 != 0) {
             if (BTL_REC_ReadSkipFlag((int)client->remoteLink, client->clientId) != 0)
                 BTL_CLIENT_RequestCounterAdvance(&client->counter);
@@ -2739,7 +2739,7 @@ static inline u8 isSameSlotIndex(BtlClient *client)
 u32 BTL_CLIENT_StepSelectItem(BtlClient *client, int *st)
 {
     u32 itemId, pointCost, zero;
-    u16 itemPocket, itemTarget;
+    u16 targetSlot, itemTarget;
     Value isLastSlot;
     u32 foeSemiInvulnerable;
     switch (*st) {
@@ -2759,17 +2759,17 @@ u32 BTL_CLIENT_StepSelectItem(BtlClient *client, int *st)
         }
         if (BTLV_CORE_PollBagMenu(client->view)) {
             itemId = BTLV_CORE_GetSelectedItem(client->view);
-            itemPocket = BTLV_CORE_GetInputTargetSlot(client->view);
-            if (itemId && itemPocket != 6) {
-                pointCost = BTLV_CORE_GetSelectedItemPocket(client->view);
-                itemTarget = BTLV_CORE_GetInputResultFlag(client->view);
+            targetSlot = BTLV_CORE_GetItemTargetSlot(client->view);
+            if (itemId && targetSlot != 6) {
+                pointCost = BTLV_CORE_GetSelectedItemCost(client->view);
+                itemTarget = BTLV_CORE_GetItemTargetFlag(client->view);
                 if (client->pointCounter >= pointCost) client->pointCounter = client->pointCounter - pointCost;
                 else {
                     client->pointCounter = zero;
                     pointCost = client->pointCounter;
                 }
                 BTL_CLIENT_SetSlotFlag(client, client->slotIndex, pointCost);
-                BTL_ACTION_SetItem((void *)client->actionCursor, itemId, (u8)itemPocket, (u8)itemTarget);
+                BTL_ACTION_SetItem((void *)client->actionCursor, itemId, (u8)targetSlot, (u8)itemTarget);
                 BTLV_CORE_SaveBagCursors(client->view);
                 if (BTL_CALC_GetItemParam((void *)itemId, 0xf) == 4) *(u8 *)&client->flags |= 4;
                 BTL_CLIENT_SetSlotLinkWord(client, client->slotIndex, itemId);
@@ -2966,10 +2966,10 @@ u32 BTL_CLIENT_StepSendActions(BtlClient *client, s32 *st)
 
 void BTL_CLIENT_ClearSlotLinkWords(BtlClient *client) { u32 i; for(i=0;i<3;i++) client->slotLinkWords[i]=0; }
 
-void BTL_CLIENT_SetSlotLinkWord(BtlClient *client, u32 i, u32 v) { if(client->isComm==0) { if(client->clientId==BTL_MAIN_GetOwnClientId(client->main)) { client->slotLinkWords[i]=v; BTL_MAIN_AddItemToBag(client->main,client->clientId,v); } } }
+void BTL_CLIENT_SetSlotLinkWord(BtlClient *client, u32 i, u32 v) { if(client->isComm==0) { if(client->clientId==BTL_MAIN_GetOwnClientId(client->main)) { client->slotLinkWords[i]=v; BTL_MAIN_RemoveItemFromBag(client->main,client->clientId,v); } } }
 
 /*
- * lever: BTL_MAIN_SubItemFromBag consumes the live r2 halfword as its third argument;
+ * lever: BTL_MAIN_AddItemToBag consumes the live r2 halfword as its third argument;
  * its matched body forwards it to MYITEM_SAVEDATA_AddItem.
  */
 void BTL_CLIENT_FlushSlotLinkWord(BtlClient *client, u32 i)
@@ -2980,7 +2980,7 @@ void BTL_CLIENT_FlushSlotLinkWord(BtlClient *client, u32 i)
             u32 v = a[i];
             if (v != 0) {
                 a[i] = 0;
-                BTL_MAIN_SubItemFromBag(client->main, client->clientId, v);
+                BTL_MAIN_AddItemToBag(client->main, client->clientId, v);
             }
         }
     }
@@ -2993,9 +2993,9 @@ void BTL_CLIENT_ClearSlotFlags(BtlClient *client) { MI_CpuFill8(client->slotFlag
 /*
  * follower: unlabelled byte accessor at 0x021CF43C.
  */
-void BTL_CLIENT_SetSlotFlag(BtlClient *client, u32 i, u32 v)
+void BTL_CLIENT_SetSlotFlag(BtlClient *client, u32 i, u32 flag)
 {
-    client->slotFlags[i] = v;
+    client->slotFlags[i] = flag;
 }
 
 u8 BTL_CLIENT_GetSlotFlag(BtlClient *client, u32 i)
@@ -3318,18 +3318,18 @@ void BTL_CLIENT_ClearSlotOrder(BtlClient *client)
     for (; i < 6; i++) client->slotOrder[i] = fill;
 }
 
-int BTL_CLIENT_HasSlotInOrder(BtlClient *client, int v)
+int BTL_CLIENT_HasSlotInOrder(BtlClient *client, int slot)
 {
     u32 i = 0;
     for (; i < 6; i++) {
-        if (client->slotOrder[i] == v) return 1;
+        if (client->slotOrder[i] == slot) return 1;
     }
     return 0;
 }
 
-void BTL_CLIENT_SetSlotOrder(BtlClient *client, u32 i, u32 v)
+void BTL_CLIENT_SetSlotOrder(BtlClient *client, u32 i, u32 slot)
 {
-    if (i < 6) client->slotOrder[i] = v;
+    if (i < 6) client->slotOrder[i] = slot;
 }
 
 int BTL_CLIENT_ChooseAiSwitchTarget(BtlClient *client, void *mon, u32 orderSlot, u8 *outMember)
@@ -3876,11 +3876,11 @@ void BTL_CLIENT_SortMonsByMovePower(BtlClient *client, u8 *partyOrder, u8 orderC
     }
 }
 
-void BTL_CLIENT_BuildSlotChoices(BtlClient *client, u32 a, u32 b, void *q, void *out)
+void BTL_CLIENT_BuildSlotChoices(BtlClient *client, u32 mode, u32 pickCount, void *choices, void *out)
 {
-    BTL_PICK_InitSlotChoices(q, (unsigned int)client->sideData, b, a);
-    BTL_PICK_MarkSlotsSelectable(q, client->slotCount);
-    BTL_PICK_InitList(out, q);
+    BTL_PICK_InitSlotChoices(choices, (unsigned int)client->sideData, pickCount, mode);
+    BTL_PICK_MarkSlotsSelectable(choices, client->slotCount);
+    BTL_PICK_InitList(out, choices);
 }
 
 void BTL_CLIENT_SetChangeActionsFromChoice(BtlClient *client, u8 *choice)
@@ -5668,7 +5668,7 @@ int BTL_CLIENT_StepLearnLevelUpMoves(BtlClient *client, int *state, void *mon)
         sLevelUpMoveScan.move = 0;
         *state = 1;
     case 1:
-        sLevelUpMoveScan.move = POKE_TOOL_GetLevelUpMove(BTL_POKEPARAM_GetMon(mon), &sLevelUpMoveScan.iter, client->heapId);
+        sLevelUpMoveScan.move = POKE_TOOL_LearnLevelUpMove(BTL_POKEPARAM_GetMon(mon), &sLevelUpMoveScan.iter, client->heapId);
         if (sLevelUpMoveScan.move == 0)
             return 1;
         if (sLevelUpMoveScan.move == 0xFFFE)
@@ -6794,9 +6794,9 @@ void BTL_CLIENT_ResetCounter(BtlClientCounter *counter)
 /*
  * strh v at #0xa
  */
-void BTL_CLIENT_SetCounterMaximum(BtlClientCounter *counter, u32 v)
+void BTL_CLIENT_SetCounterMaximum(BtlClientCounter *counter, u32 maximum)
 {
-    counter->maximum = v;
+    counter->maximum = maximum;
 }
 
 int BTL_CLIENT_IsCounterFadeDone(BtlClientCounter *counter)
@@ -6827,11 +6827,11 @@ u8 BTL_CLIENT_GetCounterMode(BtlClientCounter *counter)
  *   Sets h8 = v, bit0 = 1, h12 = 0, clears bits 1 and 2. Source order h12 = 0 before h8 = v:
  *   the scheduler hoists the strh, and r1 (v) stays live so the zero takes r2.
  */
-void BTL_CLIENT_StartCounterReplay(BtlClientCounter *counter, u16 v)
+void BTL_CLIENT_StartCounterReplay(BtlClientCounter *counter, u16 target)
 {
     counter->replaying = 1;
     counter->tick = 0;
-    counter->target = v;
+    counter->target = target;
     counter->fadeStarted = 0;
     counter->fadeDone = 0;
 }

@@ -16,8 +16,8 @@ typedef unsigned int u32;
 u32 CAMERA_SizeToWidthCore(u32 v);
 u32 CAMERA_SizeToHeightCore(u32 v);
 
-u32 CAMERA_SizeToWidthCore(u32 v) {
-    switch (v) {
+u32 CAMERA_SizeToWidthCore(u32 size) {
+    switch (size) {
     case 0: return 0x280;
     case 1: return 0x140;
     case 2: return 0xa0;
@@ -29,8 +29,8 @@ u32 CAMERA_SizeToWidthCore(u32 v) {
     return 0;
 }
 
-u32 CAMERA_SizeToHeightCore(u32 v) {
-    switch (v) {
+u32 CAMERA_SizeToHeightCore(u32 size) {
+    switch (size) {
     case 0: return 0x1e0;
     case 1: return 0xf0;
     case 2: return 0x78;

@@ -131,9 +131,9 @@ typedef signed int     s32;
 typedef struct Obj Obj;
 
 typedef struct {
-    int v0;
-    int v1;
-    int v2;
+    int primaryText;
+    int secondaryText;
+    int enabled;
 } S3;
 
 extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
@@ -400,12 +400,12 @@ void ZUKAN_NICKNAME_UpdateInfoWindow(ZukanNicknameWork *a)
         a->soundEnabled = (UI_GetInputMode() == 0) ? 1 : 0;
         {
             int r5 = (int)MSGDATA_CreateFromArchive(0, 2, 0xe9, ((ZukanNicknameWork *)a)->heapId);
-            s.v0 = (int)MSGDATA_AllocString((struct MsgBank *)r5, 0);
-            s.v1 = (int)MSGDATA_AllocString((struct MsgBank *)r5, 1);
-            s.v2 = 1;
+            s.primaryText = (int)MSGDATA_AllocString((struct MsgBank *)r5, 0);
+            s.secondaryText = (int)MSGDATA_AllocString((struct MsgBank *)r5, 1);
+            s.enabled = 1;
             BTLV_INPUT_ChangeScreen((int *)a->input, 4, &s);
-            STRBUF_Delete((struct U16Vec *)s.v0);
-            STRBUF_Delete((struct U16Vec *)s.v1);
+            STRBUF_Delete((struct U16Vec *)s.primaryText);
+            STRBUF_Delete((struct U16Vec *)s.secondaryText);
             MSGDATA_Delete((struct Rec *)r5);
             a->pauseFlag = 2;
         }

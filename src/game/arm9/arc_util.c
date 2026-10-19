@@ -42,11 +42,11 @@ void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 member, void *dst);
 
 u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, u32 member);
 
-int ARC_UTIL_LoadMember(int a0, int a1, int a2, u16 a3);
+int ARC_UTIL_LoadMember(int archiveID, int memberIdx, int decompress, u16 heapID);
 
-int ARC_UTIL_LoadMemberWithSize(int a0, int a1, int a2, u16 a3, u32 *out);
+int ARC_UTIL_LoadMemberWithSize(int archiveID, int memberIdx, int decompress, u16 heapID, u32 *out);
 
-void *ARC_UTIL_LoadHandleMember(void *a0, u32 a1, u32 a2, u16 a3);
+void *ARC_UTIL_LoadHandleMember(void *narc, u32 fileID, u32 decompress, u16 heapID);
 
 void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 

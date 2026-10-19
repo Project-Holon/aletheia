@@ -255,8 +255,8 @@ extern void CLACT_DrawSystem(void);
 extern void CLACT_VBlankSystem(void);
 extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize,
                           u16 fifoSize, u16 heap, void (*setupFn)(void));
-extern u32 *G3D_CAMERA_Create(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7, u32 a8,
-                          Vec3 *a9, Vec3 *a10, Vec3 *a11, u16 heap);
+extern u32 *G3D_CAMERA_Create(u32 mode, u32 nearClip, u32 farClip, u32 fieldOfView, u32 aspectRatio, u32 scale, u32 roll, u32 flags,
+                          Vec3 *eye, Vec3 *a10, Vec3 *a11, u16 heap);
 extern void G3D_CAMERA_SetFar(struct Light *l, const u32 *in);
 extern void G3D_CAMERA_SetNear(struct Light *l, const u32 *in);
 extern struct LightSlot *G3D_LIGHT_CreateSlots(const struct LightSet *s, u32 heap);
@@ -296,12 +296,12 @@ void INTRO_GRAPHIC_VBlank(u32 a, u8 *b);
 void INTRO_GRAPHIC_InitBg(IntroDisplay *disp, unsigned heap);
 void INTRO_GRAPHIC_ExitBg(IntroDisplay *disp);
 void INTRO_GRAPHIC_ResetBgSlot(IntroDisplay *disp);
-void INTRO_GRAPHIC_UpdateBg(void *a0);
+void INTRO_GRAPHIC_UpdateBg(void *unused);
 void INTRO_GRAPHIC_InitBg7(IntroDisplay *disp,u16 heap);
 void INTRO_GRAPHIC_InitClact(IntroClact *clact, int a, int b);
 void INTRO_GRAPHIC_DeleteClact(IntroClact *clact);
-void INTRO_GRAPHIC_DrawClact(void *a0);
-void INTRO_GRAPHIC_VBlankClact(void *a0);
+void INTRO_GRAPHIC_DrawClact(void *unused);
+void INTRO_GRAPHIC_VBlankClact(void *unused);
 unsigned INTRO_GRAPHIC_GetClactBank(IntroClact *clact);
 void INTRO_GRAPHIC_InitCamera(IntroCamera *cam, u16 heap);
 void INTRO_GRAPHIC_InitCamera7(IntroCamera *cam, u16 heap);
@@ -565,7 +565,7 @@ void INTRO_GRAPHIC_ResetBgSlot(IntroDisplay *disp)
 
 
 
-void INTRO_GRAPHIC_UpdateBg(void *a0) { BG_SYS_Update(); }
+void INTRO_GRAPHIC_UpdateBg(void *unused) { BG_SYS_Update(); }
 
 
 
@@ -617,11 +617,11 @@ void INTRO_GRAPHIC_DeleteClact(IntroClact *clact)
 
 
 
-void INTRO_GRAPHIC_DrawClact(void *a0){CLACT_DrawSystem();}
+void INTRO_GRAPHIC_DrawClact(void *unused){CLACT_DrawSystem();}
 
 
 
-void INTRO_GRAPHIC_VBlankClact(void *a0){CLACT_VBlankSystem();}
+void INTRO_GRAPHIC_VBlankClact(void *unused){CLACT_VBlankSystem();}
 
 
 

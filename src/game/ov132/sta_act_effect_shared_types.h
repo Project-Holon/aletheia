@@ -22,4 +22,11 @@ typedef struct {
     Part part[4];              /* 0x4808 up to four effect parts */
 } ActEffectSystem;
 
+/* Effect manager (0x24244 bytes) created by STA_ACT_EFFECT_Create. */
+typedef struct {
+    unsigned short heapId;
+    unsigned char pad_2[2];
+    ActEffectSystem systems[8];
+} ActEffectManager;
+
 #endif

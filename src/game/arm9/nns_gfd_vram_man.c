@@ -68,7 +68,7 @@ extern void GX_EndLoadClearImage(void);
 extern void GX_LoadClearImageDepth(u32 a, u32 c);
 u32 NNS_GfdAllocVram(u32 size, u32 flag, u32 dir);
 void NNSi_GfdGetVramManagerWork(struct Arena02146B74 *dst);
-void NNSi_GfdSetVramManagerWork(void *p0);
+void NNSi_GfdSetVramManagerWork(void *pWork);
 u32 NNSi_GfdRingNextIndex(u8 *p, u32 v);
 int NNSi_GfdRingIsFull(u8 *p);
 int NNSi_GfdRingIsEmpty(void *p);
@@ -265,10 +265,10 @@ void NNSi_GfdGetVramManagerWork(struct Arena02146B74 *dst)
 
 
 
-void NNSi_GfdSetVramManagerWork(void *p0)
+void NNSi_GfdSetVramManagerWork(void *pWork)
 {
-    g_02146B74.cur = ((struct Arena02146B74 *)p0)->cur;
-    g_02146B74.end = ((struct Arena02146B74 *)p0)->end;
+    g_02146B74.cur = ((struct Arena02146B74 *)pWork)->cur;
+    g_02146B74.end = ((struct Arena02146B74 *)pWork)->end;
 }
 
 

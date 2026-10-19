@@ -220,7 +220,7 @@ int NNSi_G2dIsVramHandleSetEx(char *p, int i);
 void NNSi_G2dLoadVramResourceMain(struct VramResource *r, u32 dst, int mode, struct VramHandle *out);
 void NNSi_G2dLoadVramResourceSub(struct VramResource *r, u32 dst, int mode, struct VramHandle *out);
 void NNSi_G2dSetupVramResource(struct VramResource *r, u32 dst, int mode, struct VramHandle *out);
-void NNSi_G2dLoadVramResourceBySel(VramResourceSel *self, u32 a1, int sel, VramHandleSel *out);
+void NNSi_G2dLoadVramResourceBySel(VramResourceSel *self, u32 offset, int sel, VramHandleSel *out);
 void NNSi_G2dLoadVramResourceList(VramResourceList *self, VramResourceIndices *list, u32 base, int sel, VramHandleList *out);
 extern OamCache g_02146BC8[3];
 extern u16 g_02146BC4;
@@ -1168,7 +1168,7 @@ void NNSi_G2dSetupVramResource(struct VramResource *r, u32 dst, int mode, struct
 
 
 
-void NNSi_G2dLoadVramResourceBySel(VramResourceSel *self, u32 a1, int sel, VramHandleSel *out)
+void NNSi_G2dLoadVramResourceBySel(VramResourceSel *self, u32 offset, int sel, VramHandleSel *out)
 {
     u32 a = self->src;
     u32 b = self->size;
@@ -1179,31 +1179,31 @@ void NNSi_G2dLoadVramResourceBySel(VramResourceSel *self, u32 a1, int sel, VramH
     case 1:
         if (self->handle != 0) {
             GX_BeginLoadOBJExtPltt(self->handle);
-            GX_LoadOBJExtPltt(a, a1, b);
+            GX_LoadOBJExtPltt(a, offset, b);
             GX_EndLoadOBJExtPltt();
         } else {
-            GX_LoadOBJPltt(a, a1, b);
+            GX_LoadOBJPltt(a, offset, b);
         }
         break;
     case 2:
         if (self->handle != 0) {
             GXS_BeginLoadOBJExtPltt(self->handle);
-            GXS_LoadOBJExtPltt(a, a1, b);
+            GXS_LoadOBJExtPltt(a, offset, b);
             GXS_EndLoadOBJExtPltt();
         } else {
-            GXS_LoadOBJPltt(a, a1, b);
+            GXS_LoadOBJPltt(a, offset, b);
         }
         break;
     case 0:
         GX_BeginLoadTexPltt();
-        GX_LoadTexPltt(a, a1, b);
+        GX_LoadTexPltt(a, offset, b);
         GX_EndLoadTexPltt();
         break;
     }
 
     out->formatCode = self->formatCode;
     out->handle = self->handle;
-    NNSi_G2dSetVramHandleEx((char *)out, sel, a1);
+    NNSi_G2dSetVramHandleEx((char *)out, sel, offset);
 }
 
 

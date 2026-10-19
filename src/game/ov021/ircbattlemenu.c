@@ -82,7 +82,7 @@
  *   STRBUF_Delete  0x02045808  arm
  *   WIPE_SYS_EndCheck  0x020221A4  thumb
  *   IRC_BATTLE_ENTRY_GetGameSys  0x02155A90  thumb  ov010
- *   ICA_ANIME_GetField24  0x02012138  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   WIPE_SYS_Start  0x0202208C  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
@@ -172,7 +172,7 @@
  *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   APP_TASKMENU_RES_Create  0x02027F60  thumb
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   G2x_SetBlendAlpha_  0x0207D63C  arm
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   GAME_DATA_GetField1A0  0x0201283C  thumb
@@ -184,7 +184,7 @@
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
  *   CLACT_DrawSystem  0x0204A600  arm
  *   GAMESYSTEM_TryStartAutoComm  0x020121CC  thumb
- *   ICA_ANIME_GetUnk330  0x02012204  thumb
+ *   GAMESYSTEM_IsNetOffBySleep  0x02012204  thumb
  *   WIPE_SetBrightnessFadeOut  0x0202223C  thumb
  *   IRC_BATTLE_ENTRY_SetMode  0x02155A8C  thumb  ov010
  *   APP_KEYCURSOR_Delete  0x02028604  thumb
@@ -374,7 +374,7 @@ extern struct PrintQue *PRINTSYS_QUE_Create(u32 heapId);
 extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GfFont *font, struct PrintQue *printQue, u16 heapId);
 extern void WIPE_SYS_Start(u32 pattern0, u32 pattern1, u32 pattern2, u32 color, u32 div, u32 sync, u32 heapId);
 extern struct GameSystem *IRC_BATTLE_ENTRY_GetGameSys(IrcBattleEntryWork *entry);
-extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSys);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSys);
 extern void G2x_SetBlendAlpha_(u32 reg, u32 plane1, u32 plane2, u32 ev1, u32 ev2);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 type, u32 heapId);
 extern struct WifiList *GAME_DATA_GetField1A0(const struct GameData *gameData);
@@ -387,7 +387,7 @@ extern u32 PRINTSYS_QUE_Main(struct PrintQue *printQue);
 extern void CLACT_DrawSystem(void);
 extern u32 GAMESYSTEM_TryStartAutoComm(struct GameSystem *gameSys);
 extern u32 WIPE_SYS_EndCheck(void);
-extern u32 ICA_ANIME_GetUnk330(const struct GameSystem *gameSys);
+extern u32 GAMESYSTEM_IsNetOffBySleep(const struct GameSystem *gameSys);
 extern void WIPE_SetBrightnessFadeOut(u32 screen, u32 value);
 extern void IRC_BATTLE_ENTRY_SetMode(IrcBattleEntryWork *entry, u32 mode);
 extern void TIME_ICON_Delete(struct TimeIcon *icon);
@@ -495,7 +495,7 @@ extern void BG_SYS_SetTileUnit(u32 a, u32 b, u32 c);
 extern void BG_SYS_DeleteHalf(u32 a, u32 b, u32 c);
 extern u32 MSGDATA_Delete(struct MsgData *msgData);
 extern u32 GF_FONT_Delete(struct GfFont *font);
-extern struct CommSys *ICA_ANIME_GetField24(const struct GameSystem *gameSys);
+extern struct CommSys *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSys);
 extern u32 GAME_COMM_GetKind(struct CommSys *comm);
 extern void GAME_COMM_RequestExitNoCallback(struct CommSys *comm);
 extern void *IRC_BATTLE_ENTRY_GetSaveControl(IrcBattleEntryWork *entry);
@@ -912,7 +912,7 @@ void IRCBATTLEMENU_SeqWaitFadeEnd(IrcBattleMenuWork *work)
 {
     if (WIPE_SYS_EndCheck()) {
         if (work->mode != 0xC) {
-            if (GAME_COMM_GetKind(ICA_ANIME_GetField24(IRC_BATTLE_ENTRY_GetGameSys(work->param))) == 0)
+            if (GAME_COMM_GetKind(GAMESYSTEM_GetGameComm(IRC_BATTLE_ENTRY_GetGameSys(work->param))) == 0)
                 IRCBATTLEMENU_SetSeq(work, 0, 0x361);
         } else {
             IRCBATTLEMENU_SetSeq(work, 0, 0x365);
@@ -926,8 +926,8 @@ void IRCBATTLEMENU_SeqStartFadeOut(IrcBattleMenuWork *work)
     work->noAutoComm = 1;
     WIPE_SYS_Start(0, 0, 0, 0, 6, 1, work->heapId);
     if (work->mode != 0xC) {
-        if (GAME_COMM_GetKind(ICA_ANIME_GetField24(IRC_BATTLE_ENTRY_GetGameSys(work->param))) != 0) {
-            GAME_COMM_RequestExitNoCallback(ICA_ANIME_GetField24(IRC_BATTLE_ENTRY_GetGameSys(work->param)));
+        if (GAME_COMM_GetKind(GAMESYSTEM_GetGameComm(IRC_BATTLE_ENTRY_GetGameSys(work->param))) != 0) {
+            GAME_COMM_RequestExitNoCallback(GAMESYSTEM_GetGameComm(IRC_BATTLE_ENTRY_GetGameSys(work->param)));
         }
     }
     IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqWaitFadeEnd, 0x37C);
@@ -1708,7 +1708,7 @@ int IRCBATTLEMENU_Init(struct ProcWork *proc, u32 seq, IrcBattleEntryWork *param
     WIPE_SYS_Start(0, 1, 1, 0, 6, 1, work->heapId);
     IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSetupTopMenu, 0x83B);
     work->param = (struct IrcBattleEntryWork *)param;
-    work->gameData = ICA_ANIME_GetField1C(IRC_BATTLE_ENTRY_GetGameSys((IrcBattleEntryWork *)work->param));
+    work->gameData = GAMESYSTEM_GetGameData(IRC_BATTLE_ENTRY_GetGameSys((IrcBattleEntryWork *)work->param));
     G2x_SetBlendAlpha_(0x04001050, 4, 1, 0xf, 4);
     GFL_NET_RestartWithDefaultTimeout(0, work->heapId);
     BG_SYS_SetMainVisiblePlanes(0x13);
@@ -1745,7 +1745,7 @@ u32 IRCBATTLEMENU_Main(u32 proc, u32 seq, u32 param, IrcBattleMenuWork *work)
         GAMESYSTEM_TryStartAutoComm(IRC_BATTLE_ENTRY_GetGameSys((IrcBattleEntryWork *)work->param));
     }
     if (WIPE_SYS_EndCheck() != 0) {
-        if (ICA_ANIME_GetUnk330(IRC_BATTLE_ENTRY_GetGameSys((IrcBattleEntryWork *)work->param)) != 0) {
+        if (GAMESYSTEM_IsNetOffBySleep(IRC_BATTLE_ENTRY_GetGameSys((IrcBattleEntryWork *)work->param)) != 0) {
             work->mode = 12;
             ret = 1;
             WIPE_SetBrightnessFadeOut(0, 0);

@@ -107,7 +107,7 @@ extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *arc, u32 member, u32 
 extern void ARC_TOOL_DeleteHandle(void *arc);
 int MAP_REPLACE_GetFlagIndex(int selector);
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
-extern int COMM_PLAYER_SUPPORT_GetInfoCode(void *a0);
+extern int COMM_PLAYER_SUPPORT_GetInfoCode(void *info);
 extern int INTRUDE_COMM_GetAreaOwnerVersion(void *p);
 extern u32 ZONEDATA_GetEventWorkAddress(u32 a, u32 b);
 void MAP_REPLACE_SetupFlags(u8 *variant, int gameSystem);

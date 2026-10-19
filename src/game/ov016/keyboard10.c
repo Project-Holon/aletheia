@@ -139,9 +139,9 @@ typedef signed char s8;
 
 struct Keyboard10Work {
     u8  pad00[0x58];
-    int f58;
+    int focusCell;
     u8  pad5c[7];
-    s8  f63;
+    s8  focusIndex;
 };
 
 /* the object reads the file static through its .bss section symbol and takes &MemKb10 through the
@@ -706,14 +706,14 @@ static void dispFocus(void)
     int v;
 
     g = gKeyboard10Work;
-    if (g->f63 > 0xb)
+    if (g->focusIndex > 0xb)
         sel = 0x45;
-    v = (int)DWCi_CELLlGetObj((char *)g->f58, 0);
+    v = (int)DWCi_CELLlGetObj((char *)g->focusCell, 0);
     DWCi_CEINlSet(0, sel, (GXOamAttr *)v);
     g = gKeyboard10Work;
-    DWCi_CELLlSetPriority((void *)g->f58, -1, 2);
+    DWCi_CELLlSetPriority((void *)g->focusCell, -1, 2);
     g = gKeyboard10Work;
-    DWCi_CELLlSetPosition((void *)g->f58, -1, sKeyboard10CellPosX[g->f63][0], sKeyboard10CellPosY[g->f63][0]);
+    DWCi_CELLlSetPosition((void *)g->focusCell, -1, sKeyboard10CellPosX[g->focusIndex][0], sKeyboard10CellPosY[g->focusIndex][0]);
 }
 
 

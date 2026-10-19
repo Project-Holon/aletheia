@@ -68,17 +68,17 @@ extern u32 GFL_HEAP_Free(void *p);
 
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
 
-extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
 
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *arc, u32 member, u32 alloc, void **out,
                            u16 heap);
 
-extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, const u16 *a5,
-                          u8 a6, u8 a7, u8 a8, u8 a9);
+extern void BG_SYS_DrawTileEx(u32 index, u32 dx, u32 dy, u32 cw, u8 ch, const u16 *src,
+                          u8 sx, u8 sy, u8 sw, u8 sh);
 
 extern void (*BgWinFrmScreenTransFuncs[])(u32);
 
-extern void BG_SYS_SetTileEntry(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
+extern void BG_SYS_SetTileEntry(u32 layer, int value, int x0, int y0, u8 w, u8 h, u8 mode);
 
 extern u16 BMP_WIN_GetCharOffset(struct Descriptor *p);
 

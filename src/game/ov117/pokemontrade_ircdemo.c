@@ -116,7 +116,7 @@ extern int POKETRADE_PROC_IsHostSide(void *);
 extern void *POKETRADE_PROC_GetSideMon(void *, int);
 extern u32 POKE_TOOL_GetPartyValue(void *, u32, u32);
 extern void PM_VOICE_GetPerapVoiceSave(void **out);
-extern u32 PM_VOICE_Play(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
+extern u32 PM_VOICE_Play(u32 species, u32 form, u32 pan, u32 dual, u32 volumeBiasB, u32 frequencyOffsetB, u32 reverse, u32 recordedVoice);
 extern u32 GFL_HEAP_Free(void *p);
 extern void MCSS_GetPosition(void *p, u32 *out);
 extern void POKETRADE_SAVE_FreeIfSet(u32 *p);
@@ -181,8 +181,8 @@ void POKETRADE_IRCDEMO_StepStartPlayback(u8 *p)
     void *mon;
     u32 a;
     u32 b;
-    Vec v1;
-    Vec v2;
+    Vec monPos;
+    Vec monPosShared;
     u32 buf;
 
     POKETRADE_DEMO_COMMON_StepFade(*(s8 * *)&((PokeTradeDemoWork *)p)->fade);
@@ -208,23 +208,23 @@ void POKETRADE_IRCDEMO_StepStartPlayback(u8 *p)
             SLOT0 = 0;
         }
         if (((PokeTradeDemoWork *)p)->enemySameMon == 0) {
-            MCSS_GetPosition((void *)OBJ(0), (u32 *)(&v1));
+            MCSS_GetPosition((void *)OBJ(0), (u32 *)(&monPos));
             POKETRADE_SAVE_FreeIfSet((u32 *)SLOT0);
             if (((PokeTradeDemoWork *)p)->enemySpecialMon != 0) {
-                SLOT0 = POKETRADE_MCSS_SlideCreateWithOffsets((void *)OBJ(0), (void *)0x14, &v1, d_021D5600, HEAP);
+                SLOT0 = POKETRADE_MCSS_SlideCreateWithOffsets((void *)OBJ(0), (void *)0x14, &monPos, d_021D5600, HEAP);
             } else {
-                SLOT0 = POKETRADE_MCSS_SlideCreateWithOffsets((void *)OBJ(0), (void *)0x12, &v1, (void *)d_021D5220, HEAP);
+                SLOT0 = POKETRADE_MCSS_SlideCreateWithOffsets((void *)OBJ(0), (void *)0x12, &monPos, (void *)d_021D5220, HEAP);
             }
             POKETRADE_3D_AddPokemonMcssPlain(p, 2, 0, POKETRADE_PROC_GetSideMon(p, POKETRADE_PROC_IsHostSide(p)), 1);
             MCSS_SetAnmStopFlag((void *)OBJ(2));
             MCSS_SetVanishFlag((void *)OBJ(2));
         } else {
-            MCSS_GetPosition((void *)OBJ(0), (u32 *)(&v2));
+            MCSS_GetPosition((void *)OBJ(0), (u32 *)(&monPosShared));
             POKETRADE_SAVE_FreeIfSet((u32 *)SLOT0);
             if (((PokeTradeDemoWork *)p)->enemySpecialMon != 0) {
-                SLOT0 = POKETRADE_MCSS_SlideCreateWithOffsets((void *)OBJ(0), (void *)0x14, &v2, d_021D5600, HEAP);
+                SLOT0 = POKETRADE_MCSS_SlideCreateWithOffsets((void *)OBJ(0), (void *)0x14, &monPosShared, d_021D5600, HEAP);
             } else {
-                SLOT0 = POKETRADE_MCSS_SlideCreateWithOffsets((void *)OBJ(0), (void *)0x28, &v2, (void *)d_021D53D0, HEAP);
+                SLOT0 = POKETRADE_MCSS_SlideCreateWithOffsets((void *)OBJ(0), (void *)0x28, &monPosShared, (void *)d_021D53D0, HEAP);
             }
         }
         POKETRADE_PROC_SetStep(p, (int)POKETRADE_IRCDEMO_StepMessage);
@@ -393,7 +393,7 @@ void POKETRADE_IRCDEMO_StepSetup(u8 *p)
 extern void POKETRADE_DEMO_COMMON_ShowUnitActor(void *);
 extern void POKETRADE_DEMO_COMMON_LoadUnitResources(void *);
 extern int PARTICLE_StartEffectWithCallback(int *p, int a, int b, int c);
-extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
 extern void *POKETRADE_MCSS_SlideCreate(void *a0, void *a1, void *a2, u32 heapId);
 extern void POKETRADE_NEGO_PlaySeByKeyB(int);
 extern void POKETRADE_3D_RemoveCurrentUnit(void *);
@@ -402,10 +402,10 @@ extern void POKETRADE_3D_RemoveCurrentUnit(void *);
 /* IRC demo playback step: palette fades, particle bursts, wipes and MCSS slides. */
 void POKETRADE_IRCDEMO_UpdateScene(u8 *p)
 {
-    Vec v;
-    Vec v2;
-    Vec v3;
-    Vec v4;
+    Vec ownVec;
+    Vec peerVec;
+    Vec peerScale;
+    Vec shownPos;
 
     if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(1)) {
         MCSS_SetPaletteFade((struct McssFade *)OBJ(0), 8, 8, 0, 0xFFFF);
@@ -453,37 +453,37 @@ void POKETRADE_IRCDEMO_UpdateScene(u8 *p)
     }
     if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0xFA)) {
         MCSS_ResetVanishFlag((void *)OBJ(2));
-        v.x = -0x32000;
-        v.y = -0x1F4000;
-        v.z = 0xA000;
-        MCSS_SetPosition((void *)OBJ(2), (u32 *)(&v));
-        v.x = -0x32000;
-        v.y = 0x12C000;
-        v.z = 0xA000;
+        ownVec.x = -0x32000;
+        ownVec.y = -0x1F4000;
+        ownVec.z = 0xA000;
+        MCSS_SetPosition((void *)OBJ(2), (u32 *)(&ownVec));
+        ownVec.x = -0x32000;
+        ownVec.y = 0x12C000;
+        ownVec.z = 0xA000;
         POKETRADE_SAVE_FreeIfSet((u32 *)(((PokeTradeDemoWork *)p)->slideOwn));
-        ((PokeTradeDemoWork *)p)->slideOwn = POKETRADE_MCSS_SlideCreate((void *)OBJ(2), (void *)POKETRADE_DEMO_COMMON_PassThrough(0x96), &v, HEAP);
-        MCSS_GetScale((void *)OBJ(2), (u32 *)(&v));
-        v.x = v.x * 2;
-        v.y = v.y * 2;
-        MCSS_SetScale((void *)OBJ(2), (u32 *)(&v));
+        ((PokeTradeDemoWork *)p)->slideOwn = POKETRADE_MCSS_SlideCreate((void *)OBJ(2), (void *)POKETRADE_DEMO_COMMON_PassThrough(0x96), &ownVec, HEAP);
+        MCSS_GetScale((void *)OBJ(2), (u32 *)(&ownVec));
+        ownVec.x = ownVec.x * 2;
+        ownVec.y = ownVec.y * 2;
+        MCSS_SetScale((void *)OBJ(2), (u32 *)(&ownVec));
     }
     if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0xFB)) {
         MCSS_ResetVanishFlag((void *)OBJ(3));
-        v2.x = 0x3C000;
-        v2.y = 0x12C000;
-        v2.z = -0xA000;
-        MCSS_SetPosition((void *)OBJ(3), (u32 *)(&v2));
-        v2.x = 0x3C000;
-        v2.y = -0x172000;
-        v2.z = -0xA000;
+        peerVec.x = 0x3C000;
+        peerVec.y = 0x12C000;
+        peerVec.z = -0xA000;
+        MCSS_SetPosition((void *)OBJ(3), (u32 *)(&peerVec));
+        peerVec.x = 0x3C000;
+        peerVec.y = -0x172000;
+        peerVec.z = -0xA000;
         POKETRADE_SAVE_FreeIfSet((u32 *)(((PokeTradeDemoWork *)p)->slidePeer));
-        ((PokeTradeDemoWork *)p)->slidePeer = POKETRADE_MCSS_SlideCreate((void *)OBJ(3), (void *)POKETRADE_DEMO_COMMON_PassThrough(0x96), &v2, HEAP);
+        ((PokeTradeDemoWork *)p)->slidePeer = POKETRADE_MCSS_SlideCreate((void *)OBJ(3), (void *)POKETRADE_DEMO_COMMON_PassThrough(0x96), &peerVec, HEAP);
         MCSS_SetScale((void *)OBJ(3), (u32 *)&((PokeTradeAnimWork *)((PokeTradeDemoWork *)p)->animWork)->scale);
-        MCSS_GetScale((void *)OBJ(3), (u32 *)(&v2));
-        ((PokeTradeAnimWork *)((PokeTradeDemoWork *)p)->animWork)->position.x = v2.x;
-        ((PokeTradeAnimWork *)((PokeTradeDemoWork *)p)->animWork)->position.y = v2.y;
-        ((PokeTradeAnimWork *)((PokeTradeDemoWork *)p)->animWork)->position.z = v2.z;
-        MCSS_GetScale((void *)OBJ(3), (u32 *)(&v3));
+        MCSS_GetScale((void *)OBJ(3), (u32 *)(&peerVec));
+        ((PokeTradeAnimWork *)((PokeTradeDemoWork *)p)->animWork)->position.x = peerVec.x;
+        ((PokeTradeAnimWork *)((PokeTradeDemoWork *)p)->animWork)->position.y = peerVec.y;
+        ((PokeTradeAnimWork *)((PokeTradeDemoWork *)p)->animWork)->position.z = peerVec.z;
+        MCSS_GetScale((void *)OBJ(3), (u32 *)(&peerScale));
     }
     if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0xFC)) {
     }
@@ -507,8 +507,8 @@ void POKETRADE_IRCDEMO_UpdateScene(u8 *p)
     }
     if (POKETRADE_DEMO_COMMON_PassThrough(0x267) < FRAME && ((PokeTradeDemoWork *)p)->ownSameMon != 0 && *(u32 *)&((PokeTradeDemoWork *)p)->slidePtr != 0
         && *(u32 *)(*(u32 *)&((PokeTradeDemoWork *)p)->slidePtr + 8) == 9) {
-        MCSS_GetPosition((void *)OBJ(1), (u32 *)(&v4));
-        MCSS_SetPosition((void *)OBJ(3), (u32 *)(&v4));
+        MCSS_GetPosition((void *)OBJ(1), (u32 *)(&shownPos));
+        MCSS_SetPosition((void *)OBJ(3), (u32 *)(&shownPos));
         MCSS_ResetVanishFlag((void *)OBJ(3));
         MCSS_SetVanishFlag((void *)OBJ(1));
         **(u32 * *)&((PokeTradeDemoWork *)p)->slidePtr = (u32)OBJ(3);

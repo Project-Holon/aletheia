@@ -15,7 +15,7 @@
  * Straight-line constructor wrapper over the ARM9 object/service helpers.
  *
  * symbols:
- *   ICA_ANIME_GetField20  0x0201210C  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
  *   GAME_EVENT_CallEvent  0x02012374  thumb
@@ -32,7 +32,7 @@
  *   GFL_USE_PopBgm  0x02005E9C  thumb
  *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
  *   GFL_USE_PushBgm  0x02005E64  thumb
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   GAME_SYNC_GetBlock  0x02009448  thumb
  *   BLOCK20_SAVEDATA_GetActive  0x02009304  thumb
@@ -153,7 +153,7 @@ typedef struct GsyncEventWorkInit {
     u32 loginMessageId;
 } GsyncEventWorkInit;
 
-extern struct FieldMap *ICA_ANIME_GetField20(const struct GameSystem *gameSystem);
+extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 extern int EVENT_FIELDMAP_CONTROL_StartFadeOut(void *gameSystem, int fieldMap, int sel, int d);
 extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *gameSystem, int fieldMap, int sel, int d, int e, u8 f, u8 g);
 extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent **newEvent);
@@ -170,7 +170,7 @@ extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSystem);
 extern int GFL_USE_PopBgm(void);
 extern void GFL_USE_SetBgmPlayerParam(void *param);
 extern int GFL_USE_PushBgm(void);
-extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern struct WifiList *GAME_SYNC_GetBlock(void *saveControl);
 extern u8 BLOCK20_SAVEDATA_GetActive(const struct WifiList *wifiList);
@@ -183,11 +183,10 @@ extern struct Config *SYSTEM_DATA_GetConfig(void *saveControl);
 extern void GAME_EVENT_CallProc(struct GameEvent *event, u32 overlayId, u32 procData, u32 param);
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern void  GFL_NET_ERR_RequestScreen(void);
-extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
+extern u32 GFL_NET_ERR_ShowScreen(u32 isFatal);
 extern u32 GAMESYSTEM_TryStartAutoComm(struct GameSystem *gameSystem);
 struct GameEvent *GAME_EVENT_Create(void *gameSystem, void *a, void *callback, u32 workSize);
 void *GAME_EVENT_GetWork(struct GameEvent *event);
-struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work);
 void *EVENT_GSYNC_Entry(void *gameSystem);
 void *EVENT_GSYNC_Create(void *gameSystem);
@@ -207,7 +206,7 @@ extern char d_021EF78C[];
 u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
 {
     struct GameSystem *gameSystem = work->gameSystem;
-    u32 fieldMap = (u32)ICA_ANIME_GetField20(gameSystem);
+    u32 fieldMap = (u32)GAMESYSTEM_GetFieldMap(gameSystem);
     int wifiFlag;
 
     switch (*seq) {
@@ -285,8 +284,8 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
     case 13:
         return 1;
     case 16:
-        wifiFlag = BLOCK20_SAVEDATA_GetActive(GAME_SYNC_GetBlock(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem))));
-        if (BOX_SAVEDATA_CountNonEggPokemon(GAME_DATA_GetBoxManager(ICA_ANIME_GetField1C(gameSystem))) == 0 && wifiFlag == 0) {
+        wifiFlag = BLOCK20_SAVEDATA_GetActive(GAME_SYNC_GetBlock(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))));
+        if (BOX_SAVEDATA_CountNonEggPokemon(GAME_DATA_GetBoxManager(GAMESYSTEM_GetGameData(gameSystem))) == 0 && wifiFlag == 0) {
             work->menuResult = 4;
             *seq = 19;
         } else {
@@ -339,7 +338,7 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
         }
         break;
     case 21:
-        work->box.gameData = ICA_ANIME_GetField1C(gameSystem);
+        work->box.gameData = GAMESYSTEM_GetGameData(gameSystem);
         work->box.boxManager = GAME_DATA_GetBoxManager(work->box.gameData);
         work->box.party = GAME_DATA_GetMyParty(work->box.gameData);
         work->box.myItem = GAME_DATA_GetMyItem(work->box.gameData);
@@ -375,7 +374,7 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
         }
         break;
     case 23:
-        work->confirm.gameData = ICA_ANIME_GetField1C(gameSystem);
+        work->confirm.gameData = GAMESYSTEM_GetGameData(gameSystem);
         work->confirm.loginType = 1;
         work->confirm.loginOption = 0;
         GAMESYSTEM_CallProc(gameSystem, (u32)ov115_id, gNetSaveRetryProc, &work->confirm);

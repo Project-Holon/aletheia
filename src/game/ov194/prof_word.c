@@ -49,7 +49,7 @@ void PROF_WORD_Delete(u8 *p);
 int PROF_WORD_FindMatch(const u32 *cache,const void *input,u16 heap);
 int PROF_WORD_CompareChunks(const u16 *a, u32 b, u32 c, const u16 *d, u32 n);
 int PROF_WORD_MatchWord(const u16 *a,const u16 *b);
-int PROF_WORD_CheckDigitCount(void *src, int n, int a2);
+int PROF_WORD_CheckDigitCount(void *src, int n, int unused);
 extern const char d_021F57B8[];
 
 
@@ -133,7 +133,7 @@ int PROF_WORD_CompareChunks(const u16 *a, u32 b, u32 c, const u16 *d, u32 n)
 int PROF_WORD_MatchWord(const u16 *a,const u16 *b) {int i;for(i=0;i<32;i++){if(a[i]!=b[i])return 0;if(a[i]==STRBUF_GetEosChar() && b[i]==STRBUF_GetEosChar())return 1;}return 0;}
 
 
-int PROF_WORD_CheckDigitCount(void *src, int n, int a2)
+int PROF_WORD_CheckDigitCount(void *src, int n, int unused)
 {
     u16 buf[0x20] = {0};
     int j, c = 0;

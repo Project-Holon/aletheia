@@ -31,10 +31,10 @@ typedef struct ListNode {
 } ListNode;
 
 typedef struct ListCB {
-    void *f0;
-    void *f4;
-    void *f8;
-    void *fc;
+    void *headNext;
+    void *headPrev;
+    void *tailNext;
+    void *tailPrev;
 } ListCB;
 
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
@@ -56,10 +56,10 @@ void DWCi_LSTlPushFront(char *p, void *ob);
 ListCB *DWCi_LSTlForm(void)
 {
     ListCB *list = DWCi_HEAPlAllocEx(0x10, 4);
-    list->f0 = 0;
-    list->f4 = &list->f8;
-    list->f8 = list;
-    list->fc = 0;
+    list->headNext = 0;
+    list->headPrev = &list->tailNext;
+    list->tailNext = list;
+    list->tailPrev = 0;
     return list;
 }
 

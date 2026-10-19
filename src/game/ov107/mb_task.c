@@ -55,7 +55,7 @@ struct MBiTaskInfo_tag {
 
 /* One thread-work object, seen two ways: MBi_TaskThread walks a list of Task
  * records, MBi_SetTask walks a list of MBiTaskInfo_tag records.  Both views
- * live at 0xC0 (list/head) and 0xC4 (end/fieldC4), so the words are unions. */
+ * live at 0xC0 (list/head) and 0xC4 (end/info), so the words are unions. */
 typedef struct MBiTaskWork {
     char _0[0xC0];
     union {
@@ -64,7 +64,7 @@ typedef struct MBiTaskWork {
     } tasks;
     union {
         Task end;                               /* MBi_TaskThread view */
-        struct MBiTaskInfo_tag fieldC4;         /* MBi_SetTask view */
+        struct MBiTaskInfo_tag info;         /* MBi_SetTask view */
     } last;
 } MBiTaskWork;
 
@@ -222,13 +222,13 @@ void MBi_SetTask(struct MBiTaskInfo_tag *pt, void (*task)(struct MBiTaskInfo_tag
     pt->active = 1;
     pt->priority = priority;
     if (p_work->tasks.head == 0) {
-        if (pt == &p_work->last.fieldC4)
+        if (pt == &p_work->last.info)
             mbi_task_work = 0;
         p_work->tasks.head = pt;
         OS_WakeupThreadDirect(p_work);
     } else {
         pos = p_work->tasks.head;
-        if (pt == &p_work->last.fieldC4) {
+        if (pt == &p_work->last.info) {
             while (pos->next != 0)
                 pos = pos->next;
             pos->next = pt;

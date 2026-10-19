@@ -125,7 +125,7 @@ extern void DWC_ClearError(void);
 extern u32 GFL_NET_ERR_WaitLinkClosed(void);
 extern void GFL_NET_ERR_ShowSimpleScreen(void);
 extern void GFL_NET_ERR_HaltIfActive(void);
-extern void GFL_NET_StartSession(struct Req *req, unsigned int a2, unsigned int a3);
+extern void GFL_NET_StartSession(struct Req *req, unsigned int transportArg, unsigned int userArg);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void GFL_NET_RestartWithDefaultTimeout(unsigned, unsigned);
 extern u8 *WIH_DWC_Create(int idx, void *heap);
@@ -135,13 +135,13 @@ extern void WIH_DWC_TickTimers(void);
 extern u32 WIH_DWC_PollStatus(void *key);
 extern void *DELIVERY_BEACON_Create(u8 *p);
 extern int DELIVERY_BEACON_Start(u32 *);
-extern int DELIVERY_BEACON_Delete(void *a0);
+extern int DELIVERY_BEACON_Delete(void *work);
 extern unsigned GFL_NET_IsIdle(void);
 extern void DELIVERY_BEACON_RunStep(u8 *);
 extern int DELIVERY_BEACON_TryComplete(u8 *);
 extern void *DELIVERY_IRC_Create(u8 *p);
 extern int DELIVERY_IRC_Start(void *);
-extern int DELIVERY_IRC_Delete(void *a0);
+extern int DELIVERY_IRC_Delete(void *work);
 extern void DELIVERY_IRC_Main(u8 *p);
 extern unsigned char DELIVERY_IRC_GetResult(char *p);
 extern void DWC_RAP_SetErrorHookCallback(int,int);
@@ -167,8 +167,8 @@ int MYSTERY_NET_GetReceivedData(u8 *p, void *a, u32 b);
 int MYSTERY_NET_UpdateWifiError(void *p);
 void MYSTERY_NET_Exit(char *p);
 int MYSTERY_NET_HandleWifiError(char *p);
-int MYSTERY_NET_ShowWifiError(void *a0);
-int MYSTERY_NET_ShowWifiErrorDw(void *a0);
+int MYSTERY_NET_ShowWifiError(void *work);
+int MYSTERY_NET_ShowWifiErrorDw(void *work);
 void MYSTERY_NET_NoopHandler(void);
 void MYSTERY_NET_StartSession(void *a, int *state, char *p);
 void MYSTERY_NET_StopSession(void *a, int *state, char *p);
@@ -353,11 +353,11 @@ int MYSTERY_NET_HandleWifiError(char *p)
 
 
 
-int MYSTERY_NET_ShowWifiError(void *a0) {int r=0; if(GFL_NET_ERR_GetErrorLevel()) {GFL_NET_ERR_WaitLinkClosed();GFL_NET_ERR_ShowSimpleScreen();GFL_NET_ERR_ResetState();r=1;} return r;}
+int MYSTERY_NET_ShowWifiError(void *work) {int r=0; if(GFL_NET_ERR_GetErrorLevel()) {GFL_NET_ERR_WaitLinkClosed();GFL_NET_ERR_ShowSimpleScreen();GFL_NET_ERR_ResetState();r=1;} return r;}
 
 
 
-int MYSTERY_NET_ShowWifiErrorDw(void *a0) {int r=0; if(GFL_NET_ERR_GetErrorLevel()) {GFL_NET_ERR_WaitLinkClosed();GFL_NET_ERR_ShowSimpleScreen();GFL_NET_ERR_ResetState();r=1;} return r;}
+int MYSTERY_NET_ShowWifiErrorDw(void *work) {int r=0; if(GFL_NET_ERR_GetErrorLevel()) {GFL_NET_ERR_WaitLinkClosed();GFL_NET_ERR_ShowSimpleScreen();GFL_NET_ERR_ResetState();r=1;} return r;}
 
 
 
@@ -811,45 +811,45 @@ int MYSTERY_NET_ImportRecords(char *p, void *a, unsigned short b)
 
 
 struct Rec {
-    s32 f0;
-    u32 f4;
-    u32 f8;
-    u16 fC;
-    u16 fE;
-    u16 f10;
+    s32 otIdOrItem;
+    u32 originGame;
+    u32 personality;
+    u16 ribbonFlags;
+    u16 ball;
+    u16 heldItem;
     u16 mv[4];
     u16 species;
     u8 form;
-    u8 f1D;
-    u16 f1E;
+    u8 language;
+    u16 nickname;
     u8 pad20[0x14];
-    u8 f34;
-    u8 f35;
-    u8 f36;
-    u8 f37;
-    u16 f38;
-    u16 f3A;
-    u8 f3C;
-    u8 f3D;
-    u8 f3E;
-    u8 f3F;
-    u8 f40;
-    u8 f41;
+    u8 nature;
+    u8 gender;
+    u8 abilityMode;
+    u8 shinyMode;
+    u16 eggLocation;
+    u16 metLocation;
+    u8 metLevel;
+    u8 contestCool;
+    u8 contestBeauty;
+    u8 contestCute;
+    u8 contestSmart;
+    u8 contestTough;
     u8 pad42;
     u8 iv0, iv1, iv2, iv6, iv7, iv3;
     u8 pad49;
-    u16 f4A;
+    u16 otName;
     u8 pad4C[0xE];
-    u8 f5A;
-    u8 f5B;
-    u8 f5C;
+    u8 otGender;
+    u8 level;
+    u8 isEgg;
     u8 pad5D[3];
     u16 name[0x25];
     u8 pad_AA[2];
-    u32 fAC;
-    u16 fB0;
-    u8 fB2;
-    u8 fB3;
+    u32 eventDate;
+    u16 cardId;
+    u8 messageIndex;
+    u8 giftType;
 };
 
 extern const u32 d_021DFB2C[];
@@ -863,7 +863,7 @@ struct Sub0200852CObj;
 
 extern u32 MYSTATUS_GetId(const struct Sub0200852CObj *obj);
 extern void *POKE_TOOL_Create(u16 species, u16 level, u32 otId, u32 a3, u32 heap);
-extern u32 POKE_TOOL_CreatePersonalRnd(u32 a0, int a1, int a2, int a3, int a4, int a5);
+extern u32 POKE_TOOL_CreatePersonalRnd(u32 otId, int species, int form, int ratioMode, int shinyWanted, int mode);
 extern void POKE_TOOL_SetupPartyParamEx(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
@@ -874,31 +874,31 @@ extern void POKE_TOOL_SetAbility(void *p, u32 species, u32 arg);
 extern const void *MYSTATUS_GetName(const void *p);
 extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
 extern void *POKE_TOOL_Dummy(void *p);
-extern void SAVE_EVENT_WriteWithDate(void *a0, u32 a1, u32 a2, u32 a3, u32 a4);
+extern void SAVE_EVENT_WriteWithDate(void *save, u32 eventId, u32 year, u32 month, u32 day);
 extern void POKE_TOOL_RecalcParam(void *p);
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
 
 static inline int chk1(const struct Rec *r)
 {
-    return r->fB3 == 1;
+    return r->giftType == 1;
 }
 
 static inline int chk2(const struct Rec *r)
 {
-    if (r->fB3 != 2)
+    if (r->giftType != 2)
         return 0;
-    if (r->f0 > 0 && r->f0 <= 0x272)
-        return r->f0;
+    if (r->otIdOrItem > 0 && r->otIdOrItem <= 0x272)
+        return r->otIdOrItem;
     return 0;
 }
 
 static inline int chk3(const struct Rec *r)
 {
-    if (r->fB3 != 3)
+    if (r->giftType != 3)
         return 0x30;
-    if (r->f0 >= 0x21 && r->f0 <= 0x26)
-        return r->f0;
+    if (r->otIdOrItem >= 0x21 && r->otIdOrItem <= 0x26)
+        return r->otIdOrItem;
     return 0x30;
 }
 
@@ -934,18 +934,18 @@ int MYSTERY_NET_BuildPokemonFromRecord(struct Rec *r, void *gs, u16 heap)
     }
     if (bad)
         count++;
-    if (r->fB0 >= 0x800)
+    if (r->cardId >= 0x800)
         count++;
-    type = r->fB3;
+    type = r->giftType;
     if (type == 0 || type >= 4)
         count++;
     switch (type) {
     case 1:
-        level = r->f5B;
-        id = r->f0;
+        level = r->level;
+        id = r->otIdOrItem;
         species = r->species;
-        gender = r->f35;
-        mode = r->f36;
+        gender = r->gender;
+        mode = r->abilityMode;
         iv[0] = r->iv0;
         iv[1] = r->iv1;
         iv[2] = r->iv2;
@@ -972,14 +972,14 @@ int MYSTERY_NET_BuildPokemonFromRecord(struct Rec *r, void *gs, u16 heap)
             res = 0;
             goto end;
         }
-        if (r->f10 > 0x272) {
+        if (r->heldItem > 0x272) {
             res = 0;
             goto end;
         }
         {
             if (level == 0)
                 level = (u16)(GFL_USE_GetRandom(0x64) + 1);
-            if (r->f0 == 0)
+            if (r->otIdOrItem == 0)
                 id = MYSTATUS_GetId((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(gs));
             if (gender == 0xff)
                 gender = 2;
@@ -1009,18 +1009,18 @@ int MYSTERY_NET_BuildPokemonFromRecord(struct Rec *r, void *gs, u16 heap)
                 res = 0;
                 goto end;
             }
-            if (r->f8 != 0)
-                rnd = r->f8;
+            if (r->personality != 0)
+                rnd = r->personality;
             else {
-                if (r->f37 == 0)
+                if (r->shinyMode == 0)
                     rnd = POKE_TOOL_CreatePersonalRnd(id, (u16)species, r->form, gender, i, 0);
-                else if (r->f37 == 1)
+                else if (r->shinyMode == 1)
                     rnd = POKE_TOOL_CreatePersonalRnd(id, (u16)species, r->form, gender, i, 2);
-                else if (r->f37 == 2)
+                else if (r->shinyMode == 2)
                     rnd = POKE_TOOL_CreatePersonalRnd(id, (u16)species, r->form, gender, i, 1);
             }
             POKE_TOOL_SetupPartyParamEx(mon, r->species, level, id64, ivs, rnd);
-            POKE_TOOL_SetPartyValue(mon, 6, r->f10);
+            POKE_TOOL_SetPartyValue(mon, 6, r->heldItem);
             POKE_TOOL_SetDefaultMoves(mon);
             for (i = 0; i < 4; i++) {
                 u16 m = mv[i];
@@ -1029,59 +1029,59 @@ int MYSTERY_NET_BuildPokemonFromRecord(struct Rec *r, void *gs, u16 heap)
                         POKE_TOOL_PushMove(mon, m);
                 }
             }
-            if (r->f8 == 0 && mode == 2)
+            if (r->personality == 0 && mode == 2)
                 POKE_TOOL_SetAbility(mon, species, r->form);
             POKE_TOOL_SetPartyValue(mon, 0x6f, r->form);
-            if (r->fE != 0 && r->fE <= 0x19)
-                POKE_TOOL_SetPartyValue(mon, 0x98, r->fE);
+            if (r->ball != 0 && r->ball <= 0x19)
+                POKE_TOOL_SetPartyValue(mon, 0x98, r->ball);
             else
                 POKE_TOOL_SetPartyValue(mon, 0x98, 4);
-            if (r->f3C != 0)
-                POKE_TOOL_SetPartyValue(mon, 0x99, r->f3C);
-            POKE_TOOL_SetPartyValue(mon, 0x13, r->f3D);
-            POKE_TOOL_SetPartyValue(mon, 0x14, r->f3E);
-            POKE_TOOL_SetPartyValue(mon, 0x15, r->f3F);
-            POKE_TOOL_SetPartyValue(mon, 0x16, r->f40);
-            POKE_TOOL_SetPartyValue(mon, 0x17, r->f41);
-            POKE_TOOL_SetPartyValue(mon, 0x18, r->f41);
+            if (r->metLevel != 0)
+                POKE_TOOL_SetPartyValue(mon, 0x99, r->metLevel);
+            POKE_TOOL_SetPartyValue(mon, 0x13, r->contestCool);
+            POKE_TOOL_SetPartyValue(mon, 0x14, r->contestBeauty);
+            POKE_TOOL_SetPartyValue(mon, 0x15, r->contestCute);
+            POKE_TOOL_SetPartyValue(mon, 0x16, r->contestSmart);
+            POKE_TOOL_SetPartyValue(mon, 0x17, r->contestTough);
+            POKE_TOOL_SetPartyValue(mon, 0x18, r->contestTough);
             for (k = 0; k < 15; k++) {
-                if (r->fC & (1 << k))
+                if (r->ribbonFlags & (1 << k))
                     POKE_TOOL_SetPartyValue(mon, d_021DFB2C[k], 1);
             }
-            if (r->f4 == 0)
+            if (r->originGame == 0)
                 POKE_TOOL_SetPartyValue(mon, 0x77, g0209DF08);
             else
-                POKE_TOOL_SetPartyValue(mon, 0x77, r->f4);
-            if (r->f1D == 0)
+                POKE_TOOL_SetPartyValue(mon, 0x77, r->originGame);
+            if (r->language == 0)
                 POKE_TOOL_SetPartyValue(mon, 0xc, g0209DF0C);
             else
-                POKE_TOOL_SetPartyValue(mon, 0xc, r->f1D);
-            if (r->f1E == 0) {
+                POKE_TOOL_SetPartyValue(mon, 0xc, r->language);
+            if (r->nickname == 0) {
                 GFL_HEAP_Free(mon);
                 res = 0;
                 goto end;
             }
-            if (r->f1E != STRBUF_GetEosChar())
-                POKE_TOOL_SetPartyValue(mon, 0x74, (u32)&r->f1E);
+            if (r->nickname != STRBUF_GetEosChar())
+                POKE_TOOL_SetPartyValue(mon, 0x74, (u32)&r->nickname);
             {
-                u32 v = r->f34;
+                u32 v = r->nature;
                 if (v == 0xff)
                     v = (u8)GFL_USE_GetRandom(0x19);
                 POKE_TOOL_SetPartyValue(mon, 0x70, v);
             }
-            POKE_TOOL_SetPartyValue(mon, 0x95, r->f38);
-            POKE_TOOL_SetPartyValue(mon, 0x96, r->f3A);
-            if (r->f4A == 0) {
+            POKE_TOOL_SetPartyValue(mon, 0x95, r->eggLocation);
+            POKE_TOOL_SetPartyValue(mon, 0x96, r->metLocation);
+            if (r->otName == 0) {
                 GFL_HEAP_Free(mon);
                 res = 0;
                 goto end;
             }
-            if (r->f4A == STRBUF_GetEosChar())
+            if (r->otName == STRBUF_GetEosChar())
                 POKE_TOOL_SetPartyValue(mon, 0x8e, (u32)MYSTATUS_GetName(GAME_DATA_GetMyStatus(gs)));
             else
-                POKE_TOOL_SetPartyValue(mon, 0x8e, (u32)&r->f4A);
+                POKE_TOOL_SetPartyValue(mon, 0x8e, (u32)&r->otName);
             {
-                u32 v = r->f5A;
+                u32 v = r->otGender;
                 if (v <= 2)
                     POKE_TOOL_SetPartyValue(mon, 0x9a, v);
                 else {
@@ -1089,7 +1089,7 @@ int MYSTERY_NET_BuildPokemonFromRecord(struct Rec *r, void *gs, u16 heap)
                     POKE_TOOL_SetPartyValue(mon, 0x9a, v);
                 }
             }
-            if (r->f5C != 0) {
+            if (r->isEgg != 0) {
                 void *s;
                 POKE_TOOL_SetPartyValue(mon, 0x4c, 1);
                 s = MSGDATA_AllocString(gSpeciesNameBank, 0x28a);
@@ -1098,12 +1098,12 @@ int MYSTERY_NET_BuildPokemonFromRecord(struct Rec *r, void *gs, u16 heap)
                 POKE_TOOL_SetPartyValue(mon, 9, 10);
             }
             {
-                int w = r->fAC;
+                int w = r->eventDate;
                 u32 loc;
                 year = w >> 16;
                 month = (u8)(w >> 8);
                 day = w;
-                loc = r->f5C ? r->f38 : r->f3A;
+                loc = r->isEgg ? r->eggLocation : r->metLocation;
                 SAVE_EVENT_WriteWithDate(POKE_TOOL_Dummy(mon), loc, year - 2000, month, day);
             }
             POKE_TOOL_RecalcParam(mon);

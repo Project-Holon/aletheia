@@ -584,25 +584,25 @@ static int gpiProcessRecvBuddyStatusInfo(void **connection, char *input)
     buddyStatus->port = (unsigned short)atoi(buffer);
 
     PARSE_KEY(gGpiBuddyKeyHostIp);
-    buddyStatus->unk24 = (((unsigned int)atoi(buffer) >> 24) & 0xff) |
+    buddyStatus->hostIp = (((unsigned int)atoi(buffer) >> 24) & 0xff) |
                          (((unsigned int)atoi(buffer) >> 8) & 0xff00) |
                          (((unsigned int)atoi(buffer) << 8) & 0xff0000) |
                          (((unsigned int)atoi(buffer) << 24) & 0xff000000);
 
     PARSE_KEY(gGpiBuddyKeyHprivIp);
-    buddyStatus->unk28 = (((unsigned int)atoi(buffer) >> 24) & 0xff) |
+    buddyStatus->hostPrivateIp = (((unsigned int)atoi(buffer) >> 24) & 0xff) |
                          (((unsigned int)atoi(buffer) >> 8) & 0xff00) |
                          (((unsigned int)atoi(buffer) << 8) & 0xff0000) |
                          (((unsigned int)atoi(buffer) << 24) & 0xff000000);
 
     PARSE_KEY(gGpiBuddyKeyQport);
-    buddyStatus->unk2c = (unsigned short)atoi(buffer);
+    buddyStatus->queryPort = (unsigned short)atoi(buffer);
 
     PARSE_KEY(gGpiBuddyKeyHport);
-    buddyStatus->unk2e = (unsigned short)atoi(buffer);
+    buddyStatus->hostPort = (unsigned short)atoi(buffer);
 
     PARSE_KEY(gGpiBuddyKeySessFlags);
-    buddyStatus->unk18 = atoi(buffer);
+    buddyStatus->sessionFlags = atoi(buffer);
     gsifree(buddyStatus->richStatus);
     buddyStatus->richStatus = 0;
 
@@ -625,10 +625,10 @@ static int gpiProcessRecvBuddyStatusInfo(void **connection, char *input)
     buddyStatus->gameMapName = goastrdup(buffer);
 
     PARSE_KEY(gGpiBuddyKeyProduct);
-    buddyStatus->unk34 = atoi(buffer);
+    buddyStatus->productId = atoi(buffer);
 
     PARSE_KEY(gGpiBuddyKeyQmodeFlags);
-    buddyStatus->unk30 = atoi(buffer);
+    buddyStatus->quietModeFlags = atoi(buffer);
 
     callback = iconnection->callbacks[2];
     if (callback.callback != 0) {

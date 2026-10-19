@@ -1,7 +1,7 @@
 /*
  * file:     btlv_core.c
  * unit:     yes
- * function: BTLV_CORE_CheckPartySlotPair, BTLV_CORE_CheckPartySlotCondition, BTLV_CORE_CheckEitherSlotPair, BTLV_CORE_EventRedirectMove, BTLV_CORE_EventCounterMove, BTLV_CORE_EventQueueMoveNotice, BTLV_CORE_EventScaleDamage, BTLV_CORE_EventSetFlagIfAttacker, BTLV_CORE_EventTrySetFlagIfAttacker, BTLV_CORE_LoadDsiOverlay, BTLV_CORE_UnloadDsiOverlay, BTLV_CORE_GetZeroMasked, BTLV_CORE_IsSlotKindNone, BTLV_CORE_MakeSlotKind2Index, BTLV_CORE_MakeSlotKind2, BTLV_CORE_MakeSlotKind3, BTLV_CORE_MakeSlotKind1Empty, BTLV_CORE_MakeSlotKind1Value, BTLV_CORE_MakeSlotKind1, BTLV_CORE_MakeSlotKind4, BTLV_CORE_MakeSlotKind1Index15, BTLV_CORE_IsSlotKind1Index15, BTLV_CORE_GetSlotPosition, BTLV_CORE_SetSlotPosition, BTLV_CORE_GetSlotLow, BTLV_CORE_SetSlotValue, BTLV_CORE_GetSlotValue, BTLV_CORE_SetSlotFlag, BTLV_CORE_GetSlotFlag, BTLV_CORE_AddSlotIndex, BTLV_CORE_SetSlotIndex, BTLV_CORE_PackBytes, BTLV_CORE_PackByteTwice, BTLV_CORE_GetHighByte, BTLV_CORE_GetLowByte, BTLV_CORE_SplitBytes, BTLV_CORE_HasByte, BTLV_CORE_BytesOverlap, BTLV_CORE_BytesEqual, BTLV_CORE_LoadOverlays, BTLV_CORE_UnloadOverlays, BTLV_CORE_ResetDisplay, BTLV_CORE_InitDisplay, BTLV_CORE_ExitDisplay, BTLV_CORE_Create, BTLV_CORE_Delete, BTLV_CORE_Update, BTLV_CORE_StartOpening, BTLV_CORE_PollOpening, BTLV_CORE_GetTaskWork, BTLV_CORE_StepOpeningEntry, BTLV_CORE_StepOpeningDemo, BTLV_CORE_GetPokeParamAtViewPos, BTLV_CORE_StepActionMenu, BTLV_CORE_StepTargetMenu, BTLV_CORE_SetStep, BTLV_CORE_ClearStep, BTLV_CORE_RunStep, BTLV_CORE_StartActionMenu, BTLV_CORE_AbortActionMenu, BTLV_CORE_PollActionMenu, BTLV_CORE_StartMoveMenu, BTLV_CORE_StartMoveMenuForEntry, BTLV_CORE_ReopenMoveMenu, BTLV_CORE_StepMoveMenu, BTLV_CORE_AbortMoveMenu, BTLV_CORE_PollMoveMenu, BTLV_CORE_StartTargetMenu, BTLV_CORE_PollTargetMenu, BTLV_CORE_AbortTargetMenu, BTLV_CORE_AbortInput, BTLV_CORE_CloseMenu, BTLV_CORE_CloseMenuToReselect, BTLV_CORE_IsMenuClosed, BTLV_CORE_InitPartyWork, BTLV_CORE_StartPartyMenu, BTLV_CORE_LockPartyChoice, BTLV_CORE_PollPartyMenu, BTLV_CORE_StartMoveHighlight, BTLV_CORE_StartBagMenu, BTLV_CORE_SkipBagPartyPrompt, BTLV_CORE_PollBagMenu, BTLV_CORE_GetSelectedItem, BTLV_CORE_GetSelectedItemPocket, BTLV_CORE_GetInputTargetSlot, BTLV_CORE_GetInputResultFlag, BTLV_CORE_SaveBagCursors, BTLV_CORE_StartSceneEffect, BTLV_CORE_WaitSceneEffect, BTLV_CORE_StartDamageEffect, BTLV_CORE_WaitDamageEffect, BTLV_CORE_ProcDamageEffect, BTLV_CORE_StartHitAnim, BTLV_CORE_WaitHitAnim, BTLV_CORE_ProcHitAnim, BTLV_CORE_StartMultiDamageEffect, BTLV_CORE_ProcMultiDamageEffect, BTLV_CORE_PlayEffectivenessSe, BTLV_CORE_SetMonShown, BTLV_CORE_StartMonSpriteUpdate, BTLV_CORE_WaitMonSpriteUpdate, BTLV_CORE_StartViewEffect, BTLV_CORE_WaitViewEffect, BTLV_CORE_StartViewEffectEx, BTLV_CORE_WaitViewEffectEx, BTLV_CORE_StartMonReset, BTLV_CORE_WaitMonReset, BTLV_CORE_StartMonRefresh, BTLV_CORE_WaitMonRefresh, BTLV_CORE_StartMonEffectTask, BTLV_CORE_WaitMonEffectTask, BTLV_CORE_StartMonSwap, BTLV_CORE_WaitMonSwap, BTLV_CORE_ProcMonSwap, BTLV_CORE_BuildMessage, BTLV_CORE_CopyMessageBuffer, BTLV_CORE_BuildMessageToBuffer, BTLV_CORE_PrintMessageBuffer, BTLV_CORE_BuildAndPrintMessage, BTLV_CORE_BuildAndPrintMessageFlag, BTLV_CORE_BuildAndPrintMessageNow, BTLV_CORE_PrintSideMessage, BTLV_CORE_PrintTaggedMessage, BTLV_CORE_PrintTrainerMessage, BTLV_CORE_PrintItemUseMessage, BTLV_CORE_WaitMessage, BTLV_CORE_ConsumeMessageFlag, BTLV_CORE_StartPrintMessage, BTLV_CORE_PrintMessageNow, BTLV_CORE_ShowPortrait, BTLV_CORE_UpdatePortraitSlideIn, BTLV_CORE_StartPortraitSlideOut, BTLV_CORE_WaitPortraitSlideOut, BTLV_CORE_ReloadPortrait, BTLV_CORE_UpdatePortraitMosaic, BTLV_CORE_StartViewEffect262, BTLV_CORE_StartViewEffect261, BTLV_CORE_WaitViewEffectDone, BTLV_CORE_StartWaitMessage, BTLV_CORE_UpdateWaitMessage, BTLV_CORE_EndWaitMessage, BTLV_CORE_StartSlotEffect25F, BTLV_CORE_WaitSlotEffect25F, BTLV_CORE_StartMonSpriteLoad, BTLV_CORE_WaitMonSpriteLoad, BTLV_CORE_StartMonSpriteChange, BTLV_CORE_WaitMonSpriteChange, BTLV_CORE_StartMonSpriteChangeAt, BTLV_CORE_WaitMonSpriteChangeAt, BTLV_CORE_StartMonSpriteUnload, BTLV_CORE_WaitMonSpriteUnload, BTLV_CORE_StartRotation, BTLV_CORE_WaitRotation, BTLV_CORE_ProcRotation, BTLV_CORE_InitInputWork, BTLV_CORE_PollWindowModeSelect, BTLV_CORE_CancelWindowModeSelect, BTLV_CORE_StartClearSidePosition, BTLV_CORE_RunProc, BTLV_CORE_ProcClearSidePosition, BTLV_CORE_StartYesNoMenu, BTLV_CORE_PollYesNoMenu, BTLV_CORE_StartMoveForgetScreen, BTLV_CORE_ProcMoveForgetScreen, BTLV_CORE_StartBallWindowOpen, BTLV_CORE_UpdateBallWindowOpen, BTLV_CORE_StartBallWindowRefresh, BTLV_CORE_UpdateBallWindowRefresh, BTLV_CORE_StartBallWindowClose, BTLV_CORE_UpdateBallWindowClose, BTLV_CORE_StartFadeIn, BTLV_CORE_PollFadeInDone, BTLV_CORE_ClearWaitWindow, BTLV_CORE_GetWaitState, BTLV_CORE_StartAutoSelectNotice, BTLV_CORE_PollAutoSelectNotice, BTLV_CORE_PollCounterInput, BTLV_CORE_SetCounterDisplay, BTLV_CORE_ShowCounterValue, BTLV_CORE_SetCounterValueMode
+ * function: BTLV_CORE_CheckPartySlotPair, BTLV_CORE_CheckPartySlotCondition, BTLV_CORE_CheckEitherSlotPair, BTLV_CORE_EventRedirectMove, BTLV_CORE_EventCounterMove, BTLV_CORE_EventQueueMoveNotice, BTLV_CORE_EventScaleDamage, BTLV_CORE_EventSetFlagIfAttacker, BTLV_CORE_EventTrySetFlagIfAttacker, BTLV_CORE_LoadDsiOverlay, BTLV_CORE_UnloadDsiOverlay, BTLV_CORE_GetZeroMasked, BTLV_CORE_IsSlotKindNone, BTLV_CORE_MakeSlotKind2Index, BTLV_CORE_MakeSlotKind2, BTLV_CORE_MakeSlotKind3, BTLV_CORE_MakeSlotKind1Empty, BTLV_CORE_MakeSlotKind1Value, BTLV_CORE_MakeSlotKind1, BTLV_CORE_MakeSlotKind4, BTLV_CORE_MakeSlotKind1Index15, BTLV_CORE_IsSlotKind1Index15, BTLV_CORE_GetSlotPosition, BTLV_CORE_SetSlotPosition, BTLV_CORE_GetSlotLow, BTLV_CORE_SetSlotValue, BTLV_CORE_GetSlotValue, BTLV_CORE_SetSlotFlag, BTLV_CORE_GetSlotFlag, BTLV_CORE_AddSlotIndex, BTLV_CORE_SetSlotIndex, BTLV_CORE_PackBytes, BTLV_CORE_PackByteTwice, BTLV_CORE_GetHighByte, BTLV_CORE_GetLowByte, BTLV_CORE_SplitBytes, BTLV_CORE_HasByte, BTLV_CORE_BytesOverlap, BTLV_CORE_BytesEqual, BTLV_CORE_LoadOverlays, BTLV_CORE_UnloadOverlays, BTLV_CORE_ResetDisplay, BTLV_CORE_InitDisplay, BTLV_CORE_ExitDisplay, BTLV_CORE_Create, BTLV_CORE_Delete, BTLV_CORE_Update, BTLV_CORE_StartOpening, BTLV_CORE_PollOpening, BTLV_CORE_GetTaskWork, BTLV_CORE_StepOpeningEntry, BTLV_CORE_StepOpeningDemo, BTLV_CORE_GetPokeParamAtViewPos, BTLV_CORE_StepActionMenu, BTLV_CORE_StepTargetMenu, BTLV_CORE_SetStep, BTLV_CORE_ClearStep, BTLV_CORE_RunStep, BTLV_CORE_StartActionMenu, BTLV_CORE_AbortActionMenu, BTLV_CORE_PollActionMenu, BTLV_CORE_StartMoveMenu, BTLV_CORE_StartMoveMenuForEntry, BTLV_CORE_ReopenMoveMenu, BTLV_CORE_StepMoveMenu, BTLV_CORE_AbortMoveMenu, BTLV_CORE_PollMoveMenu, BTLV_CORE_StartTargetMenu, BTLV_CORE_PollTargetMenu, BTLV_CORE_AbortTargetMenu, BTLV_CORE_AbortInput, BTLV_CORE_CloseMenu, BTLV_CORE_CloseMenuToReselect, BTLV_CORE_IsMenuClosed, BTLV_CORE_InitPartyWork, BTLV_CORE_StartPartyMenu, BTLV_CORE_LockPartyChoice, BTLV_CORE_PollPartyMenu, BTLV_CORE_StartMoveHighlight, BTLV_CORE_StartBagMenu, BTLV_CORE_SkipBagPartyPrompt, BTLV_CORE_PollBagMenu, BTLV_CORE_GetSelectedItem, BTLV_CORE_GetSelectedItemCost, BTLV_CORE_GetItemTargetSlot, BTLV_CORE_GetItemTargetFlag, BTLV_CORE_SaveBagCursors, BTLV_CORE_StartSceneEffect, BTLV_CORE_WaitSceneEffect, BTLV_CORE_StartDamageEffect, BTLV_CORE_WaitDamageEffect, BTLV_CORE_ProcDamageEffect, BTLV_CORE_StartHitAnim, BTLV_CORE_WaitHitAnim, BTLV_CORE_ProcHitAnim, BTLV_CORE_StartMultiDamageEffect, BTLV_CORE_ProcMultiDamageEffect, BTLV_CORE_PlayEffectivenessSe, BTLV_CORE_SetMonShown, BTLV_CORE_StartMonSpriteUpdate, BTLV_CORE_WaitMonSpriteUpdate, BTLV_CORE_StartViewEffect, BTLV_CORE_WaitViewEffect, BTLV_CORE_StartViewEffectEx, BTLV_CORE_WaitViewEffectEx, BTLV_CORE_StartMonReset, BTLV_CORE_WaitMonReset, BTLV_CORE_StartMonRefresh, BTLV_CORE_WaitMonRefresh, BTLV_CORE_StartMonEffectTask, BTLV_CORE_WaitMonEffectTask, BTLV_CORE_StartMonSwap, BTLV_CORE_WaitMonSwap, BTLV_CORE_ProcMonSwap, BTLV_CORE_BuildMessage, BTLV_CORE_CopyMessageBuffer, BTLV_CORE_BuildMessageToBuffer, BTLV_CORE_PrintMessageBuffer, BTLV_CORE_BuildAndPrintMessage, BTLV_CORE_BuildAndPrintMessageFlag, BTLV_CORE_BuildAndPrintMessageNow, BTLV_CORE_PrintSideMessage, BTLV_CORE_PrintTaggedMessage, BTLV_CORE_PrintTrainerMessage, BTLV_CORE_PrintItemUseMessage, BTLV_CORE_WaitMessage, BTLV_CORE_ConsumeMessageFlag, BTLV_CORE_StartPrintMessage, BTLV_CORE_PrintMessageNow, BTLV_CORE_ShowPortrait, BTLV_CORE_UpdatePortraitSlideIn, BTLV_CORE_StartPortraitSlideOut, BTLV_CORE_WaitPortraitSlideOut, BTLV_CORE_ReloadPortrait, BTLV_CORE_UpdatePortraitMosaic, BTLV_CORE_StartViewEffect262, BTLV_CORE_StartViewEffect261, BTLV_CORE_WaitViewEffectDone, BTLV_CORE_StartWaitMessage, BTLV_CORE_UpdateWaitMessage, BTLV_CORE_EndWaitMessage, BTLV_CORE_StartSlotEffect25F, BTLV_CORE_WaitSlotEffect25F, BTLV_CORE_StartMonSpriteLoad, BTLV_CORE_WaitMonSpriteLoad, BTLV_CORE_StartMonSpriteChange, BTLV_CORE_WaitMonSpriteChange, BTLV_CORE_StartMonSpriteChangeAt, BTLV_CORE_WaitMonSpriteChangeAt, BTLV_CORE_StartMonSpriteUnload, BTLV_CORE_WaitMonSpriteUnload, BTLV_CORE_StartRotation, BTLV_CORE_WaitRotation, BTLV_CORE_ProcRotation, BTLV_CORE_InitInputWork, BTLV_CORE_PollWindowModeSelect, BTLV_CORE_CancelWindowModeSelect, BTLV_CORE_StartClearSidePosition, BTLV_CORE_RunProc, BTLV_CORE_ProcClearSidePosition, BTLV_CORE_StartYesNoMenu, BTLV_CORE_PollYesNoMenu, BTLV_CORE_StartMoveForgetScreen, BTLV_CORE_ProcMoveForgetScreen, BTLV_CORE_StartBallWindowOpen, BTLV_CORE_UpdateBallWindowOpen, BTLV_CORE_StartBallWindowRefresh, BTLV_CORE_UpdateBallWindowRefresh, BTLV_CORE_StartBallWindowClose, BTLV_CORE_UpdateBallWindowClose, BTLV_CORE_StartFadeIn, BTLV_CORE_PollFadeInDone, BTLV_CORE_ClearWaitWindow, BTLV_CORE_GetWaitState, BTLV_CORE_StartAutoSelectNotice, BTLV_CORE_PollAutoSelectNotice, BTLV_CORE_PollCounterInput, BTLV_CORE_SetCounterDisplay, BTLV_CORE_ShowCounterValue, BTLV_CORE_SetCounterValueMode
  * address:  0x021E869C
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -350,7 +350,7 @@ extern void G3D_SYSTEM_Exit(void);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u8 BTL_CLIENT_GetClientId(void *client);
 extern struct MsgBuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern struct BtlvScu *BTLV_SCU_Create(u32 core, u32 context, u32 monTable, u32 taskList, u32 fontMain, u32 fontSub, u8 clientIndex, int heapId);
 extern void *BTLV_SCD_Create(struct BtlvCore *core, void *context, u32 monTable, void *taskList, void *fontMain, void *client, int param, u16 heapId);
@@ -609,9 +609,9 @@ void BTLV_CORE_StartBagMenu(struct BtlvCore *core, int isComm, u8 pointCounter, 
 void BTLV_CORE_SkipBagPartyPrompt(struct BtlvCore *core);
 int BTLV_CORE_PollBagMenu(struct BtlvCore *core);
 u16 BTLV_CORE_GetSelectedItem(struct BtlvCore *core);
-u8 BTLV_CORE_GetSelectedItemPocket(struct BtlvCore *core);
-u8 BTLV_CORE_GetInputTargetSlot(struct BtlvCore *core);
-u8 BTLV_CORE_GetInputResultFlag(struct BtlvCore *core);
+u8 BTLV_CORE_GetSelectedItemCost(struct BtlvCore *core);
+u8 BTLV_CORE_GetItemTargetSlot(struct BtlvCore *core);
+u8 BTLV_CORE_GetItemTargetFlag(struct BtlvCore *core);
 void BTLV_CORE_SaveBagCursors(struct BtlvCore *core);
 void BTLV_CORE_StartSceneEffect(struct BtlvCore *core, u32 slotFrom, u32 slotTo, u32 sceneId, u32 argA, u32 argB, u8 flags);
 int BTLV_CORE_WaitSceneEffect(struct BtlvCore *core);
@@ -1389,7 +1389,7 @@ int BTLV_CORE_StepOpeningEntry(struct BtlvCore *core, int *state, void *work)
  * Opening step 1: the scripted demo scene. The first Pokemon uses move 1 and the second one move 43
  * with their use messages, then the messages of the demo text bank are shown and the music is changed.
  */
-int BTLV_CORE_StepOpeningDemo(struct BtlvCore *core, int *state, BtlvDemoWork *w)
+int BTLV_CORE_StepOpeningDemo(struct BtlvCore *core, int *state, BtlvDemoWork *demo)
 {
     switch (*state) {
     case 0: {
@@ -1398,8 +1398,8 @@ int BTLV_CORE_StepOpeningDemo(struct BtlvCore *core, int *state, BtlvDemoWork *w
         GFL_HEAP_Free(scene);
         BTLV_SCU_SetupDisplay(core->sceneUnit);
         BTLV_SCD_CreateInput(core->auxView);
-        w->msgBank = MSGDATA_CreateFromArchive(0, 2, 0x14, core->heapId);
-        w->timer = 0;
+        demo->msgBank = MSGDATA_CreateFromArchive(0, 2, 0x14, core->heapId);
+        demo->timer = 0;
         (*state)++;
         break;
     }
@@ -1485,14 +1485,14 @@ int BTLV_CORE_StepOpeningDemo(struct BtlvCore *core, int *state, BtlvDemoWork *w
         break;
     case 12:
         if (BTLV_CORE_WaitMessage(core)) {
-            MSGDATA_ReadString(w->msgBank, 0, core->msgBuffer);
+            MSGDATA_ReadString(demo->msgBank, 0, core->msgBuffer);
             BTLV_CORE_StartPrintMessage(core, core->msgBuffer, 0, 0);
-            w->timer = 0x3C;
+            demo->timer = 0x3C;
             (*state)++;
         }
         break;
     case 13:
-        if (BTLV_CORE_WaitMessage(core) && --w->timer == 0) {
+        if (BTLV_CORE_WaitMessage(core) && --demo->timer == 0) {
             BTLV_SCD_StartActionMenuBackOnly(core->auxView, core->pokeParam, core->canBack, (u32)core->actionCursor);
             (*state)++;
         }
@@ -1505,7 +1505,7 @@ int BTLV_CORE_StepOpeningDemo(struct BtlvCore *core, int *state, BtlvDemoWork *w
         break;
     case 15:
         if (BTLV_CORE_PollBagMenu(core)) {
-            MSGDATA_ReadString(w->msgBank, 1, core->msgBuffer);
+            MSGDATA_ReadString(demo->msgBank, 1, core->msgBuffer);
             BTLV_CORE_StartPrintMessage(core, core->msgBuffer, 0, 0);
             BTLV_SCD_CloseInput(core->auxView);
             (*state)++;
@@ -1538,7 +1538,7 @@ int BTLV_CORE_StepOpeningDemo(struct BtlvCore *core, int *state, BtlvDemoWork *w
     case 19:
         if (!GFL_USE_IsBgmPlaying()) {
             BTLV_EFFECT_ResumeVm();
-            MSGDATA_Delete((struct Rec *)w->msgBank);
+            MSGDATA_Delete((struct Rec *)demo->msgBank);
             (*state)++;
         }
         break;
@@ -2030,20 +2030,20 @@ u16 BTLV_CORE_GetSelectedItem(struct BtlvCore *core)
 
 
 
-u8 BTLV_CORE_GetSelectedItemPocket(struct BtlvCore *core)
+u8 BTLV_CORE_GetSelectedItemCost(struct BtlvCore *core)
 {
     if (core->bag.done != 0)
-        return core->bag.selectedItemPocket;
+        return core->bag.selectedItemCost;
     return 0;
 }
 
 
 
-u8 BTLV_CORE_GetInputTargetSlot(struct BtlvCore *core) { return core->plist.modeSlot; }
+u8 BTLV_CORE_GetItemTargetSlot(struct BtlvCore *core) { return core->plist.modeSlot; }
 
 
 
-u8 BTLV_CORE_GetInputResultFlag(struct BtlvCore *core)
+u8 BTLV_CORE_GetItemTargetFlag(struct BtlvCore *core)
 {
     return core->plist.result;
 }

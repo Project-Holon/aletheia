@@ -442,7 +442,7 @@ extern void G2x_SetBlendAlpha_(void *,unsigned,unsigned,unsigned,unsigned);
 
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
@@ -576,7 +576,7 @@ extern void *BMP_GetPixels(const struct Bmp *bmp);
 
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *, u32, u32, void **, u16);
 
-extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
 
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 
@@ -622,11 +622,11 @@ extern void CLACT_GetActorSurfacePos(struct Actor *,PtS *,unsigned int);
 
 extern void CLACT_InitSystem(const struct Cfg *,u32,u32);
 
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 
-extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern int CLACT_RegisterPaletteCompressed(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
 
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
@@ -672,9 +672,9 @@ extern void CLACT_DeleteUnit(struct Bank *);
 
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
-extern void ZUKAN_SAVE_GetViewGenderAndForm(u8 *p, u16 id, u32 *out1, u32 *out2, u32 *outForm, u16 a5);
+extern void ZUKAN_SAVE_GetViewGenderAndForm(u8 *p, u16 id, u32 *out1, u32 *out2, u32 *outForm, u16 language);
 
-extern int POKEGRA_OpenHandle(int a0);
+extern int POKEGRA_OpenHandle(int heapId);
 
 extern u32 ZUKAN_SAVE_GetSpindaPersonality(struct Blk37 *p, u32 which);
 
@@ -692,7 +692,7 @@ extern void POKE_PERSONAL_Delete(void *);
 
 extern void CLACT_SetActorFlip(struct Actor *actor, u32 which, u32 set);
 
-extern void *ARC_UTIL_LoadScreenDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadScreenDataFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
 
 extern u16 CLACT_GetActorCharacterIndex(u8 *);
 

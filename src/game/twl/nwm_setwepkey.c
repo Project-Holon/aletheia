@@ -45,7 +45,7 @@ extern void NWMi_SetCallbackTable(u32, u32);
 extern void MI_CpuCopy8(const void *, void *, u32);
 extern u32 NWMi_SendCommandDirect(void *, u32);
 
-u32 NWM_SetWEPKey(u32 a0, u32 a1, u32 a2, const u8 *a3, u16 a4) {
+u32 NWM_SetWEPKey(u32 callback, u32 wepMode, u32 keyId, const u8 *wepKey, u16 flags) {
     u32 r;
     u32 busy;
     u32 kind;
@@ -66,7 +66,7 @@ u32 NWM_SetWEPKey(u32 a0, u32 a1, u32 a2, const u8 *a3, u16 a4) {
     if (busy == 1) {
         return 3;
     }
-    switch (a1) {
+    switch (wepMode) {
     case 0:
         kind = 0;
         break;
@@ -82,13 +82,13 @@ u32 NWM_SetWEPKey(u32 a0, u32 a1, u32 a2, const u8 *a3, u16 a4) {
     default:
         return 5;
     }
-    DC_StoreRange(a3, 0x50);
-    NWMi_SetCallbackTable(13, a0);
+    DC_StoreRange(wepKey, 0x50);
+    NWMi_SetCallbackTable(13, callback);
     msg.len = 13;
-    msg.w4 = a2;
+    msg.w4 = keyId;
     msg.w6 = kind;
-    msg.w2 = a4;
-    MI_CpuCopy8(a3, msg.data, 0x50);
+    msg.w2 = flags;
+    MI_CpuCopy8(wepKey, msg.data, 0x50);
     r = NWMi_SendCommandDirect(&msg, 0x58);
     if (r == 0 || r == 2) {
         r = 2;

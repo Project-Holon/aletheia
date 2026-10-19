@@ -45,22 +45,22 @@ typedef struct {
     u32 count;
     u32 active;
     u32 waiting;
-    void (*f1c)(void);
-    u32 f20;
+    void (*postExitCallback)(void);
+    u32 postExitArg;
     u32 pad24;
     u32 pad28;
-    Cb f2c;
-    void *f30;
+    Cb eventCallback;
+    void *eventArg;
     u32 pad34;
     u32 pad38;
-    void (*f3c)(void);
-    u32 f40;
+    void (*preSleepCallback)(void);
+    u32 preSleepArg;
     u32 pad44;
     u32 pad48;
-    Cb f4c;
-    void *f50;
-    void *f54;
-    u8 f58;
+    Cb callback;
+    void *callbackArg;
+    void *resultPtr;
+    u8 command;
 } State;
 
 extern u32 OS_DisableInterrupts(void);
@@ -86,22 +86,22 @@ extern u32 DAT_0273448c[];
 extern u32 DAT_02150fec[];
 
 void SNDEXi_Init(void);
-u32 SNDEXi_SetVolumeAsync(u32 a0, Cb a1, void *a2, u32 a3);
-u32 SNDEXi_SetVolumeExAsync(u32 a0, Cb a1, void *a2);
-u32 SNDEXi_SetIirFilterAsync(u32 a0, u16 *a1, Cb a2, void *a3);
-u32 SNDEXi_SetIirFilter(u32 a0, u16 *a1);
+u32 SNDEXi_SetVolumeAsync(u32 volume, Cb callback, void *userData, u32 mode);
+u32 SNDEXi_SetVolumeExAsync(u32 volume, Cb callback, void *userData);
+u32 SNDEXi_SetIirFilterAsync(u32 target, u16 *coefficients, Cb callback, void *userData);
+u32 SNDEXi_SetIirFilter(u32 target, u16 *coefficients);
 u32 SNDEXi_PreProcessForShutterSound(void);
-u32 SNDEXi_PostProcessForShutterSound(Cb a0, void *a1);
-void CommonCallback(u32 a0, u32 a1, u32 a2);
-void SyncCallback(u32 a0, void *a1);
-u32 SendCommand(u32 a0, u8 a1);
-u32 SendCommandEx(u32 a0, u32 a1);
+u32 SNDEXi_PostProcessForShutterSound(Cb callback, void *userData);
+void CommonCallback(u32 tag, u32 data, u32 err);
+void SyncCallback(u32 result, void *queue);
+u32 SendCommand(u32 command, u8 data);
+u32 SendCommandEx(u32 command, u32 data);
 u32 CheckState(void);
-void ReplyCallback(u32 a0);
-void SetSndexWork(Cb a0, void *a1, void *a2, u32 a3);
+void ReplyCallback(u32 result);
+void SetSndexWork(Cb callback, void *callbackArg, void *resultPtr, u32 command);
 void SndexSleepAndExitCallback(void);
 void WaitIirFilterSetting(void);
-void WaitResetSoundCallback(u32 a0, void *a1);
+void WaitResetSoundCallback(u32 result, void *userData);
 void ResetTempVolume(void);
 
 void SNDEXi_Init(void) {
@@ -118,37 +118,37 @@ void SNDEXi_Init(void) {
         SVC_WaitByLoop(10);
     }
     PXI_SetFifoRecvCallback(0x18, (void (*)(u32, u32, u32))CommonCallback);
-    DAT_02734450.f1c = SndexSleepAndExitCallback;
-    DAT_02734450.f20 = 0;
+    DAT_02734450.postExitCallback = SndexSleepAndExitCallback;
+    DAT_02734450.postExitArg = 0;
     PMi_InsertPostExitCallbackEx(DAT_0273446c, 0xfffd);
-    DAT_02734450.f3c = SndexSleepAndExitCallback;
-    DAT_02734450.f40 = 0;
+    DAT_02734450.preSleepCallback = SndexSleepAndExitCallback;
+    DAT_02734450.preSleepArg = 0;
     PMi_InsertPreSleepCallbackEx(DAT_0273448c, 0xfffd);
     DAT_02734450.state = 2;
 }
 
-u32 SNDEXi_SetVolumeAsync(u32 a0, Cb a1, void *a2, u32 a3) {
+u32 SNDEXi_SetVolumeAsync(u32 volume, Cb callback, void *userData, u32 mode) {
     u32 r;
-    int limit = a3 ? 7 : 0x1f;
-    if ((int)a0 > limit) {
+    int limit = mode ? 7 : 0x1f;
+    if ((int)volume > limit) {
         return 2;
     }
     r = CheckState();
     if (r != 0) {
         return r;
     }
-    SetSndexWork(a1, a2, 0, 0x84);
-    if (SendCommand(DAT_02734450.f58, (a0 & 0x1f) | (a3 << 6)) == 0) {
+    SetSndexWork(callback, userData, 0, 0x84);
+    if (SendCommand(DAT_02734450.command, (volume & 0x1f) | (mode << 6)) == 0) {
         return 5;
     }
     return 0;
 }
 
-u32 SNDEXi_SetVolumeExAsync(u32 a0, Cb a1, void *a2) {
+u32 SNDEXi_SetVolumeExAsync(u32 volume, Cb callback, void *userData) {
     if (OS_IsRunOnTwl() == 0) {
         return 4;
     }
-    return SNDEXi_SetVolumeAsync(a0, a1, a2, 0);
+    return SNDEXi_SetVolumeAsync(volume, callback, userData, 0);
 }
 
 #define WAIT_IDLE() \
@@ -159,7 +159,7 @@ u32 SNDEXi_SetVolumeExAsync(u32 a0, Cb a1, void *a2) {
         } \
     } while (0)
 
-u32 SNDEXi_SetIirFilterAsync(u32 a0, u16 *a1, Cb a2, void *a3) {
+u32 SNDEXi_SetIirFilterAsync(u32 target, u16 *coefficients, Cb callback, void *userData) {
     u32 r;
     if (DAT_02734450.busy != 0) {
         return 3;
@@ -175,50 +175,50 @@ u32 SNDEXi_SetIirFilterAsync(u32 a0, u16 *a1, Cb a2, void *a3) {
         return r;
     }
     SetSndexWork(0, 0, 0, 0xc1);
-    if (SendCommandEx(DAT_02734450.f58, (u16)a0) == 0) {
+    if (SendCommandEx(DAT_02734450.command, (u16)target) == 0) {
         DAT_02734450.busy = 0;
         return 5;
     }
     WAIT_IDLE();
     SetSndexWork(0, 0, 0, 0xc2);
-    if (SendCommandEx(DAT_02734450.f58, a1[0]) == 0) {
+    if (SendCommandEx(DAT_02734450.command, coefficients[0]) == 0) {
         DAT_02734450.busy = 0;
         return 5;
     }
     WAIT_IDLE();
     SetSndexWork(0, 0, 0, 0xc3);
-    if (SendCommandEx(DAT_02734450.f58, a1[1]) == 0) {
+    if (SendCommandEx(DAT_02734450.command, coefficients[1]) == 0) {
         DAT_02734450.busy = 0;
         return 5;
     }
     WAIT_IDLE();
     SetSndexWork(0, 0, 0, 0xc4);
-    if (SendCommandEx(DAT_02734450.f58, a1[2]) == 0) {
+    if (SendCommandEx(DAT_02734450.command, coefficients[2]) == 0) {
         DAT_02734450.busy = 0;
         return 5;
     }
     WAIT_IDLE();
     SetSndexWork(0, 0, 0, 0xc5);
-    if (SendCommandEx(DAT_02734450.f58, a1[3]) == 0) {
+    if (SendCommandEx(DAT_02734450.command, coefficients[3]) == 0) {
         DAT_02734450.busy = 0;
         return 5;
     }
     WAIT_IDLE();
     SetSndexWork(0, 0, 0, 0xc6);
-    if (SendCommandEx(DAT_02734450.f58, a1[4]) == 0) {
+    if (SendCommandEx(DAT_02734450.command, coefficients[4]) == 0) {
         DAT_02734450.busy = 0;
         return 5;
     }
     WAIT_IDLE();
-    SetSndexWork(a2, a3, 0, 0xc7);
-    if (SendCommandEx(DAT_02734450.f58, 0) == 0) {
+    SetSndexWork(callback, userData, 0, 0xc7);
+    if (SendCommandEx(DAT_02734450.command, 0) == 0) {
         DAT_02734450.busy = 0;
         return 5;
     }
     return 0;
 }
 
-u32 SNDEXi_SetIirFilter(u32 a0, u16 *a1) {
+u32 SNDEXi_SetIirFilter(u32 target, u16 *coefficients) {
     u32 result;
     u32 buf[1];
     u32 q[8];
@@ -226,7 +226,7 @@ u32 SNDEXi_SetIirFilter(u32 a0, u16 *a1) {
         return 4;
     }
     OS_InitMessageQueue(q, buf, 1);
-    result = SNDEXi_SetIirFilterAsync(a0, a1, SyncCallback, q);
+    result = SNDEXi_SetIirFilterAsync(target, coefficients, SyncCallback, q);
     if (result == 0) {
         OS_ReceiveMessage(q, &result, 1);
     }
@@ -258,40 +258,40 @@ u32 SNDEXi_PreProcessForShutterSound(void) {
     }
     OS_InitMessageQueue(q, buf, 1);
     SetSndexWork(SyncCallback, q, 0, 0xfb);
-    if (SendCommand(DAT_02734450.f58, 0) == 0) {
+    if (SendCommand(DAT_02734450.command, 0) == 0) {
         return 5;
     }
     OS_ReceiveMessage(q, &result, 1);
     return result;
 }
 
-u32 SNDEXi_PostProcessForShutterSound(Cb a0, void *a1) {
+u32 SNDEXi_PostProcessForShutterSound(Cb callback, void *userData) {
     u32 r;
     if (OSi_IsCodecTwlMode() == 0 || DAT_02734450.state != 4) {
         return 4;
     }
     r = 5;
     DAT_02734450.state = 5;
-    SetSndexWork(a0, a1, 0, 0xfc);
-    if (SendCommand(DAT_02734450.f58, 0) != 0) {
+    SetSndexWork(callback, userData, 0, 0xfc);
+    if (SendCommand(DAT_02734450.command, 0) != 0) {
         r = 0;
     }
     return r;
 }
 
-void CommonCallback(u32 a0, u32 a1, u32 a2) {
-    u8 b2 = (a1 & 0xff0000) >> 16;
-    u8 b1 = (a1 & 0xff00) >> 8;
-    u8 b0 = a1 & 0xff;
+void CommonCallback(u32 tag, u32 data, u32 err) {
+    u8 b2 = (data & 0xff0000) >> 16;
+    u8 b1 = (data & 0xff00) >> 8;
+    u8 b0 = data & 0xff;
     if (b2 == 0xfd) {
         if (CheckState() != 0) {
             return;
         }
         SetSndexWork(0, 0, 0, 0xfd);
     }
-    if (a0 != 0x18 || a2 == 1
+    if (tag != 0x18 || err == 1
         || (DAT_02734450.state != 3 && DAT_02734450.state != 4 && DAT_02734450.state != 5)
-        || DAT_02734450.f58 != b2) {
+        || DAT_02734450.command != b2) {
         ReplyCallback(7);
         return;
     }
@@ -299,34 +299,34 @@ void CommonCallback(u32 a0, u32 a1, u32 a2) {
     case 0:
         switch (b2) {
         case 1:
-            if (DAT_02734450.f54 != 0) {
-                *(u32 *)DAT_02734450.f54 = b0;
+            if (DAT_02734450.resultPtr != 0) {
+                *(u32 *)DAT_02734450.resultPtr = b0;
             }
             break;
         case 2:
-            if (DAT_02734450.f54 != 0) {
-                *(u32 *)DAT_02734450.f54 = b0;
+            if (DAT_02734450.resultPtr != 0) {
+                *(u32 *)DAT_02734450.resultPtr = b0;
             }
             break;
         case 3:
         case 4:
-            if (DAT_02734450.f54 != 0) {
-                *(u8 *)DAT_02734450.f54 = b0;
+            if (DAT_02734450.resultPtr != 0) {
+                *(u8 *)DAT_02734450.resultPtr = b0;
             }
             break;
         case 5:
-            if (DAT_02734450.f54 != 0) {
-                *(u32 *)DAT_02734450.f54 = b0;
+            if (DAT_02734450.resultPtr != 0) {
+                *(u32 *)DAT_02734450.resultPtr = b0;
             }
             break;
         case 0xfd:
-            if (DAT_02734450.f2c != 0) {
-                DAT_02734450.f2c(b1, DAT_02734450.f30);
+            if (DAT_02734450.eventCallback != 0) {
+                DAT_02734450.eventCallback(b1, DAT_02734450.eventArg);
             }
             break;
         case 0xfe:
-            if (DAT_02734450.f54 != 0) {
-                *(u32 *)DAT_02734450.f54 = b0;
+            if (DAT_02734450.resultPtr != 0) {
+                *(u32 *)DAT_02734450.resultPtr = b0;
             }
             break;
         }
@@ -342,8 +342,8 @@ void CommonCallback(u32 a0, u32 a1, u32 a2) {
         ReplyCallback(4);
         break;
     case 5:
-        if (b2 == 4 && DAT_02734450.f54 != 0) {
-            *(u8 *)DAT_02734450.f54 = 0;
+        if (b2 == 4 && DAT_02734450.resultPtr != 0) {
+            *(u8 *)DAT_02734450.resultPtr = 0;
         }
         ReplyCallback(6);
         break;
@@ -353,13 +353,13 @@ void CommonCallback(u32 a0, u32 a1, u32 a2) {
     }
 }
 
-void SyncCallback(u32 a0, void *a1) {
-    OS_SendMessage(a1, a0, 0);
+void SyncCallback(u32 result, void *queue) {
+    OS_SendMessage(queue, result, 0);
 }
 
-u32 SendCommand(u32 a0, u8 a1) {
+u32 SendCommand(u32 command, u8 data) {
     u32 irq = OS_DisableInterrupts();
-    int r = PXI_SendWordByFifo(0x18, ((a0 << 16) & 0xff0000) | (a1 & 0xff), 0);
+    int r = PXI_SendWordByFifo(0x18, ((command << 16) & 0xff0000) | (data & 0xff), 0);
     if (r < 0) {
         DAT_02734450.state = 2;
         OS_RestoreInterrupts(irq);
@@ -369,15 +369,15 @@ u32 SendCommand(u32 a0, u8 a1) {
     return 1;
 }
 
-u32 SendCommandEx(u32 a0, u32 a1) {
+u32 SendCommandEx(u32 command, u32 data) {
     u32 irq = OS_DisableInterrupts();
-    int r = PXI_SendWordByFifo(0x18, ((a0 << 16) & 0xff0000) | (u16)a1, 0);
+    int r = PXI_SendWordByFifo(0x18, ((command << 16) & 0xff0000) | (u16)data, 0);
     if (r < 0) {
         DAT_02734450.state = 2;
         OS_RestoreInterrupts(irq);
         return 0;
     }
-    if (a0 == 0xc7) {
+    if (command == 0xc7) {
         DAT_02734450.waiting = 1;
     }
     OS_RestoreInterrupts(irq);
@@ -403,11 +403,11 @@ u32 CheckState(void) {
     }
 }
 
-void ReplyCallback(u32 a0) {
+void ReplyCallback(u32 result) {
     u32 irq = OS_DisableInterrupts();
-    u8 cmd = DAT_02734450.f58;
-    Cb cb = DAT_02734450.f4c;
-    void *arg = DAT_02734450.f50;
+    u8 cmd = DAT_02734450.command;
+    Cb cb = DAT_02734450.callback;
+    void *arg = DAT_02734450.callbackArg;
     if (cmd == 0xc7) {
         DAT_02734450.waiting = 0;
         DAT_02734450.busy = 0;
@@ -420,15 +420,15 @@ void ReplyCallback(u32 a0) {
     }
     OS_RestoreInterrupts(irq);
     if (cb != 0) {
-        cb(a0, arg);
+        cb(result, arg);
     }
 }
 
-void SetSndexWork(Cb a0, void *a1, void *a2, u32 a3) {
-    DAT_02734450.f4c = a0;
-    DAT_02734450.f50 = a1;
-    DAT_02734450.f54 = a2;
-    DAT_02734450.f58 = a3;
+void SetSndexWork(Cb callback, void *callbackArg, void *resultPtr, u32 command) {
+    DAT_02734450.callback = callback;
+    DAT_02734450.callbackArg = callbackArg;
+    DAT_02734450.resultPtr = resultPtr;
+    DAT_02734450.command = command;
 }
 
 void SndexSleepAndExitCallback(void) {
@@ -443,8 +443,8 @@ void WaitIirFilterSetting(void) {
     }
 }
 
-void WaitResetSoundCallback(u32 a0, void *a1) {
-    if (a0 != 0 && DAT_02734450.count < 5) {
+void WaitResetSoundCallback(u32 result, void *userData) {
+    if (result != 0 && DAT_02734450.count < 5) {
         SNDEXi_SetVolumeExAsync(DAT_02734450.chan, WaitResetSoundCallback, 0);
         DAT_02734450.count++;
         return;

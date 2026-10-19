@@ -111,7 +111,7 @@ extern int G3D_SYSTEM_TransVramTexture(G3dResource *res);
 extern int G3D_SYSTEM_FreeVramTexture(G3dResource *res);
 extern void G3D_SYSTEM_DeleteResource(G3dResource *res);
 extern void *FIELD_EFFECT_GetResource(FieldEffectSys *fieldEffect, u32 effectId);
-extern void FIELD_EFFECT_AddObject(FieldEffectSys *fieldEffect, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 arg4, void *param, u32 priority);
+extern void FIELD_EFFECT_AddObject(FieldEffectSys *fieldEffect, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
 extern void *FIELD_EFFECT_GetObjectWork(FieldEffectObj *effect);
 extern void *FIELD_EFFECT_GetObjectParam(FieldEffectObj *effect);
 extern G3dRender *G3D_SYSTEM_CreateRender(G3dResource *mdlRes, u32 mdlIdx, G3dResource *texRes);

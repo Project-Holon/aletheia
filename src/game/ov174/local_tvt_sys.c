@@ -263,7 +263,7 @@ extern void BG_SYS_InitBgLayer(unsigned,const struct BgTemplate *,unsigned);
 
 extern void BG_SYS_SetPlaneVisible(unsigned,unsigned),BG_SYS_FreeSlot(unsigned),BG_SYS_PushTile(unsigned);
 
-extern void *ARC_UTIL_LoadHandleMember(void *a0, unsigned int a1, unsigned int a2, unsigned int a3);
+extern void *ARC_UTIL_LoadHandleMember(void *narc, unsigned int fileID, unsigned int decompress, unsigned int heapID);
 
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,u16);
 
@@ -293,7 +293,7 @@ extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, un
 
 extern void CLACT_RestartActorAnim(struct Actor *a);
 
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, unsigned int heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, unsigned int heapId);
 
 extern struct MsgBank *MSGDATA_CreateFromArchive(unsigned int resident, unsigned int arcId, unsigned int fileId, unsigned int heapId);
 
@@ -301,7 +301,7 @@ extern void BMP_MENUWORK_LoadCharAndPltt(unsigned int a, unsigned int b, unsigne
 
 extern u8 BMP_MENUWORK_GetPlttFileId(int i);
 
-extern void ARC_UTIL_UploadPaletteFromArchive(unsigned int a0, unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4, unsigned int a5, u16 a6);
+extern void ARC_UTIL_UploadPaletteFromArchive(unsigned int archiveID, unsigned int memberIdx, unsigned int kind, unsigned int offset, unsigned int dest, unsigned int size, u16 flags);
 
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(unsigned int a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, u16 f);
 
@@ -315,7 +315,7 @@ extern unsigned int APP_KEYCURSOR_CreateDefault(int a, int b, int c, unsigned in
 
 extern void GF_FONT_SetTextColor(unsigned int r, unsigned int g, unsigned int b);
 
-extern int APP_KEYCURSOR_Delete(int a0);
+extern int APP_KEYCURSOR_Delete(int cursor);
 
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 

@@ -63,66 +63,66 @@ typedef unsigned int   u32;
 /*
  * Operand of the (DST, SRC) matrix-constructor family at 0x02071EAC, kept with
  * the five constructors that live at the top of this file; see
- * docs/families/cluster_02071EAC.h.  f2e is volatile because NNSi_G3dTexMtxScaleRot_Max
+ * docs/families/cluster_02071EAC.h.  origHeight is volatile because NNSi_G3dTexMtxScaleRot_Max
  * reads it twice and the image keeps both loads.
  */
 struct SRC {
     u8  pad_00[0x18];
-    s32 f18;
-    s32 f1c;
-    s16 f20;
-    s16 f22;
-    s32 f24;
-    s32 f28;
-    u16 f2c;
-    volatile u16 f2e;
+    s32 scaleS;
+    s32 scaleT;
+    s16 rotSin;
+    s16 rotCos;
+    s32 transS;
+    s32 transT;
+    u16 origWidth;
+    volatile u16 origHeight;
 };
 
 struct DST {
-    s32 f00;
-    s32 f04;
+    s32 _00;
+    s32 _01;
     u8  pad_08[8];
-    s32 f10;
-    s32 f14;
+    s32 _10;
+    s32 _11;
     u8  pad_18[0x18];
-    s32 f30;
-    s32 f34;
+    s32 _30;
+    s32 _31;
 };
 
 typedef struct Obj {
-    u32 f00;
+    u32 flag;
     u8  pad04[0x18 - 4];
-    s32 f18;
-    s32 f1c;
-    s16 h20;
-    s16 h22;
-    s32 f24;
-    s32 f28;
+    s32 scaleS;
+    s32 scaleT;
+    s16 rotSin;
+    s16 rotCos;
+    s32 transS;
+    s32 transT;
     u8  pad2c[0x30 - 0x2c];
-    volatile s32 f30;
-    volatile s32 f34;
+    volatile s32 magW;
+    volatile s32 magH;
 } Obj;
 
 typedef struct Rec {
     u32 hdr;
-    s32 f04;
-    s32 f08;
-    s32 f0c;
-    s32 f10;
-    s32 f14;
-    s32 f18;
-    s32 f1c;
-    s32 f20;
-    s32 f24;
-    s32 f28;
-    s32 f2c;
-    s32 f30;
-    s32 f34;
-    s32 f38;
-    s32 f3c;
-    s32 f40;
-    s32 f44;
-    s32 f48;
+    s32 texMtxMode;
+    s32 _00;
+    s32 _01;
+    s32 _02;
+    s32 _03;
+    s32 _10;
+    s32 _11;
+    s32 _12;
+    s32 _13;
+    s32 _20;
+    s32 _21;
+    s32 _22;
+    s32 _23;
+    s32 _30;
+    s32 _31;
+    s32 _32;
+    s32 _33;
+    s32 posMtxMode;
 } Rec;
 
 typedef void (*Fill)(s32 *out, Obj *o);
@@ -134,7 +134,7 @@ struct Sys {
     u8  p01[3];
     u32 pending;
     u32 tag;
-    u32 f0c;
+    u32 initialized;
     struct SleepCb cb10;
     struct SleepCb cb20;
 };
@@ -189,9 +189,9 @@ extern u8 g_0214BB00[];
 
 /*
  * The s32 2x2 member of the (DST_02072374, SRC) matrix-constructor family
- * (docs/families/cluster_02071EAC.h): f18/f1c x f20/f22 through four
+ * (docs/families/cluster_02071EAC.h): scaleS/scaleT x rotSin/rotCos through four
  * `smull`s reduced by the family's `>> 12`, with both FX divisions and the
- * plain 32-bit f30/f34 pair.
+ * plain 32-bit _30/_31 pair.
  *
  * CLOSED AFTER THREE PREVIOUS PASSES.  docs/notes/pkt_02072374.c.txt records
  * this address at DIFF 17, then 7, then 8 across three lanes and some
@@ -201,17 +201,17 @@ extern u8 g_0214BB00[];
  * of one -- "is chosen after linearisation and is not source-addressable".
  * It IS source-addressable, and the address is ONE STATEMENT REORDER.
  *
- * THE LEVER: THE `d->f00` STORE SITS AFTER BOTH `q` AND `r`, NOT BEFORE THEM.
+ * THE LEVER: THE `d->_00` STORE SITS AFTER BOTH `q` AND `r`, NOT BEFORE THEM.
  * The note's best source writes
- *     d->f00 = (s32)(((s64_02072374)e * a) >> 12);
- *     q = ...; r = ...; d->f14 = r;
+ *     d->_00 = (s32)(((s64_02072374)e * a) >> 12);
+ *     q = ...; r = ...; d->_11 = r;
  * which is the image's STORE order but not its VALUE order.  Moving the f00
  * store down, so the three narrowings are computed as a run and only then
  * stored,
  *     q = (s32)(((s64_02072374)e * b) >> 12);
  *     r = (s32)(((s64_02072374)c * a) >> 12);
- *     d->f00 = (s32)(((s64_02072374)e * a) >> 12);
- *     d->f14 = r;
+ *     d->_00 = (s32)(((s64_02072374)e * a) >> 12);
+ *     d->_11 = r;
  * takes it from 8 concrete bytes to 0.  The reason is the one the cluster
  * header's L8 names: a value's colour follows its first-definition order, and
  * an intervening store re-numbers everything after it.  With the store out of
@@ -228,9 +228,9 @@ extern u8 g_0214BB00[];
  *   - the two `<< 12` shifted angle values are NAMED LOCALS live across the
  *     whole body (L4 of docs/families/cluster_02070B64.h), which is what
  *     forces the ten-register push {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr};
- *   - `b` (f20) is bound BEFORE `c` (f1c), matching the image's load order
- *     f22 / f18 / f20 / f1c at 0x0207239C..0x020723A8;
- *   - `s->f2e` is `volatile`, so the second `ldrh` at 0x020723B0 survives.
+ *   - `b` (rotSin) is bound BEFORE `c` (scaleT), matching the image's load order
+ *     rotCos / scaleS / rotSin / scaleT at 0x0207239C..0x020723A8;
+ *   - `s->origHeight` is `volatile`, so the second `ldrh` at 0x020723B0 survives.
  *
  * NO PIN.  With the reorder in place the DEFAULT dsi/1.1p1 produces the bytes
  * exactly as ../2.0/sp2 does (both 204 bytes, 0 mismatches), so the file takes
@@ -241,9 +241,9 @@ extern u8 g_0214BB00[];
  */
 /*
  * The s32 2x2 member of the (DST, SRC) matrix-constructor family
- * (docs/families/cluster_02071EAC.h): f18/f1c x f20/f22 through four
+ * (docs/families/cluster_02071EAC.h): scaleS/scaleT x rotSin/rotCos through four
  * `smull`s reduced by the family's `>> 12`, with both FX divisions and the
- * plain 32-bit f30/f34 pair.
+ * plain 32-bit _30/_31 pair.
  *
  * CLOSED AFTER THREE PREVIOUS PASSES.  docs/notes/pkt_02072374.c.txt records
  * this address at DIFF 17, then 7, then 8 across three lanes and some
@@ -253,17 +253,17 @@ extern u8 g_0214BB00[];
  * of one -- "is chosen after linearisation and is not source-addressable".
  * It IS source-addressable, and the address is ONE STATEMENT REORDER.
  *
- * THE LEVER: THE `d->f00` STORE SITS AFTER BOTH `q` AND `r`, NOT BEFORE THEM.
+ * THE LEVER: THE `d->_00` STORE SITS AFTER BOTH `q` AND `r`, NOT BEFORE THEM.
  * The note's best source writes
- *     d->f00 = (s32)(((s64)e * a) >> 12);
- *     q = ...; r = ...; d->f14 = r;
+ *     d->_00 = (s32)(((s64)e * a) >> 12);
+ *     q = ...; r = ...; d->_11 = r;
  * which is the image's STORE order but not its VALUE order.  Moving the f00
  * store down, so the three narrowings are computed as a run and only then
  * stored,
  *     q = (s32)(((s64)e * b) >> 12);
  *     r = (s32)(((s64)c * a) >> 12);
- *     d->f00 = (s32)(((s64)e * a) >> 12);
- *     d->f14 = r;
+ *     d->_00 = (s32)(((s64)e * a) >> 12);
+ *     d->_11 = r;
  * takes it from 8 concrete bytes to 0.  The reason is the one the cluster
  * header's L8 names: a value's colour follows its first-definition order, and
  * an intervening store re-numbers everything after it.  With the store out of
@@ -280,9 +280,9 @@ extern u8 g_0214BB00[];
  *   - the two `<< 12` shifted angle values are NAMED LOCALS live across the
  *     whole body (L4 of docs/families/cluster_02070B64.h), which is what
  *     forces the ten-register push {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr};
- *   - `b` (f20) is bound BEFORE `c` (f1c), matching the image's load order
- *     f22 / f18 / f20 / f1c at 0x0207239C..0x020723A8;
- *   - `s->f2e` is `volatile`, so the second `ldrh` at 0x020723B0 survives.
+ *   - `b` (rotSin) is bound BEFORE `c` (scaleT), matching the image's load order
+ *     rotCos / scaleS / rotSin / scaleT at 0x0207239C..0x020723A8;
+ *   - `s->origHeight` is `volatile`, so the second `ldrh` at 0x020723B0 survives.
  *
  * NO PIN.  With the reorder in place the DEFAULT dsi/1.1p1 produces the bytes
  * exactly as ../2.0/sp2 does (both 204 bytes, 0 mismatches), so the file takes
@@ -297,26 +297,26 @@ void NNSi_G3dTexMtxScaleRot_Max(struct DST *d, struct SRC *s)
     s32 q, r;
     s32 f12, e12;
 
-    f12 = (s32)s->f2c << 12;
-    e12 = (s32)s->f2e << 12;
+    f12 = (s32)s->origWidth << 12;
+    e12 = (s32)s->origHeight << 12;
     FX_DivAsync(e12, f12);
 
-    e = s->f18;
-    a = (s32)s->f22;
-    b = (s32)s->f20;
-    c = s->f1c;
+    e = s->scaleS;
+    a = (s32)s->rotCos;
+    b = (s32)s->rotSin;
+    c = s->scaleT;
 
     q = (s32)(((s64)e * b) >> 12);
     r = (s32)(((s64)c * a) >> 12);
-    d->f00 = (s32)(((s64)e * a) >> 12);
-    d->f14 = r;
-    d->f04 = ((s32)(((s64)c * b) >> 12) * FX_GetDivResult()) >> 12;
+    d->_00 = (s32)(((s64)e * a) >> 12);
+    d->_11 = r;
+    d->_01 = ((s32)(((s64)c * b) >> 12) * FX_GetDivResult()) >> 12;
 
     FX_DivAsync(f12, e12);
 
-    d->f30 = ((s32)s->f2c * q) << 4;
-    d->f34 = ((0 - (s32)s->f2e) * (r - 0x1000)) << 4;
-    d->f10 = ((0 - q) * FX_GetDivResult()) >> 12;
+    d->_30 = ((s32)s->origWidth * q) << 4;
+    d->_31 = ((0 - (s32)s->origHeight) * (r - 0x1000)) << 4;
+    d->_10 = ((0 - q) * FX_GetDivResult()) >> 12;
 }
 
 
@@ -354,36 +354,36 @@ void NNSi_G3dTexMtxRot_Max(struct DST *d, struct SRC *s)
 {
     s32 e12, f12, t;
 
-    e12 = (s32)((u32)s->f2c << 12);
-    f12 = (s32)((u32)s->f2e << 12);
+    e12 = (s32)((u32)s->origWidth << 12);
+    f12 = (s32)((u32)s->origHeight << 12);
 
     FX_DivAsync(f12, e12);
 
-    d->f00 = s->f22;
-    d->f14 = s->f22;
+    d->_00 = s->rotCos;
+    d->_11 = s->rotCos;
 
     t = FX_GetDivResult();
-    d->f04 = (s->f20 * t) >> 12;
+    d->_01 = (s->rotSin * t) >> 12;
 
     FX_DivAsync(e12, f12);
 
-    d->f30 = ((s32)s->f2c * s->f20) << 4;
-    d->f34 = ((0 - (s32)s->f2e) * (s->f22 - 0x1000)) << 4;
+    d->_30 = ((s32)s->origWidth * s->rotSin) << 4;
+    d->_31 = ((0 - (s32)s->origHeight) * (s->rotCos - 0x1000)) << 4;
 
     t = FX_GetDivResult();
-    d->f10 = ((0 - (s32)s->f20) * t) >> 12;
+    d->_10 = ((0 - (s32)s->rotSin) * t) >> 12;
 }
 
 
 
 void NNSi_G3dTexMtxScale_Max(struct DST *d, struct SRC *s)
 {
-    d->f00 = s->f18;
-    d->f14 = s->f1c;
-    d->f04 = 0;
-    d->f30 = 0;
-    d->f34 = ((0 - (s32)s->f2e) * (s->f1c - 0x1000)) << 4;
-    d->f10 = 0;
+    d->_00 = s->scaleS;
+    d->_11 = s->scaleT;
+    d->_01 = 0;
+    d->_30 = 0;
+    d->_31 = ((0 - (s32)s->origHeight) * (s->scaleT - 0x1000)) << 4;
+    d->_10 = 0;
 }
 
 
@@ -407,12 +407,12 @@ void NNSi_G3dTexMtxScale_Max(struct DST *d, struct SRC *s)
  */
 void NNSi_G3dTexMtxIdentity_Max(struct DST *d)
 {
-    d->f00 = 0x1000;
-    d->f04 = 0;
-    d->f10 = 0;
-    d->f14 = 0x1000;
-    d->f30 = 0;
-    d->f34 = 0;
+    d->_00 = 0x1000;
+    d->_01 = 0;
+    d->_10 = 0;
+    d->_11 = 0x1000;
+    d->_30 = 0;
+    d->_31 = 0;
 }
 
 
@@ -424,7 +424,7 @@ void NNSi_G3dTexMtxIdentity_Max(struct DST *d)
  * (docs/notes/pkt_02071DD4.c.txt).  It builds a 0x4c-byte command record
  * on the stack, fills the record's 2x3 matrix block by dispatching on the
  * low three bits of the object's flag word through a pointer table, then
- * applies the object's f30/f34 scales to the two rows -- each through the
+ * applies the object's magW/magH scales to the two rows -- each through the
  * family's `>> 12` on an s64_02072524 product, which folds to `lsr #0xc` +
  * `orr ..., lsl #20` -- and hands the record to NNS_G3dGeBufferOP_N.
  *
@@ -433,7 +433,7 @@ void NNSi_G3dTexMtxIdentity_Max(struct DST *d)
  *
  * Three levers, all measured, and all needed:
  *
- * L1  f30/f34 ARE `volatile`.  The image RE-READS the scale from the
+ * L1  magW/magH ARE `volatile`.  The image RE-READS the scale from the
  *     object before the second and third multiply of each block
  *     (`ldr r2,[r4,#0x30]` at 0x02071FC4, `ldr r1,[r4,#0x30]` at
  *     0x02071FDC); 1.1p1 otherwise forwards the register it still holds
@@ -443,7 +443,7 @@ void NNSi_G3dTexMtxIdentity_Max(struct DST *d)
  *     the FIRST multiply uses that local while the other two re-read.
  * L2  THE CALL'S BASE IS A POINTER LOCAL.  The image spends two
  *     instructions on the argument, `add r1, sp, #0` then
- *     `add r1, r1, #4` (0x02072040/0x02072048); `&r.f04` folds to a
+ *     `add r1, r1, #4` (0x02072040/0x02072048); `&r.texMtxMode` folds to a
  *     single `add r1, sp, #4` and loses 4 bytes.  `(s32 *)&r` bound
  *     first, then `base + 1`, reproduces the pair.
  * L3  THE FOUR HEADER CONSTANTS ARE ORDERED BY THE STORES, NOT THE
@@ -469,7 +469,7 @@ void NNSi_G3dTexMtxIdentity_Max(struct DST *d)
  * the OBJECT, ahead of the dispatch -- bit 0 sets f1c and f18 to the unit
  * scale, bit 1 sets h22 to 0x1000 and h20 to 0, bit 2 clears f28 and f24.  The
  * store order inside each pair is high field first, and each guard re-reads
- * o->f00 (`ldr r0,[r4]` at 0x020725AC, 0x020725BC, 0x020725D8, 0x020725EC).
+ * o->flag (`ldr r0,[r4]` at 0x020725AC, 0x020725BC, 0x020725D8, 0x020725EC).
  * h20/h22 are s16_02072524: the pair is `strh`.
  *
  * PIN ../2.0/sp2, the "kept branches" tell (docs/FRONTEND-PINS.md), and exactly
@@ -494,53 +494,53 @@ void NNSi_G3dSendTexMtx_Max(Obj *o)
     s32 unit = 0x1000;
 
     zero = 0;
-    if (o->f00 & 8) {
+    if (o->flag & 8) {
         r.hdr = 0x00101610;
     } else {
         r.hdr = 0x00101810;
     }
-    r.f04 = three;
-    r.f48 = two;
-    r.f40 = zero;
-    r.f44 = unit;
-    r.f34 = zero;
-    r.f30 = zero;
-    r.f2c = zero;
-    r.f28 = zero;
-    r.f24 = zero;
-    r.f20 = zero;
-    r.f14 = zero;
-    r.f10 = zero;
+    r.texMtxMode = three;
+    r.posMtxMode = two;
+    r._32 = zero;
+    r._33 = unit;
+    r._23 = zero;
+    r._22 = zero;
+    r._21 = zero;
+    r._20 = zero;
+    r._13 = zero;
+    r._12 = zero;
+    r._03 = zero;
+    r._02 = zero;
 
-    if (o->f00 & 1) {
-        o->f1c = unit;
-        o->f18 = unit;
+    if (o->flag & 1) {
+        o->scaleT = unit;
+        o->scaleS = unit;
     }
-    if (o->f00 & 2) {
-        o->h22 = 0x1000;
-        o->h20 = 0;
+    if (o->flag & 2) {
+        o->rotCos = 0x1000;
+        o->rotSin = 0;
     }
-    if (o->f00 & 4) {
-        o->f28 = 0;
-        o->f24 = 0;
+    if (o->flag & 4) {
+        o->transT = 0;
+        o->transS = 0;
     }
 
-    data_020A8478[o->f00 & 7](&r.f08, o);
+    data_020A8478[o->flag & 7](&r._00, o);
 
     {
-        s32 s = o->f30;
+        s32 s = o->magW;
         if (s != 0x1000) {
-            r.f08 = (s32)(((s64)s * r.f08) >> 12);
-            r.f0c = (s32)(((s64)o->f30 * r.f0c) >> 12);
-            r.f38 = (s32)(((s64)o->f30 * r.f38) >> 12);
+            r._00 = (s32)(((s64)s * r._00) >> 12);
+            r._01 = (s32)(((s64)o->magW * r._01) >> 12);
+            r._30 = (s32)(((s64)o->magW * r._30) >> 12);
         }
     }
     {
-        s32 s = o->f34;
+        s32 s = o->magH;
         if (s != 0x1000) {
-            r.f18 = (s32)(((s64)s * r.f18) >> 12);
-            r.f1c = (s32)(((s64)o->f34 * r.f1c) >> 12);
-            r.f3c = (s32)(((s64)o->f34 * r.f3c) >> 12);
+            r._10 = (s32)(((s64)s * r._10) >> 12);
+            r._11 = (s32)(((s64)o->magH * r._11) >> 12);
+            r._31 = (s32)(((s64)o->magH * r._31) >> 12);
         }
     }
 
@@ -590,10 +590,10 @@ void NNSi_G3dSendTexMtx_Max(Obj *o)
  */
 void NNS_SndInit(void)
 {
-    if (g_0214BAC0.f0c != 0) {
+    if (g_0214BAC0.initialized != 0) {
         return;
     }
-    g_0214BAC0.f0c = 1;
+    g_0214BAC0.initialized = 1;
     SND_Init();
     g_0214BAC0.cb10.fn = (void (*)(void *))NNS_SndPrependPostSleepCallback;
     g_0214BAC0.cb10.arg = 0;

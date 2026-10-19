@@ -16,7 +16,7 @@
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
- *   ICA_ANIME_GetField20  0x0201210C  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   GAME_DATA_GetExternalWork  0x02012F80  thumb
@@ -78,8 +78,8 @@
  *   EVENT_POKE_STATUS_CreatePokeSelectStatusEvent 0x0215A168 thumb ov010
  *   MUSICAL_EVENT_CheckNetError  0x02156BAC  thumb  ov010
  *   MUSICAL_EVENT_IsAborted  0x02156BCC  thumb  ov010
- *   ICA_ANIME_SetField30  0x02012124  thumb
- *   ICA_ANIME_GetField24  0x02012138  thumb
+ *   GAMESYSTEM_SetFieldMapState  0x02012124  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   VM_SetWait  0x020113D0  thumb
  *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb
@@ -96,7 +96,7 @@
  *   MUS_COMM_FUNC_Create  0x021FC644  thumb  ov132
  *   MUS_COMM_FUNC_Delete  0x021FC684  thumb
  *   GAME_EVENT_GetGameSystem 0x020124E4 thumb
- *   ICA_ANIME_GetField1C 0x020120F4 thumb
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_EVENT_CallEvent 0x02012374 thumb
  *   GAME_COMM_GetKind 0x02026454 thumb
  *   GFL_NET_IsSessionNull 0x0203CDBC arm
@@ -145,7 +145,7 @@
  *   MOVE_POKEMON_SAVE_SetEntryState  0x0200D470  thumb
  *   d_0217293C     0x0217293C  data
  *   MOVE_POKEMON_SAVE_GetEntryState 0x0200D468 thumb
- *   GAME_DATA_GetField114  0x020127A4  thumb
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   BTL_SETUP_GetParty  0x0201313C  thumb
  *   GFL_USE_GetRandomBelow  0x02005728  thumb
@@ -409,14 +409,14 @@ extern void SCRIPT_SYS_SetNextEventFromWork(struct ScriptCtl *scriptCtl, struct 
 extern u16 SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, struct ScriptWork *scriptWork);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(ScriptVm *vm, struct ScriptWork *scriptWork);
 extern struct GameEvent *EVENT_POKE_STATUS_CreatePokeSelectStatusEvent(struct GameSystem *gameSys, u16 *partyIndexVar, u16 *resultVar);
-extern int SCRIPT_SYS_ChangeScriptEvent(int scriptCtl, int scriptId, int arg1, int arg2);
+extern int SCRIPT_SYS_ChangeScriptEvent(int scriptCtl, int scriptId, int target, int reserved);
 extern int SCRIPT_WORK_SetParams(int scriptWork, int eventId, int arg1, int arg2, u16 arg3);
 
 /* game system, game event, game data */
-extern struct FieldMap *ICA_ANIME_GetField20(struct GameSystem *gameSys);
-extern struct GameData *ICA_ANIME_GetField1C(struct GameSystem *gameSys);
-extern struct GameComm *ICA_ANIME_GetField24(struct GameSystem *gameSys);
-extern void ICA_ANIME_SetField30(struct GameSystem *gameSys, u32 state);
+extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSys);
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSys);
+extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSys);
+extern void GAMESYSTEM_SetFieldMapState(struct GameSystem *gameSys, u32 state);
 extern void GAMESYSTEM_CallProc(struct GameSystem *gameSys, u32 procId, void *procData, void *procArg);
 extern u32 GAMESYSTEM_GetProcStatus(struct GameSystem *gameSys);
 extern u32 GAMESYSTEM_TryStartAutoComm(struct GameSystem *gameSys);
@@ -438,7 +438,7 @@ extern struct BgmInfo *GAME_DATA_GetBgmInfo(struct GameData *gameData);
 extern struct FieldGimmickWork *GAME_DATA_GetFieldGimmick(struct GameData *gameData);
 extern u8 GAME_DATA_GetSeason(struct GameData *gameData);
 extern u16 GAME_DATA_GetPlayerZoneId(void *playerWork);
-extern void *GAME_DATA_GetField114(struct GameData *gameData);
+extern void *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 extern struct EventWork *GAME_DATA_GetEventWork(struct GameData *gameData);
 extern struct MoveModelSys *GAME_DATA_GetMoveModelSys(struct GameData *gameData);
 extern int GAME_DATA_GetIntrudeCount(struct GameData *gameData);
@@ -690,7 +690,7 @@ int SCRCMD_MUSICAL_StartMusical(ScriptVm *vm, struct ScriptWork *scriptWork)
     scriptCtl = SCRCMD_WORK_GetScriptWork(scriptWork);
     gameSys = SCRCMD_WORK_GetGameSystem(scriptWork);
     gameData = SCRCMD_WORK_GetGameData(scriptWork);
-    fieldMap = ICA_ANIME_GetField20(gameSys);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSys);
     SCRIPT_WORK_ResetFieldParam(scriptCtl);
     arg = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
     mode = *vm->pc;
@@ -742,7 +742,7 @@ int SCRCMD_MUSICAL_ShowPartyMonMusical(ScriptVm *vm, struct ScriptWork *scriptWo
     struct GameEvent *task;
     MusicalSystemTask *systemTask;
 
-    ICA_ANIME_GetField20(gameSys);
+    GAMESYSTEM_GetFieldMap(gameSys);
     partyIndex = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
     musicalSave = (u32)GAME_DATA_GetSaveBlock2A(gameData);
     musicalSystem = MUSICAL_MCSS_CreateMon(POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), partyIndex), 4);
@@ -1213,7 +1213,7 @@ int SCRCMD_MUSICAL_LinkControl(ScriptVm *vm, struct ScriptWork *scriptWork)
     scriptCtl = SCRCMD_WORK_GetScriptWork(scriptWork);
     gameSys = SCRCMD_WORK_GetGameSystem(scriptWork);
     gameData = SCRCMD_WORK_GetGameData(scriptWork);
-    fieldMap = ICA_ANIME_GetField20(gameSys);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSys);
     cmd = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
     arg = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
     SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
@@ -1236,7 +1236,7 @@ int SCRCMD_MUSICAL_LinkControl(ScriptVm *vm, struct ScriptWork *scriptWork)
         SCRCMD_MUSICAL_DeleteLinkWork(link, gameData);
         break;
     case 10:
-        SCRCMD_MUSICAL_BeginCommSession((int)link, gameSys, ICA_ANIME_GetField24(gameSys), arg);
+        SCRCMD_MUSICAL_BeginCommSession((int)link, gameSys, GAMESYSTEM_GetGameComm(gameSys), arg);
         break;
     case 11:
         SCRCMD_MUSICAL_CloseCommSession(link);
@@ -1298,7 +1298,7 @@ int SCRCMD_MUSICAL_LinkControl(ScriptVm *vm, struct ScriptWork *scriptWork)
         break;
     case 21:
         if (GFL_NET_ERR_GetErrorLevel() != 0) {
-            ICA_ANIME_SetField30(gameSys, 1);
+            GAMESYSTEM_SetFieldMapState(gameSys, 1);
             *resultVar = 1;
         } else {
             *resultVar = 0;
@@ -1370,7 +1370,7 @@ int SCRCMD_MUSICAL_TaskStartMusical(struct GameEvent *task, u32 *state, void *wo
     MusicalStartTask *startTask = work;
     struct GameData *gameData;
 
-    gameData = ICA_ANIME_GetField1C(GAME_EVENT_GetGameSystem(task));
+    gameData = GAMESYSTEM_GetGameData(GAME_EVENT_GetGameSystem(task));
     switch (*state) {
     case 0:
         GAME_EVENT_CallEvent(task, startTask->musicalSeq);
@@ -1383,7 +1383,7 @@ int SCRCMD_MUSICAL_TaskStartMusical(struct GameEvent *task, u32 *state, void *wo
         break;
     case 2:
         {
-            struct GameComm *gameComm = ICA_ANIME_GetField24(GAME_EVENT_GetGameSystem(task));
+            struct GameComm *gameComm = GAMESYSTEM_GetGameComm(GAME_EVENT_GetGameSystem(task));
             if (startTask->mode != 0) {
                 if (GAME_COMM_GetKind(gameComm) != 0)
                     break;
@@ -1416,8 +1416,8 @@ int SCRCMD_MUSICAL_TaskShowMusicalProc(struct GameEvent *task, u32 *state, void 
     MusicalSystemTask *systemTask = work;
     struct GameSystem *gameSys = GAME_EVENT_GetGameSystem(task);
 
-    ICA_ANIME_GetField1C(gameSys);
-    ICA_ANIME_GetField20(gameSys);
+    GAMESYSTEM_GetGameData(gameSys);
+    GAMESYSTEM_GetFieldMap(gameSys);
     switch (*state) {
     case 0:
         (*state)++;
@@ -1471,7 +1471,7 @@ void SCRCMD_MUSICAL_LinkProcCallback(void *callbackArg)
 
     gameSys = SCRCMD_WORK_GetGameSystem(wait->scriptWork);
     gameData = SCRCMD_WORK_GetGameData(wait->scriptWork);
-    ICA_ANIME_GetField24(gameSys);
+    GAMESYSTEM_GetGameComm(gameSys);
     link = wait->link;
     if (link->procMode != 0xc && link->procMode != 0xd) {
         *link->resultOut = 1;
@@ -1596,7 +1596,7 @@ int SCRCMD_MUSICAL_WaitCommAttach(ScriptVm *vm, struct ScriptWork *scriptWork)
     SCRCMD_WORK_GetScriptWork(scriptWork);
     gameSys = SCRCMD_WORK_GetGameSystem(scriptWork);
     gameData = SCRCMD_WORK_GetGameData(scriptWork);
-    gameComm = ICA_ANIME_GetField24(gameSys);
+    gameComm = GAMESYSTEM_GetGameComm(gameSys);
     link = GAME_DATA_GetExternalWork(gameData);
     if (GAME_COMM_GetKind(gameComm) == 4) {
         link->session = (void *)GAME_COMM_GetWork(gameComm);
@@ -1617,7 +1617,7 @@ int SCRCMD_MUSICAL_WaitCommIdle(ScriptVm *vm, struct ScriptWork *scriptWork)
     SCRCMD_WORK_GetScriptWork(scriptWork);
     gameSys = SCRCMD_WORK_GetGameSystem(scriptWork);
     gameData = SCRCMD_WORK_GetGameData(scriptWork);
-    gameComm = ICA_ANIME_GetField24(gameSys);
+    gameComm = GAMESYSTEM_GetGameComm(gameSys);
     link = GAME_DATA_GetExternalWork(gameData);
     if (link->musicalEvent != 0) {
         MUSICAL_EVENT_CheckNetError(link->musicalEvent);
@@ -1673,7 +1673,7 @@ int SCRCMD_MUSICAL_WifiListCommand(ScriptVm *vm, struct ScriptWork *scriptWork)
     gameData = SCRCMD_WORK_GetGameData(scriptWork);
     wifiList = GAME_SYNC_GetBlock(GAME_DATA_GetSaveControl(gameData));
     limit = (int)BLOCK20_SAVEDATA_CountEntries(wifiList);
-    if (ICA_ANIME_GetField20(gameSys) == 0 && cmd != 0) {
+    if (GAMESYSTEM_GetFieldMap(gameSys) == 0 && cmd != 0) {
         return 0;
     }
     switch (cmd) {
@@ -1931,7 +1931,7 @@ void MOVE_POKEMON_HandleBattleResult(struct GameData *gameData, BattleResultWork
     if (work->resultKind1 != 0 || work->resultKind0 != 0) {
         return;
     }
-    GAME_DATA_GetPlayerZoneId(GAME_DATA_GetField114(gameData));
+    GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameData));
     mon = POKEPARTY_GetMember(BTL_SETUP_GetParty(work, 1), 0);
     species = POKE_TOOL_GetPartyValue(mon, 5, 0);
     hp = POKE_TOOL_GetPartyValue(mon, 0xA0, 0);
@@ -2118,7 +2118,7 @@ void MOVE_POKEMON_InitSkillInfo(struct FieldMap *fieldMap, FieldSkillInfo *out)
     }
     if (ZONEDATA_IsWeatherEnabled(out->zoneId) == 1)
         out->usableMask |= 0x80;
-    if (FIELD_STATUS_GetMapEffectMask(GAME_DATA_GetMoveModelSys(ICA_ANIME_GetField1C(out->gameSys))) & 1)
+    if (FIELD_STATUS_GetMapEffectMask(GAME_DATA_GetMoveModelSys(GAMESYSTEM_GetGameData(out->gameSys))) & 1)
         out->usableMask |= 0x20;
     if (FIELD_GetPlayerAreaZoneId(fieldMap, &swimFlag) == 1)
         out->usableMask |= 0x400;
@@ -2135,7 +2135,7 @@ void MOVE_POKEMON_InitSkillInfo(struct FieldMap *fieldMap, FieldSkillInfo *out)
         out->usableMask |= 0x100;
         out->usableMask |= 0x200;
     }
-    if (GAME_DATA_GetIntrudeCount(ICA_ANIME_GetField1C(out->gameSys)) == 1)
+    if (GAME_DATA_GetIntrudeCount(GAMESYSTEM_GetGameData(out->gameSys)) == 1)
         out->usableMask = 0;
 }
 
@@ -2202,7 +2202,7 @@ int MOVE_POKEMON_CutEventMain(struct GameEvent *event, u32 *state, void *work)
     int targetId;
     int scriptCtl;
 
-    GAME_DATA_GetEventWork(ICA_ANIME_GetField1C(skillWork->gameSys));
+    GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(skillWork->gameSys));
     targetId = skillWork->target.id;
     scriptCtl = SCRIPT_SYS_ChangeScriptEvent((int)event, 0x2715, 0, 0);
     SCRIPT_WORK_SetParams(scriptCtl, targetId, 0, 0, 0);
@@ -2248,7 +2248,7 @@ int MOVE_POKEMON_FlyEventMain(struct GameEvent *event, u32 *state, void *work)
     SkillEventWork *skillWork = work;
     int targetId;
     int scriptCtl;
-    GAME_DATA_GetEventWork(ICA_ANIME_GetField1C(skillWork->gameSys));
+    GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(skillWork->gameSys));
     targetId = skillWork->target.id;
     scriptCtl = SCRIPT_SYS_ChangeScriptEvent((int)event, 0x2713, 0, 0);
     SCRIPT_WORK_SetParams(scriptCtl, targetId, 0, 0, 0);
@@ -2278,7 +2278,7 @@ int MOVE_POKEMON_SurfEventMain(struct GameEvent *event, u32 *state, void *work)
     SkillEventWork *skillWork = work;
     int targetId;
     int scriptCtl;
-    GAME_DATA_GetEventWork(ICA_ANIME_GetField1C(skillWork->gameSys));
+    GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(skillWork->gameSys));
     targetId = skillWork->target.id;
     scriptCtl = SCRIPT_SYS_ChangeScriptEvent((int)event, 0x2717, 0, 0);
     SCRIPT_WORK_SetParams(scriptCtl, targetId, 0, 0, 0);
@@ -2308,7 +2308,7 @@ int MOVE_POKEMON_StrengthEventMain(struct GameEvent *event, u32 *state, void *wo
     SkillEventWork *skillWork = work;
     int targetId;
     int scriptCtl;
-    GAME_DATA_GetEventWork(ICA_ANIME_GetField1C(skillWork->gameSys));
+    GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(skillWork->gameSys));
     targetId = skillWork->target.id;
     scriptCtl = SCRIPT_SYS_ChangeScriptEvent((int)event, 0x2711, 0, 0);
     SCRIPT_WORK_SetParams(scriptCtl, targetId, 0, 0, 0);

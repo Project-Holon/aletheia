@@ -13,7 +13,7 @@
  * Cut from unit_0216B24C.c by tools/splitfile.py.
  *
  * symbols:
- *   ICA_ANIME_GetField20  0x0201210C  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
@@ -36,7 +36,7 @@
 #include "field_intrude_event_shared_types.h"
 #include "scrcmd_research_shared_types.h"
 
-extern void *ICA_ANIME_GetField20(const struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 
 extern void *FIELDMAP_GetFieldPlayer(void *fieldMap);
 
@@ -96,7 +96,7 @@ int SCRCMD_EVENT_MON_CmdStartSpPokeGimmickTask(struct ScriptContext *ctx, struct
 
     scriptSystem = SCRCMD_WORK_GetScriptWork(scrWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(scrWork);
-    fieldMap = ICA_ANIME_GetField20(gameSystem);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     fromPlayer = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
     gridX = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
     height = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);

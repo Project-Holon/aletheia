@@ -160,7 +160,7 @@ extern void MI_CpuFill8(void *dst, int value, unsigned size);
 extern struct ClactUnit *PMS_INPUT_VIEW_GetClactUnit(struct PmsInputView *view);
 extern struct ClactActor *CLACT_CreateActor(void *unit, u32 character, u32 palette, u32 cellAnim, const void *setup, u16 screen, u16 heapId);
 extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
-extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, u32 unpackedOut, u32 flags);
 extern void MI_CpuCopy8(const void *src, void *dst, unsigned int size);
 extern int NNS_GfdRegisterNewVramTransferTask(u32 target, u32 offset, const void *data, int size);
 extern void CLACT_SetActorPaletteOffset(struct ClactActor *actor, u32 offset, u32 flag);

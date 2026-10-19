@@ -30,7 +30,7 @@ typedef struct {
 } MBiCacheInfo;
 
 typedef struct {
-    u32 f0;
+    u32 lifetime;
     u8 pad[0x2C];
     MBiCacheInfo list[4];
 } MBiCacheList;
@@ -96,7 +96,7 @@ int MBi_ReadFromCache(MBiCacheList *pl, u32 src, void *dst, u32 len)
         if (ofs + len > pi->len)
             continue;
         MI_CpuCopy8((u8 *)pi->ptr + ofs, dst, len);
-        pl->f0 = 0;
+        pl->lifetime = 0;
         ret = 1;
         break;
     }

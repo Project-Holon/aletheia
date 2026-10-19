@@ -210,7 +210,7 @@ struct WifiBattleMatchSysProc {
  * Folded views: three former address-named views. */
 struct WifiBattleMatchSysSubWork {
     void *proc;                           /* 0x00 */
-    void *f4;                             /* 0x04 */
+    void *timeoutFrames;                             /* 0x04 */
     s32 overlayLoaded;                    /* 0x08 */
     s32 commandAdded;                     /* 0x0C */
 };
@@ -323,19 +323,19 @@ typedef struct PartyCountPair { u8 a,b; } PartyCountPair;
 typedef struct WifiBattleMatchSysProc WifiBattleMatchSysProc;
 
 struct MyWk {
-    void *f0;
-    u32 f4;
-    u32 f8;
-    u32 fC;
+    void *procSys;
+    u32 timeoutFrames;
+    u32 overlayLoaded;
+    u32 commandAdded;
 };
 
 struct WifiBattleMatchSysNameRow { u8 pad[10]; u8 name[6]; };
 
 struct PWk {
     u32 f0;
-    u8 *f4;
-    u8 *f8;
-    u32 fC;
+    u8 *matchParam;
+    u8 *battleParam;
+    u32 result;
 };
 
 extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
@@ -350,7 +350,7 @@ extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern int POKE_REGULATION_GetDataSize(void);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *BATTLE_BOX_GetFromSave(void *);
-extern void *BATTLE_BOX_CreateParty(int a0, int a1);
+extern void *BATTLE_BOX_CreateParty(int box, int heap);
 extern u32 GFL_HEAP_Free(void *p);
 extern void BATTLE_REC_FreeWork(void);
 extern void GAME_DATA_Delete(u8 *p);
@@ -358,7 +358,7 @@ extern void OS_ResetSystem(u32 parameter);
 extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
-extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
+extern u32 GFL_NET_ERR_ShowScreen(u32 isFatal);
 extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, unsigned short);
 extern u16 GFL_USE_GetBgmNo(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(unsigned, unsigned);
@@ -385,7 +385,7 @@ extern void BTL_SETUP_SetupCommRotation(void *, void *, int, int, u32);
 extern u32 REGULATION_GetRuleValue(struct Reg *p, u32 id);
 extern s32 REGULATION_Card_GetValue(struct Reg2 *p, u32 id);
 extern void BTL_SETUP_SetParty(void *, void *, int);
-extern void BTL_SETUP_ApplyRegulation(u8 *o, void *a1, u32 a2);
+extern void BTL_SETUP_ApplyRegulation(u8 *o, void *reg, u32 level);
 extern void BTL_SETUP_AllocRecordBuffer(struct ZoneData *o, u32 heap);
 extern void BATTLE_REC_LoadToolOverlay(void);
 extern void BATTLE_REC_TOOL_PackSetup(void *);
@@ -1357,13 +1357,13 @@ int WIFIBATTLEMATCH_SYS_DestroySubWork(void *a, void *b, void *c, char *work)
 
 int WIFIBATTLEMATCH_SYS_HandleNetState(void *proc, int *seq, struct PWk *pw, struct MyWk *wk)
 {
-    u32 st = PROCSYS_Main(wk->f0);
+    u32 st = PROCSYS_Main(wk->procSys);
 
     switch (*seq) {
     case 0:
-        GFL_USE_CancelChangeAndPlayBgm(*(u16 *)(pw->f4 + 0x18), 0xffff);
-        *(u32 *)(pw->f8 + 0x44) = 1;
-        PROCSYS_Push(wk->f0, (int)ov213_id, data_021BB0B0, pw->f8);
+        GFL_USE_CancelChangeAndPlayBgm(*(u16 *)(pw->matchParam + 0x18), 0xffff);
+        *(u32 *)(pw->battleParam + 0x44) = 1;
+        PROCSYS_Push(wk->procSys, (int)ov213_id, data_021BB0B0, pw->battleParam);
         st = 2;
         *seq = 1;
         break;
@@ -1372,9 +1372,9 @@ int WIFIBATTLEMATCH_SYS_HandleNetState(void *proc, int *seq, struct PWk *pw, str
         break;
     case 2:
         GF_OVERLAY_Load((int)ov093_id);
-        wk->f8 = 1;
+        wk->overlayLoaded = 1;
         GFL_NET_COMMAND_AddCommandTable(0x100, (u32)data_021F03C4, 9, 0);
-        wk->fC = 1;
+        wk->commandAdded = 1;
         GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xc8, 0x24);
         *seq = 3;
         break;
@@ -1382,7 +1382,7 @@ int WIFIBATTLEMATCH_SYS_HandleNetState(void *proc, int *seq, struct PWk *pw, str
         if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xc8, 0x24)) *seq = 4;
         break;
     case 4:
-        PROCSYS_Push(wk->f0, -1, data_021EFDAC, pw->f4);
+        PROCSYS_Push(wk->procSys, -1, data_021EFDAC, pw->matchParam);
         st = 2;
         *seq = 5;
         break;
@@ -1394,39 +1394,39 @@ int WIFIBATTLEMATCH_SYS_HandleNetState(void *proc, int *seq, struct PWk *pw, str
         break;
     case 7:
         GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xd2, 0x24);
-        wk->f4 = 0;
+        wk->timeoutFrames = 0;
         *seq = 8;
         break;
     case 8:
         if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xd2, 0x24)) {
             GFL_NET_COMMAND_DeleteCommandTable(0x100);
-            wk->fC = 0;
+            wk->commandAdded = 0;
             GF_OVERLAY_Unload((int)ov093_id);
-            wk->f8 = 0;
+            wk->overlayLoaded = 0;
             *seq = 9;
         }
         if (GFL_NET_GetRunState() && *(u8 *)((u8 *)GFL_NET_GetInitParam() + 0x65) == 3) {
-            if (wk->f4++ > 600) {
+            if (wk->timeoutFrames++ > 600) {
                 GFL_NET_COMMAND_DeleteCommandTable(0x100);
-                wk->fC = 0;
+                wk->commandAdded = 0;
                 GF_OVERLAY_Unload((int)ov093_id);
-                wk->f8 = 0;
+                wk->overlayLoaded = 0;
                 *seq = 9;
-                wk->f4 = 0;
+                wk->timeoutFrames = 0;
             }
         }
         break;
     case 9:
         GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xd3, 0x24);
         *seq = 10;
-        wk->f4 = 0;
+        wk->timeoutFrames = 0;
         break;
     case 10:
         if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xd3, 0x24)) *seq = 11;
         if (GFL_NET_GetRunState() && *(u8 *)((u8 *)GFL_NET_GetInitParam() + 0x65) == 3) {
-            if (wk->f4++ > 600) {
+            if (wk->timeoutFrames++ > 600) {
                 *seq = 11;
-                wk->f4 = 0;
+                wk->timeoutFrames = 0;
             }
         }
         break;
@@ -1435,30 +1435,30 @@ int WIFIBATTLEMATCH_SYS_HandleNetState(void *proc, int *seq, struct PWk *pw, str
         int n, a, b, i, j, k, v;
         u8 *q;
         u8 side;
-        if (pw->f4[0x22] == 0) *(u32 *)(pw->f8 + 0x44) = 2;
-        else *(u32 *)(pw->f8 + 0x44) = 4;
-        switch (*(u32 *)(pw->f4 + 0x8c)) {
+        if (pw->matchParam[0x22] == 0) *(u32 *)(pw->battleParam + 0x44) = 2;
+        else *(u32 *)(pw->battleParam + 0x44) = 4;
+        switch (*(u32 *)(pw->matchParam + 0x8c)) {
         case 1:
         case 4:
-            *(u32 *)(pw->f8 + 0x40) = 0;
+            *(u32 *)(pw->battleParam + 0x40) = 0;
             break;
         case 0:
         case 3:
-            *(u32 *)(pw->f8 + 0x40) = 1;
+            *(u32 *)(pw->battleParam + 0x40) = 1;
             break;
         case 2:
-            *(u32 *)(pw->f8 + 0x40) = 2;
+            *(u32 *)(pw->battleParam + 0x40) = 2;
             break;
         case 6:
-            wk->f4 = 0;
+            wk->timeoutFrames = 0;
             flag = 0;
             *seq = 15;
             break;
         default:
-            *(u32 *)(pw->f8 + 0x40) = 2;
+            *(u32 *)(pw->battleParam + 0x40) = 2;
             break;
         }
-        q = pw->f4;
+        q = pw->matchParam;
         if (q[0x22] == 0) {
             n = 1;
             a = 0;
@@ -1473,15 +1473,15 @@ int WIFIBATTLEMATCH_SYS_HandleNetState(void *proc, int *seq, struct PWk *pw, str
             if ((i & 1) == (side & 1)) {
                 k = (side & 1) ? (i & 2) + 1 : (i & 2);
                 for (j = 0; j < 6; j++)
-                    ((struct WifiBattleMatchSysNameRow *)pw->f8)[a + (i >> 1)].name[j] = pw->f4[k * 6 + j + 0xc8];
+                    ((struct WifiBattleMatchSysNameRow *)pw->battleParam)[a + (i >> 1)].name[j] = pw->matchParam[k * 6 + j + 0xc8];
             } else {
                 k = (side & 1) ? (i & 2) : (i & 2) + 1;
                 for (j = 0; j < 6; j++)
-                    ((struct WifiBattleMatchSysNameRow *)pw->f8)[b + (i >> 1)].name[j] = pw->f4[k * 6 + j + 0xc8];
+                    ((struct WifiBattleMatchSysNameRow *)pw->battleParam)[b + (i >> 1)].name[j] = pw->matchParam[k * 6 + j + 0xc8];
             }
         }
         if (flag) {
-            PROCSYS_Push(wk->f0, (int)ov213_id, data_021BB0B0, pw->f8);
+            PROCSYS_Push(wk->procSys, (int)ov213_id, data_021BB0B0, pw->battleParam);
             st = 2;
             *seq = 12;
         }
@@ -1495,9 +1495,9 @@ int WIFIBATTLEMATCH_SYS_HandleNetState(void *proc, int *seq, struct PWk *pw, str
     case 14:
         return 1;
     case 15:
-        if (wk->f4++ > 0x708) {
+        if (wk->timeoutFrames++ > 0x708) {
             GFL_NET_ERR_RequestScreen();
-            pw->fC = 2;
+            pw->result = 2;
             return 1;
         }
         break;
@@ -1507,7 +1507,7 @@ int WIFIBATTLEMATCH_SYS_HandleNetState(void *proc, int *seq, struct PWk *pw, str
         if (*(u8 *)((u8 *)GFL_NET_GetInitParam() + 0x65) == 3) {
             if (GFL_NET_ERR_GetErrorLevel()) {
                 GFL_NET_ERR_RequestScreen();
-                pw->fC = 1;
+                pw->result = 1;
                 return 1;
             }
         } else {
@@ -1518,10 +1518,10 @@ int WIFIBATTLEMATCH_SYS_HandleNetState(void *proc, int *seq, struct PWk *pw, str
             case 2:
             case 3:
             default:
-                pw->fC = 2;
+                pw->result = 2;
                 return 1;
             case 4:
-                pw->fC = 3;
+                pw->result = 3;
                 return 1;
             }
         }

@@ -244,13 +244,13 @@ typedef struct MysteryAlbumEntry {
 typedef struct MysteryAlbumWork {
     unsigned int mode;              /* 0x00 */
     unsigned int param4;            /* 0x04 */
-    unsigned int param8;            /* 0x08 */
+    unsigned int clactUnit;            /* 0x08 */
     void *cardList;                 /* 0x0C MYSTERY_DATA card list */
-    void *windowParamA;                  /* 0x10 */
-    void *windowParamB;                  /* 0x14 */
-    unsigned int param18;           /* 0x18 */
-    unsigned int bank;           /* 0x1C */
-    unsigned int saveParam;           /* 0x20 */
+    void *font;                  /* 0x10 */
+    void *printQueue;                  /* 0x14 */
+    unsigned int wordSet;           /* 0x18 */
+    unsigned int msgBank;           /* 0x1C */
+    unsigned int gameData;           /* 0x20 */
     unsigned short heapId;          /* 0x24 */
     unsigned char pad26[2];
     MysteryAlbumEntry items[12];    /* 0x28 one per card slot */
@@ -370,75 +370,75 @@ typedef struct MysteryAlbumSlotWork {
 
 /* 24-byte raw menu entry as used by the album view descriptor (d_021DFA14). */
 struct MysteryAlbumViewCard {
-    u32 f0;
-    u32 f4;
-    u32 f8;
-    u16 fC;
-    u16 fE;
-    u16 f10;
+    u32 otIdOrItem;
+    u32 originGame;
+    u32 personality;
+    u16 ribbonFlags;
+    u16 ball;
+    u16 heldItem;
     u16 mv[4];
     u16 species;
     u8 form;
-    u8 f1D;
-    u16 f1E;
+    u8 language;
+    u16 nickname;
     u8 pad20[0x14];
-    u8 f34;
-    u8 f35;
-    u8 f36;
-    u8 f37;
-    u16 f38;
-    u16 f3A;
-    u8 f3C;
-    u8 f3D;
-    u8 f3E;
-    u8 f3F;
-    u8 f40;
-    u8 f41;
+    u8 nature;
+    u8 gender;
+    u8 abilityMode;
+    u8 shinyMode;
+    u16 eggLocation;
+    u16 metLocation;
+    u8 metLevel;
+    u8 contestCool;
+    u8 contestBeauty;
+    u8 contestCute;
+    u8 contestSmart;
+    u8 contestTough;
     u8 pad42;
     u8 iv0, iv1, iv2, iv6, iv7, iv3;
     u8 pad49;
-    u16 f4A;
+    u16 otName;
     u8 pad4C[0xE];
-    u8 f5A;
-    u8 f5B;
-    u8 f5C;
+    u8 otGender;
+    u8 level;
+    u8 isEgg;
     u8 pad5D[0x4F];
-    u32 fAC;
+    u32 eventDate;
     u8 padB0[2];
-    u8 fB2;
-    u8 fB3;
+    u8 messageIndex;
+    u8 giftType;
     u8 fB4a:1;
-    u8 fB4b:1;
+    u8 altMessageSet:1;
 };
 
 struct CtxB {
-    u32 f0;
+    u32 windowList;
     u8 pad4[0xB4];
-    u32 fB8;
-    u32 fBC;
-    u32 fC0;
-    u32 fC4;
-    u32 fC8;
-    u32 fCC;
+    u32 clactUnit;
+    u32 cardList;
+    u32 msgBank;
+    u32 font;
+    u32 printQueue;
+    u32 wordSet;
 };
 
 struct MysteryAlbumView {
     u8 pad0[0xE0];
-    u32 fE0;
-    u16 fE4;
-    u16 fE6;
+    u32 isEgg;
+    u16 species;
+    u16 form;
     u8 padE8[0x118 - 0xE8];
     u16 heap;
     u8 pad11A[2];
-    struct CtxB *b;
-    struct MysteryAlbumViewCard *a;
-    void *c;
+    struct CtxB *slotWork;
+    struct MysteryAlbumViewCard *card;
+    void *gameData;
     u8 pad128[0xC];
-    u32 f134;
-    u32 f138;
-    void *f13C;
-    void *f140;
-    void *f144;
+    u32 pokeCharData;
+    u32 pokeCharBuf;
+    void *pokePalette;
+    void *pokePaletteData;
+    void *bmpList;
 };
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const void *site, u16 tag);
@@ -597,9 +597,9 @@ int MYSTERY_ALBUM_IsIntroIdle(MysteryAlbum *album);
 
 extern u32 MYSTERY_DATA_HasCardSpace(void *p);
 
-extern void MYSTERY_DATA_SaveStart(void *a0, int a1);
+extern void MYSTERY_DATA_SaveStart(void *data, int gameData);
 
-extern int MYSTERY_DATA_SaveMain(void *a0, int a1);
+extern int MYSTERY_DATA_SaveMain(void *data, int gameData);
 
 extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 fileId, u32 res, u32 heapId);
 
@@ -609,9 +609,9 @@ extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 
 extern void CLACT_SetActorObjMode(void *actor, u32 value);
 
-extern int POKEGRA_OpenHandle(int a0);
+extern int POKEGRA_OpenHandle(int heapId);
 
-extern int POKEGRA_RegisterPalette(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7, unsigned short a8, unsigned short a9);
+extern int POKEGRA_RegisterPalette(int handle, int monsNo, int formNo, int sex, int rare, int dir, int egg, int drawType, unsigned short palOffset, unsigned short heapId);
 
 extern int POKEGRA_RegisterCellAnim(u32,u32,u32,u32,u32,u32,u32,u32,u16);
 
@@ -629,7 +629,7 @@ extern u32 MYSTATUS_GetId(const void *obj);
 
 extern void *POKE_TOOL_Create(u16 species, u16 level, u32 otId, u32 a3, u32 heap);
 
-extern u32 POKE_TOOL_CreatePersonalRnd(u32 a0, int a1, int a2, int a3, int a4, int a5);
+extern u32 POKE_TOOL_CreatePersonalRnd(u32 otId, int species, int form, int ratioMode, int shinyWanted, int mode);
 
 extern void POKE_TOOL_SetupPartyParamEx(void *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 
@@ -653,7 +653,7 @@ extern u8 MYSTATUS_GetOutfitVariant(const void *obj);
 
 extern void *POKE_TOOL_Dummy(void *p);
 
-extern void SAVE_EVENT_WriteWithDate(void *a0, u32 a1, u32 a2, u32 a3, u32 a4);
+extern void SAVE_EVENT_WriteWithDate(void *save, u32 eventId, u32 year, u32 month, u32 day);
 
 extern void POKE_TOOL_RecalcParam(void *p);
 
@@ -661,11 +661,11 @@ extern int POKEGRA_GetArcID(void);
 
 extern u32 POKE_TOOL_IsShiny(void *p);
 
-extern s32 POKEGRA_GetPalArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
+extern s32 POKEGRA_GetPalArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 s5, u32 s6, u32 s7);
 
 extern void *POKE_TOOL_GetBoxParam(void *p);
 
-extern u32 POKEGRA_LoadCharDataPP(void *a0, void *mon, u32 a2, u32 a3);
+extern u32 POKEGRA_LoadCharDataPP(void *outCharData, void *mon, u32 dir, u32 heapId);
 
 void *MYSTERY_UTIL_CreateWindow(u32 a, u32 b, u16 c, u16 d, u8 e, u8 f, u8 g, u32 h, u16 heap);
 
@@ -813,7 +813,7 @@ void MYSTERY_ALBUM_DeleteSlotWork(void **p);
 
 int MYSTERY_ALBUM_UpdateSlotWork(void **p);
 
-struct MysteryAlbumView *MYSTERY_ALBUM_CreateAlbumView(MysteryAlbumCard *a, struct CtxB *b, void *c, u16 heap);
+struct MysteryAlbumView *MYSTERY_ALBUM_CreateAlbumView(MysteryAlbumCard *card, struct CtxB *slotWork, void *gameData, u16 heap);
 
 extern char d_021DFBB0[],d_021DF8FC[],d_021DF890[];
 
@@ -875,11 +875,11 @@ char *MYSTERY_ALBUM_Create(const MysteryAlbumCreateInput *src,u16 heap)
     if(count) {table=d_021DF8FC;n=3;}
     else {table=d_021DF890;n=2;}
     /* stand-in: unprototyped call; the prototype's u16/u8 parameters narrow the arguments and change the bytes */
-    ((MysteryAlbumWork *)out)->windowList=((void *(*)())MYSTERY_UTIL_CreateWindowList)(0,table,n,1,3,((MysteryAlbumWork *)out)->windowParamB,((MysteryAlbumWork *)out)->bank,*(int *)&((MysteryAlbumWork *)out)->windowParamA,heap);
+    ((MysteryAlbumWork *)out)->windowList=((void *(*)())MYSTERY_UTIL_CreateWindowList)(0,table,n,1,3,((MysteryAlbumWork *)out)->printQueue,((MysteryAlbumWork *)out)->msgBank,*(int *)&((MysteryAlbumWork *)out)->font,heap);
     MI_CpuFill8(&d,0,48);
     d.w[0]=6;d.w[1]=4;d.w[2]=14;d.w[3]=15;d.w[4]=11;d.w[5]=14;
-    d.w[6]=((MysteryAlbumWork *)out)->param8;d.w[7]=*(u32 *)&((MysteryAlbumWork *)out)->cardList;d.w[8]=((MysteryAlbumWork *)out)->bank;
-    d.w[9]=(u32)((MysteryAlbumWork *)out)->windowParamA;d.w[10]=(u32)((MysteryAlbumWork *)out)->windowParamB;d.w[11]=((MysteryAlbumWork *)out)->param18;
+    d.w[6]=((MysteryAlbumWork *)out)->clactUnit;d.w[7]=*(u32 *)&((MysteryAlbumWork *)out)->cardList;d.w[8]=((MysteryAlbumWork *)out)->msgBank;
+    d.w[9]=(u32)((MysteryAlbumWork *)out)->font;d.w[10]=(u32)((MysteryAlbumWork *)out)->printQueue;d.w[11]=((MysteryAlbumWork *)out)->wordSet;
     ((MysteryAlbumWork *)out)->menuWork=MYSTERY_ALBUM_CreateSlotWork((const MysteryAlbumDesc *)&d,heap);
     if(MYSTERY_ALBUM_CountValidCards((u32)out)) {
         for(j=0;j<12;j++) {
@@ -1152,13 +1152,13 @@ void MYSTERY_ALBUM_SetCursor(char *p,int a,int b,int c,u16 heap)
     void *text,*other;
     for(i=0;i<4;i++) MYSTERY_ALBUM_SetupSlot(p,a,b,c,(u16)i,heap);
     text=STRBUF_Create(128,heap);
-    other=MSGDATA_AllocString((void *)((MysteryAlbumWork *)p)->bank,150);
-    WORDSET_SetSlotNumber((void *)((MysteryAlbumWork *)p)->param18,0,c+1,1,1,1);
-    WORDSET_SetSlotNumber((void *)((MysteryAlbumWork *)p)->param18,1,MYSTERY_ALBUM_GetColumnCount(p),1,1,1);
-    WORDSET_CopyTaggedText((void *)((MysteryAlbumWork *)p)->param18,text,other);
+    other=MSGDATA_AllocString((void *)((MysteryAlbumWork *)p)->msgBank,150);
+    WORDSET_SetSlotNumber((void *)((MysteryAlbumWork *)p)->wordSet,0,c+1,1,1,1);
+    WORDSET_SetSlotNumber((void *)((MysteryAlbumWork *)p)->wordSet,1,MYSTERY_ALBUM_GetColumnCount(p),1,1,1);
+    WORDSET_CopyTaggedText((void *)((MysteryAlbumWork *)p)->wordSet,text,other);
     MYSTERY_UTIL_SetColor(((MysteryAlbumWork *)p)->infoWindow,0x39ea);
     MYSTERY_UTIL_SetPosition(((MysteryAlbumWork *)p)->infoWindow,0,0,1);
-    MYSTERY_UTIL_ShowString(((MysteryAlbumWork *)p)->infoWindow,(int)text,(int)((MysteryAlbumWork *)p)->windowParamA);
+    MYSTERY_UTIL_ShowString(((MysteryAlbumWork *)p)->infoWindow,(int)text,(int)((MysteryAlbumWork *)p)->font);
     STRBUF_Delete(text);
     STRBUF_Delete(other);
     BG_SYS_PushTile(3);
@@ -1484,8 +1484,8 @@ void MYSTERY_ALBUM_SwapCards(MysteryAlbumWork *o, u32 a, u32 b)
     }
     MYSTERY_ALBUM_Delete(o->slots[a]);
     MYSTERY_ALBUM_Delete(o->slots[b]);
-    o->slots[a] = MYSTERY_ALBUM_CreateAlbumView((MysteryAlbumCard *)MYSTERY_ALBUM_GetEntryCard(&o->items[a]), o->menuWork, (void *)o->saveParam, o->heapId);
-    o->slots[b] = MYSTERY_ALBUM_CreateAlbumView((MysteryAlbumCard *)MYSTERY_ALBUM_GetEntryCard(&o->items[b]), o->menuWork, (void *)o->saveParam, o->heapId);
+    o->slots[a] = MYSTERY_ALBUM_CreateAlbumView((MysteryAlbumCard *)MYSTERY_ALBUM_GetEntryCard(&o->items[a]), o->menuWork, (void *)o->gameData, o->heapId);
+    o->slots[b] = MYSTERY_ALBUM_CreateAlbumView((MysteryAlbumCard *)MYSTERY_ALBUM_GetEntryCard(&o->items[b]), o->menuWork, (void *)o->gameData, o->heapId);
     o->dirty = 1;
 }
 
@@ -1509,15 +1509,15 @@ void MYSTERY_ALBUM_SetupEntry(char *out,const MysteryAlbumCard *src,char *p,u16 
         ((MysteryAlbumEntry *)out)->bmp=BMP_Create(10,2,32,heap);
         flags=src->flags;
         text=STRBUF_Create(128,heap);
-        other=MSGDATA_AllocString((void *)((MysteryAlbumWork *)p)->bank,151);
-        WORDSET_SetSlotNumber((void *)((MysteryAlbumWork *)p)->param18,0,(u16)(flags>>16),4,1,1);
-        WORDSET_SetSlotNumber((void *)((MysteryAlbumWork *)p)->param18,1,(u8)(flags>>8),2,0,1);
-        WORDSET_SetSlotNumber((void *)((MysteryAlbumWork *)p)->param18,2,(u8)flags,2,0,1);
-        WORDSET_CopyTaggedText((void *)((MysteryAlbumWork *)p)->param18,text,other);
+        other=MSGDATA_AllocString((void *)((MysteryAlbumWork *)p)->msgBank,151);
+        WORDSET_SetSlotNumber((void *)((MysteryAlbumWork *)p)->wordSet,0,(u16)(flags>>16),4,1,1);
+        WORDSET_SetSlotNumber((void *)((MysteryAlbumWork *)p)->wordSet,1,(u8)(flags>>8),2,0,1);
+        WORDSET_SetSlotNumber((void *)((MysteryAlbumWork *)p)->wordSet,2,(u8)flags,2,0,1);
+        WORDSET_CopyTaggedText((void *)((MysteryAlbumWork *)p)->wordSet,text,other);
         x=40;
-        x-=(s16)(GF_FONT_MeasureWidestLine(text,*(u32 *)&((MysteryAlbumWork *)p)->windowParamA,0)/2);
-        y=8-(s16)(GF_FONT_CountLines(text,((MysteryAlbumWork *)p)->windowParamA)/2);
-        PRINTSYS_Print(((MysteryAlbumEntry *)out)->bmp,x,y,text,((MysteryAlbumWork *)p)->windowParamA);
+        x-=(s16)(GF_FONT_MeasureWidestLine(text,*(u32 *)&((MysteryAlbumWork *)p)->font,0)/2);
+        y=8-(s16)(GF_FONT_CountLines(text,((MysteryAlbumWork *)p)->font)/2);
+        PRINTSYS_Print(((MysteryAlbumEntry *)out)->bmp,x,y,text,((MysteryAlbumWork *)p)->font);
         STRBUF_Delete(text);
         STRBUF_Delete(other);
     }
@@ -1739,15 +1739,15 @@ void MYSTERY_ALBUM_ConfirmHandler(void *task,u32 *state,u8 *p)
     switch (*state) {
     case 0:
         if (!((MysteryAlbumWork *)p)->menuWindow) {
-            ((MysteryAlbumWork *)p)->menuWindow=MYSTERY_UTIL_CreateMenuWindow(0,15,((MysteryAlbumWork *)p)->windowParamB,((MysteryAlbumWork *)p)->windowParamA,29);
+            ((MysteryAlbumWork *)p)->menuWindow=MYSTERY_UTIL_CreateMenuWindow(0,15,((MysteryAlbumWork *)p)->printQueue,((MysteryAlbumWork *)p)->font,29);
             MYSTERY_UTIL_DrawMenuWindow(((MysteryAlbumWork *)p)->menuWindow,1,13);
         }
-        MYSTERY_UTIL_SetMenuMessage(((MysteryAlbumWork *)p)->menuWindow,((MysteryAlbumWork *)p)->bank,116,0);
+        MYSTERY_UTIL_SetMenuMessage(((MysteryAlbumWork *)p)->menuWindow,((MysteryAlbumWork *)p)->msgBank,116,0);
         *state=1;
         break;
     case 1:
         MI_CpuFill8(&d,0,36);
-        d.menuTable=*(u32 *)&((MysteryAlbumWork *)p)->bank; d.messageTable=*(u32 *)&((MysteryAlbumWork *)p)->windowParamA; d.printOwner=*(u32 *)&((MysteryAlbumWork *)p)->windowParamB;
+        d.menuTable=*(u32 *)&((MysteryAlbumWork *)p)->msgBank; d.messageTable=*(u32 *)&((MysteryAlbumWork *)p)->font; d.printOwner=*(u32 *)&((MysteryAlbumWork *)p)->printQueue;
         d.menuItems[0]=117;d.menuItems[1]=118;d.menuItems[2]=119;d.count=3;
         d.bgLayer=0;d.palette=15;d.windowX=13;d.windowY=1;
         ((MysteryAlbumWork *)p)->menu=MYSTERY_UTIL_CreateMenu((const u8 *)(&d),((MysteryAlbumWork *)p)->heapId);
@@ -1767,10 +1767,10 @@ void MYSTERY_ALBUM_ConfirmHandler(void *task,u32 *state,u8 *p)
             if (((MysteryAlbumWork *)p)->menu) {MYSTERY_UTIL_DeleteMenu(((MysteryAlbumWork *)p)->menu);((MysteryAlbumWork *)p)->menu=0;}
             if (*(u8 * *)&((MysteryAlbumWork *)p)->menuWindow) {MYSTERY_UTIL_DeleteMenuWindow(*(u8 * *)&((MysteryAlbumWork *)p)->menuWindow);((MysteryAlbumWork *)p)->menuWindow=0;}
             if (!((MysteryAlbumWork *)p)->menuWindow) {
-                ((MysteryAlbumWork *)p)->menuWindow=MYSTERY_UTIL_CreateMenuWindow2(0,15,((MysteryAlbumWork *)p)->windowParamB,((MysteryAlbumWork *)p)->windowParamA,29);
+                ((MysteryAlbumWork *)p)->menuWindow=MYSTERY_UTIL_CreateMenuWindow2(0,15,((MysteryAlbumWork *)p)->printQueue,((MysteryAlbumWork *)p)->font,29);
                 MYSTERY_UTIL_DrawMenuWindow(((MysteryAlbumWork *)p)->menuWindow,1,13);
             }
-            MYSTERY_UTIL_SetMenuMessage(((MysteryAlbumWork *)p)->menuWindow,((MysteryAlbumWork *)p)->bank,122,0);
+            MYSTERY_UTIL_SetMenuMessage(((MysteryAlbumWork *)p)->menuWindow,((MysteryAlbumWork *)p)->msgBank,122,0);
             *state=6;
         } else if (result==1) {
             if (MYSTERY_ALBUM_GetEntryEggFlag((u32)((void *)((u32)p+40+220*(((MysteryAlbumWork *)p)->cursorMode+((MysteryAlbumWork *)p)->cursorIndex*4))))) *state=7;
@@ -1779,7 +1779,7 @@ void MYSTERY_ALBUM_ConfirmHandler(void *task,u32 *state,u8 *p)
         break;
     case 3:
         if (((MysteryAlbumWork *)p)->menu) {MYSTERY_UTIL_DeleteMenu(((MysteryAlbumWork *)p)->menu);((MysteryAlbumWork *)p)->menu=0;}
-        MYSTERY_UTIL_SetMenuMessage(((MysteryAlbumWork *)p)->menuWindow,((MysteryAlbumWork *)p)->bank,120,1);
+        MYSTERY_UTIL_SetMenuMessage(((MysteryAlbumWork *)p)->menuWindow,((MysteryAlbumWork *)p)->msgBank,120,1);
         *state=4;
         break;
     case 4:
@@ -1993,18 +1993,18 @@ void MYSTERY_ALBUM_SaveHandler(void *arg,u32 *state,char *p)
         break;
     case 2:
         if (!((MysteryAlbumWork *)p)->menuWindow) {
-            ((MysteryAlbumWork *)p)->menuWindow=MYSTERY_UTIL_CreateMenuWindow(0,15,((MysteryAlbumWork *)p)->windowParamB,((MysteryAlbumWork *)p)->windowParamA,29);
+            ((MysteryAlbumWork *)p)->menuWindow=MYSTERY_UTIL_CreateMenuWindow(0,15,((MysteryAlbumWork *)p)->printQueue,((MysteryAlbumWork *)p)->font,29);
             MYSTERY_UTIL_DrawMenuWindow(((MysteryAlbumWork *)p)->menuWindow,1,13);
         }
-        MYSTERY_UTIL_SetMenuMessage(((MysteryAlbumWork *)p)->menuWindow,((MysteryAlbumWork *)p)->bank,93,1);
+        MYSTERY_UTIL_SetMenuMessage(((MysteryAlbumWork *)p)->menuWindow,((MysteryAlbumWork *)p)->msgBank,93,1);
         *state=3;
         break;
     case 3:
         if (MYSTERY_UTIL_GetMenuState(((MysteryAlbumWork *)p)->menuWindow)) {
             MI_CpuFill8(&d,0,36);
-            d.menuTable=*(u32 *)&((MysteryAlbumWork *)p)->bank;
-            d.messageTable=*(u32 *)&((MysteryAlbumWork *)p)->windowParamA;
-            d.printOwner=*(u32 *)&((MysteryAlbumWork *)p)->windowParamB;
+            d.menuTable=*(u32 *)&((MysteryAlbumWork *)p)->msgBank;
+            d.messageTable=*(u32 *)&((MysteryAlbumWork *)p)->font;
+            d.printOwner=*(u32 *)&((MysteryAlbumWork *)p)->printQueue;
             d.menuItems[0]=124;
             d.menuItems[1]=125;
             d.count=2;
@@ -2035,10 +2035,10 @@ void MYSTERY_ALBUM_SaveHandler(void *arg,u32 *state,char *p)
         break;
     case 6:
         if (!((MysteryAlbumWork *)p)->menuWindow) {
-            ((MysteryAlbumWork *)p)->menuWindow=MYSTERY_UTIL_CreateMenuWindow(0,15,((MysteryAlbumWork *)p)->windowParamB,((MysteryAlbumWork *)p)->windowParamA,29);
+            ((MysteryAlbumWork *)p)->menuWindow=MYSTERY_UTIL_CreateMenuWindow(0,15,((MysteryAlbumWork *)p)->printQueue,((MysteryAlbumWork *)p)->font,29);
             MYSTERY_UTIL_DrawMenuWindow(((MysteryAlbumWork *)p)->menuWindow,1,13);
         }
-        MYSTERY_UTIL_SetMenuMessage(((MysteryAlbumWork *)p)->menuWindow,((MysteryAlbumWork *)p)->bank,115,2);
+        MYSTERY_UTIL_SetMenuMessage(((MysteryAlbumWork *)p)->menuWindow,((MysteryAlbumWork *)p)->msgBank,115,2);
         *state=7;
         break;
     case 7:
@@ -2048,12 +2048,12 @@ void MYSTERY_ALBUM_SaveHandler(void *arg,u32 *state,char *p)
         ready=1;
         if (((MysteryAlbumWork *)p)->selectedAlbum && !MYSTERY_ALBUM_IsIntroIdle(((MysteryAlbumWork *)p)->selectedAlbum)) ready=0;
         if (ready) {
-            MYSTERY_DATA_SaveStart(((MysteryAlbumWork *)p)->cardList,(int)(((MysteryAlbumWork *)p)->saveParam));
+            MYSTERY_DATA_SaveStart(((MysteryAlbumWork *)p)->cardList,(int)(((MysteryAlbumWork *)p)->gameData));
             *state=9;
         }
         break;
     case 9:
-        if (MYSTERY_DATA_SaveMain(((MysteryAlbumWork *)p)->cardList,(int)(((MysteryAlbumWork *)p)->saveParam))==2) *state=10;
+        if (MYSTERY_DATA_SaveMain(((MysteryAlbumWork *)p)->cardList,(int)(((MysteryAlbumWork *)p)->gameData))==2) *state=10;
         break;
     case 10:
         if (((MysteryAlbumWork *)p)->menuWindow) {
@@ -2071,9 +2071,9 @@ void MYSTERY_ALBUM_SingleHandler(void *arg,int *state,char *p)
     switch (*state) {
     case 0:
         if (!((MysteryAlbumWork *)p)->menuWindow)
-            ((MysteryAlbumWork *)p)->menuWindow=MYSTERY_UTIL_CreateMenuWindow(0,15,((MysteryAlbumWork *)p)->windowParamB,((MysteryAlbumWork *)p)->windowParamA,29);
+            ((MysteryAlbumWork *)p)->menuWindow=MYSTERY_UTIL_CreateMenuWindow(0,15,((MysteryAlbumWork *)p)->printQueue,((MysteryAlbumWork *)p)->font,29);
         MYSTERY_UTIL_DrawMenuWindow(((MysteryAlbumWork *)p)->menuWindow,1,13);
-        MYSTERY_UTIL_SetMenuMessage(((MysteryAlbumWork *)p)->menuWindow,((MysteryAlbumWork *)p)->bank,92,1);
+        MYSTERY_UTIL_SetMenuMessage(((MysteryAlbumWork *)p)->menuWindow,((MysteryAlbumWork *)p)->msgBank,92,1);
         *state=1; break;
     case 1:
         if (MYSTERY_UTIL_GetMenuState(((MysteryAlbumWork *)p)->menuWindow)) *state=2;
@@ -2178,7 +2178,7 @@ void MYSTERY_ALBUM_DeleteSlotWork(void **p)
 
 int MYSTERY_ALBUM_UpdateSlotWork(void **p) {return MYSTERY_UTIL_IsWindowListDone(*p);}
 
-struct MysteryAlbumView *MYSTERY_ALBUM_CreateAlbumView(MysteryAlbumCard *a, struct CtxB *b, void *c, u16 heap)
+struct MysteryAlbumView *MYSTERY_ALBUM_CreateAlbumView(MysteryAlbumCard *card, struct CtxB *slotWork, void *gameData, u16 heap)
 {
     struct MysteryAlbumView *out;
     struct Ctx ctx;
@@ -2205,57 +2205,57 @@ struct MysteryAlbumView *MYSTERY_ALBUM_CreateAlbumView(MysteryAlbumCard *a, stru
     out = GFL_HEAP_Alloc(heap, 0x148, 0, d_021DFBB0, 0xDD4);
     MI_CpuFill8(out, 0, 0x148);
     out->heap = heap;
-    out->a = (struct MysteryAlbumViewCard *)a;
-    out->b = b;
-    out->c = c;
+    out->card = (struct MysteryAlbumViewCard *)card;
+    out->slotWork = slotWork;
+    out->gameData = gameData;
     MI_CpuFill8(&ctx, 0, 0x24);
-    ctx.f0 = 0;
-    ctx.f8 = b->fB8;
-    ctx.fC = b->fBC;
-    ctx.f10 = b->fC4;
-    ctx.f14 = b->fC8;
-    ctx.f18 = b->fCC;
-    ctx.f1C = b->fC0;
-    ctx.f20 = (u32)c;
-    MYSTERY_ALBUM_SetupEntry((char *)out, (const MysteryAlbumCard *)a, (char *)&ctx, heap);
+    ctx.mode = 0;
+    ctx.clactUnit = slotWork->clactUnit;
+    ctx.cardList = slotWork->cardList;
+    ctx.font = slotWork->font;
+    ctx.printQueue = slotWork->printQueue;
+    ctx.wordSet = slotWork->wordSet;
+    ctx.msgBank = slotWork->msgBank;
+    ctx.gameData = (u32)gameData;
+    MYSTERY_ALBUM_SetupEntry((char *)out, (const MysteryAlbumCard *)card, (char *)&ctx, heap);
     desc = d_021DFA14;
     id16 = (heap & 0x7fff) | 0x8000;
     desc.e[1].str.stringPtr = STRBUF_Create(0x25, (u16)id16);
-    STRBUF_SetStringN(desc.e[1].str.stringPtr, (const u16 *)((char *)out->a + 0x60), 0x24);
-    if (out->a->fB4b)
-        idx = out->a->fB2 + 0x19d;
+    STRBUF_SetStringN(desc.e[1].str.stringPtr, (const u16 *)((char *)out->card + 0x60), 0x24);
+    if (out->card->altMessageSet)
+        idx = out->card->messageIndex + 0x19d;
     else
-        idx = out->a->fB2 + 0x9d;
-    desc.e[2].str.stringPtr = MSGDATA_AllocString((void *)b->fC0, idx);
+        idx = out->card->messageIndex + 0x9d;
+    desc.e[2].str.stringPtr = MSGDATA_AllocString((void *)slotWork->msgBank, idx);
     desc.e[4].str.stringPtr = STRBUF_Create(0x80, heap);
-    flags = out->a->fAC;
-    t4 = MSGDATA_AllocString((void *)b->fC0, 0x9a);
+    flags = out->card->eventDate;
+    t4 = MSGDATA_AllocString((void *)slotWork->msgBank, 0x9a);
     res = 0;
-    WORDSET_SetSlotNumber((void *)b->fCC, 0, (u16)(flags >> 16), 4, 1, 1);
-    WORDSET_SetSlotNumber((void *)b->fCC, 1, (u8)(flags >> 8), 2, 0, 1);
-    WORDSET_SetSlotNumber((void *)b->fCC, 2, (u8)flags, 2, 0, 1);
-    WORDSET_CopyTaggedText((void *)b->fCC, desc.e[4].str.stringPtr, t4);
-    out->f144 = MYSTERY_UTIL_CreateBmpList(*(void **)b, heap);
-    MYSTERY_UTIL_DrawBmpList(out->f144, (char *)(&desc), (void *)b->fC8);
+    WORDSET_SetSlotNumber((void *)slotWork->wordSet, 0, (u16)(flags >> 16), 4, 1, 1);
+    WORDSET_SetSlotNumber((void *)slotWork->wordSet, 1, (u8)(flags >> 8), 2, 0, 1);
+    WORDSET_SetSlotNumber((void *)slotWork->wordSet, 2, (u8)flags, 2, 0, 1);
+    WORDSET_CopyTaggedText((void *)slotWork->wordSet, desc.e[4].str.stringPtr, t4);
+    out->bmpList = MYSTERY_UTIL_CreateBmpList((char *)slotWork->windowList, heap);
+    MYSTERY_UTIL_DrawBmpList(out->bmpList, (char *)(&desc), (void *)slotWork->printQueue);
     STRBUF_Delete(desc.e[1].str.stringPtr);
     STRBUF_Delete(desc.e[2].str.stringPtr);
     STRBUF_Delete(desc.e[4].str.stringPtr);
     STRBUF_Delete(t4);
     if (MYSTERY_ALBUM_GetEntryKind(out) == 1) {
-        struct MysteryAlbumViewCard *r = out->a;
+        struct MysteryAlbumViewCard *r = out->card;
         u16 mv[4];
         u8 iv[6];
         int i;
         u32 k;
         u32 ivs;
 
-        gs = out->c;
+        gs = out->gameData;
         hid = id16;
-        level = r->f5B;
-        id = r->f0;
+        level = r->level;
+        id = r->otIdOrItem;
         species = r->species;
-        gender = r->f35;
-        mode = r->f36;
+        gender = r->gender;
+        mode = r->abilityMode;
 
         iv[0] = r->iv0;
         iv[1] = r->iv1;
@@ -2267,10 +2267,10 @@ struct MysteryAlbumView *MYSTERY_ALBUM_CreateAlbumView(MysteryAlbumCard *a, stru
         mv[1] = r->mv[1];
         mv[2] = r->mv[2];
         mv[3] = r->mv[3];
-        if (r->fB3 == 1 && species <= 0x289 && species != 0 && level <= 0x64 && r->f10 <= 0x289 - 0x17) {
+        if (r->giftType == 1 && species <= 0x289 && species != 0 && level <= 0x64 && r->heldItem <= 0x289 - 0x17) {
             if (level == 0)
                 level = (u16)(GFL_USE_GetRandom(0x64) + 1);
-            if (r->f0 == 0)
+            if (r->otIdOrItem == 0)
                 id = MYSTATUS_GetId((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(gs));
             if (gender == 0xff)
                 gender = 2;
@@ -2300,18 +2300,18 @@ struct MysteryAlbumView *MYSTERY_ALBUM_CreateAlbumView(MysteryAlbumCard *a, stru
                 res = 0;
                 goto end;
             }
-            if (r->f8 != 0)
-                rnd = r->f8;
+            if (r->personality != 0)
+                rnd = r->personality;
             else {
-                if (r->f37 == 0)
+                if (r->shinyMode == 0)
                     rnd = POKE_TOOL_CreatePersonalRnd(id, (u16)species, r->form, gender, i, 0);
-                else if (r->f37 == 1)
+                else if (r->shinyMode == 1)
                     rnd = POKE_TOOL_CreatePersonalRnd(id, (u16)species, r->form, gender, i, 2);
-                else if (r->f37 == 2)
+                else if (r->shinyMode == 2)
                     rnd = POKE_TOOL_CreatePersonalRnd(id, (u16)species, r->form, gender, i, 1);
             }
             POKE_TOOL_SetupPartyParamEx(mon, r->species, level, id64, ivs, rnd);
-            POKE_TOOL_SetPartyValue(mon, 6, r->f10);
+            POKE_TOOL_SetPartyValue(mon, 6, r->heldItem);
             POKE_TOOL_SetDefaultMoves(mon);
             for (i = 0; i < 4; i++) {
                 u16 m = mv[i];
@@ -2320,59 +2320,59 @@ struct MysteryAlbumView *MYSTERY_ALBUM_CreateAlbumView(MysteryAlbumCard *a, stru
                         POKE_TOOL_PushMove(mon, m);
                 }
             }
-            if (r->f8 == 0 && mode == 2)
+            if (r->personality == 0 && mode == 2)
                 POKE_TOOL_SetAbility(mon, species, r->form);
             POKE_TOOL_SetPartyValue(mon, 0x6f, r->form);
-            if (r->fE != 0 && r->fE <= 0x19)
-                POKE_TOOL_SetPartyValue(mon, 0x98, r->fE);
+            if (r->ball != 0 && r->ball <= 0x19)
+                POKE_TOOL_SetPartyValue(mon, 0x98, r->ball);
             else
                 POKE_TOOL_SetPartyValue(mon, 0x98, 4);
-            if (r->f3C != 0)
-                POKE_TOOL_SetPartyValue(mon, 0x99, r->f3C);
-            POKE_TOOL_SetPartyValue(mon, 0x13, r->f3D);
-            POKE_TOOL_SetPartyValue(mon, 0x14, r->f3E);
-            POKE_TOOL_SetPartyValue(mon, 0x15, r->f3F);
-            POKE_TOOL_SetPartyValue(mon, 0x16, r->f40);
-            POKE_TOOL_SetPartyValue(mon, 0x17, r->f41);
-            POKE_TOOL_SetPartyValue(mon, 0x18, r->f41);
+            if (r->metLevel != 0)
+                POKE_TOOL_SetPartyValue(mon, 0x99, r->metLevel);
+            POKE_TOOL_SetPartyValue(mon, 0x13, r->contestCool);
+            POKE_TOOL_SetPartyValue(mon, 0x14, r->contestBeauty);
+            POKE_TOOL_SetPartyValue(mon, 0x15, r->contestCute);
+            POKE_TOOL_SetPartyValue(mon, 0x16, r->contestSmart);
+            POKE_TOOL_SetPartyValue(mon, 0x17, r->contestTough);
+            POKE_TOOL_SetPartyValue(mon, 0x18, r->contestTough);
             for (k = 0; k < 15; k++) {
-                if (r->fC & (1 << k))
+                if (r->ribbonFlags & (1 << k))
                     POKE_TOOL_SetPartyValue(mon, d_021DF8C0[k], 1);
             }
-            if (r->f4 == 0)
+            if (r->originGame == 0)
                 POKE_TOOL_SetPartyValue(mon, 0x77, g0209DF08);
             else
-                POKE_TOOL_SetPartyValue(mon, 0x77, r->f4);
-            if (r->f1D == 0)
+                POKE_TOOL_SetPartyValue(mon, 0x77, r->originGame);
+            if (r->language == 0)
                 POKE_TOOL_SetPartyValue(mon, 0xc, g0209DF0C);
             else
-                POKE_TOOL_SetPartyValue(mon, 0xc, r->f1D);
-            if (r->f1E == 0) {
+                POKE_TOOL_SetPartyValue(mon, 0xc, r->language);
+            if (r->nickname == 0) {
                 GFL_HEAP_Free(mon);
                 res = 0;
                 goto end;
             }
-            if (r->f1E != STRBUF_GetEosChar())
-                POKE_TOOL_SetPartyValue(mon, 0x74, (u32)&r->f1E);
+            if (r->nickname != STRBUF_GetEosChar())
+                POKE_TOOL_SetPartyValue(mon, 0x74, (u32)&r->nickname);
             {
-                u32 v = r->f34;
+                u32 v = r->nature;
                 if (v == 0xff)
                     v = (u8)GFL_USE_GetRandom(0x19);
                 POKE_TOOL_SetPartyValue(mon, 0x70, v);
             }
-            POKE_TOOL_SetPartyValue(mon, 0x95, r->f38);
-            POKE_TOOL_SetPartyValue(mon, 0x96, r->f3A);
-            if (r->f4A == 0) {
+            POKE_TOOL_SetPartyValue(mon, 0x95, r->eggLocation);
+            POKE_TOOL_SetPartyValue(mon, 0x96, r->metLocation);
+            if (r->otName == 0) {
                 GFL_HEAP_Free(mon);
                 res = 0;
                 goto end;
             }
-            if (r->f4A == STRBUF_GetEosChar())
+            if (r->otName == STRBUF_GetEosChar())
                 POKE_TOOL_SetPartyValue(mon, 0x8e, (u32)MYSTATUS_GetName(GAME_DATA_GetMyStatus(gs)));
             else
-                POKE_TOOL_SetPartyValue(mon, 0x8e, (u32)&r->f4A);
+                POKE_TOOL_SetPartyValue(mon, 0x8e, (u32)&r->otName);
             {
-                u32 v = r->f5A;
+                u32 v = r->otGender;
                 if (v <= 2)
                     POKE_TOOL_SetPartyValue(mon, 0x9a, v);
                 else {
@@ -2380,7 +2380,7 @@ struct MysteryAlbumView *MYSTERY_ALBUM_CreateAlbumView(MysteryAlbumCard *a, stru
                     POKE_TOOL_SetPartyValue(mon, 0x9a, v);
                 }
             }
-            if (r->f5C != 0) {
+            if (r->isEgg != 0) {
                 void *s;
                 POKE_TOOL_SetPartyValue(mon, 0x4c, 1);
                 s = MSGDATA_AllocString(gSpeciesNameBank, 0x28a);
@@ -2389,12 +2389,12 @@ struct MysteryAlbumView *MYSTERY_ALBUM_CreateAlbumView(MysteryAlbumCard *a, stru
                 POKE_TOOL_SetPartyValue(mon, 9, 10);
             }
             {
-                int w = r->fAC;
+                int w = r->eventDate;
                 u32 loc;
                 year = w >> 16;
                 month = (u8)(w >> 8);
                 day = w;
-                loc = r->f5C ? r->f38 : r->f3A;
+                loc = r->isEgg ? r->eggLocation : r->metLocation;
                 SAVE_EVENT_WriteWithDate(POKE_TOOL_Dummy(mon), loc, year - 2000, month, day);
             }
             POKE_TOOL_RecalcParam(mon);
@@ -2408,17 +2408,17 @@ struct MysteryAlbumView *MYSTERY_ALBUM_CreateAlbumView(MysteryAlbumCard *a, stru
     end:
         {
             void *arc = (void *)POKEGRA_OpenHandle((u16)id16);
-            u32 a0, a1, a2, a3;
-            out->fE4 = r->species;
-            out->fE6 = r->form;
-            out->fE0 = r->f5C;
-            a0 = POKEGRA_GetArcID();
-            a1 = POKE_TOOL_GetPartyValue(res, 5, 0);
-            a2 = POKE_TOOL_GetPartyValue(res, 0x6f, 0);
-            a3 = POKE_TOOL_GetPartyValue(res, 0x6e, 0);
-            idx = POKEGRA_GetPalArcIndex(a0, a1, a2, a3, POKE_TOOL_IsShiny(res), 0, POKE_TOOL_GetPartyValue(res, 0x4c, 0));
-            out->f13C = ARC_UTIL_LoadPaletteBlockFromHandle(arc, idx, (u32)(&out->f140), out->heap);
-            out->f134 = (u32)POKEGRA_LoadCharDataPP(&out->f138, POKE_TOOL_GetBoxParam(res), 0, out->heap);
+            u32 arcId, speciesId, formId, genderId;
+            out->species = r->species;
+            out->form = r->form;
+            out->isEgg = r->isEgg;
+            arcId = POKEGRA_GetArcID();
+            speciesId = POKE_TOOL_GetPartyValue(res, 5, 0);
+            formId = POKE_TOOL_GetPartyValue(res, 0x6f, 0);
+            genderId = POKE_TOOL_GetPartyValue(res, 0x6e, 0);
+            idx = POKEGRA_GetPalArcIndex(arcId, speciesId, formId, genderId, POKE_TOOL_IsShiny(res), 0, POKE_TOOL_GetPartyValue(res, 0x4c, 0));
+            out->pokePalette = ARC_UTIL_LoadPaletteBlockFromHandle(arc, idx, (u32)(&out->pokePaletteData), out->heap);
+            out->pokeCharData = (u32)POKEGRA_LoadCharDataPP(&out->pokeCharBuf, POKE_TOOL_GetBoxParam(res), 0, out->heap);
             GFL_HEAP_Free(res);
             ARC_TOOL_DeleteHandle(arc);
         }

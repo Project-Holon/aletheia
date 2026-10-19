@@ -18,9 +18,9 @@
  *   MI_CpuCopy8    0x02082D44  arm
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   GFL_HEAP_Free  0x020307B0  arm
- *   ICA_ANIME_GetField20  0x0201210C  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   MI_CpuFill8  0x02082BCC  arm
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
@@ -91,7 +91,7 @@
  *   g_0217208C  0x0217208C  data  ov010  a2
  *   g_0217208E  0x0217208E  data  ov010  a2
  *   FIELDMAP_GetSubscreen  0x02188CCC  thumb ov021
- *   ICA_ANIME_GetField24  0x02012138  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   GAMESYSTEM_SetAlwaysNetFlag  0x02012158  thumb
@@ -394,8 +394,8 @@ typedef struct TrialHouseAwardParam {
     u8 playerSex;               /* 0x00 */
     u8 reserved01[3];
     TrialHouseSave *trialHouse; /* 0x04 */
-    int arg0;                   /* 0x08 */
-    int arg1;                   /* 0x0C */
+    int hasSecondEntry;         /* 0x08 */
+    int fadeOutBgm;             /* 0x0C */
 } TrialHouseAwardParam;
 
 typedef struct TrialHouseAwardEventWork {
@@ -433,8 +433,8 @@ extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern PokemonParam *GFL_HEAP_Alloc(u32 heapKind, u32 size, int unused, const char *file, u16 line);
 extern void GFL_HEAP_Free(void *p);
-extern FieldMap *ICA_ANIME_GetField20(GameSystem *gameSystem);
-extern GameData *ICA_ANIME_GetField1C(GameSystem *gameSystem);
+extern FieldMap *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
+extern GameData *GAMESYSTEM_GetGameData(GameSystem *gameSystem);
 extern MyStatus *GAME_DATA_GetMyStatus(GameData *gameData);
 extern NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u8 MYSTATUS_GetOutfitVariant(const MyStatus *myStatus);
@@ -502,7 +502,7 @@ extern Strbuf *MSGDATA_AllocString(MsgData *msgData, u32 index);
 extern void STRBUF_ToChars(Strbuf *strbuf, u16 *dest, u32 maxLen);
 extern GameEvent *FIELD_SUBSCREEN_RequestModeWithCallback(FieldMap *fieldMap, u32 a, u32 callback, u32 callbackArg);
 extern int FIELDMAP_GetSubscreen(FieldMap *fieldMap);
-extern GameComm *ICA_ANIME_GetField24(GameSystem *gameSystem);
+extern GameComm *GAMESYSTEM_GetGameComm(GameSystem *gameSystem);
 extern u32 GAME_COMM_GetKind(GameComm *gameComm);
 extern void GAME_COMM_RequestExitNoCallback(GameComm *gameComm);
 extern void GAMESYSTEM_SetAlwaysNetFlag(GameSystem *gameSystem, unsigned int flag);
@@ -571,7 +571,7 @@ GameEvent *FLD_BTL_INST_TOOL_CreatePartySelectStepEvent(GameSystem *gameSystem, 
 int FLD_BTL_INST_TOOL_PartySelectStepEventMain(GameEvent *event, int *step, PartySelectStepWork *work);
 GameEvent *FLD_BTL_INST_TOOL_CreateBattleEvent(GameSystem *gameSystem, BtlInstBattleRequest *request);
 void FLD_BTL_INST_TOOL_AddBattleTally(BtlInstRecord *record, BtlInstResult *result);
-GameEvent *FLD_BTL_INST_TOOL_CreateTrialHouseAwardEvent(GameSystem *gameSystem, int arg0, int arg1);
+GameEvent *FLD_BTL_INST_TOOL_CreateTrialHouseAwardEvent(GameSystem *gameSystem, int hasSecondEntry, int fadeOutBgm);
 int FLD_BTL_INST_TOOL_TrialHouseAwardEventMain(GameEvent *event, int *step);
 void FIELD_CLOCK_Update(GameData *gameData);
 int FIELD_CLOCK_CalcElapsed(FieldClock *clock, RTCDate *date, RTCTime *time, int *outDays, int *outMinutes);
@@ -612,7 +612,7 @@ GameEvent *FLD_BTL_INST_TOOL_CreatePokeListEvent(GameSystem *gameSystem, int lis
     PokeListParam *listTmp;
     u8 maxCount;
 
-    fieldMap = ICA_ANIME_GetField20(gameSystem);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FLD_BTL_INST_TOOL_PokeListEventMain, 0x198);
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
@@ -630,7 +630,7 @@ GameEvent *FLD_BTL_INST_TOOL_CreatePokeListEvent(GameSystem *gameSystem, int lis
     listParam->listArg = listArg;
     listParam->listMode = listMode;
     statusParam = &work->statusParam;
-    gameData = ICA_ANIME_GetField1C(gameSystem);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
     zukan = ZUKAN_SAVE_GetFromGameData(gameData);
     MI_CpuFill8(statusParam, 0, 0x28);
     statusParam->ppd = party;
@@ -726,8 +726,8 @@ GameEvent *FLD_BTL_INST_TOOL_CreateTrainerMsgEvent(GameSystem *gameSystem, BtlIn
     FldMsgBalloonSys *balloonSys;
     TrainerMsgEventWork *work;
 
-    gameData = ICA_ANIME_GetField1C(gameSystem);
-    balloonSys = FIELDMAP_GetMsgBg(ICA_ANIME_GetField20(gameSystem));
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
+    balloonSys = FIELDMAP_GetMsgBg(GAMESYSTEM_GetFieldMap(gameSystem));
     event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FLD_BTL_INST_TOOL_TrainerMsgEventMain, 0x1c);
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
@@ -812,9 +812,9 @@ BtlSetup *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem, Party *player
     MyStatus *myStatus;
     BtlInstTrainer *trainerC;
 
-    gameData = ICA_ANIME_GetField1C(gameSystem);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
     mode = battleMode;
-    FIELD_ENCOUNT_SetFieldSituation(&situation, gameData, ICA_ANIME_GetField20(gameSystem));
+    FIELD_ENCOUNT_SetFieldSituation(&situation, gameData, GAMESYSTEM_GetFieldMap(gameSystem));
     bs = BTL_SETUP_Create(4);
     switch (mode) {
     case 0:
@@ -1395,8 +1395,8 @@ void FLD_BTL_INST_TOOL_SetDoneFlag(int *doneFlag)
 int FLD_BTL_INST_TOOL_CommResetEventMain(GameEvent *event, int *step, CommResetWork *work)
 {
     GameSystem *gameSystem = work->gameSystem;
-    int fieldMapId = FIELDMAP_GetSubscreen(ICA_ANIME_GetField20(gameSystem));
-    GameComm *gameComm = ICA_ANIME_GetField24(gameSystem);
+    int fieldMapId = FIELDMAP_GetSubscreen(GAMESYSTEM_GetFieldMap(gameSystem));
+    GameComm *gameComm = GAMESYSTEM_GetGameComm(gameSystem);
     CommResetStep current = (CommResetStep)*step;
     switch (current) {
     case COMM_RESET_REQUEST_EXIT:
@@ -1443,7 +1443,7 @@ GameEvent *FLD_BTL_INST_TOOL_CreateCommResetEvent(GameSystem *gameSystem, int re
 {
     GameEvent *event;
     CommResetWork *work;
-    ICA_ANIME_GetField1C(gameSystem);
+    GAMESYSTEM_GetGameData(gameSystem);
     event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FLD_BTL_INST_TOOL_CommResetEventMain, 0xc);
     work = GAME_EVENT_GetWork(event);
     MI_CpuFill8(work, 0, 0xc);
@@ -1469,11 +1469,11 @@ GameEvent *FLD_BTL_INST_TOOL_CreatePartySelectStepEvent(GameSystem *gameSystem, 
     PartySelectStepWork *work;
     int listArg;
     Party *party;
-    gameData = ICA_ANIME_GetField1C(gameSystem);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
     event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FLD_BTL_INST_TOOL_PartySelectStepEventMain, 0x34);
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
-    work->fieldMap = ICA_ANIME_GetField20(gameSystem);
+    work->fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     work->resultOk = resultOk;
     work->request = request;
     if (regulationId == 0x14 || regulationId == 0x15) {
@@ -1558,7 +1558,7 @@ GameEvent *FLD_BTL_INST_TOOL_CreateBattleEvent(GameSystem *gameSystem, BtlInstBa
     FieldMap *fieldMap;
     BtlInstRequestOffset mode;
     BtlInstRequestOffset off;
-    fieldMap = ICA_ANIME_GetField20(gameSystem);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     off = BTL_INST_REQUEST_MODE_OFFSET;
     mode = (BtlInstRequestOffset)*(int *)((u8 *)request + off);
     return (GameEvent *)EVENT_BATTLE_CreateForcedWinTask(gameSystem, fieldMap, FLD_BTL_INST_TOOL_CreateBtlSetup(gameSystem, *(Party *const *)((u8 *)request + (off - 4)), mode, (BtlInstTrainer *)request, 0, *(int *)((u8 *)request + (off - 8))));
@@ -1608,17 +1608,17 @@ void FLD_BTL_INST_TOOL_AddBattleTally(BtlInstRecord *record, BtlInstResult *resu
  * Creates the trial house award event: reads the player's sex and the
  * trial house save and hands them to the ov220 award screen.
  */
-GameEvent *FLD_BTL_INST_TOOL_CreateTrialHouseAwardEvent(GameSystem *gameSystem, int arg0, int arg1)
+GameEvent *FLD_BTL_INST_TOOL_CreateTrialHouseAwardEvent(GameSystem *gameSystem, int hasSecondEntry, int fadeOutBgm)
 {
-    GameData *gameData = ICA_ANIME_GetField1C(gameSystem);
+    GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
     GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FLD_BTL_INST_TOOL_TrialHouseAwardEventMain, 0x18);
     TrialHouseAwardEventWork *work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
-    work->fieldMap = ICA_ANIME_GetField20(gameSystem);
+    work->fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     work->param.playerSex = MYSTATUS_GetOutfitVariant(GAME_DATA_GetMyStatus(gameData));
     work->param.trialHouse = MISC_SAVEDATA_GetBlock41(GAME_DATA_GetSaveControl(gameData));
-    work->param.arg0 = arg0;
-    work->param.arg1 = arg1;
+    work->param.hasSecondEntry = hasSecondEntry;
+    work->param.fadeOutBgm = fadeOutBgm;
     return event;
 }
 

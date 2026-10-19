@@ -52,6 +52,18 @@ linker aliases (second names of an object, names inside an object) and the files
 own data sections with their original addresses ("own"): those link in address
 order, and one at a multiple of 4 is given 4-byte alignment.  Output is in
 build/gamelink_data/ovNNN/.
+
+Data mode for the ARM9 static module (tools/arm9data.py writes the companions):
+    python tools/arm9data.py
+    python tools/gamelink.py arm9_main --data --extra=build/datac/arm9
+.rodata and .data (0x0209D870..SDK_STATIC_BSS_START) follow each other in one
+segment (datalink.json "nosinit"), .bss is the third segment.  Only the sections
+listed in "own" and those of the companions go to the tail; crt0's own .rodata and
+the dead statics are placed as in the plain link.  A "fixed" companion (crt0.zfix:
+_start_BuildParams and the .version strings; sha1.zfix: the SHA-1 constants) links
+at its address between the code files.  The zero padding after a Thumb file is made
+by the linker (ALIGN(4)).  An own section lying inside a bigger one is parked.
+Left to the image: the secure area gaps (0x02004000..0x02004800).
 """
 
 from __future__ import annotations
@@ -577,12 +589,15 @@ def overlay_info(ovid):
 
 
 def is_companion(stem):
-    return stem.endswith((".zdata", ".zpre"))
+    return re.search(r"\.z(data|pre|fix)(_\d+)?$", stem) is not None
 
 
 def link_rank(stem):
-    """A <stem>.zpre companion links before its code file, a .zdata one after it."""
-    return 0 if stem.endswith(".zpre") else 2 if stem.endswith(".zdata") else 1
+    """A <stem>.zpre companion links before its code file, a .zdata one after it
+    (<stem>.zdata_N, N = 1, 2, ...: the pieces of a split companion, in order)."""
+    m = re.search(r"_(\d+)$", stem)
+    n = int(m.group(1)) if m else 0
+    return n if re.search(r"\.zpre(_\d+)?$", stem) else 100000 + n if is_companion(stem) else 50000
 
 
 def registry_sizes(rname):
@@ -647,6 +662,9 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
     data_aliases = {}
     data_renames = {}
     own_tail = {}
+    data_nosinit = False
+    data_fixed = {}
+    pad_ok = data and ovid == "arm9_main"      # the linker pads a Thumb file to the next 4-aligned one
     if data:
         # --data: the data sections of all files form the data tail (see the docstring)
         dl = os.path.join(extra or "", "datalink.json")
@@ -663,6 +681,8 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
         # 1-aligned here but 4-aligned in the game's objects)
         own_tail = {stem: [(i, int(a, 16)) for i, a in v] for stem, v in dj.get("own", {}).items()}
         data_sinit = dj.get("sinit", [])
+        data_nosinit = bool(dj.get("nosinit"))         # arm9_main: .rodata and .data follow each other
+        data_fixed = {k: int(v, 16) for k, v in dj.get("fixed", {}).items()}   # companion stem -> address
         pub = os.path.join(OUT + "_data", region_name(ovid))
         work = os.path.join(OUT + "_data", "%s_%d" % (region_name(ovid), os.getpid()))
     shutil.rmtree(work, ignore_errors=True)
@@ -741,15 +761,38 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
         for si, oa in own_tail.get(t["stem"], []):
             if si in sz and (oa not in own_keep or sz[si] > own_keep[oa][0]):
                 own_keep[oa] = (sz[si], ti)
+    own_inside = set()      # arm9_main: own sections inside another (a static the plain link places twice)
+    if pad_ok:
+        _ents = sorted((oa, -sz_, ti, si) for ti, t in enumerate(tus) for si, oa in own_tail.get(t["stem"], [])
+                       for sz_ in [next((x["size"] for x in t["secs"] if x["idx"] == si), 0)])
+        _hi = None
+        for oa, nsz, ti, si in _ents:
+            if _hi is not None and oa + (-nsz) <= _hi[1] and oa >= _hi[0] and (oa, -nsz) != (_hi[0], _hi[1] - _hi[0]):
+                own_inside.add((ti, si))
+            elif _hi is None or oa + (-nsz) > _hi[1]:
+                _hi = (oa, oa + (-nsz))
     for ti, t in enumerate(tus):
         t["dsecs"] = [x for x in t["secs"] if x["name"] != ".text"]
         t["secs"] = [x for x in t["secs"] if x["name"] == ".text"]
         t["tail_secs"] = []
-        if data_tail:
+        if data_tail and ovid == "arm9_main":
+            # arm9_main data mode: the sections listed in datalink.json "own" and every
+            # section of a companion go to the tail; a "fixed" companion (crt0.zfix,
+            # sha1.zfix) links at its address; the other sections of a code file (crt0's
+            # own .rodata inside the code range, dead statics) are placed as in the plain link
+            if t["stem"] in data_fixed:
+                pass
+            elif is_companion(t["stem"]):
+                t["tail_secs"], t["dsecs"] = t["dsecs"], []
+            else:
+                oi = set(si for si, _a in own_tail.get(t["stem"], []))
+                t["tail_secs"] = [x for x in t["dsecs"] if x["idx"] in oi]
+                t["dsecs"] = [x for x in t["dsecs"] if x["idx"] not in oi]
+        elif data_tail:
             # data mode: every data section goes to the tail segments, in link order
             t["tail_secs"], t["dsecs"] = t["dsecs"], []
         used = referenced_sections(t["odata"], t["obj"])
-        if data_tail:
+        if data_tail and ovid != "arm9_main":
             # a dead section (see below) stays out of the tail too (ov016
             # unit_021C7768: the unused template @58 of `AREA a = {...}`)
             t["dsecs"] = [x for x in t["tail_secs"] if x["idx"] not in used and not any(
@@ -765,6 +808,12 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
                 x["addr"] = dead_at
                 dead_at += (x["size"] + 7) & ~7
                 dead += 1
+                continue
+            if t["stem"] in data_fixed:
+                # a fixed companion: its one data section sits at the given address
+                if x["type"] != 1 or x["name"] != ".rodata":
+                    return dict(ov=ovid, ok=False, why="%s: fixed companion with a %s section" % (t["stem"], x["name"]))
+                x["addr"] = data_fixed[t["stem"]]
                 continue
             votes = {}
             for y in t["osyms"]:
@@ -829,7 +878,7 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
                 x = bysi.get(si)
                 if x is None:
                     continue
-                if own_keep.get(oa, (0, ti))[1] != ti:
+                if own_keep.get(oa, (0, ti))[1] != ti or (ti, si) in own_inside:
                     # references go to the kept copy; this one is parked
                     # outside every region (-nodeadstrip places every section)
                     t["dupsec"][si] = oa
@@ -964,6 +1013,21 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
         aliases = []
         # gaps between files, as binary sections from the image
         gaps = []
+        if pas == 2 and pad_ok:
+            # arm9_main data mode: the 2 zero bytes after a Thumb file (next file at a
+            # multiple of 4) are made by the linker (ALIGN(4) in the file's section),
+            # not copied from the image
+            allst = sorted([q["addr"] for t in tus for q in t["pieces"]] +
+                           [a for _ti, _n, a, b, _nb in dgroups if base <= a < end] + [data_tail[0]])
+            for t in tus:
+                for p in t["pieces"]:
+                    e_ = p["addr"] + p["size"]
+                    p["pad"] = 0
+                    up = (e_ + 3) & ~3
+                    if e_ % 4 and up in allst and not any(e_ <= a < up for a in allst) and                             img[e_ - base:up - base] == bytes(up - e_):
+                        p["pad"] = up - e_
+                        p["size"] += p["pad"]
+                        p["end"] += p["pad"]
         if pas == 2:
             occ = [(p["addr"], p["end"]) for t in tus for p in t["pieces"]] + [(a, b) for _ti, _n, a, b, _nb in dgroups
                                                           if a < end and b > base]
@@ -1076,7 +1140,7 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
                 if not p["idxs"]:
                     continue      # a file with data only
                 mem.append((tag, p["addr"], p["size"] if pas == 2 else p["room"]))
-                sect.append(" .%s : { t%d.o (%s) } > %s" % (tag, i, p["sec"], tag))
+                sect.append(" .%s : { t%d.o (%s)%s } > %s" % (tag, i, p["sec"], " . = ALIGN(4);" if p.get("pad") else "", tag))
             names.append("t%d.o" % i)
         if data_tail:
             t0, s0, s1, e0 = data_tail
@@ -1089,17 +1153,22 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
                     if sum(1 for x in t["tail_secs"] if x["name"] == sname) > len(mine):
                         out_.append("t%d.o (%s)" % (i, sname))
                 return " ".join(out_)
-            # .rodata in link order, the static-initialiser table (the entries of
-            # datalink.json "sinit", then the terminator), .data at ALIGN(32)
-            sinit = "".join(" WRITEW %s;" % x for x in data_sinit)
-            body = tail_of(".rodata") + " . = ALIGN(4); SINIT_START = .;%s WRITEW 0; SINIT_END = .;" % sinit
-            if s1 > s0 + 4:
-                body += " . = ALIGN(32);"
-            mem.append(("dtail", t0, s1 - t0))
-            sect.append(" .dtail : { %s } > dtail" % body)
-            mem.append(("ddata", s1, e0 - s1))
-            # the overlay ends at ALIGN(32): zero padding after the last .data object
-            sect.append(" .ddata : { %s . = ALIGN(32); } > ddata" % tail_of(".data"))
+            if data_nosinit:
+                # arm9_main: .rodata of all files in link order, then .data, no table
+                mem.append(("dtail", t0, e0 - t0))
+                sect.append(" .dtail : { %s %s } > dtail" % (tail_of(".rodata"), tail_of(".data")))
+            else:
+                # .rodata in link order, the static-initialiser table (the entries of
+                # datalink.json "sinit", then the terminator), .data at ALIGN(32)
+                sinit = "".join(" WRITEW %s;" % x for x in data_sinit)
+                body = tail_of(".rodata") + " . = ALIGN(4); SINIT_START = .;%s WRITEW 0; SINIT_END = .;" % sinit
+                if s1 > s0 + 4:
+                    body += " . = ALIGN(32);"
+                mem.append(("dtail", t0, s1 - t0))
+                sect.append(" .dtail : { %s } > dtail" % body)
+                mem.append(("ddata", s1, e0 - s1))
+                # the overlay ends at ALIGN(32): zero padding after the last .data object
+                sect.append(" .ddata : { %s . = ALIGN(32); } > ddata" % tail_of(".data"))
             if any(x["name"] == ".bss" for t in tus for x in t["tail_secs"]):
                 if not bss:
                     return dict(ov=ovid, ok=False, why="data mode: .bss in the files but the overlay has no .bss")

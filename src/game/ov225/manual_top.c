@@ -120,7 +120,7 @@ extern int TOUCHPANEL_HitTrg(const void *);
 
 extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 
-extern u32 APP_TASKMENU_WIN_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
+extern u32 APP_TASKMENU_WIN_Create(u32 res, u32 item, u32 charPosX, u32 charPosY, u8 width, u16 heapId);
 
 void MANUAL_COMMON_UpdateTouchbar(char *p);
 
@@ -142,7 +142,7 @@ void MANUAL_COMMON_LoadDialogAssets(char *p);
 
 void MANUAL_COMMON_CreateDialogWindows(char *p);
 
-void MANUAL_COMMON_SetDialogBgMode(char *a0);
+void MANUAL_COMMON_SetDialogBgMode(char *dialog);
 
 void MANUAL_COMMON_DeleteDialogStep(char *p);
 

@@ -303,9 +303,9 @@ void NNSi_G2dSurfaceFill(struct Surface *s, u32 arg);
 void NNSi_G2dSurfaceFillTiled(struct Surface *s, u32 arg);
 void NNSi_G2dSurfaceFillRect(struct SurfaceTiled *s, u32 arg, int x, int y, int w, int h);
 void NNSi_G2dSurfaceFillRectSwizzled(struct SurfaceSwizzled *s, u32 arg, int x, int y, int w, int h);
-void NNSi_G2dInitPen(struct Pen *p, void *a1, int a2, int a3, int a5, const void *a6, int a7);
-s8 NNSi_G2dCharCanvasDrawChar(struct Ctx *ctx, NNSG2dFont *font, int x, int y, int a6, u16 code);
-void NNSi_G2dInitPenSimple(int a, int b, int c, int d, int e);
+void NNSi_G2dInitPen(struct Pen *p, void *charBase, int areaWidth, int areaHeight, int dstBpp, const void *vtable, int param);
+s8 NNSi_G2dCharCanvasDrawChar(struct Ctx *ctx, NNSG2dFont *font, int x, int y, int cl, u16 code);
+void NNSi_G2dInitPenSimple(int pen, int charBase, int areaWidth, int areaHeight, int dstBpp);
 void NNS_G2dCharCanvasInitForVRAM(void *pCC, void *charBase, int areaWidth, int areaHeight, int colorMode);
 void NNS_G2dMapScrToCharText(void *scnBase, int areaWidth, int areaHeight, int areaLeft, int areaTop, int scnWidth, int charNo, int cplt);
 void NNSi_G2dFillScrCharArea(u16 *pScrBase, int w, int h, int scnWidth, int charNo, int cplt);
@@ -314,7 +314,7 @@ int NNSi_G2dMakeCharObjArea(GXOamAttr *oam, int areaWidth, int areaHeight, int x
 void NNSi_G2dDrawTextLine(Ctx *ctx, s32 x, s32 y, s32 w2, const void *s, const void **last, Step st);
 void NNSi_G2dDrawTextRotated(Ctx *ctx, s32 x, s32 y, s32 w, s32 w2, u32 flags, const void *s, Step st);
 void NNSi_G2dCalcTextBox(Ctx *ctx, s32 x, s32 y, s32 w, u32 flags, u32 s, Step st);
-void NNSi_G2dAlignTextVertical(Ctx *ctx, s32 x, s32 y, s32 w, u32 a4, u32 a5, u32 flags, u32 s, Step st);
+void NNSi_G2dAlignTextVertical(Ctx *ctx, s32 x, s32 y, s32 w, u32 h, u32 w2, u32 flags, u32 s, Step st);
 u32 NNS_G2dFontLoad(Res *res, void **out);
 void NNSi_G2dFontFixupSections(Res *base);
 u32 NNSi_G2dBitReaderRead(struct BitReader *reader, int nBits);
@@ -605,16 +605,16 @@ int NNSi_G2dCalcRectMask(int x, int y, int w, int h, int sw0, int sh0)
   int base = 0;
   int sh;
   int sw;
-  int tmp;
-  int tmp1;
+  int wMask;
+  int alignedX;
   sw = sw0;
   sh = sh0;
   for (;;)
   {
     u32 ww;
     u32 hh;
-    tmp = 0xFFFFFFFFu << sw;
-    ww = ((u32) w) & tmp;
+    wMask = 0xFFFFFFFFu << sw;
+    ww = ((u32) w) & wMask;
     hh = ((u32) h) & (0xFFFFFFFFu << sh);
     if (hh <= ((u32) y))
     {
@@ -648,8 +648,8 @@ int NNSi_G2dCalcRectMask(int x, int y, int w, int h, int sw0, int sh0)
       {
         const u32 winv = ~(0xFFFFFFFFu << sw);
         base += ww * (y & (0xFFFFFFFFu << sh));
-        tmp1 = x & (0xFFFFFFFFu << sw);
-        base += tmp1 << sh;
+        alignedX = x & (0xFFFFFFFFu << sw);
+        base += alignedX << sh;
         base += (y & hinv) << sw;
         return base + (x & winv);
       }
@@ -1526,14 +1526,14 @@ void NNSi_G2dSurfaceFillRectSwizzled(struct SurfaceSwizzled *s, u32 arg, int x, 
  *       --func NNSi_G2dInitPen --addr 0x02068E78 --arm --cc ../2.0/sp2
  *   -> EXACT, compiled 40 = original 40, 0 relocation sites
  */
-void NNSi_G2dInitPen(struct Pen *p, void *a1, int a2, int a3, int a5, const void *a6, int a7)
+void NNSi_G2dInitPen(struct Pen *p, void *charBase, int areaWidth, int areaHeight, int dstBpp, const void *vtable, int param)
 {
-    p->areaWidth = a2;
-    p->areaHeight = a3;
-    p->dstBpp = (u8)a5;
-    p->charBase = a1;
-    p->vtable = a6;
-    p->param = a7;
+    p->areaWidth = areaWidth;
+    p->areaHeight = areaHeight;
+    p->dstBpp = (u8)dstBpp;
+    p->charBase = charBase;
+    p->vtable = vtable;
+    p->param = param;
 }
 
 
@@ -1566,7 +1566,7 @@ void NNSi_G2dInitPen(struct Pen *p, void *a1, int a2, int a3, int a5, const void
  *   python tools/match.py one --src src/matched/NNSi_G2dCharCanvasDrawChar.c \
  *       --func NNSi_G2dCharCanvasDrawChar --addr 0x02068EA0 --cc ../2.0/sp2 --arm
  */
-s8 NNSi_G2dCharCanvasDrawChar(struct Ctx *ctx, NNSG2dFont *font, int x, int y, int a6, u16 code)
+s8 NNSi_G2dCharCanvasDrawChar(struct Ctx *ctx, NNSG2dFont *font, int x, int y, int cl, u16 code)
 {
     s8 *out[2];
     u32 idx;
@@ -1601,7 +1601,7 @@ s8 NNSi_G2dCharCanvasDrawChar(struct Ctx *ctx, NNSG2dFont *font, int x, int y, i
         y -= g[0] + font->pRes->pGlyph->cellHeight;
         break;
     }
-    ((void (*)(struct Ctx *, void *, int, int, int, s8 **))ctx->vt[0])(ctx, font, x, y, a6, out);
+    ((void (*)(struct Ctx *, void *, int, int, int, s8 **))ctx->vt[0])(ctx, font, x, y, cl, out);
     return out[0][2];
 }
 
@@ -1614,9 +1614,9 @@ s8 NNSi_G2dCharCanvasDrawChar(struct Ctx *ctx, NNSG2dFont *font, int x, int y, i
  *   python tools/match.py one --src src/matched/NNSi_G2dInitPenSimple.c \
  *       --func NNSi_G2dInitPenSimple --addr 0x02068FC4 --cc 1.1p1 --arm
  */
-void NNSi_G2dInitPenSimple(int a, int b, int c, int d, int e)
+void NNSi_G2dInitPenSimple(int pen, int charBase, int areaWidth, int areaHeight, int dstBpp)
 {
-    NNSi_G2dInitPen((struct Pen *)a, (void *)b, c, d, e, (const void *)0x020A18DC, c);
+    NNSi_G2dInitPen((struct Pen *)pen, (void *)charBase, areaWidth, areaHeight, dstBpp, (const void *)0x020A18DC, areaWidth);
 }
 
 
@@ -2234,23 +2234,23 @@ void NNSi_G2dCalcTextBox(Ctx *ctx, s32 x, s32 y, s32 w,
  * forwarded verbatim to NNSi_G2dDrawTextRotated.
  */
 void NNSi_G2dAlignTextVertical(Ctx *ctx, s32 x, s32 y, s32 w,
-                   u32 a4, u32 a5, u32 flags, u32 s, Step st)
+                   u32 h, u32 w2, u32 flags, u32 s, Step st)
 {
     s32 n;
     s32 d;
 
     if (flags & 0x100) {
         n = NNS_G2dFontGetTextHeight(ctx->pFont, ctx->vSpace, (const void *)s);
-        d = (s32)a4 - n;
+        d = (s32)h - n;
         x = x + d * -st.dy;
         y = y + d * st.dx;
     } else if (flags & 0x80) {
         n = NNS_G2dFontGetTextHeight(ctx->pFont, ctx->vSpace, (const void *)s);
-        d = ((s32)a4 + 1) / 2 - (n + 1) / 2;
+        d = ((s32)h + 1) / 2 - (n + 1) / 2;
         x = x + d * -st.dy;
         y = y + d * st.dx;
     }
-    NNSi_G2dDrawTextRotated(ctx, x, y, w, a5, flags, (const void *)s, st);
+    NNSi_G2dDrawTextRotated(ctx, x, y, w, w2, flags, (const void *)s, st);
 }
 
 

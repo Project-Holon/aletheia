@@ -701,7 +701,7 @@ void POKE_TOOL_CopyPartyPokemon(const struct PartyPokemon *src, struct PartyPoke
 
 /*
  * Plain forwarder to POKE_TOOL_GetPlateType (ldr r3, =target; bx r3).  Callee of
- * ov170 BOX2_MAIN_CanPlaceInBox.
+ * ov170 BOX2_MAIN_SyncItemForm.
  */
 unsigned int POKE_TOOL_GetPlateTypeForwarder(unsigned int item)
 {

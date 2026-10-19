@@ -94,7 +94,7 @@ int SOCL_Cleanup(void)
 	if (result >= 0) {
 		SOCLi_CleanupCPS();
 		if (gSoclConfig->serviceFlag == 0) {
-			gSoclConfig->free((void *)SOCLiCPSConfig.field1c);
+			gSoclConfig->free((void *)SOCLiCPSConfig.lan_buf);
 		}
 		gSoclConfig = 0;
 		SOCLi_InitResource();

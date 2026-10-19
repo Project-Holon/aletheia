@@ -43,13 +43,13 @@ struct SOCLSocket {
 struct SOCLiCommandPacket {
     int (*handler)(void *);
     struct SOCLSocket *socket;
-    long field8;
-    signed char fieldC;
-    signed char fieldD;
+    long response_queue;
+    signed char pipeIndex;
+    signed char blockFlag;
     unsigned char padE[2];
-    unsigned short field10;
-    unsigned short field12;
-    unsigned long field14;
+    unsigned short local_port;
+    unsigned short remote_port;
+    unsigned long remote_ip;
 };
 
 typedef struct {
@@ -194,9 +194,9 @@ static int SOCLi_ExecBindCommand(struct SOCLSocket *socket)
 
     if (command == 0)
         return -0x21;
-    command->field10 = socket->local_port;
-    command->field12 = socket->remote_port;
-    command->field14 = socket->remote_ip;
+    command->local_port = socket->local_port;
+    command->remote_port = socket->remote_port;
+    command->remote_ip = socket->remote_ip;
     socket->state |= 2;
     return SOCLi_ExecCommandPacketInRecvPipe(socket, command);
 }

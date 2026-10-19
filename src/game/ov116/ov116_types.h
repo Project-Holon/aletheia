@@ -100,14 +100,14 @@ struct WifiBsubwayProfile {
     unsigned char trainer[16];      /* 0xB4 */
     unsigned char version;          /* 0xC4 */
     unsigned char language;         /* 0xC5 */
-    unsigned char unkC6;            /* 0xC6 */
-    unsigned char unkC7;            /* 0xC7 */
+    unsigned char trainerLanguage;            /* 0xC6 */
+    unsigned char trainerVersion;            /* 0xC7 */
     unsigned int trainerId;         /* 0xC8 */
     unsigned char record4[8];       /* 0xCC */
     unsigned char flags;            /* 0xD4 */
-    unsigned char unkD5;            /* 0xD5 */
+    unsigned char outfit;            /* 0xD5 */
     unsigned char records[3][8];    /* 0xD6 */
-    unsigned short unkEE;           /* 0xEE */
+    unsigned short score;           /* 0xEE */
 };
 
 /* Trainer status and HTTP request block (0x21C bytes). */
@@ -171,9 +171,9 @@ struct WifiBsubwayWork {
     struct WifiBsubwayAsync async;          /* 0x182C */
     void *codeInParam;                      /* 0x1840 */
     void *saveControl;                      /* 0x1844 */
-    void *field1848;                        /* 0x1848 */
-    void *field184C;                        /* 0x184C */
-    void *field1850;                        /* 0x1850 */
+    void *consoleStamp;                        /* 0x1848 */
+    void *wifiList;                        /* 0x184C */
+    void *myStatus;                        /* 0x1850 */
     void *saveBlock3B;                      /* 0x1854 */
     void *saveBlock3A;                      /* 0x1858 */
 };

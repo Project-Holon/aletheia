@@ -8,7 +8,7 @@
  *   Guru2Session  36 bytes, allocated by Guru2Session_Create
  *   Guru2Comm     88 bytes (two 0x1BE4-byte buffers hang off it)
  * The game work (0xDAC bytes) is struct Guru2Game; the lobby work (0x4874
- * bytes) is still described by the Guru2MainCtx views in ov137_types.h.
+ * bytes) is struct Guru2Lobby in ov137_types.h.
  */
 
 #include "guru2_shared_types.h"

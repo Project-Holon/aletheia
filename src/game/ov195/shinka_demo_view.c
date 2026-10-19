@@ -164,15 +164,15 @@ struct Bmp;
 typedef s16 fx16;
 
 typedef struct Cell {
-    u32 f00;
+    u32 life;
     fx32 s0, s1, t0, t1;
     u8 visible;
     u8 pad15;
     fx16 v[4][3];
     u8 pad2e[2];
     s32 f30;
-    VecFx32 v34;
-    s32 f40, f44, f48, f4c, f50, f54, f58, f5c, f60, f64;
+    VecFx32 start;
+    s32 velX, velY, velZ, angle, radius, height, targetX, targetY, targetZ, progress;
     VecFx32 cur;
     VecFx32 org;
 } Cell;
@@ -226,11 +226,11 @@ typedef struct Quad {
     u8 alpha;
     u8 pad35;
     fx16 v[4][3];
-    u8 f4e;
+    u8 rowCount;
 } Quad;
 
 typedef struct Work {
-    u32 f00;
+    u32 phase;
     void *camera;
     Grid *grid[2];
     Quad *quad;
@@ -240,27 +240,29 @@ typedef struct Owner {
     u16 heap;
     u16 pad02;
     void *res0;
-    u32 f08;
-    u16 f0c;
+    u32 mode;
+    u16 evolvedSpecies;
     u16 pad0e;
     void *res1;
-    u32 f14;
-    u32 f18;
-    u32 f1c;
-    u32 f20;
-    u32 f24;
-    u8 pad28[0x34 - 0x28];
-    u32 f34;
-    u32 f38;
-    u32 f3c;
-    u32 f40;
+    u32 state;
+    u32 wait;
+    u32 startRequested;
+    u32 startDone;
+    u32 confirmRequested;
+    u32 confirmDone;
+    u32 evolveRequested;
+    u32 fadeOutRequested;
+    u32 evolveReady;
+    u32 evolveStarted;
+    u32 evolveDone;
+    u32 secondForm;
     float scale;
-    u8 f48;
+    u8 slot;
     u8 pad49[3];
     void *sys;
     void *obj[2];
     Work *work;
-    u32 f5c;
+    u32 useMcss;
 } Owner;
 
 typedef volatile u32 vu32;
@@ -328,13 +330,13 @@ extern void MCSS_SetTextureTransAdrs(void *p, u32 v);
 
 extern void MCSS_SetOrthoMode(void *obj);
 
-extern void MCSS_Exit(u8 *a0);
+extern void MCSS_Exit(u8 *sys);
 
-extern void *MCSS_TOOL_AddPokeMcss(void *a0, void *a1, u32 a2, u32 a3, u32 a4, u32 a5);
+extern void *MCSS_TOOL_AddPokeMcss(void *sys, void *pp, u32 direction, u32 x, u32 y, u32 z);
 
 extern void MCSS_SetShadowVanishFlag(char *p, int v);
 
-extern int MCSS_TOOL_SetAnimeStopCallback(int a0);
+extern int MCSS_TOOL_SetAnimeStopCallback(int work);
 
 extern void MCSS_SetScale(void *p, u32 *src);
 
@@ -356,7 +358,7 @@ extern u8 POKE_TOOL_GetGender(void *p);
 
 extern u32 POKE_TOOL_IsShiny(void *p);
 
-extern void G3D_SYSTEM_GetProjection(int p0);
+extern void G3D_SYSTEM_GetProjection(int proj);
 
 extern void G3D_SYSTEM_GetLookAt(u8 *dst);
 
@@ -372,19 +374,19 @@ extern void NNS_G3dGeFlushBuffer(void);
 
 extern void G3D_SYSTEM_SetProjection(const u32 *src);
 
-extern void G3D_SYSTEM_SetLookAt(u8 *a0);
+extern void G3D_SYSTEM_SetLookAt(u8 *lookAt);
 
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 
 extern int POKEGRA_GetArcID(void);
 
-extern s32 POKEGRA_GetCgrArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
+extern s32 POKEGRA_GetCgrArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 s5, u32 s6, u32 s7);
 
-extern s32 POKEGRA_GetPalArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
+extern s32 POKEGRA_GetPalArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 s5, u32 s6, u32 s7);
 
-extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
 
-extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, u32 unpackedOut, u32 flags);
 
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 
@@ -476,9 +478,9 @@ int SHINKA_DEMO_VIEW_AreModelsState0(char *a);
 
 int SHINKA_DEMO_VIEW_AreModelsState4(char *a);
 
-Grid *SHINKA_DEMO_VIEW_CreateGrid(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 tex, u32 pltt, u16 heap);
+Grid *SHINKA_DEMO_VIEW_CreateGrid(u32 monsNo, u32 formNo, u32 sex, u32 isShiny, u32 dir, u32 isEgg, u32 tex, u32 pltt, u16 heap);
 
-void SHINKA_DEMO_VIEW_DeleteGrid(char *p, int a1);
+void SHINKA_DEMO_VIEW_DeleteGrid(char *p, int unused);
 
 void SHINKA_DEMO_VIEW_InitGrid(Grid *p, u16 heap);
 
@@ -498,7 +500,7 @@ void SHINKA_DEMO_VIEW_StepGridFade(Grid *p, int x);
 
 void SHINKA_DEMO_VIEW_ApplyGridPalette(Grid *p, int x);
 
-int SHINKA_DEMO_VIEW_IsGridState0(char *p, u16 a1);
+int SHINKA_DEMO_VIEW_IsGridState0(char *p, u16 unused);
 
 int SHINKA_DEMO_VIEW_IsGridState1(char *p, u16 heap);
 
@@ -539,45 +541,45 @@ extern const u8 d_02208E38[];
 #define FX_F32_TO_FX32(x) \
     ((fx32)(((x) > 0) ? (x) * 4096 + 0.5f : (x) * 4096 - 0.5f))
 
-Owner *SHINKA_DEMO_VIEW_Create(u16 heap, u32 f08, void *res0, u16 f0c)
+Owner *SHINKA_DEMO_VIEW_Create(u16 heap, u32 mode, void *res0, u16 evolvedSpecies)
 {
     Owner *o = GFL_HEAP_Alloc(heap, 0x60, 1, d_02208F68, 0x201);
 
     o->heap = heap;
-    o->f08 = f08;
+    o->mode = mode;
     o->res0 = res0;
-    o->f0c = f0c;
+    o->evolvedSpecies = evolvedSpecies;
     o->res1 = 0;
-    if (f08 == 0) {
+    if (mode == 0) {
         o->res1 = GFL_HEAP_Alloc(o->heap, POKE_TOOL_GetPartyParamSize(), 1, d_02208F68, 0x213);
         POKE_TOOL_CopyPartyPokemon(o->res0, o->res1);
-        POKE_TOOL_ChangeSpecies(o->res1, o->f0c);
+        POKE_TOOL_ChangeSpecies(o->res1, o->evolvedSpecies);
     }
-    if (o->f08 == 0)
-        o->f14 = 0;
+    if (o->mode == 0)
+        o->state = 0;
     else
-        o->f14 = 0x16;
-    o->f18 = 0;
-    o->f1c = 0;
-    o->f20 = 0;
-    o->f24 = 0;
-    o->f34 = 0;
-    o->f38 = 0;
-    o->f3c = 0;
-    o->f40 = 0;
+        o->state = 0x16;
+    o->wait = 0;
+    o->startRequested = 0;
+    o->startDone = 0;
+    o->confirmRequested = 0;
+    o->evolveReady = 0;
+    o->evolveStarted = 0;
+    o->evolveDone = 0;
+    o->secondForm = 0;
     o->scale = 16.0f;
-    if (o->f08 == 0)
-        o->f48 = 0;
+    if (o->mode == 0)
+        o->slot = 0;
     else
-        o->f48 = 1;
+        o->slot = 1;
     SHINKA_DEMO_VIEW_InitMcss((char *)o);
     SHINKA_DEMO_VIEW_CreateModels((Owner *)o);
     SHINKA_DEMO_VIEW_CreateWork((Owner *)o);
-    o->f5c = 1;
+    o->useMcss = 1;
     return o;
 }
 
-void SHINKA_DEMO_VIEW_Destroy(char *p){SHINKA_DEMO_VIEW_DeleteWork(p);SHINKA_DEMO_VIEW_DeleteModels((Owner *)((Owner *)p));SHINKA_DEMO_VIEW_ExitMcss(p);if(((Owner *)p)->res1)GFL_HEAP_Free(((Owner *)p)->res1);GFL_HEAP_Free(p);}
+void SHINKA_DEMO_VIEW_Destroy(char *owner){SHINKA_DEMO_VIEW_DeleteWork(owner);SHINKA_DEMO_VIEW_DeleteModels((Owner *)((Owner *)owner));SHINKA_DEMO_VIEW_ExitMcss(owner);if(((Owner *)owner)->res1)GFL_HEAP_Free(((Owner *)owner)->res1);GFL_HEAP_Free(owner);}
 
 void SHINKA_DEMO_VIEW_Main(char *p)
 {
@@ -673,7 +675,7 @@ void SHINKA_DEMO_VIEW_Main(char *p)
 
 void SHINKA_DEMO_VIEW_Draw(Owner *o)
 {
-    if (o->f5c != 0)
+    if (o->useMcss != 0)
         MCSS_Draw(o->sys);
     else
         SHINKA_DEMO_VIEW_Draw3d(o);
@@ -777,14 +779,14 @@ int SHINKA_DEMO_VIEW_TrySecondForm(int *p)
  * since its function_starts seed (2026-09-27). EXACT*: the listing extent
  * includes the 2 bytes of alignment padding at 0x022060BA.
  */
-void SHINKA_DEMO_VIEW_InitMcss(char *a)
+void SHINKA_DEMO_VIEW_InitMcss(char *owner)
 {
-    ((Owner *)a)->sys = (void *)(u32)MCSS_Init(2, (void *)(((Owner *)a)->heap));
-    MCSS_SetTextureTransAdrs((void *)(((Owner *)a)->sys), 0x30000);
-    MCSS_SetOrthoMode((void *)(((Owner *)a)->sys));
+    ((Owner *)owner)->sys = (void *)(u32)MCSS_Init(2, (void *)(((Owner *)owner)->heap));
+    MCSS_SetTextureTransAdrs((void *)(((Owner *)owner)->sys), 0x30000);
+    MCSS_SetOrthoMode((void *)(((Owner *)owner)->sys));
 }
 
-void SHINKA_DEMO_VIEW_ExitMcss(char *p){MCSS_Exit(((Owner *)p)->sys);}
+void SHINKA_DEMO_VIEW_ExitMcss(char *owner){MCSS_Exit(((Owner *)owner)->sys);}
 
 fx32 SHINKA_DEMO_VIEW_GetModelOffset(void *p)
 {
@@ -820,7 +822,7 @@ void SHINKA_DEMO_VIEW_CreateModels(Owner *o)
     scale.x = FX_F32_TO_FX32(o->scale);
     scale.y = FX_F32_TO_FX32(o->scale);
     scale.z = 0x1000;
-    if (o->f08 == 0) {
+    if (o->mode == 0) {
         for (i = 0; i < 2; i++) {
             if (i == 0)
                 o->obj[i] = MCSS_TOOL_AddPokeMcss(o->sys, o->res0, 0, 0, SHINKA_DEMO_VIEW_GetModelOffset(o->res0), 0);
@@ -943,16 +945,16 @@ void SHINKA_DEMO_VIEW_CreateWork(Owner *o)
     w->grid[0] = 0;
     w->grid[1] = 0;
     w->quad = 0;
-    if (o->f08 == 0)
-        w->f00 = 0;
+    if (o->mode == 0)
+        w->phase = 0;
     else
-        w->f00 = 3;
+        w->phase = 3;
 
     a = POKE_TOOL_GetPartyValue(o->res0, 5, 0);
     b = POKE_TOOL_GetPartyValue(o->res0, 0x6f, 0);
     c = POKE_TOOL_GetGender(o->res0);
     g = w->grid[0] = SHINKA_DEMO_VIEW_CreateGrid(a, b, c, POKE_TOOL_IsShiny(o->res0), 0, 0, 0x26000, 0x960, o->heap);
-    if (o->f08 == 0) {
+    if (o->mode == 0) {
         SHINKA_DEMO_VIEW_InitGrid(g, o->heap);
         g->state = 3;
         SHINKA_DEMO_VIEW_StartGridFade((Grid *)((struct Fade *)g), o->heap, 0x7fff, 31, 31, 0, 31);
@@ -960,7 +962,7 @@ void SHINKA_DEMO_VIEW_CreateWork(Owner *o)
         SHINKA_DEMO_VIEW_SetupGridCells(g, o->heap);
     }
 
-    if (o->f08 == 0) {
+    if (o->mode == 0) {
         a = POKE_TOOL_GetPartyValue(o->res1, 5, 0);
         b = POKE_TOOL_GetPartyValue(o->res1, 0x6f, 0);
         c = POKE_TOOL_GetGender(o->res1);
@@ -974,16 +976,16 @@ void SHINKA_DEMO_VIEW_CreateWork(Owner *o)
         }
     }
 
-    if (o->f08 == 0)
+    if (o->mode == 0)
         w->quad = (struct Quad *)SHINKA_DEMO_VIEW_CreateQuad(0x26000, 0x960, o->heap);
     o->work = w;
     SHINKA_DEMO_VIEW_SetModelsPos((char *)o, 0x100000, -0x800, 0);
     {
-        VecFx32 v1 = d_02208E74;
-        VecFx32 v2 = d_02208E80;
-        VecFx32 v3 = {0, 0, 0};
+        VecFx32 cameraPos = d_02208E74;
+        VecFx32 cameraTarget = d_02208E80;
+        VecFx32 cameraUp = {0, 0, 0};
 
-        w->camera = (void *)G3D_CAMERA_Create(0, FX_SinIdx(0xe3), FX_CosIdx(0xe3), 0x1555, 0, 0x1000, 0x400000, 0, &v1, &v2, &v3, (void *)o->heap);
+        w->camera = (void *)G3D_CAMERA_Create(0, FX_SinIdx(0xe3), FX_CosIdx(0xe3), 0x1555, 0, 0x1000, 0x400000, 0, &cameraPos, &cameraTarget, &cameraUp, (void *)o->heap);
     }
 }
 
@@ -994,7 +996,7 @@ void SHINKA_DEMO_VIEW_CreateWork(Owner *o)
 #define FX_F32_TO_FX32(x) \
     ((fx32)(((x) > 0) ? ((x) * 4096.0f + .5f) : ((x) * 4096.0f - .5f)))
 
-void SHINKA_DEMO_VIEW_DeleteWork(char *p){char *q;u8 i;q=*(char * *)&((Owner *)p)->work;G3D_CAMERA_Delete((void *)(((Work *)q)->camera));if(((Work *)q)->quad)SHINKA_DEMO_VIEW_FreeQuad(((Work *)q)->quad,((Owner *)p)->heap);for(i=0;i<2;i++){if(*(char **)(q+i*4+8))SHINKA_DEMO_VIEW_DeleteGrid(*(char **)(q+i*4+8),((Owner *)p)->heap);}GFL_HEAP_Free(q);}
+void SHINKA_DEMO_VIEW_DeleteWork(char *owner){char *q;u8 i;q=*(char * *)&((Owner *)owner)->work;G3D_CAMERA_Delete((void *)(((Work *)q)->camera));if(((Work *)q)->quad)SHINKA_DEMO_VIEW_FreeQuad(((Work *)q)->quad,((Owner *)owner)->heap);for(i=0;i<2;i++){if(*(char **)(q+i*4+8))SHINKA_DEMO_VIEW_DeleteGrid(*(char **)(q+i*4+8),((Owner *)owner)->heap);}GFL_HEAP_Free(q);}
 
 void SHINKA_DEMO_VIEW_Update(Owner *o)
 {
@@ -1003,7 +1005,7 @@ void SHINKA_DEMO_VIEW_Update(Owner *o)
     u8 i;
     Grid *g;
 
-    switch (w->f00) {
+    switch (w->phase) {
     case 0:
         break;
     case 1:
@@ -1016,7 +1018,7 @@ void SHINKA_DEMO_VIEW_Update(Owner *o)
     for (i = 0; i < 2; i++) {
         g = w->grid[i];
         if (g != 0) {
-            if (o->f40 != 0 && SHINKA_DEMO_VIEW_IsGridState3((char *)g, heap))
+            if (o->secondForm != 0 && SHINKA_DEMO_VIEW_IsGridState3((char *)g, heap))
                 g->state = 4;
             SHINKA_DEMO_VIEW_UpdateGridFade((Grid *)((struct Fade *)g), heap);
         }
@@ -1070,20 +1072,20 @@ void SHINKA_DEMO_VIEW_BeginIntro(Owner *o)
 {
     Work *w = o->work;
 
-    if (w->f00 == 0)
-        w->f00 = 1;
+    if (w->phase == 0)
+        w->phase = 1;
 }
 
-int SHINKA_DEMO_VIEW_IsMenuReady(int *p)
+int SHINKA_DEMO_VIEW_IsMenuReady(int *owner)
 {
-    int v = **(int * *)&((Owner *)p)->work;
+    int v = **(int * *)&((Owner *)owner)->work;
 
     return v != 0 && v != 4;
 }
 
-void SHINKA_DEMO_VIEW_ShowMenu(int *p)
+void SHINKA_DEMO_VIEW_ShowMenu(int *owner)
 {
-    char *q = *(char * *)&((Owner *)p)->work;
+    char *q = *(char * *)&((Owner *)owner)->work;
     int *r = *(int * *)&((Work *)q)->grid[0];
     int v = r[0x28 / 4];
 
@@ -1093,24 +1095,24 @@ void SHINKA_DEMO_VIEW_ShowMenu(int *p)
     r[0x28 / 4] = 1;
 }
 
-void SHINKA_DEMO_VIEW_SetModelsPos(char *a, u32 x, u32 y, u32 z)
+void SHINKA_DEMO_VIEW_SetModelsPos(char *owner, u32 x, u32 y, u32 z)
 {
-    char *t = *(char * *)&((Owner *)a)->work;
+    char *t = *(char * *)&((Owner *)owner)->work;
     u8 i;
 
     for (i = 0; i < 2; i++) {
         if (*(void **)(t + i * 4 + 8) != 0)
-            SHINKA_DEMO_VIEW_SetModelOffset(*(void **)(t + i * 4 + 8), ((Owner *)a)->heap, x, y, z);
+            SHINKA_DEMO_VIEW_SetModelOffset(*(void **)(t + i * 4 + 8), ((Owner *)owner)->heap, x, y, z);
     }
     if (((Work *)t)->quad != 0)
-        SHINKA_DEMO_VIEW_SetQuadOffset((char *)((Work *)t)->quad, ((Owner *)a)->heap, x, y, z);
+        SHINKA_DEMO_VIEW_SetQuadOffset((char *)((Work *)t)->quad, ((Owner *)owner)->heap, x, y, z);
 }
 
-void SHINKA_DEMO_VIEW_SetModelOffset(char *a, int b, int c, int d, int e)
+void SHINKA_DEMO_VIEW_SetModelOffset(char *grid, int unused, int c, int d, int e)
 {
-    ((Grid *)a)->v.x = c;
-    ((Grid *)a)->v.y = d;
-    ((Grid *)a)->v.z = e;
+    ((Grid *)grid)->v.x = c;
+    ((Grid *)grid)->v.y = d;
+    ((Grid *)grid)->v.z = e;
 }
 
 void SHINKA_DEMO_VIEW_StartFadeOut(Owner *o)
@@ -1129,10 +1131,10 @@ void SHINKA_DEMO_VIEW_StartFadeOut(Owner *o)
     }
 }
 
-int SHINKA_DEMO_VIEW_AreModelsState0(char *a)
+int SHINKA_DEMO_VIEW_AreModelsState0(char *owner)
 {
-    u16 id = ((Owner *)a)->heap;
-    char *t = *(char * *)&((Owner *)a)->work;
+    u16 id = ((Owner *)owner)->heap;
+    char *t = *(char * *)&((Owner *)owner)->work;
     int r = 1;
     u8 i;
 
@@ -1143,10 +1145,10 @@ int SHINKA_DEMO_VIEW_AreModelsState0(char *a)
     return r;
 }
 
-int SHINKA_DEMO_VIEW_AreModelsState4(char *a)
+int SHINKA_DEMO_VIEW_AreModelsState4(char *owner)
 {
-    u16 id = ((Owner *)a)->heap;
-    char *t = *(char * *)&((Owner *)a)->work;
+    u16 id = ((Owner *)owner)->heap;
+    char *t = *(char * *)&((Owner *)owner)->work;
     int r = 1;
     u8 i;
 
@@ -1157,7 +1159,7 @@ int SHINKA_DEMO_VIEW_AreModelsState4(char *a)
     return r;
 }
 
-Grid *SHINKA_DEMO_VIEW_CreateGrid(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 tex, u32 pltt, u16 heap)
+Grid *SHINKA_DEMO_VIEW_CreateGrid(u32 monsNo, u32 formNo, u32 sex, u32 isShiny, u32 dir, u32 isEgg, u32 tex, u32 pltt, u16 heap)
 {
     Grid *g = GFL_HEAP_Alloc(heap, sizeof(Grid), 1, d_02208F68, 0x720);
     u32 chrFile;
@@ -1170,8 +1172,8 @@ Grid *SHINKA_DEMO_VIEW_CreateGrid(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5
     g->canvas = BMP_Create(16, 16, 32, heap);
     g->tex = tex;
     g->plttAddr = pltt;
-    chrFile = POKEGRA_GetCgrArcIndex(POKEGRA_GetArcID(), a0, a1, a2, a3, a4, a5);
-    plttFile = POKEGRA_GetPalArcIndex(POKEGRA_GetArcID(), a0, a1, a2, a3, a4, a5);
+    chrFile = POKEGRA_GetCgrArcIndex(POKEGRA_GetArcID(), monsNo, formNo, sex, isShiny, dir, isEgg);
+    plttFile = POKEGRA_GetPalArcIndex(POKEGRA_GetArcID(), monsNo, formNo, sex, isShiny, dir, isEgg);
     g->chr = 0;
     g->pltt = 0;
     g->chrRes = ARC_UTIL_LoadScreenDataFromArchive(POKEGRA_GetArcID(), chrFile, 1, (u32)(&g->chr), heap);
@@ -1210,12 +1212,12 @@ Grid *SHINKA_DEMO_VIEW_CreateGrid(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5
     return g;
 }
 
-void SHINKA_DEMO_VIEW_DeleteGrid(char *p, int a1)
+void SHINKA_DEMO_VIEW_DeleteGrid(char *grid, int unused)
 {
-    BMP_Delete(((Grid *)p)->canvas);
-    GFL_HEAP_Free(((Grid *)p)->chrRes);
-    GFL_HEAP_Free(((Grid *)p)->plttRes);
-    GFL_HEAP_Free(p);
+    BMP_Delete(((Grid *)grid)->canvas);
+    GFL_HEAP_Free(((Grid *)grid)->chrRes);
+    GFL_HEAP_Free(((Grid *)grid)->plttRes);
+    GFL_HEAP_Free(grid);
 }
 
 static inline fx32 FX_Mul(fx32 a, fx32 b)
@@ -1235,7 +1237,7 @@ static inline fx32 FX_Mul(fx32 a, fx32 b)
  * (0x3E0B0FCE) replaces the earlier 0.13636364f guess. Tried before: static
  * inline FX_Mul with long long parameters (966 B, no change).
  */
-void SHINKA_DEMO_VIEW_InitGrid(Grid *p, u16 heap)
+void SHINKA_DEMO_VIEW_InitGrid(Grid *grid, u16 heap)
 {
     u8 i;
     u8 q;
@@ -1250,34 +1252,34 @@ void SHINKA_DEMO_VIEW_InitGrid(Grid *p, u16 heap)
     Cell *row;
     long long lx, ly, lz;
 
-    SHINKA_DEMO_VIEW_SetupGridCells((Grid *)p, heap);
-    p->state = 0;
+    SHINKA_DEMO_VIEW_SetupGridCells((Grid *)grid, heap);
+    grid->state = 0;
     for (i = 0; i < 16; i++)
-        p->pal[i] = 0x7FFF;
-    p->color = 0x7FFF;
+        grid->pal[i] = 0x7FFF;
+    grid->color = 0x7FFF;
     q = 0;
-    p->flevel = q;
-    p->fwait = q;
-    p->fstep = q;
-    p->fcount = q;
-    p->x0 = 0x11;
-    p->y0 = 8;
-    p->x1 = q;
-    p->y1 = p->y0 + 1;
-    p->f64 = q;
-    p->f68 = q;
-    p->f6c = q;
-    p->f70 = q;
-    p->rows = q;
+    grid->flevel = q;
+    grid->fwait = q;
+    grid->fstep = q;
+    grid->fcount = q;
+    grid->x0 = 0x11;
+    grid->y0 = 8;
+    grid->x1 = q;
+    grid->y1 = grid->y0 + 1;
+    grid->f64 = q;
+    grid->f68 = q;
+    grid->f6c = q;
+    grid->f70 = q;
+    grid->rows = q;
     for (; q < 18; q++) {
         j = 0;
         d = q / 3;
-        row = p->row[q].cell;
+        row = grid->row[q].cell;
         m = q % 3;
         for (; j < 18; j++) {
             e = &row[j];
             e->f30 = 0;
-            e->v34 = e->cur;
+            e->start = e->cur;
             if (m == 0) {
                 if (j < 9)
                     v = 6 * j;
@@ -1294,34 +1296,34 @@ void SHINKA_DEMO_VIEW_InitGrid(Grid *p, u16 heap)
                 else
                     v = 6 * (j - 9) + 5;
             }
-            e->f4c = ((int)v << 16) / 54;
-            e->f54 = FX_F32_TO_FX32(22.0f - 7.3333335f * (float)d - 0.13580248f * (float)v);
-            t = (float)e->f54 / 4096.0f;
+            e->angle = ((int)v << 16) / 54;
+            e->height = FX_F32_TO_FX32(22.0f - 7.3333335f * (float)d - 0.13580248f * (float)v);
+            t = (float)e->height / 4096.0f;
             s = 10.0f + 2.0f * (2.0f * (t * (10.0f * t) / 44.0f / 44.0f));
-            e->f50 = FX_F32_TO_FX32(s);
-            e->f58 = FX_Mul(e->f50, ((const SC *)FX_SinCosTable_)[e->f4c >> 4].c);
-            e->f60 = FX_Mul(e->f50, ((const SC *)FX_SinCosTable_)[e->f4c >> 4].s);
-            e->f5c = e->f54;
-            dx = e->f58 - e->cur.x;
-            dy = e->f5c - e->cur.y;
-            dz = e->f60 - e->cur.z;
+            e->radius = FX_F32_TO_FX32(s);
+            e->targetX = FX_Mul(e->radius, ((const SC *)FX_SinCosTable_)[e->angle >> 4].c);
+            e->targetZ = FX_Mul(e->radius, ((const SC *)FX_SinCosTable_)[e->angle >> 4].s);
+            e->targetY = e->height;
+            dx = e->targetX - e->cur.x;
+            dy = e->targetY - e->cur.y;
+            dz = e->targetZ - e->cur.z;
             lz = dz;
             lx = dx;
             ly = dy;
             l1 = FX_Sqrt((fx32)((lx * lx + 0x800) >> 12) + (fx32)((lz * lz + 0x800) >> 12));
             l2 = FX_Sqrt((fx32)((ly * ly + 0x800) >> 12));
             if (l1 > 0x1000) {
-                e->f40 = FX_Div(dx, l1);
-                e->f48 = FX_Div(dz, l1);
+                e->velX = FX_Div(dx, l1);
+                e->velZ = FX_Div(dz, l1);
             } else {
-                e->f40 = dx;
-                e->f48 = dz;
+                e->velX = dx;
+                e->velZ = dz;
             }
             if (l2 > 0x1000)
-                e->f44 = FX_Div(dy, l2);
+                e->velY = FX_Div(dy, l2);
             else
-                e->f44 = dy;
-            e->f64 = 0;
+                e->velY = dy;
+            e->progress = 0;
         }
     }
 }
@@ -1335,7 +1337,7 @@ void SHINKA_DEMO_VIEW_InitGrid(Grid *p, u16 heap)
 void SHINKA_DEMO_VIEW_SetupGridCells(Grid *p, u16 heap)
 {
     int i;
-    float a0, b, c, d;
+    float originX, originY, c, d;
     int q, r;
     float A, z, k;
     Cell *e;
@@ -1347,15 +1349,15 @@ void SHINKA_DEMO_VIEW_SetupGridCells(Grid *p, u16 heap)
     z = 0.0f;
     k = 5.3333335f;
     A = 2.0220568f;
-    a0 = -18.198511f + A / 2.0f;
-    b = 18.198511f - A / 2.0f;
+    originX = -18.198511f + A / 2.0f;
+    originY = 18.198511f - A / 2.0f;
     c = z * (A / k);
     d = z * (A / k);
     for (i = 0; i < 324; i++) {
         r = i % 18;
         q = i / 18;
         e = &p->row[q].cell[r];
-        e->f00 = 60;
+        e->life = 60;
         e->visible = 31;
         e->v[0][0] = FX_F32_TO_FX32((0.0f - A) / 2.0f - c);
         e->v[0][1] = FX_F32_TO_FX32(A / 2.0f + d);
@@ -1370,8 +1372,8 @@ void SHINKA_DEMO_VIEW_SetupGridCells(Grid *p, u16 heap)
         e->v[3][1] = FX_F32_TO_FX32(A / 2.0f + d);
         e->v[3][2] = 0;
         e->cur = p->v;
-        e->cur.x += FX_F32_TO_FX32(a0 + A * (float)r);
-        e->cur.y += FX_F32_TO_FX32(b - A * (float)q);
+        e->cur.x += FX_F32_TO_FX32(originX + A * (float)r);
+        e->cur.y += FX_F32_TO_FX32(originY - A * (float)q);
         e->s0 = FX_F32_TO_FX32(16.0f + (float)r * k - z);
         e->t0 = FX_F32_TO_FX32(16.0f + (float)q * k - z);
         e->s1 = e->s0 + FX_F32_TO_FX32(k + 2.0f * z);
@@ -1454,7 +1456,7 @@ void SHINKA_DEMO_VIEW_DrawGridRotated(Owner *o)
     s16 y;
     int flag;
 
-    if (w->f00 != 1)
+    if (w->phase != 1)
         return;
 
     SHINKA_DEMO_VIEW_InitGridFromPokemon((char *)w->grid[0], heap);
@@ -1516,7 +1518,7 @@ void SHINKA_DEMO_VIEW_DrawGridRotated(Owner *o)
     }
     SHINKA_DEMO_VIEW_IsGridState4((char *)s, heap);
     if (w->quad != 0) {
-        w->quad->f4e = w->grid[0]->rows;
+        w->quad->rowCount = w->grid[0]->rows;
         SHINKA_DEMO_VIEW_UpdateQuadVerts((Quad *)w->quad, heap);
     }
 }
@@ -1785,14 +1787,14 @@ void SHINKA_DEMO_VIEW_ApplyGridPalette(Grid *p, int x)
     NNS_GfdRegisterNewVramTransferTask((void *)1, p->plttAddr, (u32)p->pal, 0x20);
 }
 
-int SHINKA_DEMO_VIEW_IsGridState0(char *p, u16 a1)
+int SHINKA_DEMO_VIEW_IsGridState0(char *grid, u16 unused)
 {
-    return ((Grid *)p)->state == 0;
+    return ((Grid *)grid)->state == 0;
 }
 
-int SHINKA_DEMO_VIEW_IsGridState1(char *p, u16 heap)
+int SHINKA_DEMO_VIEW_IsGridState1(char *grid, u16 heap)
 {
-    return ((Grid *)p)->state == 1;
+    return ((Grid *)grid)->state == 1;
 }
 
 void SHINKA_DEMO_VIEW_StartGridFadeOut(Grid *p, int x)
@@ -1801,35 +1803,35 @@ void SHINKA_DEMO_VIEW_StartGridFadeOut(Grid *p, int x)
     SHINKA_DEMO_VIEW_StartGridFade(p, x, 0x7fff, 0, 31, 0, 1);
 }
 
-int SHINKA_DEMO_VIEW_IsGridState3(char *p, u16 heap)
+int SHINKA_DEMO_VIEW_IsGridState3(char *grid, u16 heap)
 {
-    return ((Grid *)p)->state == 3;
+    return ((Grid *)grid)->state == 3;
 }
 
-int SHINKA_DEMO_VIEW_IsGridState4(char *p, u16 heap)
+int SHINKA_DEMO_VIEW_IsGridState4(char *grid, u16 heap)
 {
-    return ((Grid *)p)->state == 4;
+    return ((Grid *)grid)->state == 4;
 }
 
-void SHINKA_DEMO_VIEW_UpdateGridFade(Grid *p, int x)
+void SHINKA_DEMO_VIEW_UpdateGridFade(Grid *grid, int x)
 {
-    switch (p->state) {
+    switch (grid->state) {
     case 0:
     case 1:
         break;
     case 2:
-        if (SHINKA_DEMO_VIEW_IsGridFadeDone((Grid *)p, x))
-            p->state = 3;
+        if (SHINKA_DEMO_VIEW_IsGridFadeDone((Grid *)grid, x))
+            grid->state = 3;
         break;
     case 3:
     case 4:
         break;
     case 5:
-        if (SHINKA_DEMO_VIEW_IsGridFadeDone((Grid *)p, x))
-            p->state = 0;
+        if (SHINKA_DEMO_VIEW_IsGridFadeDone((Grid *)grid, x))
+            grid->state = 0;
         break;
     }
-    SHINKA_DEMO_VIEW_StepGridFade((Grid *)p, x);
+    SHINKA_DEMO_VIEW_StepGridFade((Grid *)grid, x);
 }
 
 Quad *SHINKA_DEMO_VIEW_CreateQuad(u32 tex, u32 pltt, u16 heap)
@@ -1862,7 +1864,7 @@ Quad *SHINKA_DEMO_VIEW_CreateQuad(u32 tex, u32 pltt, u16 heap)
     p->v[3][0] = 0x800;
     p->v[3][1] = 0x800;
     p->v[3][2] = 0;
-    p->f4e = 0;
+    p->rowCount = 0;
     return p;
 }
 
@@ -1877,7 +1879,7 @@ void SHINKA_DEMO_VIEW_FreeQuad(void *p,int n){GFL_HEAP_Free(p);}
  */
 void SHINKA_DEMO_VIEW_UpdateQuadVerts(Quad *p, u16 heap)
 {
-    u8 i = p->f4e;
+    u8 i = p->rowCount;
     u8 b;
 
     p->v[3][1] = d_02208E4C[i];
@@ -1918,7 +1920,7 @@ void SHINKA_DEMO_VIEW_DrawQuad(Quad *p, u16 heap)
 {
     int z;
 
-    if (p->f4e < 0x12) {
+    if (p->rowCount < 0x12) {
         REG_TEXIMAGE_PARAM = (p->tex >> 3) | 0x6E430000;
         REG_TEXPLTT_BASE = p->pltt >> 4;
         REG_MTX_PUSH = 0;
@@ -1941,9 +1943,9 @@ void SHINKA_DEMO_VIEW_DrawQuad(Quad *p, u16 heap)
     }
 }
 
-void SHINKA_DEMO_VIEW_SetQuadOffset(char *a, int b, int c, int d, int e)
+void SHINKA_DEMO_VIEW_SetQuadOffset(char *quad, int unused, int c, int d, int e)
 {
-    ((Quad *)a)->tx = c;
-    ((Quad *)a)->ty = d;
-    ((Quad *)a)->tz = e;
+    ((Quad *)quad)->tx = c;
+    ((Quad *)quad)->ty = d;
+    ((Quad *)quad)->tz = e;
 }

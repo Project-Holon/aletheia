@@ -235,7 +235,7 @@ extern void OS_WaitInterrupt(int clear, u32 flags);
 
 extern u32 GFL_USE_GetMainTaskList(void);
 
-extern void PARTICLE_SetupSystemBorrowed(void *p, unsigned int a1, unsigned int a2, unsigned int a3);
+extern void PARTICLE_SetupSystemBorrowed(void *p, unsigned int block, unsigned int applyNow, unsigned int taskMgr);
 
 extern void PARTICLE_ExitManager(void);
 
@@ -251,7 +251,7 @@ extern void G3D_UTIL_Delete(struct Rec *p);
 
 extern u16 G3D_UTIL_AddUnit(void *,const G3dUnitEntry *);
 
-extern u32 G3D_UTIL_GetObject(u8 *a0, int i);
+extern u32 G3D_UTIL_GetObject(u8 *util, int i);
 
 extern int G3D_SYSTEM_GetObjectAnimeCount(int *p);
 
@@ -265,7 +265,7 @@ extern int PARTICLE_DrawAllSystems(void);
 
 extern int PARTICLE_UpdateAllSystems(void);
 
-extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
+extern void G3D_SYSTEM_DrawObject(void *obj, struct Arg *status);
 
 extern u32 ICA_ANIME_IncFrameLoop(struct IcaAnime *p, int v);
 
@@ -283,9 +283,9 @@ extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 
 extern void POKE_PERSONAL_Delete(void *h);
 
-extern void *MCSS_TOOL_AddPokeMcss(void *a0, void *a1, u32 a2, u32 a3, u32 a4, u32 a5);
+extern void *MCSS_TOOL_AddPokeMcss(void *sys, void *pp, u32 direction, u32 x, u32 y, u32 z);
 
-extern int MCSS_TOOL_SetAnimeStopCallback(int a0);
+extern int MCSS_TOOL_SetAnimeStopCallback(int work);
 
 extern void MCSS_SetScale(void *p, u32 *src);
 
@@ -311,7 +311,7 @@ extern void G3i_LookAt_(const VecFx32 *,const VecFx32 *,const VecFx32 *,int,MtxF
 
 extern u8 POKETRADE_PROC_GetStoredBoxIndex(u8 *);
 
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, u32 unpackedOut, u32 flags);
 
 extern void MI_CpuMove(const void *, void *, int);
 
@@ -335,7 +335,7 @@ void POKETRADE_3D_DeleteIcaStreams(ParticleManager *p);
 
 void POKETRADE_3D_CreateIcaStreamsEnding(ParticleManager *p);
 
-void POKETRADE_3D_FreeParticleResources(ParticleManager *a0);
+void POKETRADE_3D_FreeParticleResources(ParticleManager *particles);
 
 void POKETRADE_3D_InitParticleSystems(ParticleManager *p);
 
@@ -343,7 +343,7 @@ void POKETRADE_3D_SetupParticleSystemsLow(ParticleManager *p);
 
 void POKETRADE_3D_SetupParticleSystemsHigh(ParticleManager *p);
 
-void POKETRADE_3D_ExitParticleManager(ParticleManager *p, int a1);
+void POKETRADE_3D_ExitParticleManager(ParticleManager *p, int unused);
 
 void POKETRADE_3D_InitTradeParticleSet(ParticleManager *p);
 
@@ -365,7 +365,7 @@ void POKETRADE_3D_RemoveUnit(char *p);
 
 void POKETRADE_3D_Draw3DScene(char *p);
 
-void POKETRADE_3D_SetMcssOffsetForSpecies(void *p0, int *dir, int p2, void *mon);
+void POKETRADE_3D_SetMcssOffsetForSpecies(void *mcss, int *dir, int side, void *mon);
 
 void POKETRADE_3D_AddPokemonMcss(TradeWork *p, int idx, int side, void *mon, int flag);
 
@@ -383,9 +383,9 @@ void POKETRADE_3D_SetCubeTexCoord(int n);
 
 void POKETRADE_3D_FillTextureCell(unsigned short *p, int x, int y, int colour);
 
-void POKETRADE_3D_FillTexturePage(u16 *p, u8 *src, int k, int a3);
+void POKETRADE_3D_FillTexturePage(u16 *p, u8 *src, int k, int unused);
 
-void POKETRADE_3D_FillTextureHeader(u16 *p, u8 *src, int a2);
+void POKETRADE_3D_FillTextureHeader(u16 *p, u8 *src, int unused);
 
 void POKETRADE_3D_UploadTexturePages(char *p, int count);
 
@@ -479,7 +479,7 @@ void POKETRADE_3D_CreateIcaStreamsEnding(ParticleManager *p)
     p->icaStream[1]=ICA_ANIME_CreateStream(p->heap,0x68,0xc,10);
 }
 
-void POKETRADE_3D_FreeParticleResources(ParticleManager *a0) { POKETRADE_3D_DeleteIcaStreams(a0); }
+void POKETRADE_3D_FreeParticleResources(ParticleManager *particles) { POKETRADE_3D_DeleteIcaStreams(particles); }
 
 void POKETRADE_3D_InitParticleSystems(ParticleManager *p) {
     int i,flag;
@@ -522,7 +522,7 @@ void POKETRADE_3D_SetupParticleSystemsHigh(ParticleManager *p)
  *
  * Addresses are Black-image addresses.
  */
-void POKETRADE_3D_ExitParticleManager(ParticleManager *p, int a1)
+void POKETRADE_3D_ExitParticleManager(ParticleManager *p, int unused)
 {
     int i;
 
@@ -681,7 +681,7 @@ void POKETRADE_3D_Draw3DScene(char *p)
  * seeds 0x02015F04 in layout/function_starts.txt this re-verifies as EXACT.
  * The empty-then if/else on *dir gives the original `bge; b` shape.
  */
-void POKETRADE_3D_SetMcssOffsetForSpecies(void *p0, int *dir, int p2, void *mon)
+void POKETRADE_3D_SetMcssOffsetForSpecies(void *mcss, int *dir, int side, void *mon)
 {
     IntVec3 v;
     int flag = 0;
@@ -693,7 +693,7 @@ void POKETRADE_3D_SetMcssOffsetForSpecies(void *p0, int *dir, int p2, void *mon)
     a = POKE_TOOL_GetPartyValue(mon, 5, 0);
     b = POKE_TOOL_GetPartyValue(mon, 0x6f, 0);
     c = POKE_TOOL_GetGender(mon);
-    if (p2 == 0)
+    if (side == 0)
         flag = 1;
     found = 0;
     for (i = 0; i < 4; i++) {
@@ -710,8 +710,8 @@ void POKETRADE_3D_SetMcssOffsetForSpecies(void *p0, int *dir, int p2, void *mon)
         }
     }
     if (!found) {
-        MCSS_GetSizeX(p0);
-        c = MCSS_GetOfsX(p0);
+        MCSS_GetSizeX(mcss);
+        c = MCSS_GetOfsX(mcss);
         if (*dir < 0)
             f = 0.33f * (float)c;
         else
@@ -720,7 +720,7 @@ void POKETRADE_3D_SetMcssOffsetForSpecies(void *p0, int *dir, int p2, void *mon)
         v.y = 0;
         v.z = 0;
     }
-    MCSS_SetOfsPosition(p0, (u32 *)(&v));
+    MCSS_SetOfsPosition(mcss, (u32 *)(&v));
 }
 
 void POKETRADE_3D_AddPokemonMcss(TradeWork *p, int idx, int side, void *mon, int flag)
@@ -841,7 +841,7 @@ void POKETRADE_3D_FillTextureCell(unsigned short *p, int x, int y, int colour)
     }
 }
 
-void POKETRADE_3D_FillTexturePage(u16 *p, u8 *src, int k, int a3)
+void POKETRADE_3D_FillTexturePage(u16 *p, u8 *src, int k, int unused)
 {
     u8 *row;
     int i;
@@ -855,7 +855,7 @@ void POKETRADE_3D_FillTexturePage(u16 *p, u8 *src, int k, int a3)
     }
 }
 
-void POKETRADE_3D_FillTextureHeader(u16 *p, u8 *src, int a2)
+void POKETRADE_3D_FillTextureHeader(u16 *p, u8 *src, int unused)
 {
     int i;
 

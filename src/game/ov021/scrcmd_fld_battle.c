@@ -95,7 +95,7 @@ extern int POKE_REGULATION_CheckPartyUsable(void *rules, void *party);
 extern int POKE_REGULATION_CheckParty(void *rules, void *party, u32 *mask);
 extern void *BATTLE_BOX_GetFromSave(void *);
 extern u32 BATTLE_BOX_HasMon(void *a);
-extern void *BATTLE_BOX_CreateParty(int a0, int a1);
+extern void *BATTLE_BOX_CreateParty(int box, int heap);
 extern struct FieldTask *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
 extern void *GAME_EVENT_GetWork(struct FieldTask *p);
 extern struct PartySelectList *PARTY_SELECT_LIST_Create(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heap);

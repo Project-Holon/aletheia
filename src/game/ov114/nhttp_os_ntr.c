@@ -100,7 +100,7 @@ void NHTTPi_CheckCurrentThread(NHTTPThreadInfo *threadInfo_p, int isCommThread)
     }
 }
 
-void NHTTPi_CommThreadProc(void *p)
+void NHTTPi_CommThreadProc(void *arg)
 {
     NHTTPi_CommThreadProcMain();
 }

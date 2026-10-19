@@ -72,7 +72,7 @@ extern u16  BMP_GetWidth(const struct Bmp *bmp);
 
 extern u16 BMP_GetHeight(const struct Bmp *bmp);
 
-extern void BMP_FillRect(const struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern void BMP_FillRect(const struct Bmp *b, u32 x, u32 y, u32 w, u32 h, u32 value);
 
 extern void BMP_Blit(struct Bmp *dst, const struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 
@@ -90,13 +90,13 @@ extern u32 GFL_HEAP_Free(void *p);
 
 struct KeyCursor *APP_KEYCURSOR_Create(u16 id, u32 live, u32 flip, u16 heap, void *pixels);
 
-void APP_KEYCURSOR_Delete(struct KeyCursor *k);
+void APP_KEYCURSOR_Delete(struct KeyCursor *cursor);
 
-void APP_KEYCURSOR_DrawMark(struct KeyCursor *k, const struct Bmp *bmp, u32 color);
+void APP_KEYCURSOR_DrawMark(struct KeyCursor *cursor, const struct Bmp *bmp, u32 color);
 
-void APP_KEYCURSOR_Animate(struct KeyCursor *k, const struct Bmp *bmp, u32 color);
+void APP_KEYCURSOR_Animate(struct KeyCursor *cursor, const struct Bmp *bmp, u32 color);
 
-void APP_KEYCURSOR_Update(struct KeyCursor *k, void *p, void *cell);
+void APP_KEYCURSOR_Update(struct KeyCursor *cursor, void *printStream, void *win);
 
 void FIELD_SKILL_USE_FLAGS_SetSkill(struct FieldSkillUseFlags *flags, int skillIndex, int usable);
 
@@ -110,88 +110,88 @@ extern const char app_keycursor_File[];
 struct KeyCursor *APP_KEYCURSOR_Create(u16 id, u32 live, u32 flip, u16 heap,
                                 void *pixels)
 {
-    struct KeyCursor *k;
+    struct KeyCursor *cursor;
 
-    k = GFL_HEAP_Alloc(heap, sizeof(struct KeyCursor), 1, app_keycursor_File,
+    cursor = GFL_HEAP_Alloc(heap, sizeof(struct KeyCursor), 1, app_keycursor_File,
                       149);
 
-    k->id = id;
-    k->live = live;
-    k->flip = flip;
-    k->item = BMP_CreateFromBuffer(pixels, 2, 2, 0x20, heap);
+    cursor->id = id;
+    cursor->live = live;
+    cursor->flip = flip;
+    cursor->item = BMP_CreateFromBuffer(pixels, 2, 2, 0x20, heap);
 
-    return k;
+    return cursor;
 }
 
-void APP_KEYCURSOR_Delete(struct KeyCursor *k)
+void APP_KEYCURSOR_Delete(struct KeyCursor *cursor)
 {
-    BMP_Delete(k->item);
-    GFL_HEAP_Free(k);
+    BMP_Delete(cursor->item);
+    GFL_HEAP_Free(cursor);
 }
 
-void APP_KEYCURSOR_DrawMark(struct KeyCursor *k, const struct Bmp *bmp, u32 color)
+void APP_KEYCURSOR_DrawMark(struct KeyCursor *cursor, const struct Bmp *bmp, u32 color)
 {
     u16 w = BMP_GetWidth(bmp) - 11;
     u16 h = BMP_GetHeight(bmp) - 9;
 
-    BMP_FillRect(bmp, (s16)w, (s16)(h + k->phase), 0xa, 7, (u8)color);
+    BMP_FillRect(bmp, (s16)w, (s16)(h + cursor->phase), 0xa, 7, (u8)color);
 }
 
-void APP_KEYCURSOR_Animate(struct KeyCursor *k, const struct Bmp *bmp, u32 color)
+void APP_KEYCURSOR_Animate(struct KeyCursor *cursor, const struct Bmp *bmp, u32 color)
 {
     u16 w;
     u16 h;
 
-    APP_KEYCURSOR_DrawMark(k, bmp, color);
+    APP_KEYCURSOR_DrawMark(cursor, bmp, color);
 
-    k->tick = k->tick + 1;
-    if (k->tick >= 8) {
-        k->tick = 0;
-        k->phase = k->phase + 1;
-        k->phase = (s32)k->phase % 3;
+    cursor->tick = cursor->tick + 1;
+    if (cursor->tick >= 8) {
+        cursor->tick = 0;
+        cursor->phase = cursor->phase + 1;
+        cursor->phase = (s32)cursor->phase % 3;
     }
 
     w = BMP_GetWidth(bmp) - 11;
     h = BMP_GetHeight(bmp) - 9;
 
-    BMP_Blit(k->item, bmp, 0, 2, w, h + k->phase, 0xa, 7, 0);
+    BMP_Blit(cursor->item, bmp, 0, 2, w, h + cursor->phase, 0xa, 7, 0);
 }
 
-void APP_KEYCURSOR_Update(struct KeyCursor *k, void *p, void *cell)
+void APP_KEYCURSOR_Update(struct KeyCursor *cursor, void *printStream, void *win)
 {
-    u32 mode = PRINTSYS_PrintStreamGetState(p);
+    u32 mode = PRINTSYS_PrintStreamGetState(printStream);
 
     switch (mode) {
     case 2:
-        k->held = 0;
+        cursor->held = 0;
         return;
     case 1:
     {
-        u32 r = 0;
+        u32 input = 0;
 
-        if (k->live) {
-            r = KEY_GetTrg() & 3;
+        if (cursor->live) {
+            input = KEY_GetTrg() & 3;
         }
-        if (r == 0) {
-            if (k->flip) {
-                r = TOUCHPANEL_GetTrg();
+        if (input == 0) {
+            if (cursor->flip) {
+                input = TOUCHPANEL_GetTrg();
             }
         }
-        if (r != 0) {
-            k->held = 1;
-            APP_KEYCURSOR_DrawMark(k, BMP_WIN_GetBmp(cell), k->id);
-            BMP_WIN_TransferChars(cell);
+        if (input != 0) {
+            cursor->held = 1;
+            APP_KEYCURSOR_DrawMark(cursor, BMP_WIN_GetBmp(win), cursor->id);
+            BMP_WIN_TransferChars(win);
             return;
         }
-        if (k->held != 0) {
+        if (cursor->held != 0) {
             return;
         }
-        APP_KEYCURSOR_Animate(k, BMP_WIN_GetBmp(cell), k->id);
-        BMP_WIN_TransferChars(cell);
+        APP_KEYCURSOR_Animate(cursor, BMP_WIN_GetBmp(win), cursor->id);
+        BMP_WIN_TransferChars(win);
         return;
     }
     case 0:
-        k->held = 0;
+        cursor->held = 0;
         return;
     }
 }

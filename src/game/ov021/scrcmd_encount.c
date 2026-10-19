@@ -15,7 +15,7 @@
  * symbols:
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
- *   ICA_ANIME_GetField20  0x0201210C  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   FIELD_CAMERA_EndDelay  0x0218F0A8  thumb  ov021
  *   FIELD_CAMERA_IsDelayEnabled  0x0218F0E8  thumb  ov021
@@ -130,7 +130,7 @@ extern void *SCRCMD_WORK_GetScriptWork(void *p);
 
 extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 
-extern void *ICA_ANIME_GetField20(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 
 extern void *FIELDMAP_GetCamera(void *a);
 
@@ -321,7 +321,7 @@ return SCRIPT_WORK_ResetCheckFlag(0);
 
 int SCRCMD_PROC_FLD_ReleaseFieldRegionTask(void **eventWork)
 {
-    void *fieldMap = ICA_ANIME_GetField20(eventWork[0]);
+    void *fieldMap = GAMESYSTEM_GetFieldMap(eventWork[0]);
 
     SCRCMD_PROC_FLD_ReleaseFieldRegion(fieldMap, FIELDMAP_GetCamera(fieldMap));
     return 1;
@@ -334,7 +334,7 @@ int SCRCMD_PROC_FLD_BeginFieldRegionRelease(struct ScriptVm *vm, struct ScrcmdWo
     void *fieldRegion;
 
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    fieldMap = ICA_ANIME_GetField20(gameSystem);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     fieldRegion = FIELDMAP_GetCamera(fieldMap);
     SCRIPT_WORK_SetCheckFlag(0);
     if (FIELD_CAMERA_HasDelay(fieldRegion) != 0) {
@@ -352,7 +352,7 @@ int SCRCMD_PROC_FLD_BeginFieldRegionRelease(struct ScriptVm *vm, struct ScrcmdWo
 
 int SCRCMD_PROC_FLD_ReleaseFieldRegionCmd(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *fieldMap = ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork));
+    void *fieldMap = GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork));
 
     SCRCMD_PROC_FLD_ReleaseFieldRegion(fieldMap, FIELDMAP_GetCamera(fieldMap));
     return 0;
@@ -360,13 +360,13 @@ int SCRCMD_PROC_FLD_ReleaseFieldRegionCmd(struct ScriptVm *vm, struct ScrcmdWork
 
 int SCRCMD_PROC_FLD_ResetFieldRegionA(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-FIELD_CAMERA_StopTargetTrace(FIELDMAP_GetCamera(ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork))));
+FIELD_CAMERA_StopTargetTrace(FIELDMAP_GetCamera(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))));
 return 0;
 }
 
 int SCRCMD_PROC_FLD_ResetFieldRegionB(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-FIELD_CAMERA_ResumeTargetTrace((u32)FIELDMAP_GetCamera(ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork))));
+FIELD_CAMERA_ResumeTargetTrace((u32)FIELDMAP_GetCamera(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))));
 return 0;
 }
 
@@ -375,7 +375,7 @@ int SCRCMD_PROC_FLD_SetFieldRegionFromStream(struct ScriptVm *vm, struct ScrcmdW
     FieldRegionParam param;
     void *fieldRegion;
 
-    fieldRegion = FIELDMAP_GetCamera(ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork)));
+    fieldRegion = FIELDMAP_GetCamera(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork)));
     param.areaWidth = VM_ReadU16(vm);
     param.areaHeight = VM_ReadU16(vm);
     param.areaFlags = VM_GetU32(vm);
@@ -400,7 +400,7 @@ int SCRCMD_PROC_FLD_SetFieldRegionFromArchive(struct ScriptVm *vm, struct Scrcmd
     int memberIndex;
     int regionIndex;
 
-    fieldRegion = FIELDMAP_GetCamera(ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork)));
+    fieldRegion = FIELDMAP_GetCamera(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork)));
     memberIndex = VM_ReadU16(vm);
     regionIndex = VM_ReadU16(vm);
     ARC_TOOL_ReadMember(&record, 0xa3, memberIndex);
@@ -416,7 +416,7 @@ int SCRCMD_PROC_FLD_SetFieldRegionFromArchive(struct ScriptVm *vm, struct Scrcmd
 int SCRCMD_PROC_FLD_SetFieldRegionLayerFlags(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     LayerFlags layers;
-    void *fieldRegion = FIELDMAP_GetCamera(ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork)));
+    void *fieldRegion = FIELDMAP_GetCamera(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork)));
     u16 regionIndex = VM_ReadU16(vm);
 
     layers.flag[0] = 1;
@@ -431,7 +431,7 @@ int SCRCMD_PROC_FLD_SetFieldRegionLayerFlags(struct ScriptVm *vm, struct ScrcmdW
 
 int SCRCMD_PROC_FLD_SetFieldRegionValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-FIELD_CAMERA_StartMoveToSetting(FIELDMAP_GetCamera(ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork))), VM_ReadU16(vm));
+FIELD_CAMERA_StartMoveToSetting(FIELDMAP_GetCamera(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))), VM_ReadU16(vm));
 return 0;
 }
 
@@ -446,38 +446,38 @@ int SCRCMD_PROC_FLD_CallFieldRegionWaitEvent(struct ScriptVm *vm, struct ScrcmdW
 
 int SCRCMD_PROC_FLD_CallCustomEvent(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    int arg0 = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    int arg1 = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    int arg2 = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    int arg3 = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    int arg4 = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    int arg5 = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    int arg6 = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    int arg7 = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    int eventId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    int eventKind = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    int scriptId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    int kind = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    int mapX = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    int mapY = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    int mapZ = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    int facing = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     void *scriptWork;
     void *gameSystem;
     CustomEventParam param;
 
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    param.eventId = arg0;
-    param.eventKind = arg1;
-    param.scriptId = arg2;
-    param.kindCopy = arg3;
-    param.kind = arg3;
+    param.eventId = eventId;
+    param.eventKind = eventKind;
+    param.scriptId = scriptId;
+    param.kindCopy = kind;
+    param.kind = kind;
     param.reserved14 = 0;
-    param.mapX = arg4;
-    param.mapY = arg5;
-    param.mapZ = arg6;
+    param.mapX = mapX;
+    param.mapY = mapY;
+    param.mapZ = mapZ;
     param.reserved0A = 0;
-    param.facing = arg7;
+    param.facing = facing;
     SCRIPT_SYS_CallEvent(scriptWork, FIELD_CAMERA_CreateShakeTask(gameSystem, (struct Blk021D2D50 *)(&param)));
     return 1;
 }
 
 int SCRCMD_PROC_FLD_PollFieldRegionStart(void *event)
 {
-    u8 *fieldRegion = FIELDMAP_GetCamera(ICA_ANIME_GetField20(GAME_EVENT_GetGameSystem(event)));
+    u8 *fieldRegion = FIELDMAP_GetCamera(GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event)));
 
     if (FIELD_CAMERA_IsDelayEnabled(fieldRegion) == 0) {
         FIELD_CAMERA_PushState(fieldRegion);
@@ -488,7 +488,7 @@ int SCRCMD_PROC_FLD_PollFieldRegionStart(void *event)
 
 int SCRCMD_PROC_FLD_PollFieldRegionIdle(void *event)
 {
-    int busy = FIELD_CAMERA_IsMoving(FIELDMAP_GetCamera(ICA_ANIME_GetField20(GAME_EVENT_GetGameSystem(event))));
+    int busy = FIELD_CAMERA_IsMoving(FIELDMAP_GetCamera(GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event))));
 
     return busy != 0 ? B_FALSE : B_TRUE;
 }
@@ -497,7 +497,7 @@ int SCRCMD_PROC_FLD_CallOv056Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
 {
     void *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    u8 *fieldMap = ICA_ANIME_GetField20(gameSystem);
+    u8 *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     unsigned int slotNumber = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
 
     SCRIPT_SYS_CallEvent(scriptWork, GIMMICK_INIT_SetCartLanesFlags(gameSystem, fieldMap, (u16)(slotNumber - 1)));
@@ -509,7 +509,7 @@ int SCRCMD_PROC_FLD_CallOv056Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
  */
 int SCRCMD_PROC_FLD_SetOv056Slot(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *fieldMap = ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork));
+    void *fieldMap = GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork));
     unsigned int slotNumber = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     u32 *fieldRegion = FIELDMAP_GetCamera(fieldMap);
 
@@ -519,7 +519,7 @@ int SCRCMD_PROC_FLD_SetOv056Slot(struct ScriptVm *vm, struct ScrcmdWork *cmdWork
 
 int SCRCMD_PROC_FLD_SetFieldRegionTable(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    int regionTable = FIELDMAP_GetMapFunc(ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork)));
+    int regionTable = FIELDMAP_GetMapFunc(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork)));
 
     switch (SCRIPT_WORK_ReadWorkValue(vm, cmdWork)) {
     case 0:

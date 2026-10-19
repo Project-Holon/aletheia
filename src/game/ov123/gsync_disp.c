@@ -132,7 +132,7 @@ extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *, u32, u32, u32, u32, u16);
 
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, u32 unpackedOut, u32 flags);
 
 extern void MI_CpuCopy8(const void *, void *, u32);
 
@@ -140,11 +140,11 @@ extern u32 GFL_HEAP_Free(void *p);
 
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *, u32, u32, u32, u32, u16);
 
-extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
@@ -218,11 +218,11 @@ extern void CLACT_SetActorAffineMode(struct ClActor *actor, u32 value);
 
 extern int POKE_TOOL_GetIconPaletteArcId(void);
 
-extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern int CLACT_RegisterPaletteCompressed(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
 
 extern u32 POKE_TOOL_GetGraphicIndex(void *mon);
 
-extern int POKE_TOOL_GetIconPalette(void *a0);
+extern int POKE_TOOL_GetIconPalette(void *box);
 
 extern void CLACT_SetActorPaletteOffset(struct ClActor *o, u32 v, u32 flag);
 

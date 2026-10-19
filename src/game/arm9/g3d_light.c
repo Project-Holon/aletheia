@@ -81,7 +81,7 @@ void G3D_SYSTEM_SetProjection(const u32 *src);
 
 void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 
-void G3D_SYSTEM_SetLookAt(u8 *a0);
+void G3D_SYSTEM_SetLookAt(u8 *lookAt);
 
 void G3D_CAMERA_Reset(struct G3dCamera *l);
 

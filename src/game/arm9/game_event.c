@@ -18,7 +18,7 @@
  *   _GameEventFileName  0x020A727C  data
  *   GAMESYSTEM_CallProc 0x020120B4 thumb arm9
  *   GAMESYSTEM_GetProcStatus 0x020120F0 thumb arm9
- *   ICA_ANIME_GetField18 0x02012104 thumb arm9
+ *   GAMESYSTEM_GetEvent 0x02012104 thumb arm9
  *   GAMESYSTEM_SetEvent 0x02012108 thumb arm9
  *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   GF_OVERLAY_Load  0x02034AC4  arm
@@ -54,7 +54,7 @@ void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *pro
 
 u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
 
-struct GameEvent *ICA_ANIME_GetField18(const struct GameSystem *gameSystem);
+struct GameEvent *GAMESYSTEM_GetEvent(const struct GameSystem *gameSystem);
 
 void GAMESYSTEM_SetEvent(struct GameSystem *gameSystem, struct GameEvent *event);
 
@@ -215,7 +215,7 @@ int GAME_EVENT_Control(struct GameSystem *gameSystem)
     struct GameEvent *parent;
 
     for (;;) {
-        event = ICA_ANIME_GetField18(gameSystem);
+        event = GAMESYSTEM_GetEvent(gameSystem);
         if (event == 0)
             return 0;
         switch (GAME_EVENT_RunFunc(event)) {
@@ -236,14 +236,14 @@ int GAME_EVENT_Control(struct GameSystem *gameSystem)
 
 int GAME_EVENT_IsRunning(struct GameSystem *gameSystem)
 {
-    if (ICA_ANIME_GetField18(gameSystem) != 0) {
+    if (GAMESYSTEM_GetEvent(gameSystem) != 0) {
         return 1;
     }
     return 0;
 }
 
 /*
- * The packet's driver: reject when ICA_ANIME_GetField18 says the object is busy,
+ * The packet's driver: reject when GAMESYSTEM_GetEvent says the object is busy,
  * reject a null callback, run the callback with the object and the second
  * argument, reject a zero result, hand a non-zero result to GAMESYSTEM_SetEvent and
  * report 1.
@@ -251,7 +251,7 @@ int GAME_EVENT_IsRunning(struct GameSystem *gameSystem)
  * The two spellings differ by four bytes of layout.  Written with the
  * "invert the guard" shape
  *
- *     if (ICA_ANIME_GetField18(o) != 0) return 0;
+ *     if (GAMESYSTEM_GetEvent(o) != 0) return 0;
  *     if (fn == 0) return 0;
  *     r = fn(o, a2);
  *     if (r != 0) { GAMESYSTEM_SetEvent(o, r); return 1; }
@@ -272,7 +272,7 @@ int GAME_EVENT_StartByCreator(struct GameSystem *gameSystem, GameEventCreatorFn 
 {
     struct GameEvent *event;
 
-    if (ICA_ANIME_GetField18(gameSystem) != 0)
+    if (GAMESYSTEM_GetEvent(gameSystem) != 0)
         return 0;
     if (creator == 0)
         return 0;

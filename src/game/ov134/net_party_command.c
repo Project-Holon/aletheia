@@ -179,7 +179,7 @@ extern u32 ZUKAN_SAVE_IsNationalDexEnabled(void *save);
 int NET_PARTY_COMMAND_GetEntry(int index, NetPartyEntryTable *table);
 void NET_PARTY_COMMAND_IsHandleFor(u32 value, u32 a, u32 b, u32 c, void *expected);
 int NET_PARTY_COMMAND_Init(void *sys, int unused, const NetPartyArgs *args);
-int NET_PARTY_COMMAND_Exit(void *arg0, u32 a, u32 b, char *work);
+int NET_PARTY_COMMAND_Exit(void *proc, u32 a, u32 b, char *work);
 int NET_PARTY_COMMAND_Main(void *unused0, void *unused1, u8 *listProc, u8 *work);
 void NET_PARTY_COMMAND_BuildPartyList(NetPartyArgs *args, void *unused, NetPartyParam *param);
 void NET_PARTY_COMMAND_BuildStatusParam(NetPartyArgs *args, void *unused, PStatusParam *statusParam);
@@ -229,12 +229,12 @@ int NET_PARTY_COMMAND_Init(void *sys, int unused, const NetPartyArgs *args)
 
 
 
-int NET_PARTY_COMMAND_Exit(void *arg0, u32 a, u32 b, char *work)
+int NET_PARTY_COMMAND_Exit(void *proc, u32 unused0, u32 unused1, char *work)
 {
     PLIST_COMM_End(work + 4);
     GF_OVERLAY_Unload((int)ov90_id);
     PROCSYS_Delete(((NetPartyWork *)work)->procHandle);
-    PROCSYS_FreeProcWork(arg0);
+    PROCSYS_FreeProcWork(proc);
     return 1;
 }
 

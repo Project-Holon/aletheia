@@ -103,11 +103,11 @@ fx32 VEC_DotProduct(const VecFx32 *a, const VecFx32 *b)
  */
 fx32 VEC_Fx16DotProduct(const VecFx16 *a, const VecFx16 *b)
 {
-    fx32 tmp1, tmp2;
+    fx32 dotXY, dotZ;
 
-    tmp1 = (a->x * b->x) + (a->y * b->y);
-    tmp2 = (a->z * b->z) + (1 << 11);
-    return (fx32)(((fx64)tmp1 + tmp2) >> 12);
+    dotXY = (a->x * b->x) + (a->y * b->y);
+    dotZ = (a->z * b->z) + (1 << 11);
+    return (fx32)(((fx64)dotXY + dotZ) >> 12);
 }
 
 

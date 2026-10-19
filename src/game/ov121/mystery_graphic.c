@@ -139,7 +139,7 @@ extern void CLACT_InitSystem(const void *cfg, u32 arg, u32 heapId);
 
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
-extern struct Obj *CLACT_CreateRenderer(void *a0, u32 a1, u32 heap);
+extern struct Obj *CLACT_CreateRenderer(void *inits, u32 count, u32 heap);
 
 extern void CLACT_SetUnitRenderer(void *bank, void *p);
 
@@ -199,17 +199,17 @@ void MYSTERY_GRAPHIC_InitBg(void *p, u32 a);
 
 void MYSTERY_GRAPHIC_ExitBg(void *p);
 
-void MYSTERY_GRAPHIC_Dummy(void *a0);
+void MYSTERY_GRAPHIC_Dummy(void *work);
 
-void MYSTERY_GRAPHIC_UpdateBg(void *a0);
+void MYSTERY_GRAPHIC_UpdateBg(void *work);
 
 void MYSTERY_GRAPHIC_InitClact(void **p, u32 a, u32 heap);
 
 void MYSTERY_GRAPHIC_ExitClact(u8 *p);
 
-void MYSTERY_GRAPHIC_DrawClact(void *a0);
+void MYSTERY_GRAPHIC_DrawClact(void *work);
 
-void MYSTERY_GRAPHIC_VBlankClact(void *a0);
+void MYSTERY_GRAPHIC_VBlankClact(void *work);
 
 unsigned MYSTERY_GRAPHIC_GetFirstWord(unsigned *p);
 
@@ -350,9 +350,9 @@ void MYSTERY_GRAPHIC_ExitBg(void *p) {
 /*
  * note: two trailing zero alignment bytes.
  */
-void MYSTERY_GRAPHIC_Dummy(void *a0) {}
+void MYSTERY_GRAPHIC_Dummy(void *work) {}
 
-void MYSTERY_GRAPHIC_UpdateBg(void *a0) { BG_SYS_Update(); }
+void MYSTERY_GRAPHIC_UpdateBg(void *work) { BG_SYS_Update(); }
 
 void MYSTERY_GRAPHIC_InitClact(void **p, u32 a, u32 heap)
 {
@@ -374,12 +374,12 @@ void MYSTERY_GRAPHIC_ExitClact(u8 *p) {
     MI_CpuFill8(p,0,8);
 }
 
-void MYSTERY_GRAPHIC_DrawClact(void *a0) { CLACT_DrawSystem(); }
+void MYSTERY_GRAPHIC_DrawClact(void *work) { CLACT_DrawSystem(); }
 
 /*
  * note: tail wrapper plus unlabelled getter follower; seed 021D98F0.
  */
-void MYSTERY_GRAPHIC_VBlankClact(void *a0) { CLACT_VBlankSystem(); }
+void MYSTERY_GRAPHIC_VBlankClact(void *work) { CLACT_VBlankSystem(); }
 
 unsigned MYSTERY_GRAPHIC_GetFirstWord(unsigned *p) { return *p; }
 

@@ -14,8 +14,8 @@
  * Field skill usability mask (guess).
  *
  * symbols:
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
- *   GAME_DATA_GetField114  0x020127A4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   MI_CpuFill8    0x02082BCC  arm
  *   FIELD_SKILL_USE_FLAGS_SetSkill  0x02028748  thumb
  *   GAME_DATA_GetPlayerObjectCode  0x02012B28  thumb
@@ -43,8 +43,8 @@ typedef struct FieldSkillUseFlags {
 
 typedef int (*SkillCheckHandler)(struct GameData *gameData, void *fieldMap, struct PlayerWork *player);
 
-extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
-extern struct PlayerWork *GAME_DATA_GetField114(struct GameData *gameData);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void FIELD_SKILL_USE_FLAGS_SetSkill(FieldSkillUseFlags *flags, int skillIndex, int usable);
 extern u32 GAME_DATA_GetPlayerObjectCode(const struct PlayerWork *player);
@@ -57,7 +57,7 @@ void FIELD_SKILL_CHECK_FillUseFlags(FieldSkillUseFlags *flags, struct GameSystem
     struct PlayerWork *player;
     int i;
 
-    player = GAME_DATA_GetField114(ICA_ANIME_GetField1C(gameSystem));
+    player = GAME_DATA_GetMyPlayerWork(GAMESYSTEM_GetGameData(gameSystem));
     MI_CpuFill8(flags, 0, sizeof(FieldSkillUseFlags));
     for (i = 0; i < 10; i++)
         FIELD_SKILL_USE_FLAGS_SetSkill(flags, i, FIELD_SKILL_CHECK_CallHandler(i, gameSystem, fieldMap));
@@ -74,8 +74,8 @@ int FIELD_SKILL_CHECK_CallHandler(int skillIndex, struct GameSystem *gameSystem,
     struct PlayerWork *player;
     SkillCheckHandler handler;
 
-    gameData = ICA_ANIME_GetField1C(gameSystem);
-    player = GAME_DATA_GetField114(gameData);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
+    player = GAME_DATA_GetMyPlayerWork(gameData);
     handler = d_021714DC[skillIndex];
     if (handler == 0)
         return 1;

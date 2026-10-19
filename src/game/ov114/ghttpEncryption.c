@@ -221,7 +221,7 @@ int ghttpSetRequestEncryptionEngine(int request, int engine)
     connection->encryptor.cleanupFunc = (void (*)(GHIConnection *, void *))ghiEncryptorSslCleanupFunc;
     connection->encryptor.encryptFunc = ghiEncryptorSslEncryptFunc;
     connection->encryptor.decryptFunc = ghiEncryptorSslDecryptFunc;
-    connection->encryptor.field_08 = 0;
+    connection->encryptor.interfaceCreated = 0;
     connection->encryptor.initialized = 0;
     connection->encryptor.sessionEstablished = 0;
     connection->encryptor.encryptOnBuffer = 1;
@@ -474,7 +474,7 @@ int ghiEncryptorSslInitFunc(GHIConnection *connection, GHIEncryptor *theEncrypto
         gsDebugFormat(8, (char *)4, 0xf, sGhttpGamespySslTwlCertificateIs, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslInitFunc, 0x431);
         return 3;
     }
-    theEncryptor->field_08 = 1;
+    theEncryptor->interfaceCreated = 1;
     theEncryptor->initialized = 0;
     theEncryptor->sessionEstablished = 0;
     theEncryptor->encryptOnBuffer = 0;
@@ -577,7 +577,7 @@ int ghiEncryptorSslCleanupFunc(GHIConnection *connection, GHIEncryptor *encrypto
             gsifree(sslInterface);
             encryptor->mInterface = 0;
         }
-        encryptor->field_08 = 0;
+        encryptor->interfaceCreated = 0;
         encryptor->initialized = 0;
         encryptor->sessionEstablished = 0;
     }

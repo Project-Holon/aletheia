@@ -197,17 +197,17 @@ void EGG_DEMO_GRAPHIC_InitBg(void *out,unsigned heap);
 
 void EGG_DEMO_GRAPHIC_DeleteBg(void *p);
 
-void EGG_DEMO_GRAPHIC_Noop(void *a0);
+void EGG_DEMO_GRAPHIC_Noop(void *unused);
 
-void EGG_DEMO_GRAPHIC_TickDisplay(void *a0);
+void EGG_DEMO_GRAPHIC_TickDisplay(void *unused);
 
 void EGG_DEMO_GRAPHIC_InitClact(unsigned char *p, int a, u32 b);
 
 void EGG_DEMO_GRAPHIC_DeleteClact(char *p);
 
-void EGG_DEMO_GRAPHIC_DrawClact(void *a0);
+void EGG_DEMO_GRAPHIC_DrawClact(void *unused);
 
-void EGG_DEMO_GRAPHIC_VBlankClact(void *a0);
+void EGG_DEMO_GRAPHIC_VBlankClact(void *unused);
 
 int EGG_DEMO_GRAPHIC_GetClactBank(void *p);
 

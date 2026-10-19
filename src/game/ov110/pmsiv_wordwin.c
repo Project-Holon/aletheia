@@ -137,7 +137,7 @@ extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 
 extern void CLACT_SetActorBgPriority(void *,int);
 
-extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern void BMP_FillRect(struct Bmp *b, u32 x, u32 y, u32 w, u32 h, u32 value);
 
 typedef enum { FALSE, TRUE } BOOL;
 

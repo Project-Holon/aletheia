@@ -51,7 +51,7 @@ int STA_SLOT_GetCurrentKey(char *p);
 void STA_SLOT_ClearCurrent(unsigned char *p);
 void STA_SLOT_PushRecord(StaSlotOwner *p, u32 a, u32 b, u32 c);
 unsigned char *STA_SLOT_GetRecordTable(void *h);
-void STA_SLOT_Noop(int a0, int a1, int a2);
+void STA_SLOT_Noop(int buffer, int size, int kind);
 extern unsigned char d_021FDDEC[];
 
 
@@ -82,12 +82,12 @@ int STA_SLOT_GetCurrentKey(char *p)
 void STA_SLOT_ClearCurrent(unsigned char *p) { ((StaSlotOwner *)p)->currentSlot = 4; }
 
 
-void STA_SLOT_PushRecord(StaSlotOwner *p, u32 a, u32 b, u32 c)
+void STA_SLOT_PushRecord(StaSlotOwner *p, u32 player, u32 action, u32 result)
 {
     u8 i;
     for (i = 0; i < 8; i++) {
         if (p->queue[i] == 0xffff) {
-            p->queue[i] = (c << 16) + (a << 8) + b;
+            p->queue[i] = (result << 16) + (player << 8) + action;
             p->queueFlag = 1;
             return;
         }
@@ -95,8 +95,8 @@ void STA_SLOT_PushRecord(StaSlotOwner *p, u32 a, u32 b, u32 c)
 }
 
 
-unsigned char *STA_SLOT_GetRecordTable(void *h) { return d_021FDDEC; }
+unsigned char *STA_SLOT_GetRecordTable(void *unused) { return d_021FDDEC; }
 
-void STA_SLOT_Noop(int a0, int a1, int a2)
+void STA_SLOT_Noop(int buffer, int size, int kind)
 {
 }

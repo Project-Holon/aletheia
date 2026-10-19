@@ -102,7 +102,7 @@ void MANUAL_COMMON_SetSaveValue(void *unused,int code,struct Big *save);
 
 int MANUAL_COMMON_IsValidKey(unsigned unused,unsigned key);
 
-int MANUAL_COMMON_GetDefaultId(void *a0);
+int MANUAL_COMMON_GetDefaultId(void *unused);
 
 int MANUAL_COMMON_GetGroupEntry(char *p, int idx);
 

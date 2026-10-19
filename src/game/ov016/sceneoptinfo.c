@@ -102,7 +102,7 @@ int DWCi_BTNlIsEnd(void);
 void DWCi_FNTlDeleteBgLcd(int lcd);
 int DWCi_COMMENTlDelete(void);
 void DWCi_GXlInvisible(int lcd, int plane);
-void DWCi_SetParam_(unsigned int param0, unsigned int param1);
+void DWCi_SetParam_(unsigned int stepParam, unsigned int buttonParam);
 void DWCi_SceneOptMenu(void);
 void DWCi_SceneOptInfo(void);
 void drawInfo(void);

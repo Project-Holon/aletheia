@@ -21,7 +21,7 @@
  *   MI_CpuCopy8    0x02082D44  arm
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   d_02172A18 0x02172A18 data a1
- *   ICA_ANIME_Check2114  0x02012114  thumb
+ *   GAMESYSTEM_IsFieldMapActive  0x02012114  thumb
  *   FIELD_COMM_ACTOR_CTRL_Delete  0x021942C8  thumb  ov021
  *   SAVEDATA_PanicFail  0x02034714  arm
  *   GFL_HEAP_Free  0x020307B0  arm
@@ -29,12 +29,12 @@
  *   FLDEFF_GYOE_IsFinished  0x021BB5C8  thumb
  *   FIELD_COMM_ACTOR_CTRL_AddActor  0x02194300  thumb  ov021
  *   FIELD_COMM_ACTOR_CTRL_DeleteActor 0x02194354 thumb ov021
- *   ICA_ANIME_GetField20  0x0201210C  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   FIELD_COMM_ACTOR_CTRL_Create  0x02194284  thumb  ov021
  *   MI_CpuFill8  0x02082BCC  arm
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
- *   GAME_DATA_GetField114  0x020127A4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   GAME_DATA_GetPlayerObjectCode  0x02012B28  thumb
  *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
  *   FIELD_STATUS_GetSeasonDispFlag  0x02014484  thumb
@@ -148,18 +148,18 @@ extern void SYMBOL_SAVE_UpdateChecksum(void *p);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
-extern unsigned int ICA_ANIME_Check2114(const struct Ctx *a);
+extern unsigned int GAMESYSTEM_IsFieldMapActive(const struct Ctx *a);
 extern void FIELD_COMM_ACTOR_CTRL_Delete(void *obj);
 extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 extern u32 GFL_HEAP_Free(void *p);
 extern int FLDEFF_GYOE_IsFinished(u32 v);
 extern void FIELD_COMM_ACTOR_CTRL_AddActor(u16 *a, int b, int c, u16 *d, int e, int f);
 extern void FIELD_COMM_ACTOR_CTRL_DeleteActor(void *, u32);
-extern void *ICA_ANIME_GetField20(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern void *FIELDMAP_GetMmdlSys(u8 *p);
 extern void *FIELD_COMM_ACTOR_CTRL_Create(int a, void *b, int heap, int c);
-extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
-extern void *GAME_DATA_GetField114(struct SaveBlock *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 extern u32 GAME_DATA_GetPlayerObjectCode(const struct Rec44 *p);
 extern void *GAME_DATA_GetMoveModelSys(const struct BigObj *p);
 extern u8 FIELD_STATUS_GetSeasonDispFlag(struct Sub02014444Obj *o);
@@ -199,7 +199,7 @@ int COMM_PLAYER_CheckOccupy(CommPlayerWork *work, int index);
 u16 COMM_PLAYER_GetObjCode(CommPlayerWork *work, int index);
 void COMM_PLAYER_SetPackage(CommPlayerWork *work, int index, CommPlayerPackage *package);
 int COMM_PLAYER_UpdateMyPackage(CommPlayerWork *work, CommPlayerPackage *out);
-int COMM_PLAYER_ForwardRequest(CommPlayerWork *work, int index, int a2, int a3, int a4, int a5);
+int COMM_PLAYER_ForwardRequest(CommPlayerWork *work, int index, int gridY, int gridZ, int outId, int searchIndex);
 int COMM_PLAYER_SetEffect(CommPlayerWork *work, int index);
 u32 COMM_PLAYER_GetPlayerModel(CommPlayerWork *work, int index);
 int COMM_PLAYER_CheckActive(CommPlayerWork *work, int index);
@@ -405,7 +405,7 @@ void COMM_PLAYER_Delete(void *gameSystem, CommPlayerWork *work)
     if (work->playerSys != 0) {
         for (i = 0; i < 4; i++)
             COMM_PLAYER_Del(work, i);
-        if (ICA_ANIME_Check2114(gameSystem) == 1)
+        if (GAMESYSTEM_IsFieldMapActive(gameSystem) == 1)
             FIELD_COMM_ACTOR_CTRL_Delete(work->playerSys);
         else
             SAVEDATA_PanicFail(d_02172A28, 0, d_02172A28);
@@ -417,7 +417,7 @@ void COMM_PLAYER_Update(void *gameSystem, CommPlayerWork *work)
 {
     int i;
     COMM_PLAYER_CreateSys(gameSystem, work);
-    if (ICA_ANIME_Check2114(work->gameSystem) == 1) {
+    if (GAMESYSTEM_IsFieldMapActive(work->gameSystem) == 1) {
         for (i = 0; i < 4; i++) {
             if (work->entries[i].used == 1 && work->entries[i].effect != 0 && FLDEFF_GYOE_IsFinished(work->entries[i].effect) == 1)
                 work->entries[i].effect = 0;
@@ -466,7 +466,7 @@ void COMM_PLAYER_Suspend(CommPlayerWork *work)
 {
     CommPlayerFlagView *flags;
     int i;
-    if (ICA_ANIME_Check2114(work->gameSystem) != 1)
+    if (GAMESYSTEM_IsFieldMapActive(work->gameSystem) != 1)
         SAVEDATA_PanicFail((const char *)d_02172A28, 0, (const char *)d_02172A28);
     if (work->playerSys != 0) {
         i = 0;
@@ -487,11 +487,11 @@ void COMM_PLAYER_Resume(CommPlayerWork *work)
     CommPlayerPackage package;
     CommPlayerFlagView *flags;
     int i;
-    if (ICA_ANIME_Check2114(work->gameSystem) != 1)
+    if (GAMESYSTEM_IsFieldMapActive(work->gameSystem) != 1)
         SAVEDATA_PanicFail((const char *)d_02172A28, 0, (const char *)d_02172A28);
     if (work->playerSys != 0)
         SAVEDATA_PanicFail((const char *)d_02172A28, 0, (const char *)d_02172A28);
-    work->playerSys = FIELD_COMM_ACTOR_CTRL_Create(work->playerMax, FIELDMAP_GetMmdlSys(ICA_ANIME_GetField20(work->gameSystem)), work->heapId, work->sysOption);
+    work->playerSys = FIELD_COMM_ACTOR_CTRL_Create(work->playerMax, FIELDMAP_GetMmdlSys(GAMESYSTEM_GetFieldMap(work->gameSystem)), work->heapId, work->sysOption);
     MI_CpuFill8(&package, 0, 0x14);
     flags = (CommPlayerFlagView *)work;
     flags = (CommPlayerFlagView *)((char *)flags + 0x1C);
@@ -510,7 +510,7 @@ void COMM_PLAYER_ClearPending(CommPlayerWork *work)
 {
     CommPlayerFlagView *flags;
     int i;
-    if (ICA_ANIME_Check2114(work->gameSystem) != 1)
+    if (GAMESYSTEM_IsFieldMapActive(work->gameSystem) != 1)
         SAVEDATA_PanicFail((const char *)d_02172A28, 0, (const char *)d_02172A28);
     if (work->playerSys != 0)
         SAVEDATA_PanicFail((const char *)d_02172A28, 0, (const char *)d_02172A28);
@@ -582,20 +582,20 @@ int COMM_PLAYER_UpdateMyPackage(CommPlayerWork *work, CommPlayerPackage *out)
     u32 vanish;
     u32 dir;
     u16 zoneId;
-    gameData = ICA_ANIME_GetField1C(work->gameSystem);
+    gameData = GAMESYSTEM_GetGameData(work->gameSystem);
     last = &work->last;
     vanish = 0;
     if (work->updateStopped == 1)
         return 0;
-    player = GAME_DATA_GetField114(gameData);
+    player = GAME_DATA_GetMyPlayerWork(gameData);
     dir = GAME_DATA_GetPlayerObjectCode(player);
     if (FIELD_STATUS_GetSeasonDispFlag(GAME_DATA_GetMoveModelSys(gameData)) == 2) {
         zoneId = last->zoneId;
         pos = last->pos;
         vanish = 1;
         dir = last->dir;
-    } else if (ICA_ANIME_Check2114(work->gameSystem) == 1 && FIELDMAP_IsReady(ICA_ANIME_GetField20(work->gameSystem)) == 1) {
-        rail = FIELDMAP_GetFieldPlayer(ICA_ANIME_GetField20(work->gameSystem));
+    } else if (GAMESYSTEM_IsFieldMapActive(work->gameSystem) == 1 && FIELDMAP_IsReady(GAMESYSTEM_GetFieldMap(work->gameSystem)) == 1) {
+        rail = FIELDMAP_GetFieldPlayer(GAMESYSTEM_GetFieldMap(work->gameSystem));
         railPlayer = FIELD_PLAYER_GetMmdl(rail);
         if (FIELD_PLAYER_GetFormSlot(rail) == 4)
             FIELD_PLAYER_GetPos(rail, &pos);
@@ -625,12 +625,12 @@ int COMM_PLAYER_UpdateMyPackage(CommPlayerWork *work, CommPlayerPackage *out)
  * Forwards a five-argument request for one player to the ov021 player
  * system, with a zero bail when that system is not created.
  */
-int COMM_PLAYER_ForwardRequest(CommPlayerWork *work, int index, int a2, int a3, int a4, int a5)
+int COMM_PLAYER_ForwardRequest(CommPlayerWork *work, int gridX, int gridY, int gridZ, int outId, int searchIndex)
 {
     void *playerSys = work->playerSys;
     if (playerSys == 0)
         return 0;
-    return FIELD_COMM_ACTOR_CTRL_SearchGridPos(playerSys, index, a2, a3, a4, a5);
+    return FIELD_COMM_ACTOR_CTRL_SearchGridPos(playerSys, gridX, gridY, gridZ, outId, searchIndex);
 }
 
 int COMM_PLAYER_SetEffect(CommPlayerWork *work, int index)
@@ -640,7 +640,7 @@ int COMM_PLAYER_SetEffect(CommPlayerWork *work, int index)
     entry = &work->entries[index];
     if (work->playerSys == 0 || entry->used == 0 || entry->effect != 0)
         return 0;
-    effectSys = (void *)FIELDMAP_GetEffect(ICA_ANIME_GetField20(work->gameSystem));
+    effectSys = (void *)FIELDMAP_GetEffect(GAMESYSTEM_GetFieldMap(work->gameSystem));
     entry->effect = FLDEFF_GYOE_StartHeld(effectSys, (void *)FIELD_COMM_ACTOR_CTRL_GetMmdl(work->playerSys, index), 0, 0);
     return 1;
 }
@@ -669,7 +669,7 @@ void COMM_PLAYER_CreateSys(void *gameSystem, CommPlayerWork *work)
 {
     void *fieldmap;
     if (work->playerSys == 0) {
-        fieldmap = ICA_ANIME_GetField20(gameSystem);
+        fieldmap = GAMESYSTEM_GetFieldMap(gameSystem);
         if (fieldmap != 0 && FIELDMAP_IsReady(fieldmap) != 0)
             work->playerSys = FIELD_COMM_ACTOR_CTRL_Create(work->playerMax, FIELDMAP_GetMmdlSys(fieldmap), work->heapId, work->sysOption);
     }

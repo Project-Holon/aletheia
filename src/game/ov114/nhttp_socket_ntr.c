@@ -124,15 +124,15 @@ void NHTTPi_SetSSLseed(void)
 
 
 
-int NHTTPi_checkKeepAlive(int a)
+int NHTTPi_checkKeepAlive(int socket)
 {
     int v = 0;
-    if (a == -1) {
+    if (socket == -1) {
         v = -1;
     } else {
         int n = 4;
         int tmp;
-        if (SOC_Recv(a, &tmp, 1, n) != n - 10)
+        if (SOC_Recv(socket, &tmp, 1, n) != n - 10)
             v = n - 5;
     }
     return v;

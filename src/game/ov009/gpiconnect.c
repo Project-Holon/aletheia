@@ -171,7 +171,7 @@ extern int gsUdpEngineIsInitialized(void);
 extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern int gsUdpEngineInitialize(unsigned short thePort, int theIncomingBufSize, int theOutgoingBufSize, void (*theAppNetworkError)(int, void *), void (*theAppConnected)(unsigned int, unsigned short, int, int, void *), void (*theAppClosed)(unsigned int, unsigned short, int, void *), void (*theAppPing)(unsigned int, unsigned short, unsigned int, void *), void (*theAppReceive)(unsigned int, unsigned short, unsigned char *, unsigned int, int, void *), int (*theAppUnownMsg)(unsigned int, unsigned short, unsigned char *, unsigned int, void *), void (*theAppConnectAttempt)(unsigned int, unsigned short, int, unsigned char *, unsigned int, void *), void *theAppUserData);
 extern void gpiSetError(int *connection, int result, int errorString);
-extern int gpiCallErrorCallback(int *connection, int a1, int a2);
+extern int gpiCallErrorCallback(int *connection, int result, int fatal);
 extern unsigned short gsUdpEngineGetLocalPort(void);
 extern int gsUdpEngineAddMsgHandler(char *theInitMsg, char *theHeader, void (*theMsgHandlerError)(int, void *), void (*theMsgHandlerConnected)(unsigned int, unsigned short, int, int, void *), void (*theMsgHandlerClosed)(unsigned int, unsigned short, int, void *), void (*theMsgHandlerPing)(unsigned int, unsigned short, unsigned int, void *), void (*theMsgHandlerRecv)(unsigned int, unsigned short, unsigned char *, unsigned int, int, void *), void *theUserData);
 extern int socket(int pf, int type, int protocol);
@@ -206,7 +206,7 @@ extern void B64Encode(const char *input, char *output, int inlen, int encodingTy
 extern int gpiCheckForError(int *connection, const char *input, int fatal);
 extern void gpiRemoveProfileByID(void **connection, int profileid);
 extern int gpiValueForKey(const char *command, const char *key, char *value, int valueLen);
-extern int atoi(u32 a0);
+extern int atoi(u32 s);
 extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
 extern int memcmp(const u8 *a, const u8 *b, int n);
 extern GPIProfile *gpiProfileListAdd(void **connection, int id);

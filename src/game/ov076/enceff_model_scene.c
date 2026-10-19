@@ -86,7 +86,7 @@ extern void *G3D_SYSTEM_CreateRender(void *modelResource, u32 modelIndex, void *
 extern struct G3dRec *G3D_SYSTEM_CreateAnime(struct G3dOwner *render, const struct G3dOwner *animeResource, int index);
 extern void *G3D_SYSTEM_CreateObject(void *render, void **animes, int count);
 extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *object, u32 index);
-extern void SCREENTEX_CaptureDisplay(u32 a0, u32 a1);
+extern void SCREENTEX_CaptureDisplay(u32 captureIndex, u32 copyIndex);
 extern u32 FIELDMAP_GetDrawMode(struct FieldMap *fieldMap);
 extern void FIELDMAP_SetDrawMode(struct FieldMap *fieldMap, u32 mode);
 extern int G3D_SYSTEM_GetObjectAnimeFrameMax(int *object, int index, int *frameMax);

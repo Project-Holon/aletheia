@@ -83,7 +83,7 @@ struct ManualListWork {
     void *resource;             /* 0x08 taskmenu resource */
     void *win[8];               /* 0x0C */
     u32 slotFlag[8];            /* 0x2C */
-    u16 field4C;                /* 0x4C */
+    u16 paletteColor;                /* 0x4C */
     u16 pad4E;                  /* 0x4E */
     u32 reg0;                   /* 0x50 */
     u32 reg1;                   /* 0x54 */
@@ -138,7 +138,7 @@ extern void STRBUF_Delete(struct U16Vec *);
 
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
@@ -204,9 +204,9 @@ extern void APP_TASKMENU_WIN_ClearScreen(u8 *);
 
 extern void APP_TASKMENU_WIN_DeleteNoClear(void);
 
-extern u32 *APP_TASKMENU_WIN_CreateExNoScreen(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5, u32 a6, u32 a7, u16 a8);
+extern u32 *APP_TASKMENU_WIN_CreateExNoScreen(u32 res, u32 item, u32 charPosX, u32 charPosY, u8 width, u8 height, u32 anmSpeed, u32 isCenter, u16 heapId);
 
-extern u32 APP_TASKMENU_WIN_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
+extern u32 APP_TASKMENU_WIN_Create(u32 res, u32 item, u32 charPosX, u32 charPosY, u8 width, u16 heapId);
 
 void MANUAL_COMMON_UpdateTouchbar(char *p);
 
@@ -228,7 +228,7 @@ void MANUAL_COMMON_LoadListWorkAssets(char *p);
 
 void MANUAL_COMMON_CreateListWorkMenu(char *p);
 
-void MANUAL_COMMON_SetListWorkBgMode(struct ManualListWork *a0);
+void MANUAL_COMMON_SetListWorkBgMode(struct ManualListWork *work);
 
 void MANUAL_COMMON_DeleteListWorkAssets(char *p);
 
@@ -407,7 +407,7 @@ void MANUAL_COMMON_CreateListWorkMenu(char *work)
 {
     BG_SYS_FreeSlot(5);
     *(struct ManualRes * *)&((struct ManualListWork *)work)->resource = APP_TASKMENU_RES_Create(5, 4, ((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->font, ((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->printQue1, ((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->heap);
-    ((struct ManualListWork *)work)->field4C = 0x1ce7;
+    ((struct ManualListWork *)work)->paletteColor = 0x1ce7;
     NNS_GfdRegisterNewVramTransferTask((void *)31, 154, work + 0x4c, 2);
     NNS_GfdRegisterNewVramTransferTask((void *)31, 186, work + 0x4c, 2);
     MANUAL_COMMON_RebuildListWindows(work);

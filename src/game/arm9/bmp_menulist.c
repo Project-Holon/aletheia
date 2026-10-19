@@ -94,7 +94,7 @@ struct BmpMenuList {
     u8 reserved24[0x28 - 0x24];
     struct MenuTarget *target;
     void *printer;
-    u32 textParam;
+    u32 font;
     u8 ovLetter : 4;
     u8 ovBg : 4;
     u8 ovShadow : 4;
@@ -491,22 +491,22 @@ void BMP_MENULIST_PrintItem(struct BmpMenuList *menu, const void *text, u32 x, u
         if (queued) {
             u32 printer = (u32)menu->printer;
             struct MenuTarget *target = menu->target;
-            PRINTSYS_PrintQueColor((void *)printer, BMP_WIN_GetBmp(target->win), x, y, text, menu->textParam,
+            PRINTSYS_PrintQueColor((void *)printer, BMP_WIN_GetBmp(target->win), x, y, text, menu->font,
                           COLOR(menu->ovLetter, menu->ovShadow, menu->ovBg));
             target->dirty = 1;
         } else {
-            PRINTSYS_PrintColor(BMP_WIN_GetBmp(menu->target->win), x, y, text, menu->textParam,
+            PRINTSYS_PrintColor(BMP_WIN_GetBmp(menu->target->win), x, y, text, menu->font,
                           COLOR(menu->ovLetter, menu->ovShadow, menu->ovBg));
         }
     } else {
         if (queued) {
             u32 printer = (u32)menu->printer;
             struct MenuTarget *target = menu->target;
-            PRINTSYS_PrintQueColor((void *)printer, BMP_WIN_GetBmp(target->win), x, y, text, menu->textParam,
+            PRINTSYS_PrintQueColor((void *)printer, BMP_WIN_GetBmp(target->win), x, y, text, menu->font,
                           COLOR(menu->letterColor, menu->shadowColor, menu->bgColor));
             target->dirty = 1;
         } else {
-            PRINTSYS_PrintColor(BMP_WIN_GetBmp(menu->target->win), x, y, text, menu->textParam,
+            PRINTSYS_PrintColor(BMP_WIN_GetBmp(menu->target->win), x, y, text, menu->font,
                           COLOR(menu->ovLetter, menu->ovShadow, menu->ovBg));
         }
     }
@@ -597,7 +597,7 @@ void BMP_MENULIST_DrawCursor(struct BmpMenuList *menu)
 
     switch (menu->flags.cursorOff) {
     case 0:
-        BMP_CURSOR_Draw(menu->cursor, cursorX, cursorY, menu->target, menu->printer, (u32)menu->textParam);
+        BMP_CURSOR_Draw(menu->cursor, cursorX, cursorY, menu->target, menu->printer, (u32)menu->font);
         break;
     case 1:
     case 2:

@@ -81,7 +81,7 @@
  *   gCgHelpTouchRects 0x021D4BE4 data a1
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
- *   ICA_ANIME_GetUnk330 0x02012204 thumb
+ *   GAMESYSTEM_IsNetOffBySleep 0x02012204 thumb
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   NNS_GfdRegisterNewVramTransferTask 0x02061CA4 arm
  *   GFL_HEAP_Alloc 0x02030734 arm
@@ -263,9 +263,9 @@ extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32
 extern void ARC_TOOL_DeleteHandle(void *);
 extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, void *out, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *out, u32 flags);
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
@@ -274,7 +274,7 @@ extern void CLACT_DeleteActor(struct Obj *);
 extern void CLACT_ReleasePalette(u32);
 extern void CLACT_ReleaseCharacter(u32);
 extern void CLACT_ReleaseCellAnim(u32);
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern void GF_FONT_SetTextColor(u32, u32, u32);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32, u32, u32, u32, u32, u16);
@@ -282,7 +282,7 @@ extern void BMP_MENUWORK_LoadCharAndPltt(u32, u32, u32, u32, u16);
 extern u8 BMP_MENUWORK_GetPlttFileId(int);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern void *PRINTSYS_QUE_Create(u32 heapId);
-extern void *APP_TASKMENU_RES_Create(u16 a0, u16 a1, void *font, void *printQue, u16 heap);
+extern void *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, void *font, void *printQue, u16 heap);
 extern void *BMP_WIN_Create(u32, u32, u32, u32, u8, u8, u8);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
@@ -300,17 +300,17 @@ extern u32 GF_FONT_Delete(void *ptr);
 extern int TOUCHPANEL_HitTrg(const void *p);
 extern void APP_TASKMENU_WIN_SetDecide(CgHelpWork *work, int v);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern u32 ICA_ANIME_GetUnk330(const struct Ctx *p);
+extern u32 GAMESYSTEM_IsNetOffBySleep(const struct Ctx *p);
 extern void PRINTSYS_PrintQueColor(void *printQue, void *bmp, u32 x, u32 y, void *text, void *font, u16 color);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern int NNS_GfdRegisterNewVramTransferTask(void *, u32, u32, int);
 extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 extern void BG_SYS_DrawTile(u32, void *, u32, u32, u8, u8);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void CLACT_SetActorAnimIndex(int a0, int a1);
+extern void CLACT_SetActorAnimIndex(int actor, int anim_idx);
 extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
-extern void *MYSTATUS_Create(int a0);
+extern void *MYSTATUS_Create(int heap_id);
 extern unsigned int KEY_GetCont(void);
 extern void MYSTATUS_SetOutfitVariant(struct Sub0200852CObj *obj, u8 value);
 extern void PROCSYS_FreeProcWork(struct Proc *);
@@ -638,7 +638,7 @@ void CG_HELP_HandleTouchInput(CgHelpWork *work)
         GFL_USE_PlaySeDefaultVolume(0x551);
         break;
     }
-    if (ICA_ANIME_GetUnk330(work->args->inputCtx) == 1) {
+    if (GAMESYSTEM_IsNetOffBySleep(work->args->inputCtx) == 1) {
         APP_TASKMENU_WIN_SetDecide(work->closeButton,1);
         work->phase = 2;
     }

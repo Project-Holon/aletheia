@@ -108,7 +108,7 @@ struct TrainerKindRecord {
 };
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern int   ARC_UTIL_LoadMemberWithSize(int a0, int a1, int a2, int a3, u32 *out);
+extern int   ARC_UTIL_LoadMemberWithSize(int archiveID, int memberIdx, int decompress, int heapID, u32 *out);
 extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
 extern u32 GFL_HEAP_Free(void *p);
 extern u32 TPOKE_DATA_FindEntryIndex(const struct Container *c, u32 key, u32 type, u32 subtype);
@@ -127,8 +127,8 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void STRBUF_Clear(struct U16Vec *vec);
 extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
 void TPOKE_DATA_ReadRecordString(int key, int want, void *dest, u32 heap);
-void TPOKE_DATA_ReadRecord(void *a0, void *a1);
-void TPOKE_DATA_ReadParty(void *a0, void *a1);
+void TPOKE_DATA_ReadRecord(void *dest, void *arc);
+void TPOKE_DATA_ReadParty(void *dest, void *arc);
 u8 TPOKE_DATA_GetGenderValue(u32 idx);
 u8 TPOKE_DATA_FindTrainerType(u32 key);
 u8 TPOKE_DATA_GetTrainerKind(u32 key);
@@ -378,16 +378,16 @@ void TPOKE_DATA_ReadRecordString(int key, int want, void *dest, u32 heap)
 
 
 
-void TPOKE_DATA_ReadRecord(void *a0, void *a1)
+void TPOKE_DATA_ReadRecord(void *dest, void *arc)
 {
-    ARC_TOOL_ReadMember(a1, 0x5c, (u32)a0);
+    ARC_TOOL_ReadMember(arc, 0x5c, (u32)dest);
 }
 
 
 
-void TPOKE_DATA_ReadParty(void *a0, void *a1)
+void TPOKE_DATA_ReadParty(void *dest, void *arc)
 {
-    ARC_TOOL_ReadMember(a1, 0x5d, (u32)a0);
+    ARC_TOOL_ReadMember(arc, 0x5d, (u32)dest);
 }
 
 

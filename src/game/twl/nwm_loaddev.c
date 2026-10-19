@@ -36,7 +36,7 @@ extern u32 NWMi_SendCommand(u32, u32, u32, u32, u32, u32);
 extern void NWMi_ForceExit(void);
 extern u32 DAT_027341a8[];
 
-u32 NWM_LoadDevice(u32 a0, u32 a1) {
+u32 NWM_LoadDevice(u32 callback, u32 unused) {
     u32 base = NWMi_GetSystemWork();
     u32 st = NWMi_CheckState(1, 1);
     u32 busy;
@@ -59,7 +59,7 @@ u32 NWM_LoadDevice(u32 a0, u32 a1) {
         return 3;
     }
     NWMi_CheckFirmDataParamIntegrity();
-    NWMi_SetCallbackTable(3, a0);
+    NWMi_SetCallbackTable(3, callback);
     NWMi_RegisterSleepCallback();
     DAT_027341a8[0] = (u32)NWMi_ForceExit;
     DAT_027341a8[1] = 0;

@@ -54,11 +54,11 @@ extern u32 data_02FFFC3C[];
 
 u32 NWMi_GetSystemWork(void);
 void NWMi_ClearFifoRecvFlag(void);
-void NWMi_ReceiveFifo9(u32 a0, Msg *msg, u32 a2);
+void NWMi_ReceiveFifo9(u32 tag, Msg *msg, u32 err);
 u32 NWM_GetState(void);
 u32 NWMi_CheckState(u32 n, ...);
 u32 NWM_GetAllowedChannel(void);
-u16 NWM_GetDispersionScanPeriod(u32 a0);
+u16 NWM_GetDispersionScanPeriod(u32 type);
 void NWMi_RegisterSleepCallback(void);
 void NWMi_DeleteSleepCallback(void);
 void NwmSleepCallback(void);
@@ -85,14 +85,14 @@ void NWMi_ClearFifoRecvFlag(void) {
     }
 }
 
-void NWMi_ReceiveFifo9(u32 a0, Msg *msg, u32 a2) {
+void NWMi_ReceiveFifo9(u32 tag, Msg *msg, u32 err) {
     u32 base = data_027341A4[0];
     void (*handler)(Msg *);
     u32 type;
     if (base == 0) {
         return;
     }
-    if (a2 != 0) {
+    if (err != 0) {
         return;
     }
     if (msg == 0) {
@@ -177,7 +177,7 @@ u32 NWM_GetAllowedChannel(void) {
  *   no word to compare, and no pool word names it outside this range; there is
  *   no layout/data_objects.txt row for it either.
  */
-u16 NWM_GetDispersionScanPeriod(u32 a0) {
+u16 NWM_GetDispersionScanPeriod(u32 type) {
     u8 mac[6];
     u16 sum;
     int i;
@@ -188,7 +188,7 @@ u16 NWM_GetDispersionScanPeriod(u32 a0) {
     }
     sum += (u16)data_02FFFC3C[0];
     v = sum * 13;
-    if (a0 == 1) {
+    if (type == 1) {
         return v % 10 + 0x1E;
     }
     return v % 10 + 0x69;

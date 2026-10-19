@@ -13,7 +13,7 @@
  * Cut from symbol_map_work.c by tools/splitfile.py.
  *
  * symbols:
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   GFL_HEAP_Free  0x020307B0  arm
  *   GAME_EVENT_GetWork 0x020124E8 thumb
@@ -26,7 +26,7 @@
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   MI_CpuFill8    0x02082BCC  arm
- *   ICA_ANIME_GetField20  0x0201210C  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   ov217_id  0x000000D9  data
  *   gResearchTopProcData  0x021C3FE0  data  ov217
  *   g_ResearchRadarFileName 0x02172A00 data a1
@@ -97,7 +97,7 @@ typedef struct ResearchReportWork {
     struct WordSet *wordSet;        /* 0x1C */
 } ResearchReportWork;
 
-extern void *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
 
@@ -123,7 +123,7 @@ extern u8 *GAME_DATA_GetMyStatus(void *gameData);
 
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 
-extern void *ICA_ANIME_GetField20(const struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 
 extern int FIELD_MSGBG_IsMsgWinTransDone(struct InfoWindow *window);
 
@@ -314,11 +314,11 @@ void *EVENT_RESEARCH_RADAR_CreateReportTask(void *gameSystem) {
  */
 void EVENT_RESEARCH_RADAR_InitReportWork(ResearchReportWork *work, void *gameSystem) {
     void *fieldMap;
-    fieldMap = ICA_ANIME_GetField20(gameSystem);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     MI_CpuFill8(work, 0, 32);
     work->heapId = FIELDMAP_GetHeapId(fieldMap);
     work->gameSystem = gameSystem;
-    work->gameData = ICA_ANIME_GetField1C(gameSystem);
+    work->gameData = GAMESYSTEM_GetGameData(gameSystem);
     work->fieldMap = fieldMap;
     work->fx = (void *)FIELDMAP_GetMsgBg(fieldMap);
 }

@@ -133,7 +133,7 @@ void CHIHOU_ZUKAN_AWARD_GRAPHIC_Noop(void *p);
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_DrawObjects(void *p);
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupClact(unsigned char *p, int a, int b);
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_DeleteClact(char *p);
-void CHIHOU_ZUKAN_AWARD_GRAPHIC_Draw(void *a0);
+void CHIHOU_ZUKAN_AWARD_GRAPHIC_Draw(void *work);
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_VBlank(void *p);
 unsigned CHIHOU_ZUKAN_AWARD_GRAPHIC_GetValue(unsigned *p);
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupCamera(u32**p,u32 heap);
@@ -252,7 +252,7 @@ void CHIHOU_ZUKAN_AWARD_GRAPHIC_DeleteClact(char *p)
     MI_CpuFill8(p, 0, 4);
 }
 
-void CHIHOU_ZUKAN_AWARD_GRAPHIC_Draw(void *a0) { CLACT_DrawSystem(); }
+void CHIHOU_ZUKAN_AWARD_GRAPHIC_Draw(void *work) { CLACT_DrawSystem(); }
 
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_VBlank(void *p){CLACT_VBlankSystem();}
 

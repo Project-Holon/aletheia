@@ -130,7 +130,7 @@ typedef unsigned char u8;
 
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 extern void DWCi_HEAPlFree_(void **mem);
-extern void DWCi_GetParam2_(void **param2, void **param3);
+extern void DWCi_GetParam2_(void **a, void **b);
 extern void DWCi_SetParam_(unsigned int a, unsigned int b);
 extern void DWCi_SetParam2_(unsigned int a, unsigned int b);
 extern void DWCi_SETTINGlGetSsid(unsigned char *buf);

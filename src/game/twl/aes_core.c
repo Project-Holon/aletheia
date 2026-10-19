@@ -41,11 +41,11 @@ typedef struct {
 typedef struct {
     u32 head[3];
     u32 pad;
-    u32 a1;
-    u32 a2;
+    u32 data;
+    u32 length;
     u32 zero;
     u32 kind;
-    u32 a3;
+    u32 mac;
 } Request;
 
 extern Slot data_02735A9C;
@@ -74,7 +74,7 @@ u32 WaitResult(void);
 void AESi_Init(void);
 u32 AESi_SeedRand(u32 a);
 u32 AESi_RandUnit(u32 buf, ...);
-u32 AESi_CalcMac(u32 src, u32 a1, u32 a2, u32 a3, void (*callback)(u32, OSEvent *), OSEvent *arg);
+u32 AESi_CalcMac(u32 src, u32 data, u32 length, u32 mac, void (*callback)(u32, OSEvent *), OSEvent *arg);
 
 void PxiCallback(u32 tag, u32 data, u32 err) {
     u32 type;
@@ -118,12 +118,12 @@ void AESi_Init(void) {
     data_02735A9C.ready = 1;
 }
 
-u32 AESi_SeedRand(u32 a) {
+u32 AESi_SeedRand(u32 seed) {
     u32 result;
     if (AESi_TryLock() == 0) {
         return 4;
     }
-    AESi_PxiSendCmd(1, (void *)a, 0x14);
+    AESi_PxiSendCmd(1, (void *)seed, 0x14);
     result = WaitResult();
     AESi_Unlock();
     return result;
@@ -141,7 +141,7 @@ u32 AESi_RandUnit(u32 buf, ...) {
     return result;
 }
 
-u32 AESi_CalcMac(u32 src, u32 a1, u32 a2, u32 a3, void (*callback)(u32, OSEvent *), OSEvent *arg) {
+u32 AESi_CalcMac(u32 src, u32 data, u32 length, u32 mac, void (*callback)(u32, OSEvent *), OSEvent *arg) {
     Request req;
     if (AESi_TryLock() == 0) {
         return 4;
@@ -149,13 +149,13 @@ u32 AESi_CalcMac(u32 src, u32 a1, u32 a2, u32 a3, void (*callback)(u32, OSEvent 
     data_02735A9C.callback = callback;
     data_02735A9C.arg = arg;
     MI_CpuCopy8((void *)src, &req, 0xc);
-    req.a1 = a1;
-    req.a2 = a2;
+    req.data = data;
+    req.length = length;
     req.zero = 0;
     req.kind = 7;
-    req.a3 = a3;
-    AESi_FlushRange(a1, a2);
-    AESi_InvalidateRange(a3, 0x10);
+    req.mac = mac;
+    AESi_FlushRange(data, length);
+    AESi_InvalidateRange(mac, 0x10);
     AESi_PxiSendCmd(9, &req, 0x24);
     return 1;
 }

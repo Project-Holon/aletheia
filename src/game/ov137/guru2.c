@@ -57,7 +57,7 @@ extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 
 extern void MI_CpuFill8(void *,int,u32);
 
-extern void *PROCSYS_Create(int a0);
+extern void *PROCSYS_Create(int heapId);
 
 extern u32 PROCSYS_Main(void *);
 
@@ -79,7 +79,7 @@ extern u32 POKEPARTY_GetCount(void *);
 
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 
-extern void GFL_NET_SetAutoExit(u8 a0);
+extern void GFL_NET_SetAutoExit(u8 autoExit);
 
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 
@@ -133,7 +133,7 @@ extern const u8 gPokeStatusProcData[],gGuru2MainProcData[],d_00000083[];
 
 extern int (* const gGuru2EntryStateTable[])(struct Guru2Entry *);
 
-int GURU2_EntryProcInit(void *obj,int a,struct Guru2Param *param)
+int GURU2_EntryProcInit(void *obj,int seq,struct Guru2Param *param)
 {
     struct Guru2Entry *p=PROCSYS_AllocProcWork(obj,36,4);
     MI_CpuFill8(p,0,36);
@@ -143,7 +143,7 @@ int GURU2_EntryProcInit(void *obj,int a,struct Guru2Param *param)
     return 1;
 }
 
-int GURU2_EntryProcMain(void *obj,int a,int b,struct Guru2Entry *p)
+int GURU2_EntryProcMain(void *obj,int seq,int parentWork,struct Guru2Entry *p)
 {
     switch(PROCSYS_Main(p->procHandle)) {
     case 0: if(gGuru2EntryStateTable[p->state](p)==1) return 1; break;
@@ -153,7 +153,7 @@ int GURU2_EntryProcMain(void *obj,int a,int b,struct Guru2Entry *p)
     return 0;
 }
 
-int GURU2_EntryProcExit(void *obj,int a,int b,struct Guru2Entry *p)
+int GURU2_EntryProcExit(void *obj,int seq,int parentWork,struct Guru2Entry *p)
 {
     PROCSYS_Delete(p->procHandle);
     PROCSYS_FreeProcWork(obj);
@@ -193,7 +193,7 @@ int GURU2_EntryStateStartReceipt(struct Guru2Entry *p)
  * GFL_HEAP_Alloc 0x02030734 arm
  * gGuru2AllocFileName 0x021E2260 data a4
  */
-struct Guru2PartyListParam *GURU2_PartyListArgsCreate(struct Guru2Entry *p,int a,int b)
+struct Guru2PartyListParam *GURU2_PartyListArgsCreate(struct Guru2Entry *p,int listType,int cursor)
 {
     struct Guru2PartyListParam *v;
     int i;
@@ -201,8 +201,8 @@ struct Guru2PartyListParam *GURU2_PartyListArgsCreate(struct Guru2Entry *p,int a
     v->party=GAME_DATA_GetMyParty(p->gameData);
     v->playerData=GAME_DATA_GetMyItem(p->gameData);
     v->initialMode=0;
-    v->listType=a;
-    v->cursor=b;
+    v->listType=listType;
+    v->cursor=cursor;
     for(i=0;i<(int)POKEPARTY_GetCount(v->party);i++) POKEPARTY_GetMember(v->party,i);
     return v;
 }

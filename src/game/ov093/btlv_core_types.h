@@ -115,7 +115,7 @@ typedef struct BtlvBagWork {
     u8 pointCounter;            /* 0x14 */
     u8 lastItem;                /* 0x15 */
     u16 selectedItem;           /* 0x16 */
-    u8 selectedItemPocket;      /* 0x18 */
+    u8 selectedItemCost;      /* 0x18 */
     u8 done;                    /* 0x19 nonzero once an item was picked or the screen closed */
     u8 reserved1A[2];
     struct MyItemSave *myItemSave; /* 0x1C receives the pocket cursors and the last used item */

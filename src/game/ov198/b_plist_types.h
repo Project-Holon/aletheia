@@ -32,30 +32,30 @@ struct B_PlistWin {
 
 /* The app object a B_PlistWork points at through its owner field. */
 struct B_PlistHost {
-    void *field00;             /* 0x00 */
-    void *field04;             /* 0x04 */
-    void *field08;             /* 0x08 */
-    u32   field0C;             /* 0x0C */
+    void *config;              /* 0x00 game config, first argument of EVENT_ID_Check */
+    void *party;               /* 0x04 POKEPARTY shown in the first rows */
+    void *partnerParty;        /* 0x08 POKEPARTY shown in rows 3..5 */
+    u32   font;                /* 0x0C font handle for text measuring and printing */
     u16   heapId;              /* 0x10 heap id, ORed with 0x8000 */
     u16   pad12;               /* 0x12 */
     int   field14;             /* 0x14 */
     int   ownerKind;           /* 0x18 compared with 1 by B_PLIST_MAIN_GetOwnerFlag18 */
     u8    pad1C[3];
-    u8    field1F;             /* 0x1F compared with 5 */
+    u8    field1F;             /* 0x1F list type, compared with 2, 3 and 5; role not known */
     u8    orderIndex;          /* 0x20 current order table index */
     u8    pad21;
     u8    partyCount;          /* 0x22 upper bound checked by B_PLIST_MAIN_IsIndexValid */
     u8    pad23;
-    u16   field24;             /* 0x24 */
-    u16   field26;             /* 0x26 */
-    void *field28;             /* 0x28 */
+    u16   itemId;              /* 0x24 item id read through FILE_UTIL_Get_0FE4 */
+    u16   moveId;              /* 0x26 move id shown by the move info page */
+    void *fadeContext;         /* 0x28 last argument of PALANM_RequestFade */
     int   field2C;             /* 0x2C */
-    u32   field30;             /* 0x30 compared with 1 */
-    int   field34;             /* 0x34 compared with 1 */
+    u32   cancelRequest;       /* 0x30 1 when the caller asked to cancel */
+    int   exitRequest;         /* 0x34 1 when the caller asked to close the screen */
     int   field38;             /* 0x38 */
     int   field3C;             /* 0x3C */
-    u32   field40;             /* 0x40 compared with 1 */
-    void *field44;             /* 0x44 pointer to a flag byte */
+    u32   seEnabled;           /* 0x40 1 when sound effects are played */
+    void *syncFlagPtr;         /* 0x44 pointer to a flag byte shared with the caller */
     u8    pad48[3];
     u8    moveKind;            /* 0x4B compared with 4 by B_PLIST_MAIN_CheckMoveUsable */
 };
@@ -68,19 +68,19 @@ struct B_PlistHost {
 struct B_PlistSlot {
     union { void *ptr; u32 species; } u00;   /* 0x00 mon species id */
     u16   pad04;                              /* 0x04 */
-    u16   field06;                            /* 0x06 */
+    u16   attack;                             /* 0x06 */
     u16   active;                             /* 0x08 nonzero when the slot holds a mon */
-    u16   field0A;                            /* 0x0A */
-    u16   field0C;                            /* 0x0C */
-    u16   field0E;                            /* 0x0E */
-    u16   field10;                            /* 0x10 */
-    u16   field12;                            /* 0x12 */
-    u16   field14;                            /* 0x14 */
+    u16   speed;                              /* 0x0A */
+    u16   spAttack;                           /* 0x0C */
+    u16   spDefense;                          /* 0x0E */
+    u16   hp;                                 /* 0x10 current HP */
+    u16   maxHp;                              /* 0x12 */
+    u16   hpRawBase;                          /* 0x14 current HP read through an unbiased base (record - 4) */
     struct { u8 level : 7; u8 flag : 1; } levelBits; /* 0x16 */
     u8    pad17;                              /* 0x17 */
-    u16   field18;                            /* 0x18 */
+    u16   abilityId;                          /* 0x18 */
     union {
-        u16 field1A;                          /* 0x1A */
+        u16 heldItem;                         /* 0x1A */
         struct { u8 pad; struct { u8 low : 7; u8 high : 1; } flags; } bits;
     } u1A;
     u32   expCurrent;                         /* 0x1C */
@@ -113,8 +113,8 @@ struct B_PlistWork {
     struct { u8 low : 4; u8 mode : 3; u8 active : 1; } animFlags; /* 0x1E9B */
     union { void *fontSmall; u32 fontSmallWord; } u1E9C; /* 0x1E9C GF_FONT_Create_EC64 result */
     void *msgBank;              /* 0x1EA0 message bank */
-    void *font;                 /* 0x1EA4 GF_FONT_Create result */
-    union { void *wordSet; u32 wordSetWord; } u1EA8; /* 0x1EA8 */
+    void *wordSet;              /* 0x1EA4 WORDSET used to format text */
+    union { void *strBuf; u32 strBufWord; } u1EA8; /* 0x1EA8 string buffer the formatted text goes to */
     union { void *printQue; u32 printQueWord; } u1EAC; /* 0x1EAC print queue */
     union { void *printStream; int printStreamWord; } u1EB0; /* 0x1EB0 */
     int   printStreamFlags;     /* 0x1EB4 */
@@ -153,31 +153,31 @@ struct B_PlistWork {
     u8    flag2499;             /* 0x2499 */
     u8    flag249A;             /* 0x249A */
     u8    pad249B;              /* 0x249B */
-    u16   field249C;            /* 0x249C */
-    u16   field249E;            /* 0x249E */
+    u16   selPairFirst;         /* 0x249C first value of a stored selection pair, 0xFF when free */
+    u16   selPairSecond;        /* 0x249E */
     u8    pad24A0[4];           /* 0x24A0 */
-    int   field24A4;            /* 0x24A4 */
+    int   charHandles;           /* 0x24A4 first of 26 character handles (to 0x250C) */
     u8    pad24A8[0x14];        /* 0x24A8 */
-    int   field24BC;            /* 0x24BC */
-    int   field24C0;            /* 0x24C0 */
+    int   field24BC;            /* 0x24BC character handle of icon set 1 (role not known) */
+    int   field24C0;            /* 0x24C0 character handle of icon set 3 (role not known) */
     u8    pad24C4[0x38];        /* 0x24C4 */
-    int   field24FC;            /* 0x24FC */
-    int   field2500;            /* 0x2500 */
-    int   field2504;            /* 0x2504 */
-    int   field2508;            /* 0x2508 */
+    int   moveKindChar;         /* 0x24FC */
+    int   moveKindCharAlt;      /* 0x2500 */
+    int   toolChar;             /* 0x2504 */
+    int   gearChar;             /* 0x2508 */
     u8    pad250C[4];           /* 0x250C */
-    int   field2510;            /* 0x2510 */
-    int   field2514;            /* 0x2514 */
-    int   field2518;            /* 0x2518 */
-    int   field251C;            /* 0x251C */
-    int   field2520;            /* 0x2520 */
+    int   field2510;            /* 0x2510 palette handle of icon set 1 (role not known) */
+    int   field2514;            /* 0x2514 palette handle of icon set 3 (role not known) */
+    int   typeIconPal;          /* 0x2518 */
+    int   toolPal;              /* 0x251C */
+    int   gearPal;              /* 0x2520 */
     u8    pad2524[4];           /* 0x2524 */
-    int   field2528;            /* 0x2528 */
-    int   field252C;            /* 0x252C */
-    int   field2530;            /* 0x2530 */
-    int   field2534;            /* 0x2534 */
-    int   field2538;            /* 0x2538 */
-    void *field253C;            /* 0x253C */
+    int   field2528;            /* 0x2528 cell anim handle of icon set 1 (role not known) */
+    int   field252C;            /* 0x252C cell anim handle of icon set 3 (role not known) */
+    int   typeIconCell;         /* 0x2530 */
+    int   toolCell;             /* 0x2534 */
+    int   gearCell;             /* 0x2538 */
+    void *toolWinIds;           /* 0x253C window id table passed to B_APP_TOOL_ShowWindows */
     int   done;                 /* 0x2540 nonzero when the screen is finished */
 };
 

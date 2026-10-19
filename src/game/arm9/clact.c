@@ -529,7 +529,7 @@ typedef void (*AnimResetFn)(struct AnimCtl *ctl);
 
 struct Cmd {
     u16 op;     /* 0x00 */
-    u16 arg0;   /* 0x02 */
+    u16 tag;    /* 0x02 */
     u32 arg1;   /* 0x04 */
     u32 arg2;   /* 0x08 */
 };
@@ -580,16 +580,16 @@ extern unsigned int NNSi_G2dReserveOamManagerSpan(void *p, int a, int b, int whi
 extern void NNS_G2dApplyOamManagerToHW(struct OamManager *pMan, u32 bound);
 extern void NNS_G2dResetOamManagerBuffer(struct OamManager *pMan);
 extern void NNS_G2dInitRenderer(struct Renderer *o);
-extern void NNS_G2dSetRendererTargetSurface(struct Renderer *p0, struct Surface *p1);
+extern void NNS_G2dSetRendererTargetSurface(struct Renderer *pRend, struct Surface *pNew);
 extern void NNS_G2dInitRenderSurface(struct Surface *p);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u32  NNSi_G2dEntryOamManagerOam(struct OamManager *win, struct OamEntry *entry, u32 mode);
-extern void NNS_G2dEntryOamManagerAffine(struct OamManager *a0, u32 a1);
+extern void NNS_G2dEntryOamManagerAffine(struct OamManager *pMan, u32 mtx);
 extern void  NNS_G2dInitCellTransferStateManager(struct VramTransferTask *recs, u32 n, void *cb);
 extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr);
 extern void NNSi_G2dInitVramHandle(u32 *p);
 extern void NNSi_G2dInitVramHandleEx(u32 *p);
-extern void NNSi_G2dSetRndCoreImageProxyVeneer(int *a0, int a1, int a2);
+extern void NNSi_G2dSetRndCoreImageProxyVeneer(int *pRnd, int pImgProxy, int pPltProxy);
 extern void NNS_G2dBeginRendering(struct Renderer *obj);
 extern void NNS_G2dEndRendering();
 extern void NNS_G2dSetRndCoreAffineOverwriteMode(struct Renderer *p, u32 mode);
@@ -597,27 +597,27 @@ extern void NNS_G2dSetRndCoreFlipMode(struct Renderer *p, u32 h, u32 v);
 extern void NNS_G2dTranslate(s32 x, s32 y, s32 z);
 extern void NNS_G2dScale(s32 x, s32 y, s32 z);
 extern void NNS_G2dRotZ(s32 a, s32 b);
-extern void NNSi_G2dRendererDrawCellZOffset(void *a0);
+extern void NNSi_G2dRendererDrawCellZOffset(void *pCell);
 extern void NNSi_G2dRendererDrawCellTransformedZOffset(void *p);
 extern void NNSi_G2dRendererDrawMultiCellTransformed(struct MultiCellAnim *c);
 extern struct AnimSequence *NNS_G2dGetAnimSequenceByIdx(struct G2dDataBank *bank, u32 idx);
-extern void NNS_G2dInitCellAnimation(char *self, int a1, struct G2dDataBank *c);
+extern void NNS_G2dInitCellAnimation(char *self, int pAnimSeq, struct G2dDataBank *c);
 extern int NNSi_G2dGetCellTransferStateIndex(void);
-extern void NNS_G2dInitCellAnimationVramTransfered(char *self, int a1, struct G2dDataBank *c, int d, int e, int f, int g, int h, int i, int j);
+extern void NNS_G2dInitCellAnimationVramTransfered(char *self, int pAnimSeq, struct G2dDataBank *c, int d, int e, int f, int g, int h, int i, int j);
 extern int NNS_G2dGetMCWorkAreaSize(struct G2dDataBank *mc_bank, u32 b);
-extern void NNS_G2dInitMCAnimation(char *o, void *buf, void *set, void *a3, struct G2dDataBank *bank, int kind);
+extern void NNS_G2dInitMCAnimation(char *o, void *buf, void *set, void *pCellDataBank, struct G2dDataBank *bank, int kind);
 extern void NNS_G2dSetAnimSequenceToMCAnimation(struct MultiCellAnim *o, void *bank);
 extern void NNSi_G2dResetCellTransferState(u32 idx);
 extern void  NNS_G2dSetCellAnimationSequence(u8 *r, void *v);
 extern void NNS_G2dTickCellAnimation(struct CellAnim *anim, s32 frames);
-extern void NNS_G2dTickMCAnimation(char *self, int a1);
+extern void NNS_G2dTickMCAnimation(char *self, int frames);
 extern void NNS_G2dSetCellAnimationCurrentFrame(struct CellAnim *anim, u32 i);
 extern void NNS_G2dSetMCAnimationCurrentFrame(char *self, unsigned int i);
 extern void NNS_G2dSetCellAnimationSpeed(struct MultiCellAnim *mca, u32 value);
 extern void NNS_G2dSetMCAnimationSpeed(u8 *o, void *arg);
 extern void NNS_G2dRestartCellAnimation(struct CellAnim *anim);
 extern void NNSi_G2dSetMCInstanceCurrentFrameZero(struct CellXferState *x);
-extern void NNS_G2dSetCellAnimationParam(int p0, int p1, int p2, int p3);
+extern void NNS_G2dSetCellAnimationParam(int anim, int type, int param, int func);
 extern void NNS_G2dSetCellAnimationParamTagged(struct CellAnim *anim, u32 a, u32 b, u16 tag);
 extern struct VramAllocator *VMAN_Create(u32 heapId, u32 kind, u32 flags, u32 base, u32 b);
 extern void VMAN_Delete(struct VramAllocator *obj);
@@ -824,7 +824,7 @@ void CLACT_UpdateMultiCellAnim(struct AnimCtl *anim_ctl, u32 value);
 void CLACT_UpdateVramAnim(struct AnimCtl *anim_ctl, u32 target);
 void CLACT_ResetAnim(struct AnimCtl *anim_ctl);
 void CLACT_ResetCellAnim(void *anim_base);
-void CLACT_ResetMultiCellAnim(u8 *a0);
+void CLACT_ResetMultiCellAnim(u8 *anim_base);
 void CLACT_ResetVramAnim(void *anim_base);
 void *CLACT_GetCellUserAttr(struct AnimCtl *anim_ctl, u32 idx);
 void *CLACT_GetMultiCellUserAttr(struct AnimCtl *anim_ctl, u32 idx);
@@ -6111,7 +6111,7 @@ void CLACT_ApplyAnimCommand(struct AnimCtl *anim_ctl, const struct Cmd *cmd)
         NNS_G2dSetCellAnimationParam((int)anim_ctrl, 3, cmd->arg1, cmd->arg2);
         break;
     case 1:
-        NNS_G2dSetCellAnimationParamTagged(anim_ctrl, cmd->arg1, cmd->arg2, cmd->arg0);
+        NNS_G2dSetCellAnimationParamTagged(anim_ctrl, cmd->arg1, cmd->arg2, cmd->tag);
         break;
     }
 }

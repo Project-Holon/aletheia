@@ -149,7 +149,7 @@ extern void DWCi_SetError(int error, int errorCode);
 extern int DWC_Http_ParseResult(DWCHttp *http, int noparsebody);
 extern char *DWC_Http_GetResult(DWCHttp *http, char *label);
 extern int DWC_Auth_SetNasTimeDiff(char *datestr);
-extern int atoi(u32 a0);
+extern int atoi(u32 s);
 extern int DWC_Http_GetBase64DecodedResult(DWCHttp *http, char *label, char *buffer, unsigned long buffer_len);
 extern void *DWC_Alloc(int name, unsigned long size);
 /* DWC_Free takes a third argument, the allocation size. The callee ignores it. */

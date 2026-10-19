@@ -14,7 +14,7 @@
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FLDMMDL_EndAcmd  0x0216D480  thumb  ov010
@@ -23,7 +23,7 @@
  *   INTRUDE_COMM_SendAnswer  0x02173B9C  thumb  ov011
  *   INTRUDE_COMM_NextRequestToken  0x021753B8  thumb  ov011
  *   INTRUDE_COMM_SendReply  0x02173AE0  thumb  ov011
- *   ICA_ANIME_GetField24  0x02012138  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   GAME_EVENT_Create  0x020122C0  thumb
@@ -34,7 +34,7 @@
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
- *   ICA_ANIME_GetField20  0x0201210C  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_IsReady  0x02188BE8  thumb  ov021
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   FIELD_MSGBG_CreateMsgData  0x021904B0  thumb  ov021
@@ -47,7 +47,7 @@
  *   MSGDATA_Delete  0x02045C04  arm
  *   SCRCMD_WORK_GetGameSystem 0x0215A5DC thumb ov010
  *   GFL_HEAP_Alloc  0x02030734  arm
- *   ICA_ANIME_GetField114  0x020120F8  thumb
+ *   GAMESYSTEM_GetMyPlayerWork  0x020120F8  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   GFL_HEAP_Free  0x020307B0  arm
  *   GAME_DATA_GetIntrudeIdByte            0x0215841C  thumb  ov010
@@ -359,7 +359,7 @@ typedef struct EventCommItemSaleWork {
 } EventCommItemSaleWork;
 
 extern void MI_CpuFill8(void *dest, int value, int size);
-extern struct GameData *ICA_ANIME_GetField1C(struct GameSystem *gameSystem);
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 extern void FLDMMDL_SetAcmd(struct FldMmdl *mmdl, int acmd);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern int FLDMMDL_EndAcmd(struct FldMmdl *mmdl);
@@ -368,7 +368,7 @@ extern u32 KEY_GetTrg(void);
 extern int INTRUDE_COMM_SendAnswer(int netId, int seq);
 extern void INTRUDE_COMM_NextRequestToken(IntrudeCommSys *sys);
 extern int INTRUDE_COMM_SendReply(IntrudeCommSys *sys, int netId, int requestActive, int seq);
-extern struct GameComm *ICA_ANIME_GetField24(struct GameSystem *gameSystem);
+extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
 extern u8 GAME_DATA_GetOwnNetId(struct GameData *gameData);
 extern IntrudeCommSys *INTRUDE_COMM_GetWorkIfRunning(struct GameComm *gameComm);
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, unsigned int workSize);
@@ -379,7 +379,7 @@ extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent *child);
 u32 GFL_NET_ERR_GetErrorLevel(void);
 void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
-extern struct FieldMap *ICA_ANIME_GetField20(struct GameSystem *gameSystem);
+extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 int FIELDMAP_IsReady(struct FieldMap *fieldMap);
 extern void *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
 extern void *FIELD_MSGBG_CreateMsgData(void *fieldMsgbg, u32 arcDatId);
@@ -392,7 +392,7 @@ extern void FIELD_MSGBG_DeleteSysWin(void *printer);
 extern u32 MSGDATA_Delete(void *msgData);
 extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScriptWork *scriptWork);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern void *ICA_ANIME_GetField114(struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetMyPlayerWork(struct GameSystem *gameSystem);
 extern u16 GAME_DATA_GetPlayerZoneId(void *playerWork);
 extern u32 GFL_HEAP_Free(void *memory);
 extern u8 GAME_DATA_GetIntrudeIdByte(struct GameData *gameData);
@@ -510,7 +510,6 @@ extern int INTRUDE_SUBDISP_MainRequestAnswerSeq(IntrudeCommSys *sys, EventCommCo
 struct GameEvent *INTRUDE_SUBDISP_CreatePalaceWarpEvent(struct GameSystem *gameSystem);
 struct GameEvent *INTRUDE_SUBDISP_CreateDisconnectEvent(struct GameSystem *gameSystem, int mode);
 extern struct GameEvent *INTRUDE_SUBDISP_CreateTownWarpEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u16 zoneId, int mode);
-extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
 void EVENT_COMM_COMMON_InitMsgBox(EventCommMsgBox *msgBox, struct GameSystem *gameSystem);
 void EVENT_COMM_COMMON_ExitMsgBox(EventCommMsgBox *msgBox);
 void EVENT_COMM_COMMON_SetupPrintWin(EventCommMsgBox *msgBox);
@@ -682,7 +681,7 @@ void EVENT_COMM_COMMON_InitMsgBox(EventCommMsgBox *msgBox, struct GameSystem *ga
 {
     void *fieldMsgbg;
 
-    fieldMsgbg = FIELDMAP_GetMsgBg(ICA_ANIME_GetField20(gameSystem));
+    fieldMsgbg = FIELDMAP_GetMsgBg(GAMESYSTEM_GetFieldMap(gameSystem));
     if (msgBox->wordSet == 0) {
         msgBox->wordSet = WORDSET_Create(6, 0x20, 4);
         msgBox->text = STRBUF_Create(0x1F0, 4);
@@ -838,7 +837,7 @@ void EVENT_COMM_COMMON_DeleteChoice(EventCommMsgBox *msgBox)
 
 void EVENT_COMM_COMMON_StartChoice(EventCommMsgBox *msgBox, struct GameSystem *gameSystem)
 {
-    ICA_ANIME_GetField20(gameSystem);
+    GAMESYSTEM_GetFieldMap(gameSystem);
     if (msgBox->choiceHandle != 0 || msgBox->msgData == 0) SAVEDATA_PanicFail(sEmptyTextMsgBox, 0, sEmptyTextMsgBox);
     msgBox->choiceHandle = FIELD_MSGBG_CreateYesNoMenu(msgBox->fieldMsgbg, 0);
 }
@@ -855,7 +854,7 @@ int EVENT_COMM_COMMON_PollChoice(EventCommMsgBox *msgBox)
 
 void EVENT_COMM_COMMON_SetupListWindowB(EventCommMsgBox *msgBox, struct GameSystem *gameSystem, int x, int y, int width, int height)
 {
-    ICA_ANIME_GetField20(gameSystem);
+    GAMESYSTEM_GetFieldMap(gameSystem);
     if (msgBox->listWindowB != 0) {
         SAVEDATA_PanicFail(sEmptyTextMsgBox, 0, sEmptyTextMsgBox);
     }
@@ -979,9 +978,9 @@ int EVENT_COMM_COMMON_ExitSyncEventMain(struct GameEvent *event, int *seq, void 
     int alone;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    gameData = ICA_ANIME_GetField1C(gameSystem);
-    gameComm = ICA_ANIME_GetField24(gameSystem);
-    fieldMap = ICA_ANIME_GetField20(gameSystem);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
+    gameComm = GAMESYSTEM_GetGameComm(gameSystem);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     alone = 0;
     sys = INTRUDE_COMM_GetWorkIfRunning(gameComm);
     if (sys == 0 && *seq > 0 && *seq < 5) {
@@ -1081,7 +1080,7 @@ int EVENT_COMM_COMMON_CmdGetObjCode(ScriptVm *vm, struct ScriptWork *scriptWork)
     IntrudeCommSys *sys;
     int unused;
     result = SCRIPT_WORK_ReadWorkPointer(vm, scriptWork);
-    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(SCRCMD_WORK_GetGameSystem(scriptWork)));
+    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(SCRCMD_WORK_GetGameSystem(scriptWork)));
     if (sys == 0 || sys->localPeer.objCode == 0) {
         *result = 0;
     } else {
@@ -1099,7 +1098,7 @@ int EVENT_COMM_COMMON_CmdCheckMissionInfoPending(ScriptVm *vm, struct ScriptWork
     int value;
 
     result = SCRIPT_WORK_ReadWorkPointer(vm, scriptWork);
-    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(SCRCMD_WORK_GetGameSystem(scriptWork)));
+    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(SCRCMD_WORK_GetGameSystem(scriptWork)));
     if (sys != 0 && sys->infoShown == 0 && INTRUDE_COMM_IsSessionAccepted(&sys->session) == 1) {
         value = 1;
     } else {
@@ -1139,7 +1138,7 @@ int EVENT_COMM_COMMON_MissionInfoEventMain(struct GameEvent *event, int *seq, vo
     struct GameEvent *next;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
+    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(gameSystem));
     if (sys == 0 && *seq < 3) {
         *seq = 3;
     }
@@ -1165,7 +1164,7 @@ int EVENT_COMM_COMMON_MissionInfoEventMain(struct GameEvent *event, int *seq, vo
         }
         break;
     case 2:
-        next = INTRUDE_FIELD_CreateOfferInfoEvent(gameSystem, ICA_ANIME_GetField20(gameSystem), sys, 0x15);
+        next = INTRUDE_FIELD_CreateOfferInfoEvent(gameSystem, GAMESYSTEM_GetFieldMap(gameSystem), sys, 0x15);
         EVENT_COMM_COMMON_FreeMissionInfoWork(msgBox);
         GAME_EVENT_ChangeEvent(event, next);
         return 0;
@@ -1202,9 +1201,9 @@ int EVENT_COMM_COMMON_ReturnPalaceEventMain(struct GameEvent *event, int *seq, v
     struct GameEvent *next;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    gameComm = ICA_ANIME_GetField24(gameSystem);
-    gameData = ICA_ANIME_GetField1C(gameSystem);
-    fieldMap = ICA_ANIME_GetField20(gameSystem);
+    gameComm = GAMESYSTEM_GetGameComm(gameSystem);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     sys = INTRUDE_COMM_GetWorkIfRunning(gameComm);
     switch (*seq) {
     case 0:
@@ -1221,7 +1220,7 @@ int EVENT_COMM_COMMON_ReturnPalaceEventMain(struct GameEvent *event, int *seq, v
         (*seq)++;
         break;
     case 1:
-        if (ZONEDATA_IsZone117(GAME_DATA_GetPlayerZoneId(ICA_ANIME_GetField114(gameSystem))) == 1) {
+        if (ZONEDATA_IsZone117(GAME_DATA_GetPlayerZoneId(GAMESYSTEM_GetMyPlayerWork(gameSystem))) == 1) {
             GAME_EVENT_CallEvent(event, EVENT_COMM_COMMON_CreateMissionInfoEvent(gameSystem));
         }
         (*seq)++;
@@ -1250,8 +1249,8 @@ int EVENT_COMM_COMMON_CmdGetIntrudeDistance(ScriptVm *vm, struct ScriptWork *scr
 
     result = SCRIPT_WORK_ReadWorkPointer(vm, scriptWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(scriptWork);
-    ICA_ANIME_GetField24(gameSystem);
-    gameData = ICA_ANIME_GetField1C(gameSystem);
+    GAMESYSTEM_GetGameComm(gameSystem);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
     if (GAME_DATA_GetIntrudeIdByte(gameData) == GAME_DATA_GetOwnNetId(gameData)) {
         *result = 0;
     } else {
@@ -1271,7 +1270,7 @@ int EVENT_COMM_COMMON_CmdCheckBattleRecState(ScriptVm *vm, struct ScriptWork *sc
     u16 *result;
     int value;
     result = SCRIPT_WORK_ReadWorkPointer(vm, scriptWork);
-    if (INTRUDE_GetMonolithLevel(INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(SCRCMD_WORK_GetGameSystem(scriptWork))))) != 0x30) {
+    if (INTRUDE_GetMonolithLevel(INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem(scriptWork))))) != 0x30) {
         value = 1;
     } else {
         value = 0;
@@ -1305,7 +1304,7 @@ int EVENT_COMM_COMMON_TalkStartEventMain(struct GameEvent *event, int *seq, void
     IntrudeCommSys *sys;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
+    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(gameSystem));
     switch (*seq) {
     case 0:
         if (sys == 0) {
@@ -1361,7 +1360,7 @@ int EVENT_COMM_COMMON_TalkedStartEventMain(struct GameEvent *event, int *seq, vo
     struct GameSystem *gameSystem = GAME_EVENT_GetGameSystem(event);
     IntrudeCommSys *sys;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
+    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(gameSystem));
     switch (*seq) {
     case 0:
         if (sys == 0) {
@@ -1408,7 +1407,7 @@ void EVENT_COMM_COMMON_InitCommonWork(struct GameSystem *gameSystem, IntrudeComm
     work->fieldMap = fieldMap;
     work->peerSlot = (u8)netId;
     work->msgIndex = EVENT_COMM_COMMON_GetPeerTalkStatus(sys, (u8)netId);
-    MYSTATUS_Copy(GAME_DATA_GetMyStatusByNetId(ICA_ANIME_GetField1C(gameSystem), partnerNetId), work->myStatus);
+    MYSTATUS_Copy(GAME_DATA_GetMyStatusByNetId(GAMESYSTEM_GetGameData(gameSystem), partnerNetId), work->myStatus);
     if (INTRUDE_COMM_IsSessionActive(&sys->session) == 1) {
         MI_CpuCopy8(INTRUDE_COMM_GetActiveSessionRequest(&sys->session), &work->member, 0x34);
     }
@@ -1446,7 +1445,7 @@ int EVENT_COMM_COMMON_TalkEventMain(struct GameEvent *event, int *seq, void *wk)
     void *copy;
     int requestKind;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(GAME_EVENT_GetGameSystem(event)));
+    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(GAME_EVENT_GetGameSystem(event)));
     if (sys == 0) {
         if (EVENT_COMM_COMMON_IsPrintFinished(&work->common.msgBox) == 0) {
             return 0;
@@ -1568,8 +1567,8 @@ int EVENT_COMM_COMMON_TalkedEventMain(struct GameEvent *event, int *seq, void *w
     int failed;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    gameComm = ICA_ANIME_GetField24(gameSystem);
-    gameData = ICA_ANIME_GetField1C(gameSystem);
+    gameComm = GAMESYSTEM_GetGameComm(gameSystem);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
     sys = INTRUDE_COMM_GetWorkIfRunning(gameComm);
     if (sys == 0) {
         if (EVENT_COMM_COMMON_IsPrintFinished(&work->common.msgBox) == 0) {
@@ -1781,7 +1780,7 @@ int EVENT_COMM_COMMON_GetTalkType(EventCommCommonWork *work, IntrudeCommSys *sys
     int requestKind;
     int talkType;
 
-    myNetId = (int)GAME_DATA_GetOwnNetId(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(work->fieldMap)));
+    myNetId = (int)GAME_DATA_GetOwnNetId(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(work->fieldMap)));
     requestKind = INTRUDE_COMM_GetRequestKind(&sys->session);
     talkType = EVENT_COMM_COMMON_GetTalkCase(work, sys, myNetId);
     if (talkType >= 3) {
@@ -1803,7 +1802,7 @@ int EVENT_COMM_COMMON_GetTalkType(EventCommCommonWork *work, IntrudeCommSys *sys
 
 struct GameEvent *EVENT_COMM_COMMON_CreateMissionResultEvent(struct GameSystem *gameSystem, int showResult)
 {
-    struct FieldMap *fieldMap = ICA_ANIME_GetField20(gameSystem);
+    struct FieldMap *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_COMM_COMMON_MissionResultEventMain, sizeof(EventCommMissionResultWork));
     EventCommMissionResultWork *work = GAME_EVENT_GetWork(event);
 
@@ -1832,9 +1831,9 @@ int EVENT_COMM_COMMON_MissionResultEventMain(struct GameEvent *event, int *seq, 
     u32 reward;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    gameComm = ICA_ANIME_GetField24(gameSystem);
-    gameData = ICA_ANIME_GetField1C(gameSystem);
-    ICA_ANIME_GetField20(gameSystem);
+    gameComm = GAMESYSTEM_GetGameComm(gameSystem);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
+    GAMESYSTEM_GetFieldMap(gameSystem);
     switch (*seq) {
     case 0:
         sys = 0;
@@ -1977,10 +1976,10 @@ int EVENT_COMM_COMMON_TalkMsgEventMain(struct GameEvent *event, int *seq, void *
 {
     EventCommCommonWork *work = wk;
     struct GameSystem *gameSystem = GAME_EVENT_GetGameSystem(event);
-    struct GameData *gameData = ICA_ANIME_GetField1C(gameSystem);
+    struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
     IntrudeCommSys *sys;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
+    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(gameSystem));
     switch (*seq) {
     case 0:
         WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 0, GAME_DATA_GetPlayerStatusById(gameData, work->peerSlot));
@@ -2031,7 +2030,7 @@ int EVENT_COMM_COMMON_TalkPowerGiftTargetEventMain(struct GameEvent *event, int 
     IntrudeCommSys *sys;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
+    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(gameSystem));
     if (sys == 0 && *seq <= 1) {
         if (EVENT_COMM_COMMON_IsPrintFinished(&work->common.msgBox) == 0) {
             return 0;
@@ -2057,7 +2056,7 @@ int EVENT_COMM_COMMON_TalkPowerGiftTargetEventMain(struct GameEvent *event, int 
         break;
     case 2:
         WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 0, work->common.myStatus);
-        WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 1, GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem)));
+        WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 1, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(gameSystem)));
         WORDSET_SetSlotFromMsgA0(work->common.msgBox.wordSet, 2, work->common.member.head.param.x);
         EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, sMissionAchieveMsgIdsA[work->common.msgIndex]);
         (*seq)++;
@@ -2108,11 +2107,11 @@ int EVENT_COMM_COMMON_TalkPowerGiftAsTargetEventMain(struct GameEvent *event, in
     struct GameSystem *gameSystem = GAME_EVENT_GetGameSystem(event);
     IntrudeCommSys *sys;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
+    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(gameSystem));
     switch (*seq) {
     case 0:
         WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 0, work->myStatus);
-        WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 1, GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem)));
+        WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 1, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(gameSystem)));
         WORDSET_SetSlotFromMsgA0(work->msgBox.wordSet, 2, work->member.head.param.x);
         EVENT_COMM_COMMON_PrintMsg(&work->msgBox, sTalkPowerGiftAsTargetMsgIds[work->msgIndex]);
         *seq = *seq + 1;
@@ -2150,11 +2149,11 @@ int EVENT_COMM_COMMON_TalkedPowerGiftAsTargetEventMain(struct GameEvent *event, 
     struct GameSystem *gameSystem = GAME_EVENT_GetGameSystem(event);
     IntrudeCommSys *sys;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
+    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(gameSystem));
     switch (*seq) {
     case 0:
         WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 0, work->myStatus);
-        WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 1, GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem)));
+        WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 1, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(gameSystem)));
         WORDSET_SetSlotFromMsgA0(work->msgBox.wordSet, 2, work->member.head.param.x);
         EVENT_COMM_COMMON_PrintMsg(&work->msgBox, sTalkedPowerGiftAsTargetMsgIds[work->msgIndex]);
         *seq = *seq + 1;
@@ -2198,11 +2197,11 @@ int EVENT_COMM_COMMON_TalkedPowerGiftTargetEventMain(struct GameEvent *event, in
     EventCommGPowerParam param;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
+    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(gameSystem));
     switch (*seq) {
     case 0:
         WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 0, work->common.myStatus);
-        WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 1, GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem)));
+        WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 1, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(gameSystem)));
         WORDSET_SetSlotFromMsgA0(work->common.msgBox.wordSet, 2, work->common.member.head.param.x);
         work->msgIndex = work->common.msgIndex;
         EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, sTalkedPowerGiftTargetMsgIds[work->msgIndex]);
@@ -2257,11 +2256,11 @@ int EVENT_COMM_COMMON_TalkPowerShareTargetEventMain(struct GameEvent *event, int
     struct GameSystem *gameSystem = GAME_EVENT_GetGameSystem(event);
     IntrudeCommSys *sys;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
+    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(gameSystem));
     switch (*seq) {
     case 0:
         WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 0, work->myStatus);
-        WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 1, GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem)));
+        WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 1, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(gameSystem)));
         WORDSET_SetSlotFromMsgA0(work->msgBox.wordSet, 2, work->member.head.param.x);
         EVENT_COMM_COMMON_PrintMsg(&work->msgBox, sTalkPowerShareTargetMsgIds[work->msgIndex]);
         *seq = *seq + 1;
@@ -2302,11 +2301,11 @@ int EVENT_COMM_COMMON_TalkPowerShareAsTargetEventMain(struct GameEvent *event, i
     EventCommGPowerParam param;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
+    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(gameSystem));
     switch (*seq) {
     case 0:
         WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 0, work->myStatus);
-        WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 1, GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem)));
+        WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 1, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(gameSystem)));
         WORDSET_SetSlotFromMsgA0(work->msgBox.wordSet, 2, work->member.head.param.x);
         EVENT_COMM_COMMON_PrintMsg(&work->msgBox, sTalkPowerShareAsTargetMsgIds[work->msgIndex]);
         (*seq)++;
@@ -2351,7 +2350,7 @@ int EVENT_COMM_COMMON_TalkedPowerShareAsTargetEventMain(struct GameEvent *event,
     IntrudeCommSys *sys;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
+    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(gameSystem));
     if (sys == 0 && *seq <= 1) {
         if (EVENT_COMM_COMMON_IsPrintFinished(&work->common.msgBox) == 0) {
             return 0;
@@ -2377,7 +2376,7 @@ int EVENT_COMM_COMMON_TalkedPowerShareAsTargetEventMain(struct GameEvent *event,
         break;
     case 2:
         WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 0, work->common.myStatus);
-        WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 1, GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem)));
+        WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 1, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(gameSystem)));
         WORDSET_SetSlotFromMsgA0(work->common.msgBox.wordSet, 2, work->common.member.head.param.x);
         EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, sTalkedPowerShareAchieveMsgIdsA[work->common.msgIndex]);
         (*seq)++;
@@ -2423,11 +2422,11 @@ int EVENT_COMM_COMMON_TalkedPowerShareTargetEventMain(struct GameEvent *event, i
     struct GameSystem *gameSystem = GAME_EVENT_GetGameSystem(event);
     IntrudeCommSys *sys;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
+    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(gameSystem));
     switch (*seq) {
     case 0:
         WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 0, work->myStatus);
-        WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 1, GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem)));
+        WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 1, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(gameSystem)));
         WORDSET_SetSlotFromMsgA0(work->msgBox.wordSet, 2, work->member.head.param.x);
         EVENT_COMM_COMMON_PrintMsg(&work->msgBox, sTalkedPowerShareTargetMsgIds[work->msgIndex]);
         *seq = *seq + 1;
@@ -2480,7 +2479,7 @@ int EVENT_COMM_COMMON_BattleRequestEventMain(struct GameEvent *event, int *seq, 
     struct GameEvent *next;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    gameComm = ICA_ANIME_GetField24(gameSystem);
+    gameComm = GAMESYSTEM_GetGameComm(gameSystem);
     sys = INTRUDE_COMM_GetWorkIfRunning(gameComm);
     if (sys == 0) {
         if (EVENT_COMM_COMMON_IsPrintFinished(&work->common.msgBox) == 0) {
@@ -2638,7 +2637,7 @@ int EVENT_COMM_COMMON_BattleAnswerEventMain(struct GameEvent *event, int *seq, v
     IntrudeCommSys *sys;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    gameComm = ICA_ANIME_GetField24(gameSystem);
+    gameComm = GAMESYSTEM_GetGameComm(gameSystem);
     sys = INTRUDE_COMM_GetWorkIfRunning(gameComm);
     if (sys == 0) {
         if (EVENT_COMM_COMMON_IsPrintFinished(&work->common.msgBox) == 0) {
@@ -2731,7 +2730,7 @@ int EVENT_COMM_COMMON_BattleAnswerEventMain(struct GameEvent *event, int *seq, v
         break;
     case 11:
         if (INTRUDE_COMM_SendReply(sys, sys->requestTarget, 2, sys->sentRequestSeq) == 1) {
-            INTRUDE_COMM_PickEntryForKind(GAME_DATA_GetLastBattleRecSlot(ICA_ANIME_GetField1C(gameSystem)), 0);
+            INTRUDE_COMM_PickEntryForKind(GAME_DATA_GetLastBattleRecSlot(GAMESYSTEM_GetGameData(gameSystem)), 0);
             *seq = 12;
         }
         break;
@@ -2810,7 +2809,7 @@ int EVENT_COMM_COMMON_TalkSearchTargetEventMain(struct GameEvent *event, int *se
     EventCommCommonWork *work = wk;
     IntrudeCommSys *sys;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(GAME_EVENT_GetGameSystem(event)));
+    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(GAME_EVENT_GetGameSystem(event)));
     switch (*seq) {
     case 0:
         WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 0, work->myStatus);
@@ -2854,7 +2853,7 @@ int EVENT_COMM_COMMON_TalkSearchAsTargetEventMain(struct GameEvent *event, int *
     EventCommCommonWork *work = wk;
     IntrudeCommSys *sys;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(GAME_EVENT_GetGameSystem(event)));
+    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(GAME_EVENT_GetGameSystem(event)));
     switch (*seq) {
     case 0:
         WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 0, work->myStatus);
@@ -2897,7 +2896,7 @@ int EVENT_COMM_COMMON_TalkedSearchAsTargetEventMain(struct GameEvent *event, int
     IntrudeCommSys *sys;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    gameComm = ICA_ANIME_GetField24(gameSystem);
+    gameComm = GAMESYSTEM_GetGameComm(gameSystem);
     sys = INTRUDE_COMM_GetWorkIfRunning(gameComm);
     switch (*seq) {
     case 0:
@@ -2942,7 +2941,7 @@ int EVENT_COMM_COMMON_TalkedSearchTargetEventMain(struct GameEvent *event, int *
     EventCommCommonWork *work = wk;
     IntrudeCommSys *sys;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(GAME_EVENT_GetGameSystem(event)));
+    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(GAME_EVENT_GetGameSystem(event)));
     switch (*seq) {
     case 0:
         WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 0, work->myStatus);
@@ -2988,7 +2987,7 @@ int EVENT_COMM_COMMON_SearchFoundEventMain(struct GameEvent *event, int *seq, vo
     int joinStatus;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
+    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(gameSystem));
     if (sys == 0 && *seq <= 2 && *seq < 6) {
         EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, 4);
         *seq = 6;
@@ -3065,7 +3064,7 @@ struct GameEvent *EVENT_COMM_COMMON_CreateSupportMsgEvent(struct GameSystem *gam
     struct GameEvent *event;
     EventCommSupportMsgWork *work;
 
-    pmsWork = GAME_DATA_GetPmsWork(ICA_ANIME_GetField1C(gameSystem));
+    pmsWork = GAME_DATA_GetPmsWork(GAMESYSTEM_GetGameData(gameSystem));
     event = GAME_EVENT_Create(gameSystem, 0, EVENT_COMM_COMMON_SupportMsgEventMain, sizeof(EventCommSupportMsgWork));
     work = GAME_EVENT_GetWork(event);
     work->myStatus = MYSTATUS_Create(heapId);
@@ -3124,7 +3123,7 @@ int EVENT_COMM_COMMON_TalkGreetingTargetEventMain(struct GameEvent *event, int *
     EventCommCommonWork *work = wk;
     IntrudeCommSys *sys;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(GAME_EVENT_GetGameSystem(event)));
+    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(GAME_EVENT_GetGameSystem(event)));
     switch (*seq) {
     case 0:
         WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 0, work->myStatus);
@@ -3163,7 +3162,7 @@ int EVENT_COMM_COMMON_TalkGreetingAsTargetEventMain(struct GameEvent *event, int
     EventCommCommonWork *work = wk;
     IntrudeCommSys *sys;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(GAME_EVENT_GetGameSystem(event)));
+    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(GAME_EVENT_GetGameSystem(event)));
     switch (*seq) {
     case 0:
         WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 0, work->myStatus);
@@ -3205,7 +3204,7 @@ int EVENT_COMM_COMMON_TalkedGreetingAsTargetEventMain(struct GameEvent *event, i
     IntrudeCommSys *sys;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
+    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(gameSystem));
     switch (*seq) {
     case 0:
         WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 0, work->myStatus);
@@ -3247,7 +3246,7 @@ int EVENT_COMM_COMMON_TalkedGreetingTargetEventMain(struct GameEvent *event, int
     EventCommCommonWork *work = wk;
     IntrudeCommSys *sys;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(GAME_EVENT_GetGameSystem(event)));
+    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(GAME_EVENT_GetGameSystem(event)));
     switch (*seq) {
     case 0:
         WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 0, work->myStatus);
@@ -3289,7 +3288,7 @@ int EVENT_COMM_COMMON_OfferEventMain(struct GameEvent *event, int *seq, void *wk
     struct FieldMap *fieldMap;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    fieldMap = ICA_ANIME_GetField20(gameSystem);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     switch (*seq) {
     case 0:
         FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys(fieldMap));
@@ -3315,7 +3314,7 @@ struct GameEvent *EVENT_COMM_COMMON_CreateOfferAnswerEvent(struct GameSystem *ga
     struct GameData *gameData;
     IntrudeParamPair *param;
 
-    gameData = ICA_ANIME_GetField1C(gameSystem);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
     param = &offer->head.param;
     myStatus = GAME_DATA_GetMyStatus(gameData);
     event = GAME_EVENT_Create(gameSystem, 0, EVENT_COMM_COMMON_OfferAnswerEventMain, sizeof(EventCommOfferWork));
@@ -3343,9 +3342,9 @@ int EVENT_COMM_COMMON_OfferAnswerEventMain(struct GameEvent *event, int *seq, vo
     int msgId;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    gameComm = ICA_ANIME_GetField24(gameSystem);
-    gameData = ICA_ANIME_GetField1C(gameSystem);
-    ICA_ANIME_GetField20(gameSystem);
+    gameComm = GAMESYSTEM_GetGameComm(gameSystem);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
+    GAMESYSTEM_GetFieldMap(gameSystem);
     sys = INTRUDE_COMM_GetWorkIfRunning(gameComm);
     if (sys == 0) {
         if (EVENT_COMM_COMMON_IsPrintFinished(&work->msgBox) == 0) {
@@ -3436,7 +3435,7 @@ int EVENT_COMM_COMMON_ItemSaleEventMain(struct GameEvent *event, int *seq, void 
     IntrudeParamPair *sale;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    sys = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(gameSystem));
+    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(gameSystem));
     if (sys == 0 && *seq <= 4) {
         if (EVENT_COMM_COMMON_IsPrintFinished(&work->common.msgBox) == 0) {
             return 0;
@@ -3454,7 +3453,7 @@ int EVENT_COMM_COMMON_ItemSaleEventMain(struct GameEvent *event, int *seq, void 
         sale = &work->common.member.head.param;
         WORDSET_Callback_EF40(work->common.msgBox.wordSet, 1, sale->x);
         WORDSET_SetSlotNumber(work->common.msgBox.wordSet, 2, sale->y, 5, 0, 1);
-        WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 3, GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem)));
+        WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 3, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(gameSystem)));
         EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, sItemSaleMsgIds[0][work->common.msgIndex]);
         (*seq)++;
         break;
@@ -3565,8 +3564,8 @@ int EVENT_COMM_COMMON_ItemPurchaseEventMain(struct GameEvent *event, int *seq, v
     int answer;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    gameData = ICA_ANIME_GetField1C(gameSystem);
-    gameComm = ICA_ANIME_GetField24(gameSystem);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
+    gameComm = GAMESYSTEM_GetGameComm(gameSystem);
     sale = &work->common.member.head.param;
     sys = INTRUDE_COMM_GetWorkIfRunning(gameComm);
     if (sys == 0) {
@@ -3585,7 +3584,7 @@ int EVENT_COMM_COMMON_ItemPurchaseEventMain(struct GameEvent *event, int *seq, v
         WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 0, work->common.myStatus);
         WORDSET_Callback_EF40(work->common.msgBox.wordSet, 1, sale->x);
         WORDSET_SetSlotNumber(work->common.msgBox.wordSet, 2, sale->y, 5, 0, 1);
-        WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 3, GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem)));
+        WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 3, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(gameSystem)));
         EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, sItemPurchaseMsgIds[0][work->common.msgIndex]);
         (*seq)++;
         break;

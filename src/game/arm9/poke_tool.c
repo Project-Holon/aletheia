@@ -1,7 +1,7 @@
 /*
  * file:     poke_tool.c
  * unit:     yes
- * function: POKE_TOOL_InitSystem, POKE_TOOL_GetBoxParamSize, POKE_TOOL_GetPartyParamSize, POKE_TOOL_Create, POKE_TOOL_CreateEx, POKE_TOOL_CreateFromBoxParam, POKE_TOOL_ClearPartyParam, POKE_TOOL_ClearBoxParam, POKE_TOOL_SetupPartyParam, POKE_TOOL_SetupPartyParamEx, POKE_TOOL_SetupBoxParam, POKE_TOOL_SetupBoxParamEx, POKE_TOOL_ChangeSpecies, POKE_TOOL_ChangeBoxSpecies, POKE_TOOL_ChangeForm, POKE_TOOL_ChangeBoxForm, POKE_TOOL_SetRotomFormMove, POKE_TOOL_HatchEgg, POKE_TOOL_HatchBoxEgg, POKE_TOOL_DeleteMoveSlot, POKE_TOOL_UpdateAbilityForSpecies, POKE_TOOL_UpdateGenderForSpecies, POKE_TOOL_DecodePartyParam, POKE_TOOL_EncodePartyParam, POKE_TOOL_DecodeBoxParam, POKE_TOOL_EncodeBoxParam, POKE_TOOL_GetPartyValue, POKE_TOOL_SetPartyValue, POKE_TOOL_SetBoxValue, POKE_TOOL_GetBoxValue, POKE_TOOL_IsShiny, POKE_TOOL_IsBoxShiny, POKE_TOOL_IsShinyOtIdPersonality, POKE_TOOL_GetGender, POKE_TOOL_GetBoxGender, POKE_TOOL_CalcGender, POKE_TOOL_GetStatusCondition, POKE_TOOL_SetStatusCondition, POKE_TOOL_SetBoxDefaultMoves, POKE_TOOL_AddMove, POKE_TOOL_AddBoxMove, POKE_TOOL_PushMove, POKE_TOOL_PushBoxMove, POKE_TOOL_RecoverAllPP, POKE_TOOL_RecoverBoxAllPP, POKE_TOOL_SetMoveSlot, POKE_TOOL_SetBoxMoveSlot, POKE_TOOL_FindMoveSlot, POKE_TOOL_FindBoxMoveSlot, POKE_TOOL_ReplaceMoveSlot, POKE_TOOL_ReplaceBoxMoveSlot, POKE_TOOL_GetLevelUpMove, POKE_TOOL_CalcLevel, POKE_TOOL_CalcBoxLevel, POKE_TOOL_IsOwnedByPlayer, POKE_TOOL_IsBoxOwnedByPlayer, POKE_TOOL_CalcLevelFromExp, POKE_TOOL_GetLevelMinExp, POKE_TOOL_GetBoxLevelMinExp, POKE_TOOL_GetExpForLevel, POKE_TOOL_GetNature, POKE_TOOL_GetBoxNature, POKE_TOOL_SetNature, POKE_TOOL_RecalcParam, POKE_TOOL_Dummy, POKE_TOOL_GetBoxParam, POKE_TOOL_GetGenderRatioClass, POKE_TOOL_AdjustPersonalRnd, POKE_TOOL_CreatePersonalRnd, POKE_TOOL_GetHiddenPowerType, POKE_TOOL_GetHiddenPowerPower, POKE_TOOL_CheckTmCompat, POKE_TOOL_CheckBoxTmCompat, POKE_TOOL_CheckSpeciesTmCompat, POKE_TOOL_CheckTutorCompat, POKE_TOOL_CheckSpeciesTutorCompat, POKE_TOOL_GetNatureStatMod, POKE_TOOL_GetBoxNatureStatMod, POKE_TOOL_GetNatureStatModByNature, POKE_TOOL_SetAbility, POKE_TOOL_SetBoxAbility, POKE_TOOL_CalcParam, POKE_TOOL_DecodeCalcBlock, POKE_TOOL_DecodeBoxBlock, POKE_TOOL_EncodeCalcBlock, POKE_TOOL_EncodeBoxBlock, POKE_TOOL_GetPartyValueRaw, POKE_TOOL_GetBoxValueRaw, POKE_TOOL_SetPartyValueRaw, POKE_TOOL_SetBoxValueRaw
+ * function: POKE_TOOL_InitSystem, POKE_TOOL_GetBoxParamSize, POKE_TOOL_GetPartyParamSize, POKE_TOOL_Create, POKE_TOOL_CreateEx, POKE_TOOL_CreateFromBoxParam, POKE_TOOL_ClearPartyParam, POKE_TOOL_ClearBoxParam, POKE_TOOL_SetupPartyParam, POKE_TOOL_SetupPartyParamEx, POKE_TOOL_SetupBoxParam, POKE_TOOL_SetupBoxParamEx, POKE_TOOL_ChangeSpecies, POKE_TOOL_ChangeBoxSpecies, POKE_TOOL_ChangeForm, POKE_TOOL_ChangeBoxForm, POKE_TOOL_SetRotomFormMove, POKE_TOOL_HatchEgg, POKE_TOOL_HatchBoxEgg, POKE_TOOL_DeleteMoveSlot, POKE_TOOL_UpdateAbilityForSpecies, POKE_TOOL_UpdateGenderForSpecies, POKE_TOOL_DecodePartyParam, POKE_TOOL_EncodePartyParam, POKE_TOOL_DecodeBoxParam, POKE_TOOL_EncodeBoxParam, POKE_TOOL_GetPartyValue, POKE_TOOL_SetPartyValue, POKE_TOOL_SetBoxValue, POKE_TOOL_GetBoxValue, POKE_TOOL_IsShiny, POKE_TOOL_IsBoxShiny, POKE_TOOL_IsShinyOtIdPersonality, POKE_TOOL_GetGender, POKE_TOOL_GetBoxGender, POKE_TOOL_CalcGender, POKE_TOOL_GetStatusCondition, POKE_TOOL_SetStatusCondition, POKE_TOOL_SetBoxDefaultMoves, POKE_TOOL_AddMove, POKE_TOOL_AddBoxMove, POKE_TOOL_PushMove, POKE_TOOL_PushBoxMove, POKE_TOOL_RecoverAllPP, POKE_TOOL_RecoverBoxAllPP, POKE_TOOL_SetMoveSlot, POKE_TOOL_SetBoxMoveSlot, POKE_TOOL_FindMoveSlot, POKE_TOOL_FindBoxMoveSlot, POKE_TOOL_ReplaceMoveSlot, POKE_TOOL_ReplaceBoxMoveSlot, POKE_TOOL_LearnLevelUpMove, POKE_TOOL_CalcLevel, POKE_TOOL_CalcBoxLevel, POKE_TOOL_IsOwnedByPlayer, POKE_TOOL_IsBoxOwnedByPlayer, POKE_TOOL_CalcLevelFromExp, POKE_TOOL_GetLevelMinExp, POKE_TOOL_GetBoxLevelMinExp, POKE_TOOL_GetExpForLevel, POKE_TOOL_GetNature, POKE_TOOL_GetBoxNature, POKE_TOOL_SetNature, POKE_TOOL_RecalcParam, POKE_TOOL_Dummy, POKE_TOOL_GetBoxParam, POKE_TOOL_GetGenderRatioClass, POKE_TOOL_AdjustPersonalRnd, POKE_TOOL_CreatePersonalRnd, POKE_TOOL_GetHiddenPowerType, POKE_TOOL_GetHiddenPowerPower, POKE_TOOL_CheckTmCompat, POKE_TOOL_CheckBoxTmCompat, POKE_TOOL_CheckSpeciesTmCompat, POKE_TOOL_CheckTutorCompat, POKE_TOOL_CheckSpeciesTutorCompat, POKE_TOOL_GetNatureStatMod, POKE_TOOL_GetBoxNatureStatMod, POKE_TOOL_GetNatureStatModByNature, POKE_TOOL_SetAbility, POKE_TOOL_SetBoxAbility, POKE_TOOL_CalcParam, POKE_TOOL_DecodeCalcBlock, POKE_TOOL_DecodeBoxBlock, POKE_TOOL_EncodeCalcBlock, POKE_TOOL_EncodeBoxBlock, POKE_TOOL_GetPartyValueRaw, POKE_TOOL_GetBoxValueRaw, POKE_TOOL_SetPartyValueRaw, POKE_TOOL_SetBoxValueRaw
  * address:  0x020173D0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -402,7 +402,7 @@ u32 POKE_TOOL_FindMoveSlot(struct PokemonParam *pp, u16 move);
 u32 POKE_TOOL_FindBoxMoveSlot(struct BoxPokemon *box, u16 move);
 void POKE_TOOL_ReplaceMoveSlot(struct PokemonParam *pp, u16 move, u8 slot);
 void POKE_TOOL_ReplaceBoxMoveSlot(struct BoxPokemon *box, u16 move, u8 slot);
-u16 POKE_TOOL_GetLevelUpMove(struct PokemonParam *pp, u32 *tableIndex, u32 heapId);
+u16 POKE_TOOL_LearnLevelUpMove(struct PokemonParam *pp, u32 *tableIndex, u32 heapId);
 u32 POKE_TOOL_CalcLevel(struct PokemonParam *pp);
 u32 POKE_TOOL_CalcBoxLevel(struct BoxPokemon *box);
 int POKE_TOOL_IsOwnedByPlayer(struct PokemonParam *pp, struct MyStatus *myStatus);
@@ -1429,7 +1429,7 @@ static inline int POKE_TOOL_IsLevelUpMoveEnd(const struct LevelUpMove *entry)
  * callee-saved register shifts (docs/idioms: reusing a loop variable
  * across phases); the permuter's hill (800, --types) found only volatile
  * hacks.  The frame's four entry copies and the pointer-taking terminator
- * inline follow POKE_TOOL_GetLevelUpMove.c exactly (declaration order e, d, t, cur).
+ * inline follow POKE_TOOL_LearnLevelUpMove.c exactly (declaration order e, d, t, cur).
  */
 u32 POKE_TOOL_SetBoxDefaultMoves(struct BoxPokemon *box)
 {
@@ -1815,7 +1815,7 @@ void POKE_TOOL_ReplaceBoxMoveSlot(struct BoxPokemon *box, u16 move, u8 slot)
  *     condition so the loop is rotated (entry `b` to the test).
  *   - `level == e.level` (level first: cmp r0, r1).
  */
-u16 POKE_TOOL_GetLevelUpMove(struct PokemonParam *pp, u32 *tableIndex, u32 heapId)
+u16 POKE_TOOL_LearnLevelUpMove(struct PokemonParam *pp, u32 *tableIndex, u32 heapId)
 {
     struct LevelUpMove *table;
     u16 species;

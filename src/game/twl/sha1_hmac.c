@@ -125,10 +125,10 @@ void SHA1_HMAC_Start(Sha1HmacCtx *ctx, const void *key, u32 key_len)
 
 
 /* HMAC update: guarded SHA1 update */
-void SHA1_HMAC_UpdateData(void *a, const void *b, u32 c)
+void SHA1_HMAC_UpdateData(void *ctx, const void *data, u32 length)
 {
-    if (a != 0 && c != 0 && b != 0) {
-        SHA1_HMAC_Update(a, b, c);
+    if (ctx != 0 && length != 0 && data != 0) {
+        SHA1_HMAC_Update(ctx, data, length);
     }
 }
 

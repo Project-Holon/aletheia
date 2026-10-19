@@ -41,17 +41,17 @@ typedef struct Big {
     struct Big *qnext;
     u8 buf[0x7F0];
     u32 key;
-    u32 f804;
-    u32 f808;
+    u32 pad804;
+    u32 pad808;
     struct Big *next;
 } Big;
 
 typedef struct FsRoot {
-    u32 f00;
+    u32 pad00;
     FsWait *waiters;
-    u32 f08[6];
+    u32 pad08[6];
     Big *busy;
-    u32 f24[16];
+    u32 pad24[16];
     Big *spare;
     Big *cur;
 } FsRoot;
@@ -72,17 +72,17 @@ extern u32 data_0273442C[];
 extern Big *DAT_02734428;
 extern u32 DAT_02734420[];
 
-void FATFSi_SendToPXI(Big *a0);
+void FATFSi_SendToPXI(Big *command);
 u32 FATFSi_GetThreadHandle(void);
 Big *FATFSi_AllocateCommandBuffer(u32 arg);
-Big *FATFSi_AllocateEmergencyCommandBuffer(u32 a0);
-void FATFSi_FreeCommandBuffer(Big *a0);
-void FATFSi_PostRequest(Big *a0);
-void FATFSi_WaitForRequest(Big *a0);
+Big *FATFSi_AllocateEmergencyCommandBuffer(u32 arg);
+void FATFSi_FreeCommandBuffer(Big *command);
+void FATFSi_PostRequest(Big *request);
+void FATFSi_WaitForRequest(Big *request);
 
-void FATFSi_SendToPXI(Big *a0) {
-    DC_FlushRange((u32)a0, 0x800);
-    while (PXI_SendWordByFifo(0x14, (u32)a0 >> 5, 0) < 0) {
+void FATFSi_SendToPXI(Big *command) {
+    DC_FlushRange((u32)command, 0x800);
+    while (PXI_SendWordByFifo(0x14, (u32)command >> 5, 0) < 0) {
     }
 }
 
@@ -136,12 +136,12 @@ Big *FATFSi_AllocateCommandBuffer(u32 arg) {
     return e;
 }
 
-Big *FATFSi_AllocateEmergencyCommandBuffer(u32 a0) {
+Big *FATFSi_AllocateEmergencyCommandBuffer(u32 arg) {
     if (OS_GetProcMode() != 0x12) {
-        return FATFSi_AllocateCommandBuffer(a0);
+        return FATFSi_AllocateCommandBuffer(arg);
     } else {
         Big *e = data_027343E0.cur;
-        e->arg = a0;
+        e->arg = arg;
         e->state = 2;
         e->qnext = 0;
         e->mode = 0;
@@ -149,18 +149,18 @@ Big *FATFSi_AllocateEmergencyCommandBuffer(u32 a0) {
     }
 }
 
-void FATFSi_FreeCommandBuffer(Big *a0) {
-    if (a0 == data_027343E0.spare) {
+void FATFSi_FreeCommandBuffer(Big *command) {
+    if (command == data_027343E0.spare) {
         OS_UnlockMutex(data_0273442C);
     }
 }
 
-void FATFSi_PostRequest(Big *a0)
+void FATFSi_PostRequest(Big *request)
 {
-    FATFSi_SendToPXI(a0);
+    FATFSi_SendToPXI(request);
 }
 
-void FATFSi_WaitForRequest(Big *a0) {
+void FATFSi_WaitForRequest(Big *request) {
     u32 busy = 1;
     while ((busy != 0) ? 1 : 0) {
         u32 ime = OS_DisableInterrupts();
@@ -168,10 +168,10 @@ void FATFSi_WaitForRequest(Big *a0) {
         Big * volatile *pp = &DAT_02734428;
         Big *p;
         while (((p = *pp) != 0) ? 1 : 0) {
-            if (*pp == a0) {
+            if (*pp == request) {
                 busy = 0;
                 *pp = (*pp)->qnext;
-                a0->qnext = 0;
+                request->qnext = 0;
                 break;
             }
             pp = &(*pp)->qnext;

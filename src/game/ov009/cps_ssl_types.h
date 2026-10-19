@@ -127,7 +127,7 @@ struct CPSSslConnection {
     unsigned char have_record;            /* 0x456 */
     unsigned char pad457;                 /* 0x457 */
     int hash_type;                        /* 0x458 */
-    int f45c;                             /* 0x45c */
+    int pubkeyAlgo;                             /* 0x45c */
     unsigned char *cert_start;            /* 0x460 */
     unsigned char *cert_end;              /* 0x464 */
     unsigned char hash[0x14];             /* 0x468 */
@@ -139,17 +139,17 @@ struct CPSSslConnection {
     int pubexplen;                        /* 0x5a0 */
     unsigned char *sig;                   /* 0x5a4 */
     int sig_len;                          /* 0x5a8 */
-    unsigned char f5ac;                   /* 0x5ac */
-    unsigned char f5ad;                   /* 0x5ad */
-    unsigned char f5ae;                   /* 0x5ae */
-    unsigned char f5af;                   /* 0x5af */
+    unsigned char subjectPhase;                   /* 0x5ac */
+    unsigned char keyInfoOid;                   /* 0x5ad */
+    unsigned char cnOid;                   /* 0x5ae */
+    unsigned char dateValid;                   /* 0x5af */
     char dn[0x100];                       /* 0x5b0 */
-    unsigned char f6b0[0x100];            /* 0x6b0 */
-    unsigned char f7b0[0x50];             /* 0x7b0 */
-    char *f800;                           /* 0x800 */
-    unsigned char *f804;                  /* 0x804 */
-    int f808;                             /* 0x808 */
-    int f80c;                             /* 0x80c */
+    unsigned char subjectDn[0x100];            /* 0x6b0 */
+    unsigned char commonName[0x50];             /* 0x7b0 */
+    char *hostName;                           /* 0x800 */
+    unsigned char *certData;                  /* 0x804 */
+    int certLen;                             /* 0x808 */
+    int currentDate;                             /* 0x80c */
     int (*f810)(int result, CPSSslConnection *con, int level);  /* 0x810 */
     SOCLCaInfo **rootCa;                  /* 0x814 */
     int rootCaNum;                        /* 0x818 */

@@ -16,7 +16,7 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MIi_CpuClear32 0x02082A7C arm
- *   ICA_ANIME_GetField1C 0x020120F4 thumb
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   SAVE_CONTROL_WouldOverwriteSave 0x020071F0 thumb
@@ -194,7 +194,7 @@ typedef signed short   s16;
 extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
 extern void *PROCSYS_AllocProcWork(struct ProcOwner *obj, u32 size, u32 heap);
 extern void MIi_CpuClear32(unsigned,void *,unsigned);
-extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern int SAVE_CONTROL_WouldOverwriteSave(struct Sub020071E4Ctrl *ctrl);
@@ -258,7 +258,7 @@ extern void *GAME_DATA_GetMyParty(const struct BigObj *);
 extern void *GAME_DATA_GetSaveBlock42(void **);
 extern void MISC_SAVEDATA_SnapshotParty(struct Rec *,void *,struct Date *,u32);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
-extern int GAME_DATA_GetPlayTime(int p0);
+extern int GAME_DATA_GetPlayTime(int gd);
 extern u16 PLAYTIME_GetHours(const struct PlayTime *p);
 extern u8 PLAYTIME_GetMinutes(const struct PlayTime *p);
 extern u8 PLAYTIME_GetSeconds(const struct PlayTime *p);
@@ -268,7 +268,7 @@ extern u32 RECORD_GetCounterClamped(struct Sub02008C20Obj *,int);
 extern void FIELD_CLOCK_SaveTimestamp(void *);
 extern u32 SAVE_CONTROL_LoadExtraSave(struct Ctrl *ctrl, u32 id, u8 heap);
 extern void *SAVE_CONTROL_GetExtraSaveRecord(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
-extern void MISC_SAVEDATA_AppendPartyRecord(struct Obj *obj, void *a1, void *date, u32 heap);
+extern void MISC_SAVEDATA_AppendPartyRecord(struct Obj *obj, void *party, void *date, u32 heap);
 extern void GAME_DATA_PartSaveStart(u8 *p, u32 a);
 extern int GAME_DATA_PartSaveMain(char *,int);
 extern void SAVE_CONTROL_DeleteExtraSave(struct Sub020072A4Ctrl *,u32);
@@ -281,7 +281,7 @@ extern void BG_SYS_SetFlagField06(u32);
 int SAVE_SCREEN_Init(void *owner,int unused,void **args);
 int SAVE_SCREEN_Main(void *unused,State *state,SaveScreenContext *context,SaveScreenWork *p);
 int SAVE_SCREEN_Exit(void *p);
-void SAVE_SCREEN_Setup(SaveScreenWork *p, SaveScreenContext *a1);
+void SAVE_SCREEN_Setup(SaveScreenWork *p, SaveScreenContext *context);
 void SAVE_SCREEN_Delete(SaveScreenWork *p);
 void SAVE_SCREEN_SetupBackground(u16 heap);
 void SAVE_SCREEN_DeleteBackground(void);
@@ -313,7 +313,7 @@ int SAVE_SCREEN_Init(void *owner,int unused,void **args)
     MIi_CpuClear32(0,p,76);
     p->heapId=84;
     p->arcId=36;
-    p->ctx=ICA_ANIME_GetField1C(context);
+    p->ctx=GAMESYSTEM_GetGameData(context);
     p->anim=GAME_DATA_GetMyStatus(p->ctx);
     if(SAVE_CONTROL_WouldOverwriteSave(GAME_DATA_GetSaveControl(p->ctx))!=0)
         p->hasSave=1;
@@ -414,7 +414,7 @@ int SAVE_SCREEN_Exit(void *p)
 }
 
 
-void SAVE_SCREEN_Setup(SaveScreenWork *p, SaveScreenContext *a1) { BMP_SetDisplaySwap(1);GX_SetBankForLCDC(511);MIi_CpuClearFast(0,0x6800000,0xa4000);GX_DisableBankForLCDC();SAVE_SCREEN_SetupBackground(*(u16 *)p);*(struct GfFont **)&p->font=GF_FONT_Create(23,0,0,0,*(u16 *)p);ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,416,32,*(u16 *)p);*(struct MsgBank **)&p->msgBank=MSGDATA_CreateFromArchive(0,2,*(u16 *)((char *)p+2),*(u16 *)p);*(struct WordSet **)&p->wordset=WORDSET_CreateDefault(*(u16 *)p);BMP_MENUWORK_LoadCharAndPltt(0,1,12,0,*(u16 *)p);*(u32 *)&p->bmpWin=BMP_WIN_Create(0,2,18,27,4,13,1);*(struct Tcbl **)&p->tcbl=TCBL_Create(*(u16 *)p,*(u16 *)p,10,32);*(struct U16Vec **)&p->textBuf=STRBUF_Create(1024,*(u16 *)p); }
+void SAVE_SCREEN_Setup(SaveScreenWork *p, SaveScreenContext *context) { BMP_SetDisplaySwap(1);GX_SetBankForLCDC(511);MIi_CpuClearFast(0,0x6800000,0xa4000);GX_DisableBankForLCDC();SAVE_SCREEN_SetupBackground(*(u16 *)p);*(struct GfFont **)&p->font=GF_FONT_Create(23,0,0,0,*(u16 *)p);ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,416,32,*(u16 *)p);*(struct MsgBank **)&p->msgBank=MSGDATA_CreateFromArchive(0,2,*(u16 *)((char *)p+2),*(u16 *)p);*(struct WordSet **)&p->wordset=WORDSET_CreateDefault(*(u16 *)p);BMP_MENUWORK_LoadCharAndPltt(0,1,12,0,*(u16 *)p);*(u32 *)&p->bmpWin=BMP_WIN_Create(0,2,18,27,4,13,1);*(struct Tcbl **)&p->tcbl=TCBL_Create(*(u16 *)p,*(u16 *)p,10,32);*(struct U16Vec **)&p->textBuf=STRBUF_Create(1024,*(u16 *)p); }
 
 
 void SAVE_SCREEN_Delete(SaveScreenWork *p)

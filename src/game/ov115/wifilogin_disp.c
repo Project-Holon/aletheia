@@ -189,11 +189,11 @@ struct Node;
 struct Bank;
 
 typedef struct BgTemplate {
-    u32 unk_00, unk_04, bufSize, unk_0c;
-    u8 unk_10, unk_11, unk_12, unk_13;
-    u32 unk_14;
-    u8 unk_18, unk_19, unk_1a, unk_1b;
-    u32 unk_1c;
+    u32 x, y, bufSize, baseTile;
+    u8 screenSize, colorMode, screenBase, charBase;
+    u32 charSize;
+    u8 priority, areaOver, dummy, mosaic;
+    u32 affineParam;
 } BgTemplate;
 
 struct Rect { short x,y; u16 z; u8 kind,mode; };
@@ -232,7 +232,7 @@ extern void GAME_DATA_SaveStart(u8 *);
 
 extern int OS_IsRunOnTwl(void);
 
-extern void GFL_NET_StartSession(struct Req *req, u32 a2, u32 a3);
+extern void GFL_NET_StartSession(struct Req *req, u32 transportArg, u32 userArg);
 
 extern void GFL_NET_STATE_WifiStartMatch(void);
 
@@ -280,7 +280,7 @@ extern int DWC_CheckHasProfile(struct DWCstAccUserData *userdata);
 
 extern int DWC_CheckValidConsole(struct DWCstAccUserData *userdata);
 
-extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
 
 extern void GFL_USE_FadeOutBgm(u32 a);
 
@@ -347,7 +347,7 @@ extern u32 ARC_UTIL_UploadBgCharFromHandle(void *, u32, u32, u32, u32, u32, u16)
 
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *, u32, u32, u32, u32, u32, u16);
 
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, u32 unpackedOut, u32 flags);
 
 extern void MI_CpuCopy8(const void *, void *, u32);
 
@@ -371,11 +371,11 @@ extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
+extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
 
-extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
 
-extern int CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern int CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 
 extern int CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
@@ -479,7 +479,7 @@ int WIFILOGIN_DISP_Update(int a,int b,int c,u8 *p);
 
 int WIFILOGIN_DISP_Delete(u32 a,int b,int c,u8 *p);
 
-u8 *WIFILOGIN_DISP_CreateDisplay(u16 heap, u32 mode, int a2);
+u8 *WIFILOGIN_DISP_CreateDisplay(u16 heap, u32 mode, int reconnect);
 
 void WIFILOGIN_DISP_Draw(u8 *p);
 
@@ -794,7 +794,7 @@ int WIFILOGIN_DISP_Delete(u32 a,int b,int c,u8 *p) { BG_SYS_FreeLayerBuf(7); WIF
 /*
  * volatile: hardware reads/writes 021D4D66, 021D4D70, 021D4D74.
  */
-u8 *WIFILOGIN_DISP_CreateDisplay(u16 heap, u32 mode, int a2) {
+u8 *WIFILOGIN_DISP_CreateDisplay(u16 heap, u32 mode, int reconnect) {
     u8 *p;
     p=GFL_HEAP_Alloc(heap,0x14bc,1,(const char *)d_021D6614,146);
     ((struct WifiloginDisp *)p)->heapId=heap;

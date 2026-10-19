@@ -82,7 +82,7 @@ extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern int send(int sock, char *buffer, int bufferLen, int flags);
 extern int GOAGetLastError(int sock);
 extern void gpiSetError(int *connection, int result, int errorString);
-extern int gpiCallErrorCallback(int *connection, int a1, int a2);
+extern int gpiCallErrorCallback(int *connection, int result, int fatal);
 extern char *gsimalloc(int size);
 extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern void gsifree(void *p);

@@ -105,7 +105,7 @@ extern void *ARC_TOOL_CreateHandle(u32 arcId, u32 heapId);
 
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *arc, u32 dataId, int palType, int offset, int size, int heapId);
 
-extern void ARC_UTIL_UploadScreenFromHandle(void *arc, u32 dataId, int engine, int offset, int a4, int a5, int heapId);
+extern void ARC_UTIL_UploadScreenFromHandle(void *arc, u32 dataId, int engine, int offset, int size, int heapID, int heapId);
 
 extern void ARC_TOOL_DeleteHandle(void *arc);
 

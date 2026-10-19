@@ -60,17 +60,17 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 
 typedef struct Node02061FF8 {
-    u32 f00;
-    u32 f04;
-    u32 f08;
-    struct Node02061FF8 *f0c;
+    u32 addr;
+    u32 szByte;
+    struct Node02061FF8 *pBlkPrev;
+    struct Node02061FF8 *pBlkNext;
 } Node02061FF8;
 
 typedef struct Node0206207C {
-    u32 f00;
-    u32 f04;
-    struct Node0206207C *f08;
-    struct Node0206207C *f0c;
+    u32 addr;
+    u32 szByte;
+    struct Node0206207C *pBlkPrev;
+    struct Node0206207C *pBlkNext;
 } Node0206207C;
 
 struct Cfg
@@ -78,10 +78,10 @@ struct Cfg
   u32 head_a;
   u32 head_b;
   u32 pool;
-  u32 f0c;
-  u32 f10;
-  u32 f14;
-  u32 f18;
+  u32 szByte;
+  u32 szByteFor4x4;
+  u32 pManagementWork;
+  u32 szByteManagementWork;
 };
 
 struct Rgn
@@ -100,9 +100,9 @@ struct HeapB
 {
   u32 head;
   u32 pool;
-  u32 f08;
-  u32 f0c;
-  u32 f10;
+  u32 szByte;
+  u32 pManagementWork;
+  u32 szByteManagementWork;
 };
 
 extern u32 NNSi_GfdMergeAdjacentFreeBlocks(void *head1, void *head2, struct Range *range);
@@ -112,14 +112,14 @@ extern struct Node02061DFC *NNSi_GfdInitBlockPool(struct Node02061DFC *arr, u32 
 extern u32 NNSi_GfdAddBlock(struct List02061E48 *list, struct Pool02061E48 *pool, u32 d0, u32 d1);
 BOOL NNSi_GfdAllocLnkVram(Blk **list, Blk **pool, u32 *pRet, u32 size, u32 alignment);
 void NNSi_GfdMergeFreeBlockList(u32 *pp, u32 *arg);
-int NNSi_GfdFreeLnkVram(void *headp, void *freep, int a2, int a3);
+int NNSi_GfdFreeLnkVram(void *headp, void *freep, int addr, int szByte);
 int NNSi_GfdSizeToGranuleTex(int v);
-void NNSi_GfdInitTexVramManager(u32 a, u32 b, u32 c, u32 d, u32 e);
+void NNSi_GfdInitTexVramManager(u32 szByte, u32 szByteFor4x4, u32 pManagementWork, u32 szByteManagementWork, u32 useAsDefault);
 u32 NNS_GfdAllocTexVram(u32 size, u32 flag);
 u32 NNS_GfdFreeTexVram(u32 h);
-void NNSi_GfdInitTexVramHeap(u32 a, u32 b, u32 c, u32 d);
+void NNSi_GfdInitTexVramHeap(u32 szByte, u32 szByteFor4x4, u32 pManagementWork, u32 szByteManagementWork);
 int NNSi_GfdSizeToGranulePltt(int v);
-void NNSi_GfdInitPlttVramManager(u32 a, u32 b, u32 c, u32 d);
+void NNSi_GfdInitPlttVramManager(u32 szByte, u32 pManagementWork, u32 szByteManagementWork, u32 useAsDefault);
 u32 NNS_GfdAllocPlttVram(u32 size, u32 flag);
 int NNS_GfdFreePlttVram(u32 id);
 void NNSi_GfdInitPlttVramHeap(void);
@@ -280,14 +280,14 @@ void NNSi_GfdMergeFreeBlockList(u32 *pp, u32 *arg)
 
     while (n != 0) {
         u32 buf[2];
-        buf[0] = n->f00;
-        buf[1] = n->f00 + n->f04;
+        buf[0] = n->addr;
+        buf[1] = n->addr + n->szByte;
         if (NNSi_GfdMergeAdjacentFreeBlocks(pp, arg, (struct Range *)buf) != 0) {
-            n->f00 = buf[0];
-            n->f04 = buf[1] - buf[0];
+            n->addr = buf[0];
+            n->szByte = buf[1] - buf[0];
             n = *(Node02061FF8 **)pp;
         } else {
-            n = n->f0c;
+            n = n->pBlkNext;
         }
     }
 }
@@ -299,30 +299,30 @@ void NNSi_GfdMergeFreeBlockList(u32 *pp, u32 *arg)
 
 
 
-int NNSi_GfdFreeLnkVram(void *headp, void *freep, int a2, int a3)
+int NNSi_GfdFreeLnkVram(void *headp, void *freep, int addr, int szByte)
 {
     u32 buf[2];
     Node0206207C *x;
 
-    buf[0] = a2;
-    buf[1] = a2 + a3;
+    buf[0] = addr;
+    buf[1] = addr + szByte;
     NNSi_GfdMergeAdjacentFreeBlocks(headp, freep, (struct Range *)buf);
     x = *(Node0206207C **)freep;
     if (x != 0) {
-        *(Node0206207C **)freep = x->f0c;
+        *(Node0206207C **)freep = x->pBlkNext;
     }
     if (x == 0) {
         return 0;
     }
-    x->f00 = buf[0];
-    x->f04 = buf[1] - buf[0];
-    x->f08 = 0;
-    x->f0c = 0;
+    x->addr = buf[0];
+    x->szByte = buf[1] - buf[0];
+    x->pBlkPrev = 0;
+    x->pBlkNext = 0;
     if (*(Node0206207C **)headp != 0) {
-        (*(Node0206207C **)headp)->f08 = x;
+        (*(Node0206207C **)headp)->pBlkPrev = x;
     }
-    x->f0c = *(Node0206207C **)headp;
-    x->f08 = 0;
+    x->pBlkNext = *(Node0206207C **)headp;
+    x->pBlkPrev = 0;
     *(Node0206207C **)headp = x;
     return 1;
 }
@@ -370,16 +370,16 @@ extern void (*NNS_GfdDefaultFuncFreeTexVram)(void);
  * The fifth argument is read at [sp, #8], the caller's first stack slot, past
  * the 8-byte {r3, lr} frame.
  */
-void NNSi_GfdInitTexVramManager(u32 a, u32 b, u32 c, u32 d, u32 e)
+void NNSi_GfdInitTexVramManager(u32 szByte, u32 szByteFor4x4, u32 pManagementWork, u32 szByteManagementWork, u32 useAsDefault)
 {
-    g_02146B94.f0c = a;
-    g_02146B94.f10 = b;
-    g_02146B94.f14 = c;
-    g_02146B94.f18 = d;
+    g_02146B94.szByte = szByte;
+    g_02146B94.szByteFor4x4 = szByteFor4x4;
+    g_02146B94.pManagementWork = pManagementWork;
+    g_02146B94.szByteManagementWork = szByteManagementWork;
 
-    NNSi_GfdInitTexVramHeap(a, b, c, d);
+    NNSi_GfdInitTexVramHeap(szByte, szByteFor4x4, pManagementWork, szByteManagementWork);
 
-    if (e != 0) {
+    if (useAsDefault != 0) {
         NNS_GfdDefaultFuncAllocTexVram = (void (*)(void))NNS_GfdAllocTexVram;
         NNS_GfdDefaultFuncFreeTexVram = (void (*)(void))NNS_GfdFreeTexVram;
     }
@@ -428,16 +428,16 @@ u32 NNS_GfdAllocTexVram(u32 size, u32 flag)
 
 u32 NNS_GfdFreeTexVram(u32 h)
 {
-    u32 a2 = (h << 16) >> 13;
-    u32 a3 = ((h & 0x7fff0000) >> 16) << 4;
+    u32 addr = (h << 16) >> 13;
+    u32 szByte = ((h & 0x7fff0000) >> 16) << 4;
     u32 flag = (h & 0x80000000) >> 31;
     u32 r;
 
-    if (a3 != 0) {
+    if (szByte != 0) {
         if (flag != 0) {
-            r = NNSi_GfdFreeLnkVram((void *)((u32)&g_02146B98), (void *)((u32)&g_02146B9C), a2, a3);
+            r = NNSi_GfdFreeLnkVram((void *)((u32)&g_02146B98), (void *)((u32)&g_02146B9C), addr, szByte);
         } else {
-            r = NNSi_GfdFreeLnkVram((void *)((u32)&g_02146B94), (void *)((u32)&g_02146B9C), a2, a3);
+            r = NNSi_GfdFreeLnkVram((void *)((u32)&g_02146B94), (void *)((u32)&g_02146B9C), addr, szByte);
         }
         if (r != 0) return 0;
         return 1;
@@ -454,9 +454,9 @@ u32 NNS_GfdFreeTexVram(u32 h)
  * The layer-2 (16-byte granule) INITIALISER of docs/families/
  * cluster_02061D0C.h, run by the save hook NNSi_GfdInitTexVramManager.  Copies the
  * four-record apportionment table at 0x020A17A8 to the stack, spreads
- * the configured extent f10 over records 0 and 2 (pass 1, into acc8) and
- * the remainder f0c - 1.5*f10 over all four (pass 2, into acc4), then
- * clears both list heads, builds the node pool from f14 / f18 >> 4, pushes
+ * the configured extent szByteFor4x4 over records 0 and 2 (pass 1, into acc8) and
+ * the remainder szByte - 1.5*szByteFor4x4 over all four (pass 2, into acc4), then
+ * clears both list heads, builds the node pool from pManagementWork / szByteManagementWork >> 4, pushes
  * up to six blocks and sweeps both lists.
  *
  * THE DUPLICATE POOL WORD IS TWO SYMBOLS.  The cluster header recorded this
@@ -489,7 +489,7 @@ u32 NNS_GfdFreeTexVram(u32 h)
  *   python tools/match.py one --src src/matched/NNSi_GfdInitTexVramHeap.c \
  *       --func NNSi_GfdInitTexVramHeap --addr 0x02062270 --arm --cc ../2.0/sp2
  */
-void NNSi_GfdInitTexVramHeap(u32 a, u32 b, u32 c, u32 d)
+void NNSi_GfdInitTexVramHeap(u32 szByte, u32 szByteFor4x4, u32 pManagementWork, u32 szByteManagementWork)
 {
     struct Rgns t;
     struct Rgn *p;
@@ -502,8 +502,8 @@ void NNSi_GfdInitTexVramHeap(u32 a, u32 b, u32 c, u32 d)
 
     t = g_020A17A8;
 
-    n = g_02146B94_blk.f10;
-    rest = g_02146B94_blk.f0c - (n + (n >> 1));
+    n = g_02146B94_blk.szByteFor4x4;
+    rest = g_02146B94_blk.szByte - (n + (n >> 1));
     half = n >> 1;
 
     /* pass 1: records 0 and 2 absorb the 16-byte-granule extent */
@@ -536,7 +536,7 @@ void NNSi_GfdInitTexVramHeap(u32 a, u32 b, u32 c, u32 d)
 
     NNSi_GfdClearBlockListHead(&g_02146B94.head_a);
     NNSi_GfdClearBlockListHead(&g_02146B98);
-    g_02146B94_blk.pool = (u32)NNSi_GfdInitBlockPool((struct Node02061DFC *)g_02146B94_blk.f14, g_02146B94_blk.f18 >> 4);
+    g_02146B94_blk.pool = (u32)NNSi_GfdInitBlockPool((struct Node02061DFC *)g_02146B94_blk.pManagementWork, g_02146B94_blk.szByteManagementWork >> 4);
 
     if (t.r[0].acc8 != 0)
         NNSi_GfdAddBlock((struct List02061E48 *)(&g_02146B98), (struct Pool02061E48 *)(&g_02146B9C), 0, t.r[0].acc8);
@@ -583,13 +583,13 @@ int NNSi_GfdSizeToGranulePltt(int v){ return v << 4; }
  * apply.  Every other site of this file resolves: 0x02146BB0 `literal x20`,
  * 0x020A8148 `literal x15`, 0x02062594 `label x5` and 0x020A814C `literal x15`.
  */
-void NNSi_GfdInitPlttVramManager(u32 a, u32 b, u32 c, u32 d)
+void NNSi_GfdInitPlttVramManager(u32 szByte, u32 pManagementWork, u32 szByteManagementWork, u32 useAsDefault)
 {
-    g_02146BB0.f08 = a;
-    g_02146BB0.f0c = b;
-    g_02146BB0.f10 = c;
+    g_02146BB0.szByte = szByte;
+    g_02146BB0.pManagementWork = pManagementWork;
+    g_02146BB0.szByteManagementWork = szByteManagementWork;
     NNSi_GfdInitPlttVramHeap();
-    if (d == 0) {
+    if (useAsDefault == 0) {
         return;
     }
     NNS_GfdDefaultFuncAllocPlttVram = (u32)NNS_GfdAllocPlttVram;
@@ -667,8 +667,8 @@ int NNS_GfdFreePlttVram(u32 id)
 
 void NNSi_GfdInitPlttVramHeap(void)
 {
-    g_02146BB0_blk.pool = (u32)NNSi_GfdInitBlockPool((struct Node02061DFC *)g_02146BB0_blk.f0c, g_02146BB0_blk.f10 >> 4);
+    g_02146BB0_blk.pool = (u32)NNSi_GfdInitBlockPool((struct Node02061DFC *)g_02146BB0_blk.pManagementWork, g_02146BB0_blk.szByteManagementWork >> 4);
     NNSi_GfdClearBlockListHead(&g_02146BB0.head);
-    NNSi_GfdAddBlock((struct List02061E48 *)(&g_02146BB0), (struct Pool02061E48 *)(&g_02146BB4), 0, g_02146BB0_blk.f08);
+    NNSi_GfdAddBlock((struct List02061E48 *)(&g_02146BB0), (struct Pool02061E48 *)(&g_02146BB4), 0, g_02146BB0_blk.szByte);
     NNSi_GfdMergeFreeBlockList(&g_02146BB0.head, &g_02146BB4);
 }

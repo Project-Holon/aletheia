@@ -30,7 +30,7 @@ typedef long long fx64c;
 extern void MTX_MultVec43(const VecFx32 *src, const MtxFx43 *m, VecFx32 *dst);
 extern void FX_InvAsync(fx32 d);
 extern fx64c FX_GetDivResultFx64c(void);
-extern void NNS_G3dGlbGetViewPort(u32 *a0, u32 *a1, u32 *a2, u32 *a3);
+extern void NNS_G3dGlbGetViewPort(u32 *x1, u32 *y1, u32 *x2, u32 *y2);
 extern u32 FX_Div(u32 a, u32 b);
 extern void *NNS_G3dGlbGetInvVPMtx(void);
 int NNS_G3dWorldPosToScrPos(const VecFx32 *pWorld, int *px, int *py);

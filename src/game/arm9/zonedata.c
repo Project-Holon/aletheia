@@ -233,7 +233,7 @@ u32 ZONEDATA_IsPalaceEnabled(u32 id);
 
 int ZONEDATA_IsRailMap(u32 zoneId);
 
-int ZONEDATA_HasSpecialKind(int a0);
+int ZONEDATA_HasSpecialKind(int zoneId);
 
 int ZONEDATA_GetSpecialKind(u16 key);
 
@@ -255,9 +255,9 @@ u32 ZONEDATA_IsZoneGroup118To120(u32 id);
 
 u32 ZONEDATA_IsRawZoneGroup121To13C(u32 id);
 
-int ZONEDATA_IsZoneInTableDFC0(int a0);
+int ZONEDATA_IsZoneInTableDFC0(int zoneId);
 
-int ZONEDATA_IsZoneInTableDFEC(u16 a0);
+int ZONEDATA_IsZoneInTableDFEC(u16 zoneId);
 
 u32 ZONEDATA_IsZone4E(u32 id);
 
@@ -825,9 +825,9 @@ int ZONEDATA_IsRailMap(u32 zoneId)
     return ZONEDATA_IsChangedZoneInTable(zoneId, _RailMapZoneTable, 0xb);
 }
 
-int ZONEDATA_HasSpecialKind(int a0)
+int ZONEDATA_HasSpecialKind(int zoneId)
 {
-    if ((unsigned int)ZONEDATA_GetSpecialKind(ZONEDATA_GetChangedZoneId(a0)) != (unsigned int)(~0)) {
+    if ((unsigned int)ZONEDATA_GetSpecialKind(ZONEDATA_GetChangedZoneId(zoneId)) != (unsigned int)(~0)) {
         return 1;
     } else {
         return 0;
@@ -965,9 +965,9 @@ u32 ZONEDATA_IsRawZoneGroup121To13C(u32 id)
  * to ZONEDATA_IsZoneInTable with a fixed table and count. Filed as the witness for
  * the ov021 and ov018 callers.
  */
-int ZONEDATA_IsZoneInTableDFC0(int a0)
+int ZONEDATA_IsZoneInTableDFC0(int zoneId)
 {
-    return ZONEDATA_IsChangedZoneInTable(a0, d_0209DFC0, 4);
+    return ZONEDATA_IsChangedZoneInTable(zoneId, d_0209DFC0, 4);
 }
 
 /*
@@ -975,9 +975,9 @@ int ZONEDATA_IsZoneInTableDFC0(int a0)
  * to ZONEDATA_IsZoneInTable with a fixed table and count. Filed as the witness for
  * the ov020 caller FIELD_WFBC_DATA_LOCAL_AdvanceDays (wave D4 lane 12).
  */
-int ZONEDATA_IsZoneInTableDFEC(u16 a0)
+int ZONEDATA_IsZoneInTableDFEC(u16 zoneId)
 {
-    return ZONEDATA_IsChangedZoneInTable(a0, d_0209DFEC, 9);
+    return ZONEDATA_IsChangedZoneInTable(zoneId, d_0209DFEC, 9);
 }
 
 /*

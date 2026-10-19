@@ -212,8 +212,8 @@ typedef struct IntrudeSymbolPage {
 typedef struct IntrudePageRequest {
     u8 page;
     u8 pending;
-    u8 arg2;
-    u8 arg3;
+    u8 pad2;
+    u8 pad3;
 } IntrudePageRequest;
 
 /* Profile data of one player (0x10 bytes): built by INTRUDE_COMM_BuildLocalProfile, sent as command 0x20D. */

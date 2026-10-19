@@ -49,15 +49,15 @@ typedef unsigned long long u64;
 typedef struct {s16 x,y;} MysteryUtilVec2;
 
 struct Ctx {
-    u32 f0;
-    u32 f4;
-    u32 f8;
-    u32 fC;
-    u32 f10;
-    u32 f14;
-    u32 f18;
-    u32 f1C;
-    u32 f20;
+    u32 mode;
+    u32 param4;
+    u32 clactUnit;
+    u32 cardList;
+    u32 font;
+    u32 printQueue;
+    u32 wordSet;
+    u32 msgBank;
+    u32 gameData;
 };
 
 #endif

@@ -134,13 +134,13 @@ extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern NetWork *WCMi_GetSystemWork(void);
 extern void DC_InvalidateRange(u32 buf, u32 len);
 extern int NWM_StartScanEx(void *cb, void *buf);
-extern u32 NWM_Init(u32 a0, u32 a1, u32 a2);
+extern u32 NWM_Init(u32 buf, u32 size, u32 mode);
 extern void WCMi_SetPhase(unsigned char phase);
 extern u32 NWM_LoadDevice(void *arg);
 extern u32 NWM_Close(void *arg);
 extern u32 NWM_SetWEPKey(void *a, u32 b, u32 c, void *d, u32 e);
 extern u32 NWM_SetWPAPSK(void *a, void *b);
-extern u32 NWM_UnsetReceivingFrameBuffer(void *a0, u32 a1);
+extern u32 NWM_UnsetReceivingFrameBuffer(void *callback, u32 protocol);
 extern u32 NWM_GetState(void);
 extern u32 NWM_End(void);
 extern u32 NWM_UnloadDevice(void *arg);
@@ -278,21 +278,21 @@ u32 WCMi_NwmifCleanupAsync(void)
 
 
 
-int WCMi_NwmifBeginSearchAsync(u32 a, u32 b, u32 c)
+int WCMi_NwmifBeginSearchAsync(u32 bssid, u32 essid, u32 option)
 {
     NetWork *w = WCMi_GetSystemWork();
 
     switch (w->state) {
     case 5:
-        WcmEditScanExParam((void *)a, (void *)b, c);
+        WcmEditScanExParam((void *)bssid, (void *)essid, option);
         return 2;
     case 6:
-        WcmEditScanExParam((void *)a, (void *)b, c);
+        WcmEditScanExParam((void *)bssid, (void *)essid, option);
         return 0;
     default:
         return 1;
     case 3:
-        WcmEditScanExParam((void *)a, (void *)b, c);
+        WcmEditScanExParam((void *)bssid, (void *)essid, option);
         DC_InvalidateRange(w->sendBuf, w->sendLen);
         w->sendCount++;
         switch (NWM_StartScanEx(WcmNwmcbScanEx, &w->sendBuf)) {
@@ -437,16 +437,16 @@ u32 WCMi_NwmifTerminateAsync(void)
 
 
 
-u32 WCMi_NwmifSetDCFData(u32 a, u32 b, u32 c, u32 d)
+u32 WCMi_NwmifSetDCFData(u32 destMac, u32 frame, u32 length, u32 asyncArg)
 {
     NetObj *o = WCMi_GetCpsifWork();
     u32 ret;
 
-    if (d == 0) {
-        ret = NWM_SendFrame(WcmNwmcbSetDCFData, a, b, c);
+    if (asyncArg == 0) {
+        ret = NWM_SendFrame(WcmNwmcbSetDCFData, destMac, frame, length);
     } else {
-        o->arg = d;
-        ret = NWM_SendFrame(WcmNwmcbSetDCFDataAsync, a, b, c);
+        o->arg = asyncArg;
+        ret = NWM_SendFrame(WcmNwmcbSetDCFDataAsync, destMac, frame, length);
     }
     switch (ret) {
     case 0:
@@ -460,13 +460,13 @@ u32 WCMi_NwmifSetDCFData(u32 a, u32 b, u32 c, u32 d)
     case 2:
         break;
     }
-    if (d == 0) {
+    if (asyncArg == 0) {
         OS_SleepThread(o->queue);
         if (o->status != 0) {
             return -5;
         }
     }
-    return c;
+    return length;
 }
 
 

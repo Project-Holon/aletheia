@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_NETWORK_RecordLinkOnUpdate
+ * function: EVENT_FIELD_MENU_OnUpdate
  * address:  0x0215FED4
  * packet:   pkt_0215FED4
  * region:   ov010
@@ -26,7 +26,7 @@ typedef unsigned int u32;
 extern void *FIELDMAP_GetSubscreen(int);
 extern void FIELD_SUBSCREEN_SetMenuSelectedButton(void *, int);
 
-int SCRCMD_NETWORK_RecordLinkOnUpdate(void *a0, void *a1)
+int EVENT_FIELD_MENU_OnUpdate(void *a0, void *a1)
 {
     void *v = FIELDMAP_GetSubscreen(((struct Obj12045 *)a1)->fC);
 

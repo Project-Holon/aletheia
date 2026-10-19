@@ -537,7 +537,7 @@ static int cert_item(CPSSslConnection *con, unsigned char **ps,
 
     switch (type & 0x1f) {
     case 2:
-        if (con->f5ad != 0) {
+        if (con->keyInfoOid != 0) {
             if (seq == 0) {
                 while (*s == 0) {
                     s++;
@@ -582,11 +582,11 @@ static int cert_item(CPSSslConnection *con, unsigned char **ps,
             con->sig = s + 1;
             con->sig_len = len - 1;
         }
-        if (con->f5ad != 0) {
+        if (con->keyInfoOid != 0) {
             s++;
             if (cert_item(con, &s, level, i, mode) != 0)
                 return 1;
-            con->f5ad = 0;
+            con->keyInfoOid = 0;
             goto done;
         }
         s += len;
@@ -598,8 +598,8 @@ static int cert_item(CPSSslConnection *con, unsigned char **ps,
                 case 1:
                 case 2:
                     if (mode == 0)
-                        con->f45c = i;
-                    con->f5ad = i;
+                        con->pubkeyAlgo = i;
+                    con->keyInfoOid = i;
                     break;
                 case 3:
                 case 4:
@@ -608,7 +608,7 @@ static int cert_item(CPSSslConnection *con, unsigned char **ps,
                     break;
                 case 5:
                     if (mode != 2)
-                        con->f5ae = i;
+                        con->cnOid = i;
                     break;
                 }
                 break;
@@ -622,17 +622,17 @@ static int cert_item(CPSSslConnection *con, unsigned char **ps,
     case 22:
         i = 0;
         if (mode != 2) {
-            if (con->f5ac != 0) {
-                make_dn((char *)con->f6b0, (char *)s, len);
-                if (con->f5ae == 5 && len <= 0x4f) {
-                    MI_CpuCopy8(s, con->f7b0, len);
-                    con->f7b0[len] = 0;
+            if (con->subjectPhase != 0) {
+                make_dn((char *)con->subjectDn, (char *)s, len);
+                if (con->cnOid == 5 && len <= 0x4f) {
+                    MI_CpuCopy8(s, con->commonName, len);
+                    con->commonName[len] = 0;
                 }
             } else {
                 make_dn((char *)con->dn, (char *)s, len);
             }
         }
-        con->f5ae = i;
+        con->cnOid = i;
         s += len;
         break;
     case 23:
@@ -642,15 +642,15 @@ static int cert_item(CPSSslConnection *con, unsigned char **ps,
             unsigned long cert_date;
             cert_date = parse_time(s, type & 0x1f);
             if (seq == 0) {
-                if (con->f80c >= cert_date)
-                    con->f5af = 1;
+                if (con->currentDate >= cert_date)
+                    con->dateValid = 1;
             } else {
-                if (con->f80c > cert_date)
-                    con->f5af = 0;
+                if (con->currentDate > cert_date)
+                    con->dateValid = 0;
             }
         }
         s += len;
-        con->f5ac = 1;
+        con->subjectPhase = 1;
         goto done;
     case 16:
         if (level == 0 && seq == 0 && mode != 2)
@@ -752,9 +752,9 @@ static int auth_cert(CPSSslConnection *con)
     SOCLCaInfo *p;
 
     result = 0;
-    if (con->f5af == 0)
+    if (con->dateValid == 0)
         result = 0x8000;
-    if (con->f45c == -1)
+    if (con->pubkeyAlgo == -1)
         return result | 4;
     switch (con->hash_type) {
     case 3:
@@ -832,12 +832,12 @@ static void rcv_certificate(CPSSslConnection *con, unsigned char *s)
 
     remaining_certlen = (((s[0] << 8) + s[1]) << 8) + s[2];
     s += 3;
-    con->f45c = -1;
+    con->pubkeyAlgo = -1;
     RTC_GetDate(&date);
     parse_mode = 0;
     level = 0;
-    con->f80c = ((date.year + 2000) << 16) + (date.month << 8) + date.day;
-    con->f6b0[0] = 0;
+    con->currentDate = ((date.year + 2000) << 16) + (date.month << 8) + date.day;
+    con->subjectDn[0] = 0;
     con->pubexplen = 0;
     con->modlen = 0;
     for (;;) {
@@ -845,14 +845,14 @@ static void rcv_certificate(CPSSslConnection *con, unsigned char *s)
         s += 3;
         remaining_certlen -= this_certlen + 3;
         con->hash_type = -1;
-        con->f5ad = 0;
-        con->f5ac = 0;
-        con->f5af = 0;
-        con->f6b0[0] = 0;
+        con->keyInfoOid = 0;
+        con->subjectPhase = 0;
+        con->dateValid = 0;
+        con->subjectDn[0] = 0;
         con->dn[0] = 0;
-        con->f7b0[0] = 0;
-        con->f804 = s;
-        con->f808 = this_certlen;
+        con->commonName[0] = 0;
+        con->certData = s;
+        con->certLen = this_certlen;
 
         if (cert_item(con, &s, 0, 0, parse_mode) != 0 || (unsigned int)con->modlen < 0x33 ||
             con->pubexplen == 0) {
@@ -860,14 +860,14 @@ static void rcv_certificate(CPSSslConnection *con, unsigned char *s)
             return;
         }
         result = auth_cert(con);
-        if (level == 0 && con->f800 != 0) {
-            if (compare_fqdn(con->f800, (char *)con->f7b0) != 0)
+        if (level == 0 && con->hostName != 0) {
+            if (compare_fqdn(con->hostName, (char *)con->commonName) != 0)
                 result |= 0x4000;
         }
         result0 = result & 0xff;
         if (result0 == 1 && remaining_certlen != 0) {
             s2 = s + 3;
-            con->f5ad = 0;
+            con->keyInfoOid = 0;
             if (cert_item(con, &s2, 0, 0, 2) != 0) {
                 con->state = 9;
                 return;
@@ -1516,14 +1516,14 @@ static void parse_record_in_buf(CPSSslConnection *con, unsigned char *buf)
             case 0xb:
                 if (con->state == 2 && con->server == 0) {
                     rcv_certificate(con, s);
-                    con->f5ac = 0;
+                    con->subjectPhase = 0;
                 } else {
                     con->state = 9;
                 }
                 break;
             case 0xd:
                 if (con->state == 3 && con->server == 0)
-                    con->f5ac = 1;
+                    con->subjectPhase = 1;
                 else
                     con->state = 9;
                 break;
@@ -1802,7 +1802,7 @@ static void send_client_key_exchange(CPSSoc *soc)
     unsigned char *d;
 
     con = soc->con;
-    if (con->f5ac != 0)
+    if (con->subjectPhase != 0)
         CPSi_TcpWrite2Raw(alert_nocert, 7, 0, 0, soc);
 
     con->master_secret[0] = 3;

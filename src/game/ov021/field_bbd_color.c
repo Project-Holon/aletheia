@@ -60,7 +60,7 @@ extern u32 GFL_HEAP_Free(void *p);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern void ARC_TOOL_ReadHandleMember(struct ArcFile *arc, u32 member, void *dst);
 extern void VEC_Fx16Normalize(u16 *a, u16 *b);
-extern void BILLBOARD_SetFixedNormal(u8 *a0, short *a1);
+extern void BILLBOARD_SetFixedNormal(u8 *board, short *normal);
 extern void BILLBOARD_SetDiffuse(u8 *dst, u16 *src);
 extern void BILLBOARD_SetAmbient(u8 *dst, u16 *src);
 extern void BILLBOARD_SetSpecular(u8 *dst, u16 *src);

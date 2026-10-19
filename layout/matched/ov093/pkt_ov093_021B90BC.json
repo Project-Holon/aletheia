@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_MAIN_SubItemFromBag",
+   "name": "BTL_MAIN_AddItemToBag",
    "address": "0x021B90BC",
    "kind": "game",
    "region": "ov093",

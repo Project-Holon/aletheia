@@ -97,8 +97,8 @@ typedef struct NCFGSlotInfo {
 } NCFGSlotInfo;
 
 typedef struct NCFGSlotInfoEx {
-    u8 f000[0x20];
-    u8 f020[0x20];
+    u8 ispId[0x20];
+    u8 ispPass[0x20];
     u8 pad0[0xe6 - 0x40];
     u8 wepMode : 2;
     u8 wepNotation : 6;
@@ -773,8 +773,8 @@ void DWCi_AC_CopyExSetting(u8 type)
         hd->proxyAuthType = wk->userInfoEx[ap_type].proxyAuthType;
         hd->proxyPort = wk->userInfoEx[ap_type].proxyPort;
         MI_CpuCopy8(wk->userInfoEx[ap_type].proxyHost, hd->proxyHost, 100);
-        MI_CpuCopy8(wk->userInfoEx[ap_type].f000, hd->proxyId, 0x20);
-        MI_CpuCopy8(wk->userInfoEx[ap_type].f020, hd->proxyPass, 0x20);
+        MI_CpuCopy8(wk->userInfoEx[ap_type].ispId, hd->proxyId, 0x20);
+        MI_CpuCopy8(wk->userInfoEx[ap_type].ispPass, hd->proxyPass, 0x20);
         if ((u8)(wk->userInfoEx[ap_type].wpaMode + 0xf0) <= 3) {
             hd->security = wk->userInfoEx[ap_type].wpaSecurity;
         } else {

@@ -78,7 +78,7 @@ int gti2PingCallback(GTI2Connection *c, int latency);
 int gti2SendFilterCallback(GTI2Connection *c, int filterID, unsigned char *msg, int len, int reliable);
 int gti2ReceiveFilterCallback(GTI2Connection *c, int filterID, unsigned char *msg, int len, int reliable);
 int gti2DumpCallback(GTI2Socket *sock, GTI2Connection *c, unsigned int ip, unsigned short port, int reset, unsigned char *msg, int len, int send);
-int gti2UnrecognizedMessageCallback(char *p, int a1, int a2, int a3, int a4, int *a5);
+int gti2UnrecognizedMessageCallback(char *p, int ip, int port, int message, int len, int *handled);
 
 
 
@@ -350,28 +350,28 @@ int gti2DumpCallback(GTI2Socket *sock, GTI2Connection *c, unsigned int ip, unsig
  * through the pointer, drop the counter and report whether the object still
  * has work outstanding.
  */
-int gti2UnrecognizedMessageCallback(char *p, int a1, int a2, int a3, int a4, int *a5)
+int gti2UnrecognizedMessageCallback(char *socket, int ip, int port, int message, int len, int *handled)
 {
     int r;
 
-    *a5 = 0;
-    if (p == 0)
+    *handled = 0;
+    if (socket == 0)
         return 1;
-    if (*(int *)(p + 0x30) == 0)
+    if (*(int *)(socket + 0x30) == 0)
         return 1;
 
-    if (a4 == 0 || a3 == 0) {
-        a3 = 0;
-        a4 = 0;
+    if (len == 0 || message == 0) {
+        message = 0;
+        len = 0;
     }
 
-    *(int *)(p + 0x1c) += 1;
-    r = (*(Hook *)(p + 0x30))(p, a1, a2, a3, a4);
-    *a5 = r;
+    *(int *)(socket + 0x1c) += 1;
+    r = (*(Hook *)(socket + 0x30))(socket, ip, port, message, len);
+    *handled = r;
 
-    *(int *)(p + 0x1c) -= 1;
-    if (*(int *)(p + 0x14) != 0 && *(int *)(p + 0x1c) == 0) {
-        gti2CloseSocket((GTI2Socket *)p);
+    *(int *)(socket + 0x1c) -= 1;
+    if (*(int *)(socket + 0x14) != 0 && *(int *)(socket + 0x1c) == 0) {
+        gti2CloseSocket((GTI2Socket *)socket);
         return 0;
     }
     return 1;

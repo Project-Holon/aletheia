@@ -175,19 +175,19 @@ static inline void outside(int wnd, int effect)
 /*
  * volatile: hardware register reads and writes at 021FA5FA..021FA634.
  */
-char *STA_ACT_BUTTON_Create(unsigned heap, void *a, char *b)
+char *STA_ACT_BUTTON_Create(unsigned heap, void *scene, char *playerRecord)
 {
     char *p = GFL_HEAP_Alloc(heap, 0x60, 0, d_021FDCD8, 87);
-    ((struct TaskObj *)p)->f0 = heap;
-    ((struct TaskObj *)p)->f4 = a;
-    *(char * *)&((struct TaskObj *)p)->f8 = b;
-    ((struct TaskObj *)p)->fC.s = 0;
-    ((struct TaskObj *)p)->f10 = 0;
-    ((struct TaskObj *)p)->f14 = 2;
-    ((struct TaskObj *)p)->f48 = ((struct ActingRecord *)b)->f3E;
-    ((struct TaskObj *)p)->f4A = ((struct ActingRecord *)(*(char * *)&((struct TaskObj *)p)->f8))->f44;
-    ((struct TaskObj *)p)->f40 = 0;
-    ((struct TaskObj *)p)->f44 = 0;
+    ((struct TaskObj *)p)->heapId = heap;
+    ((struct TaskObj *)p)->scene = scene;
+    *(char * *)&((struct TaskObj *)p)->playerRecord = playerRecord;
+    ((struct TaskObj *)p)->enabled.s = 0;
+    ((struct TaskObj *)p)->actionPending = 0;
+    ((struct TaskObj *)p)->pressedIndex = 2;
+    ((struct TaskObj *)p)->actorIds[0] = ((struct ActingRecord *)playerRecord)->leftActorId;
+    ((struct TaskObj *)p)->actorIds[1] = ((struct ActingRecord *)(*(char * *)&((struct TaskObj *)p)->playerRecord))->rightActorId;
+    ((struct TaskObj *)p)->pressed[0] = 0;
+    ((struct TaskObj *)p)->pressed[1] = 0;
     STA_ACT_BUTTON_CreateActors(p);
     *(volatile unsigned *)0x04001000 = (*(volatile unsigned *)0x04001000 & ~0xe000) | 0x2000;
     inside(31, 1);
@@ -203,19 +203,19 @@ char *STA_ACT_BUTTON_Create(unsigned heap, void *a, char *b)
 void STA_ACT_BUTTON_Delete(char *p)
 {
     *(volatile unsigned *)0x04001000 &= ~0xe000;
-    if (((struct TaskObj *)p)->f48 != 255) CLACT_DeleteActor(((struct TaskObj *)p)->f4C);
-    if (((struct TaskObj *)p)->f4A != 255) CLACT_DeleteActor(((struct TaskObj *)p)->f50);
-    CLACT_DeleteActor(((struct TaskObj *)p)->f5C);
-    CLACT_ReleasePalette((u32)(((struct TaskObj *)p)->f1C.p));
-    CLACT_ReleaseCharacter((u32)(((struct TaskObj *)p)->f28.p));
-    CLACT_ReleaseCellAnim((u32)(((struct TaskObj *)p)->f34.p));
-    CLACT_ReleasePalette((u32)(((struct TaskObj *)p)->f20.p));
-    CLACT_ReleaseCharacter((u32)(((struct TaskObj *)p)->f2C.p));
-    CLACT_ReleaseCellAnim((u32)(((struct TaskObj *)p)->f38.p));
-    CLACT_ReleasePalette((u32)(((struct TaskObj *)p)->f24.p));
-    CLACT_ReleaseCharacter((u32)(((struct TaskObj *)p)->f30.p));
-    CLACT_ReleaseCellAnim((u32)(((struct TaskObj *)p)->f3C.p));
-    CLACT_DeleteUnit(((struct TaskObj *)p)->f18);
+    if (((struct TaskObj *)p)->actorIds[0] != 255) CLACT_DeleteActor(((struct TaskObj *)p)->frameActors[0]);
+    if (((struct TaskObj *)p)->actorIds[1] != 255) CLACT_DeleteActor(((struct TaskObj *)p)->frameActors[1]);
+    CLACT_DeleteActor(((struct TaskObj *)p)->pressActor);
+    CLACT_ReleasePalette((u32)(((struct TaskObj *)p)->framePalette.p));
+    CLACT_ReleaseCharacter((u32)(((struct TaskObj *)p)->frameCharacter.p));
+    CLACT_ReleaseCellAnim((u32)(((struct TaskObj *)p)->frameCellAnim.p));
+    CLACT_ReleasePalette((u32)(((struct TaskObj *)p)->iconPalette.p));
+    CLACT_ReleaseCharacter((u32)(((struct TaskObj *)p)->iconCharacter.p));
+    CLACT_ReleaseCellAnim((u32)(((struct TaskObj *)p)->iconCellAnim.p));
+    CLACT_ReleasePalette((u32)(((struct TaskObj *)p)->pressPalette.p));
+    CLACT_ReleaseCharacter((u32)(((struct TaskObj *)p)->pressCharacter.p));
+    CLACT_ReleaseCellAnim((u32)(((struct TaskObj *)p)->pressCellAnim.p));
+    CLACT_DeleteUnit(((struct TaskObj *)p)->clactUnit);
     GFL_HEAP_Free(p);
 }
 
@@ -229,42 +229,42 @@ void STA_ACT_BUTTON_Update(char *p)
     Pos pos;
     int hit;
     Flag one,zero;
-    if(((struct TaskObj *)p)->fC.s==1) {
+    if(((struct TaskObj *)p)->enabled.s==1) {
         key=d_021FDC20;
         hit=TOUCHPANEL_HitTrg(&key);
         G2x_SetBlendBrightness_(0x04001050,16,0);
         if(hit!=-1 && *(u16 *)(p+0x48+hit*2)!=255 && *(int *)(p+0x40+hit*4)==0) {
-            if(hit==0) STA_ACTING_RequestAction(((struct TaskObj *)p)->f4,7);
-            else STA_ACTING_RequestAction(((struct TaskObj *)p)->f4,8);
+            if(hit==0) STA_ACTING_RequestAction(((struct TaskObj *)p)->scene,7);
+            else STA_ACTING_RequestAction(((struct TaskObj *)p)->scene,8);
             G2x_SetBlendBrightness_(0x04001050,16,-8);
             one=FLAG_ONE;
             zero=FLAG_ZERO;
             *(u32 *)(p+0x40+hit*4)=one;
-            *(u32 *)&((struct TaskObj *)p)->f10=one;
-            *(u32 *)&((struct TaskObj *)p)->fC=zero;
-            ((struct TaskObj *)p)->f14=hit;
+            *(u32 *)&((struct TaskObj *)p)->actionPending=one;
+            *(u32 *)&((struct TaskObj *)p)->enabled=zero;
+            ((struct TaskObj *)p)->pressedIndex=hit;
             pos.x=hit==0?32:224;
             pos.y=128;
-            CLACT_RestartActorAnim(((struct TaskObj *)p)->f5C);
-            CLACT_SetActorDrawEnable(((struct TaskObj *)p)->f5C,1);
-            CLACT_AddActorSurfacePos(((struct TaskObj *)p)->f5C,(const struct Vec2 *)(&pos),1);
+            CLACT_RestartActorAnim(((struct TaskObj *)p)->pressActor);
+            CLACT_SetActorDrawEnable(((struct TaskObj *)p)->pressActor,1);
+            CLACT_AddActorSurfacePos(((struct TaskObj *)p)->pressActor,(const struct Vec2 *)(&pos),1);
             UI_SetInputMode(1);
         }
     }
-    if(((struct TaskObj *)p)->f14!=2) {
-        if(STA_ACTING_GetCurrentAction(((struct TaskObj *)p)->f4)==0) {
-            if(((struct TaskObj *)p)->f10==0) {
-                ((struct TaskObj *)p)->fC.s=1;
-                CLACT_SetActorDrawEnable(*(void **)(p+0x4c+((struct TaskObj *)p)->f14*4),0);
-                CLACT_SetActorDrawEnable(*(void **)(p+0x54+((struct TaskObj *)p)->f14*4),0);
-                ((struct TaskObj *)p)->f14=2;
+    if(((struct TaskObj *)p)->pressedIndex!=2) {
+        if(STA_ACTING_GetCurrentAction(((struct TaskObj *)p)->scene)==0) {
+            if(((struct TaskObj *)p)->actionPending==0) {
+                ((struct TaskObj *)p)->enabled.s=1;
+                CLACT_SetActorDrawEnable(*(void **)(p+0x4c+((struct TaskObj *)p)->pressedIndex*4),0);
+                CLACT_SetActorDrawEnable(*(void **)(p+0x54+((struct TaskObj *)p)->pressedIndex*4),0);
+                ((struct TaskObj *)p)->pressedIndex=2;
             }
         } else {
-            if(((struct TaskObj *)p)->f10==1) ((struct TaskObj *)p)->f10=0;
+            if(((struct TaskObj *)p)->actionPending==1) ((struct TaskObj *)p)->actionPending=0;
         }
     }
-    if(CLACT_GetActorDrawEnable(((struct TaskObj *)p)->f5C)==1) {
-        if(CLACT_IsActorAnimActive(((struct TaskObj *)p)->f5C)==0) CLACT_SetActorDrawEnable(((struct TaskObj *)p)->f5C,0);
+    if(CLACT_GetActorDrawEnable(((struct TaskObj *)p)->pressActor)==1) {
+        if(CLACT_IsActorAnimActive(((struct TaskObj *)p)->pressActor)==0) CLACT_SetActorDrawEnable(((struct TaskObj *)p)->pressActor,0);
     }
 }
 
@@ -279,21 +279,21 @@ void STA_ACT_BUTTON_CreateActors(char *p)
     void *narc;
     u8 i=0;
     int format;
-    table=(u8 *)STA_ACTING_GetActorCount((u8 *)(*(char * *)&((struct TaskObj *)p)->f4));
-    ((struct TaskObj *)p)->f18=CLACT_CreateUnit(5,0,((struct TaskObj *)p)->f0);
-    CLACT_SetUnitDefaultRenderer(((struct TaskObj *)p)->f18);
-    narc=ARC_TOOL_CreateHandle(47,((struct TaskObj *)p)->f0);
-    *(int *)&((struct TaskObj *)p)->f1C=CLACT_RegisterPaletteEx(narc,0,1,0,0,2,((struct TaskObj *)p)->f0);
-    *(int *)&((struct TaskObj *)p)->f28=CLACT_RegisterCharacter(narc,6,0,1,((struct TaskObj *)p)->f0);
-    *(int *)&((struct TaskObj *)p)->f34=CLACT_RegisterCellAnim(narc,18,21,((struct TaskObj *)p)->f0);
-    *(int *)&((struct TaskObj *)p)->f20=CLACT_RegisterPaletteEx(narc,1,1,64,0,1,((struct TaskObj *)p)->f0);
-    *(int *)&((struct TaskObj *)p)->f2C=CLACT_RegisterCharacter(narc,7,0,1,((struct TaskObj *)p)->f0);
-    *(int *)&((struct TaskObj *)p)->f38=CLACT_RegisterCellAnim(narc,19,22,((struct TaskObj *)p)->f0);
+    table=(u8 *)STA_ACTING_GetActorCount((u8 *)(*(char * *)&((struct TaskObj *)p)->scene));
+    ((struct TaskObj *)p)->clactUnit=CLACT_CreateUnit(5,0,((struct TaskObj *)p)->heapId);
+    CLACT_SetUnitDefaultRenderer(((struct TaskObj *)p)->clactUnit);
+    narc=ARC_TOOL_CreateHandle(47,((struct TaskObj *)p)->heapId);
+    *(int *)&((struct TaskObj *)p)->framePalette=CLACT_RegisterPaletteEx(narc,0,1,0,0,2,((struct TaskObj *)p)->heapId);
+    *(int *)&((struct TaskObj *)p)->frameCharacter=CLACT_RegisterCharacter(narc,6,0,1,((struct TaskObj *)p)->heapId);
+    *(int *)&((struct TaskObj *)p)->frameCellAnim=CLACT_RegisterCellAnim(narc,18,21,((struct TaskObj *)p)->heapId);
+    *(int *)&((struct TaskObj *)p)->iconPalette=CLACT_RegisterPaletteEx(narc,1,1,64,0,1,((struct TaskObj *)p)->heapId);
+    *(int *)&((struct TaskObj *)p)->iconCharacter=CLACT_RegisterCharacter(narc,7,0,1,((struct TaskObj *)p)->heapId);
+    *(int *)&((struct TaskObj *)p)->iconCellAnim=CLACT_RegisterCellAnim(narc,19,22,((struct TaskObj *)p)->heapId);
     ARC_TOOL_DeleteHandle(narc);
-    narc=ARC_TOOL_CreateHandle(46,((struct TaskObj *)p)->f0);
-    *(int *)&((struct TaskObj *)p)->f24=CLACT_RegisterPalette(narc,0,1,96,((struct TaskObj *)p)->f0);
-    *(int *)&((struct TaskObj *)p)->f30=CLACT_RegisterCharacter(narc,26,0,1,((struct TaskObj *)p)->f0);
-    *(int *)&((struct TaskObj *)p)->f3C=CLACT_RegisterCellAnim(narc,18,22,((struct TaskObj *)p)->f0);
+    narc=ARC_TOOL_CreateHandle(46,((struct TaskObj *)p)->heapId);
+    *(int *)&((struct TaskObj *)p)->pressPalette=CLACT_RegisterPalette(narc,0,1,96,((struct TaskObj *)p)->heapId);
+    *(int *)&((struct TaskObj *)p)->pressCharacter=CLACT_RegisterCharacter(narc,26,0,1,((struct TaskObj *)p)->heapId);
+    *(int *)&((struct TaskObj *)p)->pressCellAnim=CLACT_RegisterCellAnim(narc,18,22,((struct TaskObj *)p)->heapId);
     ARC_TOOL_DeleteHandle(narc);
     for(i=0;i<2;i++) {
         if(*(u16 *)(p+i*2+0x48)!=255) {
@@ -304,18 +304,18 @@ void STA_ACT_BUTTON_CreateActors(char *p)
             configs[1].index=i;
             configs[1].a=10;
             configs[1].b=0;
-            *(void **)(p+i*4+0x4c)=CLACT_CreateActor((void *)*(u32 *)&((struct TaskObj *)p)->f18,((struct TaskObj *)p)->f28.u,((struct TaskObj *)p)->f1C.u,((struct TaskObj *)p)->f34.u,&configs[1],1,((struct TaskObj *)p)->f0);
+            *(void **)(p+i*4+0x4c)=CLACT_CreateActor((void *)*(u32 *)&((struct TaskObj *)p)->clactUnit,((struct TaskObj *)p)->frameCharacter.u,((struct TaskObj *)p)->framePalette.u,((struct TaskObj *)p)->frameCellAnim.u,&configs[1],1,((struct TaskObj *)p)->heapId);
             configs[1].index=0;
-            *(void **)(p+i*4+0x54)=CLACT_CreateActor((void *)*(u32 *)&((struct TaskObj *)p)->f18,((struct TaskObj *)p)->f2C.u,((struct TaskObj *)p)->f20.u,((struct TaskObj *)p)->f38.u,&configs[1],1,((struct TaskObj *)p)->f0);
+            *(void **)(p+i*4+0x54)=CLACT_CreateActor((void *)*(u32 *)&((struct TaskObj *)p)->clactUnit,((struct TaskObj *)p)->iconCharacter.u,((struct TaskObj *)p)->iconPalette.u,((struct TaskObj *)p)->iconCellAnim.u,&configs[1],1,((struct TaskObj *)p)->heapId);
             CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x4c),0);
             CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x54),0);
             STA_ACT_BUTTON_LoadCharacter((u8 *)p,i,*(u16 *)(p+i*2+0x48),format);
         }
     }
     configs[0].x=128; configs[0].y=96; configs[0].index=0;configs[0].a=0;configs[0].b=0;
-    ((struct TaskObj *)p)->f5C=CLACT_CreateActor((void *)*(u32 *)&((struct TaskObj *)p)->f18,((struct TaskObj *)p)->f30.u,((struct TaskObj *)p)->f24.u,((struct TaskObj *)p)->f3C.u,&configs[0],1,((struct TaskObj *)p)->f0);
-    CLACT_SetActorDrawEnable(((struct TaskObj *)p)->f5C,0);
-    CLACT_SetActorAutoAnim(((struct TaskObj *)p)->f5C,1);
+    ((struct TaskObj *)p)->pressActor=CLACT_CreateActor((void *)*(u32 *)&((struct TaskObj *)p)->clactUnit,((struct TaskObj *)p)->pressCharacter.u,((struct TaskObj *)p)->pressPalette.u,((struct TaskObj *)p)->pressCellAnim.u,&configs[0],1,((struct TaskObj *)p)->heapId);
+    CLACT_SetActorDrawEnable(((struct TaskObj *)p)->pressActor,0);
+    CLACT_SetActorAutoAnim(((struct TaskObj *)p)->pressActor,1);
 }
 
 /*
@@ -369,13 +369,13 @@ void STA_ACT_BUTTON_LoadCharacter(u8 *p,u16 slot,int resource,u32 type)
 
 void STA_ACT_BUTTON_SetVisible(char *p, unsigned flag)
 {
-    if (((struct TaskObj *)p)->f48 != 255) {
-        CLACT_SetActorDrawEnable(((struct TaskObj *)p)->f4C, flag);
-        CLACT_SetActorDrawEnable(((struct TaskObj *)p)->f54, flag);
+    if (((struct TaskObj *)p)->actorIds[0] != 255) {
+        CLACT_SetActorDrawEnable(((struct TaskObj *)p)->frameActors[0], flag);
+        CLACT_SetActorDrawEnable(((struct TaskObj *)p)->iconActors[0], flag);
     }
-    if (((struct TaskObj *)p)->f4A != 255) {
-        CLACT_SetActorDrawEnable(((struct TaskObj *)p)->f50, flag);
-        CLACT_SetActorDrawEnable(((struct TaskObj *)p)->f58, flag);
+    if (((struct TaskObj *)p)->actorIds[1] != 255) {
+        CLACT_SetActorDrawEnable(((struct TaskObj *)p)->frameActors[1], flag);
+        CLACT_SetActorDrawEnable(((struct TaskObj *)p)->iconActors[1], flag);
     }
-    ((struct TaskObj *)p)->fC.u = flag;
+    ((struct TaskObj *)p)->enabled.u = flag;
 }

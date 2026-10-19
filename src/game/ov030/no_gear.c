@@ -92,7 +92,7 @@ extern void BG_SYS_SetSubPlaneVisible(u32 planeMask, u32 enable);
 extern void BG_SYS_SetPlaneVisible(unsigned char bgId, unsigned char visible);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *template, u32 type);
 extern void BG_SYS_SetVisibleLayer(int bgId, unsigned short priority);
-extern void BG_SYS_SetTileEntry(u32 bgId, int a1, int a2, int a3, u8 width, u8 height, u8 mode);
+extern void BG_SYS_SetTileEntry(u32 bgId, int value, int x0, int y0, u8 width, u8 height, u8 mode);
 extern void BG_SYS_PushTile(u32 bgId);
 extern void BG_SYS_DeleteHalf(u32 bgId, u32 offset, u32 size);
 extern void BG_SYS_FreeLayerBuf(u32 bgId);

@@ -177,7 +177,7 @@ typedef signed int     s32;
 
 extern void  GFL_HEAP_CreateChildHeap(unsigned int a, unsigned int b, unsigned int c);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
-extern void *PROCSYS_Create(int a0);
+extern void *PROCSYS_Create(int heapId);
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern void GFL_NET_ERR_RequestScreen(void);
 extern void PROCSYS_Delete(struct S020314B8 *p);

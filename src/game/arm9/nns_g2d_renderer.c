@@ -97,24 +97,24 @@ typedef struct NNSG2dRenderSurface NNSG2dRenderSurface;
 
 struct NNSG2dRenderSurface {
     u8   pad_00[0x10];
-    int  f10;
-    int  f14;
+    int  isActive;
+    int  type;
     u8   pad_18[0x10];
-    int  f28;
-    int  f2c;
+    int  pFuncOamRegister;
+    int  pFuncOamAffineRegister;
     NNSG2dRenderSurface *pNextSurface;
-    int  (*fn34)(void *a, MtxFx32 *m, void *b);
-    void (*fn38)(void *a, void *b, void *c, MtxFx32 *m);
-    void (*fn3c)(void *a, void *b, void *c, MtxFx32 *m);
-    void (*fn40)(void *a, void *b, void *c, void *d, MtxFx32 *m);
-    void (*fn44)(void *a, void *b, void *c, void *d, MtxFx32 *m);
+    int  (*pFuncVisibilityCulling)(void *pCellData, MtxFx32 *pMtx, void *pSurface);
+    void (*pBeforeDrawCellBackFunc)(void *pRend, void *pSurface, void *pCellData, MtxFx32 *pMtx);
+    void (*pAfterDrawCellBackFunc)(void *pRend, void *pSurface, void *pCellData, MtxFx32 *pMtx);
+    void (*pBeforeDrawOamBackFunc)(void *pRend, void *pSurface, void *pCellData, void *pOam, MtxFx32 *pMtx);
+    void (*pAfterDrawOamBackFunc)(void *pRend, void *pSurface, void *pCellData, void *pOam, MtxFx32 *pMtx);
 };
 
 typedef struct NNSG2dRndCoreInstance {
     u8   pad_00[0x70];
     NNSG2dRenderSurface *pTargetSurfaceList;
     NNSG2dRenderSurface *pCurrentTargetSurface;
-    int  unk_78;
+    int  currentCell;
     u32  flag;
 } NNSG2dRndCoreInstance;
 
@@ -203,16 +203,16 @@ struct CellDrawCmd {
 };
 
 struct Cmd020659D4 {
-    int  unk_00;
+    int  pContent;
     u8   pad_04[4];
-    int  unk_08;
+    int  bVisible;
     u8   pad_0c[4];
-    fx32 unk_10;
-    fx32 unk_14;
-    s16  unk_18;
-    s16  unk_1a;
-    u16  unk_1c;
-    u16  unk_1e;
+    fx32 scaleX;
+    fx32 scaleY;
+    s16  transX;
+    s16  transY;
+    u16  rotZ;
+    u16  dirtyFlags;
 };
 
 struct Obj {
@@ -280,8 +280,8 @@ extern int NNSi_G2dGetVramHandle(unsigned short *p, int i);
 extern void NNSi_G2dMCMLoadCurrentMtxToCache(void);
 extern void NNS_G2dSetRndCoreCurrentMtx2D(u32 a, u32 b);
 extern void NNS_G2dSetRndCoreCurrentMtx3D(struct Src02067AC0 *src);
-extern void NNS_G2dRndCoreDrawCellVramTransfer(u32 a0, s32 a1);
-extern void NNS_G2dRndCoreDrawCell(u32 arg0);
+extern void NNS_G2dRndCoreDrawCellVramTransfer(u32 pCell, s32 cellTransferHandle);
+extern void NNS_G2dRndCoreDrawCell(u32 pCell);
 extern void NNS_G2dSetRndCore3DSoftSpriteZvalue(struct G2dOamState *p, u32 v);
 extern void NNS_G2dSetRndCoreSurface(u32 *p, u32 v);
 extern void NNS_G2dSetRndCoreOamRegisterFunc(int *p, int a, int b);
@@ -292,8 +292,8 @@ extern u32 NNSi_G2dIsRndCoreFlipV(const struct G2dOamState *p);
 extern void NNS_G2dInitRndCore(NNSG2dRndCoreInstance *p);
 extern void MIi_CpuClearFast(u32 data, void *dest, u32 size);
 extern void MIi_CpuClear16(u32 val, void *dst, u32 size);
-extern void NNSi_G2dRendererBeforeDrawCell(struct Host *h, void *a1);
-extern void NNSi_G2dRendererAfterDrawCell(void *a0, void *a1);
+extern void NNSi_G2dRendererBeforeDrawCell(struct Host *h, void *pCellData);
+extern void NNSi_G2dRendererAfterDrawCell(void *pDrawState, void *pCellData);
 extern void NNSi_G2dRendererResetMtxSlot(void);
 extern int NNS_G2dGetOamSoftEmuAutoZOffsetStep(void);
 extern void NNSi_G2dSetOamSoftEmuAutoZOffsetEnabled(int);
@@ -301,8 +301,8 @@ extern void NNS_G2dSetOamSoftEmuAutoZOffsetStep(int);
 extern void NNS_G2dResetOamSoftEmuAutoZOffset(void);
 extern fx32 FX_Inv(fx32 v);
 extern void NNS_G2dSetRndCoreImageProxy(int *p, int a, int b);
-void NNSi_G2dRendererPreDrawOam(struct Cell *c, void *a1, void *a2);
-void NNSi_G2dRendererCallSurfaceOamFunc(void *a0, void *a1, void *a2);
+void NNSi_G2dRendererPreDrawOam(struct Cell *c, void *pCellData, void *pOam);
+void NNSi_G2dRendererCallSurfaceOamFunc(void *pRend, void *pCellData, void *pOam);
 void NNSi_G2dRendererDrawCellToSurfaces(void *a);
 void NNSi_G2dRendererDrawCellTransformed(struct CellDrawCmd *c);
 void NNSi_G2dRendererDrawCellEntryTransformed(struct Cmd020659D4 *c);
@@ -311,8 +311,8 @@ void NNS_G2dSetRendererTargetSurface(NNSG2dRendererInstance *pRend, NNSG2dRender
 void NNS_G2dInitRenderSurface(struct Obj *p);
 void NNS_G2dBeginRendering(NNSG2dRendererInstance *obj);
 void NNS_G2dEndRendering(u32 a);
-void NNSi_G2dRendererDrawCellZOffset(void *a0);
-void NNSi_G2dRendererDrawCellTransformedZOffset(void *a0);
+void NNSi_G2dRendererDrawCellZOffset(void *pCell);
+void NNSi_G2dRendererDrawCellTransformedZOffset(void *pCell);
 void NNS_G2dDrawMultiCell(const NNSG2dMultiCellInstance *pMC);
 void NNSi_G2dRendererDrawMultiCellTransformed(struct MultiCellDrawCmd *c);
 void NNS_G2dPushMtx(void);
@@ -321,7 +321,7 @@ void NNS_G2dTranslate(fx32 x, fx32 y, fx32 z);
 void NNS_G2dScale(fx32 x, fx32 y, fx32 z);
 void NNS_G2dRotZ(fx32 sin, fx32 cos);
 int NNSi_G2dGetCurrentInstanceVramHandle(int *p);
-void NNSi_G2dSetRndCoreImageProxyVeneer(int *a0, int a1, int a2);
+void NNSi_G2dSetRndCoreImageProxyVeneer(int *pRnd, int pImgProxy, int pPltProxy);
 void NNSi_G2dMtxConcat32(const MtxFx32 *a, const MtxFx32 *b, MtxFx32 *ab);
 extern struct RendererBss g_02147B88;
 /* stand-in: second name for g_02147B88, used by NNS_G2dTranslate only; with the full struct the 2.0 scheduler hoists the stackPos_ load (44 bytes off) */
@@ -376,7 +376,7 @@ static inline void SetObjMode(OamAttr *oam, int mode, int cParam)
 
 
 
-void NNSi_G2dRendererPreDrawOam(struct Cell *c, void *a1, void *a2)
+void NNSi_G2dRendererPreDrawOam(struct Cell *c, void *pCellData, void *pOam)
 {
     void *map;
     NNSG2dRendererInstance *o;
@@ -408,7 +408,7 @@ void NNSi_G2dRendererPreDrawOam(struct Cell *c, void *a1, void *a2)
 
     o = g_02147B88.pCurrentInstance_;
     v = o->rendererCore.pCurrentTargetSurface;
-    if (v->fn40 == 0)
+    if (v->pBeforeDrawOamBackFunc == 0)
         return;
 
     if (g_02147B88.bDonotUseSRTransform == 0) {
@@ -419,7 +419,7 @@ void NNSi_G2dRendererPreDrawOam(struct Cell *c, void *a1, void *a2)
         m = &g_020A81F8.mtxI_;
     }
 
-    v->fn40(o, v, a1, a2, m);
+    v->pBeforeDrawOamBackFunc(o, v, pCellData, pOam, m);
 }
 
 
@@ -452,15 +452,15 @@ static inline MtxFx32 *GetMtx(void)
 
 
 
-void NNSi_G2dRendererCallSurfaceOamFunc(void *a0, void *a1, void *a2)
+void NNSi_G2dRendererCallSurfaceOamFunc(void *pRend, void *pCellData, void *pOam)
 {
     NNSG2dRendererInstance *o = g_02147B88.pCurrentInstance_;
     NNSG2dRenderSurface *v = o->rendererCore.pCurrentTargetSurface;
 
-    if (v->fn44 == 0)
+    if (v->pAfterDrawOamBackFunc == 0)
         return;
 
-    v->fn44(o, v, a1, a2, GetMtx());
+    v->pAfterDrawOamBackFunc(o, v, pCellData, pOam, GetMtx());
 }
 
 
@@ -532,7 +532,7 @@ static inline void DrawA(void *a, NNSG2dRenderSurface *p)
 
     q->rendererCore.pCurrentTargetSurface = p;
     NNS_G2dSetRndCoreSurface((u32 *)q, (u32)p);
-    NNS_G2dSetRndCoreOamRegisterFunc((int *)q, p->f28, p->f2c);
+    NNS_G2dSetRndCoreOamRegisterFunc((int *)q, p->pFuncOamRegister, p->pFuncOamAffineRegister);
     NNS_G2dRndCoreBeginRendering((struct Ctx *)q);
     aff = GetAff();
     NNS_G2dSetRndCoreCurrentMtx2D((u32)GetMtx(), (u32)aff);
@@ -579,7 +579,7 @@ void NNSi_G2dRendererDrawCellToSurfaces(void *a)
     NNSG2dRenderSurface *p = o->rendererCore.pTargetSurfaceList;
 
     if ((o->rendererCore.flag & 2) != 0) {
-        if (p->f14 != 0) {
+        if (p->type != 0) {
             NNSG2dRndCore2DMtxCache *aff = GetAff();
             NNS_G2dSetRndCoreCurrentMtx2D((u32)GetMtx(), (u32)aff);
             Finish(a);
@@ -592,8 +592,8 @@ void NNSi_G2dRendererDrawCellToSurfaces(void *a)
     }
 
     for (; p != 0; p = p->pNextSurface) {
-        if (p->f10 != 0) {
-            if (p->f14 != 0)
+        if (p->isActive != 0) {
+            if (p->type != 0)
                 DrawA(a, p);
             else
                 DrawB(a, o, p);
@@ -704,17 +704,17 @@ void NNSi_G2dRendererDrawCellEntryTransformed(struct Cmd020659D4 *c)
 {
     int a;
 
-    if (c->unk_08 == 0)
+    if (c->bVisible == 0)
         return;
 
-    a = c->unk_00;
+    a = c->pContent;
     NNS_G2dPushMtx();
 
-    if ((c->unk_1e & 8) != 0) {
+    if ((c->dirtyFlags & 8) != 0) {
         int x, y;
 
-        y = c->unk_1a;
-        x = c->unk_18;
+        y = c->transY;
+        x = c->transX;
 
         if (NNSi_G2dIsRndCoreFlipH((const struct G2dOamState *)g_02147B88.pCurrentInstance_) != 0)
             x = -x;
@@ -724,14 +724,14 @@ void NNSi_G2dRendererDrawCellEntryTransformed(struct Cmd020659D4 *c)
         NNS_G2dTranslate(x << 12, y << 12, 0);
     }
 
-    if ((c->unk_1e & 4) != 0) {
-        int i = c->unk_1c >> 4;
+    if ((c->dirtyFlags & 4) != 0) {
+        int i = c->rotZ >> 4;
 
         NNS_G2dRotZ(FX_SinCosTable_[i * 2], FX_SinCosTable_[i * 2 + 1]);
     }
 
-    if ((c->unk_1e & 2) != 0)
-        NNS_G2dScale(c->unk_10, c->unk_14, 0x1000);
+    if ((c->dirtyFlags & 2) != 0)
+        NNS_G2dScale(c->scaleX, c->scaleY, 0x1000);
 
     NNSi_G2dRendererDrawCellTransformed((struct CellDrawCmd *)a);
     NNS_G2dPopMtx(1);
@@ -782,7 +782,7 @@ void NNS_G2dInitRenderer(NNSG2dRendererInstance *pRend)
     NNS_G2dInitRndCore(&pRend->rendererCore);
     pRend->rendererCore.pTargetSurfaceList = 0;
     pRend->rendererCore.pCurrentTargetSurface = 0;
-    pRend->rendererCore.unk_78 = 0;
+    pRend->rendererCore.currentCell = 0;
     pRend->rendererCore.flag = 0;
     pRend->spriteZoffsetStep = 0;
     pRend->overwriteEnableFlag = 0;
@@ -973,7 +973,7 @@ void NNS_G2dEndRendering(u32 a)
  * the C.  The `volatile` cast on each read is what keeps 2.0 from folding
  * them back together.  See docs/FRONTEND-PINS.md.
  */
-void NNSi_G2dRendererDrawCellZOffset(void *a0)
+void NNSi_G2dRendererDrawCellZOffset(void *pCell)
 {
     int saved;
 
@@ -982,14 +982,14 @@ void NNSi_G2dRendererDrawCellZOffset(void *a0)
         saved = NNS_G2dGetOamSoftEmuAutoZOffsetStep();
         NNSi_G2dSetOamSoftEmuAutoZOffsetEnabled(1);
         NNS_G2dSetOamSoftEmuAutoZOffsetStep(((volatile struct RendererBss *)&g_02147B88)->pCurrentInstance_->spriteZoffsetStep);
-        NNSi_G2dRendererDrawCellToSurfaces(a0);
+        NNSi_G2dRendererDrawCellToSurfaces(pCell);
         NNSi_G2dSetOamSoftEmuAutoZOffsetEnabled(0);
         NNS_G2dSetOamSoftEmuAutoZOffsetStep(saved);
         NNS_G2dResetOamSoftEmuAutoZOffset();
     }
     else
     {
-        NNSi_G2dRendererDrawCellToSurfaces(a0);
+        NNSi_G2dRendererDrawCellToSurfaces(pCell);
     }
 }
 
@@ -1000,7 +1000,7 @@ void NNSi_G2dRendererDrawCellZOffset(void *a0)
 
 
 
-void NNSi_G2dRendererDrawCellTransformedZOffset(void *a0)
+void NNSi_G2dRendererDrawCellTransformedZOffset(void *pCell)
 {
     int saved;
 
@@ -1009,14 +1009,14 @@ void NNSi_G2dRendererDrawCellTransformedZOffset(void *a0)
         saved = NNS_G2dGetOamSoftEmuAutoZOffsetStep();
         NNSi_G2dSetOamSoftEmuAutoZOffsetEnabled(1);
         NNS_G2dSetOamSoftEmuAutoZOffsetStep(((volatile struct RendererBss *)&g_02147B88)->pCurrentInstance_->spriteZoffsetStep);
-        NNSi_G2dRendererDrawCellTransformed(a0);
+        NNSi_G2dRendererDrawCellTransformed(pCell);
         NNSi_G2dSetOamSoftEmuAutoZOffsetEnabled(0);
         NNS_G2dSetOamSoftEmuAutoZOffsetStep(saved);
         NNS_G2dResetOamSoftEmuAutoZOffset();
     }
     else
     {
-        NNSi_G2dRendererDrawCellTransformed(a0);
+        NNSi_G2dRendererDrawCellTransformed(pCell);
     }
 }
 
@@ -1552,7 +1552,7 @@ int NNSi_G2dGetCurrentInstanceVramHandle(int *p){ return p[0x1e]; }
 
 
 
-void NNSi_G2dSetRndCoreImageProxyVeneer(int *a0, int a1, int a2){ NNS_G2dSetRndCoreImageProxy(a0, a1, a2); }
+void NNSi_G2dSetRndCoreImageProxyVeneer(int *pRnd, int pImgProxy, int pPltProxy){ NNS_G2dSetRndCoreImageProxy(pRnd, pImgProxy, pPltProxy); }
 
 
 

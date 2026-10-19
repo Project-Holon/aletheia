@@ -68,11 +68,11 @@ extern void *ARC_TOOL_CreateHandle(u32 id, u32 heapId);
 
 extern struct ClUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
-extern s32 CLACT_RegisterCharacter(void *arc, u32 charId, u32 arg2, u32 arg3, u16 heapId);
+extern s32 CLACT_RegisterCharacter(void *arc, u32 charId, u32 compressed, u32 vram_mode, u16 heapId);
 
 extern s32 CLACT_RegisterCellAnim(void *arc, u32 cellId, u32 animId, u32 heapId);
 
-extern s32 CLACT_RegisterPalette(void *arc, u32 palId, u32 arg2, u32 arg3, u16 heapId);
+extern s32 CLACT_RegisterPalette(void *arc, u32 palId, u32 vram_mode, u32 vram_offset, u16 heapId);
 
 extern int CLACT_GetPaletteVramAddress(u32 palRes, u32 alternate);
 

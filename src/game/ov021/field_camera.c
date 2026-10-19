@@ -107,7 +107,7 @@ extern void G3D_CAMERA_GetCamUp(struct G3dCamera *camera, VecFx32 *out);
 extern void G3D_CAMERA_GetCamTarget(struct G3dCamera *camera, VecFx32 *out);
 extern void G3D_CAMERA_GetEye(struct G3dCamera *camera, VecFx32 *out);
 extern void MI_CpuCopy8(void *, void *, int);
-extern void *ARC_UTIL_LoadHandleMember(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadHandleMember(void *narc, u32 fileID, u32 decompress, u32 heapID);
 extern int FX_Modf(int x, int *ip);
 extern void VEC_CrossProduct(VecFx32 *a, VecFx32 *b, VecFx32 *o);
 FieldCamera *FIELD_CAMERA_Create(int settingId, int mode, struct G3dCamera *g3dCamera, VecFx32 *targetSrc, u16 heapId);

@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTLV_CORE_GetSelectedItemPocket",
+   "name": "BTLV_CORE_GetSelectedItemCost",
    "address": "0x021EA030",
    "kind": "game",
    "region": "ov093",

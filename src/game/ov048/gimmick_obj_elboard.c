@@ -279,7 +279,7 @@ extern unsigned int SCRIPT_WORK_ReadWorkValue(struct ScriptContext *ctx, struct 
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern void SCRIPT_SYS_CallEvent(struct ScriptWork *scriptWork, struct GameEvent *event);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern unsigned int GF_FONT_Delete(struct GfFont *font);
 extern u32 GFL_HEAP_Free(void *p);
 extern int _s32_div_f(int a, int b);

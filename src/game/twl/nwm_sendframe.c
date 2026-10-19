@@ -36,9 +36,9 @@ extern void OS_RestoreInterrupts(u32);
 extern void DC_StoreRange(void *, u32);
 extern u32 NWMi_SendCommand(u32, u32, u32, void *, u32);
 extern void MI_CpuCopy8(u32, u32, u32);
-void NWMi_AddMACHeader(u32 a0, u32 a1, u8 *a2, u32 a3);
+void NWMi_AddMACHeader(u32 destMac, u32 srcMac, u8 *frame, u32 length);
 
-u32 NWM_SendFrame(u32 a0, u32 a1, u8 *a2, u32 a3) {
+u32 NWM_SendFrame(u32 callback, u32 destMac, u8 *frame, u32 length) {
     TwlWork *w;
     u32 r;
     u32 saved;
@@ -49,14 +49,14 @@ u32 NWM_SendFrame(u32 a0, u32 a1, u8 *a2, u32 a3) {
         return r;
     }
     saved = OS_DisableInterrupts();
-    if (a3 > 0x5F2) {
+    if (length > 0x5F2) {
         OS_RestoreInterrupts(saved);
         return 5;
     }
-    DC_StoreRange(a2, a3);
-    NWMi_AddMACHeader(a1, (u32)(w->buf + 0x40), a2, a3);
-    DC_StoreRange(a2, 0xE);
-    r = NWMi_SendCommand(0xB, 3, a0, a2, a3);
+    DC_StoreRange(frame, length);
+    NWMi_AddMACHeader(destMac, (u32)(w->buf + 0x40), frame, length);
+    DC_StoreRange(frame, 0xE);
+    r = NWMi_SendCommand(0xB, 3, callback, frame, length);
     if (r == 0) {
         return 2;
     }
@@ -64,10 +64,10 @@ u32 NWM_SendFrame(u32 a0, u32 a1, u8 *a2, u32 a3) {
     return r;
 }
 
-void NWMi_AddMACHeader(u32 a0, u32 a1, u8 *a2, u32 a3) {
-    if (a3 < 0xE) {
+void NWMi_AddMACHeader(u32 destMac, u32 srcMac, u8 *frame, u32 length) {
+    if (length < 0xE) {
         return;
     }
-    MI_CpuCopy8(a0, (u32)a2, 6);
-    MI_CpuCopy8(a1, (u32)(a2 + 6), 6);
+    MI_CpuCopy8(destMac, (u32)frame, 6);
+    MI_CpuCopy8(srcMac, (u32)(frame + 6), 6);
 }

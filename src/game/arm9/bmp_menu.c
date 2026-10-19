@@ -127,7 +127,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 
 extern void *BMP_WIN_GetBmp(struct BmpWin *p);
 
-extern void BMP_FillRect(void *bitmap, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern void BMP_FillRect(void *bitmap, u32 x, u32 y, u32 w, u32 h, u32 value);
 
 extern u32 GF_FONT_MeasureWidestLine(const void *str, struct GfFont *font, u32 flags);
 

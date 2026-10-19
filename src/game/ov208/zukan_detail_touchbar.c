@@ -116,7 +116,7 @@ extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 
 extern u32  CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
-extern u32  CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern u32  CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
@@ -154,7 +154,7 @@ extern void ZKND_TBAR_AddButtonPos(struct Ov208Mgr *mgr, int key, u16 *pos);
 
 extern u32 KEY_GetRepeat(void);
 
-extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, u32 unpackedOut, u32 flags);
 
 extern void MI_CpuCopy8(void *src, void *dst, u32 size);
 
@@ -288,10 +288,10 @@ extern struct Ov208ActSrc data_021C83C8[];
 
 extern s16 FX_SinCosTable_[];
 
-char *ZUKAN_DETAIL_TOUCHBAR_Create(u16 heap,unsigned arg)
+char *ZUKAN_DETAIL_TOUCHBAR_Create(u16 heap,unsigned dexFlags)
 {
     struct Ov208Scene *p=GFL_HEAP_Alloc(heap,0x11c,1,d_021C8DE4,0x148);
-    p->heap=heap;p->dexFlags=arg;
+    p->heap=heap;p->dexFlags=dexFlags;
     p->state=0;p->prevMode=0;p->mode=0;
     p->prevKind=1;p->kind=0;p->arrowKind=0;p->scrollIdx=0;
     BG_SYS_FillScrollArea(1,3,-24);BG_SYS_SetVisibleLayer(1,0);
@@ -386,9 +386,9 @@ int ZUKAN_DETAIL_TOUCHBAR_GetMode(struct Ov208Scene *p)
     return p->state;
 }
 
-void ZUKAN_DETAIL_TOUCHBAR_SetEnabled(struct Ov208Scene *p, int v)
+void ZUKAN_DETAIL_TOUCHBAR_SetEnabled(struct Ov208Scene *p, int scrollIdx)
 {
-    p->scrollIdx = v;
+    p->scrollIdx = scrollIdx;
     if (p->state != 2) {
         p->state = 1;
         p->step = 0;
@@ -398,9 +398,9 @@ void ZUKAN_DETAIL_TOUCHBAR_SetEnabled(struct Ov208Scene *p, int v)
 /*
  * Stores the argument at +0x20 and, when +8 is set, restarts it at state 3.
  */
-void ZUKAN_DETAIL_TOUCHBAR_SetButtonEnabled(struct Ov208Scene *p, int v)
+void ZUKAN_DETAIL_TOUCHBAR_SetButtonEnabled(struct Ov208Scene *p, int scrollIdx)
 {
-    p->scrollIdx = v;
+    p->scrollIdx = scrollIdx;
     if (p->state != 0) {
         p->state = 3;
         p->step = 0;
@@ -422,7 +422,7 @@ unsigned ZUKAN_DETAIL_TOUCHBAR_GetPressedButtonId(const struct Ov208Scene *p)
             count=p->count;
             for(;i<count;i++) {
                 entry=p->slots[i].src;
-                if(key==entry->id) { result=entry->fc; break; }
+                if(key==entry->id) { result=entry->pressedId; break; }
             }
             break;
         }
@@ -448,7 +448,7 @@ unsigned ZUKAN_DETAIL_TOUCHBAR_GetHeldButtonId(const struct Ov208Scene *p)
             count=p->count;
             for(;i<count;i++) {
                 entry=p->slots[i].src;
-                if(key==entry->id) { result=entry->f10; break; }
+                if(key==entry->id) { result=entry->heldId; break; }
             }
             break;
         }
@@ -461,9 +461,9 @@ void ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(struct Ov208Scene *p)
     ZKND_TBAR_ClearButtonState(p->mgr);
 }
 
-void ZUKAN_DETAIL_TOUCHBAR_SetButtonDrawEnable(struct Ov208Scene *p, int v)
+void ZUKAN_DETAIL_TOUCHBAR_SetButtonDrawEnable(struct Ov208Scene *p, int enable)
 {
-    ZKND_TBAR_SetButtonDrawEnable(p->mgr, v);
+    ZKND_TBAR_SetButtonDrawEnable(p->mgr, enable);
 }
 
 void ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(struct Ov208Scene *p, u32 kind)
@@ -487,21 +487,21 @@ void ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(struct Ov208Scene *p, u32 kind)
     }
 }
 
-void ZUKAN_DETAIL_TOUCHBAR_SetButtonVisible(struct Ov208Scene *p, int v)
+void ZUKAN_DETAIL_TOUCHBAR_SetButtonVisible(struct Ov208Scene *p, int visible)
 {
     if (p->mode == 2) {
-        ZKND_TBAR_SetButtonVisible(p->mgr, p->slots[1].src->id, v);
-        ZKND_TBAR_SetButtonVisible(p->mgr, p->slots[2].src->id, v);
+        ZKND_TBAR_SetButtonVisible(p->mgr, p->slots[1].src->id, visible);
+        ZKND_TBAR_SetButtonVisible(p->mgr, p->slots[2].src->id, visible);
     }
 }
 
 /*
  * Calls ZKND_TBAR_SetButtonAnimSeqOnce with two fields and the second argument while +0x10 is clear.
  */
-void ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(struct Ov208Scene *p, int b)
+void ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(struct Ov208Scene *p, int enabled)
 {
     if (p->mode == 0)
-        ZKND_TBAR_SetButtonAnimSeqOnce(p->mgr, p->slots[2].src->id, b);
+        ZKND_TBAR_SetButtonAnimSeqOnce(p->mgr, p->slots[2].src->id, enabled);
 }
 
 int ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive(char *p)
@@ -540,14 +540,14 @@ int ZUKAN_DETAIL_TOUCHBAR_GetCurrentSlot(char *p)
 /*
  * Stores the mode at +0x38, arms +0x3C and hands the mode to every +0x70 handle.
  */
-void ZUKAN_DETAIL_TOUCHBAR_SetBgPriority(char *p, unsigned char v)
+void ZUKAN_DETAIL_TOUCHBAR_SetBgPriority(char *p, unsigned char priority)
 {
     unsigned char i;
 
-    ((struct Ov208Scene *)p)->bgPriority = v;
+    ((struct Ov208Scene *)p)->bgPriority = priority;
     ((struct Ov208Scene *)p)->bgDirty = 1;
     for (i = 0; i < ((struct Ov208Scene *)p)->count; i++)
-        CLACT_SetActorBgPriority(((struct Ov208Scene *)p)->slots[i].obj, v);
+        CLACT_SetActorBgPriority(((struct Ov208Scene *)p)->slots[i].obj, priority);
 }
 
 /*
@@ -621,43 +621,43 @@ void ZUKAN_DETAIL_TOUCHBAR_LoadBarResources(struct Ov208Scene *p)
     for (i = 0; i < p->count; i++)
         p->slots[i].src = &data_021C8440[i];
     for (i = 0; i < p->count; i++) {
-        descs[i].f0 = p->slots[i].src->id;
+        descs[i].key = p->slots[i].src->id;
         descs[i].x = p->slots[i].src->x;
         descs[i].y = p->slots[i].src->y;
-        descs[i].h8 = p->slots[i].src->h8;
+        descs[i].hitWidth = p->slots[i].src->hitWidth;
     }
-    descs[3].ha = p->charRes0;
-    descs[3].hc = p->palRes0;
-    descs[3].he = p->cellRes0;
-    descs[3].h10 = 3;
-    descs[3].h12 = 3;
-    descs[3].h14 = 7;
-    descs[3].f18 = 0;
-    descs[3].f1c = 0x54a;
-    descs[4].ha = p->charRes0;
-    descs[4].hc = p->palRes0;
-    descs[4].he = p->cellRes0;
-    descs[4].h10 = 2;
-    descs[4].h12 = 2;
-    descs[4].h14 = 6;
-    descs[4].f18 = 0;
-    descs[4].f1c = 0x54a;
-    descs[5].ha = p->charRes0;
-    descs[5].hc = p->palRes0;
-    descs[5].he = p->cellRes0;
-    descs[5].h10 = 1;
-    descs[5].h12 = 1;
-    descs[5].h14 = 5;
-    descs[5].f18 = 0;
-    descs[5].f1c = 0x54a;
-    descs[6].ha = p->charRes0;
-    descs[6].hc = p->palRes0;
-    descs[6].he = p->cellRes0;
-    descs[6].h10 = 0;
-    descs[6].h12 = 0;
-    descs[6].h14 = 4;
-    descs[6].f18 = 0;
-    descs[6].f1c = 0x54a;
+    descs[3].charRes = p->charRes0;
+    descs[3].palRes = p->palRes0;
+    descs[3].cellRes = p->cellRes0;
+    descs[3].idleAnim = 3;
+    descs[3].disabledAnim = 3;
+    descs[3].pressedAnim = 7;
+    descs[3].keyMask = 0;
+    descs[3].seId = 0x54a;
+    descs[4].charRes = p->charRes0;
+    descs[4].palRes = p->palRes0;
+    descs[4].cellRes = p->cellRes0;
+    descs[4].idleAnim = 2;
+    descs[4].disabledAnim = 2;
+    descs[4].pressedAnim = 6;
+    descs[4].keyMask = 0;
+    descs[4].seId = 0x54a;
+    descs[5].charRes = p->charRes0;
+    descs[5].palRes = p->palRes0;
+    descs[5].cellRes = p->cellRes0;
+    descs[5].idleAnim = 1;
+    descs[5].disabledAnim = 1;
+    descs[5].pressedAnim = 5;
+    descs[5].keyMask = 0;
+    descs[5].seId = 0x54a;
+    descs[6].charRes = p->charRes0;
+    descs[6].palRes = p->palRes0;
+    descs[6].cellRes = p->cellRes0;
+    descs[6].idleAnim = 0;
+    descs[6].disabledAnim = 0;
+    descs[6].pressedAnim = 4;
+    descs[6].keyMask = 0;
+    descs[6].seId = 0x54a;
     MI_CpuFill8(&list, 0, sizeof(list));
     list.descs = descs;
     list.count = 9;
@@ -936,10 +936,10 @@ void ZUKAN_DETAIL_TOUCHBAR_LoadLeftArrowResources(struct Ov208Scene *p)
     for (i = 0; i < p->count; i++)
         p->slots[i].src = &data_021C8390[i];
     for (i = 0; i < p->count; i++) {
-        descs[i].f0 = p->slots[i].src->id;
+        descs[i].key = p->slots[i].src->id;
         descs[i].x = p->slots[i].src->x;
         descs[i].y = p->slots[i].src->y;
-        descs[i].h8 = p->slots[i].src->h8;
+        descs[i].hitWidth = p->slots[i].src->hitWidth;
     }
     MI_CpuFill8(&list, 0, sizeof(list));
     list.descs = descs;
@@ -982,20 +982,20 @@ void ZUKAN_DETAIL_TOUCHBAR_LoadRightArrowResources(struct Ov208Scene *p)
     for (i = 0; i < p->count; i++)
         p->slots[i].src = &data_021C83C8[i];
     for (i = 0; i < p->count; i++) {
-        descs[i].f0 = p->slots[i].src->id;
+        descs[i].key = p->slots[i].src->id;
         descs[i].x = p->slots[i].src->x;
         descs[i].y = p->slots[i].src->y;
-        descs[i].h8 = p->slots[i].src->h8;
+        descs[i].hitWidth = p->slots[i].src->hitWidth;
     }
     d = &descs[3];
-    d->ha = p->charRes2;
-    d->hc = p->palRes2;
-    d->he = p->cellRes2;
-    d->h10 = 0xe;
-    d->h12 = 0xe;
-    d->h14 = 0x14;
-    d->f18 = 1;
-    d->f1c = 0x54c;
+    d->charRes = p->charRes2;
+    d->palRes = p->palRes2;
+    d->cellRes = p->cellRes2;
+    d->idleAnim = 0xe;
+    d->disabledAnim = 0xe;
+    d->pressedAnim = 0x14;
+    d->keyMask = 1;
+    d->seId = 0x54c;
     MI_CpuFill8(&list, 0, sizeof(list));
     list.descs = descs;
     list.count = 6;

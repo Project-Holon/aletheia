@@ -109,7 +109,7 @@ extern u32 GFL_HEAP_Free(void *p);
 extern ArcHandle *FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
 extern FieldG3dObjSys *FIELD_EFFECT_GetFieldMapData(FieldEffectSys *fieldEffect);
 extern void *FIELD_EFFECT_GetResource(FieldEffectSys *fieldEffect, u32 effectId);
-extern FieldEffectObj *FIELD_EFFECT_AddObject(FieldEffectSys *fieldEffect, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 arg4, void *param, u32 priority);
+extern FieldEffectObj *FIELD_EFFECT_AddObject(FieldEffectSys *fieldEffect, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
 extern void *FIELD_EFFECT_GetObjectWork(FieldEffectObj *effect);
 extern void *FIELD_EFFECT_GetObjectParam(FieldEffectObj *effect);
 extern void FIELD_EFFECT_GetObjectPos(FieldEffectObj *effect, VecFx32 *out);
@@ -120,7 +120,7 @@ extern int FIELD_G3DOBJ_SetResDescModel(FieldG3dResDesc *desc, ArcHandle *arc, u
 extern void FIELD_G3DOBJ_SetResDescAnimeArc(FieldG3dResDesc *desc, ArcHandle *arc);
 extern void FIELD_G3DOBJ_AddResDescAnimeFile(FieldG3dResDesc *desc, u32 animeFile);
 extern int FIELD_G3DOBJ_AddResourceDefaultPal(FieldG3dObjSys *g3dObjSys, FieldG3dResDesc *desc, u32 flags);
-extern u16 FIELD_G3DOBJ_AddObject(FieldG3dObjSys *g3dObjSys, u32 resId, u32 arg2, u32 arg3);
+extern u16 FIELD_G3DOBJ_AddObject(FieldG3dObjSys *g3dObjSys, u32 resId, u32 modelIdx, u32 pos);
 extern void FIELD_G3DOBJ_SetObjectManualDraw(FieldG3dObjSys *g3dObjSys, u32 objId, u32 manualDraw);
 extern u32 FIELD_G3DOBJ_DeleteObject(FieldG3dObjSys *g3dObjSys, u32 objId);
 extern void FIELD_G3DOBJ_DeleteResource(FieldG3dObjSys *g3dObjSys, int resId);

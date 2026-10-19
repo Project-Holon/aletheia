@@ -96,8 +96,8 @@ typedef unsigned short u16;
 
 typedef struct {
     char name[0x14];
-    u8 f14;
-    u8 f15;
+    u8 pad14;
+    u8 pad15;
 } T;
 
 typedef _Bool bool;

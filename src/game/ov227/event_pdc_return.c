@@ -126,7 +126,7 @@ extern u32 GFL_HEAP_Free(void *p);
 extern void GFL_HEAP_CreateChildHeap(unsigned int src, unsigned int dst, unsigned int size);
 extern void *PROCSYS_AllocProcWork(struct ProcSys *obj, unsigned int size, unsigned int heap);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void *PROCSYS_Create(int a0);
+extern void *PROCSYS_Create(int heapId);
 extern void PROCSYS_Delete(struct ProcSys *p);
 extern void STRBUF_Delete(struct Strbuf *p);
 extern void PROCSYS_FreeProcWork(struct ProcSys *p);
@@ -153,7 +153,7 @@ extern u32 MSGDATA_Delete(struct MsgEntry *rec);
 extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *p);
 extern u32 ZONEDATA_GetPlaceNameId(u32 a);
-extern void SAVE_EVENT_Write(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void SAVE_EVENT_Write(void *gameData, u32 mode, u32 record, u32 eventId, u16 index);
 extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct ZukanWork *p);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u32 ZUKAN_SAVE_IsCaught(struct ZukanWork *p, u16 id);
@@ -172,7 +172,7 @@ void *EVENT_PDC_RETURN_CreateArgs(u32 a, int b, u32 c, u32 heap);
 void EVENT_PDC_RETURN_DeleteArgs(void *p);
 int EVENT_PDC_RETURN_Init(struct ProcSys *procSys);
 int EVENT_PDC_RETURN_Exit(struct ProcSys *procSys,void *b,void *c,char *p);
-u32 EVENT_PDC_RETURN_Step(u32 a0, u32 *state, EventPdcReturnArgs *c, EventPdcReturnWork *g);
+u32 EVENT_PDC_RETURN_Step(u32 task, u32 *state, EventPdcReturnArgs *c, EventPdcReturnWork *g);
 extern const char d_021B98C0[];
 extern unsigned char ov207_id[];
 extern unsigned char ov194_id[];
@@ -204,77 +204,77 @@ int EVENT_PDC_RETURN_Init(struct ProcSys *procSys)
 int EVENT_PDC_RETURN_Exit(struct ProcSys *procSys,void *b,void *c,char *p){EventPdcReturnWork *work;work=(EventPdcReturnWork *)p;PROCSYS_Delete((struct ProcSys *)work->procSys);if(work->partyFullMessage)STRBUF_Delete((struct Strbuf *)work->partyFullMessage);STRBUF_Delete((struct Strbuf *)work->strbuf);PROCSYS_FreeProcWork(procSys);GFL_HEAP_DeleteChecked(139);return 1;}
 
 
-u32 EVENT_PDC_RETURN_Step(u32 a0, u32 *state, EventPdcReturnArgs *c, EventPdcReturnWork *g)
+u32 EVENT_PDC_RETURN_Step(u32 task, u32 *state, EventPdcReturnArgs *args, EventPdcReturnWork *work)
 {
     u32 procResult, placeNameId, playerStatus, party, boxManager, trainerRecord, nationalDex, msgBank, tmp;
     int partyCount, isNew, nameConfirmed;
 
-    procResult = PROCSYS_Main((void *)g->procSys);
+    procResult = PROCSYS_Main((void *)work->procSys);
     if (procResult == 1) {
         return 0;
     }
     switch (*state) {
     case 0:
-        party = (u32)GAME_DATA_GetMyParty((const struct GameData *)c->gameData);
-        playerStatus = (u32)GAME_DATA_GetMyStatus((void *)c->gameData);
-        tmp = (u32)ZUKAN_SAVE_GetFromGameData((void *)c->gameData);
-        boxManager = GAME_DATA_GetBoxManager((const struct GameData *)c->gameData);
-        if (c->mode == 1) {
-            trainerRecord = (u32)GAME_DATA_GetTrainerRecord((int *)c->gameData);
+        party = (u32)GAME_DATA_GetMyParty((const struct GameData *)args->gameData);
+        playerStatus = (u32)GAME_DATA_GetMyStatus((void *)args->gameData);
+        tmp = (u32)ZUKAN_SAVE_GetFromGameData((void *)args->gameData);
+        boxManager = GAME_DATA_GetBoxManager((const struct GameData *)args->gameData);
+        if (args->mode == 1) {
+            trainerRecord = (u32)GAME_DATA_GetTrainerRecord((int *)args->gameData);
             RECORD_AddOne((struct TrainerRecord *)trainerRecord, (u32)7);
             RECORD_AddOne((struct TrainerRecord *)trainerRecord, (u32)0x54);
-            MYSTATUS_NameToStrbuf((void *)playerStatus, (void *)g->strbuf);
-            POKE_TOOL_SetPartyValue((void *)c->partyMon, 0x8d, g->strbuf);
+            MYSTATUS_NameToStrbuf((void *)playerStatus, (void *)work->strbuf);
+            POKE_TOOL_SetPartyValue((void *)args->partyMon, 0x8d, work->strbuf);
             partyCount = (int)POKEPARTY_GetCount((void *)party);
             if (partyCount >= (int)POKEPARTY_GetCapacity((void *)party)) {
                 u32 a, b;
                 a = BOX_SAVEDATA_GetCurrentBox((void *)boxManager);
                 b = 0;
                 BOX_SAVEDATA_FindFreeSlot((void *)boxManager, (int *)(&a), (int *)(&b));
-                g->boxSlotCandidate = a;
+                work->boxSlotCandidate = a;
                 msgBank = (u32)MSGDATA_CreateFromArchive(0, 2, 0xea, 0x8b);
-                g->partyFullMessage = (u32)MSGDATA_AllocString((struct MsgBank *)msgBank, ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork((const struct GameData *)c->gameData), (u32)0x96d) != 0 ? 0xb1 : 0xb0);
+                work->partyFullMessage = (u32)MSGDATA_AllocString((struct MsgBank *)msgBank, ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork((const struct GameData *)args->gameData), (u32)0x96d) != 0 ? 0xb1 : 0xb0);
                 MSGDATA_Delete((struct MsgEntry *)msgBank);
             }
-            placeNameId = ZONEDATA_GetPlaceNameId((u32)GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork((struct SaveBlock *)c->gameData)));
-            SAVE_EVENT_Write((void *)c->partyMon, 0, playerStatus, placeNameId, (u32)g->heapId);
+            placeNameId = ZONEDATA_GetPlaceNameId((u32)GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork((struct SaveBlock *)args->gameData)));
+            SAVE_EVENT_Write((void *)args->partyMon, 0, playerStatus, placeNameId, (u32)work->heapId);
             isNew = 0;
             nationalDex = ZUKAN_SAVE_IsNationalDexEnabled((struct ZukanWork *)tmp);
-            if (ZUKAN_SAVE_IsCaught((struct ZukanWork *)tmp, (u16)POKE_TOOL_GetPartyValue((void *)c->partyMon, 5, 0)) == 0) {
+            if (ZUKAN_SAVE_IsCaught((struct ZukanWork *)tmp, (u16)POKE_TOOL_GetPartyValue((void *)args->partyMon, 5, 0)) == 0) {
                 isNew = 1;
             }
-            ZUKAN_SAVE_RegisterSeen((struct ZukanWork *)tmp, (void *)c->partyMon);
-            ZUKAN_SAVE_RegisterCaught((struct ZukanWork *)tmp, (void *)c->partyMon);
-            g->partyMon = c->partyMon;
-            g->nationalDex = nationalDex;
-            g->messageId = g->partyFullMessage;
-            g->boxManager = boxManager;
-            g->boxSlot = g->boxSlotCandidate;
-            g->gameData = c->gameData;
+            ZUKAN_SAVE_RegisterSeen((struct ZukanWork *)tmp, (void *)args->partyMon);
+            ZUKAN_SAVE_RegisterCaught((struct ZukanWork *)tmp, (void *)args->partyMon);
+            work->partyMon = args->partyMon;
+            work->nationalDex = nationalDex;
+            work->messageId = work->partyFullMessage;
+            work->boxManager = boxManager;
+            work->boxSlot = work->boxSlotCandidate;
+            work->gameData = args->gameData;
             if (isNew) {
-                g->resultFlag = 0;
+                work->resultFlag = 0;
             } else {
-                g->resultFlag = 1;
+                work->resultFlag = 1;
             }
-            PROCSYS_Push(g->procSys, (u32)ov207_id, 0x0220BAB0, &g->resultFlag);
+            PROCSYS_Push(work->procSys, (u32)ov207_id, 0x0220BAB0, &work->resultFlag);
             (*state)++;
             break;
         }
-        if (c->mode == 2) {
-            ZUKAN_SAVE_RegisterSeen((struct ZukanWork *)tmp, (void *)c->partyMon);
+        if (args->mode == 2) {
+            ZUKAN_SAVE_RegisterSeen((struct ZukanWork *)tmp, (void *)args->partyMon);
         }
         *state = 4;
         break;
     case 1:
         if (procResult != 1) {
-        tmp = GAME_DATA_GetBoxManager((const struct GameData *)c->gameData);
+        tmp = GAME_DATA_GetBoxManager((const struct GameData *)args->gameData);
         nameConfirmed = 0;
-        if (g->nameConfirmed == 1) {
+        if (work->nameConfirmed == 1) {
             nameConfirmed = 1;
         }
         if (nameConfirmed) {
-            g->nameArgs = (u32)NAMEIN_SETUP_CreateCaptureArgs((u32)g->heapId, (u32)c->partyMon, (u32)0xa, (u32)0, (u32)g->partyFullMessage, (u32)tmp, (u32)g->boxSlotCandidate, (u32)BEACON_GetBlock(GAME_DATA_GetSaveControl((struct GameData *)c->gameData)));
-            PROCSYS_Push(g->procSys, (u32)ov194_id, 0x021F5580, (void *)g->nameArgs);
+            work->nameArgs = (u32)NAMEIN_SETUP_CreateCaptureArgs((u32)work->heapId, (u32)args->partyMon, (u32)0xa, (u32)0, (u32)work->partyFullMessage, (u32)tmp, (u32)work->boxSlotCandidate, (u32)BEACON_GetBlock(GAME_DATA_GetSaveControl((struct GameData *)args->gameData)));
+            PROCSYS_Push(work->procSys, (u32)ov194_id, 0x021F5580, (void *)work->nameArgs);
             (*state)++;
             break;
         }
@@ -284,24 +284,24 @@ u32 EVENT_PDC_RETURN_Step(u32 a0, u32 *state, EventPdcReturnArgs *c, EventPdcRet
         return 0;
     case 2:
         if (procResult != 1) {
-        if ((u32)NAMEIN_SETUP_IsCanceled((int *)g->nameArgs) == 0) {
-            NAMEIN_SETUP_CopyName((int *)g->nameArgs, (u32)g->strbuf);
-            POKE_TOOL_SetPartyValue((void *)c->partyMon, 0x73, g->strbuf);
-            RECORD_AddOne(GAME_DATA_GetTrainerRecord((int *)c->gameData), (u32)0x1e);
+        if ((u32)NAMEIN_SETUP_IsCanceled((int *)work->nameArgs) == 0) {
+            NAMEIN_SETUP_CopyName((int *)work->nameArgs, (u32)work->strbuf);
+            POKE_TOOL_SetPartyValue((void *)args->partyMon, 0x73, work->strbuf);
+            RECORD_AddOne(GAME_DATA_GetTrainerRecord((int *)args->gameData), (u32)0x1e);
         }
-        NAMEIN_SETUP_FreeArgs((u32)g->nameArgs);
-        g->nameArgs = 0;
+        NAMEIN_SETUP_FreeArgs((u32)work->nameArgs);
+        work->nameArgs = 0;
         (*state)++;
         break;
         }
         return 0;
     case 3:
-        party = (u32)GAME_DATA_GetMyParty((const struct GameData *)c->gameData);
-        if (g->partyFullMessage == 0) {
-            POKEPARTY_Add((struct Party *)party, (const struct PartyMon *)c->partyMon);
+        party = (u32)GAME_DATA_GetMyParty((const struct GameData *)args->gameData);
+        if (work->partyFullMessage == 0) {
+            POKEPARTY_Add((struct Party *)party, (const struct PartyMon *)args->partyMon);
         } else {
-            tmp = GAME_DATA_GetBoxManager((const struct GameData *)c->gameData);
-            BOX_SAVEDATA_AddPokemon((void **)tmp, (const struct BoxEntry *)POKE_TOOL_Dummy(c->partyMon));
+            tmp = GAME_DATA_GetBoxManager((const struct GameData *)args->gameData);
+            BOX_SAVEDATA_AddPokemon((void **)tmp, (const struct BoxEntry *)POKE_TOOL_Dummy(args->partyMon));
         }
         (*state)++;
         break;

@@ -102,7 +102,7 @@ struct NNSG2dCharacterData {
  * is touched by the fixup. */
 struct NNSG2dPaletteData {
     u8  pad_00[0x0c];
-    u32 pPlttData;      /* +0x0c  offset, becomes a pointer */
+    u32 pRawData;       /* +0x0c  offset, becomes a pointer */
 };
 
 /* The 'PMCP' palette-compress-map body: only the +0x04 self-relative offset
@@ -719,5 +719,5 @@ void NNSi_G2dFixupPaletteCompressInfo(u8 *block)
  */
 void NNSi_G2dFixupPaletteData(u8 *block)
 {
-    ((struct NNSG2dPaletteData *)block)->pPlttData = ((struct NNSG2dPaletteData *)block)->pPlttData + (u32)block;
+    ((struct NNSG2dPaletteData *)block)->pRawData = ((struct NNSG2dPaletteData *)block)->pRawData + (u32)block;
 }

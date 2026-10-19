@@ -16,7 +16,7 @@
  * symbols:
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   GFL_HEAP_Free  0x020307B0  arm
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
@@ -229,7 +229,7 @@ enum {
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern void GFL_HEAP_Free(void *p);
-extern GameData *ICA_ANIME_GetField1C(GameSystem *gameSystem);
+extern GameData *GAMESYSTEM_GetGameData(GameSystem *gameSystem);
 extern FieldAvatar *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
 extern FieldMmdl *FIELD_PLAYER_GetMmdl(FieldAvatar *avatar);
 extern MyStatus *GAME_DATA_GetMyStatus(GameData *gameData);
@@ -252,7 +252,7 @@ extern void FIELD_SUBSCREEN_StopReportSaveAnim(FieldCommLink *link);
 extern int FIELD_SUBSCREEN_IsReportSaveAnimDone(FieldCommLink *link);
 extern void FIELD_SUBSCREEN_ResumeField(FieldCommLink *link, u32 heapId);
 extern TcblSystem *TCBL_Create(u16 heapId, u16 tag, u32 taskCount, u32 workSize);
-extern AppKeyCursor *APP_KEYCURSOR_CreateDefault(u32 a0, u32 a1, u32 a2, u32 heapId);
+extern AppKeyCursor *APP_KEYCURSOR_CreateDefault(u32 id, u32 isLive, u32 isFlip, u32 heapId);
 extern PrintQue *PRINTSYS_QUE_Create(u32 heapId);
 extern int SAVE_CONTROL_WouldOverwriteSave(SaveControl *saveControl);
 extern void BMP_MENUWORK_DrawWindowBorder(BmpWin *bmpWin, u32 kind);
@@ -277,7 +277,7 @@ extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 arcId, u32 fileId, u32 pa
 extern void BMP_WIN_Delete(BmpWin *bmpWin);
 extern Bmp *BMP_WIN_GetBmp(BmpWin *bmpWin);
 extern void BMP_Clear(Bmp *bmp, u8 value);
-extern void BMP_MENUWORK_DrawWindow(BmpWin *bmpWin, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(BmpWin *bmpWin, int commitMode, int tileBase, int palette);
 extern u32 FIELD_MSGBG_GetFont(FieldMsgContext *msgContext);
 extern signed char MSG_SPEED_GetWait(void);
 extern PrintStream *PRINTSYS_PrintStream(BmpWin *bmpWin, u32 x, u32 y, Strbuf *str, u32 font, u32 speed, TcblSystem *tcbl, u32 priority, u16 heapId, u32 clearColor);
@@ -395,7 +395,7 @@ int REPORT_EVENT_Main(ReportEventWork *w, u32 *state)
         }
         break;
     case REPORT_EVENT_STATE_PRINT_SAVING:
-        RECORD_AddOne(GAME_DATA_GetTrainerRecord(ICA_ANIME_GetField1C(w->gameSystem)), 1);
+        RECORD_AddOne(GAME_DATA_GetTrainerRecord(GAMESYSTEM_GetGameData(w->gameSystem)), 1);
         FIELD_SUBSCREEN_PrepareReportSave(FIELDMAP_GetSubscreen(w->fieldMap));
         if (FIELD_SUBSCREEN_CheckReportSaveCounter(FIELDMAP_GetSubscreen(w->fieldMap)) == 1)
             REPORT_EVENT_QueueMessage(w, REPORT_EVENT_MSG_SAVING_FIRST);
@@ -418,12 +418,12 @@ int REPORT_EVENT_Main(ReportEventWork *w, u32 *state)
             w->res->timeIcon = TIME_ICON_Create(GFL_USE_GetMainTaskList(), w->res->window.bmpWin, 0xF, 0x10, w->heapId);
             FIELD_SUBSCREEN_StartReportSaveAnim(FIELDMAP_GetSubscreen(w->fieldMap));
             REPORT_EVENT_StartSaveEffect(w);
-            GAME_DATA_SaveStart(ICA_ANIME_GetField1C(w->gameSystem));
+            GAME_DATA_SaveStart(GAMESYSTEM_GetGameData(w->gameSystem));
             *state = REPORT_EVENT_STATE_SAVE;
         }
         break;
     case REPORT_EVENT_STATE_SAVE:
-        switch (GAME_DATA_SaveMain(ICA_ANIME_GetField1C(w->gameSystem))) {
+        switch (GAME_DATA_SaveMain(GAMESYSTEM_GetGameData(w->gameSystem))) {
         case 0:
         case 1:
             break;
@@ -447,7 +447,7 @@ int REPORT_EVENT_Main(ReportEventWork *w, u32 *state)
             REPORT_EVENT_EndAvatarAnim(w);
             wordSet = WORDSET_CreateDefault(w->heapId);
             message = MSGDATA_AllocString(w->res->msgData, REPORT_EVENT_MSG_SAVED);
-            WORDSET_SetSlotMyStatus(wordSet, 0, GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(w->gameSystem)));
+            WORDSET_SetSlotMyStatus(wordSet, 0, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(w->gameSystem)));
             WORDSET_CopyTaggedText(wordSet, w->res->message, message);
             STRBUF_Delete(message);
             WORDSET_DeleteStrbufED04(wordSet);

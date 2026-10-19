@@ -165,10 +165,10 @@ extern int FIELD_ENCOUNT_ST_LoadEncountData(struct EncountData *encount, int a, 
 extern unsigned ZONEDATA_GetEventDataId(unsigned);
 extern unsigned ARC_TOOL_GetHandleMemberSize(struct ArcFile *, unsigned);
 extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *, unsigned, unsigned, unsigned, void *);
-extern void ZONEDATA_InitLocation(int p0);
+extern void ZONEDATA_InitLocation(int loc);
 extern void ZONEDATA_SetExitLocation(int *, u16, s16, u16, int, unsigned, unsigned, unsigned);
 extern void ZONEDATA_SetExitRailLocation(int *, u16, s16, u16, int, u16, u16, s16);
-extern int ZONEDATA_SetExitLocationIdOnly(int a0, int a1, int a2, int a3);
+extern int ZONEDATA_SetExitLocationIdOnly(int loc, int zoneId, int exitId, int exitOffset);
 extern u32 ZONEDATA_GetEventWorkAddress(u32 a, u32 b);
 extern u16 EVENTDATA_SYSTEM_GetHiddenItemFlag(u16 id);
 extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);

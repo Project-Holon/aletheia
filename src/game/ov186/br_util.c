@@ -484,7 +484,7 @@ void BR_UTIL_UpdateRowSelection(char *p);
 
 void *BR_UTIL_CreateTextWin(int a,void *owner,u16 heap);
 
-void BR_UTIL_DeleteTextWin(void *p, int a1);
+void BR_UTIL_DeleteTextWin(void *p, int res);
 
 void BR_UTIL_SetWindowText(char *p,char *q,void *text);
 
@@ -492,7 +492,7 @@ void BR_UTIL_SetWindowTextBuf(char *p,void *q,void *text);
 
 void BR_UTIL_FlushWindow(void *p);
 
-char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,u16 heap);
+char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *unit,void *printQue,int mode,u16 heap);
 
 void BR_UTIL_DeleteProfileScreen(int *p);
 
@@ -957,10 +957,10 @@ void *BR_UTIL_CreateTextWin(int a,void *owner,u16 heap)
     return p;
 }
 
-void BR_UTIL_DeleteTextWin(void *p, int a1)
+void BR_UTIL_DeleteTextWin(void *p, int res)
 {
     BR_UTIL_Delete(p);
-    BR_RES_ApplyBgSet(a1, 2);
+    BR_RES_ApplyBgSet(res, 2);
 }
 
 void BR_UTIL_SetWindowText(char *p,char *q,void *text)
@@ -1253,7 +1253,7 @@ void BR_UTIL_FlushWindow(void *p)
  * The integrator should know that the matched definition is spelled void.
  * Also: t inlined into the CLACT_RegisterCellAnim call (same bytes, one fewer local).
  */
-char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
+char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *unit,void *printQue,int mode,u16 heap)
 {
     char *p;
     void *font;
@@ -1268,7 +1268,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
     MI_CpuFill8(p,0,0x44);
     *(char **)(p+0x1c)=q;
     font=(void *)BR_RES_GetFont(q);
-    *(void **)(p+0x20)=PMS_DRAW_Create((u32)a2,0,(u32)a3,(u32)font,7,1,heap);
+    *(void **)(p+0x20)=PMS_DRAW_Create((u32)unit,0,(u32)printQue,(u32)font,7,1,heap);
     PMS_DRAW_SetDecoPriority(*(void **)(p+0x20),0,1);
     BR_RES_LoadBgGraphics(*(void **)(p+0x1c),8,heap);
     bank=(void *)(u32)BR_RES_GetMsgData(q);
@@ -1276,7 +1276,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
     {
     BrUtilPair b=d_02200B6C;
     for(i=0;i<7;i++) {
-        *(void **)(p+i*4)=BR_UTIL_Create(1,d_02200B34[i].x,d_02200B34[i].y,d_02200B34[i].w,d_02200B34[i].h,14,a3,heap);
+        *(void **)(p+i*4)=BR_UTIL_Create(1,d_02200B34[i].x,d_02200B34[i].y,d_02200B34[i].w,d_02200B34[i].h,14,printQue,heap);
         BR_UTIL_SetTextLayout(*(void **)(p+i*4),0,1,0);
         ready=1;
         switch(i) {
@@ -1376,7 +1376,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
         ARC_TOOL_DeleteHandle(h);
         MI_CpuFill8(&r,0,8);
         r.x=0x4b;r.y=0x40;r.z=1;
-        *(void **)(p+0x24)=CLACT_CreateActor(a2,*(u32 *)(p+0x30),*(u32 *)(p+0x2c),*(u32 *)(p+0x34),&r,0,heap);
+        *(void **)(p+0x24)=CLACT_CreateActor(unit,*(u32 *)(p+0x30),*(u32 *)(p+0x2c),*(u32 *)(p+0x34),&r,0,heap);
         CLACT_SetActorPaletteOffset(*(void **)(p+0x24),POKE_TOOL_CalcIconPalette(B,C,D,A),0);
         CLACT_SetActorObjMode(*(void **)(p+0x24),1);
     }
@@ -1413,7 +1413,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
         Req r;
         MI_CpuFill8(&r,0,8);
         r.x=0x30;r.y=0x40;
-        *(void **)(p+0x28)=CLACT_CreateActor(a2,*(u32 *)(p+0x3c),*(u32 *)(p+0x38),*(u32 *)(p+0x40),&r,0,heap);
+        *(void **)(p+0x28)=CLACT_CreateActor(unit,*(u32 *)(p+0x3c),*(u32 *)(p+0x38),*(u32 *)(p+0x40),&r,0,heap);
         CLACT_SetActorPaletteOffset(*(void **)(p+0x28),0,1);
         CLACT_SetActorObjMode(*(void **)(p+0x28),1);
     }

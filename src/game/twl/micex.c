@@ -30,17 +30,17 @@ typedef struct {
     u32 len;
     u32 size;
     u32 flag;
-    u32 arg0;
-    u32 arg1;
+    u32 fullCallback;
+    u32 fullArg;
 } MicexReq;
 
 typedef struct {
     u32 busy;
     u32 cb;
     u32 arg;
-    u32 unk0C;
-    u32 val10;
-    u32 val14;
+    u32 pad0C;
+    u32 fullCallback;
+    u32 fullArg;
 } MicexState;
 
 extern MicexState *MICEXi_GetLimitedSamplingCallback(void);
@@ -52,15 +52,15 @@ extern u32 OS_SendMessage(u32, u32, u32);
 extern s32 PXI_SendWordByFifo(u32, u32, u32);
 extern u32 data_02150FEC[];
 
-u32 MICEXi_StartLimitedSampling(const MicexReq *a0);
-u32 MICEXi_StartLimitedSamplingAsync(const MicexReq *a0, u32 a1, u32 a2);
+u32 MICEXi_StartLimitedSampling(const MicexReq *param);
+u32 MICEXi_StartLimitedSamplingAsync(const MicexReq *param, u32 callback, u32 arg);
 u32 MICEXi_StopLimitedSampling(void);
-u32 MICEXi_StopLimitedSamplingAsync(u32 a0, u32 a1);
-void MicexSyncCallback(u32 a0, u32 a1);
-u32 MicexStartLimitedSampling(u32 a0, u32 a1, u32 a2, u32 a3);
+u32 MICEXi_StopLimitedSamplingAsync(u32 callback, u32 arg);
+void MicexSyncCallback(u32 result, u32 queue);
+u32 MicexStartLimitedSampling(u32 addr, u32 len, u32 size, u32 flags);
 u32 MicexStopLimitedSampling(void);
 
-u32 MICEXi_StartLimitedSampling(const MicexReq *a0) {
+u32 MICEXi_StartLimitedSampling(const MicexReq *param) {
     u32 res;
     u32 buf;
     u32 queue[8];
@@ -69,27 +69,27 @@ u32 MICEXi_StartLimitedSampling(const MicexReq *a0) {
         return 5;
     }
     OS_InitMessageQueue(queue, &buf, 1);
-    res = MICEXi_StartLimitedSamplingAsync(a0, (u32)MicexSyncCallback, (u32)queue);
+    res = MICEXi_StartLimitedSamplingAsync(param, (u32)MicexSyncCallback, (u32)queue);
     if (res == 0) {
         OS_ReceiveMessage(queue, &res, 1);
     }
     return res;
 }
 
-u32 MICEXi_StartLimitedSamplingAsync(const MicexReq *a0, u32 a1, u32 a2) {
+u32 MICEXi_StartLimitedSamplingAsync(const MicexReq *param, u32 callback, u32 arg) {
     MicexState *st = MICEXi_GetLimitedSamplingCallback();
     u8 flags;
     u8 tmp;
     u32 mode;
     u32 irq;
 
-    if (a0->len == 0) {
+    if (param->len == 0) {
         return 2;
     }
-    if ((a0->addr & 0x1f) != 0 || (a0->len & 0x1f) != 0) {
+    if ((param->addr & 0x1f) != 0 || (param->len & 0x1f) != 0) {
         return 2;
     }
-    switch (a0->mode) {
+    switch (param->mode) {
     case 0:
         mode = 0;
         break;
@@ -111,7 +111,7 @@ u32 MICEXi_StartLimitedSamplingAsync(const MicexReq *a0, u32 a1, u32 a2) {
     default:
         return 2;
     }
-    switch (a0->size) {
+    switch (param->size) {
     case 0x2BF:
     case 0x3FF:
     case 0x57F:
@@ -124,7 +124,7 @@ u32 MICEXi_StartLimitedSamplingAsync(const MicexReq *a0, u32 a1, u32 a2) {
     default:
         return 2;
     }
-    if (a0->flag != 0) {
+    if (param->flag != 0) {
         tmp = mode | 0x10;
     } else {
         tmp = mode & ~0x10;
@@ -137,11 +137,11 @@ u32 MICEXi_StartLimitedSamplingAsync(const MicexReq *a0, u32 a1, u32 a2) {
     }
     st->busy = 1;
     OS_RestoreInterrupts(irq);
-    st->cb = a1;
-    st->arg = a2;
-    st->val10 = a0->arg0;
-    st->val14 = a0->arg1;
-    if (MicexStartLimitedSampling(a0->addr, a0->len, a0->size, flags) == 0) {
+    st->cb = callback;
+    st->arg = arg;
+    st->fullCallback = param->fullCallback;
+    st->fullArg = param->fullArg;
+    if (MicexStartLimitedSampling(param->addr, param->len, param->size, flags) == 0) {
         st->busy = 0;
         return 3;
     }
@@ -166,7 +166,7 @@ u32 MICEXi_StopLimitedSampling(void) {
     return msg;
 }
 
-u32 MICEXi_StopLimitedSamplingAsync(u32 a0, u32 a1) {
+u32 MICEXi_StopLimitedSamplingAsync(u32 callback, u32 arg) {
     MicexState *st = MICEXi_GetLimitedSamplingCallback();
     u32 irq = OS_DisableInterrupts();
 
@@ -176,8 +176,8 @@ u32 MICEXi_StopLimitedSamplingAsync(u32 a0, u32 a1) {
     }
     st->busy = 1;
     OS_RestoreInterrupts(irq);
-    st->cb = a0;
-    st->arg = a1;
+    st->cb = callback;
+    st->arg = arg;
     if (MicexStopLimitedSampling() == 0) {
         st->busy = 0;
         return 3;
@@ -185,30 +185,30 @@ u32 MICEXi_StopLimitedSamplingAsync(u32 a0, u32 a1) {
     return 0;
 }
 
-void MicexSyncCallback(u32 a0, u32 a1) {
-    OS_SendMessage(a1, a0, 0);
+void MicexSyncCallback(u32 result, u32 queue) {
+    OS_SendMessage(queue, result, 0);
 }
 
-u32 MicexStartLimitedSampling(u32 a0, u32 a1, u32 a2, u32 a3) {
-    if (PXI_SendWordByFifo(9, a3 | 0x02004400, 0) < 0) {
+u32 MicexStartLimitedSampling(u32 addr, u32 len, u32 size, u32 flags) {
+    if (PXI_SendWordByFifo(9, flags | 0x02004400, 0) < 0) {
         return 0;
     }
-    if (PXI_SendWordByFifo(9, (a0 >> 16) | 0x10000, 0) < 0) {
+    if (PXI_SendWordByFifo(9, (addr >> 16) | 0x10000, 0) < 0) {
         return 0;
     }
-    if (PXI_SendWordByFifo(9, (a0 & 0xFFFF) | 0x20000, 0) < 0) {
+    if (PXI_SendWordByFifo(9, (addr & 0xFFFF) | 0x20000, 0) < 0) {
         return 0;
     }
-    if (PXI_SendWordByFifo(9, (a1 >> 16) | 0x30000, 0) < 0) {
+    if (PXI_SendWordByFifo(9, (len >> 16) | 0x30000, 0) < 0) {
         return 0;
     }
-    if (PXI_SendWordByFifo(9, (a1 & 0xFFFF) | 0x40000, 0) < 0) {
+    if (PXI_SendWordByFifo(9, (len & 0xFFFF) | 0x40000, 0) < 0) {
         return 0;
     }
-    if (PXI_SendWordByFifo(9, (a2 >> 16) | 0x50000, 0) < 0) {
+    if (PXI_SendWordByFifo(9, (size >> 16) | 0x50000, 0) < 0) {
         return 0;
     }
-    if (PXI_SendWordByFifo(9, (a2 & 0xFFFF) | 0x01060000, 0) < 0) {
+    if (PXI_SendWordByFifo(9, (size & 0xFFFF) | 0x01060000, 0) < 0) {
         return 0;
     }
     return 1;

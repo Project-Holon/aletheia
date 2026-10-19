@@ -17,9 +17,9 @@
  * ov135, and the third, 0x02202BAC, lies in ov135's window.
  *
  * symbols:
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   ICA_ANIME_GetField24  0x02012138  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   GAME_EVENT_GetWork  0x020124E8  thumb
@@ -106,9 +106,9 @@ typedef unsigned short u16;
 
 typedef char WorldTradeEventWork_SizeCheck[sizeof(WorldTradeEventWork) == 0x54 ? 1 : -1];
 
-void *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
+void *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 void *GAME_EVENT_Create(void *gameSystem, void *a, void *callback, u32 workSize);
-struct GameComm *ICA_ANIME_GetField24(const struct GameSystem *gameSystem);
+struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
 u32 GAME_COMM_GetKind(void *gameComm);
 void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
 void *GAME_EVENT_GetWork(struct GameEvent *event);
@@ -127,7 +127,6 @@ void *RECORD_GetFromSave(void *saveControl);
 struct MyItem *GAME_DATA_GetMyItem(const struct GameData *gameData);
 u32 ZUKAN_SAVE_IsNationalDexEnabled(struct WorldTradeSave *worldTradeSave);
 int WIFILIST_GetGsProfileId(void *battleRecordData);
-extern struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
 extern u16 GFL_USE_GetBgmNo(void);
 extern void GFL_USE_FadeOutBgm(u32 frames);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int gameSystem, int fieldMap);
@@ -161,10 +160,10 @@ int EVENT_WORLDTRADE_Create(int gameSystem, int fieldMap, int unused)
     int event;
     WorldTradeEventWork *work;
 
-    gameData = (int)ICA_ANIME_GetField1C((const struct GameSystem *)gameSystem);
+    gameData = (int)GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem);
     event = (int)GAME_EVENT_Create((void *)gameSystem, 0, EVENT_WORLDTRADE_Main, 0x54);
-    if (GAME_COMM_GetKind(ICA_ANIME_GetField24((const struct GameSystem *)gameSystem)))
-        GAME_COMM_RequestExitNoCallback(ICA_ANIME_GetField24((const struct GameSystem *)gameSystem));
+    if (GAME_COMM_GetKind(GAMESYSTEM_GetGameComm((const struct GameSystem *)gameSystem)))
+        GAME_COMM_RequestExitNoCallback(GAMESYSTEM_GetGameComm((const struct GameSystem *)gameSystem));
     work = GAME_EVENT_GetWork((struct GameEvent *)event);
     MI_CpuFill8(work, 0, 0x54);
     work->gameSystem = (struct GameSystem *)gameSystem;

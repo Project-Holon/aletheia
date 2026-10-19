@@ -29,7 +29,7 @@ extern void *GFL_HEAP_Alloc(u16 heapID, u32 size, int clear, const char *file, i
 
 extern u32 GFL_HEAP_Free(void *p);
 
-u32 *G3D_CAMERA_Create(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7, u32 a8, Vec3 *a9, Vec3 *a10, Vec3 *a11, u16 heap);
+u32 *G3D_CAMERA_Create(u32 mode, u32 nearClip, u32 farClip, u32 fieldOfView, u32 aspectRatio, u32 scale, u32 roll, u32 flags, Vec3 *eye, Vec3 *a10, Vec3 *a11, u16 heap);
 
 u32 G3D_CAMERA_Delete(void *ptr);
 

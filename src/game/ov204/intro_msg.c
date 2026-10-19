@@ -127,7 +127,7 @@ typedef struct IntroMsgMenuTemplate {
     u32 pad24;
     void *target;
     void *printer;
-    void *textParam;
+    void *font;
 } IntroMsgMenuTemplate;
 
 /*
@@ -179,7 +179,7 @@ extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u
 
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
@@ -487,7 +487,7 @@ void INTRO_MSG_CreateMenuList(char *p,u32 *entries,u32 count,int flag)
     config.originY=2;config.letterColor=1;config.bgColor=15;config.shadowColor=2;
     config.mode3=0;config.lineGap=0;config.pageKeys=1;config.mode6=0;config.cursorOff=0;
     config.userData=0;config.cursorW=16;config.rowH=16;config.pad24=0;
-    config.target=INTRO_MSG_InitMenuDesc(p,(int)obj);config.printer=work->printSys;config.textParam=work->font;
+    config.target=INTRO_MSG_InitMenuDesc(p,(int)obj);config.printer=work->printSys;config.font=work->font;
     *(void **)state=BMP_MENULIST_Create((struct Src *)(&config),0,0,heap);
     BMP_MENULIST_ResetCursorTile(*(void **)state,(u32)heap);
     BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);BG_SYS_PushTile((u8)BMP_WIN_GetBgLayer(obj));

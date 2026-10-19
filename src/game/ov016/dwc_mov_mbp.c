@@ -100,7 +100,7 @@ typedef struct {
 typedef struct { u8 b[0x48]; } FSFile;
 
 typedef struct {
-    u16 f0;
+    u16 errCode;
     u8 pad[8];
     u8 mac[6];
 } ParentCbArg;
@@ -517,7 +517,7 @@ static void ParentStateCallback(u16 child_aid, u32 status, void *arg)
         break;
     }
     case 13:
-        switch (userInfo->f0) {
+        switch (userInfo->errCode) {
         case 8:
             break;
         case 9:

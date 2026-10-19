@@ -6,19 +6,19 @@
 #define ZUKAN_DETAIL_TYPES_H
 
 struct Ov208ActDesc {
-    int f0;
+    int key;
     short x;
     short y;
-    unsigned short h8;
-    unsigned short ha;
-    unsigned short hc;
-    unsigned short he;
-    unsigned short h10;
-    unsigned short h12;
-    unsigned short h14;
-    unsigned short h16;
-    unsigned int f18;
-    unsigned int f1c;
+    unsigned short hitWidth;
+    unsigned short charRes;
+    unsigned short palRes;
+    unsigned short cellRes;
+    unsigned short idleAnim;
+    unsigned short disabledAnim;
+    unsigned short pressedAnim;
+    unsigned short pad16;
+    unsigned int keyMask;
+    unsigned int seId;
 };
 
 struct Ov208ActList {
@@ -36,37 +36,37 @@ struct Ov208ActSrc {
     int id;
     unsigned short x;
     unsigned short y;
-    unsigned short h8;
+    unsigned short hitWidth;
     unsigned short pad;
-    unsigned int fc;
-    unsigned int f10;
+    unsigned int pressedId;
+    unsigned int heldId;
 };
 
 struct Ov208Bg {
-    unsigned int f0;
-    unsigned int f4;
-    unsigned int f8;
-    unsigned int fc;
-    unsigned int f10;
+    unsigned int palette;
+    unsigned int character;
+    unsigned int cellAnim;
+    unsigned int channel;
+    unsigned int charRange;
 };
 
 /* One 0x38-byte entry of the manager's table. */
 struct Ov208Rec {
-    unsigned int f0;
-    unsigned int f4;
-    unsigned int f8;
-    void (*fc)(void);
-    unsigned int f10;
+    unsigned int actor;
+    unsigned int enabled;
+    unsigned int animSeq;
+    void (*onPress)(void);
+    unsigned int pressKind;
     struct Ov208ActDesc desc;
-    unsigned int f34;
+    unsigned int forcePress;
 };
 
 struct Ov208Mgr {
-    int f0;
+    int pressedIndex;
     unsigned int count;
-    int f8;
-    int fc;
-    int f10;
+    int phase;
+    int touchEnabled;
+    int latched;
     struct Ov208Bg bg;
     struct Ov208Rec recs[1];
 };
