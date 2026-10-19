@@ -22,12 +22,7 @@
  */
 #include "wcm_types.h"
 
-typedef enum WMLinkLevel {
-    WM_LINK_LEVEL_0 = 0,
-    WM_LINK_LEVEL_1 = 1,
-    WM_LINK_LEVEL_2 = 2,
-    WM_LINK_LEVEL_3 = 3
-} WMLinkLevel;
+#include "../sdk_wm.h"
 
 extern unsigned long OS_DisableInterrupts(void);
 extern WCMWork *WCMi_GetSystemWork(void);

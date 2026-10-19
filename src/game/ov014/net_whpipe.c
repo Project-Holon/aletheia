@@ -86,7 +86,7 @@ extern int WIH_GetSysState(void);
 
 #define OFFSETOF(type, field) ((u32)&((type *)0)->field)
 
-typedef int BOOL;
+#include "../types.h"
 
 int DWCi_MOV_WH_GetLastError(void);
 

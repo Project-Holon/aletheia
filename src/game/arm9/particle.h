@@ -9,9 +9,6 @@ struct ParticleCameraParams;
 struct Obj3D;
 
 #include "../arm9/billboard_act_shared_types.h"
-#include "../arm9/billboard_act_shared_types.h"
-#include "../arm9/billboard_act_shared_types.h"
-
 void PARTICLE_InitManager(u32 heapId);
 void PARTICLE_Main(void);
 struct ParticleSys *PARTICLE_CreateSystemDefault(u32 workBuf, u32 workSize, u32 withCamera, u32 heapId);

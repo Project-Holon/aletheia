@@ -128,11 +128,7 @@ struct Strbuf;
 struct U16Vec;
 struct WordSet;
 struct Rec;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 typedef enum { LOOP_ZERO=0 } Loop;
 
@@ -141,8 +137,6 @@ struct Row {u32 id;u8 body[32];u32 kind,on;};
 struct Resources {u32 a,b,c;};
 
 typedef struct {unsigned first;char pad[40];} Entry;
-
-typedef short s16;
 
 /* Actor position passed to CLACT_CreateActor (8 bytes); the tail word is reserved. */
 struct ThAwardActorPos
@@ -196,8 +190,6 @@ struct ThAwardWork {
 };
 
 struct Rec { u32 msg; u16 a; u16 level; u32 b; };
-
-
 
 extern int CLACT_RegisterPaletteEx(void *archive, u32 fileIdx, u32 vramMode, u32 vramOffset, u16 firstColor, u16 colorCount, u16 heapId);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
@@ -304,15 +296,6 @@ extern const u8 d_021BA354[];
 extern u8 d_021BA314[];
 extern const struct Rec d_021BA3A8[];
 
-
-
-
-
-
-
-
-
-
 int TH_AWARD_Init(void *host,void *unused,void *args)
 {
     struct ThAwardWork *p;
@@ -360,15 +343,6 @@ int TH_AWARD_Init(void *host,void *unused,void *args)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
 /*
  * volatile: hardware accesses at 021B9794 and 021B9798/021B979E.
  */
@@ -391,14 +365,6 @@ int TH_AWARD_Exit(void *state,int unused1,int unused2,char *p)
     GFL_HEAP_DeleteChecked(131);
     return 1;
 }
-
-
-
-
-
-
-
-
 
 int TH_AWARD_Main(void *unused, u32 *state, void *unused2, char *p)
 {
@@ -452,22 +418,7 @@ int TH_AWARD_Main(void *unused, u32 *state, void *unused2, char *p)
     return 0;
 }
 
-
-
-
-
-
-
-
-
 void TH_AWARD_TaskNoop(void) {}
-
-
-
-
-
-
-
 
 void TH_AWARD_LoadBgAssets(struct ThAwardWork *p)
 {
@@ -482,18 +433,7 @@ void TH_AWARD_LoadBgAssets(struct ThAwardWork *p)
     BG_SYS_PushTile(1);
 }
 
-
-
-
-
-
-
 void TH_AWARD_Noop(void *work){}
-
-
-
-
-
 
 void TH_AWARD_CreateSpeciesActors(char *p)
 {
@@ -551,10 +491,6 @@ void TH_AWARD_CreateSpeciesActors(char *p)
   }
 }
 
-
-
-
-
 void TH_AWARD_DeleteSpeciesActors(struct ThAwardWork *p)
 {
     u8 i;
@@ -565,9 +501,6 @@ void TH_AWARD_DeleteSpeciesActors(struct ThAwardWork *p)
         if(i==0) CLACT_ReleasePalette(p->slots[i].paletteId);
     }
 }
-
-
-
 
 void TH_AWARD_CreateBgActors(struct ThAwardWork *p)
 {
@@ -595,8 +528,6 @@ void TH_AWARD_CreateBgActors(struct ThAwardWork *p)
     }
 }
 
-
-
 void TH_AWARD_DeleteBgActors(struct ThAwardWork *p)
 {
     unsigned char i;
@@ -607,8 +538,6 @@ void TH_AWARD_DeleteBgActors(struct ThAwardWork *p)
         CLACT_ReleasePalette(p->paletteId);
     }
 }
-
-
 
 void TH_AWARD_SetupWindows(struct ThAwardWork *p)
 {
@@ -700,11 +629,7 @@ void TH_AWARD_SetupWindows(struct ThAwardWork *p)
     TH_AWARD_UploadWindows(p);
 }
 
-
-
 void TH_AWARD_DeleteWindows(struct ThAwardWork *p){u8 i;for(i=0;i<4;i++)if(p->windows[i])BMP_WIN_Delete(p->windows[i]);if(p->msgBank)MSGDATA_Delete((struct MsgBank *)p->msgBank);}
-
-
 
 void TH_AWARD_UploadWindows(struct ThAwardWork *o)
 {
@@ -722,7 +647,6 @@ void TH_AWARD_UploadWindows(struct ThAwardWork *o)
         }
     }
 }
-
 
 unsigned char TH_AWARD_GetLevelIndex(unsigned value)
 {

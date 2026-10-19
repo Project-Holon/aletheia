@@ -15,7 +15,7 @@
  * symbols:
  *   QUESTIONNAIRE_GetFirstAnswerMessageOffset    0x0216736C  thumb  ov010
  */
-#include "misc_savedata_shared_types.h"
+#include "../types.h"
 
 typedef struct Tally {
     u16 add16[30];      /* 0x000 */

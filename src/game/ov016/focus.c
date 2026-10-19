@@ -25,9 +25,7 @@
  */
 #include "../../matched/include/G_MemFocus.h"
 
-typedef unsigned char u8;
-
-typedef unsigned long u32;
+#include "../types.h"
 
 typedef struct {
     void *cell[4];
@@ -48,7 +46,6 @@ void DWCi_FOCUSlDisp4(int x0, int x1, int y0, int y1);
 extern struct MemFocus *gFocusWork;
 extern u8 sFocusCellIds[][2];
 
-
 /*
  * sdk:      DWCi_FOCUSlInit (libdwcutil.TWL.HYB.a(focus.o))
  */
@@ -58,13 +55,11 @@ void DWCi_FOCUSlInit(void)
     gFocusWork = DWCi_HEAPlAllocEx(sizeof(MemFocus), 4);
 }
 
-
 void DWCi_FOCUSlEnd(void)
 {
     DWCi_FOCUSlDelete();
     DWCi_HEAPlFree_((void **)&gFocusWork);
 }
-
 
 void DWCi_FOCUSlDisp(int kind, int x0, int x1, int y)
 {
@@ -77,7 +72,6 @@ void DWCi_FOCUSlDisp(int kind, int x0, int x1, int y)
     DWCi_CELLlSetPosition(gFocusWork->cell[0], -1, x0, y);
     DWCi_CELLlSetPosition(gFocusWork->cell[1], -1, x1, y);
 }
-
 
 /*
  * sdk:      DWCi_FOCUSlDisp4 (libdwcutil.TWL.HYB.a(focus.o))
@@ -97,7 +91,6 @@ void DWCi_FOCUSlDisp4(int x0, int x1, int y0, int y1)
     DWCi_CELLlSetPosition(gFocusWork->cell[2], -1, x0, y1);
     DWCi_CELLlSetPosition(gFocusWork->cell[3], -1, x1, y1);
 }
-
 
 /*
  * sdk:      DWCi_FOCUSlDelete (libdwcutil.TWL.HYB.a(focus.o))

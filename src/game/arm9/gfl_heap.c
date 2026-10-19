@@ -49,11 +49,7 @@
 struct ExpHeap;
 struct HeapAllocator;
 struct HeapSpec;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 /* One heap of the manager (16 bytes). */
 struct HeapRecord {
@@ -84,8 +80,6 @@ struct HeapSpec {
     u32 reserved04;
 };
 
-typedef signed int     s32;
-
 /* Header before every allocation (0x1C bytes).  magic is 0x194E while the
  * block is live and 0x194D after it is freed. */
 struct BlockHeader {
@@ -107,8 +101,6 @@ struct BlockHeaderNameView {
     char pad[4];
     int  name;
 };
-
-typedef signed int BOOL;
 
 /* State of the fixed-size system heap (0x02146964). */
 struct SystemHeapState {
@@ -173,18 +165,12 @@ void GFL_HEAP_FatalError(int errorCode, u32 parentHeapId, u32 newHeapId);
 extern struct HeapManager gHeapManager;
 extern struct SystemHeapState gSystemHeap;
 
-
-
-
 void *GFL_HEAP_GetHeap(u32 heapId)
 {
     u8 slot = gHeapManager.slotOfHeapId[heapId];
     if (slot == 0xff) return 0;
     return gHeapManager.records[slot].heap;
 }
-
-
-
 
 u32 GFL_HEAP_GetParentHeap(u32 heapId)
 {
@@ -193,9 +179,6 @@ u32 GFL_HEAP_GetParentHeap(u32 heapId)
     return gHeapManager.records[slot].parentHeap;
 }
 
-
-
-
 u32 GFL_HEAP_GetBlock(u32 heapId)
 {
     u8 slot = gHeapManager.slotOfHeapId[heapId];
@@ -203,21 +186,12 @@ u32 GFL_HEAP_GetBlock(u32 heapId)
     return gHeapManager.records[slot].block;
 }
 
-
-
-
 u16 GFL_HEAP_GetAllocCount(u32 heapId)
 {
     u8 slot = gHeapManager.slotOfHeapId[heapId];
     if (slot == 0xff) return 0;
     return gHeapManager.records[slot].allocCount;
 }
-
-
-
-
-
-
 
 /*
  * The module initialiser named by src/matched/gfl_heap.c: it allocates
@@ -299,7 +273,6 @@ int GFL_HEAP_InitManager(const struct HeapSpec *specs, u16 staticCount, u16 heap
     return 1;
 }
 
-
 /*
  * Bind one resource of the module at gHeapManager to a destination slot.  Both
  * identifiers carry a flag in bit 15 and an index in the low fifteen bits: on
@@ -377,7 +350,6 @@ fail:
     return 0;
 }
 
-
 /*
  * The sibling of GFL_HEAP_CreateChildHeapImpl: bind an already-built object rather than one
  * resolved out of the module.  0x0202FED8 is called with a null resource and
@@ -419,7 +391,6 @@ fail:
     return 0;
 }
 
-
 /*
  * Scans the 0x02146954 table for the first free 16-byte slot: a slot whose
  * first word is NULL is claimed with NNS_FndCreateExpHeapEx(a2, a3, 0); a failed
@@ -454,11 +425,6 @@ int GFL_HEAP_AddRecord(u32 parentHeap, u32 heapId, u32 block, u32 size)
     gHeapManager.lastError = 4;
     return 0;
 }
-
-
-
-
-
 
 /*
  * Heap destroy.  The handle's low fifteen bits are the heap id; the three
@@ -533,12 +499,6 @@ u32 GFL_HEAP_Delete(u32 heapHandle)
 
     return 0;
 }
-
-
-
-
-
-
 
 /*
  * The raw allocator: the only function in the image that actually takes
@@ -637,12 +597,6 @@ fail:
     return 0;
 }
 
-
-
-
-
-
-
 /*
  * Block release: the free that pairs with GFL_HEAP_AllocMemory. The header is the
  * same 0x1c-byte block header GFL_HEAP_AllocMemory reserves, so the block pointer
@@ -726,12 +680,6 @@ fail:
     return 0;
 }
 
-
-
-
-
-
-
 /*
  * BLOCKED on one relocation site: all 100 concrete code bytes (108 with the
  * trailing pool) are correct, but the call to NNS_FndInitAllocatorForExpHeap at +0048 has no
@@ -791,12 +739,6 @@ u32 GFL_HEAP_InitAllocator(void *allocator, u32 heapIdAndDirection, s32 alignmen
 fail:
     return 0;
 }
-
-
-
-
-
-
 
 /*
  * BLOCKED on one relocation site: all 160 concrete bytes are correct, but
@@ -881,12 +823,6 @@ fail:
     return 0;
 }
 
-
-
-
-
-
-
 /*
  * Checked heap-id lookup that hands the arena straight on to NNSi_FndGetListTotalSize
  * and returns what that returns; see src/matched/GFL_HEAP_GetHeapHandle.c for the
@@ -919,12 +855,6 @@ fail:
     return 0;
 }
 
-
-
-
-
-
-
 /*
  * Checked heap-id lookup handing the arena to NNSi_FndGetListAllocatableSize with a mode of
  * 4; see src/matched/GFL_HEAP_GetHeapHandle.c for the shared preamble this family
@@ -950,12 +880,6 @@ void *GFL_HEAP_GetAllocatableSize(u32 heapId)
 fail:
     return 0;
 }
-
-
-
-
-
-
 
 /*
  * Total size of a heap's arena, in bytes: the shared checked-heap-id
@@ -995,11 +919,6 @@ u32 GFL_HEAP_GetHeapSize(u32 heapId)
 fail:
     return 0;
 }
-
-
-
-
-
 
 /*
  * Checked heap-id lookup: masks the direction flag out of a public heap
@@ -1042,11 +961,6 @@ fail:
     return 0;
 }
 
-
-
-
-
-
 /*
  * Checked heap-id lookup returning the heap's u16 record field (the one
  * GFL_HEAP_GetAllocCount reads, the +0xc halfword of the per-heap record), or 0xffff
@@ -1086,11 +1000,6 @@ fail:
     return 0xFFFF;
 }
 
-
-
-
-
-
 /*
  * A halfword accessor at a negative offset from its argument: the pointer
  * is to a member partway into a larger object, and this reads a sibling
@@ -1104,11 +1013,6 @@ u16 GFL_HEAP_GetBlockHeapId(void *mem)
 {
     return *(u16 *)((char *)mem - 0x1c);
 }
-
-
-
-
-
 
 /*
  * Address of a field 4 bytes into the object that starts 0x1c bytes before
@@ -1126,11 +1030,6 @@ void *GFL_HEAP_GetBlockName(void *mem)
     struct BlockHeaderNameView *header = (struct BlockHeaderNameView *)((char *)mem - 0x1c);
     return &header->name;
 }
-
-
-
-
-
 
 /*
  * Heap validity probe: the same two guards that open the raw allocator
@@ -1188,18 +1087,10 @@ fail:
     return 0;
 }
 
-
-
-
-
-
 u16 GFL_HEAP_GetLastError(void)
 {
     return gHeapManager.lastError;
 }
-
-
-
 
 /*
  * BLOCKED on one relocation site: all 144 concrete bytes are correct, but
@@ -1275,8 +1166,6 @@ BOOL GFL_HEAP_InitSystemHeap(u32 size)
     return success;
 }
 
-
-
 /*
  * The allocation front door for heap 4, the heap GFL_HEAP_InitSystemHeap carves out
  * of the OS arena a few bytes earlier in this packet.
@@ -1311,8 +1200,6 @@ void *GFL_HEAP_AllocSystem(u32 size)
     return OS_AllocFromHeap(4, gSystemHeap.heapHandle, size);
 }
 
-
-
 /*
  * Frees the id table of a second module-like global, 0x10 bytes after
  * gHeapManager (0x02146954, see src/matched/gfl_heap.c), through
@@ -1333,9 +1220,6 @@ int GFL_HEAP_FreeSystem(u32 mem)
     OS_FreeToHeap(4, gSystemHeap.heapHandle, (void *)mem);
     return 1;
 }
-
-
-
 
 /*
  * Every one of the 68 concrete bytes is reproduced.  Blocked on: no evidence
@@ -1376,9 +1260,6 @@ void GFL_HEAP_Init(u8 *specs, u32 staticCount, u32 heapIdCount, u32 extraSize)
     OS_Terminate();
 }
 
-
-
-
 /*
  * Previously capped at MATCH: nothing outside this range branches to
  * 0x0202FDC4, so the PC24 at +0x0C had no witness of any class and no cut
@@ -1409,9 +1290,6 @@ void GFL_HEAP_CreateChildHeap(u32 parentHeapId, u32 newHeapId, u32 size)
     GFL_HEAP_FatalError(GFL_HEAP_GetLastError(), parentHeapId, newHeapId);
 }
 
-
-
-
 /*
  * The same guard-then-forward shape as GFL_HEAP_CreateChildHeap beside it, over the other
  * binder: if 0x0202FE68 already accounted for the pair the function returns,
@@ -1436,9 +1314,6 @@ void GFL_HEAP_RegisterBlockHeap(void *block, u32 size, u32 newHeapId)
     }
     GFL_HEAP_FatalError(GFL_HEAP_GetLastError(), 0, newHeapId);
 }
-
-
-
 
 void GFL_HEAP_FatalError(int errorCode, u32 parentHeapId, u32 newHeapId)
 {

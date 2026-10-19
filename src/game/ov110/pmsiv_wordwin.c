@@ -147,7 +147,7 @@ struct Bmp;
 
 extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 w, u16 h, u8 value);
 
-typedef enum { FALSE, TRUE } BOOL;
+#include "../types.h"
 
 typedef enum { PLANE_NONE=0, PLANE_ALL=31 } Plane;
 

@@ -16,7 +16,7 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  */
-#include "misc_savedata_shared_types.h"
+#include "../types.h"
 #include "greeting_savedata_shared_types.h"
 
 extern void MI_CpuFill8(void *dst, unsigned char val, unsigned long size);

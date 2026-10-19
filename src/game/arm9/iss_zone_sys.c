@@ -38,11 +38,7 @@
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_TOOL_GetHandleFileCount  0x0204961C  arm
  */
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed int     s32;
-typedef signed long long s64;
+#include "../types.h"
 
 /* Index of one 3D sound source of the iss_3ds_sys object (16 slots). */
 typedef enum { ISS_3DS_SOURCE_FIRST, ISS_3DS_SOURCE_MAX = 16 } Iss3dsSourceIndex;
@@ -140,7 +136,6 @@ void ISS_ZONE_SYS_ClearActive(u32 *active);
 void ISS_ZONE_SYS_BeginFade(struct IssZone *zone, u32 key);
 u32 ISS_ZONE_SYS_FindRecord(const struct IssZone *zone, u32 key);
 void ISS_ZONE_SYS_StepFade(struct IssZone *zone);
-
 
 /*
  * Allocates a 0x18-byte iss_zone_sys zone object through the debug allocator

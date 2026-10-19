@@ -11,7 +11,7 @@
  * status:   EXACT
  * sdk:      libaes.TWL.HYB.a aes_cache.o
  */
-typedef unsigned int u32;
+#include "../types.h"
 
 extern void DC_FlushRange(const void *start, u32 bytes);
 extern void DC_FlushAll(void);
@@ -22,7 +22,6 @@ extern void DC_InvalidateRange(const void *start, u32 bytes);
 void AESi_FlushRange(void *addr, u32 size);
 void AESi_InvalidateRange(void *addr, u32 size);
 
-
 void AESi_FlushRange(void *addr, u32 size)
 {
     if (size < 0x2400) {
@@ -31,7 +30,6 @@ void AESi_FlushRange(void *addr, u32 size)
         DC_FlushAll();
     }
 }
-
 
 void AESi_InvalidateRange(void *addr, u32 size)
 {

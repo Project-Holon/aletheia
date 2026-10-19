@@ -85,7 +85,8 @@ extern struct SOCLiCommandPacket *SOCLi_CreateCommandPacket(int (*handler)(void 
 extern int SOCLi_ExecCommandPacketInRecvPipe(struct SOCLSocket *socket,
                                              struct SOCLiCommandPacket *command);
 extern int SOCLi_BindCallBack(void *arg);
-struct OSMutex;
+#include "../sdk_os.h"
+
 extern void OS_LockMutex(struct OSMutex *mutex);
 extern void OS_UnlockMutex(struct OSMutex *mutex);
 extern void CPS_SocBind(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip);

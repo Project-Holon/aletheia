@@ -57,13 +57,7 @@
  *   data_0273419C                0x0273419C  data
  *   data_04000208                0x04000208  data
  */
-typedef unsigned int u32;
-typedef signed int s32;
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned long long u64;
-typedef signed long long s64;
-typedef volatile u32 vu32;
+#include "../types.h"
 
 typedef void (*TwlCb)(u32);
 typedef void (*TwlFn)(void);
@@ -141,7 +135,8 @@ extern u16 data_04000208;
 
 extern s32 OS_IsRunOnTwl(void);
 extern u64 OS_GetTick(void);
-struct OSMessageQueue;
+#include "../sdk_os.h"
+
 extern s32 OS_SendMessage(struct OSMessageQueue *mq, void *msg, s32 flags);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_Sleep(u32);
@@ -220,7 +215,6 @@ void CameraCallCallbackAndUnlock(u32 result);
 void CameraWaitBusy(void);
 static void CameraStandbyCallback(void);
 
-
 void CAMERA_CameraIntr(void) {
     TwlShared *sh = (TwlShared *)0x02FE0000;
     u32 r;
@@ -246,21 +240,17 @@ void CAMERA_CameraIntr(void) {
     }
 }
 
-
 void CAMERA_SetVsyncCallbackCore(TwlCb callback) {
     data_02732FC8.cbA = callback;
 }
-
 
 void CAMERA_SetBufferErrorCallbackCore(TwlCb callback) {
     data_02732FC8.cbB = callback;
 }
 
-
 void CAMERA_SetRebootCallbackCore(TwlCb callback) {
     data_02732FC8.cbC = callback;
 }
-
 
 u32 CAMERA_GetWhiteBalanceFromPhotoMode(u32 mode) {
     switch (mode) {
@@ -276,7 +266,6 @@ u32 CAMERA_GetWhiteBalanceFromPhotoMode(u32 mode) {
         return 0;
     }
 }
-
 
 s32 CAMERA_GetSharpnessFromPhotoMode(u32 mode) {
     switch (mode) {
@@ -295,7 +284,6 @@ s32 CAMERA_GetSharpnessFromPhotoMode(u32 mode) {
     }
 }
 
-
 u32 CAMERA_GetExposureFromPhotoMode(u32 mode) {
     switch (mode) {
     case 0:
@@ -310,13 +298,11 @@ u32 CAMERA_GetExposureFromPhotoMode(u32 mode) {
     }
 }
 
-
 void CAMERA_GoReboot(void) {
     data_02732FC8.busy = 1;
     data_02733FC8.retryCount++;
     OS_SendMessage((struct OSMessageQueue *)data_0273417C, 0, 0);
 }
-
 
 void CAMERA_Reboot(u32 result, u32 step) {
     u32 t;
@@ -496,7 +482,6 @@ void CAMERA_Reboot(u32 result, u32 step) {
     }
 }
 
-
 u32 CAMERA_CheckRetryCount(void) {
     u32 n = data_02733FC8.retryCount;
     if (n > 2) {
@@ -512,7 +497,6 @@ u32 CAMERA_CheckRetryCount(void) {
     }
     return 0;
 }
-
 
 void CAMERA_MonitorThread(void) {
     u32 msg;
@@ -560,7 +544,6 @@ handle:
         CAMERA_Reboot(0, 0);
     }
 }
-
 
 u32 CAMERA_InitCore(void) {
     if (data_02732FC0[0] != 0) {
@@ -632,7 +615,6 @@ u32 CAMERA_InitCore(void) {
     return 0;
 }
 
-
 void CAMERA_EndCore(void) {
     if (data_02732FC0[0] == 0) return;
     data_02732FC0[0] = 0;
@@ -651,7 +633,6 @@ void CAMERA_EndCore(void) {
     OS_KillThread(data_0273302C, 0);
 }
 
-
 void CAMERA_StopCore(void) {
     s32 r5 = 0x001991B0;
     u32 r4 = 4;
@@ -666,7 +647,6 @@ entry:
     CAMERA_ClearBufferCore();
     CAMERA_I2CActivateCore(0);
 }
-
 
 u32 CAMERA_I2CInitAsyncCore(u32 camera, CamPxiCallback callback, u32 arg) {
     u32 st = CAMERA_CheckRetryCount();
@@ -699,7 +679,6 @@ u32 CAMERA_I2CInitAsyncCore(u32 camera, CamPxiCallback callback, u32 arg) {
     return ret;
 }
 
-
 u32 CAMERA_I2CInitCore(u32 camera) {
     u32 ret = CAMERA_I2CInitAsyncCore(camera, CameraSyncCallback, 0);
     data_02732FC8.syncResult = ret;
@@ -708,7 +687,6 @@ u32 CAMERA_I2CInitCore(u32 camera) {
     }
     return data_02732FC8.syncResult;
 }
-
 
 u32 CAMERA_I2CActivateAsyncCore(u32 camera, CamPxiCallback callback, u32 arg)
 {
@@ -750,7 +728,6 @@ u32 CAMERA_I2CActivateAsyncCore(u32 camera, CamPxiCallback callback, u32 arg)
     return CameraSendPxiCommand(0x10, 1, camera & 0xff) != 0 ? 0 : 4;
 }
 
-
 u32 CAMERA_I2CActivateCore(u32 camera) {
     u32 ret = CAMERA_I2CActivateAsyncCore(camera, CameraSyncCallback, 0);
     data_02732FC8.syncResult = ret;
@@ -759,7 +736,6 @@ u32 CAMERA_I2CActivateCore(u32 camera) {
     }
     return data_02732FC8.syncResult;
 }
-
 
 u32 CAMERA_I2CContextSwitchAsyncCore(u32 camera, u32 context, CamPxiCallback callback, u32 arg)
 {
@@ -800,7 +776,6 @@ u32 CAMERA_I2CContextSwitchAsyncCore(u32 camera, u32 context, CamPxiCallback cal
     CameraSendPxiData(&buf[1]);
     return 0;
 }
-
 
 u32 CAMERA_I2CSizeExAsyncCore(u32 camera, u32 context, u32 size, CamPxiCallback callback, u32 arg)
 {
@@ -856,7 +831,6 @@ u32 CAMERA_I2CSizeExAsyncCore(u32 camera, u32 context, u32 size, CamPxiCallback 
     return 0;
 }
 
-
 u32 CAMERA_I2CSizeExCore(u32 camera, u32 context, u32 size) {
     u32 ret = CAMERA_I2CSizeExAsyncCore(camera, context, size, CameraSyncCallback, 0);
     data_02732FC8.syncResult = ret;
@@ -865,7 +839,6 @@ u32 CAMERA_I2CSizeExCore(u32 camera, u32 context, u32 size) {
     }
     return data_02732FC8.syncResult;
 }
-
 
 u32 CAMERA_I2CFrameRateAsyncCore(u32 camera, s32 frameRate, CamPxiCallback callback, u32 arg)
 {
@@ -921,7 +894,6 @@ u32 CAMERA_I2CFrameRateAsyncCore(u32 camera, s32 frameRate, CamPxiCallback callb
     return 0;
 }
 
-
 u32 CAMERA_I2CEffectExAsyncCore(u32 camera, u32 context, u32 effect, CamPxiCallback callback, u32 arg)
 {
     u32 status = CAMERA_CheckRetryCount();
@@ -975,7 +947,6 @@ u32 CAMERA_I2CEffectExAsyncCore(u32 camera, u32 context, u32 effect, CamPxiCallb
     return 0;
 }
 
-
 u32 CAMERA_I2CEffectExCore(u32 camera, u32 context, u32 effect) {
     u32 ret = CAMERA_I2CEffectExAsyncCore(camera, context, effect, CameraSyncCallback, 0);
     data_02732FC8.syncResult = ret;
@@ -984,7 +955,6 @@ u32 CAMERA_I2CEffectExCore(u32 camera, u32 context, u32 effect) {
     }
     return data_02732FC8.syncResult;
 }
-
 
 u32 CAMERA_I2CFlipExAsyncCore(u32 camera, u32 context, s32 flip, CamPxiCallback callback, u32 arg) {
     u8 buf[8];
@@ -1030,7 +1000,6 @@ u32 CAMERA_I2CFlipExAsyncCore(u32 camera, u32 context, s32 flip, CamPxiCallback 
     return 0;
 }
 
-
 u32 CAMERA_I2CPhotoModeAsyncCore(u32 camera, s32 mode, CamPxiCallback callback, u32 arg) {
     u8 buf[2];
     u32 st = CAMERA_CheckRetryCount();
@@ -1070,7 +1039,6 @@ u32 CAMERA_I2CPhotoModeAsyncCore(u32 camera, s32 mode, CamPxiCallback callback, 
     CameraSendPxiData(&buf[1]);
     return 0;
 }
-
 
 u32 CAMERA_I2CWhiteBalanceAsyncCore(u32 camera, s32 whiteBalance, CamPxiCallback callback, u32 arg) {
     u8 buf[2];
@@ -1113,7 +1081,6 @@ u32 CAMERA_I2CWhiteBalanceAsyncCore(u32 camera, s32 whiteBalance, CamPxiCallback
     return 0;
 }
 
-
 u32 CAMERA_I2CExposureAsyncCore(u32 camera, s32 exposure, CamPxiCallback callback, u32 arg) {
     u8 buf[2];
     u32 st = CAMERA_CheckRetryCount();
@@ -1146,7 +1113,6 @@ u32 CAMERA_I2CExposureAsyncCore(u32 camera, s32 exposure, CamPxiCallback callbac
     CameraSendPxiData(&buf[1]);
     return 0;
 }
-
 
 u32 CAMERA_I2CSharpnessAsyncCore(u32 camera, s32 sharpness, CamPxiCallback callback, u32 arg) {
     u8 buf[2];
@@ -1181,7 +1147,6 @@ u32 CAMERA_I2CSharpnessAsyncCore(u32 camera, s32 sharpness, CamPxiCallback callb
     return 0;
 }
 
-
 u32 CAMERA_I2CAutoExposureAsyncCore(u32 camera, s32 enable, CamPxiCallback callback, u32 arg) {
     u8 buf[2];
     u32 st = CAMERA_CheckRetryCount();
@@ -1212,7 +1177,6 @@ u32 CAMERA_I2CAutoExposureAsyncCore(u32 camera, s32 enable, CamPxiCallback callb
     return 0;
 }
 
-
 u32 CAMERA_I2CAutoExposureCore(u32 camera, u32 enable) {
     u32 ret = CAMERA_I2CAutoExposureAsyncCore(camera, enable, CameraSyncCallback, 0);
     data_02732FC8.syncResult = ret;
@@ -1221,7 +1185,6 @@ u32 CAMERA_I2CAutoExposureCore(u32 camera, u32 enable) {
     }
     return data_02732FC8.syncResult;
 }
-
 
 u32 CAMERA_I2CAutoWhiteBalanceAsyncCore(u32 camera, s32 enable, CamPxiCallback callback, u32 arg) {
     u8 buf[2];
@@ -1259,7 +1222,6 @@ u32 CAMERA_I2CAutoWhiteBalanceAsyncCore(u32 camera, s32 enable, CamPxiCallback c
     return 0;
 }
 
-
 u32 CAMERA_I2CAutoWhiteBalanceCore(u32 camera, u32 enable) {
     u32 ret = CAMERA_I2CAutoWhiteBalanceAsyncCore(camera, enable, CameraSyncCallback, 0);
     data_02732FC8.syncResult = ret;
@@ -1268,7 +1230,6 @@ u32 CAMERA_I2CAutoWhiteBalanceCore(u32 camera, u32 enable) {
     }
     return data_02732FC8.syncResult;
 }
-
 
 int CAMERA_SetLEDAsyncCore(u32 command, CamPxiCallback callback, u32 arg) {
     u32 irq = OS_DisableInterrupts();
@@ -1286,7 +1247,6 @@ int CAMERA_SetLEDAsyncCore(u32 command, CamPxiCallback callback, u32 arg) {
     }
     return 4;
 }
-
 
 int CameraSendPxiCommand(u32 command, u32 paramCount, u32 firstParam) {
     u32 word = ((command << 8) & 0x7f00) | 0x2000000 | ((paramCount << 16) & 0xff0000) | (firstParam & 0xff);
@@ -1311,13 +1271,11 @@ int CameraSendPxiCommand(u32 command, u32 paramCount, u32 firstParam) {
     return 1;
 }
 
-
 void CameraSendPxiData(const u8 *params) {
     u32 word = (params[0] << 16) | (params[1] << 8) | params[2];
     do {
     } while (PXI_SendWordByFifo(0x15, word, 0) < 0);
 }
-
 
 void CameraPxiCallback(int tag, u32 data, int err)
 {
@@ -1516,11 +1474,9 @@ void CameraPxiCallback(int tag, u32 data, int err)
     }
 }
 
-
 void CameraSyncCallback(u32 result, u32 arg) {
     data_02732FC8.syncResult = result;
 }
-
 
 void CameraCallCallbackAndUnlock(u32 result) {
     CamPxiCallback cb;
@@ -1535,7 +1491,6 @@ void CameraCallCallbackAndUnlock(u32 result) {
     cb(result, data_02732FC8.arg);
 }
 
-
 void CameraWaitBusy(void) {
     if (data_02732FC8.busy == 0) {
         return;
@@ -1547,7 +1502,6 @@ void CameraWaitBusy(void) {
         }
     } while (data_02732FC8.busy != 0);
 }
-
 
 static void CameraStandbyCallback(void) {
     CAMERA_I2CActivateCore(0);

@@ -19,15 +19,9 @@
  *   SVC_WaitByLoop                  0x02004490  thumb
  *   OS_WaitIrq                  0x0208459C  arm
  */
-typedef unsigned long u32;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef unsigned char u8;
-typedef int BOOL;
-typedef u32 OSIntrMode;
-
-typedef volatile u16 vu16;
+#include "../sdk_os.h"
 
 extern void OS_SpinWaitCpuCycles(u32 cycle);
 asm OSIntrMode OS_EnableInterrupts(void);
@@ -43,8 +37,6 @@ extern char SDK_AUTOLOAD_DTCM_START[];
 extern void SVC_WaitByLoop(int v);
 extern void OS_WaitIrq(int clear, u32 irqFlags);
 
-
-
 /* hand-written in the original: mrs/msr on CPSR, one SDK line-table row per instruction */
 asm OSIntrMode OS_EnableInterrupts(void)
 {
@@ -55,8 +47,6 @@ asm OSIntrMode OS_EnableInterrupts(void)
     bx	lr
 }
 
-
-
 /* hand-written in the original: mrs/msr on CPSR, one SDK line-table row per instruction */
 asm OSIntrMode OS_DisableInterrupts(void)
 {
@@ -66,8 +56,6 @@ asm OSIntrMode OS_DisableInterrupts(void)
     and	r0, r0, #0x80
     bx	lr
 }
-
-
 
 /* hand-written in the original: mrs/msr on CPSR, one SDK line-table row per instruction */
 asm OSIntrMode OS_RestoreInterrupts(OSIntrMode state)
@@ -80,8 +68,6 @@ asm OSIntrMode OS_RestoreInterrupts(OSIntrMode state)
     bx	lr
 }
 
-
-
 /* hand-written in the original: mrs/msr on CPSR, one SDK line-table row per instruction */
 asm void OS_DisableInterrupts_IrqAndFiq(void)
 {
@@ -91,8 +77,6 @@ asm void OS_DisableInterrupts_IrqAndFiq(void)
     and	r0, r0, #0xc0
     bx	lr
 }
-
-
 
 /* hand-written in the original: mrs/msr on CPSR, one SDK line-table row per instruction */
 asm void OS_RestoreInterrupts_IrqAndFiq(void)
@@ -105,8 +89,6 @@ asm void OS_RestoreInterrupts_IrqAndFiq(void)
     bx	lr
 }
 
-
-
 /* hand-written in the original: mrs/msr on CPSR, one SDK line-table row per instruction */
 asm unsigned int OS_GetCpsrIrq(void)
 {
@@ -114,8 +96,6 @@ asm unsigned int OS_GetCpsrIrq(void)
     and r0, r0, #0x80
     bx lr
 }
-
-
 
 /* hand-written in the original: mrs/msr on CPSR, one SDK line-table row per instruction */
 asm unsigned int OS_GetProcMode(void)
@@ -125,9 +105,6 @@ asm unsigned int OS_GetProcMode(void)
     bx lr
 }
 
-
-
-
 /* hand-written in the original: SDK OS_SpinWaitCpuCycles, cycle-exact subs/bhs delay loop */
 asm void OS_SpinWaitCpuCycles(u32 cycle)
 {
@@ -136,9 +113,7 @@ asm void OS_SpinWaitCpuCycles(u32 cycle)
     bx	lr
 }
 
-
 #define reg_SCFG_CLK (*(vu16 *)0x04004004)
-
 
 void OS_SpinWaitSysCycles(u32 cycle)
 {
@@ -150,7 +125,6 @@ void OS_SpinWaitSysCycles(u32 cycle)
 
 /* HW_INTR_CHECK_BUF: the IRQ check word at DTCM + 0x3FF8. */
 #define OSi_IRQ_CHECK_FLAG (*(volatile u32 *)((u32)SDK_AUTOLOAD_DTCM_START + 0x3FF8))
-
 
 #define reg_OS_IME (*(volatile u16 *)0x04000208)
 

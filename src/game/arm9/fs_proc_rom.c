@@ -66,191 +66,15 @@
 #define FS_COMMAND_GETFILEPOSITION 16
 #define FS_COMMAND_MOUNT           17
 #define FS_COMMAND_UNMOUNT         18
-struct FSArchive;
-struct FSFile;
-typedef unsigned char u8;
+#include "../sdk_fs.h"
 
-typedef unsigned short u16;
+#include "../types.h"
 
-typedef unsigned long u32;
+#include "../sdk_os.h"
 
-typedef long s32;
+#include "../sdk_os_thread.h"
 
-typedef unsigned long long u64;
-
-typedef int BOOL;
-
-typedef u32 OSIntrMode;
-
-typedef struct _OSThread OSThread;
-
-typedef struct _OSThreadQueue {
-    OSThread *head;
-    OSThread *tail;
-} OSThreadQueue;
-
-typedef enum FSResult {
-    FS_RESULT_SUCCESS = 0,
-    FS_RESULT_FAILURE,
-    FS_RESULT_BUSY,
-    FS_RESULT_CANCELED,
-    FS_RESULT_UNSUPPORTED,
-    FS_RESULT_ERROR,
-    FS_RESULT_INVALID_PARAMETER,
-    FS_RESULT_NO_MORE_RESOURCE,
-    FS_RESULT_ALREADY_DONE,
-    FS_RESULT_PERMISSION_DENIED,
-    FS_RESULT_MEDIA_FATAL,
-    FS_RESULT_NO_ENTRY,
-    FS_RESULT_MEDIA_NOTHING,
-    FS_RESULT_MEDIA_UNKNOWN,
-    FS_RESULT_BAD_FORMAT,
-    FS_RESULT_MAX,
-    FS_RESULT_PROC_ASYNC = 256,
-    FS_RESULT_PROC_DEFAULT,
-    FS_RESULT_PROC_UNKNOWN
-} FSResult;
-
-typedef u32 FSCommandType;
-
-typedef FSResult (*FS_ARCHIVE_READ_FUNC)(struct FSArchive *p, void *dst, u32 pos, u32 size);
-
-typedef FSResult (*FS_ARCHIVE_WRITE_FUNC)(struct FSArchive *p, const void *src, u32 pos, u32 size);
-
-typedef FSResult (*FS_ARCHIVE_PROC_FUNC)(struct FSFile *file, u32 command);
-
-typedef struct FSROMFATArchiveContext {
-    u32 base;
-    u32 fat;
-    u32 fat_size;
-    u32 fnt;
-    u32 fnt_size;
-    u32 fat_bak;
-    u32 fnt_bak;
-    void *load_mem;
-    FS_ARCHIVE_READ_FUNC read_func;
-    FS_ARCHIVE_WRITE_FUNC write_func;
-    u8 reserved3[4];
-    FS_ARCHIVE_PROC_FUNC proc;
-    u32 proc_flag;
-} FSROMFATArchiveContext;
-
-typedef struct FSArchive {
-    u32 name;
-    struct FSArchive *next;
-    struct FSFile *list;
-    OSThreadQueue queue;
-    u32 flag;
-    u32 command;
-    FSResult result;
-    void *userdata;
-    const void *vtbl;
-    FSROMFATArchiveContext context;
-} FSArchive;
-
-typedef struct FSFileID {
-    FSArchive *arc;
-    u32 file_id;
-} FSFileID;
-
-typedef struct FSDirPos {
-    FSArchive *arc;
-    u16 own_id;
-    u16 index;
-    u32 pos;
-} FSDirPos;
-
-typedef struct FSDirEntry {
-    union {
-        FSFileID file_id;
-        FSDirPos dir_id;
-    };
-    u32 is_directory;
-    u32 name_len;
-    char name[128];
-} FSDirEntry;
-
-typedef struct FSArchiveFAT {
-    u32 top;
-    u32 bottom;
-} FSArchiveFAT;
-
-typedef struct FSArchiveFNT {
-    u32 start;
-    u16 index;
-    u16 parent;
-} FSArchiveFNT;
-
-typedef struct FSROMFATFileProperty {
-    u32 own_id;
-    u32 top;
-    u32 bottom;
-    u32 pos;
-} FSROMFATFileProperty;
-
-typedef struct FSROMFATDirProperty {
-    FSDirPos pos;
-    u32 parent;
-} FSROMFATDirProperty;
-
-typedef union FSROMFATProperty {
-    FSROMFATFileProperty file;
-    FSROMFATDirProperty dir;
-} FSROMFATProperty;
-
-typedef struct FSReadFileInfo { void *dst; u32 len_org; u32 len; } FSReadFileInfo;
-
-typedef struct FSWriteFileInfo { const void *src; u32 len_org; u32 len; } FSWriteFileInfo;
-
-typedef struct FSSeekDirInfo { FSDirPos pos; } FSSeekDirInfo;
-
-typedef struct FSReadDirInfo { FSDirEntry *p_entry; BOOL skip_string; } FSReadDirInfo;
-
-typedef struct FSFindPathInfo { FSDirPos pos; const char *path; BOOL find_directory; union { FSFileID *file; FSDirPos *dir; } result; } FSFindPathInfo;
-
-typedef struct FSGetPathInfo { u8 *buf; u32 buf_len; u16 total_len; u16 dir_id; } FSGetPathInfo;
-
-typedef struct FSOpenFileFastInfo { FSFileID id; } FSOpenFileFastInfo;
-
-typedef struct FSOpenFileDirectInfo { u32 top; u32 bottom; u32 index; } FSOpenFileDirectInfo;
-
-typedef struct FSCloseFileInfo { u32 reserved; } FSCloseFileInfo;
-
-typedef union FSROMFATCommandInfo {
-    FSReadFileInfo readfile;
-    FSWriteFileInfo writefile;
-    FSSeekDirInfo seekdir;
-    FSReadDirInfo readdir;
-    FSFindPathInfo findpath;
-    FSGetPathInfo getpath;
-    FSOpenFileFastInfo openfilefast;
-    FSOpenFileDirectInfo openfiledirect;
-    FSCloseFileInfo closefile;
-    u8 reserved2[24];
-} FSROMFATCommandInfo;
-
-typedef struct FSFile {
-    struct FSFile *next;
-    void *userdata;
-    FSArchive *arc;
-    u32 stat;
-    void *argument;
-    FSResult error;
-    OSThreadQueue queue[1];
-    FSROMFATProperty prop;
-    FSROMFATCommandInfo arg;
-} FSFile;
-
-typedef struct FSiSyncReadParam {
-    FSArchive *arc;
-    u32 pos;
-} FSiSyncReadParam;
-
-typedef struct CARDRomRegion
-{
-    u32 offset;
-    u32 length;
-} CARDRomRegion;
+#include "../sdk_card.h"
 
 typedef struct CARDRomHeader
 {
@@ -260,7 +84,6 @@ typedef struct CARDRomHeader
     u8 pad50[0x42];
     u16 twl_ltd_area_rom_offset;
 } CARDRomHeader;
-
 
 typedef struct FSiRomState
 {
@@ -313,7 +136,6 @@ static void FSi_OnRomReadDone(void *arg);
 
 static FSResult FSi_ReadRomCallback(FSArchive *p_arc, void *dst, u32 src, u32 len);
 
-
 /*
  * sdk:      FSi_IsUnreadableRomOffset (fs_proc_rom.o)
  */
@@ -330,7 +152,6 @@ int FSi_IsUnreadableRomOffset(FSArchive *arc, u32 offset)
     return result;
 }
 
-
 /*
  * sdk:      FSi_OnRomReadDone (fs_proc_rom.o)
  */
@@ -338,7 +159,6 @@ static void FSi_OnRomReadDone(void *arg)
 {
     FS_NotifyArchiveAsyncEnd((FSArchive *)arg, CARD_IsPulledOut() ? FS_RESULT_ERROR : FS_RESULT_SUCCESS);
 }
-
 
 /*
  * sdk:      FSi_ReadRomCallback (fs_proc_rom.o)
@@ -348,7 +168,6 @@ static FSResult FSi_ReadRomCallback(FSArchive *p_arc, void *dst, u32 src, u32 le
     CARDi_ReadRom(fsi_default_dma_no.default_dma_no, (const void *)src, dst, len, FSi_OnRomReadDone, p_arc, 1);
     return FS_RESULT_PROC_ASYNC;
 }
-
 
 FSResult FSi_RomArchiveProc(FSFile *file, FSCommandType cmd)
 {
@@ -371,12 +190,10 @@ FSResult FSi_RomArchiveProc(FSFile *file, FSCommandType cmd)
     }
 }
 
-
 FSResult FSi_EmptyArchiveProc(FSFile *file, FSCommandType cmd)
 {
     return (cmd == FS_COMMAND_WRITEFILE) ? FS_RESULT_UNSUPPORTED : FS_RESULT_PROC_UNKNOWN;
 }
-
 
 /*
  * sdk:      FSi_ReadDummyCallback (libfs.TWL.HYB.a fs_proc_rom.o, static; no catalog row, named by the ABS32 relocation of its caller)
@@ -386,7 +203,6 @@ FSResult FSi_ReadDummyCallback(FSArchive *p_arc, void *dst, u32 src, u32 len)
     return FS_RESULT_UNSUPPORTED;
 }
 
-
 /*
  * sdk:      FSi_WriteDummyCallback (libfs.TWL.HYB.a fs_proc_rom.o, static; no catalog row, named by the ABS32 relocation of its caller)
  */
@@ -395,34 +211,25 @@ FSResult FSi_WriteDummyCallback(FSArchive *p_arc, const void *src, u32 pos, u32 
     return FS_RESULT_UNSUPPORTED;
 }
 
-
 BOOL FSi_OverrideRomArchive(FSArchive *arc)
 {
     return 0;
 }
-
-
 
 static inline const CARDRomRegion *CARD_GetRomRegionFNT(void)
 {
     return &CARD_GetOwnRomHeader()->fnt;
 }
 
-
-
 static inline const CARDRomRegion *CARD_GetRomRegionFAT(void)
 {
     return &CARD_GetOwnRomHeader()->fat;
 }
 
-
-
 static inline BOOL FS_IsArchiveLoaded(volatile const FSArchive *arc)
 {
     return (arc->flag & 2) ? 1 : 0;
 }
-
-
 
 /*
  * sdk:      FSi_InitRomArchive (libfs.TWL.HYB.a fs_proc_rom.o)
@@ -459,9 +266,6 @@ void FSi_InitRomArchive(u32 default_dma_no)
     (void)FS_SetCurrentDirectory(fsi_str_root);
 }
 
-
-
-
 /*
  * sdk:      FS_SetDefaultDMA (libfs.TWL.HYB.a fs_proc_rom.o)
  */
@@ -480,18 +284,10 @@ u32 FS_SetDefaultDMA(u32 dma_no)
     return bak_dma_no;
 }
 
-
-
-
-
 void FS_TryLoadTable(void *p_mem, void *size)
 {
     FS_LoadArchiveTables(&fsi_arc_rom, p_mem, (u32)size);
 }
-
-
-
-
 
 /*
  * sdk:      FS_CreateFileFromRom (libfs.TWL.HYB.a fs_proc_rom.o)

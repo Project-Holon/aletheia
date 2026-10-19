@@ -21,9 +21,8 @@
  *   FILE_UTIL_GetId  0x0202130C  thumb
  *   _MyItemSavedataFileName  0x020A708C  data
  */
-#include "save_control_shared_types.h"
 
-typedef signed short s16;
+#include "../types.h"
 
 #define NULL ((void *)0)
 

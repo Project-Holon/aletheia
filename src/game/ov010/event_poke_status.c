@@ -36,7 +36,7 @@
  */
 #include "../ov131/p_status_types.h"
 #include "field_event_types.h"
-#include "event_poke_status_shared_types.h"
+#include "../types.h"
 
 struct BigObj;
 

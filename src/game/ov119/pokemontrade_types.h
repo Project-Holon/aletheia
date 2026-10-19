@@ -2,7 +2,7 @@
 #define POKEMONTRADE_TYPES_H
 
 /* Fixed-point position used by the icon flight path. */
-typedef struct { int x, y, z; } VecFx32;
+#include "../sdk_fx.h"
 
 /* 20.12 fixed-point cubic Bezier curve used to fly an icon to the box. */
 typedef struct BezierCurve {
@@ -366,14 +366,7 @@ struct PrintSys;
 
 struct Sav;
 
-typedef unsigned int u32;
-
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-
-
+#include "../types.h"
 
 /* shared with pokemontrade_nego */
 struct BigObj;
@@ -386,17 +379,7 @@ struct Rec;
 
 struct U16Vec;
 
-
-
-
-
-
-
-
-
 /* shared with pokemontrade_mcss */
-
-
 
 /* shared with pokemontrade_save */
 struct CharBuf;
@@ -406,7 +389,6 @@ struct Ctx;
 struct IcaAnime;
 
 typedef struct Descriptor {int a,b,c,d,e,f,g;u8 h,i,j,k;} Descriptor;
-
 
 typedef struct {
     u16 a;

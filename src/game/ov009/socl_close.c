@@ -116,7 +116,8 @@ extern void SOCLi_FreeCommandPipe(unsigned char *pipe);
 extern void OS_WakeupThread(void *queue);
 extern void SOCLi_SocketUnregisterTrash(int a);
 extern unsigned long OS_DisableScheduler(void);
-struct OSMessageQueue;
+#include "../sdk_os.h"
+
 extern int OS_ReceiveMessage(struct OSMessageQueue *mq, void **msg, int flags);
 extern int OS_SendMessage(struct OSMessageQueue *mq, void *msg, int flags);
 extern void SOCLi_FreeCommandPacket(void *ptr);

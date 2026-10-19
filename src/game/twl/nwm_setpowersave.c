@@ -18,9 +18,7 @@
  *   NWMi_CheckState  0x027028E4  arm
  *   DC_InvalidateRange  0x020862B8  arm  arm9
  */
-typedef unsigned int u32;
-
-typedef unsigned char u8;
+#include "../types.h"
 
 typedef struct TwlWork {
     u8 pad[0x2278];

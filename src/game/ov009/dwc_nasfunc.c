@@ -46,24 +46,16 @@ typedef struct NasTimeDiff {
     long long diff;
 } NasTimeDiff;
 
-struct RTCDate;
-struct RTCTime;
-struct DWCSvlResult;
-struct DWCAuthParam;
+#include "../sdk_rtc.h"
+
 typedef struct AuthId {
     int ids[4];
     int useA;
 } AuthId;
 
-typedef unsigned char  u8;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef signed short   s16;
-
-typedef signed char    s8;
+#include "../sdk_dwc.h"
 
 typedef struct {
     int returncode;
@@ -138,8 +130,6 @@ int DWC_GetDateTime(void *date, void *time)
     return 1;
 }
 
-
-
 /*
  * sdk:      DWC_SVLGetTokenAsync (libdwcnas.TWL.HYB.a dwc_nasfunc.o)
  */
@@ -163,7 +153,6 @@ int DWC_SVLGetTokenAsync(char *svl, void *result)
     return 0;
 }
 
-
 /*
  * Calls DWC_Svl_Cleanup when DWC_Svl_Process returns 3 to 5.
  */
@@ -173,7 +162,6 @@ int DWC_SVLProcess(void)
     if ((u32)(v - 3) <= 2) DWC_Svl_Cleanup();
     return v;
 }
-
 
 /*
  * sdk:      DWC_NASLoginAsync (libdwcnas.TWL.HYB.a dwc_nasfunc.o)
@@ -194,7 +182,6 @@ int DWC_NASLoginAsync(void)
     DWC_Auth_Create((struct DWCAuthParam *)gDwcNasCnt->auth, gDwcNasCnt);
     return 1;
 }
-
 
 /*
  * sdk:      DWC_NASLoginProcess (libdwcnas.TWL.HYB.a dwc_nasfunc.o)

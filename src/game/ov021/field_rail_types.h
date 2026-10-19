@@ -11,14 +11,9 @@
  * rail file (field_rail_loader.c) that the manager copies as its setting.
  */
 
-typedef unsigned int  u32;
-typedef signed char   s8;
-typedef signed int    s32;
-typedef long long     s64;
-typedef int           fx32;
-typedef long long     fx64;
+#include "../types.h"
 
-typedef struct { fx32 x, y, z; } VecFx32;
+#include "../sdk_fx.h"
 
 #define RAIL_NONE_INDEX 0xFFFF      /* unused point, line, camera or shape slot */
 

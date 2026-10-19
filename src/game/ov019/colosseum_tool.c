@@ -39,17 +39,10 @@
  *   COMM_PLAYER_SetPackage   0x02167848  thumb  ov010
  */
 
-struct VecFx32;
-typedef unsigned char u8;
+#include "../sdk_fx.h"
 
-typedef unsigned int   u32;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef short          s16;
-typedef int            s32;
-
-typedef struct { int x,y,z; } VecFx32;
 #include "../ov012/union_comm_types.h"
 
 #ifndef NULL
@@ -99,9 +92,6 @@ struct CommPlayerPackage;
 extern void COMM_PLAYER_Add(struct CommPlayerWork *work, s32 index, s32 objCode, struct CommPlayerPackage *package);
 extern void COMM_PLAYER_SetPackage(struct CommPlayerWork *work, s32 index, struct CommPlayerPackage *package);
 
-
-
-
 int COLOSSEUM_CheckAllEntered(ColosseumWork *colosseum)
 {
     int n=0; int i;
@@ -109,13 +99,6 @@ int COLOSSEUM_CheckAllEntered(ColosseumWork *colosseum)
     if (n >= GFL_NET_GetNegotiationNum()) return 1;
     return 0;
 }
-
-
-
-
-
-
-
 
 int COLOSSEUM_CheckAllTrainerCardsReceived(ColosseumWork *colosseum)
 {
@@ -131,13 +114,6 @@ int COLOSSEUM_CheckAllTrainerCardsReceived(ColosseumWork *colosseum)
     return 0;
 }
 
-
-
-
-
-
-
-
 /*
  * note:     unlabelled leaf (prints as .word in ov019.s); called from
  *           UNION_ONESELF_ColosseumPartyExchangeMain.
@@ -149,24 +125,10 @@ int COLOSSEUM_IsPositionsReceived(ColosseumWork *colosseum)
     return 0;
 }
 
-
-
-
-
-
-
-
 void COLOSSEUM_ClearPositionsReceived(ColosseumWork *colosseum)
 {
     colosseum->positionsReceived = 0;
 }
-
-
-
-
-
-
-
 
 int COLOSSEUM_IsOnStandPos(void *a, int mode, unsigned *out)
 {
@@ -199,12 +161,6 @@ int COLOSSEUM_IsOnStandPos(void *a, int mode, unsigned *out)
     return 0;
 }
 
-
-
-
-
-
-
 int COLOSSEUM_CheckAllFinished(ColosseumWork *colosseum)
 {
     int n = 0;
@@ -220,7 +176,6 @@ int COLOSSEUM_CheckAllFinished(ColosseumWork *colosseum)
     return 0;
 }
 
-
 int COLOSSEUM_IsAnyFinished(ColosseumWork *colosseum)
 {
     int i;
@@ -229,13 +184,6 @@ int COLOSSEUM_IsAnyFinished(ColosseumWork *colosseum)
     }
     return 0;
 }
-
-
-
-
-
-
-
 
 int COLOSSEUM_IsOnCounterPos(void *a)
 {
@@ -260,10 +208,6 @@ int COLOSSEUM_IsOnCounterPos(void *a)
     }
     return 0;
 }
-
-
-
-
 
 /* Copies the packages that arrived for the other (up to four) colosseum
  * players into the comm player: adds a player not yet present, otherwise

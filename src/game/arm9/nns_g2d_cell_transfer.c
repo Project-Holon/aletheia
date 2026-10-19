@@ -135,13 +135,7 @@
  *   tbl_020A1808    0x020A1808  data
  *   NNSi_G2dSrtcGetTable   0x020640D4  arm
  */
-typedef unsigned char u8;
-
-typedef unsigned int u32;
-
-typedef int s32;
-
-typedef int BOOL;
+#include "../types.h"
 
 typedef enum {
     VRAM_TYPE_3DMAIN = 0,
@@ -188,13 +182,10 @@ void NNSi_G2dResetCellTransferState(u32 stateIdx);
 extern CellTransferStateManager sCellTransferStateManager;
 extern s32 tbl_020A1808[VRAM_TYPE_MAX];
 
-
-
 CellTransferState *NNSi_G2dGetCellTransferState(u32 stateIdx)
 {
     return &sCellTransferStateManager.pStateArray[stateIdx];
 }
-
 
 void NNS_G2dSetCellTransferState(u32 idx, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g)
 {
@@ -216,7 +207,6 @@ void NNS_G2dSetCellTransferState(u32 idx, u32 a, u32 b, u32 c, u32 d, u32 e, u32
     rec->szSrcData = g;
 }
 
-
 void NNS_G2dInitCellTransferStateManager(CellTransferState *pStates, u32 numStates, TransferFunc pTransferFunc)
 {
     u32 i = 0;
@@ -235,12 +225,10 @@ void NNS_G2dInitCellTransferStateManager(CellTransferState *pStates, u32 numStat
     } while (i < numStates);
 }
 
-
 static inline BOOL ShouldTransfer_(const CellTransferState *s, VRamType t)
 {
     return (BOOL)((s->bTransferRequested & (1 << t)) && (s->bDrawn & (1 << t)));
 }
-
 
 void NNS_G2dUpdateCellTransferStateManager(void)
 {
@@ -266,7 +254,6 @@ void NNS_G2dUpdateCellTransferStateManager(void)
     }
 }
 
-
 CellTransferState *NNSi_G2dRequestCellTransferState(u32 stateIdx, u32 srcOffset, u32 szByte)
 {
     CellTransferState *state = NNSi_G2dGetCellTransferState(stateIdx);
@@ -276,8 +263,6 @@ CellTransferState *NNSi_G2dRequestCellTransferState(u32 stateIdx, u32 srcOffset,
     state->szByte = szByte;
     return state;
 }
-
-
 
 int NNSi_G2dGetCellTransferStateIndex(void)
 {
@@ -296,7 +281,6 @@ int NNSi_G2dGetCellTransferStateIndex(void)
     }
     return -1;
 }
-
 
 void NNSi_G2dResetCellTransferState(u32 stateIdx)
 {

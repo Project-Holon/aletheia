@@ -5,11 +5,7 @@
  * (network session, profile transfer) and irc_compatible.c (screens and score).
  */
 
-typedef unsigned int u32;
-
-typedef unsigned short u16;
-
-typedef unsigned char u8;
+#include "../types.h"
 
 /* Profile record exchanged between the two consoles (44 bytes). */
 typedef struct IrcCompatibleProfile {

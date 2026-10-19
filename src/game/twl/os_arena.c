@@ -17,7 +17,7 @@
  *   OS_SetProtectionRegionEx  0x02086DB0  arm  arm9
  */
 
-typedef unsigned int u32;
+#include "../types.h"
 
 extern unsigned int OS_GetConsoleType(void);
 extern void OS_SetProtectionRegionEx(int regionNo, unsigned int address, unsigned int sizeDef);

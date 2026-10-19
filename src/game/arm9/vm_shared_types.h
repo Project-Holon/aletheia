@@ -5,6 +5,6 @@ struct ProcSys;
 
 struct Proc;
 
-typedef signed int     s32;
+#include "../types.h"
 
 #endif

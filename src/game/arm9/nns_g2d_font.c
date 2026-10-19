@@ -44,11 +44,7 @@ struct Pen;
 struct NNSG2dFont;
 struct Ctx;
 struct NitroFileHeader;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 struct FontCMapEntry {
     u16 charCode;
@@ -75,8 +71,6 @@ struct FontCMapRange {
     u8   reserved04[4];
     struct FontCMapRange *next;   /* 0x08 */
 };
-
-typedef signed char    s8;
 
 /* NitroSystem g2d font resource (NNSG2dFontInformation, the FINF block) and
  * the runtime font handle.  Offsets pinned by this file's own loads. */
@@ -120,8 +114,6 @@ typedef struct NNSG2dFont {
 } NNSG2dFont;
 
 typedef struct NNSG2dTextRect { int width; int height; } NNSG2dTextRect;
-
-typedef unsigned long long u64;
 
 typedef struct LC_INFO {
     const u8 *dst;
@@ -213,14 +205,7 @@ typedef union {
     };
 } Param;
 
-typedef struct GXOamAttr
-{
-  u32 attr01;
-  u16 attr2;
-  u16 attr3;
-} GXOamAttr;
-
-typedef signed int s32;
+#include "../sdk_gx.h"
 
 typedef struct {
     signed char dx;
@@ -242,8 +227,6 @@ typedef struct {
 } Ctx;
 
 typedef NNSG2dTextRect Ext;
-
-typedef int BOOL;
 
 typedef struct {
     u32 signature;   /* +0x00 'NFTR' */
@@ -325,8 +308,6 @@ extern const u8 g_020A18F4[4][4][2];
 extern u32 g_020A1914[][4];
 extern const u8 g_020A18E8[];
 
-
-
 u16 NNSi_G2dFontGetGlyphIndexFromCMap(struct FontCMap *tbl, u16 charCode)
 {
     u16 ret = 0xFFFF;
@@ -366,8 +347,6 @@ u16 NNSi_G2dFontGetGlyphIndexFromCMap(struct FontCMap *tbl, u16 charCode)
     return ret;
 }
 
-
-
 /*
  * Blocking class: label.  Every concrete byte is right; both relocation sites are
  * unresolved and both for the same reason: the `bl NNS_G2dFontLoad` at 0x02067F88 is
@@ -380,8 +359,6 @@ void NNS_G2dFontInitUTF16(NNSG2dFont *pFont, void *pResource)
     NNS_G2dFontLoad((Res *)pResource, (void **)pFont);
     pFont->cbCharSpliter = (u16 (*)(const void **))NNSi_G2dReadCharUTF16;
 }
-
-
 
 /*
  * Range lookup over a singly linked list of key records: walk the chain hung
@@ -409,14 +386,6 @@ u16 NNS_G2dFontGetGlyphIndex(const NNSG2dFont *pFont, u16 charCode)
     return 0xffff;
 }
 
-
-
-
-
-
-
-
-
 /*
  * NNS_G2dFontGetCharWidthsFromIndex (NitroSystem g2d_Font.c): walk the
  * font's width-block chain (FINF +0x0C) and return the 3-byte width entry of
@@ -440,14 +409,6 @@ const NNSG2dCharWidths *NNS_G2dFontGetCharWidthsFromIndex(const NNSG2dFont *pFon
     return &pFont->pRes->defaultWidth;
 }
 
-
-
-
-
-
-
-
-
 static inline int GetCharWidth(const NNSG2dFont *pFont, u16 c)
 {
     u16 index = NNS_G2dFontGetGlyphIndex(pFont, c);
@@ -455,14 +416,6 @@ static inline int GetCharWidth(const NNSG2dFont *pFont, u16 c)
         index = pFont->pRes->alterCharIndex;
     return NNS_G2dFontGetCharWidthsFromIndex(pFont, index)->charWidth;
 }
-
-
-
-
-
-
-
-
 
 /*
  * NNS_G2dFontGetStringWidth (NitroSystem g2d_Font.c): width of one line of
@@ -503,14 +456,6 @@ int NNS_G2dFontGetStringWidth(const NNSG2dFont *pFont, int hSpace, const void *t
     return width;
 }
 
-
-
-
-
-
-
-
-
 /*
  * NNS_G2dFontGetTextHeight (NitroSystem g2d_Font.c): count lines (1 plus one
  * per '\n') and return lines * (vSpace + linefeed) - vSpace.  FINF +0x01
@@ -544,13 +489,6 @@ int NNS_G2dFontGetTextHeight(const NNSG2dFont *pFont, int vSpace, const void *tx
     return lines * (vSpace + pFont->pRes->linefeed) - vSpace;
 }
 
-
-
-
-
-
-
-
 /*
  * NNS_G2dFontGetTextRect (NitroSystem g2d_Font.c), struct return through the
  * hidden r0 pointer: widest line via NNS_G2dFontGetStringWidth (threading its pPos back
@@ -578,12 +516,6 @@ NNSG2dTextRect NNS_G2dFontGetTextRect(const NNSG2dFont *pFont, int hSpace, int v
     rect.height = (numLine - 1) * (vSpace + pFont->pRes->linefeed) - vSpace;
     return rect;
 }
-
-
-
-
-
-
 
 /*
  * NitroSystem g2d_CharCanvas.c GetCharIndex1D(cx, cy, areaWidth,
@@ -667,11 +599,6 @@ int NNSi_G2dCalcRectMask(int x, int y, int w, int h, int sw0, int sh0)
   }
 }
 
-
-
-
-
-
 /*
  *           in the image is this function's own literal at 0x020682F4, so the
  *           `literal`/`data_table` classes both refuse; written as an integer
@@ -690,13 +617,6 @@ u32 NNSi_G2dGetOamShapeCode(const u8 *p)
 {
     return g_020A1914[p[1]][p[0]];
 }
-
-
-
-
-
-
-
 
 /*
  * Fill a sub-rectangle of ONE 8x8 tile with a pixel word.  dst is the tile,
@@ -785,32 +705,15 @@ void NNSi_G2dCharCanvasFill(u32 *dst, int x, int y, int w, int h, u32 val, int b
     }
 }
 
-
-
-
-
-
-
 static inline int MATH_IMax(int a, int b)
 {
     return (a >= b) ? a : b;
 }
 
-
-
-
-
-
 static inline int MATH_IMin(int a, int b)
 {
     return (a <= b) ? a : b;
 }
-
-
-
-
-
-
 
 static inline void NNSi_G2dBitReaderInit(NNSiG2dBitReader *reader, const void *src)
 {
@@ -818,12 +721,6 @@ static inline void NNSi_G2dBitReaderInit(NNSiG2dBitReader *reader, const void *s
     reader->src = (const u8 *)src;
     reader->bits = 0;
 }
-
-
-
-
-
-
 
 /*
  * NitroSystem g2d_CharCanvas.c LetterChar(LC_INFO *): blit one glyph's
@@ -930,55 +827,25 @@ void NNSi_G2dBlitCharData(LC_INFO *i)
     }
 }
 
-
-
-
-
-
-
 static inline int GetCharacterSize(const NNSG2dCharCanvas *pCC)
 {
     return 8 * 8 * pCC->dstBpp / 8;
 }
-
-
-
-
-
-
 
 static inline u8 NNS_G2dFontGetCellHeight(const NNSG2dFont *pFont)
 {
     return pFont->pRes->pGlyph->cellHeight;
 }
 
-
-
-
-
-
-
 static inline u8 NNS_G2dFontGetCellWidth(const NNSG2dFont *pFont)
 {
     return pFont->pRes->pGlyph->cellWidth;
 }
 
-
-
-
-
-
-
 static inline u8 NNS_G2dFontGetBpp(const NNSG2dFont *pFont)
 {
     return pFont->pRes->pGlyph->bpp;
 }
-
-
-
-
-
-
 
 /*
  * NitroSystem g2d_CharCanvas.c DrawGlyphLine(pCC, pFont, x, y, cl, pGlyph):
@@ -1086,12 +953,6 @@ void NNSi_G2dCharCanvasDrawText(const NNSG2dCharCanvas * pCC, const NNSG2dFont *
         }
     }
 }
-
-
-
-
-
-
 
 /*
  * NitroSystem g2d_CharCanvas.c DrawGlyph1D(pCC, pFont, x, y, cl, pGlyph):
@@ -1212,12 +1073,6 @@ void NNSi_G2dCharCanvasDrawTextForVRAM(const NNSG2dCharCanvas * pCC, const NNSG2
     }
 }
 
-
-
-
-
-
-
 /*
  * Clear a linear surface to one pixel value: expand the value to a full word
  * (4bpp doubles the nibble, then the byte; 8bpp doubles the byte; both then
@@ -1252,12 +1107,6 @@ void NNSi_G2dSurfaceFill(struct Surface *s, u32 arg)
     n = s->w * s->h;
     MIi_CpuClearFast(arg, s->base, n * ((bpp << 6) / 8));
 }
-
-
-
-
-
-
 
 /*
  * Row-by-row twin of NNSi_G2dSurfaceFill: the same pixel expansion, then one
@@ -1295,12 +1144,6 @@ void NNSi_G2dSurfaceFillTiled(struct Surface *s, u32 arg)
         dst += adv;
     }
 }
-
-
-
-
-
-
 
 /*
  * Fill a rectangle of a LINEAR tile grid with one pixel value
@@ -1375,11 +1218,6 @@ void NNSi_G2dSurfaceFillRect(struct SurfaceTiled *s, u32 arg, int x, int y, int 
         cy = cy + 8;
     } while (cy < ye);
 }
-
-
-
-
-
 
 /*
  * Fill a rectangle of a SWIZZLED tile grid with one pixel value
@@ -1469,12 +1307,6 @@ void NNSi_G2dSurfaceFillRectSwizzled(struct SurfaceSwizzled *s, u32 arg, int x, 
     } while (cy < ye);
 }
 
-
-
-
-
-
-
 /*
  * The text-context initialiser: seven arguments straight into six fields of a
  * 0x18-byte pen/draw context, with no computation at all.  A leaf, and the
@@ -1536,11 +1368,6 @@ void NNSi_G2dInitPen(struct Pen *p, void *charBase, int areaWidth, int areaHeigh
     p->vtable = vtable;
     p->param = param;
 }
-
-
-
-
-
 
 /*
  * Per-file compiler pin, the re-read/forward form of the "kept constants"
@@ -1606,10 +1433,6 @@ s8 NNSi_G2dCharCanvasDrawChar(struct Ctx *ctx, NNSG2dFont *font, int x, int y, i
     return out[0][2];
 }
 
-
-
-
-
 /*
  * Verified with:
  *   python tools/match.py one --src src/matched/NNSi_G2dInitPenSimple.c \
@@ -1620,41 +1443,21 @@ void NNSi_G2dInitPenSimple(int pen, int charBase, int areaWidth, int areaHeight,
     NNSi_G2dInitPen((struct Pen *)pen, (void *)charBase, areaWidth, areaHeight, dstBpp, (const void *)0x020A18DC, areaWidth);
 }
 
-
-
-
-
-
 static inline u32 MATH_CountLeadingZeros(u32 x)
 {
     asm { clz x, x }
     return x;
 }
 
-
-
-
-
-
 inline static int MATH_ILog2(u32 x)
 {
     return (int)(31 - MATH_CountLeadingZeros(x));
 }
 
-
-
-
-
-
 inline static int SizeToShift(int size)
 {
     return (size >= 8) ? 3 : MATH_ILog2((u32)size);
 }
-
-
-
-
-
 
 /*
  * NitroSystem g2d_CharCanvas.c, the OBJ-1D canvas initialiser: derive the
@@ -1688,11 +1491,6 @@ void NNS_G2dCharCanvasInitForVRAM(void *pCC, void *charBase, int areaWidth, int 
     param.h = p[1];
     NNSi_G2dInitPen((struct Pen *)pCC, charBase, areaWidth, areaHeight, colorMode, g_020A18E8, param.raw);
 }
-
-
-
-
-
 
 /*
  * NitroSystem NNS_G2dMapScrToCharText (g2d_CharCanvas): map a rectangle of
@@ -1734,10 +1532,6 @@ void NNS_G2dMapScrToCharText(void *scnBase, int areaWidth, int areaHeight, int a
     }
 }
 
-
-
-
-
 /*
  * The linear half of NitroSystem's NNS_G2dMapScrToCharText (g2d_CharCanvas):
  * fill an areaWidth x areaHeight block of a text-BG screen whose rows are
@@ -1767,14 +1561,6 @@ void NNSi_G2dFillScrCharArea(u16 *pScrBase, int w, int h, int scnWidth, int char
         pScrBase += scnWidth;
     }
 }
-
-
-
-
-
-
-
-
 
 /*
  * Number of OBJs NitroSystem's 1D OBJ arrangement (NNSi_G2dMakeCharObjArea) spends on
@@ -1812,66 +1598,25 @@ u32 NNSi_G2dCalcCharAreaSize(u32 areaWidth, u32 areaHeight)
     return num + corner;
 }
 
-
-
-
-
-
-
-
-
-
 inline static void G2_SetOBJPosition(GXOamAttr *oam, int x, int y)
 {
   oam->attr01 = ((oam->attr01 & (~(0x000000FFu | 0x01FF0000u))) | (y & 0x000000FFu)) | ((x & (0x01FF0000u >> 16)) << 16);
 }
-
-
-
-
-
-
-
-
 
 inline static void G2_SetOBJShape(GXOamAttr *oam, u32 shape)
 {
   oam->attr01 = (oam->attr01 & (~(0x0000C000u | 0xC0000000u))) | shape;
 }
 
-
-
-
-
-
-
-
-
 inline static void G2_SetOBJCharName(GXOamAttr *oam, int name)
 {
   oam->attr2 = (u16) ((oam->attr2 & (~0x03FF)) | name);
 }
 
-
-
-
-
-
-
-
-
 inline static void G2_SetOBJColorMode(GXOamAttr *oam, int color)
 {
   oam->attr01 = (oam->attr01 & (~0x2000u)) | (color << 13);
 }
-
-
-
-
-
-
-
-
 
 /*
  * NitroSystem g2d_CharCanvas.c, NNS_G2dArrangeOBJ1D(oam, areaWidth,
@@ -1952,13 +1697,6 @@ int NNSi_G2dMakeCharObjArea(GXOamAttr *oam, int areaWidth, int areaHeight, int x
   }
   return numOBJ;
 }
-
-
-
-
-
-
-
 
 /*
  * The innermost draw step of the text renderer, the function
@@ -2041,12 +1779,6 @@ done:
     }
 }
 
-
-
-
-
-
-
 /*
  * The line loop of the text renderer, sitting between NNSi_G2dAlignTextVertical /
  * NNSi_G2dCalcTextBox (which pre-align the pen) and NNSi_G2dDrawTextLine (which draws one
@@ -2119,11 +1851,6 @@ void NNSi_G2dDrawTextRotated(Ctx *ctx, s32 x, s32 y, s32 w,
     } while (cur != 0);
 }
 
-
-
-
-
-
 /*
  * The block-alignment pre-pass, the two-dimensional counterpart of
  * NNSi_G2dAlignTextVertical's single-line one. It measures the whole multi-line extent
@@ -2188,9 +1915,6 @@ void NNSi_G2dCalcTextBox(Ctx *ctx, s32 x, s32 y, s32 w,
     NNSi_G2dDrawTextRotated(ctx, x, y, box2.width, w, flags, (const void *)s, st);
 }
 
-
-
-
 /*
  * The two trailing `signed char` parameters are ONE 2-byte struct passed by
  * value, not two separate char arguments. Spelled as two arguments the ABI
@@ -2254,16 +1978,12 @@ void NNSi_G2dAlignTextVertical(Ctx *ctx, s32 x, s32 y, s32 w,
     NNSi_G2dDrawTextRotated(ctx, x, y, w, w2, flags, (const void *)s, st);
 }
 
-
-
 static inline BOOL IsNftr(const Res *r)
 {
     if (r != 0 && r->signature == 0x4e465452u)
         return 1;
     return 0;
 }
-
-
 
 static inline BOOL VerAtLeast(const Res *r, u16 v)
 {
@@ -2272,14 +1992,10 @@ static inline BOOL VerAtLeast(const Res *r, u16 v)
     return 0;
 }
 
-
-
 static inline BOOL IsValid(const Res *r, u16 v)
 {
     return r != 0 ? (IsNftr(r) && VerAtLeast(r, v)) : 0;
 }
-
-
 
 /*
  * NFTR font-resource open (docs/families/cluster_020694D8.h): validate the
@@ -2323,8 +2039,6 @@ u32 NNS_G2dFontLoad(Res *res, void **out)
         (*(u8 **)((u8 *)*out + 8))[7] = 0;
     return 1;
 }
-
-
 
 /*
  * Relocate the section table of an NFTR-style font resource loaded at `base`:
@@ -2384,13 +2098,11 @@ void NNSi_G2dFontFixupSections(Res *base)
     } while (i < (s32)base->numBlocks);
 }
 
-
 static inline void BitReaderNextByte(struct BitReader *reader)
 {
     reader->bits = *(reader->src)++;
     reader->avail = 8;
 }
-
 
 u32 NNSi_G2dBitReaderRead(struct BitReader *reader, int nBits)
 {
@@ -2411,8 +2123,6 @@ u32 NNSi_G2dBitReaderRead(struct BitReader *reader, int nBits)
     return val;
 }
 
-
-
 /*
  * The halfword post-increment reader over the bit reader's byte cursor
  * (+0x00), the unlabelled leaf after NNSi_G2dBitReaderRead (seeded start).  The
@@ -2427,8 +2137,6 @@ u16 NNSi_G2dReadCharUTF16(CharCursor *cursor)
     cursor->pCur = (u8 *)p;
     return v;
 }
-
-
 
 /*
  * Size of the payload described by (tag, node): dispatches on the tag byte

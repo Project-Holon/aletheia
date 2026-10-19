@@ -7,9 +7,7 @@
  * whose exit type is 6 (the connection list of the event data), rebuilt when
  * the zone changes. */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
+#include "../types.h"
 
 #define FIELD_GIMMICK_CONNECT_MARKERS_MARKER_MAX        8       /* models 1..8 */
 #define FIELD_GIMMICK_CONNECT_MARKERS_MODEL_COUNT       9
@@ -18,11 +16,7 @@ typedef unsigned int   u32;
 #define FIELD_GIMMICK_CONNECT_MARKERS_LOWERED_ZONE_ID   0x12E   /* markers of this zone sit 0x2000 lower */
 #define FIELD_GIMMICK_CONNECT_MARKERS_STEP_PHASE_READY  3
 
-typedef struct VecFx32 {
-    int x;
-    int y;
-    int z;
-} VecFx32;
+#include "../sdk_fx.h"
 
 /* Field map common work (0xC bytes), allocated in the setup function. */
 typedef struct FieldGimmickConnectMarkersWork {

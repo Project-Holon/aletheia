@@ -60,115 +60,11 @@
  *   OS_Halt              0x020882D0  arm
  */
 
-typedef unsigned long long u64;
+#include "../types.h"
 
-typedef unsigned long u32;
+#include "../sdk_os.h"
 
-typedef long s32;
-
-typedef unsigned short u16;
-
-typedef unsigned char u8;
-
-typedef int BOOL;
-
-typedef u32 OSIntrMode;
-
-typedef enum OSThreadState {
-    OS_THREAD_STATE_WAITING = 0,
-    OS_THREAD_STATE_READY = 1,
-    OS_THREAD_STATE_TERMINATED = 2
-} OSThreadState;
-
-typedef struct CPContext {
-    u8 opaque[0x1C];
-} CPContext;
-
-typedef struct OSContext {
-    u32 cpsr;
-    u32 r[13];
-    u32 sp;
-    u32 lr;
-    u32 pc_plus4;
-    u32 sp_svc;
-    CPContext cp_context;
-} OSContext;
-
-typedef struct _OSThread OSThread;
-
-typedef struct OSMutex OSMutex;
-
-typedef struct OSiAlarm OSAlarm;
-
-typedef struct _OSThreadQueue {
-    OSThread *head;
-    OSThread *tail;
-} OSThreadQueue;
-
-typedef struct _OSThreadLink {
-    OSThread *prev;
-    OSThread *next;
-} OSThreadLink;
-
-typedef struct _OSMutexQueue {
-    OSMutex *head;
-    OSMutex *tail;
-} OSMutexQueue;
-
-typedef struct _OSMutexLink {
-    OSMutex *next;
-    OSMutex *prev;
-} OSMutexLink;
-
-typedef void (*OSAlarmHandler)(void *arg);
-
-struct OSiAlarm {
-    OSAlarmHandler handler;
-    void *arg;
-    u32 tag;
-    u64 fire;
-    OSAlarm *prev;
-    OSAlarm *next;
-    u64 period;
-    u64 start;
-};
-
-struct OSMutex {
-    OSThreadQueue queue;
-    OSThread *thread;
-    s32 count;
-    OSMutexLink link;
-};
-
-struct _OSThread {
-    OSContext context;
-    OSThreadState state;
-    OSThread *next;
-    u32 id;
-    u32 priority;
-    void *profiler;
-    OSThreadQueue *queue;
-    OSThreadLink link;
-    OSMutex *mutex;
-    OSMutexQueue mutexQueue;
-    u32 stackTop;
-    u32 stackBottom;
-    u32 stackWarningOffset;
-    OSThreadQueue joinQueue;
-    void *specific[3];
-    OSAlarm *alarmForSleep;
-    void (*destructor)(void *);
-    void *userParameter;
-    int systemErrno;
-};
-
-typedef struct OSThreadInfo {
-    u16 isNeedRescheduling;
-    u16 irqDepth;
-    OSThread *current;
-    OSThread *list;
-    void *switchCallback;
-} OSThreadInfo;
+#include "../sdk_os_thread.h"
 
 typedef void (*OSSwitchThreadCallback)(OSThread *from, OSThread *to);
 
@@ -252,7 +148,6 @@ extern char SDK_AUTOLOAD_DTCM_START[];
 extern char SDK_SECTION_ARENA_DTCM_START[];
 extern BOOL OSi_IsThreadInitialized;
 
-
 /*
  * note:     os_thread.o OSi_GetUnusedThreadId.
  */
@@ -260,7 +155,6 @@ int OSi_GetUnusedThreadId(void)
 {
     return ++gOsThreadBss.OSi_ThreadIdCount;
 }
-
 
 void OSi_InsertLinkToQueue(OSThreadQueue *queue, OSThread *thread)
 {
@@ -295,7 +189,6 @@ void OSi_InsertLinkToQueue(OSThreadQueue *queue, OSThread *thread)
     }
 }
 
-
 OSThread *OSi_RemoveLinkFromQueue(OSThreadQueue *queue)
 {
     OSThread *t = queue->head;
@@ -313,7 +206,6 @@ OSThread *OSi_RemoveLinkFromQueue(OSThreadQueue *queue)
     }
     return t;
 }
-
 
 /*
  * sdk:      OSi_RemoveSpecifiedLinkFromQueue (os_thread.o)
@@ -348,7 +240,6 @@ OSThread *OSi_RemoveSpecifiedLinkFromQueue(OSThreadQueue *queue, OSThread *threa
     return t;
 }
 
-
 /*
  * sdk:      OSi_RemoveMutexLinkFromQueue (os_thread.o)
  */
@@ -368,7 +259,6 @@ OSMutex *OSi_RemoveMutexLinkFromQueue(OSMutexQueue *queue)
     }
     return t;
 }
-
 
 /*
  * sdk:      OSi_InsertThreadToList (os_thread.o)
@@ -392,7 +282,6 @@ void OSi_InsertThreadToList(OSThread *thread)
     }
 }
 
-
 /*
  * sdk:      OSi_RemoveThreadFromList (os_thread.o)
  */
@@ -412,7 +301,6 @@ void OSi_RemoveThreadFromList(OSThread *thread)
         pre->next = thread->next;
     }
 }
-
 
 void OSi_RescheduleThread(void)
 {
@@ -450,7 +338,6 @@ void OSi_RescheduleThread(void)
         }
     }
 }
-
 
 /*
  * sdk:      OS_InitThread (os_thread.o)
@@ -509,7 +396,6 @@ void OS_InitThread(void)
     OSi_IdleThread.state = OS_THREAD_STATE_READY;
 }
 
-
 /*
  * sdk:      OS_IsThreadAvailable (os_thread.o)
  */
@@ -517,7 +403,6 @@ BOOL OS_IsThreadAvailable(void)
 {
     return OSi_IsThreadInitialized;
 }
-
 
 /*
  * sdk:      OS_CreateThread (os_thread.o)
@@ -567,13 +452,11 @@ void OS_CreateThread(OSThread *thread, void (*func)(void *), void *arg, void *st
     (void)OS_RestoreInterrupts(enable);
 }
 
-
 void OS_ExitThread(void)
 {
     OS_DisableInterrupts();
     OSi_ExitThread_ArgSpecified(gOsThreadBss.OSi_ThreadInfo.current, 0);
 }
-
 
 /*
  * sdk:      OSi_ExitThread_ArgSpecified (os_thread.o)
@@ -591,7 +474,6 @@ void OSi_ExitThread_ArgSpecified(OSThread *thread, void *arg)
     }
 }
 
-
 /*
  * sdk:      OSi_ExitThread (os_thread.o)
  */
@@ -607,7 +489,6 @@ void OSi_ExitThread(void *arg)
     }
     OSi_ExitThread_Destroy();
 }
-
 
 /*
  * sdk:      OSi_ExitThread_Destroy (os_thread.o)
@@ -629,7 +510,6 @@ void OSi_ExitThread_Destroy(void)
     OS_RescheduleThread();
     OS_Terminate();
 }
-
 
 /*
  * sdk:      OS_DestroyThread (os_thread.o)
@@ -657,7 +537,6 @@ void OS_DestroyThread(OSThread *thread)
     OS_RescheduleThread();
 }
 
-
 /*
  * note:     os_thread.o OS_KillThread.
  */
@@ -665,7 +544,6 @@ void OS_KillThread(void *thread, void *arg)
 {
     OS_KillThreadWithPriority(thread, arg, OS_GetThreadPriority(thread));
 }
-
 
 /*
  * sdk:      OS_KillThreadWithPriority (os_thread.o)
@@ -694,7 +572,6 @@ void OS_KillThreadWithPriority(OSThread *thread, void *arg, u32 prio)
     (void)OS_RestoreInterrupts(enabled);
 }
 
-
 /*
  * note:     os_thread.o OSi_CancelThreadAlarmForSleep.
  */
@@ -706,7 +583,6 @@ void OSi_CancelThreadAlarmForSleep(OSThread *thread)
         OS_CancelAlarm(alarm);
     }
 }
-
 
 /*
  * sdk:      OS_JoinThread (os_thread.o)
@@ -721,7 +597,6 @@ void OS_JoinThread(OSThread *thread)
     (void)OS_RestoreInterrupts(enabled);
 }
 
-
 /*
  * note:     os_thread.o OS_IsThreadTerminated.
  */
@@ -729,7 +604,6 @@ int OS_IsThreadTerminated(const OSThread *thread)
 {
     return (thread->state == 2) ? 1 : 0;
 }
-
 
 /*
  * sdk:      OS_SleepThreadDirect (os_thread.o)
@@ -749,7 +623,6 @@ void OS_SleepThreadDirect(OSThread *thread, OSThreadQueue *queue)
     (void)OS_RestoreInterrupts(bak_intr);
 }
 
-
 void OS_SleepThread(OSThreadQueue *queue)
 {
     OSIntrMode enable;
@@ -766,7 +639,6 @@ void OS_SleepThread(OSThreadQueue *queue)
     OSi_RescheduleThread();
     (void)OS_RestoreInterrupts(enable);
 }
-
 
 void OS_WakeupThread(OSThreadQueue *queue)
 {
@@ -787,7 +659,6 @@ void OS_WakeupThread(OSThreadQueue *queue)
     (void)OS_RestoreInterrupts(enable);
 }
 
-
 /*
  * sdk:      OS_WakeupThreadDirect (os_thread.o)
  */
@@ -800,7 +671,6 @@ void OS_WakeupThreadDirect(OSThread *thread)
     (void)OS_RestoreInterrupts(enable);
 }
 
-
 OSThread *OS_SelectThread(void)
 {
     OSThread *t = gOsThreadBss.OSi_ThreadInfo.list;
@@ -811,7 +681,6 @@ OSThread *OS_SelectThread(void)
     return t;
 }
 
-
 /*
  * note:     os_thread.o OS_RescheduleThread.
  */
@@ -821,7 +690,6 @@ void OS_RescheduleThread(void)
     OSi_RescheduleThread();
     (void)OS_RestoreInterrupts(bak_intr);
 }
-
 
 /*
  * sdk:      OS_YieldThread (os_thread.o)
@@ -870,7 +738,6 @@ void OS_YieldThread(void)
     (void)OS_RestoreInterrupts(enable);
 }
 
-
 /*
  * sdk:      OS_SetThreadPriority (os_thread.o)
  */
@@ -904,12 +771,10 @@ BOOL OS_SetThreadPriority(OSThread *thread, u32 prio)
     return 1;
 }
 
-
 u32 OS_GetThreadPriority(const OSThread *thread)
 {
     return thread->priority;
 }
-
 
 /*
  * sdk:      OS_Sleep (os_thread.o)
@@ -931,7 +796,6 @@ void OS_Sleep(u32 msec)
     (void)OS_RestoreInterrupts(bak_cpsr);
 }
 
-
 /*
  * sdk:      OSi_SleepAlarmCallback (os_thread.o)
  */
@@ -944,7 +808,6 @@ void OSi_SleepAlarmCallback(void *arg)
     p_thread->alarmForSleep = 0;
     OS_WakeupThreadDirect(p_thread);
 }
-
 
 /*
  * sdk:      OS_SetSwitchThreadCallback (os_thread.o)
@@ -961,7 +824,6 @@ OSSwitchThreadCallback OS_SetSwitchThreadCallback(OSSwitchThreadCallback callbac
     return prev;
 }
 
-
 void OSi_IdleThreadProc(void)
 {
     (void)OS_EnableInterrupts();
@@ -969,7 +831,6 @@ void OSi_IdleThreadProc(void)
         OS_Halt();
     }
 }
-
 
 /*
  * sdk:      OS_DisableScheduler (os_thread.o)
@@ -986,7 +847,6 @@ u32 OS_DisableScheduler(void)
     return count;
 }
 
-
 /*
  * sdk:      OS_EnableScheduler (os_thread.o)
  */
@@ -1001,7 +861,6 @@ u32 OS_EnableScheduler(void)
     (void)OS_RestoreInterrupts(enabled);
     return count;
 }
-
 
 void OS_SetThreadDestructor(OSThread *thread, void (*dtor)(void *))
 {

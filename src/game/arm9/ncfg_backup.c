@@ -33,13 +33,7 @@
  *   NVRAMi_Write 0x02083DC8 arm
  *   NVRAMi_Verify 0x020840F8 arm
  */
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned long  u32;
-
-typedef signed long    s32;
+#include "../types.h"
 
 /* backup.o's .bss statics from FormatVersionNumber on, in their laid-out order: the object
  * reads nvramBuf[0] and nvramBuf2[0] off the .bss base (FormatVersionNumber) while the
@@ -50,8 +44,6 @@ typedef struct {
     u8  nvramBuf[32];
     u16 nvramBuf2[16];
 } NCFGBackupBss;
-
-typedef int           BOOL;
 
 typedef enum NVRAMResult {
     NVRAM_RESULT_SUCCESS = 0,
@@ -80,7 +72,6 @@ extern NCFGBackupBss FormatVersionNumber;
 extern u8 nvramBuf[32];
 extern u8 nvramBuf2[32];
 
-
 /*
  * sdk:      NCFGi_InitBackupMemory (libncfg.TWL.HYB.a backup.o)
  */
@@ -108,9 +99,6 @@ end:
     return result;
 }
 
-
-
-
 /*
  * sdk:      NCFG_GetFormatVersion (backup.o)
  */
@@ -129,10 +117,6 @@ unsigned char NCFG_GetFormatVersion(void)
     }
     return version;
 }
-
-
-
-
 
 /*
  * sdk:      NCFG_ReadBackupMemory (libncfg.TWL.HYB.a backup.o)
@@ -157,10 +141,6 @@ s32 NCFG_ReadBackupMemory(void *buf, u32 size, s32 index)
         return (s32)readSize;
     return -1;
 }
-
-
-
-
 
 /*
  * sdk:      NCFG_WriteBackupMemory (libncfg.TWL.HYB.a backup.o)
@@ -205,9 +185,6 @@ s32 NCFG_WriteBackupMemory(s32 index, void *buf, u32 size)
     return result;
 }
 
-
-
-
 /*
  * sdk:      getSlotInfo (libncfg.TWL.HYB.a backup.o)
  */
@@ -239,9 +216,6 @@ int getSlotInfo(s32 index, u32 *address, u32 *size)
     }
 }
 
-
-
-
 /*
  * sdk:      ReadNVRAM (libncfg.TWL.HYB.a backup.o)
  */
@@ -259,9 +233,6 @@ NVRAMResult ReadNVRAM(u32 address, u32 size, void *pData)
     }
     return nvramResult;
 }
-
-
-
 
 /*
  * sdk:      WriteNVRAM (libncfg.TWL.HYB.a backup.o); the catalog row says ReadNVRAM,
@@ -281,9 +252,6 @@ NVRAMResult WriteNVRAM(u32 address, u32 size, void *pData)
     }
     return nvramResult;
 }
-
-
-
 
 /*
  * sdk:      VerifyNVRAM (libncfg.TWL.HYB.a backup.o); the catalog row says ReadNVRAM,

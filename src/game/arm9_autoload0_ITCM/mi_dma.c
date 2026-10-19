@@ -14,9 +14,7 @@
  *   OS_RestoreInterrupts    0x0208799C  arm
  */
 
-typedef unsigned int u32;
-typedef unsigned short u16;
-typedef volatile u32 vu32;
+#include "../types.h"
 
 extern int OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(int);

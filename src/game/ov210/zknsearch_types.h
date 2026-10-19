@@ -8,12 +8,7 @@
  * ZKNSEARCH_LIST / ZKNSEARCH_COND / ZKNSEARCH_RESULT function operates on.
  * It replaces the per-function ObjNNNNN matched-include views. */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed char    s8;
-typedef signed short   s16;
-typedef signed int     s32;
+#include "../types.h"
 
 /* The zukan save record block the work points at (work->save). Only the
  * fields ov210 touches are named. */

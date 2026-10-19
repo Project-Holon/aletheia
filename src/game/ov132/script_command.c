@@ -109,7 +109,7 @@ extern void STA_ACT_LIGHT_CopyActorPos(void *unused, u32 *p, u32 *q);
 
 #define ABS(x) ((x) < 0 ? -(x) : (x))
 
-typedef signed short s16;
+#include "../types.h"
 
 typedef enum { COORD_ZERO } Coord;
 
@@ -189,7 +189,6 @@ extern void STA_ACTING_LoadRankAnim(unsigned char *,unsigned char,unsigned char)
 extern void STA_ACTING_LoadAnimMember(char *p, u8 n, u8 mask);
 
 extern void STA_ACT_LIGHT_SetActorOffset(void *unused, u32 *p, const u32 *q);
-
 
 extern void STA_ACT_LIGHT_SetActorAngle(int self, char *p, u16 v);
 

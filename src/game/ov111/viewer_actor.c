@@ -158,9 +158,7 @@ typedef struct {
 
 typedef struct { int word[8]; } ViewerCamera;
 
-typedef struct { fx32 x, y, z; } VecFx32;
-
-typedef struct { fx32 m[3][3]; } MtxFx33;
+#include "../sdk_fx.h"
 
 typedef struct {
     VecFx32 trans;
@@ -180,9 +178,7 @@ typedef struct {
     u8 week;
 } ViewerBadgeDate;
 
-typedef struct { u32 year, month, day, week; } RTCDate;
-
-typedef struct { u32 hour, minute, second; } RTCTime;
+#include "../sdk_rtc.h"
 
 typedef struct {
     u8 rev;

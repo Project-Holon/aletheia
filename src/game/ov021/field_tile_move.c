@@ -48,16 +48,9 @@
  */
 #include "../ov010/fldmmdl_types.h"
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed int s32;
+#include "../types.h"
 
-typedef struct VecFx32 {
-    s32 x;
-    s32 y;
-    s32 z;
-} VecFx32;
+#include "../sdk_fx.h"
 
 typedef struct GameSystem GameSystem;
 typedef struct GameEvent GameEvent;

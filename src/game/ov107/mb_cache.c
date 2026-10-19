@@ -18,22 +18,9 @@
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   MI_CpuCopy8  0x02082D44  arm
  */
-typedef unsigned long u32;
+#include "../types.h"
 
-typedef unsigned char u8;
-
-typedef struct {
-    u32 src;
-    u32 len;
-    void *ptr;
-    u32 state;
-} MBiCacheInfo;
-
-typedef struct {
-    u32 lifetime;
-    u8 pad[0x2C];
-    MBiCacheInfo list[4];
-} MBiCacheList;
+#include "../sdk_mb.h"
 
 extern void MI_CpuFill8(void *dst, int val, u32 len);
 extern u32 OS_DisableInterrupts(void);
@@ -44,12 +31,10 @@ void MBi_InitCache(void *pl);
 void MBi_AttachCacheBuffer(MBiCacheList *pl, u32 src, u32 len, void *ptr, u32 state);
 int MBi_ReadFromCache(MBiCacheList *pl, u32 src, void *dst, u32 len);
 
-
 void MBi_InitCache(void *pl)
 {
     MI_CpuFill8(pl, 0, 0x70);
 }
-
 
 /*
  * sdk:      MBi_AttachCacheBuffer (libmb.TWL.HYB.a mb_cache.o)
@@ -73,7 +58,6 @@ void MBi_AttachCacheBuffer(MBiCacheList *pl, u32 src, u32 len, void *ptr, u32 st
     }
     OS_RestoreInterrupts(bak_cpsr);
 }
-
 
 /*
  * sdk:      MBi_ReadFromCache (libmb.TWL.HYB.a mb_cache.o)

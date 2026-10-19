@@ -25,13 +25,9 @@
  *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   MI_CpuFill8  0x02082BCC  arm
  */
-typedef int fx32;
+#include "../types.h"
 
-typedef struct VecFx32 {
-    fx32 x;
-    fx32 y;
-    fx32 z;
-} VecFx32;
+#include "../sdk_fx.h"
 
 #include "../ov012/union_comm_types.h"
 

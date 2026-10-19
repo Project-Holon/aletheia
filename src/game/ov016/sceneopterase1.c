@@ -43,12 +43,11 @@
  *   DWCi_SNDlPlay                    0x021CFFAC  arm
  *   endScene2                        0x021C2528  arm
  *   initGraphics                     0x021C2340  arm
- *   procScene                        0x021C244C  arm
  *   DWCi_CMNlLoadResource  0x021BD1D4  arm
  */
 typedef _Bool bool;
 
-typedef unsigned short u16;
+#include "../types.h"
 
 typedef struct {
     u16 priority : 2;
@@ -77,8 +76,6 @@ void DWCi_SceneOptErase1_procScene(void);
 void DWCi_SceneOptErase1_draw(void);
 
 
-static void procScene(void);
-
 static void initGraphics(void);
 static void procInit(void);
 static void procInit1(void);
@@ -89,7 +86,6 @@ static void endScene(void);
 static void endScene1(void);
 static void endScene2(void);
 
-
 void DWCi_SceneOptErase1(void)
 {
     initGraphics();
@@ -97,7 +93,6 @@ void DWCi_SceneOptErase1(void)
     DWCi_SETTINGlEraseAll();
     DWCi_ChangeScene(procInit);
 }
-
 
 static void initGraphics(void)
 {
@@ -109,14 +104,12 @@ static void initGraphics(void)
     ((BgCnt *)0x0400000C)->priority = 3;
 }
 
-
 static void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(0, 0x15);
     DWCi_ChangeScene(procInit1);
 }
-
 
 static void procInit1(void)
 {
@@ -126,15 +119,13 @@ static void procInit1(void)
     DWCi_ChangeScene(procInit2);
 }
 
-
 static void procInit2(void)
 {
     if (DWCi_BTNlGet() == -2)
         return;
     DWCi_BTNlEnable();
-    DWCi_ChangeScene(procScene);
+    DWCi_ChangeScene(DWCi_SceneOptErase1_procScene);
 }
-
 
 void DWCi_SceneOptErase1_procScene(void)
 {
@@ -142,7 +133,6 @@ void DWCi_SceneOptErase1_procScene(void)
     DWCi_SceneOptErase1_draw();
     button();
 }
-
 
 static void input(void)
 {
@@ -154,7 +144,6 @@ void DWCi_SceneOptErase1_draw(void)
 {
 }
 
-
 static void button(void)
 {
     if (DWCi_BTNlGet() != 0)
@@ -163,14 +152,12 @@ static void button(void)
     DWCi_ChangeScene(endScene);
 }
 
-
 static void endScene(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
     DWCi_ChangeScene(endScene1);
 }
-
 
 static void endScene1(void)
 {
@@ -180,7 +167,6 @@ static void endScene1(void)
     DWCi_EFFlFade(3, 0, 0x3F, 0x40);
     DWCi_ChangeScene(endScene2);
 }
-
 
 /*
  * Bail out on two DWCi_EFFlCheck probes, then arm timer 0x800000 and kick PM_ForceToPowerOff.

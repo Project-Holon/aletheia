@@ -18,12 +18,8 @@
  *   MIi_DmaSetParameters           0x01FF8020  arm
  */
 
-typedef unsigned long u32;
-typedef unsigned short u16;
-typedef volatile u32 vu32;
-typedef volatile u16 vu16;
-typedef int BOOL;
-typedef u32 OSIntrMode;
+#include "../types.h"
+#include "../sdk_os.h"
 
 #define REG_DMA0SAD_ADDR 0x040000B0
 #define REG_DMA0CNT_ADDR 0x040000B8

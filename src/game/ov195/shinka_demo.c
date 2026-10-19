@@ -242,11 +242,7 @@ struct BigObj;
 struct RecDC;
 struct Party;
 struct PartyMon;
-typedef unsigned int u32;
-
-typedef unsigned short u16;
-
-typedef unsigned char u8;
+#include "../types.h"
 
 typedef struct App {
     u32 gameData;     /* 0x00 */
@@ -307,12 +303,6 @@ typedef struct Scene {
     u32 flag118;               /* 0x118 */
     u32 proc;                  /* 0x11c: PROCSYS child */
 } Scene;
-
-typedef signed int     s32;
-
-typedef signed short   s16;
-
-typedef signed char    s8;
 
 typedef struct {
     u32 kind;
@@ -574,9 +564,6 @@ extern u8 d_02208C4C[];
 extern u32 gSpeciesNameBank;
 extern u8 d_02208CCC[];
 
-
-
-
 /*
  * ABI: 0203159C and 02031324 own files return void; caller consumes r0.
  * ABI: 02031324 also receives the heap in r0, preserved in this extern.
@@ -613,9 +600,6 @@ int SHINKA_DEMO_Create(void *owner,int unused,u8 *app)
     return 1;
 }
 
-
-
-
 /*
  * Padding: two zero bytes at 0x022040DE, then a function prologue.
  */
@@ -631,8 +615,6 @@ int SHINKA_DEMO_Destroy(void *a, int unused, int b, int *scene)
     GFL_HEAP_DeleteChecked(0x94);
     return 1;
 }
-
-
 
 /*
  * note: 2026-10-05 wave P23 closed EXACT*. Case 34 also calls SHINKA_DEMO_PlayResultBgm(a,s) after SHINKA_DEMO_PrintText (same as case 18), so the tails cross-jump into case 18's copy; case 39 reads W(0x90) into a local once for both SHINKA_DEMO_SetMenuText arguments (ldr before the s+0x1c add). Older 5-byte DIFF came from those two points.
@@ -748,13 +730,6 @@ int SHINKA_DEMO_Main(int unused0,int unused1,char *a,char *s)
     return 0;
 }
 
-
-
-
-
-
-
-
 void SHINKA_DEMO_SetupScene(App *a, Scene *s)
 {
     u8 i;
@@ -801,13 +776,6 @@ void SHINKA_DEMO_SetupScene(App *a, Scene *s)
     G2x_SetBlendAlpha_((unsigned int *)0x04000050, 1, 0x3e, 0, 0);
 }
 
-
-
-
-
-
-
-
 /*
  * Leaf of the SHINKA_DEMO_Main dependency tree: the scene object's teardown.
  * It releases the two +0x104/+0x108 sub-objects, tears the controller links
@@ -831,13 +799,6 @@ void SHINKA_DEMO_DeleteScene(int unused, int *scene)
     GFL_HEAP_DeleteChecked(0x68);
 }
 
-
-
-
-
-
-
-
 /*
  * Addresses are Black-image addresses.
  */
@@ -849,20 +810,7 @@ void SHINKA_DEMO_StartBgm(u8 *app, u8 *scene)
     ((struct Scene *)scene)->bgmState = 1;
 }
 
-
-
-
-
-
-
 void SHINKA_DEMO_Noop(int unused0, int *unused1) {}
-
-
-
-
-
-
-
 
 void SHINKA_DEMO_UpdateBgm(char *app, char *scene)
 {
@@ -910,12 +858,6 @@ void SHINKA_DEMO_UpdateBgm(char *app, char *scene)
     }
 }
 
-
-
-
-
-
-
 /*
  * Leaf of the SHINKA_DEMO_Main dependency tree: true when the scene object's
  * state word +0x30 is 1.  Unlabelled in the listing (a leaf that saves no
@@ -926,13 +868,6 @@ int SHINKA_DEMO_IsBgmState1(int unused, int *scene)
     return scene[0xc] == 1;
 }
 
-
-
-
-
-
-
-
 void SHINKA_DEMO_RestoreBgm(char *app, char *scene)
 {
     if (((struct Scene *)scene)->bgmState == 0 && ((struct App *)app)->flag0C != 0) {
@@ -941,13 +876,6 @@ void SHINKA_DEMO_RestoreBgm(char *app, char *scene)
         GFL_USE_FadeInBgmFull(0x3c);
     }
 }
-
-
-
-
-
-
-
 
 /*
  * Leaf of the SHINKA_DEMO_Main dependency tree: when the scene object sits in
@@ -961,11 +889,6 @@ void SHINKA_DEMO_PlayEvolutionBgm(int unused, int *scene)
     }
 }
 
-
-
-
-
-
 /*
  * Leaf of the SHINKA_DEMO_Main dependency tree: true when the scene object's
  * state word +0x30 is 2.  Unlabelled in the listing (a leaf that saves no
@@ -975,12 +898,6 @@ int SHINKA_DEMO_IsBgmState2(int unused, int *scene)
 {
     return scene[0xc] == 2;
 }
-
-
-
-
-
-
 
 void SHINKA_DEMO_StartEvolutionBgm(int unused, char *scene)
 {
@@ -992,12 +909,6 @@ void SHINKA_DEMO_StartEvolutionBgm(int unused, char *scene)
     }
 }
 
-
-
-
-
-
-
 void SHINKA_DEMO_PushBgm(int unused, int *scene)
 {
     if (((struct Scene *)scene)->bgmState == 4) {
@@ -1006,12 +917,6 @@ void SHINKA_DEMO_PushBgm(int unused, int *scene)
         ((struct Scene *)scene)->bgmState = 5;
     }
 }
-
-
-
-
-
-
 
 /*
  * Leaf of the SHINKA_DEMO_Main dependency tree: when the scene object sits in
@@ -1029,11 +934,6 @@ void SHINKA_DEMO_PopBgm(int unused, int *scene)
     }
 }
 
-
-
-
-
-
 /*
  * Leaf of the SHINKA_DEMO_Main dependency tree: true when the scene object's
  * state word +0x30 is 4.  Unlabelled in the listing (a leaf that saves no
@@ -1044,12 +944,6 @@ int SHINKA_DEMO_IsBgmState4(int unused, int *scene)
     return scene[0xc] == 4;
 }
 
-
-
-
-
-
-
 void SHINKA_DEMO_FadeOutBgm(int unused, char *scene)
 {
     if (((struct Scene *)scene)->bgmState == 4) {
@@ -1058,24 +952,12 @@ void SHINKA_DEMO_FadeOutBgm(int unused, char *scene)
     }
 }
 
-
-
-
-
-
-
 int SHINKA_DEMO_IsBgmState6(int unused, char *scene)
 {
     if (((struct Scene *)scene)->bgmState == 6)
         return 1;
     return 0;
 }
-
-
-
-
-
-
 
 /*
  * Leaf of the SHINKA_DEMO_Main dependency tree: when the scene object sits in
@@ -1091,11 +973,6 @@ void SHINKA_DEMO_StartResultBgm(int unused, int *scene)
     }
 }
 
-
-
-
-
-
 /*
  * Leaf of the SHINKA_DEMO_Main dependency tree: true when the scene object's
  * state word +0x30 is 7 or 8.
@@ -1104,12 +981,6 @@ int SHINKA_DEMO_IsBgmState7Or8(int unused, int *scene)
 {
     return scene[0xc] == 7 || scene[0xc] == 8;
 }
-
-
-
-
-
-
 
 /*
  * Leaf of the SHINKA_DEMO_Main dependency tree: when the scene object sits in
@@ -1125,12 +996,6 @@ void SHINKA_DEMO_PlayResultBgm(int unused, int *scene)
     }
 }
 
-
-
-
-
-
-
 void SHINKA_DEMO_StopBgm(int unused, char *scene)
 {
     if (((struct Scene *)scene)->bgmState == 5) {
@@ -1139,11 +1004,6 @@ void SHINKA_DEMO_StopBgm(int unused, char *scene)
         ((struct Scene *)scene)->bgmState = 0;
     }
 }
-
-
-
-
-
 
 void SHINKA_DEMO_LoadSprites(int unused, char *scene)
 {
@@ -1156,16 +1016,7 @@ void SHINKA_DEMO_LoadSprites(int unused, char *scene)
     BG_SYS_PushTile(2);
 }
 
-
-
-
-
 void SHINKA_DEMO_Noop2(int unused0, int *unused1) {}
-
-
-
-
-
 
 void SHINKA_DEMO_CreateActors(int unused, char *scene)
 {
@@ -1188,16 +1039,7 @@ void SHINKA_DEMO_CreateActors(int unused, char *scene)
     ((struct Scene *)scene)->actorsReady = 1;
 }
 
-
-
-
-
 void SHINKA_DEMO_DeleteActors(void *unused,char *scene) {u8 i;if(((struct Scene *)scene)->actorsReady){for(i=0;i<6;i++)CLACT_DeleteActor((struct Actor *)(*(u32 *)(scene+0x48+i*4)));CLACT_ReleaseCellAnim(((struct Scene *)scene)->cellAnim);CLACT_ReleaseCharacter(((struct Scene *)scene)->character);CLACT_ReleasePalette(((struct Scene *)scene)->palette);((struct Scene *)scene)->actorsReady=0;}}
-
-
-
-
-
 
 /*
  * Leaf of the SHINKA_DEMO_Main dependency tree: when the scene object has the
@@ -1214,11 +1056,6 @@ void SHINKA_DEMO_ResetActorAnims(int unused, int *scene)
         CLACT_SetActorAutoAnim((struct Actor *)scene[0x12 + i], 1);
     }
 }
-
-
-
-
-
 
 /*
  * Leaf of the SHINKA_DEMO_Main dependency tree: probe all six +0x48 handles;
@@ -1245,10 +1082,6 @@ int SHINKA_DEMO_AreActorAnimsDone(int unused, int *scene)
     return 1;
 }
 
-
-
-
-
 /*
  * extent: 82 code bytes followed by two zero alignment bytes at 0x022051FA.
  */
@@ -1269,11 +1102,6 @@ void SHINKA_DEMO_MainTask(int task, char *scene)
     if (((struct Scene *)scene)->palAnm)
         PALANM_TransferPalettes(((struct Scene *)scene)->palAnm);
 }
-
-
-
-
-
 
 void SHINKA_DEMO_SetupWindows(int unused, char *scene)
 {
@@ -1302,10 +1130,6 @@ void SHINKA_DEMO_SetupWindows(int unused, char *scene)
     ((struct Scene *)scene)->subBgVisible = 0;
 }
 
-
-
-
-
 void SHINKA_DEMO_DeleteWindows(int task, int *scene)
 {
     APP_KEYCURSOR_Delete((struct KeyCursor *)(((struct Scene *)scene)->keyCursor));
@@ -1319,22 +1143,12 @@ void SHINKA_DEMO_DeleteWindows(int task, int *scene)
     BMP_WIN_Delete((struct BmpWin *)(((struct Scene *)scene)->window));
 }
 
-
-
-
-
-
 void SHINKA_DEMO_UpdateWindows(int unused, char *scene)
 {
     TCBL_Main((struct TcblSystem *)(((struct Scene *)scene)->tcbl));
     if (((struct Scene *)scene)->printStream != 0)
         APP_KEYCURSOR_Update((struct KeyCursor *)(((struct Scene *)scene)->keyCursor), (void *)(((struct Scene *)scene)->printStream), (void *)(((struct Scene *)scene)->menuWindow));
 }
-
-
-
-
-
 
 int SHINKA_DEMO_PrintStreamCallback(int a)
 {
@@ -1348,10 +1162,6 @@ int SHINKA_DEMO_PrintStreamCallback(int a)
     return 0;
 }
 
-
-
-
-
 void SHINKA_DEMO_PrintText(char *scene, u32 msgBank, u32 msgId, u32 callback, u32 kind0, u32 value0, u32 kind1, u32 value1)
 {
     SHINKA_DEMO_ClearText(scene, 0xf);
@@ -1359,10 +1169,6 @@ void SHINKA_DEMO_PrintText(char *scene, u32 msgBank, u32 msgId, u32 callback, u3
     *(u32 *)&((struct Scene *)scene)->printStream = (u32)PRINTSYS_PrintStreamCallBack(*(u32 *)&((struct Scene *)scene)->menuWindow, 0, 0, *(u32 *)&((struct Scene *)scene)->strbufA, ((struct Scene *)scene)->font,
                                        MSG_SPEED_GetWait(), ((struct Scene *)scene)->tcbl, 2, ((struct Scene *)scene)->heap, 0xf, callback);
 }
-
-
-
-
 
 /*
  * The `(x & 3) != 0 ? 0 : 1` call arguments must be written as an explicit
@@ -1402,10 +1208,6 @@ int SHINKA_DEMO_AdvanceText(char *scene)
     return r;
 }
 
-
-
-
-
 /*
  * Leaf of the SHINKA_DEMO_Main dependency tree: a confirm gate.  True once the
  * action key is held (KEY_GetTrg & 3) or the touch probe fires; it hands
@@ -1425,9 +1227,6 @@ int SHINKA_DEMO_IsConfirmPressed(char *unused)
     return 0;
 }
 
-
-
-
 void SHINKA_DEMO_ClearText(char *scene, int fillColor)
 {
     int p;
@@ -1444,10 +1243,6 @@ void SHINKA_DEMO_ClearText(char *scene, int fillColor)
     ((struct Scene *)scene)->printStream = 0;
     ((struct Scene *)scene)->strbufA = 0;
 }
-
-
-
-
 
 /*
  * Leaf of the SHINKA_DEMO_Main dependency tree: either build the +0x6c render
@@ -1470,10 +1265,6 @@ void SHINKA_DEMO_SetupMessageBox(int unused, int *p, int flag)
     }
 }
 
-
-
-
-
 void SHINKA_DEMO_CreateConfirmMenu(int unused, char *scene)
 {
     ((struct Scene *)scene)->confirmMsgBank = (u32)MSGDATA_CreateFromArchive(0, 2, 0xe9, ((struct Scene *)scene)->heap);
@@ -1483,12 +1274,7 @@ void SHINKA_DEMO_CreateConfirmMenu(int unused, char *scene)
     ((struct Scene *)scene)->strbufD = 0;
 }
 
-
-
 void SHINKA_DEMO_DeleteConfirmMenu(void *unused,char *scene) {YESNO_MENU_Delete(*(u8 * *)&((struct Scene *)scene)->yesNoMenu);*(u32 *)&((struct Scene *)scene)->yesNoMenu=0;if(((struct Scene *)scene)->strbufC)STRBUF_Delete((struct Strbuf *)(((struct Scene *)scene)->strbufC));if(((struct Scene *)scene)->strbufD)STRBUF_Delete((struct Strbuf *)(((struct Scene *)scene)->strbufD));MSGDATA_Delete((struct MsgBank *)(*(struct Rec * *)&((struct Scene *)scene)->confirmMsgBank));}
-
-
-
 
 void SHINKA_DEMO_SetMenuText(char *scene, u32 msgBankC, u32 msgIdC, u32 kindC0, u32 valueC0, u32 kindC1, u32 valueC1,
                    u32 msgBankD, u32 msgIdD, u32 kindD0, u32 valueD0, u32 kindD1, u32 valueD1)
@@ -1500,9 +1286,6 @@ void SHINKA_DEMO_SetMenuText(char *scene, u32 msgBankC, u32 msgIdC, u32 kindC0, 
     ((struct Scene *)scene)->strbufC = SHINKA_DEMO_BuildString(((struct Scene *)scene)->heap, msgBankC, msgIdC, kindC0, valueC0, kindC1, valueC1);
     ((struct Scene *)scene)->strbufD = SHINKA_DEMO_BuildString(((struct Scene *)scene)->heap, msgBankD, msgIdD, kindD0, valueD0, kindD1, valueD1);
 }
-
-
-
 
 u32 SHINKA_DEMO_BuildString(u32 heap, u32 msgBank, u32 msgId, u32 kind0, u32 value0, u32 kind1, u32 value1)
 {
@@ -1542,9 +1325,6 @@ u32 SHINKA_DEMO_BuildString(u32 heap, u32 msgBank, u32 msgId, u32 kind0, u32 val
     }
     return r;
 }
-
-
-
 
 void SHINKA_DEMO_AddShedinja(u32 *app, char *scene)
 {
@@ -1588,16 +1368,10 @@ void SHINKA_DEMO_AddShedinja(u32 *app, char *scene)
     RECORD_AddOne((void *)q, 0x58);
 }
 
-
-
-
 void SHINKA_DEMO_ClearHeldItem(int unused, char *scene)
 {
     POKE_TOOL_SetPartyValue((void *)(((struct Scene *)scene)->partyMon), 6, 0);
 }
-
-
-
 
 void SHINKA_DEMO_Setup3d(void)
 {

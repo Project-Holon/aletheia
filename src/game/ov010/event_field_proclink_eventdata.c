@@ -28,9 +28,7 @@
  *       --func EVENT_FIELD_PROCLINK_HasEventdataEntry --addr 0x02161E4C --region ov010 --cc dsi/1.1p1 --thumb
  */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
+#include "../types.h"
 struct ProcLinkReturnList;
 struct ProcLinkEntry;
 

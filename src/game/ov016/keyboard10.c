@@ -131,11 +131,7 @@ typedef struct {
 /* the local initialisers, the compiler's @NNNNN objects, copied by struct assignment */
 typedef struct { unsigned char v[5]; } KB10_N5;
 
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef signed char s8;
+#include "../types.h"
 
 struct Keyboard10Work {
     u8  pad00[0x58];
@@ -208,13 +204,11 @@ extern u16   sKeyboard10CellPosX[][2];
 extern u16   sKeyboard10CellPosY[][2];
 extern KEYBOARD10_BSS keyboard10_bss;
 
-
 static inline void G2_GetOBJPosition(const GXOamAttr *oam, unsigned long *x, unsigned long *y)
 {
     *x = (oam->attr01 & 0x01FF0000) >> 16;
     *y = (oam->attr01 & 0x000000FF) >> 0;
 }
-
 
 static inline void G2_SetOBJMode(GXOamAttr *oam, int mode, int cParam)
 {
@@ -222,18 +216,15 @@ static inline void G2_SetOBJMode(GXOamAttr *oam, int mode, int cParam)
     oam->attr2 = (unsigned short)((oam->attr2 & ~0xF000) | (cParam << 12));
 }
 
-
 static inline void G2_SetOBJEffect(GXOamAttr *oam, int effect, int affine)
 {
     oam->attr01 = (oam->attr01 & ~(0x0300 | 0x3E000000)) | effect | (affine << 25);
 }
 
-
 static inline void G2_SetOBJPosition(GXOamAttr *oam, int x, int y)
 {
     oam->attr01 = (oam->attr01 & 0xFE00FF00) | (y & 0xFF) | ((x & 0x1FF) << 16);
 }
-
 
 static inline void G2_SetOBJPriority(GXOamAttr *oam, int priority)
 {
@@ -261,7 +252,6 @@ static void taskEnd2(void *task);
 static void taskEnd3(void *task);
 static void taskEnd4(void *task);
 static void taskEnd5(void *task);
-
 
 void DWCi_KB10lInit(void)
 {
@@ -314,7 +304,6 @@ void DWCi_KB10lInit(void)
     disp(0, 0xc0);
 }
 
-
 /*
  * Feed the two words at +0x58 and +0x5c of the object behind 0x021DE560 to the library.
  * Addresses are Black-image addresses.
@@ -325,12 +314,10 @@ void DWCi_KB10lEnd(void)
     DWCi_TSKlSetParam((struct TaskObj *)(*(int *)(*(char **)0x021DE560 + 0x5c)), (unsigned int)((void *)0x021C0528));
 }
 
-
 unsigned char DWCi_KB10lGet(void)
 {
     return *(unsigned char *)(*(char **)0x021DE560 + 0x60);
 }
-
 
 /*
  * Store a byte at +0x66 of the object behind the global pointer.
@@ -345,18 +332,15 @@ void DWCi_KB10lSetErase(unsigned char v)
     *(unsigned char *)(*(char **)0x021DE560 + 0x66) = v;
 }
 
-
 void DWCi_KB10lSetInput(unsigned char v)
 {
     *(unsigned char *)(*(char **)0x021DE560 + 0x67) = v;
 }
 
-
 void DWCi_KB10lSetShift(unsigned char v)
 {
     *(unsigned char *)(*(char **)0x021DE560 + 0x68) = v;
 }
-
 
 /*
  * True when the global pointer at 0x021DE560 is non-null.
@@ -370,7 +354,6 @@ int DWCi_KB10lIsInit(void)
 {
     return *(void **)0x021DE560 != 0;
 }
-
 
 static void taskStart0(void *task)
 {
@@ -387,7 +370,6 @@ static void taskStart0(void *task)
     }
 }
 
-
 static void taskStart1(void *task)
 {
     int x, y;
@@ -402,7 +384,6 @@ static void taskStart1(void *task)
         DWCi_TSKlChangeFunc(task, taskStart2);
     }
 }
-
 
 static void taskStart2(void *task)
 {
@@ -419,7 +400,6 @@ static void taskStart2(void *task)
     }
 }
 
-
 static void taskStart3(void *task)
 {
     int x, y;
@@ -434,7 +414,6 @@ static void taskStart3(void *task)
         DWCi_TSKlChangeFunc(task, taskStart4);
     }
 }
-
 
 static void taskStart4(void *task)
 {
@@ -451,7 +430,6 @@ static void taskStart4(void *task)
     }
 }
 
-
 static void taskMain(void *task)
 {
     touchTriger();
@@ -459,7 +437,6 @@ static void taskMain(void *task)
     touch();
     key();
 }
-
 
 static void touchTriger(void)
 {
@@ -503,7 +480,6 @@ static void touchTriger(void)
     }
 }
 
-
 static void touchRelease(void)
 {
     int i;
@@ -546,7 +522,6 @@ static void touchRelease(void)
         }
     }
 }
-
 
 static void touch(void)
 {
@@ -601,7 +576,6 @@ end:
     MemKb10->repeat = 0;
 }
 
-
 static void DWCi_Keyboard10ExchangeBack(int a)
 {
     unsigned char **g = (unsigned char **)0x021DE560;
@@ -613,7 +587,6 @@ static void DWCi_Keyboard10ExchangeBack(int a)
     changeColor(*(signed char *)(*g + 0x62), 0);
     *(char *)(*g + 0x62) = a;
 }
-
 
 static void key(void)
 {
@@ -661,7 +634,6 @@ static void key(void)
     }
 }
 
-
 static void disp(int line, int y)
 {
     const KB10_N5 N_KEY = keyboard10_str_20862;
@@ -687,7 +659,6 @@ static void disp(int line, int y)
     }
 }
 
-
 static void changeColor(int idx, bool push)
 {
     if (idx < 0)
@@ -700,7 +671,6 @@ static void changeColor(int idx, bool push)
         DWCi_CELLlSetPalette(MemKb10->button[idx - 12], -1, 0, keyboard10_rodata.CL_BTN[push]);
     }
 }
-
 
 static void dispFocus(void)
 {
@@ -718,7 +688,6 @@ static void dispFocus(void)
     g = gKeyboard10Work;
     DWCi_CELLlSetPosition((void *)g->focusCell, -1, sKeyboard10CellPosX[g->focusIndex][0], sKeyboard10CellPosY[g->focusIndex][0]);
 }
-
 
 static void moveFocus(int dir)
 {
@@ -743,7 +712,6 @@ static void moveFocus(int dir)
     DWCi_SNDlPlay(8);
 }
 
-
 static void taskEnd0(void *task)
 {
     GXOamAttr *obj;
@@ -756,7 +724,6 @@ static void taskEnd0(void *task)
     if (y >= 192)
         DWCi_TSKlChangeFunc(task, taskEnd1);
 }
-
 
 static void taskEnd1(void *task)
 {
@@ -771,7 +738,6 @@ static void taskEnd1(void *task)
         DWCi_TSKlChangeFunc(task, taskEnd2);
 }
 
-
 static void taskEnd2(void *task)
 {
     GXOamAttr *obj;
@@ -784,7 +750,6 @@ static void taskEnd2(void *task)
     if (y >= 192)
         DWCi_TSKlChangeFunc(task, taskEnd3);
 }
-
 
 static void taskEnd3(void *task)
 {
@@ -799,7 +764,6 @@ static void taskEnd3(void *task)
         DWCi_TSKlChangeFunc(task, taskEnd4);
 }
 
-
 static void taskEnd4(void *task)
 {
     GXOamAttr *obj;
@@ -812,7 +776,6 @@ static void taskEnd4(void *task)
     if (y >= 192)
         DWCi_TSKlChangeFunc(task, taskEnd5);
 }
-
 
 static void taskEnd5(void *task)
 {

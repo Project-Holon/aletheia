@@ -15,13 +15,7 @@
  * symbols:
  *   MIi_CpuClear16  0x02082A48  arm
  */
-typedef signed short   s16;
-
-typedef unsigned short u16;
-
-typedef signed int     s32;
-
-typedef unsigned int   u32;
+#include "../types.h"
 
 struct NNSG2dSRTControl {
     u32 mode;
@@ -42,8 +36,6 @@ void NNS_G2dSetSRTRotate(struct NNSG2dSRTControl *obj, u16 rotZ);
 void NNS_G2dSetSRTScale(struct NNSG2dSRTControl *obj, u32 scaleX, u32 scaleY);
 void NNSi_G2dSrtcInitControl(struct NNSG2dSRTControl *pSrtCtrl, u32 mode);
 int NNSi_G2dSrtcResetSrtData(struct NNSG2dSRTControl *pSrtCtrl);
-
-
 
 /*
  * The per-node SRT control block of the NNS G2D cell-animation module, and
@@ -97,21 +89,15 @@ void NNSi_G2dSrtcInitTable(s32 *tbl)
     }
 }
 
-
-
 void NNSi_G2dSrtcSetTable(s32 *tbl, u32 i, u32 v)
 {
     tbl[i] = v;
 }
 
-
-
 s32 NNSi_G2dSrtcGetTable(const s32 *tbl, u32 i)
 {
     return tbl[i];
 }
-
-
 
 void NNS_G2dSetSRTTranslate(struct NNSG2dSRTControl *obj, u16 x, u16 y)
 {
@@ -121,16 +107,12 @@ void NNS_G2dSetSRTTranslate(struct NNSG2dSRTControl *obj, u16 x, u16 y)
     obj->transY = y;
 }
 
-
-
 void NNS_G2dSetSRTRotate(struct NNSG2dSRTControl *obj, u16 rotZ)
 {
     if (obj->mode != 1) return;
     obj->dirtyFlags |= 4;
     obj->rotZ = rotZ;
 }
-
-
 
 void NNS_G2dSetSRTScale(struct NNSG2dSRTControl *obj, u32 scaleX, u32 scaleY)
 {
@@ -140,15 +122,11 @@ void NNS_G2dSetSRTScale(struct NNSG2dSRTControl *obj, u32 scaleX, u32 scaleY)
     obj->scaleY = scaleY;
 }
 
-
-
 void NNSi_G2dSrtcInitControl(struct NNSG2dSRTControl *pSrtCtrl, u32 mode)
 {
     pSrtCtrl->mode = mode;
     NNSi_G2dSrtcResetSrtData(pSrtCtrl);
 }
-
-
 
 int NNSi_G2dSrtcResetSrtData(struct NNSG2dSRTControl *pSrtCtrl)
 {

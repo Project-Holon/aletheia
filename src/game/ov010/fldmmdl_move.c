@@ -129,9 +129,7 @@ struct MapGrid;
 #include "../ov021/fldmmdl_rail_types.h"
 #include "fldmmdl_types.h"
 
-typedef unsigned int u32;
-
-typedef int s32;
+#include "../types.h"
 
 /* Grid place of a bg event: one cell, height within 2. */
 typedef struct BgEventGridPos {
@@ -166,13 +164,7 @@ typedef struct RailMoveRequest {
     u16 location[4];    /* 0x04: RailLocation as halfwords */
 } RailMoveRequest;
 
-typedef s32 fx32;
-
-typedef struct VecFx32 {
-    fx32 x;
-    fx32 y;
-    fx32 z;
-} VecFx32;
+#include "../sdk_fx.h"
 
 /* Map attributes under a field model and its draw parameters, read once per
  * step check (FLDMMDL_MOVE_InitAttrInfo). An attribute is a u32: value in the low 16

@@ -74,11 +74,7 @@
  *   BMP_MENU_CreateYesNo  0x0201FDA0  thumb
  *   BMP_MENU_ProcessYesNo  0x0201FEBC  thumb
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef short s16;
-typedef signed char s8;
+#include "../types.h"
 
 struct GfFont;
 struct MsgBank;

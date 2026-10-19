@@ -37,9 +37,8 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  */
 #include "beacon_status_shared_types.h"
-#include "app_keycursor_shared_types.h"
 
-typedef signed int     s32;
+#include "../types.h"
 
 struct TextPrinter;     /* message print stream (printsys.c) */
 
@@ -204,8 +203,6 @@ struct KeyCursor *APP_KEYCURSOR_CreateDefault(u32 id, u32 isLive, u32 isFlip, u1
 {
     return APP_KEYCURSOR_Create(id, isLive, isFlip, heapId, (void *)_KeyCursorDefaultPixels);
 }
-
-typedef signed short   s16;
 
 struct Bmp {
     void *pixels;

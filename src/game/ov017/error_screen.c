@@ -58,15 +58,7 @@ struct Bmp;
 struct GfFont;
 struct MsgBank;
 struct Strbuf;
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef unsigned char  u8;
-
-typedef signed int     s32;
-
-typedef signed short   s16;
+#include "../types.h"
 
 /* Character data block of a packed graphics file. */
 typedef struct CharData {
@@ -124,10 +116,8 @@ void ERROR_SCREEN_LoadBackground(void);
 void ERROR_SCREEN_PrintMessage(int messageIndex);
 void ERROR_SCREEN_Teardown(void);
 
-
 /* Display and key registers touched by the error screen. */
 #define REG_DISPCNT_MAIN   (*(volatile u32 *)0x04000000)
-
 
 /* Held keys, A and B only matter here; the shared (ext) key word is merged in. */
 static inline u16 ReadKeys(void)
@@ -136,7 +126,6 @@ static inline u16 ReadKeys(void)
     keys = (u16)(keys & ~((keys & 0x40) << 1) & ~((keys & 0x20) >> 1));
     return keys;
 }
-
 
 /*
  * Error screen entry: show message 0x2A (TWL) or 0x10 (DS) from message
@@ -156,7 +145,6 @@ void ERROR_SCREEN_ShowAndWait(void)
     }
     ERROR_SCREEN_Teardown();
 }
-
 
 /* Blank both screens, set up BG1 on the main screen, draw the background and message, fade in. */
 void ERROR_SCREEN_Setup(int messageIndex)
@@ -179,12 +167,10 @@ void ERROR_SCREEN_Setup(int messageIndex)
     GXx_SetMasterBrightness_(REG_MASTER_BRIGHT_SUB, 0x10);
 }
 
-
 static inline void CopyToVram(void *src, void *dst, u32 size)
 {
     MIi_CpuCopy16(src, dst, size);
 }
-
 
 /*
  * Loads a background from archive 0x16: clears 0x4000 bytes of character
@@ -229,7 +215,6 @@ void ERROR_SCREEN_LoadBackground(void)
     GFL_HEAP_Free(file);
 }
 
-
 /* Fill the BG1 tile map (30x16 tiles at row 4, column 1) with sequential tiles from 0x20, print the message into the bitmap, release the temporaries. */
 void ERROR_SCREEN_PrintMessage(int messageIndex)
 {
@@ -260,7 +245,6 @@ void ERROR_SCREEN_PrintMessage(int messageIndex)
     GF_FONT_Delete(font);
     BMP_Delete(bmp);
 }
-
 
 /* Error screen teardown: fade out, hide the planes, clear character data, tile map and palette, disable the main BGs. */
 void ERROR_SCREEN_Teardown(void)

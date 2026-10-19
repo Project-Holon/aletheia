@@ -1,13 +1,7 @@
 #ifndef COMM_PLAYER_SUPPORT_SHARED_TYPES_H
 #define COMM_PLAYER_SUPPORT_SHARED_TYPES_H
 
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef signed int     s32;
+#include "../types.h"
 
 /* A 0x20-byte player record, read through the accessors MYSTATUS_CreateNameStrbuf etc. */
 struct PlayerRecord {

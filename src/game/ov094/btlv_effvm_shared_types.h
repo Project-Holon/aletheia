@@ -12,6 +12,6 @@
 #include "btlv_camera_shared_types.h"
 #include "btlv_effect_shared_types.h"
 
-typedef long long s64;
+#include "../types.h"
 
 #endif

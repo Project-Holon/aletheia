@@ -45,23 +45,12 @@
  */
 #include "fld_btl_inst_tool_shared_types.h"
 
-typedef long long s64;
+#include "../types.h"
 
 typedef struct PartySave PartySave;
 
 /* ---- Field clock ---- */
-typedef struct RTCDate {
-    u32 year;
-    u32 month;
-    u32 day;
-    u32 week;
-} RTCDate;
-
-typedef struct RTCTime {
-    u32 hour;
-    u32 minute;
-    u32 second;
-} RTCTime;
+#include "../sdk_rtc.h"
 
 /* Clock checkpoint kept in the save (reached through the save control). */
 typedef struct FieldClock {
@@ -271,7 +260,6 @@ RTCDate *FIELD_CLOCK_GetDate(GameData *gameData)
     SaveControl *saveControl;
     FieldClock *clock;
 
-
     saveControl = GAME_DATA_GetSaveControl(gameData);
     clock = CONSOLE_STAMP_GetDailyClock(saveControl);
     return &clock->date;
@@ -295,7 +283,6 @@ int FIELD_CLOCK_GetMonth(GameData *gameData)
     SaveControl *saveControl;
     FieldClock *clock;
 
-
     saveControl = GAME_DATA_GetSaveControl(gameData);
     clock = CONSOLE_STAMP_GetDailyClock(saveControl);
     return clock->date.month;
@@ -305,7 +292,6 @@ int FIELD_CLOCK_GetDay(GameData *gameData)
 {
     SaveControl *saveControl;
     FieldClock *clock;
-
 
     saveControl = GAME_DATA_GetSaveControl(gameData);
     clock = CONSOLE_STAMP_GetDailyClock(saveControl);
@@ -317,7 +303,6 @@ int FIELD_CLOCK_GetWeek(GameData *gameData)
     SaveControl *saveControl;
     FieldClock *clock;
 
-
     saveControl = GAME_DATA_GetSaveControl(gameData);
     clock = CONSOLE_STAMP_GetDailyClock(saveControl);
     return clock->date.week;
@@ -328,7 +313,6 @@ int FIELD_CLOCK_GetHour(GameData *gameData)
     SaveControl *saveControl;
     FieldClock *clock;
 
-
     saveControl = GAME_DATA_GetSaveControl(gameData);
     clock = CONSOLE_STAMP_GetDailyClock(saveControl);
     return clock->time.hour;
@@ -338,7 +322,6 @@ int FIELD_CLOCK_GetMinute(GameData *gameData)
 {
     SaveControl *saveControl;
     FieldClock *clock;
-
 
     saveControl = GAME_DATA_GetSaveControl(gameData);
     clock = CONSOLE_STAMP_GetDailyClock(saveControl);
@@ -351,7 +334,6 @@ int FIELD_CLOCK_GetCounter(GameData *gameData)
 {
     SaveControl *saveControl;
     FieldClock *clock;
-
 
     saveControl = GAME_DATA_GetSaveControl(gameData);
     clock = CONSOLE_STAMP_GetDailyClock(saveControl);

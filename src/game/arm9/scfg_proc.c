@@ -21,17 +21,9 @@
  *   OS_Terminate                   0x02088234  arm
  *   SCFGi_FuseInfo                 0x02153040  data
  */
-typedef unsigned long u32;
+#include "../types.h"
 
-typedef volatile unsigned short vu16;
-
-typedef u32 OSIntrMode;
-
-typedef unsigned short u16;
-
-typedef unsigned long long u64;
-
-typedef int BOOL;
+#include "../sdk_os.h"
 
 typedef void (*SCFGCallback)(u64 fuseData, void *arg);
 
@@ -53,9 +45,7 @@ void SCFG_Init(void);
 void SCFG_SetCpuSpeed(int cpuSpeed);
 extern SCFGFuseInfo SCFGi_FuseInfo;
 
-
 #define reg_SCFG_CLK (*(vu16 *)0x04004004)
-
 
 /*
  * sdk:      SCFG_Init (libscfg.TWL.HYB.a scfg_proc.o)
@@ -78,7 +68,6 @@ void SCFG_SetCpuSpeed(int cpuSpeed)
     }
     (void)OS_RestoreInterrupts(enable);
 }
-
 
 /*
  * sdk:      SCFGi_CommonCallback (libscfg.TWL.HYB.a scfg_proc.o)

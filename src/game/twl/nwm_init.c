@@ -32,10 +32,7 @@
  *   data_027341A0                0x027341A0  data
  *   NWMi_SysWorkPtr                0x027341A4  data
  */
-typedef unsigned int u32;
-
-typedef unsigned char u8;
-typedef unsigned short u16;
+#include "../types.h"
 
 typedef struct CamRing {
     u8 pad0[0x24];
@@ -62,7 +59,8 @@ extern void DC_InvalidateRange(void *, u32);
 extern void MIi_DmaFill32(unsigned int dmaNo, void *dest, unsigned int data, unsigned int size, int dmaEnable);
 extern void DC_StoreRange(void *, u32);
 extern void NWMi_ClearFifoRecvFlag(void);
-struct OSMessageQueue;
+#include "../sdk_os.h"
+
 extern void OS_InitMessageQueue(struct OSMessageQueue *mq, void **msgArray, int msgCount);
 extern int OS_SendMessage(struct OSMessageQueue *mq, void *msg, int flags);
 extern void PXI_SetFifoRecvCallback(int fifotag, void (*)(void));
@@ -76,7 +74,6 @@ extern CamBuf *NWMi_SysWorkPtr;
 extern u8 data_027341A0[];
 extern int OS_IsAvailableWireless(void);
 extern int OS_IsForceDisableWireless(void);
-
 
 u32 NWM_Init(CamBuf *buf, u32 size, u32 mode) {
     if (NWMi_CheckEnableFlag() == 0) {

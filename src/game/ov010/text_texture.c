@@ -36,7 +36,6 @@
  *   GX_LoadTexPltt 0x0207FA40 arm
  *   GX_EndLoadTexPltt 0x0207FADC arm
  */
-#include "waza_oshie_shared_types.h"
 
 struct GfFont;
 
@@ -44,7 +43,7 @@ struct Bmp;
 
 struct Bmp;
 
-typedef short s16;
+#include "../types.h"
 
 typedef struct TexResource {
     u8 pad00[8];

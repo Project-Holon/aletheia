@@ -1,15 +1,7 @@
 #ifndef ZUKAN_DETAIL_SHARED_TYPES_H
 #define ZUKAN_DETAIL_SHARED_TYPES_H
 
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef signed int s32;
-
-typedef signed short s16;
+#include "../types.h"
 
 /* Forward declarations shared across the zukan detail overlay files. */
 struct Blk37;
@@ -176,17 +168,12 @@ struct Ov208Pltt {
 };
 
 /* Screen point used by the area screen's touch hit test. */
-typedef signed short s16;
 
 struct PtS { s16 x, y; };
 
 /* Word-size alias kept so the touch bar palette/handle casts stay one line. */
-typedef signed int s32;
 
 /* Signed short alias kept so the touch bar palette casts stay one line. */
-typedef short s16;
-
-typedef signed short s16;
 
 /* Unsigned point/actor stand-ins of the touch bar actors. */
 struct Pt { u16 x,y; };

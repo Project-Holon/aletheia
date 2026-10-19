@@ -258,7 +258,6 @@ extern void UNION_APP_SetCallbacks(struct UnionAppWork *app, Cb, Cb, void *callb
 typedef struct { void *current; void *previous; } Entry;
 typedef struct { char pad[0x38]; void *font; void *formatter; void *bank; void *names[5]; char pad58[0xe0]; Entry entries[5]; } Context;
 
-
 void GURU2_RECEIPT_InitActors();
 
 void GURU2_RECEIPT_CreatePlayerActors();
@@ -579,7 +578,7 @@ struct Sub0204A9D0;
 
 typedef struct {u8 frame,x,y,pal;u16 chr;} WinDat;
 
-typedef unsigned long long u64;
+#include "../types.h"
 
 typedef union { struct { u32 a,b; } words; u64 wide; } WordPair;
 
@@ -713,7 +712,6 @@ extern void GFL_NET_HANDLE_SetUserInfo(struct GFLNetHandle *handle, int timingLo
 extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct GFLNetHandle *handle, unsigned int timingLow, unsigned int timingHigh);
 struct TextPrinter;
 
-
 extern void PRINTSYS_PrintStreamStop(struct TextPrinter *printer);
 
 extern u16 MYSTATUS_GetIdLow16(struct MyStatus *mystatus);
@@ -753,10 +751,6 @@ extern void *ARC_UTIL_LoadPaletteBlockFromArchive(unsigned int archiveID, unsign
 extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
 
 extern void CLACT_TransferCharacter(int a, struct Sub0204A9D0 *b);
-
-
-
-
 
 void GURU2_RECEIPT_PrintTitle(void *p, void *text, void *font);
 

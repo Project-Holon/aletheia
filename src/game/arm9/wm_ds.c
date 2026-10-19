@@ -26,29 +26,9 @@
  *   OS_RestoreInterrupts      0x0208799C  arm
  *   MIi_CpuClear16          0x02082A48  arm
  */
-typedef unsigned long u32;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef unsigned char u8;
-
-typedef long s32;
-
-typedef int BOOL;
-
-typedef enum WMErrCode {
-    WM_ERRCODE_SUCCESS = 0,
-    WM_ERRCODE_FAILED = 1,
-    WM_ERRCODE_OPERATING = 2,
-    WM_ERRCODE_ILLEGAL_STATE = 3,
-    WM_ERRCODE_WM_DISABLE = 4,
-    WM_ERRCODE_NO_DATASET = 5,
-    WM_ERRCODE_INVALID_PARAM = 6,
-    WM_ERRCODE_NO_ENTRY = 7,
-    WM_ERRCODE_MAX = 0x7FFFFFFF
-} WMErrCode;
-
-typedef void (*WMCallbackFunc)(void *arg);
+#include "../sdk_wm.h"
 
 typedef struct WMDataSet {
     u16 aidBitmap;
@@ -73,74 +53,7 @@ typedef struct WMDataSharingInfo {
     u16 reserved[1];
 } WMDataSharingInfo;
 
-typedef struct WMStatus {
-    u16 state;
-    u8 pad02[0x70];
-    u16 mp_recvBufSize;
-} WMStatus;
-
-typedef struct WMArm9Buf {
-    struct WMArm7Buf *WM7;
-    WMStatus *status;
-    u32 *indbuf;
-    u32 *fifo9to7;
-    u32 *fifo7to9;
-    u16 dmaNo;
-    u16 scanOnlyFlag;
-    WMCallbackFunc CallbackTable[44];
-    WMCallbackFunc indCallback;
-    WMCallbackFunc portCallbackTable[16];
-    void *portCallbackArgument[16];
-    u32 connectedAidBitmap;
-    u16 myAid;
-    u8 reserved1[174];
-} WMArm9Buf;
-
-typedef struct WMPortSendCallback {
-    u16 apiid;
-    u16 errcode;
-    u16 wlCmdID;
-    u16 wlResult;
-    u16 state;
-    u16 port;
-    u16 destBitmap;
-    u16 restBitmap;
-    u16 sentBitmap;
-    u16 rsv;
-    u16 *data;
-    union {
-        u16 size;
-        u16 length;
-    };
-    u16 seqNo;
-    WMCallbackFunc callback;
-    void *arg;
-    u16 maxSendDataSize;
-    u16 maxRecvDataSize;
-} WMPortSendCallback;
-
-typedef u32 OSIntrMode;
-
-typedef struct WMPortRecvCallback {
-    u16 apiid;
-    u16 errcode;
-    u16 state;
-    u16 port;
-    struct WMMpRecvBuf *recvBuf;
-    u16 *data;
-    u16 length;
-    u16 aid;
-    u8 macAddress[6];
-    u16 seqNo;
-    void *arg;
-    u16 myAid;
-    u16 connectedAidBitmap;
-    u8 ssid[24];
-    u16 reason;
-    u16 rssi;
-    u16 maxSendDataSize;
-    u16 maxRecvDataSize;
-} WMPortRecvCallback;
+#include "../sdk_os.h"
 
 extern WMErrCode WMi_CheckStateEx(s32 paramNum, ...);
 extern u16 WM_GetAID(void);
@@ -165,7 +78,6 @@ void WmDataSharingReceiveData(WMDataSharingInfo *dsInfo, u16 aid, u16 *data);
 void WmDataSharingSendDataSet(WMDataSharingInfo *dsInfo, BOOL delayed);
 u16 *WM_GetSharedDataAddress(WMDataSharingInfo *dsInfo, WMDataSet *receiveData, u16 aid);
 u16 *WmGetSharedDataAddress(WMDataSharingInfo *dsInfo, u32 aidBitmap, u16 *receiveBuf, u32 aid);
-
 
 WMErrCode WM_StartDataSharing(WMDataSharingInfo *dsInfo, u16 port, u16 aidBitmap, u16 dataLength,
                               BOOL doubleMode)
@@ -244,7 +156,6 @@ WMErrCode WM_StartDataSharing(WMDataSharingInfo *dsInfo, u16 port, u16 aidBitmap
     return WM_ERRCODE_SUCCESS;
 }
 
-
 WMErrCode WM_EndDataSharing(WMDataSharingInfo *dsInfo)
 {
     if (dsInfo == 0) {
@@ -264,7 +175,6 @@ WMErrCode WM_EndDataSharing(WMDataSharingInfo *dsInfo)
 #define FALSE 0
 
 #define NULL ((void *)0)
-
 
 /*
  * sdk:      WM_StepDataSharing (libwm.TWL.HYB.a(wm_ds.o))
@@ -387,7 +297,6 @@ WMErrCode WM_StepDataSharing(WMDataSharingInfo *dsInfo, const u16 *sendData, WMD
     return result;
 }
 
-
 void WmDataSharingSetDataCallback(void *callback)
 {
     WMArm9Buf *p = WMi_GetSystemWork();
@@ -422,7 +331,6 @@ void WmDataSharingSetDataCallback(void *callback)
         dsInfo->state = 5;
     }
 }
-
 
 void WmDataSharingReceiveCallback_Parent(void *callback)
 {
@@ -471,7 +379,6 @@ void WmDataSharingReceiveCallback_Parent(void *callback)
         dsInfo->state = 5;
     }
 }
-
 
 void WmDataSharingReceiveCallback_Child(void *callback)
 {
@@ -526,7 +433,6 @@ void WmDataSharingReceiveCallback_Child(void *callback)
     }
 }
 
-
 void WmDataSharingReceiveData(WMDataSharingInfo *dsInfo, u16 aid, u16 *data)
 {
     u16 aidBit = (u16)(1 << aid);
@@ -560,7 +466,6 @@ void WmDataSharingReceiveData(WMDataSharingInfo *dsInfo, u16 aid, u16 *data)
     dsInfo->ds[writeIndex].receivedBitmap |= aidBit;
     (void)OS_RestoreInterrupts(enabled);
 }
-
 
 void WmDataSharingSendDataSet(WMDataSharingInfo *dsInfo, BOOL delayed)
 {
@@ -604,7 +509,6 @@ void WmDataSharingSendDataSet(WMDataSharingInfo *dsInfo, BOOL delayed)
     }
 }
 
-
 u16 *WM_GetSharedDataAddress(WMDataSharingInfo *dsInfo, WMDataSet *receiveData, u16 aid)
 {
     u32 aidBitmap;
@@ -627,7 +531,6 @@ u16 *WM_GetSharedDataAddress(WMDataSharingInfo *dsInfo, WMDataSet *receiveData, 
     }
     return WmGetSharedDataAddress(dsInfo, aidBitmap, receiveData->data, aid);
 }
-
 
 u16 *WmGetSharedDataAddress(WMDataSharingInfo *dsInfo, u32 aidBitmap, u16 *receiveBuf, u32 aid)
 {

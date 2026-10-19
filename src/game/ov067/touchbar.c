@@ -71,13 +71,7 @@
  *   MSGDATA_Delete  0x02045C04  arm
  */
 
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef signed int     s32;
+#include "../types.h"
 
 #include "touchbar_types.h"
 
@@ -201,7 +195,6 @@ u16 TOUCHBAR_GetStringAlignOffset(struct StrObj *str, u32 fontId, u32 alignMode)
 extern const char gTouchBarSourceName[];
 extern TouchBarButtonLook gTouchBarButtonLooks[];
 
-
 TouchBar *TOUCHBAR_Create(TouchBarParams *params, u16 heapId)
 {
     int screen;
@@ -229,7 +222,6 @@ TouchBar *TOUCHBAR_Create(TouchBarParams *params, u16 heapId)
     return bar;
 }
 
-
 void TOUCHBAR_Delete(TouchBar *bar)
 {
     u32 i;
@@ -238,7 +230,6 @@ void TOUCHBAR_Delete(TouchBar *bar)
     TOUCHBAR_FreeGfx(&bar->gfx);
     GFL_HEAP_Free(bar);
 }
-
 
 void TOUCHBAR_Update(TouchBar *bar)
 {
@@ -268,7 +259,6 @@ void TOUCHBAR_Update(TouchBar *bar)
     }
 }
 
-
 int TOUCHBAR_GetPressedButtonIdIfDone(TouchBar *bar)
 {
     if (bar->state == TOUCHBAR_STATE_DONE && bar->pressedIndex != TOUCHBAR_NO_BUTTON) {
@@ -276,7 +266,6 @@ int TOUCHBAR_GetPressedButtonIdIfDone(TouchBar *bar)
     }
     return -1;
 }
-
 
 int TOUCHBAR_GetPressedButtonIdIfPressing(TouchBar *bar)
 {
@@ -286,14 +275,12 @@ int TOUCHBAR_GetPressedButtonIdIfPressing(TouchBar *bar)
     return -1;
 }
 
-
 int TOUCHBAR_IsBusy(TouchBar *bar)
 {
     if (bar->state)
         return 1;
     return 0;
 }
-
 
 void TOUCHBAR_SetAllButtonsEnabled(TouchBar *bar, u32 enabled)
 {
@@ -304,7 +291,6 @@ void TOUCHBAR_SetAllButtonsEnabled(TouchBar *bar, u32 enabled)
     }
 }
 
-
 void TOUCHBAR_SetAllButtonsVisible(TouchBar *bar, u32 visible)
 {
     u32 i;
@@ -313,7 +299,6 @@ void TOUCHBAR_SetAllButtonsVisible(TouchBar *bar, u32 visible)
         TOUCHBAR_SetButtonActorVisible(&bar->buttons[i], visible);
     }
 }
-
 
 void TOUCHBAR_SetAllButtonsBgPriority(TouchBar *bar, u32 bgPriority)
 {
@@ -324,7 +309,6 @@ void TOUCHBAR_SetAllButtonsBgPriority(TouchBar *bar, u32 bgPriority)
     }
 }
 
-
 void TOUCHBAR_SetAllButtonsPriority(TouchBar *bar, u32 priority)
 {
     u32 i;
@@ -334,42 +318,35 @@ void TOUCHBAR_SetAllButtonsPriority(TouchBar *bar, u32 priority)
     }
 }
 
-
 void TOUCHBAR_SetButtonEnabled(TouchBar *bar, unsigned int buttonId, int enabled)
 {
     TOUCHBAR_CallSetEnabled(TOUCHBAR_FindButton(bar, buttonId), enabled);
 }
-
 
 void TOUCHBAR_SetButtonVisible(TouchBar *bar, unsigned int buttonId, unsigned int visible)
 {
     TOUCHBAR_SetButtonActorVisible(TOUCHBAR_FindButton(bar, buttonId), visible);
 }
 
-
 void TOUCHBAR_SetButtonSound(TouchBar *bar, unsigned int buttonId, int soundId)
 {
     TOUCHBAR_SetButtonSoundId(TOUCHBAR_FindButton(bar, buttonId), soundId);
 }
-
 
 void TOUCHBAR_SetButtonKeyMask(TouchBar *bar, unsigned int buttonId, int keyMask)
 {
     TOUCHBAR_SetButtonKeys(TOUCHBAR_FindButton(bar, buttonId), keyMask);
 }
 
-
 void TOUCHBAR_SetButtonBgPriority(TouchBar *bar, unsigned int buttonId, unsigned int bgPriority)
 {
     TOUCHBAR_SetButtonActorBgPriority(TOUCHBAR_FindButton(bar, buttonId), bgPriority);
 }
 
-
 void TOUCHBAR_SetButtonToggled(TouchBar *bar, unsigned int buttonId, unsigned int toggled)
 {
     TOUCHBAR_SetButtonToggle(TOUCHBAR_FindButton(bar, buttonId), toggled);
 }
-
 
 /*
  * Extent includes the unlabelled tail-call follower at 0x021B65B4.
@@ -379,14 +356,12 @@ int TOUCHBAR_IsButtonToggled(TouchBar *bar, int buttonId)
     return TOUCHBAR_IsButtonDown(TOUCHBAR_GetButton(bar, buttonId));
 }
 
-
 void TOUCHBAR_ResetAndEnableButton(TouchBar *bar, unsigned int buttonId)
 {
     bar->state = TOUCHBAR_STATE_IDLE;
     bar->pressedIndex = TOUCHBAR_NO_BUTTON;
     TOUCHBAR_SetButtonEnabled(bar, buttonId, 1);
 }
-
 
 TouchBarButton *TOUCHBAR_FindButton(TouchBar *bar, u32 buttonId)
 {
@@ -400,7 +375,6 @@ TouchBarButton *TOUCHBAR_FindButton(TouchBar *bar, u32 buttonId)
     return 0;
 }
 
-
 /*
  * Tail call to TOUCHBAR_FindButton.
  */
@@ -408,7 +382,6 @@ TouchBarButton *TOUCHBAR_GetButton(TouchBar *bar, unsigned int buttonId)
 {
     return TOUCHBAR_FindButton(bar, buttonId);
 }
-
 
 void TOUCHBAR_LoadGfx(TouchBarGfx *gfx, u8 bgLayer, u32 screen, u32 bgPlttTarget, u32 iconSet, u8 bgPlttSlot, u8 actorPlttSlot, u32 skipBgGfx, u32 heapId)
 {
@@ -431,7 +404,6 @@ void TOUCHBAR_LoadGfx(TouchBarGfx *gfx, u8 bgLayer, u32 screen, u32 bgPlttTarget
     ARC_TOOL_DeleteHandle(arc);
 }
 
-
 void TOUCHBAR_FreeGfx(TouchBarGfx *gfx)
 {
     CLACT_ReleaseCellAnim(gfx->animHandle);
@@ -441,7 +413,6 @@ void TOUCHBAR_FreeGfx(TouchBarGfx *gfx)
     MI_CpuFill8(gfx, 0, sizeof(TouchBarGfx));
 }
 
-
 /*
  * Reads word `index` of the resource handle block (0 palette, 1 character,
  * 2 cell animation); the struct is indexed as a word array.
@@ -450,7 +421,6 @@ int TOUCHBAR_GetGfxWord(const TouchBarGfx *gfx, int index)
 {
     return ((int *)gfx)[index];
 }
-
 
 /*
  * Loads a character-data resource, optionally adds tileOffset to each of its
@@ -495,7 +465,6 @@ void TOUCHBAR_LoadCharToBg(void *arc, u32 fileId, u32 bgLayer, u32 tileOffset,
     }
     GFL_HEAP_Free(file);
 }
-
 
 void TOUCHBAR_InitButton(TouchBarButton *button, struct Unit *actorSys, const TouchBarGfx *gfx, const TouchBarButtonDef *def, u32 screen, u16 heapId)
 {
@@ -545,7 +514,6 @@ void TOUCHBAR_InitButton(TouchBarButton *button, struct Unit *actorSys, const To
     }
 }
 
-
 /*
  * extent: trailing two-byte alignment padding at 0x021B6932.
  */
@@ -554,7 +522,6 @@ void TOUCHBAR_FreeButton(TouchBarButton *button)
     CLACT_DeleteActor(button->actor);
     MI_CpuFill8(button, 0, sizeof(TouchBarButton));
 }
-
 
 int TOUCHBAR_PollButtonPress(TouchBarButton *button)
 {
@@ -581,13 +548,11 @@ int TOUCHBAR_PollButtonPress(TouchBarButton *button)
     return 0;
 }
 
-
 int TOUCHBAR_IsButtonActorIdle(TouchBarButton *button)
 {
     if (CLACT_IsActorAnimActive(button->actor) == 0) return 1;
     return 0;
 }
-
 
 /*
  * Getter, ARM9 tail call, indirect call, and two setters.  0x021B69BC is also
@@ -598,30 +563,25 @@ int TOUCHBAR_GetButtonId(TouchBarButton *button)
     return button->def.kind;
 }
 
-
 void TOUCHBAR_SetButtonActorVisible(TouchBarButton *button, unsigned int visible)
 {
     CLACT_SetActorDrawEnable(button->actor, visible);
 }
-
 
 void TOUCHBAR_CallSetEnabled(TouchBarButton *button, int enabled)
 {
     button->setEnabled(button, enabled);
 }
 
-
 void TOUCHBAR_SetButtonSoundId(TouchBarButton *button, int soundId)
 {
     button->def.soundId = soundId;
 }
 
-
 void TOUCHBAR_SetButtonKeys(TouchBarButton *button, int keyMask)
 {
     button->def.keyMask = keyMask;
 }
-
 
 void TOUCHBAR_SetButtonToggle(TouchBarButton *button, u32 down)
 {
@@ -632,7 +592,6 @@ void TOUCHBAR_SetButtonToggle(TouchBarButton *button, u32 down)
     CLACT_SetActorAnimSeq(button->actor, (u16)button->anim);
 }
 
-
 u32 TOUCHBAR_IsButtonDown(TouchBarButton *button)
 {
     int result = 1;
@@ -640,12 +599,10 @@ u32 TOUCHBAR_IsButtonDown(TouchBarButton *button)
     return result;
 }
 
-
 void TOUCHBAR_SetButtonActorPriority(TouchBarButton *button, unsigned int priority)
 {
     CLACT_SetActorDrawPriority(button->actor, priority);
 }
-
 
 /*
  * Tail call on the actor pointer loaded from offset 0.
@@ -654,7 +611,6 @@ void TOUCHBAR_SetButtonActorBgPriority(TouchBarButton *button, unsigned int bgPr
 {
     CLACT_SetActorBgPriority(button->actor, bgPriority);
 }
-
 
 /*
  * extent: trailing two-byte alignment padding at 0x021B6A42.
@@ -665,7 +621,6 @@ void TOUCHBAR_OnPressPlain(TouchBarButton *button)
     CLACT_SetActorAnimSeq(button->actor, button->anim);
     if (button->def.soundId) GFL_USE_PlaySeDefaultVolume(button->def.soundId);
 }
-
 
 void TOUCHBAR_OnPressToggle(TouchBarButton *button)
 {
@@ -681,7 +636,6 @@ void TOUCHBAR_OnPressToggle(TouchBarButton *button)
     }
 }
 
-
 /*
  * extent: trailing two-byte alignment padding at 0x021B6A96.
  */
@@ -695,7 +649,6 @@ void TOUCHBAR_SetEnabledPlain(TouchBarButton *button, u32 enabled)
         CLACT_SetActorAnimSeq(button->actor, button->def.animDisabled);
     }
 }
-
 
 void TOUCHBAR_SetEnabledToggle(TouchBarButton *button, u32 enabled)
 {
@@ -717,7 +670,6 @@ void TOUCHBAR_SetEnabledToggle(TouchBarButton *button, u32 enabled)
     }
 }
 
-
 /*
  * note:     y and x are u16 as the matched caller TOUCHBAR_PrintYesNoCancelLabels passes
  *           them; the difference is written back into the parameter
@@ -731,7 +683,6 @@ void TOUCHBAR_PrintAligned(TouchBarWindow *window, void *textCtx, u16 x, u16 y, 
     PRINTSYS_PrintQueColor(textCtx, BMP_WIN_GetBmp((struct BmpWin *)window->bitmap), (short)x, (short)y, (struct Strbuf *)str, (struct GfFont *)fontId, color);
     window->redraw = 1;
 }
-
 
 /*
  * note:     the heap id, y and color are reloaded from their stack slots
@@ -769,7 +720,6 @@ void TOUCHBAR_PrintYesNoCancelLabels(TouchBarWindow *window, void *textCtx, u32 
     WORDSET_Delete(wordSet);
     MSGDATA_Delete(msgBank);
 }
-
 
 u16 TOUCHBAR_GetStringAlignOffset(struct StrObj *str, u32 fontId, u32 alignMode)
 {

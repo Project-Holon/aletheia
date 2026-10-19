@@ -183,9 +183,7 @@ struct MiscSave;
 
 struct PlayerProfile;
 
-typedef signed int     s32;
-
-typedef unsigned long long u64;
+#include "../types.h"
 
 typedef enum { B_FALSE, B_TRUE } Bool;
 

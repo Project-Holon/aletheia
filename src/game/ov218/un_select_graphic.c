@@ -64,13 +64,7 @@ struct BgTemplate;
 struct DispConfig;
 struct Bank;
 struct Cfg;
-typedef unsigned int   u32;
-
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef signed short s16;
+#include "../types.h"
 
 struct ClactCtx {
     struct Bank *unit;     /* +0x00 CLACT unit from CLACT_CreateUnit */
@@ -191,7 +185,6 @@ void UN_SELECT_GRAPHIC_Delete(char *ctx)
     GFL_HEAP_Free(ctx);
 }
 
-
 /*
  * Destructor pair: tears down the tail field then the head.
  *
@@ -204,7 +197,6 @@ void UN_SELECT_GRAPHIC_Update(char *p)
 }
 
 u32 UN_SELECT_GRAPHIC_GetActor(char *p){return UN_SELECT_GRAPHIC_GetValue((u32 *)(p+4));}
-
 
 void UN_SELECT_GRAPHIC_Task(void *unused, char *p)
 {
@@ -242,7 +234,6 @@ void UN_SELECT_GRAPHIC_Noop(void *work) {}
 
 void UN_SELECT_GRAPHIC_DrawObjects(void *work) {BG_SYS_Update();}
 
-
 void UN_SELECT_GRAPHIC_SetupClact(unsigned char *p, int a, int b)
 {
     MI_CpuFill8(p, 0, 4);
@@ -252,7 +243,6 @@ void UN_SELECT_GRAPHIC_SetupClact(unsigned char *p, int a, int b)
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
-
 
 /*
  * Addresses are Black-image addresses.
@@ -275,7 +265,6 @@ void UN_SELECT_GRAPHIC_SetupCamera(unsigned **out, unsigned heap)
     G3D_SYSTEM_Init(0, 1, 0, 1, 0, heap, UN_SELECT_SetupDisplay);
     *out = G3D_CAMERA_Create(0, d_020A1EB8[6], d_020A1EB8[7], 5461, 0, 4096, 4194304, 0, &d_021BAE94, &d_021BAE88, &d_021BAEA0, heap);
 }
-
 
 void UN_SELECT_GRAPHIC_DeleteCamera(int *p)
 {

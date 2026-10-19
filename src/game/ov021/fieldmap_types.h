@@ -48,11 +48,7 @@ struct FldVReq;
 struct FieldMap;
 
 /* A fixed point 3D vector (x, y, z in fx32). */
-typedef struct VecFx32 {
-    int x;
-    int y;
-    int z;
-} VecFx32;
+#include "../sdk_fx.h"
 
 /* A warp destination (0x1C bytes; same layout as arm9 zonedata.c Location). */
 typedef struct FieldMapLocation {

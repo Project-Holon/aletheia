@@ -16,9 +16,7 @@
  *   FX_SinCosTable_   0x020A1B38  data
  */
 
-typedef long fx32;
-typedef short fx16;
-typedef unsigned short u16;
+#include "../types.h"
 
 extern const fx16 FX_SinCosTable_[];
 

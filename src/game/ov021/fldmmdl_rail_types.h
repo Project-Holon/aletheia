@@ -4,9 +4,7 @@
 /* fldmmdl_rail.c: a field model on a rail keeps its place as a rail
  * location. The rail move code (fldmmdl_rail_move.c) passes it around too. */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef signed short   s16;
+#include "../types.h"
 
 /* A place on the rails (8 bytes). */
 typedef struct {

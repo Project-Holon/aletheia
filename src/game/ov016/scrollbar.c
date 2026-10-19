@@ -61,7 +61,7 @@ typedef struct {
     unsigned char pad;                /* 0x1F */
 } ScrollBar;
 
-typedef unsigned char  u8;
+#include "../types.h"
 
 typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
 
@@ -69,8 +69,6 @@ typedef struct {
 	unsigned short x;
 	unsigned short y;
 } COORD;
-
-typedef unsigned short u16;
 
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 extern void DWCi_InputCoord(int a, int b, unsigned short *p);
@@ -104,7 +102,6 @@ extern unsigned char sScrollBarCellIds[];
 extern struct tagRECT sScrollbarTable;
 extern unsigned char sScrollBarStep[];
 
-
 /*
  * sdk:      DWCi_SBlInit (libdwcutil.TWL.HYB.a(scrollbar.o))
  */
@@ -131,7 +128,6 @@ void DWCi_SBlInit(int kind, int max, int x, int y, int pos)
 	gScrollBar->task = DWCi_TSKlForm(0, (void (*)(void *))taskMain, 0, 0x80);
 }
 
-
 /*
  * sdk:      DWCi_SBlEnd (libdwcutil.TWL.HYB.a(scrollbar.o))
  */
@@ -142,12 +138,10 @@ void DWCi_SBlEnd(void)
 	DWCi_HEAPlFree_((void **)0x021DE63C);
 }
 
-
 u8 DWCi_SBlGet(void)
 {
     return gScrollBar->pos;
 }
-
 
 /*
  * Read the byte at +0x1d of the object behind the global pointer.
@@ -162,12 +156,10 @@ unsigned char DWCi_SBlGetState(void)
     return gScrollBar->b;
 }
 
-
 void DWCi_SBlDisp(int scrollPos)
 {
     disp(scrollPos);
 }
-
 
 /*
  * Clear the byte at +0x1e of the object behind the global pointer.
@@ -182,7 +174,6 @@ void DWCi_SBlEnable(void)
     gScrollBar->disable = 0;
 }
 
-
 /*
  * Set the byte at +0x1e of the object behind the global pointer to 1.
  * Addresses are Black-image addresses.
@@ -195,7 +186,6 @@ void DWCi_SBlDisable(void)
 {
     gScrollBar->disable = 1;
 }
-
 
 /*
  * sdk:      taskMain (libdwcutil.TWL.HYB.a scrollbar.o)
@@ -251,7 +241,6 @@ static void taskMain(void)
     }
 }
 
-
 /*
  * sdk:      moveBar (libdwcutil.TWL.HYB.a(scrollbar.o))
  */
@@ -283,7 +272,6 @@ static void moveBar(void)
 	gScrollBar->b = 3;
 }
 
-
 /*
  * sdk:      playSound (libdwcutil.TWL.HYB.a(scrollbar.o))
  */
@@ -312,7 +300,6 @@ static void playSound(int pos)
 	DWCi_SNDlSetPitch(0xffff, pit);
 }
 
-
 /*
  * sdk:      stepBar (libdwcutil.TWL.HYB.a(scrollbar.o))
  */
@@ -321,7 +308,6 @@ static void stepBar(int idx)
 	gScrollBar->a = idx;
 	gScrollBar->b = (idx == 2) ? 4 : 6;
 }
-
 
 /*
  * sdk:      setBar (libdwcutil.TWL.HYB.a(scrollbar.o))
@@ -342,7 +328,6 @@ static void setBar(void)
 	disp(pos);
 	gScrollBar->b = 3;
 }
-
 
 /*
  * sdk:      isTrigger (libdwcutil.TWL.HYB.a(scrollbar.o))
@@ -368,7 +353,6 @@ static int isTrigger(void)
 	return idx;
 }
 
-
 /*
  * sdk:      isTouch (libdwcutil.TWL.HYB.a(scrollbar.o))
  */
@@ -384,7 +368,6 @@ static int isTouch(int a)
 	}
 	return 0;
 }
-
 
 /*
  * sdk:      calcRect (libdwcutil.TWL.HYB.a(scrollbar.o))
@@ -415,7 +398,6 @@ static void calcRect(int idx, RECT *r)
 		break;
 	}
 }
-
 
 /*
  * sdk:      disp (libdwcutil.TWL.HYB.a(scrollbar.o))

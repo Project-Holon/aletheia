@@ -45,15 +45,8 @@
  *   GFL_NET_IsSessionNull  0x0203CDBC  arm
  */
 #include "../version.h"
-#include "delivery_irc_shared_types.h"
 #include "mystery_gift_mon_shared_types.h"
-typedef signed char s8;
-
-typedef short s16;
-
-typedef int s32;
-
-typedef unsigned long long u64;
+#include "../types.h"
 
 #include "../ov011/intrude_comm_types.h"
 

@@ -156,15 +156,7 @@ struct Link;
 
 typedef struct {unsigned words[9];} Copy;
 
-typedef signed int     s32;
-
-
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-
-typedef unsigned int u32;
+#include "../types.h"
 
 typedef struct { u8 *regulation; void *party; u32 opponentName; u8 opponentGender, padD[3]; u32 opponentParty; void *gameData; u8 tail[20]; } Args;
 
@@ -189,10 +181,6 @@ typedef struct {
     u8 opponentGender, pad7D[15];
     u32 timerShown, timerRunning;
 } Output;
-
-
-
-
 
 extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
@@ -263,10 +251,6 @@ extern u8 ov114_id[];
 extern u8 ov067_id[];
 extern u8 ov176_id[];
 
-
-
-
-
 int PARTY_STATUS_Create(void *handle,int unused,PartyStatusObj5 *q)
 {
  PartyStatusObj3 *p;
@@ -284,10 +268,6 @@ int PARTY_STATUS_Create(void *handle,int unused,PartyStatusObj5 *q)
  return 1;
 }
 
-
-
-
-
 int PARTY_STATUS_Destroy(void *handle,int unused,PartyStatusObj6 *q,PartyStatusObj1 *p)
 {
  unsigned char i;
@@ -299,10 +279,6 @@ int PARTY_STATUS_Destroy(void *handle,int unused,PartyStatusObj6 *q,PartyStatusO
  PROCSYS_Delete(p->procSys);PROCSYS_FreeProcWork(handle);GFL_HEAP_DeleteChecked(0x58);
  return 1;
 }
-
-
-
-
 
 int PARTY_STATUS_Update(void *unused,int unused2,PartyStatusObj4 *q,char *p)
 {
@@ -357,10 +333,6 @@ int PARTY_STATUS_Update(void *unused,int unused2,PartyStatusObj4 *q,char *p)
     }
     return 0;
 }
-
-
-
-
 
 /*
  *  * note 2026-10-05 (wave P12 A7): DIFF 12/236 B, one residue: src and the record pointer
@@ -432,11 +404,6 @@ void PARTY_STATUS_SetupDisplay(Args *p, Other *o, Output *out)
     PLIST_COMM_Start((struct PartyListCommWork *)out);
 }
 
-
-
-
-
-
 /*
  * Populate the 0x28-byte record from the two source objects.
  */
@@ -463,11 +430,6 @@ void PARTY_STATUS_InitRecord(int *args, int *work, PartyStatusObj2 *record)
     record->forceExit = 0;
 }
 
-
-
-
-
-
 /*
  * Allocate the 0x58-byte subobject and dispatch on track[1].
  */
@@ -489,10 +451,6 @@ int PARTY_STATUS_CreateSub(struct Proc *proc, int unused, int *param)
     return 1;
 }
 
-
-
-
-
 int PARTY_STATUS_DestroySub(void *proc, u32 unused, u32 *param, void *work)
 {
     switch (param[1]) {
@@ -507,10 +465,6 @@ int PARTY_STATUS_DestroySub(void *proc, u32 unused, u32 *param, void *work)
     GFL_HEAP_DeleteChecked(0x58);
     return 1;
 }
-
-
-
-
 
 int PARTY_STATUS_UpdateSub(u32 unused, u32 state, u32 *param, void *work)
 {
@@ -527,15 +481,10 @@ int PARTY_STATUS_UpdateSub(u32 unused, u32 state, u32 *param, void *work)
     return r != 0;
 }
 
-
-
-
 /*
  * extent: bx lr followed by two zero alignment bytes.
  */
 void PARTY_STATUS_Noop(int work, int *param, int heapId) {}
-
-
 
 int PARTY_STATUS_NetSync(char **out,u32 *ctx,u32 *state)
 {
@@ -565,9 +514,6 @@ int PARTY_STATUS_NetSync(char **out,u32 *ctx,u32 *state)
     return 0;
 }
 
-
-
-
 void PARTY_STATUS_DestroySubWork(void **work, u32 *param)
 {
     if (*work == 0)
@@ -578,16 +524,11 @@ void PARTY_STATUS_DestroySubWork(void **work, u32 *param)
     GF_OVERLAY_Unload((u32)ov067_id);
 }
 
-
-
-
 void PARTY_STATUS_CreateSubWork(u32 *work, u32 **param, u32 heapId)
 {
     GF_OVERLAY_Load((u32)ov176_id);
     *work = (u32)LIVEBATTLEMATCH_IRC_Create(*(u32 *)*param, heapId);
 }
-
-
 
 unsigned PARTY_STATUS_NetSync2(void **netWork,unsigned *ctx,unsigned *state)
 {
@@ -602,7 +543,6 @@ unsigned PARTY_STATUS_NetSync2(void **netWork,unsigned *ctx,unsigned *state)
  }
  LIVEBATTLEMATCH_IRC_NoOp(*netWork);return 0;
 }
-
 
 void PARTY_STATUS_ExitSubWork(int *work, void *param)
 {

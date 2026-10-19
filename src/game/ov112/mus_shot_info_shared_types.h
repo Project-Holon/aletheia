@@ -7,6 +7,6 @@ struct Desc;
 
 typedef struct { u16 x,y,z; u8 a,b; } Desc;
 
-typedef int s32;
+#include "../types.h"
 
 #endif

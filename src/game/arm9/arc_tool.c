@@ -30,7 +30,7 @@
  */
 #include "g3d_util_shared_types.h"
 #include "g3d_light_shared_types.h"
-#include "arc_tool_shared_types.h"
+#include "../types.h"
 
 void ARC_TOOL_SetTable(void **a, u32 b);
 
@@ -45,7 +45,7 @@ void ARC_TOOL_SetTable(void **entries, u32 count)
 
 struct ArcFile;
 
-struct FSFile;
+#include "../sdk_fs.h"
 
 struct ArcFile {
     u8 file[0x48];

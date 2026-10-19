@@ -352,7 +352,7 @@ int qr2_init_socketA(qr2_implementation_s **qrec, int s, int boundport, char *ga
             OS_SPrintf(hostname, g_021A73B4, gamename);
         ret = get_sockaddrin(override ? g_021AE9B8 : hostname, 27900, &cr->hbaddr, 0);
         if (ret == 1)
-            gsDebugFormat(3, 0, 0x10, g_021A73D4, override ? g_021AE9B8 : hostname, SOC_InetNtoA(cr->hbaddr.addr));
+            gsDebugFormat(3, 0, 0x10, g_021A73D4, override ? g_021AE9B8 : hostname, SOC_InetNtoA(*(SOCInAddr *)&cr->hbaddr.addr));
         else
             gsDebugFormat(3, 0, 1, g_021A73E8, override ? g_021AE9B8 : hostname);
     } else {
@@ -602,15 +602,15 @@ static int get_sockaddrin(char *host, int port, SOCSockAddrIn *saddr, SOCHostEnt
     saddr->family = 2;
     saddr->port = (unsigned short)((((unsigned short)port >> 8) & 0xff) | (((unsigned short)port << 8) & 0xff00));
     if (host)
-        saddr->addr.addr = inet_addr(host);
+        saddr->addr = inet_addr(host);
     else
-        saddr->addr.addr = 0;
-    if (saddr->addr.addr == 0xFFFFFFFF) {
+        saddr->addr = 0;
+    if (saddr->addr == 0xFFFFFFFF) {
         if (strcmp(host, g_021A768C) != 0) {
             hent = SOC_GetHostByName(host);
             if (!hent)
                 return 0;
-            saddr->addr.addr = *(unsigned int *)*hent->addrList;
+            saddr->addr = *(unsigned int *)*hent->addrList;
         }
     }
     if (savehent)
@@ -1096,10 +1096,10 @@ int qr2_process_ip_verify(qr2_implementation_s *qrec, qr2_buffer_s *buf, SOCSock
     /* check if this ip/port combo is already in the list */
     for (; i < QR2_IPVERIFY_ARRAY_SIZE; i++) {
         /* Mark the first free index when/if found */
-        if (firstFreeIndex == -1 && qrec->ipverify[i].addr.addr.addr == 0)
+        if (firstFreeIndex == -1 && qrec->ipverify[i].addr.addr == 0)
             firstFreeIndex = i;
         /* Count any indexes that match this IP/port */
-        if (qrec->ipverify[i].addr.addr.addr == sender->addr.addr &&
+        if (qrec->ipverify[i].addr.addr == sender->addr &&
             qrec->ipverify[i].addr.port == sender->port) {
             numDuplicates++;
         }
@@ -1129,10 +1129,10 @@ static int qr2_check_ip_verify(qr2_implementation_s *qrec, SOCSockAddrIn *sender
     int i;
 
     for (i = 0; i < 200; i++) {
-        if (sender->addr.addr == qrec->ipverify[i].addr.addr.addr &&
+        if (sender->addr == qrec->ipverify[i].addr.addr &&
             sender->port == qrec->ipverify[i].addr.port &&
             ipverify == qrec->ipverify[i].challenge) {
-            qrec->ipverify[i].addr.addr.addr = 0;
+            qrec->ipverify[i].addr.addr = 0;
             qrec->ipverify[i].addr.port = 0;
             return 1;
         }
@@ -1150,9 +1150,9 @@ void qr2_expire_ip_verify(qr2_implementation_s *qrec)
     unsigned int now = current_time();
 
     for (; i < 0xc8; i++) {
-        if (qrec->ipverify[i].addr.addr.addr != 0 &&
+        if (qrec->ipverify[i].addr.addr != 0 &&
             now - qrec->ipverify[i].time > 0xfa0)
-            qrec->ipverify[i].addr.addr.addr = 0;
+            qrec->ipverify[i].addr.addr = 0;
     }
 }
 

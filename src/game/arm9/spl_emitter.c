@@ -73,7 +73,6 @@
  *   MTX_RotZ33_  0x0207AF38  thumb
  *   MTX_MultVec33  0x0207B51C  arm
  */
-#include "gf_standard_shared_types.h"
 
 #define NULL ((void *)0)
 #define FX32_SHIFT 12
@@ -141,11 +140,7 @@ typedef struct SPLNode { struct SPLNode *next; struct SPLNode *prev; } SPLNode;
 
 typedef struct SPLList { SPLNode *first; int count; SPLNode *last; } SPLList;
 
-typedef signed short s16;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 struct RandomVecRange {
     s16 x;
@@ -176,8 +171,6 @@ struct RigOffsetPair {
     int offsetZ;
 };
 
-typedef unsigned char u8;
-
 struct AxisAngleKey {
     u16 angle;
     u16 axis;
@@ -207,14 +200,6 @@ struct InterpTrack {
     int position;
 };
 
-typedef signed int s32;
-
-typedef s32 fx32;
-
-typedef signed long long s64;
-
-typedef s64 fx64;
-
 struct LerpSource {
     fx32 x;
     fx32 y;
@@ -232,17 +217,7 @@ struct LerpDest {
 
 typedef u16 GXRgb;
 
-typedef struct VecFx32 { fx32 x, y, z; } VecFx32;
-
-typedef unsigned long long u64;
-
-typedef signed char s8;
-
-typedef s16 fx16;
-
-typedef int BOOL;
-
-typedef struct { fx16 x, y, z; } VecFx16;
+#include "../sdk_fx.h"
 
 typedef struct SPLBehavior {
     void (*applyFunc)(const void *, struct SPLParticle *, VecFx32 *, struct SPLEmitter *);
@@ -686,8 +661,6 @@ struct ParticleDescOwner { u8 reserved0[0x14]; struct ParticleDesc *desc; };
 
 struct EmitOwner { u8 reserved0[0x14]; SPLList list; struct ParticleDescOwner *x; };
 
-struct MtxFx43 { s32 m[12]; };
-
 struct SubHwFlags {
     u16 a : 7;
     u16 kind : 2;
@@ -787,7 +760,7 @@ struct RigObject {
     u8 reserved2[0x08];
     u32 polygonAttr;
     struct RigRenderList *renderList;
-    struct MtxFx43 *mtx;
+    MtxFx43 *mtx;
 };
 
 struct RenderNode {
@@ -810,18 +783,12 @@ struct RenderNode {
 
 struct RigTransformFrame {
     struct VecFx32 t;
-    struct MtxFx43 m;
+    MtxFx43 m;
 };
-
-typedef struct { fx32 m[4][3]; } MtxFx43;
-
-typedef struct { fx32 m[3][3]; } MtxFx33;
 
 typedef u32 GXPolygonAttrMisc;
 
-typedef enum { GX_POLYGONMODE_MODULATE = 0 } GXPolygonMode;
-
-typedef enum { GX_CULL_ALL = 0, GX_CULL_FRONT = 1, GX_CULL_BACK = 2, GX_CULL_NONE = 3 } GXCull;
+#include "../sdk_gx.h"
 
 typedef union SPLTextureParam {
     u32 all;
@@ -894,37 +861,21 @@ typedef struct SPLManager {
 } SPLManager;
 
 struct RigTransformFrameA68 {
-    struct MtxFx43 m1;
-    struct MtxFx43 m2;
-    struct MtxFx43 m3;
+    MtxFx43 m1;
+    MtxFx43 m2;
+    MtxFx43 m3;
 };
 
-struct MtxFx33 { s32 m[9]; };
-
 struct RigTransformFrameMain {
-    struct MtxFx43 m1;
-    struct MtxFx43 m2;
-    struct MtxFx43 m3;
+    MtxFx43 m1;
+    MtxFx43 m2;
+    MtxFx43 m3;
     struct VecFx32 dir;
     struct VecFx32 right;
     struct VecFx32 up;
     struct VecFx32 upRef;
-    struct MtxFx43 m4;
+    MtxFx43 m4;
 };
-
-typedef enum { GX_TEXFMT_NONE = 0, GX_TEXFMT_A3I5 = 1, GX_TEXFMT_PLTT4 = 2, GX_TEXFMT_PLTT16 = 3, GX_TEXFMT_PLTT256 = 4, GX_TEXFMT_COMP4x4 = 5, GX_TEXFMT_A5I3 = 6, GX_TEXFMT_DIRECT = 7 } GXTexFmt;
-
-typedef enum { GX_TEXGEN_NONE = 0, GX_TEXGEN_TEXCOORD = 1, GX_TEXGEN_NORMAL = 2, GX_TEXGEN_VERTEX = 3 } GXTexGen;
-
-typedef enum { GX_TEXSIZE_S8 = 0 } GXTexSizeS;
-
-typedef enum { GX_TEXSIZE_T8 = 0 } GXTexSizeT;
-
-typedef enum { GX_TEXREPEAT_NONE = 0 } GXTexRepeat;
-
-typedef enum { GX_TEXFLIP_NONE = 0 } GXTexFlip;
-
-typedef enum { GX_TEXPLTTCOLOR0_USE = 0 } GXTexPlttColor0;
 
 typedef enum { GX_MTXMODE_PROJECTION = 0, GX_MTXMODE_POSITION = 1, GX_MTXMODE_POSITION_VECTOR = 2, GX_MTXMODE_TEXTURE = 3 } GXMtxMode;
 
@@ -1277,8 +1228,8 @@ void SPLEmitter_EmitParticles(SPLEmitter *emtr, SPLParticleList *list);
 void SPLEmitter_EmitChildren(SPLParticle *ptcl, SPLEmitter *emtr, SPLParticleList *list);
 void SPLUtil_DrawXYPlane(s32 s, s32 t, s32 x, s32 y);
 void SPLUtil_DrawXZPlane(s32 s, s32 t, s32 x, s32 z);
-void SPL_EMITTER_CalcRotMtx(s32 sn, s32 cs, struct MtxFx43 *m);
-void SPL_EMITTER_SetRotMtx(s32 sn, s32 cs, struct MtxFx43 *m);
+void SPL_EMITTER_CalcRotMtx(s32 sn, s32 cs, MtxFx43 *m);
+void SPL_EMITTER_SetRotMtx(s32 sn, s32 cs, MtxFx43 *m);
 void SPL_EMITTER_UpdateFrame(struct RigObject *obj, struct RenderNode *s);
 void SPL_EMITTER_UpdateFrameEx(struct RigObject *obj, struct RenderNode *s);
 void SPL_EMITTER_UpdateParticleMotion(SPLManager *mgr, SPLParticle *ptcl);
@@ -1318,8 +1269,6 @@ extern const s16 func_02054718_Verts[];
 extern const s16 func_0205429C_Verts[];
 extern const s16 func_02053E1C_Verts[];
 
-
-
 void SPLList_PushFront(SPLList *list, SPLNode *node)
 {
     SPLNode *head;
@@ -1338,9 +1287,6 @@ void SPLList_PushFront(SPLList *list, SPLNode *node)
     }
     list->count++;
 }
-
-
-
 
 SPLNode *SPLList_PopFront(SPLList *list)
 {
@@ -1362,10 +1308,6 @@ SPLNode *SPLList_PopFront(SPLList *list)
     }
     return ret;
 }
-
-
-
-
 
 SPLNode *SPLList_Erase(SPLList *list, SPLNode *node)
 {
@@ -1393,11 +1335,6 @@ SPLNode *SPLList_Erase(SPLList *list, SPLNode *node)
     return node;
 }
 
-
-
-
-
-
 /*
  * Handler row 0 of the 3D-rig table searched by BUTTON_MAN_FindRowData: adds the three
  * s16 components of o to dst[0..2].  Same compiler as its sibling
@@ -1411,19 +1348,7 @@ void SPL_EMITTER_AddVec(struct RandomVecRange *o, void *s, int *dst)
     dst[2] = dst[2] + o->z;
 }
 
-
-
-
-
-
-
 u32 g_02146A8C;
-
-
-
-
-
-
 
 /*
  * note:     EXACT* because the follower at 0x020582C0 is an unlabelled leaf run
@@ -1451,27 +1376,12 @@ void SPL_EMITTER_UpdateNode(struct RandomVecRange *o, struct RandomVecSource *s,
     dst[2] = dst[2] + ((o->z * r - (o->z << 8)) >> 8);
 }
 
-
-
-
-
-
-
-
 void SPL_EMITTER_AddScaledVec(struct ScaledVecSource *a, struct RigOffsetPair *b, volatile int *c)
 {
     c[0] = c[0] + (a->scale * (a->x - b->originX - b->offsetX) >> 12);
     c[1] = c[1] + (a->scale * (a->y - b->originY - b->offsetY) >> 12);
     c[2] = c[2] + (a->scale * (a->z - b->originZ - b->offsetZ) >> 12);
 }
-
-
-
-
-
-
-
-
 
 /*
  * wave r8 lane rigD: first compile, EXACT under ../1.2/sp2 -proc arm946e.
@@ -1510,15 +1420,6 @@ void SPL_EMITTER_BuildFrame(struct AxisAngleKey *o, u8 *dst)
 
     MTX_MultVec33((const VecFx32 *)(dst + 8), (const MtxFx33 *)buf, (VecFx32 *)(dst + 8));
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * wave r8 lane rigD: the wave r6 DIFF at this address is closed.  The two
@@ -1582,28 +1483,10 @@ void SPL_EMITTER_InterpTarget(struct InterpTargetParam *a, struct InterpTrack *s
     }
 }
 
-
-
-
-
-
-
-
-
-
 static inline s32 FX_Mul(s32 a, s32 b)
 {
     return (s32)(((s64)a * b + 0x800) >> 12);
 }
-
-
-
-
-
-
-
-
-
 
 void SPL_EMITTER_LerpVec(struct LerpSource *a, struct LerpDest *b)
 {
@@ -1612,15 +1495,7 @@ void SPL_EMITTER_LerpVec(struct LerpSource *a, struct LerpDest *b)
     b->z = b->z + FX_Mul(a->w, a->z - b->z);
 }
 
-
-
 #define GX_RGB(r, g, b) (((r) << 0) | ((g) << 5) | ((b) << 10))
-
-
-
-
-
-
 
 void SPLAnim_Scale(SPLParticle *ptcl, SPLResource *res, int lifeRate)
 {
@@ -1642,13 +1517,6 @@ void SPLAnim_Scale(SPLParticle *ptcl, SPLResource *res, int lifeRate)
     ptcl->animScale = anim->end + (lifeRate - 0xFF) * (anim->end - anim->mid) / (0xFF - b1);
 }
 
-
-
-
-
-
-
-
 static inline void ColLerp(SPLParticle *out, s32 from, s32 to, u32 on, s32 num, s32 den)
 {
     s32 tr = to & 0x1f;
@@ -1663,12 +1531,6 @@ static inline void ColLerp(SPLParticle *out, s32 from, s32 to, u32 on, s32 num, 
     }
     out->color = GX_RGB(fr + num * (tr - fr) / den, fg + num * (tg - fg) / den, fb + num * (tb - fb) / den);
 }
-
-
-
-
-
-
 
 /* Segment 2 copy: the key colour is the FIRST parameter (`to`) and the
  * node colour the second (`from`); channels declared from/to per channel. */
@@ -1686,12 +1548,6 @@ static inline void ColLerp2(SPLParticle *out, s32 to, s32 from, u32 on, s32 num,
     }
     out->color = GX_RGB(fr + num * (tr - fr) / den, fg + num * (tg - fg) / den, fb + num * (tb - fb) / den);
 }
-
-
-
-
-
-
 
 /*
  * A keyframed RGB555 colour ramp over three key times t0 < t1 < t2: below t0
@@ -1734,23 +1590,7 @@ void SPLAnim_Color(SPLParticle *ptcl, SPLResource *res, int lifeRate)
     ptcl->color = k->end;
 }
 
-
-
-
-
-
-
-
-
 u32 g_02146A8C;
-
-
-
-
-
-
-
-
 
 /*
  * wave r10 lane closeC: EXACT, 220 bytes, 3 of 3 relocation sites resolved.
@@ -1807,15 +1647,6 @@ void SPLAnim_Alpha(SPLParticle *ptcl, SPLResource *res, int lifeRate)
     *(u16 *)&ptcl->visibility = (*(u16 *)&ptcl->visibility & ~0x3e0) | ((w & 0x1f) << 5);
 }
 
-
-
-
-
-
-
-
-
-
 /*
  * wave r8 lane rigD: the wave r6 residue (80 bytes, register plan) is closed.
  *
@@ -1868,16 +1699,6 @@ void SPLAnim_Texture(SPLParticle *ptcl, SPLResource *res, int lifeRate)
     } while (i < p->param.frameCount);
 }
 
-
-
-
-
-
-
-
-
-
-
 void SPLAnim_ChildScale(SPLParticle *ptcl, SPLResource *res, int lifeRate)
 {
     short cur;
@@ -1886,17 +1707,6 @@ void SPLAnim_ChildScale(SPLParticle *ptcl, SPLResource *res, int lifeRate)
     ptcl->animScale = cur + (cur - 0x1000) * (lifeRate - 0xFF) / 255;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 void SPLAnim_ChildAlpha(SPLParticle *ptcl, SPLResource *res, int lifeRate)
 {
     u16 v;
@@ -1904,18 +1714,6 @@ void SPLAnim_ChildAlpha(SPLParticle *ptcl, SPLResource *res, int lifeRate)
     v = (0xff - lifeRate) * 0x1f / 255;
     *(u16 *)&ptcl->visibility = (*(u16 *)&ptcl->visibility & ~0x3e0) | ((v & 0x1f) << 5);
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  *           +0x284, and that address's only pooled word image-wide is the word
@@ -1995,18 +1793,6 @@ void SPLEmitter_ComputeOrthogonalAxes(SPLEmitter *emtr)
     VEC_Fx16Normalize(&emtr->crossAxis2, &emtr->crossAxis2);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * out = M * src for a rig matrix M whose two 3x2 s16 rows live at m+0x84 and
  * m+0x8a; the third row is their cross product, normalised in place:
@@ -2050,30 +1836,9 @@ void SPLUtil_TiltCoordinates(VecFx32 *out, const VecFx32 *src, const SPLEmitter 
     out->z = FX_Mul(src->x, emtr->crossAxis1.z) + FX_Mul(src->y, emtr->crossAxis2.z) + FX_Mul(src->z, v.z);
 }
 
-
-
-
-
-
-
 static inline fx16 FX_SinIdx(int idx) { return FX_SinCosTable_[((idx >> 4) << 1)]; }
 
-
-
-
-
-
-
 static inline fx16 FX_CosIdx(int idx) { return FX_SinCosTable_[((idx >> 4) << 1) + 1]; }
-
-
-
-
-
-
-
-
-
 
 /**
  * @brief Generates a random number
@@ -2084,13 +1849,6 @@ static inline u32 SPLRandom_Next()
     return gSPLRandomState;
 }
 
-
-
-
-
-
-
-
 /**
  * @brief Generates a random number in the range [0, 2^bits)
  * @param bits The number of bits to generate
@@ -2100,36 +1858,15 @@ static inline u32 SPLRandom_U32(u32 bits)
     return SPLRandom_Next() >> (sizeof(u32) * 8 - bits);
 }
 
-
-
-
-
-
-
-
 static inline s32 SPLRandom_S32(u32 bits)
 {
     return (s32)(SPLRandom_Next() >> (sizeof(u32) * 8 - bits));
 }
 
-
-
-
-
-
-
-
 static inline fx32 SPLRandom_FX32(u32 bits)
 {
     return (fx32)SPLRandom_Next() >> (sizeof(u32) * 8 - bits);
 }
-
-
-
-
-
-
-
 
 /**
  * @brief Generates a random number in the range [num * (1 - range), num)
@@ -2138,13 +1875,6 @@ static inline fx32 SPLRandom_FX32(u32 bits)
  */
 #define SPLRandom_ScaledRangeFX32(num, range) (((num) * (255 - (((range) * (fx32)SPLRandom_U32(8)) >> 8))) >> 8)
 
-
-
-
-
-
-
-
 /**
  * @brief Generates a random number in the range [num * (1 - range), num * 2 * (1 - range))
  * @param num The number to scale, can be both an integer or a fixed-point number
@@ -2152,25 +1882,11 @@ static inline fx32 SPLRandom_FX32(u32 bits)
  */
 #define SPLRandom_DoubleScaledRangeFX32(num, range) ((num) * (255 + (range) - (((range) * (fx32)SPLRandom_U32(8)) >> 7)) >> 8)
 
-
-
-
-
-
-
-
 /**
  * @brief Generates a random number in the range [-num, num)
  * @param num The number to scale, can be both an integer or a fixed-point number
  */
 #define SPLRandom_RangeFX32(num) (((num) * (s32)SPLRandom_U32(9) - ((num) << 8)) >> 8)
-
-
-
-
-
-
-
 
 /**
  * @brief Generates a random fx32 number in the range [min, max)
@@ -2179,33 +1895,15 @@ static inline fx32 SPLRandom_FX32(u32 bits)
  */
 #define SPLRandom_BetweenFX32(min, max) ((fx32)(((max) - (min)) * SPLRandom_U32(12) + ((min) * FX32_ONE)))
 
-
-
-
-
-
-
 static inline void SPLParticleList_PushFront(SPLParticleList *list, SPLParticle *ptcl)
 {
     SPLList_PushFront((SPLList *)list, (SPLNode *)ptcl);
 }
 
-
-
-
-
-
-
 static inline SPLParticle *SPLParticleList_PopFront(SPLParticleList *list)
 {
     return (SPLParticle *)SPLList_PopFront((SPLList *)list);
 }
-
-
-
-
-
-
 
 /*
  * SPLEmitter_EmitParticles of the NitroSystem particle library (SPL) this
@@ -2439,13 +2137,6 @@ void SPLEmitter_EmitParticles(SPLEmitter *emtr, SPLParticleList *list)
     }
 }
 
-
-
-
-
-
-
-
 /*
  * Particle spawn for the rig emitter (the SPL-style particle system this
  * cluster renders; docs/families/cluster_02052F58.h).  For each of
@@ -2531,50 +2222,19 @@ void SPLEmitter_EmitChildren(SPLParticle *ptcl, SPLEmitter *emtr, SPLParticleLis
     }
 }
 
-
-
-
-
-
-
 static inline void G3_Begin(u32 p) { reg_G3_BEGIN_VTXS = p; }
 
-
-
-
-
-
-
 static inline void G3_End(void) { reg_G3_END_VTXS = 0; }
-
-
-
-
-
-
 
 static inline void G3_TexCoord(fx32 s, fx32 t)
 {
     reg_G3_TEXCOORD = (u32)(u16)(s >> 8) | ((u32)(u16)(t >> 8) << 16);
 }
 
-
-
-
-
-
-
 static inline void G3_Vtx10(fx16 x, fx16 y, fx16 z)
 {
     reg_G3_VTX_10 = GX_VECVTX10(x, y, z);
 }
-
-
-
-
-
-
-
 
 /*
  * One of the two textured-quad emitters in the table at 0x020A7FDC
@@ -2615,14 +2275,6 @@ void SPLUtil_DrawXYPlane(s32 s, s32 t, s32 x, s32 y)
     G3_End();
 }
 
-
-
-
-
-
-
-
-
 /*
  * One of the two textured-quad emitters in the table at 0x020A7FDC
  * (Rig_Hooks2 = { SPLUtil_DrawXYPlane, SPLUtil_DrawXZPlane }, docs/families/
@@ -2662,14 +2314,6 @@ void SPLUtil_DrawXZPlane(s32 s, s32 t, s32 x, s32 z)
     G3_End();
 }
 
-
-
-
-
-
-
-
-
 /*
  * Row 1 of the two-entry billboard basis table at 0x020A7FE4
  * (func_02054718_Hooks / func_0205429C_Hooks): { 0x02056420, 0x02056460 }.
@@ -2705,7 +2349,7 @@ void SPLUtil_DrawXZPlane(s32 s, s32 t, s32 x, s32 z)
  *   python tools/match.py one --src src/matched/SPL_EMITTER_CalcRotMtx.c \
  *       --func SPL_EMITTER_CalcRotMtx --addr 0x02056460 --arm --cc ../1.2/sp2
  */
-void SPL_EMITTER_CalcRotMtx(s32 sn, s32 cs, struct MtxFx43 *m)
+void SPL_EMITTER_CalcRotMtx(s32 sn, s32 cs, MtxFx43 *m)
 {
     s32 d = FX_Mul(0x1000 - cs, 0x555);
     s32 e = FX_Mul(sn, 0x93D);
@@ -2715,58 +2359,49 @@ void SPL_EMITTER_CalcRotMtx(s32 sn, s32 cs, struct MtxFx43 *m)
     p = d;
     p = p + e;
 
-    m->m[0] = d + cs;
-    m->m[3] = p;
-    m->m[6] = d - e;
-    m->m[9] = 0;
+    m->a[0] = d + cs;
+    m->a[3] = p;
+    m->a[6] = d - e;
+    m->a[9] = 0;
 
     cs2 = cs;
-    m->m[1] = d - e;
-    m->m[4] = d + cs2;
-    m->m[7] = d + e;
-    m->m[10] = 0;
+    m->a[1] = d - e;
+    m->a[4] = d + cs2;
+    m->a[7] = d + e;
+    m->a[10] = 0;
 
-    m->m[2] = d + e;
-    m->m[5] = d - e;
-    m->m[8] = d + cs2;
-    m->m[11] = 0;
+    m->a[2] = d + e;
+    m->a[5] = d - e;
+    m->a[8] = d + cs2;
+    m->a[11] = 0;
 }
-
-
-
-
-
 
 /*
  * Row 0 of the billboard basis table: the plain rotation about +Y, an unlabelled
  * leaf in front of SPL_EMITTER_CalcRotMtx.  It is written after SPL_EMITTER_CalcRotMtx because
  * this compiler places it first in the object only in that source order.
  */
-void SPL_EMITTER_SetRotMtx(s32 sn, s32 cs, struct MtxFx43 *m)
+void SPL_EMITTER_SetRotMtx(s32 sn, s32 cs, MtxFx43 *m)
 {
-    m->m[0] = cs;
-    m->m[3] = 0;
-    m->m[6] = sn;
-    m->m[9] = 0;
-    m->m[1] = 0;
-    m->m[4] = 0x1000;
-    m->m[7] = 0;
-    m->m[10] = 0;
-    m->m[2] = -sn;
-    m->m[5] = 0;
-    m->m[8] = cs;
-    m->m[11] = 0;
+    m->a[0] = cs;
+    m->a[3] = 0;
+    m->a[6] = sn;
+    m->a[9] = 0;
+    m->a[1] = 0;
+    m->a[4] = 0x1000;
+    m->a[7] = 0;
+    m->a[10] = 0;
+    m->a[2] = -sn;
+    m->a[5] = 0;
+    m->a[8] = cs;
+    m->a[11] = 0;
 }
-
-
-
-
 
 void SPL_EMITTER_UpdateFrame(struct RigObject *obj, struct RenderNode *s)
 {
     struct RigTransformFrame f;
     struct RigDescriptor *p;
-    struct MtxFx43 *mtx;
+    MtxFx43 *mtx;
     s32 n;
     s32 baseScale;
     s32 x;
@@ -2820,18 +2455,18 @@ void SPL_EMITTER_UpdateFrame(struct RigObject *obj, struct RenderNode *s)
         i = (s32)s->rotation >> 4;
         sn = func_02055FD4_Verts[2 * i];
         cs = func_02055FD4_Verts[2 * i + 1];
-        f.m.m[0] = FX_Mul(cs, x);
-        f.m.m[1] = FX_Mul(sn, x);
-        f.m.m[2] = 0;
-        f.m.m[3] = FX_Mul(-sn, y);
-        f.m.m[4] = FX_Mul(cs, y);
-        f.m.m[5] = 0;
-        f.m.m[6] = 0;
-        f.m.m[7] = 0;
-        f.m.m[8] = 0x1000;
-        f.m.m[9] = f.t.x;
-        f.m.m[10] = f.t.y;
-        f.m.m[11] = f.t.z;
+        f.m.a[0] = FX_Mul(cs, x);
+        f.m.a[1] = FX_Mul(sn, x);
+        f.m.a[2] = 0;
+        f.m.a[3] = FX_Mul(-sn, y);
+        f.m.a[4] = FX_Mul(cs, y);
+        f.m.a[5] = 0;
+        f.m.a[6] = 0;
+        f.m.a[7] = 0;
+        f.m.a[8] = 0x1000;
+        f.m.a[9] = f.t.x;
+        f.m.a[10] = f.t.y;
+        f.m.a[11] = f.t.z;
         *(volatile u32 *)0x04000454 = 0;
         G3_MultMtx43((void *)(&f.m));
     } else {
@@ -2842,18 +2477,18 @@ void SPL_EMITTER_UpdateFrame(struct RigObject *obj, struct RenderNode *s)
         i = (s32)s->rotation >> 4;
         sn = func_02055FD4_Verts[2 * i];
         cs = func_02055FD4_Verts[2 * i + 1];
-        f.m.m[0] = FX_Mul(cs, x);
-        f.m.m[1] = FX_Mul(sn, x);
-        f.m.m[2] = 0;
-        f.m.m[3] = FX_Mul(-sn, y);
-        f.m.m[4] = FX_Mul(cs, y);
-        f.m.m[5] = 0;
-        f.m.m[6] = 0;
-        f.m.m[7] = 0;
-        f.m.m[8] = 0x1000;
-        f.m.m[9] = f.t.x;
-        f.m.m[10] = f.t.y;
-        f.m.m[11] = f.t.z;
+        f.m.a[0] = FX_Mul(cs, x);
+        f.m.a[1] = FX_Mul(sn, x);
+        f.m.a[2] = 0;
+        f.m.a[3] = FX_Mul(-sn, y);
+        f.m.a[4] = FX_Mul(cs, y);
+        f.m.a[5] = 0;
+        f.m.a[6] = 0;
+        f.m.a[7] = 0;
+        f.m.a[8] = 0x1000;
+        f.m.a[9] = f.t.x;
+        f.m.a[10] = f.t.y;
+        f.m.a[11] = f.t.z;
         *(volatile u32 *)0x04000454 = 0;
         p = obj->renderList->subList->desc;
         qc = p->transZ;  q8 = p->transY;  q4 = p->transX;
@@ -2872,20 +2507,12 @@ void SPL_EMITTER_UpdateFrame(struct RigObject *obj, struct RenderNode *s)
     SPLUtil_DrawXYPlane(obj->renderList->texS, obj->renderList->texT, p->texS, p->texT);
 }
 
-
-
 #undef GX_RGB
-
 
 #undef GX_RGB
 
 #undef GX_RGB
 #define GX_RGB(r, g, b) ((GXRgb)(((r) << GX_RGB_R_SHIFT) | ((g) << GX_RGB_G_SHIFT) | ((b) << GX_RGB_B_SHIFT)))
-
-
-
-
-
 
 /*
  * Handler row of the rig dispatch (SPL_EMITTER_UpdateSubX / SPL_EMITTER_UpdateSubB pool rows;
@@ -2917,7 +2544,7 @@ void SPL_EMITTER_UpdateFrameEx(struct RigObject *obj, struct RenderNode *s)
 {
     struct RigTransformFrame f;
     struct RigDescriptor *p;
-    struct MtxFx43 *mtx;
+    MtxFx43 *mtx;
     s32 n;
     s32 baseScale;
     s32 x;
@@ -2970,18 +2597,18 @@ void SPL_EMITTER_UpdateFrameEx(struct RigObject *obj, struct RenderNode *s)
         i = (s32)s->rotation >> 4;
         sn = func_02055B80_Verts[2 * i];
         cs = func_02055B80_Verts[2 * i + 1];
-        f.m.m[0] = FX_Mul(cs, x);
-        f.m.m[1] = FX_Mul(sn, x);
-        f.m.m[2] = 0;
-        f.m.m[3] = FX_Mul(-sn, y);
-        f.m.m[4] = FX_Mul(cs, y);
-        f.m.m[5] = 0;
-        f.m.m[6] = 0;
-        f.m.m[7] = 0;
-        f.m.m[8] = 0x1000;
-        f.m.m[9] = f.t.x;
-        f.m.m[10] = f.t.y;
-        f.m.m[11] = f.t.z;
+        f.m.a[0] = FX_Mul(cs, x);
+        f.m.a[1] = FX_Mul(sn, x);
+        f.m.a[2] = 0;
+        f.m.a[3] = FX_Mul(-sn, y);
+        f.m.a[4] = FX_Mul(cs, y);
+        f.m.a[5] = 0;
+        f.m.a[6] = 0;
+        f.m.a[7] = 0;
+        f.m.a[8] = 0x1000;
+        f.m.a[9] = f.t.x;
+        f.m.a[10] = f.t.y;
+        f.m.a[11] = f.t.z;
         *(volatile u32 *)0x04000454 = 0;
         G3_MultMtx43((void *)(&f.m));
     } else {
@@ -2992,18 +2619,18 @@ void SPL_EMITTER_UpdateFrameEx(struct RigObject *obj, struct RenderNode *s)
         i = (s32)s->rotation >> 4;
         sn = func_02055B80_Verts[2 * i];
         cs = func_02055B80_Verts[2 * i + 1];
-        f.m.m[0] = FX_Mul(cs, x);
-        f.m.m[1] = FX_Mul(sn, x);
-        f.m.m[2] = 0;
-        f.m.m[3] = FX_Mul(-sn, y);
-        f.m.m[4] = FX_Mul(cs, y);
-        f.m.m[5] = 0;
-        f.m.m[6] = 0;
-        f.m.m[7] = 0;
-        f.m.m[8] = 0x1000;
-        f.m.m[9] = f.t.x;
-        f.m.m[10] = f.t.y;
-        f.m.m[11] = f.t.z;
+        f.m.a[0] = FX_Mul(cs, x);
+        f.m.a[1] = FX_Mul(sn, x);
+        f.m.a[2] = 0;
+        f.m.a[3] = FX_Mul(-sn, y);
+        f.m.a[4] = FX_Mul(cs, y);
+        f.m.a[5] = 0;
+        f.m.a[6] = 0;
+        f.m.a[7] = 0;
+        f.m.a[8] = 0x1000;
+        f.m.a[9] = f.t.x;
+        f.m.a[10] = f.t.y;
+        f.m.a[11] = f.t.z;
         *(volatile u32 *)0x04000454 = 0;
         p = obj->renderList->subList->desc;
         qc = p->transZ;  q8 = p->transY;  q4 = p->transX;
@@ -3023,27 +2650,12 @@ void SPL_EMITTER_UpdateFrameEx(struct RigObject *obj, struct RenderNode *s)
     SPLUtil_DrawXYPlane(obj->renderList->texS2, obj->renderList->texT2, 0, 0);
 }
 
-
-
-
-
-
 static inline void G3_PolygonAttr(int light, GXPolygonMode polyMode, GXCull cullMode, int polygonID, int alpha, int misc)
 {
     reg_G3_POLYGON_ATTR = GX_PACK_POLYGONATTR_PARAM(light, polyMode, cullMode, polygonID, alpha, misc);
 }
 
-
-
-
-
-
 static inline void G3_Identity(void) { reg_G3_MTX_IDENTITY = 0; }
-
-
-
-
-
 
 static inline void G3_Translate(fx32 x, fx32 y, fx32 z)
 {
@@ -3052,25 +2664,9 @@ static inline void G3_Translate(fx32 x, fx32 y, fx32 z)
     reg_G3_MTX_TRANS = (u32)z;
 }
 
-
-
-
-
-
 static inline void G3_Color(GXRgb rgb) { reg_G3_COLOR = (u32)(rgb); }
 
-
-
-
-
-
 static inline void MTX_Copy43To33(const MtxFx43 *pSrc, MtxFx33 *pDst) { MI_Copy36B(pSrc, pDst); }
-
-
-
-
-
-
 
 /**
  * @brief Generates a random number in the range [num * (1 - range), num)
@@ -3079,12 +2675,6 @@ static inline void MTX_Copy43To33(const MtxFx43 *pSrc, MtxFx33 *pDst) { MI_Copy3
  */
 #define SPLRandom_ScaledRangeFX32(num, range) (((num) * (255 - (((range) * (fx32)SPLRandom_U32(8)) >> 8))) >> 8)
 
-
-
-
-
-
-
 /**
  * @brief Generates a random number in the range [num * (1 - range), num * 2 * (1 - range))
  * @param num The number to scale, can be both an integer or a fixed-point number
@@ -3092,23 +2682,11 @@ static inline void MTX_Copy43To33(const MtxFx43 *pSrc, MtxFx33 *pDst) { MI_Copy3
  */
 #define SPLRandom_DoubleScaledRangeFX32(num, range) ((num) * (255 + (range) - (((range) * (fx32)SPLRandom_U32(8)) >> 7)) >> 8)
 
-
-
-
-
-
-
 /**
  * @brief Generates a random number in the range [-num, num)
  * @param num The number to scale, can be both an integer or a fixed-point number
  */
 #define SPLRandom_RangeFX32(num) (((num) * (s32)SPLRandom_U32(9) - ((num) << 8)) >> 8)
-
-
-
-
-
-
 
 /**
  * @brief Generates a random fx32 number in the range [min, max)
@@ -3117,21 +2695,10 @@ static inline void MTX_Copy43To33(const MtxFx43 *pSrc, MtxFx33 *pDst) { MI_Copy3
  */
 #define SPLRandom_BetweenFX32(min, max) ((fx32)(((max) - (min)) * SPLRandom_U32(12) + ((min) * FX32_ONE)))
 
-
-
-
-
-
-
 static inline const void *SPLTextureResource_GetTexData(const SPLTextureResource *resource)
 {
     return (const void *)(resource + 1);
 }
-
-
-
-
-
 
 static inline BOOL SPLDraw_Setup(const SPLParticle *ptcl, const SPLManager *mgr)
 {
@@ -3140,11 +2707,6 @@ static inline BOOL SPLDraw_Setup(const SPLParticle *ptcl, const SPLManager *mgr)
     reg_G3_POLYGON_ATTR;
     return alpha == 0;
 }
-
-
-
-
-
 
 /*
  * SPLDraw_DirectionalBillboard: the parent-particle twin of SPL_EMITTER_UpdateParticleMotionEx,
@@ -3301,12 +2863,6 @@ void SPL_EMITTER_UpdateParticleMotion(SPLManager *mgr, SPLParticle *ptcl)
         emtr->resource->header->polygonY);
 }
 
-
-
-
-
-
-
 /*
  * SPLDraw_Child_DirectionalBillboard: draws one child particle as a
  * billboard stretched along its velocity (the "directional billboard" draw
@@ -3458,28 +3014,9 @@ void SPL_EMITTER_UpdateParticleMotionEx(SPLManager *mgr, SPLParticle *ptcl)
     SPLUtil_DrawXYPlane(mgr->renderState.emitter->childTextureS, mgr->renderState.emitter->childTextureT, 0, 0);
 }
 
-
-
-
-
-
-
 extern u32 (*const func_02054A68_Hooks[])(s32, s32, void *);
 
-
-
-
-
-
-
 extern u32 (*const func_02054A68_Hooks2[])(s32, s32, s32, s32);
-
-
-
-
-
-
-
 
 /*
  * Member of the 1.2-pinned 3D rig family (docs/FRONTEND-PINS.md): a register
@@ -3553,15 +3090,15 @@ void SPL_EMITTER_UpdateFrameA68(struct RigObject *obj, struct RenderNode *s)
     MTX_Concat43(&f.m3, &f.m2, &f.m1);
 
     if (obj->renderList->subList->desc->flags.z.flag == 0) {
-        f.m1.m[9] = s->p1.x + s->emitterPosX;
-        f.m1.m[10] = s->p1.y + s->emitterPosY;
-        f.m1.m[11] = s->p1.z + s->emitterPosZ;
+        f.m1.a[9] = s->p1.x + s->emitterPosX;
+        f.m1.a[10] = s->p1.y + s->emitterPosY;
+        f.m1.a[11] = s->p1.z + s->emitterPosZ;
         G3_LoadMtx43(obj->mtx);
         G3_MultMtx43((void *)(&f.m1));
     } else {
-        f.m1.m[9] = s->p1.x + s->emitterPosX - obj->renderList->subList->desc->transX;
-        f.m1.m[10] = s->p1.y + s->emitterPosY - obj->renderList->subList->desc->transY;
-        f.m1.m[11] = s->p1.z + s->emitterPosZ - obj->renderList->subList->desc->transZ;
+        f.m1.a[9] = s->p1.x + s->emitterPosX - obj->renderList->subList->desc->transX;
+        f.m1.a[10] = s->p1.y + s->emitterPosY - obj->renderList->subList->desc->transY;
+        f.m1.a[11] = s->p1.z + s->emitterPosZ - obj->renderList->subList->desc->transZ;
         *(volatile u32 *)0x04000454 = 0;
         p = obj->renderList->subList->desc;
         qc = p->transZ;  q8 = p->transY;  q4 = p->transX;
@@ -3584,22 +3121,9 @@ void SPL_EMITTER_UpdateFrameA68(struct RigObject *obj, struct RenderNode *s)
         (obj->renderList->texS, obj->renderList->texT, p->texS, p->texT);
 }
 
-
-
-
-
 extern u32 (*const func_02054718_Hooks[])(s32, s32, void *);
 
-
-
-
-
 extern u32 (*const func_02054718_Hooks2[])(s32, s32, s32, s32);
-
-
-
-
-
 
 void SPL_EMITTER_UpdateFrameA68Ex(struct RigObject *obj, struct RenderNode *s)
 {
@@ -3652,15 +3176,15 @@ void SPL_EMITTER_UpdateFrameA68Ex(struct RigObject *obj, struct RenderNode *s)
     MTX_Concat43(&f.m2, &f.m3, &f.m1);
 
     if (obj->renderList->subList->desc->flags.z.flag == 0) {
-        f.m1.m[9] = s->p1.x + s->emitterPosX;
-        f.m1.m[10] = s->p1.y + s->emitterPosY;
-        f.m1.m[11] = s->p1.z + s->emitterPosZ;
+        f.m1.a[9] = s->p1.x + s->emitterPosX;
+        f.m1.a[10] = s->p1.y + s->emitterPosY;
+        f.m1.a[11] = s->p1.z + s->emitterPosZ;
         G3_LoadMtx43(obj->mtx);
         G3_MultMtx43((void *)(&f.m1));
     } else {
-        f.m1.m[9] = s->p1.x + s->emitterPosX - obj->renderList->subList->desc->transX;
-        f.m1.m[10] = s->p1.y + s->emitterPosY - obj->renderList->subList->desc->transY;
-        f.m1.m[11] = s->p1.z + s->emitterPosZ - obj->renderList->subList->desc->transZ;
+        f.m1.a[9] = s->p1.x + s->emitterPosX - obj->renderList->subList->desc->transX;
+        f.m1.a[10] = s->p1.y + s->emitterPosY - obj->renderList->subList->desc->transY;
+        f.m1.a[11] = s->p1.z + s->emitterPosZ - obj->renderList->subList->desc->transZ;
         *(volatile u32 *)0x04000454 = 0;
         p = obj->renderList->subList->desc;
         qc = p->transZ;  q8 = p->transY;  q4 = p->transX;
@@ -3683,25 +3207,9 @@ void SPL_EMITTER_UpdateFrameA68Ex(struct RigObject *obj, struct RenderNode *s)
         (obj->renderList->texS2, obj->renderList->texT2, e, e);
 }
 
-
-
-
-
-
 extern u32 (*const func_0205429C_Hooks[])(s32, s32, void *);
 
-
-
-
-
-
 extern u32 (*const func_0205429C_Hooks2[])(s32, s32, s32, s32);
-
-
-
-
-
-
 
 void SPL_EMITTER_UpdateFrameMain(struct RigObject *obj, struct RenderNode *s)
 {
@@ -3752,15 +3260,15 @@ void SPL_EMITTER_UpdateFrameMain(struct RigObject *obj, struct RenderNode *s)
     VEC_CrossProduct(&f.dir, &f.upRef, &f.right);
     VEC_CrossProduct(&f.dir, &f.right, &f.up);
 
-    f.m4.m[0] = f.right.x;
-    f.m4.m[1] = f.right.y;
-    f.m4.m[2] = f.right.z;
-    f.m4.m[3] = f.dir.x;
-    f.m4.m[4] = f.dir.y;
-    f.m4.m[5] = f.dir.z;
-    f.m4.m[6] = f.up.x;
-    f.m4.m[7] = f.up.y;
-    f.m4.m[8] = f.up.z;
+    f.m4.a[0] = f.right.x;
+    f.m4.a[1] = f.right.y;
+    f.m4.a[2] = f.right.z;
+    f.m4.a[3] = f.dir.x;
+    f.m4.a[4] = f.dir.y;
+    f.m4.a[5] = f.dir.z;
+    f.m4.a[6] = f.up.x;
+    f.m4.a[7] = f.up.y;
+    f.m4.a[8] = f.up.z;
 
     MTX_Concat43(&f.m2, &f.m4, &f.m2);
 
@@ -3788,15 +3296,15 @@ void SPL_EMITTER_UpdateFrameMain(struct RigObject *obj, struct RenderNode *s)
     MTX_Concat43(&f.m3, &f.m2, &f.m1);
 
     if (obj->renderList->subList->desc->flags.z.flag == 0) {
-        f.m1.m[9] = s->p1.x + s->emitterPosX;
-        f.m1.m[10] = s->p1.y + s->emitterPosY;
-        f.m1.m[11] = s->p1.z + s->emitterPosZ;
+        f.m1.a[9] = s->p1.x + s->emitterPosX;
+        f.m1.a[10] = s->p1.y + s->emitterPosY;
+        f.m1.a[11] = s->p1.z + s->emitterPosZ;
         G3_LoadMtx43(obj->mtx);
         G3_MultMtx43((void *)(&f.m1));
     } else {
-        f.m1.m[9] = s->p1.x + s->emitterPosX - obj->renderList->subList->desc->transX;
-        f.m1.m[10] = s->p1.y + s->emitterPosY - obj->renderList->subList->desc->transY;
-        f.m1.m[11] = s->p1.z + s->emitterPosZ - obj->renderList->subList->desc->transZ;
+        f.m1.a[9] = s->p1.x + s->emitterPosX - obj->renderList->subList->desc->transX;
+        f.m1.a[10] = s->p1.y + s->emitterPosY - obj->renderList->subList->desc->transY;
+        f.m1.a[11] = s->p1.z + s->emitterPosZ - obj->renderList->subList->desc->transZ;
         *(volatile u32 *)0x04000454 = 0;
         p = obj->renderList->subList->desc;
         qc = p->transZ;  q8 = p->transY;  q4 = p->transX;
@@ -3819,31 +3327,9 @@ void SPL_EMITTER_UpdateFrameMain(struct RigObject *obj, struct RenderNode *s)
         (obj->renderList->texS, obj->renderList->texT, p->texS, p->texT);
 }
 
-
-
-
-
-
-
-
 extern u32 (*const func_02053E1C_Hooks[])(s32, s32, void *);
 
-
-
-
-
-
-
-
 extern u32 (*const func_02053E1C_Hooks2[])(s32, s32, s32, s32);
-
-
-
-
-
-
-
-
 
 /*
  * Handler row 0 of the rig render-list dispatch (SPL_EMITTER_UpdateSubX /
@@ -3915,15 +3401,15 @@ void SPL_EMITTER_UpdateFrameMainEx(struct RigObject *obj, struct RenderNode *s)
     VEC_CrossProduct(&f.dir, &f.upRef, &f.right);
     VEC_CrossProduct(&f.dir, &f.right, &f.up);
 
-    f.m4.m[0] = f.right.x;
-    f.m4.m[1] = f.right.y;
-    f.m4.m[2] = f.right.z;
-    f.m4.m[3] = f.dir.x;
-    f.m4.m[4] = f.dir.y;
-    f.m4.m[5] = f.dir.z;
-    f.m4.m[6] = f.up.x;
-    f.m4.m[7] = f.up.y;
-    f.m4.m[8] = f.up.z;
+    f.m4.a[0] = f.right.x;
+    f.m4.a[1] = f.right.y;
+    f.m4.a[2] = f.right.z;
+    f.m4.a[3] = f.dir.x;
+    f.m4.a[4] = f.dir.y;
+    f.m4.a[5] = f.dir.z;
+    f.m4.a[6] = f.up.x;
+    f.m4.a[7] = f.up.y;
+    f.m4.a[8] = f.up.z;
 
     MTX_Concat43(&f.m2, &f.m4, &f.m2);
 
@@ -3951,15 +3437,15 @@ void SPL_EMITTER_UpdateFrameMainEx(struct RigObject *obj, struct RenderNode *s)
     MTX_Concat43(&f.m2, &f.m3, &f.m1);
 
     if (obj->renderList->subList->desc->flags.z.flag == 0) {
-        f.m1.m[9] = s->p1.x + s->emitterPosX;
-        f.m1.m[10] = s->p1.y + s->emitterPosY;
-        f.m1.m[11] = s->p1.z + s->emitterPosZ;
+        f.m1.a[9] = s->p1.x + s->emitterPosX;
+        f.m1.a[10] = s->p1.y + s->emitterPosY;
+        f.m1.a[11] = s->p1.z + s->emitterPosZ;
         G3_LoadMtx43(obj->mtx);
         G3_MultMtx43((void *)(&f.m1));
     } else {
-        f.m1.m[9] = s->p1.x + s->emitterPosX - obj->renderList->subList->desc->transX;
-        f.m1.m[10] = s->p1.y + s->emitterPosY - obj->renderList->subList->desc->transY;
-        f.m1.m[11] = s->p1.z + s->emitterPosZ - obj->renderList->subList->desc->transZ;
+        f.m1.a[9] = s->p1.x + s->emitterPosX - obj->renderList->subList->desc->transX;
+        f.m1.a[10] = s->p1.y + s->emitterPosY - obj->renderList->subList->desc->transY;
+        f.m1.a[11] = s->p1.z + s->emitterPosZ - obj->renderList->subList->desc->transZ;
         *(volatile u32 *)0x04000454 = 0;
         p = obj->renderList->subList->desc;
         qc = p->transZ;  q8 = p->transY;  q4 = p->transX;
@@ -3981,45 +3467,17 @@ void SPL_EMITTER_UpdateFrameMainEx(struct RigObject *obj, struct RenderNode *s)
         (obj->renderList->texS2, obj->renderList->texT2, 0, 0);
 }
 
-
-
-
-
-
-
-
 static inline void G3_TexImageParam(GXTexFmt texFmt, GXTexGen texGen, GXTexSizeS sSize, GXTexSizeT tSize, GXTexRepeat repeat, GXTexFlip flip, GXTexPlttColor0 pltt0, u32 addr)
 {
     reg_G3_TEXIMAGE_PARAM = GX_PACK_TEXIMAGE_PARAM(texFmt, texGen, sSize, tSize, repeat, flip, pltt0, addr);
 }
-
-
-
-
-
-
-
 
 static inline void G3_TexPlttBase(u32 addr, GXTexFmt texfmt)
 {
     reg_G3_TEXPLTT_BASE = GX_PACK_TEXPLTTBASE_PARAM(addr, texfmt);
 }
 
-
-
-
-
-
-
-
 static inline void G3_MtxMode(GXMtxMode mode) { reg_G3_MTX_MODE = (u32)mode; }
-
-
-
-
-
-
-
 
 static inline void G3_Scale(fx32 x, fx32 y, fx32 z)
 {
@@ -4027,13 +3485,6 @@ static inline void G3_Scale(fx32 x, fx32 y, fx32 z)
     reg_G3_MTX_SCALE = (u32)y;
     reg_G3_MTX_SCALE = (u32)z;
 }
-
-
-
-
-
-
-
 
 /*
  * SPLUtil_SetTexture of the NitroSystem-style particle library (SPL) this
@@ -4065,30 +3516,9 @@ void SPL_EMITTER_SetTextureParam(SPLTexture *tex)
     G3_MtxMode(GX_MTXMODE_POSITION);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void SPL_EMITTER_Noop(SPLTexture *tex)
 {
 }
-
-
-
-
-
-
-
-
 
 /*
  * The particle/rig emitter-instance initialiser: copies a resource
@@ -4199,32 +3629,12 @@ void SPL_EMITTER_SetupResource(volatile struct ResourceSetup *o, struct Cfg *cfg
   o->userData = 0;
 }
 
-
-
-
-
-
-
-
-
-
-
 /**
  * @brief Generates a random number in the range [num * (1 - range), num)
  * @param num The number to scale, can be both an integer or a fixed-point number
  * @param range The range to scale the number by, integer in the range [0, 255], which maps to [0, 1]
  */
 #define SPLRandom_ScaledRangeFX32(num, range) (((num) * (255 - (((range) * (fx32)SPLRandom_U32(8)) >> 8))) >> 8)
-
-
-
-
-
-
-
-
-
-
 
 /**
  * @brief Generates a random number in the range [num * (1 - range), num * 2 * (1 - range))
@@ -4233,31 +3643,11 @@ void SPL_EMITTER_SetupResource(volatile struct ResourceSetup *o, struct Cfg *cfg
  */
 #define SPLRandom_DoubleScaledRangeFX32(num, range) ((num) * (255 + (range) - (((range) * (fx32)SPLRandom_U32(8)) >> 7)) >> 8)
 
-
-
-
-
-
-
-
-
-
-
 /**
  * @brief Generates a random number in the range [-num, num)
  * @param num The number to scale, can be both an integer or a fixed-point number
  */
 #define SPLRandom_RangeFX32(num) (((num) * (s32)SPLRandom_U32(9) - ((num) << 8)) >> 8)
-
-
-
-
-
-
-
-
-
-
 
 /**
  * @brief Generates a random fx32 number in the range [min, max)
@@ -4266,28 +3656,10 @@ void SPL_EMITTER_SetupResource(volatile struct ResourceSetup *o, struct Cfg *cfg
  */
 #define SPLRandom_BetweenFX32(min, max) ((fx32)(((max) - (min)) * SPLRandom_U32(12) + ((min) * FX32_ONE)))
 
-
-
-
-
-
-
-
-
-
 static inline SPLParticle *SPLParticleList_Erase(SPLParticleList *list, SPLParticle *ptcl)
 {
     return (SPLParticle *)SPLList_Erase((SPLList *)list, (SPLNode *)ptcl);
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * SPLEmitter_Update: the per-frame emitter step.  Emits new particles on the
@@ -4505,16 +3877,6 @@ void SPL_EMITTER_UpdateParticles(SPLManager *mgr, SPLEmitter *emtr)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
 /*
  * The sibling of SPL_EMITTER_UpdateSubX in the same file: the same per-frame dispatch
  * over a render list, but on the block's OTHER list (+0x08 rather than +0x14)
@@ -4596,11 +3958,6 @@ void SPL_EMITTER_UpdateSubB(struct RigObject *o)
         n = n->next;
     } while (n != 0);
 }
-
-
-
-
-
 
 /*
  * Per-frame dispatch for one render list.  Reads the object's block at +0x40,
@@ -4684,11 +4041,6 @@ void SPL_EMITTER_UpdateSubX(struct RigObject *o)
     } while (n != 0);
 }
 
-
-
-
-
-
 /*
  * Blocking class: label.  Both callees, 0x02053044 and 0x0205312C, are
  * reached only from the two call sites inside this function, so neither has a
@@ -4727,27 +4079,9 @@ void SPL_EMITTER_UpdateSubC(struct RigObject *o)
     SPL_EMITTER_UpdateSubX(o);
 }
 
-
-
-
-
-
-
 extern u32 (*NNS_GfdDefaultFuncAllocPlttVram)(u32 a, u32 b, u32 c);
 
-
-
-
-
-
-
 extern u32 (*NNS_GfdDefaultFuncAllocTexVram)(u32 a, u32 b, u32 c);
-
-
-
-
-
-
 
 /*
  * Twin of src/matched/SPL_EMITTER_AllocPlttVram.c: same twelve instructions and the same
@@ -4769,12 +4103,6 @@ int SPL_EMITTER_AllocTexVram(u32 szByte, u32 is4x4comp)
 {
     return (NNS_GfdDefaultFuncAllocTexVram(szByte, is4x4comp, 0) & 0xffff) << 3;
 }
-
-
-
-
-
-
 
 /*
  * Calls the routine held in the global function pointer at 0x020A8148 with
@@ -4801,12 +4129,6 @@ int SPL_EMITTER_AllocPlttVram(u32 szByte, u32 is4pltt)
 {
     return (NNS_GfdDefaultFuncAllocPlttVram(szByte, is4pltt, 0) & 0xffff) << 3;
 }
-
-
-
-
-
-
 
 /*
  * The rig constructor: allocate and zero the 0x4c-byte VramNodeHeap through the
@@ -4876,12 +4198,6 @@ struct VramNodeHeap *SPL_EMITTER_AllocNodeFromHeap(AllocFn alloc, u16 n1, u16 n2
     h->reserved5 = h->reserved6 = 0;
     return h;
 }
-
-
-
-
-
-
 
 /*
  * The rig's resource binder: walk a packed blob `d` from byte 0x20 on.
@@ -4959,12 +4275,6 @@ void SPL_EMITTER_FreeNodeToHeap(struct VramTexHeap *h, struct VramHeapHeader *d)
     }
 }
 
-
-
-
-
-
-
 /*
  * The texture-upload pass of the rig's material rows: GX_BeginLoadTex, then
  * for every row of o->textures (o->texCount rows of 0x14 bytes) either share another
@@ -5003,11 +4313,6 @@ int SPL_EMITTER_AllocTexVramList(struct RigObject *o, AllocTex alloc)
     return 1;
 }
 
-
-
-
-
-
 /*
  * The texture-palette upload pass: GX_BeginLoadTexPltt, then for every row
  * of o->textures with a non-zero resource size, allocate through the caller's
@@ -5042,11 +4347,6 @@ int SPL_EMITTER_AllocPlttVramList(struct RigObject *o, AllocTex alloc)
     return 1;
 }
 
-
-
-
-
-
 /*
  * Twin of src/matched/SPL_EMITTER_AllocPlttVramDefault.c, same twelve bytes by position: forward
  * r0 to 0x02052984 with the address of SPL_EMITTER_AllocTexVram as the second argument.
@@ -5065,11 +4365,6 @@ void SPL_EMITTER_AllocTexVramDefault(u32 rigObject)
 {
     SPL_EMITTER_AllocTexVramList((struct RigObject *)rigObject, (AllocTex)((void *)SPL_EMITTER_AllocTexVram));
 }
-
-
-
-
-
 
 /*
  * A twelve-byte tailcall thunk: forward r0 to 0x020528D0 and pass the
@@ -5094,12 +4389,6 @@ void SPL_EMITTER_AllocPlttVramDefault(u32 rigObject)
 {
     SPL_EMITTER_AllocPlttVramList((struct RigObject *)rigObject, (AllocTex)((void *)SPL_EMITTER_AllocPlttVram));
 }
-
-
-
-
-
-
 
 /*
  * The rig's per-frame node walk: for every node on h->list, age it, maybe
@@ -5191,13 +4480,6 @@ void SPL_EMITTER_FreeTexNode(struct VramFreeList *h)
         h->parity = 0;
 }
 
-
-
-
-
-
-
-
 /*
  * Per-frame sweep of one display rig.  It first pokes the 3D display control
  * halfword at 0x04000060 (DISP3DCNT): clear bits 12-13, set bit 3.  That is a
@@ -5253,14 +4535,6 @@ void SPL_EMITTER_FreeNodeHeap(struct VramHeapHead *h, u32 a)
     }
 }
 
-
-
-
-
-
-
-
-
 /*
  * Promote-first callee of src/pending/PARTICLE_StartEffect.c (parks lane 2).
  * Pops one node off the list at p+0x10, runs the loader for the node and
@@ -5294,15 +4568,6 @@ int SPL_EMITTER_AllocResource(char *p, int b, int c)
     }
     return (int)r;
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * Promote-first callee of src/pending/PARTICLE_StartEffectWithCallback.c (parks lane 2).
@@ -5339,15 +4604,6 @@ int SPL_EMITTER_AllocResourceEx(char *p, int b, void (*fn)(void *))
     }
     return (int)r;
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * Tear down one node q owned by container p.  Two identical drain loops move
@@ -5394,15 +4650,6 @@ void SPL_EMITTER_FreeResource(char *p, char *q)
     SPLList_Erase((SPLList *)(p + 4), (SPLNode *)q);
     SPLList_PushFront((SPLList *)(p + 0x10), (SPLNode *)q);
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * Drain the singly-linked list hanging off p+4: for each node, cache its

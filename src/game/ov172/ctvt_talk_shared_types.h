@@ -1,7 +1,7 @@
 #ifndef CTVT_TALK_SHARED_TYPES_H
 #define CTVT_TALK_SHARED_TYPES_H
 
-typedef signed int     s32;
+#include "../types.h"
 
 struct Obj;
 

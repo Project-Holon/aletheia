@@ -30,90 +30,11 @@
  *   RTC_GetTime                      0x0208890c arm
  *   g_020A872C                       0x020a872c data
  */
-typedef unsigned long u32;
+#include "../types.h"
 
-typedef unsigned short u16;
+#include "../sdk_os.h"
 
-typedef unsigned char u8;
-
-typedef long s32;
-
-typedef short s16;
-
-typedef int BOOL;
-
-typedef u32 OSIntrMode;
-
-typedef enum WMErrCode {
-    WM_ERRCODE_SUCCESS = 0,
-    WM_ERRCODE_FAILED = 1,
-    WM_ERRCODE_OPERATING = 2,
-    WM_ERRCODE_ILLEGAL_STATE = 3,
-    WM_ERRCODE_WM_DISABLE = 4,
-    WM_ERRCODE_NO_DATASET = 5,
-    WM_ERRCODE_INVALID_PARAM = 6,
-    WM_ERRCODE_NO_ENTRY = 7,
-    WM_ERRCODE_MAX = 0x7FFFFFFF
-} WMErrCode;
-
-typedef void (*WMCallbackFunc)(void *arg);
-
-typedef struct WMArm9Buf {
-    struct WMArm7Buf *WM7;
-    struct WMStatus *status;
-    u32 *indbuf;
-    u32 *fifo9to7;
-    u32 *fifo7to9;
-    u16 dmaNo;
-    u16 scanOnlyFlag;
-    WMCallbackFunc CallbackTable[44];
-    WMCallbackFunc indCallback;
-    WMCallbackFunc portCallbackTable[16];
-    void *portCallbackArgument[16];
-    u32 connectedAidBitmap;
-    u16 myAid;
-    u8 reserved1[174];
-} WMArm9Buf;
-
-typedef struct WMStatus {
-    u16 state;
-    u8 pad02[0xA];
-    u32 mp_flag;
-    u8 pad10[0x2C];
-    u16 mp_sendSize;
-    u16 mp_recvSize;
-    u8 pad40[0x32];
-    u16 mp_recvBufSize;
-    u8 pad74[0x48];
-    u16 linkLevel;
-    u8 padBE[0x3A];
-    u16 pparam_maxEntry;
-    u8 padFA[0x88];
-    u16 child_bitmap;
-    u8 pad184[4];
-    u16 aid;
-} WMStatus;
-
-typedef struct WMPortRecvCallback {
-    u16 apiid;
-    u16 errcode;
-    u16 state;
-    u16 port;
-    struct WMMpRecvBuf *recvBuf;
-    u16 *data;
-    u16 length;
-    u16 aid;
-    u8 macAddress[6];
-    u16 seqNo;
-    void *arg;
-    u16 myAid;
-    u16 connectedAidBitmap;
-    u8 ssid[24];
-    u16 reason;
-    u16 rssi;
-    u16 maxSendDataSize;
-    u16 maxRecvDataSize;
-} WMPortRecvCallback;
+#include "../sdk_wm.h"
 
 typedef struct WMMpRecvData {
     u16 length;
@@ -133,51 +54,7 @@ typedef struct WMMpRecvHeader {
     WMMpRecvData data[1];
 } WMMpRecvHeader;
 
-typedef enum WMLinkLevel {
-    WM_LINK_LEVEL_0 = 0,
-    WM_LINK_LEVEL_1,
-    WM_LINK_LEVEL_2,
-    WM_LINK_LEVEL_3,
-    WM_LINK_LEVEL_MAX
-} WMLinkLevel;
-
-typedef struct WMBssDesc {
-    u16 length;
-    u16 rssi;
-    u8 bssid[6];
-    u16 ssidLength;
-    u8 ssid[32];
-    u16 capaInfo;
-    struct {
-        u16 basic;
-        u16 support;
-    } rateSet;
-    u16 beaconPeriod;
-    u16 dtimPeriod;
-    u16 channel;
-    u16 cfpPeriod;
-    u16 cfpMaxDuration;
-    u16 gameInfoLength;
-    u16 otherElementCount;
-    u8 gameInfo[128];
-} WMBssDesc;
-
-typedef struct WMOtherElements {
-    u8 count;
-    u8 rsv[3];
-    struct {
-        u8 id;
-        u8 length;
-        u8 rsv[2];
-        u8 *body;
-    } element[16];
-} WMOtherElements;
-
-typedef struct RTCTime {
-    u32 hour;
-    u32 minute;
-    u32 second;
-} RTCTime;
+#include "../sdk_rtc.h"
 
 extern OSIntrMode OS_DisableInterrupts(void);
 extern WMErrCode WMi_CheckInitialized(void);
@@ -208,11 +85,6 @@ WMOtherElements WM_GetOtherElements(WMBssDesc *bssDesc);
 u16 WM_GetNextTgid(void);
 extern u32 g_020A872C;
 
-
-
-
-
-
 /*
  * sdk:      WM_SetIndCallback (libwm.TWL.HYB.a(wm_sync.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
@@ -233,11 +105,6 @@ WMErrCode WM_SetIndCallback(WMCallbackFunc callback)
     (void)OS_RestoreInterrupts(e);
     return WM_ERRCODE_SUCCESS;
 }
-
-
-
-
-
 
 WMErrCode WM_SetPortCallback(u16 port, WMCallbackFunc callback, void *arg)
 {
@@ -280,11 +147,6 @@ WMErrCode WM_SetPortCallback(u16 port, WMCallbackFunc callback, void *arg)
     return WM_ERRCODE_SUCCESS;
 }
 
-
-
-
-
-
 /*
  * sdk:      WM_ReadStatus (libwm.TWL.HYB.a(wm_sync.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
@@ -306,11 +168,6 @@ WMErrCode WM_ReadStatus(struct WMStatus *statusBuf)
     MIi_CpuCopyFast(p->status, statusBuf, 2000);
     return WM_ERRCODE_SUCCESS;
 }
-
-
-
-
-
 
 /*
  * sdk:      WM_GetMPSendBufferSize (libwm.TWL.HYB.a(wm_sync.o))
@@ -334,9 +191,6 @@ int WM_GetMPSendBufferSize(void)
     DC_InvalidateRange(&p->status->mp_sendSize, 4);
     return (p->status->mp_sendSize + 31) & ~31;
 }
-
-
-
 
 /*
  * sdk:      WM_GetMPReceiveBufferSize (libwm.TWL.HYB.a(wm_sync.o))
@@ -369,8 +223,6 @@ int WM_GetMPReceiveBufferSize(void)
     }
     return ((maxReceiveSize + 50 + 31) & ~31) * 2;
 }
-
-
 
 /*
  * sdk:      WM_ReadMPData (libwm.TWL.HYB.a(wm_sync.o))
@@ -414,8 +266,6 @@ WMMpRecvData *WM_ReadMPData(const WMMpRecvHeader *header, u16 aid)
     return 0;
 }
 
-
-
 /*
  * sdk:      WM_GetAllowedChannel (libwm.TWL.HYB.a(wm_sync.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
@@ -436,8 +286,6 @@ u16 WM_GetAllowedChannel(void)
     }
     return *(u16 *)0x02FFFCFA;
 }
-
-
 
 /*
  * sdk:      WM_GetLinkLevel (libwm.TWL.HYB.a(wm_sync.o))
@@ -468,8 +316,6 @@ WMLinkLevel WM_GetLinkLevel(void)
     return WM_LINK_LEVEL_0;
 }
 
-
-
 /*
  * sdk:      WM_GetDispersionBeaconPeriod (libwm.TWL.HYB.a(wm_sync.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
@@ -489,8 +335,6 @@ u16 WM_GetDispersionBeaconPeriod(void)
     return (u16)(200 + (ret % 20));
 }
 
-
-
 /*
  * sdk:      WM_GetDispersionScanPeriod (libwm.TWL.HYB.a(wm_sync.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
@@ -509,8 +353,6 @@ u16 WM_GetDispersionScanPeriod(void)
     ret *= 13;
     return (u16)(30 + (ret % 10));
 }
-
-
 
 /*
  * sdk:      WM_GetOtherElements (libwm.TWL.HYB.a(wm_sync.o))
@@ -558,8 +400,6 @@ WMOtherElements WM_GetOtherElements(WMBssDesc *bssDesc)
 }
 
 #define tgid_bak g_020A872C
-
-
 
 /*
  * sdk:      WM_GetNextTgid (libwm.TWL.HYB.a(wm_sync.o))

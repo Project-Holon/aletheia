@@ -291,7 +291,7 @@ typedef struct {short x,y;} ShortPair;
 
 typedef struct {Pair first,second,third;} Table;
 
-typedef struct {long x,y,z;} VecFx32;
+#include "../sdk_fx.h"
 
 extern void * MI_CpuFill8(void *,u32,u32);
 

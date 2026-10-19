@@ -62,15 +62,9 @@ struct BgTemplate;
 struct DispConfig;
 struct Bank;
 struct Cfg;
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef unsigned char u8;
+#include "../types.h"
 
 typedef struct {u32 layer; u8 cfg[32];u32 type,enable;} Row;
-
-typedef signed short s16;
 
 struct ClactCtx {
     struct Bank *unit;     /* +0x00 CLACT unit from CLACT_CreateUnit */
@@ -192,7 +186,6 @@ void CHIHOU_ZUKAN_AWARD_GRAPHIC_Delete(char*p)
  GFL_HEAP_Free(p);
 }
 
-
 /*
  * Addresses are Black-image addresses.
  */
@@ -203,7 +196,6 @@ void CHIHOU_ZUKAN_AWARD_GRAPHIC_Update(char *p)
 }
 
 unsigned CHIHOU_ZUKAN_AWARD_GRAPHIC_GetActor(char *p){return CHIHOU_ZUKAN_AWARD_GRAPHIC_GetValue((unsigned *)(p+4));}
-
 
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_Task(void *unused, char *p)
 {
@@ -236,7 +228,6 @@ void CHIHOU_ZUKAN_AWARD_GRAPHIC_Noop(void *p){}
 
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_DrawObjects(void *p){BG_SYS_Update();}
 
-
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupClact(unsigned char *p, int a, int b)
 {
     MI_CpuFill8(p, 0, 4);
@@ -246,7 +237,6 @@ void CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupClact(unsigned char *p, int a, int b)
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
-
 
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_DeleteClact(char *p)
 {
@@ -266,7 +256,6 @@ void CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupCamera(u32**p,u32 heap)
  G3D_SYSTEM_Init(0,1,0,1,0,heap,CHIHOU_ZUKAN_AWARD_Setup3d);
  *p=G3D_CAMERA_Create(0,d_020A1EB8[6],d_020A1EB8[7],0x1555,0,0x1000,0x400000,0,&d_021BA1B0[1],&d_021BA1B0[0],&d_021BA1B0[2],heap);
 }
-
 
 int CHIHOU_ZUKAN_AWARD_GRAPHIC_DeleteCamera(int *p)
 {

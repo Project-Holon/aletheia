@@ -24,9 +24,7 @@
  */
 #include "trcard_sign_shared_types.h"
 
-typedef signed   short s16;
-
-typedef signed long long   s64;
+#include "../types.h"
 
 /* The daily play allowance is one day of minutes. */
 #define DAILY_MINUTES_MAX 0x5A0
@@ -34,17 +32,7 @@ typedef signed long long   s64;
 #define SAVE_BLOCK_CONSOLE_STAMP          0x25
 
 /* SDK owner information; the tail is padding that only fixes the frame size. */
-struct OSOwnerInfo {
-    u8  language;
-    u8  favoriteColor;
-    u8  birthdayMonth;
-    u8  birthdayDay;
-    u16 nickname[10];
-    s16 nicknameLength;
-    u16 comment[26];
-    s16 commentLength;
-    u8  padding[4];
-};
+#include "../sdk_os.h"
 
 /* ---- Save block 0x25: console identity and daily play allowance (0x5C) ---- */
 struct DailyClock {
@@ -136,8 +124,8 @@ void CONSOLE_STAMP_SetIdentity(struct ConsoleStamp *stamp)
     stamp->rtcOffset = OS_GetOwnerRtcOffset();
     OS_GetMacAddress(stamp->mac);
     OS_GetOwnerInfo(&info);
-    stamp->birthdayMonth = info.birthdayMonth;
-    stamp->birthdayDay = info.birthdayDay;
+    stamp->birthdayMonth = info.birthday.month;
+    stamp->birthdayDay = info.birthday.day;
 }
 
 /* Is the stamped MAC address this console's. */

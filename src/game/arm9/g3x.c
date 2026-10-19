@@ -52,48 +52,11 @@
 #define reg_G3X_CLRIMAGE_OFFSET (*(vu16 *)0x04000356)
 #define reg_G3X_FOG_COLOR       (*(vu32 *)0x04000358)
 #define reg_G3_SHININESS (*(vu32 *)0x040004D0)
-typedef long fx32;
+#include "../types.h"
 
-typedef short fx16;
+#include "../sdk_fx.h"
 
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned long u32;
-
-typedef int BOOL;
-
-typedef long s32;
-
-typedef volatile u16 vu16;
-
-typedef volatile u32 vu32;
-
-typedef union {
-    struct {
-        fx32 _00, _01, _02, _03;
-        fx32 _10, _11, _12, _13;
-        fx32 _20, _21, _22, _23;
-        fx32 _30, _31, _32, _33;
-    };
-    fx32 m[4][4];
-    fx32 a[16];
-} MtxFx44;
-
-typedef union {
-    struct {
-        fx32 _00, _01, _02;
-        fx32 _10, _11, _12;
-        fx32 _20, _21, _22;
-    };
-    fx32 m[3][3];
-    fx32 a[9];
-} MtxFx33;
-
-typedef enum { GX_FOGBLEND_COLOR_ALPHA = 0 } GXFogBlend;
-
-typedef enum { GX_FOGSLOPE_0x0400 = 0 } GXFogSlope;
+#include "../sdk_gx.h"
 
 typedef void (*MIDmaCallback)(void *);
 
@@ -125,30 +88,15 @@ void G3X_SetDisp1DotDepth(fx32 w);
 int G3X_GetBoxTestResult(s32 *in);
 extern u32 GXi_DmaId;
 
-
-
-
-
-
 static inline void G3X_SetShading(int shading)
 {
     reg_G3X_DISP3DCNT = (u16)((reg_G3X_DISP3DCNT & ~(0x3000 | 0x0002)) | (shading << 1));
 }
 
-
-
-
-
-
 static inline void G2_SetBG0Priority(int priority)
 {
     reg_G2_BG0CNT = (u16)((reg_G2_BG0CNT & ~0x3) | (priority << 0));
 }
-
-
-
-
-
 
 /*
  * sdk:      G3X_Init (libgx.TWL.HYB.a g3x.o)
@@ -182,11 +130,6 @@ void G3X_Init(void)
     reg_G3_TEXPLTT_BASE = 0;
 }
 
-
-
-
-
-
 /*
  * sdk:      G3X_Reset (libgx.TWL.HYB.a g3x.o)
  */
@@ -203,11 +146,6 @@ void G3X_Reset(void)
     reg_G3_TEXPLTT_BASE = 0;
 }
 
-
-
-
-
-
 /*
  * sdk:      G3X_ClearFifo (libgx.TWL.HYB.a g3x.o)
  */
@@ -217,11 +155,6 @@ void G3X_ClearFifo(void)
     while (reg_G3X_GXSTAT & 0x08000000) {
     }
 }
-
-
-
-
-
 
 /*
  * sdk:      G3X_InitMtxStack (libgx.TWL.HYB.a g3x.o)
@@ -247,11 +180,6 @@ void G3X_InitMtxStack(void)
     reg_G3_MTX_IDENTITY = 0;
 }
 
-
-
-
-
-
 /*
  * sdk:      G3X_ResetMtxStack (libgx.TWL.HYB.a g3x.o)
  */
@@ -275,11 +203,6 @@ void G3X_ResetMtxStack(void)
     reg_G3_MTX_IDENTITY = 0;
 }
 
-
-
-
-
-
 /*
  * sdk:      G3X_SetFog (libgx.TWL.HYB.a g3x.o)
  */
@@ -292,11 +215,6 @@ void G3X_SetFog(BOOL enable, GXFogBlend fogMode, GXFogSlope fogSlope, int fogOff
         reg_G3X_DISP3DCNT &= 0xcf7f;
     }
 }
-
-
-
-
-
 
 /*
  * sdk:      G3X_GetClipMtx (libgx.TWL.HYB.a g3x.o)
@@ -311,11 +229,6 @@ int G3X_GetClipMtx(MtxFx44 *m)
     }
 }
 
-
-
-
-
-
 /*
  * sdk:      G3X_GetVectorMtx (libgx.TWL.HYB.a g3x.o)
  */
@@ -329,30 +242,15 @@ int G3X_GetVectorMtx(MtxFx33 *m)
     }
 }
 
-
-
-
-
-
 void G3X_SetEdgeColorTable(const void *src)
 {
     MIi_CpuCopy16(src, (void *)0x04000330, 0x10);
 }
 
-
-
-
-
-
 void G3X_SetFogTable(const void *src)
 {
     MI_Copy32B(src, (void *)0x04000360);
 }
-
-
-
-
-
 
 /*
  * sdk:      G3X_SetClearColor (libgx.TWL.HYB.a g3x.o)
@@ -367,11 +265,6 @@ void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, BOOL fog)
     reg_G3X_CLEAR_COLOR = val;
     reg_G3X_CLEAR_DEPTH = (u16)depth;
 }
-
-
-
-
-
 
 /*
  * sdk:      G3X_InitTable (libgx.TWL.HYB.a g3x.o)
@@ -397,10 +290,6 @@ void G3X_InitTable(void)
     }
 }
 
-
-
-
-
 /*
  * sdk:      G3X_GetMtxStackLevelPV (libgx.TWL.HYB.a g3x.o)
  */
@@ -413,10 +302,6 @@ int G3X_GetMtxStackLevelPV(s32 *level)
         return 0;
     }
 }
-
-
-
-
 
 /*
  * sdk:      G3X_GetMtxStackLevelPJ (libgx.TWL.HYB.a g3x.o)
@@ -431,8 +316,6 @@ int G3X_GetMtxStackLevelPJ(s32 *level)
     }
 }
 
-
-
 /*
  * sdk:      G3X_SetDisp1DotDepth (libgx.TWL.HYB.a g3x.o)
  */
@@ -440,8 +323,6 @@ void G3X_SetDisp1DotDepth(fx32 w)
 {
     reg_G3X_DISP_1DOT_DEPTH = (u16)((w >> 9) & 0x7fff);
 }
-
-
 
 /*
  * sdk:      G3X_GetBoxTestResult (libgx.TWL.HYB.a g3x.o)
@@ -455,7 +336,6 @@ int G3X_GetBoxTestResult(s32 *in)
         return 0;
     }
 }
-
 
 /*
  * sdk:      GXi_NopClearFifo128_ (libgx.TWL.HYB.a g3x.o)

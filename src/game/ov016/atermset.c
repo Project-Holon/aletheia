@@ -115,6 +115,7 @@
  *   _ll_udiv                     0x0209C00C  arm
  *   _ull_mul                     0x0209C054  arm
  */
+#define GAME_TYPES_U32_LONG
 #include "../../matched/arm9_sdk/libc/memcmp/string.h"
 #include "../../matched/include/G__ATERMApConfigParam.h"
 #include "../../matched/include/G_ATERMSET_DATA.h"
@@ -181,9 +182,7 @@ extern void *__builtin__clear(void *dest, unsigned long size);
   }
 #define SWAP16(x) ((unsigned short)((unsigned char)((x) >> 8) | (((x) << 8) & 0xFF00)))
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned long u32;
+#include "../types.h"
 
 /*
  * atermset.o's .bss scalars from 0x021DCFD0 (btAutoResult): the vendor object addresses
@@ -216,56 +215,13 @@ struct WCMConfig {
     long  nbdmode;
 };
 
-typedef struct {
-    unsigned short basic;
-    unsigned short support;
-} WMRateSet;
+#include "../sdk_wm.h"
 
-typedef struct WMBssDesc {
-    unsigned short length;
-    unsigned short rssi;
-    unsigned char  bssid[6];
-    unsigned short ssidLength;
-    unsigned char  ssid[32];
-    unsigned short capaInfo;
-    WMRateSet      rateSet;
-    unsigned short beaconPeriod;
-    unsigned short dtimPeriod;
-    unsigned short channel;
-    unsigned short cfpPeriod;
-    unsigned short cfpMaxDuration;
-    unsigned short gameInfoLength;
-    unsigned short otherElementCount;
-    unsigned char  gameInfo[0x80];   /* struct WMGameInfo, not needed here */
-} WMBssDesc;
-
-typedef struct OSMutex OSMutex;
-typedef struct _OSThread OSThread;
-typedef struct OSiAlarm OSAlarm;
-
-struct OSiAlarm {
-    void             (*handler)(void *);
-    void              *arg;
-    unsigned long      tag;
-    unsigned long long fire;
-    OSAlarm           *prev;
-    OSAlarm           *next;
-    unsigned long long period;
-    unsigned long long start;
-};
+#include "../sdk_os.h"
 
 typedef struct SOCConfig SOCConfig;
 
-typedef struct SOCInAddr {
-    unsigned long addr;
-} SOCInAddr;
-
-typedef struct SOCSockAddrIn {
-    unsigned char  len;
-    unsigned char  family;
-    unsigned short port;
-    SOCInAddr      addr;
-} SOCSockAddrIn;
+#include "../sdk_soc.h"
 
 typedef struct _NDIS_802_11_SSID {
     unsigned long SsidLength;
@@ -1297,7 +1253,7 @@ static int SendBroadcast(int sock, unsigned char *lpb, int size)
 
     target.len = sizeof(target);
     target.family = 2;
-    target.addr.addr = 0xFFFFFFFF;
+    target.addr = 0xFFFFFFFF;
     target.port = 0x1E6;
     SOC_U32to4U8(SOCL_GetHostID(), ipaddr);
     retv = SendFrameViaInterface(sock, &target, ipaddr, lpb, size);
@@ -1779,7 +1735,7 @@ static int AutoConfigThreadEx(void)
             server.len = sizeof(server);
             server.family = 2;
             server.port = 486;
-            server.addr.addr = 0;
+            server.addr = 0;
             ret = SOC_Bind(sock, &server);
             if (ret < 0) {
                 ret = -2;

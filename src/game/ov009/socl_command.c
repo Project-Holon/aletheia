@@ -29,13 +29,7 @@
  */
 #include "socl_command_types.h"
 
-typedef signed int     s32;
-
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 extern void OS_InitMessageQueue(struct OSMessageQueue *mq, void **msgArray, s32 msgCount);
 extern int OS_ReceiveMessage(struct OSMessageQueue *mq, void **msg, long flags);
@@ -61,10 +55,6 @@ void SOCLi_CommandPacketHandler(void *arg);
 extern SoclConfig *gSoclConfig;
 extern struct OSMessageQueue SOCLiCommandPacketQueue;
 extern SoclCmdQueue gSoclCmdQueue;
-
-
-
-
 
 int SOCLi_StartupCommandPacketQueue(int packetCount)
 {
@@ -93,11 +83,6 @@ int SOCLi_StartupCommandPacketQueue(int packetCount)
     return 0;
 }
 
-
-
-
-
-
 /*
  * sdk:      SOCLi_CleanupCommandPacketQueue (libsoc.TWL.HYB.a(socl_command.o))
  */
@@ -110,11 +95,6 @@ int SOCLi_CleanupCommandPacketQueue(void)
 	return 0;
 }
 
-
-
-
-
-
 struct SOCLiCommandPacket *SOCLi_AllocCommandPacket(long flag)
 {
     struct SOCLiCommandPacket *cp;
@@ -123,10 +103,6 @@ struct SOCLiCommandPacket *SOCLi_AllocCommandPacket(long flag)
         return cp;
     return 0;
 }
-
-
-
-
 
 struct SOCLiCommandPacket *SOCLi_CreateCommandPacket(int (*handler)(void *),
                                                      struct SOCLSocket *socket,
@@ -144,15 +120,12 @@ struct SOCLiCommandPacket *SOCLi_CreateCommandPacket(int (*handler)(void *),
     return cp;
 }
 
-
-
 void SOCLi_FreeCommandPacket(void *ptr)
 {
     if (ptr != 0) {
         OS_SendMessage(&SOCLiCommandPacketQueue, ptr, 0);
     }
 }
-
 
 /*
  * Word at +0xa0 of the block, falling back to +0xa4 when it is zero.
@@ -165,9 +138,6 @@ int SOCLi_GetCtrlPipe(const int *p, int b)
         v = p[0x29];
     return v;
 }
-
-
-
 
 /*
  * Runs one helper with a flag derived from bit 0 of the object's byte 0xd
@@ -189,9 +159,6 @@ int SOCLi_SendCommandPacket(int queue, struct SOCLiCommandPacket *packet)
     return sent ? 0 : -0x2A;
 }
 
-
-
-
 /*
  * Passes the second argument on to both calls.
  */
@@ -201,9 +168,6 @@ void SOCLi_SendCommandPacketToCtrlPipe(int socket, int packet)
 
     SOCLi_SendCommandPacket(v, (struct SOCLiCommandPacket *)packet);
 }
-
-
-
 
 /*
  * sdk:      SOCLi_ExecCommandPacket (libsoc.TWL.HYB.a(socl_command.o))
@@ -226,9 +190,6 @@ int SOCLi_ExecCommandPacket(void *pipe, struct SOCLiCommandPacket *command)
 	return result;
 }
 
-
-
-
 /*
  * Tail call on the word at +0xa0 of the object.
  */
@@ -236,9 +197,6 @@ void SOCLi_ExecCommandPacketInRecvPipe(const int *p, struct SOCLiCommandPacket *
 {
     SOCLi_ExecCommandPacket((void *)p[0x28], command);
 }
-
-
-
 
 /*
  * Tail call on the word at +0xa4 of the object.
@@ -248,18 +206,12 @@ void SOCLi_ExecCommandPacketInSendPipe(const int *p, struct SOCLiCommandPacket *
     SOCLi_ExecCommandPacket((void *)p[0x29], command);
 }
 
-
-
-
 void SOCLi_ExecCommandPacketInCtrlPipe(int socket, int packet)
 {
     int v = SOCLi_GetCtrlPipe((const int *)socket, packet);
 
     SOCLi_ExecCommandPacket((void *)v, (struct SOCLiCommandPacket *)packet);
 }
-
-
-
 
 /*
  * sdk:      SOCLi_CommandPacketHandler (libsoc.TWL.HYB.a(socl_command.o))

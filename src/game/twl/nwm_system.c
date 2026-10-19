@@ -26,9 +26,7 @@
  *   NWMi_PreSleepInfo  0x027341B8  data
  *   OSi_SystemWorkVblankCount  0x02FFFC3C  data
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../types.h"
 typedef char *va_list;
 
 #define va_start(ap, last) ((ap) = (char *)(((u32)&(last)) & ~3) + 4)

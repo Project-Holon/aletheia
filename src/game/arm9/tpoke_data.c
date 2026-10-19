@@ -40,9 +40,7 @@ struct ArcFile;
 struct MsgBank;
 struct Rec;
 struct U16Vec;
-typedef unsigned int u32;
-
-typedef unsigned short u16;
+#include "../types.h"
 
 typedef struct {
     int   handle;
@@ -50,8 +48,6 @@ typedef struct {
     void *buf4;
     u32   count;
 } Tpoke;
-
-typedef unsigned char  u8;
 
 /* One 8-byte entry of the container's entry table.  TPOKE_DATA_FindEntryIndex matches
  * key/type/subtype and returns the entry index; the u16 at +6 indexes the
@@ -81,8 +77,6 @@ struct TpokeRecord {
     u8 battleKind;
     u8 reserved08[0x14];
 };
-
-typedef signed int    s32;
 
 /* The 0x14-byte archive-member-0x5c record, decoded field by field.
  * TPOKE_DATA_GetRecordField returns its fields by index (0..11).  tr_tool.c reads the
@@ -146,12 +140,6 @@ extern const char sTpokeData82[];
 extern const u8 gTpokeDataGenderValueTable[];
 extern const struct TrainerKindRecord gTpokeDataTrainerKindTable[];
 
-
-
-
-
-
-
 Tpoke *TPOKE_DATA_Create(int heap)
 {
     Tpoke *p;
@@ -165,23 +153,12 @@ Tpoke *TPOKE_DATA_Create(int heap)
     return p;
 }
 
-
-
-
-
-
 void TPOKE_Delete(Tpoke *tpoke)
 {
     GFL_HEAP_Free(tpoke->buf);
     GFL_HEAP_Free((void *)tpoke->handle);
     GFL_HEAP_Free(tpoke);
 }
-
-
-
-
-
-
 
 /*
  * Returns the halfword at entry i (times 8 plus 6) of the +0 table.
@@ -197,12 +174,6 @@ u32 TPOKE_DATA_GetRecordIndex(struct Container *c, u32 key, u32 type, u32 subtyp
     return *(u16 *)((u8 *)c->entries + i * 8 + 6);
 }
 
-
-
-
-
-
-
 int TPOKE_DATA_IsRecordKindTwo(u32 unused, struct Container *c, u32 type, u32 subtype, u16 e)
 {
     int i = TPOKE_DATA_GetEntryIndex((u8 *)c, type, subtype, e);
@@ -213,12 +184,6 @@ int TPOKE_DATA_IsRecordKindTwo(u32 unused, struct Container *c, u32 type, u32 su
     }
     return 0;
 }
-
-
-
-
-
-
 
 /*
  * Bounded scan of the container's 8-byte records: the one whose key matches and
@@ -256,7 +221,6 @@ u32 TPOKE_DATA_FindEntryIndex(const struct Container *c, u32 key, u32 type, u32 
     return 0xffff;
 }
 
-
 /*
  * Returns TPOKE_DATA_FindEntryIndex's result, clamped to zero when negative.
  *
@@ -274,9 +238,7 @@ u32 TPOKE_DATA_GetEntryIndex(u8 *p, u32 key, u32 type, u32 subtype)
     return r < 0 ? 0u : (u32)r;
 }
 
-
 int TPOKE_DATA_GetRecordPtr(struct Container *c, int recordIndex){ int t0 = FLDMMDL_ObjCodeToTableIndex((int)(recordIndex + 0)); return (c->records + (t0 * 0x1c)); }
-
 
 u32 TPOKE_DATA_GetRecordField(void *a, u32 idx)
 {
@@ -319,7 +281,6 @@ u32 TPOKE_DATA_GetRecordField(void *a, u32 idx)
     return r;
 }
 
-
 u32 TPOKE_DATA_FindRecord(u32 key, u32 want, u32 heap)
 {
     u16   rec[4];
@@ -346,8 +307,6 @@ u32 TPOKE_DATA_FindRecord(u32 key, u32 want, u32 heap)
     ARC_TOOL_DeleteHandle(h);
     return found;
 }
-
-
 
 void TPOKE_DATA_ReadRecordString(int key, int want, void *dest, u32 heap)
 {
@@ -378,21 +337,15 @@ void TPOKE_DATA_ReadRecordString(int key, int want, void *dest, u32 heap)
     }
 }
 
-
-
 void TPOKE_DATA_ReadRecord(void *dest, void *arc)
 {
     ARC_TOOL_ReadMember(arc, 0x5c, (u32)dest);
 }
 
-
-
 void TPOKE_DATA_ReadParty(void *dest, void *arc)
 {
     ARC_TOOL_ReadMember(arc, 0x5d, (u32)dest);
 }
-
-
 
 /*
  * Blocked: gTpokeDataGenderValueTable is named by this function's one pool word
@@ -404,7 +357,6 @@ u8 TPOKE_DATA_GetGenderValue(u32 idx)
 {
     return gTpokeDataGenderValueTable[idx];
 }
-
 
 u8 TPOKE_DATA_FindTrainerType(u32 key)
 {
@@ -418,7 +370,6 @@ u8 TPOKE_DATA_FindTrainerType(u32 key)
     return 0x1c;
 }
 
-
 u8 TPOKE_DATA_GetTrainerKind(u32 key)
 {
     u8 idx = TPOKE_DATA_FindTrainerType(key);
@@ -427,7 +378,6 @@ u8 TPOKE_DATA_GetTrainerKind(u32 key)
     }
     return (u8)gTpokeDataTrainerKindTable[idx].kind;
 }
-
 
 u32 TPOKE_DATA_GetTrainerGroup(u32 key)
 {

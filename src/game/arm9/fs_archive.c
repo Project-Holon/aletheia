@@ -38,267 +38,18 @@
  *   FS_SuspendArchive  0x02078648  arm
  *   FS_ResumeArchive  0x020786D8  arm
  */
-struct FSArchive;
-struct FSFile;
-struct FSArchiveInterface;
-typedef unsigned char u8;
+#include "../sdk_fs.h"
 
-typedef unsigned short u16;
+#include "../types.h"
 
-typedef unsigned long u32;
+#include "../sdk_os.h"
 
-typedef long s32;
-
-typedef unsigned long long u64;
-
-typedef int BOOL;
-
-typedef u32 OSIntrMode;
-
-typedef struct _OSThread OSThread;
-
-typedef struct _OSThreadQueue {
-    OSThread *head;
-    OSThread *tail;
-} OSThreadQueue;
-
-typedef int FSResult;
-
-typedef u32 FSCommandType;
-
-typedef FSResult (*FS_ARCHIVE_READ_FUNC)(struct FSArchive *p, void *dst, u32 pos, u32 size);
-
-typedef FSResult (*FS_ARCHIVE_WRITE_FUNC)(struct FSArchive *p, const void *src, u32 pos, u32 size);
-
-typedef FSResult (*FS_ARCHIVE_PROC_FUNC)(struct FSFile *file, u32 command);
-
-typedef struct FSROMFATArchiveContext {
-    u32 base;
-    u32 fat;
-    u32 fat_size;
-    u32 fnt;
-    u32 fnt_size;
-    u32 fat_bak;
-    u32 fnt_bak;
-    void *load_mem;
-    FS_ARCHIVE_READ_FUNC read_func;
-    FS_ARCHIVE_WRITE_FUNC write_func;
-    u8 reserved3[4];
-    FS_ARCHIVE_PROC_FUNC proc;
-    u32 proc_flag;
-} FSROMFATArchiveContext;
-
-typedef struct FSArchive {
-    union {
-        char ptr[4];
-        u32 pack;
-        char *name;
-    } name;
-    struct FSArchive *next;
-    struct FSFile *list;
-    OSThreadQueue queue;
-    u32 flag;
-    u32 command;
-    FSResult result;
-    void *userdata;
-    const struct FSArchiveInterface *vtbl;
-    FSROMFATArchiveContext context;
-} FSArchive;
-
-typedef struct FSFileID {
-    FSArchive *arc;
-    u32 file_id;
-} FSFileID;
-
-typedef struct FSDirPos {
-    FSArchive *arc;
-    u16 own_id;
-    u16 index;
-    u32 pos;
-} FSDirPos;
-
-typedef struct FSDirEntry {
-    union {
-        FSFileID file_id;
-        FSDirPos dir_id;
-    };
-    u32 is_directory;
-    u32 name_len;
-    char name[128];
-} FSDirEntry;
-
-typedef struct FSArchiveFAT {
-    u32 top;
-    u32 bottom;
-} FSArchiveFAT;
-
-typedef struct FSArchiveFNT {
-    u32 start;
-    u16 index;
-    u16 parent;
-} FSArchiveFNT;
-
-typedef struct FSROMFATFileProperty {
-    u32 own_id;
-    u32 top;
-    u32 bottom;
-    u32 pos;
-} FSROMFATFileProperty;
-
-typedef struct FSROMFATDirProperty {
-    FSDirPos pos;
-    u32 parent;
-} FSROMFATDirProperty;
-
-typedef union FSROMFATProperty {
-    FSROMFATFileProperty file;
-    FSROMFATDirProperty dir;
-} FSROMFATProperty;
-
-typedef struct FSReadFileInfo { void *dst; u32 len_org; u32 len; } FSReadFileInfo;
-
-typedef struct FSWriteFileInfo { const void *src; u32 len_org; u32 len; } FSWriteFileInfo;
-
-typedef struct FSSeekDirInfo { FSDirPos pos; } FSSeekDirInfo;
-
-typedef struct FSReadDirInfo { FSDirEntry *p_entry; BOOL skip_string; } FSReadDirInfo;
-
-typedef struct FSFindPathInfo { FSDirPos pos; const char *path; BOOL find_directory; union { FSFileID *file; FSDirPos *dir; } result; } FSFindPathInfo;
-
-typedef struct FSGetPathInfo { u8 *buf; u32 buf_len; u16 total_len; u16 dir_id; } FSGetPathInfo;
-
-typedef struct FSOpenFileFastInfo { FSFileID id; } FSOpenFileFastInfo;
-
-typedef struct FSOpenFileDirectInfo { u32 top; u32 bottom; u32 index; } FSOpenFileDirectInfo;
-
-typedef struct FSCloseFileInfo { u32 reserved; } FSCloseFileInfo;
-
-typedef union FSROMFATCommandInfo {
-    FSReadFileInfo readfile;
-    FSWriteFileInfo writefile;
-    FSSeekDirInfo seekdir;
-    FSReadDirInfo readdir;
-    FSFindPathInfo findpath;
-    FSGetPathInfo getpath;
-    FSOpenFileFastInfo openfilefast;
-    FSOpenFileDirectInfo openfiledirect;
-    FSCloseFileInfo closefile;
-    u8 reserved2[24];
-} FSROMFATCommandInfo;
-
-typedef struct FSFile {
-    struct FSFile *next;
-    void *userdata;
-    FSArchive *arc;
-    u32 stat;
-    void *argument;
-    FSResult error;
-    OSThreadQueue queue[1];
-    FSROMFATProperty prop;
-    FSROMFATCommandInfo arg;
-} FSFile;
-
-typedef struct FSiSyncReadParam {
-    FSArchive *arc;
-    u32 pos;
-} FSiSyncReadParam;
-
-typedef enum FSSeekFileMode {
-    FS_SEEK_SET,
-    FS_SEEK_CUR,
-    FS_SEEK_END
-} FSSeekFileMode;
-
-typedef struct FSDirectoryEntryInfo FSDirectoryEntryInfo;
-
-typedef struct FSPathInfo FSPathInfo;
-
-typedef struct FSArchiveResource FSArchiveResource;
-
-typedef struct FSArchiveInterface {
-    FSResult (*ReadFile)(FSArchive *, FSFile *, void *, u32 *);
-    FSResult (*WriteFile)(FSArchive *, FSFile *, const void *, u32 *);
-    FSResult (*SeekDirectory)(FSArchive *, FSFile *, u32, u32);
-    FSResult (*ReadDirectory)(FSArchive *, FSFile *, FSDirectoryEntryInfo *);
-    FSResult (*FindPath)(FSArchive *, u32, const char *, u32 *, BOOL);
-    FSResult (*GetPath)(FSArchive *, FSFile *, BOOL, char *, u32 *);
-    FSResult (*OpenFileFast)(FSArchive *, FSFile *, u32, u32);
-    FSResult (*OpenFileDirect)(FSArchive *, FSFile *, u32, u32, u32 *);
-    FSResult (*CloseFile)(FSArchive *, FSFile *);
-    void (*Activate)(FSArchive *);
-    void (*Idle)(FSArchive *);
-    void (*Suspend)(FSArchive *);
-    void (*Resume)(FSArchive *);
-    FSResult (*OpenFile)(FSArchive *, FSFile *, u32, const char *, u32);
-    FSResult (*SeekFile)(FSArchive *, FSFile *, int *, FSSeekFileMode);
-    FSResult (*GetFileLength)(FSArchive *, FSFile *, u32 *);
-    FSResult (*GetFilePosition)(FSArchive *, FSFile *, u32 *);
-    void (*Mount)(FSArchive *);
-    void (*Unmount)(FSArchive *);
-    FSResult (*GetArchiveCaps)(FSArchive *, u32 *);
-    FSResult (*CreateFile)(FSArchive *, u32, const char *, u32);
-    FSResult (*DeleteFile)(FSArchive *, u32, const char *);
-    FSResult (*RenameFile)(FSArchive *, u32, const char *, u32, const char *);
-    FSResult (*GetPathInfo)(FSArchive *, u32, const char *, FSPathInfo *);
-    FSResult (*SetPathInfo)(FSArchive *, u32, const char *, FSPathInfo *);
-    FSResult (*CreateDirectory)(FSArchive *, u32, const char *, u32);
-    FSResult (*DeleteDirectory)(FSArchive *, u32, const char *);
-    FSResult (*RenameDirectory)(FSArchive *, u32, const char *, u32, const char *);
-    FSResult (*GetArchiveResource)(FSArchive *, FSArchiveResource *);
-    void *unused29;
-    FSResult (*FlushFile)(FSArchive *, FSFile *);
-    FSResult (*SetFileLength)(FSArchive *, FSFile *, u32);
-    FSResult (*OpenDirectory)(FSArchive *, FSFile *, u32, const char *, u32);
-    FSResult (*CloseDirectory)(FSArchive *, FSFile *);
-    FSResult (*SetSeekCache)(FSArchive *, FSFile *, void *, u32);
-} FSArchiveInterface;
+#include "../sdk_os_thread.h"
 
 typedef struct FSiArchiveBss {
     FSArchive *list;
     FSDirPos current_dir_pos;
 } FSiArchiveBss;
-
-typedef struct FSArgumentForReadFile { void *buffer; u32 length; } FSArgumentForReadFile;
-
-typedef struct FSArgumentForWriteFile { const void *buffer; u32 length; } FSArgumentForWriteFile;
-
-typedef struct FSArgumentForSeekDirectory { u32 id; u32 position; } FSArgumentForSeekDirectory;
-
-typedef struct FSArgumentForReadDirectory { FSDirectoryEntryInfo *info; } FSArgumentForReadDirectory;
-
-typedef struct FSArgumentForFindPath { u32 baseid; const char *relpath; u32 target_id; BOOL target_is_directory; } FSArgumentForFindPath;
-
-typedef struct FSArgumentForGetPath { BOOL is_directory; char *buffer; u32 length; } FSArgumentForGetPath;
-
-typedef struct FSArgumentForOpenFileFast { u32 id; u32 mode; } FSArgumentForOpenFileFast;
-
-typedef struct FSArgumentForOpenFileDirect { u32 id; u32 top; u32 bottom; u32 mode; } FSArgumentForOpenFileDirect;
-
-typedef struct FSArgumentForOpenFile { u32 baseid; const char *relpath; u32 mode; } FSArgumentForOpenFile;
-
-typedef struct FSArgumentForSeekFile { int offset; FSSeekFileMode from; } FSArgumentForSeekFile;
-
-typedef struct FSArgumentForGetFileLength { u32 length; } FSArgumentForGetFileLength;
-
-typedef struct FSArgumentForGetFilePosition { u32 position; } FSArgumentForGetFilePosition;
-
-typedef struct FSArgumentForGetArchiveCaps { u32 caps; } FSArgumentForGetArchiveCaps;
-
-typedef struct FSArgumentForCreateFile { u32 baseid; const char *relpath; u32 permit; } FSArgumentForCreateFile;
-
-typedef struct FSArgumentForDeleteFile { u32 baseid; const char *relpath; } FSArgumentForDeleteFile;
-
-typedef struct FSArgumentForRenameFile { u32 baseid_src; const char *relpath_src; u32 baseid_dst; const char *relpath_dst; } FSArgumentForRenameFile;
-
-typedef struct FSArgumentForGetPathInfo { u32 baseid; const char *relpath; FSPathInfo *info; } FSArgumentForGetPathInfo;
-
-typedef struct FSArgumentForSetPathInfo { u32 baseid; const char *relpath; FSPathInfo *info; } FSArgumentForSetPathInfo;
-
-typedef struct FSArgumentForGetArchiveResource { FSArchiveResource *resource; } FSArgumentForGetArchiveResource;
-
-typedef struct FSArgumentForSetFileLength { u32 length; } FSArgumentForSetFileLength;
-
-typedef struct FSArgumentForSetSeekCache { void *buf; u32 buf_size; } FSArgumentForSetSeekCache;
 
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
@@ -335,225 +86,43 @@ extern char current_dir_path[260];
 extern FSArchive *arc_list;
 extern char FSiLongNameTable[16][16];
 
-
-
-
-
-
-
-
-
-
-
 #define FS_RESULT_SUCCESS            0
-
-
-
-
-
-
-
-
-
 
 #define FS_RESULT_FAILURE            1
 
-
-
-
-
-
-
-
-
-
 #define FS_RESULT_BUSY               2
-
-
-
-
-
-
-
-
-
 
 #define FS_RESULT_CANCELED           3
 
-
-
-
-
-
-
-
-
-
 #define FS_RESULT_UNSUPPORTED        4
-
-
-
-
-
-
-
-
-
 
 #define FS_RESULT_ERROR              5
 
-
-
-
-
-
-
-
-
-
 #define FS_RESULT_INVALID_PARAMETER  6
-
-
-
-
-
-
-
-
-
 
 #define FS_RESULT_NO_MORE_RESOURCE   7
 
-
-
-
-
-
-
-
-
-
 #define FS_RESULT_ALREADY_DONE       8
-
-
-
-
-
-
-
-
-
 
 #define FS_RESULT_PERMISSION_DENIED  9
 
-
-
-
-
-
-
-
-
-
 #define FS_RESULT_MEDIA_FATAL        10
-
-
-
-
-
-
-
-
-
 
 #define FS_RESULT_NO_ENTRY           11
 
-
-
-
-
-
-
-
-
-
 #define FS_RESULT_MEDIA_NOTHING      12
-
-
-
-
-
-
-
-
-
 
 #define FS_RESULT_MEDIA_UNKNOWN      13
 
-
-
-
-
-
-
-
-
-
 #define FS_RESULT_BAD_FORMAT         14
-
-
-
-
-
-
-
-
-
 
 #define FS_RESULT_MAX                15
 
-
-
-
-
-
-
-
-
-
 #define FS_RESULT_PROC_ASYNC         256
-
-
-
-
-
-
-
-
-
 
 #define FS_RESULT_PROC_DEFAULT       257
 
-
-
-
-
-
-
-
-
-
 #define FS_RESULT_PROC_UNKNOWN       258
-
-
-
-
-
-
-
-
-
-
 
 enum {
     FS_COMMAND_READFILE = 0,
@@ -595,139 +164,27 @@ enum {
     FS_COMMAND_INVALID = 35
 };
 
-
-
-
-
-
-
-
-
-
-
 #define FS_FILE_STATUS_BUSY          0x00000001
-
-
-
-
-
-
-
-
-
 
 #define FS_FILE_STATUS_CANCEL        0x00000002
 
-
-
-
-
-
-
-
-
-
 #define FS_FILE_STATUS_BLOCKING      0x00000004
-
-
-
-
-
-
-
-
-
 
 #define FS_FILE_STATUS_OPERATION_DONE 0x00000008
 
-
-
-
-
-
-
-
-
-
 #define FS_FILE_STATUS_CMD_SHIFT     8
-
-
-
-
-
-
-
-
-
 
 #define FS_FILE_STATUS_CMD_MASK      0x000000FF
 
-
-
-
-
-
-
-
-
-
-
 #define FS_ARCHIVE_FLAG_SUSPEND      0x00000008
-
-
-
-
-
-
-
-
-
 
 #define FS_ARCHIVE_FLAG_RUNNING      0x00000010
 
-
-
-
-
-
-
-
-
-
 #define FS_ARCHIVE_FLAG_CANCELING    0x00000020
-
-
-
-
-
-
-
-
-
 
 #define FS_ARCHIVE_FLAG_SUSPENDING   0x00000040
 
-
-
-
-
-
-
-
-
-
 #define FS_ARCHIVE_FLAG_UNLOADING    0x00000080
-
-
-
-
-
-
-
-
-
-
-
 
 BOOL FSi_IsEventCommand(FSCommandType command)
 {
@@ -739,17 +196,6 @@ BOOL FSi_IsEventCommand(FSCommandType command)
             (command == FS_COMMAND_UNMOUNT) ||
             (command == FS_COMMAND_INVALID));
 }
-
-
-
-
-
-
-
-
-
-
-
 
 void FSi_EndCommand(FSFile *file, FSResult ret)
 {
@@ -783,17 +229,6 @@ void FSi_EndCommand(FSFile *file, FSResult ret)
     (void)OS_RestoreInterrupts(bak_psr);
 }
 
-
-
-
-
-
-
-
-
-
-
-
 FSResult FSi_WaitForArchiveCompletion(FSFile *file, FSResult result)
 {
     if (result == FS_RESULT_PROC_ASYNC) {
@@ -808,62 +243,7 @@ FSResult FSi_WaitForArchiveCompletion(FSFile *file, FSResult result)
     return result;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #define FS_DECLARE_ARGUMENT_(type) type *arg = (type *)file->argument
-
-
-
-
-
-
-
-
-
-
 
 FSResult FSi_InvokeCommand(FSFile *file, FSCommandType command)
 {
@@ -1014,96 +394,16 @@ FSResult FSi_InvokeCommand(FSFile *file, FSCommandType command)
     return result;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #define FS_COMMAND_ACTIVATE 9
-
-
-
-
-
-
-
-
 
 #define FS_COMMAND_IDLE     10
 
-
-
-
-
-
-
-
-
-
 #define FS_FILE_STATUS_ACTIVE        0x00000040
-
-
-
-
-
-
-
-
-
 
 static inline BOOL FS_IsCanceling(const FSFile *file)
 {
     return (file->stat & FS_FILE_STATUS_CANCEL) ? 1 : 0;
 }
-
-
-
-
-
-
-
-
-
 
 FSFile *FSi_NextCommand(FSArchive *arc, BOOL owner)
 {
@@ -1175,50 +475,6 @@ FSFile *FSi_NextCommand(FSArchive *arc, BOOL owner)
     return next;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * sdk:      FSi_ExecuteAsyncCommand (libfs.TWL.HYB.a fs_archive.o)
  */
@@ -1249,28 +505,10 @@ void FSi_ExecuteAsyncCommand(FSFile *file)
     }
 }
 
-
-
-
-
-
-
-
-
-
 static inline u32 FSi_GetCurrentCommand(const FSFile *file)
 {
     return (file->stat >> 8) & 0xFF;
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * sdk:      FSi_ExecuteSyncCommand (libfs.TWL.HYB.a fs_archive.o)
@@ -1298,219 +536,44 @@ void FSi_ExecuteSyncCommand(FSFile *file)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #define FS_COMMAND_READFILE        0
-
-
-
-
-
-
-
 
 #define FS_COMMAND_WRITEFILE       1
 
-
-
-
-
-
-
-
 #define FS_COMMAND_SEEKDIR         2
-
-
-
-
-
-
-
 
 #define FS_COMMAND_READDIR         3
 
-
-
-
-
-
-
-
 #define FS_COMMAND_FINDPATH        4
-
-
-
-
-
-
-
 
 #define FS_COMMAND_GETPATH         5
 
-
-
-
-
-
-
-
 #define FS_COMMAND_OPENFILEFAST    6
-
-
-
-
-
-
-
 
 #define FS_COMMAND_OPENFILEDIRECT  7
 
-
-
-
-
-
-
-
 #define FS_COMMAND_CLOSEFILE       8
-
-
-
-
-
-
-
-
-
-
-
 
 #define FS_COMMAND_SUSPEND         11
 
-
-
-
-
-
-
-
 #define FS_COMMAND_RESUME          12
-
-
-
-
-
-
-
 
 #define FS_COMMAND_OPENFILE        13
 
-
-
-
-
-
-
-
 #define FS_COMMAND_SEEKFILE        14
-
-
-
-
-
-
-
 
 #define FS_COMMAND_GETFILELENGTH   15
 
-
-
-
-
-
-
-
 #define FS_COMMAND_GETFILEPOSITION 16
-
-
-
-
-
-
-
 
 #define FS_COMMAND_MOUNT           17
 
-
-
-
-
-
-
-
 #define FS_COMMAND_UNMOUNT         18
-
-
-
-
-
-
-
-
 
 static inline BOOL FS_IsBusy(volatile const FSFile *file)
 {
     return (file->stat & FS_FILE_STATUS_BUSY) ? 1 : 0;
 }
-
-
-
-
-
-
-
-
 
 BOOL FSi_SendCommand(FSFile *file, u32 command, BOOL blocking)
 {
@@ -1564,26 +627,10 @@ BOOL FSi_SendCommand(FSFile *file, u32 command, BOOL blocking)
     return retval;
 }
 
-
-
-
-
-
-
-
-
 static inline BOOL FS_IsArchiveLoaded(volatile const FSArchive *arc)
 {
     return (arc->flag & 2) ? 1 : 0;
 }
-
-
-
-
-
-
-
-
 
 /*
  * sdk:      FS_FindArchive (libfs.TWL.HYB.a fs_archive.o)
@@ -1608,48 +655,6 @@ FSArchive *FS_FindArchive(const char *name, int name_len)
     (void)OS_RestoreInterrupts(bak_psr);
     return arc;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * sdk:      FS_SetCurrentDirectory (libfs.TWL.HYB.a fs_archive.o)
@@ -1689,13 +694,6 @@ BOOL FS_SetCurrentDirectory(const char *path)
     return retval;
 }
 
-
-
-
-
-
-
-
 /*
  * sdk:      FSi_CopySafeString (libfs.TWL.HYB.a fs_archive.o)
  */
@@ -1715,13 +713,6 @@ int FSi_CopySafeString(char *dst, int dstlen, const char *src, int srclen, BOOL 
     dst[i] = '\0';
     return i;
 }
-
-
-
-
-
-
-
 
 extern char current_dir_path[260];    /* current_dir_path */
 extern const char fsi_str_slash[]; /* "/" */
@@ -1838,7 +829,6 @@ FSArchive *FS_NormalizePath(const char *path, u32 *baseid, char *relpath)
 
 #define NULL ((void *)0)
 
-
 /*
  * sdk:      FS_InitArchive (fs_archive.o)
  */
@@ -1847,42 +837,6 @@ void FS_InitArchive(FSArchive *p_arc)
     MI_CpuFill8(p_arc, 0, sizeof(FSArchive));
     p_arc->queue.head = p_arc->queue.tail = NULL;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * sdk:      FS_RegisterArchiveName (libfs.TWL.HYB.a fs_archive.o)
@@ -1936,43 +890,6 @@ BOOL FS_RegisterArchiveName(FSArchive *p_arc, const char *name, u32 name_len)
     return retval;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * sdk:      FS_ReleaseArchiveName (libfs.TWL.HYB.a fs_archive.o)
  */
@@ -2014,8 +931,6 @@ void FS_ReleaseArchiveName(FSArchive *p_arc)
     }
 }
 
-
-
 char *FS_GetArchiveName(FSArchive *arc)
 {
     if (arc->name.ptr[3] != 0) {
@@ -2023,8 +938,6 @@ char *FS_GetArchiveName(FSArchive *arc)
     }
     return arc->name.ptr;
 }
-
-
 
 /*
  * sdk:      FS_MountArchive (libfs.TWL.HYB.a fs_archive.o)
@@ -2041,46 +954,6 @@ BOOL FS_MountArchive(FSArchive *arc, void *userdata, const FSArchiveInterface *v
     arc->flag |= 2;
     return 1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * sdk:      FS_UnmountArchive (libfs.TWL.HYB.a fs_archive.o)
@@ -2123,14 +996,10 @@ BOOL FS_UnmountArchive(FSArchive *arc)
     return 1;
 }
 
-
-
 static inline BOOL FS_IsArchiveSuspended(const FSArchive *arc)
 {
     return (arc->flag & 8) ? 1 : 0;
 }
-
-
 
 /*
  * sdk:      FS_SuspendArchive (libfs.TWL.HYB.a fs_archive.o)
@@ -2164,44 +1033,6 @@ BOOL FS_SuspendArchive(FSArchive *p_arc)
     return retval;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * sdk:      FS_ResumeArchive (libfs.TWL.HYB.a fs_archive.o)
  */
@@ -2224,42 +1055,6 @@ BOOL FS_ResumeArchive(FSArchive *arc)
     }
     return retval;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * sdk:      FS_NotifyArchiveAsyncEnd (libfs.TWL.HYB.a fs_archive.o)

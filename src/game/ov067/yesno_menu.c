@@ -64,11 +64,7 @@
  *   UI_SCENE_FreeActorGfx  0x021B6284  thumb
  *   UI_SCENE_CreateActor  0x021B629C  thumb
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed short s16;
-typedef signed int s32;
+#include "../types.h"
 
 #include "ui_scene_types.h"
 #include "yesno_menu_types.h"
@@ -168,7 +164,6 @@ extern const YesNoFlashStep d_021B94D0[YESNO_MENU_FLASH_STEPS];
 extern const YesNoCursorOrigin d_021B94B8;
 extern const YesNoButtonOffsets d_021B94BC;
 
-
 YesNoMenu *YESNO_MENU_Create(u16 heapId, u32 textBgLayer, u32 actorPriority, u32 plttSlot, u8 actorPlttSlot, void *actorSys, u32 fontId, struct PrintSys *printer)
 {
     ActorGfxDesc desc;
@@ -261,7 +256,6 @@ YesNoMenu *YESNO_MENU_Create(u16 heapId, u32 textBgLayer, u32 actorPriority, u32
     return menu;
 }
 
-
 void YESNO_MENU_Delete(YesNoMenu *menu)
 {
     u8 i;
@@ -277,7 +271,6 @@ void YESNO_MENU_Delete(YesNoMenu *menu)
     BG_SYS_FreeTileRun(menu->buttonBgLayer, (u16)tileAlloc, (u16)(tileAlloc >> 16));
     GFL_HEAP_Free(menu);
 }
-
 
 /* Shows the menu: places the buttons, prints the two texts centered in their windows and resets the answer. */
 void YESNO_MENU_Start(YesNoMenu *menu, struct StrBuf *upperText, struct StrBuf *lowerText)
@@ -329,7 +322,6 @@ void YESNO_MENU_Start(YesNoMenu *menu, struct StrBuf *upperText, struct StrBuf *
     }
 }
 
-
 /* Hides the menu again and clears the state. */
 void YESNO_MENU_Close(YesNoMenu *menu)
 {
@@ -354,7 +346,6 @@ void YESNO_MENU_Close(YesNoMenu *menu)
     }
     menu->state = YESNO_MENU_STATE_IDLE;
 }
-
 
 /* Runs one frame: reads keys and touch, picks the answer and plays the flash of the pressed button. */
 void YESNO_MENU_Update(YesNoMenu *menu)
@@ -490,7 +481,6 @@ void YESNO_MENU_Update(YesNoMenu *menu)
     }
 }
 
-
 /* Returns the answer once the flash is over (or the menu is idle), else YESNO_MENU_ANSWER_PENDING. */
 int YESNO_MENU_GetAnswer(YesNoMenu *menu)
 {
@@ -499,7 +489,6 @@ int YESNO_MENU_GetAnswer(YesNoMenu *menu)
     return menu->answer;
 }
 
-
 /* Button position on screen: origin of the cursor position plus the offset of the button. axis 0 is x, 1 is y. */
 u8 YESNO_MENU_GetButtonPos(u32 cursorIndex, u32 buttonIndex, u32 axis)
 {
@@ -507,7 +496,6 @@ u8 YESNO_MENU_GetButtonPos(u32 cursorIndex, u32 buttonIndex, u32 axis)
     YesNoButtonOffsets offsets = d_021B94BC;
     return origin.v[cursorIndex][axis] + offsets.v[buttonIndex][axis];
 }
-
 
 /* Copies one 16-color row into the palette slot of the target (main/sub, background/actor). */
 void YESNO_MENU_CopyPalette(int target, u8 slot, void *colors)

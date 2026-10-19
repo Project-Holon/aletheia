@@ -120,13 +120,7 @@ struct S02021D50;
 struct PalAnmSlot;
 struct PalAnmSlot;
 struct Obj;
-typedef unsigned int u32;
-
-typedef unsigned short u16;
-
-typedef unsigned char u8;
-
-typedef signed int     s32;
+#include "../types.h"
 
 typedef struct Obj Obj;
 
@@ -214,7 +208,6 @@ extern char overlay94[];
 extern char d_0220BBEC[];
 extern char d_0220BBF8[];
 
-
 /*
  * ABI: 0201CCE4 is a void forwarder in its matched source; caller stores live r0, so declare its observed word return.
  */
@@ -267,7 +260,6 @@ char *ZUKAN_NICKNAME_Create(u16 heap,u32 a,u32 b,u32 c,u32 d,u32 e,u32 f,u32 g,u
     return (char *)p;
 }
 
-
 /*
  * tail: two zero alignment bytes at 0x0220B72A before 0x0220B72C.
  */
@@ -283,7 +275,6 @@ void ZUKAN_NICKNAME_Delete(ZukanNicknameWork *p)
     BMP_WIN_Delete((struct BmpWin *)p->bmpWin2);
     GFL_HEAP_Free(p);
 }
-
 
 /*
  * ABI: 02035C60/0201CCE4 matched void forwarders leave r0 live; this caller tests/stores it.
@@ -360,9 +351,7 @@ int ZUKAN_NICKNAME_Main(ZukanNicknameWork *p)
     return done;
 }
 
-
 void ZUKAN_NICKNAME_SetupScreen(ZukanNicknameWork *p){if(!p->state){struct Descriptor *d;unsigned flag=1;BMP_MENUWORK_DrawWindow((struct BmpWin *)p->bmpWin,1,(int)p->lineBuf,8);d=*(struct Descriptor * *)&p->bmpWin;BMP_WIN_TransferChars((struct BmpWin *)d);BMP_WIN_MakeScreen((struct BmpWin *)d);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)d));p->state=flag;}}
-
 
 /*
  * Extra: ARM9-free blocker getter for assigned 0220B0A4; ownership and SDK checks clear.
@@ -372,9 +361,7 @@ int ZUKAN_NICKNAME_GetResult(ZukanNicknameWork *p)
     return p->mode;
 }
 
-
 void ZUKAN_NICKNAME_TransferPalette(void *a, ZukanNicknameWork *p){if(p->palAnm)PALANM_TransferPalettes(p->palAnm);}
-
 
 void ZUKAN_NICKNAME_InitKeyboard(ZukanNicknameWork *p)
 {
@@ -387,12 +374,10 @@ void ZUKAN_NICKNAME_InitKeyboard(ZukanNicknameWork *p)
     p->pauseFlag=0;
 }
 
-
 /*
  * lever: pooled FS overlay ID is the overlay94 linker symbol address, as in matched ov207 0220B048; literal 94 compiles as movs.
  */
 void ZUKAN_NICKNAME_DeleteKeyboard(ZukanNicknameWork *p){BTLV_INPUT_Delete((struct BtlvInput *)(*(Obj * *)&p->input));PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&p->palAnm,1);PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&p->palAnm,3);PALANM_Delete(*(struct PalAnmSlot * *)&p->palAnm);*(unsigned *)&p->palAnm=0;GF_OVERLAY_Unload((int)overlay94);}
-
 
 void ZUKAN_NICKNAME_UpdateInfoWindow(ZukanNicknameWork *a)
 {

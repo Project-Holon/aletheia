@@ -39,11 +39,7 @@ struct ProcSysProc;
 
 struct ProcSysParent;
 
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
+#include "../types.h"
 
 /* The 0x28-byte argument block a save proc is pushed with (record +0x180). */
 typedef struct NetSaveRequest {

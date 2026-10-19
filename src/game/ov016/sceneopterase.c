@@ -48,7 +48,6 @@
  *   DWCi_WINlIsInit                  0x021D157C  arm
  *   endScene2                        0x021C21F0  arm
  *   initGraphics                     0x021C1F64  arm
- *   procScene                        0x021C20AC  arm
  *   sceneopterase_bss                0x021DE5A4  data
  *   DWCi_CMNlLoadResource  0x021BD1D4  arm
  *   DWCi_BTNlIsEnd  0x021BCB58  arm
@@ -60,17 +59,10 @@
  *   DWCi_SceneOptMenu  0x021C2A3C  arm
  *   DWCi_SceneOptErase1  0x021C231C  arm
  *   DWCi_SceneOptErase  0x021C1F1C  arm
- *   DWCi_SceneOptEraseProcInit  0x021C1FE4  arm
- *   DWCi_SceneOptEraseProcInit1  0x021C204C  arm
- *   DWCi_SceneOptEraseProcInit2  0x021C2088  arm
  *   DWCi_SceneOptErase_procScene  0x021C20AC  arm
  *   input  0x021C20C0  arm
  *   DWCi_SceneOptErase_draw  0x021C20FC  arm
  *   button  0x021C2100  arm
- *   DWCi_SceneOptEraseEndScene  0x021C2168  arm
- *   DWCi_SceneOptEraseEndScene1  0x021C2188  arm
- *   DWCi_SceneOptEraseProcConfirm  0x021C22AC  arm
- *   DWCi_SceneOptEraseProcConfirm1  0x021C22FC  arm
  */
 #include "../../matched/include/G_SCENEOPTERASE_BSS.h"
 
@@ -81,14 +73,12 @@ typedef struct {
     unsigned char  Choose;            /* 0x00 */
 } SCENEOPTERASE_BSS;
 
-typedef unsigned short u16;
+#include "../types.h"
 
 typedef struct {
     u16 priority : 2;
     u16 rest : 14;
 } BgCnt;
-
-typedef unsigned char u8;
 
 extern bool DWCi_EFFlCheck(int lcd);
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
@@ -125,8 +115,6 @@ extern SCENEOPTERASE_BSS sceneopterase_bss;
 extern struct SCENEOPTERASE_BSS gSceneOptEraseWork;
 
 
-static void procScene(void);
-
 static void initGraphics(void);
 static void procInit(void);
 static void procInit1(void);
@@ -139,7 +127,6 @@ static void endScene2(void);
 static void procConfirm(void);
 static void procConfirm1(void);
 
-
 void DWCi_SceneOptErase(void)
 {
     sceneopterase_bss.Choose = 0;
@@ -149,7 +136,6 @@ void DWCi_SceneOptErase(void)
     DWCi_CMNlMsgDraw(0x17);
     DWCi_ChangeScene(procInit);
 }
-
 
 static void initGraphics(void)
 {
@@ -161,7 +147,6 @@ static void initGraphics(void)
     ((BgCnt *)0x0400000C)->priority = 3;
 }
 
-
 static void procInit(void)
 {
     DWCi_EFFlFade(2, 1, 1, 8);
@@ -170,7 +155,6 @@ static void procInit(void)
     DWCi_GXlVisible(0, 0x15);
     DWCi_ChangeScene(procInit1);
 }
-
 
 static void procInit1(void)
 {
@@ -182,15 +166,13 @@ static void procInit1(void)
     DWCi_ChangeScene(procInit2);
 }
 
-
 static void procInit2(void)
 {
     if (DWCi_BTNlGet() == -2)
         return;
     DWCi_BTNlEnable();
-    DWCi_ChangeScene(procScene);
+    DWCi_ChangeScene(DWCi_SceneOptErase_procScene);
 }
-
 
 void DWCi_SceneOptErase_procScene(void)
 {
@@ -198,7 +180,6 @@ void DWCi_SceneOptErase_procScene(void)
     DWCi_SceneOptErase_draw();
     button();
 }
-
 
 static void input(void)
 {
@@ -211,7 +192,6 @@ static void input(void)
 void DWCi_SceneOptErase_draw(void)
 {
 }
-
 
 static void button(void)
 {
@@ -229,14 +209,12 @@ static void button(void)
     }
 }
 
-
 static void endScene(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
     DWCi_ChangeScene(endScene1);
 }
-
 
 static void endScene1(void)
 {
@@ -248,7 +226,6 @@ static void endScene1(void)
     DWCi_EFFlFade(3, 0, 0x15, 8);
     DWCi_ChangeScene(endScene2);
 }
-
 
 /*
  * Same shape as DWCi_Sceneoptmovconfirm1EndScene2 with a different flag byte and last stage.
@@ -278,7 +255,6 @@ static void endScene2(void)
     }
 }
 
-
 static void procConfirm(void)
 {
     switch (DWCi_WINlGet()) {
@@ -295,7 +271,6 @@ static void procConfirm(void)
     DWCi_WINlEnd();
     DWCi_ChangeScene(procConfirm1);
 }
-
 
 static void procConfirm1(void)
 {

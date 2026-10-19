@@ -27,14 +27,11 @@
  * symbols:
  *   NNSi_FndInitHeapHead  0x020606D0  arm
  *   MIi_CpuClear32  0x02082A7C  arm
- *   FNDHEAP_Finalize             0x0206074C  arm
+ *   NNSi_FndFinalizeHeap             0x0206074C  arm
  */
 #include "nns_fnd_types.h"
 
-typedef unsigned int u32;
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef int BOOL;
+#include "../types.h"
 
 typedef struct NNSiFndFrmHeapState {
     u32 tagName;
@@ -56,7 +53,7 @@ static inline NNSiFndFrmHeapHead *GetFrmHeapHeadPtrFromHeapHead(NNSiFndHeapHead 
 
 extern void NNSi_FndInitHeapHead(NNSiFndHeapHead *pHeapHd, u32 signature, void *pHint, u32 heapStart, u32 heapEnd);
 extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
-extern void FNDHEAP_Finalize(void *heap);
+extern void NNSi_FndFinalizeHeap(void *heap);
 NNSiFndHeapHead *NNSi_FndInitFrmHeap(NNSiFndHeapHead *pHeapHd, u32 heapStart, u32 heapEnd);
 u32 NNSi_FndAllocFromFrmHeapHead(NNSiFndFrmHeapHead *pFrmHeapHd, u32 size, u32 align);
 u32 NNSi_FndAllocFromFrmHeapTail(NNSiFndFrmHeapHead *pFrmHeapHd, u32 size, u32 align);
@@ -68,8 +65,6 @@ u32 NNS_FndAllocFromFrmHeapEx(char *p, int size, int align);
 void NNS_FndFreeToFrmHeap(void *heap, int flags);
 int NNS_FndRecordStateForFrmHeap(NNSiFndHeapHead *pHeapHd, u32 tagName);
 BOOL NNS_FndFreeByStateToFrmHeap(NNSFndHeapHandle heap, u32 tagName);
-
-
 
 /*
  * Frame-heap init ('FRMH' tag 0x46524D48): the common heap header through
@@ -88,10 +83,6 @@ NNSiFndHeapHead *NNSi_FndInitFrmHeap(NNSiFndHeapHead *pHeapHd, u32 heapStart, u3
     GetFrmHeapHeadPtrFromHeapHead(pHeapHd)->pState = 0;
     return pHeapHd;
 }
-
-
-
-
 
 u32 NNSi_FndAllocFromFrmHeapHead(NNSiFndFrmHeapHead *pFrmHeapHd, u32 size, u32 align)
 {
@@ -113,9 +104,6 @@ u32 NNSi_FndAllocFromFrmHeapHead(NNSiFndFrmHeapHead *pFrmHeapHd, u32 size, u32 a
     return p;
 }
 
-
-
-
 u32 NNSi_FndAllocFromFrmHeapTail(NNSiFndFrmHeapHead *pFrmHeapHd, u32 size, u32 align)
 {
     u32 v = ((u32)pFrmHeapHd->tailAllocator - size) & ~(align - 1);
@@ -131,14 +119,7 @@ u32 NNSi_FndAllocFromFrmHeapTail(NNSiFndFrmHeapHead *pFrmHeapHd, u32 size, u32 a
     return v;
 }
 
-
-
-
-
 void NNSi_FndResetFrmHeapHead(NNSiFndHeapHead *pHeapHd){ GetFrmHeapHeadPtrFromHeapHead(pHeapHd)->headAllocator = pHeapHd->heapStart; GetFrmHeapHeadPtrFromHeapHead(pHeapHd)->pState = 0; }
-
-
-
 
 void NNSi_FndResetFrmHeapState(NNSiFndHeapHead *pHeapHd)
 {
@@ -151,10 +132,6 @@ void NNSi_FndResetFrmHeapState(NNSiFndHeapHead *pHeapHd)
     }
     GetFrmHeapHeadPtrFromHeapHead(pHeapHd)->tailAllocator = pHeapHd->heapEnd;
 }
-
-
-
-
 
 /*
  * Frame-heap create guard (twin of 0x02060C5C): word-align both ends of the
@@ -173,13 +150,7 @@ void *NNS_FndCreateFrmHeap(void *mem, u32 size, u32 opt)
     return NNSi_FndInitFrmHeap((NNSiFndHeapHead *)start, end, opt);
 }
 
-
-
-
-void NNS_FndDestroyFrmHeap(void *heap){ FNDHEAP_Finalize(heap); }
-
-
-
+void NNS_FndDestroyFrmHeap(void *heap){ NNSi_FndFinalizeHeap(heap); }
 
 u32 NNS_FndAllocFromFrmHeapEx(char *p, int size, int align)
 {
@@ -193,9 +164,6 @@ u32 NNS_FndAllocFromFrmHeapEx(char *p, int size, int align)
         return NNSi_FndAllocFromFrmHeapTail((NNSiFndFrmHeapHead *)p, (u32)size, (u32)-align);
 }
 
-
-
-
 void NNS_FndFreeToFrmHeap(void *heap, int flags)
 {
     if (flags & 1)
@@ -203,10 +171,6 @@ void NNS_FndFreeToFrmHeap(void *heap, int flags)
     if (flags & 2)
         NNSi_FndResetFrmHeapState(heap);
 }
-
-
-
-
 
 int NNS_FndRecordStateForFrmHeap(NNSiFndHeapHead *pHeapHd, u32 tagName)
 {
@@ -226,7 +190,6 @@ int NNS_FndRecordStateForFrmHeap(NNSiFndHeapHead *pHeapHd, u32 tagName)
     pFrmHeapHd->pState = pState;
     return 1;
 }
-
 
 BOOL NNS_FndFreeByStateToFrmHeap(NNSFndHeapHandle heap, u32 tagName)
 {

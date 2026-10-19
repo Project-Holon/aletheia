@@ -11,7 +11,7 @@
  * status:   EXACT
  */
 
-typedef unsigned int u32;
+#include "../types.h"
 
 void MI_SetWramBank(u32 bank)
 {

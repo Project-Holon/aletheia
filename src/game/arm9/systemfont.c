@@ -24,17 +24,9 @@
  *   FS_CloseFile       0x02078A80  arm
  *   OS_Terminate       0x02088234  arm
  */
-typedef unsigned char u8;
+#include "../types.h"
 
-typedef unsigned int  u32;
-
-typedef unsigned short u16;
-
-typedef signed int     s32;
-
-struct FSFile {
-    u8 raw[0x48];
-};
+#include "../sdk_fs.h"
 
 /* Header of the font data table (built-in or loaded from the archive). */
 struct SystemFontHeader {
@@ -67,8 +59,6 @@ void SYSTEMFONT_SetColors(u32 fg, u32 bg);
 extern const char systemfont_File[];
 extern const u8 kBuiltinFontData[];
 extern struct SystemFont *gSystemFont;
-
-
 
 /*
  * One-time load of the module's 16-byte record.  Returns at once if the
@@ -141,8 +131,6 @@ void SYSTEMFONT_Load(u32 fontFile)
     }
 }
 
-
-
 /*
  * Expand one 8-byte record of the loaded module table into eight words and
  * store the record's flag byte next to them.
@@ -198,8 +186,6 @@ void SYSTEMFONT_GetGlyph(int idx, u8 *out)
     out[0x20] = widths[idx];
 }
 
-
-
 /*
  * Expand the low eight bits of the argument into a nibble mask: bit i set
  * turns nibble i into 0xf, so bit 0 gives 0x0000000f and bit 7 gives
@@ -227,13 +213,9 @@ u32 SYSTEMFONT_ExpandRowBits(u32 rowBits)
     return nibbleMask;
 }
 
-
 int SYSTEMFONT_GetGlyphHeight(void){ return gSystemFont->data->glyphHeight; }
 
-
 int SYSTEMFONT_GetGlyphWidth(void){ return 7; }
-
-
 
 /*
  * Replicate a fill byte across a word, twice: both arguments are multiplied

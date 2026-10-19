@@ -3,9 +3,7 @@
 
 struct Node;
 
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 /* The manual data object built by MANUAL_COMMON_CreateData (was State_021B9B3C / Obj views). */
 struct ManualData {

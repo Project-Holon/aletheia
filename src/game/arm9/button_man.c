@@ -49,17 +49,7 @@
  *   FX_Atan2Idx    0x0207CFB8  arm
  *   STRBUF_GetEosChar  0x02045A98  arm
  */
-typedef unsigned int u32;
-
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef signed short   s16;
-
-typedef signed int     s32;
-
-typedef long long      s64;
+#include "../types.h"
 
 typedef struct {
     s32 x, y, z;
@@ -146,9 +136,7 @@ int BUTTON_MAN_Ucs2CharToSjis(u16 *src, char *dst, u32 *stop);
 extern char g_020A7FCC[];
 extern s16 FX_SinCosTable_[];
 
-
 extern s32 (*const g_020A15E8[])(struct Slot *, s32, s32);
-
 
 struct ButtonMan *BUTTON_MAN_Create(u8 *rects, void (*cb)(s32, s32, s32), s32 arg, int heap)
 {
@@ -181,14 +169,12 @@ struct ButtonMan *BUTTON_MAN_Create(u8 *rects, void (*cb)(s32, s32, s32), s32 ar
     return r;
 }
 
-
 void BUTTON_MAN_ClearSlot(struct Slot *slot)
 {
     slot->kind = 0;
     slot->state = 0;
     slot->count = 0;
 }
-
 
 /*
  * Verified with:
@@ -200,7 +186,6 @@ void BUTTON_MAN_Delete(struct ButtonMan *bm)
     GFL_HEAP_Free(bm->slots);
     GFL_HEAP_Free(bm);
 }
-
 
 /*
  * The per-frame slot refresh: every slot state byte is rewritten to
@@ -256,7 +241,6 @@ s32 BUTTON_MAN_UpdateSlots(struct ButtonMan *c)
     return ret;
 }
 
-
 /*
  * The conjunction shares one exit; `*(u8 *)(p+1)` is the armed flag the
  * 0x02051E10 sibling also tests.
@@ -271,7 +255,6 @@ int BUTTON_MAN_SlotHandlerIdle(struct Slot *p, int a, int b)
     BUTTON_MAN_SlotSetKind(p, 1);
     return 0;
 }
-
 
 /*
  * State-machine step over a small ARM struct: if the flag byte at +1 is set,
@@ -301,7 +284,6 @@ int BUTTON_MAN_SlotHandlerPressed(struct Slot *p, u32 x)
     return 1;
 }
 
-
 /*
  * Verified with:
  *   python tools/match.py one --src src/matched/BUTTON_MAN_SlotSetKind.c \
@@ -312,7 +294,6 @@ void BUTTON_MAN_SlotSetKind(struct Slot *p, int a)
     p->kind = (u8)a;
     p->count = 0;
 }
-
 
 /*
  * Scaled 2x2 rotation: convert the angle to a 16-bit turn fraction (mode 1:
@@ -339,13 +320,11 @@ void BUTTON_MAN_RotScaleMtx22(Mtx22 *mtx, u32 ang, long scaleX, long scaleY, u8 
     MTX_ScaleApply22(mtx, mtx, FX_Inv(scaleX), FX_Inv(scaleY));
 }
 
-
 void BUTTON_MAN_InitSphere(Sphere *dst, Vec3 *src, unsigned radius)
 {
     dst->c = *src;
     dst->r = radius;
 }
-
 
 /*
  * Segment-versus-sphere test: project the ball's centre onto the segment
@@ -405,7 +384,6 @@ done:
     return res.hit;
 }
 
-
 /*
  * Verified with:
  *   python tools/match.py one --src src/matched/BUTTON_MAN_InitSegment.c \
@@ -417,7 +395,6 @@ void BUTTON_MAN_InitSegment(Seg *p, Vec3 *q, Vec3 *r, u32 v)
     p->dir = *r;
     p->radius = v;
 }
-
 
 /*
  * VEC_MultAdd-style scale: dst = v * s in 1.19.12 fixed point, component by
@@ -445,7 +422,6 @@ void BUTTON_MAN_ScaleVec(const Vec3 *v, int s, Vec3 *dst)
     dst->y = (int)((((s64)v->y * s) + 0x800) >> 12);
     dst->z = (int)((((s64)v->z * s) + 0x800) >> 12);
 }
-
 
 /*
  * Build a 3x3 rotation matrix from three angles, composed X, then Y, then Z.
@@ -490,7 +466,6 @@ void BUTTON_MAN_MakeRotMtxXYZ(int ax, int ay, int az, Mtx33 *dst)
     MTX_RotZ33_(&tmp, FX_SinCosTable_[2 * i], FX_SinCosTable_[2 * i + 1]);
     MTX_Concat33(dst, &tmp, dst);
 }
-
 
 /*
  * Turn a direction vector into a look-at rotation matrix: pitch about X, yaw
@@ -541,7 +516,6 @@ void BUTTON_MAN_MakeLookAtMtx(const Vec3 *v, Mtx33 *dst)
 
     MTX_Concat33(&mx, &my, dst);
 }
-
 
 /*
  * Convert a run of n wide characters at `a` into the narrow buffer at `b`,
@@ -603,7 +577,6 @@ void BUTTON_MAN_ConvertUcs2ToSjis(u8 *a, u8 *b, u32 n)
             return;
     } while (i < n);
 }
-
 
 /*
  * The per-character encoder behind BUTTON_MAN_ConvertUcs2ToSjis: one UCS-2 code unit to

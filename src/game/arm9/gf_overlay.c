@@ -29,12 +29,7 @@
  *   SDK_AUTOLOAD_MAIN_TWL_START  0x02FE0000  data
  */
 
-typedef unsigned char      u8;
-
-typedef unsigned short     u16;
-
-typedef unsigned int       u32;
-typedef signed int    s32;
+#include "../types.h"
 
 /* One loaded-overlay record: the overlay id it holds and whether it is live. */
 struct OverlaySlot {
@@ -95,13 +90,6 @@ extern const char _FileName[];
 extern const char _AssertExprZero[];
 extern const unsigned char SDK_AUTOLOAD_MAIN_TWL_START[];
 
-
-
-
-
-
-
-
 /*
  * gf_overlay.c's constructor: allocate the singleton GF_OVERLAY_GetSlots and
  * GF_OVERLAY_GetSlotCount read, one 0x10-byte header followed by the three
@@ -141,13 +129,6 @@ void GF_OVERLAY_Init(u32 heapId, int mainCount, int itcmCount, int twlCount)
     _pOverlayTables->twlSlots = _pOverlayTables->itcmSlots + itcmCount;
 }
 
-
-
-
-
-
-
-
 /*
  * Forwards `p`'s first field to an extern with a constant 0, then clears
  * `p`'s second field regardless of what the call returns.
@@ -166,9 +147,6 @@ void GF_OVERLAY_ReleaseSlot(struct OverlaySlot *slot)
     FS_UnloadOverlay(0, slot->handle);
     slot->state = 0;
 }
-
-
-
 
 /*
  * Release the slot an overlay handle owns.  -1 is the "no handle" value and
@@ -216,9 +194,6 @@ void GF_OVERLAY_Unload(s32 handle)
         }
     }
 }
-
-
-
 
 int GF_OVERLAY_Load(s32 handle)
 {
@@ -274,9 +249,6 @@ int GF_OVERLAY_Load(s32 handle)
     return result;
 }
 
-
-
-
 /*
  * The admission test GF_OVERLAY_Load runs before it claims a slot: an overlay
  * may only be loaded if its RAM footprint is disjoint from every overlay
@@ -330,8 +302,6 @@ int GF_OVERLAY_CheckRangeFree(s32 handle)
     return 1;
 }
 
-
-
 /*
  * Selects one of three overlay slot tables out of the overlay-tables singleton by
  * a small index.  The singleton holds the three table pointers at +4, +8
@@ -357,8 +327,6 @@ void *GF_OVERLAY_GetSlots(int area)
     }
 }
 
-
-
 /*
  * The live-length companion of GF_OVERLAY_GetSlots: the same three-way index, but
  * reading the three `u8` counts packed at the head of the overlay-tables singleton
@@ -382,9 +350,6 @@ u8 GF_OVERLAY_GetSlotCount(int area)
     }
     return 0;
 }
-
-
-
 
 /*
  * Maps an overlay id onto the overlay table index that owns it: the
@@ -426,9 +391,6 @@ int GF_OVERLAY_GetArea(u32 id)
     }
     return 0;
 }
-
-
-
 
 /*
  * Reports the RAM footprint of an overlay: on success the load address goes

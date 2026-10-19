@@ -24,9 +24,9 @@
  *   OS_WaitIrq     0x0208459C  arm
  *   SAVE_CONTROL_DeleteExtraSaveBuffered  0x0200734C  thumb
  *   GFL_HEAP_Free  0x020307B0  arm
- *   GF_STANDARD_SetupCalc        0x0203F1FC  arm
+ *   GF_STANDARD_CalcCrc16        0x0203F1FC  arm
  */
-#include "misc_savedata_shared_types.h"
+#include "../types.h"
 
 /* Struct views of the save objects this file works on, defined here instead of
  * in a match/include/ObjNNNNN.h stand-in. */
@@ -47,7 +47,7 @@ struct TrialHouseDelivery {
 
 extern void MI_CpuFill8(void *dst, unsigned char val, unsigned long size);
 
-extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
+extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
 struct GameData;
 struct SaveControl;
 
@@ -115,7 +115,7 @@ void BATTLE_EXAMINATION_ClearBlock(void *p)
  */
 int BATTLE_EXAMINATION_IsDeliveryValid(void *delivery)
 {
-    if (((struct TrialHouseDelivery *)delivery)->checksum == GF_STANDARD_SetupCalc(delivery, 0x5c6) &&
+    if (((struct TrialHouseDelivery *)delivery)->checksum == GF_STANDARD_CalcCrc16(delivery, 0x5c6) &&
         ((struct TrialHouseDelivery *)delivery)->magic == 0xd68)
         return 1;
     return 0;
@@ -199,8 +199,8 @@ void BATTLE_EXAMINATION_LoadDelivery(void *gameData, void *dst, u32 heap)
 void BATTLE_EXAMINATION_RefreshMarker(void *delivery)
 {
     u32 fieldId = 0x5c6;
-    if (*(u16 *)((u8 *)delivery + fieldId) == GF_STANDARD_SetupCalc(delivery, fieldId)) {
+    if (*(u16 *)((u8 *)delivery + fieldId) == GF_STANDARD_CalcCrc16(delivery, fieldId)) {
         *(u16 *)((u8 *)delivery + (fieldId - 4)) = 0x7da;
-        *(u16 *)((u8 *)delivery + fieldId) = GF_STANDARD_SetupCalc(delivery, fieldId);
+        *(u16 *)((u8 *)delivery + fieldId) = GF_STANDARD_CalcCrc16(delivery, fieldId);
     }
 }

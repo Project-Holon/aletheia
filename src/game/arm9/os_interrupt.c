@@ -27,25 +27,14 @@
 #define reg_OS_IE  (*(vu32 *)0x04000210)
 #define reg_OS_IF  (*(vu32 *)0x04000214)
 #define OSi_IRQ_STACK_TOP ((u32)SDK_AUTOLOAD_DTCM_START + 0x3F80)
-typedef unsigned long u32;
-
-typedef int BOOL;
+#define GAME_TYPES_U32_LONG
+#include "../types.h"
 
 typedef u32 OSIrqMask;
 
 typedef void (*OSIrqFunction)(void);
 
-typedef struct OSIrqCallbackInfo {
-    void (*func)(void *);
-    u32 enable;
-    void *arg;
-} OSIrqCallbackInfo;
-
-typedef unsigned short u16;
-
-typedef volatile u32 vu32;
-
-typedef volatile u16 vu16;
+#include "../sdk_os.h"
 
 extern void OSi_EnterNDmaCallback_ltdmain(u32 dmaNo, void (*callback)(void *), void *arg);
 void OS_InitIrqTable(void);
@@ -66,11 +55,6 @@ extern OSIrqCallbackInfo OSi_IrqCallbackInfo[];
 extern char SDK_AUTOLOAD_DTCM_START[];
 extern char SDK_IRQ_STACKSIZE[];
 
-
-
-
-
-
 /*
  * note:     os_interrupt.o OS_InitIrqTable (zeroes OSi_IrqThreadQueue).
  */
@@ -79,8 +63,6 @@ void OS_InitIrqTable(void)
     g_02FE00A0[1] = 0;
     g_02FE00A0[0] = 0;
 }
-
-
 
 void OS_SetIrqFunction(OSIrqMask intrBit, OSIrqFunction function)
 {
@@ -111,8 +93,6 @@ void OS_SetIrqFunction(OSIrqMask intrBit, OSIrqFunction function)
     }
 }
 
-
-
 OSIrqFunction OS_GetIrqFunction(OSIrqMask intrBit)
 {
     int i;
@@ -133,8 +113,6 @@ OSIrqFunction OS_GetIrqFunction(OSIrqMask intrBit)
     return 0;
 }
 
-
-
 void OSi_EnterDmaCallback(u32 dmaNo, void (*callback)(void *), void *arg)
 {
     OSIrqMask imask = (OSIrqMask)(1 << (dmaNo + 8));
@@ -144,17 +122,10 @@ void OSi_EnterDmaCallback(u32 dmaNo, void (*callback)(void *), void *arg)
     OSi_IrqCallbackInfo[dmaNo].enable = OS_EnableIrqMask(imask) & imask;
 }
 
-
-
 void OSi_EnterNDmaCallback(u32 dmaNo, void (*callback)(void *), void *arg)
 {
     OSi_EnterNDmaCallback_ltdmain(dmaNo, callback, arg);
 }
-
-
-
-
-
 
 void OSi_EnterTimerCallback(u32 timerNo, void (*callback)(void *), void *arg)
 {
@@ -164,11 +135,6 @@ void OSi_EnterTimerCallback(u32 timerNo, void (*callback)(void *), void *arg)
     OSi_IrqCallbackInfo[timerNo + 8].enable = 1;
 }
 
-
-
-
-
-
 static inline BOOL OS_DisableIrq(void)
 {
     u16 prep = reg_OS_IME;
@@ -176,22 +142,12 @@ static inline BOOL OS_DisableIrq(void)
     return (BOOL)prep;
 }
 
-
-
-
-
-
 static inline BOOL OS_RestoreIrq(BOOL enable)
 {
     u16 prep = reg_OS_IME;
     reg_OS_IME = (u16)enable;
     return (BOOL)prep;
 }
-
-
-
-
-
 
 OSIrqMask OS_SetIrqMask(OSIrqMask intr)
 {
@@ -202,10 +158,6 @@ OSIrqMask OS_SetIrqMask(OSIrqMask intr)
     return prep;
 }
 
-
-
-
-
 OSIrqMask OS_EnableIrqMask(OSIrqMask intr)
 {
     BOOL ime = OS_DisableIrq();
@@ -214,9 +166,6 @@ OSIrqMask OS_EnableIrqMask(OSIrqMask intr)
     (void)OS_RestoreIrq(ime);
     return prep;
 }
-
-
-
 
 OSIrqMask OS_DisableIrqMask(OSIrqMask intr)
 {
@@ -227,9 +176,6 @@ OSIrqMask OS_DisableIrqMask(OSIrqMask intr)
     return prep;
 }
 
-
-
-
 OSIrqMask OS_ResetRequestIrqMask(OSIrqMask intr)
 {
     BOOL ime = OS_DisableIrq();
@@ -238,9 +184,6 @@ OSIrqMask OS_ResetRequestIrqMask(OSIrqMask intr)
     (void)OS_RestoreIrq(ime);
     return prep;
 }
-
-
-
 
 void OS_SetIrqStackChecker(void)
 {

@@ -19,49 +19,9 @@
  *   MTX_LookAt     0x0207BCA0  arm
  *   G3_LoadMtx43   0x0207D8E0  arm
  */
-typedef long fx32;
+#include "../types.h"
 
-typedef unsigned long u32;
-
-typedef int BOOL;
-
-typedef volatile u32 vu32;
-
-typedef struct {
-    fx32 x, y, z;
-} VecFx32;
-
-typedef union {
-    struct {
-        fx32 _00, _01, _02, _03;
-        fx32 _10, _11, _12, _13;
-        fx32 _20, _21, _22, _23;
-        fx32 _30, _31, _32, _33;
-    };
-    fx32 m[4][4];
-    fx32 a[16];
-} MtxFx44;
-
-typedef union {
-    struct {
-        fx32 _00, _01, _02;
-        fx32 _10, _11, _12;
-        fx32 _20, _21, _22;
-        fx32 _30, _31, _32;
-    };
-    fx32 m[4][3];
-    fx32 a[12];
-} MtxFx43;
-
-typedef union {
-    struct {
-        fx32 _00, _01, _02;
-        fx32 _10, _11, _12;
-        fx32 _20, _21, _22;
-    };
-    fx32 m[3][3];
-    fx32 a[9];
-} MtxFx33;
+#include "../sdk_fx.h"
 
 extern void MTX_PerspectiveW(fx32 fovySin, fx32 fovyCos, fx32 aspect, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
 extern void G3_LoadMtx44(void *m);
@@ -75,13 +35,11 @@ void G3_RotX(fx32 s, fx32 c);
 void G3_RotY(fx32 s, fx32 c);
 void G3_RotZ(fx32 s, fx32 c);
 
-
 #define reg_G3X_GXFIFO      (*(vu32 *)0x04000400)
 
 #define reg_G3_MTX_MODE     (*(vu32 *)0x04000440)
 
 #define reg_G3_MTX_MULT_3x3 (*(vu32 *)0x04000468)
-
 
 /*
  * sdk:      G3i_PerspectiveW_ (libgx.TWL.HYB.a g3_util.o)
@@ -100,13 +58,11 @@ void G3i_PerspectiveW_(fx32 fovySin, fx32 fovyCos, fx32 aspect, fx32 n, fx32 f, 
     }
 }
 
-
 #define reg_G3X_GXFIFO      (*(vu32 *)0x04000400)
 
 #define reg_G3_MTX_MODE     (*(vu32 *)0x04000440)
 
 #define reg_G3_MTX_MULT_3x3 (*(vu32 *)0x04000468)
-
 
 /*
  * sdk:      G3i_OrthoW_ (libgx.TWL.HYB.a g3_util.o)
@@ -125,13 +81,11 @@ void G3i_OrthoW_(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, BO
     }
 }
 
-
 #define reg_G3X_GXFIFO      (*(vu32 *)0x04000400)
 
 #define reg_G3_MTX_MODE     (*(vu32 *)0x04000440)
 
 #define reg_G3_MTX_MULT_3x3 (*(vu32 *)0x04000468)
-
 
 /*
  * sdk:      G3i_LookAt_ (libgx.TWL.HYB.a g3_util.o)
@@ -150,13 +104,11 @@ void G3i_LookAt_(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *tar
     }
 }
 
-
 #define reg_G3X_GXFIFO      (*(vu32 *)0x04000400)
 
 #define reg_G3_MTX_MODE     (*(vu32 *)0x04000440)
 
 #define reg_G3_MTX_MULT_3x3 (*(vu32 *)0x04000468)
-
 
 /*
  * sdk:      G3_RotX (libgx.TWL.HYB.a g3_util.o)
@@ -174,13 +126,11 @@ void G3_RotX(fx32 s, fx32 c)
     reg_G3_MTX_MULT_3x3 = (u32)c;
 }
 
-
 #define reg_G3X_GXFIFO      (*(vu32 *)0x04000400)
 
 #define reg_G3_MTX_MODE     (*(vu32 *)0x04000440)
 
 #define reg_G3_MTX_MULT_3x3 (*(vu32 *)0x04000468)
-
 
 /*
  * sdk:      G3_RotY (libgx.TWL.HYB.a g3_util.o)
@@ -198,13 +148,11 @@ void G3_RotY(fx32 s, fx32 c)
     reg_G3_MTX_MULT_3x3 = (u32)c;
 }
 
-
 #define reg_G3X_GXFIFO      (*(vu32 *)0x04000400)
 
 #define reg_G3_MTX_MODE     (*(vu32 *)0x04000440)
 
 #define reg_G3_MTX_MULT_3x3 (*(vu32 *)0x04000468)
-
 
 /*
  * sdk:      G3_RotZ (libgx.TWL.HYB.a g3_util.o)

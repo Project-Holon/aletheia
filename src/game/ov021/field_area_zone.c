@@ -25,9 +25,7 @@ struct FieldMap;
 struct FieldPlayer;
 struct Mmdl;
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../types.h"
 
 #define ZONE_AREA_COUNT 4
 #define ZONE_AREA_NONE 0x1ab

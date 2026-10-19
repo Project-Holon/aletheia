@@ -59,7 +59,7 @@
  *   ARC_TOOL_GetHandleMemberSize 0x020493D4 arm arm9
  */
 #include "g3d_util_shared_types.h"
-#include "arc_tool_shared_types.h"
+#include "../types.h"
 
 struct NitroFileHeader;
 

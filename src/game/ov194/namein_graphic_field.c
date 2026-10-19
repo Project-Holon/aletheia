@@ -75,19 +75,7 @@ struct CharBuf;
 struct StrObj;
 struct Strbuf;
 struct PrintSys;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef signed int s32;
-
-typedef signed char s8;
-
-typedef signed short s16;
-
-typedef short fx16;
+#include "../types.h"
 
 typedef struct {u8 removedCount,addedCount;u16 removed[4],added[4];} Changes;
 
@@ -228,13 +216,7 @@ extern const unsigned char d_021F555C[];
 extern const int d_021F5544[];
 extern const int d_021F5550[];
 
-
-
-
 static inline fx16 FX_CosIdx(int idx) { return FX_SinCosTable_[((idx >> 4) << 1) + 1]; }
-
-
-
 
 /*
  * note 2026-10-05 (wD9r lane18): closed by the NitroSDK FX_CosIdx inline for the table read
@@ -258,9 +240,6 @@ int NAMEIN_GRAPHIC_FadeCellColor(u16 *out, u16 *phase, u32 step, u32 row, u8 idx
     NNS_GfdRegisterNewVramTransferTask((void *)0xF, row * 32 + idx * 2, (u32)out, 2);
     return *out == b;
 }
-
-
-
 
 /*
  * note 2026-10-05 (wD7 lane05): the entry spill order (b before a) follows the type of the
@@ -325,13 +304,7 @@ void NAMEIN_GRAPHIC_InitInputField(u8 *p, int a, u16 b, u16 c, int d, u8 *e, int
     NAMEIN_GRAPHIC_RefreshInputField(p);
 }
 
-
-
-
 void NAMEIN_GRAPHIC_DeleteInputField(u8 *p) { int i;NAMEIN_GRAPHIC_FreePairMember(((NameinGraphicInputField *)p)->pairMember);for(i=0;i<3;i++)NAMEIN_GRAPHIC_FreeHandle(*(void **)((u32)p+(u32)i*4+132));STRBUF_Delete(((NameinGraphicInputField *)p)->strbuf);BMP_WIN_Delete((struct BmpWin *)(((NameinGraphicInputField *)p)->bmpWin));MI_CpuFill8(p,0,148); }
-
-
-
 
 /*
  * lever: load window in each print arm; p+i*4+0x44 preserves per-element bases and constant registers.
@@ -378,10 +351,6 @@ int NAMEIN_GRAPHIC_RefreshInputField(u8 *p)
  return NAMEIN_GRAPHIC_IsFieldDrawDone(p);
 }
 
-
-
-
-
 int NAMEIN_GRAPHIC_Backspace(unsigned char *p)
 {
     if (((NameinGraphicInputField *)p)->secondaryLength != 0) {
@@ -401,10 +370,6 @@ int NAMEIN_GRAPHIC_Backspace(unsigned char *p)
     return 0;
 }
 
-
-
-
-
 int NAMEIN_GRAPHIC_AppendChar(char *p, unsigned short v)
 {
     if (((NameinGraphicInputField *)p)->primaryLength < ((NameinGraphicInputField *)p)->maxLength)
@@ -417,10 +382,6 @@ int NAMEIN_GRAPHIC_AppendChar(char *p, unsigned short v)
     }
     return 0;
 }
-
-
-
-
 
 int NAMEIN_GRAPHIC_AppendCandidate(unsigned char *p, unsigned short a, u32 b)
 {
@@ -436,9 +397,6 @@ int NAMEIN_GRAPHIC_AppendCandidate(unsigned char *p, unsigned short a, u32 b)
     }
     return 0;
 }
-
-
-
 
 /*
  * lever: shared failure label retains one exit; byte-offset cast +10 inside the loop
@@ -471,14 +429,7 @@ fail:
     return 0;
 }
 
-
-
-
 int NAMEIN_GRAPHIC_RevertChar(char *p) { u16 v;if(((NameinGraphicInputField *)p)->primaryLength!=0 && NAMEIN_GRAPHIC_NextPairChar(*(char * *)&((NameinGraphicInputField *)p)->pairMember,(u16 *)((u32)p+(((NameinGraphicInputField *)p)->primaryLength-1)*2),&v)) { NAMEIN_GRAPHIC_Backspace((u8 *)p);NAMEIN_GRAPHIC_AppendChar(p,v);return 1; }return 0; }
-
-
-
-
 
 int NAMEIN_GRAPHIC_IsFieldDrawDone(unsigned char *p)
 {
@@ -494,19 +445,11 @@ int NAMEIN_GRAPHIC_IsFieldDrawDone(unsigned char *p)
     return p[0x30] == 0;
 }
 
-
-
-
-
 void NAMEIN_GRAPHIC_CopyToStrbuf(char *self, struct Strbuf *dst)
 {
     STRBUF_SetStringN(dst, (const u16 *)self,
                  ((NameinGraphicInputField *)self)->primaryLength + 1);
 }
-
-
-
-
 
 void NAMEIN_GRAPHIC_ClearSecondary(char *p)
 {
@@ -520,47 +463,20 @@ void NAMEIN_GRAPHIC_ClearSecondary(char *p)
     }
 }
 
-
-
-
 void NAMEIN_GRAPHIC_CommitSecondary(char *p) { int i; for(i=0;i<((NameinGraphicInputField *)p)->secondaryLength;i++)NAMEIN_GRAPHIC_AppendChar(p,*(u16 *)((u32)p+(u32)i*2+22));((NameinGraphicInputField *)p)->secondaryLength=0;*(u16 *)((u32)p+((NameinGraphicInputField *)p)->secondaryLength*2+22)=STRBUF_GetEosChar();((NameinGraphicInputField *)p)->needsRefresh=1; }
-
-
-
 
 void NAMEIN_GRAPHIC_ClearPrimary(u8 *p) {if(((NameinGraphicInputField *)p)->primaryLength) {((NameinGraphicInputField *)p)->primaryLength=0;*(u16 *)(p+((NameinGraphicInputField *)p)->primaryLength*2)=STRBUF_GetEosChar();((NameinGraphicInputField *)p)->needsRefresh=1;}NAMEIN_GRAPHIC_ClearSecondary((char *)p);}
 
-
-
-
-
 void NAMEIN_GRAPHIC_AppendString(char *p,const u16 *q) {while(*q!=STRBUF_GetEosChar()) {if(!NAMEIN_GRAPHIC_AppendChar(p,*q)) break;q++;}}
-
-
-
-
-
 
 int NAMEIN_GRAPHIC_IsFieldFull(char *p)
 {
     return ((NameinGraphicInputField *)p)->primaryLength == ((NameinGraphicInputField *)p)->maxLength;
 }
 
-
-
-
-
 u32 NAMEIN_GRAPHIC_GetLength(const u8 *p) {return ((NameinGraphicInputField *)p)->primaryLength;}
 
-
-
-
-
 u32 NAMEIN_GRAPHIC_GetSecondaryLength(const u8 *p) {return ((NameinGraphicInputField *)p)->secondaryLength;}
-
-
-
-
 
 /*
  * lever: read Group values through ((u16 *)((char *)&group+2))[i] to hoist its member base.
@@ -593,15 +509,7 @@ int NAMEIN_GRAPHIC_PickCandidate(u8 *p,int direction)
  return 0;
 }
 
-
-
-
-
 int NAMEIN_GRAPHIC_HasNonSpace(u8 *p) {int i,spaces,n;n=*(volatile u16 *)&((NameinGraphicInputField *)p)->primaryLength;if(!n) return 0;spaces=0;i=0;while(i<n) {if(*(u16 *)(p+i*2)==32) spaces++;n=*(volatile u16 *)&((NameinGraphicInputField *)p)->primaryLength;i++;}return i!=spaces;}
-
-
-
-
 
 void NAMEIN_GRAPHIC_InitPicker(char *p, unsigned mode, int index, void *table, u32 unused) {
  int i;
@@ -617,25 +525,12 @@ void NAMEIN_GRAPHIC_InitPicker(char *p, unsigned mode, int index, void *table, u
  for(i=0;i<13;i++)*(unsigned char *)(p+4+i)=d_021F555C[i];
 }
 
-
-
-
-
-
 void NAMEIN_GRAPHIC_LoadGrid(int *a, int b, void *c)
 {
     *a = NAMEIN_GRAPHIC_GetWord((const u8 *)c, b);
 }
 
-
-
-
-
 void NAMEIN_GRAPHIC_ClearPicker(void *p) {MI_CpuFill8(p,0,36);}
-
-
-
-
 
 unsigned NAMEIN_GRAPHIC_PickerToChar(char *p,int *input,unsigned short *out) {
  int xy[2]; unsigned result;
@@ -645,10 +540,6 @@ unsigned NAMEIN_GRAPHIC_PickerToChar(char *p,int *input,unsigned short *out) {
  } else if(result==9) {if(out) *out=32;}
  return result;
 }
-
-
-
-
 
 int NAMEIN_GRAPHIC_FindCellAtPoint(const char *p,int *point,Pair *out) {
  Pair xy; int rect[4];
@@ -661,16 +552,10 @@ int NAMEIN_GRAPHIC_FindCellAtPoint(const char *p,int *point,Pair *out) {
  }} return 0;
 }
 
-
-
-
 void NAMEIN_GRAPHIC_PickerMove(char *a, int b, int c)
 {
     ((void (*)(int, int, char *))(*(void **)(a + 0x18)))(b, c, a + 4);
 }
-
-
-
 
 void NAMEIN_GRAPHIC_DrawCellTips(char *p,char *target,void *window,void *font,u16 heap)
 {
@@ -702,14 +587,10 @@ void NAMEIN_GRAPHIC_DrawCellTips(char *p,char *target,void *window,void *font,u1
  STRBUF_Delete(text);
 }
 
-
-
 int NAMEIN_GRAPHIC_PickerGetBox(char *a, Pair *b, Box *c)
 {
     return ((int (*)(Pair *, Box *))(*(void **)(a + 0x14)))(b, c);
 }
-
-
 
 int NAMEIN_GRAPHIC_FindCellByValue(const char *p,int target,Pair *out) {
  Pair xy;
@@ -718,8 +599,6 @@ int NAMEIN_GRAPHIC_FindCellByValue(const char *p,int target,Pair *out) {
  if(((int (*)(int *,int *))*(void *const *)(p+0x1C))(&xy.x,0)==target) {*out=xy;return 1;}
  return 0;
 }
-
-
 
 /*
  * note: the original has no else arm: when neither mode is 3 it falls into
@@ -754,8 +633,6 @@ void NAMEIN_GRAPHIC_ConvertCellMode(Pair *p, int oldmode, int newmode)
             }
 }
 
-
-
 int NAMEIN_GRAPHIC_KanaGetBox(const int *p,int *out) {
  int xy[2];enum { X_LEFT=15,X_RIGHT=22 } x;int y;
  switch(NAMEIN_GRAPHIC_GridValue(p,xy)) {
@@ -770,8 +647,6 @@ int NAMEIN_GRAPHIC_KanaGetBox(const int *p,int *out) {
  }
  if(p[1]==5 && p[0]>6)return 0;return 1;
 }
-
-
 
 /*
  * lever: case 0 follows case 9; repeated stores in each case-8 arm preserve backward tail sharing.
@@ -795,8 +670,6 @@ int NAMEIN_GRAPHIC_SymbolGetBox(Pair *p,Box *out)
  }
  return 1;
 }
-
-
 
 /*
  * tail: 320-byte lead including padding, followed by existing matched 920-byte NAMEIN_GRAPHIC_SymbolMove.
@@ -839,8 +712,6 @@ void NAMEIN_GRAPHIC_KanaMove(int *p,int *delta,u8 *saved)
   else if(x>=0 && x<=3)p[0]=saved[x];
  }
 }
-
-
 
 /*
  * extent: 920 bytes through return at 021F2F5E; no calls or followers.
@@ -901,11 +772,7 @@ void NAMEIN_GRAPHIC_SymbolMove(int *p,int *delta,unsigned char *s) {
  }
 }
 
-
-
 int NAMEIN_GRAPHIC_GridValue(const int *p,int *out) {return NAMEIN_GRAPHIC_ComputeGridValue(p,out);}
-
-
 
 int NAMEIN_GRAPHIC_ComputeGridValue(const int *p,int *out) {
  if(p[1]<5) {if(out) {out[1]=p[1];out[0]=p[0];}return 1;}

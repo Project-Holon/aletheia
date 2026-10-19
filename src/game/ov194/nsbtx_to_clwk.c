@@ -29,7 +29,7 @@
  *   GXS_LoadOBJPltt 0x0207E5D0 arm
  *   d_021F57A8 0x021F57A8 data ov194 a1
  */
-#include "namein_graphic_shared_types.h"
+#include "../types.h"
 
 struct ArcFile;
 

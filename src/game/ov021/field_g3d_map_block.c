@@ -38,12 +38,7 @@
  *   FX_Div  0x0207C768  arm
  *   FIELD_WFBC_PatchLandData 0x02193924 thumb ov021
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed short s16;
-typedef int fx32;
-typedef long long s64;
+#include "../types.h"
 
 #include "../ov010/field_g3d_map_types.h"
 

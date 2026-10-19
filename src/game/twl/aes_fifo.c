@@ -11,8 +11,7 @@
  * status:   EXACT
  * sdk:      libaes.TWL.HYB.a aes_fifo.o
  */
-typedef unsigned int u32;
-typedef unsigned char u8;
+#include "../types.h"
 
 extern int PXI_SendWordByFifo(int tag, u32 data, int err);
 

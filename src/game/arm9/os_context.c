@@ -17,23 +17,9 @@
  *   CPi_RestoreContext  0x020775F8  arm
  *   OS_IsRunOnTwl       0x02085D3C  arm
  */
-typedef unsigned long u32;
+#include "../types.h"
 
-typedef unsigned char u8;
-
-typedef struct CPContext {
-    u8 opaque[0x1C];
-} CPContext;
-
-typedef struct OSContext {
-    u32 cpsr;
-    u32 r[13];
-    u32 sp;
-    u32 lr;
-    u32 pc_plus4;
-    u32 sp_svc;
-    CPContext cp_context;
-} OSContext;
+#include "../sdk_os.h"
 
 extern void CP_SaveContext(void);
 extern void CPi_RestoreContext(void);
@@ -41,7 +27,6 @@ extern int OS_IsRunOnTwl(void);
 asm void OS_InitContext(OSContext *context, u32 newpc, u32 newsp);
 asm void OS_SaveContext(void);
 asm void OS_LoadContext(void);
-
 
 /*
  * sdk:      OS_InitContext (os_context.o)
@@ -82,7 +67,6 @@ asm void OS_InitContext(OSContext *context, u32 newpc, u32 newsp)
     bx      lr
 }
 
-
 /* hand-written in the original: stm of the register file and mrs, one SDK line-table row per instruction */
 asm void OS_SaveContext(void)
 {
@@ -105,7 +89,6 @@ asm void OS_SaveContext(void)
     mov r0, #0
     bx lr
 }
-
 
 /* hand-written in the original: ldm of the register file and msr, one SDK line-table row per instruction */
 asm void OS_LoadContext(void)

@@ -38,24 +38,9 @@
  *   closesocket  0x0217EB2C  arm  ov009
  *   gGsAvailabilityState     0x021ACEF8  data
  */
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned long  u32;
+#include "../types.h"
 
-struct SOCSockAddrIn {
-    u8  len;
-    u8  family;
-    u16 port;
-    u32 addr;
-};
-
-struct SOCHostEnt {
-    char *name;
-    char **aliases;
-    short addrType;
-    short length;
-    unsigned char **addrList;
-};
+#include "../sdk_soc.h"
 
 typedef struct {
     int sock;

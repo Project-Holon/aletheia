@@ -58,68 +58,19 @@
  *   gDwcCalHeaderVersion     0x021A2574  data ov009
  *   gDwcCalHeaderGameCd     0x021A2580  data ov009
  */
-struct DWCCalInfo;
-struct DWCWiFiInfo;
 typedef struct {
     char bytes[0x14];
 } WiFiInfo;
 
-typedef struct DWCCalInfo {
-    char userid[14];
-    char passwd[7];
-    char gamecd[5];
-    char makercd[3];
-    char unitcd[2];
-    char macadr[13];
-    char lang[3];
-    char birth[5];
-    char devtime[13];
-    char bssid[13];
-    char ssid[33];
-    char apinfo[14];
-    unsigned short devname[11];
-} DWCCalInfo;
+#include "../sdk_rtc.h"
 
-typedef struct DWCWiFiInfo {
-    unsigned long long attestedUserId;
-    unsigned long long notAttestedId;
-    unsigned short pass;
-    unsigned short randomHistory;
-} DWCWiFiInfo;
-
-typedef struct RTCTime {
-    unsigned long hour;
-    unsigned long minute;
-    unsigned long second;
-} RTCTime;
-
-typedef struct RTCDate {
-    unsigned long year;
-    unsigned long month;
-    unsigned long day;
-    int week;
-} RTCDate;
-
-typedef struct OSBirthday {
-    unsigned char month;
-    unsigned char day;
-} OSBirthday;
-
-typedef struct OSOwnerInfo {
-    unsigned char language;
-    unsigned char favoriteColor;
-    OSBirthday birthday;
-    unsigned short nickName[11];
-    unsigned short nickNameLength;
-    unsigned short comment[27];
-    unsigned short commentLength;
-} OSOwnerInfo;
+#include "../sdk_os.h"
 
 typedef struct DWCHttp DWCHttp;
 
-typedef unsigned char  u8;
+#include "../types.h"
 
-typedef unsigned short u16;
+#include "../sdk_dwc.h"
 
 extern void DWCi_BM_GetWiFiInfo(WiFiInfo *buf);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
@@ -169,7 +120,6 @@ extern const char gDwcCalFmtHeaderVersion[];
 extern const char gDwcCalHeaderVersion[];
 extern const char gDwcCalHeaderGameCd[];
 
-
 /*
  * sdk:      DWC_Auth_GetCalInfoFromNVRAM (dwc_cal.o)
  */
@@ -177,9 +127,8 @@ int DWC_Auth_GetCalInfoFromNVRAM(void *cal)
 {
     WiFiInfo wifiinfo;
     DWCi_BM_GetWiFiInfo(&wifiinfo);
-    return DWC_Auth_GetCalInfoFromWiFiInfo(cal, (struct DWCWiFiInfo *)(&wifiinfo));
+    return DWC_Auth_GetCalInfoFromWiFiInfo(cal, (DWCWiFiInfo *)(&wifiinfo));
 }
-
 
 /*
  * sdk:      DWC_Auth_GetCalInfoFromWiFiInfo (libdwcauth.TWL.HYB.a dwc_cal.o)
@@ -260,7 +209,6 @@ int DWC_Auth_GetCalInfoFromWiFiInfo(DWCCalInfo *cal, DWCWiFiInfo *wifiinfo)
     OS_RestoreInterrupts(preirq);
     return 1;
 }
-
 
 /*
  * sdk:      DWC_Auth_SetCalInfoToHttp (libdwcauth.TWL.HYB.a dwc_cal.o)

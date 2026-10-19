@@ -14,7 +14,7 @@
  *
  * symbols:
  */
-#include "gfl_heap_wrap_shared_types.h"
+#include "../types.h"
 
 struct TcbSystem;
 

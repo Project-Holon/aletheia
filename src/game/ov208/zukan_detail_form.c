@@ -407,7 +407,7 @@ struct McssFade;
 
 struct McssSys;
 
-typedef int            s32;
+#include "../types.h"
 
 struct Ov208Sel {
     u16 next;
@@ -439,7 +439,6 @@ extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
 
 extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
 struct ZukanSave;
-
 
 extern void ZUKAN_SAVE_GetViewGenderAndForm(struct ZukanSave *pZukan, unsigned short species, unsigned int *outGender, unsigned int *outShiny, unsigned int *outForm, unsigned short language);
 
@@ -1375,8 +1374,6 @@ struct Ov208Turn {
     int done;
 };
 
-typedef signed int     s32;
-
 typedef struct {
     s16 x;
     s16 y;
@@ -1397,8 +1394,6 @@ typedef struct
 
 typedef enum { SIDE_0 = 0, SIDE_1 = 1 } Side;
 
-typedef short          s16;
-
 struct Ov208CellHdr {
     s16 x;
     s16 y;
@@ -1406,8 +1401,6 @@ struct Ov208CellHdr {
     u8  a;
     u8  b;
 };
-
-typedef signed short   s16;
 
 typedef struct {
     s16 x;
@@ -1508,13 +1501,6 @@ extern u32 ZUKAN_SAVE_GetSpindaPersonality(struct ZukanSave *pZukan, unsigned in
 
 extern void MCSS_SetPosition(struct McssWork *work, unsigned int *src);
 
-
-
-
-
-
-
-
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 
 extern void ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(void *s, u32 on);
@@ -1523,22 +1509,13 @@ extern void ZUKAN_DETAIL_TOUCHBAR_SetButtonDrawEnable(struct Ov208Scene *p, int 
 
 extern void ZUKAN_DETAIL_TOUCHBAR_SetMode(void *s, u32 mode, u32 kind, u32 flag);
 
-
-
-
-
-
-
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
 extern u32  TOUCHPANEL_GetPointCont(u32 *x, u32 *y);
 
 extern void ZUKAN_DETAIL_FORM_CopyModelPosition(struct Ov208Mdl *u, int k, VecF *v);
 
-
-
 extern void ZUKAN_SAVE_UpdateViewFlags(struct ZukanSave *pZukan, unsigned short species, unsigned int gender, unsigned int shiny, unsigned int form);
-
 
 u32 ZUKAN_DETAIL_FORM_AddModel(void *sys, u32 species, u32 gender, u32 side, u32 form, u32 shiny, u32 personality, u32 extra);
 

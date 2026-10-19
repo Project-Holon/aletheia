@@ -46,9 +46,7 @@
 
 typedef int i32;
 
-typedef unsigned int u32;
-
-typedef unsigned char u8;
+#include "../types.h"
 
 extern double scalbn(double x, int n);
 extern double _dsub(double x, double y);
@@ -78,15 +76,11 @@ extern const int init_jk[];
 extern const double PIo2[];
 extern const u8 __tolower_map[];
 
-
-
 static const double
 zero   = 0.0,
 one    = 1.0,
 two24  = 1.67772160000000000000e+07,
 twon24 = 5.96046447753906250000e-08;
-
-
 
 int __kernel_rem_pio2(double *x, double *y, int e0, int nx, int prec, const int *ipio2)
 {
@@ -227,7 +221,6 @@ recompute:
 	return n&7;
 }
 
-
 /*
  * fdlibm __kernel_sin().  The machine entry is 0x0209A0EC, four bytes before
  * the disasm body label __kernel_sin: 0x0209A0EC is the compiler's
@@ -270,7 +263,6 @@ double __kernel_sin(double x, double y, int iy)
         return x - ((z * (half * y - v * r) - y) - v * S1);
 }
 
-
 /*
  * note:     EXACT* not EXACT: scan_listing puts the next label 4 bytes past
  *          this function's real end (0x0209A390, a pool-adjacent follower),
@@ -286,7 +278,6 @@ double copysign(double x, double y)
     ((u32 *)&x)[1] = (((u32 *)&x)[1] & 0x7fffffff) | (((u32 *)&y)[1] & 0x80000000);
     return x;
 }
-
 
 /*
  * fdlibm cos().  The machine entry is 0x0209A390, four bytes before the
@@ -339,7 +330,6 @@ double cos(double x)
     }
 }
 
-
 /*
  * MSL fabs(): the hi word of the double is cleared via `&x`, which is the
  * address-of-a-register-parameter idiom and produces `push {r0-r3}`; the
@@ -351,10 +341,7 @@ double fabs(double x)
     return x;
 }
 
-
 static const double huge = 1.0e300;
-
-
 
 /*
  * fdlibm floor().  Identified by its two pool constants: huge = 1.0e300
@@ -441,10 +428,7 @@ double floor(double x)
     return x;
 }
 
-
 static const double two54 = 1.80143985094819840000e+16;
-
-
 
 /*
  * fdlibm frexp().  Word access goes through the address of the register
@@ -478,14 +462,9 @@ double frexp(double x, int *eptr)
     return x;
 }
 
-
 static const double twom54  = 5.55111512312578270212e-17;
 
-
-
 static const double tiny    = 1.0e-300;
-
-
 
 /*
  * note:     EXACT* not EXACT: the next function's own home-area push
@@ -553,7 +532,6 @@ double ldexp(double x, int n)
     return x * twom54;
 }
 
-
 /*
  * fdlibm sin().  The machine entry is 0x0209AA08, four bytes before the
  * disasm body label sin: the stub is the compiler's `push {r0-r3}`
@@ -600,12 +578,10 @@ double sin(double x)
     }
 }
 
-
 double pow(double x, double y)
 {
     return __ieee754_pow(x, y);
 }
-
 
 /*
  * note:     EXACT* not EXACT: the label following this function in the

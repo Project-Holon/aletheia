@@ -22,17 +22,9 @@
  *   MI_StopDma  0x020825F0  arm
  *   OS_Terminate                   0x02088234  arm
  */
-typedef unsigned long u32;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef volatile u32 vu32;
-
-typedef volatile u16 vu16;
-
-typedef int BOOL;
-
-typedef u32 OSIntrMode;
+#include "../sdk_os.h"
 
 typedef void (*MIDmaCallback)(void *arg);
 
@@ -52,46 +44,19 @@ void MIi_DmaCopy32Async(u32 dmaNo, const void *src, void *dest, u32 size, MIDmaC
 void MI_StopAllDma(void);
 void MIi_CheckAnotherAutoDMA(u32 dmaNo, u32 dmaType);
 
-
-
-
-
-
 #define REG_DMA0SAD_ADDR 0x040000B0
-
-
-
-
 
 #define REG_DMA0CNT_ADDR 0x040000B8
 
-
-
-
-
 #define MI_DMA_ENABLE    0x80000000
 
-
-
-
-
 #define MI_DMA_REGADDR(dmaNo, reg) (((dmaNo) * 12) + (reg))
-
-
-
-
-
 
 static inline void MIi_Wait(vu32 *dmaCntp)
 {
     while (*dmaCntp & MI_DMA_ENABLE) {
     }
 }
-
-
-
-
-
 
 /*
  * sdk:      MIi_DmaFill32 (libmi.TWL.HYB.a mi_dma.o)
@@ -113,11 +78,6 @@ void MIi_DmaFill32(u32 dmaNo, void *dest, u32 data, u32 size, BOOL dmaEnable)
     }
     MIi_Wait(dmaCntp);
 }
-
-
-
-
-
 
 /*
  * sdk:      MIi_DmaCopy32 (libmi.TWL.HYB.a mi_dma.o)
@@ -142,20 +102,12 @@ void MIi_DmaCopy32(u32 dmaNo, const void *src, void *dest, u32 size, BOOL dmaEna
     MIi_Wait(dmaCntp);
 }
 
-
-
-
-
 static inline void MIi_CallCallback(MIDmaCallback callback, void *arg)
 {
     if (callback) {
         (callback)(arg);
     }
 }
-
-
-
-
 
 /*
  * sdk:      MIi_DmaCopy16 (libmi.TWL.HYB.a mi_dma.o)
@@ -179,9 +131,6 @@ void MIi_DmaCopy16(u32 dmaNo, const void *src, void *dest, u32 size, BOOL dmaEna
     }
     MIi_Wait(dmaCntp);
 }
-
-
-
 
 /*
  * sdk:      MIi_DmaFill32Async (libmi.TWL.HYB.a mi_dma.o)
@@ -209,8 +158,6 @@ void MIi_DmaFill32Async(u32 dmaNo, void *dest, u32 data, u32 size, MIDmaCallback
         }
     }
 }
-
-
 
 /*
  * sdk:      MIi_DmaCopy32Async (libmi.TWL.HYB.a mi_dma.o)
@@ -241,8 +188,6 @@ void MIi_DmaCopy32Async(u32 dmaNo, const void *src, void *dest, u32 size, MIDmaC
     }
 }
 
-
-
 /*
  * sdk:      MI_WaitDma (libmi.TWL.HYB.a mi_dma.o)
  */
@@ -262,8 +207,6 @@ void MI_WaitDma(u32 dmaNo)
     }
     (void)OS_RestoreInterrupts(enabled);
 }
-
-
 
 /*
  * sdk:      MI_StopDma (libmi.TWL.HYB.a mi_dma.o)
@@ -291,8 +234,6 @@ void MI_StopDma(u32 dmaNo)
     (void)OS_RestoreInterrupts(enabled);
 }
 
-
-
 void MI_StopAllDma(void)
 {
     MI_StopDma(0);
@@ -300,8 +241,6 @@ void MI_StopAllDma(void)
     MI_StopDma(2);
     MI_StopDma(3);
 }
-
-
 
 /*
  * sdk:      MIi_CheckAnotherAutoDMA (libmi.TWL.HYB.a mi_dma.o)
@@ -338,8 +277,6 @@ void MIi_CheckAnotherAutoDMA(u32 dmaNo, u32 dmaType)
         }
     }
 }
-
-
 
 /*
  * sdk:      MIi_CheckDma0SourceAddress (libmi.TWL.HYB.a mi_dma.o)

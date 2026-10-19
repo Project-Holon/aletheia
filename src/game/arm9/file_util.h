@@ -3,7 +3,8 @@
 
 /* Public functions of file_util.c, prototypes copied from their definitions. */
 
-struct FSFile;
+#include "../sdk_fs.h"
+
 struct ArcFile;
 struct ItemRecord;
 struct ItemExt;

@@ -106,7 +106,6 @@
  *   gVisiblePlanes  0x02146A48  data
  *   GX_DispOn  0x0207D46C  arm
  */
-#include "gf_standard_shared_types.h"
 #include "bmp_shared_types.h"
 
 #define REG_DISPCNT (*(volatile u32 *)0x04000000)
@@ -195,23 +194,11 @@ struct BgTemplate {
 };
 
 /* TwlSDK nitro/gx/gx_bgcnt.h parameter types; only the type matters here */
-typedef enum { SS0 = 0 } GXBGScrSizeText;
+#include "../sdk_gx.h"
 
 typedef enum { SA0 = 0 } GXBGScrSizeAffine;
 
-typedef enum { CM0 = 0 } GXBGColorMode;
-
-typedef enum { SB0 = 0 } GXBGScrBase;
-
-typedef enum { CB0 = 0 } GXBGCharBase;
-
-typedef enum { EP0 = 0 } GXBGExtPltt;
-
-typedef enum { AO0 = 0 } GXBGAreaOver;
-
-typedef int BOOL;
-
-typedef signed short       s16;
+#include "../types.h"
 
 struct Mtx22 { u32 w[4]; };
 
@@ -384,7 +371,6 @@ void BG_SYS_SetPriority(int idx, unsigned short val);
 
 void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
-
 u32 BG_SYS_GetScrollX(u32 layer);
 
 u32 BG_SYS_GetScrollY(u32 layer);
@@ -461,7 +447,6 @@ void BG_SYS_Update(void);
 
 void BG_SYS_CommitLayers(void);
 
-
 void BG_SYS_CommitScroll(void);
 
 void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
@@ -475,7 +460,6 @@ void BG_SYS_ChangeCenter(u32 which, u32 op, u16 value);
 u32 BG_SYS_CheckPixelColor(u32 layer, u16 x, u16 y, u16 *flags);
 
 int BG_SYS_ToHwScreenSize(int screenSize, int bgType);
-
 
 void BG_SYS_SetScrollField(struct BgLayer *p, u32 op, u32 value);
 
@@ -3455,16 +3439,6 @@ void BG_SYS_ApplyCenterOp(struct BgLayer *bg, u32 opcode, u32 operand)
         break;
     }
 }
-
-typedef enum {
-    GX_OBJVRAMMODE_CHAR_2D      = 0x00000000,
-    GX_OBJVRAMMODE_CHAR_1D_32K  = 0x00000010,
-    GX_OBJVRAMMODE_CHAR_1D_64K  = 0x00100010,
-    GX_OBJVRAMMODE_CHAR_1D_128K = 0x00200010,
-    GX_OBJVRAMMODE_CHAR_1D_256K = 0x00300010
-} GXOBJVRamModeChar;
-
-typedef enum { GX_VRAM_NONE = 0 } GXVRam;
 
 struct DispVram {
     GXVRam main_bg;             /* +0x00 */

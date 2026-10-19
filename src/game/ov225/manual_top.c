@@ -46,7 +46,7 @@
  *   MANUAL_COMMON_GetTouchbarSelected 0x021BA154 thumb ov225
  *   MANUAL_COMMON_GetTouchbarPressed 0x021BA158 thumb ov225
  */
-#include "manual_data_shared_types.h"
+#include "../types.h"
 #include "manual_common_shared_types.h"
 #include "manual_touchbar_shared_types.h"
 #include "manual_list_shared_types.h"

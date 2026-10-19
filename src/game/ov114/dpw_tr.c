@@ -45,8 +45,7 @@
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 
-typedef unsigned char u8;
-typedef unsigned int u32;
+#include "../types.h"
 
 #define DPW_TR_STATE_UNINITIALIZED 0
 #define DPW_TR_STATE_IDLE 1

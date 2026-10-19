@@ -98,13 +98,7 @@ typedef struct UnpackedPaletteData {
     void *data;
 } UnpackedPaletteData;
 
-typedef enum { GX_BG_SCRSIZE_TEXT_256x256 = 0 } GXBGScrSizeText;
-
-typedef enum { GX_BG_COLORMODE_16 = 0, GX_BG_COLORMODE_256 = 1 } GXBGColorMode;
-
-typedef enum { GX_BG_SCRBASE_0x0000 = 0, GX_BG_SCRBASE_0x1000 = 2 } GXBGScrBase;
-
-typedef enum { GX_BG_CHARBASE_0x00000 = 0, GX_BG_CHARBASE_0x04000 = 1 } GXBGCharBase;
+#include "../sdk_gx.h"
 
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);

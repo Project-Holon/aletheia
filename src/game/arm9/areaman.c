@@ -28,10 +28,7 @@
  *   _LowBitsMask     0x020A0495  data
  */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed int     s32;
+#include "../types.h"
 
 /* ---- areaman.c: bitmap allocator for runs of equal-sized areas ---- */
 
@@ -106,7 +103,6 @@ struct AreaMan *AREAMAN_Create(u32 area_count, u16 heap_id)
     return areaman;
 }
 
-
 /*
  * AREAMAN_Delete: release the manager.  A bare tail call: a pool word and a
  * bx (docs/idioms/tail-call-is-a-pool-word-and-bx.md), so the callee's
@@ -116,7 +112,6 @@ u32 AREAMAN_Delete(void *areaman)
 {
     return GFL_HEAP_Free(areaman);
 }
-
 
 /*
  * AREAMAN_Alloc: allocate a run of `len` areas anywhere in the bitmap.  It
@@ -129,7 +124,6 @@ s32 AREAMAN_Alloc(struct AreaMan *areaman, u32 len)
 {
     return AREAMAN_AllocUp(areaman, 0, areaman->area_count, len);
 }
-
 
 /*
  * AREAMAN_AllocUp: validate the request against the bitmap extent and
@@ -150,7 +144,6 @@ s32 AREAMAN_AllocUp(struct AreaMan *areaman, u32 start, u32 limit, u32 len)
 
     return AREAMAN_AllocLongUp(areaman, start, limit, len);
 }
-
 
 /*
  * AREAMAN_AllocShortUp: bit-at-a-time upward search for a free run shorter
@@ -211,7 +204,6 @@ done:
     }
     return -1;
 }
-
 
 /*
  * AREAMAN_AllocLongUp: byte-at-a-time upward search for a free run of eight
@@ -280,7 +272,6 @@ s32 AREAMAN_AllocLongUp(struct AreaMan *areaman, u32 start, u32 limit, u32 len)
     return -1;
 }
 
-
 /*
  * AREAMAN_AllocDown: like AREAMAN_AllocUp but searching towards lower
  * positions: short runs go to the bit scanner, long runs to the byte
@@ -303,7 +294,6 @@ s32 AREAMAN_AllocDown(struct AreaMan *areaman, u32 start, u32 limit, u32 len)
     AREAMAN_TraceAlloc(areaman, pos, len, 0x230);
     return pos;
 }
-
 
 /*
  * AREAMAN_AllocShortDown: the downward bit-at-a-time scanner, the mirror of
@@ -359,7 +349,6 @@ done:
     }
     return -1;
 }
-
 
 /*
  * AREAMAN_AllocLongDown: the downward byte-at-a-time scanner, the mirror of
@@ -427,7 +416,6 @@ s32 AREAMAN_AllocLongDown(struct AreaMan *areaman, u32 start, u32 limit, u32 len
     return -1;
 }
 
-
 /*
  * AREAMAN_AllocAt: try to take the run [start, start+len) at a fixed place.
  * AREAMAN_MarkUsed fails when any bit is already set; on success the change
@@ -443,7 +431,6 @@ s32 AREAMAN_AllocAt(struct AreaMan *areaman, u32 start, u32 len)
     AREAMAN_TraceAlloc(areaman, start, len, 0x304);
     return 1;
 }
-
 
 /*
  * AREAMAN_Free: clear `len` bits starting at bit `start` of the bitmap.  A
@@ -487,7 +474,6 @@ void AREAMAN_Free(struct AreaMan *areaman, u32 start, s32 len)
     AREAMAN_TraceBitmap(areaman);
 }
 
-
 /*
  * AREAMAN_FindClearRunUp: inside one bitmap byte, starting at bit `start`,
  * walk the run mask down and return the first bit position at which `len`
@@ -521,7 +507,6 @@ s32 AREAMAN_FindClearRunUp(u32 byte_bits, u32 start, u32 len)
     return -1;
 }
 
-
 /*
  * AREAMAN_FindClearRunDown: the backward twin of AREAMAN_FindClearRunUp:
  * same mask table, but the cursor walks down from `start`, so the mask is
@@ -551,7 +536,6 @@ s32 AREAMAN_FindClearRunDown(u32 byte_bits, u32 start, u32 len)
     return -1;
 }
 
-
 /*
  * AREAMAN_ClearByteRun: clear a run of `len` bits starting at bit `start`
  * inside one bitmap byte, with the same top-bits mask table as the scanners.
@@ -564,7 +548,6 @@ void AREAMAN_ClearByteRun(u8 *byte_ptr, u32 start, u32 len)
 
     *byte_ptr = *byte_ptr & (u8)~mask;
 }
-
 
 /*
  * AREAMAN_MarkUsed: mark `len` bits starting at bit `start` of the bitmap as
@@ -627,7 +610,6 @@ s32 AREAMAN_MarkUsed(struct AreaMan *areaman, s32 start, u32 len)
     return 1;
 }
 
-
 /*
  * AREAMAN_TraceByte: the trace hook, a single `bx lr`.  An empty function
  * body, kept as a real entry point because AREAMAN_TraceBitmap calls it once
@@ -637,7 +619,6 @@ s32 AREAMAN_MarkUsed(struct AreaMan *areaman, s32 start, u32 len)
 void AREAMAN_TraceByte(u8 byte_value)
 {
 }
-
 
 /*
  * AREAMAN_TraceBitmap: when tracing is enabled, pass every bitmap byte to
@@ -652,7 +633,6 @@ void AREAMAN_TraceBitmap(struct AreaMan *areaman)
         }
     }
 }
-
 
 /*
  * AREAMAN_TraceAlloc: guard-and-forward: report the bitmap through

@@ -24,11 +24,7 @@
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  */
 struct NetHandle;
-typedef unsigned char u8;
-
-typedef unsigned int u32;
-
-typedef unsigned short u16;
+#include "../types.h"
 
 /*
  * The fields of the party list parameter block (PartyListParam, defined by
@@ -67,12 +63,10 @@ void PLIST_COMM_StartSync(void *work, int syncNo);
 int PLIST_COMM_IsSyncDoneOrFinished(PartyListCommWork *work, int syncNo);
 extern u8 gPartyListCommandTable[];
 
-
 void PLIST_COMM_Start(PartyListCommWork *work)
 {
     work->syncStep = 0;
 }
-
 
 /*
  * Leaf of ov178 021E54CC; caller unloads overlay 90 immediately after call.
@@ -81,8 +75,6 @@ void PLIST_COMM_End(void *unused)
 {
     GFL_NET_COMMAND_DeleteCommandTable(0x2D00);
 }
-
-
 
 void PLIST_COMM_Update(PartyListCommWork *work)
 {
@@ -104,8 +96,6 @@ void PLIST_COMM_Update(PartyListCommWork *work)
         work->commFinished = 1;
 }
 
-
-
 u32 PLIST_COMM_SendStatus(PartyListCommWork *work, u8 status, u16 selection)
 {
     PartyListStatusMsg msg;
@@ -119,7 +109,6 @@ u32 PLIST_COMM_SendStatus(PartyListCommWork *work, u8 status, u16 selection)
     return GFL_NET_SendData((struct GFLNetHandle *)handle, 0xff, 0x2d00, 4, &msg, 1, 0, 0);
 }
 
-
 /* Command callback for 0x2d00: counts the status messages whose status is 0. */
 void PLIST_COMM_OnStatusReceived(int netId, int size, u8 *data, PartyListCommWork *work)
 {
@@ -128,13 +117,10 @@ void PLIST_COMM_OnStatusReceived(int netId, int size, u8 *data, PartyListCommWor
         work->receivedCount++;
 }
 
-
-
 void PLIST_COMM_StartSync(void *work, int syncNo)
 {
     GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), syncNo, 45);
 }
-
 
 int PLIST_COMM_IsSyncDoneOrFinished(PartyListCommWork *work, int syncNo)
 {

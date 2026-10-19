@@ -27,7 +27,6 @@
  *   DWCi_SceneOptMenu                0x021C2A3C  arm
  *   DWCi_SetParam_                   0x021C0E50  arm
  *   GX_LoadBG2Scr                    0x0207EB78  arm
- *   procScene                        0x021C3C94  arm
  *   sceneoptmovdisco_str_20611       0x021DB390  data
  */
 #define reg_G2S_DB_BG0CNT (*(volatile unsigned short *)0x04001008)
@@ -74,7 +73,6 @@ void DWCi_SceneOptMovDisconnect(void)
 }
 
 
-static void procScene(void);
 
 
 static void initGraphics(void)
@@ -101,7 +99,7 @@ static void procInit1(void)
         return;
     if (!DWCi_MOVlIsEnd())
         return;
-    DWCi_ChangeScene(procScene);
+    DWCi_ChangeScene(DWCi_SceneOptMovDisconnect_procScene);
 }
 
 

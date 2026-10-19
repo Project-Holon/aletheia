@@ -4,11 +4,7 @@
 /* game_beacon.c: the wireless beacon (C-Gear) information. The ov010
  * game_beacon_search.c file sends and reads the same 0x5C-byte block. */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed char    s8;
-typedef signed short   s16;
+#include "../types.h"
 
 struct GameData;
 
@@ -72,7 +68,6 @@ typedef struct GameBeaconInfo {
     u8  questionnaire[10];      /* 0x50: questionnaire answers */
     u8  reserved[2];
 } GameBeaconInfo;
-
 
 /* A beacon with its local bookkeeping, 0x60 bytes. */
 typedef struct GameBeaconRecord {

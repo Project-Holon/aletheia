@@ -36,9 +36,7 @@
  *   FIELD_G3DOBJ_AddObject  0x021C6590  thumb  ov021
  *   FIELD_G3DOBJ_DeleteObject  0x021C6628  thumb  ov021
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../types.h"
 /* One loaded model resource of the field model 3D object container. */
 typedef struct {
     u16 resIdx; /* resource index in the field 3D object control */
@@ -87,24 +85,6 @@ void FLDMMDL_G3DOBJ_DeleteResByCode(MmdlG3dObjCont *cont, u16 code);
 u32 FLDMMDL_G3DOBJ_AddObj(struct Mmdl *a);
 void FLDMMDL_G3DOBJ_DelObj(u32 a, u32 b);
 extern unsigned char d_021DDD80[];
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void FLDMMDL_G3DOBJ_Create(int mmdlSys, int objCtrl)
 {

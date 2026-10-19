@@ -149,23 +149,15 @@ struct Ctx;
 struct Vec2;
 struct Proc;
 struct Proc;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 typedef struct { u32 a, b; u8 c, d, e, f; u32 g; u16 h, i, j, k, l, m; } CgHelpClactConfig;
 
 typedef struct { u16 x, y, z; u8 a, b; } CgHelpActorHeader;
 
-typedef signed int     s32;
-
 typedef struct { u32 text; u16 color; u16 pad; u32 flag; } CgHelpMenuItem;
 
 typedef struct { u8 bytes[16]; } CgHelpTouchRects;
-
-typedef short s16;
 
 typedef struct { s16 x, y; } Vec;
 
@@ -352,8 +344,6 @@ extern const u32 gCgHelpPageAnimSeq[], gCgHelpPageCharOffset[], gCgHelpPageTileB
 extern const char gCgHelpFileName[];
 extern const Vec gCgHelpActorOffset;
 
-
-
 void CG_HELP_Setup(CgHelpWork *work)
 {
     work->phase = 0;
@@ -367,8 +357,6 @@ void CG_HELP_Setup(CgHelpWork *work)
     GFL_NET_RefreshWmIconAtTopRight(0,work->heapId);
 }
 
-
-
 void CG_HELP_Teardown(CgHelpWork *work)
 {
     TCB_DeleteTask(work->vblankTask);
@@ -376,8 +364,6 @@ void CG_HELP_Teardown(CgHelpWork *work)
     CG_HELP_FreeActorResources(work);
     CG_HELP_ExitDisplay(work);
 }
-
-
 
 /*
  * extent: existing follower 021D43F0 remains in its separately verified file.
@@ -437,8 +423,6 @@ int CG_HELP_Main(CgHelpWork *work)
     return 0;
 }
 
-
-
 /*
  * extent: 8-byte tail stub; labelled function 021D43F8 follows.
  */
@@ -447,21 +431,15 @@ void CG_HELP_VBlank(void)
     CLACT_VBlankSystem();
 }
 
-
-
 static inline void visible(int plane)
 {
     *(volatile u32 *)0x04000000 = (*(volatile u32 *)0x04000000 & ~0x1f00) | (plane << 8);
 }
 
-
-
 static inline void subvisible(int plane)
 {
     *(volatile u32 *)0x04001000 = (*(volatile u32 *)0x04001000 & ~0x1f00) | (plane << 8);
 }
-
-
 
 /*
  * volatile: display read-modify-writes 021D440E/021D4416, 021D4418/021D441C; POWCNT1 021D443E/021D4444.
@@ -496,8 +474,6 @@ void CG_HELP_InitDisplay(CgHelpWork *work)
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
-
-
 void CG_HELP_ExitDisplay(CgHelpWork *work)
 {
     CLACT_DeleteUnit(work->actorUnit);
@@ -510,8 +486,6 @@ void CG_HELP_ExitDisplay(CgHelpWork *work)
     BG_SYS_Delete();
 }
 
-
-
 /* 020414AC's legacy asm prototype says void, but its body forwards entry r0. */
 void CG_HELP_SetupBgLayer(const struct BgTemplate *bgTemplate, int layer, int type)
 {
@@ -520,8 +494,6 @@ void CG_HELP_SetupBgLayer(const struct BgTemplate *bgTemplate, int layer, int ty
     BG_SYS_FreeSlot(layer);
     BG_SYS_PushTile(layer);
 }
-
-
 
 void CG_HELP_LoadActorResources(CgHelpWork *work)
 {
@@ -554,8 +526,6 @@ void CG_HELP_LoadActorResources(CgHelpWork *work)
     CLACT_SetActorAutoAnim(work->pageActor, 1);
 }
 
-
-
 void CG_HELP_FreeActorResources(CgHelpWork *work)
 {
     GFL_HEAP_Free(work->charFile);
@@ -564,8 +534,6 @@ void CG_HELP_FreeActorResources(CgHelpWork *work)
     CLACT_ReleaseCharacter(work->charId);
     CLACT_ReleaseCellAnim(work->cellAnimId);
 }
-
-
 
 void CG_HELP_InitWindows(CgHelpWork *work)
 {
@@ -607,8 +575,6 @@ void CG_HELP_InitWindows(CgHelpWork *work)
     *(u16 *)0x050005e2 = 0;
 }
 
-
-
 void CG_HELP_FreeWindows(CgHelpWork *work)
 {
     if (work->nextButton) APP_TASKMENU_WIN_Delete(work->nextButton);
@@ -622,8 +588,6 @@ void CG_HELP_FreeWindows(CgHelpWork *work)
     GF_FONT_Delete(work->font);
     GF_FONT_SetDefaultTextColor();
 }
-
-
 
 void CG_HELP_HandleTouchInput(CgHelpWork *work)
 {
@@ -658,8 +622,6 @@ void CG_HELP_HandleTouchInput(CgHelpWork *work)
     }
 }
 
-
-
 void CG_HELP_DrawPageText(CgHelpWork *work, int page)
 {
     void *q;
@@ -674,8 +636,6 @@ void CG_HELP_DrawPageText(CgHelpWork *work, int page)
     STRBUF_Delete(q);
     work->textDirty = 1;
 }
-
-
 
 /*
  * lever: the two-halfword delta is a struct assignment; field stores differ by 13 bytes.
@@ -716,8 +676,6 @@ void CG_HELP_UpdatePageGraphics(CgHelpWork *work, u32 page)
     }
 }
 
-
-
 int CG_HELP_ProcInit(void *a,int b,CgHelpArgs *c)
 {
     CgHelpWork *work;
@@ -736,8 +694,6 @@ int CG_HELP_ProcInit(void *a,int b,CgHelpArgs *c)
     CG_HELP_Setup(work);
     return 1;
 }
-
-
 
 int CG_HELP_ProcExit(struct Proc *task, int b, int keep, CgHelpWork *work)
 {

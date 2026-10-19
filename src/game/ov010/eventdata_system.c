@@ -42,7 +42,7 @@ struct EventRec;
 #include "../ov021/fldmmdl_rail_types.h"
 #include "fldmmdl_types.h"
 
-typedef unsigned int u32;
+#include "../types.h"
 
 /* The event file: four u8 counts (bg, npc, connect, pos), then the tables. */
 typedef struct EventFileData {
@@ -58,8 +58,6 @@ struct EventRec {
     u16 posType;     /* 0x08: 0 grid, 1 rail */
     u16 area[6];     /* 0x0A: x, z, sizeX, sizeZ, y (s16), spare */
 };
-
-typedef int s32;
 
 /* Grid area of a connect: a box of sizeX by sizeZ cells at (x, z), at height y. */
 typedef struct ConnectGridArea {
@@ -149,13 +147,7 @@ typedef struct EventDataSystem {
     EventFileData fileData;       /* 0x128 */
 } EventDataSystem;
 
-typedef s32 fx32;
-
-typedef struct VecFx32 {
-    fx32 x;
-    fx32 y;
-    fx32 z;
-} VecFx32;
+#include "../sdk_fx.h"
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);

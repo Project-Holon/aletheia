@@ -20,9 +20,7 @@
  *   OS_RestoreInterrupts  0x0208799C  arm  arm9
  *   DC_StoreRange  0x020862D4  arm  arm9
  */
-typedef unsigned int u32;
-
-typedef unsigned char  u8;
+#include "../types.h"
 
 typedef struct TwlWork {
     u8 pad[0x2278];

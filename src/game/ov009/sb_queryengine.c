@@ -50,16 +50,9 @@
 #include "sb_server_types.h"
 extern void *__memcpy(void *dest, const void *src, unsigned long n);
 
-struct SOCSockAddrIn {
-    unsigned char len;
-    unsigned char family;
-    unsigned short port;
-    unsigned int addr;
-};
+#include "../sdk_soc.h"
 
-typedef unsigned int   u32;
-
-typedef unsigned char  u8;
+#include "../types.h"
 
 extern unsigned int current_time(void);
 struct SOCSockAddr;
@@ -102,8 +95,6 @@ extern char *gQr2RegKeys[];
 extern char gSbQuerySplitNum[];
 extern char gSbQueryFinal[];
 
-
-
 void FIFOAddRear(SBServerFIFO *fifo, SBServer *server)
 {
     if (fifo->last != 0)
@@ -115,8 +106,6 @@ void FIFOAddRear(SBServerFIFO *fifo, SBServer *server)
     fifo->count++;
 }
 
-
-
 void FIFOAddFront(SBServerFIFO *fifo, SBServer *server)
 {
     server->next = fifo->first;
@@ -125,9 +114,6 @@ void FIFOAddFront(SBServerFIFO *fifo, SBServer *server)
         fifo->last = server;
     fifo->count++;
 }
-
-
-
 
 SBServer *FIFOGetFirst(SBServerFIFO *fifo)
 {
@@ -142,9 +128,6 @@ SBServer *FIFOGetFirst(SBServerFIFO *fifo)
     }
     return hold;
 }
-
-
-
 
 int FIFORemove(SBServerFIFO *fifo, SBServer *server)
 {
@@ -170,17 +153,12 @@ int FIFORemove(SBServerFIFO *fifo, SBServer *server)
     return 0;
 }
 
-
-
 void FIFOClear(SBServerFIFO *fifo)
 {
     fifo->last = 0;
     fifo->first = 0;
     fifo->count = 0;
 }
-
-
-
 
 static void QEStartQuery(SBQueryEngine *engine, SBServer *server)
 {
@@ -286,9 +264,6 @@ done:
     FIFOAddRear(&engine->querylist, server);
 }
 
-
-
-
 void SBQueryEngineInit(SBQueryEngine *engine, int maxupdates,
                        int queryversion, int lanBrowse,
                        SBEngineCB callback,
@@ -310,26 +285,16 @@ void SBQueryEngineInit(SBQueryEngine *engine, int maxupdates,
     FIFOClear(&engine->querylist);
 }
 
-
 void SBQueryEngineSetPublicIP(SBQueryEngine *engine, unsigned int publicip)
 {
     engine->mypublicip = publicip;
 }
-
-
-
-
 
 void SBEngineHaltUpdates(SBQueryEngine *engine)
 {
     FIFOClear(&engine->pendinglist);
     FIFOClear(&engine->querylist);
 }
-
-
-
-
-
 
 void SBEngineCleanup(SBQueryEngine *engine)
 {
@@ -338,10 +303,6 @@ void SBEngineCleanup(SBQueryEngine *engine)
     FIFOClear(&engine->pendinglist);
     FIFOClear(&engine->querylist);
 }
-
-
-
-
 
 /*
  * sdk:      SBQueryEngineUpdateServer (libdwcgsserverbrowsing.TWL.HYB.a(sb_queryengine.o))
@@ -372,9 +333,6 @@ void SBQueryEngineUpdateServer(SBQueryEngine *engine, SBServer *server, int addf
     else
         FIFOAddRear(&engine->pendinglist, server);
 }
-
-
-
 
 void ParseSingleQR2Reply(SBQueryEngine *engine, SBServer *server, char *data, int len)
 {
@@ -422,8 +380,6 @@ void ParseSingleQR2Reply(SBQueryEngine *engine, SBServer *server, char *data, in
     engine->ListCallback(engine, 0, server, engine->instance);
 }
 
-
-
 static void ParseSingleGOAReply(SBQueryEngine *engine,
                                 SBServer *server, char *data, int len)
 {
@@ -449,8 +405,6 @@ int ParseSingleICMPReply(SBQueryEngine *engine, SBServer *server, char *data, in
 {
     return 1;
 }
-
-
 
 static void ProcessIncomingReplies(SBQueryEngine *engine, int icmpSocket)
 {
@@ -517,8 +471,6 @@ static void ProcessIncomingReplies(SBQueryEngine *engine, int icmpSocket)
     }
 }
 
-
-
 static void TimeoutOldQueries(SBQueryEngine *engine)
 {
     unsigned int ctime = current_time();
@@ -539,9 +491,6 @@ static void TimeoutOldQueries(SBQueryEngine *engine)
     }
 }
 
-
-
-
 static void QueueNextQueries(SBQueryEngine *engine)
 {
     SBServer *server;
@@ -552,8 +501,6 @@ static void QueueNextQueries(SBQueryEngine *engine)
         QEStartQuery(engine, server);
     }
 }
-
-
 
 void SBQueryEngineThink(SBQueryEngine *engine)
 {
@@ -570,8 +517,6 @@ void SBQueryEngineThink(SBQueryEngine *engine)
         engine->ListCallback(engine, 2, 0, engine->instance);
 }
 
-
-
 void SBQueryEngineAddQueryKey(SBQueryEngine *engine, unsigned char key)
 {
     int n = engine->numserverkeys;
@@ -581,8 +526,6 @@ void SBQueryEngineAddQueryKey(SBQueryEngine *engine, unsigned char key)
         engine->serverkeys[n] = key;
     }
 }
-
-
 
 void SBQueryEngineRemoveServerFromFIFOs(SBQueryEngine *engine,
                                         SBServer *server)

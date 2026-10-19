@@ -78,7 +78,6 @@
  *   DWCi_WINlGet                     0x021D1568  arm
  *   DWCi_WINlIsInit                  0x021D157C  arm
  *   initGraphics                     0x021CDCFC  arm
- *   procScene                        0x021CDE6C  arm
  *   DWCi_CMNlLoadResource   0x021BD1D4  arm  ov016
  *   sSceneSetUsbReadyPathJbBgStep2Char    0x021DB83C  data
  *   sSceneSetUsbReadyPathYbBgStep2Pltt    0x021DB854  data
@@ -96,7 +95,7 @@
 
 typedef _Bool bool;
 
-typedef unsigned short u16;
+#include "../types.h"
 
 /* sceneopterase.o .bss at 0x021DE5A4, members at their vendor offsets */
 typedef struct {
@@ -151,8 +150,6 @@ extern unsigned short GX_LoadBG2Scr[];
 extern SCENEOPTERASE_BSS sceneopterase_bss;
 
 
-static void procScene(void);
-
 static void initGraphics(void);
 static void procInit(void);
 static void procInit1(void);
@@ -162,7 +159,6 @@ static void button(void);
 static void endScene(void);
 static void endScene1(void);
 static void endScene2(void);
-
 
 void DWCi_SceneSetUsbReady(void)
 {
@@ -174,7 +170,6 @@ void DWCi_SceneSetUsbReady(void)
     DWCi_CMNlMsgDraw(0x27);
     DWCi_ChangeScene(procInit);
 }
-
 
 /*
  * Load three tilemaps through DWCi_CMNlLoadResource, then set the low two bits of five
@@ -199,7 +194,6 @@ static void initGraphics(void)
     p[1] = (p[1] & ~3) | 3;
 }
 
-
 static void procInit(void)
 {
     DWCi_EFFlFade(2, 1, 1, 8);
@@ -208,7 +202,6 @@ static void procInit(void)
     DWCi_GXlVisible(0, 0x15);
     DWCi_ChangeScene(procInit1);
 }
-
 
 static void procInit1(void)
 {
@@ -220,15 +213,13 @@ static void procInit1(void)
     DWCi_ChangeScene(procInit2);
 }
 
-
 static void procInit2(void)
 {
     if (DWCi_BTNlGet() == -2)
         return;
     DWCi_BTNlEnable();
-    DWCi_ChangeScene(procScene);
+    DWCi_ChangeScene(DWCi_SceneSetUsbReadyUpdate);
 }
-
 
 void DWCi_SceneSetUsbReadyUpdate(void)
 {
@@ -236,7 +227,6 @@ void DWCi_SceneSetUsbReadyUpdate(void)
     DWCi_SceneSetUsbReadyUpdateNop();
     button();
 }
-
 
 static void input(void)
 {
@@ -249,7 +239,6 @@ static void input(void)
 void DWCi_SceneSetUsbReadyUpdateNop(void)
 {
 }
-
 
 /*
  * sdk:      button (libdwcutil.TWL.HYB.a(sceneoptmovconfi))
@@ -270,7 +259,6 @@ static void button(void)
     DWCi_ChangeScene(endScene);
 }
 
-
 static void endScene(void)
 {
     DWCi_BTNlDisable();
@@ -282,7 +270,6 @@ static void procConfirm(void);
 
 static void procConfirm1(void);
 
-
 static void endScene1(void)
 {
     if (DWCi_EFFlCheck(1))
@@ -293,7 +280,6 @@ static void endScene1(void)
     DWCi_EFFlFade(3, 0, 0x15, 8);
     DWCi_ChangeScene(endScene2);
 }
-
 
 static void endScene2(void)
 {
@@ -317,4 +303,3 @@ static void endScene2(void)
         DWCi_ChangeScene(DWCi_SceneSetUsbReady1);
     }
 }
-

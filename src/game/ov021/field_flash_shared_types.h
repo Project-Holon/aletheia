@@ -1,23 +1,9 @@
 #ifndef FIELD_FLASH_SHARED_TYPES_H
 #define FIELD_FLASH_SHARED_TYPES_H
 
-typedef unsigned char u8;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef signed short s16;
-
-typedef signed int s32;
-
-typedef int fx32;
-
-typedef struct VecFx32 {
-    s32 x;
-    s32 y;
-    s32 z;
-} VecFx32;
+#include "../sdk_fx.h"
 
 typedef struct FieldMap FieldMap;
 

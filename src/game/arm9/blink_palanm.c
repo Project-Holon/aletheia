@@ -23,7 +23,7 @@
  *   NNS_GfdRegisterNewVramTransferTask  0x02061CA4  arm
  */
 #include "comm_player_support_shared_types.h"
-#include "blink_palanm_shared_types.h"
+#include "../types.h"
 
 struct ResourceFile;
 

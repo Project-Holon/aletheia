@@ -29,9 +29,7 @@
  *   CLACT_CreateActor  0x0204B294  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../types.h"
 
 #include "ui_scene_types.h"
 
@@ -67,7 +65,6 @@ void UI_SCENE_FreeActorGfx(ActorGfxSet *gfx);
 struct Actor *UI_SCENE_CreateActor(ActorGfxSet *gfx, void *actorSys, u16 x, u16 y, u8 animIndex, u16 heapId);
 extern const char d_021B9540[];
 
-
 struct UiScene *UI_SCENE_Create(u32 heapId, const struct UiSceneEntry *entries, u8 param, u16 sceneIndex, void *userData)
 {
     struct UiScene *scene;
@@ -82,12 +79,10 @@ struct UiScene *UI_SCENE_Create(u32 heapId, const struct UiSceneEntry *entries, 
     return scene;
 }
 
-
 void UI_SCENE_Delete(struct UiScene *scene)
 {
     GFL_HEAP_Free(scene);
 }
-
 
 /* Runs the current scene one step. Returns 1 when the scene list asks to finish. */
 int UI_SCENE_Step(struct UiScene *scene)
@@ -145,25 +140,21 @@ int UI_SCENE_Step(struct UiScene *scene)
     return 0;
 }
 
-
 void UI_SCENE_SetNextScene(struct UiScene *scene, int nextSceneIndex)
 {
     scene->nextSceneIndex = nextSceneIndex;
 }
-
 
 unsigned UI_SCENE_GetPhaseFrame(const struct UiScene *scene)
 {
     return scene->phaseFrames;
 }
 
-
 /* Advances the frame counter of the current phase; callers in other overlays pair it with UI_SCENE_GetPhaseFrame. */
 void UI_SCENE_AdvancePhaseFrame(struct UiScene *scene)
 {
     scene->phaseFrames++;
 }
-
 
 /* Loads the character, palette and cell animation resources of a desc into out. */
 void UI_SCENE_LoadActorGfx(ActorGfxSet *out, ActorGfxDesc *desc, void *actorSys, u16 heapId)
@@ -183,14 +174,12 @@ void UI_SCENE_LoadActorGfx(ActorGfxSet *out, ActorGfxDesc *desc, void *actorSys,
     ARC_TOOL_DeleteHandle(arc);
 }
 
-
 void UI_SCENE_FreeActorGfx(ActorGfxSet *gfx)
 {
     CLACT_ReleasePalette(gfx->charHandle);
     CLACT_ReleaseCharacter(gfx->plttHandle);
     CLACT_ReleaseCellAnim(gfx->animHandle);
 }
-
 
 struct Actor *UI_SCENE_CreateActor(ActorGfxSet *gfx, void *actorSys, u16 x, u16 y, u8 animIndex, u16 heapId)
 {

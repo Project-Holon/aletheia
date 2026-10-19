@@ -145,11 +145,11 @@
  *   FLDMMDL_SysSearchPlayer  0x0216DEE0  thumb  ov010
  */
 struct IcaAnime;
-typedef unsigned char u8;
+#include "../types.h"
+
+#include "../sdk_fx.h"
 
 typedef struct Strbuf Strbuf;
-typedef unsigned short u16;
-typedef unsigned int u32;
 /*
  * Argument block of the name input screen (0x2c bytes). Kind 0 asks for a
  * player name; kind 1 asks for a monster nickname, either from a species and
@@ -157,13 +157,6 @@ typedef unsigned int u32;
  */
 #include "namein_args.h"
 
-typedef int s32;
-typedef s32 fx32;
-typedef struct G3dObjectStatus {
-    fx32 x;
-    fx32 y;
-    fx32 z;
-} VecFx32;
 typedef struct GameSystem GameSystem;
 typedef struct GameEvent GameEvent;
 typedef struct FieldMap FieldMap;
@@ -349,8 +342,7 @@ extern void GFL_USE_PlaySeInSlot(u32 seqNo, s32 slot);
 extern u32 ICA_ANIME_GetTranslate(struct IcaAnime *anim, VecFx32 *out);
 struct FldExpObjCnt;
 extern struct FldExpObjCnt *FIELDMAP_GetExpObj(FieldMap *fieldMap);
-struct G3dObjectStatus;
-extern struct G3dObjectStatus *FLD_EXP_OBJ_GetModelStatus(struct FldExpObjCnt *cnt, u32 unitIdx, s32 modelIdx);
+extern VecFx32 *FLD_EXP_OBJ_GetModelStatus(struct FldExpObjCnt *cnt, u32 unitIdx, s32 modelIdx);
 struct FieldPlayer;
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
 extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *out);
@@ -512,7 +504,6 @@ extern char d_021F03C4[];
 extern char d_021EFDAC[];
 extern char d_02172548[];
 
-
 /*
  * The heap id is a u16: as an int its entry spill (str r0,[sp,#4]) sinks
  * below the stack-argument setup. STRBUF_Copy takes the flag as its second
@@ -532,11 +523,6 @@ NameInArgs *NAMEIN_SETUP_CreateArgs(unsigned short heapId, int kind, short speci
         STRBUF_Copy(args->name, initialName);
     return args;
 }
-
-
-
-
-
 
 /*
  * The heap id is a u16, as in NAMEIN_SETUP_CreateArgs; that keeps its entry spill
@@ -562,10 +548,6 @@ NameInArgs *NAMEIN_SETUP_CreateMonArgs(unsigned short heapId, void *mon, int max
     return args;
 }
 
-
-
-
-
 NameInArgs *NAMEIN_SETUP_CreateCaptureArgs(unsigned short heapId, void *mon, int maxLen, Strbuf *initialName, Strbuf *boxName, void *boxManager, int boxIndex, void *pokedex)
 {
     NameInArgs *args = NAMEIN_SETUP_CreateMonArgs(heapId, mon, maxLen, initialName, pokedex);
@@ -575,40 +557,21 @@ NameInArgs *NAMEIN_SETUP_CreateCaptureArgs(unsigned short heapId, void *mon, int
     return args;
 }
 
-
-
-
-
-
 void NAMEIN_SETUP_FreeArgs(NameInArgs *args)
 {
     STRBUF_Delete(args->name);
     GFL_HEAP_Free(args);
 }
 
-
-
-
-
-
 void NAMEIN_SETUP_CopyName(NameInArgs *args, Strbuf *dest)
 {
     STRBUF_Copy(dest, args->name);
 }
 
-
-
-
-
 int NAMEIN_SETUP_IsCanceled(NameInArgs *args)
 {
     return args->canceled;
 }
-
-
-
-
-
 
 /*
  * Eight-state proc of the field event beside NAMEIN_SETUP_RunLandEvent: run the
@@ -676,11 +639,6 @@ int NAMEIN_SETUP_RunFallEvent(GameEvent *event, u32 *state, FallEventWork *work)
     return 0;
 }
 
-
-
-
-
-
 GameEvent *NAMEIN_SETUP_StartFallEvent(GameSystem *gameSystem, FieldMap *fieldMap)
 {
     GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (void *)NAMEIN_SETUP_RunFallEvent, 0x64);
@@ -699,18 +657,10 @@ GameEvent *NAMEIN_SETUP_StartFallEvent(GameSystem *gameSystem, FieldMap *fieldMa
     return event;
 }
 
-
-
-
-
-
 int NAMEIN_SETUP_StepLandAnim(LandEventWork *work)
 {
     return ICA_ANIME_IncFrameLoop(work->anim, 0x1000);
 }
-
-
-
 
 /*
  * unblocked: FLD_EXP_OBJ_GetModelStatus (ov021, unlabelled leaf) matched bottom-up and
@@ -732,10 +682,7 @@ void *NAMEIN_SETUP_SyncObjHeightToAnim(LandEventWork *work)
     return mapPos;
 }
 
-
-
 #pragma opt_propagation off
-
 
 /*
  * Snap the actor's position to the 16-unit grid (z biased by 32) and
@@ -771,13 +718,7 @@ void NAMEIN_SETUP_SnapObjToGrid(LandEventWork *work)
     FIELD_PLAYER_SetPos(playerObj, &snapped);
 }
 
-
 #pragma opt_propagation reset
-
-
-
-
-
 
 /*
  * Seven-state proc of a field event in ov010: animate the actor until it
@@ -861,12 +802,6 @@ int NAMEIN_SETUP_RunLandEvent(GameEvent *event, u32 *state, LandEventWork *work)
     return 0;
 }
 
-
-
-
-
-
-
 GameEvent *NAMEIN_SETUP_StartLandEvent(GameSystem *gameSystem, FieldMap *fieldMap)
 {
     GameEvent *event;
@@ -881,13 +816,6 @@ GameEvent *NAMEIN_SETUP_StartLandEvent(GameSystem *gameSystem, FieldMap *fieldMa
     work->anim = 0;
     return event;
 }
-
-
-
-
-
-
-
 
 int NAMEIN_SETUP_RunPartyPickEvent(GameEvent *event, int *state, PartyTaskWork *work)
 {
@@ -922,13 +850,6 @@ int NAMEIN_SETUP_RunPartyPickEvent(GameEvent *event, int *state, PartyTaskWork *
     }
     return 0;
 }
-
-
-
-
-
-
-
 
 /*
  * Starts the NAMEIN_SETUP_RunPartyPickEvent task over a 0xD8-byte work: points it at the
@@ -1004,13 +925,6 @@ GameEvent *NAMEIN_SETUP_StartPartyPickEvent(EncounterContext *ctx, GameSystem *g
     return event;
 }
 
-
-
-
-
-
-
-
 /*
  * lever: The result of BSUBWAY_SCR_CreateBtlSetup remains live in r2 and is the third argument of EVENT_BATTLE_CreateResultOnlyTask.
  *
@@ -1029,13 +943,6 @@ void NAMEIN_SETUP_StartEncounterScene(EncounterContext *ctx, GameSystem *gameSys
     }
     EVENT_BATTLE_CreateResultOnlyTask((s32)gameSystem, (s32)fieldMap, transitionInfo);
 }
-
-
-
-
-
-
-
 
 int NAMEIN_SETUP_RunNameBalloonEvent(GameEvent *event, int *state, NameBalloonWork *work, u32 extra)
 {
@@ -1061,13 +968,6 @@ int NAMEIN_SETUP_RunNameBalloonEvent(GameEvent *event, int *state, NameBalloonWo
     }
     return 0;
 }
-
-
-
-
-
-
-
 
 /*
  * unit_02045C44.c omits MSGDATA_ReadString from function:. Singleton TU split
@@ -1179,13 +1079,6 @@ GameEvent *NAMEIN_SETUP_StartNameBalloonFromRecord(NameBalloonRecord *records, G
     return event;
 }
 
-
-
-
-
-
-
-
 /*
  * blockers: GAME_DATA_GetSaveBlock3B (unlabelled arm9 leaf, no witness), id_00000045 (pooled small
  * constant, a symbol; no witness), d_021BA650 (pointer into another overlay, no witness)
@@ -1210,12 +1103,6 @@ int NAMEIN_SETUP_RunHistoryScreenEvent(GameEvent *event, int *state, HistoryScre
     return 0;
 }
 
-
-
-
-
-
-
 GameEvent *NAMEIN_SETUP_StartHistoryScreenEvent(GameSystem *gameSystem)
 {
     FieldMap *fieldMap;
@@ -1230,13 +1117,6 @@ GameEvent *NAMEIN_SETUP_StartHistoryScreenEvent(GameSystem *gameSystem)
     return event;
 }
 
-
-
-
-
-
-
-
 /* GFL_PROC init callback: creates the 0x76 heap and the proc work holding one allocation. */
 int NAMEIN_SETUP_InitHostProc(void *proc, int *seq, void *pwk, void *mywk)
 {
@@ -1248,12 +1128,6 @@ int NAMEIN_SETUP_InitHostProc(void *proc, int *seq, void *pwk, void *mywk)
     return 1;
 }
 
-
-
-
-
-
-
 /*
  * extent: zero alignment halfword at 0x0216C8CA, then labelled 0x0216C8CC.
  */
@@ -1264,11 +1138,6 @@ int NAMEIN_SETUP_ExitHostProc(void *proc, int *seq, void *pwk, void **mywk)
     GFL_HEAP_DeleteChecked(0x76);
     return 1;
 }
-
-
-
-
-
 
 /*
  * blockers: d_021F03C4 and d_021EFDAC data pointers outside ov010 window; no witness
@@ -1315,11 +1184,6 @@ int NAMEIN_SETUP_MainHostProc(void *proc, int *seq, int *pwk, int *mywk)
     return 0;
 }
 
-
-
-
-
-
 int NAMEIN_SETUP_RunProcCallEvent(GameEvent *event, int *state, ProcCallWork *work)
 {
     GameSystem *gameSystem = work->gameSystem;
@@ -1341,10 +1205,6 @@ int NAMEIN_SETUP_RunProcCallEvent(GameEvent *event, int *state, ProcCallWork *wo
     return 0;
 }
 
-
-
-
-
 GameEvent *NAMEIN_SETUP_StartProcCallEvent(GameSystem *gameSystem, TransitionInfo *transitionInfo, void *extra)
 {
     GameEvent *event;
@@ -1356,11 +1216,6 @@ GameEvent *NAMEIN_SETUP_StartProcCallEvent(GameSystem *gameSystem, TransitionInf
     work->extra = extra;
     return event;
 }
-
-
-
-
-
 
 int NAMEIN_SETUP_RunSceneEvent(GameEvent *event, int *state, SceneEventWork *work)
 {
@@ -1412,10 +1267,6 @@ int NAMEIN_SETUP_RunSceneEvent(GameEvent *event, int *state, SceneEventWork *wor
     return 0;
 }
 
-
-
-
-
 GameEvent *NAMEIN_SETUP_StartSceneEvent(GameSystem *gameSystem, FieldMap *fieldMap, TransitionInfo *transitionInfo, void *extra)
 {
     GameEvent *event;
@@ -1428,11 +1279,6 @@ GameEvent *NAMEIN_SETUP_StartSceneEvent(GameSystem *gameSystem, FieldMap *fieldM
     work->fieldMap = fieldMap;
     return event;
 }
-
-
-
-
-
 
 /*
  * unblocked: BSUBWAY_SCR_GetNameinEncounterWork (ov021, unlabelled leaf) was matched bottom-up
@@ -1448,11 +1294,6 @@ void NAMEIN_SETUP_StartEncounterTransition(EncounterContext *ctx, GameSystem *ga
 
     NAMEIN_SETUP_StartSceneEvent(gameSystem, fieldMap, (TransitionInfo *)ctx->transitionInfo, extra);
 }
-
-
-
-
-
 
 int NAMEIN_SETUP_RunNameBalloonWaitEvent(GameEvent *event, int *state, NameBalloonWork *work)
 {
@@ -1476,11 +1317,6 @@ int NAMEIN_SETUP_RunNameBalloonWaitEvent(GameEvent *event, int *state, NameBallo
     }
     return 0;
 }
-
-
-
-
-
 
 /*
  * The third parameter is u8: with it declared int the body is byte-identical
@@ -1532,11 +1368,6 @@ GameEvent *NAMEIN_SETUP_StartNameBalloonFromHistory(GameSystem *gameSystem, int 
     return event;
 }
 
-
-
-
-
-
 /* Script command: raise the save flag in the field save block (the command context is unused). */
 int NAMEIN_SETUP_ScrCmdSetFieldSaveFlag(void *scriptCtx, void *scriptWork)
 {
@@ -1546,10 +1377,6 @@ int NAMEIN_SETUP_ScrCmdSetFieldSaveFlag(void *scriptCtx, void *scriptWork)
     NAMEIN_SETUP_SetFieldSaveFlag(gameSystem);
     return 0;
 }
-
-
-
-
 
 /*
  * extent: zero alignment halfword at 0x0216CC56, then labelled 0x0216CC58.

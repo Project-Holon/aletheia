@@ -29,7 +29,7 @@
  *   mbi_task_work                    0x021f7004 data
  */
 struct MBiTaskInfo_tag;
-typedef unsigned long u32;
+#include "../types.h"
 
 typedef struct Task {
     struct Task *next;
@@ -79,8 +79,6 @@ extern void OS_WakeupThreadDirect(void *thread);
 extern void MI_CpuFill8(void *dst, int val, u32 len);
 extern u32 OS_GetThreadPriority(void *thread);
 
-
-
 void MBi_TaskThread(void *arg);
 void MBi_InitTaskThread(void *p_work, unsigned long size);
 int MBi_IsTaskAvailable(void);
@@ -90,7 +88,6 @@ void MBi_SetTask(struct MBiTaskInfo_tag *pt, void (*task)(struct MBiTaskInfo_tag
 void MBi_EndTaskThread(void (*callback)(struct MBiTaskInfo_tag *));
 extern MBiTaskWork *mbi_task_work;
 extern void *ctrdgi_task_work;
-
 
 /*
  * sdk:      MBi_TaskThread (libmb.TWL.HYB.a(mb_task.o))
@@ -152,7 +149,6 @@ void MBi_TaskThread(void *arg)
     OS_ExitThread();
 }
 
-
 void MBi_InitTaskThread(void *p_work, unsigned long size)
 {
     unsigned long bak_cpsr = OS_DisableInterrupts();
@@ -168,24 +164,20 @@ void MBi_InitTaskThread(void *p_work, unsigned long size)
     OS_RestoreInterrupts(bak_cpsr);
 }
 
-
 int MBi_IsTaskAvailable(void)
 {
     return ctrdgi_task_work != 0;
 }
-
 
 void MBi_InitTaskInfo(void *pt)
 {
     MI_CpuFill8(pt, 0, 0x20);
 }
 
-
 int MBi_IsTaskBusy(MBiTaskInfo *pt)
 {
     return pt->busy != 0;
 }
-
 
 void MBi_SetTask(struct MBiTaskInfo_tag *pt, void (*task)(struct MBiTaskInfo_tag *), void (*callback)(struct MBiTaskInfo_tag *), u32 priority)
 {
@@ -245,7 +237,6 @@ void MBi_SetTask(struct MBiTaskInfo_tag *pt, void (*task)(struct MBiTaskInfo_tag
     }
     OS_RestoreInterrupts(bak_cpsr);
 }
-
 
 void MBi_EndTaskThread(void (*callback)(struct MBiTaskInfo_tag *))
 {

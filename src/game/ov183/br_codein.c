@@ -300,14 +300,7 @@ struct Grid;
 struct Sys;
 struct Param;
 struct Ctx;
-typedef unsigned int   u32;
-
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned long long u64;
-typedef signed short s16;
+#include "../types.h"
 
 typedef struct {char pad[0x4c];char saved[0x18];int count;void *ptr;} CodeinWindowState;
 
@@ -331,28 +324,13 @@ typedef struct {s16 x,y,z;u8 a,b;} Position;
 
 typedef struct {s16 x,y;} Point16;
 
-typedef signed int     s32;
-
-
 typedef struct Triple { int a,b,c; } Triple;
-
-
 
 typedef struct Point { u32 x,y; } Point;
 
-
-
-
-
 typedef struct Rect { u32 x0, y0, x1, y1; } Rect;
 
-
-
-
 typedef u16 Row[3];
-
-
-
 
 struct CodeinRecordData { u8 pad[0x1718]; int count; u32 selected; };
 
@@ -365,8 +343,6 @@ typedef struct {u32 words[10];} CfgTpl;
 typedef struct BmpMenuWorkSlot { u32 a,b; } BmpMenuWorkSlot;
 
 typedef struct {BmpMenuWorkSlot *list;void *view;void *words;u32 c,d;u8 pad[0xbc];char *base;} Menu;
-
-typedef signed char s8;
 
 struct CodeinSearchState { u8 pad[0x14]; u16 shared0,shared1; u16 indices[5][6]; int cursor; void *sprites[5][6]; char *source; };
 
@@ -382,26 +358,19 @@ typedef int (*Method)(char *,int *);
 
 struct Methods { Method init,update,finish; };
 
-
 typedef struct Rec6 { u8 x,y,id,pad; u16 file; } Rec6;
 
 struct Rec8 { u8 a,b,c,d; void *value; };
 
-
 typedef struct {u16 a,b,c;u8 flag,pad;} Params;
-
-
 
 typedef struct Record { u8 a, b, c, d; int value; } Record;
 
-
 struct CodeinWorkData { void *object, *profile, *textWin, *printQue; u16 heap; u16 pad; void *handles; };
-
 
 struct Object { int capacity; int entries[4]; int unused; void *vector; void *actorSys; void *res; void *handles; };
 
 struct PosParams {s16 x,y,a,b,z;u8 mode,flag;};
-
 
 typedef struct {s16 a,b,x,y;} Coords;
 
@@ -427,34 +396,21 @@ typedef struct
   int count;
 } CodeinProfileState;
 
-
-
 typedef struct {int tag,value,mode,handle; char rest[12];} CodeinProfileRecord;
 
 typedef struct {short a,b,c,d;} CodeinTableRow;
 
 typedef struct {CodeinTableRow row[12];} CodeinTable;
 
-
-
 typedef struct { u32 index; u8 f4[8]; char *owner; u8 f10[8]; u32 base; } Input;
 
 typedef struct { u8 a,b,c,d; void *value; } Rec;
 
-typedef signed long long s64;
-
 typedef enum { STATE_ZERO=0, STATE_TWELVE=12 } CodeinSoclState;
-
 
 typedef struct {u32 fields[7];Point request;} Arg;
 
-
-
-
-
 typedef union CodeinProfileConfig {u64 wide;Point pair;} CodeinProfileConfig;
-
-
 
 typedef struct Table {int head[4];SOCLResource pair;} Table;
 
@@ -884,20 +840,6 @@ extern const Rec d_021E3900[];
 extern const Table d_021E3910;
 extern const unsigned char d_021E3928[];
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int BR_CODEIN_SidebarCreate(int *task, int unused, char *work)
 {
     struct CodeinSidebarWork *s;
@@ -918,51 +860,9 @@ int BR_CODEIN_SidebarCreate(int *task, int unused, char *work)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int BR_CODEIN_SidebarDestroy(struct Proc *task,int seq,int arg,struct CodeinSidebarWork *work) { BR_UTIL_DeleteHandles(*(char * *)&work->handlesMain); BR_UTIL_DeleteHandles(*(char * *)&work->handlesSub); PRINTSYS_QUE_Delete((*(void * *)&work->printQue)); BR_UTIL_DeleteTask((void *)(work->task)); PROCSYS_FreeProcWork(task); return 1; }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int BR_CODEIN_SidebarMain(int proc,int seq,int arg,struct CodeinSidebarWork *work) { BR_UTIL_RunTask((u8 *)(work->task)); PRINTSYS_QUE_Main(*(struct PrintSys * *)&work->printQue); BR_UTIL_RunHandles(*(char * *)&work->handlesMain); BR_UTIL_RunHandles(*(char * *)&work->handlesSub); if(BR_UTIL_IsTaskIdle(*(int * *)&work->task)) return 1; return 0; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * lever: enum-valued one-bit mask preserves the original call/mask scheduling, as in sibling 021DB594.
@@ -995,20 +895,6 @@ void BR_CODEIN_SidebarStepIntro(int *task,int *state,struct CodeinSidebarWork *w
     if(work->noticeText)BR_UTIL_FlushText(work->noticeText);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * lever: enum mask local materializes one before the call; int mask left nine bytes different
  */
@@ -1040,20 +926,6 @@ void BR_CODEIN_SidebarStepSlideIn(int *task, int *state, struct CodeinSidebarWor
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void BR_CODEIN_SidebarStepSlideOut(int *task, int *state, struct CodeinSidebarWork *work)
 {
     switch(*state) {
@@ -1073,38 +945,10 @@ void BR_CODEIN_SidebarStepSlideOut(int *task, int *state, struct CodeinSidebarWo
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void BR_CODEIN_SidebarClearStep(int *task)
 {
     BR_UTIL_ClearTaskStep((int *)task);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * extent: two bytes of zero alignment padding at 0x021DB73E
@@ -1129,38 +973,10 @@ int BR_CODEIN_ButtonCreate(int *task,int seq,struct CodeinButtonArg *work)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * lever: Explicit call arms preserve the original conditional argument branch.
  */
 int BR_CODEIN_ButtonDestroy(struct Proc *task,int seq,struct CodeinArgB *arg,struct CodeinButtonWork *work) { if(arg->screenFade<5) BR_RES_ApplyBgSet(arg->category,3); else BR_RES_ApplyBgSet(arg->category,4); BR_BTN_Delete(*(u8 * *)&work->button); BR_UTIL_DeleteHandles(*(char * *)&work->handles); PROCSYS_FreeProcWork(task); return 1; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * lever: explicit case-3 call arms preserve the original block shape; ARM9 division helper uses the proven _u32_div_f ABI.
@@ -1205,21 +1021,6 @@ int BR_CODEIN_ButtonMain(int *task,int *state,struct CodeinButtonArg *work,struc
     BR_UTIL_RunHandles(*(char * *)&arg->actorSys);return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void BR_CODEIN_ButtonLoadFadePalettes(int unused, struct CodeinWorkF *work)
 {
     int v = work->tapFx;
@@ -1231,20 +1032,6 @@ void BR_CODEIN_ButtonLoadFadePalettes(int unused, struct CodeinWorkF *work)
     }
     work->tapFx = 1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * note 2026-10-05: re-run, bytes identical to the original; the only unresolved relocation is the BL to arm9 0x0200B98C (Thumb, 64 bytes, no code-start label, no asm/arm9 witness). Integrator: seed a label at 0x0200B98C; no source change needed.
@@ -1324,20 +1111,6 @@ int BR_CODEIN_RecordCreate(int *task,int *state,char *arg)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int BR_CODEIN_RecordDestroy(int task,int seq,char *arg,struct CodeinRecordWork *work)
 {
     int i;
@@ -1361,20 +1134,6 @@ int BR_CODEIN_RecordDestroy(int task,int seq,char *arg,struct CodeinRecordWork *
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * extent: two bytes of zero alignment padding at 0x021DBC66
  */
@@ -1396,19 +1155,6 @@ int BR_CODEIN_RecordMain(int proc,int seq,int arg,struct CodeinRecordWork *work)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Flush the object, dispatch on the p+0xB0 flag, then chain to 0x21FD73C.
  */
@@ -1421,18 +1167,6 @@ void BR_CODEIN_RecordStepCreateProfile(int task, int b, struct CodeinRecordWork 
         BR_CODEIN_RecordSetupProfile(work, (char *)((*(int *)&work->ctx)));
     BR_UTIL_SetTaskStep((int *)task, (int)BR_CODEIN_RecordStepFadeIn);
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 void BR_CODEIN_RecordStepFadeIn(int *task, int *state, struct CodeinRecordWork *work)
 {
@@ -1450,18 +1184,6 @@ void BR_CODEIN_RecordStepFadeIn(int *task, int *state, struct CodeinRecordWork *
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 void BR_CODEIN_RecordStepFadeOut(int *task, int *state, struct CodeinRecordWork *work)
 {
     switch(*state) {
@@ -1478,29 +1200,7 @@ void BR_CODEIN_RecordStepFadeOut(int *task, int *state, struct CodeinRecordWork 
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
 void BR_CODEIN_RecordStepDeleteProfile(int *task,int b,struct CodeinRecordWork *work) { if(work->profileScreenShown) BR_CODEIN_RecordDeleteProfileScreen(work,work->ctx); else BR_CODEIN_RecordDeleteActors(work,work->ctx); BR_CODEIN_RecordDeleteButtons(work,work->ctx); BR_UTIL_ClearTaskStep(task); }
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * note 2026-10-05: re-run, bytes identical to the original; the only unresolved relocation is the BL to arm9 0x0200B98C (Thumb, 64 bytes, no code-start label, no asm/arm9 witness). Integrator: seed a label at 0x0200B98C; no source change needed.
@@ -1561,17 +1261,6 @@ void BR_CODEIN_RecordStepMenu(int *task,int *state,struct CodeinRecordWork *work
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
 void BR_CODEIN_RecordStepProfileText(int *task,int *state,struct CodeinRecordWork *work)
 {
     int a,b;
@@ -1601,16 +1290,6 @@ void BR_CODEIN_RecordStepProfileText(int *task,int *state,struct CodeinRecordWor
         break;
     }
 }
-
-
-
-
-
-
-
-
-
-
 
 /*
  * note 2026-10-05: shape copied from matched twin BR_CODEIN_RecordStepReceive.c (same state machine, same callees). v1 was 4 bytes off (stack slots of source and index swapped); declaring source before index fixed it. Older draft docs/notes/pkt_ov183_021DBFB0.c.txt (167 B off) superseded.
@@ -1675,16 +1354,6 @@ void BR_CODEIN_RecordStepRequest(int *task,int *state,struct CodeinRecordWork *w
     case 14: BR_CODEIN_RecordDeleteTextWin(work,work->ctx);BR_UTIL_ClearTaskStep((int *)task);break;
     }
 }
-
-
-
-
-
-
-
-
-
-
 
 /*
  * note 2026-10-05: re-run, bytes identical to the original; the only unresolved relocation is the BL to arm9 0x0200B98C (Thumb, 64 bytes, no code-start label, no asm/arm9 witness). Integrator: seed a label at 0x0200B98C; no source change needed.
@@ -1772,16 +1441,6 @@ void BR_CODEIN_RecordStepReceive(int *task,int *state,struct CodeinRecordWork *w
     }
 }
 
-
-
-
-
-
-
-
-
-
-
 /*
  * note 2026-10-05: re-run, bytes identical to the original; the only unresolved relocation is the BL to arm9 0x0200B98C (Thumb, 64 bytes, no code-start label, no asm/arm9 witness). Integrator: seed a label at 0x0200B98C; no source change needed.
  * blocker-C: prior verified Thumb EXACT from BR_CODEIN_SearchBuildHeader.c header, blocker-r2.log, dsi/1.1p1 -O4,p; table 0x0209DDCC data a4.
@@ -1829,15 +1488,6 @@ void BR_CODEIN_RecordStepSave(int *task,int *state,struct CodeinRecordWork *work
     case 7: BR_CODEIN_RecordDeleteTextWin(work,work->ctx);BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_RecordStepCreateProfile);break;
     }
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * abi: DD0AC/DD0F4 retain caller-loaded r1.
@@ -1889,15 +1539,6 @@ void BR_CODEIN_RecordStepConfirm(int *task,int *state,struct CodeinRecordWork *w
         break;
     }
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * note 2026-10-05: re-run, bytes identical to the original; the only unresolved relocation is the BL to arm9 0x0200B98C (Thumb, 64 bytes, no code-start label, no asm/arm9 witness). Integrator: seed a label at 0x0200B98C; no source change needed.
@@ -2014,15 +1655,6 @@ void BR_CODEIN_RecordSetupProfile(struct CodeinRecordWork *work,char *arg)
     }
 }
 
-
-
-
-
-
-
-
-
-
 /*
  * note 2026-10-05: re-run, bytes identical to the original; the only unresolved relocation is the BL to arm9 0x0200B98C (Thumb, 64 bytes, no code-start label, no asm/arm9 witness). Integrator: seed a label at 0x0200B98C; no source change needed.
  * blocker-symbols: BattleRecModeTable 0x0209DDCC data a4
@@ -2125,15 +1757,6 @@ void BR_CODEIN_RecordSetupActors(struct CodeinRecordWork *work,void *manager,voi
     ARC_TOOL_DeleteHandle(archive);
 }
 
-
-
-
-
-
-
-
-
-
 void BR_CODEIN_RecordCreateProfileScreen(struct CodeinRecordWork *work, char *arg)
 {
     int flag;
@@ -2145,24 +1768,7 @@ void BR_CODEIN_RecordCreateProfileScreen(struct CodeinRecordWork *work, char *ar
     }
 }
 
-
-
-
-
-
-
-
-
-
 void BR_CODEIN_RecordDeleteProfileScreen(struct CodeinRecordWork *work,char *unused) { if(work->profileScreenLoaded && *(int * *)&work->profileScreen) { BR_UTIL_DeleteProfileScreen(*(int * *)&work->profileScreen); work->profileScreen=0; work->profileScreenLoaded=0; } }
-
-
-
-
-
-
-
-
 
 void BR_CODEIN_RecordDeleteActors(struct CodeinRecordWork *work,char *arg)
 {
@@ -2188,14 +1794,6 @@ void BR_CODEIN_RecordDeleteActors(struct CodeinRecordWork *work,char *arg)
         work->actorsLoaded=0;
     }
 }
-
-
-
-
-
-
-
-
 
 void BR_CODEIN_RecordSetupButtons(struct CodeinRecordWork *work,char *arg)
 {
@@ -2229,14 +1827,6 @@ void BR_CODEIN_RecordSetupButtons(struct CodeinRecordWork *work,char *arg)
     }
 }
 
-
-
-
-
-
-
-
-
 void BR_CODEIN_RecordDeleteButtons(struct CodeinRecordWork *work, char *arg)
 {
     int i;
@@ -2253,12 +1843,6 @@ void BR_CODEIN_RecordDeleteButtons(struct CodeinRecordWork *work, char *arg)
     }
 }
 
-
-
-
-
-
-
 void BR_CODEIN_RecordCreateTextWin(struct CodeinRecordWork *work, char *unused)
 {
     if (!work->textWinCreated) {
@@ -2272,19 +1856,7 @@ void BR_CODEIN_RecordCreateTextWin(struct CodeinRecordWork *work, char *unused)
     }
 }
 
-
-
-
-
-
-
 void BR_CODEIN_RecordDeleteTextWin(struct CodeinRecordWork *work, char *unused) { if(work->textWinCreated) { BR_UTIL_StartEffect(*(char * *)&work->introFx,0,0); if(work->textWin) { BR_UTIL_DeleteTextWin(work->textWin,((struct CodeinSubA *)(work->ctx))->res); *(int *)&work->textWin=0; } work->textWinCreated=0; } }
-
-
-
-
-
-
 
 void BR_CODEIN_RecordSetupTextWin(struct CodeinRecordWork *work, char *arg)
 {
@@ -2306,17 +1878,6 @@ void BR_CODEIN_RecordSetupTextWin(struct CodeinRecordWork *work, char *arg)
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * trailing: 2 zero alignment bytes at 0x021DD226
@@ -2341,17 +1902,6 @@ void BR_CODEIN_RecordTeardownTextWin(struct CodeinRecordWork *work, char *arg)
         work->textWinSetup = 0;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * 2026-10-05 (D8 lane19): re-verified, status unchanged; sole blocker is arm9 callee 0x0200B98C (no witness outside the caller). Needs a label seed. Source is byte-correct; no C change possible.
@@ -2389,29 +1939,7 @@ void BR_CODEIN_RecordTeardownTextWin(struct CodeinRecordWork *work, char *arg)
  */
 int BR_CODEIN_RecordIsMultiBattle(void *work) { switch((int)BATTLE_REC_GetHeaderParam(work,3,0)) { case 16: case 17: case 18: case 19: case 22: return 1; case 20: case 21: default: return 0; } }
 
-
-
-
-
-
-
-
-
-
-
-
 int BR_CODEIN_RecordIsType2(void *work) { int result; int v; result=0; v=(int)BATTLE_REC_GetHeaderParam(work,3,0); if(v==20) goto yes; if(v==21) goto yes; if(v!=22) goto no; yes: return 1; no: return result; }
-
-
-
-
-
-
-
-
-
-
-
 
 int BR_CODEIN_RecordHitProfileToggle(struct CodeinRecordWork *work, int x, int y)
 {
@@ -2427,17 +1955,6 @@ int BR_CODEIN_RecordHitProfileToggle(struct CodeinRecordWork *work, int x, int y
     return ok;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 int BR_CODEIN_RecordHitRecordPanel(struct CodeinRecordWork *work, int x, int y)
 {
     int ok = ((unsigned int)(x - 0x50) <= 0x60) &
@@ -2451,17 +1968,6 @@ int BR_CODEIN_RecordHitRecordPanel(struct CodeinRecordWork *work, int x, int y)
     }
     return ok;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 int BR_CODEIN_RecordHitOptionLeft(struct CodeinRecordWork *work, int x, int y)
 {
@@ -2477,17 +1983,6 @@ int BR_CODEIN_RecordHitOptionLeft(struct CodeinRecordWork *work, int x, int y)
     return ok;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 int BR_CODEIN_RecordHitOptionRight(struct CodeinRecordWork *work, int x, int y)
 {
     int ok = ((unsigned int)(x - 0x90) <= 0x48) &
@@ -2501,17 +1996,6 @@ int BR_CODEIN_RecordHitOptionRight(struct CodeinRecordWork *work, int x, int y)
     }
     return ok;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * trailing: 2 zero alignment bytes at 0x021DD3F6
@@ -2530,16 +2014,6 @@ int BR_CODEIN_ListCreate(void *proc, int unused, char *arg)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
 int BR_CODEIN_ListDestroy(struct Proc *proc, int unused, char *arg, struct CodeinListWork *work)
 {
     BR_CODEIN_ListDeleteButtons(work, arg);
@@ -2553,16 +2027,6 @@ int BR_CODEIN_ListDestroy(struct Proc *proc, int unused, char *arg, struct Codei
     PROCSYS_FreeProcWork(proc);
     return 1;
 }
-
-
-
-
-
-
-
-
-
-
 
 /*
  * tail: 021DD5C6..021DD5C8 is two zero alignment bytes.
@@ -2608,16 +2072,6 @@ int BR_CODEIN_ListMain(void *unused,u32 *state,char *arg,struct CodeinListWork *
  return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
 /*
  * lever: const record array at the table address restores early argument loads;
  *        a scalar record and const pointer local remained 22 bytes DIFF.
@@ -2645,15 +2099,6 @@ void BR_CODEIN_ListSetupText(struct CodeinListWork *work, char *arg)
     BR_RES_GetSprite((void *)(((struct CodeinArgA *)arg)->res), 13, (Triple *)((Triple *)&triple));
     BR_CODEIN_ListCreateActor((void *)(&work->pointActors), (void *)(((struct CodeinArgA *)arg)->actorSys), (const char *)(&triple), v, 0x68, 0x58, work->heapId);
 }
-
-
-
-
-
-
-
-
-
 
 void BR_CODEIN_ListSetupRowA(struct CodeinListWork *work,char *arg)
 {
@@ -2707,15 +2152,6 @@ void BR_CODEIN_ListSetupRowA(struct CodeinListWork *work,char *arg)
  BR_RES_GetSprite((void *)(*(int *)(arg+8)), 13, (Triple *)((Triple *)&triple));
  BR_CODEIN_ListCreateActor(&work->pointActors,*(void **)(arg+4),(const char *)&triple,v,0xa0,0x20,work->heapId);
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * note: 2026-10-05 wave P10 lane Y1. Twin of BR_CODEIN_ListSetupRowA (same body: other table d_021E3400, getter BR_CODEIN_ListIsEventB, selector 6/1, argument 11, strings 0x84/0x7f). 468 B; the 1140 B listing extent also holds BR_CODEIN_ListSetupRowC, filed separately. The clamps are n = (n > 9999) ? 9999 : n; as in the twin.
@@ -2772,13 +2208,6 @@ void BR_CODEIN_ListSetupRowB(struct CodeinListWork *work,char *arg)
  BR_RES_GetSprite((void *)(*(int *)(arg+8)), 13, (Triple *)((Triple *)&triple));
  BR_CODEIN_ListCreateActor(&work->pointActors,*(void **)(arg+4),(const char *)&triple,v,0xa0,0x20,work->heapId);
 }
-
-
-
-
-
-
-
 
 /*
  * lever: bounded permuter rec/index declaration order, selector use and
@@ -2914,13 +2343,6 @@ void BR_CODEIN_ListSetupRowC(struct CodeinListWork *work, char *arg)
   BR_CODEIN_ListCreateActor(&work->pointActors, *((void **) (arg + 4)), (const char *) (&triple), v, 0xa0, 0x20, work->heapId);
 }
 
-
-
-
-
-
-
-
 /*
  * lever: declaring the text object before the loop index fixes r4/r5.
  */
@@ -2955,13 +2377,6 @@ void BR_CODEIN_ListSetupRowD(struct CodeinListWork *work,char *arg)
  BR_CODEIN_ListCreateActor(&work->pointActors,(*(void * *)&((struct CodeinArgA *)arg)->actorSys),(const char *)&triple,v,0xa0,0x20,work->heapId);
 }
 
-
-
-
-
-
-
-
 void BR_CODEIN_ListTeardown(struct CodeinListWork *work, char *arg)
 {
     int i;
@@ -2979,12 +2394,6 @@ void BR_CODEIN_ListTeardown(struct CodeinListWork *work, char *arg)
         *(int *)&work->textWin = 0;
     }
 }
-
-
-
-
-
-
 
 void BR_CODEIN_ListSetupButtons(struct CodeinListWork *work,char *arg)
 {
@@ -3014,12 +2423,6 @@ void BR_CODEIN_ListSetupButtons(struct CodeinListWork *work,char *arg)
  }
 }
 
-
-
-
-
-
-
 void BR_CODEIN_ListDeleteButtons(struct CodeinListWork *work, char *arg)
 {
     int i;
@@ -3039,12 +2442,6 @@ void BR_CODEIN_ListDeleteButtons(struct CodeinListWork *work, char *arg)
     BR_RES_ApplyBgSet(((struct CodeinArgA *)arg)->res, 9);
 }
 
-
-
-
-
-
-
 int BR_CODEIN_ListHitButton(struct CodeinListWork *work, int x, int y)
 {
     int skip = work->listChoice;
@@ -3063,19 +2460,7 @@ int BR_CODEIN_ListHitButton(struct CodeinListWork *work, int x, int y)
     return 0;
 }
 
-
-
-
-
-
-
 int BR_CODEIN_ListIsEventA(void *work,char *arg) { u32 a,b; a=BSUBWAY_SCOREDATA_AccessFlag(work,4,0); b=ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork((const struct BigObj *)arg),0x960); if(a && b) return 1; return 0; }
-
-
-
-
-
-
 
 int BR_CODEIN_ListIsEventB(void *work, void *arg)
 {
@@ -3085,12 +2470,6 @@ int BR_CODEIN_ListIsEventB(void *work, void *arg)
     return 0;
 }
 
-
-
-
-
-
-
 int BR_CODEIN_ListIsEventC(void *work, void *arg)
 {
     int a = BSUBWAY_SCOREDATA_AccessFlag(work, 6, 0);
@@ -3098,14 +2477,6 @@ int BR_CODEIN_ListIsEventC(void *work, void *arg)
     if (a && b) return 1;
     return 0;
 }
-
-
-
-
-
-
-
-
 
 /*
  * extent: two trailing zero bytes are alignment padding before the next labelled function.
@@ -3139,14 +2510,6 @@ void BR_CODEIN_ListCreateActor(struct CodeinPointActors *work, void *manager, co
     BR_CODEIN_ListSetActorAnim(work, value);
 }
 
-
-
-
-
-
-
-
-
 void BR_CODEIN_ListDeleteActor(struct CodeinPointActors *work)
 {
     int i;
@@ -3159,14 +2522,6 @@ void BR_CODEIN_ListDeleteActor(struct CodeinPointActors *work)
     CLACT_DeleteActor(work->frame);
     MI_CpuFill8(work, 0, 20);
 }
-
-
-
-
-
-
-
-
 
 void BR_CODEIN_ListSetActorAnim(struct CodeinPointActors *work, u32 value)
 {
@@ -3184,14 +2539,6 @@ void BR_CODEIN_ListSetActorAnim(struct CodeinPointActors *work, u32 value)
         CLACT_SetActorAnimSeq(*(void **)((char *)work+(3 - j) * 4 + 4), value % d_021E3358[j + 1] / d_021E3358[j]);
 }
 
-
-
-
-
-
-
-
-
 int BR_CODEIN_ResultCreate(void *proc, int seq, char *arg)
 {
     struct CodeinResultWork *p = PROCSYS_AllocProcWork(proc, 0x70, BR_PROC_SYS_GetSlotId(((struct CodeinArgA *)arg)->procQuery));
@@ -3205,14 +2552,6 @@ int BR_CODEIN_ResultCreate(void *proc, int seq, char *arg)
     return 1;
 }
 
-
-
-
-
-
-
-
-
 int BR_CODEIN_ResultDestroy(void *proc, int seq, char *arg, struct CodeinResultWork *work)
 {
     BR_CODEIN_ResultTeardown(work, arg);
@@ -3225,14 +2564,6 @@ int BR_CODEIN_ResultDestroy(void *proc, int seq, char *arg, struct CodeinResultW
     PROCSYS_FreeProcWork(proc);
     return 1;
 }
-
-
-
-
-
-
-
-
 
 int BR_CODEIN_ResultMain(void *unused,u32 *state,char *arg,struct CodeinResultWork *work)
 {
@@ -3274,27 +2605,11 @@ int BR_CODEIN_ResultMain(void *unused,u32 *state,char *arg,struct CodeinResultWo
  return 0;
 }
 
-
-
-
-
-
-
-
-
 void BR_CODEIN_ResultSetupTextWin(struct CodeinResultWork *work, char *arg)
 {
     work->textWin = BR_UTIL_CreateTextWin(((struct CodeinArgA *)arg)->res, (void *)(*(int *)&work->printQue), work->heapId);
     BR_UTIL_SetWindowText(work->textWin, (char *)(((struct CodeinArgA *)arg)->res), (void *)0x86);
 }
-
-
-
-
-
-
-
-
 
 /*
  * lever: declaring text before i/flag restores the original stack slots.
@@ -3337,14 +2652,6 @@ void BR_CODEIN_ResultSetupRowA(struct CodeinResultWork *work,char *arg)
     }
 }
 
-
-
-
-
-
-
-
-
 void BR_CODEIN_ResultSetupRowB(struct CodeinResultWork *work,char *arg)
 {
     int font, bank, words, i, flag, value;
@@ -3375,14 +2682,6 @@ void BR_CODEIN_ResultSetupRowB(struct CodeinResultWork *work,char *arg)
         STRBUF_Delete(text);
     }
 }
-
-
-
-
-
-
-
-
 
 void BR_CODEIN_ResultSetupRowC(struct CodeinResultWork *work,char *arg)
 {
@@ -3415,14 +2714,6 @@ void BR_CODEIN_ResultSetupRowC(struct CodeinResultWork *work,char *arg)
     }
 }
 
-
-
-
-
-
-
-
-
 /*
  * extent: two trailing zero bytes are alignment padding before the next labelled function.
  */
@@ -3441,14 +2732,6 @@ void BR_CODEIN_ResultTeardown(struct CodeinResultWork *work, char *arg)
         work->textWin = 0;
     }
 }
-
-
-
-
-
-
-
-
 
 /*
  * lever: bank/words declaration order selects their original stack slots.
@@ -3575,14 +2858,6 @@ void BR_CODEIN_ResultSetupButtons(struct CodeinResultWork *work,char *arg)
     STRBUF_Delete(text);
 }
 
-
-
-
-
-
-
-
-
 void BR_CODEIN_ResultDeleteButtons(struct CodeinResultWork *work, char *arg)
 {
     int i;
@@ -3599,14 +2874,6 @@ void BR_CODEIN_ResultDeleteButtons(struct CodeinResultWork *work, char *arg)
     BR_RES_ReleaseSprite((char *)(((struct CodeinArgA *)arg)->res), 6);
     BR_RES_ApplyBgSet(((struct CodeinArgA *)arg)->res, 15);
 }
-
-
-
-
-
-
-
-
 
 int BR_CODEIN_ResultHitButton(struct CodeinResultWork *work, int x, int y)
 {
@@ -3626,14 +2893,6 @@ int BR_CODEIN_ResultHitButton(struct CodeinResultWork *work, int x, int y)
     return 0;
 }
 
-
-
-
-
-
-
-
-
 int BR_CODEIN_StatCreate(void *proc, int seq, char *arg)
 {
     struct CodeinStatWork *p = PROCSYS_AllocProcWork(proc, 0x10C, BR_PROC_SYS_GetSlotId((*(void * *)&((struct CodeinArgA *)arg)->bsubwaySave)));
@@ -3652,14 +2911,6 @@ int BR_CODEIN_StatCreate(void *proc, int seq, char *arg)
         BR_UTIL_SetTaskStep(p->task, (int)BR_CODEIN_SearchStepText);
     return 1;
 }
-
-
-
-
-
-
-
-
 
 int BR_CODEIN_StatDestroy(void *proc, int seq, struct CodeinArgA *arg, struct CodeinStatWork *work)
 {
@@ -3697,14 +2948,6 @@ int BR_CODEIN_StatDestroy(void *proc, int seq, struct CodeinArgA *arg, struct Co
     return 1;
 }
 
-
-
-
-
-
-
-
-
 int BR_CODEIN_StatMain(int proc, int seq, int arg, struct CodeinStatWork *work)
 {
     int i;
@@ -3721,14 +2964,6 @@ int BR_CODEIN_StatMain(int proc, int seq, int arg, struct CodeinStatWork *work)
     if (work->textWin != 0) BR_UTIL_FlushWindow(work->textWin);
     return 0;
 }
-
-
-
-
-
-
-
-
 
 void BR_CODEIN_StatSetup(int *task,int *state,struct CodeinStatWork *work)
 {
@@ -3759,14 +2994,6 @@ void BR_CODEIN_StatSetup(int *task,int *state,struct CodeinStatWork *work)
     BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_StatStepFadeIn);
 }
 
-
-
-
-
-
-
-
-
 void BR_CODEIN_StatTeardown(void *proc, int seq, struct CodeinStatWork *work)
 {
     BR_CODEIN_SearchDeleteList((char *)work->list);
@@ -3785,14 +3012,6 @@ void BR_CODEIN_StatTeardown(void *proc, int seq, struct CodeinStatWork *work)
     BR_UTIL_ClearTaskStep((int *)proc);
 }
 
-
-
-
-
-
-
-
-
 void BR_CODEIN_StatStepFadeIn(int *task, int *state, struct CodeinStatWork *work)
 {
     switch (*state) {
@@ -3809,14 +3028,6 @@ void BR_CODEIN_StatStepFadeIn(int *task, int *state, struct CodeinStatWork *work
     }
 }
 
-
-
-
-
-
-
-
-
 void BR_CODEIN_StatStepFadeOut(int *work, int *state, struct CodeinArgA *arg)
 {
     switch (*state) {
@@ -3832,14 +3043,6 @@ void BR_CODEIN_StatStepFadeOut(int *work, int *state, struct CodeinArgA *arg)
         break;
     }
 }
-
-
-
-
-
-
-
-
 
 void BR_CODEIN_StatStepMenu(int *task, int *state, char *work)
 {
@@ -3867,12 +3070,6 @@ void BR_CODEIN_StatStepMenu(int *task, int *state, char *work)
         }
     }
 }
-
-
-
-
-
-
 
 void BR_CODEIN_SearchStep(int *task,u32 *state,char *work)
 {
@@ -3947,12 +3144,6 @@ void BR_CODEIN_SearchStep(int *task,u32 *state,char *work)
     }
 }
 
-
-
-
-
-
-
 void BR_CODEIN_SearchStepText(int *work, int *state, struct CodeinArgA *arg)
 {
     Point args;
@@ -3984,12 +3175,6 @@ void BR_CODEIN_SearchStepText(int *work, int *state, struct CodeinArgA *arg)
     }
 }
 
-
-
-
-
-
-
 void BR_CODEIN_SearchStepFade(int *work, int *state, struct CodeinArgA *arg)
 {
     switch (*state) {
@@ -4005,10 +3190,6 @@ void BR_CODEIN_SearchStepFade(int *work, int *state, struct CodeinArgA *arg)
         break;
     }
 }
-
-
-
-
 
 void BR_CODEIN_SearchCreateList(Menu *menu,char *base,char *res,u32 mgr,u32 listParam,u32 tapFx,u16 *sel,u16 heap)
 {
@@ -4056,10 +3237,6 @@ void BR_CODEIN_SearchCreateList(Menu *menu,char *base,char *res,u32 mgr,u32 list
     for(i=0;i<*sel;i++)BR_CODEIN_SearchUpdateActor((struct CodeinSearchState *)menu,i+1,1,heap);
 }
 
-
-
-
-
 /*
  * trailing: two zero alignment bytes at 0x021DF3DA
  */
@@ -4076,10 +3253,6 @@ void BR_CODEIN_SearchDeleteList(char *work)
     MI_CpuFill8(work, 0, 0xD4);
 }
 
-
-
-
-
 /*
  * trailing: two zero alignment bytes at 0x021DF41A
  */
@@ -4094,24 +3267,10 @@ void BR_CODEIN_SearchMainList(char *work, u16 heapId)
     if (direction != 0 && old != current) BR_CODEIN_SearchUpdateActor((struct CodeinSearchState *)work, current, direction, heapId);
 }
 
-
-
-
-
-
-
-
 int BR_CODEIN_SearchGetHitId(char *work)
 {
     return BR_UTIL_GetListMenuHitId(*(char * *)&((struct CodeinWorkG *)work)->listMenu);
 }
-
-
-
-
-
-
-
 
 /*
  * 2026-10-05 (wave P6 lane U1b): EXACT. Types from matched ov183 021DF1DC (Menu: base
@@ -4159,13 +3318,6 @@ void BR_CODEIN_SearchCreateActor(struct CodeinSearchState *search,u32 mgr,u16 he
     ARC_TOOL_DeleteHandle(archive);
 }
 
-
-
-
-
-
-
-
 /*
  * trailing: two zero alignment bytes at 0x021DF61E
  * lever: padded struct array members prevent caching the element cursor across calls.
@@ -4185,13 +3337,6 @@ void BR_CODEIN_SearchDeleteActor(char *work)
         }
     }
 }
-
-
-
-
-
-
-
 
 /*
  * Lever: short step spills first; i remains live after the first loop and
@@ -4250,13 +3395,6 @@ void BR_CODEIN_SearchUpdateActor(struct CodeinSearchState *search,int first,shor
     if(step==1) { ++search->cursor; if(search->cursor>4) search->cursor=0; }
     ARC_TOOL_DeleteHandle(archive);
 }
-
-
-
-
-
-
-
 
 /*
  * 2026-10-05 (D8 lane19): re-verified, status unchanged; sole blocker is arm9 callee 0x0200B98C (no witness outside the caller). Needs a label seed. Source is byte-correct; no C change possible.
@@ -4333,26 +3471,12 @@ void BR_CODEIN_SearchBuildHeader(int work, char *out)
     }
 }
 
-
-
-
-
-
-
-
 int BR_CODEIN_SearchHitBox(int x, int y)
 {
     int ok = ((unsigned)(x - 80) <= 88) & ((unsigned)(y - 32) <= 56);
     if (ok) GFL_USE_PlaySeDefaultVolume(0x703);
     return ok;
 }
-
-
-
-
-
-
-
 
 int BR_CODEIN_CodeCreate(void *obj, int unused, struct CodeinArgB *arg)
 {
@@ -4377,13 +3501,6 @@ int BR_CODEIN_CodeCreate(void *obj, int unused, struct CodeinArgB *arg)
     return 1;
 }
 
-
-
-
-
-
-
-
 int BR_CODEIN_CodeDestroy(void *work, int unused, struct CodeinArgA *arg, struct CodeinCodeWork *data)
 {
     int i;
@@ -4396,13 +3513,6 @@ int BR_CODEIN_CodeDestroy(void *work, int unused, struct CodeinArgA *arg, struct
     PROCSYS_FreeProcWork(work);
     return 1;
 }
-
-
-
-
-
-
-
 
 int BR_CODEIN_CodeMain(void *unused,u32 *state,int *arg,struct CodeinCodeWork *work)
 {
@@ -4434,13 +3544,6 @@ int BR_CODEIN_CodeMain(void *unused,u32 *state,int *arg,struct CodeinCodeWork *w
     return 0;
 }
 
-
-
-
-
-
-
-
 int BR_CODEIN_CodeSetupButtons(struct CodeinCodeWork *work,struct CodeinArgA *arg)
 {
     int first,second,i;
@@ -4467,13 +3570,6 @@ int BR_CODEIN_CodeSetupButtons(struct CodeinCodeWork *work,struct CodeinArgA *ar
     return 1;
 }
 
-
-
-
-
-
-
-
 int BR_CODEIN_CodeDeleteButtons(struct CodeinCodeWork *work, struct CodeinArgA *arg)
 {
     int i;
@@ -4493,12 +3589,6 @@ int BR_CODEIN_CodeDeleteButtons(struct CodeinCodeWork *work, struct CodeinArgA *
     BR_RES_ApplyBgSet(arg->res, 26);
     return 1;
 }
-
-
-
-
-
-
 
 /*
  * lever: A separate result!=3 guard around the three-case switch removes the extra 8-byte dense dispatch (460 to 452 B).
@@ -4583,12 +3673,6 @@ int BR_CODEIN_CodeStepInput(struct CodeinCodeWork *work,struct CodeinArgB *arg)
     return 0;
 }
 
-
-
-
-
-
-
 int BR_CODEIN_CodeSetupMenu(struct CodeinCodeWork *work,struct CodeinArgA *arg)
 {
     int first,second,i;
@@ -4611,12 +3695,6 @@ int BR_CODEIN_CodeSetupMenu(struct CodeinCodeWork *work,struct CodeinArgA *arg)
     return 1;
 }
 
-
-
-
-
-
-
 int BR_CODEIN_CodeDeleteMenu(struct CodeinCodeWork *work, struct CodeinArgA *arg)
 {
     if ((*(void * *)&work->button[0])) {
@@ -4631,12 +3709,6 @@ int BR_CODEIN_CodeDeleteMenu(struct CodeinCodeWork *work, struct CodeinArgA *arg
     BG_SYS_PushTile(4);
     return 1;
 }
-
-
-
-
-
-
 
 int BR_CODEIN_CodeStepMenu(struct CodeinCodeWork *work, struct CodeinArgB *arg)
 {
@@ -4670,24 +3742,12 @@ int BR_CODEIN_CodeStepMenu(struct CodeinCodeWork *work, struct CodeinArgB *arg)
     return 0;
 }
 
-
-
-
-
-
-
 void BR_CODEIN_CodeOpenPokeSearch(struct CodeinCodeWork *work, struct CodeinArgA *arg)
 {
     work->pokeSearch = BR_POKESEARCH_Create(ZUKAN_SAVE_GetFromGameData((*(void * *)&arg->uiRes)), (*(void * *)&arg->res), arg->actorSys, work->oamSys, arg->screenFade, (*(int *)&work->fx), work->tapFx, work->heapId);
     BR_POKESEARCH_Open(work->pokeSearch);
     BR_POKESEARCH_UpdatePrint(work->pokeSearch);
 }
-
-
-
-
-
-
 
 int BR_CODEIN_CodeClosePokeSearch(struct CodeinCodeWork *work)
 {
@@ -4696,11 +3756,6 @@ int BR_CODEIN_CodeClosePokeSearch(struct CodeinCodeWork *work)
     BG_SYS_PushTile(4);
     return 1;
 }
-
-
-
-
-
 
 /*
  * lever: Repeat the reset store in both result arms, with return 1 shared after them; hoisting the store removes the branch at 0x021E00C8.
@@ -4723,11 +3778,6 @@ int BR_CODEIN_CodeStepPokeSearch(struct CodeinCodeWork *work, struct CodeinArgB 
     }
     return 0;
 }
-
-
-
-
-
 
 int BR_CODEIN_CodeSetupPokeList(struct CodeinCodeWork *work,struct CodeinArgA *arg)
 {
@@ -4763,11 +3813,6 @@ int BR_CODEIN_CodeSetupPokeList(struct CodeinCodeWork *work,struct CodeinArgA *a
     return 1;
 }
 
-
-
-
-
-
 int BR_CODEIN_CodeDeletePokeList(struct CodeinCodeWork *work, struct CodeinArgA *arg)
 {
     if ((*(void * *)&work->button[0])) {
@@ -4782,11 +3827,6 @@ int BR_CODEIN_CodeDeletePokeList(struct CodeinCodeWork *work, struct CodeinArgA 
     BG_SYS_PushTile(4);
     return 1;
 }
-
-
-
-
-
 
 /*
  * trailing: two zero alignment bytes at 0x021E02F6
@@ -4828,11 +3868,6 @@ int BR_CODEIN_CodeStepPokeList(struct CodeinCodeWork *work, struct CodeinArgB *a
     return 0;
 }
 
-
-
-
-
-
 void BR_CODEIN_CodeSetupText(struct CodeinCodeWork *work, int *arg)
 {
     int first, second, i;
@@ -4848,20 +3883,10 @@ void BR_CODEIN_CodeSetupText(struct CodeinCodeWork *work, int *arg)
     }
 }
 
-
-
-
-
-
 /*
  * extent: final two bytes are alignment padding.
  */
 void BR_CODEIN_CodeDeleteText(struct CodeinCodeWork *work,struct CodeinArgA *arg){int i;for(i=0;i<6;i++){if(work->text[i]){BR_UTIL_Delete(work->text[i]);work->text[i]=0;}}BR_RES_ApplyBgSet(arg->res,25);BG_SYS_PushTile(1);}
-
-
-
-
-
 
 void BR_CODEIN_CodeSetMenuText(struct CodeinCodeWork *work,struct CodeinArgB *arg,int mode)
 {
@@ -4895,12 +3920,6 @@ void BR_CODEIN_CodeSetMenuText(struct CodeinCodeWork *work,struct CodeinArgB *ar
     }
 }
 
-
-
-
-
-
-
 /*
  * Hit-test a point against a table of three rectangles; returns the index
  * of the first hit, or 3 when none (or when no point is available).
@@ -4920,11 +3939,6 @@ int BR_CODEIN_CodeHitTestOptions(void)
     }
     return 3;
 }
-
-
-
-
-
 
 /*
  * extent: 021E05C2 alignment padding.
@@ -4954,11 +3968,6 @@ int BR_CODEIN_ProfileScreenCreate(void *task, int unused, struct CodeinArgA *arg
     return 1;
 }
 
-
-
-
-
-
 /*
  * extent: 021E0616 alignment padding; next owned function starts 021E0618.
  */
@@ -4976,11 +3985,6 @@ int BR_CODEIN_ProfileScreenDestroy(void *proc, int unused, int *arg, void **work
     PROCSYS_FreeProcWork(proc);
     return 1;
 }
-
-
-
-
-
 
 /*
  * extent: 021E06CE alignment padding.
@@ -5017,8 +4021,6 @@ int BR_CODEIN_ProfileScreenMain(int unused, int *state, int *arg, int *work)
     return 0;
 }
 
-
-
 /*
  * extent: 0754 tail-call stub; 075C state getter; 0764 64-bit getter; 0772 padding.
  */
@@ -5038,32 +4040,22 @@ struct CodeinProfileWork *BR_CODEIN_ProfileCreate(const CfgTpl *src, u16 heap)
     return p;
 }
 
-
-
 void BR_CODEIN_ProfileUpdate(struct CodeinProfileWork *work)
 {
     BR_CODEIN_ProfileUpdateActorAnim(work);
 }
-
-
 
 int BR_CODEIN_ProfileGetState(struct CodeinProfileWork *work)
 {
     return work->state;
 }
 
-
-
 u64 BR_CODEIN_ProfileGetValue(struct CodeinProfileWork *work)
 {
     return work->result;
 }
 
-
-
 void BR_CODEIN_ProfileDestroy(struct CodeinProfileWork *work){TCB_DeleteTask(work->task);BR_CODEIN_ProfileDeleteActor(work);ARC_TOOL_DeleteHandle(work->arcHandle);BUTTON_MAN_Delete(work->buttonMan);GFL_HEAP_Free(work);}
-
-
 
 struct Object *BR_CODEIN_ProfileCreateObject(int heap, int n, void *actorSys, void *res, void *handles, int *entries)
 {
@@ -5080,14 +4072,10 @@ struct Object *BR_CODEIN_ProfileCreateObject(int heap, int n, void *actorSys, vo
     return p;
 }
 
-
-
 /*
  * extent: existing matched callback 021E083C and its alignment follow the pool.
  */
 void BR_CODEIN_ProfileDestroyObject(struct Object *work){if(!work->vector)GF_PANIC_Fail(d_021E3974,0,d_021E3974);if(!work)GF_PANIC_Fail(d_021E3974,0,d_021E3974);STRBUF_Delete(work->vector);GFL_HEAP_Free(work);}
-
-
 
 /*
  * leaf: empty callback solely blocks owned constructor 021E06D0; parent cleared.
@@ -5096,8 +4084,6 @@ void BR_CODEIN_ProfileDestroyObject(struct Object *work){if(!work->vector)GF_PAN
 void BR_CODEIN_ProfileNoop(void)
 {
 }
-
-
 
 void BR_CODEIN_ProfileSetupSprite(struct CodeinProfileWork *work)
 {
@@ -5116,8 +4102,6 @@ void BR_CODEIN_ProfileSetupSprite(struct CodeinProfileWork *work)
     *(int *)&work->sprite6CellAnimId = t.a;
 }
 
-
-
 /*
  * extent: 021E0952 alignment padding.
  */
@@ -5132,8 +4116,6 @@ void BR_CODEIN_ProfileDeleteActor(struct CodeinProfileWork *work)
     for (i = 0; i < 3; i++) CLACT_DeleteActor(*(void **)((char *)work+i * 28 + 0x194));
     BR_CODEIN_ProfileDeleteOam(work);
 }
-
-
 
 /*
  * lever: The explicit entry guard encloses a do-while; a for adds a second entry test (308 B DIFF to 306 B EXACT*).
@@ -5191,8 +4173,6 @@ void BR_CODEIN_ProfileCreateRecordActors(struct CodeinProfileWork *work)
     }
 }
 
-
-
 /*
  * abi: 0204B294 r0 consumed after call; pointer request passed as the unchanged u32 fifth payload.
  */
@@ -5222,8 +4202,6 @@ void BR_CODEIN_ProfileCreateMarkerActors(struct CodeinProfileWork *work)
     BR_CODEIN_ProfileSetActorVisible(work,1,zero);BR_CODEIN_ProfileSetActorVisible(work,2,zero);
 }
 
-
-
 /*
  * Caller evidence: 0204B294 leaves its forwarded return word live in r0; consumed by store and 0204B688 here.
  */
@@ -5244,19 +4222,12 @@ void BR_CODEIN_ProfileCreateArrowActors(struct CodeinProfileWork *work) {
     CLACT_SetActorAnimSeq(work->nextArrowActor,1);
 }
 
-
-
-
 void BR_CODEIN_ProfileSetActorVisible(struct CodeinProfileWork *work, int index, int visible)
 {
     CLACT_SetActorDrawEnable((struct Obj *)*(int *)((char *)work+index * 0x1c + 0x194), (unsigned int)visible);
 }
 
-
-
 void BR_CODEIN_ProfileSetActorPos(struct CodeinProfileWork *work,int i){short pos[2];void *obj;obj=*(void **)((char *)work+i*28+12);work->selectedIndex=i;CLACT_GetActorSurfacePos(obj,(struct PtS *)pos,1);pos[1]+=16;CLACT_AddActorSurfacePos(work->cursorActor,(const struct Vec2 *)pos,1);}
-
-
 
 /*
  * extent: 021E0D8E alignment padding.
@@ -5271,8 +4242,6 @@ void BR_CODEIN_ProfileAddActorSurfacePos(struct CodeinProfileWork *coords, int i
     CLACT_AddActorSurfacePos(coords->markerActor, (const struct Vec2 *)pos, 1);
     CLACT_SetActorAnimFrame(coords->markerActor, 0);
 }
-
-
 
 /*
  * extent: 021E0E3E alignment padding.
@@ -5299,11 +4268,7 @@ void BR_CODEIN_ProfileUpdateActorAnims(struct CodeinProfileWork *work)
     }
 }
 
-
-
 int BR_CODEIN_ProfileGetActorIndex(int tag, int mode) { int n=0; if(mode==0)n=11; return n+tag; }
-
-
 
 void BR_CODEIN_ProfileUpdateActorVisible(struct CodeinProfileWork *work)
 {
@@ -5315,8 +4280,6 @@ void BR_CODEIN_ProfileUpdateActorVisible(struct CodeinProfileWork *work)
             *(int *)((char *)work+i * 28 + 8) = 0;
     }
 }
-
-
 
 void BR_CODEIN_ProfileSetActorAnimFrame(struct CodeinProfileWork *work,int animated) {
     int i,group;
@@ -5363,8 +4326,6 @@ void BR_CODEIN_ProfileSetActorAnimFrame(struct CodeinProfileWork *work,int anima
     }
 }
 
-
-
 void BR_CODEIN_ProfileUpdateActorPos(struct CodeinProfileWork *work)
 {
     int i, x, y;
@@ -5385,36 +4346,20 @@ void BR_CODEIN_ProfileUpdateActorPos(struct CodeinProfileWork *work)
     }
 }
 
-
-
-
 void BR_CODEIN_ProfileCreateOam(struct CodeinProfileWork *work)
 {
     work->profileOamSys =
         BMP_OAM_CreateSys(work->profileHeapId, work->actorSys);
 }
 
-
-
 void BR_CODEIN_ProfileDeleteOam(struct CodeinProfileWork *work){ BMP_OAM_Delete(*(struct Grid * *)&work->nameGrid); BMP_OAM_Delete(*(struct Grid * *)&work->valueGrid); BMP_OAM_DeleteSys(work->profileOamSys); }
-
-
-
 
 void BR_CODEIN_ProfileDeleteBgHandle(struct CodeinProfileWork *work)
 {
     ARC_TOOL_DeleteHandle(ARC_TOOL_CreateHandle(0x17, work->profileHeapId));
 }
 
-
-
 void BR_CODEIN_ProfileCreateOamObjects(struct CodeinProfileWork *work){ BR_CODEIN_ProfileDeleteBgHandle(work);BR_CODEIN_ProfilePrintOamObject((const Object *)work,0,32,8,0);BR_CODEIN_ProfilePrintOamObject((const Object *)work,1,32,8,0); }
-
-
-
-
-
-
 
 /*
  * lever: form slot=&out[index] before the constructor call and store/reload through slot. The direct out[index] spelling sank the output base and left 15 bytes different.
@@ -5455,12 +4400,6 @@ void BR_CODEIN_ProfilePrintOamObject(const Object *object,Index index,int x,int 
     STRBUF_Delete((struct U16Vec *)source);
 }
 
-
-
-
-
-
-
 /*
  * Extent remainder: zero alignment halfword at 021E1242.
  */
@@ -5481,12 +4420,6 @@ void BR_CODEIN_ProfileSetActorAnim(struct CodeinProfileWork *work,int state)
         work->rangeBEnd=*(u16 *)((char *)work+(work->prevAnimState-1)*4+0x21e);
     }
 }
-
-
-
-
-
-
 
 /*
  * 2026-10-05 (wave P7 lane V7, pengy share): EXACT in c99 and c. The older DIFF28 draft (see docs/notes) closed with two
@@ -5557,13 +4490,6 @@ void BR_CODEIN_ProfileInitRecordLayout(CodeinProfileState *profile)
   }
 }
 
-
-
-
-
-
-
-
 void BR_CODEIN_ProfileSetAnimSeq(struct CodeinProfileWork *work, int v)
 {
     work->animSeq = v;
@@ -5571,12 +4497,6 @@ void BR_CODEIN_ProfileSetAnimSeq(struct CodeinProfileWork *work, int v)
     work->phase = 0;
     work->phaseTimer = 0;
 }
-
-
-
-
-
-
 
 /*
  * Follower: 021E13D4 return-one stub, after 021E13D2 alignment.
@@ -5596,22 +4516,10 @@ int BR_CODEIN_ProfileCreateAllActors(struct CodeinProfileWork *work)
     return 0;
 }
 
-
-
-
-
-
-
 int BR_CODEIN_ProfileReturnTrue(void)
 {
     return 1;
 }
-
-
-
-
-
-
 
 s32 BR_CODEIN_ProfileUpdatePendingAndButtons(struct CodeinProfileWork *work)
 {
@@ -5623,12 +4531,6 @@ s32 BR_CODEIN_ProfileUpdatePendingAndButtons(struct CodeinProfileWork *work)
     }
     return 0;
 }
-
-
-
-
-
-
 
 int BR_CODEIN_ProfileUpdateScrollAnim(struct CodeinProfileWork *work) {
     int i,factor,selected;
@@ -5717,27 +4619,9 @@ int BR_CODEIN_ProfileUpdateScrollAnim(struct CodeinProfileWork *work) {
     return 0;
 }
 
-
-
-
-
-
-
 extern int (*const d_021E3858[])(char *);
 
-
-
-
-
-
-
 int BR_CODEIN_ProfileUpdateActorAnim(struct CodeinProfileWork *work){ int r=d_021E3858[work->animSeq]((char *)work); BR_CODEIN_ProfileUpdateActorAnims(work); return r; }
-
-
-
-
-
-
 
 /*
  * Matching: named digit load and byte-field address, with group before used in declaration order, preserve the original loop registers.
@@ -5798,12 +4682,6 @@ void BR_CODEIN_ProfileBuildAnimName(struct CodeinProfileWork *work)
   *((int *) ((char *)work+0x350)) = 2;
 }
 
-
-
-
-
-
-
 void BR_CODEIN_ProfileApplyRecords(const CodeinProfileRecord *records)
 {
     struct CodeinProfileWork *p=(struct CodeinProfileWork *)records;
@@ -5836,12 +4714,6 @@ void BR_CODEIN_ProfileApplyRecords(const CodeinProfileRecord *records)
     }
 }
 
-
-
-
-
-
-
 void BR_CODEIN_ProfileCreateButtons(struct CodeinProfileWork *work) {
     int i;
     CodeinTable table;
@@ -5856,12 +4728,6 @@ void BR_CODEIN_ProfileCreateButtons(struct CodeinProfileWork *work) {
     work->pressedButton=255;
     work->buttonMan=BUTTON_MAN_Create((u8 *)((char *)work+0x298),(int)BR_CODEIN_ProfileHandleInput,(int)work,work->profileHeapId);
 }
-
-
-
-
-
-
 
 /*
  * 2026-10-05 wave P5 lane T5 (pengy share): earlier DIFF, two residues (merged far-branch stubs, idx-12 CSE).
@@ -5949,12 +4815,6 @@ void BR_CODEIN_ProfileHandleInput(u32 idx, int arg, struct CodeinProfileWork *wo
     }
 }
 
-
-
-
-
-
-
 /*
  * Extent remainder: zero alignment halfword at 021E1BFE.
  */
@@ -5977,13 +4837,6 @@ void BR_CODEIN_ProfileApplyPendingStep(struct CodeinProfileWork *work)
     }
 }
 
-
-
-
-
-
-
-
 void BR_CODEIN_ProfileClear(struct CodeinProfileWork *work)
 {
     work->pendingStep = 0;
@@ -5991,23 +4844,10 @@ void BR_CODEIN_ProfileClear(struct CodeinProfileWork *work)
     work->pendingKeyIsRecord = 0;
 }
 
-
-
-
-
-
-
-
 /*
  * extent: final two bytes are alignment padding.
  */
 int BR_CODEIN_ProfileFindActorIndex(struct CodeinProfileWork *work,int value){int i,n; n=work->recordCount;for(i=0;i<n;i++){if(value==*(int *)((char *)work+i*28+4))return i;}return 0;}
-
-
-
-
-
-
 
 /*
  * checks: 1 n/a no calls; 2 matched 1C14 confirms signed index/raw28 stride; 3 enum index DIFF7, unsigned-long count and long index each DIFF4; 4 count/address reuse DIFF4, permuter expands the read-only count field at guard and return; 5 refreshed directory and neighbours; no stack object.
@@ -6034,11 +4874,6 @@ int BR_CODEIN_ProfileFindRecord(const struct CodeinProfileWork *work, int value)
   return (*((const unsigned *) ((char *)work+0x23c))) - 1;
 }
 
-
-
-
-
-
 int BR_CODEIN_UploadCreate(struct Proc *obj,int unused,char *arg)
 {
     struct CodeinUploadWork *p;
@@ -6058,17 +4893,7 @@ int BR_CODEIN_UploadCreate(struct Proc *obj,int unused,char *arg)
     return 1;
 }
 
-
-
-
-
-
 int BR_CODEIN_UploadDestroy(struct Proc *proc,int seq,struct CodeinArgA *arg,struct CodeinUploadWork *work){int i;for(i=0;i<2;i++)BR_UTIL_DeleteHandles(*(char **)((char *)work+i*4+16));BR_UTIL_DeleteTextWin((void *)work->textWin,arg->res);PRINTSYS_QUE_Delete((void *)work->printQue);BR_UTIL_DeleteTask((void *)((*(int *)&work->task)));PROCSYS_FreeProcWork(proc);return 1;}
-
-
-
-
-
 
 int BR_CODEIN_UploadMain(int proc,int seq,int arg,struct CodeinUploadWork *work)
 {
@@ -6085,10 +4910,6 @@ int BR_CODEIN_UploadMain(int proc,int seq,int arg,struct CodeinUploadWork *work)
     return 0;
 }
 
-
-
-
-
 void BR_CODEIN_UploadStepFadeIn(int task,int *state,struct CodeinUploadWork *work)
 {
     switch (*state) {
@@ -6098,10 +4919,6 @@ void BR_CODEIN_UploadStepFadeIn(int task,int *state,struct CodeinUploadWork *wor
     }
 }
 
-
-
-
-
 void BR_CODEIN_UploadStepFadeOut(int *task,int *state,struct CodeinUploadWork *work)
 {
     switch (*state) {
@@ -6110,10 +4927,6 @@ void BR_CODEIN_UploadStepFadeOut(int *task,int *state,struct CodeinUploadWork *w
     case 2: BR_PROC_SYS_PopEntry((unsigned int *)((*(int *)&((struct CodeinSubA *)(*(char * *)&work->ctx))->subFade))); BR_UTIL_ClearTaskStep(task); break;
     }
 }
-
-
-
-
 
 /*
  * lever: keep the copied u64 and quotient distinct; use the emitted _ull_mod runtime symbol.
@@ -6165,9 +4978,6 @@ void BR_CODEIN_UploadStep(int *task,int *state,struct CodeinUploadWork *work) {
     }
 }
 
-
-
-
 int BR_CODEIN_SaveCreate(struct Proc *obj,int unused,char *arg)
 {
     char *p;
@@ -6184,9 +4994,6 @@ int BR_CODEIN_SaveCreate(struct Proc *obj,int unused,char *arg)
     return 1;
 }
 
-
-
-
 /*
  * Extent remainder: zero alignment halfword at 021E20F6.
  */
@@ -6202,9 +5009,6 @@ int BR_CODEIN_SaveDestroy(int obj,int seq,char *arg,char *work)
     return 1;
 }
 
-
-
-
 int BR_CODEIN_SaveMain(int proc,int seq,int arg,struct CodeinSaveWork *work)
 {
     int i;
@@ -6217,9 +5021,6 @@ int BR_CODEIN_SaveMain(int proc,int seq,int arg,struct CodeinSaveWork *work)
     return 0;
 }
 
-
-
-
 void BR_CODEIN_SaveStepFadeIn(int *task,int *state,struct CodeinSaveWork *work)
 {
     switch (*state) {
@@ -6229,9 +5030,6 @@ void BR_CODEIN_SaveStepFadeIn(int *task,int *state,struct CodeinSaveWork *work)
     }
 }
 
-
-
-
 void BR_CODEIN_SaveStepFadeOut(int *task,int *state,struct CodeinSaveWork *work)
 {
     switch (*state) {
@@ -6240,9 +5038,6 @@ void BR_CODEIN_SaveStepFadeOut(int *task,int *state,struct CodeinSaveWork *work)
     case 2: BR_PROC_SYS_PopEntry((unsigned int *)(((struct CodeinSubA *)(work->saveCtx))->res)); BR_UTIL_ClearTaskStep(task); break;
     }
 }
-
-
-
 
 /*
  * lever: separate function-scope coordinate pairs retain the switch cases' stack slots.
@@ -6290,9 +5085,6 @@ void BR_CODEIN_SaveStepVideo(int task,int *state,char *work) {
     }
 }
 
-
-
-
 /*
  * lever: bounded permuter extracted index/base/heap-address temporaries;
  *   unsigned index arithmetic and top-of-block declarations preserve behavior.
@@ -6330,10 +5122,6 @@ void BR_CODEIN_SaveSetupText(char *work,const Input *input) {
     }
 }
 
-
-
-
-
 void BR_CODEIN_SaveDeleteTextWin(char *work, char *res)
 {
     if ((*(int *)&((struct CodeinSaveWork *)work)->textWin) != 0) {
@@ -6342,25 +5130,10 @@ void BR_CODEIN_SaveDeleteTextWin(char *work, char *res)
     }
 }
 
-
-
-
-
-
-
-
 /*
  * extent: final two bytes are alignment padding.
  */
 void BR_CODEIN_SaveTeardown(char *work,char *arg){int i;for(i=0;i<2;i++){if(*(void **)(work+i*4+12)){BR_UTIL_Delete(*(void **)(work+i*4+12));*(void **)(work+i*4+12)=0;}}BG_SYS_PushTile(4);BR_RES_ApplyBgSet((*(int *)&((struct CodeinArgA *)arg)->procQuery),30);}
-
-
-
-
-
-
-
-
 
 int BR_CODEIN_SaveHitOptionLeft(char *work, int x, int y)
 {
@@ -6376,14 +5149,6 @@ int BR_CODEIN_SaveHitOptionLeft(char *work, int x, int y)
     return ok;
 }
 
-
-
-
-
-
-
-
-
 int BR_CODEIN_SaveHitOptionRight(char *work, int x, int y)
 {
     int ok = ((unsigned int)(x - 0x90) <= 0x48) &
@@ -6397,13 +5162,6 @@ int BR_CODEIN_SaveHitOptionRight(char *work, int x, int y)
     }
     return ok;
 }
-
-
-
-
-
-
-
 
 int BR_CODEIN_SoclCreate(void *obj,int seq,char *arg)
 {
@@ -6419,13 +5177,6 @@ int BR_CODEIN_SoclCreate(void *obj,int seq,char *arg)
     for (i=0;i<2;i++) *(void **)((char *)p+i*4+0x30)=BR_UTIL_CreateHandles((unsigned int)((*(void * *)&((struct CodeinArgA *)arg)->actorSys)),(char *)(((struct CodeinArgA *)arg)->res),i,p->heapId);
     return 1;
 }
-
-
-
-
-
-
-
 
 /*
  * Extent remainder: zero alignment halfword at 021E263E.
@@ -6447,13 +5198,6 @@ int BR_CODEIN_SoclDestroy(int obj,int seq,int arg,struct CodeinSoclWork *work)
     return 1;
 }
 
-
-
-
-
-
-
-
 int BR_CODEIN_SoclMain(int proc,int seq,int arg,struct CodeinSoclWork *work)
 {
     int i;
@@ -6469,11 +5213,6 @@ int BR_CODEIN_SoclMain(int proc,int seq,int arg,struct CodeinSoclWork *work)
     for (i=0;i<2;i++) if (*(int *)&work->text[i]) BR_UTIL_FlushText((u8 *)(*(int *)&work->text[i]));
     return 0;
 }
-
-
-
-
-
 
 void BR_CODEIN_SoclStep(int *task,CodeinSoclState *state,struct CodeinSoclWork *work) {
     u32 req[2];
@@ -6526,11 +5265,6 @@ void BR_CODEIN_SoclStep(int *task,CodeinSoclState *state,struct CodeinSoclWork *
     }
 }
 
-
-
-
-
-
 /*
  * lever: function-scope pair locals preserve stack-slot order across switch cases.
  */
@@ -6577,11 +5311,6 @@ void BR_CODEIN_MenuStep(int *task,int *state,struct CodeinSoclWork *work) {
     }
 }
 
-
-
-
-
-
 /*
  * lever: Declare scalar locals before Point; assign the returned Point as a whole to p+0x4C. Separate word stores produced the wrong stack/copy schedule.
  */
@@ -6627,10 +5356,6 @@ void BR_CODEIN_MenuStepInput(int *task,unsigned *state,struct CodeinSoclWork *wo
         BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_MenuStep); break;
     }
 }
-
-
-
-
 
 /*
  * 2026-10-05 (D8 lane19): re-verified, status unchanged; sole blocker is arm9 callee 0x0200B98C (no witness outside the caller). Needs a label seed. Source is byte-correct; no C change possible.
@@ -6710,11 +5435,6 @@ void BR_CODEIN_MenuStepSave(int *task,unsigned *state,struct CodeinSoclWork *wor
     }
 }
 
-
-
-
-
-
 void BR_CODEIN_CallAndClearStepFn(char *holder, int work, int ctx)
 {
     if (((struct CodeinStoredFns *)holder)->stepFn != 0) {
@@ -6723,25 +5443,12 @@ void BR_CODEIN_CallAndClearStepFn(char *holder, int work, int ctx)
     }
 }
 
-
-
-
-
-
 void BR_CODEIN_CallAndClearDestroyFn(char *holder,int work,int ctx) { void (*f)(int,int);f=*(void (**)(int,int))(holder+4);if(f){f(work,ctx);*(int *)&((struct CodeinStoredFns *)holder)->destroyFn=0;} }
-
-
-
-
 
 void BR_CODEIN_CopySoclResource(SOCLResource *resource)
 {
     *resource=d_021E3910.pair;
 }
-
-
-
-
 
 /*
  * lever: Bounded permuter split the scaled index and delayed the base load, then introduced store-address temporaries after the constructor. Fixed one validated its behavior-preserving winning C.
@@ -6788,10 +5495,6 @@ void BR_CODEIN_SoclSetupText(struct CodeinSoclWork *work, const char *arg)
   }
 
 }
-
-
-
-
 
 void BR_CODEIN_SoclTeardown(struct CodeinSoclWork *work,struct CodeinArgA *arg)
 {

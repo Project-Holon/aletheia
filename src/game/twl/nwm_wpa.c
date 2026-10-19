@@ -18,9 +18,7 @@
  *   MI_CpuCopy8  0x02082D44  arm  arm9
  *   DC_StoreRange  0x020862D4  arm  arm9
  */
-typedef unsigned int u32;
-typedef unsigned char u8;
-typedef unsigned short u16;
+#include "../types.h"
 
 typedef struct TwlReq {
     u16 kind;

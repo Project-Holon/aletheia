@@ -28,11 +28,7 @@ struct GameData;
 
 struct Obj;
 
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef signed short  s16;
+#include "../types.h"
 
 /* One 0x1c-byte row of the dungeon sound table (archive 0x92), keyed by area id. */
 typedef struct DungeonSoundRecord {

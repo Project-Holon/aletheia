@@ -22,7 +22,8 @@
  */
 extern unsigned long OS_DisableInterrupts_IrqAndFiq(void);
 extern unsigned long OS_RestoreInterrupts_IrqAndFiq(unsigned long state);
-struct OSMutex;
+#include "../sdk_os.h"
+
 extern void OS_InitMutex(struct OSMutex *mutex);
 extern void OS_LockMutex(struct OSMutex *mutex);
 extern void OS_UnlockMutex(struct OSMutex *mutex);

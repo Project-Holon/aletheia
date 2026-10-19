@@ -43,15 +43,9 @@
  */
 #include "dwc_auth_types.h"
 
-typedef unsigned int   u32;
+#include "../types.h"
 
-typedef unsigned char  u8;
-
-struct DWCAuthWiFiId {
-	unsigned long long idA;
-	unsigned long long idB;
-	int useA;
-};
+#include "../sdk_dwc.h"
 
 extern void DWC_Auth_SetCustomNas(char *v);
 extern void MI_CpuFill8(void *dst, int data, unsigned long size);
@@ -85,8 +79,6 @@ extern unsigned char gDwcAuthResultBuf[];
 extern struct DWCAuthParam gDwcAuthParam;
 extern unsigned char gDwcAuthGsbrcdBuffer[];
 
-
-
 /*
  * sdk:      DWCi_Auth_InitInterface (libdwcauth.TWL.HYB.a(dwc_auth_interfa))
  */
@@ -108,8 +100,6 @@ int DWCi_Auth_InitInterface(int authServer)
 	return 1;
 }
 
-
-
 /*
  * sdk:      DWCi_Auth_InitAdapterParam (libdwcauth.TWL.HYB.a(dwc_auth_interfa))
  */
@@ -120,8 +110,6 @@ void DWCi_Auth_InitAdapterParam(void)
 	gDwcAuthState.returnCode = 0;
 	MI_CpuFill8(gDwcAuthResultBuf, 0, 0x1c50);
 }
-
-
 
 /*
  * sdk:      DWCi_Auth_StartAuthentication (libdwcauth.TWL.HYB.a(dwc_auth_interfa))
@@ -140,13 +128,11 @@ int DWCi_Auth_StartAuthentication(unsigned short *ingamesn, char *gsbrcd, unsign
 	return 0;
 }
 
-
 void DWCi_Auth_AbortAuthentication(void)
 {
     DWC_Auth_Abort();
     DWC_Auth_Destroy();
 }
-
 
 void DWCi_Auth_ProcessAuthentication(void)
 {
@@ -183,13 +169,10 @@ void DWCi_Auth_ProcessAuthentication(void)
     gDwcAuthState.returnCode = returnCode;
 }
 
-
 int DWCi_Auth_IsFinished(void)
 {
     return gDwcAuthState.finished;
 }
-
-
 
 /*
  * The word at +8 of the module state block.
@@ -199,8 +182,6 @@ int DWCi_Auth_IsSucceeded(void)
     return gDwcAuthState.state;
 }
 
-
-
 /*
  * The word at +4 of the module state block.
  */
@@ -208,8 +189,6 @@ int DWCi_Auth_GetErrorCode(void)
 {
     return gDwcAuthState.returnCode;
 }
-
-
 
 /*
  * sdk:      DWCi_Auth_GetGameSpyToken (libdwcauth.TWL.HYB.a(dwc_auth_interfa))
@@ -225,23 +204,20 @@ void DWCi_Auth_GetGameSpyToken(char *authtoken, char *partnerchallenge)
 	partnerchallenge[8] = 0;
 }
 
-
 void DWCi_Auth_ShutdownAuthentication(void)
 {
     DWC_Auth_Destroy();
 }
-
 
 unsigned long long DWCi_Auth_GetConsoleUserId(void)
 {
 	struct DWCAuthWiFiId authid;
 
 	DWC_Auth_GetId(&authid);
-	if (authid.useA != 0)
-		return authid.idA;
-	return authid.idB;
+	if (authid.flg != 0)
+		return authid.uId;
+	return authid.notAttestedId;
 }
-
 
 /*
  * Reads the use_a word of the 0x14-byte frame filled by DWC_Auth_GetId.
@@ -254,5 +230,5 @@ int DWCi_Auth_IsConsoleUserIdAuthentic(void)
     struct DWCAuthWiFiId authid;
 
     DWC_Auth_GetId(&authid);
-    return authid.useA;
+    return authid.flg;
 }

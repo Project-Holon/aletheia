@@ -138,13 +138,9 @@ struct Light;
 struct LightSet;
 struct LightSlot;
 
-typedef enum { SHADING1 = 1 } GXShading;
+#include "../sdk_gx.h"
 
-typedef int BOOL;
-
-typedef signed short s16;
-
-typedef signed char s8;
+#include "../types.h"
 
 struct BgTemplate { u32 a,b,c,d; u8 e,f,g,h; u32 i; u8 j,k,l,m; u32 n; };
 
@@ -340,8 +336,6 @@ extern const short d_020A1EB8[];
 extern const struct LightSet d_021BFD4C;
 extern const struct LightSet d_021BFD54;
 
-
-
 int INTRO_GRAPHIC_Create(struct Proc *owner, int unused, char *args)
 {
     IntroGraphicWork *work;
@@ -361,8 +355,6 @@ int INTRO_GRAPHIC_Create(struct Proc *owner, int unused, char *args)
     return 1;
 }
 
-
-
 int INTRO_GRAPHIC_Delete(struct Proc *owner, int unused1, int unused2, char *p)
 {
     IntroGraphicWork *work = (IntroGraphicWork *)p;
@@ -381,9 +373,6 @@ int INTRO_GRAPHIC_Delete(struct Proc *owner, int unused1, int unused2, char *p)
     return 1;
 }
 
-
-
-
 int INTRO_GRAPHIC_Main(int a, int b, int c, void *p)
 {
     IntroGraphicWork *work = (IntroGraphicWork *)p;
@@ -400,27 +389,15 @@ int INTRO_GRAPHIC_Main(int a, int b, int c, void *p)
     return 0;
 }
 
-
-
 static inline void Shading(GXShading mode) { REG3D = (unsigned short)((REG3D & ~0x3002) | (mode << 1)); }
-
-
 
 static inline void AntiAlias(BOOL enable) { if (enable) REG3D = (unsigned short)((REG3D & ~0x3000) | 0x10); else REG3D &= (unsigned short)~0x3010; }
 
-
-
 static inline void AlphaTest(BOOL enable, int ref) { if (enable) { REG3D = (unsigned short)((REG3D & ~0x3000) | 4); *(volatile unsigned short *)0x04000340 = ref; } else REG3D &= (unsigned short)~0x3004; }
-
-
 
 static inline void AlphaBlend(BOOL enable) { if (enable) REG3D = (unsigned short)((REG3D & ~0x3000) | 8); else REG3D &= (unsigned short)~0x3008; }
 
-
-
 static inline void EdgeMarking(BOOL enable) { if (enable) REG3D = (unsigned short)((REG3D & ~0x3000) | 0x20); else REG3D &= (unsigned short)~0x3020; }
-
-
 
 /*
  * volatile: 021BDB80 BG0CNT; 021BDB8E..021BDBC2 DISP3DCNT repeated hardware updates; 021BDBE0 viewport.
@@ -430,7 +407,7 @@ void INTRO_GRAPHIC_Setup3d(void)
     unsigned i;
     BG_SYS_SetMainPlaneVisible(1, 1);
     *(volatile unsigned short *)0x04000008 = (unsigned short)((*(volatile unsigned short *)0x04000008 & ~3) | 1);
-    Shading(SHADING1);
+    Shading(GX_SHADING_HIGHLIGHT);
     AntiAlias(0);
     AlphaTest(0, 0);
     AlphaBlend(1);
@@ -441,8 +418,6 @@ void INTRO_GRAPHIC_Setup3d(void)
     for (i = 0; i < 4; i++) G3D_SYSTEM_SetLight((unsigned char)i, (struct G3dLight *)d_021BFDAC[i]);
     G3D_SYSTEM_SetSwapBuffersMode(0, 0);
 }
-
-
 
 void *INTRO_GRAPHIC_CreateDisplay(int swap, int mode, u16 heap)
 {
@@ -474,8 +449,6 @@ void *INTRO_GRAPHIC_CreateDisplay(int swap, int mode, u16 heap)
     return disp;
 }
 
-
-
 /*
  * volatile: 021BDD1E and 021BDD28 read hardware DISPCNT for masked updates.
  */
@@ -495,9 +468,6 @@ void INTRO_GRAPHIC_DeleteDisplay(unsigned char *p)
     GFL_HEAP_Free(disp);
 }
 
-
-
-
 /*
  * Addresses are Black-image addresses.
  */
@@ -508,20 +478,11 @@ void INTRO_GRAPHIC_UpdateDisplay(u8 *p)
     INTRO_GRAPHIC_ResetBgSlot(disp);
 }
 
-
-
 void INTRO_GRAPHIC_Draw3d(char *p){INTRO_GRAPHIC_DrawCamera(&((IntroDisplay *)p)->camera);}
-
-
 
 void INTRO_GRAPHIC_Draw3dEnd(char *p){INTRO_GRAPHIC_DrawEnd(&((IntroDisplay *)p)->camera);}
 
-
-
 unsigned INTRO_GRAPHIC_GetClactOwner(char *p){return INTRO_GRAPHIC_GetClactBank(&((IntroDisplay *)p)->clact);}
-
-
-
 
 void INTRO_GRAPHIC_VBlank(u32 a, u8 *b)
 {
@@ -529,8 +490,6 @@ void INTRO_GRAPHIC_VBlank(u32 a, u8 *b)
     INTRO_GRAPHIC_UpdateBg(disp);
     INTRO_GRAPHIC_VBlankClact(&disp->clact);
 }
-
-
 
 void INTRO_GRAPHIC_InitBg(IntroDisplay *disp, unsigned heap)
 {
@@ -549,9 +508,6 @@ void INTRO_GRAPHIC_InitBg(IntroDisplay *disp, unsigned heap)
     }
 }
 
-
-
-
 /*
  * Addresses are Black-image addresses.
  */
@@ -562,9 +518,6 @@ void INTRO_GRAPHIC_ExitBg(IntroDisplay *disp)
     MI_CpuFill8(disp, 0, 4);
 }
 
-
-
-
 void INTRO_GRAPHIC_ResetBgSlot(IntroDisplay *disp)
 {
     if (BG_SYS_GetMainVisiblePlanes() & 4) {
@@ -572,11 +525,7 @@ void INTRO_GRAPHIC_ResetBgSlot(IntroDisplay *disp)
     }
 }
 
-
-
 void INTRO_GRAPHIC_UpdateBg(void *unused) { BG_SYS_Update(); }
-
-
 
 void INTRO_GRAPHIC_InitBg7(IntroDisplay *disp,u16 heap)
 {
@@ -601,9 +550,6 @@ void INTRO_GRAPHIC_InitBg7(IntroDisplay *disp,u16 heap)
     BG_SYS_SetPlaneVisible(6,1);
 }
 
-
-
-
 void INTRO_GRAPHIC_InitClact(IntroClact *clact, int a, int b)
 {
     MI_CpuFill8(clact, 0, 4);
@@ -614,9 +560,6 @@ void INTRO_GRAPHIC_InitClact(IntroClact *clact, int a, int b)
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
-
-
-
 void INTRO_GRAPHIC_DeleteClact(IntroClact *clact)
 {
     CLACT_DeleteUnit((struct Bank *)clact->bank);
@@ -624,19 +567,11 @@ void INTRO_GRAPHIC_DeleteClact(IntroClact *clact)
     MI_CpuFill8(clact, 0, 4);
 }
 
-
-
 void INTRO_GRAPHIC_DrawClact(void *unused){CLACT_DrawSystem();}
-
-
 
 void INTRO_GRAPHIC_VBlankClact(void *unused){CLACT_VBlankSystem();}
 
-
-
 unsigned INTRO_GRAPHIC_GetClactBank(IntroClact *clact){return (unsigned)clact->bank;}
-
-
 
 /*
  * lever: the fourth 02048A24 argument is the pooled 0x1555 (earlier notes
@@ -659,8 +594,6 @@ void INTRO_GRAPHIC_InitCamera(IntroCamera *cam, u16 heap)
     G3D_LIGHT_ApplySlots(cam->lightSlot);
 }
 
-
-
 void INTRO_GRAPHIC_InitCamera7(IntroCamera *cam, u16 heap)
 {
     u32 far_clip, near_clip;
@@ -674,9 +607,6 @@ void INTRO_GRAPHIC_InitCamera7(IntroCamera *cam, u16 heap)
     G3D_LIGHT_ApplySlots(cam->lightSlot);
 }
 
-
-
-
 void INTRO_GRAPHIC_DeleteCamera(IntroCamera *cam)
 {
     G3D_LIGHT_DeleteSlots(cam->lightSlot);
@@ -684,20 +614,11 @@ void INTRO_GRAPHIC_DeleteCamera(IntroCamera *cam)
     G3D_SYSTEM_Exit();
 }
 
-
-
 void INTRO_GRAPHIC_DrawCamera(IntroCamera *cam){G3D_CAMERA_Reset(cam->camera);G3D_SYSTEM_DrawStart();G3D_SYSTEM_ApplyLookAt();}
-
-
 
 void INTRO_GRAPHIC_DrawEnd(IntroCamera *unused){G3D_SYSTEM_DrawEnd();}
 
-
-
 int INTRO_GRAPHIC_NoOp(void){return 1;}
-
-
-
 
 int INTRO_GRAPHIC_SetScenario(char *p, u32 b, int *c)
 {
@@ -706,9 +627,6 @@ int INTRO_GRAPHIC_SetScenario(char *p, u32 b, int *c)
     work->rowIndex = 0;
     return 1;
 }
-
-
-
 
 u32 INTRO_GRAPHIC_CmdSetScenario(u8 *p)
 {
@@ -721,8 +639,6 @@ u32 INTRO_GRAPHIC_CmdSetScenario(u8 *p)
     INTRO_GRAPHIC_SetScenario((char *)p, 0, (int *)(&t));
     return 1;
 }
-
-
 
 /*
  * extent: 021BE17A..021BE17C is two zero alignment bytes.
@@ -740,8 +656,6 @@ void INTRO_GRAPHIC_DrawMenuEntry(char *p, int which)
     }
     work->rowIndex += 2;
 }
-
-
 
 int INTRO_GRAPHIC_CmdMenu(char *p, int *state, int *values)
 {
@@ -767,11 +681,7 @@ int INTRO_GRAPHIC_CmdMenu(char *p, int *state, int *values)
     return 0;
 }
 
-
-
 extern int (*const gIntroGraphicHandlerTable[])(void *);
-
-
 
 int INTRO_GRAPHIC_CmdRunHandler(char *p, int unused, unsigned *q)
 {
@@ -782,8 +692,6 @@ int INTRO_GRAPHIC_CmdRunHandler(char *p, int unused, unsigned *q)
     work->rowIndex += 2;
     return 1;
 }
-
-
 
 /*
  * extent: lead and two store/return followers; function_starts 021BE308,021BE314.
@@ -811,16 +719,12 @@ int INTRO_GRAPHIC_CmdLoadPalette(char *p,void *unused,int *state)
     return 1;
 }
 
-
-
 int INTRO_GRAPHIC_CmdSetArg(char *p,void *unused,u32 *r)
 {
     IntroCmdWork *work = (IntroCmdWork *)p;
     ((IntroArgs *)work->args)->value=*r;
     return 1;
 }
-
-
 
 int INTRO_GRAPHIC_CmdWaitFrame(void *unused,int *q,int *r)
 {

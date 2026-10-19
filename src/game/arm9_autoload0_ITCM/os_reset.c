@@ -20,12 +20,7 @@
  *   OSi_DoBoot                0x01FF8460  arm
  *   OSi_CpuClear32     0x01FF852C  arm
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef int BOOL;
-typedef volatile u8 vu8;
-typedef volatile u32 vu32;
+#include "../types.h"
 
 /* hand-written in the original: Thumb hash loop with hand register use, one SDK line-table row per instruction */
 asm BOOL OSi_VerifyStaticSegmentHash(const u8 *src, u32 len, const void *digest)

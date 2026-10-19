@@ -5,11 +5,7 @@
 #ifndef NNS_SND_ARC_TYPES_H
 #define NNS_SND_ARC_TYPES_H
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed int     s32;
-typedef int            BOOL;
+#include "../types.h"
 
 /* Load flags of the NNSi_SndArcLoad* functions. */
 #define NNS_SND_ARC_LOAD_SEQ    0x1
@@ -25,7 +21,7 @@ typedef int            BOOL;
 
 #include "../arm9/nns_fnd_types.h"
 
-struct FSFile;
+#include "../sdk_fs.h"
 
 /* Callback run when a sound heap block is released. */
 typedef void (*NNSSndHeapDisposeCallback)(void *buffer, u32 size, u32 data1, u32 data2);
@@ -82,16 +78,7 @@ typedef struct NNSSndArcFatTable {
 } NNSSndArcFatTable;
 
 /* Opaque FS_ file object (0x48 bytes). */
-typedef struct FSFile {
-    u8 opaque[0x48];
-} FSFile;
-
 /* FS file identifier: archive plus file index. */
-typedef struct FSFileID {
-    u32 arc;
-    u32 fileId;
-} FSFileID;
-
 /* Sound archive object (NNSSndArc), owned by this header. */
 typedef struct NNSSndArc {
     u8  header[0x10];             /* 0x00 SDAT file header, copied from the file */

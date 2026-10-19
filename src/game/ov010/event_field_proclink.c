@@ -112,14 +112,7 @@
  *   EVENT_FIELD_PROCLINK_IsReturnEntryValid  0x02161ECC  thumb
  */
 
-
-
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-typedef signed short s16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 typedef enum { FALSE, TRUE } Bool;
 
@@ -132,13 +125,10 @@ typedef struct GameComm GameComm;
 
 #include "field_event_types.h"
 
-
-
 struct EscapeLocation {
     u8 reserved00[4];
     s16 zoneId;       /* 0x04 */
 };
-
 
 /* Bag screen parameter (0x3C bytes, from the bag creator). */
 typedef struct BagParam {
@@ -222,7 +212,6 @@ typedef struct ReportParam {
     u32 result;                 /* 0x0C */
 } ReportParam;
 
-
 /* Object animation event: up to eight animation handles on a field object. */
 typedef struct ObjAnimWork {
     GameSystem *gameSystem;     /* 0x00 */
@@ -233,7 +222,6 @@ typedef struct ObjAnimWork {
     const char *animName;       /* 0x10 */
     int handles[8];             /* 0x14 */
 } ObjAnimWork;
-
 
 /* Evolution demo request (0x14 bytes, read by the evolution overlay); same record as event_wificlub_types.h. */
 typedef struct EvolutionRequest {
@@ -275,15 +263,7 @@ typedef struct CommProcWork {
     u32 savedCommBlocked;       /* 0x20 */
 } CommProcWork;
 
-typedef long long s64;
-
-typedef int fx32;
-
-typedef struct VecFx32 {
-    fx32 x;
-    fx32 y;
-    fx32 z;
-} VecFx32;
+#include "../sdk_fx.h"
 
 /* Work of the hop event: a field object jumps from start to start + delta. */
 typedef struct HopWork {
@@ -301,66 +281,51 @@ typedef struct RtcTime {
     u32 second;
 } RtcTime;
 
-
 extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, void *parent, void *func, u32 workSize);
 extern void *GAME_EVENT_GetWork(GameEvent *event);
 extern GameData *GAMESYSTEM_GetGameData(const GameSystem *gameSystem);
 
-
 extern void *GAMESYSTEM_GetFieldMap(const GameSystem *gameSystem);
 
-
 extern GameComm *GAMESYSTEM_GetGameComm(const GameSystem *gameSystem);
-
 
 extern int GFL_HEAP_Free();
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-
 extern u32 GAME_COMM_GetKind(GameComm *gameComm);
 extern void GAME_COMM_RequestExitNoCallback(GameComm *gameComm);
 extern void GAMESYSTEM_SetCommBlocked(GameSystem *gameSystem, u32 v);
-
 
 extern void GAME_EVENT_CallEvent(GameEvent *parent, GameEvent *child);
 struct MyStatus;
 struct MyStatus *GAME_DATA_GetMyStatus(const GameData *gameData);
 struct SaveControl;
 
-
 extern struct SaveControl *GAME_DATA_GetSaveControl(const GameData *gameData);
 extern void GAMESYSTEM_CallProc(GameSystem *gameSystem, u32 overlayId, const void *procData, void *param);
 extern u32 GAMESYSTEM_GetProcStatus(const GameSystem *gameSystem);
-
 
 extern void *GAME_DATA_GetMyParty(const GameData *gameData);
 
 extern void *SYSTEM_DATA_GetConfig(void *saveControl);
 
-
 extern int GF_OVERLAY_Load(int handle);
 
-
 extern void MI_CpuFill8();
-
 
 extern u32 ZONEDATA_IsZone96Pair(u32);
 struct FieldMap;
 struct MmdlSys;
 extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 
-
 extern void FLDMMDL_SysPauseMove(struct MmdlSys *sys);
-
 
 extern u16 *GAME_DATA_GetMyPlayerWork(GameData *gameData);
 struct FieldMsgBg;
 
-
 extern struct FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
 struct Party;
-
 
 extern u32 POKEPARTY_GetCount(struct Party *party);
 extern void *POKEPARTY_GetMember(void *party, u32 index);
@@ -368,7 +333,6 @@ struct PokemonParam;
 extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
 struct BoxPokemon;
 extern u32 POKE_TOOL_HasRibbonData(struct BoxPokemon *box);
-
 
 extern void *GAME_DATA_GetMyItem(const GameData *gameData);
 struct MailBox;
@@ -444,7 +408,6 @@ extern int ZONEDATA_SetChangeZoneEnable();
 extern void EVENT_FIELD_PROCLINK_ClearReturnEntry(ProcLinkEntry *entry);
 extern int EVENT_FIELD_PROCLINK_IsReturnEntryValid(ProcLinkEntry *entry);
 
-
 PokeListParam *EVENT_FIELD_PROCLINK_CreatePokeListParam(ProcLinkWork *work, int kind, int mode, void *source);
 int EVENT_FIELD_PROCLINK_ReturnPokeList(ProcLinkWork *work, PokeListParam *listResult);
 ZukanParam *EVENT_FIELD_PROCLINK_CreateZukanParam(ProcLinkWork *work, int startSpecies);
@@ -495,7 +458,6 @@ int EVENT_FIELD_PROCLINK_ApplyZoneChangeEnable(ZoneFlagSetting *setting);
 void EVENT_FIELD_PROCLINK_InitEventdataSystem(ProcLinkReturnList *list);
 ProcLinkEntry *EVENT_FIELD_PROCLINK_GetEventdataEntry(ProcLinkReturnList *list, int id, unsigned mode);
 
-
 extern u8 ov136_id[];
 extern const char d_02172978[];
 extern const char d_02171404[];
@@ -505,7 +467,6 @@ extern const char d_021713EC[];
 extern const fx32 d_0217140C[];
 extern u8 gDemo3dProcData[];
 extern u8 ov203_id[];
-
 
 /*
  * Allocate and fill the 0x98-byte request record for a link step: player
@@ -624,7 +585,6 @@ PokeListParam *EVENT_FIELD_PROCLINK_CreatePokeListParam(ProcLinkWork *work, int 
     return list;
 }
 
-
 /*
  * Unlabelled (the listing folds it into EVENT_FIELD_PROCLINK_CreatePokeListParam's extent). Consume a
  * reply record: copy its result into the context and pick the next state.
@@ -690,7 +650,6 @@ int EVENT_FIELD_PROCLINK_ReturnPokeList(ProcLinkWork *work, PokeListParam *listR
     return 1;
 }
 
-
 ZukanParam *EVENT_FIELD_PROCLINK_CreateZukanParam(ProcLinkWork *work, int startSpecies)
 {
     ZukanParam *param;
@@ -713,7 +672,6 @@ ZukanParam *EVENT_FIELD_PROCLINK_CreateZukanParam(ProcLinkWork *work, int startS
     return param;
 }
 
-
 Bool EVENT_FIELD_PROCLINK_ReturnZukan(ProcLinkWork *work, ZukanParam *param)
 {
     u32 bgmInfo = GAME_DATA_GetBgmInfo(param->gameData);
@@ -724,7 +682,6 @@ Bool EVENT_FIELD_PROCLINK_ReturnZukan(ProcLinkWork *work, ZukanParam *param)
     else
         return TRUE;
 }
-
 
 /*
  * Allocate and fill the 0x28-byte battle setup for mode 0 (from the
@@ -815,7 +772,6 @@ PStatusParam *EVENT_FIELD_PROCLINK_CreatePokeStatusParam(ProcLinkWork *work, int
     return param;
 }
 
-
 /*
  * Leaf after EVENT_FIELD_PROCLINK_CreatePokeStatusParam's pool (0x02160F88, no func_ label in the
  * listing; reached through a pointer, not a bl).
@@ -835,7 +791,6 @@ int EVENT_FIELD_PROCLINK_ReturnPokeStatus(ProcLinkWork *work, PStatusParam *para
     return 1;
 }
 
-
 int EVENT_FIELD_PROCLINK_IsSpecialZone(GameSystem *gameSystem)
 {
     unsigned short zoneId = GAME_DATA_GetPlayerZoneId(GAMESYSTEM_GetMyPlayerWork(gameSystem));
@@ -846,7 +801,6 @@ int EVENT_FIELD_PROCLINK_IsSpecialZone(GameSystem *gameSystem)
         return 3;
     return 0;
 }
-
 
 /*
  * 2026-10-05 (wave P21): EXACT. Older note draft (60 B off) lacked the repeated
@@ -887,7 +841,6 @@ BagParam *EVENT_FIELD_PROCLINK_CreateBagParam(ProcLinkWork *work, int lastFieldP
     }
     return bag;
 }
-
 
 /*
  * Menu selection dispatch: maps the chosen item (listResult->listMode) to the next
@@ -963,7 +916,6 @@ int EVENT_FIELD_PROCLINK_ReturnBag(ProcLinkWork *work, PokeListParam *listResult
     return 4;
 }
 
-
 void EVENT_FIELD_PROCLINK_CreateTrainerCardView(ProcLinkWork *work, int startPage)
 {
     GameData *gameData = GAMESYSTEM_GetGameData(work->context->gameSystem);
@@ -983,7 +935,6 @@ void EVENT_FIELD_PROCLINK_CreateTrainerCardView(ProcLinkWork *work, int startPag
     }
 }
 
-
 int EVENT_FIELD_PROCLINK_ReturnTrainerCardView(ProcLinkWork *work, TrainerCardViewWork *param)
 {
     GameData *gameData;
@@ -996,7 +947,6 @@ int EVENT_FIELD_PROCLINK_ReturnTrainerCardView(ProcLinkWork *work, TrainerCardVi
         return 0;
     return 1;
 }
-
 
 /*
  * Allocates a 0x18-byte record (heap 4, clear, site string, tag 0x68A) and fills
@@ -1020,7 +970,6 @@ TownMapParam *EVENT_FIELD_PROCLINK_CreateTownMapParam(ProcLinkWork *work)
         param->viewMode = 1;
     return param;
 }
-
 
 int EVENT_FIELD_PROCLINK_ReturnTownMapSelect(ProcLinkWork *work, TownMapParam *param)
 {
@@ -1065,7 +1014,6 @@ int EVENT_FIELD_PROCLINK_ReturnTownMapSelect(ProcLinkWork *work, TownMapParam *p
     return 1;
 }
 
-
 /*
  * Allocate an 8-byte record and store the save handle at +4. The extent
  * also holds the unlabelled leaf at 0x02161340 (nonzero test of *r1).
@@ -1080,14 +1028,12 @@ ConfigParam *EVENT_FIELD_PROCLINK_CreateConfigParam(ProcLinkWork *work)
     return param;
 }
 
-
 int EVENT_FIELD_PROCLINK_ReturnConfig(int unused, ConfigParam *param)
 {
     if (param->result != 0)
         return 1;
     return 0;
 }
-
 
 /*
  * Five arguments to the overlay builder: the two words of the descriptor,
@@ -1105,7 +1051,6 @@ void EVENT_FIELD_PROCLINK_StartConfigEvent(ProcLinkWork *work)
                                 work->eventKind, objectModel, &work->resultFlag));
 }
 
-
 /*
  * Allocate an 8-byte record and store the save handle at +0.
  * The extent also holds the unlabelled leaf at 0x021613A4.
@@ -1118,7 +1063,6 @@ TrainerCardParam *EVENT_FIELD_PROCLINK_CreateTrainerCardParam(ProcLinkWork *work
     param->gameData = GAMESYSTEM_GetGameData(work->context->gameSystem);
     return param;
 }
-
 
 int EVENT_FIELD_PROCLINK_ReturnTrainerCard(ProcLinkWork *work, TrainerCardParam *param)
 {
@@ -1138,7 +1082,6 @@ int EVENT_FIELD_PROCLINK_ReturnTrainerCard(ProcLinkWork *work, TrainerCardParam 
         return 1;
     }
 }
-
 
 int EVENT_FIELD_PROCLINK_CreateMailParam(ProcLinkWork *work, int kind, int mode, const PokeListParam *listResult)
 {
@@ -1169,7 +1112,6 @@ int EVENT_FIELD_PROCLINK_CreateMailParam(ProcLinkWork *work, int kind, int mode,
     work->purpose = 1;
     return (int)MAILTOOL_CreateArgsFromMail(gameData, (void *)FILE_UTIL_GetItemSlot((u16)listResult->listArg), 4);
 }
-
 
 /*
  * Lever: second state writes nextState separately in each arm; cross-jumping
@@ -1217,14 +1159,12 @@ int EVENT_FIELD_PROCLINK_ReturnMail(ProcLinkWork *work, void *mailParam)
     return 4;
 }
 
-
 void EVENT_FIELD_PROCLINK_UnloadMailOverlay(void *mailParam)
 {
     GF_OVERLAY_Load((u32)ov136_id);
     MAILTOOL_DeleteArgs(mailParam);
     GF_OVERLAY_Unload((u32)ov136_id);
 }
-
 
 EvolutionRequest *EVENT_FIELD_PROCLINK_CreateEvolutionParam(ProcLinkWork *work, int kind, int mode, const PokeListParam *listResult)
 {
@@ -1262,7 +1202,6 @@ EvolutionRequest *EVENT_FIELD_PROCLINK_CreateEvolutionParam(ProcLinkWork *work, 
     return request;
 }
 
-
 int EVENT_FIELD_PROCLINK_ReturnEvolution(ProcLinkWork *work)
 {
     GAMESYSTEM_GetGameData(work->context->gameSystem);
@@ -1277,7 +1216,6 @@ int EVENT_FIELD_PROCLINK_ReturnEvolution(ProcLinkWork *work)
     return 0;
 }
 
-
 /*
  * Allocate an 0x10-byte record and store the save handle at +4.
  * The extent also holds the unlabelled leaf at 0x02161668.
@@ -1290,7 +1228,6 @@ ReportParam *EVENT_FIELD_PROCLINK_CreateReportParam(ProcLinkWork *work)
     param->gameData = GAMESYSTEM_GetGameData(work->context->gameSystem);
     return param;
 }
-
 
 int EVENT_FIELD_PROCLINK_ReturnReport(ProcLinkWork *work, ReportParam *param)
 {
@@ -1315,7 +1252,6 @@ int EVENT_FIELD_PROCLINK_ReturnReport(ProcLinkWork *work, ReportParam *param)
     }
 }
 
-
 /*
  * Allocator with callback, zero-fills the node, then fills link fields.
  */
@@ -1334,7 +1270,6 @@ GameEvent *EVENT_FIELD_PROCLINK_CreateFreeEvent(GameSystem *gameSystem, void *fi
     return event;
 }
 
-
 int EVENT_FIELD_PROCLINK_FreeEventMain(void *event, int *state, ReportEventWork *work)
 {
     switch (REPORT_EVENT_Main(work, (u32 *)state)) {
@@ -1348,13 +1283,11 @@ int EVENT_FIELD_PROCLINK_FreeEventMain(void *event, int *state, ReportEventWork 
     return 0;
 }
 
-
 /* Thumb tail call into the ARM function GFL_HEAP_Free: ldr r3,[pc]; bx r3. */
 void EVENT_FIELD_PROCLINK_FreeAnimWork(void)
 {
     GFL_HEAP_Free();
 }
-
 
 /*
  * Three-step sequence over the field map's objects: step 0 starts the
@@ -1424,7 +1357,6 @@ int EVENT_FIELD_PROCLINK_AnimEventMain(GameEvent *event, u32 *seq, MapAnimWork *
     return 0;
 }
 
-
 GameEvent *EVENT_FIELD_PROCLINK_CreateAnimEvent(GameSystem *gameSystem, void *fieldMap)
 {
     GameEvent *event;
@@ -1437,7 +1369,6 @@ GameEvent *EVENT_FIELD_PROCLINK_CreateAnimEvent(GameSystem *gameSystem, void *fi
     work->gameData = GAMESYSTEM_GetGameData(gameSystem);
     return event;
 }
-
 
 int EVENT_FIELD_PROCLINK_ObjAnimEventMain(void *task, int *state, ObjAnimWork *work)
 {
@@ -1460,7 +1391,6 @@ int EVENT_FIELD_PROCLINK_ObjAnimEventMain(void *task, int *state, ObjAnimWork *w
     return 0;
 }
 
-
 /*
  * Allocator with callback, then a sub-init call and link fields.
  */
@@ -1477,7 +1407,6 @@ GameEvent *EVENT_FIELD_PROCLINK_CreateObjAnimEvent(GameSystem *gameSystem, void 
     work->animName = animName;
     return event;
 }
-
 
 GameEvent *EVENT_FIELD_PROCLINK_StartObjAnim(GameSystem *gameSystem, void *source)
 {
@@ -1500,7 +1429,6 @@ GameEvent *EVENT_FIELD_PROCLINK_StartObjAnim(GameSystem *gameSystem, void *sourc
     return EVENT_FIELD_PROCLINK_CreateObjAnimEvent(gameSystem, source, 0xFF, animName);
 }
 
-
 void *EVENT_FIELD_PROCLINK_InitAnimNode(void *fieldObjects, unsigned int objectId)
 {
     if (objectId == 0xf2)
@@ -1510,7 +1438,6 @@ void *EVENT_FIELD_PROCLINK_InitAnimNode(void *fieldObjects, unsigned int objectI
     return fieldObjects;
 }
 
-
 void EVENT_FIELD_PROCLINK_ClearAnimNode(ObjAnimWork *work)
 {
     int i = 0;
@@ -1519,7 +1446,6 @@ void EVENT_FIELD_PROCLINK_ClearAnimNode(ObjAnimWork *work)
     for (; i < 8; i++)
         work->handles[i] = zero;
 }
-
 
 ObjAnimWork *EVENT_FIELD_PROCLINK_IsAnimNodeDone(ObjAnimWork *work, int handle)
 {
@@ -1533,7 +1459,6 @@ ObjAnimWork *EVENT_FIELD_PROCLINK_IsAnimNodeDone(ObjAnimWork *work, int handle)
     }
     return work;
 }
-
 
 int EVENT_FIELD_PROCLINK_UpdateAnimNode(ObjAnimWork *work)
 {
@@ -1553,12 +1478,10 @@ int EVENT_FIELD_PROCLINK_UpdateAnimNode(ObjAnimWork *work)
     return stillRunning;
 }
 
-
 static inline fx32 FX_Mul(fx32 a, fx32 b)
 {
     return (fx32)(((s64)a * b + 0x800LL) >> 12);
 }
-
 
 /*
  * Hop-and-land movement of a field object: state 0 follows the arc table
@@ -1610,7 +1533,6 @@ int EVENT_FIELD_PROCLINK_HopEventMain(GameEvent *event, u32 *seq, HopWork *work)
     return done;
 }
 
-
 GameEvent *EVENT_FIELD_PROCLINK_CreateHopEvent(GameSystem *gameSystem, void *object, VecFx32 *start, VecFx32 *target)
 {
     GameEvent *event;
@@ -1625,7 +1547,6 @@ GameEvent *EVENT_FIELD_PROCLINK_CreateHopEvent(GameSystem *gameSystem, void *obj
     GFL_USE_PlaySeDefaultVolume(0x55E);
     return event;
 }
-
 
 int EVENT_FIELD_PROCLINK_StartHopAnim(void *fieldObject)
 {
@@ -1651,7 +1572,6 @@ int EVENT_FIELD_PROCLINK_StartHopAnim(void *fieldObject)
     return FLDMMDL_ACMD_ListCreate(object, animName);
 }
 
-
 int EVENT_FIELD_PROCLINK_IsHopAnimDone(int handle)
 {
     if (FLDMMDL_ACMD_ListCheckEnd((void *)handle) == 1) {
@@ -1660,7 +1580,6 @@ int EVENT_FIELD_PROCLINK_IsHopAnimDone(int handle)
     }
     return 0;
 }
-
 
 GameEvent *EVENT_FIELD_PROCLINK_CreateCommExitEvent(GameSystem *gameSystem, GameEvent *parent, int kind, int sub, int useRealTime)
 {
@@ -1680,7 +1599,6 @@ GameEvent *EVENT_FIELD_PROCLINK_CreateCommExitEvent(GameSystem *gameSystem, Game
         GAME_BEACON_SEARCH_SetSimpleEventB();
     return event;
 }
-
 
 int EVENT_FIELD_PROCLINK_CommExitEventMain(GameEvent *event, int *state, CommProcWork *work)
 {
@@ -1713,7 +1631,6 @@ int EVENT_FIELD_PROCLINK_CommExitEventMain(GameEvent *event, int *state, CommPro
     return 0;
 }
 
-
 void EVENT_FIELD_PROCLINK_SetCommProcParam(CommProcParam *param, GameSystem *gameSystem, int kind, u8 sub, u32 flags, u8 hour, u8 minute, u8 season)
 {
     MI_CpuFill8(param, 0, 0x18);
@@ -1727,7 +1644,6 @@ void EVENT_FIELD_PROCLINK_SetCommProcParam(CommProcParam *param, GameSystem *gam
     param->flag = (u8)(int)MYSTATUS_GetSex(GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(gameSystem)));
 }
 
-
 void EVENT_FIELD_PROCLINK_StartCommProc(CommProcParam *param, GameSystem *gameSystem, u8 kind, u8 sub)
 {
     RtcTime time;
@@ -1737,7 +1653,6 @@ void EVENT_FIELD_PROCLINK_StartCommProc(CommProcParam *param, GameSystem *gameSy
     season = COMM_PLAYER_SUPPORT_GetSeasonFromClock();
     EVENT_FIELD_PROCLINK_SetCommProcParam(param, gameSystem, kind, sub, 0, time.hour, time.minute, season);
 }
-
 
 /*
  * Padding: two zero alignment bytes after the 74-byte function.
@@ -1753,7 +1668,6 @@ void EVENT_FIELD_PROCLINK_StartSeasonCommProc(CommProcParam *param, GameSystem *
 
     EVENT_FIELD_PROCLINK_SetCommProcParam(param, gameSystem, kind, sub, 0, (u8)hour, (u8)minute, season);
 }
-
 
 int EVENT_FIELD_PROCLINK_ApplyZoneChangeEnable(ZoneFlagSetting *setting)
 {
@@ -1772,7 +1686,6 @@ int EVENT_FIELD_PROCLINK_ApplyZoneChangeEnable(ZoneFlagSetting *setting)
     return result;
 }
 
-
 void EVENT_FIELD_PROCLINK_InitEventdataSystem(ProcLinkReturnList *list)
 {
     int i;
@@ -1784,7 +1697,6 @@ void EVENT_FIELD_PROCLINK_InitEventdataSystem(ProcLinkReturnList *list)
         EVENT_FIELD_PROCLINK_ClearReturnEntry(&list->pending[i]);
     }
 }
-
 
 ProcLinkEntry *EVENT_FIELD_PROCLINK_GetEventdataEntry(ProcLinkReturnList *list, int id, unsigned mode)
 {

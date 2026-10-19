@@ -30,17 +30,10 @@ extern int strncmp(unsigned char *s1, unsigned char *s2, unsigned int n);
 extern unsigned char *strncpy(unsigned char *dest, unsigned char *src, unsigned int n);
 extern unsigned char *strchr(unsigned char *s, int c);
 
-typedef unsigned char  u8;
+#define GAME_TYPES_U32_LONG
+#include "../types.h"
 
-typedef unsigned long u32;
-
-typedef unsigned long long u64;
-
-typedef struct {
-    u64 x;
-    u64 mul;
-    u64 add;
-} MATHRandContext32;
+#include "../sdk_math.h"
 
 extern int OS_SNPrintf(char *dst, unsigned int len, char *fmt, ...);
 extern void OS_GetMacAddress(u8 *macAddress);
@@ -52,9 +45,6 @@ int DWC_GetCommonValueString(char *key, char *value, char *string, char separato
 /* * Returns the index of the first zero halfword in the array. */ int DWCi_WStrLen(unsigned short *p);
 extern char gDwcCommonKvFormat[];
 
-
-
-
 /*
  * DWC_SetCommonKeyValueString: writes one separator-key-separator-value pair and returns its length.
  */
@@ -64,9 +54,6 @@ int DWC_SetCommonKeyValueString(const char *key, const char *value, char *string
     return strlen((const char *)string);
 }
 
-
-
-
 /*
  * DWC_AddCommonKeyValueString: appends one key-value pair and returns the whole string's length.
  */
@@ -75,8 +62,6 @@ int DWC_AddCommonKeyValueString(const char *key, const char *value, char *string
     DWC_SetCommonKeyValueString(key, value, (char *)strchr((unsigned char *)string, 0), sep);
     return strlen((const char *)string);
 }
-
-
 
 /*
  * sdk:      DWC_GetCommonValueString (libdwcmatch.TWL.HYB.a(dwc_common.o))
@@ -118,16 +103,12 @@ int DWC_GetCommonValueString(char *key, char *value, char *string, char separato
     return len;
 }
 
-
-
 static inline void MATH_InitRand32(MATHRandContext32 *context, u64 seed)
 {
     context->x = seed;
     context->mul = (1566083941LL << 32) + 1812433253LL;
     context->add = 2531011;
 }
-
-
 
 static inline u32 MATH_Rand32(MATHRandContext32 *context, u32 max)
 {
@@ -138,8 +119,6 @@ static inline u32 MATH_Rand32(MATHRandContext32 *context, u32 max)
         return (u32)(((context->x >> 32) * max) >> 32);
     }
 }
-
-
 
 /*
  * lane18 (2026-10-01): EXACT. dwc_common.o's stRandContext32 is a data-local static:
@@ -160,7 +139,6 @@ u32 DWCi_GetMathRand32(u32 max)
     }
     return MATH_Rand32(&stRandContext32, max);
 }
-
 
 /*
  * Returns the index of the first zero halfword in the array.

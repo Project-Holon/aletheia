@@ -44,13 +44,10 @@
  *   gHeapBlockReportName   0x0214697C data
  *   kSystemAllocName       0x020A7824 data
  */
-#include "gfl_heap_wrap_shared_types.h"
 
 struct Heap;
 
-typedef signed int     s32;
-
-typedef unsigned char u8;
+#include "../types.h"
 
 /* Header of a heap block: the allocation site stored at header+4. */
 struct HeapBlockSite {

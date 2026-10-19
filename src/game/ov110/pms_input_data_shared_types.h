@@ -1,11 +1,7 @@
 #ifndef PMS_INPUT_DATA_SHARED_TYPES_H
 #define PMS_INPUT_DATA_SHARED_TYPES_H
 
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 #define PMS_INPUT_DATA_CATEGORY_COUNT 12
 #define PMS_INPUT_DATA_INITIAL_COUNT 27

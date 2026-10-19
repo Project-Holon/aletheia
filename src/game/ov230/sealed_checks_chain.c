@@ -35,8 +35,7 @@
  *   OV230_CallSealedBody16  0x021893D0  arm  ov230d
  *   OV230_CallSealedBody17  0x0218940C  arm  ov230d
  */
-typedef unsigned int u32;
-typedef unsigned char u8;
+#include "../types.h"
 
 extern u8 OV230_CallSealedBody6[];
 extern u8 OV230_CallSealedBody7[];

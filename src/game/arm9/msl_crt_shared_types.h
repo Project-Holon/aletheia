@@ -1,9 +1,7 @@
 #ifndef MSL_CRT_SHARED_TYPES_H
 #define MSL_CRT_SHARED_TYPES_H
 
-typedef unsigned int u32;
-
-typedef unsigned char u8;
+#include "../types.h"
 
 typedef unsigned int   size_t;
 

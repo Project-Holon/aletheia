@@ -109,45 +109,12 @@
 #define FX32_ONE 0x1000
 #define FX16_ONE ((fx16)0x1000)
 struct NNSG2dRndCoreInstance;
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef signed short   s16;
-
-typedef long           s32;
-
-typedef int            BOOL;
-
-typedef s32            fx32;
-
-typedef union {
-    struct { u16 attr0; u16 attr1; u16 attr2; u16 attr3; };
-    struct { u32 attr01; u32 attr23; };
-    struct {
-        u32 y:8; u32 rsMode:2; u32 objMode:2; u32 mosaic:1; u32 colorMode:1; u32 shape:2;
-        u32 x:9; u32 rsParam:5; u32 size:2;
-        u32 charNo:10; u32 priority:2; u32 cParam:4; u32 _3:16;
-    };
-    struct { u32 _0:28; u32 flipH:1; u32 flipV:1; u32 _1:2; u32 _2:2; u32 _4:16; };
-} GXOamAttr;
+#define GAME_TYPES_S32_LONG
+#include "../types.h"
 
 typedef enum { GX_OAM_SHAPE_8x8 = 0 } GXOamShape;
 
-typedef enum {
-    GX_TEXFMT_NONE = 0, GX_TEXFMT_A3I5 = 1, GX_TEXFMT_PLTT4 = 2, GX_TEXFMT_PLTT16 = 3,
-    GX_TEXFMT_PLTT256 = 4, GX_TEXFMT_COMP4x4 = 5, GX_TEXFMT_A5I3 = 6, GX_TEXFMT_DIRECT = 7
-} GXTexFmt;
-
-typedef enum { GX_TEXSIZE_S8 = 0 } GXTexSizeS;
-
-typedef enum { GX_TEXSIZE_T8 = 0 } GXTexSizeT;
-
-typedef enum { GX_TEXPLTTCOLOR0_USE = 0 } GXTexPlttColor0;
-
-typedef enum { GX_OBJVRAMMODE_CHAR_2D = 0 } GXOBJVRamModeChar;
+#include "../sdk_gx.h"
 
 typedef struct {
     GXTexSizeS sizeS;
@@ -178,8 +145,6 @@ typedef void (*UVFlipCorrectFunc)(fx32 *pU0, fx32 *pV0, fx32 *pU1, fx32 *pV1, BO
 
 struct UVFlipState { UVFlipCorrectFunc pFunc; fx32 zOffset; u32 zOffsetEnabled; };
 
-typedef s16            fx16;
-
 typedef enum {
     GX_OAM_EFFECT_NONE = 0x0000,
     GX_OAM_EFFECT_AFFINE = 0x0100,
@@ -187,15 +152,11 @@ typedef enum {
     GX_OAM_EFFECT_AFFINE_DOUBLE = 0x0300
 } GXOamEffect;
 
-typedef long long      s64;
-
 typedef struct { fx32 x; fx32 y; } NNSG2dFVec2;
 
-typedef struct { fx32 _00; fx32 _01; fx32 _10; fx32 _11; } MtxFx22;
+#include "../sdk_fx.h"
 
 typedef struct { fx32 _00, _01, _10, _11, _20, _21; } MtxFx32;
-
-typedef struct { fx32 _00, _01, _02, _10, _11, _12, _20, _21, _22, _30, _31, _32; } MtxFx43;
 
 typedef enum { OAM_FLIP_NONE = 0, OAM_FLIP_H = 1, OAM_FLIP_V = 2, OAM_FLIP_HV = 3 } OAM_FLIP;
 
@@ -298,16 +259,10 @@ extern NNSG2dRndCoreInstance *sRndCoreInstance;     /* pTheInstance_ */
 extern fx32 sOamSoftEmuAutoZOffsetStep;
 extern const MtxFx32 sMtxIdentity;              /* mtxIdentity_ */
 
-
-
-
 static inline void G3_TexPlttBase(u32 addr, GXTexFmt texfmt)
 {
     reg_G3_TEXPLTT_BASE = (u32)((addr) >> (4 - ((texfmt) == GX_TEXFMT_PLTT4)));
 }
-
-
-
 
 static inline GXOamShape NNS_G2dGetOAMSize(const GXOamAttr *oamAttr)
 {
@@ -315,44 +270,30 @@ static inline GXOamShape NNS_G2dGetOAMSize(const GXOamAttr *oamAttr)
     return result;
 }
 
-
-
 static inline int NNS_G2dGetOamSizeX(const GXOamShape *oamShape)
 {
     return NNSi_objSizeWTbl[(*oamShape & 0x0000c000) >> 14][(*oamShape & 0xc0000000) >> 30];
 }
-
-
 
 static inline int NNS_G2dGetOamSizeY(const GXOamShape *oamShape)
 {
     return NNSi_objSizeHTbl[(*oamShape & 0x0000c000) >> 14][(*oamShape & 0xc0000000) >> 30];
 }
 
-
-
 static inline BOOL NNSi_G2dGetOamFlipH(const GXOamAttr *oamAttr)
 {
     return (BOOL)(oamAttr->flipH);
 }
-
-
 
 static inline BOOL NNSi_G2dGetOamFlipV(const GXOamAttr *oamAttr)
 {
     return (BOOL)(oamAttr->flipV);
 }
 
-
-
-
 static inline u32 GetNumTexChar_(GXTexSizeS texSize)
 {
     return sTexCharCountTbl[texSize];
 }
-
-
-
 
 static inline void DoFlip_(BOOL bFlipH, BOOL bFlipV, fx32 *pRetU0, fx32 *pRetU1, fx32 *pRetV0, fx32 *pRetV1)
 {
@@ -376,9 +317,6 @@ static inline void DoFlip_(BOOL bFlipH, BOOL bFlipV, fx32 *pRetU0, fx32 *pRetU1,
     }
 }
 
-
-
-
 static inline void CalcUVFor3DDirect2DMap_(const NNSG2dImageAttr *pTexImageAttr, u16 charName, fx32 *pRetU0, fx32 *pRetV0)
 {
     if (pTexImageAttr->fmt == GX_TEXFMT_PLTT256) {
@@ -395,9 +333,6 @@ static inline void CalcUVFor3DDirect2DMap_(const NNSG2dImageAttr *pTexImageAttr,
     }
 }
 
-
-
-
 static inline void CalcUVFor3DDirect1DMap_(fx32 *pRetU0, fx32 *pRetV0)
 {
     {
@@ -405,9 +340,6 @@ static inline void CalcUVFor3DDirect1DMap_(fx32 *pRetU0, fx32 *pRetV0)
         *pRetV0 = 0;
     }
 }
-
-
-
 
 static inline u32 GetOffsetByteSizeOfPlt_(GXTexFmt pltFmt, BOOL bExtendedPlt, u16 pltNo)
 {
@@ -422,16 +354,10 @@ static inline u32 GetOffsetByteSizeOfPlt_(GXTexFmt pltFmt, BOOL bExtendedPlt, u1
     }
 }
 
-
-
-
 static inline int GetCharacterNameShiftBit_(GXOBJVRamModeChar objMappingMode)
 {
     return (objMappingMode & 0x00700000) >> 20;
 }
-
-
-
 
 static inline void SetTextureParamsFor3DDirect1DMap_(const NNSG2dImageAttr *pTexImageAttr, u32 texBaseAddr, GXOamShape shape, u16 charName)
 {
@@ -452,9 +378,6 @@ static inline void SetTextureParamsFor3DDirect1DMap_(const NNSG2dImageAttr *pTex
     }
 }
 
-
-
-
 static inline void SetTextureParamsFor3DDirect2DMap_(const NNSG2dImageAttr *pTexImageAttr, u32 texBaseAddr)
 {
     {
@@ -470,9 +393,6 @@ static inline void SetTextureParamsFor3DDirect2DMap_(const NNSG2dImageAttr *pTex
     }
 }
 
-
-
-
 static inline void SetPaletteParamsFor3DDirect_(const NNSG2dImageAttr *pTexImageAttr, u32 pltBaseAddr, const GXOamAttr *pOam)
 {
     {
@@ -486,9 +406,6 @@ static inline void SetPaletteParamsFor3DDirect_(const NNSG2dImageAttr *pTexImage
         G3_TexPlttBase(pltBaseAddr + pltOffs, pltFmt);
     }
 }
-
-
-
 
 /*
  * NitroSystem g2d CalcSpriteParams_ (g2d_OamSoftwareSpriteDraw.c): the
@@ -537,40 +454,22 @@ void NNSi_G2dCalcSpriteParams(const GXOamAttr *pOam, const NNSG2dImageAttr *pTex
     SetPaletteParamsFor3DDirect_(pTexImageAttr, pltBaseAddr, pOam);
 }
 
-
-
-
 void NNSi_G2dSetOamSoftEmuAutoZOffsetEnabled(u32 enabled)
 {
     sUVFlipState.zOffsetEnabled = enabled;
 }
-
-
-
-
-
 
 void NNS_G2dResetOamSoftEmuAutoZOffset(void)
 {
     sUVFlipState.zOffset = 0;
 }
 
-
-
-
-
 void NNS_G2dSetOamSoftEmuAutoZOffsetStep(fx32 step)
 {
     sOamSoftEmuAutoZOffsetStep = step;
 }
 
-
-
-
-
 int NNS_G2dGetOamSoftEmuAutoZOffsetStep(void){ return *(int *)(0x20A8218); }
-
-
 
 static inline GXOamEffect G2_GetOBJEffect(const GXOamAttr *oam)
 {
@@ -580,7 +479,6 @@ static inline GXOamEffect G2_GetOBJEffect(const GXOamAttr *oam)
         return effect;
     return (GXOamEffect)(effect | (oam->attr01 & 0x30000000));
 }
-
 
 static inline void G2_SetOBJEffect(GXOamAttr *oam, GXOamEffect eff, int rsParam)
 {
@@ -596,14 +494,12 @@ static inline void G2_SetOBJEffect(GXOamAttr *oam, GXOamEffect eff, int rsParam)
     }
 }
 
-
 static inline void G2_SetOBJPosition(GXOamAttr *oam, int x, int y)
 {
     oam->attr01 = ((oam->attr01 & ~(0x000000ff | 0x01ff0000)) |
                    (y & 0x000000ff) |
                    ((x & (0x01ff0000 >> 16)) << 16));
 }
-
 
 static inline s16 NNS_G2dRepeatXinCellSpace(s16 srcX)
 {
@@ -613,7 +509,6 @@ static inline s16 NNS_G2dRepeatXinCellSpace(s16 srcX)
     return srcX;
 }
 
-
 static inline s16 NNS_G2dRepeatYinCellSpace(s16 srcY)
 {
     if (srcY > 127) {
@@ -621,7 +516,6 @@ static inline s16 NNS_G2dRepeatYinCellSpace(s16 srcY)
     }
     return srcY;
 }
-
 
 static inline s16 NNSi_G2dGetOamX(const GXOamAttr *oamAttr)
 {
@@ -631,7 +525,6 @@ static inline s16 NNSi_G2dGetOamX(const GXOamAttr *oamAttr)
     }
 }
 
-
 static inline s16 NNSi_G2dGetOamY(const GXOamAttr *oamAttr)
 {
     {
@@ -640,13 +533,11 @@ static inline s16 NNSi_G2dGetOamY(const GXOamAttr *oamAttr)
     }
 }
 
-
 static inline void NNS_G2dGetOamTransFx32(const GXOamAttr *pOam, NNSG2dFVec2 *pRet)
 {
     pRet->x = (fx32)(NNS_G2dRepeatXinCellSpace(NNSi_G2dGetOamX(pOam)) * 0x1000);
     pRet->y = (fx32)(NNS_G2dRepeatYinCellSpace(NNSi_G2dGetOamY(pOam)) * 0x1000);
 }
-
 
 static inline void NNSi_G2dRemovePositionAdjustmentFromDoubleAffineOBJ(const GXOamAttr *pOam, NNSG2dFVec2 *pV)
 {
@@ -659,7 +550,6 @@ static inline void NNSi_G2dRemovePositionAdjustmentFromDoubleAffineOBJ(const GXO
         pV->y += halfH;
     }
 }
-
 
 static inline void NNSi_G2dAdjustDifferenceOfRotateOrientation(const GXOamAttr *pOam, const MtxFx22 *pM, NNSG2dFVec2 *pV, BOOL adjustDoubleAffine)
 {
@@ -677,7 +567,6 @@ static inline void NNSi_G2dAdjustDifferenceOfRotateOrientation(const GXOamAttr *
         }
     }
 }
-
 
 static inline void MulMtx22(const MtxFx22 *m, const NNSG2dFVec2 *pSrc, NNSG2dFVec2 *pDst)
 {
@@ -697,17 +586,12 @@ static inline void MulMtx22(const MtxFx22 *m, const NNSG2dFVec2 *pSrc, NNSG2dFVe
     }
 }
 
-
-
-
 static inline void G3_Translate(fx32 x, fx32 y, fx32 z)
 {
     reg_G3_MTX_TRANS = (u32)x;
     reg_G3_MTX_TRANS = (u32)y;
     reg_G3_MTX_TRANS = (u32)z;
 }
-
-
 
 static inline void G3_Scale(fx32 x, fx32 y, fx32 z)
 {
@@ -716,32 +600,18 @@ static inline void G3_Scale(fx32 x, fx32 y, fx32 z)
     reg_G3_MTX_SCALE = (u32)z;
 }
 
-
-
 static inline void G3_TexCoord(fx32 s, fx32 t) { reg_G3_TEXCOORD = GX_ST(s, t); }
-
-
 
 static inline void G3_Vtx10(fx16 x, fx16 y, fx16 z) { reg_G3_VTX_10 = GX_VECVTX10(x, y, z); }
 
-
-
 static inline void G3_Begin(int prim) { reg_G3_BEGIN_VTXS = (u32)prim; }
 
-
-
 static inline void G3_End(void) { reg_G3_END_VTXS = 0; }
-
-
-
 
 static inline GXOamShape G2_GetOBJShape(const GXOamAttr *oam)
 {
     return (GXOamShape)(oam->attr01 & (0x0000c000 | 0xc0000000));
 }
-
-
-
 
 /*
  * The composer's 3D-geometry emitter: one textured unit quad per call.
@@ -799,9 +669,6 @@ void NNSi_G2dDrawSoftEmuSprite(int x, int y, int z, const GXOamAttr *oam, u32 pT
     if (sUVFlipState.zOffsetEnabled)
         sUVFlipState.zOffset += sOamSoftEmuAutoZOffsetStep;
 }
-
-
-
 
 /*
  * NitroSystem g2d DoAffineTransforme_ (g2d_RendererCore.c): read the OBJ
@@ -861,7 +728,6 @@ void NNSi_G2dDoAffineTransforme(const MtxFx22 *pMtxSR, GXOamAttr *pOam, NNSG2dFV
     G2_SetOBJPosition(pOam, objTrans.x >> 12, objTrans.y >> 12);
 }
 
-
 static inline const MtxFx32 *RndCoreGetCurrentMtx_(void)
 {
     if (sRndCoreInstance->pCurrentMxt) {
@@ -871,19 +737,16 @@ static inline const MtxFx32 *RndCoreGetCurrentMtx_(void)
     }
 }
 
-
 static inline BOOL IsRndCore2DAffineTransformed_(const NNSG2dRndCoreInstance *pRnd)
 {
     return (BOOL)(pRnd->flipFlag == 0 && pRnd->pCurrentMtxCacheFor2D != 0);
 }
-
 
 static inline void NNSi_G2dGetMtxTrans(const MtxFx32 *m, NNSG2dFVec2 *pRet)
 {
     pRet->x = m->_20;
     pRet->y = m->_21;
 }
-
 
 static inline void NNSi_G2dGetMtxRS(const MtxFx32 *m, MtxFx22 *pRet)
 {
@@ -892,7 +755,6 @@ static inline void NNSi_G2dGetMtxRS(const MtxFx32 *m, MtxFx22 *pRet)
     pRet->_10 = m->_10;
     pRet->_11 = m->_11;
 }
-
 
 static inline void NNS_G2dCopyCellAsOamAttr(const NNSG2dCellData *pCell, u16 idx, GXOamAttr *pDst)
 {
@@ -905,7 +767,6 @@ static inline void NNS_G2dCopyCellAsOamAttr(const NNSG2dCellData *pCell, u16 idx
     }
 }
 
-
 static inline void HandleCellOamBackFunc_(DrawOamCB pFunc, const NNSG2dCellData *pCell, u16 oamIdx)
 {
     if (pFunc) {
@@ -913,24 +774,20 @@ static inline void HandleCellOamBackFunc_(DrawOamCB pFunc, const NNSG2dCellData 
     }
 }
 
-
 static inline u16 GetMtxCacheAffineIndex_(const NNSG2dRndCore2DMtxCache *pMtxCache, u32 surfaceType, OAM_FLIP flipType)
 {
     return pMtxCache->affineIndex[flipType][surfaceType - 1];
 }
-
 
 static inline void SetMtxCacheAffineIndex_(NNSG2dRndCore2DMtxCache *pMtxCache, u32 surfaceType, OAM_FLIP flipType, u16 affineIndex)
 {
     pMtxCache->affineIndex[flipType][surfaceType - 1] = affineIndex;
 }
 
-
 static inline BOOL IsMtxCacheRegisteredAsAffineParams_(const u16 affineIdx)
 {
     return (affineIdx != 0xFFFF) ? 1 : 0;
 }
-
 
 static inline void MakeFlipMtx_(const MtxFx22 *pMtxSrc, MtxFx22 *pMtxDst, OAM_FLIP type)
 {
@@ -948,7 +805,6 @@ static inline void MakeFlipMtx_(const MtxFx22 *pMtxSrc, MtxFx22 *pMtxDst, OAM_FL
         }
     }
 }
-
 
 static inline u16 LoadMtxCacheAsAffineParams_(NNSG2dRndCore2DMtxCache *pMtxCache, const NNSG2dRndCoreSurface *pSurface, OAM_FLIP type)
 {
@@ -971,7 +827,6 @@ static inline u16 LoadMtxCacheAsAffineParams_(NNSG2dRndCore2DMtxCache *pMtxCache
     return affineIdx;
 }
 
-
 static inline void OverwriteOamFlipFlag_(GXOamAttr *pOam)
 {
     {
@@ -985,7 +840,6 @@ static inline void OverwriteOamFlipFlag_(GXOamAttr *pOam)
         pOam->attr01 |= bFlipV << 29;
     }
 }
-
 
 static inline void DoFlipTransforme_(GXOamAttr *pOam, NNSG2dFVec2 *pBaseTrans)
 {
@@ -1006,8 +860,6 @@ static inline void DoFlipTransforme_(GXOamAttr *pOam, NNSG2dFVec2 *pBaseTrans)
     pOam->x += pBaseTrans->x >> 12;
     pOam->y += pBaseTrans->y >> 12;
 }
-
-
 
 /*
  * NitroSystem g2d DrawCellToSurface2D_ (g2d_RendererCore.c): the 2D (OAM)
@@ -1079,10 +931,6 @@ void NNSi_G2dDrawCellToSurface2D(const NNSG2dRndCoreSurface *pSurface, const NNS
     }
 }
 
-
-
-
-
 static inline int OamX(const GXOamAttr *oam)
 {
     int x = oam->x;
@@ -1091,9 +939,6 @@ static inline int OamX(const GXOamAttr *oam)
     return x;
 }
 
-
-
-
 static inline int OamY(const GXOamAttr *oam)
 {
     int y = oam->y;
@@ -1101,9 +946,6 @@ static inline int OamY(const GXOamAttr *oam)
         y = (s16)(y | 0xff00);
     return y;
 }
-
-
-
 
 static inline u16 PosX_(const GXOamAttr *oam, GXOamShape shape)
 {
@@ -1114,8 +956,6 @@ static inline u16 PosX_(const GXOamAttr *oam, GXOamShape shape)
         return OamX(oam);
 }
 
-
-
 static inline u16 PosY_(const GXOamAttr *oam, GXOamShape shape)
 {
     if (NNSi_G2dIsRndCoreFlipV(sRndCoreInstance)) {
@@ -1124,8 +964,6 @@ static inline u16 PosY_(const GXOamAttr *oam, GXOamShape shape)
     } else
         return OamY(oam);
 }
-
-
 
 /*
  * NitroSystem g2d renderer core, the 3D (software sprite) per-OAM draw:
@@ -1171,7 +1009,6 @@ void NNSi_G2dDrawOam3D(GXOamAttr *oam)
         NNSi_G2dDrawSoftEmuSprite(OamX(oam), OamY(oam), -1, oam, (u32)&sRndCoreInstance->pImgProxy->attr, sRndCoreInstance->baseTexAddr3D, sRndCoreInstance->basePltAddr3D);
     }
 }
-
 
 /*
  * Draw every OAM entry of a cell through the two per-OAM hooks of the
@@ -1220,7 +1057,6 @@ void NNSi_G2dDrawCellToSurface3D(const NNSG2dRndCoreSurface *pSurface, const NNS
     }
 }
 
-
 void NNS_G2dInitRndCore(NNSG2dRndCoreInstance *pRnd)
 {
     MIi_CpuClear16(0, pRnd, 0x70);
@@ -1233,9 +1069,6 @@ void NNS_G2dInitRndCore(NNSG2dRndCoreInstance *pRnd)
     pRnd->pCurrentMtxCacheFor2D = 0;
 }
 
-
-
-
 /*
  * Stores the image and palette proxies the renderer core draws from (+0x08,
  * +0x0C of the instance).
@@ -1246,9 +1079,6 @@ void NNS_G2dSetRndCoreImageProxy(NNSG2dRndCoreInstance *pRnd, const NNSG2dImageP
     pRnd->pPltProxy = pPltProxy;
 }
 
-
-
-
 /*
  * Stores the OAM register callbacks (+0x1C, +0x20 of the instance).
  */
@@ -1257,10 +1087,6 @@ void NNS_G2dSetRndCoreOamRegisterFunc(NNSG2dRndCoreInstance *pRnd, OamRegisterFu
     pRnd->pFuncOamRegister = pFuncOamRegister;
     pRnd->pFuncOamAffineRegister = pFuncOamAffineRegister;
 }
-
-
-
-
 
 /*
  * Unlabelled two-instruction leaf of the NNS G2D cell-to-OAM composer
@@ -1279,8 +1105,6 @@ void NNS_G2dSetRndCoreAffineOverwriteMode(NNSG2dRndCoreInstance *pRnd, u32 mode)
 {
     pRnd->affineOverwriteMode = mode;
 }
-
-
 
 /*
  * Makes a 2x3 matrix the current 3D transform of the renderer core: the matrix
@@ -1311,9 +1135,6 @@ void NNS_G2dSetRndCoreCurrentMtx3D(const MtxFx32 *pMtx)
     pRnd->mtx._32 = pRnd->zFor3DSoftwareSprite;
 }
 
-
-
-
 /*
  * Makes a 2x3 matrix and its affine cache the current 2D transform of the
  * renderer core (+0x2C, +0x28).
@@ -1325,11 +1146,6 @@ void NNS_G2dSetRndCoreCurrentMtx2D(const MtxFx32 *pMtx, NNSG2dRndCore2DMtxCache 
     pRnd->pCurrentMxt = pMtx;
     pRnd->pCurrentMtxCacheFor2D = pMtxCache;
 }
-
-
-
-
-
 
 /*
  * The H/V flip lane of the NNS G2D cell-to-OAM composer: two setters, a
@@ -1367,25 +1183,20 @@ void NNS_G2dSetRndCore3DSoftSpriteZvalue(NNSG2dRndCoreInstance *pRnd, fx32 zFor3
     pRnd->zFor3DSoftwareSprite = zFor3DSoftwareSprite;
 }
 
-
 void NNS_G2dSetRndCoreSurface(NNSG2dRndCoreInstance *pRnd, NNSG2dRndCoreSurface *pSurface)
 {
     pRnd->pCurrentTargetSurface = pSurface;
 }
-
 
 u32 NNSi_G2dIsRndCoreFlipH(const NNSG2dRndCoreInstance *pRnd)
 {
     return (pRnd->flipFlag & 1) != 0;
 }
 
-
 u32 NNSi_G2dIsRndCoreFlipV(const NNSG2dRndCoreInstance *pRnd)
 {
     return (pRnd->flipFlag & 2) != 0;
 }
-
-
 
 /*
  * The NNS G2D cell-to-OAM flip setter: bit 0 of the renderer core instance's +0x24
@@ -1406,7 +1217,6 @@ void NNS_G2dSetRndCoreFlipMode(NNSG2dRndCoreInstance *pRnd, BOOL bFlipH, BOOL bF
     if (bFlipV) pRnd->flipFlag |= 2;
     else        pRnd->flipFlag &= ~2u;
 }
-
 
 void NNS_G2dRndCoreBeginRendering(NNSG2dRndCoreInstance *pRnd)
 {
@@ -1453,8 +1263,6 @@ void NNS_G2dRndCoreBeginRendering(NNSG2dRndCoreInstance *pRnd)
     }
 }
 
-
-
 void NNS_G2dRndCoreEndRendering(void)
 {
     NNSG2dRndCoreInstance *pRnd = sRndCoreInstance;
@@ -1471,8 +1279,6 @@ void NNS_G2dRndCoreEndRendering(void)
     }
     sRndCoreInstance = 0;
 }
-
-
 
 void NNS_G2dRndCoreDrawCell(const NNSG2dCellData *pCell)
 {
@@ -1507,7 +1313,6 @@ void NNS_G2dRndCoreDrawCell(const NNSG2dCellData *pCell)
         pSurface->pAfterDrawCellBackFunc(sRndCoreInstance, pCell);
     }
 }
-
 
 void NNS_G2dRndCoreDrawCellVramTransfer(const NNSG2dCellData *pCell, s32 cellTransferHandle)
 {

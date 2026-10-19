@@ -38,10 +38,7 @@ struct GameSystem;
 struct GameData;
 struct GameComm;
 struct EventWork;
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed int s32;
+#include "../types.h"
 
 /* Entralink (palace) field state: owns the town palette table of the zone. */
 typedef struct FieldPalaceSys {

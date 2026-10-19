@@ -95,11 +95,7 @@ struct BgTemplate;
 struct DispConfig;
 struct Bank;
 struct Cfg;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 struct Args { void *data; u32 flag; };
 
@@ -373,7 +369,6 @@ void MANUAL_GRAPHIC_TaskNoop(void *unused, char *work)
 {
 }
 
-
 static inline void G2_BlendNone(void) { *(volatile u16 *)0x04000050 = 0; }
 
 static inline void G2S_BlendNone(void) { *(volatile u16 *)0x04001050 = 0; }
@@ -421,7 +416,6 @@ void MANUAL_GRAPHIC_DeleteScreen(char *screen)
     GFL_HEAP_Free(screen);
 }
 
-
 void MANUAL_GRAPHIC_DrawScreen(char *screen)
 {
     MANUAL_GRAPHIC_DrawClactUnit(screen + 4);
@@ -429,7 +423,6 @@ void MANUAL_GRAPHIC_DrawScreen(char *screen)
 }
 
 u32 MANUAL_GRAPHIC_GetClactUnit(const u8 *screen) { return MANUAL_GRAPHIC_GetUnitHandle((const u32 *)(screen+4)); }
-
 
 void MANUAL_GRAPHIC_VBlankScreen(void *unused, char *screen)
 {
@@ -465,7 +458,6 @@ void MANUAL_GRAPHIC_DrawBg(void *unused) {}
 
 void MANUAL_GRAPHIC_VBlankBg(void *unused) { BG_SYS_Update(); }
 
-
 void MANUAL_GRAPHIC_CreateClactUnit(unsigned char *clact, int arg, int heap)
 {
     MI_CpuFill8(clact, 0, 4);
@@ -475,7 +467,6 @@ void MANUAL_GRAPHIC_CreateClactUnit(unsigned char *clact, int arg, int heap)
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
-
 
 void MANUAL_GRAPHIC_DeleteClactUnit(char *clact)
 {

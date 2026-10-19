@@ -19,10 +19,7 @@
  *   _u32_div_f 0x0209C2B0 arm
  */
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed int s32;
+#include "../types.h"
 
 /* A cell coordinate (the command queue carries grid positions). */
 typedef struct Wf2dmapCmdPos {
@@ -62,7 +59,6 @@ Wf2dmapCmdStore *WF2DMAP_CMDQ_CreateStore(int n, int heap)
     p->capacity = 0;
     return p;
 }
-
 
 /*
  * Addresses are Black-image addresses.

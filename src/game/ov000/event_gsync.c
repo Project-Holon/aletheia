@@ -72,13 +72,7 @@ struct MyStatus;
 struct Config;
 struct WifiList;
 struct FieldMap;
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef volatile u16   vu16;
+#include "../types.h"
 
 /* Parameter block read by the WiFi login overlay (ov115). */
 typedef struct WifiLoginParam {
@@ -202,8 +196,6 @@ extern char d_021D77B8[];
 extern char gNetSaveMainProc[];
 extern char gNetSaveRetryProc[];
 extern char d_021EF78C[];
-
-
 
 u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
 {
@@ -400,8 +392,6 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
     return 0;
 }
 
-
-
 /*
  * Thumb tail call through r3 (ldr r3, =target; bx r3). Labelled in wave D8.
  * Overlay entry point: forwards to the event constructor.
@@ -410,7 +400,6 @@ void *EVENT_GSYNC_Entry(void *gameSystem)
 {
     return EVENT_GSYNC_Create(gameSystem);
 }
-
 
 void *EVENT_GSYNC_Create(void *gameSystem)
 {

@@ -170,14 +170,7 @@ struct G3dSys;
 struct Ctx;
 struct Arg;
 struct StrObj;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-typedef signed int s32;
-typedef signed char s8;
-typedef signed short s16;
+#include "../types.h"
 
 typedef int (*Command)(char *,char *);
 
@@ -439,23 +432,12 @@ extern const u8 d_020A1E38[];
 extern const unsigned d_021BAC2C[];
 extern const unsigned short d_021BAB40[];
 
-
-
-
 int STAFF_ROLL_Init(struct Proc *p, int unused, u32 arg) { u8 *q; GFL_HEAP_CreateChildHeap(1,142,0x125000); q=PROCSYS_AllocProcWork(p,756,142); MI_CpuFill8(q,0,756); ((StaffRoll *)q)->sys=(void *)arg; return 1; }
-
-
-
-
 
 int STAFF_ROLL_Main(int unused0, int unused1, int unused2, int work)
 {
     return STAFF_ROLL_RunState((char *)work) == 0;
 }
-
-
-
-
 
 int STAFF_ROLL_Exit(void *p)
 {
@@ -464,19 +446,9 @@ int STAFF_ROLL_Exit(void *p)
     return 1;
 }
 
-
-
-
 extern int (*const d_021BAB70[])(char *);
 
-
-
-
 int STAFF_ROLL_RunState(char *p){STAFF_ROLL_UpdateInput((unsigned char *)p);((StaffRoll *)p)->state=d_021BAB70[*(unsigned *)(p+0x2e8)](p);if(((StaffRoll *)p)->state==5)return 0;STAFF_ROLL_PrintNextRow(p);STAFF_ROLL_Draw3d(p);return 1;}
-
-
-
-
 
 int STAFF_ROLL_Setup(u8 *p)
 {
@@ -500,19 +472,12 @@ int STAFF_ROLL_Setup(u8 *p)
     return 3;
 }
 
-
-
-
-
 int STAFF_ROLL_CheckWipeDone(char *p)
 {
     if (WIPE_SYS_EndCheck() == 1)
         return ((StaffRoll *)p)->wipeDelay;
     return 1;
 }
-
-
-
 
 int STAFF_ROLL_Teardown(char *p) {
 if(GFL_USE_IsBgmFading()==1)return 2;
@@ -523,13 +488,7 @@ GXx_SetMasterBrightness_((volatile u16 *)0x0400006c,FADE_LEVEL);GXx_SetMasterBri
 BG_SYS_SetMainVisiblePlanes(0);BG_SYS_SetSubVisiblePlanes(0);GF_OVERLAY_Unload((int)overlay_id);return 5;
 }
 
-
-
-
 #define COUNT(p) (*(unsigned *)((p) + 0x2E4))
-
-
-
 
 int STAFF_ROLL_StateWaitIntro(char *p)
 {
@@ -555,9 +514,6 @@ int STAFF_ROLL_StateWaitIntro(char *p)
     }
     return 3;
 }
-
-
-
 
 int STAFF_ROLL_RunScript(char *p) {
     char *row;
@@ -596,18 +552,11 @@ int STAFF_ROLL_RunScript(char *p) {
     return 4;
 }
 
-
-
-
-
 void STAFF_ROLL_SetupVramBanks(void)
 {
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021BABFC);
 }
-
-
-
 
 void STAFF_ROLL_SetupBackgrounds(void)
 {
@@ -630,17 +579,10 @@ void STAFF_ROLL_SetupBackgrounds(void)
     BG_SYS_SetSubPlaneVisible(2, 1);
 }
 
-
-
-
 /*
  * Tail: two zero alignment bytes at 0x021B99F6.
  */
 void STAFF_ROLL_TeardownBackgrounds(void){BG_SYS_SetMainPlaneVisible(2,0);BG_SYS_SetSubPlaneVisible(2,0);BG_SYS_FreeLayerBuf(5);BG_SYS_FreeLayerBuf(3);BG_SYS_FreeLayerBuf(1);BG_SYS_Delete();}
-
-
-
-
 
 void STAFF_ROLL_LoadGraphics(void)
 {
@@ -656,9 +598,6 @@ void STAFF_ROLL_LoadGraphics(void)
     BG_SYS_LoadPlttEntry(5, FADE_PALETTE_COLOR);
 }
 
-
-
-
 void STAFF_ROLL_ReloadGraphics(void *unused, int mode)
 {
     unsigned char *h;
@@ -673,26 +612,14 @@ void STAFF_ROLL_ReloadGraphics(void *unused, int mode)
     BG_SYS_LoadPlttEntry(1, FADE_PALETTE_COLOR);
 }
 
-
-
-
 /*
  * volatile: SDK OS_SetIrqCheckFlag read-modify-write at 0x02FE3FF8.
  */
 void STAFF_ROLL_VblankTask(void *task,char *p){STAFF_ROLL_FlushWindows(p);BG_SYS_Update();*(volatile unsigned *)((unsigned)SDK_AUTOLOAD_MAIN_TWL_START+0x3ff8) |=1;}
 
-
-
-
 void STAFF_ROLL_AddVblankTask(char *p){((StaffRoll *)p)->vblankTask=GFL_USE_AddMainTask(STAFF_ROLL_VblankTask,p,0);}
 
-
-
-
 void STAFF_ROLL_RemoveVblankTask(char *p){TCB_DeleteTask(((StaffRoll *)p)->vblankTask);}
-
-
-
 
 /*
  * Padding: two zero bytes at 0x021B9B6A, then the next function.
@@ -705,28 +632,16 @@ void STAFF_ROLL_InitText(char *p)
     ((StaffRoll *)p)->fontB = GF_FONT_Create(0x17, 2, 1, 0, 0x8E);
 }
 
-
-
-
 void STAFF_ROLL_DeleteText(char *p){GF_FONT_Delete(((StaffRoll *)p)->fontB);GF_FONT_Delete(((StaffRoll *)p)->fontA);STRBUF_Delete(((StaffRoll *)p)->textBuf);MSGDATA_Delete(((StaffRoll *)p)->msgBank);}
 
-
-
-
 #undef COUNT
 
-
-
 #undef COUNT
-
 
 #undef COUNT
 
 #undef COUNT
 #define COUNT(p) (*(unsigned short *)((p) + 0x2B8))
-
-
-
 
 void STAFF_ROLL_BuildRowList(char *p)
 {
@@ -753,18 +668,9 @@ void STAFF_ROLL_BuildRowList(char *p)
     }
 }
 
-
-
-
 void STAFF_ROLL_DeleteRowList(char *p){unsigned i;for(i=0;i<((StaffRoll *)p)->rowCount;i++)BMP_Delete(((StaffRoll *)p)->rows[i].bmp);}
 
-
-
-
 void STAFF_ROLL_PrintRow(char *p, void *s, unsigned rowIndex){unsigned char *q=*(unsigned char * *)&((StaffRoll *)p)->entryTable+rowIndex*16;if(q[9]==0)STAFF_ROLL_PrintText(p,q,s,0);else STAFF_ROLL_PrintText(p,q,s,2);}
-
-
-
 
 void STAFF_ROLL_PrintNextRow(char *p)
 {
@@ -775,14 +681,7 @@ void STAFF_ROLL_PrintNextRow(char *p)
     }
 }
 
-
-
-
 void STAFF_ROLL_BlitRow(char *p){struct Bmp *s=BMP_WIN_GetBmp(((StaffRoll *)p)->windowB);BMP_Blit(*(struct Bmp **)((unsigned)p+((StaffRoll *)p)->scriptRowIndex*8+0xb8),s,0,0,0,192,256,16,0);}
-
-
-
-
 
 void STAFF_ROLL_LoadRows(char *p)
 {
@@ -790,18 +689,11 @@ void STAFF_ROLL_LoadRows(char *p)
     STAFF_ROLL_BuildRowList(p);
 }
 
-
-
-
-
 void STAFF_ROLL_FreeRows(char *p)
 {
     STAFF_ROLL_DeleteRowList(p);
     GFL_HEAP_Free((void *)(((StaffRoll *)p)->entryTable));
 }
-
-
-
 
 /*
  * Padding: two zero bytes at 0x021B9DAE, then the next function.
@@ -822,30 +714,17 @@ void STAFF_ROLL_InitWindows(char *p)
     BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)h));
 }
 
-
-
-
 void STAFF_ROLL_DeleteWindows(char *p){BMP_WIN_Delete(*(struct Descriptor * *)&((StaffRoll *)p)->windowA);BMP_WIN_Delete(*(struct Descriptor * *)&((StaffRoll *)p)->windowB);BMP_WIN_Exit();}
-
-
-
-
 
 void STAFF_ROLL_SetWindowFlags(char *p, u32 flags)
 {
     ((StaffRoll *)p)->windowFlags |= (u8)flags;
 }
 
-
-
-
 /*
  * Tail: two zero alignment bytes at 0x021B9E12.
  */
 void STAFF_ROLL_FlushWindows(char *p){if(((StaffRoll *)p)->windowFlags&1)BMP_WIN_TransferChars((struct Descriptor *)((StaffRoll *)p)->windowA);if(((StaffRoll *)p)->windowFlags&2)BMP_WIN_TransferChars((struct Descriptor *)((StaffRoll *)p)->windowB);((StaffRoll *)p)->windowFlags=0;}
-
-
-
 
 static inline void AntiAlias(int enable) {
     u32 tmp=*(volatile u16 *)0x04000060 & ~0x3000;
@@ -853,9 +732,6 @@ static inline void AntiAlias(int enable) {
     else tmp&=~0x10;
     *(volatile u16 *)0x04000060=(u16)tmp;
 }
-
-
-
 
 void STAFF_ROLL_Init3d(char *p) {
     Vec3 v;
@@ -879,10 +755,6 @@ void STAFF_ROLL_Init3d(char *p) {
     G2x_SetBlendBrightness_(0x04000050,1,FADE_LEVEL);
 }
 
-
-
-
-
 /*
  * Verified scratch blocker.c with one --arm (no --region), fixed flags: EXACT, 12 bytes.
  * extern void GFL_HEAP_Free(void *);
@@ -890,10 +762,6 @@ void STAFF_ROLL_Init3d(char *p) {
  * Blocker symbols: GFL_HEAP_Free 0x020307B0 arm.
  */
 void STAFF_ROLL_Exit3d(char *p){G3D_CAMERA_Delete(*(void **)(p+12));G3D_LIGHT_DeleteSlots(*(void **)(p+16));G3D_UTIL_RemoveUnit(*(struct Ctx **)(p+8),*(unsigned short *)(p+24));G3D_UTIL_Delete(*(struct Rec **)(p+8));G3D_SYSTEM_Exit();}
-
-
-
-
 
 void STAFF_ROLL_Draw3d(char *p)
 {
@@ -910,27 +778,11 @@ void STAFF_ROLL_Draw3d(char *p)
     }
 }
 
-
-
-
-
 void STAFF_ROLL_InitLights(u8 *p){u32 i;*(const void * *)&((StaffRollLight *)p)->lightSet=&d_021BACE4;((StaffRollLight *)p)->mode=7;((StaffRollLight *)p)->progress=0;((StaffRollLight *)p)->activeIndex=0;((StaffRollLight *)p)->lightMode=0;for(i=0;i<16;i++){u8 *q=p+i*4;((StaffRollLight *)q)->queue[0].index=65535;((StaffRollLight *)q)->queue[0].duration=0;}}
-
-
-
-
 
 void STAFF_ROLL_QueueLight(u8 *p, int index, int duration){u32 i;for(i=0;i<16;i++){u8 *q=p+i*4;if(((StaffRollLight *)q)->queue[0].index==65535){((StaffRollLight *)q)->queue[0].index=index;((StaffRollLight *)q)->queue[0].duration=duration;return;}}}
 
-
-
-
-
 void STAFF_ROLL_AdvanceLights(u8 *p){u32 i;for(i=0;i<15;i++){u8 *q=p+i*4;((StaffRollLight *)q)->queue[0].index=((StaffRollLight *)q)->queue[1].index;((StaffRollLight *)q)->queue[0].duration=((StaffRollLight *)q)->queue[1].duration;}((StaffRollLight *)p)->queue[15].index=65535;((StaffRollLight *)p)->queue[15].duration=0;}
-
-
-
-
 
 void STAFF_ROLL_CalcVelocity(Vec *out, const Vec *base, const Vec *target, unsigned duration)
 {
@@ -957,10 +809,6 @@ void STAFF_ROLL_CalcVelocity(Vec *out, const Vec *base, const Vec *target, unsig
     *out = v;
 }
 
-
-
-
-
 void STAFF_ROLL_StepPosition(Vec *out, const Vec *base, const Vec *velocity, unsigned step)
 {
     Vec v = *base;
@@ -973,10 +821,6 @@ void STAFF_ROLL_StepPosition(Vec *out, const Vec *base, const Vec *velocity, uns
     if (velocity->z > 0) v.z += n; else v.z -= n;
     *out = v;
 }
-
-
-
-
 
 void STAFF_ROLL_UpdateLights(char *p)
 {
@@ -1013,21 +857,9 @@ void STAFF_ROLL_UpdateLights(char *p)
     G3D_CAMERA_Reset(*(struct Light **)(p + 0xc));
 }
 
-
-
-
-
 void STAFF_ROLL_SetLightMode(u8 *p, u32 mode){((StaffRollLight *)p)->lightMode=mode;}
 
-
-
-
-
 int STAFF_ROLL_StartWipe(u8 *p, int delay){WIPE_SYS_Start(0,0,0,FADE_WIPE_COLOR,6,1,142);((StaffRoll *)p)->wipeDelay=delay;return 1;}
-
-
-
-
 
 void STAFF_ROLL_UpdateBrightness(char *p)
 {
@@ -1042,18 +874,9 @@ void STAFF_ROLL_UpdateBrightness(char *p)
     }
 }
 
-
-
-
 void STAFF_ROLL_UpdateInput(u8 *p){if(**(int **)p){enum {K=0x2d1} k=K;if(p[k]==0)p[k+1]=(KEY_GetCont()&3)?1:0;p[0x2d1]=(p[0x2d1]+1)&3;}}
 
-
-
-
 void STAFF_ROLL_ShiftRow(u8 *p,u8 *out,u32 n){u32 i;if(out){for(i=0;i<n;i++)*(u32 *)(out+(8-n)*4+i*4)=*(u32 *)(p+i*4);}for(i=0;i<8-n;i++)*(u32 *)(p+i*4)=*(u32 *)(p+n*4+i*4);}
-
-
-
 
 /*
  * extent: two zero alignment bytes at 021BA4AA, then labelled 021BA4AC.
@@ -1090,9 +913,6 @@ void STAFF_ROLL_ScrollWindows(char *p)
     STAFF_ROLL_SetWindowFlags(p, 3);
 }
 
-
-
-
 void STAFF_ROLL_PrintText(char *p, unsigned char *q, void *s, int y)
 {
     int x;
@@ -1110,13 +930,7 @@ void STAFF_ROLL_PrintText(char *p, unsigned char *q, void *s, int y)
     PRINTSYS_PrintColor(s, x, y, ((StaffRoll *)p)->textBuf, *(void **)(p + q[9] * 4 + 0xa8), d_021BAB40[q[8]]);
 }
 
-
-
-
 void STAFF_ROLL_PrintRowText(char *p,u8 *q){if(q[9]==0)STAFF_ROLL_PrintText(p,q,BMP_WIN_GetBmp(*(struct Descriptor * *)&((StaffRoll *)p)->windowB),192);else STAFF_ROLL_PrintText(p,q,BMP_WIN_GetBmp(*(struct Descriptor * *)&((StaffRoll *)p)->windowB),194);}
-
-
-
 
 void STAFF_ROLL_PrintEntry(char *p, unsigned char *q)
 {
@@ -1133,9 +947,6 @@ void STAFF_ROLL_PrintEntry(char *p, unsigned char *q)
     }
     STAFF_ROLL_PrintText(p, q, s, y);
 }
-
-
-
 
 /*
  * volatile: display registers 04000052 and 04001052 are hardware.
@@ -1170,9 +981,6 @@ int STAFF_ROLL_StepFadeIn(char *p)
     return 1;
 }
 
-
-
-
 int STAFF_ROLL_StepFadeOut(char *p)
 {
     int a, b;
@@ -1206,9 +1014,6 @@ int STAFF_ROLL_StepFadeOut(char *p)
     }
     return 1;
 }
-
-
-
 
 /*
  * volatile: display register stores at 04000050 and 04000052.
@@ -1278,9 +1083,6 @@ int STAFF_ROLL_StepWindowSlide(char *p)
     return 1;
 }
 
-
-
-
 int STAFF_ROLL_CmdPrintEntry(char *p, unsigned char *q)
 {
     if (((StaffRollEntry *)q)->text == 0xffff) {
@@ -1298,9 +1100,6 @@ int STAFF_ROLL_CmdPrintEntry(char *p, unsigned char *q)
     return 0;
 }
 
-
-
-
 int STAFF_ROLL_CmdShowEntry(char *p, unsigned char *q)
 {
     if (((StaffRoll *)p)->scriptState == 0) {
@@ -1313,9 +1112,6 @@ int STAFF_ROLL_CmdShowEntry(char *p, unsigned char *q)
     return 0;
 }
 
-
-
-
 int STAFF_ROLL_CmdSetEntryMode(char *p, unsigned char *q)
 {
     ((StaffRoll *)p)->entryMode = q[7];
@@ -1323,17 +1119,11 @@ int STAFF_ROLL_CmdSetEntryMode(char *p, unsigned char *q)
     return 1;
 }
 
-
-
-
 int STAFF_ROLL_CmdStartScroll(char *p)
 {
     ((StaffRoll *)p)->scrollActive = 1;
     return 0;
 }
-
-
-
 
 int STAFF_ROLL_CmdStopScroll(char *p)
 {
@@ -1341,26 +1131,16 @@ int STAFF_ROLL_CmdStopScroll(char *p)
     return 0;
 }
 
-
-
-
 int STAFF_ROLL_CmdEnd(char *p)
 {
     ((StaffRoll *)p)->scriptState = 5;
     return 1;
 }
 
-
-
-
 int STAFF_ROLL_CmdNop(void)
 {
     return 1;
 }
-
-
-
-
 
 int STAFF_ROLL_CmdShowPlane(void)
 {
@@ -1368,21 +1148,13 @@ int STAFF_ROLL_CmdShowPlane(void)
     return 1;
 }
 
-
-
-
-
 int STAFF_ROLL_CmdHidePlane(void)
 {
     BG_SYS_SetMainPlaneVisible(1, 0);
     return 1;
 }
 
-
-
-
 int STAFF_ROLL_CmdQueueLight(u8 *p,u8 *q){u8 *s=(u8 *)((u32)p+0x28);STAFF_ROLL_QueueLight(s,q[7],((StaffRollEntry *)q)->y);STAFF_ROLL_SetLightMode(s,1);return 1;}
-
 
 int STAFF_ROLL_CmdSetRecord(char *ctx, unsigned char *rec)
 {

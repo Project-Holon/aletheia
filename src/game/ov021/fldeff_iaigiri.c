@@ -46,14 +46,9 @@
  */
 #include "../ov010/fldmmdl_types.h"
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed int s32;
-typedef s32 fx32;
+#include "../types.h"
 
-typedef struct VecFx32 { fx32 x, y, z; } VecFx32;
-typedef struct MtxFx33 { fx32 m[3][3]; } MtxFx33;
+#include "../sdk_fx.h"
 
 /* Opaque types of other files. */
 typedef struct ArcHandle ArcHandle;
@@ -156,11 +151,6 @@ extern u32 sIaigiriAnimeFiles[IAIGIRI_ANIME_COUNT];            /* animation file
 extern const FieldEffectObjFuncs sIaigiriFuncs;           /* effect callbacks */
 extern G3dObjectStatus sIaigiriDrawStatus;                     /* draw status template */
 
-
-
-
-
-
 /* Loads the resources of the Cut effect. */
 IaigiriRes *FLDEFF_IAIGIRI_Create(FieldEffectSys *fieldEffect, u32 heapId)
 {
@@ -170,21 +160,11 @@ IaigiriRes *FLDEFF_IAIGIRI_Create(FieldEffectSys *fieldEffect, u32 heapId)
     return res;
 }
 
-
-
-
-
-
 void FLDEFF_IAIGIRI_Delete(FieldEffectSys *fieldEffect, IaigiriRes *res)
 {
     FLDEFF_IAIGIRI_FreeResources(res);
     GFL_HEAP_Free(res);
 }
-
-
-
-
-
 
 void FLDEFF_IAIGIRI_LoadResources(IaigiriRes *res)
 {
@@ -196,11 +176,6 @@ void FLDEFF_IAIGIRI_LoadResources(IaigiriRes *res)
         res->anime[i] = G3D_SYSTEM_CreateResourceArcHandle(arc, sIaigiriAnimeFiles[i]);
 }
 
-
-
-
-
-
 void FLDEFF_IAIGIRI_FreeResources(IaigiriRes *res)
 {
     int i;
@@ -209,11 +184,6 @@ void FLDEFF_IAIGIRI_FreeResources(IaigiriRes *res)
     G3D_SYSTEM_FreeVramTexture(res->model);
     G3D_SYSTEM_DeleteResource(res->model);
 }
-
-
-
-
-
 
 /* Starts the effect on the tile in front of the model. */
 void FLDEFF_IAIGIRI_Start(const Mmdl *mmdl, FieldEffectSys *fieldEffect)
@@ -241,11 +211,6 @@ void FLDEFF_IAIGIRI_Start(const Mmdl *mmdl, FieldEffectSys *fieldEffect)
     FIELD_EFFECT_AddObject(fieldEffect, &sIaigiriFuncs, 0, 0, &param, 0);
 }
 
-
-
-
-
-
 /*
  * Effect init. The `adds r4, r6, #0` before the first loop is the second
  * loop's counter initialised to 0 and shared as the first loop's constant 0
@@ -266,11 +231,6 @@ void FLDEFF_IAIGIRI_Init(FieldEffectObj *effect, IaigiriTaskWork *work)
         G3D_SYSTEM_EnableObjectAnime(work->object, (u16)i);
 }
 
-
-
-
-
-
 /* Effect exit. */
 void FLDEFF_IAIGIRI_Exit(void *task, IaigiriTaskWork *work)
 {
@@ -280,11 +240,6 @@ void FLDEFF_IAIGIRI_Exit(void *task, IaigiriTaskWork *work)
     G3D_SYSTEM_DeleteObject(work->object);
     G3D_SYSTEM_DeleteRender(work->render);
 }
-
-
-
-
-
 
 /* Effect update: advances the animations and ends the effect when all are done. */
 void FLDEFF_IAIGIRI_Update(FieldEffectObj *effect, IaigiriTaskWork *work)
@@ -298,11 +253,6 @@ void FLDEFF_IAIGIRI_Update(FieldEffectObj *effect, IaigiriTaskWork *work)
     if (done)
         FIELD_EFFECT_DeleteObject(effect);
 }
-
-
-
-
-
 
 /* Effect draw. */
 void FLDEFF_IAIGIRI_Draw(FieldEffectObj *effect, IaigiriTaskWork *work)

@@ -132,8 +132,6 @@
  */
 #include "../version.h"
 #include "livebattlematch_shared_types.h"
-#include "livebattlematch_shared_types.h"
-
 struct Party;
 
 struct WordSet;
@@ -156,14 +154,6 @@ struct L0200ED54;
 
 struct MyStatus;
 
-
-
-
-
-
-
-
-
 extern void WIFIBATTLEMATCH_UTIL_InvokeCallback(FlowCallback *cb);
 extern void MI_CpuFill8(void *,int,unsigned);
 
@@ -181,7 +171,6 @@ extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fi
 
 extern u32 MSGDATA_Delete(struct Rec *rec);
 
-
 extern void WIFIBATTLEMATCH_UTIL_SetCallback(int *p, int v);
 
 extern void WIFIBATTLEMATCH_UTIL_ClearCallback(int a);
@@ -190,8 +179,7 @@ extern void WIFIBATTLEMATCH_UTIL_ClearCallback(int a);
 
 #include "../arm9/gfl_heap_wrap.h"
 
-
-typedef unsigned long long u64;
+#include "../types.h"
 #include "../arm9/battle_rec.h"
 
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
@@ -206,7 +194,6 @@ extern void WIFIBATTLEMATCH_UTIL_DeleteMenu(void *);
 
 extern int WIFIBATTLEMATCH_UTIL_UpdateMenu(void *);
 
-
 extern void WIFIBATTLEMATCH_VIEW_LoadBgPalette(int,int,u32);
 
 extern void *WORDSET_Create(u32,u32,u32);
@@ -219,14 +206,11 @@ extern void WIFIBATTLEMATCH_VIEW_SetActorVisible(void **,int);
 
 #include "../arm9/livebattlematch_savedata.h"
 
-
 #include "../arm9/pokeparty.h"
 
 #include "../arm9/ui.h"
 
-
 #include "digitalcardcheck.h"
-
 
 extern void WIFIBATTLEMATCH_VIEW_DeleteActorArray(int *p);
 
@@ -246,15 +230,9 @@ extern int WIFIBATTLEMATCH_VIEW_UpdatePartyWindow(char *p, void *q);
 
 extern s32 REGULATION_Card_GetValue(struct Reg2 *p, unsigned int id);
 
-
-
-
 extern void * BATTLE_BOX_GetFromSave(void *);
 
-
 extern void WIFIBATTLEMATCH_UTIL_SetRequest(unsigned int,unsigned int);
-
-
 
 extern struct Rec1E *REGULATION_GetParty(struct RecBig *p, unsigned int index);
 
@@ -263,7 +241,6 @@ extern void REGULATION_Card_SetValue(struct Reg2 *p, unsigned int id, s32 value)
 extern int GAME_DATA_SaveStart(int);
 
 extern int GAME_DATA_SaveMain(u8 *);
-
 
 extern void WIFIBATTLEMATCH_UTIL_CommitRequest(unsigned int);
 
@@ -283,18 +260,11 @@ extern int LIVEBATTLEMATCH_IRC_DeliveryEnd(char *);
 
 extern unsigned int REGULATION_Card_IsCrcValid(struct Reg2 *p);
 
-
 extern void REGULATION_InitParty(struct Rec1E *p);
 
 extern void REGULATION_SetCard(struct RegulationCard *arr, unsigned int index, const struct RegulationCard *src);
 
-
-
-
-
 extern void * REGULATION_NoOp(void *);
-
-
 
 extern int POKE_REGULATION_CheckParty(void *,void *,unsigned int *);
 
@@ -304,12 +274,9 @@ extern void BATTLE_BOX_SetLockFlags(struct Obj *p, unsigned int v);
 
 extern void REGULATION_BuildParty(int,int);
 
-
-
 extern unsigned int REGULATION_GetRuleValue(struct Reg *p, unsigned int id);
 
 extern void BATTLE_BOX_ClearLockFlags(struct Obj *p, int v);
-
 
 #include "../arm9/gfl_use.h"
 
@@ -321,7 +288,6 @@ extern void LIVEBATTLEMATCH_IRC_Exit(unsigned *);
 
 extern int LIVEBATTLEMATCH_IRC_WaitExit(int *);
 
-
 extern int LIVEBATTLEMATCH_IRC_SendRegulation(int,int);
 
 extern int LIVEBATTLEMATCH_IRC_TakeRegulation(char *,void **);
@@ -329,8 +295,6 @@ extern int LIVEBATTLEMATCH_IRC_TakeRegulation(char *,void **);
 extern int POKE_REGULATION_GetDataSize(void);
 
 extern void MI_CpuCopy8(const void *,void *,unsigned int);
-
-
 
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 
@@ -348,16 +312,9 @@ extern int LIVEBATTLEMATCH_IRC_EndSession(int *);
 
 #include "../arm9/bg_sys.h"
 
-
-
 #include "../arm9/met_trainers_savedata.h"
 
 #include "../arm9/mystatus.h"
-
-
-
-
-
 
 u8 *LIVEBATTLEMATCH_FLOW_Create(LiveBattleMatchInit *src,u32 heap);
 

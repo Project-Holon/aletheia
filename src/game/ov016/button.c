@@ -57,11 +57,9 @@ typedef struct { unsigned short l, t, r, b; } Rect;
 
 typedef struct { unsigned short x, y; } Coord;
 
-typedef unsigned short u16;
+#include "../types.h"
 
 typedef struct tagMEMBTN MEMBTN;
-
-typedef unsigned char  u8;
 
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 extern void *DWCi_CEINlSetExCell(int lcd, int idx, int head);
@@ -98,7 +96,6 @@ extern const COORD sButtonPositions[];
 extern Coord sButtonSize;
 extern struct tagMEMBTN *gMemButton;
 
-
 /*
  * sdk:      DWCi_BTNlInit (libdwcutil.TWL.HYB.a button.o)
  */
@@ -128,7 +125,6 @@ void DWCi_BTNlInit(int kind)
     disp(0xc0);
     gButtonWork->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskStart, 0, 0x78);
 }
-
 
 void DWCi_BTNlEnd(void)
 {
@@ -179,7 +175,6 @@ void DWCi_BTNlDisable(void)
     *(unsigned char *)(*(char **)0x021DE508 + 0x18) = 1;
 }
 
-
 static void disp(int y)
 {
     int btnNum;
@@ -192,7 +187,6 @@ static void disp(int y)
         DWCi_CELLlSetPosition(gButtonWork->cellButton[i], -1, sButtonPositions[sButtonPositionIndex[gButtonWork->kind][i]].x, y + 4);
     }
 }
-
 
 /*
  * sdk:      taskStart (libdwcutil.TWL.HYB.a(button.o))
@@ -210,7 +204,6 @@ static void taskStart(void *task)
     DWCi_TSKlSetParam(task, (unsigned int)taskStart1);
 }
 
-
 /*
  * sdk:      taskStart1 (libdwcutil.TWL.HYB.a(button.o))
  */
@@ -223,7 +216,6 @@ static void taskStart1(void *task)
         DWCi_TSKlSetParam(task, (unsigned int)taskMain);
     }
 }
-
 
 static void taskMain(void)
 {
@@ -257,7 +249,6 @@ static void taskMain(void)
     gButtonWork->input = -1;
 }
 
-
 static void DWCi_ButtonTaskEnd(void *task)
 {
     int x, y;
@@ -268,7 +259,6 @@ static void DWCi_ButtonTaskEnd(void *task)
     if (y >= 192)
         DWCi_TSKlSetParam(task, (unsigned int)taskEnd1);
 }
-
 
 /*
  * sdk:      taskEnd1 (libdwcutil.TWL.HYB.a(button.o))
@@ -287,7 +277,6 @@ static void taskEnd1(void *task)
     DWCi_CELLlDelete(gButtonWork->cellBack);
     DWCi_HEAPlFree_((void **)&gMemButton);
 }
-
 
 /*
  * sdk:      taskRelease (libdwcutil.TWL.HYB.a(button.o))

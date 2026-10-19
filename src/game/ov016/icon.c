@@ -32,7 +32,7 @@
 
 typedef struct MemIcon MemIcon;
 
-typedef enum { LV0, LV1, LV2, LV3 } WMLinkLevel;
+#include "../sdk_wm.h"
 
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 extern GXOamAttr *DWCi_CEINlSetExObj(int lcd, int idx);

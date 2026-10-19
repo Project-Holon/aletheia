@@ -33,8 +33,6 @@
  *   DWCi_SNDlPlay                    0x021CFFAC  arm
  *   DWCi_WINlEnd                     0x021D1524  arm
  *   Error                            0x021DE5C4  data
- *   draw                             0x021C434C  arm
- *   input                            0x021C4348  arm
  *   DWCi_WINlIsInit                  0x021D157C  arm
  *   DWCi_MOVlAdmitChild              0x021C11EC  arm
  *   DWCi_MOVlEnd                     0x021C115C  arm
@@ -48,15 +46,9 @@
  *   DWCi_SetParam_                   0x021C0E50  arm
  *   isUnloaded  0x021de5c4  data
  */
-typedef struct MBUserInfo {
-    unsigned char color;
-    unsigned char nameLength;
-    unsigned short name[10];
-} MBUserInfo;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
+#include "../sdk_mb.h"
 
 typedef struct {
     u16 priority : 2;
@@ -99,7 +91,6 @@ extern unsigned char gSceneOptMovUserWork[];
 extern unsigned char Error[];
 extern unsigned char isUnloaded;
 
-
 /*
  * sdk:      DWCi_SceneOptMovUser (libdwcutil.TWL.HYB.a sceneoptmovuser.o)
  */
@@ -133,7 +124,6 @@ void DWCi_SceneOptMovUser(void)
     DWCi_ChangeScene(procInit);
 }
 
-
 static void initGraphics(void)
 {
     DWCi_CMNlLoadResource((void *)0x021DB3B8, (void *)0x0207EB78);
@@ -144,7 +134,6 @@ static void initGraphics(void)
     ((BgCnt *)0x0400000C)->priority = 3;
 }
 
-
 static void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 0x15, 8);
@@ -152,13 +141,11 @@ static void procInit(void)
     DWCi_ChangeScene(procInit1);
 }
 
-
 static void procInit1(void)
 {
     if (!DWCi_EFFlCheck(0))
         DWCi_ChangeScene(procInit2);
 }
-
 
 static void procInit2(void)
 {
@@ -168,16 +155,11 @@ static void procInit2(void)
 }
 
 
-static void input(void);
-
-
-static void draw(void);
-
 
 static void procScene(void)
 {
-    input();
-    draw();
+    DWCi_SceneOptMovUser_input();
+    DWCi_SceneOptMovUser_draw();
     switch (DWCi_WINlGet()) {
     case 0:
         Error[1] = 0;
@@ -195,7 +177,6 @@ static void procScene(void)
     DWCi_ChangeScene(endScene);
 }
 
-
 /*
  * Empty stub: the routine carries no behaviour (see the call sites for why it exists).
  * Addresses are Black-image addresses.
@@ -207,7 +188,6 @@ static void procScene(void)
 void DWCi_SceneOptMovUser_input(void)
 {
 }
-
 
 /*
  * Empty stub: the routine carries no behaviour (see the call sites for why it exists).
@@ -221,7 +201,6 @@ void DWCi_SceneOptMovUser_draw(void)
 {
 }
 
-
 static void endScene(void)
 {
     if (DWCi_WINlIsInit())
@@ -231,7 +210,6 @@ static void endScene(void)
     DWCi_EFFlFade(3, 0, 0x15, 8);
     DWCi_ChangeScene(endScene1);
 }
-
 
 static void endScene1(void)
 {
@@ -245,7 +223,6 @@ static void endScene1(void)
         DWCi_MOVlEnd();
     DWCi_ChangeScene(endScene2);
 }
-
 
 static void endScene2(void)
 {
@@ -271,7 +248,6 @@ static void endScene2(void)
     }
     DWCi_ChangeScene(DWCi_SceneOptMovComm);
 }
-
 
 static void cbMov(int state)
 {

@@ -6,11 +6,7 @@
  * height area under it follows the lift state. Characters standing in the lift
  * zone ride along. Lift 5 also breaks an obstacle (model 6) and changes the fog. */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed short   s16;
-typedef signed int     s32;
+#include "../types.h"
 
 #define FIELD_GIMMICK_LIFT_ELEVATOR_LIFT_COUNT   6
 #define FIELD_GIMMICK_LIFT_ELEVATOR_ELEVATOR     7   /* model index of the elevator */
@@ -20,11 +16,7 @@ typedef signed int     s32;
 #define FIELD_GIMMICK_LIFT_ELEVATOR_BIG_LIFT     5   /* lift that breaks the obstacle and changes the fog */
 #define FIELD_GIMMICK_LIFT_ELEVATOR_SAVE_BLOCK   7   /* field save gimmick block id */
 
-typedef struct VecFx32 {
-    int x;
-    int y;
-    int z;
-} VecFx32;
+#include "../sdk_fx.h"
 
 /* Fixed walkable height area registered at field map setup (table entry, 0x14 bytes). */
 typedef struct HeightRegion {

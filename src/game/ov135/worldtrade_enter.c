@@ -64,7 +64,7 @@ struct Sub020097BCObj;
 
 struct DWCstAccUserData;
 
-typedef unsigned long long u64;
+#include "../types.h"
 
 extern void WORLDTRADE_ExitPlanes(Work *);
 

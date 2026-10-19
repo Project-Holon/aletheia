@@ -410,23 +410,11 @@ struct DispConfig;
 struct Mtx22;
 struct LightSet;
 struct BbActSys;
-typedef unsigned int   u32;
-
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef signed short   s16;
-
-typedef signed int     s32;
+#include "../types.h"
 
 typedef enum { B_FALSE, B_TRUE } Bool;
 
-typedef int fx32;
-
-typedef long long fx64;
-
-typedef struct { fx32 m[4][4]; } MtxFx44;
+#include "../sdk_fx.h"
 
 /* NNS_G3dGlb (NitroSystem); fieldmap.c only clears bits of the flag word. */
 typedef struct G3dGlobalState {

@@ -89,9 +89,7 @@ struct SOCLiCommandWrite {
     unsigned long remote_ip;
 };
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
+#include "../types.h"
 
 typedef struct {
 	char pad0[0x38];
@@ -110,7 +108,8 @@ typedef struct {
 } Info;
 
 extern int SOCL_SocketIsInvalid(struct SOCLSocket *socket);
-struct OSMutex;
+#include "../sdk_os.h"
+
 extern int OS_TryLockMutex(struct OSMutex *mutex);
 extern void OS_LockMutex(struct OSMutex *mutex);
 extern void OS_UnlockMutex(struct OSMutex *mutex);
@@ -138,7 +137,6 @@ static int SOCLi_ExecWriteCommand(struct SOCLSocket *socket, unsigned char *buff
 static int SOCLi_WriteCallBack(void *arg);
 int SOCLi_GetOptimumSendBufLen(int len);
 int SOCLi_MemCpy(u8 *dst, int len, struct SOCLiCommandWrite *r);
-
 
 static inline int isNotReady(struct SOCLSocket *socket)
 {
@@ -192,7 +190,6 @@ int SOCL_WriteTo(int s, void *buffer, int buffer_len, unsigned short remote_port
     return result;
 }
 
-
 /*
  * sdk:      SOCLi_WriteBuffer (socl_write.o)
  */
@@ -238,8 +235,6 @@ static int SOCLi_WriteBuffer(struct SOCLSocket *socket, unsigned char *buffer, l
     return copied_len;
 }
 
-
-
 /*
  * Pull a count out of the socket's send pipe, clamped to `n` (and, when it came
  * back short, to `m`) -- below `m` the loop instead either gives up with 0 or
@@ -284,8 +279,6 @@ int SOCLi_AllocWriteBuffer(struct SOCLSocket *socket, int n, int m, int *out, in
     return v;
 }
 
-
-
 /*
  * Free space in a socket's send ring buffer: (out - in - 1), plus the buffer
  * size when that goes negative.
@@ -318,8 +311,6 @@ long SOCLi_GetWriteBufferFreeSize(struct SOCLSocket *socket)
 	}
 	return available_len;
 }
-
-
 
 /*
  * sdk:      SOCLi_ExecWriteCommand (socl_write.o)
@@ -385,7 +376,6 @@ static int SOCLi_ExecWriteCommand(struct SOCLSocket *socket, unsigned char *buff
     return buffer_len;
 }
 
-
 /*
  * sdk:      SOCLi_WriteCallBack (socl_write.o)
  */
@@ -443,8 +433,6 @@ done:
     return copied;
 }
 
-
-
 /*
  * Send-buffer length that fits the current link: min(winSize, mss, the CPS
  * config buffer size), doubled, then as many whole copies of `len` as the
@@ -500,8 +488,6 @@ int SOCLi_GetOptimumSendBufLen(int len)
 	}
 	return len;
 }
-
-
 
 /*
  * Consume up to `len` bytes from a two-segment ring object into `dst`: the

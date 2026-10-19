@@ -11,11 +11,7 @@
 
 #define TALKMSGWIN_MAX 32
 
-typedef struct VecFx16 {
-    s16 x;
-    s16 y;
-    s16 z;
-} VecFx16;
+#include "../sdk_fx.h"
 
 /* Window state, TalkMsgWin.state */
 enum {

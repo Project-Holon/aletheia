@@ -5,7 +5,7 @@
  * object, offsets checked against every view the parts had.
  */
 
-typedef unsigned char u8;
+#include "../types.h"
 
 typedef struct { char c[16]; } GSUdpHdr;
 

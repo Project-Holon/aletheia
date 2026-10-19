@@ -36,7 +36,7 @@
  *   _fmul                        0x0209C77C  arm
  *   _u32_div_f                   0x0209C2B0  arm
  */
-#include "research_types.h"
+#include "../types.h"
 
 /* Palette blink and pulse animation of one palette range, 32 bytes. */
 struct PaletteAnime {

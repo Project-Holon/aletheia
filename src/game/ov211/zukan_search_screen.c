@@ -92,15 +92,11 @@ typedef struct
     int v[12];
 } ZukanSearchVramConfig;
 
-typedef unsigned int   u32;
-
-typedef unsigned short u16;
+#include "../types.h"
 
 typedef struct DispConfigData { u32 words[4]; } DispConfigData;
 
 typedef struct BgTemplateData { u32 words[8]; } BgTemplateData;
-
-typedef unsigned char  u8;
 
 #include "zukan_search_types.h"
 extern void GFL_NET_RefreshWmIconAtTopRight(u32 restartParamA, u32 restartParamB);
@@ -174,9 +170,6 @@ extern unsigned char SDK_AUTOLOAD_MAIN_TWL_START[];
 extern const DispConfigData d_021BC8C8;
 extern const BgTemplateData d_021BC910, d_021BC930, d_021BC950, d_021BC970, d_021BC8F0;
 
-
-
-
 void ZUKAN_SEARCH_SCREEN_SetupVram(void)
 {
     ZukanSearchVramConfig buf = d_021BC990;
@@ -184,19 +177,11 @@ void ZUKAN_SEARCH_SCREEN_SetupVram(void)
     BG_SYS_SetVramBanks((const struct DispVram *)(&buf));
 }
 
-
-
 void ZUKAN_SEARCH_SCREEN_VBlank(void){BG_SYS_Update();*(unsigned *)((unsigned)SDK_AUTOLOAD_MAIN_TWL_START+0x3FF8)|=1;}
-
-
 
 void ZUKAN_SEARCH_SCREEN_RegisterVBlank(struct ZukanSearchWork *p){p->vblankNode=GFL_USE_AddMainTask((unsigned)ZUKAN_SEARCH_SCREEN_VBlank,(unsigned)p,0);}
 
-
-
 void ZUKAN_SEARCH_SCREEN_UnregisterVBlank(struct ZukanSearchWork *p){TCB_DeleteTask((struct TcbTask *)p->vblankNode);}
-
-
 
 void ZUKAN_SEARCH_SCREEN_InitBg(void)
 {
@@ -225,11 +210,7 @@ void ZUKAN_SEARCH_SCREEN_InitBg(void)
     BG_SYS_SetSubPlaneVisible(10, 1);
 }
 
-
-
 void ZUKAN_SEARCH_SCREEN_DeleteBg(void){BG_SYS_SetMainPlaneVisible(14,0);BG_SYS_SetSubPlaneVisible(10,0);BG_SYS_FreeLayerBuf(5);BG_SYS_FreeLayerBuf(7);BG_SYS_FreeLayerBuf(2);BG_SYS_FreeLayerBuf(1);BG_SYS_FreeLayerBuf(3);BG_SYS_Delete();}
-
-
 
 void ZUKAN_SEARCH_SCREEN_LoadGraphics(struct ZukanSearchWork *p)
 {
@@ -255,8 +236,6 @@ void ZUKAN_SEARCH_SCREEN_LoadGraphics(struct ZukanSearchWork *p)
     ARC_UTIL_UploadBgPaletteFromHandle(arc,109,5,0,0,0,126);
     ARC_TOOL_DeleteHandle(arc);
 }
-
-
 
 /*
  * prototype: 0725C third parameter widened from matched u8: original
@@ -289,8 +268,6 @@ void ZUKAN_SEARCH_SCREEN_LoadSaveGraphics(struct ZukanSearchWork *p)
     SAVE_CONTROL_DeleteExtraSave(save,7);
 }
 
-
-
 /*
  * volatile: hardware halfword stores to 04000050 at 021BC684 and
  * 04001050 at 021BC688; original clears display blend controls.
@@ -307,20 +284,11 @@ int ZUKAN_SEARCH_SCREEN_Init(struct ZukanSearchWork *p)
     return 2;
 }
 
-
-
 int ZUKAN_SEARCH_SCREEN_Delete(struct ZukanSearchWork *p){ZUKAN_SEARCH_SCREEN_UnregisterVBlank(p);ZUKAN_SEARCH_SCREEN_DeleteBg();*(volatile unsigned short *)0x04000050=0;*(volatile unsigned short *)0x04001050=0;BG_SYS_SetMainVisiblePlanes(0);BG_SYS_SetSubVisiblePlanes(0);return 6;}
-
-
 
 int ZUKAN_SEARCH_SCREEN_WaitWipe(void){if(WIPE_SYS_EndCheck()==1)return 4;return 2;}
 
-
-
 int ZUKAN_SEARCH_SCREEN_WaitWipeExit(void){if(WIPE_SYS_EndCheck()==1)return 1;return 3;}
-
-
-
 
 int ZUKAN_SEARCH_SCREEN_HandleInput(struct ZukanSearchWork *p)
 {
@@ -352,8 +320,6 @@ int ZUKAN_SEARCH_SCREEN_HandleInput(struct ZukanSearchWork *p)
     }
     return 4;
 }
-
-
 
 int ZUKAN_SEARCH_SCREEN_Update(struct ZukanSearchWork *p)
 {
@@ -394,7 +360,6 @@ int ZUKAN_SEARCH_SCREEN_Update(struct ZukanSearchWork *p)
     }
     return 5;
 }
-
 
 void ZUKAN_SEARCH_SCREEN_Tick(void)
 {

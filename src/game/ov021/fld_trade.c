@@ -69,9 +69,7 @@ struct Party;
 struct PartyMon;
 struct Desc;
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../types.h"
 #include "poke_tool_param.h"
 
 /* One in-game trade record (archive 0xA5, 0x6C bytes per trade). */

@@ -4,8 +4,6 @@
 /* Public functions of digitalcardcheck.c, prototypes copied from their definitions. */
 
 #include "../ov176/livebattlematch_shared_types.h"
-#include "../ov176/livebattlematch_shared_types.h"
-
 void DIGITALCARDCHECK_UpdateMenu(void *obj, int a, int b);
 int DIGITALCARDCHECK_GetMenuResult(u8 *p);
 void DIGITALCARDCHECK_End(u8 *p,int v);

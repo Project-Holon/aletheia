@@ -16,10 +16,8 @@
  *   g_020A86B4 0x020A86B4 data
  */
 
-typedef unsigned long u32;
-typedef unsigned short u16;
-typedef int BOOL;
-typedef u32 OSIntrMode;
+#include "../types.h"
+#include "../sdk_os.h"
 
 extern char SDK_AUTOLOAD_DTCM_START[];
 

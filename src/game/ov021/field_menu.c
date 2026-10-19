@@ -143,12 +143,7 @@
  *   BG_SYS_DrawTileEx  0x020410D0  arm
  *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed char s8;
-typedef signed short s16;
-typedef signed int s32;
+#include "../types.h"
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 

@@ -16,6 +16,10 @@ Checked uses:
 
   * every `symbols:` row of kind arm or thumb in a src/game .c file
     (a row without a region names an ARM9 main or ITCM function);
+  * a row without a region is also looked up in the file's own region, so a
+    row that names the file's own definition by a second name is a mismatch
+    (a second name whose extern disagrees with the definition on the return
+    type is reported with the note "type: extern X, definition Y");
   * every identifier of the form func_XXXXXXXX / sub_XXXXXXXX in the code of a
     src/game .c file, looked up in the file's own region and in ARM9.
 
@@ -148,6 +152,28 @@ def regions_for(row_region, fregion):
     return MAIN_REGIONS
 
 
+def head_type(raw, name, extern):
+    """Return type text of the `extern` declaration (or the definition) of
+    `name` in `raw`, or None."""
+    if extern:
+        pre = r"(?m)^extern[ \t]+"
+        tail = r"\s*\([^;{}]*\)\s*;"
+    else:
+        pre = r"(?m)^(?!extern\b)(?:static[ \t]+)?"
+        tail = r"\s*\([^;{}]*\)\s*\{"
+    m = re.search(pre + r"([A-Za-z_][\w \t\*]*?)\s*\b" + re.escape(name) + tail, raw)
+    if not m:
+        return None
+    return re.sub(r"\s+", " ", m.group(1)).strip()
+
+
+def type_note(raw, use, defname):
+    ext, dfn = head_type(raw, use, True), head_type(raw, defname, False)
+    if ext and dfn and ext != dfn:
+        return "type: extern %s, definition %s" % (ext, dfn)
+    return None
+
+
 def check(jobs=None):
     paths = game_sources()
     defs, failed = definitions(paths, jobs)
@@ -172,6 +198,15 @@ def check(jobs=None):
                     break
             if hit and name not in hit[1] and not exempt(name, addr):
                 rows_out.append((rel, ln, name, addr, hit[0], sorted(hit[1])))
+            elif not hit and not rreg and fregion not in MAIN_REGIONS:
+                # a row without a region may also name the file's own definition
+                own = {n for n in defs.get((fregion, addr), ())
+                       if DEF_FILE.get((fregion, addr, n)) == rel}
+                if own and name not in defs[(fregion, addr)] and not exempt(name, addr):
+                    rows_out.append((rel, ln, name, addr, fregion, sorted(own)))
+                    note = type_note(raw, name, sorted(own)[0])
+                    if note:
+                        rows_out[-1] = rows_out[-1][:5] + (sorted(own) + [note],)
         # code only: a name quoted in a comment or a string is no use of it
         body = re.sub(r"/\*.*?\*/|//[^\n]*|\"(?:\\.|[^\"\\\n])*\"",
                       lambda m: re.sub(r"[^\n]", " ", m.group(0)), raw[len(head):], flags=re.S)

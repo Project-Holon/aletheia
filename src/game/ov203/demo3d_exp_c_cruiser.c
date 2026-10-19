@@ -35,9 +35,7 @@
  */
 
 struct Obj;
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
+#include "../types.h"
 
 struct Vec2 { short x, y; };
 
@@ -72,8 +70,6 @@ typedef struct Demo3dCruiserGfx {
     struct Obj *actor;
 } Demo3dCruiserGfx;
 
-typedef unsigned char u8;
-
 extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *, unsigned, unsigned, unsigned, unsigned, unsigned short);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -100,7 +96,6 @@ void DEMO3D_EXP_C_CRUISER_DeleteActorGfx(Demo3dCruiserWork *work);
 extern const char d_021C3D5C[];
 extern const struct Vec2 d_021C3BD0[];
 
-
 void DEMO3D_EXP_C_CRUISER_LoadTextures(unsigned short heap)
 {
     void *h = ARC_TOOL_CreateHandle(85, heap);
@@ -109,7 +104,6 @@ void DEMO3D_EXP_C_CRUISER_LoadTextures(unsigned short heap)
     ARC_UTIL_UploadBgPaletteFromHandle(h, 18, 6, 0, 0, 0, heap);
     ARC_TOOL_DeleteHandle(h);
 }
-
 
 /*
  * note: 2026-10-05 wave P13 lane B1: closed from the 6 B DIFF draft (movs r7,#0 sat after movs r1,#0x14 instead of before str r1,[sp,#0x1c]). The store `config.f4 = 0;` moves to between f10 and f14; the other constant stores keep the listing order. 4 compiles. Callee shapes follow the matched ov203 siblings (021BF9D0, 021BDF30, 021BE620, 021BFAE4). The d_021C3BD2 pool word is the .y field of d_021C3BD0 (struct Vec2 array), folded by the compiler. The volatile read at 021BFA50 rereads the byte just stored at 021BFA4E, the same form as matched sibling 021BFAE4 (volatile: 021BFB12). No constant locals. EXACT in c99 and c.
@@ -143,7 +137,6 @@ void DEMO3D_EXP_C_CRUISER_Create(Demo3dCruiserWork *p)
     BG_SYS_SetSubPlaneVisible(16, 1);
 }
 
-
 void DEMO3D_EXP_C_CRUISER_Update(Demo3dCruiserWork *p)
 {
     Demo3dCruiserGfx *a = p->gfx;
@@ -156,11 +149,9 @@ void DEMO3D_EXP_C_CRUISER_Update(Demo3dCruiserWork *p)
     }
 }
 
-
 #pragma thumb off
 
 #pragma thumb on
-
 
 void DEMO3D_EXP_C_CRUISER_DeleteActorGfx(Demo3dCruiserWork *work)
 {

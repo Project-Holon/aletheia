@@ -86,39 +86,9 @@ typedef struct ACHOLD {
     unsigned char proxyPass[32];
 } ACHOLD;
 
-typedef struct NCFGApInfo {
-    unsigned char ispId[32];
-    unsigned char ispPass[32];
-    unsigned char ssid[2][32];
-    unsigned char wep[4][16];
-    unsigned char ip[4];
-    unsigned char gateway[4];
-    unsigned char dns[2][4];
-    unsigned char netmask;
-    unsigned char wep2[4][5];
-    unsigned char authType;
-    unsigned char wepMode;
-    unsigned char setType;
-    unsigned char ssidLength[2];
-    unsigned short mtu;
-    unsigned char rsv[2];
-    unsigned char flags;
-    unsigned char state;
-} NCFGApInfo;
+#include "../sdk_ncfg.h"
 
-typedef struct NCFGSlotInfo {
-    NCFGApInfo ap;
-    unsigned char rest[0x10];
-} NCFGSlotInfo;
-
-typedef struct NCFGSlotInfoEx {
-    NCFGApInfo ap;
-    unsigned char rest0[0x92];
-    unsigned char exFlag;
-    unsigned char rest1[0x7d];
-} NCFGSlotInfoEx;
-
-typedef struct DWCNetcheckParam DWCNetcheckParam;
+#include "../sdk_dwc.h"
 
 typedef struct ACWORK {
     NCFGSlotInfo userInfo[3];
@@ -170,9 +140,7 @@ typedef struct SOCConfig {
     unsigned char rest[0x58 - 0x34];
 } SOCConfig;
 
-typedef struct SOCInAddr {
-    unsigned long addr;
-} SOCInAddr;
+#include "../sdk_soc.h"
 
 extern void *DWCi_AC_GetMemPtr(unsigned long name);
 extern unsigned char DWCi_AC_GetPhase(void);
@@ -309,7 +277,7 @@ unsigned char GetIPAddress(ACWORK *wk)
         }
         ap_type = DWCi_ConvConnectAPType(wk->connectApType);
         if (ap_type >= 10 && ap_type <= 12 && OS_IsRunOnTwl()
-            && wk->userInfoEx[(unsigned char)(ap_type - 10)].exFlag != 0) {
+            && wk->userInfoEx[(unsigned char)(ap_type - 10)].apEx.proxyMode != 0) {
             return 0xf;
         }
         return 0xd;

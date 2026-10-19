@@ -28,7 +28,7 @@
  *   OS_WakeupThread  0x02085800  arm  arm9
  *   OS_UnlockMutex  0x02086078  arm  arm9
  */
-typedef unsigned int u32;
+#include "../types.h"
 #include "nhttp_types.h"
 
 /* Static resource block (size 0x24): init flag, a mutex and a thread queue. */
@@ -52,7 +52,8 @@ extern void NHTTPi_InitListInfo(NHTTPListInfo *);
 extern void NHTTPi_InitRequestInfo(NHTTPReqInfo *);
 extern void NHTTPi_InitThreadInfo(NHTTPThreadInfo *);
 extern void NHTTPi_LockMutexThunk(int *mutex_p);
-struct OSMutex;
+#include "../sdk_os.h"
+
 extern void OS_UnlockMutex(struct OSMutex *mutex);
 NHTTPStaticResource *NHTTPi_GetStaticResource(void);
 void NHTTPi_WaitForCompletion(NHTTPWaiter *waiter_p);
@@ -94,8 +95,6 @@ extern NHTTPModuleGlobals g_021CF984_hdr;
 extern NHTTPStaticResource gNHTTPStaticResource;
 extern u8 gNHTTPSystemInfo[];
 
-
-
 /*
  * sdk:      NHTTPi_GetStaticResource (libnhttp.TWL.HYB.a(d_nhttp_common.o))
  */
@@ -111,8 +110,6 @@ NHTTPStaticResource *NHTTPi_GetStaticResource(void)
     return resource_p;
 }
 
-
-
 /*
  * Waits on the static resource queue until the waiter's queue word is clear.
  */
@@ -123,8 +120,6 @@ void NHTTPi_WaitForCompletion(NHTTPWaiter *waiter_p)
         OS_SleepThread(&resource_p->queueHead);
 }
 
-
-
 /*
  * Clears the waiter's queue word and wakes the static resource queue.
  */
@@ -134,8 +129,6 @@ void NHTTPi_NotifyCompletion(NHTTPWaiter *waiter_p)
     waiter_p->waitQueue = 0;
     OS_WakeupThread(&resource_p->queueHead, 0);
 }
-
-
 
 NHTTPConnection *NHTTPi_ControlConnectionList(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *handle_p, unsigned long order)
 {
@@ -186,21 +179,15 @@ NHTTPConnection *NHTTPi_ControlConnectionList(NHTTPMutexInfo *mutexInfo_p, NHTTP
     return ret_p;
 }
 
-
-
 int NHTTPi_CommitConnectionList(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *handle_p)
 {
     return -(NHTTPi_ControlConnectionList(mutexInfo_p, handle_p, 3) == 0);
 }
 
-
-
 int NHTTPi_OmitConnectionList(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *handle_p)
 {
     return -(NHTTPi_ControlConnectionList(mutexInfo_p, handle_p, 4) == 0);
 }
-
-
 
 NHTTPRes *NHTTPi_Connection2Response(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *handle_p)
 {
@@ -208,8 +195,6 @@ NHTTPRes *NHTTPi_Connection2Response(NHTTPMutexInfo *mutexInfo_p, NHTTPConnectio
 
     return connection_p ? connection_p->res_p : 0;
 }
-
-
 
 /*
  * ov114 tail-call thunk: NHTTPi_ControlConnectionList(mutexInfo, req, 1) via `ldr ip,pool; bx ip`.
@@ -219,8 +204,6 @@ NHTTPConnection *NHTTPi_Request2Connection(NHTTPMutexInfo *mutexInfo_p, NHTTPReq
     return NHTTPi_ControlConnectionList(mutexInfo_p, (NHTTPConnection *)req_p, 1);
 }
 
-
-
 /*
  * ov114 tail-call thunk: NHTTPi_ControlConnectionList(mutexInfo, res, 2) via `ldr ip,pool; bx ip`.
  */
@@ -229,14 +212,10 @@ NHTTPConnection *NHTTPi_Response2Connection(NHTTPMutexInfo *mutexInfo_p, NHTTPRe
     return NHTTPi_ControlConnectionList(mutexInfo_p, (NHTTPConnection *)res_p, 2);
 }
 
-
-
 NHTTPConnection *NHTTPi_GetConnection(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *handle_p)
 {
     return NHTTPi_ControlConnectionList(mutexInfo_p, handle_p, 0);
 }
-
-
 
 /*
  * Looks the connection up and returns its request, or the handle when absent.
@@ -249,8 +228,6 @@ void *NHTTPi_GetRequest(NHTTPMutexInfo *mutexInfo_p, void *handle_p)
     return handle_p;
 }
 
-
-
 /*
  * Looks the connection up and returns its response, or the handle when absent.
  */
@@ -261,8 +238,6 @@ void *NHTTPi_GetResponse(NHTTPMutexInfo *mutexInfo_p, void *handle_p)
         handle_p = connection_p->res_p;
     return handle_p;
 }
-
-
 
 /*
  * Counts the entries on the connection list.
@@ -277,8 +252,6 @@ u32 NHTTPi_GetConnectionListLength(void)
     }
     return count;
 }
-
-
 
 /*
  * sdk:      NHTTPi_PostSendCallback (libnhttp.TWL.HYB.a(d_nhttp_common.o))
@@ -303,8 +276,6 @@ int NHTTPi_PostSendCallback(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *connec
     return ret;
 }
 
-
-
 void NHTTPi_BufferFullCallback(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *connection_p)
 {
     NHTTPBodyBufArg arg;
@@ -321,8 +292,6 @@ void NHTTPi_BufferFullCallback(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *con
         }
     }
 }
-
-
 
 /*
  * sdk:      NHTTPi_ReceivedCallback (libnhttp.TWL.HYB.a(d_nhttp_common.o))
@@ -344,8 +313,6 @@ void NHTTPi_ReceivedCallback(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *conne
     }
 }
 
-
-
 void NHTTPi_CompleteCallback(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *connection_p)
 {
     int (*callback)(NHTTPConnection *, int, void *);
@@ -356,8 +323,6 @@ void NHTTPi_CompleteCallback(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *conne
         return;
     callback(connection_p, 4, 0);
 }
-
-
 
 /*
  * Stores the post data buffer and length on the connection; -1 when the connection is absent.
@@ -371,8 +336,6 @@ int NHTTPi_SetPostDataBuffer(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *conne
     found_p->postDataLen = length;
     return 0;
 }
-
-
 
 int NHTTPi_SetBodyBuffer(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *connection_p, void *buf_p, unsigned long length, unsigned long offset)
 {
@@ -390,8 +353,6 @@ int NHTTPi_SetBodyBuffer(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *connectio
     return -1;
 }
 
-
-
 void NHTTPi_InitSystemInfo(NHTTPSysInfo *sysInfo_p)
 {
     NHTTPi_InitBgnEndInfo(NHTTPi_GetBgnEndInfoP(sysInfo_p));
@@ -400,8 +361,6 @@ void NHTTPi_InitSystemInfo(NHTTPSysInfo *sysInfo_p)
     NHTTPi_InitMutexInfo(NHTTPi_GetMutexInfoP(sysInfo_p));
     NHTTPi_InitThreadInfo(NHTTPi_GetThreadInfoP(sysInfo_p));
 }
-
-
 
 NHTTPSysInfo *NHTTPi_GetSystemInfoP(void)
 {
@@ -414,7 +373,6 @@ NHTTPSysInfo *NHTTPi_GetSystemInfoP(void)
     return sysInfo_p;
 }
 
-
 /*
  * Returns the first member, so the body is a `bx lr`.
  */
@@ -423,30 +381,25 @@ NHTTPBgnEndInfo *NHTTPi_GetBgnEndInfoP(NHTTPSysInfo *sysInfo_p)
     return &sysInfo_p->bgnEndInfo;
 }
 
-
 NHTTPListInfo *NHTTPi_GetListInfoP(NHTTPSysInfo *sysInfo_p)
 {
     return &sysInfo_p->listInfo;
 }
-
 
 NHTTPReqInfo *NHTTPi_GetReqInfoP(NHTTPSysInfo *sysInfo_p)
 {
     return &sysInfo_p->reqInfo;
 }
 
-
 NHTTPThreadInfo *NHTTPi_GetThreadInfoP(NHTTPSysInfo *sysInfo_p)
 {
     return &sysInfo_p->threadInfo;
 }
 
-
 NHTTPMutexInfo *NHTTPi_GetMutexInfoP(NHTTPSysInfo *sysInfo_p)
 {
     return &sysInfo_p->mutexInfo;
 }
-
 
 /*
  * Null-guarded setter of the virtual content length.
@@ -456,8 +409,6 @@ void NHTTPi_SetVirtualContentLength(NHTTPConnection *connection_p, u32 virtualCo
     if (connection_p != 0)
         connection_p->virtualContentLength = virtualContentLength;
 }
-
-
 
 /*
  * Drains the module list, then empties the module head pointer.
@@ -469,13 +420,10 @@ void NHTTPi_InitConnectionList(void)
     gNHTTPModuleGlobals.connListHead = 0;
 }
 
-
 void NHTTPi_InitMutexInfo(NHTTPMutexInfo *mutexInfo_p)
 {
     mutexInfo_p->isInitialized = 0;
 }
-
-
 
 /*
  * One-shot bring-up: initialises the mutex once and latches the flag.
@@ -488,15 +436,12 @@ void NHTTPi_initLockReqList(NHTTPMutexInfo *mutexInfo_p)
     mutexInfo_p->isInitialized = 1;
 }
 
-
 /*
  * Empty ARM stub: `bx lr`.
  */
 void NHTTPi_exitLockReqList(void)
 {
 }
-
-
 
 /*
  * unblocked: NHTTPi_LockMutexThunk (the ARM veneer `ldr ip,[pc]; bx ip; .word
@@ -511,8 +456,6 @@ void NHTTPi_lockReqList(NHTTPMutexInfo *mutexInfo_p)
     NHTTPi_LockMutexThunk((int *)mutexInfo_p);
 }
 
-
-
 /*
  * ov114 tail-call thunk (ldr ip,pool; bx ip).
  */
@@ -521,8 +464,6 @@ void NHTTPi_unlockReqList(NHTTPMutexInfo *mutexInfo_p)
     OS_UnlockMutex((struct OSMutex *)mutexInfo_p);
 }
 
-
-
 int NHTTPi_addRef(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *connection_p)
 {
     NHTTPi_lockReqList(mutexInfo_p);
@@ -530,8 +471,6 @@ int NHTTPi_addRef(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *connection_p)
     NHTTPi_unlockReqList(mutexInfo_p);
     return connection_p->ref;
 }
-
-
 
 int NHTTPi_decRef(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *connection_p)
 {

@@ -46,8 +46,7 @@
  *   sTemplates  0x021BBA8C  data  a4
  */
 
-typedef unsigned int u32;
-typedef volatile unsigned int vu32;
+#include "../types.h"
 
 struct DispConfig {
     u32 dispMode;

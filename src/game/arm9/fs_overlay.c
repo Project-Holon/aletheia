@@ -48,46 +48,11 @@
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   gOverlayEndCallbacks     0x021542B8  data
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned long u32;
-typedef long s32;
-typedef int BOOL;
+#include "../types.h"
 
-typedef struct OSThread OSThread;
+#include "../sdk_fs.h"
 
-typedef struct OSThreadQueue
-{
-    OSThread *head;
-    OSThread *tail;
-} OSThreadQueue;
-
-typedef struct FSArchive FSArchive;
-
-typedef struct FSFile
-{
-    struct FSFile *next;
-    void *userdata;
-    FSArchive *arc;
-    u32 stat;
-    void *argument;
-    int error;
-    OSThreadQueue queue[1];
-    u8 prop[16];
-    u8 arg[24];
-} FSFile;
-
-typedef struct FSFileID
-{
-    FSArchive *arc;
-    u32 file_id;
-} FSFileID;
-
-typedef struct CARDRomRegion
-{
-    u32 offset;
-    u32 length;
-} CARDRomRegion;
+#include "../sdk_card.h"
 
 typedef struct CARDRomHeader
 {
@@ -190,7 +155,6 @@ static int once_slot = 0;
 
 static FSOverlayContext FSiOverlayContext = { 0 };
 
-
 /*
  * sdk:      FSi_InitOverlay (libfs.TWL.HYB.a fs_overlay.o)
  */
@@ -215,16 +179,12 @@ void FSi_InitOverlay(void)
     FSiOverlayContext.arc = FS_FindArchive(fsi_str_rom, 3);
 }
 
-
-
 u32 FSi_GetOverlayBinarySize(FSOverlayInfo *p)
 {
     if (p->header.flag & 1)
         return p->header.compressed;
     return p->header.ram_size;
 }
-
-
 
 /*
  * sdk:      FS_ClearOverlayImage (libfs.TWL.HYB.a fs_overlay.o)
@@ -240,7 +200,6 @@ void FS_ClearOverlayImage(FSOverlayInfo *p_ovi)
     MI_CpuFill8(addr + image_size, 0, total_size - image_size);
 }
 
-
 /*
  * sdk:      FS_GetOverlayFileID (fs_overlay.o)
  */
@@ -252,7 +211,6 @@ FSFileID FS_GetOverlayFileID(FSOverlayInfo *p_ovi)
     ret.file_id = p_ovi->header.file_id;
     return ret;
 }
-
 
 /*
  * sdk:      FS_LoadOverlayInfo (libfs.TWL.HYB.a fs_overlay.o)
@@ -322,7 +280,6 @@ BOOL FS_LoadOverlayInfo(FSOverlayInfo *p_ovi, u32 target, u32 id)
     return retval;
 }
 
-
 /*
  * sdk:      FS_LoadOverlayImage (libfs.TWL.HYB.a fs_overlay.o)
  */
@@ -345,7 +302,6 @@ BOOL FS_LoadOverlayImage(FSOverlayInfo *p_ovi)
     }
     return retval;
 }
-
 
 /*
  * sdk:      FSi_CompareDigest (libfs.TWL.HYB.a fs_overlay.o)
@@ -385,7 +341,6 @@ BOOL FSi_CompareDigest(const u8 *spec_digest, void *src, int len, BOOL table_mod
     }
     return i == 0x14;
 }
-
 
 /*
  * notes:    bytes identical; SDK_LTDAUTOLOAD_LTDMAIN_START and _BSS_END resolve under the `linker` class (undefined in fs_overlay.o and in libfs; values = layout.json twl ram_start / bss_end)
@@ -443,7 +398,6 @@ void FS_StartOverlay(FSOverlayInfo *p_ovi)
         }
     }
 }
-
 
 /*
  * 0x02079164..0x02079264: the callback-flush worker and its one-line
@@ -547,7 +501,6 @@ BOOL FS_UnloadOverlayImage(FSOverlayInfo *p_ovi)
     return 1;
 }
 
-
 /*
  * sdk:      FS_LoadOverlay (libfs.TWL.HYB.a fs_overlay.o)
  */
@@ -563,7 +516,6 @@ BOOL FS_LoadOverlay(int target, u32 id)
     }
     return retval;
 }
-
 
 /*
  * Builds the 44-byte overlay info on the stack from (target, id) and, if

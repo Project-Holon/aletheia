@@ -39,11 +39,7 @@
 #include "gt2main_types.h"
 
 struct GTI2Socket;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 extern int gti2CreateSocket(void **sock, char *addr, int outSize, int inSize, void *callback, int type);
 extern void gti2CloseSocket(struct GTI2Socket *socket);
@@ -88,8 +84,6 @@ void gt2SetUnrecognizedMessageCallback(GTI2Socket *socket, void *callback);
 void gt2SetConnectionData(GTI2Connection *connection, void *data);
 void *gt2GetConnectionData(const GTI2Connection *connection);
 
-
-
 /*
  * sdk:      gt2CreateSocket (libdwcgsgt2.TWL.HYB.a(gt2main.o))
  */
@@ -97,8 +91,6 @@ int gt2CreateSocket(void **sock, char *addr, int outSize, int inSize, void *call
 {
 	return gti2CreateSocket(sock, addr, outSize, inSize, callback, 0);
 }
-
-
 
 /*
  * Calls the two helpers on the argument.
@@ -109,8 +101,6 @@ void gt2CloseSocket(void *p)
     gti2CloseSocket(p);
 }
 
-
-
 void gt2Think(struct GTI2Socket *socket)
 {
     if (gti2ReceiveMessages(socket) == 0)
@@ -119,8 +109,6 @@ void gt2Think(struct GTI2Socket *socket)
         return;
     gti2FreeClosedConnections(socket);
 }
-
-
 
 /*
  * Tail-call wrapper: the image spells it `ldr ip, [pc]; bx ip; .word
@@ -137,8 +125,6 @@ void gt2Listen(GTI2Socket *socket, void *connectAttemptCallback)
     gti2SetConnectAttemptCallback(socket, connectAttemptCallback);
 }
 
-
-
 /*
  * Tail-call wrapper: the image spells it `ldr ip, [pc]; bx ip; .word
  * target`, which this compiler emits for a tail call to a callee whose
@@ -149,16 +135,12 @@ int gt2Accept(GTI2Connection *connection, GT2ConnectionCallbacks *callbacks)
     return gti2AcceptConnection(connection, callbacks);
 }
 
-
-
 void gt2Reject(GTI2Connection *connection, unsigned char *message, int len)
 {
     gti2RejectConnection(connection, message, len);
 }
 
 static void gti2CloseAllConnectionsHardMap(void **elem);
-
-
 
 /*
  * sdk:      gt2Connect (libdwcgsgt2.TWL.HYB.a(gt2main.o))
@@ -205,8 +187,6 @@ int gt2Connect(void *socket, GTI2Connection **connection, char *remoteAddress, u
     return connectionTemp->connectionResult;
 }
 
-
-
 int gt2Send(void *connection, unsigned char *message, int len, int reliable)
 {
     unsigned short vdpDataLength;
@@ -233,8 +213,6 @@ int gt2Send(void *connection, unsigned char *message, int len, int reliable)
     return gti2Send(connection, message, len, reliable) ? 0 : 0xa;
 }
 
-
-
 /*
  * Tail call that supplies the second argument 1.
  */
@@ -243,13 +221,10 @@ void gt2CloseConnectionHard(int a)
     gti2CloseConnection((struct GTI2Connection *)a, 1);
 }
 
-
 static void gti2CloseAllConnectionsHardMap(void **elem)
 {
     gt2CloseConnectionHard((int)*elem);
 }
-
-
 
 /*
  * Tail call on the word at +0xc of the object.  The pool word at +0x14 is the
@@ -260,7 +235,6 @@ void gt2CloseAllConnectionsHard(int *p)
 {
     TableMapSafe(p[3], (char *)gti2CloseAllConnectionsHardMap, 0);
 }
-
 
 /*
  * Maps the word at +0xc onto 0..3.
@@ -276,7 +250,6 @@ int gt2GetConnectionState(const int *p)
     return v == 6 ? 2 : 3;
 }
 
-
 /*
  * Remote address of a connection.
  */
@@ -284,7 +257,6 @@ unsigned int gt2GetRemoteIP(const GTI2Connection *connection)
 {
     return connection->ip;
 }
-
 
 /*
  * Remote port of a connection.
@@ -294,7 +266,6 @@ unsigned short gt2GetRemotePort(const GTI2Connection *connection)
     return connection->port;
 }
 
-
 /*
  * Local address of a socket.
  */
@@ -303,7 +274,6 @@ unsigned int gt2GetLocalIP(const GTI2Socket *socket)
     return socket->ip;
 }
 
-
 /*
  * Local port of a socket.
  */
@@ -311,7 +281,6 @@ unsigned short gt2GetLocalPort(const GTI2Socket *socket)
 {
     return socket->port;
 }
-
 
 /*
  * Size of the outgoing buffer of a connection.
@@ -326,7 +295,6 @@ int gt2GetOutgoingBufferFreeSpace(const int *p)
     return p[0x15] - p[0x16];
 }
 
-
 /*
  * Operating system socket handle behind a socket object.
  */
@@ -334,7 +302,6 @@ int gt2GetSocketSOCKET(const GTI2Socket *socket)
 {
     return socket->socket;
 }
-
 
 /*
  * Sets the callback for messages that belong to no connection.
@@ -344,7 +311,6 @@ void gt2SetUnrecognizedMessageCallback(GTI2Socket *socket, void *callback)
     socket->unrecognizedMessageCallback = callback;
 }
 
-
 /*
  * Sets the user data of a connection.
  */
@@ -352,7 +318,6 @@ void gt2SetConnectionData(GTI2Connection *connection, void *data)
 {
     connection->data = data;
 }
-
 
 /*
  * User data of a connection.

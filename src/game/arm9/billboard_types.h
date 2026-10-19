@@ -4,16 +4,9 @@
 /* billboard.c: a board owns an array of texture images and an array of
  * billboard elements. Each element names the image it draws. */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed short   s16;
-typedef signed int     s32;
-typedef s32 fx32;
-typedef s16 fx16;
+#include "../types.h"
 
-typedef struct { fx32 x, y, z; } VecFx32;
-typedef struct { fx16 x, y, z; } VecFx16;
+#include "../sdk_fx.h"
 
 #define BB_ELEM_FREE 0x3FFF
 

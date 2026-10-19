@@ -26,11 +26,7 @@
  *   NNSi_GfdAllocLnkVram 0x02061EB8 arm
  */
 struct GfdTransferTaskQueue;
-typedef unsigned char u8;
-
-typedef unsigned int  u32;
-
-typedef signed int    s32;
+#include "../types.h"
 
 struct GfdTransferTask {
     void *pTaskFunc;    /* 0x00 */
@@ -56,8 +52,6 @@ struct GfdLnkRange {
     u32 end;
 };
 
-typedef unsigned short u16;
-
 struct GfdLnkBlockPool {
     struct GfdLnkBlock *freeList;
 };
@@ -81,7 +75,6 @@ struct GfdLnkBlock *NNSi_GfdInitBlockPool(struct GfdLnkBlock *blocks, u32 count)
 u32 NNSi_GfdAddBlock(struct GfdLnkBlockList *list, struct GfdLnkBlockPool *pool, u32 start, u32 size);
 int NNSi_GfdAllocBlockUnaligned(struct GfdLnkBlock **ppList, struct GfdLnkBlock **ppPool, u32 *pAddr, u32 size);
 extern struct GfdTransferTaskQueue sVramTransferTaskQueue;
-
 
 /*
  * Drain loop over the 0x02146B80 work record: fetch the head node, pump the
@@ -107,9 +100,6 @@ void NNS_GfdDoVramTransfer(void)
         task = (struct GfdTransferTask *)NNSi_GfdGetHeadVramTransferTask((u8 *)(&sVramTransferTaskQueue));
     }
 }
-
-
-
 
 /*
  * Pushes one four-word request onto the queue object at 0x02146B80 and adds
@@ -150,10 +140,6 @@ s32 NNS_GfdRegisterNewVramTransferTask(void *pTaskFunc, u32 dstOffset, u32 srcAd
     sVramTransferTaskQueue.totalSzByte += req->szByte;
     return 1;
 }
-
-
-
-
 
 u32 NNSi_GfdMergeAdjacentFreeBlocks(struct GfdLnkBlock **ppList, struct GfdLnkBlock **ppPool, struct GfdLnkRange *range) {
     struct GfdLnkBlock *block = *ppList;
@@ -229,18 +215,10 @@ u32 NNSi_GfdMergeAdjacentFreeBlocks(struct GfdLnkBlock **ppList, struct GfdLnkBl
     return merged;
 }
 
-
-
-
-
 void NNSi_GfdClearBlockListHead(struct GfdLnkBlock **ppHead)
 {
     *ppHead = 0;
 }
-
-
-
-
 
 /*
  * note:     closed 2026-09-21 by tools/permuter.py (hill, --types, ret-var): the function
@@ -268,10 +246,6 @@ struct GfdLnkBlock *NNSi_GfdInitBlockPool(struct GfdLnkBlock *blocks, u32 count)
     end[-1] = 0;
     return blocks;
 }
-
-
-
-
 
 u32 NNSi_GfdAddBlock(struct GfdLnkBlockList *list, struct GfdLnkBlockPool *pool, u32 start, u32 size)
 {
@@ -303,7 +277,6 @@ u32 NNSi_GfdAddBlock(struct GfdLnkBlockList *list, struct GfdLnkBlockPool *pool,
 err:
     return 0;
 }
-
 
 int NNSi_GfdAllocBlockUnaligned(struct GfdLnkBlock **ppList, struct GfdLnkBlock **ppPool, u32 *pAddr, u32 size)
 {

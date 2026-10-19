@@ -63,11 +63,7 @@
  *  - case 3 passes the species to POKE_TOOL_SetupPartyParamEx as a fresh table read.
  */
 
-typedef unsigned char      u8;
-typedef unsigned short     u16;
-typedef unsigned int       u32;
-typedef unsigned long long u64;
-typedef signed int         s32;
+#include "../types.h"
 
 /* The 0x14-byte trainer record read from archive member 0x5c.  Both
  * TR_TOOL_LoadTrainerInfo and TR_TOOL_BuildParty read the same record, so it is one

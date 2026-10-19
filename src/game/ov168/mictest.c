@@ -145,13 +145,7 @@ struct MsgBank;
 struct U16Vec;
 struct S02030EE8;
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed int s32;
-typedef signed short s16;
-typedef int fx32;
-typedef long long fx64;
+#include "../types.h"
 
 typedef enum {OBJECT_SIZE=0x150} Size;
 enum Result {DONE=1};

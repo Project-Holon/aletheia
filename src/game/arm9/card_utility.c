@@ -24,13 +24,9 @@
  *   DC_InvalidateRange  0x020862B8  arm
  *   DC_WaitWriteBufferEmpty  0x02086314  arm
  */
-typedef unsigned long u32;
-
-typedef int BOOL;
+#include "../types.h"
 
 typedef struct CARDDmaInterface CARDDmaInterface;
-
-typedef unsigned char u8;
 
 extern BOOL OS_IsRunOnTwl(void);
 extern void OS_Terminate(void);
@@ -45,7 +41,6 @@ void CARDi_ICInvalidateSmart(void *p, unsigned int a, unsigned int b);
 void CARDi_DCInvalidateSmart(void *buffer, u32 length, u32 threshold);
 extern CARDDmaInterface CARDiDmaUsingFormer;
 extern CARDDmaInterface CARDiDmaUsingNew;
-
 
 /*
  * sdk:      CARDi_GetDmaInterface (libcard.TWL.HYB.a card_utility.o)
@@ -74,7 +69,6 @@ CARDDmaInterface *CARDi_GetDmaInterface(u32 channel)
     return retval;
 }
 
-
 void CARDi_ICInvalidateSmart(void *p, unsigned int a, unsigned int b)
 {
     if (a >= b)
@@ -82,7 +76,6 @@ void CARDi_ICInvalidateSmart(void *p, unsigned int a, unsigned int b)
     else
         IC_InvalidateRange(p, a);
 }
-
 
 /*
  * sdk:      CARDi_DCInvalidateSmart (libcard.TWL.HYB.a card_utility.o)

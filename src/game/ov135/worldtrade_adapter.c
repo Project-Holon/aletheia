@@ -196,18 +196,7 @@ struct S02031140;
 
 struct Rec3;
 
-typedef struct {
-    int year;
-    int month;
-    int day;
-    int week;
-} RTCDate;
-
-typedef struct {
-    int hour;
-    int minute;
-    int second;
-} RTCTime;
+#include "../sdk_rtc.h"
 
 extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 

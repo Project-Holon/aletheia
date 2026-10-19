@@ -6,10 +6,7 @@
  * run once with sound effects, then the model is hidden again and the save
  * flag is cleared. The model set differs between day and night. */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed int     s32;
+#include "../types.h"
 
 #define FIELD_GIMMICK_TIME_EFFECT_SAVE_BLOCK     0x36   /* field save gimmick block id */
 #define FIELD_GIMMICK_TIME_EFFECT_ANIME_COUNT    2
@@ -19,11 +16,7 @@ typedef signed int     s32;
 #define FIELD_GIMMICK_TIME_EFFECT_SE_DAY_PEAK    0x7F9   /* day variant, played at the peak frame */
 #define FIELD_GIMMICK_TIME_EFFECT_PEAK_FRAME     0x3C000 /* fx32 frame 60 of animation 0 */
 
-typedef struct VecFx32 {
-    int x;
-    int y;
-    int z;
-} VecFx32;
+#include "../sdk_fx.h"
 
 /* Gimmick block of the field save (one word). */
 typedef struct FieldGimmickTimeEffectSave {

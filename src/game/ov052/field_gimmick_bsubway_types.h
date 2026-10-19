@@ -10,11 +10,7 @@
  * back through this overlay.
  */
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed int s32;
-typedef int fx32;
+#include "../types.h"
 
 struct FieldMap;
 struct GameSystem;
@@ -24,11 +20,7 @@ struct FieldEffectSys;
 struct FieldEffectObj;
 struct FieldG3dMapper;
 
-typedef struct VecFx32 {
-    fx32 x;
-    fx32 y;
-    fx32 z;
-} VecFx32;
+#include "../sdk_fx.h"
 
 /* Zone of the Battle Subway train, and the work slot of its sway record. */
 #define BSUBWAY_ZONE_TRAIN 0x4b

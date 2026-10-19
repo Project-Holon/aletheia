@@ -30,83 +30,11 @@
  *   MI_CpuFill8                      0x02082bcc arm
  *   DC_InvalidateRange               0x020862b8 arm
  */
-typedef unsigned long u32;
+#include "../types.h"
 
-typedef unsigned short u16;
+#include "../sdk_os.h"
 
-typedef unsigned char u8;
-
-typedef long s32;
-
-typedef short s16;
-
-typedef int BOOL;
-
-typedef u32 OSIntrMode;
-
-typedef enum WMErrCode {
-    WM_ERRCODE_SUCCESS = 0,
-    WM_ERRCODE_FAILED = 1,
-    WM_ERRCODE_OPERATING = 2,
-    WM_ERRCODE_ILLEGAL_STATE = 3,
-    WM_ERRCODE_WM_DISABLE = 4,
-    WM_ERRCODE_NO_DATASET = 5,
-    WM_ERRCODE_INVALID_PARAM = 6,
-    WM_ERRCODE_NO_ENTRY = 7,
-    WM_ERRCODE_MAX = 0x7FFFFFFF
-} WMErrCode;
-
-typedef void (*WMCallbackFunc)(void *arg);
-
-typedef struct WMArm9Buf {
-    struct WMArm7Buf *WM7;
-    struct WMStatus *status;
-    u32 *indbuf;
-    u32 *fifo9to7;
-    u32 *fifo7to9;
-    u16 dmaNo;
-    u16 scanOnlyFlag;
-    WMCallbackFunc CallbackTable[44];
-    WMCallbackFunc indCallback;
-    WMCallbackFunc portCallbackTable[16];
-    void *portCallbackArgument[16];
-    u32 connectedAidBitmap;
-    u16 myAid;
-    u8 reserved1[174];
-} WMArm9Buf;
-
-typedef struct WMParentParam {
-    u16 *userGameInfo;
-    u16 userGameInfoLength;
-    u16 padding;
-    u32 ggid;
-    u16 tgid;
-    u16 entryFlag;
-    u16 maxEntry;
-    u16 multiBootFlag;
-    u16 KS_Flag;
-    u16 CS_Flag;
-    u16 beaconPeriod;
-    u16 rsv1[4];
-    u16 rsv2[8];
-    u16 channel;
-    u16 parentMaxSize;
-    u16 childMaxSize;
-    u16 rsv[4];
-} WMParentParam;
-
-typedef struct WMScanExParam {
-    struct WMBssDesc *scanBuf;
-    u16 scanBufSize;
-    u16 channelList;
-    u16 maxChannelTime;
-    u8 bssid[6];
-    u16 scanType;
-    u16 ssidLength;
-    u8 ssid[32];
-    u16 ssidMatchLength;
-    u16 rsv2[7];
-} WMScanExParam;
+#include "../sdk_wm.h"
 
 typedef struct WMStartScanExReq {
     u16 apiid;
@@ -122,15 +50,6 @@ typedef struct WMStartScanExReq {
     u16 rsv[2];
 } WMStartScanExReq;
 
-typedef struct WMBssDesc {
-    u16 length;
-    u16 rssi;
-    u8 bssid[6];
-    u16 ssidLength;
-    u8 ssid[32];
-    /* remaining fields not touched here */
-} WMBssDesc;
-
 typedef struct WMStartConnectReq {
     u16 apiid;
     u16 reserved;
@@ -140,12 +59,6 @@ typedef struct WMStartConnectReq {
     u16 reserved2;
     u16 authMode;
 } WMStartConnectReq;
-
-typedef struct WMStatus {
-    u16 state;
-    u8 pad02[0x180];
-    u16 child_bitmap;
-} WMStatus;
 
 extern WMErrCode WMi_CheckStateEx(s32 paramNum, ...);
 extern void WMi_SetCallbackTable(int id, WMCallbackFunc callback);
@@ -181,7 +94,6 @@ WMErrCode WM_EndScan(WMCallbackFunc callback);
 WMErrCode WM_StartConnectEx(WMCallbackFunc callback, WMBssDesc *pInfo, u8 *ssid, BOOL powerSave, u16 authMode);
 WMErrCode WM_Disconnect(WMCallbackFunc callback, u16 aid);
 
-
 /*
  * sdk:      WM_Enable (libwm.TWL.HYB.a(wm_standard.o))
  */
@@ -189,10 +101,6 @@ WMErrCode WM_Enable(WMCallbackFunc callback)
 {
     return WMi_EnableEx(callback, 0);
 }
-
-
-
-
 
 /*
  * sdk:      WMi_EnableEx (libwm.TWL.HYB.a(wm_standard.o))
@@ -218,11 +126,6 @@ WMErrCode WMi_EnableEx(WMCallbackFunc callback, u32 miscFlags)
     return WM_ERRCODE_OPERATING;
 }
 
-
-
-
-
-
 /*
  * sdk:      WM_Disable (libwm.TWL.HYB.a(wm_standard.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
@@ -243,11 +146,6 @@ WMErrCode WM_Disable(WMCallbackFunc callback)
     }
     return WM_ERRCODE_OPERATING;
 }
-
-
-
-
-
 
 /*
  * sdk:      WM_PowerOn (libwm.TWL.HYB.a(wm_standard.o))
@@ -270,10 +168,6 @@ WMErrCode WM_PowerOn(WMCallbackFunc callback)
     return WM_ERRCODE_OPERATING;
 }
 
-
-
-
-
 /*
  * sdk:      WM_PowerOff (libwm.TWL.HYB.a(wm_standard.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
@@ -295,17 +189,10 @@ WMErrCode WM_PowerOff(WMCallbackFunc callback)
     return WM_ERRCODE_OPERATING;
 }
 
-
-
-
 WMErrCode WM_Initialize(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo)
 {
     return WMi_InitializeEx(wmSysBuf, callback, dmaNo, 0);
 }
-
-
-
-
 
 /*
  * sdk:      WM_InitializeForListening (libwm.TWL.HYB.a(wm_standard.o))
@@ -320,10 +207,6 @@ WMErrCode WM_InitializeForListening(void *wmSysBuf, WMCallbackFunc callback, u16
     }
     return WMi_InitializeEx(wmSysBuf, callback, dmaNo, miscFlags);
 }
-
-
-
-
 
 /*
  * sdk:      WMi_InitializeEx (libwm.TWL.HYB.a(wm_standard.o))
@@ -349,10 +232,6 @@ WMErrCode WMi_InitializeEx(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo, u
     return WM_ERRCODE_OPERATING;
 }
 
-
-
-
-
 /*
  * sdk:      WM_Reset (libwm.TWL.HYB.a(wm_standard.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
@@ -374,9 +253,6 @@ WMErrCode WM_Reset(WMCallbackFunc callback)
     return WM_ERRCODE_OPERATING;
 }
 
-
-
-
 /*
  * sdk:      WM_End (libwm.TWL.HYB.a(wm_standard.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
@@ -397,9 +273,6 @@ WMErrCode WM_End(WMCallbackFunc callback)
     }
     return WM_ERRCODE_OPERATING;
 }
-
-
-
 
 /*
  * sdk:      WM_SetParentParameter (libwm.TWL.HYB.a(wm_standard.o))
@@ -445,9 +318,6 @@ WMErrCode WM_SetParentParameter(WMCallbackFunc callback, WMParentParam *pparaBuf
     return WM_ERRCODE_OPERATING;
 }
 
-
-
-
 /*
  * sdk:      WmCheckParentParameter (libwm.TWL.HYB.a(wm_standard.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
@@ -466,9 +336,6 @@ BOOL WmCheckParentParameter(WMParentParam *param)
     }
     return 1;
 }
-
-
-
 
 /*
  * sdk:      WMi_StartParentEx (libwm.TWL.HYB.a(wm_standard.o))
@@ -502,9 +369,6 @@ WMErrCode WMi_StartParentEx(WMCallbackFunc callback, BOOL powerSave)
     return WM_ERRCODE_OPERATING;
 }
 
-
-
-
 /*
  * sdk:      WM_StartParent (libwm.TWL.HYB.a(wm_standard.o))
  */
@@ -512,9 +376,6 @@ WMErrCode WM_StartParent(WMCallbackFunc callback)
 {
     return WMi_StartParentEx(callback, 1);
 }
-
-
-
 
 /*
  * sdk:      WM_EndParent (libwm.TWL.HYB.a(wm_standard.o))
@@ -536,9 +397,6 @@ WMErrCode WM_EndParent(WMCallbackFunc callback)
     }
     return WM_ERRCODE_OPERATING;
 }
-
-
-
 
 /*
  * sdk:      WM_StartScanEx (libwm.TWL.HYB.a(wm_standard.o))
@@ -602,9 +460,6 @@ WMErrCode WM_StartScanEx(WMCallbackFunc callback, const WMScanExParam *param)
     return WM_ERRCODE_OPERATING;
 }
 
-
-
-
 /*
  * sdk:      WM_EndScan (libwm.TWL.HYB.a(wm_standard.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
@@ -625,9 +480,6 @@ WMErrCode WM_EndScan(WMCallbackFunc callback)
     }
     return WM_ERRCODE_OPERATING;
 }
-
-
-
 
 /*
  * sdk:      WM_StartConnectEx (libwm.TWL.HYB.a(wm_standard.o))
@@ -678,9 +530,6 @@ WMErrCode WM_StartConnectEx(WMCallbackFunc callback, WMBssDesc *pInfo, u8 *ssid,
     }
     return WM_ERRCODE_OPERATING;
 }
-
-
-
 
 /*
  * sdk:      WM_Disconnect (libwm.TWL.HYB.a(wm_standard.o))

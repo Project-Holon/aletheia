@@ -148,7 +148,6 @@ struct G3dSys;
 
 struct Arg;
 
-
 /*
  * Particle and ICA animation manager owned by TradeWork.particleManager.
  * Allocated and released by the caller; holds nine particle systems with
@@ -167,7 +166,6 @@ typedef struct ParticleManager {
     unsigned char pad_B8[2];  /* 0x0B8 */
     u16 heap;                 /* 0x0BA owning heap id */
 } ParticleManager;
-
 
 typedef struct { u32 x, y, z; } Vec3U32;
 
@@ -194,23 +192,11 @@ typedef struct {
 
 typedef struct { int x, y, z; } IntVec3;
 
-
-
 typedef struct { u32 v[4]; } U32Table4;
 
+#include "../types.h"
 
-typedef short fx16;
-
-typedef volatile u32 vu32;
-
-
-
-
-typedef long fx32;
-
-
-typedef struct { fx32 a[12]; } MtxFx43;
-
+#include "../sdk_fx.h"
 
 typedef struct { u32 f0, f4; u16 f8, fA, fC, fE, f10, f12; u32 f14, f18, f1C; } Element;
 

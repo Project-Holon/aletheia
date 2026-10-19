@@ -8,9 +8,7 @@
  * accessors in script_work.c.
  */
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../types.h"
 
 #define SCRIPT_WORK_MAGIC 0x3643F
 #define SCRIPT_LOCAL_WORK_BASE 0x8000

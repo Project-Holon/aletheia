@@ -45,7 +45,6 @@
  *   DWCi_EFFlCheck                   0x021D5580  arm
  *   DWCi_CMNlButton                  0x021BD264  arm
  *   DWCi_BTNlGet                     0x021BCB14  arm
- *   procScene                        0x021C4660  arm
  *   DWCi_SNDlStop                    0x021D0014  arm
  *   endScene                         0x021C46DC  arm
  *   DWCi_MOVlIsEnd  0x021C11B8  arm
@@ -62,7 +61,7 @@
  *   DWCi_SceneOptMovUser  0x021C4110  arm  ov016
  *   DWCi_MOVlChangeCallback  0x021C11D4  arm  ov016
  */
-typedef unsigned short u16;
+#include "../types.h"
 
 typedef struct {
     u16 priority : 2;
@@ -70,8 +69,6 @@ typedef struct {
 } BgCnt;
 
 typedef _Bool bool;
-
-typedef unsigned char u8;
 
 extern void DWCi_MOVlInit(void (*callback)(int));
 extern void DWCi_CMNlMsgDraw(int msgId);
@@ -109,7 +106,6 @@ void DWCi_SceneOptMovWait_draw(void);
 extern unsigned char Choose;
 extern u8   gSceneOptMovWaitWork;
 
-
 /*
  * Bit 15 of the halfword at 0x02FFFFA8, as 0/1.
  * Addresses are Black-image addresses.
@@ -134,7 +130,6 @@ static int DWCi_IsFold(void)
     return ((*(unsigned short *)0x02FFFFA8 & 0x8000) >> 15) != 0;
 }
 
-
 void DWCi_SceneOptMovWait(void)
 {
     DWCi_MOVlInit(DWCi_SceneOptMovWaitCbMov);
@@ -146,7 +141,6 @@ void DWCi_SceneOptMovWait(void)
     DWCi_ChangeScene(procInit);
 }
 
-
 static void initGraphics(void)
 {
     DWCi_CMNlLoadResource((void *)0x021DB3CC, (void *)0x0207EB78);
@@ -157,14 +151,12 @@ static void initGraphics(void)
     ((BgCnt *)0x0400000C)->priority = 3;
 }
 
-
 static void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(0, 0x15);
     DWCi_ChangeScene(procInit1);
 }
-
 
 static void procInit1(void)
 {
@@ -175,16 +167,12 @@ static void procInit1(void)
 }
 
 
-static void procScene(void);
-
-
 static void procInit2(void)
 {
     if (DWCi_BTNlGet() == -2)
         return;
-    DWCi_ChangeScene(procScene);
+    DWCi_ChangeScene(DWCi_SceneOptMovWait_procScene);
 }
-
 
 void DWCi_SceneOptMovWait_procScene(void)
 {
@@ -192,7 +180,6 @@ void DWCi_SceneOptMovWait_procScene(void)
     DWCi_SceneOptMovWait_draw();
     button();
 }
-
 
 static void input(void)
 {
@@ -209,7 +196,6 @@ void DWCi_SceneOptMovWait_draw(void)
 {
 }
 
-
 static void button(void)
 {
     if (DWCi_BTNlGet())
@@ -218,7 +204,6 @@ static void button(void)
     DWCi_SNDlPlay(7);
     DWCi_ChangeScene(endScene);
 }
-
 
 /*
  * Wake the sub-state, flag it and post the event at 0x021C4714.
@@ -232,7 +217,6 @@ static void endScene(void)
     DWCi_EFFlWait(8);
     DWCi_ChangeScene(endScene1);
 }
-
 
 static void endScene1(void)
 {
@@ -248,7 +232,6 @@ static void endScene1(void)
     DWCi_EFFlFade(3, 0, 0x15, 8);
     DWCi_ChangeScene(endScene2);
 }
-
 
 /*
  * sdk:      endScene2 (libdwcutil.TWL.HYB.a sceneoptmovwait.o)
@@ -286,7 +269,6 @@ static void endScene2(void)
     }
 }
 
-
 /*
  * sdk:      DWCi_SceneOptMovWaitCbMov (libdwcutil.TWL.HYB.a sceneoptmovwait.o)
  */
@@ -303,5 +285,3 @@ static void DWCi_SceneOptMovWaitCbMov(int state)
     DWCi_MOVlChangeCallback(0);
     DWCi_ChangeScene(endScene);
 }
-
-

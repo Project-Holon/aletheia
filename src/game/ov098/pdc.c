@@ -29,10 +29,9 @@
  */
 #include "pdc_types.h"
 
-typedef int s32;
+#include "../types.h"
 #include "../arm9/gfl_heap_wrap.h"
 #include "../arm9/gf_overlay.h"
-typedef int BOOL;
 #include "../arm9/gfl_heap.h"
 #include "../arm9/procsys.h"
 extern void MIi_CpuClearFast(int value, void *dst, u32 size);

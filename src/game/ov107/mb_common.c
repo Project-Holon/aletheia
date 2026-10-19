@@ -12,9 +12,7 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  */
-typedef unsigned long u32;
-
-typedef unsigned short u16;
+#include "../types.h"
 
 extern void DC_FlushRange(const void *p, u32 size);
 extern void DC_WaitWriteBufferEmpty(void);
@@ -22,14 +20,12 @@ extern int MBi_SendMP(unsigned short *buf, int len, int pollbmp);
 int MBi_BlockHeaderEnd(int body_len, u16 pollbmp, u32 *sendbuf);
 u16 MBi_calc_cksum(u16 *buf, int length);
 
-
 int MBi_BlockHeaderEnd(int body_len, u16 pollbmp, u32 *sendbuf)
 {
     DC_FlushRange(sendbuf, (body_len + 31) & ~31);
     DC_WaitWriteBufferEmpty();
     return MBi_SendMP((unsigned short *)sendbuf, body_len, pollbmp);
 }
-
 
 u16 MBi_calc_cksum(u16 *buf, int length)
 {

@@ -126,11 +126,7 @@
  *   PLIST_DEMO_CheckItemUsable  0x021BDD78  thumb
  *   PLIST_DEMO_UseItemOnMon  0x021BE2B4  thumb
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef short s16;
-typedef signed int s32;
+#include "../types.h"
 
 #include "pokelist_types.h"
 #include "plist_menu_types.h"

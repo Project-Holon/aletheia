@@ -18,7 +18,7 @@
  *   sFileName_bsubway_savedata  0x020A71F8  data
  *   GFL_HEAP_Alloc     0x02030734  arm
  */
-#include "bsubway_savedata_shared_types.h"
+#include "../types.h"
 
 struct HistoryEntry {
     u16 id;

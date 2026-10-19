@@ -17,7 +17,7 @@
  *   DWCi_AC_GetBeacon 0x0205A938 arm
  */
 
-typedef struct WMBssDesc WMBssDesc;
+#include "../sdk_wm.h"
 
 typedef struct WCMNotice {
     short notify;

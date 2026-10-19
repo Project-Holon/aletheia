@@ -53,7 +53,7 @@
  *   COLOSSEUM_SetupBattleMember  0x02175358  thumb  ov012
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  */
-typedef struct { int x, y, z; } VecFx32;
+#include "../sdk_fx.h"
 
 #include "union_comm_types.h"
 #include "../arm9/net_types.h"

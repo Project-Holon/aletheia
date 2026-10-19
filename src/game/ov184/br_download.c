@@ -89,13 +89,7 @@ struct Proc;
 struct Big;
 struct PrintSys;
 struct Proc;
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef signed int     s32;
-
-typedef unsigned char  u8;
+#include "../types.h"
 
 typedef struct Cfg {int a,b;} Cfg;
 
@@ -181,10 +175,6 @@ void BR_DOWNLOAD_CreateButtons(char *p, const char *q);
 void BR_DOWNLOAD_ResetSlots(int *a, char *p);
 extern char ov112_id[];
 
-
-
-
-
 int BR_DOWNLOAD_Create(void *obj,int b,char *q)
 {
     char *p;
@@ -206,10 +196,6 @@ int BR_DOWNLOAD_Create(void *obj,int b,char *q)
     return 1;
 }
 
-
-
-
-
 int BR_DOWNLOAD_Delete(int obj,int b,char *q,char *p)
 {
     int i;
@@ -228,10 +214,6 @@ int BR_DOWNLOAD_Delete(int obj,int b,char *q,char *p)
     return 1;
 }
 
-
-
-
-
 int BR_DOWNLOAD_Main(int a,int b,int c,char *p)
 {
     int i;
@@ -247,11 +229,6 @@ int BR_DOWNLOAD_Main(int a,int b,int c,char *p)
     if (((struct BrDownloadWork *)p)->scene.scene) MUSICAL_SHOT_SYS_DrawScene((u8 *)((struct BrDownloadWork *)p)->scene.scene);
     return 0;
 }
-
-
-
-
-
 
 /*
  *   wildcarded because that address lies outside ov184's own 0x5A0-byte
@@ -278,11 +255,6 @@ void BR_DOWNLOAD_StepFadeIn(int a, int *state, char *p)
     }
 }
 
-
-
-
-
-
 /*
  *   outside ov184's 0x5A0-byte region and no listing labels them, so the
  *   two calls stay wildcarded.
@@ -308,9 +280,6 @@ void BR_DOWNLOAD_StepClose(int a, int *state, char *p)
     }
 }
 
-
-
-
 void BR_DOWNLOAD_HandleTouch(int a,int b,char *p)
 {
     int x,y;
@@ -331,8 +300,6 @@ void BR_DOWNLOAD_HandleTouch(int a,int b,char *p)
         }
     }
 }
-
-
 
 void BR_DOWNLOAD_DownloadTask(int *task,unsigned *state,char *p)
 {
@@ -380,9 +347,6 @@ void BR_DOWNLOAD_DownloadTask(int *task,unsigned *state,char *p)
     }
 }
 
-
-
-
 void BR_DOWNLOAD_Begin3d(char *p, char *q)
 {
     if (((struct BrDownloadWork *)p)->scene.sceneHandle != 0)
@@ -393,9 +357,6 @@ void BR_DOWNLOAD_Begin3d(char *p, char *q)
     BR_GRAPHIC_Begin3d(((struct BrDownloadOwner *)q)->graphic.graphicHandle, ((struct BrDownloadWork *)p)->heapId);
     ((struct BrDownloadWork *)p)->scene.sceneHandle = (unsigned int)MUSICAL_SHOT_SYS_CreateScene((u8 *)((struct BrDownloadWork *)p)->saveData.saveData, ((struct BrDownloadWork *)p)->heapId);
 }
-
-
-
 
 void BR_DOWNLOAD_End3d(char *p, char *q)
 {
@@ -408,8 +369,6 @@ void BR_DOWNLOAD_End3d(char *p, char *q)
     BR_RES_LoadBgGraphics((void *)(*(u32 *)&((struct BrDownloadOwner *)q)->res.res), 0, ((struct BrDownloadWork *)p)->heapId);
     BR_SIDEBAR_SetVisibleBySpace((char *)((struct BrDownloadOwner *)q)->sidebar, 0, 1);
 }
-
-
 
 /*
  * tail: 021F89CE..021F89D0 is two zero alignment bytes before matched021F89D0.
@@ -458,7 +417,6 @@ void BR_DOWNLOAD_CreateButtons(char *p, const char *q)
     ((struct BrDownloadWork *)p)->buttons[i] = BR_BTN_CreateFromMessage(&cfg, kind, 96, 1, actorUnit, oamHandle, font, msgData, resources, ((struct BrDownloadWork *)p)->heapId);
   }
 }
-
 
 void BR_DOWNLOAD_ResetSlots(int *slots, char *p)
 {

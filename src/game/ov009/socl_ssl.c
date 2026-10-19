@@ -52,7 +52,8 @@ extern int SOCL_SocketIsInvalid(struct SOCLSocket *socket);
 struct SOCLiCommandPacket;
 extern struct SOCLiCommandPacket *SOCLi_CreateCommandPacket(int (*handler)(void *), struct SOCLSocket *socket, int flag);
 extern int SOCLi_ExecCommandPacketInRecvPipe(void *socket, void *command);
-struct OSMutex;
+#include "../sdk_os.h"
+
 extern void OS_LockMutex(struct OSMutex *mutex);
 extern void CPS_SetSsl(int mode);
 extern void OS_UnlockMutex(struct OSMutex *mutex);

@@ -181,7 +181,6 @@
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm  arm9
  *   NAMEIN_GRAPHIC_LoadIconMember 0x021F51E4 thumb ov194
  */
-#include "namein_graphic_shared_types.h"
 extern int NAMEIN_GRAPHIC_IsFieldDrawDone(unsigned char *p);
 extern int NAMEIN_GRAPHIC_IsFieldFull(char *p);
 
@@ -247,11 +246,7 @@ typedef struct {int x,y,z,w;} Box;
 
 typedef struct {int left,top,right,bottom;} Rect;
 
-typedef signed short s16;
-
-typedef unsigned long long u64;
-
-typedef signed int s32;
+#include "../types.h"
 
 typedef struct {u16 w;u16 h;u32 pad;} Dim8;
 

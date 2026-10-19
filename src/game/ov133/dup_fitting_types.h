@@ -165,14 +165,9 @@ struct DupFittingFrame {
     int            owned;          /* 0x10 owned flag */
 };
 
-
 struct Object;
 
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 typedef struct { int x, y, z; } Vec;
 

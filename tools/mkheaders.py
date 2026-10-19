@@ -187,6 +187,8 @@ class Index:
         self.by_file = collections.defaultdict(list)    # c file -> [Def] in order
         self.statics = collections.defaultdict(set)     # c file -> {name}
         self.decls = {}                                  # c file -> (code, depths, records)
+        self._tags = {}
+        self._rel = {}
         for f in files:
             if not f.endswith(".c"):
                 continue
@@ -216,8 +218,55 @@ class Index:
             if len(c) > 1:
                 return None, "defined %d times in %s" % (len(c), "/".join(scope))
         if self.defs.get(name):
-            return None, "defined only in another region"
+            return self.xowner(caller, name)
         return None, "no src/game definition"
+
+    OVTAG = re.compile(r"^ \*\s+(\w+)\s+0x[0-9A-Fa-f]{8}\s+(?:arm|thumb)\s+(ov\d{3})\b", re.M)
+
+    def row_tags(self, f):
+        """{name: overlay tag} of the `symbols:` rows of a file header."""
+        if f not in self._tags:
+            raw = open(f, encoding="latin1").read()
+            head = raw[:raw.find("*/") + 2] if raw.lstrip().startswith("/*") else ""
+            self._tags[f] = {m.group(1): m.group(2) for m in self.OVTAG.finditer(head)}
+        return self._tags[f]
+
+    def loaded_with(self, reg):
+        """Overlays that the files of a region name in their header rows (the load relations the tree records)."""
+        if reg not in self._rel:
+            rel = set()
+            for f in self.decls:
+                if region_of(f) == reg:
+                    rel |= set(self.row_tags(f).values())
+            self._rel[reg] = rel
+        return self._rel[reg]
+
+    def xowner(self, caller, name):
+        """The Def an extern names when it is defined only in other overlays.
+
+        1. the caller's own header row for the name carries an overlay tag: that overlay's definition;
+        2. one definition in the whole tree: the name is that function (the linker resolves by name);
+        3. several: the one in an overlay the caller's region names in its rows."""
+        reg = region_of(caller)
+        c = [d for d in self.defs.get(name, []) if d.region not in MAIN_REGIONS and d.region != reg]
+        tag = self.row_tags(caller).get(name)
+        if tag:
+            t = [d for d in c if d.region == tag]
+            if len(t) == 1:
+                return t[0], ""
+            if len(t) > 1:
+                return None, "defined %d times in %s" % (len(t), tag)
+        if len(c) == 1:
+            return c[0], ""
+        rel = self.loaded_with(reg)
+        t = [d for d in c if d.region in rel]
+        if len(t) == 1:
+            return t[0], ""
+        if tag:
+            return None, "row tag %s has no definition (defined in %s)" % (tag, "/".join(sorted({d.region for d in c})))
+        if t:
+            return None, "defined in several overlays loaded with the caller's region"
+        return None, "defined in several overlays, none named by the caller's region"
 
 
 # ---------------------------------------------------------------- headers
@@ -231,6 +280,8 @@ def header_path(cfile):
 
 
 def header_inc(target):
+    if os.path.dirname(os.path.abspath(target)) == GAME:
+        return "../%s" % os.path.basename(target)       # types.h, sdk_*.h at the root of src/game
     return "../%s/%s" % (region_of(target), os.path.basename(target))
 
 
@@ -305,7 +356,13 @@ def classify_def(idx, d, owner_inc):
             return False, "unparsed parameter", [], [], [], []
         if kind == "typedef":
             if name in ti.base:
-                bases.append(name)
+                th = [h for h in ti.typedef_in.get(name, ()) if os.path.basename(h) == "types.h"
+                      and os.path.dirname(os.path.abspath(h)) == GAME]
+                if th:
+                    if th[0] not in headers:
+                        headers.append(th[0])        # the shared base types header, not a local typedef
+                else:
+                    bases.append(name)
                 continue
             if name not in ti.types.alias:
                 return False, "unknown type %s" % name, [], [], [], []
@@ -494,7 +551,7 @@ def apply_plan(idx, hdrs, plan, skip_owners=(), inject=True, extra=(), late=Fals
             if b.startswith("inc:"):
                 b = b[4:]
                 # a header that defines a type another header of the group needs first
-                inc0 = os.path.basename(b) if region_of(b) == reg else "../%s/%s" % (region_of(b), os.path.basename(b))
+                inc0 = os.path.basename(b) if region_of(b) == reg else header_inc(b)
                 if os.path.basename(b) not in already:
                     extra_text += '#include "%s"' % inc0 + nl
                     added.append(inc0)

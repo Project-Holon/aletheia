@@ -26,7 +26,7 @@
  *   MET_TRAINERS_TestBit  0x0200EDEC  thumb
  *   MET_TRAINERS_SetBit 0x0200EE14 thumb
  */
-#include "manual_data_shared_types.h"
+#include "../types.h"
 
 struct Big;
 

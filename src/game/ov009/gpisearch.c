@@ -363,7 +363,7 @@ int gpiStartProfileSearch(void **connection, GPIOperation *operation)
         SOCSockAddrIn address = {0};
 
         address.family = 2;
-        address.addr.addr = **(unsigned int **)host->addrList;
+        address.addr = **(unsigned int **)host->addrList;
         address.port = 0xCD74;
 
         rcode = connect(data->sock, (struct SOCSockAddr *)(&address), sizeof(address));

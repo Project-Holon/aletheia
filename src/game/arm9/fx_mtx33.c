@@ -12,24 +12,8 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  */
-typedef long fx32;
-typedef long long fx64;
-typedef short fx16;
-typedef struct {
-    fx32 x, y, z;
-} VecFx32;
-typedef struct {
-    fx16 x, y, z;
-} VecFx16;
-typedef union {
-    struct {
-        fx32 _00, _01, _02;
-        fx32 _10, _11, _12;
-        fx32 _20, _21, _22;
-    };
-    fx32 m[3][3];
-    fx32 a[9];
-} MtxFx33;
+#include "../types.h"
+#include "../sdk_fx.h"
 
 asm void MTX_Identity33_(void);
 asm void MTX_Copy33To44_(void);

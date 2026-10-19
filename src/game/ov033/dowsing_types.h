@@ -5,8 +5,7 @@
 
 /* Types of the dowsing machine sub-screen (field sub-screen mode 6). */
 
-typedef signed short s16;
-typedef signed int s32;
+#include "../types.h"
 
 /* Dowsing level of the grid cell the player stands on: 0 .. 7 are the
  * distance steps, 8 is "on top of the target", 9 is "nothing near". */

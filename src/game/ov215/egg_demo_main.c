@@ -136,11 +136,7 @@ struct GfFont;
 struct Node;
 struct Obj;
 struct Actor;
-typedef unsigned int u32;
-
-typedef unsigned short u16;
-
-typedef unsigned char u8;
+#include "../types.h"
 
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
@@ -262,7 +258,6 @@ int EGG_DEMO_MAIN_IsBgmStopped(void *unused, char *p);
 extern char gNameInProcData,abs_id_C2;
 extern const unsigned int table[][2];
 
-
 /*
  * Legacy void allocator/31324 returns consumed; preserve visible heap input.
  */
@@ -286,9 +281,7 @@ int EGG_DEMO_MAIN_Create(void *owner,int unused,u32 args)
     return 1;
 }
 
-
 int EGG_DEMO_MAIN_Delete(struct Proc *task,int unused,u32 args,char *work) { PROCSYS_Delete(*(struct S020314B8 * *)&((struct EggDemoWork *)work)->proc);EGG_DEMO_MAIN_NoopB(args,work);if(((struct EggDemoWork *)work)->state!=17)EGG_DEMO_MAIN_DeleteResources(args,work);PROCSYS_FreeProcWork(task);GFL_HEAP_DeleteChecked(143);return 1; }
-
 
 /*
  * prototypes: owning ARM9 units and ov215 sources; live r3 from C028 is
@@ -366,7 +359,6 @@ int EGG_DEMO_MAIN_Update(u32 unused0,u32 unused1,u32 *args,u32 *work)
     return 0;
 }
 
-
 void EGG_DEMO_MAIN_OnVBlank(void *unused, char *work)
 {
     if (((struct EggDemoWork *)work)->vblankFlag) {
@@ -374,7 +366,6 @@ void EGG_DEMO_MAIN_OnVBlank(void *unused, char *work)
         ((struct EggDemoWork *)work)->vblankFlag = 0;
     }
 }
-
 
 void EGG_DEMO_MAIN_Init(int args,char *work)
 {
@@ -401,7 +392,6 @@ void EGG_DEMO_MAIN_Init(int args,char *work)
     *(char * *)&((struct EggDemoWork *)work)->view=EGG_DEMO_VIEW_Create(((struct EggDemoWork *)work)->heapId,((struct EggDemoArgs *)((u32)args))->mon);
 }
 
-
 void EGG_DEMO_MAIN_DeleteResources(u32 args,char *work)
 {
     EGG_DEMO_VIEW_Delete((char *)(((struct EggDemoWork *)work)->view));
@@ -416,8 +406,6 @@ void EGG_DEMO_MAIN_DeleteResources(u32 args,char *work)
     EGG_DEMO_GRAPHIC_Delete((char *)(((struct EggDemoWork *)work)->graphic));
 }
 
-
-
 void EGG_DEMO_MAIN_LoadGraphics(int unused, char *work)
 {
     void *h = ARC_TOOL_CreateHandle(189, ((struct EggDemoWork *)work)->heapId);
@@ -428,12 +416,10 @@ void EGG_DEMO_MAIN_LoadGraphics(int unused, char *work)
     BG_SYS_PushTile(2);
 }
 
-
 void EGG_DEMO_MAIN_Noop(int args, char *work)
 {
 
 }
-
 
 /*
  * lever: first types search split the full-word per-element pointer assignment and named the table address and resource result; declarations ported to block tops with initializer timing preserved.
@@ -468,7 +454,6 @@ void EGG_DEMO_MAIN_InitActors(int unused, struct EggDemoWork *work)
     }
 }
 
-
 void EGG_DEMO_MAIN_DeleteActors(void *unused, char *work)
 {
     u8 i;
@@ -477,8 +462,6 @@ void EGG_DEMO_MAIN_DeleteActors(void *unused, char *work)
     CLACT_ReleaseCharacter(((struct EggDemoWork *)work)->charId);
     CLACT_ReleasePalette(((struct EggDemoWork *)work)->paletteId);
 }
-
-
 
 void EGG_DEMO_MAIN_StartActorAnims(int unused, struct EggDemoWork *work)
 {
@@ -489,8 +472,6 @@ void EGG_DEMO_MAIN_StartActorAnims(int unused, struct EggDemoWork *work)
         CLACT_SetActorAutoAnim(work->actors[i], 1);
     }
 }
-
-
 
 int EGG_DEMO_MAIN_AreActorAnimsDone(int unused, struct EggDemoWork *work)
 {
@@ -507,8 +488,6 @@ int EGG_DEMO_MAIN_AreActorAnimsDone(int unused, struct EggDemoWork *work)
     return r;
 }
 
-
-
 int EGG_DEMO_MAIN_StartFadeOutBgm(int args, char *work)
 {
     GFL_USE_FadeOutBgm(0x1e);
@@ -516,13 +495,10 @@ int EGG_DEMO_MAIN_StartFadeOutBgm(int args, char *work)
     return 1;
 }
 
-
 void EGG_DEMO_MAIN_NoopB(u32 args, char *work)
 {
 
 }
-
-
 
 void EGG_DEMO_MAIN_UpdateBgm(u8 *args, u8 *work)
 {
@@ -565,7 +541,6 @@ void EGG_DEMO_MAIN_UpdateBgm(u8 *args, u8 *work)
     }
 }
 
-
 /*
  * leaf: sole blocker set of concrete MATCH900 ov215021F5884; parent claim.
  * extent: 14-byte predicate then two zero alignment bytes at 021F5F82.
@@ -576,21 +551,17 @@ int EGG_DEMO_MAIN_IsBgmFadeOut(void *unused,char *work)
     return 0;
 }
 
-
 void EGG_DEMO_MAIN_PlayBgm(void *unused, char *work)
 {
     GFL_USE_CancelChangeAndPlayBgm(0x3f2, 0xffff);
     ((struct EggDemoWork *)work)->bgmState = 2;
 }
 
-
-
 int EGG_DEMO_MAIN_IsBgmPlaying(void *unused, char *work)
 {
     if (((struct EggDemoWork *)work)->bgmState == 2) return 1;
     return 0;
 }
-
 
 void EGG_DEMO_MAIN_LoadBgm1(void *unused, char *work)
 {
@@ -599,23 +570,17 @@ void EGG_DEMO_MAIN_LoadBgm1(void *unused, char *work)
     ((struct EggDemoWork *)work)->bgmState = 3;
 }
 
-
-
 int EGG_DEMO_MAIN_IsBgm1Loaded(void *unused, char *work)
 {
     if (((struct EggDemoWork *)work)->bgmState == 4) return 1;
     return 0;
 }
 
-
-
 void EGG_DEMO_MAIN_PushBgm(void *args, void *work)
 {
     GFL_USE_SetBgmPaused((unsigned int)1);
     GFL_USE_PushBgm();
 }
-
-
 
 void EGG_DEMO_MAIN_PopBgm(void *args, void *work)
 {
@@ -624,15 +589,12 @@ void EGG_DEMO_MAIN_PopBgm(void *args, void *work)
     GFL_USE_FadeInBgmFull(6);
 }
 
-
 void EGG_DEMO_MAIN_LoadBgm2(void *unused, char *work)
 {
     ((struct EggDemoWork *)work)->bgmLoadState = 0;
     GFL_USE_StepBgmLoad((unsigned int)0x519, (u32 *)(work + 0x24), 1);
     ((struct EggDemoWork *)work)->bgmState = 5;
 }
-
-
 
 int EGG_DEMO_MAIN_IsBgm2Loading(void *unused, char *work)
 {
@@ -642,14 +604,11 @@ int EGG_DEMO_MAIN_IsBgm2Loading(void *unused, char *work)
     return result;
 }
 
-
 void EGG_DEMO_MAIN_StopBgm(void *unused, char *work)
 {
     GFL_USE_FadeOutBgm(0x3c);
     ((struct EggDemoWork *)work)->bgmState = 7;
 }
-
-
 
 int EGG_DEMO_MAIN_IsBgmStopped(void *unused, char *work)
 {

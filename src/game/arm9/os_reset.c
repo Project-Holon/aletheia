@@ -30,17 +30,9 @@
  *   OSi_SendToPxi                    0x02084A84  arm
  *   OSi_DoResetSystem                0x01FF8414  arm
  */
-typedef unsigned long u32;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef unsigned char u8;
-
-typedef int BOOL;
-
-typedef u32 OSIntrMode;
-
-typedef long s32;
+#include "../sdk_os.h"
 
 extern void PXI_Init(void);
 extern BOOL PXI_IsCallbackReady(int fifotag, int proc);
@@ -62,7 +54,6 @@ void OS_ResetSystem(u32 parameter);
 extern char SDK_AUTOLOAD_DTCM_START[];
 extern u16 OSi_IsInitReset;
 
-
 /*
  * sdk:      OS_InitReset (os_reset.o)
  */
@@ -78,7 +69,6 @@ void OS_InitReset(void)
     }
     PXI_SetFifoRecvCallback(12, OSi_CommonCallback);
 }
-
 
 /*
  * sdk:      OS_ResetSystem (os_reset.o)

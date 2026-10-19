@@ -74,11 +74,7 @@
  *   sSceneSetEditAddressPathYbObjMainPltt                         0x021DB550  data
  *   sceneseteditaddress_bss            0x021DE5E4  data
  */
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned long u32;
+#include "../types.h"
 
 typedef _Bool bool;
 
@@ -182,7 +178,6 @@ extern const COORD sSceneSetEditAddressOrigin;
 extern const u8 sSceneSetEditAddressDigitX[];
 extern const AddressLimit sSceneSetEditAddressMaxOctet;
 
-
 static inline void G2_SetOBJPriority(GXOamAttr *oam, int priority)
 {
     oam->attr2 = (u16)((oam->attr2 & ~0xC00) | (priority << 10));
@@ -206,7 +201,6 @@ static void arrangeAddress(void);
 static int isCorrect(void);
 static void procError(void);
 static void procError1(void);
-
 
 void DWCi_SceneSetEditAddress(void)
 {
@@ -237,7 +231,6 @@ void DWCi_SceneSetEditAddress(void)
     DWCi_ChangeScene(procInit);
 }
 
-
 /*
  * Load the four resources of the scene (object palette, background tiles,
  * background palette, background screen), then set the low two bits of five
@@ -261,7 +254,6 @@ static void initGraphics(void)
     p[1] = (p[1] & ~3) | 3;
 }
 
-
 static void procInit(void)
 {
     DWCi_EFFlFade(2, 1, 1, 8);
@@ -270,7 +262,6 @@ static void procInit(void)
     DWCi_GXlVisible(0, 0x15);
     DWCi_ChangeScene(procInit1);
 }
-
 
 static void procInit1(void)
 {
@@ -291,7 +282,6 @@ static void procInit1(void)
     DWCi_ChangeScene(procInit2);
 }
 
-
 static void procInit2(void)
 {
     if (DWCi_KB10lGet() == 0x1F)
@@ -299,13 +289,11 @@ static void procInit2(void)
     DWCi_ChangeScene(DWCi_SceneSetEditAddress_procScene);
 }
 
-
 void DWCi_SceneSetEditAddress_procScene(void)
 {
     input();
     DWCi_SceneSetEditAddress_draw();
 }
-
 
 static void input(void)
 {
@@ -393,7 +381,6 @@ updateKeyboard:
     DWCi_SceneSetEditAddressDispCaret();
 }
 
-
 static int isOver(int limit)
 {
     u8 *c;
@@ -420,13 +407,11 @@ void DWCi_SceneSetEditAddress_draw(void)
 {
 }
 
-
 static void endScene(void)
 {
     DWCi_EFFlWait(8);
     DWCi_ChangeScene(endScene1);
 }
-
 
 static void endScene1(void)
 {
@@ -437,12 +422,10 @@ static void endScene1(void)
     DWCi_ChangeScene(endScene2);
 }
 
-
 static inline void G2_SetOBJPosition(GXOamAttr *oam, int x, int y)
 {
     oam->attr01 = (oam->attr01 & 0xFE00FF00) | (y & 0xFF) | ((x & 0x1FF) << 16);
 }
-
 
 static void endScene2(void)
 {
@@ -462,7 +445,6 @@ static void endScene2(void)
     }
 }
 
-
 static void DWCi_SceneSetEditAddressEndScene3(void)
 {
     int kind;
@@ -481,7 +463,6 @@ static void DWCi_SceneSetEditAddressEndScene3(void)
     DWCi_ChangeScene(DWCi_SceneSetList);
     DWCi_HEAPlFree_((void **)&sceneseteditaddress_bss);
 }
-
 
 /*
  * Draws the 12-character edit-address field: one 12x16 area whose y/w/h come
@@ -515,7 +496,6 @@ static void DWCi_SceneSetEditAddressDrawAddress(void)
     DWCi_FNTlRenewBg((int)gMemSsea->bg);
 }
 
-
 static void DWCi_SceneSetEditAddressDispCaret(void)
 {
     int x = gMemSsea->cursor;
@@ -524,7 +504,6 @@ static void DWCi_SceneSetEditAddressDispCaret(void)
         x = 3;
     G2_SetOBJPosition(gMemSsea->caret, sSceneSetEditAddressDigitX[x * 3 + 2], 0x28);
 }
-
 
 static void DWCi_SceneSetEditAddressProcWin(void)
 {
@@ -543,7 +522,6 @@ static void DWCi_SceneSetEditAddressProcWin(void)
     DWCi_ChangeScene(DWCi_SceneSetEditAddressProcWin1);
 }
 
-
 static void DWCi_SceneSetEditAddressProcWin1(void)
 {
     AddressGetterTable getters = sSceneSetEditAddressDefaultGetters;
@@ -560,7 +538,6 @@ static void DWCi_SceneSetEditAddressProcWin1(void)
     getters.f[kind](gMemSsea->digits);
     DWCi_ChangeScene(DWCi_SceneSetEditAddressEndScene3);
 }
-
 
 /*
  * Sanitises four three-byte rows of the address buffer: every leading byte that
@@ -583,7 +560,6 @@ static void arrangeAddress(void)
     }
     DWCi_SceneSetEditAddressDrawAddress();
 }
-
 
 static int isCorrect(void)
 {
@@ -628,7 +604,6 @@ static int isCorrect(void)
     return b;
 }
 
-
 static void procError(void)
 {
     if (DWCi_WINlGet())
@@ -637,7 +612,6 @@ static void procError(void)
     DWCi_WINlEnd();
     DWCi_ChangeScene(procError1);
 }
-
 
 static void procError1(void)
 {

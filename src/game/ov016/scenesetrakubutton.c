@@ -76,7 +76,7 @@
  *   procConfirm                      0x021C22AC  arm
  *   sceneopterase_bss                0x021DE5A4  data
  */
-typedef unsigned short u16;
+#include "../types.h"
 
 typedef struct {
     u16 priority : 2;
@@ -84,8 +84,6 @@ typedef struct {
 } BgCnt;
 
 typedef _Bool bool;
-
-typedef unsigned int   u32;
 
 /* sceneopterase.o .bss at 0x021DE5A4, members at their vendor offsets */
 typedef struct {
@@ -147,7 +145,6 @@ static void endScene2(void);
 static void checkRaku(void);
 static void procError1(void);
 
-
 /*
  * Bit 15 of the halfword at 0x02FFFFA8 (lid closed), as 0/1: this scene's own
  * copy of the libdwcutil helper.
@@ -167,7 +164,6 @@ void DWCi_SceneSetRakuButton(void)
     DWCi_ChangeScene(procInit);
 }
 
-
 static void initGraphics(void)
 {
     DWCi_CMNlLoadResource((void *)0x021DB644, (void *)0x0207EB78);
@@ -178,14 +174,12 @@ static void initGraphics(void)
     ((BgCnt *)0x0400000C)->priority = 3;
 }
 
-
 static void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(0, 0x15);
     DWCi_ChangeScene(procInit1);
 }
-
 
 static void procInit1(void)
 {
@@ -195,7 +189,6 @@ static void procInit1(void)
     DWCi_ChangeScene(procInit2);
 }
 
-
 static void procInit2(void)
 {
     if (DWCi_BTNlGet() == -2)
@@ -203,7 +196,6 @@ static void procInit2(void)
     DWCi_BTNlEnable();
     DWCi_ChangeScene(procScene);
 }
-
 
 /*
  * Set r0 to 0xa, call OS_Sleep, then run the four ov016 steps.
@@ -222,7 +214,6 @@ static void procScene(void)
     button();
 }
 
-
 static void input(void)
 {
     if (DWCi_IPTlCheckTrigger(2))
@@ -238,7 +229,6 @@ void DWCi_SceneSetListSave_button(void)
 {
 }
 
-
 static void button(void)
 {
     if (DWCi_BTNlGet())
@@ -248,14 +238,12 @@ static void button(void)
     DWCi_ChangeScene(endScene);
 }
 
-
 static void endScene(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
     DWCi_ChangeScene(endScene1);
 }
-
 
 static void endScene1(void)
 {
@@ -268,7 +256,6 @@ static void endScene1(void)
     DWCi_EFFlFade(3, 0, 0x15, 8);
     DWCi_ChangeScene(endScene2);
 }
-
 
 static void endScene2(void)
 {
@@ -300,7 +287,6 @@ static void endScene2(void)
     }
 }
 
-
 /*
  * sdk:      checkRaku (libdwcutil.TWL.HYB.a(scenesetrakubutt))
  */
@@ -322,7 +308,6 @@ static void checkRaku(void)
     }
 }
 
-
 void procError(void)
 {
     if (DWCi_WINlGet() == 0) {
@@ -332,9 +317,7 @@ void procError(void)
     }
 }
 
-
 static void procConfirm(void);
-
 
 static void procError1(void)
 {
@@ -342,4 +325,3 @@ static void procError1(void)
         return;
     DWCi_ChangeScene(endScene);
 }
-

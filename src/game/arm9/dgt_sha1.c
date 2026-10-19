@@ -25,9 +25,7 @@
  */
 #define MATH_SHA1_BLOCK_SIZE 64
 
-typedef unsigned long u32;
-
-typedef unsigned char u8;
+#include "../types.h"
 
 typedef struct MATHSHA1Context {
     u32 h[5];
@@ -42,15 +40,7 @@ typedef struct MATHSHA1Context {
     };
 } MATHSHA1Context;
 
-typedef struct MATHiHMACFuncs {
-    u32 dlength;
-    u32 blength;
-    void *context;
-    u8 *hash_buf;
-    void (*HashReset)(void *context);
-    void (*HashSetSource)(void *context, const void *input, u32 length);
-    void (*HashGetDigest)(void *context, void *digest);
-} MATHiHMACFuncs;
+#include "../sdk_math.h"
 
 extern void MATHi_SHA1Transform(MATHSHA1Context *context);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
@@ -66,13 +56,6 @@ extern int MATHi_OverlayTableMode;
 extern const u8 _ZZ16MATH_SHA1GetHashP15MATHSHA1ContextPvE7padlead[1];
 extern const u8 _ZZ16MATH_SHA1GetHashP15MATHSHA1ContextPvE8padalign_0[8];
 
-
-
-
-
-
-
-
 static void MATHi_SHA1ProcessBlockForOverlay(MATHSHA1Context *context)
 {
     u32 *block = (u32 *)context->block;
@@ -86,21 +69,7 @@ static void MATHi_SHA1ProcessBlockForOverlay(MATHSHA1Context *context)
     block[14] = s1;
 }
 
-
-
-
-
-
-
-
 extern void (*MATHi_SHA1ProcessMessageBlockFunc)(MATHSHA1Context *context);
-
-
-
-
-
-
-
 
 static void MATHi_SHA1Fill(MATHSHA1Context *context, u8 input, u32 length)
 {
@@ -124,19 +93,6 @@ static void MATHi_SHA1Fill(MATHSHA1Context *context, u8 input, u32 length)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 int MATHi_SetOverlayTableMode(int flag)
 {
     int prev = MATHi_OverlayTableMode;
@@ -150,12 +106,6 @@ int MATHi_SetOverlayTableMode(int flag)
     return prev;
 }
 
-
-
-
-
-
-
 void MATH_SHA1Init(MATHSHA1Context *context)
 {
     context->blocks_low = 0;
@@ -167,15 +117,6 @@ void MATH_SHA1Init(MATHSHA1Context *context)
     context->h[3] = 0x10325476;
     context->h[4] = 0xC3D2E1F0;
 }
-
-
-
-
-
-
-
-
-
 
 void MATH_SHA1Update(MATHSHA1Context *context, const void *input, u32 length)
 {
@@ -200,20 +141,10 @@ void MATH_SHA1Update(MATHSHA1Context *context, const void *input, u32 length)
     }
 }
 
-
-
-
-
-
-
-
 static inline u32 MATHi_Swap32(u32 x)
 {
     return ((x >> 24) & 0x000000FF) | ((x >> 8) & 0x0000FF00) | ((x << 8) & 0x00FF0000) | ((x << 24) & 0xFF000000);
 }
-
-
-
 
 void MATH_SHA1GetHash(MATHSHA1Context *context, void *digest)
 {
@@ -237,8 +168,6 @@ void MATH_SHA1GetHash(MATHSHA1Context *context, void *digest)
     MI_CpuCopy8(context->h, digest, sizeof(context->h));
 }
 
-
-
 void MATH_CalcSHA1(void *digest, const void *data, u32 dataLength)
 {
     MATHSHA1Context context;
@@ -247,7 +176,6 @@ void MATH_CalcSHA1(void *digest, const void *data, u32 dataLength)
     MATH_SHA1Update(&context, data, dataLength);
     MATH_SHA1GetHash(&context, digest);
 }
-
 
 /*
  * notes:    byte-correct; the pool word for the hash2funcs initializer template is named `@12151` (the vendor member's local) in the symbols: block and resolves under the `template` class (image 0x020A5CB8 holds the member's 28 template bytes, uniquely).

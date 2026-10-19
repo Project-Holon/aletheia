@@ -7,11 +7,7 @@
  * balloon, plain, sub, BG and frame windows).
  */
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed short s16;
-typedef signed int s32;
+#include "../types.h"
 
 struct BmpWin;
 struct Bmp;
@@ -32,11 +28,7 @@ typedef struct BmpMenuWork {
     u32 param;
 } BmpMenuWork;
 
-typedef struct VecFx32 {
-    s32 x;
-    s32 y;
-    s32 z;
-} VecFx32;
+#include "../sdk_fx.h"
 
 /* SDK layout of an unpacked NCGR character block. */
 typedef struct NNSG2dCharacterData {

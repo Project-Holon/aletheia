@@ -44,45 +44,19 @@
  *   .word 0x02FFFA80
  *
  */
-typedef unsigned char u8;
+#include "../types.h"
 
-typedef unsigned long u32;
-
-typedef short s16;
-
-typedef unsigned short u16;
-
-typedef int BOOL;
-
-typedef struct OSEvent
-{
-    u8 data[0xC];
-} OSEvent;
-
-typedef struct OSiVAlarm
-{
-    u8 data[0x28];
-} OSiVAlarm;
+#include "../sdk_os.h"
 
 typedef struct CARDEventListener
 {
     OSEvent event[1];
-    OSiVAlarm alarm[1];
+    OSVAlarm alarm[1];
     BOOL (*func)(void *);
     void *arg;
     u16 lockID;
     u8 padding[2];
 } CARDEventListener;
-
-typedef long s32;
-
-typedef struct OSThread OSThread;
-
-typedef struct OSThreadQueue
-{
-    OSThread *head;
-    OSThread *tail;
-} OSThreadQueue;
 
 typedef struct CARDiCommandArg
 {
@@ -127,10 +101,8 @@ typedef struct CARDiRomState
     u32 rom_base;
 } CARDiRomState;
 
-typedef long s32;
-
 extern void OS_SignalEvent(OSEvent *event, u32 setPattern);
-extern void OS_SetVAlarm(OSiVAlarm *alarm, s16 count, s16 delay, void (*handler)(void *), void *arg);
+extern void OS_SetVAlarm(OSVAlarm *alarm, s16 count, s16 delay, void (*handler)(void *), void *arg);
 extern BOOL OS_TryLockCard(u16 lockID);
 extern u16 OS_GetBootType(void);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
@@ -145,7 +117,7 @@ extern void CARDi_OldTypeTaskThread(void *arg);
 extern void OS_Terminate(void);
 extern void CARDi_LockResource(s32 owner, int target);
 extern void OS_InitEvent(OSEvent *event);
-extern void OS_CreateVAlarm(OSiVAlarm *alarm);
+extern void OS_CreateVAlarm(OSVAlarm *alarm);
 extern void CARDi_PeekEventListener(void *arg);
 extern u32 OS_WaitEventEx(OSEvent *event, u32 pattern, int mode, u32 clearBit);
 extern int OS_UnlockCard(unsigned int id);
@@ -168,8 +140,6 @@ extern CARDiCommon cardi_common;
 extern CARDiRomState cardi_rom_base;
 extern BOOL sCardEnabled;
 
-
-
 /*
  * sdk:      CARDi_PeekEventListener (libcard.TWL.HYB.a card_api.o)
  */
@@ -187,21 +157,15 @@ void CARDi_PeekEventListener(void *arg)
     }
 }
 
-
-
 BOOL CARDi_LockBusCondition(void *userdata)
 {
     return OS_TryLockCard(*(u16 *)userdata) == 0;
 }
 
-
-
 static inline void OS_InitThreadQueue(OSThreadQueue *queue)
 {
     queue->head = queue->tail = 0;
 }
-
-
 
 /*
  * sdk:      CARD_Init (libcard.TWL.HYB.a card_api.o)
@@ -244,16 +208,10 @@ void CARD_Init(void)
     CARD_InitPulledOutCallback();
 }
 
-
-
-
 BOOL CARD_IsEnabled(void)
 {
     return sCardEnabled;
 }
-
-
-
 
 void CARD_CheckEnabled(void)
 {
@@ -262,44 +220,30 @@ void CARD_CheckEnabled(void)
     OS_Terminate();
 }
 
-
-
 void CARD_Enable(BOOL enable)
 {
     sCardEnabled = enable;
 }
-
-
-
 
 int CARD_GetResultCode(void)
 {
     return cardi_common.cmd->result;
 }
 
-
-
 void *CARD_GetRomHeader(void)
 {
     return (void *)0x02FFFA80;
 }
-
-
 
 void *CARD_GetOwnRomHeader(void)
 {
     return (void *)0x02FFFE00;
 }
 
-
-
 void *CARD_GetOwnRomHeaderTWL(void)
 {
     return (void *)0x02FFE000;
 }
-
-
-
 
 /*
  * sdk:      CARD_LockRom (libcard.TWL.HYB.a card_api.o)
@@ -317,24 +261,16 @@ void CARD_LockRom(u16 lock_id)
     (void)OS_WaitEventEx(el->event, 1, 0, 1);
 }
 
-
-
-
 void CARD_UnlockRom(unsigned int id)
 {
     OS_UnlockCard(id);
     CARDi_UnlockResource(id, 1);
 }
 
-
-
 void CARD_LockBackup(s32 owner)
 {
     CARDi_LockResource(owner, 2);
 }
-
-
-
 
 /*
  * sdk:      CARD_UnlockBackup (libcard.TWL.HYB.a card_api.o)

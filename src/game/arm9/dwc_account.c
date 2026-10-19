@@ -69,23 +69,11 @@ typedef struct {
     unsigned int raw;
 } DWCstAccFlag;
 
-typedef unsigned char u8;
-
-typedef int BOOL;
+#include "../types.h"
 
 typedef union DWCstAccFriendData DWCstAccFriendData;
 
-struct MATHMD5Context {
-    unsigned char data[88];
-};
-
-struct MATHCRC8Table {
-    unsigned char table[256];
-};
-
-struct MATHCRC32Table {
-    unsigned long table[256];
-};
+#include "../sdk_math.h"
 
 struct DWCstAccUserData {
     unsigned long size;
@@ -98,17 +86,7 @@ struct DWCstAccUserData {
     unsigned long crc32;
 };
 
-typedef struct DWCAuthWiFiId {
-    unsigned long long uId;
-    unsigned long long notAttestedId;
-    unsigned long flg;
-} DWCAuthWiFiId;
-
-typedef struct MATHRandContext32 {
-    unsigned long long x;
-    unsigned long long mul;
-    unsigned long long add;
-} MATHRandContext32;
+#include "../sdk_dwc.h"
 
 extern unsigned long DWCi_Acc_GetFlag_DataType(void *frienddata);
 extern void MATHi_CRC8InitTable(struct MATHCRC8Table *table, unsigned char poly);
@@ -178,7 +156,6 @@ int DWC_IsEqualFriendData(void *frienddata1, void *frienddata2);
 extern const char g_020A7FF4[];
 extern const char g_020A8018[];
 
-
 int DWCi_Acc_SetMaskBits(unsigned long *ptr, unsigned long data, unsigned long shift, unsigned long mask)
 {
     if (data & ~mask)
@@ -186,8 +163,6 @@ int DWCi_Acc_SetMaskBits(unsigned long *ptr, unsigned long data, unsigned long s
     *ptr = (*ptr & ~(mask << shift)) | (data << shift);
     return 1;
 }
-
-
 
 unsigned long long DWCi_Acc_GetUserId(struct DWCstAccLoginId *loginId)
 {
@@ -209,19 +184,16 @@ int DWCi_Acc_GetGsProfileId(struct DWCstAccGsProfileIdData *data)
     return data->gsProfileId;
 }
 
-
 void DWCi_Acc_SetUserId(struct DWCstAccLoginId *loginId, unsigned long long userId)
 {
     DWCi_Acc_SetMaskBits(&loginId->data[0], (unsigned long)(userId >> 32), 0, 0x7ff);
     loginId->data[1] = (unsigned long)userId;
 }
 
-
 void DWCi_Acc_SetPlayerId(struct DWCstAccLoginId *loginId, int playerId)
 {
     loginId->data[2] = playerId;
 }
-
 
 void DWCi_Acc_SetFriendKey(struct DWCstAccFriendKeyData *data, unsigned long long friendKey)
 {
@@ -229,39 +201,20 @@ void DWCi_Acc_SetFriendKey(struct DWCstAccFriendKeyData *data, unsigned long lon
     data->keyHigh = (unsigned long)(friendKey >> 32);
 }
 
-
 void DWCi_Acc_SetGsProfileId(struct DWCstAccGsProfileIdData *data, int gsProfileId)
 {
     data->gsProfileId = gsProfileId;
 }
-
-
-
-
-
-
 
 unsigned long DWCi_Acc_GetFlags(DWCstAccFlag *userdata)
 {
     return (userdata->raw >> 11) & 0x1fffff;
 }
 
-
-
-
-
-
-
 unsigned long DWCi_Acc_GetFlag_DataType(void *userdata)
 {
     return DWCi_Acc_GetFlags(userdata) & 3;
 }
-
-
-
-
-
-
 
 /*
  * sdk:      DWC_IsBuddyFriendData (libdwcaccount.TWL.HYB.a dwc_account.o)
@@ -271,12 +224,6 @@ BOOL DWC_IsBuddyFriendData(void *frienddata)
     return (DWCi_IsBuddyFriendData(frienddata) && DWCi_IsReverseBuddyFriendData(frienddata)) ? 1 : 0;
 }
 
-
-
-
-
-
-
 int DWCi_IsBuddyFriendData(void *frienddata)
 {
     if (DWCi_Acc_GetFlag_DataType(frienddata) == 3)
@@ -284,21 +231,11 @@ int DWCi_IsBuddyFriendData(void *frienddata)
     return 0;
 }
 
-
-
-
-
-
-
 int DWCi_IsReverseBuddyFriendData(void *frienddata)
 {
     unsigned long type = DWCi_Acc_GetFlags(frienddata);
     return (type & 8) == 8;
 }
-
-
-
-
 
 int DWCi_IsBuddyMsgAlreadySent(void *frienddata)
 {
@@ -306,50 +243,21 @@ int DWCi_IsBuddyMsgAlreadySent(void *frienddata)
     return (type & 32) == 32;
 }
 
-
-
-
 unsigned long DWCi_Acc_GetFlagDataTypeThunk(void *userdata)
 {
     return DWCi_Acc_GetFlag_DataType(userdata);
 }
-
-
-
-
-
-
-
-
 
 void DWCi_Acc_SetFlags(void *userdata, unsigned long flags)
 {
     DWCi_Acc_SetMaskBits(userdata, flags, 11, 0x1fffff);
 }
 
-
-
-
-
-
-
-
-
-
 void DWCi_Acc_SetFlag_DataType(void *userdata, int type)
 {
     unsigned long flags = DWCi_Acc_GetFlags(userdata);
     DWCi_Acc_SetFlags(userdata, (flags & ~3) | type);
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * sdk:      DWCi_SetBuddyFriendData (dwc_account.o)
@@ -363,15 +271,6 @@ void DWCi_SetBuddyFriendData(DWCstAccFriendData *frienddata)
         DWCi_Acc_SetFlags(frienddata, flags);
     }
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * sdk:      DWCi_SetReverseBuddyFlag (libdwcaccount.TWL.HYB.a(dwc_account.o))
@@ -388,15 +287,6 @@ void DWCi_SetReverseBuddyFlag(void *frienddata, int setflag)
     DWCi_Acc_SetFlags(frienddata, tempflags);
 }
 
-
-
-
-
-
-
-
-
-
 /*
  * sdk:      DWCi_SetExpIsBuddyFriendFlag (libdwcaccount.TWL.HYB.a(dwc_account.o))
  */
@@ -412,15 +302,6 @@ void DWCi_SetExpIsBuddyFriendFlag(void *frienddata, int setflag)
     DWCi_Acc_SetFlags(frienddata, tempflags);
 }
 
-
-
-
-
-
-
-
-
-
 /*
  * sdk:      DWCi_SetSentBuddyReqFlag (libdwcaccount.TWL.HYB.a(dwc_account.o))
  */
@@ -435,15 +316,6 @@ void DWCi_SetSentBuddyReqFlag(void *frienddata, int setflag)
     }
     DWCi_Acc_SetFlags(frienddata, tempflags);
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * sdk:      DWC_Acc_CreateFriendKey (libdwcaccount.TWL.HYB.a(dwc_account.o))
@@ -470,27 +342,10 @@ unsigned long long DWC_Acc_CreateFriendKey(int gs_profile_id, unsigned long game
     return ((unsigned long long)(hash & 0x7f) << 32) | (unsigned long)gs_profile_id;
 }
 
-
-
-
-
-
-
-
-
-
 int DWC_CheckFriendKey(struct DWCstAccUserData *userdata, unsigned long long friendKey)
 {
     return DWC_Acc_CheckFriendKey(friendKey, userdata->gamecode, 1);
 }
-
-
-
-
-
-
-
-
 
 /*
  * sdk:      DWC_Acc_CheckFriendKey (libdwcaccount.TWL.HYB.a(dwc_account.o))
@@ -508,14 +363,6 @@ int DWC_Acc_CheckFriendKey(unsigned long long friendkey, unsigned long gamecode,
     return 0;
 }
 
-
-
-
-
-
-
-
-
 /*
  * sdk:      DWC_Acc_FriendKeyToGsProfileId (libdwcaccount.TWL.HYB.a(dwc_account.o))
  */
@@ -530,14 +377,6 @@ int DWC_Acc_FriendKeyToGsProfileId(unsigned long long friendkey, unsigned long g
     }
     return 0;
 }
-
-
-
-
-
-
-
-
 
 /*
  * sdk:      DWCi_Acc_U64ToString32 (libdwcaccount.TWL.HYB.a(dwc_account.o))
@@ -557,13 +396,6 @@ void DWCi_Acc_U64ToString32(unsigned long long num, int bitnum, char *result)
     result[loopnum] = 0;
 }
 
-
-
-
-
-
-
-
 /*
  * sdk:      DWCi_Acc_LoginIdToUserName (libdwcaccount.TWL.HYB.a(dwc_account.o))
  */
@@ -578,12 +410,6 @@ void DWCi_Acc_LoginIdToUserName(struct DWCstAccLoginId *loginid, unsigned long g
                 (unsigned char)(gamecode >> 24), (unsigned char)(gamecode >> 16),
                 (unsigned char)(gamecode >> 8), (unsigned char)gamecode, playerid);
 }
-
-
-
-
-
-
 
 /*
  * sdk:      DWCi_Acc_CreateUserData (libdwcaccount.TWL.HYB.a(dwc_account.o))
@@ -603,22 +429,12 @@ void DWCi_Acc_CreateUserData(struct DWCstAccUserData *userdata, unsigned long ga
     userdata->flag |= 1;
 }
 
-
-
-
-
-
 static inline void MATH_InitRand32(MATHRandContext32 *context, unsigned long long seed)
 {
     context->x = seed;
     context->mul = 0x5d588b656c078965ULL;
     context->add = 0x269ec3ULL;
 }
-
-
-
-
-
 
 static inline unsigned long MATH_Rand32(MATHRandContext32 *context, unsigned long max)
 {
@@ -628,11 +444,6 @@ static inline unsigned long MATH_Rand32(MATHRandContext32 *context, unsigned lon
     }
     return (unsigned long)(((context->x >> 32) * max) >> 32);
 }
-
-
-
-
-
 
 void DWCi_Acc_CreateTempLoginId(struct DWCstAccLoginId *loginid)
 {
@@ -656,12 +467,6 @@ void DWCi_Acc_CreateTempLoginId(struct DWCstAccLoginId *loginid)
     DWCi_Acc_SetFlag_DataType(loginid, 1);
 }
 
-
-
-
-
-
-
 /*
  * sdk:      DWCi_Acc_CheckConsoleUserId (libdwcaccount.TWL.HYB.a(dwc_account.o))
  */
@@ -676,12 +481,6 @@ int DWCi_Acc_CheckConsoleUserId(struct DWCstAccLoginId *loginid)
     return DWCi_Acc_GetUserId(loginid) == authid.notAttestedId;
 }
 
-
-
-
-
-
-
 /*
  * The ARM9 listing labels this address DWCi_Acc_IsValidLoginId; it calls DWCi_Acc_GetFlag_DataType, so it is a dwc_account.o static (the SDK table's DWC_GHTTPCleanupRootCAList attribution here does not match the linked bytes).
  */
@@ -690,21 +489,10 @@ int DWCi_Acc_IsValidLoginId(void *loginid)
     return DWCi_Acc_GetFlag_DataType(loginid) == 1;
 }
 
-
-
-
-
-
-
 int DWCi_Acc_IsAuthentic(void *userdata)
 {
     return DWCi_Acc_IsValidLoginId((char *)userdata + 16);
 }
-
-
-
-
-
 
 int DWC_IsValidFriendData(void *frienddata)
 {
@@ -712,25 +500,15 @@ int DWC_IsValidFriendData(void *frienddata)
     return type != 0;
 }
 
-
-
-
 int DWCi_Acc_IsValidFriendDataThunk(void *frienddata)
 {
     return DWC_IsValidFriendData(frienddata);
 }
 
-
-
-
 void DWC_CreateUserData(void *userdata)
 {
     DWCi_Acc_CreateUserData(userdata, (long unsigned int)DWCi_GetGamecode());
 }
-
-
-
-
 
 /*
  * sdk:      DWC_CheckUserData (libdwcaccount.TWL.HYB.a(dwc_account.o))
@@ -744,9 +522,6 @@ int DWC_CheckUserData(struct DWCstAccUserData *userdata)
     crc32 = MATH_CalcCRC32(&table, userdata, 0x3c);
     return crc32 == userdata->crc32;
 }
-
-
-
 
 /*
  * sdk:      DWC_CheckValidConsole (libdwcaccount.TWL.HYB.a(dwc_account.o))
@@ -768,9 +543,6 @@ int DWC_CheckValidConsole(struct DWCstAccUserData *userdata)
     return 0;
 }
 
-
-
-
 /*
  * sdk:      DWC_CheckHasProfile (libdwcaccount.TWL.HYB.a(dwc_account.o))
  */
@@ -778,9 +550,6 @@ int DWC_CheckHasProfile(struct DWCstAccUserData *userdata)
 {
     return DWCi_Acc_IsValidLoginId((char *)userdata + 0x10) && ((int *)userdata)[7] > 0;
 }
-
-
-
 
 /*
  * sdk:      DWCi_Acc_SetLoginIdToUserData (libdwcaccount.TWL.HYB.a(dwc_account.o))
@@ -796,28 +565,20 @@ void DWCi_Acc_SetLoginIdToUserData(struct DWCstAccUserData *userdata, struct DWC
     userdata->flag |= 1;
 }
 
-
 int DWC_CheckDirtyFlag(void *userdata)
 {
     return DWCi_Acc_IsDirty(userdata);
 }
-
 
 int DWCi_Acc_IsDirty(void *userdata)
 {
     return (*(unsigned long *)((char *)userdata + 32) & 1) == 1;
 }
 
-
-
 void DWC_ClearDirtyFlag(struct DWCstAccUserData *userdata)
 {
     DWCi_Acc_ClearDirty(userdata);
 }
-
-
-
-
 
 /*
  * sdk:      DWCi_Acc_ClearDirty (libdwcaccount.TWL.HYB.a(dwc_account.o))
@@ -831,10 +592,6 @@ void DWCi_Acc_ClearDirty(struct DWCstAccUserData *userdata)
     userdata->crc32 = MATH_CalcCRC32(&table, userdata, 0x3c);
 }
 
-
-
-
-
 /*
  * sdk:      DWC_GetFriendKey (libdwcaccount.TWL.HYB.a(dwc_account.o))
  */
@@ -845,10 +602,6 @@ unsigned long long DWC_GetFriendKey(void *frienddata)
     }
     return DWCi_Acc_GetFriendKey(frienddata);
 }
-
-
-
-
 
 /*
  * sdk:      DWC_GetGsProfileId (libdwcaccount.TWL.HYB.a(dwc_account.o))
@@ -871,9 +624,6 @@ int DWC_GetGsProfileId(struct DWCstAccUserData *userdata, void *frienddata)
     return 0;
 }
 
-
-
-
 /*
  * sdk:      DWC_CreateFriendKey (libdwcaccount.TWL.HYB.a(dwc_account.o))
  */
@@ -887,10 +637,6 @@ unsigned long long DWC_CreateFriendKey(struct DWCstAccUserData *userdata)
     return ret;
 }
 
-
-
-
-
 /*
  * sdk:      DWC_CreateFriendKeyToken (libdwcaccount.TWL.HYB.a(dwc_account.o))
  */
@@ -900,10 +646,6 @@ void DWC_CreateFriendKeyToken(void *token, unsigned long long friend_key)
     DWCi_Acc_SetFriendKey(token, friend_key);
     DWCi_Acc_SetFlag_DataType(token, 2);
 }
-
-
-
-
 
 /*
  * sdk:      DWC_CreateExchangeToken (libdwcaccount.TWL.HYB.a(dwc_account.o))
@@ -919,9 +661,6 @@ void DWC_CreateExchangeToken(struct DWCstAccUserData *userdata, void *token)
     DWCi_Acc_SetFlag_DataType(token, 3);
 }
 
-
-
-
 /*
  * sdk:      DWC_SetGsProfileId (libdwcaccount.TWL.HYB.a(dwc_account.o))
  */
@@ -932,16 +671,10 @@ void DWC_SetGsProfileId(void *frienddata, int gs_profile_id)
     DWCi_Acc_SetFlag_DataType(frienddata, 3);
 }
 
-
-
-
 void DWC_LoginIdToUserName(struct DWCstAccUserData *userdata, void *frienddata, char *username)
 {
     DWCi_Acc_LoginIdToUserName(frienddata, userdata->gamecode, username);
 }
-
-
-
 
 /*
  * sdk:      DWC_IsEqualFriendData (libdwcaccount.TWL.HYB.a(dwc_account.o))

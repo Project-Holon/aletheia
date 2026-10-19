@@ -2,10 +2,7 @@
 #ifndef NET_WHPIPE_TYPES_H
 #define NET_WHPIPE_TYPES_H
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed int     s32;
+#include "../types.h"
 
 #define WHPIPE_ENTRY_MAX 16            /* scanned parents kept at once */
 #define WHPIPE_ENTRY_LIFETIME 600      /* frames an entry stays alive without a new beacon */

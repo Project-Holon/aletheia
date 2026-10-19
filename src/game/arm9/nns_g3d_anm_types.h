@@ -5,11 +5,7 @@
 #ifndef NNS_G3D_ANM_TYPES_H
 #define NNS_G3D_ANM_TYPES_H
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed int     s32;
-typedef s32            fx32;
+#include "../types.h"
 
 #define NNS_G3D_ANMOBJ_MAPDATA_MASK  0x300
 #define NNS_G3D_ANMOBJ_MAPDATA_EXIST 0x100

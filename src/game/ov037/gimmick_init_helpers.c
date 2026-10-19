@@ -26,10 +26,7 @@
 struct GameSystem;
 struct GameData;
 struct GimmickWork;
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef signed int     s32;
-typedef unsigned int   u32;
+#include "../types.h"
 
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern u8 *GAME_DATA_GetFieldSave(struct GameData *gameData);
@@ -71,7 +68,6 @@ void GIMMICK_INIT_SetFlagAnimeFlag(struct GameSystem *gameSystem, int enable)
     else work->animeDone[0] = 0;
 }
 
-
 /* Sets the three flags of gimmick 42 from the low three bits of the mask. */
 void GIMMICK_INIT_SetButtonStatesFlags(void *gameSystem, int buttonMask)
 {
@@ -87,7 +83,6 @@ void GIMMICK_INIT_SetButtonStatesFlags(void *gameSystem, int buttonMask)
     if ((buttonMask >> 2) & 1)
         work->oneShotPlayed[2] = 1;
 }
-
 
 /*
  * Rebuilds the state of gimmick 38 from its saved progress: every found switch

@@ -36,9 +36,7 @@
  *   data_02732DA4  0x02732DA4  data twl
  *   data_02150840  0x02150840  data
  */
-typedef unsigned int u32;
-typedef unsigned short u16;
-typedef unsigned char u8;
+#include "../types.h"
 
 struct SysState {
     char pad[0x508];

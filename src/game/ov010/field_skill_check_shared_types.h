@@ -7,11 +7,7 @@ struct GameSystem;
 
 struct PlayerWork;
 
-typedef unsigned int u32;
-
-typedef unsigned char u8;
-
-typedef unsigned short u16;
+#include "../types.h"
 
 struct GameEvent;
 

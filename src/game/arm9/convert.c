@@ -20,19 +20,11 @@
  *   _ll_sdiv                       0x0209BE5C  arm
  *   RTC_ConvertDayToDate           0x02089060  arm
  */
-typedef unsigned long u32;
+#define GAME_TYPES_U32_LONG
+#define GAME_TYPES_S32_LONG
+#include "../types.h"
 
-typedef long s32;
-
-typedef long long s64;
-
-typedef int BOOL;
-
-typedef enum RTCWeek { RTC_WEEK_SUNDAY = 0, RTC_WEEK_MAX = 7 } RTCWeek;
-
-typedef struct RTCDate { u32 year; u32 month; u32 day; RTCWeek week; } RTCDate;
-
-typedef struct RTCTime { u32 hour; u32 minute; u32 second; } RTCTime;
+#include "../sdk_rtc.h"
 
 s32 RTC_ConvertDateToDay(RTCDate *date);
 s32 RTCi_ConvertTimeToSecond(RTCTime *time);
@@ -42,8 +34,6 @@ void RTCi_ConvertSecondToTime(RTCTime *time, s32 sec);
 void RTC_ConvertSecondToDateTime(RTCDate *date, RTCTime *time, s64 sec);
 RTCWeek RTC_GetDayOfWeek(RTCDate *date);
 extern s32 sDayOfYear[12];
-
-
 
 /*
  * sdk:      RTC_ConvertDateToDay (librtc.TWL.HYB.a convert.o)
@@ -64,13 +54,10 @@ s32 RTC_ConvertDateToDay(RTCDate *date)
     return (s32)(date->year * 365 + dayNum + (date->year + 3) / 4);
 }
 
-
 s32 RTCi_ConvertTimeToSecond(RTCTime *time)
 {
     return (s32)((time->hour * 60 + time->minute) * 60 + time->second);
 }
-
-
 
 /*
  * sdk:      RTC_ConvertDateTimeToSecond (librtc.TWL.HYB.a convert.o)
@@ -90,9 +77,6 @@ s64 RTC_ConvertDateTimeToSecond(RTCDate *date, RTCTime *time)
     }
     return (s64)day * 86400 + sec;
 }
-
-
-
 
 /*
  * sdk:      RTC_ConvertDayToDate (librtc.TWL.HYB.a convert.o)
@@ -147,9 +131,6 @@ void RTC_ConvertDayToDate(RTCDate *date, s32 day)
     }
 }
 
-
-
-
 /*
  * sdk:      RTCi_ConvertSecondToTime (librtc.TWL.HYB.a convert.o)
  */
@@ -166,9 +147,6 @@ void RTCi_ConvertSecondToTime(RTCTime *time, s32 sec)
     time->hour = (u32)(sec / 60 / 60);
 }
 
-
-
-
 /*
  * sdk:      RTC_ConvertSecondToDateTime (librtc.TWL.HYB.a convert.o)
  */
@@ -182,9 +160,6 @@ void RTC_ConvertSecondToDateTime(RTCDate *date, RTCTime *time, s64 sec)
     RTCi_ConvertSecondToTime(time, (s32)(sec % 86400));
     RTC_ConvertDayToDate(date, (s32)(sec / 86400));
 }
-
-
-
 
 RTCWeek RTC_GetDayOfWeek(RTCDate *date)
 {

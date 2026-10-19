@@ -29,10 +29,9 @@
 struct Desc;
 struct Obj;
 struct FieldMap;
-struct VecFx32;
-typedef unsigned char u8;
-typedef unsigned int u32;
-typedef unsigned short u16;
+#include "../sdk_fx.h"
+
+#include "../types.h"
 
 /* SE ids: door open, door hold, door close. */
 #define SE_DOOR_OPEN  0x55B

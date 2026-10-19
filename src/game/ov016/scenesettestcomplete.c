@@ -39,7 +39,6 @@
  *   endScene1                        0x021C3CEC  arm
  *   procScene                        0x021C3C94  arm
  *   sceneoptmovdisco_str_20611       0x021DB800  data
- *   procInit1                        0x021CD658  arm
  *   DWCi_GetParam2_  0x021C0EA0  arm  ov016
  *   DWCi_STEPlEnd  0x021D0580  arm  ov016
  *   DWCi_STEPlIsEnd  0x021D0A84  arm  ov016
@@ -102,7 +101,6 @@ void DWCi_SceneSetTestCompletet(void)
 }
 
 
-static void procInit1(void);
 
 
 static void procScene(void);
@@ -125,7 +123,7 @@ static void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(0, 0x15);
-    DWCi_ChangeScene(procInit1);
+    DWCi_ChangeScene(DWCi_SceneSetTestCompletet_procInit1);
 }
 
 

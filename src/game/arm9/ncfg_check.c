@@ -21,43 +21,9 @@
  *   NCFGi_CheckIp      0x020603BC arm
  *   MI_CpuCopy8        0x02082D44 arm
  */
-typedef unsigned char  u8;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef unsigned long  u32;
-
-typedef signed long    s32;
-
-typedef struct NCFGApInfo {
-    u8  ispId[32];
-    u8  ispPass[32];
-    u8  ssid[2][32];
-    u8  wep[4][16];
-    u8  ip[4];
-    u8  gateway[4];
-    u8  dns[2][4];
-    u8  netmask;
-    u8  wep2[4][5];
-    u8  authType;
-    u8  wepMode : 2;
-    u8  wepNotation : 6;
-    u8  setType;
-    u8  ssidLength[2];
-    u16 mtu;
-    u8  rsv[2];
-    u8  flags;
-    u8  state;
-} NCFGApInfo;
-
-typedef struct NCFGApInfoEx {
-    u8  security[0x82];
-    u8  proxyMode;
-    u8  proxyAuthType;
-    u8  proxyHost[100];
-    u16 proxyPort;
-    u8  rsvEx[6];
-} NCFGApInfoEx;
+#include "../sdk_ncfg.h"
 
 extern int NCFGi_CheckSsid(u8 *ssid);
 extern int NCFGi_CheckIpInfo(NCFGApInfo *info);
@@ -67,7 +33,6 @@ extern void NCFGi_ConvMaskAddr(int mask, u8 *buf);
 extern int  NCFGi_CheckIp(u8 *ip, u8 *mask);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
 int NCFGi_CheckApInfoEx(NCFGApInfo *info, NCFGApInfoEx *infoEx);
-
 
 /*
  * sdk:      NCFGi_CheckApInfo (libncfg.TWL.HYB.a check.o)
@@ -84,7 +49,6 @@ int NCFGi_CheckApInfo(NCFGApInfo *info)
         return 0;
     return 1;
 }
-
 
 /*
  * sdk:      NCFGi_CheckApInfoEx (libncfg.TWL.HYB.a check.o)
@@ -105,7 +69,6 @@ int NCFGi_CheckApInfoEx(NCFGApInfo *info, NCFGApInfoEx *infoEx)
         return 0;
     return 1;
 }
-
 
 /*
  * sdk:      NCFGi_CheckIpInfo (libncfg.TWL.HYB.a check.o)
@@ -158,7 +121,6 @@ int NCFGi_CheckSsid(unsigned char *ssid)
     }
     return 0;
 }
-
 
 /*
  * sdk:      NCFGi_CheckIp (libncfg.TWL.HYB.a check.o)

@@ -38,12 +38,9 @@
  */
 #include "../../matched/arm9_sdk/libc/memcmp/string.h"
 
-struct WMStatus;
-typedef unsigned char u8;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef unsigned long long u64;
+#include "../sdk_wm.h"
 
 typedef struct {
     void *scanBuf;
@@ -112,12 +109,6 @@ typedef struct {
     u16 commentLength;
 } OwnerT;
 
-enum WMErrCode {
-    WM_ERRCODE_SUCCESS = 0,
-    WM_ERRCODE_FAILED = 1,
-    WM_ERRCODE_OPERATING = 2
-};
-
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 extern u64 OS_GetTick(void);
 extern int WM_Initialize(void *wmSysBuf, void (*callback)(void *), unsigned short dmaNo);
@@ -143,7 +134,6 @@ extern ScanParamT sUsbApScanParam;
 extern char sUsbApSsid[9];
 extern MemUsbT *gMemUsbAp;
 extern u8 sUsbApZeroBssid[6];
-
 
 /*
  * sdk:      DWCi_USBAPlBegin (libdwcutil.TWL.HYB.a usbap.o)
@@ -198,7 +188,6 @@ fail:
     return 0;
 }
 
-
 /*
  * sdk:      startScan (libdwcutil.TWL.HYB.a usbap.o)
  */
@@ -207,7 +196,6 @@ static int startScan(void)
     int rs = WM_StartScanEx(cbWm, &gUsbapWork->param);
     return rs == 2;
 }
-
 
 /*
  * note:     wave8 (2026-09-30): EXACT, 220 bytes, 9/9 relocs.  The old
@@ -283,7 +271,6 @@ int DWCi_USBAPlEnd(void)
     return 1;
 }
 
-
 /*
  * Store a word at +0x1370 of the object behind the global pointer.
  * Addresses are Black-image addresses.
@@ -296,7 +283,6 @@ void DWCi_USBAPlSetCallback(unsigned int v)
 {
     *(unsigned int *)(*(char **)0x021DE654 + 0x1370) = v;
 }
-
 
 /*
  * sdk:      cbWm (libdwcutil.TWL.HYB.a usbap.o)
@@ -345,7 +331,6 @@ static void cbWm(void *arg)
     }
 }
 
-
 static void scanFirst(ScanCbT *prm)
 {
     BssDescT *info;
@@ -378,7 +363,6 @@ static void scanFirst(ScanCbT *prm)
     next:;
     }
 }
-
 
 /*
  * sdk:      scanWait (libdwcutil.TWL.HYB.a usbap.o)
@@ -416,7 +400,6 @@ static void scanWait(ScanCbT *prm)
     next:;
     }
 }
-
 
 /*
  * sdk:      taskFirst (libdwcutil.TWL.HYB.a usbap.o)

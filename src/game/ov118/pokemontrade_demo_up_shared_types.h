@@ -19,15 +19,7 @@ struct Rec12;
 
 struct Bank;
 
-typedef unsigned int u32;
-
-typedef unsigned short u16;
-
-typedef unsigned char u8;
-
-typedef signed char s8;
-
-typedef int s32;
+#include "../types.h"
 
 struct Personal;
 

@@ -37,11 +37,7 @@ struct Vec2;
 struct Descriptor;
 struct Cfg;
 struct PrintSys;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 /* Actor creation record read by CLACT_CreateActor (8 bytes). */
 typedef struct BAppToolActorPos {
@@ -106,9 +102,7 @@ void B_APP_TOOL_ShowWindows(char *p, unsigned char *q);
 void B_APP_TOOL_Update(BAppToolEntry *p, struct PrintSys *printSys, unsigned n);
 extern const char d_0220B100[];
 
-
 u8 *B_APP_TOOL_Create(u16 heapId) { BAppTool *tool; tool=(BAppTool *)GFL_HEAP_Alloc(heapId,24,0,d_0220B100,43); tool->heapId=heapId; tool->visible=(void *)1; return (u8 *)tool; }
-
 
 /*
  * leaf: parent-cleared sole blocker of ov197 B_BAG_MAIN_StateExit; eight-byte tail stub.
@@ -117,7 +111,6 @@ void B_APP_TOOL_Delete(void *p)
 {
     GFL_HEAP_Free(p);
 }
-
 
 void B_APP_TOOL_CreateActors(char *p, int owner, int charRes, int palRes, int cellRes)
 {
@@ -133,8 +126,6 @@ void B_APP_TOOL_CreateActors(char *p, int owner, int charRes, int palRes, int ce
     }
 }
 
-
-
 /*
  * Addresses are Black-image addresses.
  */
@@ -147,8 +138,6 @@ void B_APP_TOOL_DeleteActors(u8 *p)
         CLACT_DeleteActor((struct Actor *)tool->actors[i]);
     }
 }
-
-
 
 void B_APP_TOOL_SetActorsVisible(char *p, void *visible)
 {
@@ -164,7 +153,6 @@ void B_APP_TOOL_SetActorsVisible(char *p, void *visible)
     }
 }
 
-
 void B_APP_TOOL_LayoutActors(int *actors, u8 *rect)
 {
     BAppToolLayoutPos pos;
@@ -176,13 +164,10 @@ void B_APP_TOOL_LayoutActors(int *actors, u8 *rect)
     pos.x=rect[0]+halfW;pos.y=rect[1]+halfH;CLACT_AddActorSurfacePos((struct Obj *)actors[3],(const struct Vec2 *)(&pos),1);
 }
 
-
 /*
  * EXACT* tail: two zero alignment bytes after the function.
  */
 void B_APP_TOOL_ShowWindow(void **p) { BMP_WIN_MakeScreen((struct BmpWin *)*p); BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)*p)); }
-
-
 
 void B_APP_TOOL_ShowWindows(char *windows, unsigned char *order)
 {

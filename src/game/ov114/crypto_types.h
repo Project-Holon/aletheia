@@ -2,12 +2,7 @@
 #define OV114_CRYPTO_TYPES_H
 /* Big number types of the embedded crypto library (libcrypto, OpenSSL style): bobj1, bobj2, sign, util. */
 
-#ifndef OV114_BASIC_TYPES
-#define OV114_BASIC_TYPES
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-#endif
+#include "../types.h"
 
 #define BN_BITS2 32
 

@@ -1,7 +1,7 @@
 #ifndef MANUAL_LIST_SHARED_TYPES_H
 #define MANUAL_LIST_SHARED_TYPES_H
 
-#include "manual_data_shared_types.h"
+#include "../types.h"
 
 struct TaskMenuState;
 

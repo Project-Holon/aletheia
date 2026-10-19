@@ -27,7 +27,7 @@
 #include "event_ircbattle_shared_types.h"
 #include "musical_event_shared_types.h"
 
-typedef unsigned long long u64;
+#include "../types.h"
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 
@@ -40,7 +40,6 @@ extern unsigned char MUSICAL_MCSS_GetElemA(void *table, int propId);
 extern void MUSICAL_MCSS_FreeActorData(void **table);
 
 extern u32 GF_STANDARD_Rand(void);
-
 
 extern const char sMusicalProgramFileName[];
 

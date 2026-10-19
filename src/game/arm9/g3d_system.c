@@ -94,19 +94,9 @@
  * resource files (models, textures, animations), builds render objects,
  * animations and objects on top of them, and draws objects.
  */
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed short   s16;
-typedef signed int     s32;
-typedef int            BOOL;
-typedef s32            fx32;
-typedef s16            fx16;
+#include "../types.h"
 
-typedef struct { fx32 x, y, z; } VecFx32;
-typedef struct { fx32 m[3][3]; } MtxFx33;
-typedef struct { fx32 m[4][3]; } MtxFx43;
-typedef struct { fx32 m[4][4]; } MtxFx44;
+#include "../sdk_fx.h"
 
 #define reg_G3X_DISP3DCNT   (*(volatile u16 *)0x04000060)
 #define reg_G3_SWAP_BUFFERS (*(volatile u32 *)0x04000540)
@@ -133,12 +123,7 @@ typedef struct { fx32 m[4][4]; } MtxFx44;
 struct ArcHandle;
 
 /* NitroSystem types, only the parts this file reads */
-typedef struct {
-    const void *funcs;
-    void       *heap;
-    u32         heapParam1;
-    u32         heapParam2;
-} NNSFndAllocator;
+#include "../sdk_nnsfnd.h"
 
 typedef struct {
     u32 signature;
@@ -154,103 +139,12 @@ typedef struct {
     u32 size;
 } NNSG3dResDataBlockHeader;
 
-typedef struct {
-    u8  revision;
-    u8  numEntry;
-    u16 sizeDictBlk;
-    u16 dummy_;
-    u16 ofsEntry;
-} NNSG3dResDict;
+#include "nns_g3d_anm_calc_types.h"
 
 typedef struct {
     NNSG3dResDataBlockHeader header;
     NNSG3dResDict            dict;
 } NNSG3dResMdlSet;
-
-typedef struct {
-    u8   sbcType;
-    u8   scalingRule;
-    u8   texMtxMode;
-    u8   numNode;
-    u8   numMat;
-    u8   numShp;
-    u8   firstUnusedMtxStackID;
-    u8   dummy_;
-    fx32 posScale;
-    fx32 invPosScale;
-    u16  numVertex;     /* 0x10 */
-    u16  numPolygon;
-    u16  numTriangle;
-    u16  numQuad;
-    fx16 boxX;          /* 0x18 */
-    fx16 boxY;
-    fx16 boxZ;
-    fx16 boxW;
-    fx16 boxH;
-    fx16 boxD;
-    fx32 boxPosScale;   /* 0x24 */
-    fx32 boxInvPosScale;
-} NNSG3dResMdlInfo;
-
-typedef struct {
-    u32              size;
-    u32              ofsSbc;
-    u32              ofsMat;
-    u32              ofsShp;
-    u32              ofsEvpMtx;
-    NNSG3dResMdlInfo info;  /* 0x14 */
-} NNSG3dResMdl;
-
-typedef struct {
-    u32 vramKey;
-    u16 sizeTex;
-    u16 ofsDict;
-    u16 flag;       /* bit 0: loaded */
-    u16 dummy_;
-    u32 ofsTex;
-} NNSG3dResTexInfo;
-
-typedef struct {
-    u32 vramKey;
-    u16 sizeTex;
-    u16 ofsDict;
-    u16 flag;       /* bit 0: loaded, bit 15: 4-color palettes */
-    u16 dummy_;
-    u32 ofsTex;
-    u32 ofsTexPlttIdx;
-} NNSG3dResTex4x4Info;
-
-typedef struct {
-    u32 vramKey;
-    u16 sizePltt;
-    u16 flag;       /* bit 0: loaded */
-    u16 ofsDict;
-    u16 dummy_;
-    u32 ofsPlttData;
-} NNSG3dResPlttInfo;
-
-typedef struct {
-    NNSG3dResDataBlockHeader header;
-    NNSG3dResTexInfo         texInfo;       /* 0x08 */
-    NNSG3dResTex4x4Info      tex4x4Info;    /* 0x18 */
-    NNSG3dResPlttInfo        plttInfo;      /* 0x2C */
-} NNSG3dResTex;
-
-typedef struct {
-    u32 anmHeader;
-    u16 numFrame;
-} NNSG3dResAnmCommon;
-
-typedef struct NNSG3dAnmObj {
-    fx32                      frame;
-    fx32                      ratio;
-    const NNSG3dResAnmCommon *resAnm;
-} NNSG3dAnmObj;
-
-typedef struct NNSG3dRenderObj {
-    u32           flag;
-    NNSG3dResMdl *resMdl;
-} NNSG3dRenderObj;
 
 typedef struct {
     fx16 x;
@@ -260,38 +154,6 @@ typedef struct {
     fx16 height;
     fx16 depth;
 } GXBoxTestParam;
-
-typedef struct {
-    u32     cmd0;
-    u32     mtxmode_proj;
-    MtxFx44 projMtx;
-    u32     mtxmode_posvec;
-    MtxFx43 cameraMtx;
-    u32     cmd1;
-    u32     lightVec[4];
-    u32     cmd2;
-    u32     prmMatColor0;
-    u32     prmMatColor1;
-    u32     prmPolygonAttr;
-    u32     prmViewPort;
-    u32     cmd3;
-    u32     lightColor[4];
-    u32     cmd4;
-    MtxFx33 prmBaseRot;
-    VecFx32 prmBaseTrans;
-    VecFx32 prmBaseScale;
-    u32     prmTexImageParam;
-    u32     flag;
-    MtxFx43 invCameraMtx;
-    MtxFx43 srtCameraMtx;
-    MtxFx43 invSrtCameraMtx;
-    MtxFx43 invBaseMtx;
-    MtxFx44 invProjMtx;
-    MtxFx44 invCameraProjMtx;
-    VecFx32 camPos;
-    VecFx32 camUp;
-    VecFx32 camTarget;
-} NNSG3dGlb;
 
 #include "g3d_system_types.h"
 
@@ -309,7 +171,7 @@ extern int   NNSi_GfdSizeToGranuleTex(int numBlocks);
 extern void  NNSi_GfdInitTexVramManager(u32 size, u32 size4x4, u32 work, u32 workSize, u32 useAsDefault);
 extern int   NNSi_GfdSizeToGranulePltt(int numBlocks);
 extern void  NNSi_GfdInitPlttVramManager(u32 size, u32 work, u32 workSize, u32 useAsDefault);
-extern void  NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, void *anm, NNSG3dResMdl *resMdl, NNSG3dResTex *tex);
+extern void  NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, void *anm, const NNSG3dResMdl *resMdl, NNSG3dResTex *tex);
 extern void  NNS_G3dRenderObjInit(NNSG3dRenderObj *rndObj, u32 resMdl);
 extern void  NNS_G3dRenderObjAddAnmObj(NNSG3dRenderObj *rndObj, NNSG3dAnmObj *anmObj);
 extern void  NNS_G3dRenderObjRemoveAnmObj(NNSG3dRenderObj *rndObj, NNSG3dAnmObj *anmObj);
@@ -322,8 +184,8 @@ extern u32   NNS_G3dPlttGetRequiredSize(NNSG3dResTex *tex);
 extern void  NNS_G3dPlttSetPlttKey(NNSG3dResTex *tex, u32 plttKey);
 extern void  NNS_G3dPlttLoad(NNSG3dResTex *tex, BOOL exec);
 extern void *NNS_G3dPlttReleasePlttKey(NNSG3dResTex *tex);
-extern s32 NNS_G3dBindMdlTex(NNSG3dResMdl *pMdl, NNSG3dResTex *pTex);
-extern s32 NNS_G3dBindMdlPltt(NNSG3dResMdl *pMdl, NNSG3dResTex *pTex);
+extern s32 NNS_G3dBindMdlTex(const NNSG3dResMdl *pMdl, NNSG3dResTex *pTex);
+extern s32 NNS_G3dBindMdlPltt(const NNSG3dResMdl *pMdl, NNSG3dResTex *pTex);
 extern void  NNS_G3dGlbInit(void);
 extern void  NNS_G3dGlbFlush(void);
 extern void  NNS_G3dGlbFlushP(void);
@@ -341,7 +203,7 @@ extern void  NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 numParams);
 extern void  NNS_G3dInit(void);
 extern void *NNS_G3dAllocRenderObj(NNSFndAllocator *allocator);
 extern void  NNS_G3dFreeRenderObj(NNSFndAllocator *pAllocator, void *pRenderObj);
-extern NNSG3dAnmObj *NNS_G3dAllocAnmObj(NNSFndAllocator *allocator, void *anm, NNSG3dResMdl *resMdl);
+extern NNSG3dAnmObj *NNS_G3dAllocAnmObj(NNSFndAllocator *allocator, void *anm, const NNSG3dResMdl *resMdl);
 extern void  NNS_G3dFreeAnmObj(NNSFndAllocator *pAllocator, void *pAnmObj);
 extern NNSG3dResMdlSet *NNS_G3dGetMdlSet(void *file);
 extern NNSG3dResTex *NNS_G3dGetTex(void *file);
@@ -1147,7 +1009,7 @@ G3dAnime *G3D_SYSTEM_CreateAnime(G3dRender *render, const G3dResource *anmRes, u
 {
     G3dAnime *anime;
     void *anm;
-    NNSG3dResMdl *resMdl;
+    const NNSG3dResMdl *resMdl;
     NNSG3dResTex *tex = 0;
 
     anime = GFL_HEAP_Alloc(_G3dSystem.work->heapId, 0xC, 0, G3D_SYSTEM_FileName, 0x6D2);
@@ -1289,8 +1151,8 @@ BOOL G3D_SYSTEM_SetObjectAnimeFrame(G3dObject *obj, u16 anmIdx, const fx32 *fram
         return 0;
     }
     anmObj = anime->anmObj;
-    if (*frame >= (fx32)(anmObj->resAnm->numFrame << 12)) {
-        anmObj->frame = anmObj->resAnm->numFrame << 12;
+    if (*frame >= (fx32)(((const NNSG3dResAnmCommon *)anmObj->resAnm)->numFrame << 12)) {
+        anmObj->frame = ((const NNSG3dResAnmCommon *)anmObj->resAnm)->numFrame << 12;
     } else {
         anmObj->frame = *frame;
     }
@@ -1303,7 +1165,7 @@ BOOL G3D_SYSTEM_GetObjectAnimeFrameMax(G3dObject *obj, int anmIdx, fx32 *frameMa
     if (anime == 0) {
         return 0;
     }
-    *frameMax = anime->anmObj->resAnm->numFrame << 12;
+    *frameMax = ((const NNSG3dResAnmCommon *)anime->anmObj->resAnm)->numFrame << 12;
     return 1;
 }
 
@@ -1327,7 +1189,7 @@ BOOL G3D_SYSTEM_IncObjectAnimeFrame(G3dObject *obj, int anmIdx, fx32 step)
     frame = anmObj->frame + step;
     anmObj->frame = frame;
 
-    frameEnd = (u32)anmObj->resAnm->numFrame << 12;
+    frameEnd = (u32)((const NNSG3dResAnmCommon *)anmObj->resAnm)->numFrame << 12;
     if (frame >= (fx32)frameEnd) {
         anmObj->frame = frameEnd - 0x1000;
         return 0;
@@ -1359,7 +1221,7 @@ BOOL G3D_SYSTEM_LoopObjectAnimeFrame(G3dObject *obj, int anmIdx, fx32 step)
     frame = anmObj->frame + step;
     anmObj->frame = frame;
 
-    frameEnd = (u32)anmObj->resAnm->numFrame << 12;
+    frameEnd = (u32)((const NNSG3dResAnmCommon *)anmObj->resAnm)->numFrame << 12;
     if (frame >= (fx32)frameEnd) {
         anmObj->frame = 0;
         return 0;
@@ -1460,8 +1322,8 @@ BOOL G3D_SYSTEM_CheckObjectCulling(G3dObject *obj)
     GXBoxTestParam box;
     fx32 scale[3];
     int popCount;
-    NNSG3dResMdlInfo *info;
-    NNSG3dResMdl *resMdl;
+    const NNSG3dResMdlInfo *info;
+    const NNSG3dResMdl *resMdl;
     BOOL visible;
 
     visible = 1;

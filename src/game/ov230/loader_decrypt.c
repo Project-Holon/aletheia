@@ -15,13 +15,12 @@
  * symbols:
  *   gLoaderDecryptBssStart  0x021899A0  data  ov230
  */
-typedef unsigned int u32;
+#include "../types.h"
 
 asm void LOADER_DECRYPT_SyncCacheRange(void *addr, unsigned int size);
 int LOADER_DECRYPT_ClassifyOpcode(unsigned word);
 void LOADER_DECRYPT_DecodeBlocks(u32 *t);
 extern char gLoaderDecryptBssStart[];
-
 
 /*
  * note:     cache maintenance over [r0, r0 + r1): per 32-byte line it
@@ -45,7 +44,6 @@ cacheLineLoop:
     bx      lr
 }
 
-
 /*
  * extent: lead60B; larger loader follower02188A48..02188B48, then encoded payload through02188CB0.
  */
@@ -59,7 +57,6 @@ int LOADER_DECRYPT_ClassifyOpcode(unsigned instr)
     }
     return 0;
 }
-
 
 void LOADER_DECRYPT_DecodeBlocks(u32 *desc)
 {

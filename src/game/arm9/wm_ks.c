@@ -15,9 +15,9 @@
  *   WM_EndDataSharing  0x0209028C  arm
  */
 
-typedef unsigned short u16;
-typedef int BOOL;
-typedef int WMErrCode;
+#include "../types.h"
+#include "../sdk_wm.h"
+
 struct WMDataSharingInfo;
 
 extern WMErrCode WM_StartDataSharing(struct WMDataSharingInfo *dsInfo, unsigned short port, unsigned short aidBitmap, unsigned short dataLength, int doubleMode);

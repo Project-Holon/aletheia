@@ -4,7 +4,7 @@
 #include "../ov010/fldmmdl_types.h"
 #include "fldmmdl_rail_types.h"
 
-typedef unsigned int u32;
+#include "../types.h"
 
 /*
  * The player movement controller for maps that use rails (field_player_nogrid.c).

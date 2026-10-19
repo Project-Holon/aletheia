@@ -51,9 +51,7 @@ struct Ctx;
 struct Big;
 struct Blk34;
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../types.h"
 
 /* Script virtual machine: the read pointer into the command stream. */
 typedef struct ScriptVM {

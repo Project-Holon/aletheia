@@ -24,7 +24,7 @@
  */
 #include "cdemo_types.h"
 
-typedef unsigned int u32;
+#include "../types.h"
 
 extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned short color, unsigned int frames, unsigned int wait, unsigned int heapId);
 extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *unpackedOut, unsigned short flags);
@@ -40,13 +40,11 @@ void CDEMO_WIPE_StartFadeInWhite(char *p, u32 a, u32 b, u32 c);
 void CDEMO_WIPE_LoadPalette(void *obj, int a, int b);
 int CDEMO_WIPE_RunScript(char *p);
 
-
 void CDEMO_WIPE_StartFadeOut(char *p, u32 a, u32 b, u32 c)
 {
     WIPE_SYS_Start(0, 1, 1, 0, a, b, 0x7f);
     ((struct CdemoState *)p)->fade = c;
 }
-
 
 void CDEMO_WIPE_StartFadeIn(char *p, u32 a, u32 b, u32 c)
 {
@@ -54,20 +52,17 @@ void CDEMO_WIPE_StartFadeIn(char *p, u32 a, u32 b, u32 c)
     ((struct CdemoState *)p)->fade = c;
 }
 
-
 void CDEMO_WIPE_StartFadeOutWhite(char *p, u32 a, u32 b, u32 c)
 {
     WIPE_SYS_Start(0, 1, 1, 0x7fff, a, b, 0x7f);
     ((struct CdemoState *)p)->fade = c;
 }
 
-
 void CDEMO_WIPE_StartFadeInWhite(char *p, u32 a, u32 b, u32 c)
 {
     WIPE_SYS_Start(0, 0, 0, 0x7fff, a, b, 0x7f);
     ((struct CdemoState *)p)->fade = c;
 }
-
 
 void CDEMO_WIPE_LoadPalette(void *obj, int a, int b)
 {

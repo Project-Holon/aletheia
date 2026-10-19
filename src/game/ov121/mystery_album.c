@@ -2429,7 +2429,7 @@ struct MysteryAlbumView *MYSTERY_ALBUM_CreateAlbumView(MysteryAlbumCard *card, s
 
 struct Node;
 
-typedef signed char s8;
+#include "../types.h"
 
 typedef struct { s16 frameId,x,y; } MysteryAlbumPathOut;
 
@@ -2594,8 +2594,6 @@ extern void MYSTERY_UTIL_CopyBmpList(void *cardView);
 extern void MYSTERY_UTIL_TransferWindowList(void *albumData);
 
 extern void *GFL_USE_AddMainTask(u32 func,u32 arg,u32 priority);
-
-
 
 void MYSTERY_ALBUM_LoadBgWithTilemap(const MysteryAlbumBgSetup *bgSetup,MysteryAlbum *album,u16 heapId);
 

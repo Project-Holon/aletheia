@@ -17,7 +17,7 @@
  *   PMSI_PARAM_SetDefaultSentence  0x020242D8  thumb
  *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  */
-#include "misc_savedata_shared_types.h"
+#include "../types.h"
 #include "greeting_savedata_shared_types.h"
 
 extern void PMSI_PARAM_SetDefaultGreeting(void *obj);

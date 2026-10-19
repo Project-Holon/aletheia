@@ -55,8 +55,6 @@ typedef struct SOCLiCommandPacket {
 } SOCLiCommandPacket;
 
 /* An OS message queue (0x20 bytes), matching OS_InitMessageQueue. */
-typedef struct OSMessageQueue {
-    char opaque[0x20];
-} OSMessageQueue;
+#include "../sdk_os.h"
 
 #endif

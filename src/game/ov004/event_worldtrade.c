@@ -68,7 +68,7 @@ typedef struct Pair {
     int unused;
 } Pair;
 
-typedef unsigned int   u32;
+#include "../types.h"
 
 /* Parameter block read by the world trade overlay (ov135): save data handles gathered when the event starts. */
 typedef struct WorldTradeParam {
@@ -99,10 +99,6 @@ typedef struct WorldTradeEventWork {
     struct GameSystem *paramGameSystem;
     u32 hideFieldObjects;
 } WorldTradeEventWork;
-
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
 
 typedef char WorldTradeEventWork_SizeCheck[sizeof(WorldTradeEventWork) == 0x54 ? 1 : -1];
 
@@ -152,15 +148,11 @@ u32 EVENT_WORLDTRADE_Main(struct GameEvent *event, u32 *seq, WorldTradeEventWork
 extern char ov135_id[];
 extern char d_02202BAC[];
 
-
-
 /* Overlay entry point: unpacks the request and creates the event. */
 int EVENT_WORLDTRADE_Entry(int gameSystem, Pair *request)
 {
     return EVENT_WORLDTRADE_Create(gameSystem, request->fieldMap, request->unused);
 }
-
-
 
 int EVENT_WORLDTRADE_Create(int gameSystem, int fieldMap, int unused)
 {
@@ -195,7 +187,6 @@ int EVENT_WORLDTRADE_Create(int gameSystem, int fieldMap, int unused)
     work->param.reserved2 = 0;
     return event;
 }
-
 
 u32 EVENT_WORLDTRADE_Main(struct GameEvent *event, u32 *seq, WorldTradeEventWork *work)
 {

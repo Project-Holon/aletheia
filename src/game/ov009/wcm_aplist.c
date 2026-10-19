@@ -32,11 +32,7 @@
  */
 #include "wcm_types.h"
 
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned long u32;
+#include "../types.h"
 
 typedef struct NWMInfoElements {
     unsigned char id;
@@ -66,8 +62,6 @@ void WcmAppendApList(WCMApList *aplist);
 void WCMi_BssDescCopy(WMBssDesc *srcBssDesc, WMBssDesc *destBssDesc);
 WMGameInfo *WCMi_GetGameInfo(WMBssDesc *bssDesc);
 
-
-
 void WCM_ClearApList(void)
 {
     WCMWork *w;
@@ -83,8 +77,6 @@ void WCM_ClearApList(void)
         MI_CpuFill8(((WCMApListHeader *)w->config.pbdbuffer), 0, w->config.nbdbuffer);
     OS_RestoreInterrupts(e);
 }
-
-
 
 long WCM_CountApList(void)
 {
@@ -104,8 +96,6 @@ long WCM_CountApList(void)
     OS_RestoreInterrupts(e);
     return count;
 }
-
-
 
 long WCM_LockApList(long lock)
 {
@@ -130,7 +120,6 @@ long WCM_LockApList(long lock)
     return ret;
 }
 
-
 void *WCM_PointApList(long index)
 {
     return WCM_PointApListEx(index);
@@ -141,8 +130,6 @@ static WCMApList *WcmGetOldestApList(void);
 static WCMApList *WcmSearchApList(unsigned char *bssid);
 
 static WCMApList *WcmSearchIndexedApList(unsigned long index);
-
-
 
 WMBssDesc *WCM_PointApListEx(long index)
 {
@@ -164,9 +151,6 @@ WMBssDesc *WCM_PointApListEx(long index)
     OS_RestoreInterrupts(e);
     return &p->bssDesc;
 }
-
-
-
 
 /*
  * sdk:      WCMi_EntryApList (aplist.o)
@@ -199,8 +183,6 @@ void WCMi_EntryApList(WMBssDesc *bssDesc, unsigned short linkLevel)
     aplist->linkLevel = linkLevel;
     WcmAppendApList(aplist);
 }
-
-
 
 /*
  * sdk:      WcmAllocApList (aplist.o)
@@ -253,8 +235,6 @@ WCMApList *WcmAllocApList(void)
     return p;
 }
 
-
-
 static WCMApList *WcmGetOldestApList(void)
 {
     WCMWork *w;
@@ -266,10 +246,6 @@ static WCMApList *WcmGetOldestApList(void)
         return pHeader->head;
     return 0;
 }
-
-
-
-
 
 static WCMApList *WcmSearchApList(unsigned char *bssid)
 {
@@ -293,9 +269,6 @@ static WCMApList *WcmSearchApList(unsigned char *bssid)
     return p;
 }
 
-
-
-
 static WCMApList *WcmSearchIndexedApList(unsigned long index)
 {
     WCMWork *w;
@@ -315,9 +288,6 @@ static WCMApList *WcmSearchIndexedApList(unsigned long index)
     }
     return p;
 }
-
-
-
 
 /*
  * sdk:      WcmAppendApList (aplist.o)
@@ -359,8 +329,6 @@ void WcmAppendApList(WCMApList *aplist)
     }
 }
 
-
-
 /*
  * sdk:      WCMi_BssDescCopy (libwcm.TWL.HYB.a(aplist.o))
  *
@@ -382,7 +350,7 @@ void WCMi_BssDescCopy(WMBssDesc *srcBssDesc, WMBssDesc *destBssDesc)
     w = WCMi_GetSystemWork();
     MIi_CpuClearFast(0, destBssDesc, sizeof(WMBssDesc));
     MIi_CpuCopyFast(srcBssDesc, destBssDesc, 0x40);
-    destBssDesc->elementCount = 0;
+    destBssDesc->otherElementCount = 0;
     if (w->deviceId == 1)
         destBssDesc->length = 0x20;
     else
@@ -392,22 +360,22 @@ void WCMi_BssDescCopy(WMBssDesc *srcBssDesc, WMBssDesc *destBssDesc)
         u8 wmmTag[5] = { 0x00, 0x50, 0xf2, 0x02, 0x00 };
 
         ieLength = 0;
-        pSrc = (u8 *)srcBssDesc->elements;
-        pDest = (u8 *)destBssDesc->elements;
-        for (i = 0; i < srcBssDesc->elementCount; i++) {
+        pSrc = (u8 *)&srcBssDesc->gameInfo;
+        pDest = (u8 *)&destBssDesc->gameInfo;
+        for (i = 0; i < srcBssDesc->otherElementCount; i++) {
             id = pSrc[0];
             len = pSrc[1];
             if (id == 0x32 || id == 0x2a || id == 0x2f || id == 0x07 || id == 0x30) {
                 MI_CpuCopy(pSrc, pDest, (u8)(len + 2));
                 pDest += len + 2;
                 ieLength += (u8)(len + 2);
-                destBssDesc->elementCount++;
+                destBssDesc->otherElementCount++;
             } else if (id == 0xdd) {
                 if (MI_CpuComp8(pSrc + 2, wpaTag, 4) == 0 || MI_CpuComp8(pSrc + 2, wmmTag, 5) == 0) {
                     MI_CpuCopy(pSrc, pDest, (u8)(len + 2));
                     pDest += len + 2;
                     ieLength += (u8)(len + 2);
-                    destBssDesc->elementCount++;
+                    destBssDesc->otherElementCount++;
                 }
             }
             pSrc += len + 2;
@@ -418,8 +386,6 @@ void WCMi_BssDescCopy(WMBssDesc *srcBssDesc, WMBssDesc *destBssDesc)
     else
         destBssDesc->length += ieLength;
 }
-
-
 
 /*
  * sdk:      WCMi_GetGameInfo (libwcm.TWL.HYB.a aplist.o)
@@ -437,7 +403,7 @@ WMGameInfo *WCMi_GetGameInfo(WMBssDesc *bssDesc)
     if (OS_IsRunOnTwl()) {
         if (w->deviceId == 2) {
             elem = 0;
-            if (bssDesc->elementCount != 0) {
+            if (bssDesc->otherElementCount != 0) {
                 elem = (struct NWMInfoElements *)NWM_GetVenderInfoElements((u8 *)bssDesc, 0xDD, tag);
             }
             if (elem != 0) {
@@ -451,9 +417,9 @@ WMGameInfo *WCMi_GetGameInfo(WMBssDesc *bssDesc)
             if (len != 0) {
                 int ok = 0;
                 if (len >= 0x10 && len <= 0x80) {
-                    if (len == ((WMGameInfo *)bssDesc->elements)->userGameInfoLength + 0x10 && ((WMGameInfo *)bssDesc->elements)->magicNumber == 1 && bssDesc->length == ((unsigned long)(len + 0x41) >> 1)) ok = 1;
+                    if (len == bssDesc->gameInfo.userGameInfoLength + 0x10 && bssDesc->gameInfo.magicNumber == 1 && bssDesc->length == ((unsigned long)(len + 0x41) >> 1)) ok = 1;
                 }
-                if (ok == 1) return (WMGameInfo *)bssDesc->elements;
+                if (ok == 1) return &bssDesc->gameInfo;
             }
         }
     }

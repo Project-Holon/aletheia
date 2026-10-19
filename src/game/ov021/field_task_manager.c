@@ -191,7 +191,7 @@ int FIELD_TASK_MANAGER_IsEmpty(FieldTaskManager *manager)
 
 #define FX_F32_TO_FX32(x) ((fx32)(((x) > 0) ? ((x) * 4096.0f + .5f) : ((x) * 4096.0f - .5f)))
 
-typedef float f32;
+#include "../types.h"
 
 typedef struct FieldEffectCtrl FieldEffectCtrl;
 

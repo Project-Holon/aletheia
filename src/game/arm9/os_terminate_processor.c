@@ -31,15 +31,9 @@
  *   OS_Halt  0x020882D0  arm
  */
 #define reg_OS_IME (*(vu16 *)0x04000208)
-typedef unsigned long u32;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef volatile u16 vu16;
-
-typedef int BOOL;
-
-typedef u32 OSIntrMode;
+#include "../sdk_os.h"
 
 typedef enum OSProcMode {
     OS_PROCMODE_USER = 16,
@@ -72,14 +66,12 @@ void OS_Terminate(void);
 void OSi_DisableInterruptsAndHalt(void);
 extern OsTerminateBss gOsTerminateBss;
 
-
 static inline BOOL OS_EnableIrq(void)
 {
     u16 prep = reg_OS_IME;
     reg_OS_IME = 1;
     return (BOOL)prep;
 }
-
 
 void OS_Terminate(void)
 {
@@ -102,7 +94,6 @@ void OS_Terminate(void)
     }
     OSi_DisableInterruptsAndHalt();
 }
-
 
 void OSi_DisableInterruptsAndHalt(void)
 {

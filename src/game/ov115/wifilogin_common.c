@@ -21,17 +21,7 @@
  */
 #include "ov115_types.h"
 
-typedef unsigned char u8;
-
-typedef unsigned int u32;
-
-typedef unsigned short u16;
-
-typedef short s16;
-
-typedef signed char s8;
-
-typedef int s32;
+#include "../types.h"
 
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
@@ -44,10 +34,8 @@ void WIFILOGIN_COMMON_CheckLocalAid(u32 localAid, u32 unused1, u32 unused2, u8 *
 /* True when the pad or the touch panel asks the login to move on. */
 int WIFILOGIN_COMMON_IsCancelInput(u8 *p) { if(KEY_GetTrg()&3) return 1; if(((struct WifiloginWork *)p)->state->mode && TOUCHPANEL_GetTrg()) return 1; return 0; }
 
-
 /* Install the callback the login state machine runs each frame. */
 void WIFILOGIN_COMMON_SetStateHandler(u8 *p, u32 handler) { ((struct WifiloginWork *)p)->stateHandler = handler; }
-
 
 /* Flag the state when this console's aid is not the one the handle reports. */
 void WIFILOGIN_COMMON_CheckLocalAid(u32 localAid, u32 unused1, u32 unused2, u8 *state, u32 handle)
@@ -57,19 +45,16 @@ void WIFILOGIN_COMMON_CheckLocalAid(u32 localAid, u32 unused1, u32 unused2, u8 *
     }
 }
 
-
 extern u8 gWifiloginDialogId[];
 u8 *WIFILOGIN_COMMON_GetSessionId(void)
 {
     return gWifiloginDialogId;
 }
 
-
 int WIFILOGIN_COMMON_GetMaxPlayers(void)
 {
     return 4;
 }
-
 
 int WIFILOGIN_COMMON_IsSameId(int a, int b)
 {

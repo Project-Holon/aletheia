@@ -46,11 +46,8 @@
  *   MTX_LookAt        0x0207BCA0  arm
  *   MTX_RotX33_       0x0207AF00  thumb
  */
-#include "codein_param_shared_types.h"
 
-typedef signed int fx32;
-
-typedef signed short s16;
+#include "../types.h"
 
 /* One entry per display-capture target: LCDC bank mask, capture control
  * bits (shifted into REG_DISPCAPCNT) and the VRAM address of the bank. */
@@ -60,13 +57,7 @@ struct CaptureBank {
     u32 vramAddress;
 };
 
-typedef struct {
-    fx32 x, y, z;
-} VecFx32;
-
-typedef struct {
-    fx32 m[9];
-} MtxFx33;
+#include "../sdk_fx.h"
 
 /* Camera setup block: six parameter words, then a 3x3 rotation. */
 typedef struct {

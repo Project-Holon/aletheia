@@ -18,7 +18,7 @@
  *   cardi_hook_state  0x02150720  data
  *   CARDiHookChain  0x02150720  data
  */
-typedef unsigned long u32;
+#include "../types.h"
 typedef struct CARDHookContext
 {
   struct CARDHookContext *next;

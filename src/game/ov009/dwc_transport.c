@@ -70,10 +70,7 @@
  *   DWCi_ProcessMatchSynPacket  0x0216EC4C arm
  *   gt2GetOutgoingBufferFreeSpace     0x02195E50 arm
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef unsigned long long u64;
+#include "../types.h"
 
 typedef struct {
     unsigned long size;

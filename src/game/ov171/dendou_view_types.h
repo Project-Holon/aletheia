@@ -9,12 +9,7 @@
 #ifndef DENDOU_VIEW_TYPES_H
 #define DENDOU_VIEW_TYPES_H
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed char s8;
-typedef signed short s16;
-typedef signed int s32;
+#include "../types.h"
 
 struct Strbuf;
 struct BmpWin;
@@ -188,8 +183,5 @@ typedef struct DendouViewWork {
     s32 substate;                                   /* +0xC70 */
     s32 wipeNextState;                              /* +0xC74 */
 } DendouViewWork;
-
-
-
 
 #endif

@@ -253,7 +253,6 @@
 #include "../version.h"
 #include "btl_main_types.h"
 
-
 #define REG_MASTER_BRIGHT_A 0x0400006C
 #define REG_MASTER_BRIGHT_B 0x0400106C
 
@@ -270,7 +269,6 @@ struct ProcHandle
   u32 header[5];
   void *work;
 };
-
 
 /*
  * Battle main work helpers: client and position arithmetic.
@@ -439,7 +437,7 @@ extern int (*gSetupSeqKind3Steps[7])(struct BtlMain *, u32 *);
 struct Blk34;
 struct PartyMon;
 struct BtlPosTable;
-typedef unsigned long long u64;
+#include "../types.h"
 struct BtlPosTable { u16 firstCount; volatile u16 secondCount; u8 positions[6]; }; /* stand-in: volatile forces the reload of secondCount in each loop test */
 extern u8 BTL_MAIN_DecodeMessageCode(struct BtlMain *main, int code, u8 *out);
 extern int BTL_POKEPARAM_IsFainted(struct BtlPokeParam *poke);
@@ -608,7 +606,7 @@ u32 BTL_MAIN_GetField(struct BtlMain *main);
 struct Party *BTL_MAIN_GetClientParty(struct BtlMain *main, int clientId, int useSaved);
 void BTL_MAIN_TrainerRecordAddDelta(struct BtlMain *main, int arg, u32 delta);
 char *BTL_MAIN_GetRegulationRules(struct BtlMain *main);
-BOOL BTL_MAIN_IsRecordEnabledInComm(struct BtlMain *main);
+Bool BTL_MAIN_IsRecordEnabledInComm(struct BtlMain *main);
 int BTL_MAIN_IsRecordAllowed(struct BtlMain *main);
 void BTL_MAIN_NotifyLevelUp(struct BtlMain *main, struct BtlPokeParam *poke);
 void BTL_MAIN_UpdateFriendshipUseItem(struct BtlMain *main, struct BtlPokeParam *poke, int itemId);
@@ -707,7 +705,6 @@ int BTL_MAIN_IsLocalSide(struct BtlMain *main, unsigned char side);
 u8 BTL_MAIN_GetOwnLanePos(u32 basePos, u32 lane);
 u8 BTL_MAIN_GetEnemyLanePosFromWork(struct BtlMain *main, u32 basePos, int lane);
 u8 BTL_MAIN_GetFacingPos(int rule, u32 basePos);
-
 
 int BTL_MAIN_ProcInit(struct ProcHandle *proc, u32 *step, struct BattleSetupParam *setup, struct BtlMain *main)
 {
@@ -1443,7 +1440,6 @@ int BTL_MAIN_TaskCommDouble(u32 *step, void *arg)
     return 1;
 }
 
-
 int BTL_MAIN_RunSetupSeqKind1(u32 *step, void *arg)
 {
     struct BtlMain *main = arg;
@@ -1471,11 +1467,6 @@ int BTL_MAIN_RunSetupSeqKind1(u32 *step, void *arg)
     return 1;
 }
 
-
-
-
-
-
 int BTL_MAIN_RunSetupSeqKind3(u32 *step, void *arg)
 {
     struct BtlMain *main = arg;
@@ -1502,9 +1493,6 @@ int BTL_MAIN_RunSetupSeqKind3(u32 *step, void *arg)
     }
     return 1;
 }
-
-
-
 
 int BTL_MAIN_SeqSyncRules(struct BtlMain *main, u32 *state)
 {
@@ -1556,9 +1544,6 @@ int BTL_MAIN_SeqSyncRules(struct BtlMain *main, u32 *state)
     }
     return 0;
 }
-
-
-
 
 /*
  * lever: slot starts at 1 and is conditionally assigned 3; ternary reverses the short branch.
@@ -1652,9 +1637,6 @@ int BTL_MAIN_SeqExchangeRegulation(struct BtlMain *main, u32 *state)
     return 0;
 }
 
-
-
-
 int BTL_MAIN_SeqExchangePlayers(struct BtlMain *main, u32 *state)
 {
     struct BattleSetupParam *setup;
@@ -1747,9 +1729,6 @@ int BTL_MAIN_SeqExchangePlayers(struct BtlMain *main, u32 *state)
     return 0;
 }
 
-
-
-
 int BTL_MAIN_SeqExchangePerapVoice(struct BtlMain *main, u32 *state)
 {
     struct BattleSetupParam *setup;
@@ -1794,9 +1773,6 @@ int BTL_MAIN_SeqExchangePerapVoice(struct BtlMain *main, u32 *state)
     return 0;
 }
 
-
-
-
 int BTL_MAIN_SeqCreateClientsKind1Solo(struct BtlMain *main)
 {
     struct BattleSetupParam *setup;
@@ -1828,9 +1804,6 @@ int BTL_MAIN_SeqCreateClientsKind1Solo(struct BtlMain *main)
     }
     return 1;
 }
-
-
-
 
 /*
  * Twin of BTL_MAIN_SeqCreateClientsKind3 and BTL_MAIN_SeqCreateClientsKind1Solo (same callees). The locals clientId, slotCount
@@ -1884,10 +1857,6 @@ int BTL_MAIN_SeqCreateClientsByMulti(struct BtlMain *main)
     return 1;
 }
 
-
-
-
-
 int BTL_MAIN_SeqCreateClientsKind3(struct BtlMain *main)
 {
     struct BattleSetupParam *setup;
@@ -1919,10 +1888,6 @@ int BTL_MAIN_SeqCreateClientsKind3(struct BtlMain *main)
     }
     return 1;
 }
-
-
-
-
 
 int BTL_MAIN_SeqCreateClientsKind1(struct BtlMain *main)
 {
@@ -1957,10 +1922,6 @@ int BTL_MAIN_SeqCreateClientsKind1(struct BtlMain *main)
     return 1;
 }
 
-
-
-
-
 int BTL_MAIN_SeqCreateView(struct BtlMain *main, int *step)
 {
     int isComm;
@@ -1987,11 +1948,6 @@ int BTL_MAIN_SeqCreateView(struct BtlMain *main, int *step)
     return 0;
 }
 
-
-
-
-
-
 int BTL_MAIN_StepClientsSolo(struct BtlMain *main)
 {
     int i, found = 0;
@@ -2006,11 +1962,6 @@ int BTL_MAIN_StepClientsSolo(struct BtlMain *main)
     BTLV_CORE_Update(main->viewCore);
     return found;
 }
-
-
-
-
-
 
 int BTL_MAIN_StepParent(struct BtlMain *main)
 {
@@ -2040,11 +1991,6 @@ int BTL_MAIN_StepParent(struct BtlMain *main)
     return r;
 }
 
-
-
-
-
-
 int BTL_MAIN_StepChild(struct BtlMain *main)
 {
     int r, i;
@@ -2068,10 +2014,6 @@ int BTL_MAIN_StepChild(struct BtlMain *main)
     return r;
 }
 
-
-
-
-
 void BTL_MAIN_MarkClientsDisconnected(struct BtlMain *main)
 {
     unsigned int i;
@@ -2080,10 +2022,6 @@ void BTL_MAIN_MarkClientsDisconnected(struct BtlMain *main)
         if (client) BTL_CLIENT_MarkCommandIssued(client);
     }
 }
-
-
-
-
 
 int BTL_MAIN_CheckAllClientsReady(struct BtlMain *main)
 {
@@ -2094,35 +2032,17 @@ int BTL_MAIN_CheckAllClientsReady(struct BtlMain *main)
     return 1;
 }
 
-
-
-
-
-
 u32 BTL_MAIN_GetRule(struct BtlMain *main)
 {
     return main->setup->rule;
 }
 
-
-
-
-
 unsigned int BTL_MAIN_CheckSceneOff(struct BtlMain *main) { return main->flags.noBattleAnim; }
-
-
-
-
-
 
 /*
  * Leaf with no calls and no pool; 4 instructions, 8 bytes: ldr r0, [r0]; adds r0, #0x80; ldrb r0, [r0]; bx lr.
  */
 u8 BTL_MAIN_GetBadgeCount(struct BtlMain *main) { return main->setup->badgeCount; }
-
-
-
-
 
 /*
  * note 2026-10-05: the arm9 witness src/matched/arm9/CONFIG_GetBattleStyle.c exists (EXACT); the only wildcard is that bl, so this lifts to EXACT after the integrator regenerates the manifest/labels.
@@ -2133,16 +2053,7 @@ int BTL_MAIN_CheckShiftModePrompt(struct BtlMain *main)
     return 0;
 }
 
-
-
-
-
 int BTL_MAIN_GetTextSpeedFrames(struct BtlMain *main) { return MSG_SPEED_GetWaitForSpeed(main->textSpeed); }
-
-
-
-
-
 
 int BTL_MAIN_CheckEventOverlayAllowed(struct BtlMain *main)
 {
@@ -2161,11 +2072,6 @@ int BTL_MAIN_CheckEventOverlayAllowed(struct BtlMain *main)
     return 0;
 }
 
-
-
-
-
-
 /* 021B8630  first round: the guard "competitor > 1 return 0" came back bls.  The image
  * takes the guard, so the guarded read is the fall-through arm. */
 /*
@@ -2179,46 +2085,21 @@ u32 BTL_MAIN_GetPmsWork(struct BtlMain *main)
     return 0;
 }
 
-
-
-
-
 unsigned int BTL_MAIN_GetRuleSlotSpan(struct BtlMain *main) { switch (main->setup->rule) { case 0:return 1; case 1:return 3; case 2:return 5; case 3:return 5; default:return 5; } }
-
-
-
-
 
 unsigned int BTL_MAIN_GetActivePosPerSide(struct BtlMain *main) { switch (main->setup->rule) { case 0:return 1; case 1:return 2; case 2:return 3; case 3:return 1; default:return 1; } }
 
-
-
-
-
 int BTL_MAIN_CheckFrontPos(struct BtlMain *main, unsigned int posIdx) { if (posIdx < BTL_MAIN_GetActivePosPerSide(main)*2) return 1; return 0; }
-
-
-
-
 
 u32 BTL_MAIN_GetCompetitor(struct BtlMain *main)
 {
     return main->setup->competitor;
 }
 
-
-
-
-
-
 /*
  * Leaf with no calls and no pool; 4 instructions, 8 bytes: ldr r0, [r0]; adds r0, #0x20; ldrb r0, [r0]; bx lr.
  */
 u8 BTL_MAIN_GetCommPos(struct BtlMain *main) { return main->setup->commPos; }
-
-
-
-
 
 /*
  * The SDK symbol list names 0x021B86CA CTRDGi_IsTaskBusy(pt), the busy-flag test (pt->busy != 0).
@@ -2227,51 +2108,36 @@ u8 BTL_MAIN_GetCommPos(struct BtlMain *main) { return main->setup->commPos; }
  */
 int BTL_MAIN_IsMultiMode(struct BtlMain *main) { if (main->setup->multiMode) return 1; return 0; }
 
-
-
-
-
 u16 BTL_MAIN_GetWinBgm(struct BtlMain *main)
 {
     return main->setup->bgmWin;
 }
 
-
 int BTL_MAIN_GetCompetitorKind(struct BtlMain *main) { switch(main->setup->competitor) { case 0:return 0; case 1:return 1; case 2:return 2; case 3:return 2; default:return 1; } }
-
 
 struct FieldSituation *BTL_MAIN_GetFieldSituation(struct BtlMain *main)
 {
     return &main->setup->fieldSituation;
 }
 
-
-
 int BTL_MAIN_GetPlayerStatus(struct BtlMain *main)
 {
     return (int)main->playerStatus;
 }
 
-
 int BTL_MAIN_CheckZukanSeen(struct BtlMain *main, void *mon) { unsigned int species=BTL_POKEPARAM_GetSpecies(mon); return ZUKAN_SAVE_IsCaught(main->setup->zukanWork,species); }
-
 
 u32 BTL_MAIN_GetZukanSeenCount(struct BtlMain *main)
 {
     return ZUKAN_SAVE_CountCaughtNational((struct ZukanSave *)(main->setup->zukanWork));
 }
 
-
-
 u32 BTL_MAIN_GetGameData(struct BtlMain *main)
 {
     return (u32)main->setup->gameData;
 }
 
-
 void BTL_MAIN_RegisterZukanSeen(struct BtlMain *main, unsigned char doRegister, void *mon) { if(BTL_MAIN_GetCompetitor(main)<=1 && doRegister!=0) ZUKAN_SAVE_RegisterSeen(main->setup->zukanWork,BTL_POKEPARAM_GetMon(mon)); }
-
-
 
 u8 BTL_MAIN_DecodeMessageCode(struct BtlMain *main, int code, u8 *out)
 {
@@ -2299,8 +2165,6 @@ u8 BTL_MAIN_DecodeMessageCode(struct BtlMain *main, int code, u8 *out)
     return 0;
 }
 
-
-
 u8 BTL_MAIN_DecodeMessageCodeBasic(struct BtlMain *main, u32 rangeType, u32 basePos, u8 *out)
 {
     switch (rangeType) {
@@ -2325,7 +2189,6 @@ u8 BTL_MAIN_DecodeMessageCodeBasic(struct BtlMain *main, u32 rangeType, u32 base
     }
     return 1;
 }
-
 
 /*
  * Double battle: fill out[] with the positions that a range kind reaches
@@ -2375,7 +2238,6 @@ u8 BTL_MAIN_ExpandPosDouble(struct BtlMain *main, u32 rangeType, u8 basePos, u8 
         return 4;
     }
 }
-
 
 /*
  * Triple battle: fill out[] with the positions that a range kind reaches
@@ -2486,7 +2348,6 @@ u8 BTL_MAIN_ExpandPosTriple(struct BtlMain *main, u32 rangeType, u32 basePos, u8
     }
 }
 
-
 /* Number of trainer entries that are controlled by clientId. */
 unsigned int BTL_MAIN_CountClientTrainers(struct BtlMain *main, int clientId)
 {
@@ -2534,7 +2395,6 @@ int BTL_MAIN_IsLocalSide(struct BtlMain *main, unsigned char side)
     return 0;
 }
 
-
 /* Index of the nth trainer entry that clientId controls, or 6 when none. */
 u8 BTL_MAIN_GetClientTrainerIndex(struct BtlMain *main, u32 clientId, u8 nth)
 {
@@ -2551,7 +2411,6 @@ u8 BTL_MAIN_GetClientTrainerIndex(struct BtlMain *main, u32 clientId, u8 nth)
     return 6;
 }
 
-
 /*
  * Position of a lane on the side opposite to basePos. The rule argument is
  * not read here; it keeps the call shape of BTL_MAIN_GetEnemyLanePosFromWork.
@@ -2564,7 +2423,6 @@ u8 BTL_MAIN_GetEnemyLanePos(int rule, u32 basePos, u32 lane)
     return lane * 2;
 }
 
-
 /* Position of a lane on the same side as basePos. */
 u8 BTL_MAIN_GetOwnLanePos(u32 basePos, u32 lane)
 {
@@ -2574,13 +2432,11 @@ u8 BTL_MAIN_GetOwnLanePos(u32 basePos, u32 lane)
     return lane * 2 + 1;
 }
 
-
 /* Enemy side lane position, with the battle rule taken from the setup. */
 u8 BTL_MAIN_GetEnemyLanePosFromWork(struct BtlMain *main, u32 basePos, int lane)
 {
     return BTL_MAIN_GetEnemyLanePos(main->setup->rule, basePos, lane);
 }
-
 
 /* Position that faces basePos across the field, by battle rule. */
 u8 BTL_MAIN_GetFacingPos(int rule, u32 basePos)
@@ -2607,7 +2463,6 @@ u8 BTL_MAIN_GetFacingPos(int rule, u32 basePos)
     }
 }
 
-
 u8 BTL_MAIN_MapPosForRule(struct BtlMain *main, u8 basePos)
 {
     switch (main->setup->rule) {
@@ -2623,17 +2478,6 @@ u8 BTL_MAIN_MapPosForRule(struct BtlMain *main, u8 basePos)
     return basePos;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 int BTL_MAIN_IsOpposingPos(void *unusedWork, int posA, int posB)
 {
     int differs = 1;
@@ -2641,33 +2485,10 @@ int BTL_MAIN_IsOpposingPos(void *unusedWork, int posA, int posB)
     return differs;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 unsigned char BTL_MAIN_GetSlotClientId(struct BtlMain *main, int slot)
 {
     return main->slotClientIds[slot];
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 u8 BTL_MAIN_PokeIdToClientId(u32 pokeId)
 {
@@ -2679,18 +2500,6 @@ u8 BTL_MAIN_PokeIdToClientId(u32 pokeId)
     }
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 u8 BTL_MAIN_CollectLivingPokeIds(struct BtlMain *main, struct BtlSide *side, int code, u8 *outPokeIds)
 {
@@ -2712,18 +2521,6 @@ u8 BTL_MAIN_CollectLivingPokeIds(struct BtlMain *main, struct BtlSide *side, int
     return count;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 u8 BTL_MAIN_GetTrainerSlotOfPoke(struct BtlMain *main, struct BtlSide *side, u32 pokeId)
 {
     u8 clientId = BTL_MAIN_PokeIdToClientId(pokeId);
@@ -2736,35 +2533,12 @@ u8 BTL_MAIN_GetTrainerSlotOfPoke(struct BtlMain *main, struct BtlSide *side, u32
     return 6;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 unsigned char BTL_MAIN_GetViewPosOfPoke(struct BtlMain *main, struct BtlSide *side, unsigned int pokeId)
 {
     int slot = BTL_MAIN_GetTrainerSlotOfPoke(main, side, pokeId);
     if (slot != 6) return BTL_MAIN_GetViewPosOfSlot(main, slot);
     return 255;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * tail-call thunk to BTL_MAIN_PokeIdToClientId
@@ -2774,33 +2548,10 @@ u8 BTL_MAIN_PokeIdToClientIdThunk(u32 pokeId)
     return BTL_MAIN_PokeIdToClientId(pokeId);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 u8 BTL_MAIN_GetSlotClientIdThunk(struct BtlMain *main, int slot)
 {
     return BTL_MAIN_GetSlotClientId(main, slot);
 }
-
-
-
-
-
-
-
-
-
-
-
 
 unsigned char BTL_MAIN_GetSlotNthOfClient(struct BtlMain *main, unsigned char slot)
 {
@@ -2813,18 +2564,6 @@ unsigned char BTL_MAIN_GetSlotNthOfClient(struct BtlMain *main, unsigned char sl
     }
     return count;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 void BTL_MAIN_GetSlotClientAndNth(struct BtlMain *main, u8 slot, u8 *outClientId, u8 *outNth)
 {
@@ -2839,18 +2578,6 @@ void BTL_MAIN_GetSlotClientAndNth(struct BtlMain *main, u8 slot, u8 *outClientId
     }
     *outNth = count;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 u8 BTL_MAIN_GetViewPosOfSlot(struct BtlMain *main, u32 slot)
 {
@@ -2876,18 +2603,6 @@ u8 BTL_MAIN_GetViewPosOfSlot(struct BtlMain *main, u32 slot)
     return gViewPosOfSlotTriple[side][(u8)(slot >> 1)];
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 u8 BTL_MAIN_GetSlotFromViewPos(struct BtlMain *main, u8 slot)
 {
     u8 parity = slot & 1;
@@ -2911,17 +2626,6 @@ u8 BTL_MAIN_GetSlotFromViewPos(struct BtlMain *main, u8 slot)
     return ownParity + (slot - 2);
 }
 
-
-
-
-
-
-
-
-
-
-
-
 int BTL_MAIN_IsCommMulti(struct BtlMain *main)
 {
     unsigned int competitor;
@@ -2932,34 +2636,11 @@ int BTL_MAIN_IsCommMulti(struct BtlMain *main)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 int BTL_MAIN_SyncSideParty(struct BtlMain *main, int clientId)
 {
     BTL_SIDE_WriteBackParty(&main->sides[0], main, clientId, 0);
     return BTL_SIDE_GetParty(&main->sides[0], clientId);
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 int BTL_MAIN_SyncPartnerSideParty(struct BtlMain *main, u32 clientId)
 {
@@ -2974,79 +2655,23 @@ int BTL_MAIN_SyncPartnerSideParty(struct BtlMain *main, u32 clientId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 unsigned char BTL_MAIN_IsSecondTeamClient(struct BtlMain *main, unsigned int clientId)
 {
     if (BTL_MAIN_IsMultiMode(main)) return (unsigned char)((clientId & 2) != 0);
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 u8 BTL_MAIN_IsOwnClientSecondTeam(struct BtlMain *main)
 {
     return BTL_MAIN_IsSecondTeamClient(main, main->ownClientId);
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 u8 BTL_MAIN_GetOwnClientId(struct BtlMain *main)
 {
     return main->ownClientId;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 u8 BTL_MAIN_GetOwnPartnerClient(struct BtlMain *main) { return BTL_MAIN_GetPartnerClient(main, main->ownClientId); }
-
-
-
-
-
-
-
-
-
-
-
 
 u8 BTL_MAIN_GetPartnerClient(struct BtlMain *main, u8 clientId)
 {
@@ -3056,17 +2681,6 @@ u8 BTL_MAIN_GetPartnerClient(struct BtlMain *main, u8 clientId)
     return partner;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 int BTL_MAIN_IsSameTeamClient(int clientA, int clientB)
 {
     if (clientA == clientB) return 1;
@@ -3074,32 +2688,10 @@ int BTL_MAIN_IsSameTeamClient(int clientA, int clientB)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 u8 BTL_MAIN_GetOwnOpponentClient(struct BtlMain *main, int nth)
 {
     return BTL_MAIN_GetOpponentClient(main, main->ownClientId, nth);
 }
-
-
-
-
-
-
-
-
-
-
-
 
 u32 BTL_MAIN_GetOpponentClient(struct BtlMain *main, int clientId, int nth)
 {
@@ -3113,17 +2705,6 @@ u32 BTL_MAIN_GetOpponentClient(struct BtlMain *main, int clientId, int nth)
     return clientId;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 void BTL_MAIN_RemoveItemFromBag(struct BtlMain *main, u32 clientId, u32 itemId)
 {
     struct BattleSetupParam *setup;
@@ -3131,35 +2712,12 @@ void BTL_MAIN_RemoveItemFromBag(struct BtlMain *main, u32 clientId, u32 itemId)
     if (setup->ownsSlots == 0 && clientId == main->ownClientId) MYITEM_SAVEDATA_RemoveItem(setup->myItem, itemId, 1, main->heapId);
 }
 
-
-
-
-
-
-
-
-
-
-
-
 void BTL_MAIN_AddItemToBag(struct BtlMain *main, u8 clientId, u32 itemId)
 {
     struct BattleSetupParam *setup;
     setup = main->setup;
     if (setup->ownsSlots == 0 && clientId == main->ownClientId) MYITEM_SAVEDATA_AddItem(setup->myItem, itemId, 1, main->heapId);
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * double deref: *(u32*)(*p + 0x60)
@@ -3169,18 +2727,6 @@ u32 BTL_MAIN_GetMyItem(struct BtlMain *main)
     return (u32)main->setup->myItem;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * double deref: *(u32*)(*p + 0x64)
  */
@@ -3188,17 +2734,6 @@ u32 BTL_MAIN_GetMapMatrix(struct BtlMain *main)
 {
     return (u32)main->setup->mapMatrix;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 int BTL_MAIN_IsRecordingActive(struct BtlMain *main)
 {
@@ -3208,52 +2743,17 @@ int BTL_MAIN_IsRecordingActive(struct BtlMain *main)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 /* 021B9114  ldr r0,[r0]; adds r0,#0x23; ldrb r0,[r0] */
 /*
  * Leaf with no calls and no pool; 4 instructions, 8 bytes: ldr r0, [r0]; adds r0, #0x23; ldrb r0, [r0]; bx lr.
  */
 u8 BTL_MAIN_GetOwnsSlots(struct BtlMain *main) { return main->setup->ownsSlots; }
 
-
-
-
-
-
-
-
-
-
-
-
-
 /* 021B911C  movs r0,#0; bx lr */
 /*
  * Returns the constant #0.
  */
 int BTL_MAIN_ReturnZero(struct BtlMain *main, int unused) { return 0; }
-
-
-
-
-
-
-
-
-
-
-
 
 void BTL_MAIN_StoreSlotNthResult(struct BtlMain *main, u8 slot)
 {
@@ -3272,33 +2772,10 @@ void BTL_MAIN_StoreSlotNthResult(struct BtlMain *main, u8 slot)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
 void BTL_MAIN_SetOutcomeIfUnset(struct BtlMain *main, u32 outcome)
 {
     if (main->outcome == 7) main->outcome = outcome;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * tail-call thunk to BTL_MAIN_JudgeResult
@@ -3308,33 +2785,10 @@ int BTL_MAIN_JudgeResultThunk(struct BtlMain *main)
     return BTL_MAIN_JudgeResult(main);
 }
 
-
-
-
-
-
-
-
-
-
-
-
 void BTL_MAIN_SetRecordInvalid(struct BtlMain *main)
 {
     main->setup->bits.recordInvalid = 1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 u32 BTL_MAIN_GetPrizeMoney(struct BtlMain *main)
 {
@@ -3347,18 +2801,6 @@ u32 BTL_MAIN_GetPrizeMoney(struct BtlMain *main)
     }
     return main->prizeMoney;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Unlabelled Thumb leaf in a .word run.  If bit 3 of p[0x473] is clear,
@@ -3375,17 +2817,6 @@ void BTL_MAIN_AddBonusMoney(struct BtlMain *main, int add)
         main->bonusMoney = 0x1869f;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 u32 BTL_MAIN_GetBonusMoney(struct BtlMain *main)
 {
     u32 money;
@@ -3397,17 +2828,6 @@ u32 BTL_MAIN_GetBonusMoney(struct BtlMain *main)
     return money;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Unlabelled Thumb leaf in a .word run:
  *   ldr r2,[pc,#8]; movs r1,#0x40; ldrb r3,[r0,r2]; orrs r1,r3; strb r1,[r0,r2]; bx lr
@@ -3417,18 +2837,6 @@ void BTL_MAIN_SetDoubleMoney(struct BtlMain *main)
 {
     main->flags.doubleMoney = 1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 u32 BTL_MAIN_CalcPenaltyMoney(struct BtlMain *main)
 {
@@ -3451,32 +2859,10 @@ u32 BTL_MAIN_CalcPenaltyMoney(struct BtlMain *main)
     return penalty;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 void BTL_MAIN_SetKeepBgm(struct BtlMain *main)
 {
     main->flags.keepBgm = 1;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 void BTL_MAIN_UpdateFriendshipIfPlayer(struct BtlMain *main, struct BtlPokeParam *poke, int isHigh)
 {
@@ -3484,18 +2870,6 @@ void BTL_MAIN_UpdateFriendshipIfPlayer(struct BtlMain *main, struct BtlPokeParam
     setup = main->setup;
     if (setup->competitor <= 1 && setup->ownsSlots == 0) BTL_MAIN_UpdateFriendship(main, poke, isHigh ? 5 : 4);
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 void BTL_MAIN_UpdateFriendship(struct BtlMain *main, struct BtlPokeParam *poke, int event)
 {
@@ -3514,35 +2888,12 @@ void BTL_MAIN_UpdateFriendship(struct BtlMain *main, struct BtlPokeParam *poke, 
     NATSUKI_Calc(liveMon, event, field->zoneId, (u16)((main->heapId & 0x7fff) | 0x8000));
 }
 
-
-
-
-
-
-
-
-
-
-
-
 void BTL_MAIN_CopyLiveToSnapshotPoke(struct BtlMain *main, int pokeId)
 {
     struct BtlPokeParam *snapshot = BTL_SIDE_GetPokeByIdThunk(&main->sides[1], pokeId);
     struct BtlPokeParam *live = BTL_SIDE_GetPokeByIdThunk(&main->sides[0], pokeId);
     BTL_POKEPARAM_CopyMoves(live, snapshot);
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 struct BtlPokeParam *BTL_MAIN_ResolveIllusionPoke(struct BtlMain *main, struct BtlSide *side, struct BtlPokeParam *poke)
 {
@@ -3569,18 +2920,6 @@ struct BtlPokeParam *BTL_MAIN_ResolveIllusionPoke(struct BtlMain *main, struct B
     return poke;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 void BTL_SIDE_Init(struct BtlSide *side, struct BtlMain *main, u32 sideIndex)
 {
     u32 i;
@@ -3597,17 +2936,6 @@ void BTL_SIDE_Init(struct BtlSide *side, struct BtlMain *main, u32 sideIndex)
         side->parties[k] = 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 void BTL_SIDE_Clear(struct BtlSide *side)
 {
     unsigned int i;
@@ -3620,29 +2948,7 @@ void BTL_SIDE_Clear(struct BtlSide *side)
     for (i = 0; i < 4; i++) BTL_SLOT_Clear(&side->slots[i]);
 }
 
-
-
-
-
-
-
-
-
-
-
-
 #pragma opt_lifetimes off
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * 2026-10-05 (wave P5, pengy share): EXACT. Needs #pragma opt_lifetimes off (per-function
@@ -3709,30 +3015,7 @@ void BTL_SIDE_SetupClientParty(struct BtlSide *side, struct BtlMain *main, u8 cl
     BTL_SLOT_CompactLiving((struct BtlSideSlot *)(slotBase + slotOffset));
 }
 
-
-
-
-
-
-
-
-
-
-
-
 #pragma opt_lifetimes reset
-
-
-
-
-
-
-
-
-
-
-
-
 
 int BTL_MAIN_FindLastLivingPartyIndex(struct Party *party)
 {
@@ -3747,17 +3030,6 @@ int BTL_MAIN_FindLastLivingPartyIndex(struct Party *party)
     return -1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 void BTL_SIDE_DeletePokeParams(struct BtlSide *side)
 {
     unsigned int i;
@@ -3768,17 +3040,6 @@ void BTL_SIDE_DeletePokeParams(struct BtlSide *side)
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 void BTL_SIDE_WriteBackParty(struct BtlSide *side, struct BtlMain *main, int clientId, int flag)
 {
@@ -3818,18 +3079,6 @@ void BTL_SIDE_WriteBackParty(struct BtlSide *side, struct BtlMain *main, int cli
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 void BTL_SIDE_WriteBackPartyOrdered(struct BtlSide *side, struct BtlMain *main, int clientId)
 {
     struct Party *party;
@@ -3860,33 +3109,10 @@ void BTL_SIDE_WriteBackPartyOrdered(struct BtlSide *side, struct BtlMain *main, 
     POKEPARTY_Copy(main->tempParty, party);
 }
 
-
-
-
-
-
-
-
-
-
-
-
 int BTL_SIDE_GetParty(struct BtlSide *side, int clientId)
 {
     return (int)side->parties[clientId];
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 int BTL_SIDE_FindPokeIndexInClient(struct BtlSide *side, int clientId, int pokeId)
 {
@@ -3900,18 +3126,6 @@ int BTL_SIDE_FindPokeIndexInClient(struct BtlSide *side, int clientId, int pokeI
     return -1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * tail-call thunk to BTL_SIDE_GetPokeAtPos
  */
@@ -3919,18 +3133,6 @@ struct BtlPokeParam *BTL_SIDE_GetPokeAtPosThunk(struct BtlSide *side, u8 positio
 {
     return (struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain *const *)side, position);
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /* The side parameter is typed as a pointer to its first member (the main object); a BtlSide pointer changes the schedule. */
 u8 *BTL_SIDE_GetPokeAtPos(struct BtlMain *const *side, u8 position)
@@ -3953,82 +3155,25 @@ u8 *BTL_SIDE_GetPokeAtPos(struct BtlMain *const *side, u8 position)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 void *BTL_SIDE_GetClientPokeParam(struct BtlSide *side, unsigned int clientId, unsigned int nth)
 {
     return (void *)BTL_SLOT_GetPoke(&side->slots[clientId], nth);
 }
-
-
-
-
-
-
-
-
-
-
-
 
 struct BtlPokeParam *BTL_SIDE_GetClientPoke(struct BtlSide *side, u32 clientId, u8 nth)
 {
     return BTL_SLOT_GetPokeParam(&side->slots[clientId], nth);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 struct BtlPokeParam *BTL_SIDE_GetPokeByIdThunk(struct BtlSide *side, int pokeId)
 {
     return side->pokeParams[pokeId];
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 struct BtlPokeParam *BTL_SIDE_GetPokeById(struct BtlSide *side, u8 pokeId)
 {
     return side->pokeParams[pokeId];
 }
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * evidence: original narrows second argument before 021B8ED8 call.
@@ -4045,17 +3190,6 @@ int BTL_MAIN_GetVoiceOfSlot(struct BtlMain *main, u32 slot, struct PerapVoice **
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 int BTL_MAIN_GetClientVoiceFlag(struct BtlMain *main, unsigned int clientId)
 {
     if (BTL_MAIN_GetOwnsSlots(main) == 0) {
@@ -4067,33 +3201,10 @@ int BTL_MAIN_GetClientVoiceFlag(struct BtlMain *main, unsigned int clientId)
     return main->setup->voiceFlags[clientId];
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 int BTL_MAIN_GetPositionsPerClientThunk(struct BtlMain *main, unsigned int clientId)
 {
     return BTL_MAIN_GetPositionsPerClient(main, clientId);
 }
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * evidence: entry r1 is forwarded unchanged to the two-argument 021B6994.
@@ -4105,50 +3216,12 @@ u8 BTL_MAIN_GetViewPositionsPerClient(struct BtlMain *main, u32 clientId)
     return result;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 struct BtlPosTable *BTL_MAIN_GetPosTable(int tableIndex)
 {
     return &gBtlPosTables[tableIndex];
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 u32 BTL_MAIN_IsBackRowPos(u32 position) { return (position == 2 || position == 3) ? 1 : 0; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int BTL_MAIN_GetFrontEnemyPos(u32 position, u8 *outPosition)
 {
@@ -4159,20 +3232,6 @@ int BTL_MAIN_GetFrontEnemyPos(u32 position, u8 *outPosition)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int BTL_MAIN_IsPokeSamePair(unsigned int pokeIdA, unsigned int pokeIdB)
 {
     unsigned char inSecondPair = BTL_MAIN_IsPokeIdInSecondPair(pokeIdA);
@@ -4180,83 +3239,24 @@ int BTL_MAIN_IsPokeSamePair(unsigned int pokeIdA, unsigned int pokeIdB)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 unsigned char BTL_MAIN_IsPokeIdInSecondPair(unsigned int pokeId)
 {
-    BOOL result;
+    Bool result;
     if (pokeId < 12) result = FALSE;
     else result = TRUE;
     return result;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 unsigned char BTL_MAIN_IsPokeIdInFirstPair(unsigned int pokeId)
 {
     return BTL_MAIN_IsZero(BTL_MAIN_IsPokeIdInSecondPair(pokeId));
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* 021B9A5C  cmp r0,#0; bne; movs r0,#1; else 0; zext8 */
 /*
  * Leaf with no calls and no pool; 8 instructions, 16 bytes: cmp r0, #0; bne loc_021B9A64; movs r0, #1; b loc_021B9A66; movs r0, #0; lsls r0, r0, #0x18; lsrs r0, r0, #0x18; bx lr.
  */
 u8 BTL_MAIN_IsZero(u32 value) { return value == 0; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int BTL_MAIN_IsPosInTable(int tableIndex, u32 position)
 {
@@ -4274,20 +3274,6 @@ int BTL_MAIN_IsPosInTable(int tableIndex, u32 position)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 u8 BTL_SLOT_GetRotateSrcIndex(u8 rotateKind)
 {
     switch (rotateKind) {
@@ -4296,20 +3282,6 @@ u8 BTL_SLOT_GetRotateSrcIndex(u8 rotateKind)
     default: return 0;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int BTL_SLOT_GetRotateDstIndex(int rotateKind)
 {
@@ -4320,96 +3292,25 @@ int BTL_SLOT_GetRotateDstIndex(int rotateKind)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 unsigned char BTL_MAIN_GetPosParity(unsigned int position)
 {
     return position & 1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 struct BtlSideSlot *BTL_SIDE_GetSlotOfClient(struct BtlSide *side, int clientId)
 {
     return &side->slots[clientId];
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 struct BtlSideSlot *BTL_SIDE_GetSlotOfClientThunk(struct BtlSide *side, int clientId)
 {
     return &side->slots[clientId];
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 unsigned char BTL_SIDE_CountLivingOfClient(struct BtlSide *side, int clientId)
 {
     return BTL_SLOT_CountLiving(BTL_SIDE_GetSlotOfClientThunk(side, clientId));
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void BTL_MAIN_AddClientPoints(struct BtlMain *main, u8 clientId, u8 points)
 {
@@ -4420,20 +3321,6 @@ void BTL_MAIN_AddClientPoints(struct BtlMain *main, u8 clientId, u8 points)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void BTL_SLOT_Clear(struct BtlSideSlot *slot)
 {
     int i;
@@ -4441,40 +3328,12 @@ void BTL_SLOT_Clear(struct BtlSideSlot *slot)
     for (i = 0; i < 6; i++) slot->items[i] = 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void BTL_SLOT_Add(struct BtlSideSlot *slot, struct BtlPokeParam *poke)
 {
     u8 n = slot->count;
     slot->count = n + 1;
     slot->items[n] = poke;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void BTL_SLOT_CompactLiving(struct BtlSideSlot *slot)
 {
@@ -4488,39 +3347,11 @@ void BTL_SLOT_CompactLiving(struct BtlSideSlot *slot)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* 021B9B94  ldrb r0,[r0,#0x18] */
 /*
  * Reads the u8 field at #0x18 of the argument and returns it.
  */
 u8 BTL_SLOT_GetCount(struct BtlSideSlot *slot) { return slot->count; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 u8 BTL_SLOT_CountLiving(struct BtlSideSlot *slot)
 {
@@ -4532,20 +3363,6 @@ u8 BTL_SLOT_CountLiving(struct BtlSideSlot *slot)
     return count;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 u8 BTL_SLOT_CountLivingFrom(struct BtlSideSlot *slot, int from)
 {
     u32 count = 0;
@@ -4553,40 +3370,12 @@ u8 BTL_SLOT_CountLivingFrom(struct BtlSideSlot *slot, int from)
     return count;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 struct BtlPokeParam *BTL_SLOT_GetPoke(struct BtlSideSlot *slot, u32 index)
 {
     if (index < slot->count)
         return slot->items[index];
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /* 021B9C00  same shape as 021B9BF0 */
 struct BtlPokeParam *BTL_SLOT_GetPokeParam(struct BtlSideSlot *slot, u32 index)
@@ -4596,20 +3385,6 @@ struct BtlPokeParam *BTL_SLOT_GetPokeParam(struct BtlSideSlot *slot, u32 index)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void BTL_SLOT_Swap(struct BtlSideSlot *slot, int indexA, int indexB)
 {
     struct BtlPokeParam *temp = slot->items[indexA];
@@ -4617,40 +3392,12 @@ void BTL_SLOT_Swap(struct BtlSideSlot *slot, int indexA, int indexB)
     slot->items[indexB] = temp;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void BTL_SLOT_MoveToEnd(struct BtlSideSlot *slot, u8 index)
 {
     struct BtlPokeParam *moved = slot->items[index];
     for (; index < slot->count - 1; index++) slot->items[index] = slot->items[index + 1];
     slot->items[index] = moved;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void BTL_SLOT_Rotate(struct BtlSideSlot *slot, u8 rotateKind, struct BtlPokeParam **outFirst, struct BtlPokeParam **outLast)
 {
@@ -4674,19 +3421,6 @@ void BTL_SLOT_Rotate(struct BtlSideSlot *slot, u8 rotateKind, struct BtlPokePara
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 int BTL_SLOT_FindPoke(struct BtlSideSlot *slot, struct BtlPokeParam *poke)
 {
     int i;
@@ -4697,19 +3431,6 @@ int BTL_SLOT_FindPoke(struct BtlSideSlot *slot, struct BtlPokeParam *poke)
     return -1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 int BTL_SLOT_FindPokeId(struct BtlSideSlot *slot, int pokeId)
 {
     int i;
@@ -4717,39 +3438,12 @@ int BTL_SLOT_FindPokeId(struct BtlSideSlot *slot, int pokeId)
     return -1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 struct BtlPokeParam *BTL_SLOT_GetFirstLiving(struct BtlSideSlot *slot)
 {
     int i;
     for (i = 0; i < slot->count; i++) if (BTL_POKEPARAM_IsAbleToBattle(slot->items[i])) return slot->items[i];
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void BTL_SLOT_UpdateIllusion(struct BtlMain *main, struct BtlSideSlot *slot, int firstIndex)
 {
@@ -4781,19 +3475,6 @@ void BTL_SLOT_UpdateIllusion(struct BtlMain *main, struct BtlSideSlot *slot, int
         BTL_POKEPARAM_IsIllusionActive(slot->items[firstIndex]);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void BTL_MAIN_ClearTrainerSlotsAndVoices(struct BtlMain *main)
 {
     u32 i;
@@ -4804,20 +3485,6 @@ void BTL_MAIN_ClearTrainerSlotsAndVoices(struct BtlMain *main)
     }
     for (i = 0; i < 4; i++) main->voices[i] = 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void BTL_MAIN_FreeTrainerSlotsAndVoices(struct BtlMain *main)
 {
@@ -4841,19 +3508,6 @@ void BTL_MAIN_FreeTrainerSlotsAndVoices(struct BtlMain *main)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void BTL_TRAINER_SLOT_InitPlayer(struct BtlTrainerSlot *slot, int heapId, void *playerStatus)
 {
     u16 flag;
@@ -4871,19 +3525,6 @@ void BTL_TRAINER_SLOT_InitPlayer(struct BtlTrainerSlot *slot, int heapId, void *
     PMSI_PARAM_ClearSentence(slot->winWord);
     PMSI_PARAM_ClearSentence(slot->loseWord);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void BTL_TRAINER_SLOT_InitFromData(struct BtlTrainerSlot *slot, struct BattleTrainerData *src)
 {
@@ -4909,26 +3550,6 @@ void BTL_TRAINER_SLOT_InitFromData(struct BtlTrainerSlot *slot, struct BattleTra
         PMSI_PARAM_ClearSentence(slot->loseWord);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void BTL_TRAINER_SLOT_InitFromPacket(struct BtlTrainerSlot *slot, const struct BtlTrainerPacket *src)
 {
@@ -4960,47 +3581,8 @@ void BTL_TRAINER_SLOT_InitFromPacket(struct BtlTrainerSlot *slot, const struct B
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* 021B9F70  movs r2,#0x28; muls r2,r1,r2; adds r0,r0,r2; ldr r0,[r0,#0x20] */
 int BTL_MAIN_IsTrainerSlotNpc(struct BtlMain *main, int slot) { return main->trainers[slot].handle == 0; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 u16 BTL_MAIN_GetTrainerItem(struct BtlMain *main, int slot, unsigned int index)
 {
@@ -5012,50 +3594,11 @@ u16 BTL_MAIN_GetTrainerItem(struct BtlMain *main, int slot, unsigned int index)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 u32 BTL_MAIN_GetTrainerNameAndType(struct BtlMain *main, int slot, u32 *outTrainerType)
 {
     *outTrainerType = main->trainers[slot].trainerType;
     return (u32)main->trainers[slot].name;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int BTL_MAIN_GetTrainerAiFlags(struct BtlMain *main, int slot)
 {
@@ -5075,71 +3618,16 @@ int BTL_MAIN_GetTrainerAiFlags(struct BtlMain *main, int slot)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 u16 BTL_MAIN_GetTrainerId(struct BtlMain *main, int slot)
 {
     if (BTL_MAIN_IsTrainerSlotNpc(main, slot)) return main->trainers[slot].trainerId;
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 unsigned short BTL_MAIN_GetTrainerType(struct BtlMain *main, int slot)
 {
     return main->trainers[slot].trainerType;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void *BTL_MAIN_GetTrainerSentence(struct BtlMain *main, int slot, int mode)
 {
@@ -5150,48 +3638,11 @@ void *BTL_MAIN_GetTrainerSentence(struct BtlMain *main, int slot, int mode)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int BTL_MAIN_GetTrainerHandle(struct BtlMain *main, int slot)
 {
     if (BTL_MAIN_IsTrainerSlotNpc(main, slot)) return 0;
     return (int)main->trainers[slot].handle;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * branch, so the pool relocation cannot be witnessed.  All bytes correct.
@@ -5201,46 +3652,10 @@ void BTL_MAIN_UpdateCommPlayerSupport(struct BtlMain *main)
     COMM_PLAYER_SUPPORT_GetCurrent((char *)main->setup->pmsWork);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Leaf with no calls and no pool; 4 instructions, 8 bytes: movs r1, #0xaf; lsls r1, r1, #2; ldr r0, [r0, r1]; bx lr.
  */
 u32 BTL_MAIN_GetField(struct BtlMain *main) { return (u32)main->field; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void BTL_MAIN_CreateParties(struct BtlMain *main)
 {
@@ -5251,25 +3666,6 @@ void BTL_MAIN_CreateParties(struct BtlMain *main)
     }
     main->tempParty = POKEPARTY_Create(0x12);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void BTL_MAIN_FreeParties(struct BtlMain *main)
 {
@@ -5291,25 +3687,6 @@ void BTL_MAIN_FreeParties(struct BtlMain *main)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void BTL_MAIN_SetClientParty(struct BtlMain *main, int clientId, struct Party *party)
 {
     if (main->battleParties[clientId]) {
@@ -5323,24 +3700,6 @@ void BTL_MAIN_SetClientParty(struct BtlMain *main, int clientId, struct Party *p
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 struct Party *BTL_MAIN_GetClientParty(struct BtlMain *main, int clientId, int useSaved)
 {
     if (useSaved) {
@@ -5351,47 +3710,10 @@ struct Party *BTL_MAIN_GetClientParty(struct BtlMain *main, int clientId, int us
     return main->battleParties[clientId];
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int BTL_MAIN_CheckSetupStatusFlag(struct BtlMain *main, int mask)
 {
     return BTL_SETUP_CheckStatusFlag(main->setup, mask);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void BTL_MAIN_TrainerRecordAdd(struct BtlMain *main, int arg)
 {
@@ -5399,97 +3721,25 @@ void BTL_MAIN_TrainerRecordAdd(struct BtlMain *main, int arg)
         RECORD_AddOne(main->setup->trainerRecord, arg);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void BTL_MAIN_TrainerRecordAddDelta(struct BtlMain *main, int arg, u32 delta)
 {
     if (main->setup->ownsSlots == 0)
         RECORD_AddCounter(main->setup->trainerRecord, arg, delta);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 char *BTL_MAIN_GetRegulationRules(struct BtlMain *main)
 {
     return (char *)main->setup->regulationRules;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-BOOL BTL_MAIN_IsRecordEnabledInComm(struct BtlMain *main)
+Bool BTL_MAIN_IsRecordEnabledInComm(struct BtlMain *main)
 {
-    BOOL result = FALSE;
+    Bool result = FALSE;
     if (BTL_MAIN_IsCommCompetitor(main->setup) == 1) {
         if (main->setup->recordEnabled) result = TRUE;
     }
     return result;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int BTL_MAIN_IsRecordAllowed(struct BtlMain *main)
 {
@@ -5503,46 +3753,11 @@ int BTL_MAIN_IsRecordAllowed(struct BtlMain *main)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void BTL_MAIN_NotifyLevelUp(struct BtlMain *main, struct BtlPokeParam *poke)
 {
     BTL_MAIN_UpdateFriendship(main, poke, 0);
     BTL_SERVER_NotifyLevelUp(main->server, (u32 *)poke);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void BTL_MAIN_UpdateFriendshipUseItem(struct BtlMain *main, struct BtlPokeParam *poke, int itemId)
 {
@@ -5563,45 +3778,11 @@ void BTL_MAIN_UpdateFriendshipUseItem(struct BtlMain *main, struct BtlPokeParam 
     NATSUKI_CalcUseItem(liveMon, itemId, field->zoneId, (main->heapId & 0x7fff) | 0x8000);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void BTL_MAIN_NotifyCapture(struct BtlMain *main, u32 *captureInfo)
 {
     struct BtlServer *server = main->server;
     if (server) BTL_SERVER_NotifyCapture(server, captureInfo);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void BTL_MAIN_WriteBackResults(struct BtlMain *main)
 {
@@ -5660,23 +3841,6 @@ void BTL_MAIN_WriteBackResults(struct BtlMain *main)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int BTL_MAIN_IsCommTrainerBattle(struct BtlMain *main)
 {
     int competitor = (int)BTL_MAIN_GetCompetitor(main);
@@ -5686,24 +3850,6 @@ int BTL_MAIN_IsCommTrainerBattle(struct BtlMain *main)
     default: return 0;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int BTL_MAIN_JudgeResult(struct BtlMain *main)
 {
@@ -5727,68 +3873,15 @@ int BTL_MAIN_JudgeResult(struct BtlMain *main)
     return result;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 u16 BTL_MAIN_GetLimitTimeCommand(struct BtlMain *main)
 {
     return main->limitTimeCommand;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Leaf with no calls and no pool; 4 instructions, 8 bytes: movs r1, #0x11; lsls r1, r1, #6; ldrh r0, [r0, r1]; bx lr.
  */
 u16 BTL_MAIN_GetLimitTimeGame(struct BtlMain *main) { return main->limitTimeGame; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int BTL_MAIN_IsOwnWindowWaiting(struct BtlMain *main)
 {
@@ -5801,23 +3894,6 @@ int BTL_MAIN_IsOwnWindowWaiting(struct BtlMain *main)
     return BTL_CLIENT_IsWindowWaiting(main->clients[main->ownClientId]);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int BTL_MAIN_CheckOwnWindowDone(struct BtlMain *main)
 {
     int done;
@@ -5829,23 +3905,6 @@ int BTL_MAIN_CheckOwnWindowDone(struct BtlMain *main)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void BTL_MAIN_CopyClientParty(struct BtlMain *main, u8 client, void *dst)
 {
     int index;
@@ -5854,23 +3913,6 @@ void BTL_MAIN_CopyClientParty(struct BtlMain *main, u8 client, void *dst)
     party = main->setup->party[index];
     if (party != 0) POKEPARTY_Copy(dst, party);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void BTL_MAIN_CopyClientPlayerStatus(struct BtlMain *main, u8 client, void *dst)
 {
@@ -5881,47 +3923,12 @@ void BTL_MAIN_CopyClientPlayerStatus(struct BtlMain *main, u8 client, void *dst)
     if (status != 0) MYSTATUS_Copy(dst, status);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void BTL_MAIN_StoreClientVoiceFlag(struct BtlMain *main, int client)
 {
     int index;
     index = BTL_MAIN_GetRelativeClientIndex(main->ownClientId, client);
     main->setup->voiceFlags[index] = BTL_MAIN_GetClientVoiceFlag(main, client);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void BTL_MAIN_StoreRecorderEntry(struct BtlMain *main)
 {
@@ -5938,23 +3945,6 @@ void BTL_MAIN_StoreRecorderEntry(struct BtlMain *main)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 u8 BTL_MAIN_GetRelativeClientIndex(int ownClient, int client)
 {
     u8 ownParity;
@@ -5965,24 +3955,6 @@ u8 BTL_MAIN_GetRelativeClientIndex(int ownClient, int client)
     if (ownParity == clientParity) return 2;
     return client <= 1U ? 1 : 3;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * BTL_CLIENT_SetView takes two arguments (its own file: `p->v = v`), and the
@@ -6014,23 +3986,6 @@ void BTL_MAIN_RestartBattle(struct BtlMain *main, u16 stepArg)
     BTL_SERVER_Restart(main->server);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void BTL_MAIN_StartClientMainSteps(struct BtlMain *main)
 {
     unsigned int i;
@@ -6039,46 +3994,10 @@ void BTL_MAIN_StartClientMainSteps(struct BtlMain *main)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 u32 BTL_MAIN_GetServerFlow(struct BtlMain *main)
 {
     return (u32)BTL_SERVER_GetFlow(main->server);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void BTL_SETUP_ClearResultStats(struct BattleSetupParam *setup)
 {
@@ -6095,24 +4014,6 @@ void BTL_SETUP_ClearResultStats(struct BattleSetupParam *setup)
     setup->moveUseTotal = 0;
     setup->hpSum = 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void BTL_MAIN_StoreResultStats(struct BtlMain *main)
 {

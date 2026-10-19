@@ -30,7 +30,7 @@
  *   GX_SetBankForSubOBJ   0x0208074C  arm
  *   GFL_HEAP_Free  0x020307B0  arm
  */
-#include "double3Ddisp_shared_types.h"
+#include "../types.h"
 
 union OamEntry {
     u32 w[2];

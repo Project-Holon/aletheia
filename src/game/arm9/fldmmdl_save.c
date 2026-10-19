@@ -18,13 +18,8 @@
  *   FLDMMDL_LoadObjCodeParam   0x0216E2E8  thumb  ov010
  */
 #include "../ov010/fldmmdl_types.h"
-#include "fldmmdl_save_shared_types.h"
 
-typedef unsigned short u16;
-
-typedef short s16;
-
-typedef signed char    s8;
+#include "../types.h"
 
 /*
  * The 0x50-byte packed field model: the network form of one Mmdl, built by

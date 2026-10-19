@@ -78,16 +78,10 @@
 #include "dwc_http_types.h"
 #include "dwc_auth_types.h"
 
-struct DWCWiFiInfo;
-typedef signed int     s32;
 
-typedef unsigned int   u32;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef unsigned char  u8;
-
-typedef struct OSMutex { char pad[0x18]; } OSMutex;
+#include "../sdk_os.h"
 
 typedef struct DWCHttp {
     char pad0[0x1020];
@@ -119,15 +113,6 @@ typedef struct DWCAuthGlobal {
     unsigned long long userid;
 } DWCAuthGlobal;
 
-typedef struct DWCCalInfo {
-    char data[0x94];
-} DWCCalInfo;
-
-typedef struct {
-    int reserved0;
-    void *current;
-} OSThreadInfo;
-
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void OS_InitMutex(OSMutex *mutex);
 extern int OS_IsThreadTerminated(void *thread);
@@ -141,15 +126,15 @@ extern void DWC_Http_Destroy(char *http);
 extern void MI_CpuCopy8(void *src, void *dst, unsigned long size);
 extern int strcmp(const char *, const char *);
 extern int DWC_Http_Create(DWCHttp *http, DWCHttpParam *param);
-extern void DWCi_BM_GetWiFiInfo(struct DWCWiFiInfo *buf);
+extern void DWCi_BM_GetWiFiInfo(DWCWiFiInfo *buf);
 extern int DWC_Http_FinishHeader(char *http);
 extern unsigned long OS_GetThreadPriority(void *thread);
 extern void DWC_Http_StartThread(char *http, unsigned int prio);
 extern unsigned long long OS_GetTick(void);
 extern void OS_Sleep(unsigned long msec);
 extern int DWC_Http_ParseResult(DWCHttp *http, int noparsebody);
-extern int DWCi_AUTH_UpDateWiFiID(struct DWCWiFiInfo *wifiinfo, void *work);
-extern int DWCi_AUTH_RemakeWiFiID(struct DWCWiFiInfo *wifiinfo);
+extern int DWCi_AUTH_UpDateWiFiID(DWCWiFiInfo *wifiinfo, void *work);
+extern int DWCi_AUTH_RemakeWiFiID(DWCWiFiInfo *wifiinfo);
 extern int DWCi_AUTH_MakeWiFiID(void *work);
 extern char *DWC_Http_GetResult(char *http, char *label);
 extern int DWC_Auth_SetNasTimeDiff(char *datestr);
@@ -159,7 +144,7 @@ extern s32 strtol(u32 s, u32 *endptr, u32 base);
 extern int strlen(const u8 *s);
 extern int DWC_Http_GetRawResult(char *http, char *label, char *buffer, int buffer_len);
 extern int DWC_Http_Add_PostBase64Item(DWCHttp *http, char *label, char *data, unsigned long data_len);
-extern int DWC_Auth_GetCalInfoFromWiFiInfo(DWCCalInfo *cal, struct DWCWiFiInfo *wifiinfo);
+extern int DWC_Auth_GetCalInfoFromWiFiInfo(DWCCalInfo *cal, DWCWiFiInfo *wifiinfo);
 extern int DWC_Auth_SetCalInfoToHttp(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
 extern int wcslen(const u16 *s);
 void DWC_Auth_SetCustomNas(char *v);
@@ -182,7 +167,7 @@ extern DWCHttpParam gDwcHttpParamArg;
 extern char gDwcAuthNasUrl[];
 extern DWCAuthGlobal gDwcAuthGlobal;
 extern DWCAuth *gDwcAuth;
-extern struct DWCWiFiInfo gDwcWiFiInfo;
+extern DWCWiFiInfo gDwcWiFiInfo;
 extern OSThreadInfo gMslRefToken;
 extern int errno;
 extern char gDwcAuthLabelDate[];
@@ -202,20 +187,15 @@ extern char gDwcAuthPostValueIsWfc[];
 extern char gDwcAuthPostLabelIsWfc[];
 extern char gDwcAuthPostLabelIngamesn[];
 
-
 void DWC_Auth_SetCustomNas(char *v)
 {
     g_021A2358.url = (char *)v;
 }
 
-
-
 char *DWC_Auth_GetCustomNas(void)
 {
 	return g_021A2358.url;
 }
-
-
 
 /*
  * sdk:      DWC_Auth_Create (libdwcauth.TWL.HYB.a dwc_auth.o)
@@ -245,8 +225,6 @@ int DWC_Auth_Create(DWCAuthParam *param, DWCHttp *http)
     return 0;
 }
 
-
-
 /*
  * sdk:      DWCi_Auth_StartThread (libdwcauth.TWL.HYB.a(dwc_auth.o))
  */
@@ -261,10 +239,6 @@ void DWCi_Auth_StartThread(void)
 	OS_CreateThread(gDwcAuthGlobal.auth->thread, DWCi_Auth_Thread, &gDwcAuth, gDwcAuthGlobal.auth->stack + 0x1000, 0x1000, 0x10);
 	OS_WakeupThreadDirect(gDwcAuthGlobal.auth->thread);
 }
-
-
-
-
 
 /*
  * sdk:      DWC_Auth_Abort (libdwcauth.TWL.HYB.a(dwc_auth.o))
@@ -285,10 +259,6 @@ void DWC_Auth_Abort(void)
 	OS_JoinThread(gDwcAuthGlobal.auth->thread);
 }
 
-
-
-
-
 /*
  * sdk:      DWC_Auth_Destroy (libdwcauth.TWL.HYB.a(dwc_auth.o))
  */
@@ -305,10 +275,6 @@ void DWC_Auth_Destroy(void)
 	gDwcAuthGlobal.auth = 0;
 }
 
-
-
-
-
 /*
  * sdk:      DWC_Auth_Join (libdwcauth.TWL.HYB.a(dwc_auth.o))
  */
@@ -320,10 +286,6 @@ void DWC_Auth_Join(void)
 		return;
 	OS_JoinThread(gDwcAuthGlobal.auth->thread);
 }
-
-
-
-
 
 /*
  * sdk:      DWC_Auth_GetError (libdwcauth.TWL.HYB.a(dwc_auth.o))
@@ -340,8 +302,6 @@ int DWC_Auth_GetError(void)
 	return error;
 }
 
-
-
 /*
  * sdk:      DWC_Auth_GetResult (libdwcauth.TWL.HYB.a(dwc_auth.o))
  */
@@ -355,8 +315,6 @@ void DWC_Auth_GetResult(int *result)
 	if (result[0] >= 20100)
 		result[0] = -result[0];
 }
-
-
 
 /*
  * sdk:      DWCi_Auth_Start (libdwcauth.TWL.HYB.a dwc_auth.o)
@@ -394,10 +352,6 @@ int DWCi_Auth_Start(int getwifiinfofromflash)
     DWC_Http_StartThread((char *)gDwcAuthGlobal.auth->http, OS_GetThreadPriority(gMslRefToken.current) - 1);
     return 0;
 }
-
-
-
-
 
 /*
  * sdk:      DWCi_Auth_Thread (libdwcauth.TWL.HYB.a dwc_auth.o)
@@ -484,10 +438,6 @@ void DWCi_Auth_Thread(void *arg)
     }
 }
 
-
-
-
-
 /*
  * sdk:      DWCi_Auth_ParseHttp (libdwcauth.TWL.HYB.a dwc_auth.o)
  */
@@ -547,10 +497,6 @@ int DWCi_Auth_ParseHttp(void)
     }
 }
 
-
-
-
-
 /*
  * sdk:      DWCi_Auth_FillResult (libdwcauth.TWL.HYB.a dwc_auth.o)
  */
@@ -596,7 +542,7 @@ int DWCi_Auth_FillResult(void)
         DWC_Http_GetBase64DecodedResult((char *)gDwcAuthGlobal.auth->http, gDwcAuthLabelChallenge, gDwcAuthGlobal.auth->result.challenge, 9);
         DWC_Http_GetBase64DecodedResult((char *)gDwcAuthGlobal.auth->http, gDwcAuthLabelDateTime, gDwcAuthGlobal.auth->result.datetime, 0xf);
         DWC_Http_GetRawResult((char *)gDwcAuthGlobal.auth->http, gDwcAuthLabelSetCookie, gDwcAuthGlobal.auth->result.cookie, 0x41);
-        gDwcAuthGlobal.auth->result.cookieEnd = 0;
+        gDwcAuthGlobal.auth->result.cookie[0x2b] = 0;
         if (returncode != 40)
             gDwcAuthGlobal.state = 1;
         else
@@ -604,8 +550,6 @@ int DWCi_Auth_FillResult(void)
     }
     return 0;
 }
-
-
 
 /*
  * sdk:      DWCi_Auth_Prepare_FirstPost (libdwcauth.TWL.HYB.a dwc_auth.o)
@@ -645,8 +589,6 @@ int DWCi_Auth_Prepare_FirstPost(DWCHttp *http, char *gsbrcd, unsigned short *ing
     }
     return 0;
 }
-
-
 
 /*
  * sdk:      DWCi_Auth_SetError (libdwcauth.TWL.HYB.a(dwc_auth.o))

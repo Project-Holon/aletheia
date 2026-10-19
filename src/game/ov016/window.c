@@ -72,9 +72,7 @@
 
 struct tagCOORD;
 struct tagRECT;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
+#include "../types.h"
 
 typedef unsigned char bool;
 
@@ -109,8 +107,6 @@ typedef enum {
     EFF_NONE = 0,
     EFF_HIDE = 0x200
 } Eff;
-
-typedef unsigned int   u32;
 
 extern u16 *DWCi_MSGlGetEx(void *msg, int id, int n, int num);
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
@@ -169,7 +165,6 @@ extern signed char sWindowTable6[][2];
 extern u16 sWindowTable13[][2];
 extern u16 sWindowTable12[][2];
 extern struct MemWinT *gMemWindow;
-
 
 /*
  * closed (2026-10-01, wave 3 lane08): draft semantics were wrong in the
@@ -243,13 +238,11 @@ void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num)
         gWindowWork->task = DWCi_TSKlForm(1, (void (*)(void *, void *))taskMove, 0, 0x78);
 }
 
-
 void DWCi_WINlEnd(void)
 {
     DWCi_TSKlDelete(0, MemWin->task);
     MemWin->task = DWCi_TSKlForm(1, taskEnd, 0, 0x78);
 }
-
 
 /*
  * Signed byte at +0x1b of the object behind the global pointer.
@@ -264,7 +257,6 @@ signed char DWCi_WINlGet(void)
     return *(signed char *)(*(char **)0x021DE658 + 0x1b);
 }
 
-
 /*
  * True when the global pointer at 0x021DE658 is non-null.
  * Addresses are Black-image addresses.
@@ -278,7 +270,6 @@ int DWCi_WINlIsInit(void)
     return *(void **)0x021DE658 != 0;
 }
 
-
 /*
  * sdk:      taskV (libdwcutil.TWL.HYB.a window.o)
  */
@@ -290,7 +281,6 @@ static void taskV(void *task)
         return;
     DWCi_TSKlSetParam(task, (unsigned int)taskMove);
 }
-
 
 /*
  * 2026-10-01: closed with the DWARF prototypes (DWCi_TSKlForm takes a
@@ -336,7 +326,6 @@ static void taskMove(void *task)
     DWCi_TSKlDelete(1, task);
 }
 
-
 /*
  * sdk:      taskMain (libdwcutil.TWL.HYB.a window.o)
  */
@@ -366,7 +355,6 @@ static void taskMain(void *task, void *work)
     gWindowWork->input = -1;
 }
 
-
 /*
  * sdk:      taskMain1 (libdwcutil.TWL.HYB.a window.o)
  */
@@ -379,7 +367,6 @@ static void taskMain1(void *task, void *work)
     DWCi_TSKlDelete(0, task);
     gWindowWork->task = DWCi_TSKlForm(1, taskEnd, 0, 0x78);
 }
-
 
 /*
  * sdk:      disp (libdwcutil.TWL.HYB.a window.o)
@@ -425,7 +412,6 @@ static void disp(int y)
     DWCi_GXlSetWndPosition(0, 0, &r);
 }
 
-
 /*
  * sdk:      dispCell (libdwcutil.TWL.HYB.a window.o)
  */
@@ -448,7 +434,6 @@ static void dispCell(void *cell, int y)
     }
 }
 
-
 /*
  * sdk:      pushButton (libdwcutil.TWL.HYB.a window.o)
  */
@@ -464,7 +449,6 @@ static void pushButton(int idx)
     DWCi_CELLlSetPriority(gWindowWork->button[idx], -1, 0);
 }
 
-
 void taskEnd(void *task, void *work)
 {
     MemWin->count++;
@@ -472,7 +456,6 @@ void taskEnd(void *task, void *work)
         return;
     DWCi_TSKlChangeFunc(task, taskEnd1);
 }
-
 
 /*
  * sdk:      taskEnd1 (libdwcutil.TWL.HYB.a window.o)
@@ -493,7 +476,6 @@ static void taskEnd1(void *task)
         DWCi_TSKlSetParam(task, (unsigned int)taskEnd3);
 }
 
-
 /*
  * sdk:      taskEnd2 (libdwcutil.TWL.HYB.a window.o)
  */
@@ -505,7 +487,6 @@ static void taskEnd2(void *task)
         return;
     DWCi_TSKlSetParam(task, (unsigned int)taskEnd3);
 }
-
 
 /*
  * sdk:      taskEnd3 (libdwcutil.TWL.HYB.a window.o)

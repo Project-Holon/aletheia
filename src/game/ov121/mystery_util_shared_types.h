@@ -39,11 +39,7 @@ struct Ctx;
 
 struct Vec2;
 
-typedef signed int     s32;
-
-typedef signed short s16;
-
-typedef unsigned long long u64;
+#include "../types.h"
 
 /* 2D position in pixels (MYSTERY_UTIL_AlignText, CLACT actor surface). */
 typedef struct {s16 x,y;} MysteryUtilVec2;

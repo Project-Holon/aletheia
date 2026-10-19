@@ -104,11 +104,7 @@ struct Bank;
 struct BgTemplate;
 struct DispConfig;
 struct Cfg;
-typedef unsigned int u32;
-
-typedef unsigned short u16;
-
-typedef unsigned char u8;
+#include "../types.h"
 
 /* The zukan-toroku graphic proc work (0x34 bytes). */
 typedef struct ZukanTorokuWork {
@@ -258,10 +254,6 @@ extern unsigned d_0220BAE8[];
 extern const unsigned d_0220BABC[];
 extern const ZukanTorokuBgEntry d_0220BB18[];
 
-
-
-
-
 int ZUKAN_TOROKU_GRAPHIC_Init(void *owner,int unused,u32 *args)
 {
     ZukanTorokuWork *work;
@@ -287,10 +279,6 @@ int ZUKAN_TOROKU_GRAPHIC_Init(void *owner,int unused,u32 *args)
     return 1;
 }
 
-
-
-
-
 /*
  * lever: extern overlay-id addresses preserve the pooled FS_OVERLAY_ID values.
  */
@@ -310,10 +298,6 @@ int ZUKAN_TOROKU_GRAPHIC_Exit(void *a,int b,int c,ZukanTorokuWork *work)
     GF_OVERLAY_Unload((OverlayId)overlay67);
     return 1;
 }
-
-
-
-
 
 /*
  * ABI: 02035C60 is void in its matched forwarder, but this caller keeps and tests live r0.
@@ -387,10 +371,6 @@ int ZUKAN_TOROKU_GRAPHIC_Main(void *unused,int unused2,u32 *args,ZukanTorokuWork
     return done;
 }
 
-
-
-
-
 void ZUKAN_TOROKU_GRAPHIC_CreateBg(ZukanTorokuWork *work)
 {
     void *r;
@@ -406,17 +386,7 @@ void ZUKAN_TOROKU_GRAPHIC_CreateBg(ZukanTorokuWork *work)
     BG_SYS_PushTile(1);
 }
 
-
-
-
-
 void ZUKAN_TOROKU_GRAPHIC_DeleteBg(ZukanTorokuWork *work){u32 v,hi;v=work->bgHandle;hi=v>>16;BG_SYS_FreeTileRun(1,(u16)v,(u16)hi);}
-
-
-
-
-
-
 
 void ZUKAN_TOROKU_GRAPHIC_ClearTask(int unused, ZukanTorokuWork *work)
 {
@@ -427,10 +397,6 @@ void ZUKAN_TOROKU_GRAPHIC_ClearTask(int unused, ZukanTorokuWork *work)
         work->bgActive = 0;
     }
 }
-
-
-
-
 
 /*
  * volatile: hardware accesses 0x0220B33E-0x0220B352.
@@ -456,10 +422,6 @@ void *ZUKAN_TOROKU_GRAPHIC_CreateDisplay(int a,int heap)
     return display;
 }
 
-
-
-
-
 /*
  * volatile: hardware accesses at 0x0220B3D6-0x0220B3EC.
  */
@@ -477,32 +439,15 @@ void ZUKAN_TOROKU_GRAPHIC_DeleteDisplay(ZukanTorokuDisplay *display)
     GFL_HEAP_Free(display);
 }
 
-
-
-
-
 void ZUKAN_TOROKU_GRAPHIC_Draw(ZukanTorokuDisplay *display){ZUKAN_TOROKU_GRAPHIC_DrawActors(&display->actors);ZUKAN_TOROKU_GRAPHIC_UpdateBg(display);}
-
-
-
-
 
 void ZUKAN_TOROKU_GRAPHIC_Update(void *unused){}
 
-
-
-
 void ZUKAN_TOROKU_GRAPHIC_UpdateSub(void *unused){}
-
-
-
 
 u32 ZUKAN_TOROKU_GRAPHIC_GetDisplay(ZukanTorokuDisplay *display){return ZUKAN_TOROKU_GRAPHIC_GetWord((u32*)&display->actors);}
 
-
-
 void ZUKAN_TOROKU_GRAPHIC_VBlank(void*unused,ZukanTorokuDisplay *display){ZUKAN_TOROKU_GRAPHIC_ResetDisplay(display);ZUKAN_TOROKU_GRAPHIC_VBlankActors(&display->actors);}
-
 
 void ZUKAN_TOROKU_GRAPHIC_InitBg(ZukanTorokuDisplay *display,int heap)
 {
@@ -520,19 +465,11 @@ void ZUKAN_TOROKU_GRAPHIC_InitBg(ZukanTorokuDisplay *display,int heap)
     }
 }
 
-
 void ZUKAN_TOROKU_GRAPHIC_ExitBg(ZukanTorokuDisplay *display){u32 i;for(i=0;i<4;i++)BG_SYS_FreeLayerBuf((u8)d_0220BB18[i].bgId);BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(display,0,4);}
-
-
 
 void ZUKAN_TOROKU_GRAPHIC_UpdateBg(ZukanTorokuDisplay *display){}
 
-
-
 void ZUKAN_TOROKU_GRAPHIC_ResetDisplay(ZukanTorokuDisplay *display){BG_SYS_Update();}
-
-
-
 
 void ZUKAN_TOROKU_GRAPHIC_InitActors(struct Bank **actors, int a, int b)
 {
@@ -544,18 +481,10 @@ void ZUKAN_TOROKU_GRAPHIC_InitActors(struct Bank **actors, int a, int b)
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
-
-
 void ZUKAN_TOROKU_GRAPHIC_DeleteActors(struct Bank**p){CLACT_DeleteUnit(*p);CLACT_ExitSystem();MI_CpuFill8(p,0,4);}
-
-
 
 void ZUKAN_TOROKU_GRAPHIC_DrawActors(void*p){CLACT_DrawSystem();}
 
-
-
 void ZUKAN_TOROKU_GRAPHIC_VBlankActors(void*p){CLACT_VBlankSystem();}
-
-
 
 u32 ZUKAN_TOROKU_GRAPHIC_GetWord(u32*p){return *p;}

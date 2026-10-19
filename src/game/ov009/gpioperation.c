@@ -97,7 +97,8 @@ typedef struct GPRegisterCdKeyResponseArg {
     int result;
 } GPRegisterCdKeyResponseArg;
 
-typedef unsigned long u32;
+#define GAME_TYPES_U32_LONG
+#include "../types.h"
 
 struct GPISearchData {
     char pad0[4];
@@ -147,7 +148,6 @@ int gpiOperationsAreBlocking(char *p);
 int gpiProcessOperation(void **connection, GPIOperation *operation, char *input);
 extern char gGpiOperationErrorOutOfMemory[];
 extern char gGpiOperationDebugInvalidTypeFmt[];
-
 
 /*
  * sdk:      gpiFailedOpCallback (libdwcgsgp.TWL.HYB.a gpioperation.o)
@@ -303,8 +303,6 @@ int gpiFailedOpCallback(void **connection, const GPIOperation *operation)
     return 0;
 }
 
-
-
 int gpiAddOperation(void **connection, int type, void *data,
                     GPIOperation **op, int blocking,
                     void (*callback)(void **, void *, void *), void *param)
@@ -337,8 +335,6 @@ int gpiAddOperation(void **connection, int type, void *data,
     return 0;
 }
 
-
-
 /*
  * sdk:      gpiDestroyOperation (libdwcgsgp.TWL.HYB.a(gpioperation.o))
  */
@@ -362,9 +358,6 @@ void gpiDestroyOperation(void **connection, GPIOperation *operation)
     gsifree(operation);
 }
 
-
-
-
 /*
  * sdk:      gpiRemoveOperation (libdwcgsgp.TWL.HYB.a(gpioperation.o))
  */
@@ -387,8 +380,6 @@ void gpiRemoveOperation(void **connection, GPIOperation *operation)
     }
 }
 
-
-
 /*
  * sdk:      gpiFindOperationByID (libdwcgsgp.TWL.HYB.a(gpioperation.o))
  */
@@ -408,8 +399,6 @@ int gpiFindOperationByID(void **connection, GPIOperation **operation, int id)
     return 0;
 }
 
-
-
 /*
  * Walks the +0x5c4 list; true as soon as a node has a non-zero +8 word and
  * a first word other than 3.
@@ -424,9 +413,6 @@ int gpiOperationsAreBlocking(char *p)
     }
     return 0;
 }
-
-
-
 
 /*
  * sdk:      gpiProcessOperation (libdwcgsgp.TWL.HYB.a(gpioperation.o))

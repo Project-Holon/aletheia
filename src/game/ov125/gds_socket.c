@@ -94,12 +94,7 @@
  *   memcpy 0x02092344 arm
  */
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef unsigned long long u64;
-typedef signed int s32;
-typedef signed short s16;
+#include "../types.h"
 
 #include "gds_rap_types.h"
 #include "../ov009/cps_ssl_types.h"
@@ -107,7 +102,7 @@ typedef signed short s16;
 extern void *__builtin__clear(void *dest, unsigned long size);
 
 typedef struct GdsRequestIdTable { int ids[8]; } GdsRequestIdTable;
-struct OSMutex;
+#include "../sdk_os.h"
 
 extern void OS_UnlockMutex(struct OSMutex *mutex);
 extern void OS_InitMutex(struct OSMutex *mutex);
@@ -220,7 +215,6 @@ extern CPSSslConnection gGdsSslTemplate;
 extern CPSSslConnection *gGdsSslTemplatePtr;
 extern SOCLCaInfo *sGdsRootCaList[];
 
-
 void GDS_SOCKET_Reset(void)
 {
     GDS_SOCKET_ResetConnection();
@@ -249,8 +243,6 @@ int GDS_SOCKET_Start(const char *host, int port, GdsClientInfo *client)
     return 1;
 }
 
-
-
 void GDS_SOCKET_ResetConnection(void) {
  GDS_SOCKET_Close();
  if(gGdsSocket->sendBuffer) {
@@ -269,8 +261,6 @@ void GDS_SOCKET_ResetConnection(void) {
  gGdsSocket->errorCode=0;
  GDS_SOCKET_InitSsl();
 }
-
-
 
 /*
  * lever: case 6 uses an explicit nested if for the error-13 split; the ternary spelling compiled four bytes short.
@@ -344,11 +334,7 @@ void GDS_SOCKET_RunConnection(void)
     GDS_SOCKET_Unlock();
 }
 
-
-
 typedef struct GdsLengthWord { u8 b[4]; } GdsLengthWord;
-
-
 
 /*
  * 2026-10-05 (user decision): the long long temp for the call result is accepted as plausible original design (a 64-bit size type).
@@ -418,9 +404,6 @@ int GDS_SOCKET_SendRequest(int requestId, void *body, void *replyBuffer, int bod
     return 1;
 }
 
-
-
-
 /*
  * Addresses are Black-image addresses.
  */
@@ -429,16 +412,11 @@ unsigned int GDS_SOCKET_GetStateUnlocked(void)
     return gGdsSocket->state;
 }
 
-
 void *GDS_SOCKET_GetReplyUnlocked(void) {GDS_SOCKET_Lock(); if(GDS_SOCKET_GetStateUnlocked()!=GDS_SOCKET_STATE_DONE){GDS_SOCKET_Unlock();return 0;} GDS_SOCKET_Unlock();return gGdsSocket->receiveBuffer+4;}
-
 
 int GDS_SOCKET_GetReplySizeUnlocked(void){GDS_SOCKET_Lock();if(GDS_SOCKET_GetStateUnlocked()!=GDS_SOCKET_STATE_DONE){GDS_SOCKET_Unlock();return -1;}else{GDS_SOCKET_Unlock();return gGdsSocket->receiveSize;}}
 
-
 int GDS_SOCKET_GetErrorUnlocked(void){GDS_SOCKET_Lock();if(GDS_SOCKET_GetStateUnlocked()!=GDS_SOCKET_STATE_FAILED){GDS_SOCKET_Unlock();return 0;}else{GDS_SOCKET_Unlock();return gGdsSocket->errorCode;}}
-
-
 
 /*
  * Addresses are Black-image addresses.
@@ -448,22 +426,17 @@ char *GDS_SOCKET_Alloc(int size)
     return DWC_Alloc(0, size);
 }
 
-
 void GDS_SOCKET_Free(int ptr){if(ptr)DWC_Free(0,(void *)ptr,0);}
-
-
 
 void GDS_SOCKET_Lock(void)
 {
     OS_LockMutex((struct OSMutex *)gGdsSocketMutex);
 }
 
-
 void GDS_SOCKET_Unlock(void)
 {
     OS_UnlockMutex((struct OSMutex *)gGdsSocketMutex);
 }
-
 
 int GDS_SOCKET_InitLock(void)
 {
@@ -471,51 +444,22 @@ int GDS_SOCKET_InitLock(void)
     return 1;
 }
 
-
-
-
-
 int GDS_SOCKET_Nop(void *p){return 1;}
-
-
-
-
 
 int GDS_SOCKET_InitTick(void){if(!OS_IsTickAvailable())OS_InitTick();gGdsSocket->threadPriority=16;return 1;}
 
-
-
-
 void GDS_SOCKET_NopVoid(void){}
-
-
-
 
 void GDS_SOCKET_ThreadEntry(void *p)
 {
     GDS_SOCKET_RunConnection();
 }
 
-
-
-
-
-
-
-
 int GDS_SOCKET_StartThread(void) {
  OS_CreateThread(gGdsConnectThread, GDS_SOCKET_ThreadEntry, 0, gGdsConnectThreadStackTop, 0x800, gGdsSocket->threadPriority);
  OS_WakeupThreadDirect(gGdsConnectThread);
  return 1;
 }
-
-
-
-
-
-
-
-
 
 int GDS_SOCKET_IsDottedQuad(const char *s) {
  int digits=0, dots=0;
@@ -534,14 +478,6 @@ int GDS_SOCKET_IsDottedQuad(const char *s) {
  return 0;
 }
 
-
-
-
-
-
-
-
-
 int GDS_SOCKET_ResolveHost(const char *name, char *out) {
  SOCHostEnt *host;
  if (!GDS_SOCKET_IsDottedQuad(name)) {
@@ -554,12 +490,6 @@ int GDS_SOCKET_ResolveHost(const char *name, char *out) {
  }
  return 1;
 }
-
-
-
-
-
-
 
 /*
  * lever: final halfword swap ORs the right-shifted half before the left-shifted half; reversing them left two byte mismatches.
@@ -588,11 +518,6 @@ int GDS_SOCKET_OpenAndResolve(void)
     return 1;
 }
 
-
-
-
-
-
 void GDS_SOCKET_Close(void) {
  if (gGdsSocket->socket == -1) return;
  SOC_Shutdown(gGdsSocket->socket, 2);
@@ -600,11 +525,6 @@ void GDS_SOCKET_Close(void) {
  gGdsSocket->socket = -1;
  GDS_SOCKET_FreeSslServerName(&gGdsSslConnection);
 }
-
-
-
-
-
 
 /*
  * lever: port byte swap keeps both explicit masks; timeout casts after unsigned 64-bit subtraction, preserving the original subs before the signed comparison.
@@ -616,7 +536,7 @@ int GDS_SOCKET_Connect(void)
     address.len = 8;
     address.family = 2;
     address.port = ((gGdsHostTail->port >> 8) & 0xff) | ((gGdsHostTail->port << 8) & 0xff00);
-    address.addr.addr = gGdsSocket->serverAddress;
+    address.addr = gGdsSocket->serverAddress;
     start = OS_GetTick() / 0x7fd88;
     for (;;) {
         result = SOC_Connect(gGdsSocket->socket, &address);
@@ -642,12 +562,6 @@ int GDS_SOCKET_Connect(void)
     }
     return 1;
 }
-
-
-
-
-
-
 
 int GDS_SOCKET_Send(void)
 {
@@ -681,12 +595,6 @@ int GDS_SOCKET_Send(void)
     return 1;
 }
 
-
-
-
-
-
-
 void GDS_SOCKET_ReceiveThread(void *arg)
 {
     int count;
@@ -701,12 +609,6 @@ void GDS_SOCKET_ReceiveThread(void *arg)
         GDS_SOCKET_Sleep(1);
     }
 }
-
-
-
-
-
-
 
 int GDS_SOCKET_Receive(void)
 {
@@ -770,14 +672,6 @@ int GDS_SOCKET_Receive(void)
     return 1;
 }
 
-
-
-
-
-
-
-
-
 /*
  * ARM tail call: ldr ip, =target; bx ip (the form mwcc emits, as in ov009 DWCi_ProcessMatchSynPacketSub.c).
  */
@@ -786,22 +680,7 @@ void GDS_SOCKET_Sleep(int msec)
     OS_Sleep(msec);
 }
 
-
-
-
-
-
-
-
-
 #pragma opt_propagation off
-
-
-
-
-
-
-
 
 int GDS_SOCKET_WaitToken(void)
 {
@@ -819,7 +698,7 @@ int GDS_SOCKET_WaitToken(void)
         r = DWC_SVLProcess();
         if (r == 3) {
             GdsSvlToken *token = &gGdsSocket->client.svlToken;
-            *token = *(GdsSvlToken *)svl.svlToken;
+            *token = *(GdsSvlToken *)svl.svltoken;
             *(GdsClientInfo *)(gGdsSocket->sendBuffer + 8) = gGdsSocket->client;
             gGdsSocket->tokenReady = 1;
             return 1;
@@ -844,31 +723,9 @@ int GDS_SOCKET_WaitToken(void)
     }
 }
 
-
-
-
-
-
-
-
 #pragma opt_propagation reset
 
-
-
-
-
-
-
-
 void GDS_SOCKET_NopBegin(void){}
-
-
-
-
-
-
-
-
 
 /*
  * ARM tail call: ldr ip, =target; bx ip.
@@ -878,14 +735,6 @@ void GDS_SOCKET_InitSsl(void)
     GDS_SOCKET_InitSslTemplate();
 }
 
-
-
-
-
-
-
-
-
 /*
  * Addresses are Black-image addresses.
  */
@@ -894,66 +743,27 @@ void GDS_SOCKET_Begin(GdsClientInfo *client, const char *host, int port)
     GDS_SOCKET_Start(host, port, client);
 }
 
-
-
-
-
-
-
 void GDS_SOCKET_Shutdown(void)
 {
     GDS_SOCKET_Reset();
 }
 
-
-
-
-
 unsigned GDS_SOCKET_GetState(void) {unsigned v;GDS_SOCKET_Lock();v=GDS_SOCKET_GetStateUnlocked();GDS_SOCKET_Unlock();return v;}
-
-
-
 
 int GDS_SOCKET_GetError(void)
 {
     return GDS_SOCKET_GetErrorUnlocked();
 }
 
-
-
-
-
-
-
-
-
 void *GDS_SOCKET_GetReply(void)
 {
     return GDS_SOCKET_GetReplyUnlocked();
 }
 
-
-
-
-
-
-
-
-
-
 int GDS_SOCKET_GetReplySize(void)
 {
     return GDS_SOCKET_GetReplySizeUnlocked();
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * ARM tail call: ldr ip, =target; bx ip.
@@ -963,41 +773,17 @@ int GDS_SOCKET_GetMaxReplySize(int requestId)
     return GDS_SOCKET_GetMaxReplySizeOf(requestId);
 }
 
-
-
-
-
-
-
-
-
 int GDS_SOCKET_SendUploadEntry(const GdsEntryBlocks *entry, void *replyBuffer) {
  GdsEntryBlocks copy;
  copy = *entry;
  return GDS_SOCKET_SendRequest(GDS_REQUEST_UPLOAD_ENTRY, &copy, replyBuffer, -1);
 }
 
-
-
-
-
-
-
-
-
 int GDS_SOCKET_SendDownloadEntries(int key, void *replyBuffer) {
  GdsPacketDownload p;
  p.reserved0 = 0; p.reserved1 = 0; p.key = key;
  return GDS_SOCKET_SendRequest(GDS_REQUEST_DOWNLOAD_ENTRIES, &p, replyBuffer, -1);
 }
-
-
-
-
-
-
-
-
 
 int GDS_SOCKET_SendUploadVideo(const struct BattleRecSave *video, const void *ticket, int ticketLength, void *replyBuffer) {
  GdsPacketUploadVideo p={0};
@@ -1007,14 +793,6 @@ int GDS_SOCKET_SendUploadVideo(const struct BattleRecSave *video, const void *ti
  memcpy(p.ticket, ticket, ticketLength);
  return GDS_SOCKET_SendRequest(GDS_REQUEST_UPLOAD_VIDEO, &p, replyBuffer, -1);
 }
-
-
-
-
-
-
-
-
 
 /*
  * lever: The source params pointer is non-const; const swaps the initial
@@ -1028,28 +806,12 @@ int GDS_SOCKET_SendSearchByCondition(GdsSearchParams *params, void *replyBuffer)
  return GDS_SOCKET_SendRequest(GDS_REQUEST_SEARCH_VIDEOS, &p, replyBuffer, -1);
 }
 
-
-
-
-
-
-
-
-
 int GDS_SOCKET_SendSearchKind1(int limit, void *replyBuffer) {
  GdsPacketSearch p = {0};
  p.params.limit = limit;
  p.searchKind = GDS_SEARCH_KIND_1; p.tail[0] = 0; p.tail[1] = 0; p.reserved = 0;
  return GDS_SOCKET_SendRequest(GDS_REQUEST_SEARCH_VIDEOS, &p, replyBuffer, -1);
 }
-
-
-
-
-
-
-
-
 
 int GDS_SOCKET_SendSearchKind3(int limit, void *replyBuffer) {
  GdsPacketSearch p = {0};
@@ -1058,27 +820,12 @@ int GDS_SOCKET_SendSearchKind3(int limit, void *replyBuffer) {
  return GDS_SOCKET_SendRequest(GDS_REQUEST_SEARCH_VIDEOS, &p, replyBuffer, -1);
 }
 
-
-
-
-
-
-
-
-
 int GDS_SOCKET_SendSearchKind2(int limit, void *replyBuffer) {
  GdsPacketSearch p = {0};
  p.params.limit = limit;
  p.searchKind = GDS_SEARCH_KIND_2; p.tail[0] = 0; p.tail[1] = 0; p.reserved = 0;
  return GDS_SOCKET_SendRequest(GDS_REQUEST_SEARCH_VIDEOS, &p, replyBuffer, -1);
 }
-
-
-
-
-
-
-
 
 int GDS_SOCKET_SendGetVideo(u32 dataNumberLo, u32 dataNumberHi, u32 version, void *replyBuffer)
 {
@@ -1087,26 +834,12 @@ int GDS_SOCKET_SendGetVideo(u32 dataNumberLo, u32 dataNumberHi, u32 version, voi
     return GDS_SOCKET_SendRequest(GDS_REQUEST_GET_VIDEO, &p, replyBuffer, -1);
 }
 
-
-
-
-
-
-
-
 int GDS_SOCKET_SendMarkVideo(u32 dataNumberLo, u32 dataNumberHi, void *replyBuffer)
 {
     GdsPacketMarkVideo p;
     p.dataNumberLo=dataNumberLo; p.dataNumberHi=dataNumberHi;
     return GDS_SOCKET_SendRequest(GDS_REQUEST_MARK_VIDEO, &p, replyBuffer, -1);
 }
-
-
-
-
-
-
-
 
 int GDS_SOCKET_GetRequestSize(int requestId)
 {
@@ -1123,13 +856,6 @@ int GDS_SOCKET_GetRequestSize(int requestId)
     }
     return size + GDS_WIRE_HEADER_SIZE;
 }
-
-
-
-
-
-
-
 
 int GDS_SOCKET_GetMaxReplySizeOf(int requestId)
 {
@@ -1159,23 +885,10 @@ int GDS_SOCKET_GetMaxReplySizeOf(int requestId)
     return size + 8;
 }
 
-
-
-
-
-
-
-
 /*
  * extent: eight-byte leaf ends at the handed lead 0x021D8B44.
  */
 int GDS_SOCKET_SslAuthCallback(int result, CPSSslConnection *con, int level) { return 0; }
-
-
-
-
-
-
 
 void GDS_SOCKET_InitSslTemplate(void)
 {
@@ -1189,31 +902,16 @@ void GDS_SOCKET_InitSslTemplate(void)
     GDS_SOCKET_SetSslAuthCallback(GDS_SOCKET_SslAuthCallback);
 }
 
-
-
-
-
-
-
 void GDS_SOCKET_SetSslTemplate(CPSSslConnection *con)
 {
     if (con != 0) gGdsSslTemplatePtr = con;
     else gGdsSslTemplatePtr = &gGdsSslTemplate;
 }
 
-
-
-
-
-
 void GDS_SOCKET_SetSslAuthCallback(int (*callback)(int, CPSSslConnection *, int))
 {
     gGdsSslTemplatePtr->f810 = callback;
 }
-
-
-
-
 
 /*
  * Addresses are Black-image addresses.
@@ -1224,8 +922,6 @@ void GDS_SOCKET_SetRootCa(SOCLCaInfo **rootCa, int count)
     gGdsSslTemplatePtr->rootCaNum = count;
 }
 
-
-
 void GDS_SOCKET_CopySslTemplate(const char *host, CPSSslConnection *con)
 {
     MI_CpuCopy8(gGdsSslTemplatePtr, con, sizeof(CPSSslConnection));
@@ -1234,7 +930,6 @@ void GDS_SOCKET_CopySslTemplate(const char *host, CPSSslConnection *con)
         STD_CopyString(con->hostName, host);
     }
 }
-
 
 void GDS_SOCKET_FreeSslServerName(CPSSslConnection *con)
 {

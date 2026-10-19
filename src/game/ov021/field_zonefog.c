@@ -21,10 +21,7 @@
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   ARC_UTIL_LoadHandleMember  0x0204A380  arm
  */
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed char    s8;
+#include "../types.h"
 
 #define ZONEFOG_ID_NONE 0x0FFFFFFF
 #define ZONEFOG_ARC_ID  0x51

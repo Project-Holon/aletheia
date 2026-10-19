@@ -18,7 +18,7 @@
  *   NWMi_CheckState  0x027028E4  arm
  *   DC_InvalidateRange  0x020862B8  arm  arm9
  */
-typedef unsigned int u32;
+#include "../types.h"
 
 extern u32 NWMi_CheckEnableFlag(void);
 extern u32 NWMi_CheckState(u32 n, ...);

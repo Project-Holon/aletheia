@@ -57,12 +57,11 @@ typedef enum { SIDE_ZERO, SIDE_ONE } Side;
 
 typedef struct { void *str; u16 color,pad; u32 flag; } MsgDesc;
 
-typedef short s16;
+#include "../types.h"
 
 typedef struct { unsigned data; u16 tag,pad; unsigned flag; } LabelDesc;
 
 typedef struct { u16 x,y,z; u8 pad,n; } ActorTemplate;
-
 
 extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 extern void MI_CpuFill8(void *,int,u32);
@@ -151,7 +150,6 @@ IrcAppBar *IRC_APPBAR_Create(u32 unusedArg,void *clactUnit,u16 layer,u16 x,u8 pa
 }
 
 void IRC_APPBAR_Delete(IrcAppBar *bar) { APP_TASKMENU_WIN_Delete((struct TaskMenuWin *)bar->taskMenuWin); IRC_APPBAR_DeleteActors(bar); APP_TASKMENU_RES_Delete((struct TaskMenuRes *)bar->taskMenuRes); IRC_APPBAR_ReleaseResources(bar); GFL_HEAP_Free(bar); }
-
 
 void IRC_APPBAR_Update(IrcAppBar *bar)
 {

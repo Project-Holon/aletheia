@@ -74,11 +74,7 @@ typedef struct {
     InputWork *work;
 } InputStatics;
 
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef long           s32;
+#include "../types.h"
 
 typedef _Bool bool;
 
@@ -132,7 +128,6 @@ extern InputStatics gInputStatics;
 static void readKey(void);
 static void readTouch(void);
 
-
 void DWCi_IPTlInit(void)
 {
     char buf[8];
@@ -147,7 +142,6 @@ void DWCi_IPTlInit(void)
         OS_Terminate();
     DWCi_IPTlUpdate();
 }
-
 
 /*
  * Drain the channel-4 queue, then post the event at 0x021DE68C.
@@ -164,13 +158,11 @@ void DWCi_IPTlEnd(void)
     DWCi_HEAPlFree_((void *)0x021DE68C);
 }
 
-
 void DWCi_IPTlUpdate(void)
 {
     readKey();
     readTouch();
 }
-
 
 static void readKey(void)
 {
@@ -201,7 +193,6 @@ static void readKey(void)
         }
     }
 }
-
 
 /*
  * sdk:      readTouch (libdwcutil.TWL.HYB.a(input.o))
@@ -249,7 +240,6 @@ static void readTouch(void)
     }
 }
 
-
 int DWCi_IPTlCheckTrigger(unsigned int f)
 {
     int *g = (int *)0x021DE688;
@@ -259,7 +249,6 @@ int DWCi_IPTlCheckTrigger(unsigned int f)
         return 0;
     return (f & *(unsigned short *)(g[1] + 0x32)) == f;
 }
-
 
 /*
  * Gate on the hardware bit, then test the flag word at +0x34 for the whole mask.
@@ -275,7 +264,6 @@ int DWCi_IPTlCheckRepeat(unsigned int f)
     return (f & *(unsigned short *)(g[1] + 0x34)) == f;
 }
 
-
 /*
  * Gate on the hardware bit, then test the flag word at +0x36 for the whole mask.
  * Addresses are Black-image addresses.
@@ -289,7 +277,6 @@ int DWCi_IPTlCheckRelease(unsigned int f)
         return 0;
     return (f & *(unsigned short *)(g[1] + 0x36)) == f;
 }
-
 
 /*
  * Validity test for a records window: bails out unless the shared flag word
@@ -319,7 +306,6 @@ int DWCi_TPlCheck(u16 *a)
     return a[3] >= *(u16 *)(p + 0x2a);
 }
 
-
 int DWCi_TPlCheckTrigger(u16 *a)
 {
     u8 *g = (u8 *)0x021DE688;
@@ -342,7 +328,6 @@ int DWCi_TPlCheckTrigger(u16 *a)
     return a[3] >= *(u16 *)(p + 0x2a);
 }
 
-
 int DWCi_TPlCheckRepeat(u16 *a)
 {
     u8 *g = (u8 *)0x021DE688;
@@ -364,7 +349,6 @@ int DWCi_TPlCheckRepeat(u16 *a)
         return 0;
     return a[3] >= *(u16 *)(p + 0x2a);
 }
-
 
 /*
  * Validity test for a records window: bails out unless the shared flag word
@@ -394,7 +378,6 @@ int DWCi_TPlCheckRelease(u16 *a)
     return a[3] >= *(u16 *)(p + 0x2a);
 }
 
-
 /*
  * sdk:      DWCi_TPlCheckATrigger (libdwcutil.TWL.HYB.a input.o)
  *
@@ -416,7 +399,6 @@ int DWCi_TPlCheckATrigger(const AREA *a)
     return DWCi_TPlCheckTrigger((u16 *)(&r));
 }
 
-
 /*
  * sdk:      DWCi_TPlGet (libdwcutil.TWL.HYB.a input.o)
  */
@@ -433,7 +415,6 @@ int DWCi_TPlGet(COORD *c)
     *c = t->coord;
     return 1;
 }
-
 
 /*
  * sdk:      DWCi_IPTlCheckFold (libdwcutil.TWL.HYB.a input.o)

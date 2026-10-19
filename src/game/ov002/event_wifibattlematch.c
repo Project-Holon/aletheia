@@ -40,11 +40,7 @@ struct GameSystem;
 struct GameEvent;
 struct GameData;
 struct GameComm;
-typedef unsigned int u32;
-
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
+#include "../types.h"
 
 /* Parameter block read by the Wi-Fi battle match overlay (ov199), 0x14 bytes. */
 typedef struct WifiBattleMatchParam {
@@ -66,8 +62,6 @@ typedef struct WifiBattleMatchEventWork {
     u32 matchKind;
     u32 hideFieldObjects;
 } WifiBattleMatchEventWork;
-
-typedef int s32;
 
 extern struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
 extern u32 GAME_COMM_GetKind(struct GameComm *comm);
@@ -95,8 +89,6 @@ void EVENT_WIFIBATTLEMATCH_Entry(s32 gameSystem, s32 *request);
 extern char ov199_id[];
 extern char d_02213C4C[];
 extern char d_02154460[];
-
-
 
 u32 EVENT_WIFIBATTLEMATCH_Main(struct GameEvent *event, u32 *seq, WifiBattleMatchEventWork *work)
 {
@@ -156,8 +148,6 @@ u32 EVENT_WIFIBATTLEMATCH_Main(struct GameEvent *event, u32 *seq, WifiBattleMatc
     return 0;
 }
 
-
-
 /*
  * Allocator + guard + link setup, stores five constructor arguments.
  */
@@ -177,7 +167,6 @@ void *EVENT_WIFIBATTLEMATCH_Create(void *gameSystem, int fieldMap, int entryMode
     work->hideFieldObjects = 0;
     return event;
 }
-
 
 /* Overlay entry point: unpacks the four-word request and creates the event. */
 void EVENT_WIFIBATTLEMATCH_Entry(s32 gameSystem, s32 *request)

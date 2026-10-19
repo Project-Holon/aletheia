@@ -29,11 +29,7 @@
  *   @12205        0x020A84AC data
  */
 
-typedef unsigned char u8;
-
-typedef unsigned long u32;
-
-typedef int BOOL;
+#include "../types.h"
 
 typedef struct FSFile FSFile;
 
@@ -87,12 +83,10 @@ BOOL FS_CreateFileFromMemory(FSFile *p_file, void *buf, u32 size);
 extern BOOL fsi_mem_init;
 extern FSArchive fsi_arc_mem;
 
-
 u32 FS_GetFileImageTop(FSFile *file)
 {
     return file->imageTop;
 }
-
 
 int FSi_MemArchiveProc(FSFile *p_file, u32 cmd)
 {
@@ -131,12 +125,10 @@ int FSi_MemArchiveProc(FSFile *p_file, u32 cmd)
     }
 }
 
-
 static inline BOOL FS_IsArchiveLoaded(volatile const FSArchive *arc)
 {
     return (arc->flag & 2) ? 1 : 0;
 }
-
 
 /*
  * sdk:      FSi_InitMemArchive (libfs.TWL.HYB.a fs_proc_mem.o)
@@ -157,7 +149,6 @@ void FSi_InitMemArchive(void)
     }
     (void)OS_RestoreInterrupts(bak_cpsr);
 }
-
 
 /*
  * sdk:      FS_CreateFileFromMemory (libfs.TWL.HYB.a fs_proc_mem.o)

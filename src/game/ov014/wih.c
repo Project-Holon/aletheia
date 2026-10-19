@@ -35,8 +35,6 @@
  *   WM_StartDataSharing  0x0209004C  arm
  *   WM_EndMP 0x0208FDEC arm
  *   WM_EndParent                 0x0208F654  arm
- *   DWCi_MOV_WH_SetError             0x0217814C  thumb
- *   DWCi_MOV_WH_ChangeSysState       0x02178138  thumb
  *   MI_CpuFill8  0x02082BCC  arm
  *   WM_GetAllowedChannel         0x0208EE60  arm
  *   WM_GetDispersionScanPeriod   0x0208EFC4  arm
@@ -46,7 +44,6 @@
  *   WIH_DWC_RequestAlertLevel       0x02010864  thumb
  *   WIH_DWC_Dummy       0x02010884  thumb
  *   DC_InvalidateRange  0x020862B8  arm
- *   MI_CpuCopy8         0x02082D44  arm
  *   GF_PANIC_Fail       0x02034714  arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
@@ -55,7 +52,6 @@
  *   WM_Reset 0x0208F400 arm
  *   WM_SetMPDataToPortEx  0x0208FCB4  arm
  *   OS_GetMacAddress  0x02087C6C  arm
- *   WM_GetAllowedChannel  0x0208EE60  arm
  *   WM_MeasureChannel            0x02090E50  arm
  *   WM_Initialize  0x0208F370  arm
  *   WM_InitializeForListening  0x0208F380  arm
@@ -67,22 +63,13 @@
  *   WM_GetSharedDataAddress 0x02090B18 arm
  *   WM_StepDataSharing  0x020902D8  arm
  *   WM_EndDataSharing 0x0209028C arm
- *   WM_EndDataSharing   0x0209028C  arm
  *   WM_End 0x0208F43C arm
  *   WM_SetGameInfo  0x02090CD4  arm
  *   NET_WHPIPE_OnChildDisconnected 0x0217807C thumb ov014
  */
 struct WMDataSet;
 struct WMDataSharingInfo;
-typedef unsigned short u16;
-
-typedef unsigned char u8;
-
-typedef unsigned int u32;
-
-typedef short s16;
-
-typedef int BOOL;
+#include "../types.h"
 
 /* Callback types of the work block (what the SDK calls back into). */
 typedef int (*WihJudgeAcceptFunc)(void *startParentCb, u32 now);
@@ -98,38 +85,15 @@ typedef void (*WihResultCallback)(int ok);
 typedef void (*WihRecvCallback)(u32 aid, u32 data, u32 length);
 
 /* Common head of every WM completion callback argument. */
-typedef struct { u16 apiid; u16 errcode; } WMCallback;
+typedef struct { u16 apiid; u16 errcode; } WihCallback;
 
 /* Argument of the WM_StartParent callback (the state code selects the event). */
-typedef struct WMStartParentCallback {
-    u16 apiid;
-    u16 errcode;
-    u16 wlCmdID;
-    u16 wlResult;
-    u16 state;
-    u8 macAddress[6];
-    u16 aid;
-} WMStartParentCallback;
+#include "../sdk_wm.h"
 
 /* Argument of the WM_StartConnectEx callback. */
-typedef struct WMStartConnectCallback {
-    u16 apiid;
-    u16 errcode;
-    u16 wlCmdID;
-    u16 wlResult;
-    u16 state;
-    u16 aid;
-} WMStartConnectCallback;
-
 /* Argument of the WM_StartMP callback. */
-typedef struct WMStartMPCallback {
-    u16 apiid;
-    u16 errcode;
-    u16 state;
-} WMStartMPCallback;
-
 /* Argument of the port send completion callback (WM_SetMPDataToPortEx). */
-typedef struct WMPortSendCallback {
+typedef struct WihPortSendCallback {
     u16 apiid;
     u16 errcode;
     u16 wlCmdID;
@@ -140,10 +104,10 @@ typedef struct WMPortSendCallback {
     u16 sentBitmap;
     u8 reserved[0x10];
     WihResultCallback userCallback;     /* +0x20, the arg of WM_SetMPDataToPortEx */
-} WMPortSendCallback;
+} WihPortSendCallback;
 
 /* Argument of the port receive callback. */
-typedef struct WMPortRecvCallback {
+typedef struct WihPortRecvCallback {
     u16 apiid;
     u16 errcode;
     u16 state;
@@ -151,53 +115,20 @@ typedef struct WMPortRecvCallback {
     u32 data;                           /* +0x0C */
     u16 length;                         /* +0x10 */
     u16 aid;                            /* +0x12 */
-} WMPortRecvCallback;
+} WihPortRecvCallback;
 
 /* Argument of the WM_MeasureChannel callback. */
-typedef struct WMMeasureChannelCallback {
+typedef struct WihMeasureChannelCallback {
     u16 apiid;
     u16 errcode;
     u16 wlCmdID;
     u16 wlResult;
     u16 channel;
     u16 ccaBusyRatio;
-} WMMeasureChannelCallback;
+} WihMeasureChannelCallback;
 
 /* One received beacon: a WMBssDesc (0xC0 bytes, only the fields read here). */
-typedef struct WMBssDesc {
-    u16 length;
-    u16 rssi;
-    u8 bssid[6];
-    u16 ssidLength;
-    u8 ssid[0x20];
-    u16 capaInfo;                       /* +0x2C */
-    u8 radioInfo[0xE];                  /* +0x2E, rate set, periods, channel */
-    u16 gameInfoLength;                 /* +0x3C */
-    u16 otherElementCount;
-    u16 gameInfoMagic;                  /* +0x40 */
-    u8 gameInfoVersion;
-    u8 gameInfoPad;
-    u32 ggid;                           /* +0x44 */
-    u16 tgid;
-    u8 userGameInfoLength;              /* +0x4A */
-    u8 attribute;                       /* +0x4B, low 2 bits: entry/multiboot flags */
-    u8 userGameInfo[0x74];
-} WMBssDesc;
-
 /* Argument of the WM_StartScanEx callback. */
-typedef struct WMStartScanExCallback {
-    u16 apiid;
-    u16 errcode;
-    u16 wlCmdID;
-    u16 wlResult;
-    u16 state;
-    u16 channelList;
-    u16 reserved;
-    u16 bssDescCount;
-    WMBssDesc *bssDesc[16];
-    u16 linkLevel[16];
-} WMStartScanExCallback;
-
 /* The WMParentParam at the start of the work block. */
 typedef struct WihParentParam {
     void *userGameInfo;
@@ -303,7 +234,6 @@ extern int WM_EndParent(void *callback);
 void MI_CpuFill8(void *p, u32 value, u32 n);
 extern u16 WM_GetAllowedChannel(void);
 extern u16 WM_GetDispersionScanPeriod(void);
-struct WMScanExParam;
 extern int WM_StartScanEx(void (*cb)(void *), struct WMScanExParam *param);
 extern void WIH_DWC_RequestAlertLevel(u32 linkLevel);
 extern void WIH_DWC_Dummy(void);
@@ -335,7 +265,7 @@ void NET_WHPIPE_OnChildDisconnected(void);
 void WIH_ChangeSysState(int state);
 void WIH_SetError(int error);
 int WIH_StateInSetParentParam(void);
-void WIH_StateOutSetParentParam(WMCallback *arg);
+void WIH_StateOutSetParentParam(WihCallback *arg);
 int WIH_StateInStartParent(void);
 void WIH_StateOutStartParent(WMStartParentCallback *arg);
 /*
@@ -347,7 +277,7 @@ void WIH_StateOutStartParent(WMStartParentCallback *arg);
 BOOL WIH_StateInStartParentMP(void);
 void WIH_StateOutStartParentMP(WMStartMPCallback *arg);
 int WIH_StateInEndParentMP(void);
-void WIH_StateOutEndParentMP(WMCallback *arg);
+void WIH_StateOutEndParentMP(WihCallback *arg);
 int DWCi_MOV_WH_StateInEndParent(void);
 static void DWCi_MOV_WH_StateOutEndParent(void *arg);
 /*
@@ -370,22 +300,22 @@ int WIH_IsMatchingParent(WMBssDesc *bssDesc);
 void DWCi_MOV_WH_StateOutStartScan(void *arg);
 int DWCi_MOV_WH_EndScan(void);
 static int DWCi_MOV_WH_StateInEndScan(void);
-void DWCi_MOV_WH_StateOutEndScan(WMCallback *arg);
+void DWCi_MOV_WH_StateOutEndScan(WihCallback *arg);
 int DWCi_MOV_WH_StateInStartChild(void);
 void DWCi_MOV_WH_StateOutStartChild(WMStartConnectCallback *arg);
 BOOL DWCi_MOV_WH_StateInStartChildMP(void);
 void DWCi_MOV_WH_StateOutStartChildMP(WMStartMPCallback *arg);
 int WIH_StateInEndChildMP(void);
-void WIH_StateOutEndChildMP(WMCallback *arg);
+void WIH_StateOutEndChildMP(WihCallback *arg);
 int WIH_StateInEndChild(void);
 static void DWCi_MOV_WH_StateOutEndChild(void *arg);
 int WIH_StateInReset(void);
-void WIH_StateOutReset(WMCallback *arg);
+void WIH_StateOutReset(WihCallback *arg);
 int DWCi_MOV_WH_StateInSetMPData(u32 data, u32 size, u32 userCallback);
 /* extent: two zero alignment bytes at 02178D9A precede labelled 02178D9C. */
-void WIH_StateOutSetMPData(WMPortSendCallback *arg);
-void DWCi_MOV_WH_PortReceiveCallback(WMPortRecvCallback *arg);
-void WIH_StateOutEnd(WMCallback *arg);
+void WIH_StateOutSetMPData(WihPortSendCallback *arg);
+void DWCi_MOV_WH_PortReceiveCallback(WihPortRecvCallback *arg);
+void WIH_StateOutEnd(WihCallback *arg);
 void WIH_SetGgid(u32 ggid);
 void DWCi_MOV_WH_SetUserGameInfo(void *userGameInfo, unsigned short length);
 u16 WIH_GetBitmap(void);
@@ -400,14 +330,14 @@ int WIH_StateInMeasureChannel(u16 channel);
  * Without the pragma the same source stays 136 B. Callee types from matched
  * definitions: WIH_SetError and WIH_ChangeSysState void(int), WIH_StateInMeasureChannel int(u16).
  */
-void WIH_StateOutMeasureChannel(const WMMeasureChannelCallback *arg);
+void WIH_StateOutMeasureChannel(const WihMeasureChannelCallback *arg);
 int WHi_MeasureChannel(void *callback, unsigned short channel);
 u16 WIH_FinishMeasureChannel(void);
 int WIH_PickRandomChannel(u16 channelBitmap);
 BOOL WIH_Initialize(u32 heapId, int unused, int listening);
 void WIH_FreeWork(void);
 /* extent: two zero alignment bytes at 0217919E precede labelled 021791A0. */
-void WIH_IndicateHandler(WMCallback *arg);
+void WIH_IndicateHandler(WihCallback *arg);
 /*
  * The DWC copy of WH_Initialize's WM start: WM_Initialize (0208F370) or, when
  * listening is set, WM_InitializeForListening (0208F380), on the WM system
@@ -422,7 +352,7 @@ BOOL WIH_StateInInitialize(int unused, int listening);
  * callback of WIH_StateOutInitialize's call to WM_SetLifeTime.
  */
 void DWCi_MOV_WH_StateOutSetLifeTime(void);
-void WIH_StateOutInitialize(WMCallback *arg);
+void WIH_StateOutInitialize(WihCallback *arg);
 BOOL WIH_ParentConnect(int mode, u16 tgid, int channel, u16 maxEntry);
 void WIH_SetJudgeAcceptFunc(void *judgeAcceptFunc);
 void DWCi_MOV_WH_SetReceiver(void *recvCallback);
@@ -504,7 +434,7 @@ int WIH_StateInSetParentParam(void)
     return 1;
 }
 
-void WIH_StateOutSetParentParam(WMCallback *arg)
+void WIH_StateOutSetParentParam(WihCallback *arg)
 {
     int result = arg->errcode;
     if (result != 0) {
@@ -676,7 +606,7 @@ int WIH_StateInEndParentMP(void)
     return 1;
 }
 
-void WIH_StateOutEndParentMP(WMCallback *arg)
+void WIH_StateOutEndParentMP(WihCallback *arg)
 {
     int result = arg->errcode;
     if (result != 0) {
@@ -700,7 +630,7 @@ int DWCi_MOV_WH_StateInEndParent(void)
 
 static void DWCi_MOV_WH_StateOutEndParent(void *arg)
 {
-    WMCallback *cb = (WMCallback *)arg;
+    WihCallback *cb = (WihCallback *)arg;
 
     if (cb->errcode != 0) {
         WIH_SetError(cb->errcode);
@@ -812,11 +742,11 @@ int WIH_IsMatchingParent(WMBssDesc *bssDesc)
 {
     u32 gameInfoLength = bssDesc->gameInfoLength;
     if (gameInfoLength < 0x10 || gameInfoLength > 0x80
-        || gameInfoLength != (u32)bssDesc->userGameInfoLength + 0x10
-        || bssDesc->gameInfoMagic != 1 || gameInfoLength < 8
-        || bssDesc->ggid != gWihWork->parentParam.ggid)
+        || gameInfoLength != (u32)bssDesc->gameInfo.userGameInfoLength + 0x10
+        || bssDesc->gameInfo.magicNumber != 1 || gameInfoLength < 8
+        || bssDesc->gameInfo.ggid != gWihWork->parentParam.ggid)
         return 0;
-    if ((bssDesc->attribute & 3) == 1)
+    if ((bssDesc->gameInfo.attribute & 3) == 1)
         return 1;
     return 0;
 }
@@ -911,7 +841,7 @@ static int DWCi_MOV_WH_StateInEndScan(void)
     return 1;
 }
 
-void DWCi_MOV_WH_StateOutEndScan(WMCallback *arg)
+void DWCi_MOV_WH_StateOutEndScan(WihCallback *arg)
 {
     WihWork *work;
     gWihWork->endScanPending = 0;
@@ -1090,7 +1020,7 @@ int WIH_StateInEndChildMP(void)
     return 1;
 }
 
-void WIH_StateOutEndChildMP(WMCallback *arg)
+void WIH_StateOutEndChildMP(WihCallback *arg)
 {
     int result = arg->errcode;
     if (result != 0) {
@@ -1118,7 +1048,7 @@ int WIH_StateInEndChild(void)
 
 static void DWCi_MOV_WH_StateOutEndChild(void *arg)
 {
-    WMCallback *cb = (WMCallback *)arg;
+    WihCallback *cb = (WihCallback *)arg;
     if (cb->errcode != 0) {
         WIH_SetError(cb->errcode);
         return;
@@ -1138,7 +1068,7 @@ int WIH_StateInReset(void)
     return 1;
 }
 
-void WIH_StateOutReset(WMCallback *arg)
+void WIH_StateOutReset(WihCallback *arg)
 {
     if (arg->errcode != 0) {
         WIH_ChangeSysState(9);
@@ -1157,7 +1087,7 @@ int DWCi_MOV_WH_StateInSetMPData(u32 data, u32 size, u32 userCallback)
 }
 
 /* extent: two zero alignment bytes at 02178D9A precede labelled 02178D9C. */
-void WIH_StateOutSetMPData(WMPortSendCallback *arg)
+void WIH_StateOutSetMPData(WihPortSendCallback *arg)
 {
     int errcode = arg->errcode;
     if (errcode != 0 && errcode != 15) {
@@ -1169,7 +1099,7 @@ void WIH_StateOutSetMPData(WMPortSendCallback *arg)
     }
 }
 
-void DWCi_MOV_WH_PortReceiveCallback(WMPortRecvCallback *arg)
+void DWCi_MOV_WH_PortReceiveCallback(WihPortRecvCallback *arg)
 {
     WihRecvCallback recvCallback;
     if (arg->errcode != 0) {
@@ -1185,7 +1115,7 @@ void DWCi_MOV_WH_PortReceiveCallback(WMPortRecvCallback *arg)
     }
 }
 
-void WIH_StateOutEnd(WMCallback *arg)
+void WIH_StateOutEnd(WihCallback *arg)
 {
     WihResultCallback callback = gWihWork->initCallback;
     if (callback != 0)
@@ -1280,7 +1210,7 @@ int WIH_StateInMeasureChannel(u16 channel)
 }
 
 #pragma opt_dead_assignments off
-void WIH_StateOutMeasureChannel(const WMMeasureChannelCallback *arg)
+void WIH_StateOutMeasureChannel(const WihMeasureChannelCallback *arg)
 {
     u32 channel;
     u32 busyRatio;
@@ -1380,7 +1310,7 @@ void WIH_FreeWork(void)
     }
 }
 
-void WIH_IndicateHandler(WMCallback *arg)
+void WIH_IndicateHandler(WihCallback *arg)
 {
     if (arg->errcode == 8) {
         WIH_ChangeSysState(9);
@@ -1416,7 +1346,7 @@ void DWCi_MOV_WH_StateOutSetLifeTime(void)
  * 0; otherwise it sets state 1, calls WM_SetLifeTime with the unlabelled leaf
  * DWCi_MOV_WH_StateOutSetLifeTime and calls the user callback with 1.
  */
-void WIH_StateOutInitialize(WMCallback *arg)
+void WIH_StateOutInitialize(WihCallback *arg)
 {
     WihResultCallback callback;
     int result;

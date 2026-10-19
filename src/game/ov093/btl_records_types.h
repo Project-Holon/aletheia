@@ -6,15 +6,7 @@
  * ov095 (btl_wazarec.c, btl_deadrec.c, btl_pospoke.c).
  */
 
-#ifndef OV093_BASIC_TYPES
-#define OV093_BASIC_TYPES
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed char s8;
-typedef signed short s16;
-typedef signed int s32;
-#endif
+#include "../types.h"
 
 /* One used move: the move id, the turn it was used in, the user, and whether it took effect. */
 typedef struct BtlWazaRecEntry {

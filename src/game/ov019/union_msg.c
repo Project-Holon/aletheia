@@ -131,7 +131,8 @@ struct WordSet;
 struct MsgBank;
 struct U16Vec;
 struct Handle;
-struct VecFx32;
+#include "../sdk_fx.h"
+
 #include "../ov021/field_msgbg_types.h"
 #include "../ov012/union_comm_types.h"
 

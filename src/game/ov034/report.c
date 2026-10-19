@@ -155,9 +155,7 @@ struct PalRes;
 struct CellRes;
 struct ArcHandle;
 struct PartyMon;
-typedef signed short s16;
-
-typedef signed int s32;
+#include "../types.h"
 
 struct BgTemplate {
     u32 x;                  /* 0x00 */
@@ -176,18 +174,7 @@ struct BgTemplate {
     u32 bgType;             /* 0x1C */
 };
 
-struct RTCDate {
-    u32 year;
-    u32 month;
-    u32 day;
-    u32 week;
-};
-
-struct RTCTime {
-    u32 hour;
-    u32 minute;
-    u32 second;
-};
+#include "../sdk_rtc.h"
 
 typedef struct {
     s16 x;
@@ -335,8 +322,6 @@ extern struct BgTemplate sReportBgTemplate4;
 extern const u8 sReportWindowLayouts[];
 extern const Rect sReportActorPositions[2];
 
-
-
 ReportWork *REPORT_Create(void *gameSystem, int heapId)
 {
     ReportWork *work = GFL_HEAP_Alloc(heapId, 0x130, 0, sReportAllocSite, 0x114);
@@ -353,7 +338,6 @@ ReportWork *REPORT_Create(void *gameSystem, int heapId)
     return work;
 }
 
-
 void REPORT_Delete(ReportWork *work)
 {
     TCB_DeleteTask(work->tcb);
@@ -362,8 +346,6 @@ void REPORT_Delete(ReportWork *work)
     REPORT_ExitBgs();
     GFL_HEAP_Free(work);
 }
-
-
 
 void REPORT_ShowPartyIcons(ReportWork *work)
 {
@@ -377,8 +359,6 @@ void REPORT_ShowPartyIcons(ReportWork *work)
         work->shownFlags |= REPORT_SHOWN_ICONS;
     }
 }
-
-
 
 /*
  * note:     `printQue = work->printQue` must be assigned before the window is
@@ -412,7 +392,6 @@ void REPORT_UpdateWindows(ReportWork *work)
     }
 }
 
-
 /*
  * True when both shown bits (icons and windows) are set, which is the state
  * word at +0x128 being 3.
@@ -431,8 +410,6 @@ int REPORT_IsReady(ReportWork *work)
     return 0;
 }
 
-
-
 void REPORT_PrepareSave(ReportWork *work)
 {
     int step;
@@ -448,10 +425,7 @@ void REPORT_PrepareSave(ReportWork *work)
     work->pieceFrameDelay = 0;
 }
 
-
 unsigned REPORT_CheckSaveCounter(ReportWork *work) { return work->saveCountCurrent >= work->saveCountMax / 3; }
-
-
 
 void REPORT_StartSaveAnim(ReportWork *work)
 {
@@ -464,8 +438,6 @@ void REPORT_StartSaveAnim(ReportWork *work)
         CLACT_SetActorDrawEnable(work->actors[i], 1);
     work->saveAnimRunning = 1;
 }
-
-
 
 /*
  * When the halfword counter at +0x124 reaches 10, clears the flag at +0x110
@@ -486,7 +458,6 @@ int REPORT_IsSaveAnimDone(ReportWork *work)
     return 0;
 }
 
-
 /*
  * Clears the flag at +0x110 that REPORT_StartSaveAnim sets.
  * Region ov034: of the ten overlays mapped here, ov034 holds a Thumb leaf at
@@ -500,8 +471,6 @@ void REPORT_StopSaveAnim(ReportWork *work)
 {
     work->saveAnimRunning = 0;
 }
-
-
 
 void REPORT_InitBgs(u32 heapId)
 {
@@ -535,10 +504,7 @@ void REPORT_InitBgs(u32 heapId)
     BG_SYS_PushTile(6);
 }
 
-
 void REPORT_ExitBgs(void) { BG_SYS_SetPlaneVisible(6,0); BG_SYS_SetPlaneVisible(5,0); BG_SYS_SetPlaneVisible(4,0); BG_SYS_FreeLayerBuf(6); BG_SYS_FreeLayerBuf(5); BG_SYS_FreeLayerBuf(4); }
-
-
 
 void REPORT_LoadBgGraphics(int heapId)
 {
@@ -551,7 +517,6 @@ void REPORT_LoadBgGraphics(int heapId)
     ARC_TOOL_DeleteHandle(arc);
 }
 
-
 static inline void printRecordLine(ReportWork *work, u32 index, struct Strbuf *buf, struct Strbuf *msg, u32 y, u16 color, u32 pending)
 {
     struct PrintQue *printQue = work->printQue;
@@ -559,7 +524,6 @@ static inline void printRecordLine(ReportWork *work, u32 index, struct Strbuf *b
     work->windows[index].printPending = pending;
     STRBUF_Delete(msg);
 }
-
 
 /*
  * lever: inline printRecordLine binds printQue before the bitmap getter; named one
@@ -643,7 +607,6 @@ void REPORT_InitWindows(ReportWork *work)
     MSGDATA_Delete(msgBank);
 }
 
-
 void REPORT_ExitWindows(ReportWork *work)
 {
     unsigned i;
@@ -652,8 +615,6 @@ void REPORT_ExitWindows(ReportWork *work)
         BMP_WIN_Delete(work->windows[i].bmpWin);
     PRINTSYS_QUE_Delete(work->printQue);
 }
-
-
 
 void REPORT_InitActors(ReportWork *work)
 {
@@ -700,8 +661,6 @@ void REPORT_InitActors(ReportWork *work)
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
-
-
 void REPORT_ExitActors(ReportWork *work)
 {
     unsigned int i;
@@ -722,7 +681,6 @@ void REPORT_ExitActors(ReportWork *work)
     CLACT_DeleteUnit(work->unit);
     BG_SYS_SetSubPlaneVisible(0x10, 0);
 }
-
 
 void REPORT_UpdateSaveAnim(struct Task *task, ReportWork *work)
 {

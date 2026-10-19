@@ -23,23 +23,9 @@
  *   CARDi_ExecuteOldTypeTask  0x02076170  arm
  *   OS_WakeupThread  0x02085800  arm
  */
-typedef unsigned char u8;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef unsigned long u32;
-
-typedef long s32;
-
-typedef int BOOL;
-
-typedef struct OSThread OSThread;
-
-typedef struct OSThreadQueue
-{
-    OSThread *head;
-    OSThread *tail;
-} OSThreadQueue;
+#include "../sdk_os.h"
 
 typedef struct CARDiCommandArg
 {
@@ -75,12 +61,7 @@ typedef struct CARDiCommon
     OSThread *current_thread_9;
 } CARDiCommon;
 
-typedef enum CARDTarget
-{
-    CARD_TARGET_NONE,
-    CARD_TARGET_ROM,
-    CARD_TARGET_BACKUP
-} CARDTarget;
+#include "../sdk_card.h"
 
 extern BOOL OS_SetThreadPriority(OSThread *thread, u32 prio);
 extern void OS_WakeupThreadDirect(OSThread *thread);
@@ -93,9 +74,6 @@ extern void OS_WakeupThread(OSThreadQueue *queue);
 void CARDi_OldTypeTaskThread(void);
 BOOL CARDi_WaitForTask(CARDiCommon *p, BOOL restart, void (*callback)(void *), void *callback_arg);
 extern CARDiCommon cardi_common;
-
-
-
 
 /*
  * sdk:      CARDi_ExecuteOldTypeTask (libcard.TWL.HYB.a card_task.o)
@@ -118,9 +96,6 @@ BOOL CARDi_ExecuteOldTypeTask(void (*task)(CARDiCommon *), BOOL async)
     }
     return async ? 1 : (p->cmd->result == 0);
 }
-
-
-
 
 /*
  * sdk:      CARDi_OldTypeTaskThread (libcard.TWL.HYB.a card_task.o)
@@ -146,8 +121,6 @@ void CARDi_OldTypeTaskThread(void)
     }
 }
 
-
-
 /*
  * sdk:      CARDi_WaitForTask (libcard.TWL.HYB.a card_task.o)
  */
@@ -168,7 +141,6 @@ BOOL CARDi_WaitForTask(CARDiCommon *p, BOOL restart, void (*callback)(void *), v
     (void)OS_RestoreInterrupts(bak_psr);
     return (p->cmd->result == 0);
 }
-
 
 /*
  * sdk:      CARDi_EndTask (libcard.TWL.HYB.a card_task.o)

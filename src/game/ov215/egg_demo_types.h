@@ -48,15 +48,8 @@ struct EggDemoWork {
     unsigned int proc;           /* 0x88 process created for the name entry */
 };
 
-
 struct Node;
 
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef unsigned char u8;
-
-typedef signed short s16;
+#include "../types.h"
 
 #endif

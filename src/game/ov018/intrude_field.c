@@ -186,13 +186,9 @@
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   INTRUDE_FIELD_gSpinAcmds     0x021836A0  data  a1
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef unsigned long long u64;
-typedef signed char s8;
-typedef signed short s16;
-typedef signed int s32;
+#include "../types.h"
+
+#include "../sdk_fx.h"
 
 #include "../ov011/intrude_comm_types.h"
 #include "intrude_field_types.h"
@@ -217,19 +213,12 @@ struct MapMatrix;
 struct Container;
 struct Pokemon;
 
-typedef struct PlayerPosition {
-    s32 x;
-    s32 y;
-    s32 z;
-} VecFx32;
-
 /* Appearance of the player chosen for the Entralink visit. */
 typedef struct PlayerLook {
     u8 flag;
     u8 kind;
     u16 objCode;
 } PlayerLook;
-
 
 /* Task that bounces the player off the edge of the map (0x18 bytes). */
 typedef struct EdgeBlockWork {
@@ -384,8 +373,7 @@ extern u8 GAME_DATA_GetIntrudeId(const struct GameData *gameData);
 extern struct MyStatus *GAME_DATA_GetMyStatusPlayer(struct GameData *gameData, u32 index);
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern struct PlayerWork *GAME_DATA_GetPlayerWork(struct GameData *gameData, int index);
-struct PlayerPosition;
-extern void GAME_DATA_SetPlayerPosition(struct PlayerWork *player, struct PlayerPosition *pos);
+extern void GAME_DATA_SetPlayerPosition(struct PlayerWork *player, VecFx32 *pos);
 extern u32 GAMESYSTEM_IsNetOffBySleep(const struct GameSystem *gameSystem);
 extern int GAMESYSTEM_IsEventActive(struct GameSystem *gameSystem);
 extern u32 GAME_COMM_GetCounter(struct GameComm *gameComm);

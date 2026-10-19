@@ -24,11 +24,7 @@ struct WinMgr;
 struct CursorMoveObj; /* the CURSOR_MOVE cursor object */
 struct Sav;
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed char s8;
-typedef signed int s32;
+#include "../types.h"
 
 /* Parameters handed to the box application by its parent. */
 typedef struct BoxParam {

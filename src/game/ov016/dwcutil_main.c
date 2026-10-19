@@ -94,13 +94,7 @@ typedef union PU {
     unsigned int v;
 } PU;
 
-typedef unsigned short u16;
-
-typedef unsigned long u32;
-
-typedef volatile u16 vu16;
-
-typedef volatile u32 vu32;
+#include "../types.h"
 
 struct LANG {
     char pad[0x10];
@@ -184,7 +178,6 @@ extern UtilState gDwcutilMainWork;
 extern char sDwcutilMainTable[];
 extern struct LANG Language;
 
-
 /*
  * sdk:      DWC_StartUtility (libdwcutil.TWL.HYB.a main.o)
  */
@@ -222,7 +215,6 @@ int DWC_StartUtility(void *work, int language, int param)
     return result;
 }
 
-
 /*
  * sdk:      checkParam (libdwcutil.TWL.HYB.a main.o)
  */
@@ -243,7 +235,6 @@ static int checkParam(int lang, unsigned int param)
     return 1;
 
 }
-
 
 /*
  * sdk:      initGame (libdwcutil.TWL.HYB.a main.o)
@@ -280,7 +271,6 @@ static void initGame(void)
     DWC_BM_Init(work);
     DWCi_HEAPlFree_(&work);
 }
-
 
 void initGraph(void)
 {
@@ -342,7 +332,6 @@ void initGraph(void)
     GX_VBlankIntr(1);
 }
 
-
 /*
  * sdk:      procEnd (libdwcutil.TWL.HYB.a main.o)
  */
@@ -365,7 +354,6 @@ static void procEnd(void)
     DWCi_RepairVram();
 }
 
-
 /*
  * Store a word into the global object at 0x021DE56C, field +0x0c.
  * Addresses are Black-image addresses.
@@ -379,7 +367,6 @@ void DWCi_ChangeScene(unsigned int v)
     unsigned int *p = (unsigned int *)0x021DE56C;
     p[3] = v;
 }
-
 
 /*
  * Store two words into fields +0x10 and +0x14 of the global object.
@@ -396,7 +383,6 @@ void DWCi_SetParam_(unsigned int stepParam, unsigned int buttonParam)
     p[5] = buttonParam;
 }
 
-
 void DWCi_GetParam_(void **outStepParam, void **outButtonParam)
 {
     if (outStepParam)
@@ -404,7 +390,6 @@ void DWCi_GetParam_(void **outStepParam, void **outButtonParam)
     if (outButtonParam)
         *outButtonParam = Language.buttonParam;
 }
-
 
 /*
  * Store two words into fields +0x18 and +0x1c of the global object.
@@ -420,7 +405,6 @@ void DWCi_SetParam2_(unsigned int a, unsigned int b)
     p[6] = a;
     p[7] = b;
 }
-
 
 /*
  * Hand back fields +0x18 and +0x1c through two optional out pointers.
@@ -439,7 +423,6 @@ void DWCi_GetParam2_(unsigned int *a, unsigned int *b)
         *b = p[7];
 }
 
-
 /*
  * Read the first byte of the global object at 0x021DE56C.
  * Addresses are Black-image addresses.
@@ -452,7 +435,6 @@ unsigned char DWCi_Language(void)
 {
     return *(unsigned char *)0x021DE56C;
 }
-
 
 /*
  * Low nibble of the word at +0x08 of the global object (4-bit field).
@@ -468,7 +450,6 @@ unsigned int DWCi_Entry(void)
     return p->f;
 }
 
-
 /*
  * Test the argument against bits 4.. of the word at +0x08.
  * Addresses are Black-image addresses.
@@ -483,7 +464,6 @@ int DWCi_Flag(unsigned int v)
     return (v & (p[2] >> 4)) != 0;
 }
 
-
 /*
  * Set byte +0x01 of the global object to 1.
  * Addresses are Black-image addresses.
@@ -497,7 +477,6 @@ void DWCi_EndUtility(void)
     unsigned char *p = (unsigned char *)0x021DE56C;
     p[1] = 1;
 }
-
 
 /*
  * sdk:      kDWCi_Language (libdwcutil.TWL.HYB.a main.o)

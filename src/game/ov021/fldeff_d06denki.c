@@ -56,14 +56,9 @@
  */
 #include "../ov010/fldmmdl_types.h"
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed int s32;
-typedef s32 fx32;
+#include "../types.h"
 
-typedef struct VecFx32 { fx32 x, y, z; } VecFx32;
-typedef struct MtxFx33 { fx32 m[3][3]; } MtxFx33;
+#include "../sdk_fx.h"
 
 /* Opaque types of other files. */
 typedef struct ArcHandle ArcHandle;
@@ -228,11 +223,6 @@ extern G3dObjectStatus sD06DenkiFollowDrawStatus;                     /* follow 
 extern const FieldEffectObjFuncs sD06DenkiPulseFuncs;           /* pulse callbacks */
 extern G3dObjectStatus sD06DenkiPulseDrawStatus;                     /* pulse draw status template */
 
-
-
-
-
-
 /* Loads the resources of the three effects. */
 D06DenkiRes *FLDEFF_D06DENKI_Create(FieldEffectSys *fieldEffect, u32 heapId)
 {
@@ -242,21 +232,11 @@ D06DenkiRes *FLDEFF_D06DENKI_Create(FieldEffectSys *fieldEffect, u32 heapId)
     return res;
 }
 
-
-
-
-
-
 void FLDEFF_D06DENKI_Delete(FieldEffectSys *fieldEffect, D06DenkiRes *res)
 {
     FLDEFF_D06DENKI_FreeResources(res);
     GFL_HEAP_Free(res);
 }
-
-
-
-
-
 
 void FLDEFF_D06DENKI_LoadResources(D06DenkiRes *res)
 {
@@ -281,11 +261,6 @@ void FLDEFF_D06DENKI_LoadResources(D06DenkiRes *res)
     G3D_SYSTEM_EnableObjectAnime(res->sparkObject, 0);
 }
 
-
-
-
-
-
 void FLDEFF_D06DENKI_FreeResources(D06DenkiRes *res)
 {
     u32 i;
@@ -302,9 +277,6 @@ void FLDEFF_D06DENKI_FreeResources(D06DenkiRes *res)
     }
 }
 
-
-
-
 /* Starts a spark at the position of the model. */
 void FLDEFF_D06DENKI_StartSpark(const Mmdl *mmdl, FieldEffectSys *fieldEffect)
 {
@@ -316,10 +288,6 @@ void FLDEFF_D06DENKI_StartSpark(const Mmdl *mmdl, FieldEffectSys *fieldEffect)
     FIELD_EFFECT_AddObject(fieldEffect, &sD06DenkiSparkFuncs, 0, 0, &param, 0);
 }
 
-
-
-
-
 /* Spark effect: init. */
 void FLDEFF_D06DENKI_SparkInit(FieldEffectObj *effect, D06DenkiSparkWork *work)
 {
@@ -329,14 +297,8 @@ void FLDEFF_D06DENKI_SparkInit(FieldEffectObj *effect, D06DenkiSparkWork *work)
     GFL_USE_PlaySeDefaultVolume(SE_D06DENKI_SPARK);
 }
 
-
 /* Spark effect: exit, nothing to release. */
 void FLDEFF_D06DENKI_SparkExit(void) {}
-
-
-
-
-
 
 /* Spark effect: update, ends the effect when the animation is done. */
 void FLDEFF_D06DENKI_SparkUpdate(FieldEffectObj *effect, D06DenkiSparkWork *work)
@@ -344,11 +306,6 @@ void FLDEFF_D06DENKI_SparkUpdate(FieldEffectObj *effect, D06DenkiSparkWork *work
     if (work->state == D06DENKI_SPARK_FINISHED)
         FIELD_EFFECT_DeleteObject(effect);
 }
-
-
-
-
-
 
 /* Spark effect: draw, advances the shared spark animation. */
 void FLDEFF_D06DENKI_SparkDraw(FieldEffectObj *effect, D06DenkiSparkWork *work)
@@ -372,11 +329,6 @@ void FLDEFF_D06DENKI_SparkDraw(FieldEffectObj *effect, D06DenkiSparkWork *work)
     }
 }
 
-
-
-
-
-
 /* Starts a follow effect at the position, tracking the model. */
 void FLDEFF_D06DENKI_StartFollow(FieldEffectSys *fieldEffect, const VecFx32 *pos, Mmdl *mmdl)
 {
@@ -387,22 +339,12 @@ void FLDEFF_D06DENKI_StartFollow(FieldEffectSys *fieldEffect, const VecFx32 *pos
     FIELD_EFFECT_AddObject(fieldEffect, &sD06DenkiFollowFuncs, 0, 0, &param, 0);
 }
 
-
-
-
-
-
 /* Freezes the looping animation of a follow effect. */
 void FLDEFF_D06DENKI_FollowFreezeLoop(FieldEffectObj *effect)
 {
     if (effect != 0)
         ((D06DenkiFollowWork *)FIELD_EFFECT_GetObjectWork(effect))->loopFrozen = 1;
 }
-
-
-
-
-
 
 /* Starts the ending animation of a follow effect. */
 void FLDEFF_D06DENKI_FollowStartEnding(FieldEffectObj *effect)
@@ -418,11 +360,6 @@ void FLDEFF_D06DENKI_FollowStartEnding(FieldEffectObj *effect)
     }
 }
 
-
-
-
-
-
 /* Returns nonzero when the ending animation of a follow effect is done (or the effect is gone). */
 int FLDEFF_D06DENKI_FollowIsEnded(FieldEffectObj *effect, u32 unusedA, u32 unusedB, u32 unusedC)
 {
@@ -431,11 +368,6 @@ if (effect != 0) {
 }
 return 1;
 }
-
-
-
-
-
 
 /* Follow effect: init. */
 void FLDEFF_D06DENKI_FollowInit(FieldEffectObj *effect, D06DenkiFollowWork *work)
@@ -452,11 +384,6 @@ void FLDEFF_D06DENKI_FollowInit(FieldEffectObj *effect, D06DenkiFollowWork *work
     work->subObject = G3D_SYSTEM_CreateObject(work->subRender, 0, 0);
 }
 
-
-
-
-
-
 /* Follow effect: exit. */
 void FLDEFF_D06DENKI_FollowExit(void *task, D06DenkiFollowWork *work)
 {
@@ -467,11 +394,6 @@ void FLDEFF_D06DENKI_FollowExit(void *task, D06DenkiFollowWork *work)
     G3D_SYSTEM_DeleteObject(work->subObject);
     G3D_SYSTEM_DeleteRender(work->subRender);
 }
-
-
-
-
-
 
 /* Follow effect: update, tracks the model while it is in use. */
 void FLDEFF_D06DENKI_FollowUpdate(FieldEffectObj *effect, D06DenkiFollowWork *work)
@@ -495,11 +417,6 @@ void FLDEFF_D06DENKI_FollowUpdate(FieldEffectObj *effect, D06DenkiFollowWork *wo
     }
 }
 
-
-
-
-
-
 /* Follow effect: draw. */
 void FLDEFF_D06DENKI_FollowDraw(FieldEffectObj *effect, D06DenkiFollowWork *work)
 {
@@ -512,11 +429,6 @@ void FLDEFF_D06DENKI_FollowDraw(FieldEffectObj *effect, D06DenkiFollowWork *work
     G3D_SYSTEM_DrawObjectCulling(work->subObject, &status);
 }
 
-
-
-
-
-
 /* Starts a pulse effect at the position. */
 void FLDEFF_D06DENKI_StartPulse(FieldEffectSys *fieldEffect, const VecFx32 *pos)
 {
@@ -525,11 +437,6 @@ void FLDEFF_D06DENKI_StartPulse(FieldEffectSys *fieldEffect, const VecFx32 *pos)
     param.pos = *pos;
     FIELD_EFFECT_AddObject(fieldEffect, &sD06DenkiPulseFuncs, 0, 0, &param, 0);
 }
-
-
-
-
-
 
 /* Triggers the second animation of a pulse effect, once. */
 void FLDEFF_D06DENKI_PulseTrigger(FieldEffectObj *effect)
@@ -546,11 +453,6 @@ void FLDEFF_D06DENKI_PulseTrigger(FieldEffectObj *effect)
     }
 }
 
-
-
-
-
-
 /* Pulse effect: init. */
 void FLDEFF_D06DENKI_PulseInit(FieldEffectObj *effect, D06DenkiPulseWork *work)
 {
@@ -564,11 +466,6 @@ void FLDEFF_D06DENKI_PulseInit(FieldEffectObj *effect, D06DenkiPulseWork *work)
     G3D_SYSTEM_EnableObjectAnime(work->object, 1);
 }
 
-
-
-
-
-
 /* Pulse effect: exit. */
 void FLDEFF_D06DENKI_PulseExit(void *task, D06DenkiPulseWork *work)
 {
@@ -578,11 +475,6 @@ void FLDEFF_D06DENKI_PulseExit(void *task, D06DenkiPulseWork *work)
     G3D_SYSTEM_DeleteRender(work->render);
 }
 
-
-
-
-
-
 /* Pulse effect: update, loops the first animation; the second one runs once after a trigger. */
 void FLDEFF_D06DENKI_PulseUpdate(void *task, D06DenkiPulseWork *work)
 {
@@ -590,11 +482,6 @@ void FLDEFF_D06DENKI_PulseUpdate(void *task, D06DenkiPulseWork *work)
     if (work->triggered == 1 && G3D_SYSTEM_IncObjectAnimeFrame(work->object, 1, D06DENKI_ANIME_STEP) == 0)
         work->triggered = 0;
 }
-
-
-
-
-
 
 /* Pulse effect: draw. */
 void FLDEFF_D06DENKI_PulseDraw(FieldEffectObj *effect, D06DenkiPulseWork *work)

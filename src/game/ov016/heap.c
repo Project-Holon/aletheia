@@ -24,9 +24,7 @@
  *   NNS_FndFreeToExpHeap  0x02060E30  arm
  */
 struct ExpHeap;
-typedef unsigned int   u32;
-
-typedef signed int     s32;
+#include "../types.h"
 
 extern void MI_CpuFill8(void *dst, unsigned char data, unsigned long size);
 extern void *NNS_FndCreateExpHeapEx(void *start, u32 size, unsigned short attr);
@@ -44,7 +42,6 @@ void DWCi_HEAPlFree_(void **mem);
 void DWCi_HEAPlFree2(void *mem);
 extern void *gHeapWork;
 
-
 /*
  * sdk:      DWCi_HEAPlInit (libdwcutil.TWL.HYB.a heap.o)
  */
@@ -57,7 +54,6 @@ void DWCi_HEAPlInit(void *address)
         OS_Terminate();
 }
 
-
 /*
  * sdk:      DWCi_HEAPlEnd (libdwcutil.TWL.HYB.a heap.o)
  */
@@ -66,7 +62,6 @@ void DWCi_HEAPlEnd(void)
     NNSi_FndDestroyExpHeap(gHeapWork);
     gHeapWork = 0;
 }
-
 
 void *DWCi_HEAPlAlloc(unsigned long size, int alignment)
 {
@@ -80,7 +75,6 @@ void *DWCi_HEAPlAlloc(unsigned long size, int alignment)
     return mem;
 }
 
-
 /*
  * sdk:      DWCi_HEAPlAllocEx (libdwcutil.TWL.HYB.a heap.o)
  */
@@ -90,7 +84,6 @@ void *DWCi_HEAPlAllocEx(unsigned long size, int alignment)
     MI_CpuFill8(mem, 0, size);
     return mem;
 }
-
 
 /*
  * sdk:      DWCi_HEAPlFree_ (libdwcutil.TWL.HYB.a heap.o)
@@ -104,7 +97,6 @@ void DWCi_HEAPlFree_(void **mem)
     OS_EnableIrqMask(irq);
     *mem = 0;
 }
-
 
 /*
  * sdk:      DWCi_HEAPlFree2 (libdwcutil.TWL.HYB.a heap.o)

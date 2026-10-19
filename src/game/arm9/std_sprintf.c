@@ -27,11 +27,7 @@ struct dst_string_tag {
 
 typedef char *va_list;
 
-typedef unsigned long long u64;
-
-typedef unsigned long u32;
-
-typedef long long s64;
+#include "../types.h"
 
 void string_put_char(struct dst_string_tag *p, char c);
 void string_fill_char(struct dst_string_tag *p, char c, int n);
@@ -39,9 +35,6 @@ void string_put_string(struct dst_string_tag *p, const char *s, int n);
 int STD_TSPrintf(char *dst, const char *fmt, ...);
 int STD_TSNPrintf(char *dst, int n, const char *fmt, ...);
 int STD_TVSNPrintf(char *dst, unsigned long len, const char *fmt, va_list vlist);
-
-
-
 
 void string_put_char(struct dst_string_tag *p, char c)
 {
@@ -51,8 +44,6 @@ void string_put_char(struct dst_string_tag *p, char c)
     }
     ++p->cur;
 }
-
-
 
 void string_fill_char(struct dst_string_tag *p, char c, int n)
 {
@@ -68,8 +59,6 @@ void string_fill_char(struct dst_string_tag *p, char c, int n)
     }
 }
 
-
-
 void string_put_string(struct dst_string_tag *p, const char *s, int n)
 {
     if (n > 0) {
@@ -84,8 +73,6 @@ void string_put_string(struct dst_string_tag *p, const char *s, int n)
     }
 }
 
-
-
 int STD_TSPrintf(char *dst, const char *fmt, ...)
 {
     int r;
@@ -96,8 +83,6 @@ int STD_TSPrintf(char *dst, const char *fmt, ...)
     return r;
 }
 
-
-
 int STD_TSNPrintf(char *dst, int n, const char *fmt, ...)
 {
     int r;
@@ -107,8 +92,6 @@ int STD_TSNPrintf(char *dst, int n, const char *fmt, ...)
     va_end(vlist);
     return r;
 }
-
-
 
 enum {
     flag_blank = 0x001,
@@ -122,8 +105,6 @@ enum {
     flag_h2 = 0x100,
     flag_unsigned = 0x1000
 };
-
-
 
 int STD_TVSNPrintf(char *dst, unsigned long len, const char *fmt, va_list vlist)
 {

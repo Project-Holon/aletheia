@@ -190,11 +190,7 @@
  */
 #include "fldmmdl_movecode_types.h"
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed short   s16;
-typedef signed char    s8;
+#include "../types.h"
 
 /* One step of a move code: returns 1 to run the next step in the same frame. */
 typedef int (*MmdlStepProc)(Mmdl *mmdl, void *work);
@@ -294,14 +290,13 @@ int FLDMMDL_MOVECODE_InitTurnRandom(Mmdl *mmdl, u32 kind);
 u16 FLDMMDL_MOVECODE_GetNextDirInRotation(u16 moveCode, u16 dir);
 void FLDMMDL_MOVECODE_AdvanceRouteIndex(MmdlRoutePatrolSwapWork *work);
 struct Actor;
-struct VecFx32;
+#include "../sdk_fx.h"
 
 typedef struct DirGroupTable { u32 group[4]; } DirGroupTable;
 
 typedef struct LookAroundDirTable { u32 dir[2][2]; } LookAroundDirTable;
 
 typedef struct SpinDirTable { u32 dir[2][4]; } SpinDirTable;
-
 
 extern void *FLDMMDL_InitMoveSubProcWork(Mmdl *mmdl, int size);
 extern void *FLDMMDL_GetMoveSubProcWork(Mmdl *mmdl);

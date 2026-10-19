@@ -52,23 +52,9 @@
  *   DWCi_MOV_WH_GetBitmap 0x021D323C arm ov016
  *   DWCi_MOV_WH_GetSharedDataAdr 0x021D38DC arm ov016
  */
-typedef unsigned char u8;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef unsigned long u32;
-
-typedef struct {
-    char *romFilePathp;
-    u16 *gameNamep;
-    u16 *gameIntroductionp;
-    char *iconCharPathp;
-    char *iconPalettePathp;
-    u32 ggid;
-    u8 maxPlayerNum;
-    u8 pad[3];
-    u8 userParam[32];
-} MBGameRegistry;
+#include "../sdk_mb.h"
 
 typedef struct {
     char *romFilePathp;
@@ -107,16 +93,7 @@ typedef struct {
     MBGameRegistry game_registry;
 } Wk;
 
-typedef struct MBUserInfo MBUserInfo;
-
-typedef struct {
-    u16 apiid;
-    u16 errcode;
-    u16 wlCmdID;
-    u16 wlResult;
-    u16 state;
-    u8 macAddress[6];
-} WMStartParentCallback;
+#include "../sdk_wm.h"
 
 typedef struct {
     u16 kind;
@@ -168,7 +145,6 @@ void _DWCi_MOV_EraseFlashData(void);
 u16 Parent_get_child_data_kind(void);
 extern Wk *gDwcMoveidWork;
 
-
 /*
  * sdk:      DWCi_MOVInit (libdwcutil.TWL.HYB.a(dwc_moveid.o))
  */
@@ -208,7 +184,6 @@ void DWCi_MOVInit(Wk *wm, MovData *md)
     gDwcMoveidWork->p_user_info = DWCi_SETTINGlGetMemMap();
 }
 
-
 /*
  * sdk:      DWCi_MOVFinalize (libdwcutil.TWL.HYB.a(dwc_moveid.o))
  */
@@ -241,7 +216,6 @@ int DWCi_MOVFinalize(void)
     return 0;
 }
 
-
 /*
  * sdk:      _DWCi_MOVPrepare (libdwcutil.TWL.HYB.a(dwc_moveid.o))
  */
@@ -255,7 +229,6 @@ static void _DWCi_MOVPrepare(void)
     gDwcMoveidWork->parent_step_data_share_error_cnt = 0;
     gDwcMoveidWork->moveid_tgid++;
 }
-
 
 /*
  * Only from the three live modes, tear the sound system down and park it at mode 2.
@@ -273,7 +246,6 @@ int DWCi_MOVStartAdmitChild(void)
     return 1;
 }
 
-
 /*
  * Advance the state byte at +0xa90 from 5 to 6.
  * Addresses are Black-image addresses.
@@ -288,7 +260,6 @@ int DWCi_MOVStartDownloadandBootChild(void)
     DWCi_MOV_MBP_StartDownloadAll();
     return 1;
 }
-
 
 /*
  * State tick for the object pointed to by 0x021DE668: dispatch on its byte
@@ -425,7 +396,6 @@ void DWCi_MOVFramework(void)
     return;
 }
 
-
 /*
  * sdk:      DWCi_MOVGetStatus (libdwcutil.TWL.HYB.a(dwc_moveid.o))
  */
@@ -439,12 +409,10 @@ void DWCi_MOVGetStatus(u8 *stt, u8 *change_f)
     gDwcMoveidWork->mov_stt_old = gDwcMoveidWork->mov_stt;
 }
 
-
 MBUserInfo *DWCi_GetChildInfo(void)
 {
     return MB_CommGetChildUser(1);
 }
-
 
 /*
  * sdk:      _DWCi_MOVSearchChannel (libdwcutil.TWL.HYB.a(dwc_moveid.o))
@@ -475,7 +443,6 @@ static void _DWCi_MOVSearchChannel(void)
     }
 }
 
-
 /*
  * sdk:      _DWCi_MOVStartWaitChild (libdwcutil.TWL.HYB.a(dwc_moveid.o))
  */
@@ -483,7 +450,6 @@ static void _DWCi_MOVStartWaitChild(void)
 {
     DWCi_MOV_MBP_Init(gDwcMoveidWork->game_registry.ggid, gDwcMoveidWork->moveid_tgid);
 }
-
 
 /*
  * sdk:      _DWCi_MOV_WaitandDownloadandBoot_Child (libdwcutil.TWL.HYB.a(dwc_moveid.o))
@@ -543,14 +509,12 @@ static void _DWCi_MOV_WaitandDownloadandBoot_Child(void)
     }
 }
 
-
 static void _DWCi_MOV_ReadyMovUserID(void)
 {
     Parent_InitDataShare();
     DWCi_MOV_WH_SetJudgeAcceptFunc((unsigned int)((void *)0x021D45A4));
     *(unsigned char *)(*(char **)0x021DE668 + 0xa90) = 8;
 }
-
 
 static void _DWCi_MOV_MovUserID(void)
 {
@@ -594,12 +558,10 @@ static void _DWCi_MOV_MovUserID(void)
     }
 }
 
-
 void _DWCi_MOV_EraseFlashData(void)
 {
     gDwcMoveidWork->mov_stt = 12;
 }
-
 
 /*
  * Enter state 1 once DWCi_MOV_WH_GetSystemState reports ready.
@@ -614,7 +576,6 @@ static int _DWCi_MOVEnd(void)
     return 1;
 }
 
-
 /*
  * sdk:      JudgeConnectableChild (libdwcutil.TWL.HYB.a(dwc_moveid.o))
  */
@@ -627,7 +588,6 @@ static int JudgeConnectableChild(WMStartParentCallback *cb)
     return 1;
 }
 
-
 /*
  * sdk:      Parent_InitDataShare (libdwcutil.TWL.HYB.a(dwc_moveid.o))
  */
@@ -637,7 +597,6 @@ static void Parent_InitDataShare(void)
     MI_CpuFill8(gDwcMoveidWork->sSendBuf, 0, 256);
     gDwcMoveidWork->sShareDataPtr = gDwcMoveidWork;
 }
-
 
 /*
  * sdk:      Parent_StepDataShare (libdwcutil.TWL.HYB.a(dwc_moveid.o))
@@ -682,7 +641,6 @@ static void Parent_StepDataShare(u16 kind, u16 counter, u8 *data)
     }
 }
 
-
 /*
  * sdk:      Parent_data_receive_progress (libdwcutil.TWL.HYB.a(dwc_moveid.o))
  */
@@ -715,7 +673,6 @@ static void Parent_data_receive_progress(void)
         }
     }
 }
-
 
 u16 Parent_get_child_data_kind(void)
 {

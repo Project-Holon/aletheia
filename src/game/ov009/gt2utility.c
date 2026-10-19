@@ -30,24 +30,9 @@
  *   gGt2EmptyMessage   0x021A595C data
  */
 #define GT2_ISDIGIT(c) ((u32)(c) >= 0x80 ? 0 : (__ctype_mapC[(c)] & 8))
-typedef struct SOCInAddr {
-	unsigned int addr;
-} SOCInAddr;
+#include "../sdk_soc.h"
 
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef struct SOCHostEnt
-{
-    char *name;
-    char **aliases;
-    short addrType;
-    short length;
-    u8 **addrList;
-} SOCHostEnt;
+#include "../types.h"
 
 extern char *SOC_InetNtoA(SOCInAddr in);
 extern int OS_SPrintf(char *dst, char *fmt, ...);
@@ -67,7 +52,6 @@ extern char gGt2AddressFmt[];
 extern char gGt2PortFmt[];
 extern u16 __ctype_mapC[];
 extern char gGt2EmptyMessage[];
-
 
 /*
  * sdk:      gt2AddressToString (libdwcgsgt2.TWL.HYB.a(gt2utility.o))
@@ -98,7 +82,6 @@ char *gt2AddressToString(unsigned int ip, unsigned short port, char *string)
 	}
 	return string;
 }
-
 
 /*
  * sdk:      gt2StringToAddress (gt2utility.o)
@@ -177,7 +160,6 @@ int gt2StringToAddress(char *string, u32 *ip, u16 *port)
         *port = srcPort;
     return 1;
 }
-
 
 void gti2MessageCheck(unsigned char **message, int *len)
 {

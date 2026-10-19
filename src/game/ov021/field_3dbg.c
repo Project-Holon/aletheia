@@ -69,19 +69,8 @@ typedef struct {
     fx32 zwRows[10];
 } ProjectionMtx;
 
-typedef enum { GX_TEXFMT_NONE = 0, GX_TEXFMT_PLTT4 = 2 } GXTexFmt;
+#include "../sdk_gx.h"
 
-typedef enum { GX_TEXGEN_NONE = 0, GX_TEXGEN_TEXCOORD = 1 } GXTexGen;
-
-typedef enum { GX_TEXSIZE_S8 = 0 } GXTexSizeS;
-
-typedef enum { GX_TEXSIZE_T8 = 0 } GXTexSizeT;
-
-typedef enum { GX_TEXREPEAT_NONE = 0, GX_TEXREPEAT_ST = 3 } GXTexRepeat;
-
-typedef enum { GX_TEXFLIP_NONE = 0, GX_TEXFLIP_ST = 3 } GXTexFlip;
-
-typedef enum { GX_TEXPLTTCOLOR0_USE = 0, GX_TEXPLTTCOLOR0_TRNS = 1 } GXTexPlttColor0;
 struct FieldSubscreen;
 struct CGearPowerOnOffWork;
 

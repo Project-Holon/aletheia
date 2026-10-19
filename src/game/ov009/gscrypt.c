@@ -31,8 +31,7 @@
  */
 
 #include "../../matched/arm9_sdk/libc/string.h"
-typedef unsigned char u8;
-typedef unsigned int u32;
+#include "../types.h"
 
 typedef struct gsLargeInt_s {
     u32 mLength;

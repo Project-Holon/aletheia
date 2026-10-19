@@ -27,7 +27,7 @@
  *           image has the folded two).
  */
 
-typedef unsigned int u32;
+#include "../types.h"
 
 typedef enum
 {

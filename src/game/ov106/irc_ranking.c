@@ -165,9 +165,7 @@
  *   BG_SYS_Update  0x020419E4  arm  arm9
  */
 #include "../ov101/irc_appbar.h"
-typedef signed char s8;
-typedef signed short s16;
-typedef signed int s32;
+#include "../types.h"
 
 /*
  * Infrared compatibility ranking screen.  The proc shows the 30-entry ranking
@@ -1387,7 +1385,6 @@ void IRC_RANKING_InputExit(IrcRankingInput *input)
 {
     MI_CpuFill8(input, 0, sizeof(IrcRankingInput));
 }
-
 
 /*
  * extent: two zero padding bytes follow the return, before 0x021B8E50.

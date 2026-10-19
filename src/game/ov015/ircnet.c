@@ -36,9 +36,7 @@
  *   IRC_SetRecvCallback  0x0217A584  arm  ov015
  *   IRC_GetUnitNumber  0x0217A5A4  arm  ov015
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../types.h"
 
 #include "ircnet_types.h"
 #include "../arm9/net_types.h"

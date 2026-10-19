@@ -58,15 +58,7 @@
 #define FIELD_LIGHT_FADE_NO_RETURN  0xFFFF
 
 struct LightSlot;
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef signed short   s16;
-
-typedef signed int     s32;
+#include "../types.h"
 
 /* Light direction, three fx16 components. */
 typedef struct {

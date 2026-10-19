@@ -31,35 +31,9 @@
  *   OSi_DetachVAlarm         0x0208766C  arm
  *   SDK_AUTOLOAD_DTCM_START  0x02FE0000  data
  */
-typedef unsigned long u32;
+#include "../types.h"
 
-typedef long s32;
-
-typedef short s16;
-
-typedef unsigned short u16;
-
-typedef int BOOL;
-
-typedef u32 OSIntrMode;
-
-typedef struct OSiVAlarm OSVAlarm;
-
-typedef void (*OSVAlarmHandler)(void *arg);
-
-struct OSiVAlarm {
-    OSVAlarmHandler handler;
-    void *arg;
-    u32 tag;
-    u32 frame;
-    s16 fire;
-    s16 delay;
-    OSVAlarm *prev;
-    OSVAlarm *next;
-    BOOL period;
-    BOOL finish;
-    BOOL canceled;
-};
+#include "../sdk_os.h"
 
 typedef struct OSVAlarmQueue {
     OSVAlarm *head;
@@ -95,9 +69,7 @@ void OS_SetVAlarm(OSVAlarm *alarm, s16 count, s16 delay, OSVAlarmHandler handler
 extern OsVAlarmBss g_0215134C;
 extern char SDK_AUTOLOAD_DTCM_START[];
 
-
 #define reg_GX_VCOUNT (*(volatile u16 *)0x04000006)
-
 
 /*
  * sdk:      OS_InitVAlarm (os_valarm.o)
@@ -117,9 +89,7 @@ void OS_InitVAlarm(void)
     }
 }
 
-
 #define reg_GX_VCOUNT (*(volatile u16 *)0x04000006)
-
 
 /*
  * sdk:      OSi_InsertVAlarm (os_valarm.o)
@@ -153,9 +123,7 @@ void OSi_InsertVAlarm(OSVAlarm *alarm)
     OSi_AppendVAlarm(alarm);
 }
 
-
 #define reg_GX_VCOUNT (*(volatile u16 *)0x04000006)
-
 
 /*
  * sdk:      OSi_AppendVAlarm (os_valarm.o)
@@ -176,9 +144,7 @@ void OSi_AppendVAlarm(OSVAlarm *alarm)
     }
 }
 
-
 #define reg_GX_VCOUNT (*(volatile u16 *)0x04000006)
-
 
 /*
  * sdk:      OSi_DetachVAlarm (os_valarm.o)
@@ -208,7 +174,6 @@ void OSi_DetachVAlarm(OSVAlarm *alarm)
     }
 }
 
-
 /*
  * note:     os_valarm.o OS_CreateVAlarm.
  */
@@ -219,9 +184,7 @@ void OS_CreateVAlarm(OSVAlarm *alarm)
     alarm->finish = 0;
 }
 
-
 #define reg_GX_VCOUNT (*(volatile u16 *)0x04000006)
-
 
 /*
  * sdk:      OS_SetVAlarm (os_valarm.o)
@@ -251,9 +214,7 @@ void OS_SetVAlarm(OSVAlarm *alarm, s16 count, s16 delay, OSVAlarmHandler handler
     (void)OS_RestoreInterrupts(enabled);
 }
 
-
 #define reg_GX_VCOUNT (*(volatile u16 *)0x04000006)
-
 
 /*
  * sdk:      OSi_SetNextVAlarm (os_valarm.o)
@@ -266,14 +227,11 @@ void OSi_SetNextVAlarm(OSVAlarm *alarm)
     (void)OS_EnableIrqMask(4);
 }
 
-
 #define reg_GX_VCOUNT (*(volatile u16 *)0x04000006)
-
 
 #define reg_GX_DISPSTAT (*(volatile u16 *)0x04000004)
 
 #define OSi_IRQ_CHECK_FLAG (*(volatile u32 *)((u32)SDK_AUTOLOAD_DTCM_START + 0x3FF8))
-
 
 /*
  * sdk:      OSi_VAlarmHandler (os_valarm.o)
@@ -334,9 +292,7 @@ void OSi_VAlarmHandler(void)
     }
 }
 
-
 #define reg_GX_VCOUNT (*(volatile u16 *)0x04000006)
-
 
 /*
  * sdk:      OSi_CompareVCount (os_valarm.o)
@@ -356,9 +312,7 @@ int OSi_CompareVCount(OSVAlarm *alarm, s32 currentVFrame, s32 currentVCount)
     return (delayVCount <= alarm->delay) ? 1 : 2;
 }
 
-
 #define reg_GX_VCOUNT (*(volatile u16 *)0x04000006)
-
 
 /*
  * sdk:      OSi_GetVFrame (os_valarm.o)

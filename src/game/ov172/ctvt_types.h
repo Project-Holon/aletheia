@@ -8,11 +8,7 @@
 
 #include "ctvt_camera_types.h"
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed int     s32;
-typedef signed short   s16;
+#include "../types.h"
 
 /* Opaque library objects. */
 struct ClActor;

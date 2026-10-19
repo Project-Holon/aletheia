@@ -21,11 +21,7 @@ struct WordSet;
 
 struct CharBuf;
 
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef signed int     s32;
+#include "../types.h"
 
 typedef struct { u8 x, y; } LocalTvtTilePos;
 
@@ -41,8 +37,6 @@ struct Obj {
     unsigned char pad44[0x89 - 0x44];
     unsigned char stepIdx;
 };
-
-typedef unsigned int u32;
 
 /* One entry of the menu step table pointed at by LocalTvtSys.stepTable. */
 struct StepEntry {

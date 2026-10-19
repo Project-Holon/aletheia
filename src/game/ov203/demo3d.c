@@ -95,17 +95,9 @@ struct Ctx;
 struct PrintSys;
 struct Rec;
 struct Proc;
-typedef unsigned char u8;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-
-typedef unsigned int   u32;
-
-
-
-
-typedef enum { ShadingToon = 0, ShadingHighlight = 1 } GXShading;
+#include "../sdk_gx.h"
 
 extern int GF_OVERLAY_Load(int);
 extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
@@ -163,7 +155,6 @@ extern const char d_021C3CC0[];
 extern const Demo3dMethods d_021C3BC4;
 extern const unsigned short d_021BFB7C[][4];
 
-
 int DEMO3D_Init(void *manager, int unused, Demo3dArg *p)
 {
     Demo3dWork *w;
@@ -195,7 +186,6 @@ int DEMO3D_Init(void *manager, int unused, Demo3dArg *p)
     return 1;
 }
 
-
 int DEMO3D_Exit(void *a, void *b, void *c, Demo3dWork *work)
 {
     BRIGHTNESS_ChangeReset(3);
@@ -209,8 +199,6 @@ int DEMO3D_Exit(void *a, void *b, void *c, Demo3dWork *work)
     GF_OVERLAY_Unload((int)ov067_id);
     return 1;
 }
-
-
 
 int DEMO3D_Main(void *unused, int *state, void *c, Demo3dWork *work)
 {
@@ -251,8 +239,6 @@ int DEMO3D_Main(void *unused, int *state, void *c, Demo3dWork *work)
     return 0;
 }
 
-
-
 int DEMO3D_StartWipe(void *ctx, unsigned mode, unsigned heap)
 {
     unsigned char width, height;
@@ -270,11 +256,7 @@ int DEMO3D_StartWipe(void *ctx, unsigned mode, unsigned heap)
     return 1;
 }
 
-
-
 int DEMO3D_CheckSkip(Demo3dWork *p){if(p->arg->phase!=0||!WIPE_SYS_EndCheck())return 0;if(p->ctx->mode!=0){if(KEY_GetTrg()&0xcf3)return 1;}return 0;}
-
-
 
 Demo3dContext *DEMO3D_CreateContext(int mode, void *a, void *b, unsigned heap)
 {
@@ -293,9 +275,6 @@ Demo3dContext *DEMO3D_CreateContext(int mode, void *a, void *b, unsigned heap)
     return ctx;
 }
 
-
-
-
 void DEMO3D_DeleteContext(Demo3dContext *a)
 {
     if (a->methods)
@@ -303,42 +282,27 @@ void DEMO3D_DeleteContext(Demo3dContext *a)
     GFL_HEAP_Free(a);
 }
 
-
-
-
 void DEMO3D_UpdateContext(Demo3dContext *a)
 {
     if (a->methods)
         a->methods->update(a);
 }
 
-
-
 static inline void G3X_SetShading(GXShading shading) { DISP3DCNT = (unsigned short)((DISP3DCNT & ~0x3002) | (shading << 1)); }
-
-
 
 static inline void G3X_AntiAlias(int enable) { if (enable) DISP3DCNT = (unsigned short)(DISP3DCNT & ~0x3000 | 16); else DISP3DCNT &= (unsigned short)~0x3010; }
 
-
-
 static inline void G3X_AlphaTest(int enable, int ref) { if (enable) { DISP3DCNT = (unsigned short)(DISP3DCNT & ~0x3000 | 4); *(volatile unsigned short *)0x04000340 = ref; } else DISP3DCNT &= (unsigned short)~0x3004; }
-
-
 
 static inline void G3X_AlphaBlend(int enable) { if (enable) DISP3DCNT = (unsigned short)(DISP3DCNT & ~0x3000 | 8); else DISP3DCNT &= (unsigned short)~0x3008; }
 
-
-
 static inline void G3X_EdgeMarking(int enable) { if (enable) DISP3DCNT = (unsigned short)(DISP3DCNT & ~0x3000 | 32); else DISP3DCNT &= (unsigned short)~0x3020; }
-
-
 
 void DEMO3D_SetupGx(void)
 {
     unsigned i = 0;
     BG_SYS_EnableBg0WithPriority(0);
-    G3X_SetShading(ShadingHighlight);
+    G3X_SetShading(GX_SHADING_HIGHLIGHT);
     G3X_AntiAlias(0);
     G3X_AlphaTest(0, 0);
     G3X_AlphaBlend(1);

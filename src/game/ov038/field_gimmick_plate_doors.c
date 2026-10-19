@@ -80,15 +80,8 @@ struct GameData;
 struct GimmickWork;
 struct GameEvent;
 struct FieldMap;
-typedef unsigned short u16;
+#include "../types.h"
 
-typedef unsigned int u32;
-
-typedef signed int     s32;
-
-typedef unsigned char  u8;
-
-typedef signed char s8;
 struct FldExpObjCnt;
 
 extern struct FldExpObjCnt *FIELDMAP_GetExpObj(struct FieldMap *fieldMap);
@@ -259,8 +252,6 @@ void FIELD_GIMMICK_PLATE_DOORS_Init(void *fieldMap)
     GFL_HEAP_GetTotalFreeSize(0x15);
 }
 
-
-
 /* Exit: frees the runtime state and the expansion object unit. */
 void FIELD_GIMMICK_PLATE_DOORS_Exit(void *fieldMap)
 {
@@ -269,8 +260,6 @@ void FIELD_GIMMICK_PLATE_DOORS_Exit(void *fieldMap)
     FIELDMAP_FreeCommonWork(fieldMap, 1);
     FLD_EXP_OBJ_RemoveUnit((struct FldExpObjCnt *)expObj, 0);
 }
-
-
 
 /*
  * extent: two bytes of alignment padding at 021F3A06.
@@ -282,9 +271,6 @@ void FIELD_GIMMICK_PLATE_DOORS_Update(void *fieldMap)
     GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 6);
     FLD_EXP_OBJ_UpdateAnimes((void *)expObj);
 }
-
-
-
 
 /*
  * Finds the door at the cell or one cell to its left or right.  exactCell is
@@ -323,9 +309,6 @@ int FIELD_GIMMICK_PLATE_DOORS_FindDoor(FieldGimmickPlateDoorsWork *work, int cel
     *doorOpen = 0;
     return 7;
 }
-
-
-
 
 /*
  * Starts the event for the door that the player faces: pushing the open door,
@@ -367,9 +350,6 @@ int FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent(int gameSystem, int cellX, int cell
     runtime->acmdDone = 0;
     runtime->acmdActive = 0;
 }
-
-
-
 
 /*
  * Event: the player slides an open door by holding up or down, then lets go.
@@ -494,9 +474,6 @@ int FIELD_GIMMICK_PLATE_DOORS_EventSlideDoor(int event, int *state)
     return 0;
 }
 
-
-
-
 /*
  * Event: the open door slides back to its home position.
  * note:     same u8 side spelling as FIELD_GIMMICK_PLATE_DOORS_EventBumpDoorSide (side++ on a u8 local;
@@ -577,10 +554,6 @@ int FIELD_GIMMICK_PLATE_DOORS_EventReturnDoor(int event, int *state)
     return 0;
 }
 
-
-
-
-
 /*
  * Event: the player bumps the side of a door (shake animation on the open or
  * closed door model).
@@ -640,11 +613,6 @@ int FIELD_GIMMICK_PLATE_DOORS_EventBumpDoorSide(int event, int *state)
     return 0;
 }
 
-
-
-
-
-
 /*
  * Event: the player bumps a closed door (shake animation on the closed model).
  * note:     `animeIdx++` on the u8 local keeps the increment of the stored zero
@@ -695,10 +663,6 @@ int FIELD_GIMMICK_PLATE_DOORS_EventBumpClosedDoor(int event, int *state)
     return 0;
 }
 
-
-
-
-
 /* Script command: starts the press event of a switch. */
 void *FIELD_GIMMICK_PLATE_DOORS_StartSwitchEvent(void *gameSystem, int switchIdx)
 {
@@ -707,9 +671,6 @@ void *FIELD_GIMMICK_PLATE_DOORS_StartSwitchEvent(void *gameSystem, int switchIdx
     runtime->switchIdx = switchIdx;
     return GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventPressSwitch, 0);
 }
-
-
-
 
 /* Script command: starts the press event of a plate. */
 void *FIELD_GIMMICK_PLATE_DOORS_StartPlateEvent(void *gameSystem, int plateIdx)
@@ -720,9 +681,6 @@ void *FIELD_GIMMICK_PLATE_DOORS_StartPlateEvent(void *gameSystem, int plateIdx)
     return GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventPressPlate, 0);
 }
 
-
-
-
 /* Script command: starts the scripted event, whose script depends on the variant. */
 void *FIELD_GIMMICK_PLATE_DOORS_StartScriptedEvent(void *gameSystem, int variant)
 {
@@ -730,8 +688,6 @@ void *FIELD_GIMMICK_PLATE_DOORS_StartScriptedEvent(void *gameSystem, int variant
     runtime->scriptVariant = variant;
     return GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventScripted, 0);
 }
-
-
 
 /*
  * Event: plays the press animation of a switch and saves it as found.
@@ -780,8 +736,6 @@ int FIELD_GIMMICK_PLATE_DOORS_EventPressSwitch(int event, int *state)
     }
     return 0;
 }
-
-
 
 /*
  * Event: plays the press animation of a plate; when the plate it depends on is

@@ -33,8 +33,7 @@
  *   _u32_div_f                   0x0209C2B0  arm
  *   data_0272EB9C                0x0272EB9C  data
  */
-typedef unsigned int u32;
-typedef unsigned char u8;
+#include "../types.h"
 
 typedef struct Node {
     struct Node *next;

@@ -24,9 +24,8 @@
  *   STD_GetStringLength  0x0208CC78  arm  arm9
  *   @12945 0x021CDFA4 data
  */
-typedef unsigned int u32;
+#include "../types.h"
 #define NHTTPi_TOLOWER(c) ((((c) >= 'A') & ((c) <= 'Z')) ? (c) + 0x20 : (c))
-typedef unsigned char u8;
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern int STD_GetStringLength(const char *s);
@@ -51,13 +50,10 @@ int NHTTPi_memfind(signed char *hay, int len1, signed char *needle, int len2);
 int NHTTPi_Base64Encode(char *dst_p, const char *src_p);
 extern char sNHTTPBase64Chars[];
 
-
 void NHTTPi_memcpy(void *dst, void *src, u32 size)
 {
     MI_CpuCopy8(src, dst, size);
 }
-
-
 
 /*
  * ov114 tail-call thunk (ldr ip,pool; bx ip).
@@ -67,21 +63,15 @@ int NHTTPi_strlen(const char *s)
     return STD_GetStringLength(s);
 }
 
-
-
 int NHTTPi_strnlen(const char *s, int maxLen)
 {
     return STD_GetStringNLength(s, maxLen);
 }
 
-
-
 int NHTTPi_strcmp(const char *s1, const char *s2)
 {
     return STD_CompareString(s1, s2);
 }
-
-
 
 /*
  * ov114 tail-call thunk: g(a, 0, b) via `ldr ip,pool; bx ip`.
@@ -90,8 +80,6 @@ void NHTTPi_memclr(void *dst_p, int size)
 {
     MI_CpuFill8(dst_p, 0, size);
 }
-
-
 
 int NHTTPi_strnicmp(const char *p1_p, const char *p2_p, int size)
 {
@@ -114,7 +102,6 @@ int NHTTPi_strnicmp(const char *p1_p, const char *p2_p, int size)
     return size;
 }
 
-
 int NHTTPi_getUrlEncodedSize(char *s)
 {
     int w = 0;
@@ -130,7 +117,6 @@ int NHTTPi_getUrlEncodedSize(char *s)
     }
     return w;
 }
-
 
 int NHTTPi_getUrlEncodedSize2(char *p_p, int len)
 {
@@ -154,7 +140,6 @@ int NHTTPi_getUrlEncodedSize2(char *p_p, int len)
     return n;
 }
 
-
 int NHTTPi_encodeUrlChar(char *dst, int c)
 {
     int hi, lo;
@@ -176,8 +161,6 @@ int NHTTPi_encodeUrlChar(char *dst, int c)
     dst[2] = lo < 10 ? lo + '0' : lo + '7';
     return 3;
 }
-
-
 
 /*
  * sdk:      NHTTPi_strToHex (libnhttp.TWL.HYB.a(nhttp_stdlib_ntr))
@@ -217,7 +200,6 @@ int NHTTPi_strToHex(char *p_p, int len)
     return n;
 }
 
-
 int NHTTPi_strToInt(signed char *s, int len)
 {
     int i;
@@ -242,7 +224,6 @@ int NHTTPi_strToInt(signed char *s, int len)
     return acc;
 }
 
-
 int NHTTPi_intToStr(char *p_p, unsigned long n)
 {
     unsigned int rdx[9] = {1000000000, 100000000, 10000000, 1000000, 100000, 10000, 1000, 100, 10};
@@ -266,8 +247,6 @@ int NHTTPi_intToStr(char *p_p, unsigned long n)
     return len + 1;
 }
 
-
-
 int NHTTPi_compareToken(char *p1_p, char *p2_p)
 {
     while (NHTTPi_TOLOWER(*p1_p) == NHTTPi_TOLOWER(*p2_p)) {
@@ -278,7 +257,6 @@ int NHTTPi_compareToken(char *p1_p, char *p2_p)
     }
     return -1;
 }
-
 
 /*
  * sdk:      NHTTPi_strtonum (libnhttp.TWL.HYB.a(nhttp_stdlib_ntr))
@@ -303,7 +281,6 @@ int NHTTPi_strtonum(char *p_p, int size)
     }
     return n;
 }
-
 
 /*
  * Substring search: if len1 < len2 return -1; scan hay for needle.  On a
@@ -340,8 +317,6 @@ int NHTTPi_memfind(signed char *hay, int len1, signed char *needle, int len2)
     }
     return -1;
 }
-
-
 
 /*
  * sdk:      NHTTPi_Base64Encode (libnhttp.TWL.HYB.a(nhttp_stdlib_ntr))

@@ -26,9 +26,7 @@
  *   G2x_SetBlendBrightnessExt_  0x0207D67C  arm
  *   DWCi_WindowG2x_ChangeBlendBrightness_  0x0207D6C0  arm
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../types.h"
 
 /*
  * Field V-blank requests: blend and brightness register writes and BG

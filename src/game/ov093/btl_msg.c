@@ -61,13 +61,12 @@
  *   BTL_MAIN_IsOpposingPos  0x021B8CE8  thumb  ov093
  *   BTL_MAIN_GetOwnClientId  0x021B8FF4  thumb  ov093
  */
-#include "btl_adapter_shared_types.h"
 
 #define va_start(v, l) ((v) = (char *)(((unsigned int)&(l) & ~3u) + 4))
 
 #define va_arg(ap, t) (*(t *)((ap += 4) - 4))
 
-typedef signed int s32;
+#include "../types.h"
 
 typedef char *va_list;
 

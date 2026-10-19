@@ -64,15 +64,9 @@
 struct Actor;
 struct BbBoard;
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef signed short s16;
-typedef unsigned int u32;
-typedef int fx32;
+#include "../types.h"
 
-typedef struct VecFx32 {
-    fx32 x, y, z;
-} VecFx32;
+#include "../sdk_fx.h"
 
 /* Reflection effect work (FLDEFF_CTRL effect slot 6). */
 typedef struct ReflectEffectWork {

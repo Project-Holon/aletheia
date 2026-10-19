@@ -61,7 +61,7 @@
  *   SYSTEM_DATA_ClearActive  0x02008774  thumb
  */
 #include "btl_setup_types.h"
-#include "save_control_shared_types.h"
+#include "../types.h"
 
 struct BackupSaveData;   /* backup_system.c: one flash save area (main or extra) */
 

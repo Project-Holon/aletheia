@@ -117,17 +117,11 @@ struct Reg2;
 struct ZoneData;
 struct Obj;
 struct Link;
-typedef unsigned char u8;
-
-typedef unsigned int u32;
-
-typedef unsigned short u16;
+#include "../types.h"
 
 typedef enum { setupValueOffset = 0x24f } SetupValueOffset;
 
 typedef enum { matchValueOffset = 0x2c0 } MatchValueOffset;
-
-typedef signed int     s32;
 
 struct Sub { u32 a0; u32 a4; u8 pad[1]; };
 
@@ -306,10 +300,6 @@ typedef struct Flag { u8 bit:1; u8 rest:7; } Flag;
 
 typedef struct PartyCounts { u8 a,b,c; } PartyCounts;
 
-typedef signed short   s16;
-
-typedef signed char    s8;
-
 typedef struct Flags { u32 year:7, month:4, day:5, hour:5, minute:6, rest:4, enabled:1; } Flags;
 
 typedef struct Nibbles { u8 a:4,b:4; } Nibbles;
@@ -468,7 +458,6 @@ extern u8 data_021BB0B0[];
 extern u8 data_021F03C4[];
 extern u8 data_021EFDAC[];
 
-
 /*
  * lever: case 1 precedes case 0 to preserve the backward shared assignment.
  * ABI exception: 3159C legacy void callee leaves allocator pointer in r0;
@@ -527,7 +516,6 @@ int WIFIBATTLEMATCH_SYS_CreateWork(void *a, int unused, u8 *arg)
     return 1;
 }
 
-
 int WIFIBATTLEMATCH_SYS_DestroyWork(void *sys, int unused, void *data, char *p)
 {
     WIFIBATTLEMATCH_SYS_DeleteProcWork(((struct WifiBattleMatchSysWork *)p)->procWork);
@@ -546,7 +534,6 @@ int WIFIBATTLEMATCH_SYS_DestroyWork(void *sys, int unused, void *data, char *p)
     return 1;
 }
 
-
 int WIFIBATTLEMATCH_SYS_WaitTask(int unused,int *state,int unused2,char *p)
 {
     switch(*state) {
@@ -562,7 +549,6 @@ int WIFIBATTLEMATCH_SYS_WaitTask(int unused,int *state,int unused2,char *p)
     }
     return 0;
 }
-
 
 /*
  * ABI: allocator tag is u16; passing symbolic setupValueOffset directly avoids truncating
@@ -595,7 +581,6 @@ int *WIFIBATTLEMATCH_SYS_BuildRuleCommand(void *obj, unsigned heap, char *ctx)
     return p;
 }
 
-
 int WIFIBATTLEMATCH_SYS_HandleRuleCommand(void *obj, int *command, int *ctx)
 {
     switch (command[2]) {
@@ -609,7 +594,6 @@ int WIFIBATTLEMATCH_SYS_HandleRuleCommand(void *obj, int *command, int *ctx)
     GFL_HEAP_Free(command);
     return 1;
 }
-
 
 /*
  * ABI: EA04 consumes the live return register from E9F4, with no new setup.
@@ -644,7 +628,6 @@ int *WIFIBATTLEMATCH_SYS_BuildMatchCommand(int unused, unsigned heap, char *ctx)
     return p;
 }
 
-
 /*
  * lever: case 4 stores the flag and falls through to case 0's shared call.
  */
@@ -667,7 +650,6 @@ int WIFIBATTLEMATCH_SYS_HandleMatchCommand(void *obj, int *command, int *ctx)
     GFL_HEAP_Free(command);
     return 1;
 }
-
 
 /*
  * ABI exception: AE14 and 084F4 empty callees preserve live pointer r0;
@@ -713,7 +695,6 @@ u8 *WIFIBATTLEMATCH_SYS_BuildRegulationRecord(int unused, unsigned heap, u8 *p)
     return out;
 }
 
-
 /*
  * tail: 02212AF6..02212AF8 is zero alignment padding.
  */
@@ -735,7 +716,6 @@ int WIFIBATTLEMATCH_SYS_HandlePartyCommand(void *obj, int *command, int *ctx)
     GFL_HEAP_Free(command);
     return 1;
 }
-
 
 /*
  * matching: a switch default written as its own copy of case 0 leaves the b stub the
@@ -851,7 +831,6 @@ struct Out *WIFIBATTLEMATCH_SYS_BuildSetupRecord(int unused, u32 heap, struct Wi
     return out;
 }
 
-
 int WIFIBATTLEMATCH_SYS_ApplySetup(void *manager, u8 *arg, u8 *p)
 {
     u8 *record = *(u8 * *)&((struct WifiBattleMatchSysSetupArg *)arg)->record;
@@ -898,7 +877,6 @@ int WIFIBATTLEMATCH_SYS_ApplySetup(void *manager, u8 *arg, u8 *p)
     return 1;
 }
 
-
 int *WIFIBATTLEMATCH_SYS_BuildStartCommand(int unused, unsigned heap, char *ctx)
 {
     int zero = 0;
@@ -917,7 +895,6 @@ int *WIFIBATTLEMATCH_SYS_BuildStartCommand(int unused, unsigned heap, char *ctx)
     return p;
 }
 
-
 int WIFIBATTLEMATCH_SYS_HandleStartCommand(char *p, char *q, char *work)
 {
     int mode = ((struct WifiBattleMatchSysCommand *)q)->mode;
@@ -935,7 +912,6 @@ int WIFIBATTLEMATCH_SYS_HandleStartCommand(char *p, char *q, char *work)
     return 1;
 }
 
-
 void *WIFIBATTLEMATCH_SYS_BuildSyncCommand(void *unused, int heap, char *p)
 {
     unsigned int *work = GFL_HEAP_Alloc(heap, 0x1c, 0, d_02213D04, 0x5dc);
@@ -951,7 +927,6 @@ void *WIFIBATTLEMATCH_SYS_BuildSyncCommand(void *unused, int heap, char *p)
         work[1] = 0;
     return work;
 }
-
 
 int WIFIBATTLEMATCH_SYS_HandleSyncCommand(char *a, char *work, char *p)
 {
@@ -971,7 +946,6 @@ int WIFIBATTLEMATCH_SYS_HandleSyncCommand(char *a, char *work, char *p)
     }
     return 1;
 }
-
 
 /*
  * ABI exception: empty AE14 preserves its input pointer in r0, consumed here.
@@ -1021,7 +995,6 @@ unsigned *WIFIBATTLEMATCH_SYS_BuildVersionCommand(int unused, unsigned heap, u8 
     return out;
 }
 
-
 int WIFIBATTLEMATCH_SYS_HandleVersionCommand(char *p, char *q, char *work)
 {
     GFL_HEAP_Free(q);
@@ -1032,7 +1005,6 @@ int WIFIBATTLEMATCH_SYS_HandleVersionCommand(char *p, char *q, char *work)
     }
     return 1;
 }
-
 
 void *WIFIBATTLEMATCH_SYS_BuildRule2Command(void *unused, int heap, char *p)
 {
@@ -1045,7 +1017,6 @@ void *WIFIBATTLEMATCH_SYS_BuildRule2Command(void *unused, int heap, char *p)
         work[4] = 0x12;
     return work;
 }
-
 
 int WIFIBATTLEMATCH_SYS_HandleRule2Command(char *a, void *work, char *p)
 {
@@ -1067,7 +1038,6 @@ int WIFIBATTLEMATCH_SYS_HandleRule2Command(char *a, void *work, char *p)
     GFL_HEAP_Free(work);
     return 1;
 }
-
 
 /*
  * Scratch-only tails each EXACT 16B; blocker-0200BA58.log and blocker-0200BA68.log.
@@ -1097,7 +1067,6 @@ void *WIFIBATTLEMATCH_SYS_BuildSlotCommand(void *unused, int heap, char *p)
     return work;
 }
 
-
 int WIFIBATTLEMATCH_SYS_DestroySlotCommand(char *p, char *q)
 {
     GFL_USE_CancelChangeAndStopBgm();
@@ -1108,7 +1077,6 @@ int WIFIBATTLEMATCH_SYS_DestroySlotCommand(char *p, char *q)
     WIFIBATTLEMATCH_SYS_SetStep(p, 0);
     return 1;
 }
-
 
 void WIFIBATTLEMATCH_SYS_AllocPartyBuffers(char *p, int heap)
 {
@@ -1121,8 +1089,6 @@ void WIFIBATTLEMATCH_SYS_AllocPartyBuffers(char *p, int heap)
     MI_CpuFill8(((struct WifiBattleMatchSysWork *)p)->partyBuffer1, 0, size);
 }
 
-
-
 /*
  * Addresses are Black-image addresses.
  */
@@ -1131,7 +1097,6 @@ void WIFIBATTLEMATCH_SYS_FreePartyBuffers(u8 *p)
     GFL_HEAP_Free((void *)(((struct WifiBattleMatchSysWork *)p)->partyBuffer0));
     GFL_HEAP_Free((void *)(((struct WifiBattleMatchSysWork *)p)->partyBuffer1));
 }
-
 
 void WIFIBATTLEMATCH_SYS_FillSetupRecord(u8 *p,void *party1,void *party2,u8 *save,void *reg,int setting,u8 *record,void *other,int mode)
 {
@@ -1177,7 +1142,6 @@ void WIFIBATTLEMATCH_SYS_FillSetupRecord(u8 *p,void *party1,void *party2,u8 *sav
     ((Flags *)(p + 0x44))->enabled=REGULATION_GetRuleValue(reg,0xd);
 }
 
-
 void WIFIBATTLEMATCH_SYS_CountBoxSpecies(struct WifiBattleMatchSysSetupRecord *box, unsigned char *a, unsigned char *b)
 {
     int i, index, j, count;
@@ -1212,7 +1176,6 @@ void WIFIBATTLEMATCH_SYS_CountBoxSpecies(struct WifiBattleMatchSysSetupRecord *b
     }
 }
 
-
 void WIFIBATTLEMATCH_SYS_GetPartyCounts(const struct WifiBattleMatchSysSetupRecord *box, unsigned char *a, unsigned char *b)
 {
     int i, index;
@@ -1238,7 +1201,6 @@ void WIFIBATTLEMATCH_SYS_GetPartyCounts(const struct WifiBattleMatchSysSetupReco
     }
 }
 
-
 void *WIFIBATTLEMATCH_SYS_CreateProcWork(void *a, void *b, void *c, int heap)
 {
     char *work = GFL_HEAP_Alloc(heap, 0x20, 0, d_02213D04, 0x846);
@@ -1251,15 +1213,12 @@ void *WIFIBATTLEMATCH_SYS_CreateProcWork(void *a, void *b, void *c, int heap)
     return work;
 }
 
-
 void WIFIBATTLEMATCH_SYS_DeleteProcWork(char *p)
 {
     if (((struct WifiBattleMatchSysProc *)p)->result) GF_PANIC_Fail(d_02213D00, 0, d_02213D00);
     PROCSYS_Delete(((struct WifiBattleMatchSysProc *)p)->proc);
     GFL_HEAP_Free(p);
 }
-
-
 
 /*
  * lever: case 3 as if (h) { if (h(..) != 0) { f4 = 0; f1b = 4; } } else { f1b = 4; }
@@ -1318,33 +1277,27 @@ int WIFIBATTLEMATCH_SYS_RunScreen(struct WifiBattleMatchSysProc *s)
     return 0;
 }
 
-
 int WIFIBATTLEMATCH_SYS_GetResult(char *p)
 {
     return ((struct WifiBattleMatchSysProc *)p)->procState;
 }
-
 
 unsigned char WIFIBATTLEMATCH_SYS_GetKind(char *p)
 {
     return ((struct WifiBattleMatchSysProc *)p)->kind;
 }
 
-
 void WIFIBATTLEMATCH_SYS_SetStep(char *p, int value)
 {
     ((struct WifiBattleMatchSysProc *)p)->step = value;
 }
-
 
 /*
  * extent: final two bytes are alignment padding.
  */
 void WIFIBATTLEMATCH_SYS_SetStepDone(unsigned char *p){p[0x19]=255;}
 
-
 int WIFIBATTLEMATCH_SYS_CreateSubWork(struct Proc *p,int unused,char *q){void *r;GFL_HEAP_CreateChildHeap(1,88,336);r=PROCSYS_AllocProcWork(p,16,88);MI_CpuFill8(r,0,16);((struct WifiBattleMatchSysSubWork *)q)->commandAdded=0;((struct WifiBattleMatchSysSubWork *)r)->proc=PROCSYS_Create(88);GFL_USE_FadeOutBgm(16);return 1;}
-
 
 int WIFIBATTLEMATCH_SYS_DestroySubWork(void *a, void *b, void *c, char *work)
 {
@@ -1361,7 +1314,6 @@ int WIFIBATTLEMATCH_SYS_DestroySubWork(void *a, void *b, void *c, char *work)
     GFL_HEAP_DeleteChecked(0x58);
     return 1;
 }
-
 
 int WIFIBATTLEMATCH_SYS_HandleNetState(void *proc, int *seq, struct PWk *pw, struct MyWk *wk)
 {

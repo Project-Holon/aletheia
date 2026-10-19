@@ -94,14 +94,9 @@ struct Sub02008C20Obj;
 struct Self;
 struct S0201235C;
 
+#include "../types.h"
 
-typedef signed char    s8;
-
-
-
-
-
-typedef struct { fx32 m[3][3]; } MtxFx33;
+#include "../sdk_fx.h"
 
 typedef struct FldEffBbRes {
     u32 unused00;

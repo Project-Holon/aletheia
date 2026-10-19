@@ -164,69 +164,23 @@ struct TaskMenuTmpl;
 struct Ctx;
 struct StrObj;
 struct PmsDraw;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 typedef struct PosRecord {u16 x,y,z;u8 a,b;} PosRecord;
 
-typedef signed int     s32;
-
-typedef signed short s16;
-
-
 typedef struct Triple { u16 a[3]; } Triple;
-
-
-
-
-
-
-
-
-
 
 typedef struct { s16 x, y; } Vec;
 
-
-
-
-
-
-
 typedef struct Pt { s16 x,y; } Pt;
-
-
 
 typedef struct Callback { u16 n; u8 *p; void (*f)(u8 *); } Callback;
 
-
 typedef struct Table { u32 a[16]; } Table;
-
-
-
-
 
 typedef struct TextConfig {int heap; u8 count; u8 pad[3]; void *entries; int mode; u8 x,y,a,b;} TextConfig;
 
-
-
-
-
-
-
-
-
-
-
-
-
 typedef struct { int a, b; } Pair;
-
-
-
 
 extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
 extern u16 CLACT_GetActorAnimSeq(struct Actor *actor);
@@ -491,7 +445,6 @@ void GTSNEGO_MSG_InitWindows(u8 *actorSys, int includeFirstIcon)
     *(unsigned int *)&((struct GtsnegoActorSys *)actorSys)->scrollDirty = 1;
 }
 
-
 /*
  * Addresses are Black-image addresses.
  */
@@ -565,13 +518,11 @@ void GTSNEGO_MSG_TeardownTileRows(u8 *actorSys)
     ARC_TOOL_DeleteHandle(arcHandle);
 }
 
-
 /*
  * lever: name the p[2]+3 bound and reread p[2] for the increment;
  * retaining a named offset instead exchanges r3 and r4 (4-byte DIFF).
  */
 int GTSNEGO_MSG_CursorDown(void *unused,int *listState){int idx=listState[1];int ret=0;if(idx<2 && idx<listState[0]-1){listState[1]=idx+1;return 1;}else if(idx==2){int bound=listState[2]+3;if(bound<listState[0]){listState[2]=listState[2]+1;ret=2;}}return ret;}
-
 
 int GTSNEGO_MSG_CursorUp(void *unused,int *listState){int idx=listState[1];int ret=0;if(idx>0){listState[1]=idx-1;return 1;}else if(idx==0 && listState[2]!=0){listState[2]=listState[2]-1;ret=2;}return ret;}
 
@@ -592,7 +543,6 @@ void GTSNEGO_MSG_CreateCursorActor(u8 *actorSys)
     CLACT_SetActorAutoAnim(((struct GtsnegoActorSys *)actorSys)->selectorActor, 1);
     CLACT_SetActorDrawEnable(((struct GtsnegoActorSys *)actorSys)->selectorActor, 1);
 }
-
 
 void GTSNEGO_MSG_DeleteCursorActor(u8 *actorSys)
 {
@@ -647,14 +597,12 @@ void GTSNEGO_MSG_RestartIconAnim(struct GtsnegoActorSys *actorSys, u32 flag)
     }
 }
 
-
 void GTSNEGO_MSG_SetScrollState(struct GtsnegoActorSys *actorSys, int state)
 {
     actorSys->scrollState = state;
     if (state == 2) actorSys->scrollTarget = *(unsigned int *)&actorSys->scrollOffset + 48;
     else if (state == 1) actorSys->scrollTarget = *(unsigned int *)&actorSys->scrollOffset - 48;
 }
-
 
 void GTSNEGO_MSG_ClearScrollState(struct GtsnegoActorSys *actorSys)
 {
@@ -905,7 +853,6 @@ void GTSNEGO_MSG_Teardown(u8 *actorSys)
     ((struct GtsnegoActorSys *)actorSys)->idleFadeActive=0;
 }
 
-
 void GTSNEGO_MSG_DeleteButtons(u8 *msgCtx)
 {
     if (((struct GtsnegoMsgCtx *)msgCtx)->buttonMan) {
@@ -1096,7 +1043,6 @@ int GTSNEGO_MSG_CreateRow(u8 *msgCtx, int msgId, int x, int y, int width, int bg
     }
     return 0;
 }
-
 
 int GTSNEGO_MSG_CreateRowEx(int msgCtx, int msgId, int x, int y)
 {
@@ -1351,7 +1297,6 @@ void *GTSNEGO_MSG_OpenMenuB(char *msgCtx,int position)
     return result;
 }
 
-
 void GTSNEGO_MSG_CloseMenu(int taskMenu)
 {
     if (taskMenu != 0) {
@@ -1365,7 +1310,6 @@ void GTSNEGO_MSG_CreateDraw(struct GtsnegoMsgCtx *msgCtx,void *actorSys)
     if(!msgCtx->pmsDraw)
         msgCtx->pmsDraw=PMS_DRAW_Create(GTSNEGO_DISP_GetUnit(actorSys),0,(u32)(msgCtx->printQueue),(u32)(msgCtx->font),8,4,msgCtx->heapId);
 }
-
 
 void GTSNEGO_MSG_DeleteDraw(u8 *msgCtx)
 {
@@ -1419,12 +1363,10 @@ void GTSNEGO_MSG_CreateConfirmUi(u8 *msgCtx, int callback, int callbackWork)
     ((struct GtsnegoMsgCtx *)msgCtx)->buttonMan = BUTTON_MAN_Create((u8 *)gGtsnegoButtonConfirm, callback, callbackWork, ((struct GtsnegoMsgCtx *)msgCtx)->heapId);
 }
 
-
 void GTSNEGO_MSG_SetDecide(struct GtsnegoMsgCtx *msgCtx)
 {
     APP_TASKMENU_WIN_SetDecide(msgCtx->taskMenuWin, 1);
 }
-
 
 void GTSNEGO_MSG_DeleteConfirmWindow(u8 *msgCtx)
 {
@@ -1488,7 +1430,6 @@ void GTSNEGO_MSG_PrintSummary(char *msgCtx,void *status,u32 tradeCount)
     GTSNEGO_MSG_PrintEntry(msgCtx,status);
     GTSNEGO_MSG_PrintWindowB((u8 *)msgCtx,17);
 }
-
 
 void GTSNEGO_MSG_DeleteAll(char *msgCtx)
 {

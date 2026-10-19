@@ -28,13 +28,7 @@
  *   DWCi_AUTH_GetNewWiFiInfo 0x02058BC0 arm
  *   DWCi_BM_SetWiFiInfo      0x020586BC arm
  */
-typedef unsigned char      u8;
-
-typedef unsigned short     u16;
-
-typedef unsigned long      u32;
-
-typedef unsigned long long u64;
+#include "../types.h"
 
 typedef union tagUNI64 {
     u64 data;
@@ -42,35 +36,9 @@ typedef union tagUNI64 {
     u8  i[8];
 } UNI64;
 
-typedef signed long        s32;
+#include "../sdk_rtc.h"
 
-typedef signed long long   s64;
-
-typedef struct tagDWCWiFiInfo {
-    u64 attestedUserId;
-    u64 notAttestedId;
-    u16 pass;
-    u16 randomHistory;
-} DWCWiFiInfo;
-
-typedef struct RTCTime {
-    u32 hour;
-    u32 minute;
-    u32 second;
-} RTCTime;
-
-typedef struct RTCDate {
-    u32 year;
-    u32 month;
-    u32 day;
-    int week;
-} RTCDate;
-
-typedef struct {
-    u64 uId;
-    u64 notAttestedId;
-    u32 flg;
-} DWCAuthWiFiId;
+#include "../sdk_dwc.h"
 
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
 extern void DWCi_BM_GetWiFiInfo(DWCWiFiInfo *buf);
@@ -91,7 +59,6 @@ void DWC_Auth_GetId(DWCAuthWiFiId *id);
 int DWC_Auth_CheckWiFiIDNeedCreate(void);
 extern const u8 DWCi_util_wifiid_ttable[16];
 extern const u8 DWCi_util_wifiid_exctable[8];
-
 
 /*
  * sdk:      DWCi_Util_WiFiId_scrambleUid (libdwcbm.TWL.HYB.a util_wifiidtool.o)
@@ -124,13 +91,11 @@ u64 DWCi_Util_WiFiId_scrambleUid(u16 rand, u32 mac, u8 vend, u8 mainunit)
     return uni64.data;
 }
 
-
 #define DWC_WIFIID_RAND_MUL 0x5D588B65
 
 #define DWC_WIFIID_RAND_ADD 0x00269EC3
 
 #define DWC_NINTENDO_OUI    0x0009BF
-
 
 /*
  * sdk:      DWCi_AUTH_GetNewWiFiInfo (util_wifiidtool.o)
@@ -183,7 +148,6 @@ int DWCi_AUTH_GetNewWiFiInfo(DWCWiFiInfo *wifiinfo)
     return 1;
 }
 
-
 /*
  * sdk:      DWCi_AUTH_MakeWiFiID (libdwcbm.TWL.HYB.a util_wifiidtool.o)
  */
@@ -195,7 +159,6 @@ int DWCi_AUTH_MakeWiFiID(void *work)
         return 0;
     return DWCi_BM_SetWiFiInfo(&wifiinfo, work) ? 1 : 0;
 }
-
 
 /*
  * sdk:      DWCi_AUTH_UpDateWiFiID (libdwcbm.TWL.HYB.a util_wifiidtool.o)
@@ -210,13 +173,11 @@ int DWCi_AUTH_UpDateWiFiID(DWCWiFiInfo *wifiinfo, void *work)
     return DWCi_BM_SetWiFiInfo(wifiinfo, work) ? 1 : 0;
 }
 
-
 #define DWC_WIFIID_RAND_MUL 0x5D588B65
 
 #define DWC_WIFIID_RAND_ADD 0x00269EC3
 
 #define DWC_NINTENDO_OUI    0x0009BF
-
 
 /*
  * sdk:      DWCi_AUTH_RemakeWiFiID (util_wifiidtool.o)
@@ -260,7 +221,6 @@ int DWCi_AUTH_RemakeWiFiID(DWCWiFiInfo *wifiinfo)
     return 1;
 }
 
-
 /*
  * sdk:      DWC_Auth_GetId (libdwcbm.TWL.HYB.a util_wifiidtool.o)
  */
@@ -276,7 +236,6 @@ void DWC_Auth_GetId(DWCAuthWiFiId *id)
     else
         id->flg = 0;
 }
-
 
 /*
  * sdk:      DWC_Auth_CheckWiFiIDNeedCreate (libdwcbm.TWL.HYB.a util_wifiidtool.o)

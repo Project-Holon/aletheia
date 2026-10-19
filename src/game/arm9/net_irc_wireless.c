@@ -48,7 +48,7 @@
  *   GFL_NET_SendToHandle 0x0203D3A8 arm arm9
  *   GFL_NET_GetSession 0x0203D788 arm arm9
  */
-#include "net_shared_types.h"
+#include "../types.h"
 #include "net_types.h"
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);

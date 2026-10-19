@@ -4,15 +4,7 @@
  * ov093 battle events: the event factor list and the event variable stack.
  */
 
-#ifndef OV093_BASIC_TYPES
-#define OV093_BASIC_TYPES
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed char s8;
-typedef signed short s16;
-typedef signed int s32;
-#endif
+#include "../types.h"
 
 #define BTL_EVENT_FACTOR_MAX 0x84
 #define BTL_EVENT_VAR_MAX 0x60

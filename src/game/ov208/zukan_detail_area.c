@@ -392,7 +392,7 @@ struct Rec44;
 
 struct Vec3;
 
-typedef short          s16;
+#include "../types.h"
 
 typedef struct {
     u16 x;
@@ -409,8 +409,6 @@ typedef struct {
 typedef struct {
     u8 v[7];
 } Row7;
-
-
 
 struct WinCfg {
     u8 bg;
@@ -430,33 +428,17 @@ struct WinCfg4 {
     struct WinCfg e[4];
 };
 
-
-
-
-
 struct Ball { struct Vec3 p; int radius; };
 
 struct Seg { struct Vec3 a,b; int radius; };
 
 struct Out { u32 hit; struct Vec3 n; int distance; };
 
-
-
 typedef struct {
     u8 allSeasons;
     u8 noArea;
     u8 rest[0x3c];
 } Entry;
-
-
-
-typedef short          s16;
-
-typedef signed short   s16;
-
-
-
-typedef int BOOL;
 
 typedef enum { ONE = 1 } One;
 
@@ -534,10 +516,7 @@ extern void ZUKAN_DETAIL_PROCSYS_FreeBuffer(char *);
 
 extern void GF_OVERLAY_Unload(int);
 
-
-
 extern int GAME_DATA_ContainsRecentId(void *gd, int b);
-
 
 extern void GAME_DATA_SetRecentId(void *p, u32 a, u32 b);
 
@@ -557,30 +536,21 @@ extern void ZUKAN_DETAIL_COMMON_DeletePaletteAnim(char *p);
 
 extern void TOWNMAP_GRH_FreeTownInfo(void *);
 
-
 extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
 
-
 extern u32  ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc(u16 heap, u32 kind, u8 layer, u8 pal, u8 objPal);
-
 
 extern void ZUKAN_DETAIL_COMMON_CopyHwPalettesToSlots(u32 fade);
 
 extern void ZUKAN_DETAIL_COMMON_StartFadeIn(u32 fade);
 
-
 extern void ZUKAN_DETAIL_COMMON_StartBlendIn(u32 blend);
 
 extern void ZUKAN_DETAIL_COMMON_StartFadeOut(u32 fade);
 
-
-
 extern int  ZUKAN_DETAIL_COMMON_IsBlendBusy(u32 blend);
 
 extern int  ZUKAN_DETAIL_COMMON_IsFadeBusy(u32 fade);
-
-
-
 
 extern void ZUKAN_DETAIL_COMMON_StartBlendOut(u32 blend);
 
@@ -588,9 +558,7 @@ extern void ZUKAN_DETAIL_COMMON_StartFadeOutAlt(u32 fade);
 
 extern void ZUKAN_DETAIL_TOUCHBAR_SetButtonEnabled(void *s, int v);
 
-
 extern void ZUKAN_DETAIL_COMMON_TickFlashEffect(u32 win);
-
 
 extern void ZUKAN_DETAIL_COMMON_UpdateBlendFades(u32 main, u32 sub);
 
@@ -644,7 +612,6 @@ extern u32  SYMBOL_MAP_ResolveZoneId(void *gameData, u32 b);
 
 extern int TOWNMAP_GRH_FindRecordIndex(int info, int id);
 
-
 extern void BUTTON_MAN_InitSphere(struct Ball *,struct Vec3 *,u32);
 
 extern void BUTTON_MAN_InitSegment(char *p, struct Vec3 *q, struct Vec3 *r, u32 v);
@@ -663,11 +630,7 @@ extern void VEC_Normalize(struct Vec3 *src, struct Vec3 *dst);
 
 extern void BUTTON_MAN_ScaleVec(const struct Vec3 *v, int s, struct Vec3 *dst);
 
-
-
 extern void ZUKAN_DETAIL_AREA_FinishHideOverlay(u16 *heap, u8 *p, struct Ov208Ctx *key);
-
-
 
 extern void ZUKAN_DETAIL_TOUCHBAR_SetButtonDrawEnable(void *s, u32 on);
 
@@ -681,13 +644,11 @@ extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
 extern u32 WORDSET_Delete(struct WordSet *p);
 
-
 extern u32 ZONEDATA_GetPlaceNameId(u32 id);
 
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 
 extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
-
 
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 
@@ -695,9 +656,7 @@ extern void ZUKAN_DETAIL_AREA_SetPlayerMarkerVisible(u16 *, u8 *, struct Ov208Ct
 
 extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, struct GfFont *a, u32 b);
 
-
 extern void G2x_SetBlendAlpha_(volatile void *, int, int, int, int);
-
 
 int ZUKAN_DETAIL_GRAPHIC_Reset3dState(char *p);
 
@@ -824,7 +783,6 @@ void ZUKAN_DETAIL_AREA_DrawAreaSetTitle(u16 *heap, u8 *p, struct Ov208Ctx *key);
 void ZUKAN_DETAIL_AREA_BeginModeTransition(void *a, char *b, struct Ov208Ctx *key);
 
 void ZUKAN_DETAIL_AREA_BeginHideOverlay(u16 *heap, u8 *p, struct Ov208Ctx *key);
-
 
 void ZUKAN_DETAIL_AREA_DrawNoDataMessage(void *heap, u8 *st, struct Ov208Ctx *key);
 

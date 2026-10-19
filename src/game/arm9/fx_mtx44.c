@@ -19,31 +19,11 @@
  *   FX_Div                         0x0207C768  arm
  *   FX_GetDivResult                0x0207C86C  arm
  */
-typedef long fx32;
-
-typedef long long fx64;
+#include "../types.h"
 
 typedef long long fx64c;
 
-typedef unsigned long u32;
-
-typedef unsigned long long u64;
-
-typedef union {
-    struct {
-        fx32 _00, _01, _02, _03;
-        fx32 _10, _11, _12, _13;
-        fx32 _20, _21, _22, _23;
-        fx32 _30, _31, _32, _33;
-    };
-    fx32 m[4][4];
-    fx32 a[16];
-} MtxFx44;
-
-typedef union {
-    fx32 m[4][3];
-    fx32 a[12];
-} MtxFx43;
+#include "../sdk_fx.h"
 
 void FX_InvAsync(fx32 denom);
 u64 FX_GetDivResultFx64c(void);

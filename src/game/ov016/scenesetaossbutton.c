@@ -92,7 +92,6 @@
  *   DWCi_SceneSetSelectWay  0x021CC998  arm  ov016
  *   DWCi_SceneSetAossComplete  0x021C4EC8  arm  ov016
  *   input                            0x021C4BDC  arm
- *   draw                             0x021C4C14  arm
  *   DWCi_IPTlUpdate  0x021D656C  arm
  */
 #include "../../matched/include/G_SCENESETAOSSBUTT_BSS.h"
@@ -106,7 +105,7 @@ typedef struct {
     void          *Task;              /* 0x04 */
 } SCENESETAOSSBUTT_BSS;
 
-typedef unsigned short u16;
+#include "../types.h"
 
 /* sceneopterase.o .bss at 0x021DE5A4, members at their vendor offsets */
 typedef struct {
@@ -183,7 +182,6 @@ static void procError1(void);
 static void procWait(void);
 static void procCancel(void);
 
-
 /*
  * Bit 15 of the halfword at 0x02FFFFA8 (lid closed), as 0/1: this scene's own
  * copy of the libdwcutil helper.
@@ -206,7 +204,6 @@ void DWCi_SceneSetAossButton(void)
     DWCi_SNDlPlay(0xb);
     DWCi_ChangeScene(procInit);
 }
-
 
 /*
  * Load three tilemaps through DWCi_CMNlLoadResource, then set the low two bits of five
@@ -231,7 +228,6 @@ static void initGraphics(void)
     p[1] = (p[1] & ~3) | 3;
 }
 
-
 static void procInit(void)
 {
     DWCi_EFFlFade(2, 1, 1, 8);
@@ -240,7 +236,6 @@ static void procInit(void)
     DWCi_GXlVisible(0, 0x15);
     DWCi_ChangeScene(procInit1);
 }
-
 
 static void procInit1(void)
 {
@@ -252,7 +247,6 @@ static void procInit1(void)
     DWCi_ChangeScene(procInit2);
 }
 
-
 static void procInit2(void)
 {
     if (DWCi_BTNlGet() == -2)
@@ -260,7 +254,6 @@ static void procInit2(void)
     Choose.Task = DWCi_TSKlForm(1, (void (*)(void *, void *))taskVBlank, 0, 0x78);
     DWCi_ChangeScene(procScene);
 }
-
 
 static void procScene(void)
 {
@@ -292,7 +285,6 @@ static void procScene(void)
     }
 }
 
-
 static void input(void)
 {
     if (DWCi_IPTlCheckTrigger(2))
@@ -308,7 +300,6 @@ void DWCi_SceneSetAossButton_draw(void)
 {
 }
 
-
 static void button(void)
 {
     if (DWCi_BTNlGet())
@@ -320,7 +311,6 @@ static void button(void)
     DWCi_BTNlDisable();
     DWCi_ChangeScene(procCancel);
 }
-
 
 static void endScene(void)
 {
@@ -335,7 +325,6 @@ static void procConfirm(void);
 
 static void procConfirm1(void);
 
-
 static void endScene1(void)
 {
     if (DWCi_EFFlCheck(1))
@@ -346,7 +335,6 @@ static void endScene1(void)
     DWCi_EFFlFade(3, 0, 0x15, 8);
     DWCi_ChangeScene(endScene2);
 }
-
 
 /*
  * sdk:      endScene2 (libdwcutil.TWL.HYB.a scenesetaossbutton.o)
@@ -378,7 +366,6 @@ static void endScene2(void)
     }
 }
 
-
 static void taskVBlank(void)
 {
     DWCi_IPTlUpdate();
@@ -386,7 +373,6 @@ static void taskVBlank(void)
     input();
     button();
 }
-
 
 static void procError(void)
 {
@@ -397,7 +383,6 @@ static void procError(void)
     DWCi_ChangeScene(procError1);
 }
 
-
 static void procError1(void)
 {
     if (DWCi_WINlIsInit())
@@ -406,13 +391,10 @@ static void procError1(void)
 }
 
 
-static void draw(void);
-
-
 static void procWait(void)
 {
     input();
-    draw();
+    DWCi_SceneSetAossButton_draw();
     button();
     Choose.Count = Choose.Count + 1;
     if (Choose.Count < 1080)
@@ -420,7 +402,6 @@ static void procWait(void)
     DWCi_SNDlStop();
     DWCi_ChangeScene(endScene);
 }
-
 
 /*
  * Tear down the sequence and post the event at 0x021C4C60.

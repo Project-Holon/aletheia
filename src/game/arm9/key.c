@@ -22,7 +22,7 @@
  */
 #include "touchpanel_shared_types.h"
 
-typedef volatile u16   vu16;
+#include "../types.h"
 
 #define REG_KEYINPUT        0x04000130
 

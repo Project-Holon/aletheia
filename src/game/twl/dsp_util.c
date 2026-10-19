@@ -24,9 +24,7 @@
  *   OS_SetAlarm  0x0208738C  arm  arm9
  *   data_027344D8                0x027344D8  data
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../types.h"
 
 /* Pipe control block of the DSP data RAM, 10 bytes. */
 typedef struct DspRing {

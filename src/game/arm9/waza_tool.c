@@ -23,8 +23,7 @@
  *   BMP_Create  0x02043678  arm
  */
 #include "pokeparty_shared_types.h"
-#include "natsuki_shared_types.h"
-#include "waza_tool_shared_types.h"
+#include "../types.h"
 
 /* The 0x24 byte move record (waza_tool.c). */
 struct WazaData {

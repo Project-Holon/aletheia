@@ -288,13 +288,9 @@ typedef struct {
     unsigned char pad_10[12];
 } Wf2dmapCell;
 
-typedef unsigned short u16;
-
-typedef unsigned char u8;
+#include "../types.h"
 
 typedef struct { unsigned words[9]; } Param;
-
-
 
 typedef struct { unsigned words[8]; } BgTemplate;
 
@@ -304,24 +300,11 @@ typedef struct { BgTemplate rows[4]; } SubTemplates;
 
 typedef struct { int rows[2][3]; } Table;
 
-typedef signed char s8;
-
-
-
-typedef signed int s32;
-
-
-
-
 typedef struct { short x,y; } Pair;
 
 typedef struct { int x,y; } Scale;
 
-typedef unsigned int   u32;
-
 typedef struct { int v[3][5]; } Tbl;
-
-typedef short s16;
 
 typedef struct { s16 a,b,c,d; } Rect;
 
@@ -329,20 +312,12 @@ typedef struct { Rect rows[12]; } Rects;
 
 typedef struct { u8 a,b; } Entry;
 
-
-
-
-
-
 typedef struct  {
     unsigned words[7];
 }
 Config;
 
-
 typedef struct { u16 x,y,frame; u8 speed,flag; } Params;
-
-
 
 typedef struct {
     short x;
@@ -354,25 +329,13 @@ typedef struct {
     u8 e;
 } L;
 
-
 typedef struct { short x,y; } Wf2dmapPairS16;
 
 typedef struct { u16 x,y; } Wf2dmapPairU16;
 
-
-
-
-
 typedef struct { short x,y,z,w; } Position;
 
-
-
-
-
-
-
 struct Param { void *bmp; short x,y; u32 f8,fc; u8 f10,f11; u16 f12; u32 f14; };
-
 
 extern void GFL_HEAP_CreateChildHeap(unsigned a, unsigned b, unsigned c);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, unsigned size, unsigned heap);
@@ -550,24 +513,9 @@ extern const Rects d_021DA798;
 extern Entry d_021DA72C[];
 extern const Config gClActorInitParam;
 
-
-
-
-
-
 static inline void GX_SetVisiblePlane(int plane) { *(volatile unsigned *)0x04000000=(*(volatile unsigned *)0x04000000 & ~0x1F00u)|((unsigned)plane<<8); }
 
-
-
-
-
-
 static inline void GXS_SetVisiblePlane(int plane) { *(volatile unsigned *)0x04001000=(*(volatile unsigned *)0x04001000 & ~0x1F00u)|((unsigned)plane<<8); }
-
-
-
-
-
 
 int WF2DMAP_SCENE_Create(void *obj,void *unused,const Param *cfg)
 {
@@ -600,12 +548,6 @@ int WF2DMAP_SCENE_Create(void *obj,void *unused,const Param *cfg)
     return 1;
 }
 
-
-
-
-
-
-
 /*
  * Addresses are Black-image addresses.
  */
@@ -616,11 +558,6 @@ int WF2DMAP_SCENE_Draw(int a, int b, int c, int scene)
     CLACT_DrawSystem(drawResult);
     return drawResult != 0;
 }
-
-
-
-
-
 
 /*
  * The caller supplies the pointer through the legacy argless 02021540 thunk.
@@ -645,11 +582,6 @@ int WF2DMAP_SCENE_Delete(void *procWork,int b,int c,char *scene)
     GFL_HEAP_DeleteChecked(50);
     return 1;
 }
-
-
-
-
-
 
 void WF2DMAP_SCENE_InitBg(void)
 {
@@ -678,23 +610,11 @@ void WF2DMAP_SCENE_InitBg(void)
     BG_SYS_SetMainPlaneVisible(16,1); BG_SYS_SetSubPlaneVisible(16,1);
 }
 
-
-
-
-
-
-
 void WF2DMAP_SCENE_VBlank(int a, char *scene)
 {
     PALANM_TransferPalettes((struct S02021D50 *)(((Wf2dmapScene *)scene)->palAnm.handleRaw));
     CLACT_VBlankSystem();
 }
-
-
-
-
-
-
 
 /*
  * Extent ends with two bytes of zero alignment padding.
@@ -716,11 +636,6 @@ void WF2DMAP_SCENE_SetSlot(char *scene,int slotId)  {
         ((Wf2dmapScene *)scene)->subEnd=*(unsigned short *)(scene+(slotId-1)*4+0x21e);
     }
 }
-
-
-
-
-
 
 /*
  * Lever: copy the table through a second aggregate, retain its indexed read,
@@ -767,12 +682,6 @@ void WF2DMAP_SCENE_BuildGrid(char *scene)
     } while(count<((Wf2dmapScene *)scene)->cellCount);
 }
 
-
-
-
-
-
-
 void WF2DMAP_SCENE_ResetState(char *scene, int state)
 {
     ((Wf2dmapScene *)scene)->stateId = state;
@@ -780,11 +689,6 @@ void WF2DMAP_SCENE_ResetState(char *scene, int state)
     ((Wf2dmapScene *)scene)->step = 0;
     ((Wf2dmapScene *)scene)->stepTimer = 0;
 }
-
-
-
-
-
 
 int WF2DMAP_SCENE_Start(char *scene)  {
     WF2DMAP_SCENE_LoadActorAssets(scene);
@@ -802,11 +706,6 @@ int WF2DMAP_SCENE_Start(char *scene)  {
     return 0;
 }
 
-
-
-
-
-
 int WF2DMAP_SCENE_StepWipeIn(char *scene)  {
     switch(((Wf2dmapScene *)scene)->step)  {
         case 0: WIPE_SYS_Start(0,0,0,0,6,1,50);
@@ -818,11 +717,6 @@ int WF2DMAP_SCENE_StepWipeIn(char *scene)  {
     }
     return 0;
 }
-
-
-
-
-
 
 int WF2DMAP_SCENE_StepWaitInput(char *scene)  {
     switch(((Wf2dmapScene *)scene)->step)  {
@@ -838,17 +732,7 @@ int WF2DMAP_SCENE_StepWaitInput(char *scene)  {
     return 0;
 }
 
-
-
-
-
-
 int WF2DMAP_SCENE_StepUpdate(char *scene) {if(((Wf2dmapScene *)scene)->step==0){if(WIPE_SYS_EndCheck()==1)((Wf2dmapScene *)scene)->step+=1;}else {WF2DMAP_SCENE_ProcessPending(scene);BUTTON_MAN_UpdateSlots(((Wf2dmapScene *)scene)->buttonMan);WF2DMAP_SCENE_HandleInput(scene);}return 0;}
-
-
-
-
-
 
 int WF2DMAP_SCENE_StepAnimate(char *scene)
 {
@@ -939,25 +823,9 @@ int WF2DMAP_SCENE_StepAnimate(char *scene)
     return 0;
 }
 
-
-
-
-
-
 extern int (*d_021DA718[])(char *);
 
-
-
-
-
-
 int WF2DMAP_SCENE_Dispatch(char *scene) { int result; result=d_021DA718[*(u32 *)(scene+0x22c)](scene); WF2DMAP_SCENE_UpdateCursorAnim(scene); WF2DMAP_SCENE_UpdateOam(scene); return result; }
-
-
-
-
-
-
 
 /*
  * 2026-10-05 (wave P2 lane Q4, pengy share, user-approved for this function only): first draft, no twin found.
@@ -1120,11 +988,6 @@ void WF2DMAP_SCENE_HandleInput(char *scene)
     }
 }
 
-
-
-
-
-
 /*
  * Lever: expand v reads while retaining its declaration/assignment, name n*28, and initialise sum before mul.
  * Permuter found this spelling after38 candidates; baseline DIFF30 bytes; intermediate expand-v DIFF5.
@@ -1151,20 +1014,10 @@ int WF2DMAP_SCENE_GetGridNumber(u8 *scene)
   return sum;
 }
 
-
-
-
-
-
 /*
  * trailing: Two zero alignment bytes.
  */
 int WF2DMAP_SCENE_CheckGridNumber(u8 *scene) { if(!((Wf2dmapScene *)scene)->paramId) return 1; if(WF2DMAP_SCENE_GetGridNumber(scene)<=((Wf2dmapScene *)scene)->paramSize) return 1; return 0; }
-
-
-
-
-
 
 void WF2DMAP_SCENE_BuildNumberList(char *scene)  {
     int cellIdx;
@@ -1185,18 +1038,10 @@ void WF2DMAP_SCENE_BuildNumberList(char *scene)  {
     WF2DMAP_SCENE_ResetState(scene,3);
 }
 
-
-
-
-
 static inline unsigned clear_record(Wf2dmapCell *cell)  {
     cell->state=0;
     return WF2DMAP_SCENE_GetCellAnim(0,cell->flag);
 }
-
-
-
-
 
 void WF2DMAP_SCENE_ClearSelection(const Wf2dmapCell *cells)  {
     int index, value, nextValue;
@@ -1228,10 +1073,6 @@ void WF2DMAP_SCENE_ClearSelection(const Wf2dmapCell *cells)  {
     }
 }
 
-
-
-
-
 void WF2DMAP_SCENE_CreateButtons(char *scene)
 {
     int index;
@@ -1248,18 +1089,10 @@ void WF2DMAP_SCENE_CreateButtons(char *scene)
     ((Wf2dmapScene *)scene)->buttonMan=BUTTON_MAN_Create((u8 *)(scene+0x298),(int)WF2DMAP_SCENE_HandleButton,(int)scene,50);
 }
 
-
-
-
-
 /*
  * lever: The two-byte table record has byte fields a and b; both pool words reference that record.
  */
 void WF2DMAP_SCENE_SetButtonCursor(u8 *scene,int buttonIdx) { if(buttonIdx>=12 && buttonIdx<24) { ((Wf2dmapScene *)scene)->cursorCol=d_021DA72C[buttonIdx-12].a; ((Wf2dmapScene *)scene)->cursorRow=d_021DA72C[buttonIdx-12].b; } }
-
-
-
-
 
 void WF2DMAP_SCENE_HandleButton(u32 buttonIdx, int isRelease, char *scene)
 {
@@ -1331,9 +1164,6 @@ void WF2DMAP_SCENE_HandleButton(u32 buttonIdx, int isRelease, char *scene)
     }
 }
 
-
-
-
 void WF2DMAP_SCENE_ProcessPending(char *scene)  {
     switch(((Wf2dmapScene *)scene)->pendingCmd)  {
         case 0: break;
@@ -1350,10 +1180,6 @@ void WF2DMAP_SCENE_ProcessPending(char *scene)  {
     }
 }
 
-
-
-
-
 void WF2DMAP_SCENE_ClearPending(char *scene)
 {
     ((Wf2dmapScene *)scene)->pendingCmd = 0;
@@ -1361,20 +1187,13 @@ void WF2DMAP_SCENE_ClearPending(char *scene)
     ((Wf2dmapScene *)scene)->pendingFlag = 0;
 }
 
-
-
-
 int WF2DMAP_SCENE_FindCellByValue(u8 *scene,int value) { int index; int count; count=((Wf2dmapScene *)scene)->cellCount; for(index=0;index<count;index++) if(value==*(int *)(scene+index*28+4)) return index; return 0; }
-
-
 
 /*
  * trailing: Two zero alignment bytes.
  * note: 2026-10-05 the count field is read in the loop condition and again at the return (as written by hand); this closed the count/flag register swap.
  */
 int WF2DMAP_SCENE_FindLastCellByValue(u8 *scene,int value) { int index; int found=0; for(index=0;index<((Wf2dmapScene *)scene)->cellCount;index++) { if(value==*(int *)(scene+index*28+4)) found=1; else if(found==1) return index-1; } return ((Wf2dmapScene *)scene)->cellCount-1; }
-
-
 
 void WF2DMAP_SCENE_InitClact(char *scene,unsigned heapId)  {
     Config cfg = gClActorInitParam;
@@ -1385,8 +1204,6 @@ void WF2DMAP_SCENE_InitClact(char *scene,unsigned heapId)  {
     ((Wf2dmapScene *)scene)->unit.handle=CLACT_CreateUnit(64,0,50);
     CLACT_SetUnitDefaultRenderer(((Wf2dmapScene *)scene)->unit.handle);
 }
-
-
 
 void WF2DMAP_SCENE_LoadActorAssets(char *scene)
 {
@@ -1411,8 +1228,6 @@ void WF2DMAP_SCENE_LoadActorAssets(char *scene)
     ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,4,384,32,50);
 }
 
-
-
 void WF2DMAP_SCENE_DeleteActors(char *scene)  {
     int index;
     char *cell;
@@ -1434,8 +1249,6 @@ void WF2DMAP_SCENE_DeleteActors(char *scene)  {
     CLACT_DeleteUnit((struct Bank *)(((Wf2dmapScene *)scene)->unit.handleRaw));
     CLACT_ExitSystem();
 }
-
-
 
 void WF2DMAP_SCENE_CreateCellActors(char *scene)
 {
@@ -1465,8 +1278,6 @@ void WF2DMAP_SCENE_CreateCellActors(char *scene)
     }
 }
 
-
-
 void WF2DMAP_SCENE_CreateCursorActors(char *scene)
 {
     Params param;
@@ -1494,9 +1305,6 @@ void WF2DMAP_SCENE_CreateCursorActors(char *scene)
     WF2DMAP_SCENE_SetCursorVisible(scene,2,0);
 }
 
-
-
-
 void WF2DMAP_SCENE_CreateExtraActors(char *scene)
 {
     L param;
@@ -1518,22 +1326,15 @@ void WF2DMAP_SCENE_CreateExtraActors(char *scene)
     CLACT_SetActorAnimSeq((struct Actor *)(((Wf2dmapScene *)scene)->cursorAnimActor2), 0);
 }
 
-
-
-
 void WF2DMAP_SCENE_SetCursorVisible(char *scene, int cursorIdx, int visible)
 {
     CLACT_SetActorDrawEnable(*(void **)(scene + cursorIdx * 0x1c + 0x194), visible);
 }
 
-
-
 /*
  * lever: Load actor into a local before the current-index store.
  */
 void WF2DMAP_SCENE_MoveCursor(u8 *scene,int cellIdx) { Wf2dmapPairS16 pos; void *actor; actor=*(void **)(scene+cellIdx*28+12); ((Wf2dmapScene *)scene)->cursorIndex=cellIdx; CLACT_GetActorSurfacePos(actor,(struct PtS *)&pos,0); pos.y+=16; CLACT_AddActorSurfacePos(((Wf2dmapScene *)scene)->cursorActor.handle,(const struct Vec2 *)(&pos),0); }
-
-
 
 void WF2DMAP_SCENE_SetCursorPos(char *scene,int cellIdx)
 {
@@ -1545,8 +1346,6 @@ void WF2DMAP_SCENE_SetCursorPos(char *scene,int cellIdx)
     CLACT_SetActorAnimFrame((struct Actor *)(((Wf2dmapScene *)scene)->cursorActor2),0);
 }
 
-
-
 void WF2DMAP_SCENE_SetCursorPosBySlot(char *scene,int cellIdx,int cursorIdx)
 {
     Wf2dmapPairU16 pos;
@@ -1556,8 +1355,6 @@ void WF2DMAP_SCENE_SetCursorPosBySlot(char *scene,int cellIdx,int cursorIdx)
     CLACT_AddActorSurfacePos((struct Obj *)(*(int *)((scene+0x194)+cursorIdx*0x1c)),(const struct Vec2 *)(&pos),0);
     CLACT_SetActorAnimFrame((struct Actor *)(*(int *)((scene+0x194)+cursorIdx*0x1c)),0);
 }
-
-
 
 void WF2DMAP_SCENE_UpdateCursorAnim(char *scene)
 {
@@ -1581,16 +1378,11 @@ void WF2DMAP_SCENE_UpdateCursorAnim(char *scene)
     }
 }
 
-
-
-
 void WF2DMAP_SCENE_SetOamPos(char *oam, int x, int y)
 {
     if (oam != 0)
         BMP_OAM_SetPos((struct BmpOam *)oam, (short)x, (short)y);
 }
-
-
 
 /*
  * Extent ends with two bytes of zero alignment padding.
@@ -1634,12 +1426,7 @@ void WF2DMAP_SCENE_UpdateOam(char *scene)
     }
 }
 
-
-
 int WF2DMAP_SCENE_GetCellAnim(int state,int flag) { int base; base=0; if(!flag) base=11; return base+state; }
-
-
-
 
 void WF2DMAP_SCENE_SetCellFlags(void *scene)
 {
@@ -1654,8 +1441,6 @@ void WF2DMAP_SCENE_SetCellFlags(void *scene)
             *(int *)(sceneBytes + cellIdx * 0x1c + 8) = 0;
     }
 }
-
-
 
 /*
  * Lever: declare i before y, initialise j after loading y, and keep the equality arm separate.
@@ -1707,8 +1492,6 @@ void WF2DMAP_SCENE_LayoutCells(char *scene,int animate)
     }
 }
 
-
-
 void WF2DMAP_SCENE_UpdateCellRects(char *scene)
 {
     int cellIdx;
@@ -1730,9 +1513,6 @@ void WF2DMAP_SCENE_UpdateCellRects(char *scene)
     }
 }
 
-
-
-
 void WF2DMAP_SCENE_CreateOam(char *scene)
 {
     void *oamSys = BMP_OAM_CreateSys(0x32, ((Wf2dmapScene *)scene)->unit.handle);
@@ -1740,22 +1520,14 @@ void WF2DMAP_SCENE_CreateOam(char *scene)
     ((Wf2dmapScene *)scene)->oamSys = oamSys;
 }
 
-
-
 void WF2DMAP_SCENE_DeleteOam(u8 *scene) { CLACT_ReleasePalette(((Wf2dmapScene *)scene)->oamPalette); BMP_OAM_Delete((struct BmpOam *)(*(struct Grid * *)&((Wf2dmapScene *)scene)->oamA)); BMP_OAM_Delete((struct BmpOam *)(*(struct Grid * *)&((Wf2dmapScene *)scene)->oamB)); BMP_OAM_DeleteSys(((Wf2dmapScene *)scene)->oamSys); }
 
-
-
 void WF2DMAP_SCENE_RegisterCompressedPalette(u8 *scene) { void *arc; arc=ARC_TOOL_CreateHandle(23,50); ((Wf2dmapScene *)scene)->oamPalette=CLACT_RegisterPaletteCompressed(arc,5,0,128,50); ARC_TOOL_DeleteHandle(arc); }
-
-
 
 /*
  * prototype: Original calls visibly load r2/r3 and outgoing stack zero; retain those arguments despite the matched callee declaring only two.
  */
 void WF2DMAP_SCENE_CreateTextOams(u8 *scene) { int zero; WF2DMAP_SCENE_RegisterCompressedPalette(scene); zero=0; WF2DMAP_SCENE_CreateTextOam(scene,0,78,165,zero); WF2DMAP_SCENE_CreateTextOam(scene,1,172,165,zero); }
-
-
 
 /*
  * lever: Expand each coordinate base at its read; binding the base to a
@@ -1790,8 +1562,6 @@ void WF2DMAP_SCENE_CreateTextOam(u8 *scene, int index, int argX, int argY, int u
     MSGDATA_Delete(bank);
 }
 
-
-
 /*
  * extent: Two zero alignment bytes at 0x021DA576; next labelled function is 0x021DA578.
  */
@@ -1802,8 +1572,6 @@ void WF2DMAP_SCENE_CreateWindow(void **windowOut,int msgId,int x,int y,int w,int
     BMP_WIN_MakeScreen(*windowOut);
     WF2DMAP_SCENE_DrawMessage(*windowOut,msgId,(void *)msgBank,number);
 }
-
-
 
 void WF2DMAP_SCENE_DrawMessage(void *window,int msgId,void *msgBank,u32 number)
 {
@@ -1822,7 +1590,6 @@ void WF2DMAP_SCENE_DrawMessage(void *window,int msgId,void *msgBank,u32 number)
     BMP_WIN_TransferChars(window);
     BG_SYS_PushTile(4);
 }
-
 
 void WF2DMAP_SCENE_ShowMessage(void *window, int sel, void *msgBank, unsigned int number)
 {

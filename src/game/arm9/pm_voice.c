@@ -45,7 +45,7 @@
 #include "pm_voice_shared_types.h"
 extern int GFL_USE_IsLoaderBusy(void);
 
-typedef signed char    s8;
+#include "../types.h"
 
 /* Sound volume range and the player numbers the sequence start call takes. */
 #define SND_VOLUME_MAX       0x7F

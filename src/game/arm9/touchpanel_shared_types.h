@@ -10,13 +10,7 @@
  *   net_queue.c      0x02036670..0x02036BD4  send queue of the net code
  *   wm_icon.c        0x02036BD4..0x02037224  wireless signal icon
  */
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef signed int     s32;
+#include "../types.h"
 
 #define HW_BUTTON_XY_BUF    0x02FFFFA8
 

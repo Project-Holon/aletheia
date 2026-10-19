@@ -1,11 +1,7 @@
 #ifndef CONFIG_SHARED_TYPES_H
 #define CONFIG_SHARED_TYPES_H
 
-typedef unsigned char      u8;
-
-typedef unsigned short     u16;
-
-typedef unsigned int       u32;
+#include "../types.h"
 
 /* Player options: one u16 of packed settings plus two reserved bytes. */
 struct Config {

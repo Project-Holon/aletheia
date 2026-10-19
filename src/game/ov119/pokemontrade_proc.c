@@ -321,8 +321,6 @@ extern void POKETRADE_2D_DeletePickedIconActor(char *p);
 extern void POKETRADE_NEGO_UpdateOfferMarkers(void *p);
 extern void POKETRADE_SAVE_DeleteOfferListWindows(char *p);
 
-
-
 struct Mon;
 
 struct Proc;
@@ -331,9 +329,7 @@ struct McssSys;
 
 struct Proc;
 
-
-
-typedef signed short s16;
+#include "../types.h"
 
 typedef struct Pt { u16 x; u16 y; } Pt;
 
@@ -341,14 +337,9 @@ typedef struct {int a,b,c;} IntTriple;
 
 typedef struct { int a,b; } Pair;
 
-
 typedef struct { u8 a,b,c,d; } Rect;
 
-
 typedef struct Record {u16 value;u8 a,b;} Record;
-
-
-
 
 extern void TOUCHBAR_ResetAndEnableButton(u32 *p, u32 buttonId);
 
@@ -379,7 +370,6 @@ extern int GFL_USE_PushBgm(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 trackMask);
 
 extern void GFL_USE_FadeInBgmFull(u32 a);
-
 
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 
@@ -1672,8 +1662,6 @@ void POKETRADE_PROC_RecvOfferMonCommon(u32 a, u32 b, u32 c, u8 *base, void *e)
             ((TradeWork *)base)->offerReceivedValue[1][b] = a;
     }
 }
-
-
 
 /*
  * Encoder session getter on the byte pointed at by the third argument.
@@ -3076,16 +3064,6 @@ void POKETRADE_PROC_StepEnterBrowsing(char *p)
     POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepBrowseGrid);
 }
 
-
-
-
-
-
-
-
-
-
-
 void POKETRADE_PROC_UpdateTouchbarButtons(char *p)
 {
     CLACT_SetActorDrawEnable((struct Actor *)((TradeWork *)p)->cursorActor,1);
@@ -3288,18 +3266,6 @@ void POKETRADE_PROC_StepBrowseGrid(char *p)
         break;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 void POKETRADE_PROC_StepTouchbarAction(char *p){TOUCHBAR_Update((unsigned char *)(((TradeWork *)p)->touchbar));switch(TOUCHBAR_GetPressedButtonIdIfDone(*(u8 * *)&((TradeWork *)p)->touchbar)) {case 1:POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepSlideInSubScreen);return;case 7:POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepBeginOpenSubScreen);return;case 8:if(POKETRADE_PROC_IsHostSide(p)){if(POKETRADE_NEGO_HasOffer(p)){TOUCHBAR_SetButtonVisible((unsigned char *)((TradeWork *)p)->touchbar,7,0);TOUCHBAR_SetButtonVisible((unsigned char *)((TradeWork *)p)->touchbar,8,0);POKETRADE_PROC_ClearDragIcon(p);POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepShowCancelMessage);return;}else{TOUCHBAR_SetButtonVisible((unsigned char *)((TradeWork *)p)->touchbar,7,1);TOUCHBAR_SetButtonVisible((unsigned char *)((TradeWork *)p)->touchbar,8,0);}}else{if(((TradeWork *)p)->selectedSlot==-1){TOUCHBAR_SetButtonVisible((unsigned char *)((TradeWork *)p)->touchbar,7,1);TOUCHBAR_SetButtonVisible((unsigned char *)((TradeWork *)p)->touchbar,8,0);}else{POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_HideTouchbarButtons);return;}}POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepBrowseGrid);return;}}
 

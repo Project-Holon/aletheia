@@ -14,7 +14,7 @@
  *
  * symbols:
  */
-#include "fldmmdl_save_shared_types.h"
+#include "../types.h"
 
 /* Three-word header WM_ICON_InitArcData stamps. */
 typedef struct NetDeviceHeader {

@@ -20,15 +20,8 @@
  *   data_021D8EA0  0x021D8EA0  data
  *   data_021D8EA1  0x021D8EA1  data
  */
-typedef unsigned char u8;
+#include "../types.h"
 
-
-typedef unsigned short u16;
-
-
-typedef unsigned int u32;
-
-typedef int BOOL;
 #include "map_attr_types.h"
 extern int FIELD_G3D_MAPPER_QueryNearestHit(void *g3dMapper, void *pos, u32 *out);
 int MAP_ATTR_GetAt(void *g3dMapper, void *pos);
@@ -117,21 +110,6 @@ int MAP_ATTR_GetAt(void *g3dMapper, void *pos)
     return -1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Terrain-attribute accessor: the low half of the 32-bit attribute word a
  * map tile's 8-byte grid record carries at byte offset 4 (see
@@ -147,23 +125,6 @@ u16 MAP_ATTR_GetTerrainId(u32 attr)
     return (u16)attr;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Terrain-attribute accessor: the high half of the tile attribute word,
  * the flag half.  bit 0 is the passable flag (MAP_ATTR_IsBlocked), bit 1 selects
@@ -174,22 +135,6 @@ u16 MAP_ATTR_GetFlags(u32 attr)
 {
     return (u16)(attr >> 16);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * The tile attribute word is present at all: neither the all-ones no-tile
@@ -208,22 +153,6 @@ BOOL MAP_ATTR_IsPresent(u32 attr)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * The walk/collision test: a tile blocks movement when its attribute word
  * is absent (MAP_ATTR_IsPresent) or when bit 0 of the flag half is set.
@@ -241,21 +170,6 @@ BOOL MAP_ATTR_IsBlocked(u32 attr)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Addresses are Black-image addresses.
  */
@@ -266,21 +180,6 @@ int MAP_ATTR_IsTallGrass(int terrainId)
         return 1;
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Terrain-id predicate over the low half of the tile attribute word:
@@ -295,21 +194,6 @@ BOOL MAP_ATTR_IsLedgeNorth(u16 terrainId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Terrain-id predicate over the low half of the tile attribute word:
  * true for MAP_ATTR_TERRAIN_LEDGE_SOUTH.
@@ -322,21 +206,6 @@ BOOL MAP_ATTR_IsLedgeSouth(u16 terrainId)
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Terrain-id predicate over the low half of the tile attribute word:
@@ -351,21 +220,6 @@ BOOL MAP_ATTR_IsLedgeWest(u16 terrainId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Terrain-id predicate over the low half of the tile attribute word:
  * true for MAP_ATTR_TERRAIN_LEDGE_EAST.
@@ -378,21 +232,6 @@ BOOL MAP_ATTR_IsLedgeEast(u16 terrainId)
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Terrain-id predicate over the low half of the tile attribute word:
@@ -407,21 +246,6 @@ BOOL MAP_ATTR_IsNoInteract(u16 terrainId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Terrain-id predicate over the low half of the tile attribute word:
  * true for MAP_ATTR_TERRAIN_CAMERA_STEP.
@@ -435,39 +259,10 @@ BOOL MAP_ATTR_IsCameraStep(u16 terrainId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int MAP_ATTR_IsGimmickD6(int terrainId)
 {
     return terrainId == MAP_ATTR_TERRAIN_GIMMICK_D6;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Terrain-id predicate over the low half of a tile's 32-bit attribute word
@@ -485,21 +280,6 @@ BOOL MAP_ATTR_IsGimmickD7(u16 terrainId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Terrain-id predicate over the low half of a tile's 32-bit attribute word
  * (byte offset 4 of the 8-byte a/0/0/8 grid record): true for MAP_ATTR_TERRAIN_GIMMICK_D8.
@@ -515,21 +295,6 @@ BOOL MAP_ATTR_IsGimmickD8(u16 terrainId)
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Terrain-id predicate over the low half of a tile's 32-bit attribute word
@@ -547,21 +312,6 @@ BOOL MAP_ATTR_IsGimmickE2(u16 terrainId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Terrain-id predicate over the low half of a tile's 32-bit attribute word
  * (byte offset 4 of the 8-byte a/0/0/8 grid record): true for MAP_ATTR_TERRAIN_GIMMICK_D9.
@@ -577,21 +327,6 @@ BOOL MAP_ATTR_IsGimmickD9(u16 terrainId)
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Terrain-id predicate over the low half of a tile's 32-bit attribute word
@@ -609,21 +344,6 @@ BOOL MAP_ATTR_IsGimmickDA(u16 terrainId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Terrain-id predicate over the low half of a tile's 32-bit attribute word
  * (byte offset 4 of the 8-byte a/0/0/8 grid record): true for MAP_ATTR_TERRAIN_GIMMICK_DB.
@@ -639,21 +359,6 @@ BOOL MAP_ATTR_IsGimmickDB(u16 terrainId)
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Terrain-id predicate over the low half of a tile's 32-bit attribute word
@@ -671,21 +376,6 @@ BOOL MAP_ATTR_IsGimmickDC(u16 terrainId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Terrain-id predicate over the low half of a tile's 32-bit attribute word
  * (byte offset 4 of the 8-byte a/0/0/8 grid record): true for MAP_ATTR_TERRAIN_GIMMICK_DD.
@@ -701,21 +391,6 @@ BOOL MAP_ATTR_IsGimmickDD(u16 terrainId)
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Terrain-id predicate over the low half of a tile's 32-bit attribute word
@@ -733,21 +408,6 @@ BOOL MAP_ATTR_IsGimmickDE(u16 terrainId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Terrain-id predicate over the low half of a tile's 32-bit attribute word
  * (byte offset 4 of the 8-byte a/0/0/8 grid record): true for MAP_ATTR_TERRAIN_GIMMICK_DF.
@@ -763,21 +423,6 @@ BOOL MAP_ATTR_IsGimmickDF(u16 terrainId)
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Terrain-id predicate over the low half of a tile's 32-bit attribute word
@@ -795,21 +440,6 @@ BOOL MAP_ATTR_IsGimmickE0(u16 terrainId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Terrain-id predicate over the low half of a tile's 32-bit attribute word
  * (byte offset 4 of the 8-byte a/0/0/8 grid record): true for MAP_ATTR_TERRAIN_GIMMICK_E1.
@@ -826,21 +456,6 @@ BOOL MAP_ATTR_IsGimmickE1(u16 terrainId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Terrain-id predicate over the low half of the tile attribute word:
  * true for MAP_ATTR_TERRAIN_GRASS_SINGLE, MAP_ATTR_TERRAIN_GRASS_SINGLE_C, MAP_ATTR_TERRAIN_GRASS_SINGLE_B.
@@ -853,21 +468,6 @@ BOOL MAP_ATTR_IsGrassSingle(u16 terrainId)
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Terrain-id predicate over the low half of the tile attribute word:
@@ -882,21 +482,6 @@ BOOL MAP_ATTR_IsGrassDouble(u16 terrainId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Terrain-id predicate over the low half of the tile attribute word:
  * true for MAP_ATTR_TERRAIN_TALL_GRASS_SINGLE.
@@ -909,21 +494,6 @@ BOOL MAP_ATTR_IsTallGrassSingle(u16 terrainId)
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Terrain-id predicate over the low half of the tile attribute word:
@@ -938,22 +508,6 @@ BOOL MAP_ATTR_IsTallGrassDouble(u16 terrainId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Terrain-id predicate: the union of the two families below.
  */
@@ -966,21 +520,6 @@ BOOL MAP_ATTR_IsAnySingleGrass(u16 terrainId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 BOOL MAP_ATTR_IsAnyDoubleGrass(u16 terrainId)
 {
     if (MAP_ATTR_IsGrassDouble(terrainId) == 1 || MAP_ATTR_IsTallGrassDouble(terrainId) == 1) {
@@ -990,21 +529,6 @@ BOOL MAP_ATTR_IsAnyDoubleGrass(u16 terrainId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 BOOL MAP_ATTR_IsAnyGrass(u16 terrainId)
 {
     if (MAP_ATTR_IsAnySingleGrass(terrainId) == 1 || MAP_ATTR_IsAnyDoubleGrass(terrainId) == 1) {
@@ -1013,20 +537,6 @@ BOOL MAP_ATTR_IsAnyGrass(u16 terrainId)
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Terrain-id predicate over the low half of the tile attribute word:
@@ -1041,19 +551,6 @@ BOOL MAP_ATTR_IsHole(u16 terrainId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Terrain-id predicate over the low half of the tile attribute word:
  * true for MAP_ATTR_TERRAIN_LONG_HOP_EDGE, MAP_ATTR_TERRAIN_LONG_HOP_EDGE_B.
@@ -1067,18 +564,6 @@ BOOL MAP_ATTR_IsLongHopEdge(int terrainId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Two equality predicates.
  */
@@ -1086,21 +571,6 @@ int MAP_ATTR_IsRippleWater(int terrainId)
 {
     return terrainId == MAP_ATTR_TERRAIN_RIPPLE_WATER;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Terrain-id predicate over the low half of a tile's 32-bit attribute word
@@ -1118,21 +588,6 @@ BOOL MAP_ATTR_IsSplashWater(u16 terrainId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Terrain-id predicate over the low half of the tile attribute word:
  * true for MAP_ATTR_TERRAIN_WATERFALL.
@@ -1145,21 +600,6 @@ BOOL MAP_ATTR_IsWaterfall(u16 terrainId)
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Terrain-id predicate over the low half of the tile attribute word:
@@ -1174,21 +614,6 @@ BOOL MAP_ATTR_IsSnow(u16 terrainId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Terrain-id predicate over the low half of the tile attribute word:
  * true for MAP_ATTR_TERRAIN_DEEP_SNOW.
@@ -1202,22 +627,6 @@ BOOL MAP_ATTR_IsDeepSnow(int terrainId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Terrain-id predicate forwarding to MAP_ATTR_IsSnow (id 0x0e).
  */
@@ -1229,21 +638,6 @@ BOOL MAP_ATTR_IsSnowTile(u16 terrainId)
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Terrain-id predicate over the low half of the tile attribute word:
@@ -1258,39 +652,10 @@ BOOL MAP_ATTR_IsForcedSlide(u32 terrainId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int MAP_ATTR_IsIce(int terrainId)
 {
     return terrainId == MAP_ATTR_TERRAIN_ICE;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Terrain-id predicate over the low half of the tile attribute word:
@@ -1305,21 +670,6 @@ BOOL MAP_ATTR_IsSplashWaterB(u16 terrainId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Terrain-id predicate over the low half of the tile attribute word:
  * true for MAP_ATTR_TERRAIN_SAND_D.
@@ -1332,21 +682,6 @@ BOOL MAP_ATTR_IsSandD(u16 terrainId)
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Terrain-id predicate over the low half of the tile attribute word:
@@ -1361,21 +696,6 @@ BOOL MAP_ATTR_IsSandVariant(u32 terrainId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Terrain-id predicate: MAP_ATTR_IsSandD (0x19) or MAP_ATTR_IsSandVariant (0x0b, 0x0c, 0x23).
  */
@@ -1387,22 +707,6 @@ BOOL MAP_ATTR_IsAnySand(u16 terrainId)
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Terrain-id predicate: true for MAP_ATTR_TERRAIN_WATER, WATER_B, WATER_DEEP, WATER_C and WATER_DEEP_B.  The
@@ -1417,37 +721,10 @@ BOOL MAP_ATTR_IsFishableWater(u16 terrainId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 int MAP_ATTR_IsPuddle(int terrainId)
 {
     return terrainId == MAP_ATTR_TERRAIN_PUDDLE;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Terrain-id predicate over the low half of a tile's 32-bit attribute word
@@ -1465,19 +742,6 @@ BOOL MAP_ATTR_IsMud(u16 terrainId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Terrain-id predicate over the low half of a tile's 32-bit attribute word
  * (byte offset 4 of the 8-byte a/0/0/8 grid record): true for MAP_ATTR_TERRAIN_ELECTRIC_FLOOR.
@@ -1493,19 +757,6 @@ BOOL MAP_ATTR_IsElectricFloor(u16 terrainId)
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Terrain-id predicate over the low half of a tile's 32-bit attribute word
@@ -1523,16 +774,6 @@ BOOL MAP_ATTR_IsElectricPanel(u16 terrainId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
 /*
  * Seven one-line equality predicates, one per constant.
  */
@@ -1541,32 +782,10 @@ int MAP_ATTR_IsDeepSand(int terrainId)
     return terrainId == MAP_ATTR_TERRAIN_DEEP_SAND;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 int MAP_ATTR_IsDeepSandB(int terrainId)
 {
     return terrainId == MAP_ATTR_TERRAIN_DEEP_SAND_B;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Terrain-id predicate over the low half of a tile's 32-bit attribute word
@@ -1584,17 +803,6 @@ BOOL MAP_ATTR_IsSand(u16 terrainId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Terrain-id predicate over the low half of a tile's 32-bit attribute word
  * (byte offset 4 of the 8-byte a/0/0/8 grid record): true for MAP_ATTR_TERRAIN_GRASS_SINGLE_B.
@@ -1610,17 +818,6 @@ BOOL MAP_ATTR_IsGrassSingleB(u16 terrainId)
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Terrain-id predicate over the low half of a tile's 32-bit attribute word
@@ -1638,17 +835,6 @@ BOOL MAP_ATTR_IsGrassDoubleB(u16 terrainId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Terrain-id predicate over the low half of a tile's 32-bit attribute word
  * (byte offset 4 of the 8-byte a/0/0/8 grid record): true for MAP_ATTR_TERRAIN_MIRROR_FLOOR.
@@ -1664,17 +850,6 @@ BOOL MAP_ATTR_IsMirrorFloor(u16 terrainId)
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Terrain-id predicate over the low half of a tile's 32-bit attribute word
@@ -1692,31 +867,12 @@ BOOL MAP_ATTR_IsNoDash(u16 terrainId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
 int MAP_ATTR_IsSlopeYA(int terrainId)
 {
     if (terrainId == MAP_ATTR_TERRAIN_SLOPE_AXIS_Y_A || (unsigned short)(terrainId + 0xFFAB) <= 1) /* 0x55..0x56 */
         return 1;
     return 0;
 }
-
-
-
-
-
-
-
-
-
 
 int MAP_ATTR_IsSlopeYB(int terrainId)
 {
@@ -1725,30 +881,12 @@ int MAP_ATTR_IsSlopeYB(int terrainId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
 int MAP_ATTR_IsSlopeXB(int terrainId)
 {
     if (terrainId == MAP_ATTR_TERRAIN_SLOPE_AXIS_X_B || terrainId == MAP_ATTR_TERRAIN_SLOPE_XB_YA || terrainId == MAP_ATTR_TERRAIN_SLOPE_XB_YB)
         return 1;
     return 0;
 }
-
-
-
-
-
-
-
-
-
 
 int MAP_ATTR_IsSlopeXA(int terrainId)
 {
@@ -1757,38 +895,12 @@ int MAP_ATTR_IsSlopeXA(int terrainId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 int MAP_ATTR_IsRoughGround(int terrainId)
 {
     if (MAP_ATTR_IsTallGrass(terrainId) || MAP_ATTR_IsDeepSand(terrainId) || MAP_ATTR_IsDeepSandB(terrainId) || MAP_ATTR_IsDeepSnow(terrainId))
         return 1;
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Terrain-id predicate over the low half of a tile's 32-bit attribute word
@@ -1806,19 +918,6 @@ BOOL MAP_ATTR_IsGrassSingleC(u16 terrainId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Terrain-id predicate over the low half of a tile's 32-bit attribute word
  * (byte offset 4 of the 8-byte a/0/0/8 grid record): true for MAP_ATTR_TERRAIN_GRASS_DOUBLE_C.
@@ -1834,19 +933,6 @@ BOOL MAP_ATTR_IsGrassDoubleC(u16 terrainId)
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Terrain class of a tile attribute word, for the encounter-effect lane.
@@ -1892,19 +978,6 @@ int MAP_ATTR_GetEncounterEffectKind(u32 attr)
     return 8;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Addresses are Black-image addresses.
  */
@@ -1918,19 +991,6 @@ u8 MAP_ATTR_GetBattleBackground(u16 terrainId)
     }
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int MAP_ATTR_IsHopTransition(unsigned long fromAttr, unsigned long toAttr)
 {

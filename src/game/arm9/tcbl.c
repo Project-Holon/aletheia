@@ -17,7 +17,7 @@
  *   GFL_HEAP_Alloc 0x02030734 arm arm9
  *   GFL_HEAP_Free 0x020307B0 arm arm9
  */
-#include "gfl_heap_wrap_shared_types.h"
+#include "../types.h"
 
 struct TcblSystem;
 

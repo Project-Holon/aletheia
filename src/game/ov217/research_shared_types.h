@@ -1,7 +1,7 @@
 #ifndef RESEARCH_SHARED_TYPES_H
 #define RESEARCH_SHARED_TYPES_H
 
-#include "research_types.h"
+#include "../types.h"
 
 /* Forward declarations shared across the research overlay files. */
 struct Ctx;

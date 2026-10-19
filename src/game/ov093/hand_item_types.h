@@ -48,8 +48,6 @@
  * 548..564 Fire, Water, Electric, Grass, Ice, Fighting, Poison, Ground,
  * Flying, Psychic, Bug, Rock, Ghost, Dragon, Dark, Steel and Normal Gem.
  */
-#include "hand_item_types.h"
-
 struct BtlEventFactor;
 
 /* Record kinds that the item handlers push. */

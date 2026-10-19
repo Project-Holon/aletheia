@@ -43,9 +43,8 @@
  *   DWCi_SETTINGlEraseAll            0x021CFC20  arm
  *   DWCi_SNDlPlay                    0x021CFFAC  arm
  *   DWCi_SceneOptErase1              0x021C231C  arm
- *   procScene                        0x021C34E0  arm
  */
-typedef volatile unsigned short vu16;
+#include "../types.h"
 
 typedef _Bool bool;
 
@@ -69,7 +68,6 @@ void DWCi_SceneOptMovComplete(void);
 void DWCi_SceneOptMovComplete_procScene(void);
 void DWCi_SceneOptMovComplete_draw(void);
 
-
 /*
  * sdk:      DWCi_SceneOptMovComplete (libdwcutil.TWL.HYB.a(sceneoptmovcompl))
  */
@@ -90,7 +88,6 @@ void DWCi_SceneOptMovComplete(void)
 	DWCi_ChangeScene(procInit);
 }
 
-
 /*
  * sdk:      initGraphics (libdwcutil.TWL.HYB.a(sceneoptmovcompl))
  */
@@ -103,7 +100,6 @@ static void initGraphics(void)
     *(vu16 *)0x0400000C = (*(vu16 *)0x0400000C & ~3) | 3;
 }
 
-
 /*
  * sdk:      procInit (libdwcutil.TWL.HYB.a(sceneoptmovcompl))
  */
@@ -115,9 +111,6 @@ static void procInit(void)
 }
 
 
-static void procScene(void);
-
-
 static void procInit1(void)
 {
     if (DWCi_EFFlCheck(0))
@@ -126,15 +119,13 @@ static void procInit1(void)
     DWCi_ChangeScene(procInit2);
 }
 
-
 static void procInit2(void)
 {
     if (DWCi_BTNlGet() == -2)
         return;
     DWCi_BTNlEnable();
-    DWCi_ChangeScene(procScene);
+    DWCi_ChangeScene(DWCi_SceneOptMovComplete_procScene);
 }
-
 
 void DWCi_SceneOptMovComplete_procScene(void)
 {
@@ -142,7 +133,6 @@ void DWCi_SceneOptMovComplete_procScene(void)
     DWCi_SceneOptMovComplete_draw();
     button();
 }
-
 
 static void input(void)
 {
@@ -154,7 +144,6 @@ void DWCi_SceneOptMovComplete_draw(void)
 {
 }
 
-
 static void button(void)
 {
     if (DWCi_BTNlGet() != 0)
@@ -163,14 +152,12 @@ static void button(void)
     DWCi_ChangeScene(endScene);
 }
 
-
 static void endScene(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
     DWCi_ChangeScene(endScene1);
 }
-
 
 static void endScene1(void)
 {
@@ -180,7 +167,6 @@ static void endScene1(void)
     DWCi_EFFlFade(3, 0, 0x3F, 0x40);
     DWCi_ChangeScene(endScene2);
 }
-
 
 /*
  * Bail out on two DWCi_EFFlCheck probes, then arm timer 0x800000 and kick PM_ForceToPowerOff.

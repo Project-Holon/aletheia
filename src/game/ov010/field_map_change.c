@@ -40,7 +40,7 @@ struct Situation;
 #include "../ov021/fldmmdl_rail_types.h"
 #include "fldmmdl_types.h"
 
-typedef unsigned int u32;
+#include "../types.h"
 
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern void *MOVE_POKEMON_SAVE_GetBlock(void *saveControl);

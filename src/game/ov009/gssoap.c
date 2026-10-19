@@ -56,11 +56,7 @@ typedef struct GSSoapTask {
     int completed;
 } GSSoapTask;
 
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
+#include "../types.h"
 
 extern void *gsimalloc(unsigned long size);
 extern GSTask *gsiCoreCreateTask(void);
@@ -87,11 +83,6 @@ void gsiSoapTaskCancel(void *theTask);
 void gsiSoapTaskCallback(void *theTask);
 int gsiSoapTaskCleanup(void *theTask);
 
-
-
-
-
-
 /*
  * sdk:      gsiExecuteSoap (gssoap.o)
  */
@@ -99,11 +90,6 @@ void *gsiExecuteSoap(char *theURL, char *theService, void *theRequestSoap, GSSoa
 {
     return gsiExecuteSoapWithTimeout(theURL, theService, theRequestSoap, theCallbackFunc, 0, theUserData);
 }
-
-
-
-
-
 
 GSSoapTask *gsiExecuteSoapWithTimeout(char *theURL, char *theService, void *theRequestSoap, GSSoapCallback theCallbackFunc, unsigned int theTimeoutMs, void *theUserData)
 {
@@ -140,10 +126,6 @@ GSSoapTask *gsiExecuteSoapWithTimeout(char *theURL, char *theService, void *theR
     return aSoapTask;
 }
 
-
-
-
-
 /*
  * sdk:      gsiExecuteSoapCustom (gssoap.o)
  */
@@ -176,11 +158,6 @@ GSSoapTask *gsiExecuteSoapCustom(char *theURL, char *theService, void *theReques
     return aSoapTask;
 }
 
-
-
-
-
-
 int gsiSoapTaskHttpCompletedCallback(int request, int result, char *buffer, int bufferLen, void *param)
 {
     GSSoapTask *aSoapTask = (GSSoapTask *)param;
@@ -202,11 +179,6 @@ int gsiSoapTaskHttpCompletedCallback(int request, int result, char *buffer, int 
     return 0;
 }
 
-
-
-
-
-
 /*
  * sdk:      gsiSoapTaskThink (gssoap.o)
  */
@@ -218,10 +190,6 @@ int gsiSoapTaskThink(void *theTask)
     ghttpRequestThink(aSoapTask->httpRequest);
     return 1;
 }
-
-
-
-
 
 /*
  * sdk:      gsiSoapTaskExecute (gssoap.o)
@@ -243,8 +211,6 @@ void gsiSoapTaskExecute(void *theTask)
     aSoapTask->httpRequest = ghttpGetExA(aSoapTask->url, aSoapTask->service, 0, 0, aSoapTask->post, 0, 0, 0, gsiSoapTaskHttpCompletedCallback, aSoapTask);
 }
 
-
-
 /*
  * sdk:      gsiSoapTaskCancel (gssoap.o)
  */
@@ -258,8 +224,6 @@ void gsiSoapTaskCancel(void *theTask)
     soapTask->result = 18;
 }
 
-
-
 /*
  * sdk:      gsiSoapTaskCallback (gssoap.o)
  */
@@ -268,8 +232,6 @@ void gsiSoapTaskCallback(void *theTask)
     GSSoapTask *aSoapTask = (GSSoapTask *)theTask;
     aSoapTask->callback(aSoapTask->result, aSoapTask->request, aSoapTask->stream, aSoapTask->userData);
 }
-
-
 
 /*
  * Destructor: releases three optional sub-objects then the object itself, and

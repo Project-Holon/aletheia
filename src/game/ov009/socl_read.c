@@ -121,7 +121,8 @@ struct SOCLiCommandRead {
 
 extern int SOCL_SocketIsInvalid(struct SOCLSocket *socket);
 extern int OS_GetProcMode(void);
-struct OSMutex;
+#include "../sdk_os.h"
+
 extern int OS_TryLockMutex(struct OSMutex *mutex);
 extern void OS_LockMutex(struct OSMutex *mutex);
 extern void OS_UnlockMutex(struct OSMutex *mutex);

@@ -23,50 +23,12 @@
  *   OS_IsForceDisableWireless_ltdmain 0x027312F8 arm twl
  */
 #define OSi_NVRAM_OWNER ((OSiNvramOwner *)0x02FFFC80)
-typedef unsigned long u32;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef unsigned char u8;
-
-typedef int BOOL;
-
-typedef struct OSBirthday {
-    u8 month;
-    u8 day;
-} OSBirthday;
-
-typedef struct OSOwnerInfo {
-    u8 language;
-    u8 favoriteColor;
-    OSBirthday birthday;
-    u16 nickName[11];
-    u16 nickNameLength;
-    u16 comment[27];
-    u16 commentLength;
-} OSOwnerInfo;
+#include "../sdk_os.h"
 
 /* The user settings copy in system work at 0x02FFFC80, as far as the
    reads here reach. */
-typedef struct OSiNvramOwner {
-    u8 version;
-    u8 rsv1;
-    u8 favoriteColor : 4;
-    u8 rsv2 : 4;
-    u8 month;
-    u8 day;
-    u8 rsv3;
-    u16 nickName[10];
-    u8 nickNameLength;
-    u8 rsv4;
-    u16 comment[26];
-    u8 commentLength;
-    u8 rsv5;
-    u8 rsv6[0x12];
-    u16 language : 3;
-    u16 rsv7 : 13;
-} OSiNvramOwner;
-
 typedef struct OSOwnerInfoEx {
     u8 language;
     u8 favoriteColor;
@@ -85,8 +47,6 @@ typedef struct OSiNvramSystemWork {
     u8 *twlSettings;
 } OSiNvramSystemWork;
 
-typedef volatile unsigned char vu8;
-
 extern BOOL OS_IsRunOnTwl(void);
 extern void MIi_CpuCopy16(const void *src, void *dest, u32 size);
 extern BOOL OS_IsAvailableWireless_ltdmain(void);
@@ -101,18 +61,10 @@ const void *OS_GetParentalControlInfoPtr(void);
 BOOL OS_IsForceDisableWireless(void);
 extern char g_020A5CE8[];
 
-
 char *OSi_GetOwnerInfoExBuffer(void)
 {
     return g_020A5CE8;
 }
-
-
-
-
-
-
-
 
 /*
  * sdk:      OS_GetOwnerInfoEx (os_ownerinfoex.o)
@@ -142,13 +94,6 @@ void OS_GetOwnerInfoEx(OSOwnerInfoEx *info)
     }
 }
 
-
-
-
-
-
-
-
 BOOL OS_IsAvailableWireless(void)
 {
     if (!OS_IsRunOnTwl()) {
@@ -157,20 +102,8 @@ BOOL OS_IsAvailableWireless(void)
     return OS_IsAvailableWireless_ltdmain();
 }
 
-
-
-
-
-
-
 /* HW_PARAM_TWL_SETTINGS_DATA: a pointer at 0x02FFFDFC to the TWL settings. */
 #define OSi_TWL_SETTINGS (*(u8 **)0x02FFFDFC)
-
-
-
-
-
-
 
 /*
  * sdk:      OS_IsAgreeEULA (os_ownerinfoex.o)
@@ -183,18 +116,8 @@ BOOL OS_IsAgreeEULA(void)
     return 0;
 }
 
-
-
-
-
-
 /* HW_PARAM_TWL_SETTINGS_DATA: a pointer at 0x02FFFDFC to the TWL settings. */
 #define OSi_TWL_SETTINGS (*(u8 **)0x02FFFDFC)
-
-
-
-
-
 
 /*
  * sdk:      OS_GetAgreedEULAVersion (os_ownerinfoex.o)
@@ -207,10 +130,6 @@ u8 OS_GetAgreedEULAVersion(void)
     return 0;
 }
 
-
-
-
-
 u8 OS_GetROMHeaderEULAVersion(void)
 {
     if (OS_IsRunOnTwl()) {
@@ -219,14 +138,8 @@ u8 OS_GetROMHeaderEULAVersion(void)
     return 0;
 }
 
-
-
-
 /* HW_PARAM_TWL_SETTINGS_DATA: a pointer at 0x02FFFDFC to the TWL settings. */
 #define OSi_TWL_SETTINGS (*(u8 **)0x02FFFDFC)
-
-
-
 
 /*
  * sdk:      OS_GetParentalControlInfoPtr (os_ownerinfoex.o)
@@ -238,8 +151,6 @@ const void *OS_GetParentalControlInfoPtr(void)
     }
     return 0;
 }
-
-
 
 BOOL OS_IsForceDisableWireless(void)
 {

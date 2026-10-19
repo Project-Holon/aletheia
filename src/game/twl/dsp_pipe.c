@@ -37,23 +37,9 @@
  *   data_02734574                0x02734574  data
  *   data_02734614                0x02734614  data
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef int s32;
-typedef int BOOL;
+#include "../types.h"
 
-typedef struct FSFile {
-    struct FSFile *next;
-    void *userdata;
-    void *arc;
-    u32 stat;
-    void *argument;
-    int error;
-    void *queue[2];
-    u8 prop[16];
-    u8 arg[24];
-} FSFile;
+#include "../sdk_fs.h"
 
 static inline BOOL FS_IsFile(FSFile *f)
 {
@@ -107,7 +93,8 @@ extern BOOL OS_IsRunOnTwl(void);
 extern void OS_SleepThread(void *);
 extern void OS_WakeupThread(void *);
 extern void FS_InitFile(FSFile *file);
-struct OSMessageQueue;
+#include "../sdk_os.h"
+
 extern void OS_InitMessageQueue(struct OSMessageQueue *mq, void **msgArray, s32 msgCount);
 extern void OS_CreateThread(void *, void (*)(void *), void *, void *, u32, u32);
 extern void OS_WakeupThreadDirect(void *);

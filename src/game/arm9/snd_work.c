@@ -19,11 +19,9 @@
  *   SNDi_SharedWork     0x02152FA0  data
  *   DC_FlushRange  0x020862F0  arm
  */
-typedef unsigned int u32;
+#include "../types.h"
 
 #include "snd_shared_types.h"
-
-typedef int BOOL;
 
 typedef struct SNDExChannel {
     unsigned char myNo;
@@ -89,14 +87,12 @@ unsigned long SNDi_GetFinishedCommandTag(void);
 void SNDi_InitSharedWork(SNDSharedWork *work);
 extern SNDSharedWork *SNDi_SharedWork;
 
-
 /* sdk:      SND_GetPlayerStatus (snd_work.o) */
 u32 SND_GetPlayerStatus(void)
 {
     DC_InvalidateRange(&SNDi_SharedWork->playerStatus, 4);
     return SNDi_SharedWork->playerStatus;
 }
-
 
 /*
  * sdk:      SND_GetChannelStatus (snd_work.o)
@@ -107,7 +103,6 @@ unsigned long SND_GetChannelStatus(void)
     return SNDi_SharedWork->channelStatus;
 }
 
-
 static inline SNDExChannel *ConvAddr(const SNDExChannel *p, const SNDWork *base, const SNDDriverInfo *info)
 {
     if (p == 0) {
@@ -115,7 +110,6 @@ static inline SNDExChannel *ConvAddr(const SNDExChannel *p, const SNDWork *base,
     }
     return (SNDExChannel *)((unsigned char *)info + ((unsigned long)p - (unsigned long)base));
 }
-
 
 /*
  * sdk:      SND_ReadTrackInfo (snd_work.o)
@@ -155,7 +149,6 @@ BOOL SND_ReadTrackInfo(SNDDriverInfo *driverInfo, int playerNo, int trackNo, SND
     return 1;
 }
 
-
 /*
  * sdk:      SNDi_GetFinishedCommandTag (snd_work.o)
  */
@@ -164,7 +157,6 @@ unsigned long SNDi_GetFinishedCommandTag(void)
     DC_InvalidateRange(&SNDi_SharedWork->finishedTag, 4);
     return SNDi_SharedWork->finishedTag;
 }
-
 
 /*
  * sdk:      SNDi_InitSharedWork (snd_work.o)

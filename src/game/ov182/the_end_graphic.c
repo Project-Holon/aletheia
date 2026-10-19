@@ -102,15 +102,9 @@ struct BgTemplate;
 struct DispConfig;
 struct Bank;
 struct Cfg;
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef unsigned char u8;
+#include "../types.h"
 
 typedef struct {u32 id; u32 v[10];} TheEndBgLayerRecord;
-
-typedef signed int     s32;
 
 typedef struct { unsigned id; unsigned v[8]; unsigned a, b; } TheEndWindowRecord;
 
@@ -137,8 +131,6 @@ struct TheEndGraphic {
 struct TheEndActors {
     void *bank;
 };
-
-typedef unsigned long long u64;
 
 extern void GFL_HEAP_CreateChildHeap(unsigned int, unsigned int, unsigned int);
 extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
@@ -240,13 +232,6 @@ extern unsigned char d_021B9C0C[];
 extern const short d_020A1EB8[];
 extern const int d_021B9BE4[],d_021B9BD8[],d_021B9BF0[];
 
-
-
-
-
-
-
-
 int THE_END_GRAPHIC_Init(void *task, int b, int c)
 {
     u16 value[1];
@@ -272,13 +257,6 @@ int THE_END_GRAPHIC_Init(void *task, int b, int c)
     return 1;
 }
 
-
-
-
-
-
-
-
 /*
  * volatile: hardware 04001050 and 04001000 read/write at 021B966C-021B967A.
  */
@@ -299,13 +277,6 @@ int THE_END_GRAPHIC_Exit(void *task, int b, int c, char *p)
     GFL_HEAP_DeleteChecked(0x88);
     return 1;
 }
-
-
-
-
-
-
-
 
 int THE_END_GRAPHIC_Main(void *a, unsigned *state, void *c, char *p)
 {
@@ -352,23 +323,9 @@ int THE_END_GRAPHIC_Main(void *a, unsigned *state, void *c, char *p)
     return 0;
 }
 
-
-
-
-
-
-
-
 void THE_END_GRAPHIC_DummyTask(void)
 {
 }
-
-
-
-
-
-
-
 
 void THE_END_GRAPHIC_LoadGraphics(unsigned short *p)
 {
@@ -384,22 +341,7 @@ void THE_END_GRAPHIC_LoadGraphics(unsigned short *p)
     BG_SYS_SetPlaneVisible(2, 0);
 }
 
-
-
-
-
-
-
-
 void THE_END_GRAPHIC_Dummy(void *p){}
-
-
-
-
-
-
-
-
 
 void THE_END_GRAPHIC_StartFade(void *a, void *b, void *c)
 {
@@ -408,13 +350,6 @@ void THE_END_GRAPHIC_StartFade(void *a, void *b, void *c)
     else
         FADE_Start(0xc, (s32)a, (s32)b, (s32)c);
 }
-
-
-
-
-
-
-
 
 /*
  * volatile: hardware 04000008/04000060 read/write 021B984E-021B988C, 04000580 write 021B98AA.
@@ -436,13 +371,6 @@ void THE_END_GRAPHIC_Setup3d(void)
         G3D_SYSTEM_SetLight((u8)i, (struct G3dLight *)d_021B9C28[i]);
     G3D_SYSTEM_SetSwapBuffersMode(0, 0);
 }
-
-
-
-
-
-
-
 
 char *THE_END_GRAPHIC_Create(int a, u16 heap)
 {
@@ -467,13 +395,6 @@ char *THE_END_GRAPHIC_Create(int a, u16 heap)
     return p;
 }
 
-
-
-
-
-
-
-
 /*
  * volatile: Hardware registers 0x04000050, 0x04001050, 0x04000000, 0x04001000 read/write at 0x021B99B2..0x021B99C8.
  */
@@ -492,37 +413,17 @@ void THE_END_GRAPHIC_Delete(char *p)
     GFL_HEAP_Free(p);
 }
 
-
-
-
-
-
-
-
 void THE_END_GRAPHIC_Update(char *p)
 {
     THE_END_GRAPHIC_DrawActors(p + 4);
     THE_END_GRAPHIC_Dummy2(p);
 }
 
-
-
-
-
-
-
-
 void THE_END_GRAPHIC_VBlankTask(int unused, char *p)
 {
     THE_END_GRAPHIC_RefreshDisplay(p);
     THE_END_GRAPHIC_VBlankActors(p + 4);
 }
-
-
-
-
-
-
 
 void THE_END_GRAPHIC_InitWindows(void *p, int heap)
 {
@@ -542,31 +443,11 @@ void THE_END_GRAPHIC_InitWindows(void *p, int heap)
     }
 }
 
-
-
-
-
-
-
 void THE_END_GRAPHIC_ExitWindows(void *p){u32 i;for(i=0;i<2;i++)BG_SYS_FreeLayerBuf((u8)d_021B9C78[i].id);BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4);}
-
-
-
-
-
-
 
 void THE_END_GRAPHIC_Dummy2(void *p){}
 
-
-
-
-
 void THE_END_GRAPHIC_RefreshDisplay(void *unused) { BG_SYS_Update(); }
-
-
-
-
 
 void THE_END_GRAPHIC_InitActors(int *p, int b, int c)
 {
@@ -578,9 +459,6 @@ void THE_END_GRAPHIC_InitActors(int *p, int b, int c)
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
-
-
-
 void THE_END_GRAPHIC_DeleteActors(void *p)
 {
     CLACT_DeleteUnit((struct Bank *)((struct TheEndActors *)p)->bank);
@@ -588,22 +466,15 @@ void THE_END_GRAPHIC_DeleteActors(void *p)
     MI_CpuFill8(p, 0, 4);
 }
 
-
-
 void THE_END_GRAPHIC_DrawActors(void *unused) { CLACT_DrawSystem(); }
 
-
-
 void THE_END_GRAPHIC_VBlankActors(void *unused) { CLACT_VBlankSystem(); }
-
-
 
 void THE_END_GRAPHIC_InitCamera(int *p,u16 heap)
 {
     G3D_SYSTEM_Init(0,1,0,1,0,heap,THE_END_GRAPHIC_Setup3d);
     *p=G3D_CAMERA_Create(0,d_020A1EB8[6],d_020A1EB8[7],0x1555,0,0x1000,0x400000,0,d_021B9BE4,d_021B9BD8,d_021B9BF0,heap);
 }
-
 
 void THE_END_GRAPHIC_DeleteCamera(unsigned int *p)
 {

@@ -182,22 +182,15 @@
  */
 #define reg_EXMEMCNT (*(volatile u16 *)0x04000204)
 #define reg_IME      (*(volatile u16 *)0x04000208)
-struct OSThread;
 struct SaveCtrl;
 struct SaveData;
 struct Config;
 struct TcbList;
 struct Tcb;
 struct SndHeap;
-typedef unsigned short u16;
+#include "../types.h"
 
-typedef unsigned int   u32;
-
-typedef int            BOOL;
-
-typedef unsigned char  u8;
-
-typedef unsigned long long u64;
+#include "../sdk_os.h"
 
 /* 64 bit linear congruential generator: seed = mul * seed + add. */
 struct GflRandom {
@@ -224,8 +217,6 @@ struct GflUseState {
     struct GflRuntime *runtime;
     void *extraHeapBlock;
 };
-
-typedef signed int     s32;
 
 /* Sound-manager declarations carried over from pm_voice.c with the GFL_USE_*
  * block. */
@@ -325,17 +316,16 @@ struct SndWaveSetHeader {
     u32 savedState;
 };
 
-
 extern void OS_SetIrqFunction(u32 mask, void (*fn)(void));
 extern u32  OS_EnableIrqMask(u32 mask);
 extern s32 GX_HBlankIntr(BOOL enable);
 extern s32 GX_VBlankIntr(BOOL enable);
 extern u32  OS_EnableInterrupts(void);
 extern void G3D_SYSTEM_SwapBuffersMain(void);
-extern BOOL OS_IsThreadTerminated(struct OSThread *thread);
-extern void OS_SleepThreadDirect(struct OSThread *thread, void *queue);
+extern BOOL OS_IsThreadTerminated(OSThread *thread);
+extern void OS_SleepThreadDirect(OSThread *thread, void *queue);
 extern void OS_WaitIrq(BOOL clear, u32 mask);
-extern void OS_WakeupThreadDirect(struct OSThread *thread);
+extern void OS_WakeupThreadDirect(OSThread *thread);
 extern int GFL_NET_SYSTEM_GetConnectNum(void);
 extern u32 GFL_NET_IsNetTypeBeacon(void);
 extern u32 GFL_NET_IsNetTypeWifi(void);
@@ -498,9 +488,9 @@ struct SNDWaveData;
 struct SNDWaveArc;
 extern void  SND_SetWaveDataAddress(struct SNDWaveArc *waveArc, s32 index, struct SNDWaveData *address);
 extern struct SNDWaveData *SND_GetWaveDataAddress(struct SNDWaveArc *waveArc, s32 index);
-extern void  OS_CreateThread(struct OSThread *thread, void (*entry)(void *), void *arg,
+extern void  OS_CreateThread(OSThread *thread, void (*entry)(void *), void *arg,
                            void *stack, u32 size, u32 prio);
-extern void  OS_DestroyThread(struct OSThread *thread);
+extern void  OS_DestroyThread(OSThread *thread);
 extern struct SNDTrackInfo _SndTrackInfo[];
 extern struct SeSlot _SeSlots[];
 extern void GFL_USE_InitSeSlots(void);
@@ -557,7 +547,7 @@ struct SndWaveSetHeader *GFL_USE_LoadWaveArcSet(const u32 *waveArcIds, u32 count
 void GFL_USE_ReleaseWaveArcSet(const struct SndWaveSetHeader *header);
 void GFL_USE_InitSound(void);
 void GFL_USE_ResetSound(int clearHeap);
-extern struct OSThread _WorkerThread;
+extern OSThread _WorkerThread;
 extern u32  SDK_AUTOLOAD_MAIN_TWL_START[];
 extern u8 ov010_id[];
 extern u8 ov011_id[];
@@ -576,7 +566,6 @@ extern struct SndState _SndState;
 extern char _SndArcPath[];
 extern char _SndArc[];
 
-
 static inline u16 OS_EnableIrq(void)
 {
     u16 prep = reg_IME;
@@ -584,12 +573,10 @@ static inline u16 OS_EnableIrq(void)
     return prep;
 }
 
-
 static inline void MI_SetMainMemoryPriority(u32 proc)
 {
     reg_EXMEMCNT = (u16)((reg_EXMEMCNT & ~0x8000) | (proc << 15));
 }
-
 
 void NitroMain(void)
 {
@@ -625,7 +612,6 @@ void NitroMain(void)
     }
 }
 
-
 /*
  * Boot path, 0x020051D8..0x0200520C: a three-step readiness test (each
  * step its own early `return 0`, per the image's four epilogues) and the
@@ -647,12 +633,10 @@ int GFL_USE_IsNetQuiet(void)
     return 0;
 }
 
-
 void GFL_USE_HBlankHandler(void)
 {
     GFL_USE_RunHBlankTasks();
 }
-
 
 /*
  * One of the three callers of the boot path's scene switch (.text init
@@ -680,13 +664,11 @@ void GFL_USE_VBlankHandler(void)
     MI_WaitDma(3);
 }
 
-
 void GFL_USE_PostIrqUpdate(void)
 {
     GFL_USE_DoVramTransfer();
     GFL_USE_RunMainTasks();
 }
-
 
 /*
  * Blocking class: label. Seven `bl` sites in this range have no branch witness
@@ -736,7 +718,6 @@ void GFL_USE_InitGameSystems(void)
     GPOWER_Init();
 }
 
-
 /*
  * Seven unconditional calls in a row, no arguments and no return value: the
  * tail of the boot sequence, run immediately after GFL_USE_VBlankHandler.  Every
@@ -757,7 +738,6 @@ void GFL_USE_UpdateFrameSubsystems(void)
     GAME_BEACON_Update();
     GPOWER_CountDownTimers();
 }
-
 
 /*
  * Part of a translation unit, matched as one byte range.  Written from the
@@ -791,7 +771,6 @@ void GFL_USE_ApplySoundModeFromConfig(const struct Config *config)
         GFL_USE_SetStereoOutput(0);
     }
 }
-
 
 /*
  *           nine relocation sites stay wildcarded because this function is
@@ -852,7 +831,6 @@ void GFL_USE_InitSdk(void)
         PM_SetAmp(0);
 }
 
-
 void GFL_USE_PollPowerExit(void)
 {
     if (_PreExitState[0] == 0) {
@@ -867,7 +845,6 @@ void GFL_USE_PollPowerExit(void)
     *(volatile u16 *)0x04000204 |= 0x8000;
     PM_ReadyToExit();
 }
-
 
 /*
  * Part of a translation unit, matched as one byte range.  Written from the
@@ -896,7 +873,6 @@ void GFL_USE_DoVramTransfer(void)
     NNS_GfdDoVramTransfer();
 }
 
-
 /*
  *           r2 sweep: still capped -- no EXACT manifest entry covers the site; the matched class has no witness to offer.
  *
@@ -914,13 +890,11 @@ void GFL_USE_CtrdgDummyInit(void)
     CTRDG_DummyInit();
 }
 
-
 void GFL_USE_OnPreExit(void)
 {
     PM_SetAutoExit(0);
     _PreExitState[0] = 1;
 }
-
 
 /*
  * gfl_use.c, the file's __FILE__ anchor function: system boot set-up.  On a
@@ -998,7 +972,6 @@ void GFL_USE_InitSystem(void)
     FADE_SetSpeed(2);
 }
 
-
 void GFL_USE_PollFrameInput(void)
 {
     UI_Update();
@@ -1006,7 +979,6 @@ void GFL_USE_PollFrameInput(void)
     PROCSYS_MainGlobal();
     GF_STANDARD_UpdateRtc();
 }
-
 
 /*
  * Part of a translation unit, matched as one byte range.  Written from the
@@ -1041,18 +1013,15 @@ void GFL_USE_NoOpFrameHook(void)
 {
 }
 
-
 void GFL_USE_RunHBlankTasks(void)
 {
     TCB_Main(_GflUse.runtime->hblankTasks);
 }
 
-
 struct Tcb *GFL_USE_AddHBlankTask(void (*callback)(struct Tcb *, void *), void *work, u32 priority)
 {
     return (struct Tcb *)TCB_AddTask((struct TcbSystem *)_GflUse.runtime->hblankTasks, callback, work, priority);
 }
-
 
 void GFL_USE_CallVBlankHook(void)
 {
@@ -1060,7 +1029,6 @@ void GFL_USE_CallVBlankHook(void)
         _GflUse.vblankHook(_GflUse.vblankHookArg);
     }
 }
-
 
 u32 GFL_USE_SetVBlankHook(void (*hook)(void *), void *hookArg)
 {
@@ -1072,20 +1040,17 @@ u32 GFL_USE_SetVBlankHook(void (*hook)(void *), void *hookArg)
     return 1;
 }
 
-
 void GFL_USE_ClearVBlankHook(void)
 {
     _GflUse.vblankHook = 0;
     _GflUse.vblankHookArg = 0;
 }
 
-
 void GFL_USE_RunMainTasks(void)
 {
     FADE_Update(DMA_UpdateChannels(BG_SYS_Update(TCB_Main(_GflUse.runtime->mainTasks))));
     _GflUse.frameCount++;
 }
-
 
 /*
  * Part of a translation unit, matched as one byte range.  Written from the
@@ -1205,25 +1170,21 @@ struct Tcb *GFL_USE_AddMainTask(void (*callback)(struct Tcb *, void *), void *wo
     return (struct Tcb *)TCB_AddTask((struct TcbSystem *)_GflUse.runtime->mainTasks, callback, work, priority);
 }
 
-
 struct TcbList *GFL_USE_GetMainTaskList(void)
 {
     return _GflUse.runtime->mainTasks;
 }
-
 
 void GFL_USE_InitRandomState(struct GflRandom *rand)
 {
     GF_STANDARD_SeedLcg64((struct Lcg64 *)rand);
 }
 
-
 void GFL_USE_InitRandom(void)
 {
     GFL_USE_InitRandomState(&_GflUse.runtime->rand);
     GF_STANDARD_RandSeed(GFL_USE_GetRandom(0));
 }
-
 
 u32 GFL_USE_GetRandom(u32 range)
 {
@@ -1239,7 +1200,6 @@ u32 GFL_USE_GetRandom(u32 range)
     return value;
 }
 
-
 u32 GFL_USE_GetRandomBelow(u32 range)
 {
     struct GflRandom *rand = &_GflUse.runtime->rand;
@@ -1247,7 +1207,6 @@ u32 GFL_USE_GetRandomBelow(u32 range)
     rand->seed = rand->mul * rand->seed + rand->add;
     return (u32)(((rand->seed >> 32) * range) >> 32);
 }
-
 
 /*
  * A whole translation unit, matched as one byte range.  Written from the
@@ -1272,7 +1231,6 @@ void *GFL_USE_GetArcPath(u32 index)
     return _ArcPathTable[index];
 }
 
-
 void GFL_USE_WaitInputReady(void)
 {
     u32 keyState;
@@ -1282,7 +1240,6 @@ void GFL_USE_WaitInputReady(void)
         keyState = KEY_GetCont();
     } while (!(keyState & 0x200) || !(keyState & 0x100) || !(keyState & 0x400) || !(keyState & 0x800));
 }
-
 
 /*
  * Part of a translation unit, matched as one byte range.  Written from the
@@ -1335,18 +1292,15 @@ void GFL_USE_MuteSound(void)
     NNS_SndSetMasterVolume(0);
 }
 
-
 void GFL_USE_UnmuteSound(void)
 {
     NNS_SndSetMasterVolume(0x7F);
 }
 
-
 void GFL_USE_SetSleepVolumeHooks(void)
 {
     UI_SetResumeAndSuspendHooks((u32)GFL_USE_MuteSound, (u32)GFL_USE_UnmuteSound, 0);
 }
-
 
 /*
  * Promoted from src/pending/ in the third 0-64 byte band pass (lane 1).  It
@@ -1375,7 +1329,6 @@ int GFL_USE_IsMuteHookActive(void)
     hook = UI_GetSuspendHookGlobal();
     return hook == (u32)GFL_USE_MuteSound;
 }
-
 
 /*
  * A whole translation unit, matched as one byte range.  Written from the
@@ -1427,7 +1380,6 @@ void GFL_USE_SetSndStackHeap(struct SndHeap **heapPtr)
     _SndStack.heapPtr = heapPtr;
 }
 
-
 void GFL_USE_InitSndSlot(u32 level)
 {
     _SndSlots[level].inUse = 0;
@@ -1438,7 +1390,6 @@ void GFL_USE_InitSndSlot(u32 level)
     _SndSlots[level].seqBankState = -1;
     _SndSlots[level].waveState = -1;
 }
-
 
 void GFL_USE_BeginSndSlot(u32 state)
 {
@@ -1452,7 +1403,6 @@ void GFL_USE_BeginSndSlot(u32 state)
     slot->inUse = 1;
 }
 
-
 void GFL_USE_EndSndSlot(void)
 {
     struct SndSlot *slot =
@@ -1462,7 +1412,6 @@ void GFL_USE_EndSndSlot(void)
     NNS_SndHeapLoadState((struct NNSSndHeap *)(*_SndStack.heapPtr), slot->baseState);
     GFL_USE_InitSndSlot(_SndStack.top);
 }
-
 
 void GFL_USE_InitSndStack(u16 playerNo)
 {
@@ -1477,7 +1426,6 @@ void GFL_USE_InitSndStack(u16 playerNo)
     NNS_SndPlayerSetPlayableSeqCount(_SndStack.playerNo, 6);
     GFL_USE_BeginSndSlot(NNS_SndHeapSaveState((struct NNSSndHeap *)(*_SndStack.heapPtr)));
 }
-
 
 u16 GFL_USE_GetCurrentBgmId(void)
 {
@@ -1495,18 +1443,15 @@ u16 GFL_USE_GetCurrentBgmId(void)
     return bgmId;
 }
 
-
 u32 GFL_USE_GetSndStackDepth(void)
 {
     return _SndStack.top;
 }
 
-
 struct SndHandle *GFL_USE_GetCurrentSndHandle(void)
 {
     return &_SndSlots[_SndStack.top].handle;
 }
-
 
 int GFL_USE_LoadBgmData(u32 bgmId)
 {
@@ -1527,7 +1472,6 @@ int GFL_USE_LoadBgmData(u32 bgmId)
     return result;
 }
 
-
 void GFL_USE_SaveSeqBankState(void)
 {
     struct SndSlot *slot =
@@ -1535,7 +1479,6 @@ void GFL_USE_SaveSeqBankState(void)
 
     slot->seqBankState = NNS_SndHeapSaveState((struct NNSSndHeap *)(*_SndStack.heapPtr));
 }
-
 
 int GFL_USE_FinishBgmLoad(u32 bgmId)
 {
@@ -1546,7 +1489,6 @@ int GFL_USE_FinishBgmLoad(u32 bgmId)
     slot->bgmId = bgmId;
     return 1;
 }
-
 
 void GFL_USE_UnloadBgmData(void)
 {
@@ -1561,7 +1503,6 @@ void GFL_USE_UnloadBgmData(void)
     slot->seqBankState = slot->preBgmState;
     slot->waveState = slot->preBgmState;
 }
-
 
 int GFL_USE_PushSndSlot(void)
 {
@@ -1583,7 +1524,6 @@ int GFL_USE_PushSndSlot(void)
     GFL_USE_BeginSndSlot(state);
     return 1;
 }
-
 
 /*
  * Part of a translation unit, matched as one byte range.  Written from the
@@ -1621,7 +1561,6 @@ int GFL_USE_PopSndSlot(void)
     }
     return 1;
 }
-
 
 /*
  * promoted: from src/pending 2026-09-19, no C change: blocker 0x02074A6C is filed in layout/matched/arm9/pkt_02074A6C.json and every site resolves (gate: manifest --verify --shard layout/matched/arm9/pkt_02005A98.json, then 0 rewritten).
@@ -1664,7 +1603,6 @@ struct SndWaveSetHeader *GFL_USE_LoadWaveArcSet(const u32 *waveArcIds, u32 count
     return header;
 }
 
-
 /*
  * Part of a translation unit, matched as one byte range.  Written from the
  * disassembly in asm/arm9/src/000_02004000.s.
@@ -1682,7 +1620,6 @@ void GFL_USE_ReleaseWaveArcSet(const struct SndWaveSetHeader *header)
     NNS_SndHeapLoadState((struct NNSSndHeap *)(*_SndStack.heapPtr), savedState);
     GFL_USE_BeginSndSlot(savedState);
 }
-
 
 /*
  *           and its pointer word 0x02704364, which lies outside every region
@@ -1716,7 +1653,6 @@ void GFL_USE_InitSound(void)
     }
 }
 
-
 void GFL_USE_ResetSound(int clearHeap)
 {
     NNS_SndArcPlayerSetup((struct NNSSndHeap *)_SndState.heap);
@@ -1734,7 +1670,6 @@ void GFL_USE_ResetSound(int clearHeap)
     _SndState.loaderThread = 0;
     _SndState.startFilter = 0;
 }
-
 
 void GFL_USE_UpdateSound(void);
 void GFL_USE_ClearSndHeap(void);
@@ -1795,7 +1730,6 @@ int GFL_USE_ReplaceWaveData(u32 waveArcNo, u32 waveIndex, u32 srcWaveArc, u32 sr
 void GFL_USE_StartSeq(u32 seqNo);
 void GFL_USE_StopSeqAndUnload(void);
 void GFL_USE_ClearPreloadedBgmBuffers(void);
-
 
 /*
  * Per-frame sound update: finish a pending BGM change step, let the sound

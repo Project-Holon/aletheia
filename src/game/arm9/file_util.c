@@ -37,15 +37,13 @@
  */
 #include "bmp_menulist_shared_types.h"
 
-typedef signed char    s8;
+#include "../types.h"
 
 struct MsgBank;
 
 struct ArcFile;
 
-struct FSFile {
-    u8 raw[0x48];
-};
+#include "../sdk_fs.h"
 
 struct ItemGfxMember {
     u16 lo;

@@ -369,7 +369,7 @@ typedef struct { u8 pad[0x60]; u16 angles[5]; } AngleObj;
 
 struct RangeU32 { u32 low, high; };
 
-typedef enum { GX_SHADING_TOON = 0, GX_SHADING_HIGHLIGHT = 1 } GXShading;
+#include "../sdk_gx.h"
 
 typedef struct { u32 x, y, z; } Vec3;
 

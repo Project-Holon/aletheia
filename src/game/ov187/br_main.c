@@ -50,11 +50,7 @@ struct GameData;
 struct SoundSys;
 struct StrBuf;
 
-typedef unsigned int   u32;
-
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
+#include "../types.h"
 
 /* One screen of the recorder: how to build its work block, which proc to push, how to free it. */
 typedef struct BrSceneEntry {

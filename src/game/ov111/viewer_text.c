@@ -193,7 +193,7 @@ typedef struct { u32 w[8]; } ViewerBgTemplate;
 
 typedef struct { ViewerBgTemplate t[6]; } ViewerBgTemplates;
 
-typedef enum { GX_DISP_SELECT_SUB_MAIN = 0, GX_DISP_SELECT_MAIN_SUB = 1 } GXDispSelect;
+#include "../sdk_gx.h"
 
 extern void BMP_WIN_Init(u16 heapId);
 struct BmpWin;

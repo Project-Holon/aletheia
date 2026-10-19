@@ -36,7 +36,7 @@
  *   d_02172808 0x02172808 data a1
  *   GFL_HEAP_Free  0x020307B0  arm
  */
-#include "delivery_irc_shared_types.h"
+#include "../types.h"
 
 struct Entry;
 

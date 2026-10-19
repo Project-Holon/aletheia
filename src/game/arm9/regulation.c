@@ -28,8 +28,6 @@
  *   POKE_TOOL_GetPartyValue      0x02017E1C  thumb
  */
 #include "wifilist_tail_shared_types.h"
-#include "musical_save_shared_types.h"
-#include "irc_ranking_shared_types.h"
 
 struct MsgBank;
 
@@ -44,7 +42,7 @@ struct PokeParam {
     u32 data[0x37];
 };
 
-typedef signed char    s8;
+#include "../types.h"
 
 /*
  * regulation.c: a 0xBC-byte battle rule set.  The get and set pair takes a

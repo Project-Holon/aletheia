@@ -52,17 +52,7 @@ typedef struct {
     short revents;
 } GSPollFd;
 
-struct SOCHostEnt {
-    char *name;
-    char **aliases;
-    short addrType;
-    short length;
-    unsigned char **addrList;
-};
-
-struct SOCInAddr {
-    unsigned int addr;
-};
+#include "../sdk_soc.h"
 
 extern int SOC_Socket(int pf, int type);
 extern int SOC_Close(int s);

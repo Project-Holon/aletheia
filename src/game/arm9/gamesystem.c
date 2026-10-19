@@ -86,7 +86,6 @@
 #include "script_vm_types.h"
 #include "vm_shared_types.h"
 #include "ica_anime_shared_types.h"
-#include "ica_anime_shared_types.h"
 int GFL_NET_IRC_WIRELESS_IsActive(void);
 
 struct WirelessSave;

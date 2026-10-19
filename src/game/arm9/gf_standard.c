@@ -34,13 +34,8 @@
  *   RTC_ConvertDateTimeToSecond  0x02089004  arm
  *   RTC_GetDateTimeAsync  0x02088944  arm
  */
-#include "gf_standard_shared_types.h"
 
-struct MATHCRC16Table;
-
-struct RTCDate;
-
-struct RTCTime;
+#include "../sdk_rtc.h"
 
 struct Mt {
     u32 mt[624];
@@ -49,13 +44,11 @@ struct Mt {
     u8  crc16Table[0x200];
 };
 
-typedef long long          s64;
+#include "../types.h"
 
-typedef unsigned long long u64;
+#include "../sdk_math.h"
 
-typedef s32 fx32;
-
-struct VecFx32 { fx32 x; fx32 y; fx32 z; };
+#include "../sdk_fx.h"
 
 struct Lcg64 {
     u64 x;

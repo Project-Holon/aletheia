@@ -1,12 +1,8 @@
 #ifndef ALETHEIA_OV015_IRC_TYPES_H
 #define ALETHEIA_OV015_IRC_TYPES_H
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef unsigned long long u64;
-typedef int BOOL;
-typedef u64 OSTick;
+#include "../types.h"
+#include "../sdk_os.h"
 
 #define TRUE 1
 

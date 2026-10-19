@@ -26,22 +26,11 @@
  *   sMb 0x021F6EF4 data
  *   bsendBuff 0x021F6F20 data
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed int s32;
-typedef int BOOL;
+#include "../types.h"
 
-typedef struct {
-    u8 b[0x48];
-} FSFile;
+#include "../sdk_fs.h"
 
-typedef struct MBUserInfo {
-    u8  favoriteColor : 4;
-    u8  playerNo : 4;
-    u8  nameLength;
-    u16 name[10];
-} MBUserInfo;
+#include "../sdk_mb.h"
 
 typedef struct MbGameInfo {
     u8  fixedData[0x358];

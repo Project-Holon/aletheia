@@ -23,9 +23,7 @@
  *   d_02171F5D  0x02171F5D  data  a1
  *   d_02171F5E  0x02171F5E  data  a1
  */
-typedef unsigned char u8;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 u8 QUESTIONNAIRE_GetAnswerBitWidth(u32 questionId);
 u8 QUESTIONNAIRE_GetFirstAnswerMessageOffset(u32 questionId);

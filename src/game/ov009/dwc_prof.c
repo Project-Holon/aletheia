@@ -60,17 +60,7 @@
  *   gDwcProfLabelPrWords     0x021A2838  data ov009
  *   DWC_Alloc                    0x0205A16C  arm
  */
-typedef struct OSThread {
-    char pad0[0x6c];
-    int id;
-    char pad70[0x50];
-} OSThread;
-
-typedef struct OSThreadInfo {
-    unsigned short isNeedRescheduling;
-    unsigned short irqDepth;
-    OSThread *current;
-} OSThreadInfo;
+#include "../sdk_os.h"
 
 typedef struct DWCHttp {
     char pad0[0x1020];
@@ -81,32 +71,6 @@ typedef struct DWCHttp {
     int abort;
 } DWCHttp;
 
-typedef struct DWCHttpParam {
-    char *url;
-    int action;
-    unsigned long len_recvbuf;
-    void *(*alloc)(unsigned long name, long size);
-    void (*free)(unsigned long name, void *ptr, long size);
-    int ignoreca;
-    int timeout;
-} DWCHttpParam;
-
-typedef struct DWCCalInfo {
-    char userid[14];
-    char passwd[7];
-    char gamecd[5];
-    char makercd[3];
-    char unitcd[2];
-    char macadr[13];
-    char lang[3];
-    char birth[5];
-    char devtime[13];
-    char bssid[13];
-    char ssid[33];
-    char apinfo[14];
-    unsigned short devname[11];
-} DWCCalInfo;
-
 typedef struct DWCProfWorkarea {
     DWCHttp http;
     int http_initialized;
@@ -116,13 +80,9 @@ typedef struct DWCProfWorkarea {
     int wordsnum;
 } DWCProfWorkarea;
 
-typedef struct DWCAuthHttpParam {
-    char *url;
-} DWCAuthHttpParam;
+#include "../types.h"
 
-typedef unsigned int   u32;
-
-typedef unsigned char  u8;
+#include "../sdk_dwc.h"
 
 typedef struct DWCProfFieldNames {
     char *name[8];
@@ -184,9 +144,6 @@ extern char gDwcProfLabelHttpResult[];
 extern int errno;
 extern char gDwcProfLabelReturnCd[];
 extern char gDwcProfLabelPrWords[];
-
-
-
 
 /*
  * sdk:      DWCi_CheckProfanityAsync (libdwcauth.TWL.HYB.a dwc_prof.o)
@@ -307,10 +264,6 @@ error:
     return 0;
 }
 
-
-
-
-
 /*
  * sdk:      DWC_CheckProfanityExAsync (dwc_prof.o)
  *
@@ -328,10 +281,6 @@ int DWC_CheckProfanityExAsync(unsigned short **words, int wordsnum, char *reserv
     }
     return DWCi_CheckProfanityAsync(words, wordsnum, reserved, timeout, result, badwordsnum, &regionLetter);
 }
-
-
-
-
 
 /*
  * sdk:      DWC_CheckProfanityProcess (libdwcauth.TWL.HYB.a dwc_prof.o)
@@ -379,8 +328,6 @@ int DWC_CheckProfanityProcess(void)
     gDwcProfWorkarea = 0;
     return retval;
 }
-
-
 
 /*
  * sdk:      DWCi_Prof_ParseResponse (libdwcauth.TWL.HYB.a dwc_prof.o)

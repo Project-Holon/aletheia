@@ -33,9 +33,8 @@
  *   wm_icon_HiddenOam                0x020A0810  data
  */
 #include "touchpanel_shared_types.h"
-#include "net_queue_shared_types.h"
 
-typedef volatile u32   vu32;
+#include "../types.h"
 
 #define REG_POWCNT          0x04000304
 
@@ -48,14 +47,7 @@ typedef volatile u32   vu32;
 #define HW_DB_OAM           0x07000400
 
 /* wm_icon.c: the wireless icon, 0x14 bytes */
-typedef struct {
-    union {
-        u32 attr01;
-        struct { u16 attr0; u16 attr1; };
-    };
-    u16 attr2;
-    u16 _3;
-} GXOamAttr;
+#include "../sdk_gx.h"
 
 typedef struct {
     u32 level;                   /* 0x00: signal level 0..3 */

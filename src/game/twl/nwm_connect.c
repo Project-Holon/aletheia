@@ -21,9 +21,7 @@
  *   DC_StoreRange  0x020862D4  arm  arm9
  *   DAT_027341cc                 0x027341CC  data
  */
-typedef unsigned int u32;
-typedef unsigned char u8;
-typedef unsigned short u16;
+#include "../types.h"
 
 typedef struct TwlWork {
     u8 pad[0x2278];

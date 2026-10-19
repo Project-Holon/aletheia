@@ -3,11 +3,7 @@
 
 struct Bmp;
 
-typedef unsigned int u32;
-
-typedef unsigned short u16;
-
-typedef unsigned char u8;
+#include "../types.h"
 
 /* Tile byte sizes (Bmp.tileBytes): one 8x8 tile at 4 and at 8 bits per pixel. */
 #define BMP_TILE_BYTES_4BPP 0x20
@@ -25,7 +21,5 @@ struct Bmp {
     u16  tileBytes;  /* 0x08 */
     u16  storage;    /* 0x0a, BMP_STORAGE_* */
 };
-
-typedef signed int     s32;
 
 #endif

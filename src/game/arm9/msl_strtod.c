@@ -57,7 +57,7 @@
 
 #define unfetch(c) (*ReadProc)(ReadProcArg, c, 1)
 
-typedef long long s64;
+#include "../types.h"
 
 typedef struct { unsigned char c[9]; } model9;
 

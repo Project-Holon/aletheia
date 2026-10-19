@@ -56,11 +56,7 @@
  *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed short   s16;
-typedef signed int     s32;
+#include "../types.h"
 
 extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
 struct SaveControl;
@@ -206,14 +202,12 @@ void RECENT_ID_LIST_SAVEDATA_CompactIds(u8 *ids)
     }
 }
 
-
 int RECENT_ID_LIST_SAVEDATA_GetSaveAreaSize(void);
 
 int RECENT_ID_LIST_SAVEDATA_GetSaveAreaSize(void)
 {
     return 0x1FC00;
 }
-
 
 void RECENT_ID_LIST_SAVEDATA_InitArea(void);
 

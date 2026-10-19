@@ -3,7 +3,7 @@
 
 #include "iss_switch_sys_shared_types.h"
 
-typedef signed int s32;
+#include "../types.h"
 
 struct IssSwitch {
     u32 state;

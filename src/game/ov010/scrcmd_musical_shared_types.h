@@ -23,7 +23,7 @@ struct MapObject;
 
 struct FieldSkillInfo;
 
-typedef signed int s32;
+#include "../types.h"
 
 /* Event task callback: (task, state, work). */
 typedef int (*EventTaskFn)(struct GameEvent *task, u32 *state, void *work);

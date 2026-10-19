@@ -104,21 +104,11 @@ struct Arg;
 
 struct Config { u8 pad[0xd],hour,minute; u8 second:7,spare:1; };
 
-typedef short s16;
+#include "../types.h"
 
-typedef long long s64;
+#include "../sdk_fx.h"
 
-typedef int fx32;
-
-typedef struct { fx32 x, y, z; } VecFx32;
-
-typedef signed int     s32;
-
-typedef int BOOL;
-
-typedef enum { FOG_BLEND_0,FOG_BLEND_1 } GXFogBlend;
-
-typedef enum { FOG_SLOPE_0,FOG_SLOPE_10=10 } GXFogSlope;
+#include "../sdk_gx.h"
 
 struct Record {
     u16 reserved00,reserved02,id;
@@ -161,7 +151,6 @@ extern u32 G3D_UTIL_Create(u16, u16, u32);
 
 extern u16 G3D_UTIL_AddUnit(u32, void *);
 struct G3dObject;
-
 
 extern unsigned short G3D_SYSTEM_GetObjectAnimeCount(struct G3dObject *obj);
 

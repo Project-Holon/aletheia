@@ -34,9 +34,7 @@
 #include "scrcmd_trialhouse_shared_types.h"
 #include "scrcmd_mmdl_shared_types.h"
 
-typedef short s16;
-
-typedef long long s64;
+#include "../types.h"
 
 /* Rise of a field model over a number of frames (0x18 bytes). */
 typedef struct MmdlRiseWork {

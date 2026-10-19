@@ -16,7 +16,7 @@
  *   _ll_udiv  0x0209C00C  arm
  *   sDwciNdPowersOfTen  0x021CE138  data
  */
-typedef unsigned long long u64;
+#include "../types.h"
 
 int DWCi_Ndi_intToStrFigure(char *buffer, u64 value, int figure);
 int DWCi_Ndi_hexToStrFigure(char *buffer, unsigned long value, int figure);

@@ -53,15 +53,9 @@
  */
 #include "cdemo_types.h"
 
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
+#include "../types.h"
 
 typedef struct {unsigned short value;char pad[10];} CdemoEntry;
-
-typedef unsigned char u8;
-
-typedef unsigned long long u64;
 
 typedef struct {
     u16 unused0;
@@ -133,7 +127,6 @@ extern const CdemoEntry d_021B6A1C[];
 extern const CdemoScriptStep data_021B6A1C[];
 extern const unsigned d_021B6A90[];
 
-
 int CDEMO_SCENE_Create(char *p)
 {
  BG_SYS_SetMainVisiblePlanes(0);BG_SYS_SetSubVisiblePlanes(0);
@@ -146,7 +139,6 @@ int CDEMO_SCENE_Create(char *p)
  return 2;
 }
 
-
 int CDEMO_SCENE_Destroy(char *p) {
  if(WIPE_SYS_EndCheck()==0) return 1;
  if(GFL_USE_IsBgmFading()==1) return 1;
@@ -155,8 +147,6 @@ int CDEMO_SCENE_Destroy(char *p) {
  return 6;
 }
 
-
-
 u32 CDEMO_SCENE_GetResult(char *p)
 {
     if (WIPE_SYS_EndCheck() == 1)
@@ -164,13 +154,10 @@ u32 CDEMO_SCENE_GetResult(char *p)
     return 2;
 }
 
-
 int CDEMO_SCENE_ReturnThree(void)
 {
     return 3;
 }
-
-
 
 u32 CDEMO_SCENE_RunCommands(char *p)
 {
@@ -182,8 +169,6 @@ u32 CDEMO_SCENE_RunCommands(char *p)
     } while (CDEMO_SCENE_DispatchCommand(p) == 1);
     return ((struct CdemoState *)p)->result;
 }
-
-
 
 /*
  * Frame-paced step: accumulates OS_GetTick deltas in microseconds and
@@ -237,8 +222,6 @@ int CDEMO_SCENE_Step(char *p)
     return 4;
 }
 
-
-
 void CDEMO_SCENE_LoadScreenBlock(void *a, int b, int c, int d, int e)
 {
     int t = (int)ARC_UTIL_LoadHandleMember(a, b, 1, 0x807f);
@@ -252,9 +235,7 @@ void CDEMO_SCENE_LoadScreenBlock(void *a, int b, int c, int d, int e)
     GFL_HEAP_Free((void *)t);
 }
 
-
 extern int (*d_021B6A40[])(char *,int *);
-
 
 int CDEMO_SCENE_DispatchCommand(char *p) {
  int *q; int result; q=*(int * *)&((struct CdemoState *)p)->scriptCursor;
@@ -266,13 +247,10 @@ int CDEMO_SCENE_DispatchCommand(char *p) {
  return result;
 }
 
-
 int CDEMO_SCENE_CmdCount(char *p,int *q) {
  if(((struct CdemoState *)p)->count==q[1]) { ((struct CdemoState *)p)->count=0; return 2; }
  ((struct CdemoState *)p)->count=((struct CdemoState *)p)->count+1; return 0;
 }
-
-
 
 int CDEMO_SCENE_CmdStartWipe0(int a, int *q)
 {
@@ -280,15 +258,11 @@ int CDEMO_SCENE_CmdStartWipe0(int a, int *q)
     return 1;
 }
 
-
-
 int CDEMO_SCENE_CmdStartWipe1(int a, int *q)
 {
     CDEMO_WIPE_StartFadeIn((char *)a, q[1], q[2], 5);
     return 1;
 }
-
-
 
 int CDEMO_SCENE_CmdStartWipe2(int a, int *q)
 {
@@ -296,15 +270,11 @@ int CDEMO_SCENE_CmdStartWipe2(int a, int *q)
     return 1;
 }
 
-
-
 int CDEMO_SCENE_CmdStartWipe3(int a, int *q)
 {
     CDEMO_WIPE_StartFadeInWhite((char *)a, q[1], q[2], 5);
     return 1;
 }
-
-
 
 int CDEMO_SCENE_CmdSetDone(char *p)
 {
@@ -313,14 +283,11 @@ int CDEMO_SCENE_CmdSetDone(char *p)
     return 2;
 }
 
-
 int CDEMO_SCENE_CmdLoadBg(char *p,const int *q) {
  ARC_UTIL_UploadBgCharFromHandle(((struct CdemoState *)p)->arcHandle,q[2],q[1],0,0,1,127);
  if(q[2]==0) ARC_UTIL_UploadBgPaletteFromHandle(((struct CdemoState *)p)->arcHandle,q[2],q[1],0,0,0,127);
  CDEMO_WIPE_LoadPalette(p,q[1],q[2]); return 1;
 }
-
-
 
 int CDEMO_SCENE_CmdSetPlaneVisible(int a, int *q)
 {
@@ -329,15 +296,12 @@ int CDEMO_SCENE_CmdSetPlaneVisible(int a, int *q)
     return 1;
 }
 
-
-
 int CDEMO_SCENE_CmdSetLayerVisible(int a, int *q)
 {
     BG_SYS_SetPriority((unsigned char)q[1],
                   (unsigned char)q[2]);
     return 1;
 }
-
 
 int CDEMO_SCENE_CmdSetBlend(char *p, int *q)
 {
@@ -351,7 +315,6 @@ int CDEMO_SCENE_CmdSetBlend(char *p, int *q)
     return 1;
 }
 
-
 /*
  * Unlabelled leaf (no lr-saving prologue): the listing prints it as .word
  * data.  Entry of the ov179 command table (pool word 0x021B6831 at 0x021B6A68).
@@ -364,7 +327,6 @@ int CDEMO_SCENE_CmdSetBlend2(char *p, int *q)
     ((struct CdemoState *)p)->fade = 5;
     return 2;
 }
-
 
 /*
  * Unlabelled leaf (no lr-saving prologue): the listing prints it as .word
@@ -381,7 +343,6 @@ int CDEMO_SCENE_CmdResetBlend(char *p)
     return 1;
 }
 
-
 /*
  * Unlabelled leaf (no lr-saving prologue): the listing prints it as .word
  * data.  Entry of the ov179 command table (pool word 0x021B6879 at 0x021B6A70).
@@ -391,15 +352,11 @@ int CDEMO_SCENE_CmdNoop0(void)
     return 1;
 }
 
-
-
 int CDEMO_SCENE_CmdStopBgm(void)
 {
     GFL_USE_CancelChangeAndStopBgm();
     return 1;
 }
-
-
 
 /*
  * 12-byte leaf: forwards the second word of the record to GFL_USE_PlayFanfare and
@@ -412,7 +369,6 @@ int CDEMO_SCENE_CmdPlayFanfare(void *ctx, unsigned int *rec)
     return 1;
 }
 
-
 /*
  * Unlabelled leaf (no lr-saving prologue): the listing prints it as .word
  * data.  Entry of the ov179 command table (pool word 0x021B6895 at 0x021B6A7C).
@@ -421,7 +377,6 @@ int CDEMO_SCENE_CmdNoop1(void)
 {
     return 1;
 }
-
 
 /*
  * Unlabelled leaf (no lr-saving prologue): the listing prints it as .word
@@ -432,7 +387,6 @@ int CDEMO_SCENE_CmdNoop2(void)
     return 1;
 }
 
-
 /*
  * Unlabelled leaf (no lr-saving prologue): the listing prints it as .word
  * data.  Entry of the ov179 command table (pool word 0x021B689D at 0x021B6A84).
@@ -441,7 +395,6 @@ int CDEMO_SCENE_CmdNoop3(void)
 {
     return 1;
 }
-
 
 int CDEMO_SCENE_CmdReset(char *p)
 {

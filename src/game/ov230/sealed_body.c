@@ -27,8 +27,7 @@
  *   OV230_SealBuffer  0x02189858  arm  ov230d
  *   gLoaderDecryptBssStart  0x021899A0  data  ov230
  */
-typedef unsigned char u8;
-typedef unsigned int u32;
+#include "../types.h"
 extern char gLoaderDecryptBssStart[];
 extern void LOADER_DECRYPT_SyncCacheRange(void *addr, u32 size);
 extern int OV230_OpenBuffer(const u8 *key, u8 *src, u8 *dst, u32 size);

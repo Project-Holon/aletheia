@@ -27,7 +27,7 @@
  *   MTX_Copy44To43_    0x0207BDE0  arm
  *   G3X_GetVectorMtx    0x0207DCC8  arm
  */
-typedef unsigned int u32;
+#include "../types.h"
 
 struct NNSiG3dGeCmdList { u32 count; u32 cmds[1]; };
 
@@ -61,13 +61,11 @@ void NNS_G3dGeResetGX(void *clipMtxOut, void *vectorMtxOut);
 extern struct NNSiG3dGeState gNnsG3dGeState;
 extern u32 GXi_DmaId;      /* GXi_DmaId */
 
-
 /* NNS_G3dGeIsBufferExist: nonzero when a geometry command buffer is installed. */
 int NNS_G3dGeIsBufferExist(void)
 {
     return gNnsG3dGeState.list != 0;
 }
-
 
 /*
  */
@@ -79,7 +77,6 @@ void NNS_G3dGeSetBuffer(u32 *cmdBuffer)
         gNnsG3dGeState.list = (struct NNSiG3dGeCmdList *)cmdBuffer;
     }
 }
-
 
 /*
  */
@@ -93,7 +90,6 @@ void *NNS_G3dGeReleaseBuffer(void)
     gNnsG3dGeState.list = 0;
     return cmdBuffer;
 }
-
 
 /*
  * Drains the block described by the global pair at 0x0214BAB4: word 1
@@ -125,7 +121,6 @@ void NNS_G3dGeFlushBuffer(void)
     }
 }
 
-
 /*
  * Spin on the word at +4 of the same global NNS_G3dGeSetBuffer/60 hold the head
  * pointer in.  The `volatile` is load-bearing: without it mwccarm proves the
@@ -139,7 +134,6 @@ void NNS_G3dGeWaitSendDL(void)
         ;
 }
 
-
 /*
  * NitroSystem G3D gecom.c: the GX-command DMA completion callback that
  * NNS_G3dGeSendDL (NNS_G3dGeSendDL) passes to the async DMA start; it clears
@@ -152,7 +146,6 @@ void NNSi_G3dGeSendDLDone(void *arg)
 {
     *(volatile u32 *)arg = 0;
 }
-
 
 /*
  * NitroSystem G3D NNS_G3dGeSendDL (gecom.c): send a display list. Under 256
@@ -208,7 +201,6 @@ void NNS_G3dGeSendDL(const u32 *src, u32 sz)
     }
 }
 
-
 /*
  * NitroSystem G3D NNS_G3dGeBufferOP_N (gecom.c): append op + num argument
  * words to the current geometry command buffer while a display-list send is
@@ -250,7 +242,6 @@ void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n)
     *(u32 *)0x04000400 = cmd;
     MIi_CpuSend32(params, (void *)0x04000400, n * 4);
 }
-
 
 /*
  * The 3D-engine reset path: drain the pending display list (NNS_G3dGeFlushBuffer),

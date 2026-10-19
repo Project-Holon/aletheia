@@ -74,10 +74,7 @@
 
 #include "p_status_types.h"
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed short s16;
+#include "../types.h"
 
 struct Actor;
 struct BmpWin;
@@ -122,7 +119,6 @@ struct PStaInfoWork {
     void *barScrnData;                  /* 0x64: contents of barScrnFile */
     void *barScrnFile;                  /* 0x68: archive file 65, experience bar screen */
 };
-
 
 /* Parameter ids read in the memo, in the order of the characteristic table rows. */
 struct StaInfoStatIds { u32 id[6]; };

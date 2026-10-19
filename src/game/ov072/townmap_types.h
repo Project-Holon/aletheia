@@ -5,10 +5,7 @@
 #ifndef TOWNMAP_TYPES_H
 #define TOWNMAP_TYPES_H
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef short          s16;
+#include "../types.h"
 
 /* Parameter block of the town map screen, filled in by the caller. */
 typedef struct TownMapArgs {

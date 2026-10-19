@@ -52,9 +52,7 @@
  *   wcmw                 0x021AA7D8 data
  *   WCMi_ResetKeepAliveAlarm  0x02165AF4  arm  ov009
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned long u32;
+#include "../types.h"
 
 #include "wcm_types.h"
 
@@ -75,7 +73,6 @@ typedef struct WCMNotice {
     long para2;
 } WCMNotice;
 
-
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
@@ -88,7 +85,8 @@ extern long OS_IsTickAvailable(void);
 extern void OS_InitTick(void);
 extern long OS_IsAlarmAvailable(void);
 extern void OS_InitAlarm(void);
-struct OSiAlarm;
+#include "../sdk_os.h"
+
 extern void OS_CreateAlarm(struct OSiAlarm *alarm);
 extern void WcmConfigure(WCMConfig *config, void (*notify)(void *));
 extern unsigned short WM_GetAllowedChannel(void);
@@ -137,11 +135,9 @@ void WCM_Init(void *buf, long len)
     WCM_InitEx(buf, len, 1);
 }
 
-
 static unsigned char WCMi_OverridedDeviceId = 0;
 
 static WCMWork *wcmw = 0;
-
 
 /*
  * sdk:      WCM_InitEx (libwcm.TWL.HYB.a system.o)
@@ -250,7 +246,6 @@ long WCM_InitEx(void *buf, long len, unsigned char deviceId)
     return 0;
 }
 
-
 long WCM_Finish(void)
 {
     unsigned long e = OS_DisableInterrupts();
@@ -267,7 +262,6 @@ long WCM_Finish(void)
     OS_RestoreInterrupts(e);
     return 0;
 }
-
 
 int WCM_GetWorkSize(long *workSize, unsigned char deviceId)
 {
@@ -288,7 +282,6 @@ int WCM_GetWorkSize(long *workSize, unsigned char deviceId)
     }
     return 1;
 }
-
 
 /*
  * sdk:      WCM_StartupAsync (libwcm.TWL.HYB.a system.o)
@@ -339,7 +332,6 @@ long WCM_StartupAsync(void *config, void (*notify)(void *))
     return wcmResult;
 }
 
-
 /*
  * sdk:      WCM_CleanupAsync (libwcm.TWL.HYB.a system.o)
  *
@@ -385,7 +377,6 @@ long WCM_CleanupAsync(void)
     return wcmResult;
 }
 
-
 /*
  * Dispatches on whether either argument is missing.
  */
@@ -398,7 +389,6 @@ void WCM_SearchAsync(void *bssid, void *essid, unsigned long option)
 
     WCM_BeginSearchAsync(bssid, essid, option);
 }
-
 
 long WCM_BeginSearchAsync(void *bssid, void *essid, unsigned long option)
 {
@@ -426,7 +416,6 @@ long WCM_BeginSearchAsync(void *bssid, void *essid, unsigned long option)
     OS_RestoreInterrupts(e);
     return wcmResult;
 }
-
 
 /*
  * sdk:      WCM_EndSearchAsync (libwcm.TWL.HYB.a system.o)
@@ -460,7 +449,6 @@ long WCM_EndSearchAsync(void)
     OS_RestoreInterrupts(e);
     return 3;
 }
-
 
 /*
  * sdk:      WCM_ConnectAsync (libwcm.TWL.HYB.a(system.o))
@@ -539,7 +527,6 @@ long WCM_ConnectAsync(void *bssDesc, void *wepDesc, unsigned long option)
     return wcmResult;
 }
 
-
 /*
  * sdk:      WCM_DisconnectAsync (libwcm.TWL.HYB.a system.o)
  *
@@ -590,7 +577,6 @@ long WCM_DisconnectAsync(void)
     OS_RestoreInterrupts(e);
     return wcmResult;
 }
-
 
 /*
  * sdk:      WCM_TerminateAsync (libwcm.TWL.HYB.a system.o)
@@ -650,7 +636,6 @@ long WCM_TerminateAsync(void)
     return wcmResult;
 }
 
-
 long WCM_GetPhase(void)
 {
     unsigned long e = OS_DisableInterrupts();
@@ -662,7 +647,6 @@ long WCM_GetPhase(void)
     OS_RestoreInterrupts(e);
     return phase;
 }
-
 
 unsigned long WCM_UpdateOption(unsigned long option)
 {
@@ -700,7 +684,6 @@ unsigned long WCM_UpdateOption(unsigned long option)
     return oldOption;
 }
 
-
 unsigned short WCM_GetAllowedChannel(void)
 {
     WCMWork *w = WCMi_GetSystemWork();
@@ -718,7 +701,6 @@ unsigned short WCM_GetAllowedChannel(void)
     return 0;
 }
 
-
 /*
  * The word at +4 of the module state block.
  */
@@ -726,7 +708,6 @@ WCMWork *WCMi_GetSystemWork(void)
 {
     return wcmw;
 }
-
 
 void WcmConfigure(WCMConfig *config, void (*notify)(void *))
 {
@@ -750,7 +731,6 @@ void WcmConfigure(WCMConfig *config, void (*notify)(void *))
     wcmw->notify = notify;
 }
 
-
 /*
  * Stores the constant 0xaaa082 at +0x12d4 of the block the state object holds.
  */
@@ -760,7 +740,6 @@ void WcmInitOption(void)
 
     p->option = 0xaaa082;
 }
-
 
 /*
  * sdk:      WCMi_GetNextScanChannel (libwcm.TWL.HYB.a system.o)
@@ -781,7 +760,6 @@ unsigned short WCMi_GetNextScanChannel(unsigned short channel)
     return (unsigned short)((channel + i) % 13 + 1);
 }
 
-
 void WCMi_Notify(short result, void *para0, void *para1, long para2)
 {
     short notifyId = wcmw->notifyId;
@@ -789,7 +767,6 @@ void WCMi_Notify(short result, void *para0, void *para1, long para2)
     wcmw->notifyId = 0;
     WCMi_NotifyEx(notifyId, result, para0, para1, para2);
 }
-
 
 void WCMi_NotifyEx(short notify, short result, void *para0, void *para1, long para2)
 {
@@ -805,7 +782,6 @@ void WCMi_NotifyEx(short notify, short result, void *para0, void *para1, long pa
     notice.para2 = para2;
     w->notify(&notice);
 }
-
 
 /*
  * sdk:      WCMi_SetPhase (libwcm.TWL.HYB.a system.o)
@@ -830,7 +806,6 @@ void WCMi_SetPhase(unsigned char phase)
     OS_RestoreInterrupts(e);
 }
 
-
 /*
  * sdk:      WCMi_ResetKeepAliveAlarm (system.o)
  */
@@ -843,7 +818,6 @@ void WCMi_ResetKeepAliveAlarm(void)
         OS_SetAlarm((struct OSiAlarm *)wcmw->alarm, 0x022f5341, (void (*)(void *))WcmKeepAliveAlarm, 0);
     OS_RestoreInterrupts(e);
 }
-
 
 void WcmKeepAliveAlarm(void)
 {

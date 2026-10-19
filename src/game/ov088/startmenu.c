@@ -412,17 +412,7 @@ struct Actor;
 struct PtS;
 struct Vec2;
 struct Rec3;
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef signed short s16;
-
-typedef signed int     s32;
-
-typedef unsigned char  u8;
-
-typedef signed char s8;
+#include "../types.h"
 
 #include "../version.h"
 
@@ -440,13 +430,7 @@ typedef struct BgTemplate {
     u32 w[8];
 } BgTemplate;
 
-typedef long long      s64;
-
-typedef int            fx32;
-
-typedef int            BOOL;
-
-typedef struct { fx32 x, y, z; } VecFx32;
+#include "../sdk_fx.h"
 
 typedef struct {
     unsigned short x;
@@ -495,7 +479,6 @@ typedef struct {
     s16 x;
     s16 y;
 } SpritePos;
-
 
 typedef struct YesNoWindowTemplate {
     unsigned char bgId;
@@ -883,7 +866,6 @@ typedef struct SaveLocation {
     s16 facing;
     s16 spawnFlags;
 } SaveLocation;
-typedef unsigned long long u64;
 typedef enum { Z0 } Zero;
 struct SndWaveSetHeader;
 
@@ -1036,12 +1018,6 @@ extern const struct ProcData gIntroProcData;
 extern const struct ProcData gNameInProcData;
 extern void SAVE_CONTROL_INTR_Delete(void *p);
 
-
-
-
-
-
-
 int STARTMENU_TitleDemoInit(struct Proc *allocator)
 {
     TitleDemoWork *work;
@@ -1052,11 +1028,6 @@ int STARTMENU_TitleDemoInit(struct Proc *allocator)
     work->heapId = 0x16;
     return 1;
 }
-
-
-
-
-
 
 void STARTMENU_TitleDemoUpdateTimer(TitleDemoWork *work)
 {
@@ -1076,11 +1047,6 @@ void STARTMENU_TitleDemoUpdateTimer(TitleDemoWork *work)
         work->state = 5;
     }
 }
-
-
-
-
-
 
 void STARTMENU_TitleDemoCheckInput(TitleDemoWork *work)
 {
@@ -1114,11 +1080,6 @@ void STARTMENU_TitleDemoCheckInput(TitleDemoWork *work)
         work->state = 5;
     }
 }
-
-
-
-
-
 
 int STARTMENU_TitleDemoMain(int unusedArg0, int unusedArg1, int unusedArg2, TitleDemoWork *work)
 {
@@ -1180,11 +1141,6 @@ int STARTMENU_TitleDemoMain(int unusedArg0, int unusedArg1, int unusedArg2, Titl
     return 0;
 }
 
-
-
-
-
-
 int STARTMENU_TitleDemoExit(int procCtx, int unusedArg1, int unusedArg2, int *procArgs)
 {
     int target = procArgs[1];
@@ -1201,11 +1157,6 @@ int STARTMENU_TitleDemoExit(int procCtx, int unusedArg1, int unusedArg2, int *pr
     return 1;
 }
 
-
-
-
-
-
 void STARTMENU_ResetDisplayState(void)
 {
     GXx_SetMasterBrightness_((volatile u16 *)0x0400006C, -16);
@@ -1218,21 +1169,11 @@ void STARTMENU_ResetDisplayState(void)
     *(u32 *)0x04001000 &= 0xFFFF1FFF;
 }
 
-
-
-
-
-
 void STARTMENU_SetupDisplayBanks(void)
 {
     BG_SYS_SetVramBanks((const struct DispVram *)d_021BD508);
     BG_SYS_SetGraphicsMode((struct DispConfig *)d_021BD420);
 }
-
-
-
-
-
 
 void STARTMENU_TitleDemoUpdateParts(TitleDemoWork *work)
 {
@@ -1242,21 +1183,11 @@ void STARTMENU_TitleDemoUpdateParts(TitleDemoWork *work)
     STARTMENU_SpritesUpdate(&work->sprites, work->heapId);
 }
 
-
-
-
-
-
 void STARTMENU_CaptureVblankTask(void *task, TitleDemoCapture *capture)
 {
     CLACT_VBlankSystem();
     *(volatile unsigned int *)0x04000064 = (short)capture->captureEva | (0xC0330000 | ((short)capture->captureEvb << 8));
 }
-
-
-
-
-
 
 void STARTMENU_CaptureInit(TitleDemoCapture *capture, int heap)
 {
@@ -1272,30 +1203,10 @@ void STARTMENU_CaptureInit(TitleDemoCapture *capture, int heap)
     capture->captureEvb = 4;
 }
 
-
-
-
-
-
-
-
-
-
-
 void STARTMENU_CaptureRunTasks(TitleDemoCapture *capture, int unused)
 {
     TCBL_Main((struct TcblSystem *)capture->taskList);
 }
-
-
-
-
-
-
-
-
-
-
 
 void STARTMENU_CaptureDelete(TitleDemoCapture *capture)
 {
@@ -1308,30 +1219,11 @@ void STARTMENU_CaptureDelete(TitleDemoCapture *capture)
     BG_SYS_Delete();
 }
 
-
-
-
-
-
-
-
-
-
 void STARTMENU_CaptureSetBlend(TitleDemoCapture *capture, unsigned short a, unsigned short b)
 {
     capture->captureEva = a;
     capture->captureEvb = b;
 }
-
-
-
-
-
-
-
-
-
-
 
 void STARTMENU_LogoInit(TitleDemoLogo *logo, u32 heap)
 {
@@ -1373,16 +1265,6 @@ void STARTMENU_LogoInit(TitleDemoLogo *logo, u32 heap)
     logo->ready = 1;
 }
 
-
-
-
-
-
-
-
-
-
-
 void STARTMENU_LogoUpdate(TitleDemoLogo *logo, int unused)
 {
     BG_SYS_SetPlaneVisible(5, 0);
@@ -1394,16 +1276,6 @@ void STARTMENU_LogoUpdate(TitleDemoLogo *logo, int unused)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
 void STARTMENU_LogoDelete(TitleDemoLogo *logo)
 {
     STRBUF_Delete((struct Strbuf *)logo->titleText);
@@ -1412,16 +1284,6 @@ void STARTMENU_LogoDelete(TitleDemoLogo *logo)
     GF_FONT_Delete((void *)logo->font);
     BMP_WIN_Delete((struct BmpWin *)logo->textWindow);
 }
-
-
-
-
-
-
-
-
-
-
 
 static inline void G3X_AntiAlias(BOOL enable)
 {
@@ -1434,16 +1296,6 @@ static inline void G3X_AntiAlias(BOOL enable)
                                     REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_GO_MASK);
     }
 }
-
-
-
-
-
-
-
-
-
-
 
 static inline void G3X_AlphaTest(BOOL enable, int ref)
 {
@@ -1458,16 +1310,6 @@ static inline void G3X_AlphaTest(BOOL enable, int ref)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
 static inline void G3X_AlphaBlend(BOOL enable)
 {
     if (enable) {
@@ -1480,30 +1322,10 @@ static inline void G3X_AlphaBlend(BOOL enable)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
 static inline fx32 FX_Mul(fx32 a, fx32 b)
 {
     return (fx32)(((s64)a * b + 0x800LL) >> 12);
 }
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Levers: the four ortho bounds bound to locals before the G3D_CAMERA_Create
@@ -1551,15 +1373,6 @@ void STARTMENU_Demo3dInit(TitleDemo3d *demo3d, u32 heap)
     G3X_AlphaBlend(1);
 }
 
-
-
-
-
-
-
-
-
-
 void STARTMENU_Demo3dUpdate(TitleDemo3d *demo3d, int unused)
 {
     int base;
@@ -1584,15 +1397,6 @@ void STARTMENU_Demo3dUpdate(TitleDemo3d *demo3d, int unused)
     }
 }
 
-
-
-
-
-
-
-
-
-
 /*
  * note:     listing extent (40) runs 2 bytes past the compiled function (38);
  *           trailing alignment padding, no byte difference.
@@ -1605,15 +1409,6 @@ void STARTMENU_Demo3dDelete(TitleDemo3d *demo3d)
     G3D_UTIL_RemoveUnit((struct Ctx *)demo3d->renderer, demo3d->modelId);
     G3D_UTIL_Delete((struct Rec *)demo3d->renderer);
 }
-
-
-
-
-
-
-
-
-
 
 void STARTMENU_Demo3dSetFrame(TitleDemo3d *demo3d, int frame)
 {
@@ -1631,14 +1426,6 @@ void STARTMENU_Demo3dSetFrame(TitleDemo3d *demo3d, int frame)
             G3D_SYSTEM_SetObjectAnimeFrame(modelHandle, 1, &frameValue);
     }
 }
-
-
-
-
-
-
-
-
 
 void STARTMENU_SpritesInit(TitleDemoSprites *sprites, int heap)
 {
@@ -1662,26 +1449,10 @@ void STARTMENU_SpritesInit(TitleDemoSprites *sprites, int heap)
     ARC_TOOL_DeleteHandle(archive);
 }
 
-
-
-
-
-
-
-
-
 void STARTMENU_SpritesUpdate(TitleDemoSprites *sprites, int unused)
 {
     CLACT_DrawSystem();
 }
-
-
-
-
-
-
-
-
 
 void STARTMENU_SpritesDelete(TitleDemoSprites *sprites)
 {
@@ -1691,14 +1462,6 @@ void STARTMENU_SpritesDelete(TitleDemoSprites *sprites)
     CLACT_DeleteUnit((struct Bank *)sprites->unit);
     CLACT_ExitSystem();
 }
-
-
-
-
-
-
-
-
 
 int STARTMENU_MenuInit(struct Proc *allocator)
 {
@@ -1714,14 +1477,6 @@ int STARTMENU_MenuInit(struct Proc *allocator)
     return 1;
 }
 
-
-
-
-
-
-
-
-
 int STARTMENU_MenuMain(int unusedArg0, int unusedArg1, int unusedArg2, StartMenuWork *work)
 {
     int nextState = gStartMenuStateTable[work->state](work);
@@ -1733,14 +1488,6 @@ int STARTMENU_MenuMain(int unusedArg0, int unusedArg1, int unusedArg2, StartMenu
     CLACT_DrawSystem();
     return 0;
 }
-
-
-
-
-
-
-
-
 
 int STARTMENU_MenuExit(int procCtx, int unusedArg1, int unusedArg2, StartMenuWork *work)
 {
@@ -1793,14 +1540,6 @@ int STARTMENU_MenuExit(int procCtx, int unusedArg1, int unusedArg2, StartMenuWor
     return 1;
 }
 
-
-
-
-
-
-
-
-
 int STARTMENU_StateSetup(StartMenuWork *work)
 {
     unsigned short z;
@@ -1827,14 +1566,6 @@ int STARTMENU_StateSetup(StartMenuWork *work)
     STARTMENU_AddVblankTask(work);
     return 4;
 }
-
-
-
-
-
-
-
-
 
 int STARTMENU_StateWaitStart(StartMenuWork *work)
 {
@@ -1863,14 +1594,6 @@ int STARTMENU_StateWaitStart(StartMenuWork *work)
     return 1;
 }
 
-
-
-
-
-
-
-
-
 int STARTMENU_StateWaitFade(StartMenuWork *work)
 {
     if (WIPE_SYS_EndCheck() == 1) {
@@ -1878,14 +1601,6 @@ int STARTMENU_StateWaitFade(StartMenuWork *work)
     }
     return 2;
 }
-
-
-
-
-
-
-
-
 
 int STARTMENU_StateSelectAnim(StartMenuWork *work)
 {
@@ -1918,14 +1633,6 @@ int STARTMENU_StateSelectAnim(StartMenuWork *work)
     return 3;
 }
 
-
-
-
-
-
-
-
-
 /*
  * note:     listing extent (112) runs 2 bytes past the compiled function (110);
  *           trailing alignment padding, no byte difference.
@@ -1949,14 +1656,6 @@ int STARTMENU_StateWaitPrint(StartMenuWork *work)
     }
     return 4;
 }
-
-
-
-
-
-
-
-
 
 int STARTMENU_StateSelectRow(StartMenuWork *work)
 {
@@ -2011,14 +1710,6 @@ int STARTMENU_StateSelectRow(StartMenuWork *work)
     return 5;
 }
 
-
-
-
-
-
-
-
-
 int STARTMENU_StateScroll(StartMenuWork *work)
 {
     if (work->scrollStep == 3) {
@@ -2040,14 +1731,6 @@ int STARTMENU_StateScroll(StartMenuWork *work)
     work->scrollStep = work->scrollStep + 1;
     return 6;
 }
-
-
-
-
-
-
-
-
 
 /*
  * The two 0/-2 result tests are small switches: their compare chain puts
@@ -2147,14 +1830,6 @@ int STARTMENU_StateConnectPrompt(StartMenuWork *work)
     return 7;
 }
 
-
-
-
-
-
-
-
-
 int STARTMENU_StateConfirmPrompt(StartMenuWork *work)
 {
     void *printSys;
@@ -2199,14 +1874,6 @@ int STARTMENU_StateConfirmPrompt(StartMenuWork *work)
     return 8;
 }
 
-
-
-
-
-
-
-
-
 int STARTMENU_StateInfoMessage(StartMenuWork *work)
 {
     void *printSys;
@@ -2242,14 +1909,6 @@ int STARTMENU_StateInfoMessage(StartMenuWork *work)
     work->selectedRow = work->rowIds[work->cursorIndex];
     return 11;
 }
-
-
-
-
-
-
-
-
 
 /*
  * 0x021BA984 is an unlabelled tail-call stub (function_starts seed);
@@ -2299,37 +1958,13 @@ int STARTMENU_StateUnlockNotices(StartMenuWork *work)
     return 10;
 }
 
-
-
-
-
-
-
-
-
 int STARTMENU_StateBeginFadeIn(StartMenuWork *work)
 {
     return STARTMENU_BeginFadeIn(work, 1);
 }
 
-
-
-
-
-
-
-
-
 /* HW_INTR_CHECK_BUF: the IRQ check word at DTCM + 0x3FF8. */
 #define OSi_IRQ_CHECK_FLAG (*(volatile OsIrqWord *)((OsIrqWord)SDK_AUTOLOAD_DTCM_START + 0x3FF8))
-
-
-
-
-
-
-
-
 
 void STARTMENU_VblankTask(void)
 {
@@ -2338,51 +1973,21 @@ void STARTMENU_VblankTask(void)
     OSi_IRQ_CHECK_FLAG |= 1;
 }
 
-
-
-
-
-
-
-
-
 void STARTMENU_AddVblankTask(StartMenuWork *work)
 {
     work->vblankTask = (int)GFL_USE_AddMainTask((void *)STARTMENU_VblankTask, work, 0);
 }
-
-
-
-
-
-
-
-
 
 void STARTMENU_RemoveVblankTask(StartMenuWork *work)
 {
     TCB_DeleteTask((struct TcbTask *)work->vblankTask);
 }
 
-
-
-
-
-
-
-
 void STARTMENU_ClearGraphics(void)
 {
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021BD60C);
 }
-
-
-
-
-
-
-
 
 void STARTMENU_SetupBackgrounds(void)
 {
@@ -2416,13 +2021,6 @@ void STARTMENU_SetupBackgrounds(void)
     BG_SYS_SetSubPlaneVisible(7, 1);
 }
 
-
-
-
-
-
-
-
 /*
  * EXACT*: inferred extent runs two bytes long; the follower at 0x021BAB62 is
  * an unlabelled leaf (no lr save) that disasm.py did not label.
@@ -2440,13 +2038,6 @@ void STARTMENU_TeardownBackgrounds(void)
     BG_SYS_FreeLayerBuf(0);
     BG_SYS_Delete();
 }
-
-
-
-
-
-
-
 
 void STARTMENU_LoadGraphics(void)
 {
@@ -2470,13 +2061,6 @@ void STARTMENU_LoadGraphics(void)
 #endif
 }
 
-
-
-
-
-
-
-
 void STARTMENU_CreateBlinkPalette(StartMenuWork *work)
 {
     void *archive;
@@ -2486,24 +2070,10 @@ void STARTMENU_CreateBlinkPalette(StartMenuWork *work)
     ARC_TOOL_DeleteHandle(archive);
 }
 
-
-
-
-
-
-
-
 void STARTMENU_DeleteBlinkPalette(StartMenuWork *work)
 {
     BLINK_PALANM_Delete((struct BlinkPalAnm *)(work->blinkPalAnm));
 }
-
-
-
-
-
-
-
 
 void STARTMENU_CreateTextSystem(StartMenuWork *work)
 {
@@ -2516,13 +2086,6 @@ void STARTMENU_CreateTextSystem(StartMenuWork *work)
     work->msgBoxFrame = (void *)APP_KEYCURSOR_CreateDefault(0xf, 1, 0, 0xb);
 }
 
-
-
-
-
-
-
-
 void STARTMENU_DeleteTextSystem(StartMenuWork *work)
 {
     APP_KEYCURSOR_Delete((struct KeyCursor *)work->msgBoxFrame);
@@ -2533,13 +2096,6 @@ void STARTMENU_DeleteTextSystem(StartMenuWork *work)
     GF_FONT_Delete((void *)work->font);
     MSGDATA_Delete((struct MsgBank *)work->msgBank);
 }
-
-
-
-
-
-
-
 
 void STARTMENU_CreateRowWindows(StartMenuWork *work)
 {
@@ -2677,13 +2233,6 @@ void STARTMENU_CreateRowWindows(StartMenuWork *work)
     STRBUF_Delete(msgStr);
 }
 
-
-
-
-
-
-
-
 /*
  * Releases the fourteen 8-byte-stride handles at +0x80 created by
  * STARTMENU_CreateRowWindows, then the shared resource.
@@ -2695,12 +2244,6 @@ void STARTMENU_DeleteRowWindows(StartMenuWork *work)
         BMP_WIN_Delete(work->windows[i].window);
     BMP_WIN_Exit();
 }
-
-
-
-
-
-
 
 void STARTMENU_CreateActors(StartMenuWork *work)
 {
@@ -2742,12 +2285,6 @@ void STARTMENU_CreateActors(StartMenuWork *work)
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
-
-
-
-
-
-
 void STARTMENU_DeleteActors(StartMenuWork *work)
 {
     unsigned i;
@@ -2762,12 +2299,6 @@ void STARTMENU_DeleteActors(StartMenuWork *work)
         CLACT_ReleaseCellAnim((u32)(work->actorCellRes[i]));
     CLACT_ExitSystem();
 }
-
-
-
-
-
-
 
 /*
  * Builds an 8-window bgwinfrm manager at +0x118, initialises each window
@@ -2796,12 +2327,6 @@ void STARTMENU_CreateFrameManager(StartMenuWork *work)
     BGWINFRM_PutBmpWin(work->frameManager, 7, work->windows[12].window);
 }
 
-
-
-
-
-
-
 /*
  * Tail-calls the release of the handle kept at +0x118.
  */
@@ -2810,21 +2335,11 @@ void STARTMENU_DeleteFrameManager(StartMenuWork *work)
     BGWINFRM_Delete(work->frameManager);
 }
 
-
-
-
-
-
-
 void STARTMENU_StartBrightnessEffect(void)
 {
     G2x_SetBlendAlpha_((void *)0x04000050, 4, 8, 16, 3);
     G2x_SetBlendAlpha_((void *)0x04001050, 2, 4, 16, 3);
 }
-
-
-
-
 
 void STARTMENU_BuildRowList(StartMenuWork *work)
 {
@@ -2857,10 +2372,6 @@ void STARTMENU_BuildRowList(StartMenuWork *work)
     }
 }
 
-
-
-
-
 void STARTMENU_LoadRowBuffers(StartMenuWork *work)
 {
     void *archive = ARC_TOOL_CreateHandle(0x23, 0x800B);
@@ -2877,11 +2388,6 @@ void STARTMENU_LoadRowBuffers(StartMenuWork *work)
     ARC_TOOL_DeleteHandle(archive);
 }
 
-
-
-
-
-
 /*
  * Frees the eight row buffers at +0xF8 allocated by STARTMENU_LoadRowBuffers.
  */
@@ -2892,11 +2398,6 @@ void STARTMENU_FreeRowBuffers(StartMenuWork *work)
         GFL_HEAP_Free(work->rowBuffers[i]);
 }
 
-
-
-
-
-
 void STARTMENU_SetRowActorY(StartMenuWork *work, u32 actorIndex, s16 y)
 {
     SpritePos position;
@@ -2904,11 +2405,6 @@ void STARTMENU_SetRowActorY(StartMenuWork *work, u32 actorIndex, s16 y)
     position.y = y;
     CLACT_AddActorSurfacePos(work->rowActors[actorIndex], (const struct Vec2 *)(&position), 0);
 }
-
-
-
-
-
 
 /*
  * Lays out the up-to-eight menu rows listed at +0x120 (8 terminates),
@@ -2963,11 +2459,6 @@ void STARTMENU_LayoutRows(StartMenuWork *work)
     STARTMENU_PaintRowPalette(work, (u8)work->rowIds[0], (s8)work->cursorTileY, 2);
 }
 
-
-
-
-
-
 void STARTMENU_DrawRowFrame(StartMenuWork *work, u32 rowId, u32 tileY)
 {
     u8 tileYByte = tileY;
@@ -2980,11 +2471,6 @@ void STARTMENU_DrawRowFrame(StartMenuWork *work, u32 rowId, u32 tileY)
     BG_SYS_MarkTileDirty(2);
 }
 
-
-
-
-
-
 /*
  * Redraws menu row `row` (height from the row table gStartMenuRowInfo) at tile
  * row y on bg layer 2 with palette pal, then commits the layer.
@@ -2995,19 +2481,10 @@ void STARTMENU_PaintRowPalette(StartMenuWork *work, u8 row, int tileY, int palet
     BG_SYS_MarkTileDirty(2);
 }
 
-
-
-
-
-
 int STARTMENU_RowTileY(StartMenuWork *work, int y)
 {
     return (s8)(y + work->scrollPixels / 8);
 }
-
-
-
-
 
 /*
  * Shifts the six sprites at +0x1c..+0x30 vertically by d.
@@ -3022,11 +2499,6 @@ void STARTMENU_ScrollRowActors(StartMenuWork *work, int deltaY)
         CLACT_AddActorSurfacePos((struct ClactActor *)(work->rowActors[i]), (const struct Vec2 *)(&position), 0);
     }
 }
-
-
-
-
-
 
 int STARTMENU_MoveCursor(StartMenuWork *work, int d)
 {
@@ -3085,10 +2557,6 @@ int STARTMENU_MoveCursor(StartMenuWork *work, int d)
     return 1;
 }
 
-
-
-
-
 void STARTMENU_ShowRowActors(StartMenuWork *work, int flag)
 {
     unsigned i;
@@ -3117,10 +2585,6 @@ void STARTMENU_ShowRowActors(StartMenuWork *work, int flag)
     }
 }
 
-
-
-
-
 void STARTMENU_DrawFrameBox(u8 x, u8 y, u8 w, u8 h, u8 bgLayer)
 {
     u32 layer = *(u32 *)&bgLayer;
@@ -3137,16 +2601,11 @@ void STARTMENU_DrawFrameBox(u8 x, u8 y, u8 w, u8 h, u8 bgLayer)
     BG_SYS_MarkTileDirty(layer);
 }
 
-
-
 void STARTMENU_ClearFrameBox(u8 x, u8 y, u8 w, u8 h, u8 bg)
 {
     BG_SYS_SetTileEntry(*(u8 *)&bg, 0, x, y, w, h, 0);
     BG_SYS_MarkTileDirty(*(u8 *)&bg);
 }
-
-
-
 
 static inline void PrintMessageLine(StartMenuWork *work, u32 id, u32 pixelY, u16 color)
 {
@@ -3156,9 +2615,6 @@ static inline void PrintMessageLine(StartMenuWork *work, u32 id, u32 pixelY, u16
     work->descWindowOpen = 1;
     STRBUF_Delete((struct Strbuf *)msgStr);
 }
-
-
-
 
 /*
  * Four identical print blocks are one static inline helper: it loads
@@ -3182,9 +2638,6 @@ void STARTMENU_OpenConfirmWindow(StartMenuWork *work)
     STARTMENU_ShowRowActors(work, 0);
 }
 
-
-
-
 void STARTMENU_CloseDescWindow(StartMenuWork *work, int mode)
 {
     BMP_WIN_Delete(work->descWindow);
@@ -3200,9 +2653,6 @@ void STARTMENU_CloseDescWindow(StartMenuWork *work, int mode)
     }
 }
 
-
-
-
 void STARTMENU_OpenInfoWindow(StartMenuWork *work)
 {
     work->descWindow = (void *)BMP_WIN_Create(4, 2, 3, 0x1e, 0x13, 5, 1);
@@ -3213,9 +2663,6 @@ void STARTMENU_OpenInfoWindow(StartMenuWork *work)
     STARTMENU_DrawFrameBox(0, 1, 0x20, 0x16, 5);
 }
 
-
-
-
 /*
  * 0x021BBE3C is an unlabelled tail-call stub (function_starts seed).
  * Twin of STARTMENU_OpenConfirmWindow (same PrintMessageLine inline).
@@ -3224,9 +2671,6 @@ void STARTMENU_CloseInfoWindow(StartMenuWork *work)
 {
     BMP_WIN_Delete(work->descWindow);
 }
-
-
-
 
 void STARTMENU_OpenNoticeWindow(StartMenuWork *work)
 {
@@ -3252,9 +2696,6 @@ void STARTMENU_OpenNoticeWindow(StartMenuWork *work)
     STARTMENU_ShowRowActors(work, 0);
 }
 
-
-
-
 void STARTMENU_StartMessage(StartMenuWork *work, u32 msgId)
 {
     void *window;
@@ -3271,16 +2712,10 @@ void STARTMENU_StartMessage(StartMenuWork *work, u32 msgId)
     BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
 }
 
-
-
-
 void STARTMENU_HideMessageWindow(StartMenuWork *work)
 {
     BMP_MENUWORK_DrawWindowBorder(work->windows[13].window, 1);
 }
-
-
-
 
 int STARTMENU_UpdateMessage(StartMenuWork *work)
 {
@@ -3311,9 +2746,6 @@ int STARTMENU_UpdateMessage(StartMenuWork *work)
     return 1;
 }
 
-
-
-
 /*
  * note:     listing extent runs 2 bytes past the compiled function;
  *           trailing alignment padding, no byte difference.
@@ -3330,18 +2762,12 @@ void STARTMENU_OpenYesNoMenu(StartMenuWork *work)
     work->yesNoMenu = BMP_MENU_CreateYesNo(&windowTemplate, 1, 0xE, 0, 0xB);
 }
 
-
-
-
 int STARTMENU_BeginFadeOut(StartMenuWork *work, int v)
 {
     WIPE_SYS_Start(0, 1, 1, 0, 6, 1, 0xb);
     work->nextStateAfterFade = v;
     return 2;
 }
-
-
-
 
 /*
  * EXACT*: extent runs long; the follower at 0x021BC0AC is an unlabelled leaf
@@ -3354,9 +2780,6 @@ int STARTMENU_BeginFadeIn(StartMenuWork *work, int v)
     return 2;
 }
 
-
-
-
 int STARTMENU_BeginSelectAnim(StartMenuWork *work, int v)
 {
     work->selectAnimTimer = 0;
@@ -3365,9 +2788,6 @@ int STARTMENU_BeginSelectAnim(StartMenuWork *work, int v)
     return 3;
 }
 
-
-
-
 int STARTMENU_RefreshSaveStatus(StartMenuWork *work)
 {
     int status = SAVE_CONTROL_GetLoadFlags(work->saveData);
@@ -3375,28 +2795,20 @@ int STARTMENU_RefreshSaveStatus(StartMenuWork *work)
     return status != 0;
 }
 
-
-
-
 void STARTMENU_ChangeToIntroProc(void)
 {
     PROCSYS_ReplaceGlobal((u32)ov088_id, (u32)d_021BD818, 0);
 }
-
-
-
 
 void STARTMENU_ReplaceWithBattleFlagProcWithSave(void)
 {
     PROCSYS_ReplaceGlobal((u32)ov088_id, (u32)&gStartMenuBattleFlagProcData, 1);
 }
 
-
 void STARTMENU_ReplaceWithBattleFlagProcNoSave(void)
 {
     PROCSYS_ReplaceGlobal((u32)ov088_id, (u32)&gStartMenuBattleFlagProcData, 2);
 }
-
 
 /*
  * The ov194 id is held in a local (the original keeps it in r7 across the
@@ -3447,7 +2859,6 @@ int STARTMENU_NewGameIntroInit(struct Proc *proc)
     work->introParam.voiceHandle = voiceHandle;
     return 1;
 }
-
 
 /*
  * Case bodies are laid out in source order, and the original places
@@ -3502,15 +2913,6 @@ int STARTMENU_NewGameIntroMain(void *proc, int *seq, void *procWork, NewGameIntr
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
 int STARTMENU_NewGameIntroEnd(struct Proc *proc, int *seq, void *procWork, NewGameIntroWork *work)
 {
     void *saveControl = SAVE_CONTROL_Get();
@@ -3539,13 +2941,6 @@ int STARTMENU_NewGameIntroEnd(struct Proc *proc, int *seq, void *procWork, NewGa
     return 1;
 }
 
-
-
-
-
-
-
-
 int STARTMENU_BattleFlagProcInit(struct Proc *proc)
 {
     NewGameIntroWork *work = PROCSYS_AllocProcWork(proc, 0x5c, 1);
@@ -3556,13 +2951,6 @@ int STARTMENU_BattleFlagProcInit(struct Proc *proc)
     work->startArg.myStatus = 0;
     return 1;
 }
-
-
-
-
-
-
-
 
 int STARTMENU_BattleFlagProcMain(void *proc, int *seq, int mode, NewGameIntroWork *work)
 {
@@ -3582,13 +2970,6 @@ int STARTMENU_BattleFlagProcMain(void *proc, int *seq, int mode, NewGameIntroWor
     }
     return 1;
 }
-
-
-
-
-
-
-
 
 int STARTMENU_BattleFlagProcEnd(struct Proc *proc, int seq, int mode, NewGameIntroWork *work)
 {
@@ -3610,13 +2991,6 @@ int STARTMENU_BattleFlagProcEnd(struct Proc *proc, int seq, int mode, NewGameInt
     return 1;
 }
 
-
-
-
-
-
-
-
 void STARTMENU_SetNewPlayerNameAndGender(struct MyStatus *myStatus, struct Strbuf *name, int gender)
 {
     u64 tick;
@@ -3628,13 +3002,6 @@ void STARTMENU_SetNewPlayerNameAndGender(struct MyStatus *myStatus, struct Strbu
     currentValue = MYSTATUS_GetSex(myStatus);
     MYSTATUS_SetTrainerView(myStatus, (u8)((u32)((tick * 8) >> 32) + currentValue * 8));
 }
-
-
-
-
-
-
-
 
 /*
  * EXACT*: inferred extent runs two bytes long; the follower is an unlabelled
@@ -3654,12 +3021,6 @@ int STARTMENU_ConfigPromptInit(struct Proc *proc, int seq, int *procWork)
     STARTMENU_ConfigPromptDrawQuestion(work);
     return 1;
 }
-
-
-
-
-
-
 
 int STARTMENU_ConfigPromptEnd(int proc, int seq, int procWork, ConfigPromptWork *work)
 {
@@ -3877,22 +3238,10 @@ static inline void GX_SetVisibleWnd(int window)
     reg_GX_DISPCNT = reg_GX_DISPCNT & ~0xE000 | (window << 13);
 }
 
-
-
-
-
-
-
 static inline void GXS_SetVisibleWnd(int window)
 {
     reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT & ~0xE000 | (window << 13);
 }
-
-
-
-
-
-
 
 /*
  * Case 1's fade call takes its zero from an enum local set at the top of
@@ -4017,12 +3366,6 @@ int STARTMENU_LogoScreenMain(int proc, int seq, int *variant, LogoScreenWork *wo
     }
     return 0;
 }
-
-
-
-
-
-
 
 int STARTMENU_LogoScreenEnd(int proc)
 {

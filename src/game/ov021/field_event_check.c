@@ -227,9 +227,8 @@
 #include "fieldmap_types.h"
 #include "fldmmdl_rail_types.h"
 
-typedef unsigned int u32;
+#include "../types.h"
 #include "poke_tool_param.h"
-typedef signed int s32;
 
 struct GameEvent;
 struct EventDataSystem;
@@ -636,7 +635,6 @@ extern FieldMapTypeEntryTail gMapTypeCtrlTable[];
 extern u8 abs_id_83[];
 extern const struct TileMessage data_021D3CE8[13];
 
-
 int FIELDMAP_GetHeapSizeForMapType(int zoneId);
 int FIELD_EVENT_CHECK_CheckGridEvents(void *gameSystem, FieldMap *fieldMap, int *outResetEncount, int *outMenuRequest);
 int FIELD_EVENT_CHECK_RunGrid(void *gameSystem, FieldMap *fieldMap);
@@ -696,7 +694,6 @@ int FIELDMAP_GetHeapSizeForMapType(int zoneId)
 {
     return gMapTypeCtrlTable[(int)FIELDMAP_GetMapType((unsigned int)zoneId)].extra;
 }
-
 
 /*
  * Root of the field input tree: builds the field input record on the stack
@@ -890,7 +887,6 @@ int FIELD_EVENT_CHECK_CheckGridEvents(void *gameSystem, FieldMap *fieldMap, int 
     return result;
 }
 
-
 int FIELD_EVENT_CHECK_RunGrid(void *gameSystem, FieldMap *fieldMap)
 {
     int resetEncount;
@@ -917,7 +913,6 @@ int FIELD_EVENT_CHECK_RunGrid(void *gameSystem, FieldMap *fieldMap)
     }
     return result;
 }
-
 
 int FIELD_EVENT_CHECK_CheckCommEvents(void *gameSystem, FieldMap *fieldMap)
 {
@@ -973,7 +968,6 @@ int FIELD_EVENT_CHECK_CheckCommEvents(void *gameSystem, FieldMap *fieldMap)
     return 0;
 }
 
-
 int FIELD_EVENT_CHECK_RunRail(void *gameSystem, FieldMap *fieldMap)
 {
     FieldMap *curFieldMap;
@@ -989,7 +983,6 @@ int FIELD_EVENT_CHECK_RunRail(void *gameSystem, FieldMap *fieldMap)
     }
     return result;
 }
-
 
 int FIELD_EVENT_CHECK_CheckRailEvents(void *gameSystem, FieldMap *fieldMap)
 {
@@ -1088,14 +1081,12 @@ int FIELD_EVENT_CHECK_CheckRailEvents(void *gameSystem, FieldMap *fieldMap)
     return 0;
 }
 
-
 int FIELD_EVENT_CHECK_Run(void *gameSystem, FieldMap *fieldMap, u32 unusedC, u32 unusedD)
 {
     if (FIELDMAP_GetMoveKind(fieldMap) == 0)
         return FIELD_EVENT_CHECK_RunGrid(gameSystem, fieldMap);
     return FIELD_EVENT_CHECK_RunRail(gameSystem, fieldMap);
 }
-
 
 /*
  * Fills the 0x40 byte field input record for one frame: pad trigger and held
@@ -1166,7 +1157,6 @@ void FIELD_EVENT_CHECK_InitInput(FieldEventInput *input, void *gameSystem, Field
         input->pushingFacing = 0;
 }
 
-
 void FIELD_EVENT_CHECK_StopSoundAfterEvent(void *gameSystem, FieldMap *fieldMap)
 {
     void *subscreenProc;
@@ -1182,12 +1172,10 @@ void FIELD_EVENT_CHECK_StopSoundAfterEvent(void *gameSystem, FieldMap *fieldMap)
     }
 }
 
-
 int FIELD_EVENT_CHECK_AddStepRecord(void *gameData)
 {
 return RECORD_AddOne((void *)GAME_DATA_GetTrainerRecord((struct GameData *)gameData), 0);
 }
-
 
 /*
  * Starts the pending script (field 0x26) through SCRIPT_SYS_CreateScriptEventSimple, or else asks
@@ -1207,7 +1195,6 @@ int FIELD_EVENT_CHECK_StartPendingScript(FieldEventInput *input)
     return r;
 }
 
-
 /*
  * Tries FIELD_EVENT_CHECK_CheckPosEventCenterTile, then FIELD_EVENT_CHECK_CheckPosEventForDir with direction 9.
  */
@@ -1219,7 +1206,6 @@ int FIELD_EVENT_CHECK_CheckPosEventAtPlayer(FieldEventInput *input)
         return r;
     return FIELD_EVENT_CHECK_CheckPosEventForDir(input, 9);
 }
-
 
 /*
  * Unless the tile attribute under the object's position blocks it
@@ -1242,7 +1228,6 @@ int FIELD_EVENT_CHECK_CheckPosEventForDir(FieldEventInput *input, int dir)
     return 0;
 }
 
-
 /*
  * Tries FIELD_EVENT_CHECK_CheckPosEventForDir for the current facing, then for the direction from
  * FIELD_PLAYER_ChooseMoveDirFromKeys when that differs and is not 9.
@@ -1262,7 +1247,6 @@ int FIELD_EVENT_CHECK_CheckPosEventFacing(FieldEventInput *input)
         return 0;
     return result;
 }
-
 
 /*
  * Maps the held d-pad bits (up, down, left, right) to a direction and, unless
@@ -1295,7 +1279,6 @@ int FIELD_EVENT_CHECK_CheckPosEventHeldDir(FieldEventInput *input)
     return FIELD_EVENT_CHECK_CheckPosEventForDir(input, heldDir);
 }
 
-
 /*
  * When flag field 0x10 is set and FIELD_PLAYER_ChooseMoveDirFromKeys does not report 9, forwards
  * the object to ov018 INTRUDE_FIELD_CreateEdgeTask; returns 0 otherwise.
@@ -1311,7 +1294,6 @@ void *FIELD_EVENT_CHECK_CheckIntrudeEdge(FieldEventInput *input, void *gameSyste
         return 0;
     return INTRUDE_FIELD_CreateEdgeTask(gameSystem, fieldMap, input->player, *(int * *)&input->playerPos, input->facingDir, inputDir);
 }
-
 
 /*
  * Checks the background event in front of the player: shows its message when
@@ -1355,7 +1337,6 @@ tileBehavior - 0xA3
     return 0;
 }
 
-
 /*
  * Field step handler: runs the step-triggered checks in order (FIELD_EVENT_CHECK_CheckStepEncount,
  * the 128-step counter, milestones, egg hatching, the save flag message) and
@@ -1391,7 +1372,6 @@ int FIELD_EVENT_CHECK_CheckStepEvents(FieldEventInput *input, FieldMap *fieldMap
     return result;
 }
 
-
 /*
  * Returns 2 when a non-egg party member holds item 0x31 or 0x28, else 1.
  */
@@ -1408,7 +1388,6 @@ int FIELD_EVENT_CHECK_GetEggCycleDecrement(void *party)
     }
     return 1;
 }
-
 
 /*
  * For every egg in the party, lowers field 9 (the step counter) by the amount
@@ -1433,7 +1412,6 @@ void FIELD_EVENT_CHECK_DecrementEggCycles(void *party)
     }
 }
 
-
 /*
  * Adds GPOWER_ApplyHatchRate(0x100) to the step accumulator in the save block; once
  * it passes 0x10000 it advances the party's egg counters (FIELD_EVENT_CHECK_DecrementEggCycles) and
@@ -1452,7 +1430,6 @@ void FIELD_EVENT_CHECK_UpdateEggStepCounter(void *gameData, void *party)
     }
     PLAYER_LOCATION_SetEggStepCounter(stepSave, stepCounter);
 }
-
 
 /*
  * Returns 1 when some egg in the party has field 9 (the step counter) at
@@ -1473,7 +1450,6 @@ int FIELD_EVENT_CHECK_IsEggReadyToHatch(void *party)
     return 0;
 }
 
-
 /*
  * Step hook: updates SODATEYA_AddStep, advances the party step counter
  * (FIELD_EVENT_CHECK_UpdateEggStepCounter) and, when an egg is ready (FIELD_EVENT_CHECK_IsEggReadyToHatch), shows message
@@ -1490,7 +1466,6 @@ int FIELD_EVENT_CHECK_CheckEggHatch(FieldEventInput *input, FieldMap *fieldMap, 
         return (int)SCRIPT_SYS_CreateScriptEventSimple((int)gameSystem, 0x8CA, 0, heapId);
     return 0;
 }
-
 
 /*
  * Bumps a 7-bit counter in the save block; when it wraps, calls NATSUKI_CalcWalk
@@ -1523,7 +1498,6 @@ void FIELD_EVENT_CHECK_UpdateWalkFriendship(void *gameData, FieldMap *fieldMap)
     }
 }
 
-
 /*
  * When ZONEDATA_IsZoneInTableDFB8 accepts the id, shows the milestone message
  * (SCRCMD_ShowStepMilestoneMessage) and increments the save block counter; returns the message
@@ -1541,14 +1515,12 @@ int FIELD_EVENT_CHECK_CheckZoneStepMessage(void *gameSystem, FieldMap *fieldMap,
     return result;
 }
 
-
 int FIELD_EVENT_CHECK_CheckMovePokemonCooldown(FieldMap *fieldMap, void *gameSystem, void *gameData)
 {
     if ((u8)MOVE_POKEMON_SAVE_TickCooldown(MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData))))
         return (int)SCRIPT_SYS_CreateScriptEventSimple((int)gameSystem, 0x2792, 0, FIELDMAP_GetHeapId(fieldMap));
     return 0;
 }
-
 
 /*
  * Runs EFFECT_ENCOUNT_TriggerSpot on the position's object; when it declines, calls
@@ -1569,7 +1541,6 @@ int FIELD_EVENT_CHECK_CheckStepEncount(FieldMap *fieldMap, void *gameSystem, voi
     return result;
 }
 
-
 struct GameEvent *FIELD_EVENT_CHECK_CreateGPowerExpireEvent(void *gameSystem)
 {
     if (GPOWER_GetExpiringPowerId() == 0x30) {
@@ -1577,7 +1548,6 @@ struct GameEvent *FIELD_EVENT_CHECK_CreateGPowerExpireEvent(void *gameSystem)
     }
     return GAME_EVENT_CreateOverlayEvent(gameSystem, (u32)abs_id_83, (u32 (*)(void *, u32))GPOWER_EVENT_CreateTimeoutScriptEvent, 0);
 }
-
 
 /*
  * For a usable entry id (FIELD_EVENT_CHECK_FindGridConnectId), unless ov010 EVENTDATA_SYSTEM_IsConnectDisabled reports
@@ -1598,7 +1568,6 @@ int FIELD_EVENT_CHECK_CheckGridConnect(FieldEventInput *input, FieldMap *fieldMa
     return FIELD_EVENT_CHECK_StartConnectEvent(input, fieldMap, connectId, pos);
 }
 
-
 /*
  * Looks up the tile attribute under the position and starts the matching tile
  * task (FIELD_TILE_MOVE_StartSpinTask or FIELD_TILE_MOVE_StartSlideTask); returns the task or 0.
@@ -1616,7 +1585,6 @@ void *FIELD_EVENT_CHECK_CheckTileMoveTask(FieldEventInput *input, FieldMap *fiel
         return FIELD_TILE_MOVE_StartSlideTask(0, input->gameSystem, fieldMap);
     return 0;
 }
-
 
 /*
  * Looks up entry id through EVENTDATA_SYSTEM_GetConnectData, optionally resolves its argument,
@@ -1638,7 +1606,6 @@ int FIELD_EVENT_CHECK_StartConnectEvent(FieldEventInput *input, FieldMap *fieldM
         return (int)EVENT_MAPCHANGE_CreateExitWarpEvent(input->gameSystem, (int)fieldMap, (void *)connect, (int)exitOffset);
 }
 
-
 /*
  * Builds a 0x1C byte rectangle record with ZONEDATA_SetExitLocation from the object's
  * map value, an id and three words, and hands it to GAME_DATA_SetEntranceLocation.
@@ -1650,7 +1617,6 @@ void FIELD_EVENT_CHECK_SetEntranceFromGridConnect(FieldEventInput *input, int co
     ZONEDATA_SetExitLocation(location, FIELDMAP_GetZoneId(input->fieldMap), connectId, 0, 0, pos->x, pos->y, pos->z);
     GAME_DATA_SetEntranceLocation(input->gameData, (struct Location *)location);
 }
-
 
 /*
  * Returns the current entry id from EVENTDATA_SYSTEM_SearchConnectIdByGridPos when it is usable
@@ -1668,7 +1634,6 @@ u32 FIELD_EVENT_CHECK_FindGridConnectId(FieldEventInput *input, VecFx32 *pos)
         return 0xFFFF;
     return connectId;
 }
-
 
 void FIELD_EVENT_CHECK_GetFrontPos(FieldEventInput *input, VecFx32 *out)
 {
@@ -1689,7 +1654,6 @@ void FIELD_EVENT_CHECK_GetFrontPos(FieldEventInput *input, VecFx32 *out)
     }
 }
 
-
 /*
  * True when EVENTDATA_SYSTEM_GetConnectExitType reports kind 0, 5 or 6.
  */
@@ -1699,12 +1663,10 @@ int FIELD_EVENT_CHECK_IsConnectOnFootType(void *connect)
     return exitType == 0 || exitType == 5 || exitType == 6;
 }
 
-
 int FIELD_EVENT_CHECK_IsConnectExitDir(void *connect, int dir)
 {
     return EVENTDATA_SYSTEM_IsConnectExitDir(connect, dir);
 }
-
 
 int FIELD_EVENT_CHECK_CheckGridConnectFront(FieldEventInput *input, int unused, FieldMap *fieldMap)
 {
@@ -1732,7 +1694,6 @@ int FIELD_EVENT_CHECK_CheckGridConnectFront(FieldEventInput *input, int unused, 
     }
     return 0;
 }
-
 
 int FIELD_EVENT_CHECK_CheckFrontTileEvents(FieldEventInput *input, void *gameSystem, FieldMap *fieldMap)
 {
@@ -1767,7 +1728,6 @@ int FIELD_EVENT_CHECK_CheckFrontTileEvents(FieldEventInput *input, void *gameSys
     return 0;
 }
 
-
 int FIELD_EVENT_CHECK_CheckRailConnect(FieldEventInput *input, void *unused, FieldMap *fieldMap)
 {
     RailLocation nextLocation;
@@ -1784,7 +1744,6 @@ int FIELD_EVENT_CHECK_CheckRailConnect(FieldEventInput *input, void *unused, Fie
     FIELD_EVENT_CHECK_SetEntranceFromRailConnect(input, connectId, &nextLocation);
     return FIELD_EVENT_CHECK_StartRailConnectEvent(input, fieldMap, connectId, &nextLocation);
 }
-
 
 int FIELD_EVENT_CHECK_CheckRailConnectFront(FieldEventInput *input, void *unused, FieldMap *fieldMap, RailLocation *frontLocation)
 {
@@ -1813,7 +1772,6 @@ int FIELD_EVENT_CHECK_CheckRailConnectFront(FieldEventInput *input, void *unused
     return 0;
 }
 
-
 /*
  * When bit 3 of the flag word is set, runs the object's interaction:
  * FIELD_ENCOUNT_CheckWfbcEncount with the map value when ZONEDATA_IsZoneInTableDFC0 accepts field 0x10,
@@ -1829,7 +1787,6 @@ int FIELD_EVENT_CHECK_CheckWildEncount(FieldEventInput *input, void *unused, Fie
         return FIELD_ENCOUNT_CheckWfbcEncount(encount, FIELD_G3D_MAPPER_GetWfbc((struct FieldG3dMapper *)FIELDMAP_GetG3dMapper(fieldMap)));
     return FIELD_ENCOUNT_CheckWildEncount(encount, 0);
 }
-
 
 int FIELD_EVENT_CHECK_CheckRailSignBoard(FieldEventInput *input, void *gameSystem, FieldMap *fieldMap)
 {
@@ -1849,7 +1806,6 @@ int FIELD_EVENT_CHECK_CheckRailSignBoard(FieldEventInput *input, void *gameSyste
     return 0;
 }
 
-
 void FIELD_EVENT_CHECK_SetEntranceFromRailConnect(FieldEventInput *input, int connectId, RailLocation *location)
 {
     u8 locationRec[0x1C];
@@ -1858,13 +1814,11 @@ void FIELD_EVENT_CHECK_SetEntranceFromRailConnect(FieldEventInput *input, int co
     GAME_DATA_SetEntranceLocation(input->gameData, (struct Location *)locationRec);
 }
 
-
 int FIELD_EVENT_CHECK_StartRailConnectEvent(FieldEventInput *input, FieldMap *fieldMap, int connectId, RailLocation *location)
 {
     void *connect = EVENTDATA_SYSTEM_GetConnectData(input->eventData, (u16)connectId);
     return (int)EVENT_MAPCHANGE_CreateExitWarpEvent(input->gameSystem, (int)fieldMap, (void *)connect, EVENTDATA_SYSTEM_GetConnectRailExitOffset(connect, location));
 }
-
 
 int FIELD_EVENT_CHECK_IsRailFrontFree(void *player, FieldEventInput *input)
 {
@@ -1872,7 +1826,6 @@ int FIELD_EVENT_CHECK_IsRailFrontFree(void *player, FieldEventInput *input)
         return 1;
     return 0;
 }
-
 
 int FIELD_EVENT_CHECK_LedgeJumpTaskMain(void *task, int *seq, LedgeJumpWork *work)
 {
@@ -1912,7 +1865,6 @@ int FIELD_EVENT_CHECK_LedgeJumpTaskMain(void *task, int *seq, LedgeJumpWork *wor
     return 0;
 }
 
-
 int FIELD_EVENT_CHECK_CreateLedgeJumpTask(int unused, void *gameSystem, FieldMap *fieldMap, int dir, int jumpTwoTiles)
 {
     int h = (int)GAME_EVENT_Create((void *)gameSystem, 0, FIELD_EVENT_CHECK_LedgeJumpTaskMain, 0x10);
@@ -1923,7 +1875,6 @@ int FIELD_EVENT_CHECK_CreateLedgeJumpTask(int unused, void *gameSystem, FieldMap
     work->jumpTwoTiles = jumpTwoTiles;
     return h;
 }
-
 
 int FIELD_EVENT_CHECK_CheckLedgeJump(FieldEventInput *input, void *gameSystem, FieldMap *fieldMap)
 {
@@ -1958,7 +1909,6 @@ int FIELD_EVENT_CHECK_CheckLedgeJump(FieldEventInput *input, void *gameSystem, F
     return 0;
 }
 
-
 /*
  * Reads the object's grid position, and when the tile attribute in front
  * allows it (MAP_ATTR_IsCameraStep) steps it one tile in its facing direction, then
@@ -1979,7 +1929,6 @@ int FIELD_EVENT_CHECK_SearchGridFrontMmdl(FieldEventInput *input, FieldMap *fiel
     return (int)FLDMMDL_SysSearchGridPosHeight((struct MmdlSys *)mmdlSys, gridPos[2], gridPos[0], FLDMMDL_GetPosY(playerMmdl), 0x10000, 0);
 }
 
-
 int FIELD_EVENT_CHECK_SearchRailFrontMmdl(FieldEventInput *input, FieldMap *fieldMap)
 {
     RailLocation frontLocation;
@@ -1987,7 +1936,6 @@ int FIELD_EVENT_CHECK_SearchRailFrontMmdl(FieldEventInput *input, FieldMap *fiel
         return FLDMMDL_RAIL_SearchMmdlByLocation((u32)FIELDMAP_GetMmdlSys(fieldMap), (u32)&frontLocation, 0);
     return 0;
 }
-
 
 /*
  * Picks the message for the tile the player faces: the first of the 13 table
@@ -2020,7 +1968,6 @@ u16 FIELD_EVENT_CHECK_GetFrontTileMessage(FieldEventInput *input, FieldMap *fiel
     return 0xFFFF;
 }
 
-
 /*
  * Returns the index of the first non-egg party member that knows the given
  * move (checks move slots 0x36..0x39), or 6 when none does. Called with 0x39
@@ -2047,7 +1994,6 @@ int FIELD_EVENT_CHECK_FindPartyMemberWithMove(void *gameData, u32 move)
     return 6;
 }
 
-
 int FIELD_EVENT_CHECK_CountAlivePartyMembers(void *gameSystem)
 {
     void *party;
@@ -2067,7 +2013,6 @@ int FIELD_EVENT_CHECK_CountAlivePartyMembers(void *gameSystem)
     }
     return aliveCount;
 }
-
 
 int FIELD_EVENT_CHECK_IsLedgePathClear(FieldEventInput *input, FieldMap *fieldMap)
 {

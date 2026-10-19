@@ -18,11 +18,7 @@
  *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  */
 #include "battle_rec_types.h"
-typedef unsigned char u8;
-
-typedef unsigned int u32;
-
-typedef signed int s32;
+#include "../types.h"
 
 /* Save block 0x30: the field gimmick work.  The id says which gimmick owns the
  * two work areas; -1 is none. */

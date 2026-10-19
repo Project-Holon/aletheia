@@ -23,7 +23,7 @@
  *   LOADER_DECRYPT_DecodeBlocks  0x02188A48  arm  ov230
  */
 
-typedef unsigned int u32;
+#include "../types.h"
 
 extern void LOADER_DECRYPT_DecodeBlocks(u32 *desc);
 
@@ -169,4 +169,3 @@ asm void LOADER_ENTRY_DecryptCallStubs0(void)
     DCD     0x00000000
     DCD     0x0218AF54
 }
-

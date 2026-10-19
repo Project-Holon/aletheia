@@ -73,7 +73,7 @@
  */
 #include "pdwacc_message_types.h"
 
-typedef unsigned long long u64;
+#include "../types.h"
 
 /* 32-entry lookup from a 5-bit account code to its character glyph. */
 typedef struct { u16 chars[32]; } AccountCodeCharTable;

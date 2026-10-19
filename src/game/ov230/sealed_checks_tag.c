@@ -17,7 +17,7 @@
  *   OV230_ReturnTag0  0x021893B8  arm  ov230d
  *   OV230_ReturnTag1  0x021893C4  arm  ov230d
  */
-typedef unsigned int u32;
+#include "../types.h"
 
 u32 OV230_ReturnTag0(void)
 {

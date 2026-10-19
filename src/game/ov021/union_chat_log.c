@@ -29,13 +29,9 @@
  *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   _u32_div_f                   0x0209C2B0  arm
  */
-typedef int fx32;
+#include "../types.h"
 
-typedef struct VecFx32 {
-    fx32 x;
-    fx32 y;
-    fx32 z;
-} VecFx32;
+#include "../sdk_fx.h"
 
 #include "../ov012/union_comm_types.h"
 

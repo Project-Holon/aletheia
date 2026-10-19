@@ -36,10 +36,7 @@
  *   GF_PANIC_Fail  0x02034714  arm
  */
 struct GFLNetHandle;
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed int     s32;
+#include "../types.h"
 
 #include "net_types.h"
 
@@ -125,7 +122,6 @@ void GFL_NET_LOWER_DATA_RecvChunk(u32 netId, u32 size, u32 pData, u32 pWork, u32
 int GFL_NET_LOWER_DATA_SendControl(int kind);
 void GFL_NET_LOWER_DATA_RecvControl(u32 netId, u32 size, struct NetLdataCommand *pData, u32 pWork, u32 pNetHandle);
 
-
 /* Allocate the work block and clear it. ackMode 1: the sender waits for an ack after each chunk. */
 void GFL_NET_LOWER_DATA_Init(int heapId, int ackMode)
 {
@@ -145,7 +141,6 @@ void GFL_NET_LOWER_DATA_Init(int heapId, int ackMode)
         _pNetLdataWork->postWork[i] = 0;
 }
 
-
 /* Free every post work (and the buffers they own), then the work block. */
 void GFL_NET_LOWER_DATA_Exit(void)
 {
@@ -164,7 +159,6 @@ void GFL_NET_LOWER_DATA_Exit(void)
     _pNetLdataWork = 0;
 }
 
-
 /* Queue a transfer: the pump (GFL_NET_LOWER_DATA_MainSend) sends the start packet, the chunks, then the end packet. */
 void GFL_NET_LOWER_DATA_SetSendData(int sendData, int sendSize, int sendTarget, int isParent)
 {
@@ -181,7 +175,6 @@ void GFL_NET_LOWER_DATA_SetSendData(int sendData, int sendSize, int sendTarget, 
     _pNetLdataWork->sendFinished = 0;
 }
 
-
 /* Create the post work of sender netId; buf (bufSize bytes) is supplied by the caller and not owned. */
 void GFL_NET_LOWER_DATA_CreatePostWork(u32 bufSize, int netId, u32 heapId, u32 buf)
 {
@@ -194,7 +187,6 @@ void GFL_NET_LOWER_DATA_CreatePostWork(u32 bufSize, int netId, u32 heapId, u32 b
     _pNetLdataWork->postWork[netId]->bufSize = bufSize;
     _pNetLdataWork->postWork[netId]->ownsBuf = 0;
 }
-
 
 void GFL_NET_LOWER_DATA_DeletePostWork(int netId)
 {
@@ -209,7 +201,6 @@ void GFL_NET_LOWER_DATA_DeletePostWork(int netId)
     GFL_HEAP_Free(_pNetLdataWork->postWork[netId]);
     _pNetLdataWork->postWork[netId] = 0;
 }
-
 
 /* Receive buffer of sender netId. */
 int GFL_NET_LOWER_DATA_GetPostBuffer(unsigned int netId)
@@ -247,7 +238,6 @@ int GFL_NET_LOWER_DATA_IsPostComplete(unsigned int netId)
         return 0;
     return postWork->complete;
 }
-
 
 /*
  * Per-frame send pump over the work block: while a transfer is queued
@@ -322,7 +312,6 @@ u32 GFL_NET_LOWER_DATA_SendChunk(int size)
     return GFL_NET_SendDataMask(handle, _pNetLdataWork->sendTarget, NET_LDATA_CMD_DATA, size, (void *)dataAddr, 0, 1, 1);
 }
 
-
 /*
  * End address (buffer plus received size) of sender netId's post work (0xff
  * means 0), re-checked after GFL_NET_GetInitParam; 0 when the work block or the post
@@ -345,7 +334,6 @@ u32 GFL_NET_LOWER_DATA_GetPostEndAddress(u32 netId)
     }
     return 0;
 }
-
 
 /*
  * Data packet callback: add size to the received count of sender netId (0xff
@@ -399,7 +387,6 @@ int GFL_NET_LOWER_DATA_SendControl(int kind)
     header.size = _pNetLdataWork->sendSize;
     return GFL_NET_SendDataMask(handle, _pNetLdataWork->sendTarget, NET_LDATA_CMD_CONTROL, 4, (&header), 0, 1, 0);
 }
-
 
 /*
  * Control packet callback: start (set up the post work of sender netId for

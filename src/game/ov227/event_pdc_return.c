@@ -87,13 +87,7 @@ struct BoxEntry;
 struct TrainerRecord;
 struct ProcSys;
 
-typedef unsigned int u32;
-
-typedef unsigned short u16;
-
-typedef unsigned char u8;
-
-typedef signed int s32;
+#include "../types.h"
 
 /* proc work object of ov227 (0x38 bytes); one view for every access */
 typedef struct {
@@ -186,13 +180,9 @@ extern const char d_021B98C0[];
 extern unsigned char ov207_id[];
 extern unsigned char ov194_id[];
 
-
 void *EVENT_PDC_RETURN_CreateArgs(u32 a, int b, u32 c, u32 heap){u32 *p; p=GFL_HEAP_Alloc(heap,12,0,d_021B98C0,94);p[0]=a;p[1]=b;p[2]=c;return p;}
 
-
 void EVENT_PDC_RETURN_DeleteArgs(void *p){GFL_HEAP_Free(p);}
-
-
 
 int EVENT_PDC_RETURN_Init(struct ProcSys *procSys)
 {
@@ -209,9 +199,7 @@ int EVENT_PDC_RETURN_Init(struct ProcSys *procSys)
     return 1;
 }
 
-
 int EVENT_PDC_RETURN_Exit(struct ProcSys *procSys,void *b,void *c,char *p){EventPdcReturnWork *work;work=(EventPdcReturnWork *)p;PROCSYS_Delete((struct ProcSys *)work->procSys);if(work->partyFullMessage)STRBUF_Delete((struct Strbuf *)work->partyFullMessage);STRBUF_Delete((struct Strbuf *)work->strbuf);PROCSYS_FreeProcWork((struct Proc *)procSys);GFL_HEAP_DeleteChecked(139);return 1;}
-
 
 u32 EVENT_PDC_RETURN_Step(u32 task, u32 *state, EventPdcReturnArgs *args, EventPdcReturnWork *work)
 {

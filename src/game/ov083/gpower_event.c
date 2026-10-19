@@ -67,10 +67,7 @@
  *   GPOWER_GetActiveIdByType  0x02010EB4  thumb
  *   GPOWER_GetMinutesLeftByType  0x02010EC0  thumb
  */
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed int     s32;
+#include "../types.h"
 
 #include "gpower_event_types.h"
 
@@ -159,7 +156,6 @@ int GPOWER_EVENT_ListMain(struct GameEvent *event, int *seq, GPowerListWork *wor
 void GPOWER_EVENT_PrintPowerRow(GPowerListWork *work, struct Strbuf *templateStr, u32 powerId, int minutes, u8 row);
 void GPOWER_EVENT_PrintPowerList(GPowerListWork *work);
 
-
 struct GameEvent *GPOWER_EVENT_CreateActivateEvent(struct GameSystem *gameSystem, GPowerActivateParam *param)
 {
     struct GameEvent *event;
@@ -198,12 +194,10 @@ struct GameEvent *GPOWER_EVENT_CreateActivateEvent(struct GameSystem *gameSystem
     return event;
 }
 
-
 struct GameEvent *GPOWER_EVENT_CreateTimeoutScriptEvent(struct GameSystem *gameSystem)
 {
     return SCRIPT_SYS_CreateScriptEventSimple(gameSystem, 0x28BA, 0, GPOWER_EVENT_HEAP_ID);
 }
-
 
 struct GameEvent *GPOWER_EVENT_CreateFlashEvent(struct GameSystem *gameSystem)
 {
@@ -217,14 +211,12 @@ struct GameEvent *GPOWER_EVENT_CreateFlashEvent(struct GameSystem *gameSystem)
     return event;
 }
 
-
 struct GameEvent *GPOWER_EVENT_CreateListEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap)
 {
     struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)GPOWER_EVENT_ListMain, sizeof(GPowerListWork));
     GPOWER_EVENT_InitListWork(GAME_EVENT_GetWork(event), gameSystem, fieldMap);
     return event;
 }
-
 
 void GPOWER_EVENT_InitListWork(GPowerListWork *work, struct GameSystem *gameSystem, struct FieldMap *fieldMap)
 {
@@ -243,7 +235,6 @@ void GPOWER_EVENT_InitListWork(GPowerListWork *work, struct GameSystem *gameSyst
     FLDMMDL_SysPauseMove((struct MmdlSys *)work->mmdlSys);
 }
 
-
 void GPOWER_EVENT_FreeListWork(GPowerListWork *work)
 {
     STRBUF_Delete(work->lineStr);
@@ -253,7 +244,6 @@ void GPOWER_EVENT_FreeListWork(GPowerListWork *work)
     GPOWER_FreePowerTable((struct GPowerData *)work->powerTable);
     FLDMMDL_SysResumeMove((struct MmdlSys *)work->mmdlSys);
 }
-
 
 int GPOWER_EVENT_FlashMain(struct GameEvent *event, int *seq, void *work)
 {
@@ -277,7 +267,6 @@ int GPOWER_EVENT_FlashMain(struct GameEvent *event, int *seq, void *work)
     return 0;
 }
 
-
 void GPOWER_EVENT_RestoreParty(struct GameSystem *gameSystem, struct WordSet *wordSet, int powerType)
 {
     struct PokeParty *party = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(gameSystem));
@@ -294,7 +283,6 @@ void GPOWER_EVENT_RestoreParty(struct GameSystem *gameSystem, struct WordSet *wo
         break;
     }
 }
-
 
 int GPOWER_EVENT_ListMain(struct GameEvent *event, int *seq, GPowerListWork *work)
 {
@@ -330,7 +318,6 @@ int GPOWER_EVENT_ListMain(struct GameEvent *event, int *seq, GPowerListWork *wor
     return 0;
 }
 
-
 void GPOWER_EVENT_PrintPowerRow(GPowerListWork *work, struct Strbuf *templateStr, u32 powerId, int minutes, u8 row)
 {
     WORDSET_SetSlotFromMsgA0(work->wordSet, 0, powerId);
@@ -339,7 +326,6 @@ void GPOWER_EVENT_PrintPowerRow(GPowerListWork *work, struct Strbuf *templateStr
     WORDSET_CopyTaggedText(work->wordSet, work->lineStr, templateStr);
     FIELD_MSGBG_InfoMsgWinPrintStr((struct FieldMsgWin *)work->infoMsgWin, 8, (u16)(row << 4), work->lineStr);
 }
-
 
 void GPOWER_EVENT_PrintPowerList(GPowerListWork *work)
 {

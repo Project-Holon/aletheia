@@ -104,8 +104,6 @@
  *   _fflt                        0x0209BDBC  arm
  *   _fsub                        0x0209CB8C  arm
  */
-#include "field_status_shared_types.h"
-#include "zone_light_shared_types.h"
 
 #define REG_MTX_MODE     (*(vu32 *)0x04000440)
 
@@ -141,37 +139,11 @@
 
 #define REG_END_VTXS     (*(vu32 *)0x04000504)
 
-typedef signed char   s8;
+#include "../types.h"
 
-typedef signed long long s64;
+#include "../sdk_fx.h"
 
-typedef s32 fx32;
-
-typedef s64 fx64;
-
-typedef volatile u32 vu32;
-
-typedef struct { fx32 x, y, z; } VecFx32;
-
-typedef struct { fx32 m[4][3]; } MtxFx43;
-
-typedef struct { fx32 m[3][3]; } MtxFx33;
-
-typedef struct { fx32 m[4][4]; } MtxFx44;
-
-typedef enum { GX_TEXFMT_NONE = 0, GX_TEXFMT_PLTT4 = 2 } GXTexFmt;
-
-typedef enum { GX_TEXGEN_NONE = 0, GX_TEXGEN_TEXCOORD = 1 } GXTexGen;
-
-typedef enum { GX_TEXSIZE_S8 = 0 } GXTexSizeS;
-
-typedef enum { GX_TEXSIZE_T8 = 0 } GXTexSizeT;
-
-typedef enum { GX_TEXREPEAT_NONE = 0, GX_TEXREPEAT_ST = 3 } GXTexRepeat;
-
-typedef enum { GX_TEXFLIP_NONE = 0, GX_TEXFLIP_ST = 3 } GXTexFlip;
-
-typedef enum { GX_TEXPLTTCOLOR0_USE = 0, GX_TEXPLTTCOLOR0_TRNS = 1 } GXTexPlttColor0;
+#include "../sdk_gx.h"
 
 struct McssSys;
 
@@ -462,7 +434,6 @@ struct TcblSystem;
 
 extern u32 TCBL_IsDeletePending(struct TcblSystem *tcbl);
 struct TcbTask;
-
 
 extern void TCB_DeleteTask(struct TcbTask *task);
 

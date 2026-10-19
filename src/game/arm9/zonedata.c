@@ -42,19 +42,12 @@
  *   _DirToRailKeyTable  0x0209E050  data
  */
 #include "../version.h"
-#include "zonedata_shared_types.h"
 
-typedef signed short   s16;
-
-typedef signed int     s32;
+#include "../types.h"
 
 struct ArcHandle;
 
-typedef struct {
-    s32 x;
-    s32 y;
-    s32 z;
-} VecFx32;
+#include "../sdk_fx.h"
 
 /* One 0x30 byte zone header: sub-file 0 of a/0/1/2, 427 records. */
 struct ZoneHeader {

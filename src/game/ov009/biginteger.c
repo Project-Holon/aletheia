@@ -32,13 +32,8 @@
  *   CPSi_big_div        0x021644D0  arm  ov009
  *   CPSi_big_montmult   0x0216497C  arm  ov009
  */
-typedef unsigned short u16;
-
-typedef unsigned long u32;
-
-typedef unsigned long long u64;
-
-typedef unsigned char  u8;
+#define GAME_TYPES_U32_LONG
+#include "../types.h"
 
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
@@ -69,9 +64,6 @@ void CPSi_big_montpower(unsigned short *c, unsigned short *m, unsigned short *e,
 void CPSi_big_from_char(unsigned short *d, unsigned char *s, int numbytes, int digits);
 void CPSi_char_from_big(unsigned char *d, unsigned short *s, int numbytes);
 
-
-
-
 /*
  * Drops trailing zero halfwords from a counted array.
  */
@@ -82,20 +74,12 @@ int count_digits(const unsigned short *p, int n)
     return n;
 }
 
-
-
-
-
 int CPSi_big_sign(unsigned short *a, int digits)
 {
     if (a[digits - 1] & 0x8000)
         return -1;
     return count_digits(a, digits) != 0;
 }
-
-
-
-
 
 /*
  * sdk:      CPSi_big_add (libssl.TWL.HYB.a(biginteger.o))
@@ -127,9 +111,6 @@ void CPSi_big_add(unsigned short *c, unsigned short *a, unsigned short *b, int d
 	}
 }
 
-
-
-
 void CPSi_big_add_small(unsigned short *c, unsigned short *a, unsigned short _b, int digits)
 {
     unsigned long b = _b;
@@ -150,10 +131,6 @@ void CPSi_big_add_small(unsigned short *c, unsigned short *a, unsigned short _b,
     }
 }
 
-
-
-
-
 void CPSi_big_negate(unsigned short *a, int digits)
 {
     int i;
@@ -162,10 +139,6 @@ void CPSi_big_negate(unsigned short *a, int digits)
         a[i] = ~a[i];
     CPSi_big_add_small(a, a, 1, digits);
 }
-
-
-
-
 
 /*
  * sdk:      CPSi_big_sub (libssl.TWL.HYB.a(biginteger.o))
@@ -197,9 +170,6 @@ void CPSi_big_sub(unsigned short *c, unsigned short *a, unsigned short *b, int d
 	}
 }
 
-
-
-
 void CPSi_big_sub_small(unsigned short *c, unsigned short *a, unsigned short _b, int digits)
 {
     unsigned long b = _b;
@@ -220,9 +190,6 @@ void CPSi_big_sub_small(unsigned short *c, unsigned short *a, unsigned short _b,
     }
 }
 
-
-
-
 /*
  * Lexicographic compare of two halfword arrays from the top down: 1, -1 or
  * 0.
@@ -238,9 +205,6 @@ int CPSi_big_compare(unsigned short *a, unsigned short *b, int n)
     return 0;
 }
 
-
-
-
 void CPSi_big_add_part(unsigned short *a, unsigned long b, int i, int digits)
 {
     unsigned long tmp;
@@ -252,10 +216,6 @@ void CPSi_big_add_part(unsigned short *a, unsigned long b, int i, int digits)
         b = tmp >> 16;
     }
 }
-
-
-
-
 
 /*
  * sdk:      CPSi_big_mult (libssl.TWL.HYB.a(biginteger.o))
@@ -277,10 +237,6 @@ void CPSi_big_mult(unsigned short *c, unsigned short *a, unsigned short *b, int 
 	}
 }
 
-
-
-
-
 void CPSi_big_mult_small(unsigned short *c, unsigned short *a, unsigned short b, int digits)
 {
     unsigned long tmp;
@@ -301,10 +257,6 @@ void CPSi_big_mult_small(unsigned short *c, unsigned short *a, unsigned short b,
     }
     MI_CpuFill8(&c[i], 0, (digits - i) * 2);
 }
-
-
-
-
 
 /*
  * sdk:      CPSi_big_sqr (libssl.TWL.HYB.a(biginteger.o))
@@ -342,9 +294,6 @@ void CPSi_big_sqr(unsigned short *c, unsigned short *a, int digits)
     }
 }
 
-
-
-
 /*
  * Halfword at p as the high word of a 64-bit value.
  */
@@ -352,9 +301,6 @@ unsigned long long get48bits_1(unsigned short *p)
 {
     return (unsigned long long)*p << 32;
 }
-
-
-
 
 /* hand-written in the original: biginteger.o (libssl) asm routine, one debug row per instruction and no DWARF locals; no C spelling gives the bare lsl */
 asm u64 get48bits_2(u16 *s)
@@ -365,9 +311,6 @@ asm u64 get48bits_2(u16 *s)
 	bx lr
 }
 
-
-
-
 /* hand-written in the original: biginteger.o (libssl) asm routine, one debug row per instruction and no DWARF locals; no C spelling gives the bare lsl */
 asm u64 get48bits_3(u16 *s)
 {
@@ -377,9 +320,6 @@ asm u64 get48bits_3(u16 *s)
 	orr r0, r3, r2, lsl #16
 	bx lr
 }
-
-
-
 
 /* hand-written in the original: biginteger.o (libssl) asm routine, one debug row per instruction and no DWARF locals; no C spelling gives the bare lsl */
 asm u64 get64bits(u16 *s)
@@ -392,10 +332,6 @@ asm u64 get64bits(u16 *s)
 	orr r0, r3, r2, lsl #16
 	bx lr
 }
-
-
-
-
 
 /*
  * sdk:      CPSi_big_div (libssl.TWL.HYB.a(biginteger.o))
@@ -449,16 +385,9 @@ void CPSi_big_div(u16 *c, u16 *a, u16 *b, u16 *r, int digits, u16 *work)
         MI_CpuCopy8(cca, r, digits * 2);
 }
 
-
-
 extern void *(*CPSiAlloc)(u32 size);
 
-
-
 extern void (*CPSiFree)(void *ptr);
-
-
-
 
 /*
  * sdk:      CPSi_big_power (libssl.TWL.HYB.a(biginteger.o))
@@ -497,9 +426,6 @@ void CPSi_big_power(u16 *c, u16 *a, u16 *b, int digits, u16 *n)
     CPSiFree(tmp);
 }
 
-
-
-
 /*
  * sdk:      CPSi_big_modinv (libssl.TWL.HYB.a(biginteger.o))
  */
@@ -536,9 +462,6 @@ static void CPSi_big_modinv(unsigned short *c, unsigned short *a, unsigned short
     CPSi_big_div(0, v, n, c, digits, divwork);
 }
 
-
-
-
 /*
  * sdk:      CPSi_big_montmult (libssl.TWL.HYB.a(biginteger.o))
  */
@@ -567,13 +490,9 @@ static void CPSi_big_montmult(unsigned short *c, unsigned short *a, unsigned sho
     }
 }
 
-
 extern void *(*CPSiAlloc)(unsigned long size);
 
-
 extern void (*CPSiFree)(void *ptr);
-
-
 
 void CPSi_big_montpower(unsigned short *c, unsigned short *m, unsigned short *e, int digits, unsigned short *n)
 {
@@ -616,8 +535,6 @@ void CPSi_big_montpower(unsigned short *c, unsigned short *m, unsigned short *e,
     CPSiFree(tmp_var);
 }
 
-
-
 void CPSi_big_from_char(unsigned short *d, unsigned char *s, int numbytes, int digits)
 {
     MI_CpuFill8(d, 0, digits * 2);
@@ -630,7 +547,6 @@ void CPSi_big_from_char(unsigned short *d, unsigned char *s, int numbytes, int d
     if (numbytes > 0)
         *d = *s;
 }
-
 
 void CPSi_char_from_big(unsigned char *d, unsigned short *s, int numbytes)
 {

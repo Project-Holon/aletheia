@@ -139,19 +139,14 @@ typedef struct DArrayImplementation *DArray;
 
 typedef enum { NAT_MAPPING_UNKNOWN } NatMappingScheme;
 
-typedef unsigned char u8;
+#include "../types.h"
 
 struct DArrayImplementation
 {
     int count;
 };
 
-typedef struct SOCSockAddrIn {
-    unsigned char len;
-    unsigned char family;
-    unsigned short port;
-    unsigned int addr;
-} SOCSockAddrIn;
+#include "../sdk_soc.h"
 
 /* byte-wise copy of a socket address (alignment 1) */
 typedef struct NNSockAddr {
@@ -182,19 +177,6 @@ typedef struct _NATNegotiator {
     int socket;                                      /* 0x48 */
     NNSockAddr remoteaddr;                           /* 0x4C */
 } NATNegotiator;
-
-typedef struct SOCInAddr {
-    unsigned int addr;
-} SOCInAddr;
-
-typedef struct SOCHostEnt {
-    unsigned char pad0[0xC];
-    SOCInAddr **addrList;
-} SOCHostEnt;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
 
 /* One packet, four views of the union at 0x0C. 0x4A bytes, 0x4C as a local. */
 typedef struct NatNegPacket
@@ -392,57 +374,29 @@ extern char gNatNegConnectTooSmallFmt[];
 extern char gNatNegNoNegotiatorFmt[];
 extern char gNatNegPacketTooSmallFmt[];
 
-
-
-
 unsigned int matchup2ip = 0;
-
-
 
 unsigned int matchup3ip = 0;
 
-
-
 static int activeNatify = 0;
-
-
 
 char *Matchup1Hostname = 0;
 
-
-
 char *Matchup2Hostname = 0;
-
-
 
 int ClientUniqueID = 0;
 
-
-
 static unsigned int natifyStartTime = 0;
-
-
 
 void (*natifyCallback)(int, struct _NAT) = 0;
 
-
-
 static NatMappingScheme natMappingScheme = 0;
-
-
 
 char *Matchup3Hostname = 0;
 
-
-
 DArray negotiateList = 0;
 
-
-
 unsigned int matchup1ip = 0;
-
-
-
 
 int GetClientUniqueID(void)
 {
@@ -453,9 +407,6 @@ int GetClientUniqueID(void)
     }
     return ClientUniqueID;
 }
-
-
-
 
 NATNegotiator *FindNegotiatorForCookie(int cookie)
 {
@@ -472,9 +423,6 @@ NATNegotiator *FindNegotiatorForCookie(int cookie)
     return 0;
 }
 
-
-
-
 /*
  * sdk:      AddNegotiator (natneg.o)
  */
@@ -487,10 +435,6 @@ NATNegotiator *AddNegotiator(void)
     ArrayAppend(negotiateList, &_neg);
     return (NATNegotiator *)ArrayNth(negotiateList, ArrayLength((int *)negotiateList) - 1);
 }
-
-
-
-
 
 /*
  * sdk:      RemoveNegotiator (natneg.o)
@@ -507,10 +451,6 @@ void RemoveNegotiator(NATNegotiator *neg)
     }
 }
 
-
-
-
-
 void NNFreeNegotiateList(void)
 {
     if (negotiateList == 0)
@@ -520,10 +460,6 @@ void NNFreeNegotiateList(void)
     negotiateList = 0;
 }
 
-
-
-
-
 /*
  * Set when the six-byte test of the object at 0x021A5A7C fails.
  */
@@ -531,10 +467,6 @@ int CheckMagic(const u8 *a)
 {
     return memcmp((unsigned char *)a, (unsigned char *)((char *)&gNatNegMagic), 6) == 0;
 }
-
-
-
-
 
 /*
  * sdk:      SendPacket (natneg.o)
@@ -549,8 +481,6 @@ static void SendPacket(int sock, unsigned int toaddr, unsigned short toport, voi
     sendto(sock, data, len, 0, (struct SOCSockAddr *)(&saddr), 8);
 }
 
-
-
 static unsigned int GetLocalIP(void)
 {
     int num_local_ips;
@@ -563,7 +493,7 @@ static unsigned int GetLocalIP(void)
     if (!phost)
         return 0;
     for (num_local_ips = 0;; num_local_ips++) {
-        addr = phost->addrList[num_local_ips];
+        addr = (SOCInAddr *)phost->addrList[num_local_ips];
         if (!addr)
             break;
         if (addr->addr != 16777343) {
@@ -574,8 +504,6 @@ static unsigned int GetLocalIP(void)
     }
     return localip;
 }
-
-
 
 static unsigned short GetLocalPort(int sock)
 {
@@ -591,8 +519,6 @@ static unsigned short GetLocalPort(int sock)
 }
 
 #define NN_SWAP16(x) ((((x) >> 8) & 0xFF) | (((x) << 8) & 0xFF00))
-
-
 
 void SendReportPacket(NATNegotiator *neg)
 {
@@ -621,8 +547,6 @@ void SendReportPacket(NATNegotiator *neg)
     SendPacket(neg->negotiateSock, gNatnegGlobals.natneg1IP, 27901, &p, 0x49);
 }
 
-
-
 void StartReport(NATNegotiator *neg, int result, int socket, SOCSockAddrIn *remoteaddr)
 {
     neg->result = result;
@@ -644,8 +568,6 @@ void StartReport(NATNegotiator *neg, int result, int socket, SOCSockAddrIn *remo
         neg->completedCallback(neg->result, neg->socket, (SOCSockAddrIn *)&neg->remoteaddr, neg->userdata);
     }
 }
-
-
 
 /*
  * sdk:      SendPreinitPacket (libdwcgsnatneg.TWL.HYB.a(natneg.o))
@@ -683,9 +605,6 @@ void SendPreinitPacket(NATNegotiator *neg)
         neg->state = 0;
     }
 }
-
-
-
 
 /*
  * sdk:      SendInitPackets (libdwcgsnatneg.TWL.HYB.a natneg.o)
@@ -755,9 +674,6 @@ void SendInitPackets(NATNegotiator *neg)
     neg->maxRetryCount = 10;
 }
 
-
-
-
 /*
  * sdk:      SendPingPacket (libdwcgsnatneg.TWL.HYB.a(natneg.o))
  */
@@ -787,9 +703,6 @@ void SendPingPacket(NATNegotiator *neg)
     neg->retryTime = current_time() + 700;
     neg->maxRetryCount = 7;
 }
-
-
-
 
 /*
  * sdk:      CheckNatifyStatus (libdwcgsnatneg.TWL.HYB.a(natneg.o))
@@ -826,7 +739,6 @@ done:
     return active;
 }
 
-
 unsigned int NameToIp(char *name)
 {
     SOCHostEnt *hent;
@@ -838,14 +750,11 @@ unsigned int NameToIp(char *name)
     hent = SOC_GetHostByName(name);
     if (hent == 0)
         return 0;
-    return (*hent->addrList)->addr;
+    return ((SOCInAddr *)*hent->addrList)->addr;
 }
 
 #undef NN_SWAP16
 #define NN_SWAP16(x) ((u16)((((x) >> 8) & 0xFF) | (((x) << 8) & 0xFF00)))
-
-
-
 
 /*
  * sdk:      ResolveServer (natify.o)
@@ -863,10 +772,6 @@ unsigned int ResolveServer(char *overrideHostname, char *defaultHostname)
     return NameToIp(hostname);
 }
 
-
-
-
-
 /*
  * sdk:      ResolveServers (natneg.o)
  */
@@ -882,10 +787,6 @@ int ResolveServers(void)
         return 0;
     return 1;
 }
-
-
-
-
 
 /*
  * sdk:      NNBeginNegotiationWithSocket (libdwcgsnatneg.TWL.HYB.a natneg.o)
@@ -944,9 +845,6 @@ int NNBeginNegotiationWithSocket(int gamesocket, int cookie, int clientindex,
     return 0;
 }
 
-
-
-
 void NNCancel(int cookie)
 {
     NATNegotiator *neg = FindNegotiatorForCookie(cookie);
@@ -963,12 +861,6 @@ void NNCancel(int cookie)
     neg->state = 6;
 }
 
-
-
-
-
-
-
 /*
  * Marks the record spent and tail calls on its second word.
  */
@@ -980,12 +872,6 @@ void RemoveFinishedNegotiator(int *p)
 
     NNCancel(p[1]);
 }
-
-
-
-
-
-
 
 /*
  * sdk:      NegotiateThink (libdwcgsnatneg.TWL.HYB.a natneg.o)
@@ -1089,11 +975,6 @@ void NegotiateThink(NATNegotiator *neg)
     }
 }
 
-
-
-
-
-
 /*
  * sdk:      NNThink (natneg.o)
  */
@@ -1108,10 +989,6 @@ void NNThink(void)
     for (i = ArrayLength(gNatnegGlobals.negotiateList) - 1; i >= 0; i--)
         NegotiateThink(ArrayNth(gNatnegGlobals.negotiateList, i));
 }
-
-
-
-
 
 /*
  * sdk:      SendConnectAck (libdwcgsnatneg.TWL.HYB.a(natneg.o))
@@ -1144,10 +1021,6 @@ void SendConnectAck(NATNegotiator *neg, SOCSockAddrIn *toaddr)
     gsDebugFormat(7, 0, 8, gNatNegSendConnectAckFmt, neg->cookie);
     SendPacket(neg->negotiateSock, toaddr->addr, NN_SWAP16(toaddr->port), &p, 0x15);
 }
-
-
-
-
 
 /*
  * sdk:      ProcessConnectPacket (libdwcgsnatneg.TWL.HYB.a natneg.o)
@@ -1187,10 +1060,6 @@ void ProcessConnectPacket(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fr
     SendPingPacket((NATNegotiator *)neg);
 }
 
-
-
-
-
 /*
  * sdk:      ProcessPingPacket (libdwcgsnatneg.TWL.HYB.a natneg.o)
  */
@@ -1220,8 +1089,6 @@ void ProcessPingPacket(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *froma
     }
 }
 
-
-
 /*
  * sdk:      ProcessPreinitAckPacket (natneg.o)
  */
@@ -1244,9 +1111,6 @@ void ProcessPreinitAckPacket(NATNegotiator *neg, NatNegPacket *p)
         break;
     }
 }
-
-
-
 
 void ProcessInitPacket(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr)
 {
@@ -1281,9 +1145,6 @@ void ProcessInitPacket(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *froma
         break;
     }
 }
-
-
-
 
 void NNProcessData(char *data, int len, SOCSockAddrIn *fromaddr)
 {

@@ -3,11 +3,7 @@
 
 #include "../ov021/field_3dbg_types.h"
 
-typedef struct {
-    fx32 x;
-    fx32 y;
-    fx32 z;
-} VecFx32;
+#include "../sdk_fx.h"
 
 typedef struct {
     s16 x;

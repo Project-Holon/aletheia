@@ -40,11 +40,7 @@
  */
 struct ListCB;
 
-typedef unsigned int u32;
-
-typedef unsigned char u8;
-
-typedef unsigned short u16;
+#include "../types.h"
 
 #include "gx_oam_types.h"
 
@@ -100,7 +96,6 @@ void DWCi_CELLlGetPosition(void *cell, int idx, int *x, int *y);
 extern MEMCELL *gCellWork;
 extern MEMCELL *gMemCell;
 
-
 /*
  * sdk:      DWCi_CELLlInit (libdwcutil.TWL.HYB.a(cell.o))
  */
@@ -120,7 +115,6 @@ void DWCi_CELLlInit(void)
     }
 }
 
-
 /*
  * sdk:      DWCi_CELLlEnd (libdwcutil.TWL.HYB.a(cell.o))
  */
@@ -134,7 +128,6 @@ void DWCi_CELLlEnd(void)
     }
     DWCi_HEAPlFree_((void **)&gMemCell);
 }
-
 
 /*
  * sdk:      DWCi_CELLlForm (libdwcutil.TWL.HYB.a cell.o)
@@ -179,7 +172,6 @@ void *DWCi_CELLlForm(int lcd, int num, int head)
     return cell;
 }
 
-
 void DWCi_CELLlDelete(CellInfo *p)
 {
     GXOamAttr *obj;
@@ -197,7 +189,6 @@ void DWCi_CELLlDelete(CellInfo *p)
     DWCi_QUElPushBack(gCellWork->c[sel].queue, p);
 }
 
-
 /*
  * Index into the i-th 8-byte record of the table at p+8.
  * Addresses are Black-image addresses.
@@ -210,12 +201,10 @@ GXOamAttr *DWCi_CELLlGetObj(CellInfo *p, unsigned int i)
     return p->obj + i;
 }
 
-
 unsigned char DWCi_CELLlGetState(CellInfo *cell)
 {
     return cell->num;
 }
-
 
 void DWCi_CELLlSetEffect(void *cell, int idx, int effect, int affine)
 {
@@ -238,7 +227,6 @@ void DWCi_CELLlSetEffect(void *cell, int idx, int effect, int affine)
     }
 }
 
-
 void DWCi_CELLlSetPalette(u8 *obj, int idx, u32 v, u32 w)
 {
     GXOamAttr *arr = *(GXOamAttr **)(obj + 8);
@@ -256,19 +244,16 @@ void DWCi_CELLlSetPalette(u8 *obj, int idx, u32 v, u32 w)
     }
 }
 
-
 static inline void G2_GetOBJPosition(const GXOamAttr *oam, unsigned long *x, unsigned long *y)
 {
     *x = (oam->attr01 & 0x01FF0000) >> 16;
     *y = (oam->attr01 & 0x000000FF) >> 0;
 }
 
-
 static inline void G2_SetOBJPosition(GXOamAttr *oam, int x, int y)
 {
     oam->attr01 = (oam->attr01 & 0xFE00FF00) | (y & 0xFF) | ((x & 0x1FF) << 16);
 }
-
 
 /*
  * sdk:      DWCi_CELLlSetPosition (libdwcutil.TWL.HYB.a(cell.o))
@@ -295,7 +280,6 @@ void DWCi_CELLlSetPosition(void *cell, int idx, int x, int y)
     }
 }
 
-
 /*
  * sdk:      DWCi_CELLlSetPriority (libdwcutil.TWL.HYB.a(cell.o))
  */
@@ -312,7 +296,6 @@ void DWCi_CELLlSetPriority(void *cell, int idx, int priority)
             oam[i].attr2 = (oam[i].attr2 & ~0xC00) | (priority << 10);
     }
 }
-
 
 /*
  * sdk:      DWCi_CELLlGetPosition (libdwcutil.TWL.HYB.a(cell.o))

@@ -59,9 +59,7 @@
  *   MYSTERY_DATA_GetCard  0x0200A000  thumb
  *   MYSTERY_DATA_SetCardReceived  0x0200A13C  thumb
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../types.h"
 
 struct GameSystem;
 struct GameData;

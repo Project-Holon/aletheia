@@ -86,14 +86,7 @@
  */
 #include "wcm_types.h"
 
-typedef struct WMStatus {
-    unsigned short state;
-} WMStatus;
-
-typedef struct WMCallback {
-    unsigned short apiid;
-    unsigned short errcode;
-} WMCallback;
+#include "../sdk_wm.h"
 
 typedef struct WMIndicationCallback {
     unsigned short apiid;
@@ -101,33 +94,6 @@ typedef struct WMIndicationCallback {
     unsigned short state;
     unsigned short reason;
 } WMIndicationCallback;
-
-typedef struct WMStartScanExCallback {
-    unsigned short apiid;
-    unsigned short errcode;
-    unsigned short wlCmdID;
-    unsigned short wlResult;
-    unsigned short state;
-    unsigned short channelList;
-    unsigned char reserved[2];
-    unsigned short bssDescCount;
-    void *bssDesc[16];
-    unsigned short linkLevel[16];
-} WMStartScanExCallback;
-
-typedef struct WMStartConnectCallback {
-    unsigned short apiid;
-    unsigned short errcode;
-    unsigned short wlCmdID;
-    unsigned short wlResult;
-    unsigned short state;
-    unsigned short aid;
-    unsigned short reason;
-    unsigned short wlStatus;
-    unsigned char macAddress[6];
-    unsigned short parentSize;
-    unsigned short childSize;
-} WMStartConnectCallback;
 
 typedef struct WMDcfRecvBuf {
     unsigned char pad0[6];
@@ -149,8 +115,9 @@ typedef struct WMStartDCFCallback {
     WMDcfRecvBuf *recv;
 } WMStartDCFCallback;
 
-typedef struct OSThreadQueue { void *head; void *tail; } OSThreadQueue;
-typedef struct OSMutex { OSThreadQueue queue; void *thread; long count; void *prev; void *next; } OSMutex;
+#include "../sdk_os_thread.h"
+
+#include "../sdk_os.h"
 
 typedef struct WCMCpsifWork {
     unsigned char initialized;
@@ -192,7 +159,6 @@ extern long WM_SetWEPKeyEx(void (*callback)(void *), unsigned short wepmode,
                            unsigned short wepkeyid, unsigned char *wepkey);
 extern long WM_StartConnectEx(void (*callback)(void *), void *pInfo,
                               unsigned char *ssid, int powerSave, unsigned short authMode);
-struct WMBssDesc;
 extern void WCMi_EntryApList(struct WMBssDesc *bssDesc, unsigned short linkLevel);
 extern void WCMi_NotifyEx(short notify, short result, void *para0, void *para1, long para2);
 extern unsigned char MATH_CountPopulation(unsigned long x);
@@ -1028,7 +994,7 @@ static void WcmEditScanExParam(unsigned char *bssid, unsigned char *essid, unsig
 
     wcmw = WCMi_GetSystemWork();
     WCM_UpdateOption(option);
-    wcmw->scanParam.scanBuf = wcmw->recvBuf;
+    wcmw->scanParam.scanBuf = (WMBssDesc *)wcmw->recvBuf;
     wcmw->scanParam.scanBufSize = 0x400;
     wcmw->scanParam.channelList = (1 << WCMi_GetNextScanChannel(0)) >> 1;
     t = wcmw->maxScanTime;

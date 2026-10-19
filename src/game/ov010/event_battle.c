@@ -136,13 +136,7 @@ struct SaveData;
 struct BattleEndCtx;
 #include "../version.h"
 
-typedef unsigned int u32;
-
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef int s32;
+#include "../types.h"
 
 typedef struct BattleKindHead {
     u32 unused00;
@@ -155,8 +149,6 @@ typedef struct ScriptedBattleArgs {
     u32 returnImmediately;      /* 0x08 */
     u32 effectId;               /* 0x0C */
 } ScriptedBattleArgs;
-
-typedef unsigned long long u64;
 
 typedef struct BattleLocation {
     u32 terrain;        /* 0x00 */
@@ -330,16 +322,12 @@ extern const BattleKindHandler d_021725C0[][2];
 extern u8 d_021725D8[][5];
 extern u8 d_021725B8[];
 
-
 int EVENT_BATTLE_CallAndInvert(void (*fn)(void))
 {
     if (fn != 0)
         fn();
     return ~(u32)fn;
 }
-
-
-
 
 /*
  * Four-state proc that pushes the tutorial capture battleTask (EVENT_BATTLE_ProcBattleTask)
@@ -404,9 +392,6 @@ int EVENT_BATTLE_ProcScriptedBattle(void *event, u32 *state, ScriptedBattleArgs 
     return 0;
 }
 
-
-
-
 /*
  * Allocates a 0x10-byte battleTask record (handler EVENT_BATTLE_ProcScriptedBattle) and fills it
  * from the arguments.
@@ -427,9 +412,6 @@ int EVENT_BATTLE_CreateScriptedBattle(int gameSystem, int battleSrc, int btlSetu
     EFFECT_ENCOUNT_ConsumeSpot(FIELDMAP_GetEncount((struct FieldMap *)battleSrc));
     return (int)taskEvent;
 }
-
-
-
 
 int EVENT_BATTLE_CreateEncounterTask(int gameSystem, int battleSrc, int battleMode, int battleFlags, int battleKind, int fieldEffect, int options)
 {
@@ -459,9 +441,6 @@ int EVENT_BATTLE_CreateEncounterTask(int gameSystem, int battleSrc, int battleMo
     return (int)taskEvent;
 }
 
-
-
-
 int EVENT_BATTLE_CreateResultOnlyTask(int gameSystem, int battleSrc, int btlSetup)
 {
     struct GameEvent *taskEvent;
@@ -477,9 +456,6 @@ int EVENT_BATTLE_CreateResultOnlyTask(int gameSystem, int battleSrc, int btlSetu
     EFFECT_ENCOUNT_ConsumeSpot(FIELDMAP_GetEncount((struct FieldMap *)battleSrc));
     return (int)taskEvent;
 }
-
-
-
 
 int EVENT_BATTLE_CreateForcedWinTask(void *gameSystem, void *battleSrc, void *btlSetup)
 {
@@ -497,9 +473,6 @@ int EVENT_BATTLE_CreateForcedWinTask(void *gameSystem, void *battleSrc, void *bt
     EFFECT_ENCOUNT_ConsumeSpot(FIELDMAP_GetEncount((struct FieldMap *)battleSrc));
     return (int)taskEvent;
 }
-
-
-
 
 /*
  * Set up the scripted catching-tutorial battle (Minccino Lv7 against
@@ -551,9 +524,6 @@ void *EVENT_BATTLE_CreateCatchTutorial(void *gameSystem, void *fieldMap, u32 hea
     return battleTask;
 }
 
-
-
-
 /*
  * Every concrete byte matches; the one wildcard is the bl to 0x02012FD8, an
  * unlabelled 12-byte arm9 Thumb leaf (ldr r0,[r0]; tail call
@@ -595,9 +565,6 @@ void *EVENT_BATTLE_CreateEncounterTaskWithMon(void *gameSystem, u32 battleSrc, u
     }
     return task;
 }
-
-
-
 
 /*
  * lever:    case 1's argument-less `bl FIELDMAP_GetEncEff` takes proc (the
@@ -743,9 +710,6 @@ int EVENT_BATTLE_ProcBattleTask(void *event, u32 *state, BattleTask *work)
     return 0;
 }
 
-
-
-
 /*
  * Mode word out of the overlay call decides between zero, one and two;
  * two of the modes are refused outright.
@@ -765,9 +729,6 @@ int EVENT_BATTLE_GetBattleKindClass(void *battleKind)
     return r;
 }
 
-
-
-
 /*
  * Dispatches through the two-column handler table d_021725C0, row chosen
  * by EVENT_BATTLE_GetBattleKindClass's classification of `id`.
@@ -776,9 +737,6 @@ void EVENT_BATTLE_DispatchBattleKindNotify(u16 id, int col)
 {
     d_021725C0[EVENT_BATTLE_GetBattleKindClass((void *)id)][col](id);
 }
-
-
-
 
 /*
  * Reports the species of the first party member to one of three
@@ -807,9 +765,6 @@ void EVENT_BATTLE_NotifyLeadSpecies(void *btlSetup, int which)
         break;
     }
 }
-
-
-
 
 /*
  * After a battle: unless the outcome is 0 or 2, reports the lead party
@@ -863,9 +818,6 @@ void EVENT_BATTLE_NotifyBattleEnd(BattleEndCtx *ctx)
     }
 }
 
-
-
-
 int EVENT_BATTLE_AddBattleRecord(BattleTask *task)
 {
     BtlSetup *btlSetup = task->btlSetup;
@@ -877,9 +829,6 @@ int EVENT_BATTLE_AddBattleRecord(BattleTask *task)
     return records;
 }
 
-
-
-
 int EVENT_BATTLE_IsResultSilent(int outcome, int mode)
 {
     if (mode == 4)
@@ -888,9 +837,6 @@ int EVENT_BATTLE_IsResultSilent(int outcome, int mode)
         return 1;
     return 0;
 }
-
-
-
 
 /*
  * Unlabelled leaf, blocker of ov021 SCRCMD_PROC_FLD_StoreByteValue: byte table lookup, 0xFF maps to 1.
@@ -910,9 +856,6 @@ u8 EVENT_BATTLE_GetResultFlag(int kindId)
     return flag;
 }
 
-
-
-
 /*
  * note:     2026-10-05 wave P19 lane 6: tiny unlabelled tail-call leaf filed as
  *           the witness for the calls in ov010 EVENT_BATTLE_ProcBattleTask. Reads the info
@@ -923,8 +866,6 @@ int EVENT_BATTLE_IsTaskResultSilent(BattleTask *task)
     BtlSetup *btlSetup = task->btlSetup;
     return EVENT_BATTLE_IsResultSilent(btlSetup->outcome, btlSetup->mode);
 }
-
-
 
 /*
  * WEATHER_StoreZoneWeatherId's body consumes only r0/r1, forwarding those to
@@ -940,8 +881,6 @@ void EVENT_BATTLE_FinishBattleTask(BattleTask *task, void *gameSystem)
     WEATHER_StoreZoneWeatherId((int)task->gameSystem, GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameSystem)));
 }
 
-
-
 void EVENT_BATTLE_InitTaskWork(BattleTask *task, void *gameSystem, void *btlSetup)
 {
     int zero = 0;
@@ -955,9 +894,6 @@ void EVENT_BATTLE_InitTaskWork(BattleTask *task, void *gameSystem, void *btlSetu
     task->addTallies = zero;
 }
 
-
-
-
 int EVENT_BATTLE_FreeBtlSetup(BattleTask *task)
 {
     if (task->keepBtlSetup == 0)
@@ -965,26 +901,17 @@ int EVENT_BATTLE_FreeBtlSetup(BattleTask *task)
     return (int)task;
 }
 
-
-
-
 int EVENT_BATTLE_IntegrityProbeA(int unused)
 {
     GF_STANDARD_Rand();
     return GF_STANDARD_Rand();
 }
 
-
-
-
 int EVENT_BATTLE_IntegrityProbeB(int unused)
 {
     GF_STANDARD_Rand();
     return GF_STANDARD_Rand();
 }
-
-
-
 
 int EVENT_BATTLE_IntegrityDecoyC(int unused)
 {

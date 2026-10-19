@@ -29,8 +29,7 @@
 struct GameSystem;
 struct GameData;
 struct GameEvent;
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../types.h"
 
 /* Handed to the game manual application (ov225); it writes the result. */
 typedef struct GameManualParam {

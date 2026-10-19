@@ -78,13 +78,7 @@ struct Cfg;
 struct WordSet;
 struct WinDat;
 struct BmpMenu;
-typedef unsigned int   u32;
-
-typedef unsigned short u16;
-
-typedef unsigned char u8;
-
-typedef signed int     s32;
+#include "../types.h"
 
 extern int GFL_USE_PopBgm(void);
 extern void GFL_USE_SetBgmPaused(unsigned int value);
@@ -154,7 +148,6 @@ int EGG_DEMO_MENU_CreateDialog(u32 *a, char *p);
 int EGG_DEMO_MENU_GetDialogResult(u32 *a, char *p);
 void EGG_DEMO_MENU_InitGraphics(void);
 extern const u16 d_021F71A4[];
-
 
 void EGG_DEMO_MENU_FadeInBgm(void)
 {
@@ -247,7 +240,6 @@ int EGG_DEMO_MENU_WaitText(void *unused,char *work)
     }
     return result;
 }
-
 
 void EGG_DEMO_MENU_InitDialog(int unused, unsigned char *work)
 {

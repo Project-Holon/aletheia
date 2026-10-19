@@ -31,17 +31,9 @@
  *   OS_LockByWord        0x02084C68  arm
  *   OSi_AllocateCardBus  0x02084E54  arm
  */
-typedef unsigned char u8;
+#include "../types.h"
 
-typedef unsigned long u32;
-
-typedef long s32;
-
-typedef unsigned short u16;
-
-typedef int BOOL;
-
-typedef u32 OSIntrMode;
+#include "../sdk_os.h"
 
 typedef struct OSLockWord {
     volatile u32 lockFlag;
@@ -78,12 +70,6 @@ void OSi_FreeCardBus(void);
 unsigned short OS_ReadOwnerOfLockWord(char *lock);
 asm s32 OS_GetLockID(void);
 asm void OS_ReleaseLockID(u16 lockID);
-
-
-
-
-
-
 
 /*
  * Bit-banged ack protocol over a four-byte register window.  direction == 0
@@ -132,12 +118,6 @@ void OSi_SyncWithOtherProc(int direction, volatile u8 *regs)
     }
 }
 
-
-
-
-
-
-
 /*
  * sdk:      OS_InitLock (os_spinlock.o)
  *
@@ -168,10 +148,6 @@ void OS_InitLock(void)
     OSi_SyncWithOtherProc(1, (void *)(0x02FFFFB0 + 0x40));
 }
 
-
-
-
-
 void OSi_DoLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL disableFIQ)
 {
     if (OSi_DoTryLockByWord(lockID, lockp, ctrlFuncp, disableFIQ) <= 0)
@@ -181,11 +157,6 @@ void OSi_DoLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BO
     } while (OSi_DoTryLockByWord(lockID, lockp, ctrlFuncp, disableFIQ) > 0);
 }
 
-
-
-
-
-
 /*
  * sdk:      OS_LockByWord (os_spinlock.o), the FIQ-disabled wrapper of OSi_DoLockByWord
  */
@@ -193,11 +164,6 @@ int OS_LockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void))
 {
     OSi_DoLockByWord(lockID, lockp, ctrlFuncp, 0);
 }
-
-
-
-
-
 
 /*
  * sdk:      OSi_DoUnlockByWord (os_spinlock.o)
@@ -230,18 +196,10 @@ s32 OSi_DoUnlockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), B
     return 0;
 }
 
-
-
-
-
 s32 OS_UnlockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void))
 {
     return OSi_DoUnlockByWord(lockID, lockp, ctrlFuncp, 0);
 }
-
-
-
-
 
 /*
  * sdk:      OSi_DoTryLockByWord (os_spinlock.o)
@@ -274,16 +232,10 @@ s32 OSi_DoTryLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), 
     return lastLockFlag;
 }
 
-
-
-
 s32 OS_TryLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void))
 {
     return OSi_DoTryLockByWord(lockID, lockp, ctrlFuncp, 0);
 }
-
-
-
 
 /*
  * sdk:      OS_UnlockCartridge (os_spinlock.o); catalogued as OS_LockCartridge, see note
@@ -296,7 +248,6 @@ s32 OS_UnlockCartridge(u16 lockID)
     return OSi_DoUnlockByWord(lockID, (OSLockWord *)0x02FFFFE8, OSi_FreeCartridgeBus, 1);
 }
 
-
 /* hand-written in the original: ldr r1, =target; bx r1 stub, a compiled tail call uses ip */
 asm void OS_UnLockCartridge(int lockID)
 {
@@ -304,13 +255,10 @@ asm void OS_UnLockCartridge(int lockID)
     bx r1
 }
 
-
-
 s32 OS_TryLockCartridge(u16 lockID)
 {
     return OSi_DoTryLockByWord(lockID, (struct OSLockWord *)0x02FFFFE8, OSi_AllocateCartridgeBus, 1);
 }
-
 
 /*
  * note:     os_spinLock.o OSi_AllocateCartridgeBus (EXMEMCNT bit7 -> ARM9).
@@ -323,7 +271,6 @@ void OSi_AllocateCartridgeBus(void)
     *(volatile unsigned short *)0x04000204 = (unsigned short)v;
 }
 
-
 /*
  * note:     os_spinLock.o OSi_FreeCartridgeBus (EXMEMCNT bit7 -> ARM7).
  */
@@ -331,8 +278,6 @@ void OSi_FreeCartridgeBus(void)
 {
     *(volatile unsigned short *)0x04000204 |= 0x80;
 }
-
-
 
 /*
  * note:     os_spinLock.o OS_LockCard; HW_CARD_LOCK_BUF = 0x02FFFFE0.
@@ -342,13 +287,10 @@ int OS_LockCard(unsigned short lockID)
     return OS_LockByWord(lockID, (OSLockWord *)0x02FFFFE0, OSi_AllocateCardBus);
 }
 
-
-
 s32 OS_UnlockCard(u16 lockID)
 {
     return OS_UnlockByWord(lockID, (struct OSLockWord *)0x02FFFFE0, OSi_FreeCardBus);
 }
-
 
 /* hand-written in the original: ldr r1, =target; bx r1 stub, a compiled tail call uses ip */
 asm void OS_UnLockCard(void)
@@ -357,14 +299,10 @@ asm void OS_UnLockCard(void)
     bx	r1
 }
 
-
-
 s32 OS_TryLockCard(u16 lockID)
 {
     return OS_TryLockByWord(lockID, (OSLockWord *)0x02FFFFE0, OSi_AllocateCardBus);
 }
-
-
 
 /*
  * sdk:      OSi_AllocateCardBus (os_spinlock.o)
@@ -377,7 +315,6 @@ void OSi_AllocateCardBus(void)
     *(volatile u16 *)0x04000204 = (u16)(*(volatile u16 *)0x04000204 & ~0x800);
 }
 
-
 /*
  * note:     os_spinLock.o OSi_FreeCardBus (EXMEMCNT bit11 -> ARM7).
  */
@@ -386,13 +323,10 @@ void OSi_FreeCardBus(void)
     *(volatile unsigned short *)0x04000204 |= 0x800;
 }
 
-
 unsigned short OS_ReadOwnerOfLockWord(char *lock)
 {
     return ((OSLockWord *)lock)->ownerID;
 }
-
-
 
 /*
  * sdk:      OS_GetLockID (os_spinlock.o)
@@ -425,8 +359,6 @@ _1:
     str     r2, [r3, #0]
     bx      lr
 }
-
-
 
 /*
  * sdk:      OS_ReleaseLockID (os_spinlock.o)

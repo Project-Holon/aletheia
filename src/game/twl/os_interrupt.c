@@ -17,7 +17,7 @@
  *   data_02150F68                0x02150F68  data
  */
 
-typedef unsigned int u32;
+#include "../types.h"
 
 struct Slot {
     u32 callback;

@@ -24,127 +24,9 @@
  */
 #define FS_COMMAND_INVALID 35
 #define FS_FILE_STATUS_CMD_SHIFT 8
-struct FSFile;
-typedef unsigned char u8;
+#include "../types.h"
 
-typedef unsigned long u32;
-
-typedef long s32;
-
-typedef int BOOL;
-
-typedef enum FSResult {
-    FS_RESULT_SUCCESS = 0,
-    FS_RESULT_FAILURE,
-    FS_RESULT_BUSY,
-    FS_RESULT_CANCELED,
-    FS_RESULT_UNSUPPORTED,
-    FS_RESULT_ERROR,
-    FS_RESULT_INVALID_PARAMETER,
-    FS_RESULT_NO_MORE_RESOURCE,
-    FS_RESULT_ALREADY_DONE,
-    FS_RESULT_PERMISSION_DENIED,
-    FS_RESULT_MEDIA_FATAL,
-    FS_RESULT_NO_ENTRY,
-    FS_RESULT_MEDIA_NOTHING,
-    FS_RESULT_MEDIA_UNKNOWN,
-    FS_RESULT_BAD_FORMAT,
-    FS_RESULT_MAX,
-    FS_RESULT_PROC_ASYNC = 256,
-    FS_RESULT_PROC_DEFAULT,
-    FS_RESULT_PROC_UNKNOWN
-} FSResult;
-
-typedef struct OSThread OSThread;
-
-typedef struct OSThreadQueue
-{
-    OSThread *head;
-    OSThread *tail;
-} OSThreadQueue;
-
-typedef struct FSArchive FSArchive;
-
-typedef struct FSFile
-{
-    struct FSFile *next;
-    void *userdata;
-    FSArchive *arc;
-    u32 stat;
-    void *argument;
-    FSResult error;
-    OSThreadQueue queue[1];
-    u8 prop[16];
-    u8 arg[24];
-} FSFile;
-
-typedef struct FSFileID
-{
-    FSArchive *arc;
-    u32 file_id;
-} FSFileID;
-
-typedef struct FSArgumentForFindPath
-{
-    u32 baseid;
-    const char *path;
-    u32 target_id;
-    BOOL target_is_directory;
-} FSArgumentForFindPath;
-
-typedef struct FSArgumentForOpenFileDirect
-{
-    u32 id;
-    u32 top;
-    u32 bottom;
-    u32 mode;
-} FSArgumentForOpenFileDirect;
-
-typedef struct FSArgumentForOpenFileFast
-{
-    u32 id;
-    u32 mode;
-} FSArgumentForOpenFileFast;
-
-typedef struct FSArgumentForOpenFile
-{
-    u32 baseid;
-    const char *relpath;
-    u32 mode;
-} FSArgumentForOpenFile;
-
-typedef struct FSArgumentForGetFileLength
-{
-    u32 length;
-} FSArgumentForGetFileLength;
-
-typedef struct FSArgumentForGetFilePosition
-{
-    u32 position;
-} FSArgumentForGetFilePosition;
-
-typedef enum FSSeekFileMode {
-    FS_SEEK_SET,
-    FS_SEEK_CUR,
-    FS_SEEK_END
-} FSSeekFileMode;
-
-typedef struct FSArgumentForSeekFile {
-    long offset;
-    FSSeekFileMode from;
-} FSArgumentForSeekFile;
-
-typedef struct FSArgumentForReadFile
-{
-    void *buffer;
-    s32 length;
-} FSArgumentForReadFile;
-
-typedef struct FSArgumentForWriteFile
-{
-    void *buffer;
-    s32 length;
-} FSArgumentForWriteFile;
+#include "../sdk_fs.h"
 
 extern int FSi_DecrementSjisPosition(const char *str, int pos);
 extern int STD_GetStringLength(const char *str);
@@ -171,18 +53,15 @@ BOOL FS_OpenFile(FSFile *file, const char *path);
 u32 FS_GetLength(struct FSFile *file);
 int FS_ChangeDir(const char *path);
 
-
 static inline BOOL FSi_IsSlash(u32 c)
 {
     return (c == '/') || (c == 0x5C);
 }
 
-
 static inline BOOL STD_IsSjisLeadByte(u32 c)
 {
     return ((c ^ 0x20) - 0xA1) < 0x3C;
 }
-
 
 /*
  * sdk:      FSi_DecrementSjisPosition (libfs.TWL.HYB.a fs_file.o)
@@ -198,8 +77,6 @@ int FSi_DecrementSjisPosition(const char *str, int pos)
     return pos - 1 - ((pos - 1 - prev) & 1);
 }
 
-
-
 int FSi_IncrementSjisPositionToSlash(const char *str, int pos)
 {
     while ((str[pos] != '\0') && !FSi_IsSlash((u8)str[pos])) {
@@ -207,8 +84,6 @@ int FSi_IncrementSjisPositionToSlash(const char *str, int pos)
     }
     return pos;
 }
-
-
 
 /*
  * sdk:      FSi_DecrementSjisPositionToSlash (libfs.TWL.HYB.a fs_file.o)
@@ -226,8 +101,6 @@ int FSi_DecrementSjisPositionToSlash(const char *str, int pos)
     return pos;
 }
 
-
-
 /*
  * sdk:      FSi_TrimSjisTrailingSlash (libfs.TWL.HYB.a fs_file.o)
  */
@@ -244,8 +117,6 @@ int FSi_TrimSjisTrailingSlash(char *str)
     return length;
 }
 
-
-
 void FS_InitFile(FSFile *file)
 {
     file->arc = 0;
@@ -257,8 +128,6 @@ void FS_InitFile(FSFile *file)
     file->argument = 0;
     file->error = FS_RESULT_SUCCESS;
 }
-
-
 
 /*
  * sdk:      FS_ConvertPathToFileID (libfs.TWL.HYB.a fs_file.o)
@@ -278,7 +147,7 @@ BOOL FS_ConvertPathToFileID(FSFileID *p_fileid, const char *path)
         file->arc = arc;
         file->argument = arg;
         arg->baseid = baseid;
-        arg->path = relpath;
+        arg->relpath = relpath;
         arg->target_is_directory = 0;
         if (FSi_SendCommand(file, 4, 1))
         {
@@ -289,8 +158,6 @@ BOOL FS_ConvertPathToFileID(FSFileID *p_fileid, const char *path)
     }
     return retval;
 }
-
-
 
 /*
  * sdk:      FS_OpenFileDirect (libfs.TWL.HYB.a fs_file.o)
@@ -309,8 +176,6 @@ BOOL FS_OpenFileDirect(FSFile *file, FSArchive *arc, u32 image_top, u32 image_bo
     retval = FSi_SendCommand(file, 7, 1);
     return retval;
 }
-
-
 
 /*
  * sdk:      FS_OpenFileFast (libfs.TWL.HYB.a fs_file.o)
@@ -331,8 +196,6 @@ BOOL FS_OpenFileFast(FSFile *file, FSFileID id)
     }
     return retval;
 }
-
-
 
 /*
  * sdk:      FS_OpenFileEx (libfs.TWL.HYB.a fs_file.o)
@@ -365,14 +228,10 @@ BOOL FS_OpenFileEx(FSFile *file, const char *path, u32 mode)
     return retval;
 }
 
-
-
 BOOL FS_CloseFile(FSFile *file)
 {
     return FSi_SendCommand(file, 8, 1);
 }
-
-
 
 /*
  * sdk:      FS_GetFileLength (libfs.TWL.HYB.a fs_file.o)
@@ -394,8 +253,6 @@ u32 FS_GetFileLength(FSFile *file)
     return retval;
 }
 
-
-
 /*
  * sdk:      FS_GetFilePosition (libfs.TWL.HYB.a fs_file.o)
  */
@@ -416,8 +273,6 @@ u32 FS_GetFilePosition(FSFile *file)
     return retval;
 }
 
-
-
 /*
  * sdk:      FS_SeekFile (fs_file.o)
  */
@@ -432,8 +287,6 @@ int FS_SeekFile(FSFile *file, long offset, FSSeekFileMode origin)
     retval = FSi_SendCommand(file, 14, 1);
     return retval;
 }
-
-
 
 /*
  * sdk:      FS_ReadFile (libfs.TWL.HYB.a fs_file.o)
@@ -460,8 +313,6 @@ s32 FS_ReadFile(FSFile *file, void *buffer, s32 length)
     return length;
 }
 
-
-
 /*
  * sdk:      FS_WriteFile (libfs.TWL.HYB.a fs_file.o)
  */
@@ -487,14 +338,12 @@ s32 FS_WriteFile(FSFile *file, void *buffer, s32 length)
     return length;
 }
 
-
 BOOL FS_OpenFile(FSFile *file, const char *path)
 {
     return FS_OpenFileEx(file, path, 1);
 }
 
 u32 FS_GetLength(struct FSFile *file){ return FS_GetFileLength(file); }
-
 
 int FS_ChangeDir(const char *path)
 {

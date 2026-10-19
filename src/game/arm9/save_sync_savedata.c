@@ -18,7 +18,7 @@
  *   MIi_CpuCopy32 0x02082A90  arm
  *   OS_GetMacAddress 0x02087C6C  arm
  */
-#include "misc_savedata_shared_types.h"
+#include "../types.h"
 #include "greeting_savedata_shared_types.h"
 
 extern void MI_CpuFill8(void *dst, unsigned char val, unsigned long size);

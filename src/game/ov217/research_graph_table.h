@@ -1,7 +1,7 @@
 #ifndef RESEARCH_GRAPH_TABLE_H
 #define RESEARCH_GRAPH_TABLE_H
 
-#include "research_types.h"
+#include "../types.h"
 
 /* One entry of a graph group: an identifier and a colour, 12 bytes. */
 struct GraphTableEntry {

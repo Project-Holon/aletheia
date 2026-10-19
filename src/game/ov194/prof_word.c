@@ -28,15 +28,7 @@
  */
 typedef struct { unsigned data[7], size[7]; } Resources;
 
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef signed short   s16;
-
-typedef signed char    s8;
+#include "../types.h"
 
 extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, unsigned short);
 extern int ARC_UTIL_LoadMemberWithSize(int archiveID, int memberIdx, int decompress, unsigned short heapID, unsigned int *out);
@@ -51,7 +43,6 @@ int PROF_WORD_CompareChunks(const u16 *a, u32 b, u32 c, const u16 *d, u32 n);
 int PROF_WORD_MatchWord(const u16 *a,const u16 *b);
 int PROF_WORD_CheckDigitCount(void *src, int n, int unused);
 extern const char d_021F57B8[];
-
 
 /*
  * Match levers: u16 heap, counter declared first, zero set before size-base
@@ -73,8 +64,6 @@ Resources *PROF_WORD_Create(unsigned short heap)
     return p;
 }
 
-
-
 /*
  * Addresses are Black-image addresses.
  */
@@ -87,7 +76,6 @@ void PROF_WORD_Delete(u8 *p)
     }
     GFL_HEAP_Free((void *)((u32)p));
 }
-
 
 int PROF_WORD_FindMatch(const u32 *cache,const void *input,u16 heap)
 {
@@ -116,7 +104,6 @@ int PROF_WORD_FindMatch(const u32 *cache,const void *input,u16 heap)
     return result;
 }
 
-
 int PROF_WORD_CompareChunks(const u16 *a, u32 b, u32 c, const u16 *d, u32 n)
 {
     int r;
@@ -129,9 +116,7 @@ int PROF_WORD_CompareChunks(const u16 *a, u32 b, u32 c, const u16 *d, u32 n)
     return r;
 }
 
-
 int PROF_WORD_MatchWord(const u16 *a,const u16 *b) {int i;for(i=0;i<32;i++){if(a[i]!=b[i])return 0;if(a[i]==STRBUF_GetEosChar() && b[i]==STRBUF_GetEosChar())return 1;}return 0;}
-
 
 int PROF_WORD_CheckDigitCount(void *src, int n, int unused)
 {

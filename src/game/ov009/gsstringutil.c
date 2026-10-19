@@ -20,9 +20,7 @@
  *   memcpy  0x02092344  arm
  *   gGsUdpEngineContext  0x021AD188  data
  */
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
+#include "../types.h"
 
 extern int strlen(const u8 *s);
 extern void *gsimalloc(unsigned long size);
@@ -36,7 +34,6 @@ int UTF8ToUCS2StringLen2(const unsigned char *src, int size, u16 *out, int max);
 int gsiSafeStrcpyA(char *dst, const char *src, unsigned int n);
 void *gsUdpEngineContext(void);
 extern char gGsUdpEngineContext[];
-
 
 /*
  * sdk:      _ReadUCS2CharFromUTF8String (gsstringutil.o)
@@ -77,7 +74,6 @@ int _ReadUCS2CharFromUTF8String(char *theUTF8String, int theMaxBytes, unsigned s
     return 1;
 }
 
-
 /*
  * sdk:      _UCS2CharToUTF8String (gsstringutil.o)
  */
@@ -97,7 +93,6 @@ int _UCS2CharToUTF8String(unsigned short theUCS2Char, char *theUTF8String)
     theUTF8String[2] = (char)(0x80 | (theUCS2Char & 0x3f));
     return 3;
 }
-
 
 /*
  * Count the characters of a null-terminated string, consuming at most `n`
@@ -131,8 +126,6 @@ int _UTF8ToUCS2ConversionLengthOnly(const char *s, int n)
     return count;
 }
 
-
-
 /*
  * sdk:      UTF8ToUCS2StringAlloc (gsstringutil.o)
  */
@@ -142,8 +135,6 @@ unsigned short *UTF8ToUCS2StringAlloc(char *theUTF8String)
         return 0;
     return UTF8ToUCS2StringAllocLen(theUTF8String, strlen((const u8 *)theUTF8String));
 }
-
-
 
 /*
  * sdk:      UTF8ToUCS2StringAllocLen (gsstringutil.o)
@@ -160,8 +151,6 @@ unsigned short *UTF8ToUCS2StringAllocLen(char *theUTF8String, int theUTF8StringL
     UTF8ToUCS2StringLen2((const unsigned char *)theUTF8String, theUTF8StringLength, aUCS2String, newLength);
     return aUCS2String;
 }
-
-
 
 /*
  * Transcode the null-terminated text at `src` into 16-bit units at `out`,
@@ -196,8 +185,6 @@ int UTF8ToUCS2StringLen2(const unsigned char *src, int size, u16 *out, int max)
     return n + 1;
 }
 
-
-
 /*
  * Bounded copy helper used by gpiProcessSearch: measure src with the ARM9
  * length helper, clamp to n-1, copy, NUL-terminate, return the byte count.
@@ -213,7 +200,6 @@ int gsiSafeStrcpyA(char *dst, const char *src, unsigned int n)
     dst[len] = 0;
     return len;
 }
-
 
 void *gsUdpEngineContext(void)
 {

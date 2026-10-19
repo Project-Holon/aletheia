@@ -3,10 +3,7 @@
 
 #include "btlv_effvm_types.h"
 
-#ifndef BTLV_U64_DEFINED
-#define BTLV_U64_DEFINED
-typedef unsigned long long u64;
-#endif
+#include "../types.h"
 
 struct ClactActor;
 

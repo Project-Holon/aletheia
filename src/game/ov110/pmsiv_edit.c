@@ -183,10 +183,7 @@ struct PmsivEdit {
     int frameDirty;
 };
 
-typedef volatile unsigned short vu16;
-
-
-typedef volatile unsigned short vu16;
+#include "../types.h"
 
 struct WinMgr;
 

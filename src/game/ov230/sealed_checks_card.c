@@ -27,13 +27,7 @@
  *   OV230_ReadCardBytes  0x02188EB4  arm  ov230d
  *   OV230_Crc32  0x02189004  arm  ov230d
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef int s32;
-typedef volatile u8 vu8;
-typedef volatile u16 vu16;
-typedef volatile u32 vu32;
+#include "../types.h"
 
 #pragma opt_propagation off
 

@@ -6,10 +6,7 @@
  * Field offsets checked against every view the parts used.
  */
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned long u32;
-typedef unsigned long long u64;
+#include "../types.h"
 
 typedef struct DWCstAccLoginId {
     u32 w0;

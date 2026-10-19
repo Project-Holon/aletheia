@@ -36,42 +36,9 @@
  */
 #include "../../matched/arm9_sdk/libc/memcmp/string.h"
 
-typedef unsigned char u8;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef unsigned long u32;
-
-typedef struct {
-    u16 length;
-    u16 rssi;
-    u8 bssid[6];
-    u16 ssidLength;
-    u8 ssid[32];
-    u16 capaInfo;
-    u8 rateSet[4];
-    u16 beaconPeriod;
-    u16 dtimPeriod;
-    u16 channel;
-    u16 cfpPeriod;
-    u16 cfpMaxDuration;
-    u16 gameInfoLength;
-    u16 otherElementCount;
-    u8 gameInfo[0x80];
-} WMBssDesc;
-
-typedef struct {
-    u16 apiid;
-    u16 errcode;
-    u16 wlCmdID;
-    u16 wlResult;
-    u16 state;
-    u16 channelList;
-    u8 reserved[2];
-    u16 bssDescCount;
-    WMBssDesc *bssDesc[16];
-    u16 linkLevel[16];
-} WMStartScanExCallback;
+#include "../sdk_wm.h"
 
 typedef struct {
 	unsigned char ssid[32];
@@ -111,21 +78,13 @@ typedef struct {
     u8 *body;
 } WMOtherElement;
 
-typedef struct {
-    u8 count;
-    u8 rsv[3];
-    WMOtherElement element[16];
-} WMOtherElements;
-
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 extern unsigned short WM_GetAllowedChannel(void);
 extern void DWCi_HEAPlFree_(void **mem);
 extern void MIi_CpuClear16(unsigned short data, void *destp, unsigned long size);
 extern int WM_Initialize(void *wmSysBuf, void (*callback)(void *), unsigned short dmaNo);
-struct WMStatus;
 extern int WM_ReadStatus(struct WMStatus *statusBuf);
 extern unsigned short WM_GetDispersionScanPeriod(void);
-struct WMScanExParam;
 extern int WM_StartScanEx(void (*callback)(void *), struct WMScanExParam *param);
 extern int WM_Reset(void (*callback)(void *));
 extern int WM_End(void (*callback)(void *));
@@ -145,7 +104,6 @@ extern SCANPRM sSearchScanParam;
 extern unsigned char sSearchZeroBssid[6];
 extern u8 sSearchBeaconTag[4];
 
-
 /*
  * sdk:      DWCi_SEARCHlInit (libdwcutil.TWL.HYB.a(search.o))
  */
@@ -158,7 +116,6 @@ void DWCi_SEARCHlInit(void)
 	if (gSearchWork == 0)
 		gSearchWork = (tagMEMSEARCH *)DWCi_HEAPlAllocEx(0x1e60, 0x20);
 }
-
 
 /*
  * sdk:      DWCi_SEARCHlEnd (libdwcutil.TWL.HYB.a(search.o))
@@ -174,7 +131,6 @@ void DWCi_SEARCHlEnd(void)
 		DWCi_HEAPlFree_((void **)&gMemSearch);
 	}
 }
-
 
 /*
  * sdk:      DWCi_SEARCHlBegin (libdwcutil.TWL.HYB.a(search.o))
@@ -196,7 +152,6 @@ int DWCi_SEARCHlBegin(void)
 	return startScan() != 0;
 }
 
-
 /*
  * sdk:      startScan (libdwcutil.TWL.HYB.a(search.o))
  */
@@ -204,7 +159,6 @@ static int startScan(void)
 {
 	return WM_StartScanEx(callback, (struct WMScanExParam *)(&gSearchWork->scan)) == 2;
 }
-
 
 /*
  * sdk:      DWCi_SEARCHlStop (libdwcutil.TWL.HYB.a(search.o))
@@ -229,7 +183,6 @@ int DWCi_SEARCHlStop(void)
 	return 1;
 }
 
-
 /*
  * sdk:      DWCi_SEARCHlGetApInfo (libdwcutil.TWL.HYB.a(search.o))
  */
@@ -248,7 +201,6 @@ int DWCi_SEARCHlGetApInfo(tagAPINFO **info)
 	}
 	return num;
 }
-
 
 /*
  * sdk:      callback (libdwcutil.TWL.HYB.a(search.o))
@@ -272,7 +224,6 @@ static void callback(void *arg)
 		break;
 	}
 }
-
 
 /*
  * sdk:      renewInfo (libdwcutil.TWL.HYB.a(search.o))

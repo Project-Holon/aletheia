@@ -55,36 +55,11 @@
  * allows.
  */
 
-typedef unsigned int u32;
+#include "../types.h"
 
-typedef struct OSThread {
-    char pad0[0x6c];
-    int id;
-    char pad70[0x50];
-} OSThread;
+#include "../sdk_os.h"
 
-typedef struct OSThreadInfo {
-    unsigned short isNeedRescheduling;
-    unsigned short irqDepth;
-    OSThread *current;
-} OSThreadInfo;
-
-typedef struct DWCHttpBuffer {
-    char *buffer;
-    char *write_index;
-    char *buffer_tail;
-    unsigned long length;
-} DWCHttpBuffer;
-
-typedef struct DWCHttpParam {
-    char *url;
-    int action;
-    unsigned long len_recvbuf;
-    void *(*alloc)(unsigned long name, long size);
-    void (*free)(unsigned long name, void *ptr, long size);
-    int ignoreca;
-    int timeout;
-} DWCHttpParam;
+#include "../sdk_dwc.h"
 
 typedef struct CPSSslConnection {
     char pad0[0x800];
@@ -99,11 +74,6 @@ typedef struct CPSSoc {
     CPSSslConnection *con;
     char pad10[0x90];
 } CPSSoc;
-
-typedef struct DWCHttpLabelValue {
-    char *label;
-    char *value;
-} DWCHttpLabelValue;
 
 typedef struct DWCHttp {
     unsigned char stack[0x1000];
@@ -133,28 +103,6 @@ typedef struct DWCHttp {
     int abort;
 } DWCHttp;
 
-typedef struct DWCCalInfo {
-    char userid[14];
-    char passwd[7];
-    char gamecd[5];
-    char makercd[3];
-    char unitcd[2];
-    char macadr[13];
-    char lang[3];
-    char birth[5];
-    char devtime[13];
-    char bssid[13];
-    char ssid[33];
-    char apinfo[14];
-    unsigned short devname[11];
-} DWCCalInfo;
-
-typedef struct DWCSvlResult {
-    int status;
-    char svlhost[65];
-    char svltoken[301];
-} DWCSvlResult;
-
 typedef void *(*DWCSvlAlloc)(unsigned long name, long size);
 typedef void (*DWCSvlFree)(unsigned long name, void *ptr, long size);
 
@@ -164,10 +112,6 @@ typedef struct DWCSvlIntWorkarea {
     DWCHttp http;
     DWCSvlResult *result;
 } DWCSvlIntWorkarea;
-
-typedef struct DWCAuthHttpParam {
-    char *url;
-} DWCAuthHttpParam;
 
 extern void DWCi_SetError(int error, int errorCode);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);

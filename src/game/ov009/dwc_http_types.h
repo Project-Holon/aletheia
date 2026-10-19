@@ -9,14 +9,6 @@
 /* Parameter block handed to DWC_Http_Create (gDwcHttpParamArg and its sibling
  * gDwcHttpParamArg). Field offsets: url 0x00, action 0x04, len_recvbuf 0x08,
  * alloc 0x0c, free 0x10, ignoreca 0x14, timeout 0x18. */
-typedef struct DWCHttpParam {
-    char *url;
-    int action;
-    unsigned long len_recvbuf;
-    void *(*alloc)(unsigned long name, long size);
-    void (*free)(unsigned long name, void *ptr, long size);
-    int ignoreca;
-    int timeout;
-} DWCHttpParam;
+#include "../sdk_dwc.h"
 
 #endif

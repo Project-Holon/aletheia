@@ -78,7 +78,7 @@
  */
 #include "field_player_nogrid_types.h"
 
-typedef signed int s32;
+#include "../types.h"
 
 /* Heap, sound and memory helpers. */
 extern u32 GFL_HEAP_Free(void *block);
@@ -252,7 +252,6 @@ extern u16  d_021DDEE0b[2];            /* second symbol at the same address (the
 extern const NogridForcedMoveFunc gFieldPlayerNogridForcedMoveFuncs[];  /* forced move handlers, indexed by tile kind */
 extern const u8 gFieldPlayerNogridSpinDirs[][4];       /* spin tile direction sequences */
 
-
 /* Creates the controller for the player core and attaches the player's field model. */
 FieldPlayerNogrid *FIELD_PLAYER_NOGRID_Create(struct FieldPlayerCore *core, int heapId)
 {
@@ -288,12 +287,10 @@ FieldPlayerNogrid *FIELD_PLAYER_NOGRID_Create(struct FieldPlayerCore *core, int 
     return player;
 }
 
-
 void FIELD_PLAYER_NOGRID_Delete(FieldPlayerNogrid *player)
 {
     GFL_HEAP_Free(player);
 }
-
 
 /* Attaches the model again after its header changed and stores its rail location. */
 void FIELD_PLAYER_NOGRID_AttachMmdl(FieldPlayerNogrid *player, RailLocation *location)
@@ -306,12 +303,10 @@ void FIELD_PLAYER_NOGRID_AttachMmdl(FieldPlayerNogrid *player, RailLocation *loc
     FLDMMDL_RAIL_SetLocation(player->mmdl, location);
 }
 
-
 void FIELD_PLAYER_NOGRID_ClearRailWork(FieldPlayerNogrid *player)
 {
     player->railWork = 0;
 }
-
 
 /* One frame: keys to direction, forced move, check, execute, bookkeeping. */
 void FIELD_PLAYER_NOGRID_Update(FieldPlayerNogrid *player, u32 keyTrg, u32 keyCont)
@@ -331,7 +326,6 @@ void FIELD_PLAYER_NOGRID_Update(FieldPlayerNogrid *player, u32 keyTrg, u32 keyCo
     FIELD_PLAYER_NOGRID_EndInputHoldFrame(&player->inputHold);
 }
 
-
 int FIELD_PLAYER_NOGRID_IsBlocked(FieldPlayerNogrid *player)
 {
     if (player->moveMode == FIELD_PLAYER_NOGRID_MODE_BLOCKED) {
@@ -339,7 +333,6 @@ int FIELD_PLAYER_NOGRID_IsBlocked(FieldPlayerNogrid *player)
     }
     return 0;
 }
-
 
 u32 FIELD_PLAYER_NOGRID_IsForcedMove(FieldPlayerNogrid *player)
 {
@@ -350,36 +343,30 @@ u32 FIELD_PLAYER_NOGRID_IsForcedMove(FieldPlayerNogrid *player)
     return result;
 }
 
-
 void FIELD_PLAYER_NOGRID_SetRailLocation(FieldPlayerNogrid *player, RailLocation *location)
 {
     FLDMMDL_RAIL_SetLocation(player->mmdl, location);
 }
-
 
 void FIELD_PLAYER_NOGRID_GetNextRailLocation(FieldPlayerNogrid *player, RailLocation *outLocation)
 {
     FLDMMDL_RAIL_GetNextLocation(player->mmdl, outLocation);
 }
 
-
 int FIELD_PLAYER_NOGRID_GetRailLocationByDir(FieldPlayerNogrid *player, u32 dir, RailLocation *outLocation)
 {
     return FLDMMDL_RAIL_GetLocationByDir(player->mmdl, dir, outLocation);
 }
-
 
 void FIELD_PLAYER_NOGRID_GetRailPos(FieldPlayerNogrid *player, void *outPos)
 {
     FIELD_RAIL_WORK_GetPos(player->railWork, outPos);
 }
 
-
 struct RailWork *FIELD_PLAYER_NOGRID_GetRailWork(FieldPlayerNogrid *player)
 {
     return player->railWork;
 }
-
 
 /* Ends a blocked walk: frees the command, restores the facing direction. */
 void FIELD_PLAYER_NOGRID_EndBlockedWalk(FieldPlayerNogrid *player)
@@ -396,7 +383,6 @@ void FIELD_PLAYER_NOGRID_EndBlockedWalk(FieldPlayerNogrid *player)
         FIELD_PLAYER_CORE_SetStepKind(player->core, 0);
     }
 }
-
 
 /* Picks the check function of the core's movement kind. */
 int FIELD_PLAYER_NOGRID_CheckAction(FieldPlayerNogrid *player, u32 dir, u32 keyTrg, u32 keyCont, u32 forced)
@@ -418,7 +404,6 @@ int FIELD_PLAYER_NOGRID_CheckAction(FieldPlayerNogrid *player, u32 dir, u32 keyT
     return action;
 }
 
-
 /* Picks the start function of the core's movement kind. */
 void FIELD_PLAYER_NOGRID_StartAction(FieldPlayerNogrid *player, u32 action, u32 dir, u32 keyTrg, u32 keyCont, u32 forced)
 {
@@ -436,7 +421,6 @@ void FIELD_PLAYER_NOGRID_StartAction(FieldPlayerNogrid *player, u32 action, u32 
     }
 }
 
-
 void FIELD_PLAYER_NOGRID_UpdateFlagsAfterCheck(FieldPlayerNogrid *player, u32 keyCont, int action)
 {
     FIELD_PLAYER_CORE_RememberKeyDirs(player->core, keyCont);
@@ -445,13 +429,11 @@ void FIELD_PLAYER_NOGRID_UpdateFlagsAfterCheck(FieldPlayerNogrid *player, u32 ke
         FIELD_PLAYER_NOGRID_ClearForcedMoveEnded(player);
 }
 
-
 /* Returns the hit bits of the tile next to the model in a direction. */
 int FIELD_PLAYER_NOGRID_GetHitBits(FieldPlayerNogrid *player, Mmdl *mmdl, u32 dir, int *outAttr)
 {
     return FLDMMDL_RAIL_GetHitBitsDir(mmdl, dir, (u32 *)outAttr);
 }
-
 
 /* Starts or stops the spin tile animation by the spin flags, then steps it. */
 void FIELD_PLAYER_NOGRID_UpdateSpin(FieldPlayerNogrid *player)
@@ -465,7 +447,6 @@ void FIELD_PLAYER_NOGRID_UpdateSpin(FieldPlayerNogrid *player)
     }
     FIELD_PLAYER_NOGRID_AdvanceSpin(&player->spin, player->mmdl);
 }
-
 
 void FIELD_PLAYER_NOGRID_StartActionWalk(FieldPlayerNogrid *player, u32 action, u32 keyTrg, u32 keyCont, u16 dir, u32 forced)
 {
@@ -493,7 +474,6 @@ void FIELD_PLAYER_NOGRID_StartActionWalk(FieldPlayerNogrid *player, u32 action, 
     }
 }
 
-
 /* Check for the walk kind: by the running mode. */
 int FIELD_PLAYER_NOGRID_CheckActionWalk(FieldPlayerNogrid *player, u32 keyTrg, u32 keyCont, u16 dir, u32 forced)
 {
@@ -518,7 +498,6 @@ int FIELD_PLAYER_NOGRID_CheckActionWalk(FieldPlayerNogrid *player, u32 keyTrg, u
     return action;
 }
 
-
 /* Walk kind, model standing: stand, turn first, or check the step. */
 int FIELD_PLAYER_NOGRID_CheckWalkFromStand(FieldPlayerNogrid *player, Mmdl *mmdl, u32 keyTrg, u32 keyCont, u16 dir, u32 forced)
 {
@@ -533,7 +512,6 @@ int FIELD_PLAYER_NOGRID_CheckWalkFromStand(FieldPlayerNogrid *player, Mmdl *mmdl
     }
     return FIELD_PLAYER_NOGRID_ACTION_NONE;
 }
-
 
 /* Walk kind, step check: walk, bump into a wall or jump a ledge by the hit bits of the next tile. */
 int FIELD_PLAYER_NOGRID_CheckWalkStep(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
@@ -579,7 +557,6 @@ int FIELD_PLAYER_NOGRID_CheckWalkStep(FieldPlayerNogrid *player, Mmdl *mmdl, int
     return FIELD_PLAYER_NOGRID_ACTION_BLOCKED;
 }
 
-
 /* Walk kind, model turning. */
 int FIELD_PLAYER_NOGRID_CheckWalkFromTurn(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
@@ -591,7 +568,6 @@ int FIELD_PLAYER_NOGRID_CheckWalkFromTurn(FieldPlayerNogrid *player, Mmdl *mmdl,
     }
     return FIELD_PLAYER_NOGRID_CheckWalkStep(player, mmdl, keyTrg, keyCont, dir, forced);
 }
-
 
 /* Walk kind, model walking into a wall: a new direction frees the command first. */
 int FIELD_PLAYER_NOGRID_CheckWalkFromBlocked(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
@@ -610,12 +586,10 @@ int FIELD_PLAYER_NOGRID_CheckWalkFromBlocked(FieldPlayerNogrid *player, Mmdl *mm
     return FIELD_PLAYER_NOGRID_CheckWalkStep(player, mmdl, keyTrg, keyCont, dir, forced);
 }
 
-
 /* Walk kind, no action. */
 void FIELD_PLAYER_NOGRID_StartWalkNone(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, int dir, int forced)
 {
 }
-
 
 /* Walk kind, stand: face the direction (the model's own one when no key). */
 void FIELD_PLAYER_NOGRID_StartWalkStand(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
@@ -627,7 +601,6 @@ void FIELD_PLAYER_NOGRID_StartWalkStand(FieldPlayerNogrid *player, Mmdl *mmdl, i
     player->moveMode = FIELD_PLAYER_NOGRID_MODE_STAND;
     FIELD_PLAYER_CORE_SetStepKind(player->core, 0);
 }
-
 
 /* Walk kind, step: forced step, run (B held) or walk. */
 void FIELD_PLAYER_NOGRID_StartWalkStep(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
@@ -645,14 +618,12 @@ void FIELD_PLAYER_NOGRID_StartWalkStep(FieldPlayerNogrid *player, Mmdl *mmdl, in
     FIELD_PLAYER_CORE_SetStepKind(player->core, 1);
 }
 
-
 void FIELD_PLAYER_NOGRID_StartWalkTurn(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
     FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(dir, 0x28));
     player->moveMode = FIELD_PLAYER_NOGRID_MODE_TURN;
     FIELD_PLAYER_CORE_SetStepKind(player->core, 2);
 }
-
 
 /* Walk kind, blocked: bump animation; the bump sound plays when the map has no connection there. */
 void FIELD_PLAYER_NOGRID_StartWalkBlocked(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
@@ -665,14 +636,12 @@ void FIELD_PLAYER_NOGRID_StartWalkBlocked(FieldPlayerNogrid *player, Mmdl *mmdl,
     }
 }
 
-
 void FIELD_PLAYER_NOGRID_StartWalkLedgeJump(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
     FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(dir, 0x38));
     player->moveMode = FIELD_PLAYER_NOGRID_MODE_WALK;
     FIELD_PLAYER_CORE_SetStepKind(player->core, 1);
 }
-
 
 void FIELD_PLAYER_NOGRID_StartActionSlow(FieldPlayerNogrid *player, u32 action, u32 keyTrg, u32 keyCont, u16 dir, u32 forced)
 {
@@ -686,7 +655,6 @@ void FIELD_PLAYER_NOGRID_StartActionSlow(FieldPlayerNogrid *player, u32 action, 
     case 5: FIELD_PLAYER_NOGRID_StartSlowLedgeJump(player, mmdl, keyTrg, keyCont, dir, forced); break;
     }
 }
-
 
 int FIELD_PLAYER_NOGRID_CheckActionSlow(FieldPlayerNogrid *player, int keyTrg, int keyCont, u16 dir, int forced)
 {
@@ -702,7 +670,6 @@ int FIELD_PLAYER_NOGRID_CheckActionSlow(FieldPlayerNogrid *player, int keyTrg, i
     return action;
 }
 
-
 /* Slow kind, same checks as the walk kind. */
 int FIELD_PLAYER_NOGRID_CheckSlowFromStand(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
@@ -717,7 +684,6 @@ int FIELD_PLAYER_NOGRID_CheckSlowFromStand(FieldPlayerNogrid *player, Mmdl *mmdl
     }
     return FIELD_PLAYER_NOGRID_ACTION_NONE;
 }
-
 
 int FIELD_PLAYER_NOGRID_CheckSlowStep(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
@@ -762,7 +728,6 @@ int FIELD_PLAYER_NOGRID_CheckSlowStep(FieldPlayerNogrid *player, Mmdl *mmdl, int
     return FIELD_PLAYER_NOGRID_ACTION_BLOCKED;
 }
 
-
 int FIELD_PLAYER_NOGRID_CheckSlowFromTurn(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
     if (FLDMMDL_CheckPossibleAcmd(mmdl) == 0) {
@@ -773,7 +738,6 @@ int FIELD_PLAYER_NOGRID_CheckSlowFromTurn(FieldPlayerNogrid *player, Mmdl *mmdl,
     }
     return FIELD_PLAYER_NOGRID_CheckSlowStep(player, mmdl, keyTrg, keyCont, dir, forced);
 }
-
 
 int FIELD_PLAYER_NOGRID_CheckSlowFromBlocked(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
@@ -791,12 +755,10 @@ int FIELD_PLAYER_NOGRID_CheckSlowFromBlocked(FieldPlayerNogrid *player, Mmdl *mm
     return FIELD_PLAYER_NOGRID_CheckSlowStep(player, mmdl, keyTrg, keyCont, dir, forced);
 }
 
-
 /* Slow kind, no action. */
 void FIELD_PLAYER_NOGRID_StartSlowNone(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, int dir, int forced)
 {
 }
-
 
 void FIELD_PLAYER_NOGRID_StartSlowStand(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
@@ -808,7 +770,6 @@ void FIELD_PLAYER_NOGRID_StartSlowStand(FieldPlayerNogrid *player, Mmdl *mmdl, i
     FIELD_PLAYER_CORE_SetStepKind(player->core, 0);
 }
 
-
 void FIELD_PLAYER_NOGRID_StartSlowStep(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
     FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(dir, 0x14));
@@ -816,14 +777,12 @@ void FIELD_PLAYER_NOGRID_StartSlowStep(FieldPlayerNogrid *player, Mmdl *mmdl, in
     FIELD_PLAYER_CORE_SetStepKind(player->core, 1);
 }
 
-
 void FIELD_PLAYER_NOGRID_StartSlowTurn(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
     FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(dir, 0x28));
     player->moveMode = FIELD_PLAYER_NOGRID_MODE_TURN;
     FIELD_PLAYER_CORE_SetStepKind(player->core, 2);
 }
-
 
 void FIELD_PLAYER_NOGRID_StartSlowBlocked(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
@@ -835,14 +794,12 @@ void FIELD_PLAYER_NOGRID_StartSlowBlocked(FieldPlayerNogrid *player, Mmdl *mmdl,
     }
 }
 
-
 void FIELD_PLAYER_NOGRID_StartSlowLedgeJump(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
     FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(dir, 0x38));
     player->moveMode = FIELD_PLAYER_NOGRID_MODE_WALK;
     FIELD_PLAYER_CORE_SetStepKind(player->core, 1);
 }
-
 
 void FIELD_PLAYER_NOGRID_StartActionRail(FieldPlayerNogrid *player, int action, int keyTrg, int keyCont, u16 dir, int forced)
 {
@@ -856,12 +813,10 @@ void FIELD_PLAYER_NOGRID_StartActionRail(FieldPlayerNogrid *player, int action, 
     }
 }
 
-
 /* Rail kind, no action. */
 void FIELD_PLAYER_NOGRID_StartRailNone(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, int dir, int forced)
 {
 }
-
 
 void FIELD_PLAYER_NOGRID_StartRailStand(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
@@ -873,7 +828,6 @@ void FIELD_PLAYER_NOGRID_StartRailStand(FieldPlayerNogrid *player, Mmdl *mmdl, i
     FIELD_PLAYER_CORE_SetStepKind(player->core, 0);
 }
 
-
 void FIELD_PLAYER_NOGRID_StartRailStep(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
     FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(dir, (forced == 1) ? 0x14 : 0x10));
@@ -881,14 +835,12 @@ void FIELD_PLAYER_NOGRID_StartRailStep(FieldPlayerNogrid *player, Mmdl *mmdl, in
     FIELD_PLAYER_CORE_SetStepKind(player->core, 1);
 }
 
-
 void FIELD_PLAYER_NOGRID_StartRailTurn(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
     FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(dir, 0x28));
     player->moveMode = FIELD_PLAYER_NOGRID_MODE_TURN;
     FIELD_PLAYER_CORE_SetStepKind(player->core, 2);
 }
-
 
 void FIELD_PLAYER_NOGRID_StartRailBlocked(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
@@ -899,7 +851,6 @@ void FIELD_PLAYER_NOGRID_StartRailBlocked(FieldPlayerNogrid *player, Mmdl *mmdl,
         GFL_USE_PlaySeDefaultVolume(0x55a);
     }
 }
-
 
 /* Check for the rail kinds: by the running mode, on the core's model. */
 int FIELD_PLAYER_NOGRID_CheckActionRail(FieldPlayerNogrid *player, int keyTrg, int keyCont, u16 dir, int forced)
@@ -915,7 +866,6 @@ int FIELD_PLAYER_NOGRID_CheckActionRail(FieldPlayerNogrid *player, int keyTrg, i
     return action;
 }
 
-
 int FIELD_PLAYER_NOGRID_CheckRailFromStand(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
     if (FLDMMDL_CheckPossibleAcmd(mmdl) == 1) {
@@ -929,7 +879,6 @@ int FIELD_PLAYER_NOGRID_CheckRailFromStand(FieldPlayerNogrid *player, Mmdl *mmdl
     }
     return FIELD_PLAYER_NOGRID_ACTION_NONE;
 }
-
 
 /* Rail kind, step check: the next tile's attribute decides between walk and bump. */
 int FIELD_PLAYER_NOGRID_CheckRailStep(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
@@ -962,7 +911,6 @@ int FIELD_PLAYER_NOGRID_CheckRailStep(FieldPlayerNogrid *player, Mmdl *mmdl, int
     return FIELD_PLAYER_NOGRID_ACTION_BLOCKED;
 }
 
-
 int FIELD_PLAYER_NOGRID_CheckRailFromTurn(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
     if (FLDMMDL_CheckPossibleAcmd(mmdl) == 0) {
@@ -973,7 +921,6 @@ int FIELD_PLAYER_NOGRID_CheckRailFromTurn(FieldPlayerNogrid *player, Mmdl *mmdl,
     }
     return FIELD_PLAYER_NOGRID_CheckRailStep(player, mmdl, keyTrg, keyCont, dir, forced);
 }
-
 
 u32 FIELD_PLAYER_NOGRID_CheckRailFromBlocked(FieldPlayerNogrid *player, Mmdl *mmdl, u32 keyTrg, u32 keyCont, u16 dir, u32 forced)
 {
@@ -990,18 +937,15 @@ u32 FIELD_PLAYER_NOGRID_CheckRailFromBlocked(FieldPlayerNogrid *player, Mmdl *mm
     return FIELD_PLAYER_NOGRID_CheckRailStep(player, mmdl, keyTrg, keyCont, dir, forced);
 }
 
-
 void FIELD_PLAYER_NOGRID_SetFlags(FieldPlayerNogrid *player, u32 mask)
 {
     player->flags |= mask;
 }
 
-
 void FIELD_PLAYER_NOGRID_ClearFlags(FieldPlayerNogrid *player, u32 mask)
 {
     player->flags &= ~mask;
 }
-
 
 int FIELD_PLAYER_NOGRID_HasFlags(FieldPlayerNogrid *player, int mask)
 {
@@ -1011,84 +955,70 @@ int FIELD_PLAYER_NOGRID_HasFlags(FieldPlayerNogrid *player, int mask)
     return 0;
 }
 
-
 void FIELD_PLAYER_NOGRID_SetForcedMove(FieldPlayerNogrid *player)
 {
     FIELD_PLAYER_NOGRID_SetFlags(player, FIELD_PLAYER_NOGRID_FLAG_FORCED_MOVE);
 }
-
 
 void FIELD_PLAYER_NOGRID_ClearForcedMove(FieldPlayerNogrid *player)
 {
     FIELD_PLAYER_NOGRID_ClearFlags(player, FIELD_PLAYER_NOGRID_FLAG_FORCED_MOVE);
 }
 
-
 void FIELD_PLAYER_NOGRID_SetForcedMoveEnded(FieldPlayerNogrid *player)
 {
     FIELD_PLAYER_NOGRID_SetFlags(player, FIELD_PLAYER_NOGRID_FLAG_FORCED_MOVE_ENDED);
 }
-
 
 void FIELD_PLAYER_NOGRID_ClearForcedMoveEnded(FieldPlayerNogrid *player)
 {
     FIELD_PLAYER_NOGRID_ClearFlags(player, FIELD_PLAYER_NOGRID_FLAG_FORCED_MOVE_ENDED);
 }
 
-
 void FIELD_PLAYER_NOGRID_ClearPending(FieldPlayerNogrid *player)
 {
     FIELD_PLAYER_NOGRID_ClearFlags(player, FIELD_PLAYER_NOGRID_FLAG_PENDING);
 }
-
 
 void FIELD_PLAYER_NOGRID_SetSpinA(FieldPlayerNogrid *player)
 {
     FIELD_PLAYER_NOGRID_SetFlags(player, FIELD_PLAYER_NOGRID_FLAG_SPIN_A);
 }
 
-
 void FIELD_PLAYER_NOGRID_ClearSpinA(FieldPlayerNogrid *player)
 {
     FIELD_PLAYER_NOGRID_ClearFlags(player, FIELD_PLAYER_NOGRID_FLAG_SPIN_A);
 }
-
 
 void FIELD_PLAYER_NOGRID_SetSpinB(FieldPlayerNogrid *player)
 {
     FIELD_PLAYER_NOGRID_SetFlags(player, FIELD_PLAYER_NOGRID_FLAG_SPIN_B);
 }
 
-
 void FIELD_PLAYER_NOGRID_ClearSpinB(FieldPlayerNogrid *player)
 {
     FIELD_PLAYER_NOGRID_ClearFlags(player, FIELD_PLAYER_NOGRID_FLAG_SPIN_B);
 }
-
 
 void FIELD_PLAYER_NOGRID_SetFaceRight(FieldPlayerNogrid *player)
 {
     FIELD_PLAYER_NOGRID_SetFlags(player, FIELD_PLAYER_NOGRID_FLAG_FACE_RIGHT);
 }
 
-
 void FIELD_PLAYER_NOGRID_ClearFaceRight(FieldPlayerNogrid *player)
 {
     FIELD_PLAYER_NOGRID_ClearFlags(player, FIELD_PLAYER_NOGRID_FLAG_FACE_RIGHT);
 }
-
 
 void FIELD_PLAYER_NOGRID_SetInputHold(FieldPlayerNogrid *player)
 {
     FIELD_PLAYER_NOGRID_SetFlags(player, FIELD_PLAYER_NOGRID_FLAG_INPUT_HOLD);
 }
 
-
 void FIELD_PLAYER_NOGRID_ClearInputHold(FieldPlayerNogrid *player)
 {
     FIELD_PLAYER_NOGRID_ClearFlags(player, FIELD_PLAYER_NOGRID_FLAG_INPUT_HOLD);
 }
-
 
 /* Reads the tile under the model; returns the forced move kind (an index of the
  * handler table, 0 for none). */
@@ -1116,7 +1046,6 @@ u32 FIELD_PLAYER_NOGRID_GetForcedMoveKind(FieldPlayerNogrid *player)
     return 0;
 }
 
-
 /* Runs the forced move of the tile under the model, or ends a running one. */
 u32 FIELD_PLAYER_NOGRID_RunForcedMove(FieldPlayerNogrid *player, u32 dir, u32 skipTileKind)
 {
@@ -1132,7 +1061,6 @@ u32 FIELD_PLAYER_NOGRID_RunForcedMove(FieldPlayerNogrid *player, u32 dir, u32 sk
     FIELD_PLAYER_NOGRID_EndForcedMove(player);
     return dir;
 }
-
 
 /* Ends every forced move state that is set. */
 void FIELD_PLAYER_NOGRID_EndForcedMove(FieldPlayerNogrid *player)
@@ -1161,7 +1089,6 @@ void FIELD_PLAYER_NOGRID_EndForcedMove(FieldPlayerNogrid *player)
     }
 }
 
-
 /* Forced move: keep sliding in the model's move direction until blocked. */
 u32 FIELD_PLAYER_NOGRID_ForcedSlide(FieldPlayerNogrid *player, u32 dir, u32 skipTileKind)
 {
@@ -1183,7 +1110,6 @@ u32 FIELD_PLAYER_NOGRID_ForcedSlide(FieldPlayerNogrid *player, u32 dir, u32 skip
     return moveDir;
 }
 
-
 /* Forced move: slide with the first spin animation. */
 u32 FIELD_PLAYER_NOGRID_ForcedSlideSpinA(FieldPlayerNogrid *player, u32 dir)
 {
@@ -1203,7 +1129,6 @@ u32 FIELD_PLAYER_NOGRID_ForcedSlideSpinA(FieldPlayerNogrid *player, u32 dir)
     FIELD_PLAYER_CORE_SetStepKind(player->core, 1);
     return moveDir;
 }
-
 
 /* Forced move: slide with the second spin animation. */
 u32 FIELD_PLAYER_NOGRID_ForcedSlideSpinB(FieldPlayerNogrid *player, u32 dir)
@@ -1225,7 +1150,6 @@ u32 FIELD_PLAYER_NOGRID_ForcedSlideSpinB(FieldPlayerNogrid *player, u32 dir)
     return moveDir;
 }
 
-
 /* Forced move: a slide that the model must not enter with move direction 2. */
 int FIELD_PLAYER_NOGRID_ForcedSlideWarnDir2(FieldPlayerNogrid *player, int dir, int skipTileKind)
 {
@@ -1234,7 +1158,6 @@ int FIELD_PLAYER_NOGRID_ForcedSlideWarnDir2(FieldPlayerNogrid *player, int dir, 
     }
     return FIELD_PLAYER_NOGRID_ForcedSlide(player, dir, skipTileKind);
 }
-
 
 /* Forced move: a slide that the model must not enter with move direction 3. */
 int FIELD_PLAYER_NOGRID_ForcedSlideWarnDir3(FieldPlayerNogrid *player, int dir, int skipTileKind)
@@ -1245,7 +1168,6 @@ int FIELD_PLAYER_NOGRID_ForcedSlideWarnDir3(FieldPlayerNogrid *player, int dir, 
     return FIELD_PLAYER_NOGRID_ForcedSlide(player, dir, skipTileKind);
 }
 
-
 /* Forced move: a slide that ends facing right. */
 int FIELD_PLAYER_NOGRID_ForcedSlideFaceRight(FieldPlayerNogrid *player, int dir, int skipTileKind)
 {
@@ -1253,7 +1175,6 @@ int FIELD_PLAYER_NOGRID_ForcedSlideFaceRight(FieldPlayerNogrid *player, int dir,
     FIELD_PLAYER_NOGRID_SetFaceRight(player);
     return result;
 }
-
 
 /* Forced move: the held direction keeps the model going while the keys are idle. */
 u32 FIELD_PLAYER_NOGRID_ForcedInputHold(FieldPlayerNogrid *player, u32 dir)
@@ -1276,7 +1197,6 @@ u32 FIELD_PLAYER_NOGRID_ForcedInputHold(FieldPlayerNogrid *player, u32 dir)
     return result;
 }
 
-
 /* Starts the spin animation of a variant (or keeps it running). */
 void FIELD_PLAYER_NOGRID_StartSpin(NogridSpin *spin, u8 variant)
 {
@@ -1288,7 +1208,6 @@ void FIELD_PLAYER_NOGRID_StartSpin(NogridSpin *spin, u8 variant)
     }
 }
 
-
 void FIELD_PLAYER_NOGRID_StopSpin(NogridSpin *spin)
 {
     if (spin->active) {
@@ -1297,7 +1216,6 @@ void FIELD_PLAYER_NOGRID_StopSpin(NogridSpin *spin)
         GFL_USE_StopSeSlot(GFL_USE_GetSeSlot(0x6d1));
     }
 }
-
 
 /* Turns the model to the next direction of the spin sequence. */
 void FIELD_PLAYER_NOGRID_AdvanceSpin(NogridSpin *spin, Mmdl *mmdl)
@@ -1308,7 +1226,6 @@ void FIELD_PLAYER_NOGRID_AdvanceSpin(NogridSpin *spin, Mmdl *mmdl)
     }
 }
 
-
 int FIELD_PLAYER_NOGRID_InitInputHold(NogridInputHold *hold)
 {
     MI_CpuFill8(hold, 0, 8);
@@ -1316,18 +1233,15 @@ int FIELD_PLAYER_NOGRID_InitInputHold(NogridInputHold *hold)
     return 9;
 }
 
-
 void FIELD_PLAYER_NOGRID_EnableInputHold(NogridInputHold *hold)
 {
     hold->enabled = 1;
 }
 
-
 int FIELD_PLAYER_NOGRID_ResetInputHold(NogridInputHold *hold)
 {
     return FIELD_PLAYER_NOGRID_InitInputHold(hold);
 }
-
 
 /* Counts the frames without a direction key; after 30 the hold is armed. */
 void FIELD_PLAYER_NOGRID_UpdateInputHold(NogridInputHold *hold, u32 dir, Mmdl *mmdl)
@@ -1358,7 +1272,6 @@ void FIELD_PLAYER_NOGRID_UpdateInputHold(NogridInputHold *hold, u32 dir, Mmdl *m
     }
 }
 
-
 void FIELD_PLAYER_NOGRID_EndInputHoldFrame(NogridInputHold *hold)
 {
     if (hold->held) {
@@ -1368,7 +1281,6 @@ void FIELD_PLAYER_NOGRID_EndInputHoldFrame(NogridInputHold *hold)
         hold->heldDir = FIELD_PLAYER_NOGRID_DIR_NONE;
     }
 }
-
 
 int FIELD_PLAYER_NOGRID_GetInputHoldDir(NogridInputHold *hold, int dir)
 {
@@ -1383,12 +1295,10 @@ int FIELD_PLAYER_NOGRID_GetInputHoldDir(NogridInputHold *hold, int dir)
     return result;
 }
 
-
 u32 FIELD_PLAYER_NOGRID_IsInputHoldKept(NogridInputHold *hold)
 {
     return hold->keepDir;
 }
-
 
 /* True when the map has a connection at the tile ahead of the model in a direction. */
 int FIELD_PLAYER_NOGRID_HasConnectionAhead(FieldPlayerNogrid *player, u32 dir)

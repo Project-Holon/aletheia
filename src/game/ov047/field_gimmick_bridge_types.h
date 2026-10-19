@@ -10,13 +10,7 @@
 #include "../ov021/fieldmap_types.h"
 #include "../ov010/fldmmdl_types.h"
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed short s16;
-typedef signed int s32;
-typedef long long s64;
-typedef int fx32;
+#include "../types.h"
 
 struct GameSystem;
 struct GameData;

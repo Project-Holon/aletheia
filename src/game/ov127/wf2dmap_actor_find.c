@@ -16,7 +16,7 @@
  * Addresses are Black-image addresses.
  */
 
-typedef unsigned char  u8;
+#include "../types.h"
 extern u8 *WF2DMAP_OBJ_FindAtPos(u8 *p, void *list, int n);
 
 int WF2DMAP_ACTOR_FIND_HasMatch(void *target, void *list, int index)

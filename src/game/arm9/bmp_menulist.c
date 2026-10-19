@@ -42,7 +42,7 @@
 
 #define MENULIST_SEPARATOR ((u32)-3)
 
-typedef signed int     s32;
+#include "../types.h"
 
 struct BmpMenuList;
 

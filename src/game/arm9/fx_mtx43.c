@@ -15,30 +15,8 @@
  * symbols:
  *   MTX_RotAxis33  0x0207AF50  arm
  */
-typedef long fx32;
-typedef long long fx64;
-typedef union {
-    struct {
-        fx32 _00, _01, _02;
-        fx32 _10, _11, _12;
-        fx32 _20, _21, _22;
-        fx32 _30, _31, _32;
-    };
-    fx32 m[4][3];
-    fx32 a[12];
-} MtxFx43;
-typedef struct {
-    fx32 x, y, z;
-} VecFx32;
-typedef union {
-    struct {
-        fx32 _00, _01, _02;
-        fx32 _10, _11, _12;
-        fx32 _20, _21, _22;
-    };
-    fx32 m[3][3];
-    fx32 a[9];
-} MtxFx33;
+#include "../types.h"
+#include "../sdk_fx.h"
 
 asm void MTX_Identity43_(void);
 asm void MTX_Copy43To44_(void);

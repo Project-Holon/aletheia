@@ -133,13 +133,7 @@ struct RecordBlock;
 struct Strbuf;
 struct MsgBank;
 struct EvolutionRequest;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef signed int s32;
+#include "../types.h"
 
 /*
  * The battle parameter object (BattleSetupParam, btl_setup_types.h) seen from
@@ -312,14 +306,11 @@ extern const u16 sPickupCommonItems[];
 extern const u16 sPickupRareItems[];
 extern const u8 sHoneyGatherChance[];
 
-
 /* Heap created for the whole after-battle processing; freed in the exit step. */
 #define EVENT_BATTLE_RETURN_HEAP_ID 0x52
 
-
 /* Parameter ids of the get/set party-value accessors. */
 #define MON_PARAM_SPECIES 5
-
 
 /* Values of BattleReturnParam.outcome that matter here. */
 enum {
@@ -328,10 +319,8 @@ enum {
     BATTLE_OUTCOME_CAUGHT = 5
 };
 
-
 /* Values of BattleReturnParam.competitor: 0 and 1 are wild and trainer fights. */
 #define COMPETITOR_LAST_NORMAL 1
-
 
 /* Step machine init: heap, work, name buffer and sub-proc system. */
 int EVENT_BATTLE_RETURN_Init(struct ProcObj *proc)
@@ -353,7 +342,6 @@ int EVENT_BATTLE_RETURN_Init(struct ProcObj *proc)
     return 1;
 }
 
-
 /* Step machine exit: frees the sub-proc system, both strings, the work and the heap. */
 int EVENT_BATTLE_RETURN_Exit(struct ProcObj *proc, u32 seq, u32 pwk, struct EventBattleReturnWork *work)
 {
@@ -364,7 +352,6 @@ int EVENT_BATTLE_RETURN_Exit(struct ProcObj *proc, u32 seq, u32 pwk, struct Even
     GFL_HEAP_DeleteChecked(EVENT_BATTLE_RETURN_HEAP_ID);
     return 1;
 }
-
 
 /*
  * Step machine main. Steps: 0 applies the battle results to the party and, for
@@ -541,7 +528,6 @@ int EVENT_BATTLE_RETURN_Main(struct ProcObj *proc, u32 *seq, struct EventBattleR
     return 0;
 }
 
-
 /* Sets bit i of levelUpMask for each member whose level is higher after the battle. */
 void EVENT_BATTLE_RETURN_FlagLeveledUpMembers(struct EventBattleReturnWork *work, struct EventBattleReturnArgs *args)
 {
@@ -575,7 +561,6 @@ void EVENT_BATTLE_RETURN_FlagLeveledUpMembers(struct EventBattleReturnWork *work
         }
     }
 }
-
 
 /* Pickup and Honey Gather: members holding nothing may find an item after the battle. */
 void EVENT_BATTLE_RETURN_ApplyPickupAndHoneyGather(struct PokeParty *party)
@@ -621,7 +606,6 @@ void EVENT_BATTLE_RETURN_ApplyPickupAndHoneyGather(struct PokeParty *party)
     }
 }
 
-
 /* Natural Cure: clears the status of every member that has the ability. */
 void EVENT_BATTLE_RETURN_ApplyNaturalCure(struct PokeParty *party)
 {
@@ -640,7 +624,6 @@ void EVENT_BATTLE_RETURN_ApplyNaturalCure(struct PokeParty *party)
     }
 }
 
-
 /* Applies the Burmy form for the battle background to every member that took part. */
 void EVENT_BATTLE_RETURN_ApplyBurmyForms(struct EventBattleReturnArgs *args, struct PokeParty *party, int burmyForm)
 {
@@ -655,7 +638,6 @@ void EVENT_BATTLE_RETURN_ApplyBurmyForms(struct EventBattleReturnArgs *args, str
     }
 }
 
-
 /* Reads the Burmy form of a battle background from its archive table. */
 u32 EVENT_BATTLE_RETURN_GetBurmyForm(const struct BattleField *field, u32 heapId)
 {
@@ -668,7 +650,6 @@ u32 EVENT_BATTLE_RETURN_GetBurmyForm(const struct BattleField *field, u32 heapId
     GFL_HEAP_Free(table);
     return form;
 }
-
 
 /* Registers the form of each participating Shaymin in the Pokedex. */
 void EVENT_BATTLE_RETURN_RegisterShayminForms(struct EventBattleReturnArgs *args, struct PokeParty *party)
@@ -693,10 +674,8 @@ void EVENT_BATTLE_RETURN_RegisterShayminForms(struct EventBattleReturnArgs *args
     }
 }
 
-
 /* Parameter ids of the get/set party-value accessors. */
 #define MON_PARAM_BALL 0x98
-
 
 /* A Pokemon caught in a Heal Ball is healed: full HP and no status. */
 void EVENT_BATTLE_RETURN_ApplyHealBall(struct PokemonParam *mon)

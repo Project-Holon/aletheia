@@ -6,11 +6,7 @@
  * player changes with two levers; a button on each side plays a press
  * animation, and the player can hop across (GIMMICK46 hop event). */
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed short s16;
-typedef signed int s32;
+#include "../types.h"
 
 #define FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID 10
 #define FIELD_GIMMICK_ROTATING_ROOM_MODELS_PER_UNIT 5

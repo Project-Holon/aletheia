@@ -84,7 +84,7 @@
 #include "../arm9/btl_setup_types.h"
 #include "event_ircbattle_shared_types.h"
 
-typedef volatile u16 vu16;
+#include "../types.h"
 
 /* Hardware: POWCNT1 (display power control). */
 #define HW_POWER_CONTROL_REG (*(vu16 *)0x04000304)

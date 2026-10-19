@@ -34,9 +34,7 @@
  *   B64Encode  0x0217FA90  arm  ov009
  *   strncpy  0x02094860  arm  arm9
  */
-typedef unsigned int   u32;
-
-typedef unsigned char  u8;
+#include "../types.h"
 
 extern u8 *strncpy(u8 *dest, const u8 *src, u32 n);
 extern int strncmp(const unsigned char *s1, const unsigned char *s2, unsigned int n);
@@ -68,7 +66,6 @@ extern char gGpiUtilityMsgConnectionRejected[];
 extern char gGpiUtilityMsgConnectionAccepted[];
 extern char gGpiUtilityMsgParseError[];
 
-
 /*
  * Clears the byte one before the sum of the block and the count.
  */
@@ -77,7 +74,6 @@ void strzcpy(char *p, int b, int n)
     strncpy((u8 *)p, (const u8 *)b, n);
     *(char *)(p + n - 1) = 0;
 }
-
 
 /*
  * gpiCheckForError.  Every concrete byte reproduces (220 bytes).
@@ -120,7 +116,6 @@ fail:
     return 0;
 }
 
-
 /*
  * sdk:      gpiValueForKeyWithIndex (libdwcgsgp.TWL.HYB.a(gpiutility.o))
  */
@@ -143,7 +138,6 @@ int gpiValueForKeyWithIndex(char *command, char *key, int *index, char *value, i
     *index += (start - command) + strlen((const u8 *)value);
     return 1;
 }
-
 
 /*
  * gpiValueForKey: locate `key` in `command` with strstr, skip the key text
@@ -175,7 +169,6 @@ int gpiValueForKey(const char *command, const char *key, char *value, int valueL
     value[i] = '\0';
     return 1;
 }
-
 
 /*
  * gpiCheckSocketConnect: probe the socket with GSISocketSelect.  -1 means the
@@ -213,7 +206,6 @@ zero:
     *state = 0;
     return 0;
 }
-
 
 /*
  * gpiReadKeyAndValue.  Faithful port of the public GameSpy gpiUtility.c body:
@@ -271,7 +263,6 @@ int gpiReadKeyAndValue(int *connection, const char *buffer, int *index, char *ke
     return 0;
 }
 
-
 /*
  * gpiSetError: copy the error string into the connection-owned buffer at
  * the head of the connection object and record the result word at +0x5b8.
@@ -284,7 +275,6 @@ void gpiSetError(int *connection, int result, int errorString)
     *(int *)(iconnection + 0x5b8) = result;
 }
 
-
 /*
  * Tail call on the word the pointer holds, with the constant third argument 0x100.
  */
@@ -292,7 +282,6 @@ void gpiSetErrorString(int *p, int b)
 {
     strzcpy((char *)(*p), b, 0x100);
 }
-
 
 /*
  * gpiEncodeString: seed the shared RNG with the constant 0x79707367 ("gspy"),

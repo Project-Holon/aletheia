@@ -23,7 +23,7 @@
  */
 #include "nns_g3d_glb_types.h"
 
-typedef long long fx64;
+#include "../types.h"
 
 typedef long long fx64c;
 
@@ -42,7 +42,6 @@ inline static fx32 FX_Mul32x64c(fx32 v32, fx64c v64c)
   fx64 tmp = (v64c * v32) + 0x80000000LL;
   return (fx32) (tmp >> 32);
 }
-
 
 /*
  * NitroSystem G3D NNS_G3dWorldPosToScrPos (util.c): world position to screen
@@ -101,7 +100,6 @@ int NNS_G3dWorldPosToScrPos(const VecFx32 *pWorld, int *px, int *py)
     }
     return ret;
 }
-
 
 /*
  * NitroSystem G3D NNS_G3dScrPosToWorldLine (util.c): screen pixel to the

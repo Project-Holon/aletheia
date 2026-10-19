@@ -73,7 +73,8 @@ extern void SND_StopTimer(u32 chBitMask, u32 capBitMask, u32 alarmBitMask, u32 f
 extern u32 SND_GetCurrentCommandTag(void);
 extern s32 SND_FlushCommand(u32 flags);
 extern void SND_WaitForCommandProc(u32 tag);
-struct OSMessageQueue;
+#include "../sdk_os.h"
+
 extern s32  OS_ReceiveMessage(struct OSMessageQueue *mq, void **msg, s32 flags);
 extern void SND_CHANNEL_ClearClaimedMask(u32 mask);
 extern void SND_CHANNEL_UnlockChannels(u32 chan);
@@ -81,7 +82,8 @@ extern void NNS_SndWaveOutFreeChannel(u32 alarmNo);
 extern void SND_SetOutputSelector(s32 left, s32 right, s32 mix, s32 flags);
 extern void MIi_CpuClear32(u32 value, u32 dst, u32 size);
 extern void DC_FlushRange(u32 start, u32 size);
-struct FSFileID;
+#include "../sdk_fs.h"
+
 extern s32 FS_ConvertPathToFileID(FSFileID *id, const char *path);
 extern void FS_InitFile(FSFile *file);
 extern u32  FS_OpenFileFast(FSFile *file, FSFileID id);

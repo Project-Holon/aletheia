@@ -251,7 +251,6 @@ struct BtlvCamera;
 
 struct BtlvMcss;
 
-
 struct ScriptVmParams;
 
 struct Cursor;
@@ -279,14 +278,12 @@ typedef struct BtlvEffVmEmitterMotion {
     int projectToScreen; /* 0x5C */
 } BtlvEffVmEmitterMotion;
 
-
-typedef long long fx64;
+#include "../types.h"
 
 extern void *ARC_TOOL_LoadMember(u32 archiveID, u32 memberIdx, u16 heapID);
 
 extern u32 GFL_HEAP_Free(void *p);
 struct Tcb;
-
 
 extern struct Tcb *GFL_USE_AddMainTask(void (*)(void *, void *), void *work, u32 priority);
 struct TcbSystem;
@@ -298,7 +295,6 @@ extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 struct TcblSystem;
 
 extern u32 TCBL_IsDeletePending(struct TcblSystem *tcbl);
-
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
@@ -469,7 +465,6 @@ extern void NNS_SndHandleSetVolume(struct SndHandle *handle, unsigned int volume
 extern void NNS_SndHandleSetTrackModDepth(struct SndHandle *handle, u32 trackMask, u32 value);
 
 extern void NNS_SndHandleSetTrackModSpeed(struct SndHandle *handle, u32 trackMask, u32 value);
-
 
 void MTX_Copy43To44_(const MtxFx43 *src, MtxFx44 *dst);
 

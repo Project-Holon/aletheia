@@ -19,29 +19,11 @@
  *   OS_WakeupThread       0x02085800  arm
  *   _s32_div_f            0x0209C0A4  arm
  */
-typedef unsigned long u32;
+#include "../types.h"
 
-typedef long s32;
+#include "../sdk_os.h"
 
-typedef int BOOL;
-
-typedef u32 OSIntrMode;
-
-typedef void *OSMessage;
-
-typedef struct OSThreadQueue {
-    void *head;
-    void *tail;
-} OSThreadQueue;
-
-typedef struct OSMessageQueue {
-    OSThreadQueue queueSend;
-    OSThreadQueue queueReceive;
-    OSMessage *msgArray;
-    s32 msgCount;
-    s32 firstIndex;
-    s32 usedCount;
-} OSMessageQueue;
+#include "../sdk_os_thread.h"
 
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);

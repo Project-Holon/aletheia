@@ -54,13 +54,7 @@
 #define PXI_PROC_ARM7 1
 #define HW_MIC_LAST_ADDRESS (*(u32 *)0x02FFFF90)
 #define MIC_PXI_STOP_AUTO_SAMPLING 0x03004200
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef int BOOL;
+#include "../types.h"
 
 typedef enum MICResult
 {
@@ -133,7 +127,6 @@ void *MICEXi_GetLimitedSamplingCallback(void);
 extern MicBss mic_bss;
 extern u32 g_02152FE4;
 
-
 /*
  * notes:    mic_bss models mic.o .bss as one struct: micInitialized (u16) at 0x02152FE0 and
  *            micWork (28 bytes) at 0x02152FE4; the object reaches both through one pool word.
@@ -157,7 +150,6 @@ void MIC_Init(void)
     HW_MIC_LAST_ADDRESS = 0;
     PXI_SetFifoRecvCallback(PXI_FIFO_TAG_MIC, MicCommonCallback);
 }
-
 
 /*
  * sdk:      MIC_StartAutoSamplingAsync (libspi.TWL.HYB.a mic.o)
@@ -227,7 +219,6 @@ MICResult MIC_StartAutoSamplingAsync(const MICAutoParam *param, MICCallback call
     return MIC_RESULT_SUCCESS;
 }
 
-
 /*
  * notes:    mic_bss models mic.o .bss as one struct: micInitialized (u16) at 0x02152FE0 and
  *            micWork (28 bytes) at 0x02152FE4; the object reaches both through one pool word.
@@ -243,7 +234,6 @@ MICResult MIC_StartAutoSampling(MICAutoParam *param)
     }
     return mic_bss.micWork.result;
 }
-
 
 /*
  * notes:    mic_bss models mic.o .bss as one struct: micInitialized (u16) at 0x02152FE0 and
@@ -273,7 +263,6 @@ MICResult MIC_StopAutoSamplingAsync(MICCallback callback, void *arg)
     return MIC_RESULT_SUCCESS;
 }
 
-
 /*
  * notes:    mic_bss models mic.o .bss as one struct: micInitialized (u16) at 0x02152FE0 and
  *            micWork (28 bytes) at 0x02152FE4; the object reaches both through one pool word.
@@ -290,7 +279,6 @@ MICResult MIC_StopAutoSampling(void)
     return mic_bss.micWork.result;
 }
 
-
 /*
  * sdk:      MIC_GetLastSamplingAddress (libspi.TWL.HYB.a mic.o)
  */
@@ -298,7 +286,6 @@ void *MIC_GetLastSamplingAddress(void)
 {
     return *(void **)0x02FFFF90;
 }
-
 
 /*
  * sdk:      MIC_StartLimitedSamplingAsync (libspi.TWL.HYB.a mic.o)
@@ -312,7 +299,6 @@ MICResult MIC_StartLimitedSamplingAsync(MICAutoParam *param, MICCallback callbac
     return MIC_StartAutoSamplingAsync(param, callback, arg);
 }
 
-
 /*
  * sdk:      MIC_StartLimitedSampling (libspi.TWL.HYB.a mic.o)
  */
@@ -325,7 +311,6 @@ MICResult MIC_StartLimitedSampling(MICAutoParam *param)
     return MIC_StartAutoSampling(param);
 }
 
-
 /*
  * sdk:      MIC_StopLimitedSampling (libspi.TWL.HYB.a mic.o)
  */
@@ -337,7 +322,6 @@ MICResult MIC_StopLimitedSampling(void)
     }
     return MIC_StopAutoSampling();
 }
-
 
 /*
  * sdk:      MicCommonCallback (libspi.TWL.HYB.a mic.o)
@@ -405,7 +389,6 @@ void MicCommonCallback(int tag, u32 data, BOOL err)
     }
 }
 
-
 /*
  * sdk:      MicStartAutoSampling (libspi.TWL.HYB.a mic.o)
  */
@@ -435,9 +418,6 @@ BOOL MicStartAutoSampling(void *buf, u32 size, u32 span, u8 flags)
     return 1;
 }
 
-
-
-
 /*
  * sdk:      MicStopAutoSampling (libspi.TWL.HYB.a mic.o)
  */
@@ -450,7 +430,6 @@ BOOL MicStopAutoSampling(void)
     return FALSE;
 }
 
-
 /*
  * sdk:      DWC_Netcheck_SetAllow302 (libdwcauth.TWL.HYB.a dwc_netcheck.o)
  */
@@ -458,7 +437,6 @@ void MicGetResultCallback(MICResult result, void *arg)
 {
     mic_bss.micWork.result = result;
 }
-
 
 /* hand-written in the original: spin-wait on the lock word with the address in ip; mwccarm never picks ip for a leaf load (9 C variants tried) */
 asm void MicWaitBusy(void)
@@ -470,7 +448,6 @@ loc_0208B79C:
     beq loc_0208B79C
     bx	lr
 }
-
 
 void *MICEXi_GetLimitedSamplingCallback(void)
 {

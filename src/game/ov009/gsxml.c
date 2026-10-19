@@ -104,9 +104,7 @@ extern void *__builtin__clear(void *dest, unsigned long size);
 
 #define isdigit(c) (((c) < 0 || (c) >= 0x80) ? 0 : (gCtypeMap[c] & 0x8))
 
-typedef unsigned char  u8;
-
-
+#include "../types.h"
 
 typedef struct GSIXmlStreamWriter {
     char *buffer;                   /* 0x00 */
@@ -143,9 +141,6 @@ typedef struct GSIXmlAttribute {
     int elementIndex;
     int owningElementIndex;
 } GSIXmlAttribute;
-
-typedef unsigned int   u32;
-
 
 typedef struct {
     char *data;
@@ -274,8 +269,6 @@ extern char gGsXmlEntityHexPrefix[];       /* "&#x" */
 extern char gGsXmlHex8Format[];       /* "%08x" */
 extern char gGsXmlEntityDecPrefix[];       /* "&#" */
 
-
-
 extern int strncmp(const char *s1, const char *s2, unsigned long n);
 extern const char *strncpy(const char *dest, const char *src, unsigned int n);
 extern char *strchr(const char *s, int c);
@@ -294,9 +287,6 @@ int gsUnicodeStringLen(const unsigned short *str)
     } while (ch != 0);
     return (int)((const char *)cursor - (const char *)str) / 2 - 1;
 }
-
-
-
 
 /*
  * sdk:      gsXmlCreateStreamWriter (gsxml.o)
@@ -367,9 +357,6 @@ void *gsXmlCreateStreamWriter(const char **namespaces, int count)
     return newStream;
 }
 
-
-
-
 /*
  * sdk:      gsXmlCreateStreamReader (libdwcgscommon.TWL.HYB.a(gsxml.o))
  *
@@ -413,9 +400,6 @@ void *gsXmlCreateStreamReader(void)
     return newStream;
 }
 
-
-
-
 int gsXmlParseBuffer(void *stream, char *data, int len)
 {
     int readPos = 0;
@@ -429,9 +413,6 @@ int gsXmlParseBuffer(void *stream, char *data, int len)
     return 1;
 }
 
-
-
-
 /*
  * Calls the module helper on the pointed-to block and then on the pointer.
  */
@@ -440,9 +421,6 @@ void gsXmlFreeWriter(void **writerRef)
     gsifree(*writerRef);
     gsifree(writerRef);
 }
-
-
-
 
 void gsXmlFreeReader(void *stream)
 {
@@ -453,9 +431,6 @@ void gsXmlFreeReader(void *stream)
     gsifree(reader);
 }
 
-
-
-
 void gsXmlResetReader(void *stream)
 {
     GSIXmlStreamReader * reader = (GSIXmlStreamReader *)stream;
@@ -464,9 +439,6 @@ void gsXmlResetReader(void *stream)
     ArrayClear(reader->elements);
     gsXmlMoveToStart(reader);
 }
-
-
-
 
 int gsXmlCloseWriter(void *stream)
 {
@@ -483,7 +455,6 @@ int gsXmlCloseWriter(void *stream)
     return result;
 }
 
-
 /*
  * sdk:      gsiXmlUtilElementFree (libdwcgscommon.TWL.HYB.a(gsxml.o))
  *
@@ -494,7 +465,6 @@ int gsXmlCloseWriter(void *stream)
 void gsiXmlUtilElementFree(void *elem)
 {
 }
-
 
 /*
  * sdk:      gsiXmlUtilAttributeFree (libdwcgscommon.TWL.HYB.a(gsxml.o))
@@ -508,8 +478,6 @@ void gsiXmlUtilAttributeFree(void *elem)
 {
 }
 
-
-
 /*
  * sdk:      gsXmlWriterGetData (libdwcgscommon.TWL.HYB.a(gsxml.o))
  *
@@ -520,8 +488,6 @@ char *gsXmlWriterGetData(void *stream)
 {
     return ((GSIXmlStreamWriter *)stream)->buffer;
 }
-
-
 
 /*
  * sdk:      gsXmlWriterGetDataLength (libdwcgscommon.TWL.HYB.a(gsxml.o))
@@ -534,12 +500,6 @@ int gsXmlWriterGetDataLength(void *stream)
     return ((GSIXmlStreamWriter *)stream)->length;
 }
 
-
-
-
-
-
-
 static int gsiXmlUtilSkipWhiteSpace(void *unused, char *buffer, int len, int *pos)
 {
     while (*pos < len)
@@ -551,19 +511,7 @@ static int gsiXmlUtilSkipWhiteSpace(void *unused, char *buffer, int len, int *po
     return 0;
 }
 
-
-
-
-
-
-
 #define isalnum(c) (((unsigned)(c) >= 0x80u) ? 0 : (__ctype_mapC[c] & 0x9))
-
-
-
-
-
-
 
 /*
  * notes:    strncmp is declared by the strncmp variant of the house string.h, so the
@@ -692,32 +640,17 @@ static int gsiXmlUtilParseElement(GSIXmlStreamReader *stream, char *buffer, int 
     return 0;
 }
 
-
-
-
+#undef isalnum
 
 #undef isalnum
 
-
-
-
 #undef isalnum
-
-
-
-#undef isalnum
-
 
 #undef isalnum
 
 #undef isalnum
 
 #define isalnum(c) (((c) < 0 || (c) >= 0x80) ? 0 : (gCtypeMap[c] & 0x9))
-
-
-
-
-
 
 /*
  * sdk:      gsiXmlUtilParseName (libdwcgscommon.TWL.HYB.a gsxml.o)
@@ -767,17 +700,6 @@ int gsiXmlUtilParseName(void *stream, char *buffer, int len, int *pos, GSIXmlStr
     }
     return 1;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * sdk:      gsiXmlUtilParseString (libdwcgscommon.TWL.HYB.a(gsxml.o))
@@ -840,11 +762,6 @@ int gsiXmlUtilParseString(void *stream, char *buffer, int len, int *pos, GSIXmlS
     strOut->string = strStart;
     return 1;
 }
-
-
-
-
-
 
 /*
  * sdk:      gsiXmlUtilDecodeString (gsxml.o, static)
@@ -967,11 +884,6 @@ int gsiXmlUtilDecodeString(char *buffer, int *len)
 	return 1;
 }
 
-
-
-
-
-
 /*
  * sdk:      gsiXmlUtilParseValue (gsxml)
  */
@@ -996,11 +908,6 @@ int gsiXmlUtilParseValue(void *stream, char *buffer, int len, int *pos, GSIXmlSt
     return 0;
 }
 
-
-
-
-
-
 /*
  * sdk:      gsXmlWriteOpenTag (gsxml)
  */
@@ -1015,11 +922,6 @@ int gsXmlWriteOpenTag(void *stream, char *namespaceName, char *tag)
         return 0;
     return 1;
 }
-
-
-
-
-
 
 /*
  * sdk:      gsXmlWriteCloseTag (gsxml)
@@ -1036,11 +938,6 @@ int gsXmlWriteCloseTag(void *stream, char *namespaceName, char *tag)
         return 0;
     return 1;
 }
-
-
-
-
-
 
 /*
  * sdk:      gsXmlWriteAsciiStringElement (gsxml)
@@ -1063,12 +960,6 @@ int gsXmlWriteStringElement(void *stream, char *namespaceName, char *tag, char *
     return 1;
 }
 
-
-
-
-
-
-
 /*
  * sdk:      gsXmlWriteStringElement (gsxml)
  */
@@ -1089,12 +980,6 @@ int gsXmlWriteAsciiStringElement(void *stream, char *namespaceName, char *tag, c
         return 0;
     return 1;
 }
-
-
-
-
-
-
 
 /*
  * sdk:      gsXmlWriteUnicodeStringElement (gsxml)
@@ -1124,12 +1009,6 @@ int gsXmlWriteUnicodeStringElement(void *stream, char *namespaceName, char *tag,
     return 1;
 }
 
-
-
-
-
-
-
 /*
  * sdk:      gsXmlWriteIntElement (gsxml)
  */
@@ -1145,12 +1024,6 @@ int gsXmlWriteIntElement(void *stream, char *namespaceName, char *tag, unsigned 
         return 0;
     return 1;
 }
-
-
-
-
-
-
 
 /*
  * sdk:      gsXmlWriteInt64Element (gsxml)
@@ -1168,12 +1041,6 @@ int gsXmlWriteInt64Element(void *stream, char *namespaceName, char *tag, long lo
     return 1;
 }
 
-
-
-
-
-
-
 /*
  * sdk:      gsXmlWriteFloatElement (gsxml)
  */
@@ -1189,12 +1056,6 @@ int gsXmlWriteFloatElement(void *stream, char *namespaceName, char *tag, float v
         return 0;
     return 1;
 }
-
-
-
-
-
-
 
 /*
  * sdk:      gsXmlWriteHexBinaryElement (gsxml)
@@ -1222,12 +1083,6 @@ int gsXmlWriteHexBinaryElement(void *stream, char *namespaceName, char *tag, uns
     return 1;
 }
 
-
-
-
-
-
-
 /*
  * sdk:      gsXmlWriteBase64BinaryElement (gsxml)
  */
@@ -1251,12 +1106,6 @@ int gsXmlWriteBase64BinaryElement(void *stream, char *namespaceName, char *tag, 
     return 1;
 }
 
-
-
-
-
-
-
 /*
  * sdk:      gsXmlWriteDateTimeElement (gsxml)
  */
@@ -1274,12 +1123,6 @@ int gsXmlWriteDateTimeElement(void *stream, char *namespaceName, char *tag, long
         return 0;
     return 1;
 }
-
-
-
-
-
-
 
 /*
  * sdk:      gsXmlWriteLargeIntElement (libdwcgscommon.TWL.HYB.a gsxml.o)
@@ -1325,12 +1168,6 @@ int gsXmlWriteLargeIntElement(void *stream, char *namespaceName, char *tag, gsLa
     return 1;
 }
 
-
-
-
-
-
-
 int gsiXmlUtilWriteChar(GSIXmlStreamWriter *stream, char ch)
 {
     if (stream->length >= stream->capacity)
@@ -1342,12 +1179,6 @@ int gsiXmlUtilWriteChar(GSIXmlStreamWriter *stream, char ch)
     stream->length++;
     return 1;
 }
-
-
-
-
-
-
 
 static int gsiXmlUtilWriteString(GSIXmlStreamWriter *stream, const char *str)
 {
@@ -1365,11 +1196,6 @@ static int gsiXmlUtilWriteString(GSIXmlStreamWriter *stream, const char *str)
     stream->length += strLen;
     return 1;
 }
-
-
-
-
-
 
 /*
  * sdk:      gsiXmlUtilWriteUnicodeString (gsxml)
@@ -1392,11 +1218,6 @@ int gsiXmlUtilWriteUnicodeString(GSIXmlStreamWriter *stream, unsigned short *str
     }
     return 1;
 }
-
-
-
-
-
 
 /*
  * sdk:      gsiXmlUtilWriteXmlSafeString (libdwcgscommon.TWL.HYB.a gsxml.o)
@@ -1436,11 +1257,6 @@ int gsiXmlUtilWriteXmlSafeString(void *stream, char *str)
     return 1;
 }
 
-
-
-
-
-
 static int gsiXmlUtilGrowBuffer(GSIXmlStreamWriter *stream)
 {
     int newCapacity;
@@ -1456,10 +1272,6 @@ static int gsiXmlUtilGrowBuffer(GSIXmlStreamWriter *stream)
     return 1;
 }
 
-
-
-
-
 /*
  * Fills the three words at +8, +0xc and +0x10 with -1 and reports success.
  */
@@ -1471,11 +1283,6 @@ int gsXmlMoveToStart(void *stream)
     reader[4] = -1;
     return 1;
 }
-
-
-
-
-
 
 int gsXmlMoveToNext(void *stream, char *matchtag)
 {
@@ -1495,11 +1302,6 @@ int gsXmlMoveToNext(void *stream, char *matchtag)
     }
     return 0;
 }
-
-
-
-
-
 
 int gsXmlMoveToParent(void *stream)
 {
@@ -1527,11 +1329,6 @@ int gsXmlMoveToParent(void *stream)
     return result;
 }
 
-
-
-
-
-
 /*
  * sdk:      gsXmlMoveToChild (gsxml)
  */
@@ -1556,11 +1353,6 @@ int gsXmlMoveToChild(void *stream, char *matchtag)
     }
     return 0;
 }
-
-
-
-
-
 
 int gsXmlReadChildAsString(void *stream, char *matchtag, char **valueOut, int *lenOut)
 {
@@ -1589,12 +1381,6 @@ int gsXmlReadChildAsString(void *stream, char *matchtag, char **valueOut, int *l
     return 0;
 }
 
-
-
-
-
-
-
 int gsXmlReadChildAsStringNT(void *stream, char *matchtag, char *valueOut, int maxLen)
 {
     char * strValue = 0;
@@ -1612,12 +1398,6 @@ int gsXmlReadChildAsStringNT(void *stream, char *matchtag, char *valueOut, int m
     valueOut[count] = 0;
     return 1;
 }
-
-
-
-
-
-
 
 /*
  * sdk:      gsXmlReadChildAsHexBinary (libdwcgscommon.TWL.HYB.a gsxml.o)
@@ -1677,12 +1457,6 @@ int gsXmlReadChildAsHexBinary(void *stream, char *matchtag, unsigned char *value
     return 0;
 }
 
-
-
-
-
-
-
 /*
  * sdk:      gsXmlReadChildAsBase64Binary (libdwcgscommon.TWL.HYB.a(gsxml.o))
  */
@@ -1724,12 +1498,6 @@ int gsXmlReadChildAsBase64Binary(void *stream, char *matchtag, unsigned char *va
     return 0;
 }
 
-
-
-
-
-
-
 /*
  * sdk:      gsXmlReadChildAsInt (gsxml)
  */
@@ -1760,12 +1528,6 @@ int gsXmlReadChildAsInt(void *stream, char *matchtag, int *valueOut)
     return 0;
 }
 
-
-
-
-
-
-
 /*
  * sdk:      gsXmlReadChildAsInt64 (gsxml)
  */
@@ -1795,12 +1557,6 @@ int gsXmlReadChildAsInt64(void *stream, char *matchtag, long long *valueOut)
     }
     return 0;
 }
-
-
-
-
-
-
 
 /*
  * sdk:      gsXmlReadChildAsDateTimeElement (libdwcgscommon.TWL.HYB.a(gsxml.o))
@@ -1838,12 +1594,6 @@ int gsXmlReadChildAsDateTimeElement(void *stream, char *matchtag, long *valueOut
     return 0;
 }
 
-
-
-
-
-
-
 /*
  * sdk:      gsXmlReadChildAsFloat (gsxml)
  *
@@ -1876,12 +1626,6 @@ int gsXmlReadChildAsFloat(void *stream, char *matchtag, float *valueOut)
     return 0;
 }
 
-
-
-
-
-
-
 static int gsiXmlUtilTagMatches(char *matchtag, GSIXmlString *xmlstr)
 {
     char * matchNoNamespace;
@@ -1913,9 +1657,6 @@ static int gsiXmlUtilTagMatches(char *matchtag, GSIXmlString *xmlstr)
     return (strncmp(matchNoNamespace, (string + xmlNamespacePos), matchTagLen) == 0);
 }
 
-
-
-
 /*
  * Clear 0x104 bytes at `c`, then fill `c+4` with up to 0x200 bytes through
  * gsXmlReadChildAsHexBinary; the byte count it reports is rounded up to a word count and
@@ -1940,9 +1681,6 @@ int gsXmlReadChildAsLargeInt(void *stream, char *matchtag, int *lintData)
         return 0;
     return 1;
 }
-
-
-
 
 int gsXmlCountChildren(void *stream, char *matchtag)
 {

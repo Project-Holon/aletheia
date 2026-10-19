@@ -65,12 +65,7 @@
  *   FIELD_SAVEANIME_Stop  0x021D11D8  thumb  ov021
  *   FIELD_SAVEANIME_Delete  0x021D1194  thumb  ov021
  */
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed char    s8;
-typedef signed short   s16;
-typedef signed int     s32;
+#include "../types.h"
 
 #include "../version.h"
 #include "bsubway_scr_types.h"
@@ -207,7 +202,6 @@ struct GameSystem;
 #include "../arm9/game_data.h"
 struct PokemonParam;
 #include "../arm9/pokeparty.h"
-typedef unsigned long long u64;
 #include "../arm9/poke_tool.h"
 extern u32 BATTLE_EXAMINATION_GetBlockSize(void);
 extern int SAVE_CONTROL_LoadExtraSaveWithBuffer(SaveControl *saveControl, int blockId, int heapId, void *buf, int size);

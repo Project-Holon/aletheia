@@ -26,15 +26,9 @@
  *   OS_RestoreInterrupts           0x0208799C  arm
  *   PXI_SendWordByFifo  0x02088610  arm
  */
-typedef unsigned short u16;
+#include "../types.h"
 
-typedef unsigned long u32;
-
-typedef unsigned char u8;
-
-typedef int BOOL;
-
-typedef u32 OSIntrMode;
+#include "../sdk_os.h"
 
 typedef struct CTRDGLockByProc {
     BOOL locked;
@@ -66,8 +60,6 @@ typedef struct CtrdgBss {
     u16 subpInit;
     u16 lockID;
 } CtrdgBss;
-
-typedef volatile u16 vu16;
 
 typedef enum { MI_CTRDG_ROMCYCLE1_10 = 0, MI_CTRDG_ROMCYCLE1_8 = 1, MI_CTRDG_ROMCYCLE1_6 = 2, MI_CTRDG_ROMCYCLE1_18 = 3 } MICartridgeRomCycle1st;
 

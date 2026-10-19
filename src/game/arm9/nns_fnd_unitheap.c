@@ -21,11 +21,10 @@
  *   OS_FreeToHeap  0x020869E8  arm
  */
 #include "nns_fnd_types.h"
-#include "nns_fnd_unitheap_shared_types.h"
 
 struct ExpHeap;
 
-typedef signed int   s32;
+#include "../types.h"
 
 typedef struct NNSiFndUnitBlock {
     struct NNSiFndUnitBlock *next;

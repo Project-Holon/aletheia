@@ -47,9 +47,7 @@ typedef struct {
 	Lcd lcd[2];
 } MemOvr;
 
-typedef unsigned short u16;
-
-typedef unsigned long u32;
+#include "../types.h"
 
 #include "heap.h"
 #include "deque.h"
@@ -61,7 +59,6 @@ void DWCi_OVRlInit(void);
 void *DWCi_OVRlAlloc(int lcd, int num, int head, int *name);
 void DWCi_OVRlFree(void *ovram);
 extern MemOvr *gObjvramWork;
-
 
 /*
  * sdk:      DWCi_OVRlInit (libdwcutil.TWL.HYB.a(objvram.o))
@@ -81,7 +78,6 @@ void DWCi_OVRlInit(void)
 		DWCi_LSTlPushBack(gObjvramWork->lcd[i].list, &gObjvramWork->lcd[i].last);
 	}
 }
-
 
 /*
  * sdk:      DWCi_OVRlAlloc (libdwcutil.TWL.HYB.a(objvram.o))
@@ -132,7 +128,6 @@ void *DWCi_OVRlAlloc(int lcd, int num, int head, int *name)
     OS_EnableIrqMask(irq);
     return info;
 }
-
 
 /*
  * sdk:      DWCi_OVRlFree (libdwcutil.TWL.HYB.a(objvram.o))

@@ -259,12 +259,7 @@
  *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb  ov021
  */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed short   s16;
-typedef signed char    s8;
-typedef signed int     s32;
+#include "../types.h"
 
 #include "ircbattlemenu_types.h"
 
@@ -425,7 +420,6 @@ extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void PROCSYS_FreeProcWork(struct Proc *proc);
 extern void GFL_HEAP_DeleteChecked(u32 heapId);
-
 
 extern const ActorRow5 sMainMenuActorPosX;
 extern const ActorRow5 sMainMenuActorPosY;

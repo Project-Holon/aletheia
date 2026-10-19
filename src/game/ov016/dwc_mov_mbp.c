@@ -46,18 +46,9 @@
  *   sDwcMovMbpTable  0x021db9d4  data
  *   gMovMbpBuffers  0x021DB9D4  data
  */
-typedef unsigned char u8;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef unsigned long u32;
-
-typedef struct {
-    u8 favoriteColor : 4;
-    u8 playerNo : 4;
-    u8 nameLength;
-    u16 name[10];
-} MBUserInfo;
+#include "../sdk_mb.h"
 
 typedef struct {
     u8 user[0x16];
@@ -85,19 +76,7 @@ typedef struct {
     u8 *sFilebuf;
 } DWCi_MOV_WPB_WORK;
 
-typedef struct {
-    char *romFilePathp;
-    u16 *gameNamep;
-    u16 *gameIntroductionp;
-    char *iconCharPathp;
-    char *iconPalettePathp;
-    u32 ggid;
-    u8 maxPlayerNum;
-    u8 pad[3];
-    u8 userParam[32];
-} MBGameRegistry;
-
-typedef struct { u8 b[0x48]; } FSFile;
+#include "../sdk_fs.h"
 
 typedef struct {
     u16 errCode;
@@ -157,7 +136,6 @@ extern DWCi_MOV_WPB_WORK *gDwcMovMbpWork;
 extern u16 *sDwcMovMbpTable[6];
 extern u16 *gMovMbpBuffers[6];
 
-
 /*
  * Publish the object, initialise the tail region, and clear its two control words.
  * Addresses are Black-image addresses.
@@ -174,7 +152,6 @@ void DWCi_MOV_MBP_MemInit(int x)
     *(int *)(g[0] + 0x1b000 + 0x140) = 0;
     *(int *)(g[0] + 0x1b000 + 0x144) = 0;
 }
-
 
 /*
  * sdk:      DWCi_MOV_MBP_Init (libdwcutil.TWL.HYB.a(dwc_mov_mbp.o))
@@ -199,7 +176,6 @@ void DWCi_MOV_MBP_Init(u32 ggid, u16 tgid)
     DWCi_MOV_MBP_ChangeState(1);
 }
 
-
 /*
  * sdk:      DWCi_MOV_MBP_Start (libdwcutil.TWL.HYB.a(dwc_mov_mbp.o))
  */
@@ -214,7 +190,6 @@ void DWCi_MOV_MBP_Start(MBGameRegistry *gameInfo, u16 channel)
         return;
     OS_Terminate();
 }
-
 
 /*
  * sdk:      DWCi_MOV_MBP_RegistFile (libdwcutil.TWL.HYB.a(dwc_mov_mbp.o))
@@ -249,7 +224,6 @@ int DWCi_MOV_MBP_RegistFile(MBGameRegistry *gameInfo)
     return ret;
 }
 
-
 /*
  * sdk:      DWCi_MOV_MBP_AcceptChild (libdwcutil.TWL.HYB.a dwc_mov_mbp.o)
  *
@@ -274,7 +248,6 @@ void DWCi_MOV_MBP_AcceptChild(u16 aid)
     }
     MB_DisconnectChild(aid);
 }
-
 
 /*
  * sdk:      DWCi_MOV_MBP_KickChild (libdwcutil.TWL.HYB.a(dwc_mov_mbp.o))
@@ -301,7 +274,6 @@ void DWCi_MOV_MBP_KickChild(u16 child_aid)
     OS_RestoreInterrupts(enabled);
 }
 
-
 /*
  * sdk:      DWCi_MOV_MBP_StartDownload (libdwcutil.TWL.HYB.a(dwc_mov_mbp.o))
  */
@@ -326,7 +298,6 @@ void DWCi_MOV_MBP_StartDownload(u16 child_aid)
     gDwcMovMbpWork->mbpState.downloadChildBmp |= (u16)(1 << child_aid);
     OS_RestoreInterrupts(enabled);
 }
-
 
 /*
  * sdk:      DWCi_MOV_MBP_StartDownloadAll (libdwcutil.TWL.HYB.a(dwc_mov_mbp.o))
@@ -357,7 +328,6 @@ void DWCi_MOV_MBP_StartDownloadAll(void)
     }
 }
 
-
 /*
  * sdk:      DWCi_MOV_MBP_IsBootableAll (libdwcutil.TWL.HYB.a(dwc_mov_mbp.o))
  */
@@ -372,7 +342,6 @@ int DWCi_MOV_MBP_IsBootableAll(void)
     }
     return 1;
 }
-
 
 /*
  * sdk:      DWCi_MOV_MBP_StartRebootAll (libdwcutil.TWL.HYB.a(dwc_mov_mbp.o))
@@ -406,13 +375,11 @@ void DWCi_MOV_MBP_StartRebootAll(void)
         DWCi_MOV_MBP_ChangeState(4);
 }
 
-
 void DWCi_MOV_MBP_Cancel(void)
 {
 	DWCi_MOV_MBP_ChangeState(6);
 	MB_EndToIdle();
 }
-
 
 /*
  * Guard on the kind and the paired words of the object at 0x021DE65C.
@@ -428,7 +395,6 @@ static void MBPi_CheckAllReboot(void)
         return;
     DWCi_DwcMoveidMB_EndToIdle();
 }
-
 
 static void ParentStateCallback(u16 child_aid, u32 status, void *arg)
 {
@@ -536,7 +502,6 @@ static void ParentStateCallback(u16 child_aid, u32 status, void *arg)
     }
 }
 
-
 /*
  * Store a halfword at the head of the object behind the global pointer.
  * Addresses are Black-image addresses.
@@ -549,7 +514,6 @@ void DWCi_MOV_MBP_ChangeState(unsigned short v)
 {
     gDwcMovMbpWork->mbpState.state = v;
 }
-
 
 /*
  * Read the halfword at the head of the object behind the global pointer.
@@ -564,7 +528,6 @@ unsigned short DWCi_MOV_MBP_GetState(void)
     return gDwcMovMbpWork->mbpState.state;
 }
 
-
 /*
  * sdk:      DWCi_MOV_MBP_GetChildBmp (libdwcutil.TWL.HYB.a(dwc_mov_mbp.o))
  */
@@ -578,7 +541,6 @@ u16 DWCi_MOV_MBP_GetChildBmp(int bmpType)
     sDwcMovMbpTable[5] = &gDwcMovMbpWork->mbpState.rebootChildBmp;
     return *gMovMbpBuffers[bmpType];
 }
-
 
 /*
  * sdk:      DWCi_MOV_MBP_GetChildState (libdwcutil.TWL.HYB.a(dwc_mov_mbp.o))
@@ -607,7 +569,6 @@ ChildState DWCi_MOV_MBP_GetChildState(u16 aid)
     return CS_CONNECT;
 }
 
-
 /*
  * sdk:      DWCi_MOV_MBP_GetChildInfo (libdwcutil.TWL.HYB.a(dwc_mov_mbp.o))
  */
@@ -618,13 +579,11 @@ DWCi_MOV_MBPChildInfo *DWCi_MOV_MBP_GetChildInfo(u16 child_aid)
     return 0;
 }
 
-
 static inline int cmpmac(u8 *a, u8 *b)
 {
     return a[0] == b[0] && a[1] == b[1] && a[2] == b[2] && a[3] == b[3]
         && a[4] == b[4] && a[5] == b[5];
 }
-
 
 /*
  * sdk:      DWCi_MOV_MBP_GetPlayerNo (libdwcutil.TWL.HYB.a(dwc_mov_mbp.o))

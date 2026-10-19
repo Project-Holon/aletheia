@@ -21,7 +21,7 @@
  *   STRBUF_GetEosChar 0x02045A98 arm
  *   ARC_UTIL_LoadMember 0x0204A1BC arm
  */
-#include "namein_graphic_shared_types.h"
+#include "../types.h"
 
 extern void MI_CpuFill8(void *,unsigned,unsigned);
 

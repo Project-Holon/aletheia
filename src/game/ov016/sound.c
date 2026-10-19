@@ -47,7 +47,7 @@ typedef struct SND {
 	int pad2;
 } SND;
 
-typedef unsigned int   u32;
+#include "../types.h"
 
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 extern void *DWCi_ARClReadEx(char *path, unsigned long *size, int alignment);
@@ -81,7 +81,6 @@ void taskSound(void);
 extern struct SND *gSoundWork;
 extern char sSoundTable[];
 
-
 /*
  * sdk:      DWCi_SNDlInit (libdwcutil.TWL.HYB.a(sound.o))
  */
@@ -105,7 +104,6 @@ void DWCi_SNDlInit(void)
 	gSoundWork->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskSound, 0, 0xc8);
 }
 
-
 /*
  * sdk:      DWCi_SNDlEnd (libdwcutil.TWL.HYB.a(sound.o))
  */
@@ -115,12 +113,10 @@ void DWCi_SNDlEnd(void)
 	DWCi_HEAPlFree_((void **)0x021DE648);
 }
 
-
 void DWCi_SNDlPlay(unsigned int v)
 {
     NNS_SndArcPlayerStartSeqArc((u32)(*(char **)0x021DE648 + 0xa0), 0, v);
 }
-
 
 /*
  * Tail-call NNS_SndHandleSetVolume with the global object +0xa0 and the argument.
@@ -135,7 +131,6 @@ void DWCi_SNDlSetVolume(unsigned int v)
     NNS_SndHandleSetVolume(*(char **)0x021DE648 + 0xa0, v);
 }
 
-
 /*
  * Tail-call NNS_SndHandleSetTrackPitch with the global object +0xa0 and two arguments.
  * Addresses are Black-image addresses.
@@ -149,12 +144,10 @@ void DWCi_SNDlSetPitch(unsigned int a, unsigned int b)
     NNS_SndHandleSetTrackPitch((struct SndHandle *)(*(char **)0x021DE648 + 0xa0), a, b);
 }
 
-
 void DWCi_SNDlStop(void)
 {
     NNS_SndHandleStopSeq((struct SndHandle *)(*(char **)0x021DE648 + 0xa0), 0);
 }
-
 
 void taskSound(void)
 {

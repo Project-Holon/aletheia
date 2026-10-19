@@ -70,11 +70,7 @@ struct GSMD5_CTX {
     unsigned char buffer[64];
 };
 
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 static void Encode(unsigned char * output, unsigned int * input, unsigned int len);
 extern void *memcpy(void *dest, const void *src, unsigned int n);
@@ -95,8 +91,6 @@ void GSMD5Digest(unsigned char * input, unsigned int len, char * output);
 extern unsigned char gMd5cPad[64];
 extern char gMd5cHexDigits[];
 
-
-
 /*
  * sdk:      GSMD5Init (md5c)
  */
@@ -108,8 +102,6 @@ void GSMD5Init(struct GSMD5_CTX * context)
     context->state[2] = 0x98badcfe;
     context->state[3] = 0x10325476;
 }
-
-
 
 void GSMD5Update(struct GSMD5_CTX * context, unsigned char * input, unsigned int inputLen)
 {
@@ -135,8 +127,6 @@ void GSMD5Update(struct GSMD5_CTX * context, unsigned char * input, unsigned int
     GSMD5_memcpy(&context->buffer[index], &input[i], inputLen - i);
 }
 
-
-
 /*
  * sdk:      GSMD5Final (md5c)
  */
@@ -153,8 +143,6 @@ void GSMD5Final(unsigned char * digest, struct GSMD5_CTX * context)
     Encode(digest, context->state, 16);
     GSMD5_memset((unsigned char *)context, 0, sizeof(*context));
 }
-
-
 
 void GSMD5Transform(u32 state[4], const u8 block[64])
 {
@@ -246,7 +234,6 @@ void GSMD5Transform(u32 state[4], const u8 block[64])
     GSMD5_memset(x, 0, 64);
 }
 
-
 /*
  * sdk:      Encode (md5c)
  */
@@ -263,8 +250,6 @@ static void Encode(unsigned char * output, unsigned int * input, unsigned int le
     }
 }
 
-
-
 static void Decode(u32 *dst, const u8 *src, u32 count)
 {
     u32 j = 0;
@@ -280,8 +265,6 @@ static void Decode(u32 *dst, const u8 *src, u32 count)
     }
 }
 
-
-
 /*
  * Tail-call wrapper: the image spells it `ldr ip, [pc]; bx ip; .word
  * target`, which this compiler emits for a tail call to a callee whose
@@ -292,14 +275,10 @@ void *GSMD5_memcpy(void *dest, const void *src, unsigned int n)
     return memcpy(dest, src, n);
 }
 
-
-
 void *GSMD5_memset(void *p, int c, u32 n)
 {
     return MSL_C_LIB_MemsetPtr(p, c, n);
 }
-
-
 
 void GSMD5Print(unsigned char * digest, char * output)
 {
@@ -312,8 +291,6 @@ void GSMD5Print(unsigned char * digest, char * output)
     }
     output[32] = 0;
 }
-
-
 
 /*
  * sdk:      GSMD5Digest (md5c)

@@ -17,15 +17,7 @@
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   _s32_div_f 0x0209C0A4 arm twl a2
  */
-typedef unsigned int u32;
-
-typedef unsigned short u16;
-
-typedef signed short s16;
-
-typedef signed int s32;
-
-typedef unsigned long long u64;
+#include "../types.h"
 
 extern void OS_SpinWaitSysCycles(u32);
 extern unsigned int OS_DisableInterrupts(void);
@@ -53,11 +45,6 @@ u32 CAMERA_GetBytesAtOnceCore(u32 width);
 #define REG_CAM_MCNT (*(volatile u16 *)0x04004200)
 #define REG_CAM_CNT (*(volatile u16 *)0x04004202)
 
-
-
-
-
-
 void CAMERA_ResetCore(void) {
     REG_SCFG_CLK |= 4;
     REG_CAM_MCNT = 0;
@@ -69,20 +56,10 @@ void CAMERA_ResetCore(void) {
     REG_SCFG_CLK &= 0xfeff;
 }
 
-
-
-
-
-
 s32 CAMERA_IsBusyCore(void)
 {
     return (REG_CAM_CNT & 0x8000) >> 15;
 }
-
-
-
-
-
 
 void CAMERA_StartCaptureCore(void) {
     unsigned int irq = OS_DisableInterrupts();
@@ -90,21 +67,11 @@ void CAMERA_StartCaptureCore(void) {
     OS_RestoreInterrupts(irq);
 }
 
-
-
-
-
-
 void CAMERA_StopCaptureCore(void) {
     unsigned int irq = OS_DisableInterrupts();
     REG_CAM_CNT &= 0x7fff;
     OS_RestoreInterrupts(irq);
 }
-
-
-
-
-
 
 void CAMERA_SetTrimmingCore(unsigned int enable) {
     unsigned int irq = OS_DisableInterrupts();
@@ -112,11 +79,6 @@ void CAMERA_SetTrimmingCore(unsigned int enable) {
     REG_CAM_CNT = enable ? (v | 0x4000) : (v & ~0x4000);
     OS_RestoreInterrupts(irq);
 }
-
-
-
-
-
 
 void CAMERA_SetOutputFormatCore(int mode) {
     unsigned int irq = OS_DisableInterrupts();
@@ -131,31 +93,16 @@ void CAMERA_SetOutputFormatCore(int mode) {
     OS_RestoreInterrupts(irq);
 }
 
-
-
-
-
-
 s32 CAMERA_GetErrorStatusCore(void)
 {
     return (REG_CAM_CNT & 0x10) >> 4;
 }
-
-
-
-
-
 
 void CAMERA_ClearBufferCore(void) {
     unsigned int irq = OS_DisableInterrupts();
     REG_CAM_CNT |= 0x20;
     OS_RestoreInterrupts(irq);
 }
-
-
-
-
-
 
 void CAMERA_SetMasterInterruptCore(unsigned int enable) {
     unsigned int irq = OS_DisableInterrupts();
@@ -164,21 +111,11 @@ void CAMERA_SetMasterInterruptCore(unsigned int enable) {
     OS_RestoreInterrupts(irq);
 }
 
-
-
-
-
-
 void CAMERA_SetVsyncInterruptCore(unsigned int val) {
     unsigned int irq = OS_DisableInterrupts();
     REG_CAM_CNT = (REG_CAM_CNT & ~0x300) | val;
     OS_RestoreInterrupts(irq);
 }
-
-
-
-
-
 
 void CAMERA_SetBufferErrorInterruptCore(unsigned int enable) {
     unsigned int irq = OS_DisableInterrupts();
@@ -186,10 +123,6 @@ void CAMERA_SetBufferErrorInterruptCore(unsigned int enable) {
     REG_CAM_CNT = enable ? (v | 0x400) : (v & ~0x400);
     OS_RestoreInterrupts(irq);
 }
-
-
-
-
 
 void CAMERA_SetTransferLinesCore(int mode) {
     unsigned int irq;
@@ -201,16 +134,10 @@ void CAMERA_SetTransferLinesCore(int mode) {
     OS_RestoreInterrupts(irq);
 }
 
-
-
-
-
 s32 CAMERA_GetTransferLinesCore(void)
 {
     return (REG_CAM_CNT & 0xf) + 1;
 }
-
-
 
 u32 CAMERA_GetMaxLinesRoundCore(u32 width, u32 height) {
     s32 lines = 0x400 / (s32)width;
@@ -221,7 +148,6 @@ u32 CAMERA_GetMaxLinesRoundCore(u32 width, u32 height) {
     }
     return 1;
 }
-
 
 u32 CAMERA_GetBytesAtOnceCore(u32 width) {
     return (width << 1) * CAMERA_GetTransferLinesCore();

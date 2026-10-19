@@ -55,7 +55,8 @@ struct DWCNdFileInfo;
 extern void *DWC_AllocEx(int name, unsigned long size, int align);
 extern void DWC_Free(int name, void *ptr, unsigned long size);
 void OS_JoinThread(void *thread);
-struct OSMutex;
+#include "../sdk_os.h"
+
 void OS_LockMutex(struct OSMutex *mutex);
 void OS_UnlockMutex(struct OSMutex *mutex);
 extern int DWC_SVLProcess(void);
@@ -142,12 +143,12 @@ static void DWCi_SVLTokenWaitThread(void *arg)
     while (1) {
         switch (DWC_SVLProcess()) {
         case 3:
-            if (strlen(gDwcNdState.param->svl.svlHost) + strlen("https:///download") > sizeof(url) - 1) {
+            if (strlen(gDwcNdState.param->svl.svlhost) + strlen("https:///download") > sizeof(url) - 1) {
                 NdCallback(0, 8, -1);
                 return;
             }
-            OS_SNPrintf(url, sizeof(url), "https://%s/download", gDwcNdState.param->svl.svlHost);
-            if (DWC_Base64Encode(gDwcNdState.param->svl.svlToken, strlen(gDwcNdState.param->svl.svlToken),
+            OS_SNPrintf(url, sizeof(url), "https://%s/download", gDwcNdState.param->svl.svlhost);
+            if (DWC_Base64Encode(gDwcNdState.param->svl.svltoken, strlen(gDwcNdState.param->svl.svltoken),
                               token, sizeof(token)) < 0) {
                 NdCallback(0, 8, -1);
                 return;

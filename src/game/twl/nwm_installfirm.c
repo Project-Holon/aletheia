@@ -14,8 +14,7 @@
  * symbols:
  *   SVC_GetCRC16  0x02004632  thumb  arm9
  */
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../types.h"
 
 extern u16 SVC_GetCRC16(u32, u32, u32);
 

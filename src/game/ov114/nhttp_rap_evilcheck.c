@@ -71,7 +71,7 @@ void NHTTP_RAP_InitTrainerInfo(NHTTPRapTrainerInfo *info_p, const struct MYSTATU
 extern u16 sNHTTPRapCryptoHeapId;
 
 extern char sNHTTPRapEvilCheckEmptyString[], sNHTTPRapEvilCheckFileName[];
-struct OSMutex;
+#include "../sdk_os.h"
 
 /*
  * Allocates and zeroes an elemSize*count byte scratch block from tag 0xb9.

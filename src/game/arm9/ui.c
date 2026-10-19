@@ -71,9 +71,7 @@
  */
 #define SYS_TICK_COUNTER (*(volatile u32 *)0x02FFFC3C)
 struct UiCtx;
-typedef unsigned char u8;
-
-typedef unsigned int  u32;
+#include "../types.h"
 
 typedef void (*UiCb)(void *);
 
@@ -112,8 +110,6 @@ struct UiCtx {
     u8      reserved42;       /* 0x42 */
     u8      suspended;        /* 0x43 */
 };
-
-typedef unsigned short u16;
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
@@ -189,11 +185,6 @@ typedef struct {
 } UiState;
 
 extern UiState gUiState;
-
-
-
-
-
 
 /*
  * BLOCKER (re-derived after 0x020357E0 was filed in pkt_020357E0): the
@@ -279,11 +270,6 @@ void UI_Create(u32 heap, u8 mode)
     }
 }
 
-
-
-
-
-
 /*
  * One tick of the main loop the areaman singleton drives: bump the frame
  * counter at +0x3e, run the five per-frame services in order, then, only
@@ -332,10 +318,6 @@ void UI_Main(struct UiCtx *p)
     }
 }
 
-
-
-
-
 /*
  * A tail call, `ldr r3,[pc]`/`bx r3`, passing one argument through: the
  * value of a global pointer, dereferenced once.
@@ -358,70 +340,35 @@ void UI_Update(void)
     UI_Main(gUiState.ctx);
 }
 
-
-
-
 void UI_SetKeepAwakeFlags(struct UiCtx *p, u8 flags)
 {
     p->keepAwakeFlags |= flags;
 }
-
-
-
-
-
 
 void UI_SetKeepAwakeFlagsGlobal(u8 flags)
 {
     UI_SetKeepAwakeFlags(gUiState.ctx, flags);
 }
 
-
-
-
-
 void UI_ClearKeepAwakeFlags(struct UiCtx *p, unsigned char flags)
 {
     p->keepAwakeFlags &= (unsigned char)~flags;
 }
-
-
-
-
-
-
 
 void UI_ClearKeepAwakeFlagsGlobal(u8 v)
 {
     UI_ClearKeepAwakeFlags(gUiState.ctx, v);
 }
 
-
-
-
-
-
 u32 UI_TestKeepAwakeFlags(struct UiCtx *p, u8 flags)
 {
     return (p->keepAwakeFlags & flags) != 0;
 }
 
-
-
-
-
-
-
 u32 UI_TestKeepAwakeFlagsGlobal(u8 flags)
 {
     return UI_TestKeepAwakeFlags(gUiState.ctx, flags);
 }
-
-
-
-
-
-
 
 /*
  * Setter: stores two values into an object at +0x14 and +0x28.
@@ -432,12 +379,6 @@ void UI_SetSleepHook(struct UiCtx *o, UiCb a, void *b)
     o->sleepWakeArg = b;
 }
 
-
-
-
-
-
-
 /*
  * Wrapper: calls UI_SetSleepHook with the object gUiState.ctx points at as the first argument.
  */
@@ -445,12 +386,6 @@ void UI_SetSleepHookGlobal(UiCb a, void *b)
 {
     UI_SetSleepHook(gUiState.ctx, a, b);
 }
-
-
-
-
-
-
 
 /*
  * Setter: stores two values into an object at +0x10 and +0x28.
@@ -461,10 +396,6 @@ void UI_SetWakeHook(struct UiCtx *o, UiCb a, void *b)
     o->sleepWakeArg = b;
 }
 
-
-
-
-
 /*
  * Wrapper: calls UI_SetWakeHook with the object gUiState.ctx points at as the first argument.
  */
@@ -472,9 +403,6 @@ void UI_SetWakeHookGlobal(UiCb a, void *b)
 {
     UI_SetWakeHook(gUiState.ctx, a, b);
 }
-
-
-
 
 /*
  * Stores a callback and its argument into the object gUiState.ctx points at
@@ -487,12 +415,6 @@ void UI_SetKeepAwakePred(UiPred fn, void *arg)
     gUiState.ctx->keepAwakePred = fn;
     gUiState.ctx->keepAwakeArg = arg;
 }
-
-
-
-
-
-
 
 /*
  * A plain two-field setter in the ARM SDK-style block at
@@ -512,11 +434,6 @@ void UI_SetSuspendHook(struct UiCtx *p, UiCb fn, void *arg)
     p->suspendResumeArg = arg;
 }
 
-
-
-
-
-
 void UI_SetResumeAndSuspendHooks(UiCb a, UiCb b, void *c)
 {
     struct UiCtx *g = gUiState.ctx;
@@ -532,11 +449,6 @@ void UI_SetResumeAndSuspendHooks(UiCb a, UiCb b, void *c)
     UI_SetSuspendHook(gUiState.ctx, a, c);
     UI_SetResumeHook(gUiState.ctx, b, c);
 }
-
-
-
-
-
 
 /*
  * An unlabelled leaf.  disasm.py only traces a prologue that saves lr, so this
@@ -554,12 +466,6 @@ UiCb UI_GetSuspendHook(struct UiCtx *p)
     return p->onSuspend;
 }
 
-
-
-
-
-
-
 /*
  * closed:   the tail call's target 0x02035100 is now a manifest entry
  *           (matched class); the global resolves on `literal x100`.
@@ -573,12 +479,6 @@ UiCb UI_GetSuspendHookGlobal(void)
 {
     return UI_GetSuspendHook(gUiState.ctx);
 }
-
-
-
-
-
-
 
 /*
  * Two more plain field setters right after UI_SetSuspendHook's pair, same shape:
@@ -603,23 +503,11 @@ void UI_SetResumeHook(struct UiCtx *p, UiCb fn, void *arg)
     p->suspendResumeArg = arg;
 }
 
-
-
-
-
 void UI_SetWakePoweredHook(struct UiCtx *p, UiCb fn, void *arg)
 {
     p->onWakePowered = fn;
     p->wakePoweredArg = arg;
 }
-
-
-
-
-
-
-
-
 
 /*
  * Tail call: UI_SetWakePoweredHook(*gUiState.ctx, fn, arg).  Called from GAMESYSTEM_RegisterSleepCallback
@@ -629,14 +517,6 @@ void UI_SetWakePoweredHookGlobal(UiCb fn, void *arg)
 {
     UI_SetWakePoweredHook(gUiState.ctx, fn, arg);
 }
-
-
-
-
-
-
-
-
 
 /*
  * The set half of a set/clear pair on the flag byte at +0x39, right after
@@ -654,24 +534,10 @@ void UI_SetSoftResetInhibit(struct UiCtx *p, u8 mask)
     p->softResetInhibit |= mask;
 }
 
-
-
-
-
-
-
-
 void UI_SetSoftResetInhibitGlobal(u8 mask)
 {
     UI_SetSoftResetInhibit(gUiState.ctx, mask);
 }
-
-
-
-
-
-
-
 
 /*
  * The clear half of the set/clear pair on the flag byte at +0x39. No lr
@@ -688,22 +554,10 @@ void UI_ClearSoftResetInhibit(struct UiCtx *p, u32 mask)
     p->softResetInhibit &= ~mask;
 }
 
-
-
-
-
-
-
 void UI_ClearSoftResetInhibitGlobal(u32 v)
 {
     UI_ClearSoftResetInhibit(gUiState.ctx, v);
 }
-
-
-
-
-
-
 
 /*
  * The test half of the set/clear/test trio on the flag byte at +0x39.
@@ -720,23 +574,10 @@ u32 UI_TestSoftResetInhibit(struct UiCtx *p, u32 mask)
     return (p->softResetInhibit & mask) != 0;
 }
 
-
-
-
-
-
-
 u32 UI_TestSoftResetInhibitGlobal(u32 mask)
 {
     return UI_TestSoftResetInhibit(gUiState.ctx, mask);
 }
-
-
-
-
-
-
-
 
 /*
  * A plain two-field setter, same shape as UI_SetSuspendHook/UI_SetResumeHook: "str
@@ -755,12 +596,6 @@ void UI_SetIntrData(struct UiCtx *p, u32 a, u32 b)
     p->intrArg = b;
 }
 
-
-
-
-
-
-
 /*
  * Forwards both arguments to the setter UI_SetIntrData on the object held in
  * gUiState.ctx (a tail call through ip).  No lr push, so disasm.py never
@@ -770,12 +605,6 @@ void UI_SetIntrDataGlobal(u32 a, u32 b)
 {
     UI_SetIntrData(gUiState.ctx, a, b);
 }
-
-
-
-
-
-
 
 /*
  * A trivial pointer-dereference getter: "ldr r0,[r0]; bx lr", eight bytes,
@@ -791,12 +620,6 @@ u32 UI_GetPointerValue(u32 *p)
 {
     return *p;
 }
-
-
-
-
-
-
 
 /*
  * The singleton accessor for the UI context UI_Create publishes: stop the
@@ -820,12 +643,6 @@ struct UiCtx *UI_GetContext(void)
     return gUiState.ctx;
 }
 
-
-
-
-
-
-
 /*
  * One of the five optional callback slots the UI context carries: run the
  * hook at +0x14 with its own argument at +0x28 if one is installed, and do
@@ -842,12 +659,6 @@ void UI_RunSleepHook(struct UiCtx *p)
     }
 }
 
-
-
-
-
-
-
 /*
  * The +0x10 callback slot, same shape as UI_RunSleepHook and sharing its
  * argument word at +0x28.
@@ -861,12 +672,6 @@ void UI_RunWakeHook(struct UiCtx *p)
         p->onWake(p->sleepWakeArg);
     }
 }
-
-
-
-
-
-
 
 /*
  * Arm the context: run the +0x1c hook with the +0x2c argument and set the
@@ -883,12 +688,6 @@ void UI_RunSuspendHook(struct UiCtx *p)
         p->resumeArmed = 1;
     }
 }
-
-
-
-
-
-
 
 /*
  * The disarming half of UI_RunSuspendHook: run the +0x18 hook with the same
@@ -909,12 +708,6 @@ void UI_RunResumeHook(struct UiCtx *p)
         p->resumeArmed = 0;
     }
 }
-
-
-
-
-
-
 
 /*
  * BLOCKED on two relocation sites: all 180 concrete bytes are correct,
@@ -1025,33 +818,6 @@ int UI_IsPowerConnected(void)
     return UI_GetPowerState() <= 2;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Run the +0x20 hook, but only when one is installed and UI_IsPowerConnected says
  * the state allows it.  The two guards each carry their own `popeq`: a call
@@ -1076,32 +842,6 @@ void UI_RunWakePoweredHook(struct UiCtx *ui)
     ui->onWakePowered(ui->wakePoweredArg);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * The context's veto predicate: the byte at +0x38 forces a yes, otherwise a
  * hook at +0x24 decides, and with no hook the answer is no.  The hook
@@ -1121,31 +861,6 @@ int UI_IsSleepInhibited(struct UiCtx *ui)
     }
     return ui->keepAwakePred(ui->keepAwakeArg);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Retry PM_SetBackLight on the bottom screen until it reports success or a
@@ -1167,30 +882,6 @@ void UI_SetBottomBackLight(u32 backlightState)
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * The lid/sleep service, one of the five UI_Main runs per frame.  Bit
@@ -1258,29 +949,6 @@ void UI_ServiceLidSleep(void)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * The soft-reset trap: fade both screens to white, tear the UI down, then spin
  * forever pumping the main loop's per-frame work.  The loop never exits (the
@@ -1317,28 +985,6 @@ void UI_SoftReset(u32 resetParam)
         FADE_Update();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.
@@ -1383,215 +1029,40 @@ u8 UI_GetInputMode(void)
     return gUiState.ctx->inputMode;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void UI_SetInputMode(u8 value)
 {
     gUiState.ctx->inputMode = value;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void UI_ResetFrameCounterOf(struct UiCtx *ui)
 {
     ui->frameCounter = 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void UI_SetFrameRateOf(struct UiCtx *unused, u8 value)
 {
     gUiState.ctx->frameRate = value;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 u8 UI_GetFrameRateOf(struct UiCtx *ui)
 {
     return ui->frameRate;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void UI_SetFrameRate(u8 value)
 {
     UI_SetFrameRateOf(gUiState.ctx, value);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 u8 UI_GetFrameRate(void)
 {
     return UI_GetFrameRateOf(gUiState.ctx);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void UI_ResetFrameCounter(void)
 {
     UI_ResetFrameCounterOf(gUiState.ctx);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void UI_ChangeFrameRate(u8 value)
 {
@@ -1600,53 +1071,10 @@ void UI_ChangeFrameRate(u8 value)
     TOUCHPANEL_ClearFrameRateWork(gUiState.ctx);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int UI_GetPowerState(void)
 {
     return gUiState.ctx->powerState;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * A descriptor fan-out: the global at 0x021469BC carries a callback at +4

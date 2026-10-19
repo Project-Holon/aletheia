@@ -28,17 +28,7 @@
  *   BG_SYS_DrawTileEx 0x020410D0 arm
  */
 
-typedef signed short s16;
-
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef signed int     s32;
-
-typedef signed char s8;
+#include "../types.h"
 
 /* Screen point; this file stores the y coordinate first (see SetPoint). */
 typedef struct Wf2dmapPoint {
@@ -125,7 +115,6 @@ Wf2dmapBitmapDesc *WF2DMAP_SCRDRAW_CreateBitmapDesc(void *src, u32 count, const 
     desc->palette = ARC_UTIL_LoadPaletteDataFromArchive(res[8], res[9], res[10], (&desc->paletteOut), heap);
     return desc;
 }
-
 
 void WF2DMAP_SCRDRAW_DeleteBitmapDesc(u8 *desc)
 {
@@ -258,7 +247,6 @@ void WF2DMAP_SCRDRAW_DrawTilesWrapped(void *surface, u8 layer, u8 x, u8 y, u8 w,
         y = y + (u8)n;
     } while (hh > 0);
 }
-
 
 int WF2DMAP_SCRDRAW_GetMode(unsigned int width, unsigned int height)
 {

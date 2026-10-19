@@ -25,7 +25,7 @@
  *   _MicIirFilter       0x020A7030  data
  *   _SndMic             0x02146164  data
  *   PERAPVOICE_Pack  0x02007BD0  thumb
- *   MIC_AdjustLimitedSampling    0x0208B500  arm
+ *   MIC_StartLimitedSampling    0x0208B500  arm
  */
 #include "pm_voice_shared_types.h"
 
@@ -73,7 +73,7 @@ extern int   OS_IsRunOnTwl(void);
 
 extern u32 SNDEXi_SetIirFilter(u32 target, u16 *coefficients);
 
-extern u32   MIC_AdjustLimitedSampling(const struct MICAutoParam *param);
+extern u32   MIC_StartLimitedSampling(const struct MICAutoParam *param);
 struct PerapVoice;
 
 extern void  PERAPVOICE_Pack(struct PerapVoice *voice, char *src);
@@ -175,7 +175,7 @@ u32 SND_MIC_IsLimitReached(void)
  */
 u32 SND_MIC_StartSampling(const struct MICAutoParam *param)
 {
-    u32 result = MIC_AdjustLimitedSampling(param);
+    u32 result = MIC_StartLimitedSampling(param);
 
     _SndMic->sampling = 1;
     _SndMic->param = *param;

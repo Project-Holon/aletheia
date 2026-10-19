@@ -125,8 +125,7 @@ struct Sub02008C20Obj;
 struct Self;
 struct S0201235C;
 
-
-typedef signed char    s8;
+#include "../types.h"
 
 typedef struct ShortcutActorPos {
     u16 x;
@@ -209,9 +208,7 @@ typedef struct ShortcutMenu {
     struct Node *scrollTask;              /* 0x84 */
 } ShortcutMenu;
 
-
-
-typedef struct { fx32 m[3][3]; } MtxFx33;
+#include "../sdk_fx.h"
 
 /* Entry template for BILLBOARD_ACT_CreateEntries (0x24 bytes). */
 typedef struct BbActDesc {

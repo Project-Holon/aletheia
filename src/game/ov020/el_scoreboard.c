@@ -197,13 +197,7 @@ struct BgTemplate;
 struct DispConfig;
 struct DispVram;
 struct NitroFileHeader;
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef signed int     s32;
+#include "../types.h"
 
 #include "el_scoreboard_types.h"
 u32 GFL_HEAP_Free(void *p);

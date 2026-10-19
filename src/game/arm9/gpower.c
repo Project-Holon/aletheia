@@ -60,7 +60,7 @@ typedef struct GPowerState {
 
 #define GPOWER_TYPE_NONE 0xD
 
-typedef signed long long s64;
+#include "../types.h"
 
 extern void *ARC_TOOL_LoadMember(u32 arcId, u32 dataId, u32 heapId);
 

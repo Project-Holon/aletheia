@@ -48,7 +48,7 @@
 #else
 #define MANUAL_MSG_ARCHIVE_1 62
 #endif
-#include "manual_data_shared_types.h"
+#include "../types.h"
 #include "manual_common_shared_types.h"
 
 struct GfFont;

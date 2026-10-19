@@ -66,12 +66,11 @@ struct Sub0200852CObj;
 struct FieldMap;
 struct CharBuf;
 struct Light;
-struct VecFx32;
+#include "../sdk_fx.h"
+
 struct Descriptor;
 struct Cfg;
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../types.h"
 typedef struct { int x, y, z; } V;
 
 /* One frame of the save icon animation: character frame and its length. */

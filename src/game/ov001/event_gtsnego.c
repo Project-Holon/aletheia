@@ -65,11 +65,7 @@ struct GameComm;
 struct NetHandle;
 struct Party;
 struct MyStatus;
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
+#include "../types.h"
 
 /* Request read by the evolution demo overlay (ov195). */
 typedef struct EvolutionRequest {
@@ -190,8 +186,6 @@ extern char d_021D890C[];
 extern char d_021E759C[];
 extern char d_02208C40[];
 extern char d_021546A0[];
-
-
 
 u32 EVENT_GTSNEGO_Main(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work)
 {
@@ -331,8 +325,6 @@ u32 EVENT_GTSNEGO_Main(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work
     return 0;
 }
 
-
-
 /*
  * Builder: guard + allocator, then a straight slab/field layout.
  * Fills the event work: game system, party for traded Pokemon, status copies
@@ -364,8 +356,6 @@ void *EVENT_GTSNEGO_InitWork(void *event, void *gameSystem, int a, int startMode
     return work;
 }
 
-
-
 /*
  * Allocator call with a callback, then a two-argument tail setup; returns the
  * allocator result.
@@ -376,7 +366,6 @@ void *EVENT_GTSNEGO_Create(void *gameSystem, int a)
     EVENT_GTSNEGO_InitWork(event, gameSystem, a, 0);
     return event;
 }
-
 
 /* Overlay entry point: forwards to the event constructor. */
 void *EVENT_GTSNEGO_Entry(void *gameSystem, int a)

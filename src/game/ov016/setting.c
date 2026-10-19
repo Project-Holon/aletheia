@@ -43,32 +43,7 @@
  */
 typedef _Bool bool;
 
-typedef struct NCFGApInfo {
-    unsigned char  ispId[32];         /* 0x00 */
-    unsigned char  ispPass[32];       /* 0x20 */
-    unsigned char  ssid[2][32];       /* 0x40 */
-    unsigned char  wep[4][16];        /* 0x80 */
-    unsigned char  ip[4];             /* 0xC0 */
-    unsigned char  gateway[4];        /* 0xC4 */
-    unsigned char  dns[2][4];         /* 0xC8 */
-    unsigned char  netmask;           /* 0xD0 */
-    unsigned char  wep2[4][5];        /* 0xD1 */
-    unsigned char  authType;          /* 0xE5 */
-    unsigned char  wepMode : 2;       /* 0xE6 */
-    unsigned char  wepNotation : 6;
-    unsigned char  setType;           /* 0xE7 */
-    unsigned char  ssidLength[2];     /* 0xE8 */
-    unsigned short mtu;               /* 0xEA */
-    unsigned char  rsv[2];            /* 0xEC */
-    unsigned char  flags;             /* 0xEE */
-    unsigned char  state;             /* 0xEF */
-} NCFGApInfo;
-
-typedef struct NCFGSlotInfo {
-    NCFGApInfo     ap;                /* 0x00 */
-    unsigned char  wifi[14];          /* 0xF0 */
-    unsigned short crc;               /* 0xFE */
-} NCFGSlotInfo;
+#include "../sdk_ncfg.h"
 
 typedef struct tagDWCMemMap { NCFGSlotInfo page[4]; } DWCMemMap;
 
@@ -80,7 +55,7 @@ typedef struct tagSETTINGINFO {
     bool           dnsAuto;           /* 0xF6 */
 } SETTINGINFO;
 
-typedef struct MATHCRC16Table { unsigned short table[256]; } MATHCRC16Table;
+#include "../sdk_math.h"
 
 typedef struct tagMEMSET {
     DWCMemMap      map;               /* 0x000 */
@@ -113,12 +88,7 @@ typedef struct aoss_secure_info {
     unsigned char WPA_PSK_AES_SSID[33];
 } aoss_secure_info;
 
-typedef struct tagDWCWiFiInfo {
-    unsigned long long attestedUserId;
-    unsigned long long notAttestedId;
-    unsigned short     pass;
-    unsigned short     randomHistory;
-} DWCWiFiInfo;
+#include "../sdk_dwc.h"
 
 extern int atoi(const char *s);
 extern int memcmp(unsigned char *s1, unsigned char *s2, unsigned int n);

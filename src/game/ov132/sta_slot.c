@@ -16,12 +16,7 @@
  *   d_021FDDEC 0x021FDDEC data a4
  */
 
-typedef unsigned char u8;
-typedef unsigned int u32;
-typedef unsigned short u16;
-typedef signed char s8;
-typedef signed short s16;
-typedef signed int s32;
+#include "../types.h"
 
 /* One of four player slots of the staging state; stride 0x30. */
 typedef struct StaSlot {
@@ -54,20 +49,14 @@ unsigned char *STA_SLOT_GetRecordTable(void *h);
 void STA_SLOT_Noop(int buffer, int size, int kind);
 extern unsigned char d_021FDDEC[];
 
-
 u32 STA_SLOT_GetSub(char *p, u32 index, u32 subindex) { p = p + index * 0x30; return *(u8 *)(p + subindex + 0x73); }
-
 
 /* A byte parameter keeps the store input live without an entry truncation. */
 void STA_SLOT_SetValueByKey(char *p, u32 key, u8 value) { u8 i; for (i = 0; i < 4; i++) { if (key == ((StaSlotOwner *)p)->slots[i].key) { ((StaSlotOwner *)p)->slots[i].used = 1; ((StaSlotOwner *)p)->slots[i].value = value; } } }
 
-
 unsigned char STA_SLOT_GetStateByKey(unsigned char *p, unsigned char key) { unsigned char i; for (i = 0; i < 4; i++) { if (((StaSlotOwner *)p)->slots[i].key == key) return ((StaSlotOwner *)p)->slots[i].state; } return 10; }
 
-
 void STA_SLOT_ResetStateByKey(unsigned char *p, unsigned char key) { unsigned char i; for (i = 0; i < 4; i++) { if (((StaSlotOwner *)p)->slots[i].key == key) ((StaSlotOwner *)p)->slots[i].state = 10; } }
-
-
 
 int STA_SLOT_GetCurrentKey(char *p)
 {
@@ -78,9 +67,7 @@ int STA_SLOT_GetCurrentKey(char *p)
     return 4;
 }
 
-
 void STA_SLOT_ClearCurrent(unsigned char *p) { ((StaSlotOwner *)p)->currentSlot = 4; }
-
 
 void STA_SLOT_PushRecord(StaSlotOwner *p, u32 player, u32 action, u32 result)
 {
@@ -93,7 +80,6 @@ void STA_SLOT_PushRecord(StaSlotOwner *p, u32 player, u32 action, u32 result)
         }
     }
 }
-
 
 unsigned char *STA_SLOT_GetRecordTable(void *unused) { return d_021FDDEC; }
 

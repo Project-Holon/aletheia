@@ -64,13 +64,7 @@ struct Actor;
 struct Entry;
 struct Link;
 struct McssFade;
-typedef signed char s8;
-
-typedef unsigned int u32;
-
-typedef unsigned short u16;
-
-typedef unsigned char u8;
+#include "../types.h"
 
 /* Parameter block passed to CLACT_CreateActor as its position argument. */
 typedef struct {
@@ -80,10 +74,6 @@ typedef struct {
     u8  x;
     u8  y;
 } ClactCellParam;
-
-typedef short s16;
-
-typedef int s32;
 
 extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 extern int POKETRADE_PROC_IsHostSide(void *p);
@@ -141,9 +131,6 @@ extern const char d_021D55B0[];
 extern const Vec d_021D51F4;
 extern const Vec d_021D51E8;
 
-
-
-
 void POKETRADE_DEMO_COMMON_StepFade(s8 *fade)
 {
     s32 brightness;
@@ -159,9 +146,6 @@ void POKETRADE_DEMO_COMMON_StepFade(s8 *fade)
         G2x_SetBlendBrightness_(0x04001050, 0x1F, brightness);
     }
 }
-
-
-
 
 void POKETRADE_DEMO_COMMON_CompareSideMon(u8 *p, u8 *outSame, u8 *outFlag, u32 key, int enemy)
 {
@@ -211,9 +195,6 @@ void POKETRADE_DEMO_COMMON_CompareSideMon(u8 *p, u8 *outSame, u8 *outFlag, u32 k
     }
 }
 
-
-
-
 void POKETRADE_DEMO_COMMON_ShowUnitActor(void *p)
 {
     void *actor = ((PokeTradeAnimWork *)((PokeTradeDemoWork *)p)->animWork)->actor;
@@ -237,9 +218,6 @@ void POKETRADE_DEMO_COMMON_ShowUnitActor(void *p)
     }
 }
 
-
-
-
 void POKETRADE_DEMO_COMMON_LoadUnitResources(void *p)
 {
     void *res = ARC_TOOL_CreateHandle(0x67, ((PokeTradeDemoWork *)p)->heapId);
@@ -249,9 +227,6 @@ void POKETRADE_DEMO_COMMON_LoadUnitResources(void *p)
     ARC_TOOL_DeleteHandle(res);
     ((PokeTradeAnimWork *)((PokeTradeDemoWork *)p)->animWork)->actor = 0;
 }
-
-
-
 
 void POKETRADE_DEMO_COMMON_ReleaseUnit(void *p)
 {
@@ -270,23 +245,11 @@ void POKETRADE_DEMO_COMMON_ReleaseUnit(void *p)
     ((PokeTradeAnimWork *)((PokeTradeDemoWork *)b)->animWork)->actor = 0;
 }
 
-
-
-
 int POKETRADE_DEMO_COMMON_PassThrough(int a) { return a; }
-
-
-
 
 void POKETRADE_DEMO_COMMON_SetFrame(u8 *p, u32 v) { ((PokeTradeDemoWork *)p)->frame = v; }
 
-
-
-
 void POKETRADE_DEMO_COMMON_SetFinishFlag(u8 *p) { ((PokeTradeDemoWork *)p)->finishFlag = 1; }
-
-
-
 
 void POKETRADE_DEMO_COMMON_StepCompareMons(u8 *p)
 {
@@ -304,16 +267,12 @@ void POKETRADE_DEMO_COMMON_StepCompareMons(u8 *p)
     }
 }
 
-
-
 void POKETRADE_DEMO_COMMON_StepWaitSync(u8 *p)
 {
     if (GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0x11, 8) != 0) {
         POKETRADE_PROC_SetStep(p, (int)POKETRADE_DEMO_COMMON_StepStartSlides);
     }
 }
-
-
 
 void POKETRADE_DEMO_COMMON_StepStartSlides(u8 *p)
 {

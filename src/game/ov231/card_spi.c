@@ -36,13 +36,7 @@
  *   kept (user decision 2026-10-05, same practice as _u32_div_f elsewhere).
  */
 
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef unsigned long long u64;
+#include "../types.h"
 
 typedef struct {
     int pad00;
@@ -66,7 +60,6 @@ extern CardSpiTransfer d_02180A20;
 extern CardSpiTransfer d_02180A20_b;
 extern u8 d_02180A30;
 extern u16 d_02180A00;
-
 
 int CARD_SPI_RunCommand(void)
 {
@@ -98,19 +91,16 @@ int CARD_SPI_RunCommand(void)
     return response;
 }
 
-
 void CARD_SPI_WaitNotBusy(void)
 {
     while (*(volatile u16 *)0x040001A0 & 0x80)
         ;
 }
 
-
 void CARD_SPI_SetControl(u16 v)
 {
     *(volatile u16 *)0x040001A0 = v | 0xA000;
 }
-
 
 u8 CARD_SPI_ExchangeByte(CardSpiTransfer *xfer)
 {
@@ -127,7 +117,6 @@ u8 CARD_SPI_ExchangeByte(CardSpiTransfer *xfer)
     return v;
 }
 
-
 /*
  * volatile: SPI data register 040001A2 written at 021809BC and read at 021809C2.
  */
@@ -141,7 +130,6 @@ void CARD_SPI_ReceiveByte(CardSpiTransfer *xfer)
     *xfer->rxCursor=*(volatile u16 *)0x040001A2;
     xfer->rxCursor+=1;
 }
-
 
 int CARD_SPI_CheckCardId(void)
 {

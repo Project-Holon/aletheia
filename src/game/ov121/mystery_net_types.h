@@ -52,16 +52,11 @@ typedef struct MysteryNetWork {
     int recvState;                       /* 0x17A4 1 when recvBuffer holds a result */
 } MysteryNetWork;                        /* 0x17A8 */
 
-
 struct Cfg;
 
 struct Obj;
 
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
+#include "../types.h"
 
 /* CLACT sprite renderer pair owned by the graphic module. */
 typedef struct MysteryGraphicClact {

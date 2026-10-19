@@ -3,7 +3,7 @@
 
 #include "event_ircbattle_shared_types.h"
 
-typedef signed short s16;
+#include "../types.h"
 
 struct MusicalSave;
 

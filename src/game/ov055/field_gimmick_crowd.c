@@ -87,13 +87,7 @@ struct FieldPlayer;
 struct MsgData;
 struct ArcFile;
 
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef unsigned char  u8;
-
-typedef signed short   s16;
+#include "../types.h"
 
 #define CROWD_PERSON_MAX 32
 #define CROWD_AREA_MAX 2

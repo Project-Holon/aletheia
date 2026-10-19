@@ -27,21 +27,9 @@
  *   g_02148318     0x02148318  data  a4
  *   MIi_CpuClearFast  0x02082AC0  arm
  */
-typedef unsigned char  u8;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef signed short   s16;
-
-typedef unsigned int   u32;
-
-typedef int            s32;
-
-typedef int            BOOL;
-
-typedef s32            fx32;
-
-typedef struct { fx32 _00, _01, _10, _11; } MtxFx22;
+#include "../sdk_fx.h"
 
 typedef struct { fx32 _00, _01, _10, _11, _20, _21; } MtxFx32;
 
@@ -147,8 +135,6 @@ extern struct RendererData g_020A81F8;
 extern NNSG2dRndCore2DMtxCache g_02148318[32];
 extern MCMMtxState g_02147C18[32];
 
-
-
 /*
  * Name-record walker, the 0x5c / 0x28 stride pair of the cluster_02064B68
  * bank family.  A table with a u16 count at +0x00 and an 8-byte-record array
@@ -209,9 +195,6 @@ void NNSi_G2dMCEnumAnimBank(MCAnimBank *bank, int (*visit)(void *, void *, void 
     }
 }
 
-
-
-
 /*
  * Initialises one 0x18-byte slot of the renderer's per-slot tables, selected by
  * g_02147B88's +0xC field: either the two words at 0x02147D28 / 0x02147D2C are
@@ -246,28 +229,20 @@ void NNSi_G2dRendererResetMtxSlot(void)
     g_02147B98[i] = 0;
 }
 
-
-
 static inline void MI_CpuFillFast(void *dest, u32 data, u32 size)
 {
     MIi_CpuClearFast(data, dest, size);
 }
-
-
 
 static inline void NNS_G2dInitRndCore2DMtxCache(NNSG2dRndCore2DMtxCache *pMtxCache)
 {
     MI_CpuFillFast(pMtxCache->affineIndex, 0xFFFFFFFF, sizeof(pMtxCache->affineIndex));
 }
 
-
-
 static inline u16 NNSi_G2dGetMtxStackPos(void)
 {
     return (u16)(g_02147B88.stackPos_);
 }
-
-
 
 static inline const MtxFx32 *NNSi_G2dGetCurrentMtxFor2DHW(void)
 {
@@ -280,8 +255,6 @@ static inline const MtxFx32 *NNSi_G2dGetCurrentMtxFor2DHW(void)
     }
 }
 
-
-
 static inline void NNSi_G2dGetMtxRS(const MtxFx32 *m, MtxFx22 *pRet)
 {
     pRet->_00 = m->_00;
@@ -290,14 +263,10 @@ static inline void NNSi_G2dGetMtxRS(const MtxFx32 *m, MtxFx22 *pRet)
     pRet->_11 = m->_11;
 }
 
-
-
 static inline NNSG2dRndCore2DMtxCache *NNSi_RMCGetMtxCacheByIdx(u16 idx)
 {
     return &g_02148318[idx];
 }
-
-
 
 static inline u16 NNSi_RMCUseNewMtxCache(void)
 {
@@ -310,35 +279,25 @@ static inline u16 NNSi_RMCUseNewMtxCache(void)
     return ret;
 }
 
-
-
 static inline u16 GetMtxStateMtxCacheIdx_(const MCMMtxState *pMtxState)
 {
     return pMtxState->mtxCacheIdx;
 }
-
-
 
 static inline void SetMtxStateMtxCacheIdx_(MCMMtxState *pMtxState, u16 cacheIdx)
 {
     pMtxState->mtxCacheIdx = cacheIdx;
 }
 
-
-
 static inline u16 GetMtxStateGroupID_(const MCMMtxState *pMtxState)
 {
     return pMtxState->groupID;
 }
 
-
-
 static inline MCMMtxState *GetCuurentMtxState_(void)
 {
     return &g_02147C18[NNSi_G2dGetMtxStackPos()];
 }
-
-
 
 static inline void SetParentMtxStateLoaded_(u16 mtxCacheIdx, u16 groupID)
 {
@@ -355,14 +314,10 @@ static inline void SetParentMtxStateLoaded_(u16 mtxCacheIdx, u16 groupID)
     }
 }
 
-
-
 static inline NNSG2dRndCore2DMtxCache *NNSi_G2dMCMGetCurrentMtxCache(void)
 {
     return NNSi_RMCGetMtxCacheByIdx(GetMtxStateMtxCacheIdx_(GetCuurentMtxState_()));
 }
-
-
 
 static inline BOOL NNSi_G2dMCMShouldCurrentMtxBeLoadedToMtxCache(void)
 {
@@ -371,8 +326,6 @@ static inline BOOL NNSi_G2dMCMShouldCurrentMtxBeLoadedToMtxCache(void)
     return (BOOL)(pCurrMtxState->stateType == 1 ||
                   pCurrMtxState->stateType == 2);
 }
-
-
 
 void NNSi_G2dMCMLoadCurrentMtxToCache(void)
 {
@@ -394,7 +347,6 @@ void NNSi_G2dMCMLoadCurrentMtxToCache(void)
     }
 }
 
-
 static inline MtxFx32 *GetMtx(void)
 {
     MtxFx32 *m;
@@ -409,7 +361,6 @@ static inline MtxFx32 *GetMtx(void)
     return m;
 }
 
-
 static inline MtxFx32 *GetMtxEarly(void)
 {
     if (g_02147B88.bDonotUseSRTransform != 0) {
@@ -419,7 +370,6 @@ static inline MtxFx32 *GetMtxEarly(void)
     }
     return &g_02147D18[g_02147B88.stackPos_];
 }
-
 
 /*
  * First callback: runs the live actor vtable's +0x34 predicate with the
@@ -468,7 +418,6 @@ void NNSi_G2dRendererBeforeDrawCell(struct CellDrawState *pDrawState, void *pCel
 
     v->pBeforeDrawCellBackFunc(g_02147B88.pCurrentInstance_, v, pCellData, GetMtx());
 }
-
 
 /*
  * Second callback: dispatches the live actor vtable's +0x3c slot as

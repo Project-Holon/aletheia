@@ -60,19 +60,7 @@
  *   NNS_G2dGetCellDataByIdx  0x0206285C  arm
  */
 struct AnimBank;
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef signed short   s16;
-
-typedef signed int     s32;
-
-typedef int            BOOL;
-
-typedef s32            fx32;
+#include "../types.h"
 
 typedef struct AnimFrameData {
     void *pContent;
@@ -223,8 +211,6 @@ void NNS_G2dSetMCAnimationSpeed(MultiCellAnim *pMCAnim, fx32 speed);
 void NNSi_G2dSetMCInstanceCurrentFrameZero(MCInstance *pMCInst);
 void NNS_G2dRestartMCAnimation(MultiCellAnim *pMCAnim);
 
-
-
 /*
  * Opens one 0x28-byte group header of the two-level cell-array shape: clears
  * the header's first word, stores the cell pointer at +0x04, sets the "in use"
@@ -251,10 +237,6 @@ void NNSi_G2dInitMCNode(Node *pNode, u32 type)
     pNode->bVisible = 1;
     NNSi_G2dSrtcInitControl((struct NNSG2dSRTControl *)(&pNode->srtCtrl), 1);
 }
-
-
-
-
 
 void NNSi_G2dRefreshCellAnimation(CellAnim *pCellAnim)
 {
@@ -304,9 +286,6 @@ void NNSi_G2dRefreshCellAnimation(CellAnim *pCellAnim)
     }
 }
 
-
-
-
 /*
  * Binds one cell-bank row to an animation object: stores the row pointer at
  * +0x34, writes the "no cell bound" sentinel -1 at +0x38, opens the SRT block
@@ -334,9 +313,6 @@ void NNS_G2dInitCellAnimation(CellAnim *pCellAnim, const AnimSequenceData *pAnim
     NNS_G2dInitAnimCtrl((&pCellAnim->animCtrl));
     NNS_G2dSetCellAnimationSequence(pCellAnim, pAnimSeq);
 }
-
-
-
 
 /*
  * The eight-argument forwarder into NNS_G2dSetCellTransferState (four in registers, four
@@ -378,19 +354,11 @@ void NNS_G2dInitCellAnimationVramTransfered(CellAnim *pCellAnim, const AnimSeque
     NNS_G2dSetCellAnimationSequence(pCellAnim, pAnimSeq);
 }
 
-
-
-
-
 void NNS_G2dSetCellAnimationSequence(CellAnim *pCellAnim, const AnimSequenceData *pAnimSeq)
 {
     NNS_G2dSetCellAnimationBank((struct CellAnim *)(&pCellAnim->animCtrl), (void *)pAnimSeq);
     NNSi_G2dRefreshCellAnimation(pCellAnim);
 }
-
-
-
-
 
 /*
  * Advances one multi-cell node's cell animation by a fx32 tick and, only if
@@ -407,9 +375,6 @@ void NNS_G2dTickCellAnimation(CellAnim *pCellAnim, fx32 frames)
     }
 }
 
-
-
-
 /*
  * The single-step form of NNS_G2dTickCellAnimation: steps the node's cell animation by
  * one frame instead of by a tick, and marks the cache dirty if it moved.
@@ -423,9 +388,6 @@ void NNS_G2dSetCellAnimationCurrentFrame(CellAnim *pCellAnim, u32 frameIdx)
         NNSi_G2dRefreshCellAnimation(pCellAnim);
     }
 }
-
-
-
 
 /*
  * Restarts one node's cell animation from frame 0, forces its active flag at
@@ -441,9 +403,6 @@ void NNS_G2dRestartCellAnimation(CellAnim *pCellAnim)
     NNSi_G2dRefreshCellAnimation(pCellAnim);
 }
 
-
-
-
 /*
  * Stores the playback speed (fx32) into the animation controller at +0x14.
  *
@@ -454,8 +413,6 @@ void NNS_G2dSetCellAnimationSpeed(CellAnim *pCellAnim, fx32 speed)
 {
     pCellAnim->animCtrl.speed = speed;
 }
-
-
 
 static inline u32 CalcTotal(const AnimSequenceData *pAnimSeq)
 {
@@ -468,25 +425,16 @@ static inline u32 CalcTotal(const AnimSequenceData *pAnimSeq)
     return total;
 }
 
-
-
-
 static inline u32 GetPlayMode(const HierData *pNode)
 {
     const u32 mode = (u32)((pNode->nodeAttr >> 0) & 0xF);
     return mode;
 }
 
-
-
-
 static inline u16 GetCellAnimIdx(const HierData *pNodeData)
 {
     return (u16)((0xFF00 & pNodeData->nodeAttr) >> 8);
 }
-
-
-
 
 static inline void SetNodeDataToCellAnim_(CellAnim *pCellAnim, const HierData *pNodeData,
                                           const struct AnimBank *pAnimBank, u16 mcTotalFrame)
@@ -510,9 +458,6 @@ static inline void SetNodeDataToCellAnim_(CellAnim *pCellAnim, const HierData *p
         }
     }
 }
-
-
-
 
 /*
  * NitroSystem g2d SetMCDataToMCInstanceImpl_ (g2d_MultiCellAnimation.c):
@@ -575,10 +520,6 @@ void NNSi_G2dSetMCDataToMCInstanceImpl(MCInstance *pMCInst, const MultiCellData 
     }
 }
 
-
-
-
-
 /*
  * Returns the largest per-multi-cell "cell animation slot count" (the u16 at
  * +0x02 of the 8-byte multi-cell descriptor) across a whole multi-cell bank.
@@ -604,11 +545,6 @@ u16 NNS_G2dGetMCBankNumCellAnimRequired(MultiCellBank *pBank)
 
     return max;
 }
-
-
-
-
-
 
 /*
  * Rebuilds one multi-cell node's SRT block from its current NANR frame record.
@@ -661,10 +597,6 @@ void NNS_G2dSetAnimSequenceToMCAnimation(MultiCellAnim *pMCAnim, const AnimSeque
 done:
     NNSi_G2dSetMCDataToMCInstanceImpl(&pMCAnim->mc, (const MultiCellData *)pMultiCellData, pMCAnim->totalFrames);
 }
-
-
-
-
 
 /*
  * Build a multi-cell animation's cell array (docs/families/cluster_020640DC.h,
@@ -740,10 +672,6 @@ void NNS_G2dInitMCAnimation(MultiCellAnim *pMCAnim, void *pBuf, const struct Ani
   pMCAnim->totalFrames = 0;
 }
 
-
-
-
-
 int NNS_G2dGetMCWorkAreaSize(MultiCellBank *pBank, u32 kind)
 {
     u32 size;
@@ -755,11 +683,6 @@ int NNS_G2dGetMCWorkAreaSize(MultiCellBank *pBank, u32 kind)
     }
     return size;
 }
-
-
-
-
-
 
 /*
  * Returns the largest node count among the multi-cell descriptors of the bank,
@@ -786,9 +709,6 @@ u16 NNS_G2dGetMCBankNumNodesRequired(MultiCellBank *pBank)
 
     return max;
 }
-
-
-
 
 /*
  * Step every node of the multi-cell walk block (struct Root of
@@ -820,10 +740,6 @@ void NNSi_G2dTickMCInstance(MCInstance *pMCInst, fx32 frames)
         for (i = 0; i < pMCInst->pCurrentMultiCell->numNodes; i++) NNS_G2dTickCellAnimation((CellAnim *)nodes[i].pContent, frames);
     }
 }
-
-
-
-
 
 /*
  * The tick-driven form of NNS_G2dSetMCAnimationCurrentFrame: steps the multi-cell animation by a
@@ -891,10 +807,6 @@ miss:
     NNSi_G2dTickMCInstance(&pMCAnim->mc, frames);
 }
 
-
-
-
-
 /*
  * PIN ../2.0/sp2: the "kept branches" tell.  The image writes the case-2
  * call tail out in its own arm -- `add r0, r4, #0x48` (0x02064B20) /
@@ -941,9 +853,6 @@ void NNS_G2dSetMCAnimationCurrentFrame(MultiCellAnim *pMCAnim, u32 frameIdx)
     NNSi_G2dSetMCDataToMCInstanceImpl(&pMCAnim->mc, (const MultiCellData *)pMultiCellData, pMCAnim->totalFrames);
 }
 
-
-
-
 /*
  * PART 1 bank walker of docs/families/cluster_02064B68.h: publish `arg` at
  * +0x14, then step every record of the walk block at +0x34 (the same
@@ -980,8 +889,6 @@ void NNS_G2dSetMCAnimationSpeed(MultiCellAnim *pMCAnim, fx32 speed)
     }
 }
 
-
-
 void NNSi_G2dSetMCInstanceCurrentFrameZero(MCInstance *pMCInst)
 {
     u16 i;
@@ -1000,8 +907,6 @@ void NNSi_G2dSetMCInstanceCurrentFrameZero(MCInstance *pMCInst)
         }
     }
 }
-
-
 
 void NNS_G2dRestartMCAnimation(MultiCellAnim *pMCAnim)
 {

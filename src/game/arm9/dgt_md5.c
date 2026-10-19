@@ -22,28 +22,9 @@
  */
 #define ROUND(FUNC, A, B, C, D, X, S) \
     (A) = (B) + ROTATE_LEFT((A) + FUNC((B), (C), (D)) + (X) + *tp++, (S))
-typedef unsigned long u32;
+#include "../types.h"
 
-typedef unsigned long long u64;
-
-typedef unsigned char u8;
-
-typedef struct MATHMD5Context {
-    union {
-        struct {
-            u32 a;
-            u32 b;
-            u32 c;
-            u32 d;
-        };
-        u32 state[4];
-    };
-    unsigned long long length;
-    union {
-        u32 buffer32[16];
-        u8 buffer8[64];
-    };
-} MATHMD5Context;
+#include "../sdk_math.h"
 
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
@@ -55,42 +36,30 @@ extern const u32 _ZZ12ProcessBlockP14MATHMD5ContextE1k_0[48];
 /* MATH_MD5GetHash's function-local static "padding" */
 extern const u8 _ZZ15MATH_MD5GetHashP14MATHMD5ContextPvE7padding[64];
 
-
-
 static inline u32 F(u32 x, u32 y, u32 z)
 {
     return (x & y) | (~x & z);
 }
-
-
 
 static inline u32 G(u32 x, u32 y, u32 z)
 {
     return (x & z) | (y & ~z);
 }
 
-
-
 static inline u32 H(u32 x, u32 y, u32 z)
 {
     return x ^ y ^ z;
 }
-
-
 
 static inline u32 I(u32 x, u32 y, u32 z)
 {
     return y ^ (x | ~z);
 }
 
-
-
 static inline u32 ROTATE_LEFT(u32 x, int n)
 {
     return (x << n) | (x >> (32 - n));
 }
-
-
 
 static void ProcessBlock(MATHMD5Context *context)
 {
@@ -139,8 +108,6 @@ static void ProcessBlock(MATHMD5Context *context)
     context->d += d;
 }
 
-
-
 /*
  * sdk:      MATH_MD5Init (dgt_md5.o)
  */
@@ -152,8 +119,6 @@ void MATH_MD5Init(MATHMD5Context *context)
     context->d = 0x10325476;
     context->length = 0;
 }
-
-
 
 /*
  * sdk:      MATH_MD5Update (dgt_md5.o)
@@ -192,8 +157,6 @@ void MATH_MD5Update(MATHMD5Context *context, const void *input, u32 length)
         MI_CpuCopy8(p, context->buffer8, length);
     }
 }
-
-
 
 /*
  * sdk:      MATH_MD5GetHash (dgt_md5.o)

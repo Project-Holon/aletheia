@@ -22,9 +22,7 @@
  *   OSi_UserExceptionHandlerArg  0x02151294  data
  *   OSi_UserExceptionHandler     0x02151298  data
  */
-typedef unsigned long u32;
-
-typedef int BOOL;
+#include "../types.h"
 
 typedef void (*OSExceptionHandler)(u32 context, u32 arg);
 
@@ -49,7 +47,6 @@ extern unsigned long OSi_ExContext[28];
 extern u32 OSi_UserExceptionHandlerArg;
 extern OSExceptionHandler OSi_UserExceptionHandler;
 
-
 /*
  * sdk:      OS_InitException (os_exception.o)
  */
@@ -72,7 +69,6 @@ void OS_InitException(void)
 
     g_02151290.OSi_UserExceptionHandler = 0;
 }
-
 
 /*
  * sdk:      OSi_ExceptionHandler (os_exception.o)
@@ -126,7 +122,6 @@ asm void OSi_GetAndDisplayContext(void)
     bx lr
 }
 
-
 /*
  * sdk:      OSi_SetExContext (os_exception.o)
  * asm:      needs mrs/msr on CPSR/SPSR and reads the exception frame through
@@ -168,7 +163,6 @@ asm void OSi_SetExContext(void)
     msr     cpsr_fsxc, r0
     bx      lr
 }
-
 
 /*
  * sdk:      OSi_DisplayExContext (os_exception.o)

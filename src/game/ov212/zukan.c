@@ -45,7 +45,7 @@
  *   PROCSYS_Delete  0x0203133C  arm  arm9
  *   PROCSYS_FreeProcWork  0x020315D4  arm  arm9
  */
-#include "zukan_shared_types.h"
+#include "../types.h"
 
 struct Proc;
 

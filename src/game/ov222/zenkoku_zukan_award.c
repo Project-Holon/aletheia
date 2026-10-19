@@ -143,11 +143,7 @@ struct Rec;
 struct Vec2;
 struct Actor;
 struct PtS;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 typedef struct {u32 id;u8 cfg[32];u32 type,enable;} AwardBgLayerRow;
 
@@ -158,10 +154,6 @@ typedef enum { BG_MODE0=0, BG_MODE1=1 } BGMode;
 typedef enum { COUNT=1 } LayerCount;
 
 typedef struct {u32 layer;u8 data[40];} AwardBgTemplate;
-
-typedef signed short s16;
-
-typedef signed int s32;
 
 struct Pos { u8 a, b, c, d; };
 
@@ -573,7 +565,6 @@ void ZENKOKU_ZUKAN_AWARD_CreateActor(struct ZenkokuZukanAwardWork *p)
  CLACT_SetActorDrawEnable((struct Actor *)p->actor,1);
  CLACT_SetActorAutoAnim((struct Actor *)p->actor,1);
 }
-
 
 void ZENKOKU_ZUKAN_AWARD_DeleteActor(struct ZenkokuZukanAwardWork *p)
 {

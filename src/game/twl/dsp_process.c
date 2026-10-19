@@ -53,12 +53,7 @@
  *   PM_DeletePreSleepCallback  0x0208C86C  arm  arm9
  *   OS_SetIrqFunction  0x02084774  arm  arm9
  */
-typedef unsigned int u32;
-typedef unsigned short u16;
-typedef unsigned char u8;
-typedef int s32;
-typedef volatile u16 vu16;
-typedef volatile u32 vu32;
+#include "../types.h"
 
 /* One DSP process: list link, name, loaded image state, the 19 interrupt
    handlers, 0x150 bytes. */

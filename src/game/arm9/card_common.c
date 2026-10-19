@@ -42,30 +42,11 @@
  *   CARDi_OnFifoRecv  0x020763BC  arm
  */
 struct CARDiCommon;
-typedef unsigned char u8;
+#include "../types.h"
 
-typedef unsigned short u16;
+#include "../sdk_os.h"
 
-typedef long s32;
-
-typedef int BOOL;
-
-typedef struct OSThread OSThread;
-
-typedef struct OSThreadQueue
-{
-    OSThread *head;
-    OSThread *tail;
-} OSThreadQueue;
-
-typedef enum CARDTarget
-{
-    CARD_TARGET_NONE,
-    CARD_TARGET_ROM,
-    CARD_TARGET_BACKUP
-} CARDTarget;
-
-typedef unsigned int u32;
+#include "../sdk_card.h"
 
 typedef struct CARDiCommandArg
 {
@@ -137,8 +118,6 @@ void CARDi_InitCommand(void);
 extern CARDiCommon cardi_common;
 extern CARDiCommandArg cardi_arg;
 
-
-
 /*
  * sdk:      CARDi_LockResource (libcard.TWL.HYB.a card_common.o)
  */
@@ -166,8 +145,6 @@ void CARDi_LockResource(s32 owner, CARDTarget target)
     ++p->lock_ref;
     (void)OS_RestoreInterrupts(bak_psr);
 }
-
-
 
 /*
  * sdk:      CARDi_UnlockResource (libcard.TWL.HYB.a card_common.o)
@@ -223,14 +200,7 @@ u32 CARDi_GetAccessLevel(void)
     return accessLevel;
 }
 
-
-
-
 void CARDi_WaitAsync(void) { CARDi_WaitForTask(&cardi_common, 0, 0, 0); }
-
-
-
-
 
 /*
  * Unlabelled leaf: disasm.py only labels a prologue that saves lr, and this
@@ -245,16 +215,10 @@ int CARDi_TryWaitAsync(void)
     return (cardi_common.flag & 4) ? 0 : 1;
 }
 
-
-
-
 static inline void OS_InitThreadQueue(OSThreadQueue *queue)
 {
     queue->head = queue->tail = (OSThread *)0;
 }
-
-
-
 
 /*
  * sdk:      CARDi_InitResourceLock (libcard.TWL.HYB.a card_common.o)
@@ -268,8 +232,6 @@ void CARDi_InitResourceLock(void)
     p->lock_target = CARD_TARGET_NONE;
     OS_InitThreadQueue(p->lock_queue);
 }
-
-
 
 /*
  * sdk:      CARDi_InitCommand (libcard.TWL.HYB.a card_common.o)

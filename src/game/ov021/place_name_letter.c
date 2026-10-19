@@ -40,10 +40,7 @@
  *   _fneq                        0x0209BCD0  arm
  *   _fsub                        0x0209CB8C  arm
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed short s16;
+#include "../types.h"
 
 #include "field_place_name_types.h"
 

@@ -60,11 +60,7 @@
  */
 struct Ctx;
 struct Fnt2;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned long u32;
+#include "../types.h"
 
 typedef struct {
     unsigned char pad[7];
@@ -123,8 +119,6 @@ typedef struct {
     signed char a;
     signed char b;
 } Pair;
-
-typedef signed char    s8;
 
 typedef struct {
     signed char left;
@@ -191,7 +185,6 @@ extern const u16 sFontTable2[];
 extern const u16 sFontTable3[];
 extern const u16 sFontTable1[];
 
-
 /*
  * sdk:      DWCi_FNTlInit (libdwcutil.TWL.HYB.a(font.o))
  */
@@ -215,7 +208,6 @@ void DWCi_FNTlInit(void)
     }
 }
 
-
 /*
  * sdk:      DWCi_FNTlEnd (libdwcutil.TWL.HYB.a(font.o))
  */
@@ -227,7 +219,6 @@ void DWCi_FNTlEnd(void)
     DWCi_QUElDelete(gFontWork->unused);
     DWCi_HEAPlFree_((void **)&gMemFont);
 }
-
 
 void *DWCi_FNTlFormEx(int lcd, int width, int height, bool_0 head, int *obj, int font)
 {
@@ -254,7 +245,6 @@ void *DWCi_FNTlFormEx(int lcd, int width, int height, bool_0 head, int *obj, int
     return cnv;
 }
 
-
 /*
  * Release the word at +0x28 then hand the record to the queue at +0x670.
  * Addresses are Black-image addresses.
@@ -264,7 +254,6 @@ void DWCi_FNTlDelete(Canvas *a)
     DWCi_OVRlFree(a->buf);
     DWCi_QUElPushBack(gFontWork->unused, a);
 }
-
 
 /*
  * notes: EXACT.  Two passes: const-qualifying the three read-only tables
@@ -316,7 +305,6 @@ void *DWCi_FNTlFormBgEx(int lcd, int font)
     return cv;
 }
 
-
 /*
  * sdk:      taskLoad (font.o)
  *
@@ -342,7 +330,6 @@ static void taskLoad(void *task, void *work)
     *renew = 0;
 }
 
-
 /*
  * sdk:      DWCi_FNTlDeleteBg (libdwcutil.TWL.HYB.a(font.o))
  */
@@ -357,7 +344,6 @@ void DWCi_FNTlDeleteBg(void *canvas)
     DWCi_HEAPlFree_(&cnv->buf);
 }
 
-
 /*
  * Tail-call DWCi_FNTlDeleteBg with the argument scaled by 0x30 into the table at 0x021DE680 + 0x610.
  * Addresses are Black-image addresses.
@@ -366,7 +352,6 @@ void DWCi_FNTlDeleteBgLcd(int a)
 {
     DWCi_FNTlDeleteBg(&gFontWork->bg[a]);
 }
-
 
 void DWCi_FNTlDraw(void *canvas, int x, int y, int color, u32 flag, u16 *txt)
 {
@@ -393,12 +378,10 @@ void DWCi_FNTlDraw(void *canvas, int x, int y, int color, u32 flag, u16 *txt)
     NNSi_G2dCalcTextBox(&cnv->text, x, y, color, flag, txt, p);
 }
 
-
 int DWCi_FNTlDrawCharEx(void *canvas, int x, int y, int color, unsigned short chr, int font)
 {
     return NNSi_G2dCharCanvasDrawChar((struct Ctx *)canvas, (struct Fnt2 **)&gFontWork->font[font], x, y, color, chr);
 }
-
 
 /*
  * sdk:      DWCi_FNTlDrawStringEx (libdwcutil.TWL.HYB.a(font.o))
@@ -419,7 +402,6 @@ void DWCi_FNTlDrawStringEx(void *canvas, int x, int y, int color, int interval, 
         x += interval;
     } while (*txt != 0);
 }
-
 
 /*
  * sdk:      DWCi_FNTlDrawRect (libdwcutil.TWL.HYB.a(font.o))
@@ -449,12 +431,10 @@ void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color, u32 
     NNSi_G2dAlignTextVertical(&cnv->text, x, y, w, h, color, flag, txt, p);
 }
 
-
 void DWCi_FNTlClear(Canvas *cnv, int color)
 {
     cnv->pFmt->pfnClear(cnv, color);
 }
-
 
 /*
  * sdk:      DWCi_FNTlDisp (libdwcutil.TWL.HYB.a(font.o))
@@ -469,7 +449,6 @@ void DWCi_FNTlDisp(void *canvas, int x, int y, void *cell, int prio)
     DWCi_CELLlSetPriority(cell, -1, prio);
     NNSi_G2dMakeCharObjArea(oam, cnv->u.obj.width, cnv->u.obj.height, x, y, 0, cnv->u.obj.name, 2);
 }
-
 
 void DWCi_FNTlRenewBg(int x)
 {

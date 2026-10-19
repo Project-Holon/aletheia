@@ -15,17 +15,12 @@
  * sdk:      FX_Modf (libfx.TWL.HYB.a fx.o)
  *   (none)
  */
-typedef long fx32;
-
-typedef short fx16;
-
-typedef unsigned short u16;
+#include "../types.h"
 
 void FX_Init(void);
 fx32 FX_Modf(fx32 x, fx32 *iPtr);
 
 void FX_Init(void){ }
-
 
 fx32 FX_Modf(fx32 x, fx32 *iPtr)
 {

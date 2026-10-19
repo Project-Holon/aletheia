@@ -185,9 +185,7 @@ struct Vec;
 struct Pair;
 struct BgTemplate;
 
-typedef signed int     s32;
-
-typedef long long s64;
+#include "../types.h"
 
 /* Button manager request. */
 typedef struct ButtonManRequest {
@@ -203,27 +201,9 @@ typedef struct ButtonManRequest {
 
 typedef struct { u32 w[16]; } ButtonTable;
 
-
 typedef struct { int x,y,z; } Vec;
 
-
-
-
-
-
 struct Vec3 { int x; int y; int z; };
-
-
-
-
-
-
-
-
-
-
-
-
 
 struct Seg {
     struct Vec3 p0;
@@ -235,12 +215,6 @@ struct Ball {
     struct Vec3 c;
     int r;
 };
-
-
-
-
-
-
 
 struct Pt { u16 x; u16 y; };
 
@@ -453,7 +427,6 @@ extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void BG_SYS_MarkTileDirty(u32 bgBit);
 extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 
-
 int TOWNMAP_Create(void *taskArg, void *unused, TownMapArgs *args)
 {
     TownMapPoint pt;
@@ -514,7 +487,6 @@ int TOWNMAP_Create(void *taskArg, void *unused, TownMapArgs *args)
     return 1;
 }
 
-
 int TOWNMAP_Destroy(void *taskArg, int unusedA, int unusedB, TownMapWork *work)
 {
     TCB_DeleteTask((struct TcbTask *)work->vblankTask);
@@ -540,13 +512,11 @@ int TOWNMAP_Destroy(void *taskArg, int unusedA, int unusedB, TownMapWork *work)
     return 1;
 }
 
-
 int TOWNMAP_Update(int taskArg, int unusedA, int unusedB, TownMapWork *work) {
     TOWNMAP_ProcRun(&work->proc);
     TOWNMAP_GRH_DrawSprites(work->gfx);
     return TOWNMAP_ProcIsFinished(&work->proc) != 0;
 }
-
 
 void TOWNMAP_ProcInit(TownMapProc *proc, TownMapWork *work, TownMapStepFunc step)
 {
@@ -555,23 +525,19 @@ void TOWNMAP_ProcInit(TownMapProc *proc, TownMapWork *work, TownMapStepFunc step
     TOWNMAP_ProcSetStep(proc, step);
 }
 
-
 void TOWNMAP_ProcClear(TownMapProc *proc)
 {
     MI_CpuFill8(proc, 0, 0x10);
 }
 
-
 void TOWNMAP_ProcRun(TownMapProc *proc) {
     if (proc->finished == 0) proc->call(proc, &proc->stepState, proc->arg);
 }
-
 
 int TOWNMAP_ProcIsFinished(TownMapProc *proc)
 {
     return proc->finished;
 }
-
 
 void TOWNMAP_ProcSetStep(TownMapProc *proc, TownMapStepFunc step)
 {
@@ -579,12 +545,10 @@ void TOWNMAP_ProcSetStep(TownMapProc *proc, TownMapStepFunc step)
     proc->stepState = 0;
 }
 
-
 void TOWNMAP_ProcFinish(TownMapProc *proc)
 {
     proc->finished = 1;
 }
-
 
 void TOWNMAP_StepFadeIn(TownMapProc *proc, int *state)
 {
@@ -604,7 +568,6 @@ void TOWNMAP_StepFadeIn(TownMapProc *proc, int *state)
     }
 }
 
-
 /*
  * note: trailing two-byte alignment padding.
  */
@@ -615,7 +578,6 @@ void TOWNMAP_StepFadeOut(TownMapProc *proc, int *state) {
     case 2: TOWNMAP_ProcFinish(proc); break;
     }
 }
-
 
 int TOWNMAP_StepBrowse(TownMapProc *proc,int *unusedState,TownMapWork *work)
 {
@@ -718,7 +680,6 @@ int TOWNMAP_StepBrowse(TownMapProc *proc,int *unusedState,TownMapWork *work)
     return TOWNMAP_IsScrollZoomDone(&work->scroll);
 }
 
-
 void TOWNMAP_BackButtonInit(TownMapButtonBar *bar, u32 unusedMode, u32 clactSet, u8 bgLayer, u8 palette, u8 tileBase, u32 ctx, u16 heapId)
 {
     ButtonManRequest req;
@@ -753,7 +714,6 @@ void TOWNMAP_BackButtonInit(TownMapButtonBar *bar, u32 unusedMode, u32 clactSet,
     TOUCHBAR_SetAllButtonsPriority((u8 *)bar->buttonMan, 10);
 }
 
-
 void TOWNMAP_BackButtonFree(TownMapButtonBar *bar)
 {
     TOUCHBAR_Delete((unsigned char *)bar->buttonMan);
@@ -763,7 +723,6 @@ void TOWNMAP_BackButtonFree(TownMapButtonBar *bar)
     CLACT_ReleasePalette(bar->charRes);
     MI_CpuFill8(bar, 0, 32);
 }
-
 
 /*
  * EXACT*: the unlabelled follower at 0x021BA028 (push {r4,lr}; getter
@@ -816,7 +775,6 @@ void TOWNMAP_BackButtonUpdate(TownMapButtonBar *bar, void *scroll)
     }
 }
 
-
 int TOWNMAP_BackButtonGetPressed(TownMapButtonBar *bar) {
     int pressed;
     pressed = TOUCHBAR_GetPressedButtonIdIfDone((unsigned char *)bar->buttonMan);
@@ -824,12 +782,10 @@ int TOWNMAP_BackButtonGetPressed(TownMapButtonBar *bar) {
     return pressed;
 }
 
-
 int TOWNMAP_BackButtonIsHeld(TownMapButtonBar *bar)
 {
     return TOUCHBAR_IsBusy((unsigned char *)bar->buttonMan);
 }
-
 
 void TOWNMAP_CursorInit(TownMapCursor *cursor, void *arrowSprite, void *hoverSprite, int heapId)
 {
@@ -858,12 +814,10 @@ void TOWNMAP_CursorInit(TownMapCursor *cursor, void *arrowSprite, void *hoverSpr
     }
 }
 
-
 void TOWNMAP_CursorClear(TownMapCursor *cursor)
 {
     MI_CpuFill8(cursor, 0, 0x18);
 }
-
 
 void TOWNMAP_CursorUpdate(TownMapCursor *cursor, TownMapMap *map)
 {
@@ -963,12 +917,10 @@ void TOWNMAP_CursorUpdate(TownMapCursor *cursor, TownMapMap *map)
         CLACT_SetActorDrawEnable((struct Actor *)cursor->arrowSprite, 0);
 }
 
-
 void TOWNMAP_CursorGetPos(TownMapCursor *cursor, TownMapPoint *pos) {
     pos->x = cursor->x;
     pos->y = cursor->y;
 }
-
 
 void TOWNMAP_CursorSetPos(TownMapCursor *cursor, const TownMapPoint *pos) {
     cursor->x = pos->x;
@@ -976,18 +928,15 @@ void TOWNMAP_CursorSetPos(TownMapCursor *cursor, const TownMapPoint *pos) {
     CLACT_AddActorSurfacePos(cursor->arrowSprite, (const struct Vec2 *)&cursor->x, 0);
 }
 
-
 int TOWNMAP_CursorIsPressed(TownMapCursor *cursor)
 {
     return cursor->pressed;
 }
 
-
 int TOWNMAP_CursorGetHeldKeys(TownMapCursor *cursor)
 {
     return KEY_GetCont();
 }
-
 
 void TOWNMAP_CursorSetHoverTown(TownMapCursor *cursor, TownMapTown *town, const TownMapPoint *scroll)
 {
@@ -1008,7 +957,6 @@ void TOWNMAP_CursorSetHoverTown(TownMapCursor *cursor, TownMapTown *town, const 
     }
 }
 
-
 void TOWNMAP_CursorMoveHoverSprite(TownMapCursor *cursor, const TownMapPoint *scroll)
 {
     ScreenPos pos;
@@ -1020,18 +968,15 @@ void TOWNMAP_CursorMoveHoverSprite(TownMapCursor *cursor, const TownMapPoint *sc
     }
 }
 
-
 TownMapTown *TOWNMAP_CursorGetHoverTown(TownMapCursor *cursor)
 {
     return cursor->hoverTown;
 }
 
-
 void TOWNMAP_CursorSetSnapToTown(TownMapCursor *cursor, int snapToTown)
 {
     cursor->snapToTown = snapToTown;
 }
-
 
 void TOWNMAP_MapInit(TownMapMap *map, u16 townId, u16 townSubId, int mapInfo, TownMapGfx *gfx, u32 gameData, u16 heapId, int pickMode)
 {
@@ -1062,7 +1007,6 @@ void TOWNMAP_MapInit(TownMapMap *map, u16 townId, u16 townSubId, int mapInfo, To
     TOWNMAP_MapClearHighlight(map);
 }
 
-
 void TOWNMAP_MapFree(TownMapMap *map)
 {
     u32 i;
@@ -1074,7 +1018,6 @@ void TOWNMAP_MapFree(TownMapMap *map)
     MI_CpuFill8(map, 0, 40);
 }
 
-
 /*
  * note:     listing extent (4) runs 2 bytes past the compiled function (2);
  *           trailing alignment padding, no byte difference.
@@ -1082,7 +1025,6 @@ void TOWNMAP_MapFree(TownMapMap *map)
 void TOWNMAP_MapUpdate(TownMapMap *map)
 {
 }
-
 
 void TOWNMAP_MapSetZoom(TownMapMap *map, u32 scale, const TownMapPoint *center)
 {
@@ -1109,7 +1051,6 @@ void TOWNMAP_MapSetZoom(TownMapMap *map, u32 scale, const TownMapPoint *center)
     }
     TOWNMAP_UpdateMarkerPosition(&map->marker, (const TownMapPoint *)&map->scrollX);
 }
-
 
 void TOWNMAP_MapSetScroll(TownMapMap *map, const TownMapPoint *scroll)
 {
@@ -1139,7 +1080,6 @@ void TOWNMAP_MapSetScroll(TownMapMap *map, const TownMapPoint *scroll)
     TOWNMAP_UpdateMarkerPosition(&map->marker, (const TownMapPoint *)&map->scrollX);
 }
 
-
 /*
  * note:     listing extent (12) runs 2 bytes past the compiled function (10);
  *           trailing alignment padding, no byte difference.  A two-word copy
@@ -1151,14 +1091,12 @@ void TOWNMAP_MapGetScroll(TownMapMap *map, TownMapPoint *scroll)
     *scroll = *(TownMapPoint *)&map->scrollX;
 }
 
-
 void TOWNMAP_MapAddScroll(TownMapMap *map, const TownMapPoint *delta)
 {
     map->scrollX = delta->x + map->scrollX;
     map->scrollY = map->scrollY + delta->y;
     TOWNMAP_MapSetScroll(map, (TownMapPoint *)&map->scrollX);
 }
-
 
 TownMapTown *TOWNMAP_MapFindTownUnderCursor(TownMapMap *map, TownMapCursor *cursor)
 {
@@ -1173,7 +1111,6 @@ TownMapTown *TOWNMAP_MapFindTownUnderCursor(TownMapMap *map, TownMapCursor *curs
     }
     return 0;
 }
-
 
 TownMapTown *TOWNMAP_MapFindNearestTown(TownMapMap *map, TownMapCursor *cursor)
 {
@@ -1198,7 +1135,6 @@ TownMapTown *TOWNMAP_MapFindNearestTown(TownMapMap *map, TownMapCursor *cursor)
     return &map->towns[bestIndex];
 }
 
-
 /*
  * call width: r1 is explicitly narrowed before the call, so extern takes u16.
  */
@@ -1207,7 +1143,6 @@ int TOWNMAP_TownGetField(TownMapTown *town, int field) {
  if (field==12) return town->selectable;
  return TOWNMAP_GRH_GetTownInfoValue((struct TownMapInfoRow *)town->info,(u16)(town->index),field);
 }
-
 
 void TOWNMAP_MapHighlightTown(TownMapMap *map, TownMapTown *selected)
 {
@@ -1223,7 +1158,6 @@ void TOWNMAP_MapHighlightTown(TownMapMap *map, TownMapTown *selected)
     }
 }
 
-
 void TOWNMAP_MapClearHighlight(TownMapMap *map)
 {
     u32 i;
@@ -1231,7 +1165,6 @@ void TOWNMAP_MapClearHighlight(TownMapMap *map)
     for (i = 0; i < map->townCount; i++)
         TOWNMAP_TownUnhighlight(&map->towns[i]);
 }
-
 
 TownMapTown *TOWNMAP_MapFindTownById(TownMapMap *map, u32 townId, int townSubId)
 {
@@ -1248,7 +1181,6 @@ TownMapTown *TOWNMAP_MapFindTownById(TownMapMap *map, u32 townId, int townSubId)
     return 0;
 }
 
-
 int TOWNMAP_TownIsRevealed(TownMapTown *town)
 {
     int flag;
@@ -1258,7 +1190,6 @@ int TOWNMAP_TownIsRevealed(TownMapTown *town)
         return 1;
     return 0;
 }
-
 
 void TOWNMAP_TownInit(TownMapTown *town, int mapInfo, int townIndex, int clactSet, int plttRes, int cellRes, int charRes, void *gameData, u16 heapId, int pickMode)
 {
@@ -1331,14 +1262,12 @@ void TOWNMAP_TownInit(TownMapTown *town, int mapInfo, int townIndex, int clactSe
     TOWNMAP_TownUnhighlight(town);
 }
 
-
 void TOWNMAP_TownFree(TownMapTown *town)
 {
     if (town->sprite)
         CLACT_DeleteActor((struct Actor *)town->sprite);
     MI_CpuFill8(town, 0, 0x44);
 }
-
 
 void TOWNMAP_TownSetShown(TownMapTown *town, int shown)
 {
@@ -1356,7 +1285,6 @@ void TOWNMAP_TownSetShown(TownMapTown *town, int shown)
         CLACT_SetActorDrawEnable((struct Actor *)town->sprite, shown);
     }
 }
-
 
 u32 TOWNMAP_TownHitTest(TownMapTown *town, const TownMapPoint *pos, const TownMapPoint *scroll)
 {
@@ -1380,7 +1308,6 @@ u32 TOWNMAP_TownHitTest(TownMapTown *town, const TownMapPoint *pos, const TownMa
         return 0;
     return BUTTON_MAN_SegmentSphereTest(&seg, &ball, 0);
 }
-
 
 int TOWNMAP_TownTestNear(TownMapTown *town, const TownMapPoint *pos, const TownMapPoint *scroll, u32 *distSq)
 {
@@ -1414,7 +1341,6 @@ int TOWNMAP_TownTestNear(TownMapTown *town, const TownMapPoint *pos, const TownM
     return 0;
 }
 
-
 void TOWNMAP_TownSetScale(TownMapTown *town, int scale, const TownMapPoint *center)
 {
     int i;
@@ -1441,7 +1367,6 @@ void TOWNMAP_TownSetScale(TownMapTown *town, int scale, const TownMapPoint *cent
     }
 }
 
-
 void TOWNMAP_TownSetScroll(TownMapTown *town, const TownMapPoint *scroll)
 {
     ScreenPos pos;
@@ -1451,7 +1376,6 @@ void TOWNMAP_TownSetScroll(TownMapTown *town, const TownMapPoint *scroll)
     if (town->sprite)
         CLACT_AddActorSurfacePos((struct Actor *)town->sprite, (const struct Vec2 *)(&pos), 0);
 }
-
 
 void TOWNMAP_TownSetFrame(TownMapTown *town, int frame)
 {
@@ -1466,7 +1390,6 @@ void TOWNMAP_TownSetFrame(TownMapTown *town, int frame)
             CLACT_SetActorDrawEnable((struct Actor *)town->sprite, 0);
     }
 }
-
 
 void TOWNMAP_TownHighlight(TownMapTown *town)
 {
@@ -1486,7 +1409,6 @@ void TOWNMAP_TownHighlight(TownMapTown *town)
         TOWNMAP_TownSetShown(town, 0);
     }
 }
-
 
 void TOWNMAP_TownUnhighlight(TownMapTown *town)
 {
@@ -1508,7 +1430,6 @@ void TOWNMAP_TownUnhighlight(TownMapTown *town)
         TOWNMAP_TownSetShown(town, 0);
     }
 }
-
 
 void TOWNMAP_MarkerInit(TownMapMarker *marker, TownMapTown *town, int clactSet, int plttRes, int cellRes, int charRes, u16 heapId)
 {

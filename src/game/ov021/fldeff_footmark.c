@@ -44,15 +44,7 @@
  *   BILLBOARD_SetElemAlpha  0x0204F6B4  arm
  *   BILLBOARD_ACT_DeleteEntries  0x02050468  arm  arm9
  */
-typedef unsigned int   u32;
-
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef signed short   s16;
-
-typedef signed char    s8;
+#include "../types.h"
 
 /* ---- fldeff_footmark.c ---- */
 
@@ -182,11 +174,7 @@ struct BbActDesc;
 
 struct BbActSys;
 
-typedef struct VecFx32 {
-    int x;
-    int y;
-    int z;
-} VecFx32;
+#include "../sdk_fx.h"
 
 /* Add-task header copied into every footmark task. */
 typedef struct FootmarkTaskHead {

@@ -40,11 +40,7 @@
 
 struct HeapManager;
 
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 /* 0xCC-byte payload chunk (three of them follow the 256-byte head) */
 struct SaveOutsideChunk { u32 w[51]; };
@@ -87,8 +83,6 @@ void *SAVE_OUTSIDE_GetPayload(SaveOutsideWork *work);
 void SAVE_OUTSIDE_CopyPayload(SaveOutsideWork *work, void *ctrl);
 void SAVE_OUTSIDE_ClearFlash(u32 heap);
 extern const char d_021DFF60[];
-
-
 
 /*
  * ov228 entry: allocate the 0x380-byte work object and a 0x374-byte scratch,
@@ -153,8 +147,6 @@ void *SAVE_OUTSIDE_Load(u32 heap)
     return work;
 }
 
-
-
 /*
  * Unlabelled leaf in ov228 (it saves nothing; the listing prints it as
  * .word data after the pool at 021DFDB4): a one-argument forwarding tail call to
@@ -166,7 +158,6 @@ void SAVE_OUTSIDE_Free(void *p)
 {
     GFL_HEAP_Free(p);
 }
-
 
 /*
  * Prepare the work object for a write: clear the phase, select the flash copy
@@ -183,8 +174,6 @@ void SAVE_OUTSIDE_Prepare(SaveOutsideWork *work)
     work->counter+=1;
     work->crc=GF_STANDARD_CalcCrc16((u8 *)work+12,0x368);
 }
-
-
 
 /*
  * Async flash write state machine: step 0/2 start the write of the selected
@@ -220,8 +209,6 @@ int SAVE_OUTSIDE_WriteAsync(SaveOutsideWork *work)
     return 0;
 }
 
-
-
 /*
  * Unlabelled leaf in ov228: returns the byte at +0x378 of the work object
  * (0x378 built as 0xDE << 2). Caller: arm9 MYSTERY_DATA_Load
@@ -232,8 +219,6 @@ u8 SAVE_OUTSIDE_IsLoaded(SaveOutsideWork *work)
     return work->loaded;
 }
 
-
-
 int SAVE_OUTSIDE_IsCorrupt(SaveOutsideWork *work)
 {
     if (work->state == 3)
@@ -241,14 +226,10 @@ int SAVE_OUTSIDE_IsCorrupt(SaveOutsideWork *work)
     return 0;
 }
 
-
-
 void *SAVE_OUTSIDE_GetPayload(SaveOutsideWork *work)
 {
     return (u8 *)work + 0xc;
 }
-
-
 
 void SAVE_OUTSIDE_CopyPayload(SaveOutsideWork *work, void *ctrl)
 {
@@ -267,7 +248,6 @@ void SAVE_OUTSIDE_CopyPayload(SaveOutsideWork *work, void *ctrl)
     MYSTERY_DATA_EncryptBuffer(buf, 1);
     MYSTERY_DATA_EncryptBuffer(src, 0);
 }
-
 
 /*
  * Write 0xFF over the first flash copy (0x7F800, 2048 bytes).

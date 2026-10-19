@@ -6,10 +6,7 @@
  * (three animes) plays at a given position or flies along an arc between two
  * positions. The special power ID picks which model resource table is used. */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed int     s32;
+#include "../types.h"
 
 #define FIELD_GIMMICK_ARC_EFFECT_WORK_ID           1       /* field map common work slot */
 #define FIELD_GIMMICK_ARC_EFFECT_PLAYER_MODEL      0
@@ -18,11 +15,7 @@ typedef signed int     s32;
 #define FIELD_GIMMICK_ARC_EFFECT_ARC_ANIME_COUNT   3
 #define FIELD_GIMMICK_ARC_EFFECT_SPECIAL_POWER_ID  0x14    /* selects the second resource table */
 
-typedef struct VecFx32 {
-    int x;
-    int y;
-    int z;
-} VecFx32;
+#include "../sdk_fx.h"
 
 /* Field map common work (0x38 bytes), allocated in the setup function. */
 typedef struct FieldGimmickArcEffectWork {

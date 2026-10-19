@@ -26,7 +26,7 @@
  *   STRBUF_SetStringN  0x02045994  arm
  *   DENDOU_SAVEDATA_GetMemberCount   0x0200EC14  thumb
  */
-#include "misc_savedata_shared_types.h"
+#include "../types.h"
 
 struct PartyRingSave;
 

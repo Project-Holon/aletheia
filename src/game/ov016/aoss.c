@@ -244,17 +244,6 @@ typedef struct wlla_link_stat {
 } WLLA_LINK_STAT;
 
 typedef struct {
-    unsigned long addr;
-} SOCInAddr;
-
-typedef struct {
-    unsigned char  len;
-    unsigned char  family;
-    unsigned short port;
-    SOCInAddr      addr;
-} SOCSockAddrIn;
-
-typedef struct {
     int   fd;
     short events;
     short revents;
@@ -364,15 +353,11 @@ typedef struct {
     unsigned int   SizeOfState;
 } ArcfourContext;
 
-typedef unsigned char u8;
+#include "../types.h"
 
-typedef unsigned int  u32;
+#include "../sdk_soc.h"
 
-typedef struct {
-    unsigned long hour;
-    unsigned long minute;
-    unsigned long second;
-} RTCTime;
+#include "../sdk_rtc.h"
 
 void *AOSS_MALLOC(int size);
 void AOSS_FREE(void *mem);
@@ -470,7 +455,6 @@ extern unsigned char AttrNo[];
 extern unsigned char TANE[100];
 extern unsigned long CPSMyIp;
 
-
 /*
  * FILED EXACT with NO region token on the data symbol.  The `ov016` hint is
  * contested at this address (another overlay mapped over the same window
@@ -501,7 +485,6 @@ void *AOSS_MALLOC(int size)
     return AOSSi_Alloc(size);
 }
 
-
 /*
  * Forward to the handler in the global function pointer at 0x021DCE2C.
  * Addresses are Black-image addresses.
@@ -514,7 +497,6 @@ void AOSS_FREE(void *mem)
 {
     AOSSi_Free(mem);
 }
-
 
 int AOSSi_Init(struct aoss_info *aossInfo)
 {
@@ -550,7 +532,6 @@ int AOSSi_Init(struct aoss_info *aossInfo)
         AOSS_Close(aoss_data.s_sFd);
     return ret;
 }
-
 
 int AOSS_Init_old(struct aoss_info *aossInfo)
 {
@@ -660,7 +641,7 @@ int AOSS_Init_old(struct aoss_info *aossInfo)
     }
     AOSS_Memset(&aoss_src_addr, 0, sizeof(aoss_src_addr));
     aoss_src_addr.family = 2;
-    aoss_src_addr.addr.addr = AOSS_Htonl(0xC0A80B65);
+    aoss_src_addr.addr = AOSS_Htonl(0xC0A80B65);
     aoss_src_addr.port = AOSS_Htons(0x5790);
     if (AOSS_Bind(aoss_data.s_sFd, &aoss_src_addr, sizeof(aoss_src_addr)) < 0)
         FAIL(0xF);
@@ -732,7 +713,7 @@ int AOSS_Init_old(struct aoss_info *aossInfo)
                 }
                 AOSS_Memset(&aoss_src_addr, 0, sizeof(aoss_src_addr));
                 aoss_src_addr.family = 2;
-                aoss_src_addr.addr.addr = AOSS_Htonl(newIP);
+                aoss_src_addr.addr = AOSS_Htonl(newIP);
                 aoss_src_addr.port = AOSS_Htons(0x5790);
                 if (AOSS_Bind(aoss_data.s_sFd, &aoss_src_addr, sizeof(aoss_src_addr)) < 0)
                     FAIL(0xF);
@@ -831,7 +812,7 @@ int AOSS_Init_old(struct aoss_info *aossInfo)
                 }
                 AOSS_Memset(&aoss_src_addr, 0, sizeof(aoss_src_addr));
                 aoss_src_addr.family = 2;
-                aoss_src_addr.addr.addr = AOSS_Htonl(newIP);
+                aoss_src_addr.addr = AOSS_Htonl(newIP);
                 aoss_src_addr.port = AOSS_Htons(0x5790);
                 if (AOSS_Bind(aoss_data.s_sFd, &aoss_src_addr, sizeof(aoss_src_addr)) < 0)
                     FAIL(0xF);
@@ -887,7 +868,6 @@ end:
     return 0;
 }
 
-
 unsigned long aoss_IP_sta(unsigned long ipAp, unsigned long nMask)
 {
     unsigned long network = ipAp & nMask;
@@ -898,7 +878,6 @@ unsigned long aoss_IP_sta(unsigned long ipAp, unsigned long nMask)
         newIP = network | 1;
     return newIP;
 }
-
 
 void aoss_release(void)
 {
@@ -911,7 +890,6 @@ void aoss_release(void)
         aoss_bss.bssList = 0;
     }
 }
-
 
 void aoss_data_init(AOSS_INFO *aossInfo)
 {
@@ -927,18 +905,15 @@ void aoss_data_init(AOSS_INFO *aossInfo)
     aoss_bss.gData.ip_chg = 0;
 }
 
-
 void aoss_set_error(unsigned int type)
 {
     aoss_bss.gError = type;
 }
 
-
 unsigned int aoss_get_error(void)
 {
     return aoss_bss.gError;
 }
-
 
 int AOSS_seq_data_copy(struct aoss_info *aossInfo)
 {
@@ -999,7 +974,6 @@ error:
     return -1;
 }
 
-
 int aoss_check_str(char *ptr, int count)
 {
     int i;
@@ -1012,7 +986,6 @@ int aoss_check_str(char *ptr, int count)
     }
     return 0;
 }
-
 
 int checkAP(WLLA_BSS_LIST *list)
 {
@@ -1040,7 +1013,6 @@ int checkAP(WLLA_BSS_LIST *list)
     return ret;
 }
 
-
 int AOSS_set_APInfo(WLLA_CONNECT_PARAM *ap)
 {
     ap->Ssid.Len = AOSS_Strlen(aoss_str_10367);
@@ -1052,7 +1024,6 @@ int AOSS_set_APInfo(WLLA_CONNECT_PARAM *ap)
     AOSS_Memcpy(ap->Key.Key, aoss_str_10375, ap->Key.Len);
     return 0;
 }
-
 
 void MakeSendSeqID(int Cnt, SEQID_INFO *SeqID, char *Mymacaddr)
 {
@@ -1068,7 +1039,6 @@ void MakeSendSeqID(int Cnt, SEQID_INFO *SeqID, char *Mymacaddr)
     }
 }
 
-
 int AOSS_StatusExclusion(int stat)
 {
     if (stat == -1) {
@@ -1081,7 +1051,6 @@ int AOSS_StatusExclusion(int stat)
     }
     return 0;
 }
-
 
 int RecvMessage(int Mode, RECV_INFO *recv_info, int *Retry, SEQID_INFO *SendSeqID, int sFd)
 {
@@ -1115,7 +1084,6 @@ int RecvMessage(int Mode, RECV_INFO *recv_info, int *Retry, SEQID_INFO *SendSeqI
     }
     return Mode;
 }
-
 
 int AstsSetInitRes(int Mode, RECV_INFO *recv_info, int *Retry, SEQID_INFO *pSeqID)
 {
@@ -1166,7 +1134,6 @@ int AstsSetInitRes(int Mode, RECV_INFO *recv_info, int *Retry, SEQID_INFO *pSeqI
     return 1;
 }
 
-
 int AstsSetSecureRes(int Mode, RECV_INFO *recv_info, int *Retry, SEQID_INFO *pSeqID)
 {
     tagASTSpktResult *temp;
@@ -1209,7 +1176,6 @@ int AstsSetSecureRes(int Mode, RECV_INFO *recv_info, int *Retry, SEQID_INFO *pSe
     return 2;
 }
 
-
 int AstsRestartRes(int Mode, RECV_INFO *recv_info, int *Retry, SEQID_INFO *pSeqID)
 {
     tagASTSpktResult *rslt;
@@ -1244,7 +1210,6 @@ int AstsRestartRes(int Mode, RECV_INFO *recv_info, int *Retry, SEQID_INFO *pSeqI
     aoss_set_error(0x18);
     return -1;
 }
-
 
 int DecodePacket(unsigned char *tpkt)
 {
@@ -1286,7 +1251,6 @@ int DecodePacket(unsigned char *tpkt)
     return 0;
 }
 
-
 int CheckSeqID(unsigned short CMD, unsigned char *RecvSeqID)
 {
     int i, flag, ret;
@@ -1308,7 +1272,6 @@ int CheckSeqID(unsigned short CMD, unsigned char *RecvSeqID)
     return ret;
 }
 
-
 int CheckRecvSeqID(char *SendSeqID, unsigned char *RecvSeqID)
 {
     int ret = 0;
@@ -1321,7 +1284,6 @@ int CheckRecvSeqID(char *SendSeqID, unsigned char *RecvSeqID)
     }
     return ret;
 }
-
 
 int GetProductInfo(char *ProductData, PRODUCT_INFO_AOSS *ProductInfo)
 {
@@ -1367,7 +1329,6 @@ int GetProductInfo(char *ProductData, PRODUCT_INFO_AOSS *ProductInfo)
     return 0;
 }
 
-
 unsigned long aoss_get_bin(void *ptr, int num)
 {
     unsigned long ret = 0;
@@ -1379,7 +1340,6 @@ unsigned long aoss_get_bin(void *ptr, int num)
     }
     return ret;
 }
-
 
 int GetWEPData(tagASTSpktWEP40 *pWEP, ASTS_DATA_WEP *Info)
 {
@@ -1447,7 +1407,6 @@ int GetWEPData(tagASTSpktWEP40 *pWEP, ASTS_DATA_WEP *Info)
     return 0;
 }
 
-
 int GetWPAData(tagASTSpktTKIP *pWPA, ASTS_DATA_TKIP *Info)
 {
     VariableData *Data;
@@ -1490,7 +1449,6 @@ int GetWPAData(tagASTSpktTKIP *pWPA, ASTS_DATA_TKIP *Info)
     return 0;
 }
 
-
 int GetBssidData(tagASTSpktBssid *pBssid, char *BSSID)
 {
     VariableData *Data;
@@ -1505,7 +1463,6 @@ int GetBssidData(tagASTSpktBssid *pBssid, char *BSSID)
     AOSS_Memcpy(BSSID, Data->Data, length);
     return 0;
 }
-
 
 int GetSecurityData(int Mode, unsigned char *pData, int Length, ASTS_DATA_INFO *SecurityInfo,
                     PRODUCT_INFO_AOSS *Info)
@@ -1567,7 +1524,6 @@ int GetSecurityData(int Mode, unsigned char *pData, int Length, ASTS_DATA_INFO *
     return 0;
 }
 
-
 static int GetSecurityType(unsigned int type)
 {
     int r = 0;
@@ -1575,7 +1531,6 @@ static int GetSecurityType(unsigned int type)
         r = 1;
     return r;
 }
-
 
 int SendMessage(int SendReq, SEND_INFO *send_info, SEQID_INFO *SendSeqID, int sFd)
 {
@@ -1600,7 +1555,6 @@ int SendMessage(int SendReq, SEND_INFO *send_info, SEQID_INFO *SendSeqID, int sF
     }
     return ret;
 }
-
 
 int AstsSetInitReq(SEND_INFO *send_info, SEQID_INFO *pSeqID, int sFd)
 {
@@ -1652,7 +1606,6 @@ int AstsSetInitReq(SEND_INFO *send_info, SEQID_INFO *pSeqID, int sFd)
     return 0;
 }
 
-
 int AstsSetSecureReq(SEND_INFO *send_info, SEQID_INFO *pSeqID, int sFd)
 {
     struct UdpIpMsg *send_msg;
@@ -1687,7 +1640,6 @@ int AstsSetSecureReq(SEND_INFO *send_info, SEQID_INFO *pSeqID, int sFd)
     return 0;
 }
 
-
 int AstsRestartReq(void *send_info, SEQID_INFO *pSeqID, int sFd)
 {
     struct UdpIpMsg *send_msg;
@@ -1701,7 +1653,6 @@ int AstsRestartReq(void *send_info, SEQID_INFO *pSeqID, int sFd)
     SendPacketUDP(send_msg->udpipmsg, 0x18, 0, sFd);
     return 0;
 }
-
 
 short SetStaData(char *StaData)
 {
@@ -1733,7 +1684,6 @@ short SetStaData(char *StaData)
     return size;
 }
 
-
 void PacketDataSet(int Type, unsigned char *pData, unsigned char *pPlaneData,
                    short *packet_size, short *CryptType, unsigned char *crc8)
 {
@@ -1750,7 +1700,6 @@ void PacketDataSet(int Type, unsigned char *pData, unsigned char *pPlaneData,
     }
 }
 
-
 void SetPacketHeader(tagASTSpktHeader *Hdr, short cmd, short size, short CryptType,
                      char crc8, char Fragment, unsigned char *SeqID)
 {
@@ -1766,7 +1715,6 @@ void SetPacketHeader(tagASTSpktHeader *Hdr, short cmd, short size, short CryptTy
     AOSS_Memcpy(Hdr->SeqID, SeqID, 8);
 }
 
-
 int SendPacketUDP(unsigned char *packet, int size, unsigned char Mac, int port)
 {
     int byte;
@@ -1775,13 +1723,12 @@ int SendPacketUDP(unsigned char *packet, int size, unsigned char Mac, int port)
     AOSS_Memset(&server, 0, sizeof(server));
     server.family = 2;
     server.port = AOSS_Htons(0x5790);
-    server.addr.addr = AOSS_Htonl(aoss_bss.gData.apAddr);
+    server.addr = AOSS_Htonl(aoss_bss.gData.apAddr);
     if (Mac == 0xff || aoss_bss.gData.ip_chg == 0)
-        server.addr.addr = 0xffffffff;
+        server.addr = 0xffffffff;
     byte = AOSS_Sendto(port, packet, size, 0, &server, sizeof(server));
     return byte;
 }
-
 
 int EncodeRC4(unsigned char *srcData, unsigned char *EncodeData, int SizeOfData,
               unsigned char *CRC, unsigned char *iv, unsigned char *key, int keylen)
@@ -1803,7 +1750,6 @@ int EncodeRC4(unsigned char *srcData, unsigned char *EncodeData, int SizeOfData,
     AOSS_FREE(ctx.state);
     return 0;
 }
-
 
 int DecodeRC4(unsigned char *srcData, unsigned char *DecodeData, int SizeOfData,
               unsigned char CRC, unsigned char *iv, unsigned char *key, int keylen)
@@ -1830,7 +1776,6 @@ int DecodeRC4(unsigned char *srcData, unsigned char *DecodeData, int SizeOfData,
     return 0;
 }
 
-
 void RC4init(ArcfourContext *ctx, unsigned char *key, unsigned int key_len, unsigned int size)
 {
     unsigned int keyindex, stateindex, counter;
@@ -1856,7 +1801,6 @@ void RC4init(ArcfourContext *ctx, unsigned char *key, unsigned int key_len, unsi
     }
 }
 
-
 void RC4encrypt(ArcfourContext *ctx, unsigned char *dest, unsigned char *src, unsigned int len)
 {
     unsigned int i;
@@ -1867,7 +1811,6 @@ void RC4encrypt(ArcfourContext *ctx, unsigned char *dest, unsigned char *src, un
         dest[i] = src[i] ^ state;
     }
 }
-
 
 unsigned int arcfour_byte(ArcfourContext *ctx)
 {
@@ -1886,12 +1829,10 @@ unsigned int arcfour_byte(ArcfourContext *ctx)
     return state[(sx + sy) % ctx->SizeOfState];
 }
 
-
 unsigned char crc(unsigned char *buf, int len)
 {
     return update_crc(0xffffffffL, buf, len, 0, aoss_bss.crc_table) ^ 0xffffffffL;
 }
-
 
 unsigned long update_crc(unsigned long crc, unsigned char *buf, int len,
                          int crc_table_computed, unsigned long *crc_table)
@@ -1906,7 +1847,6 @@ unsigned long update_crc(unsigned long crc, unsigned char *buf, int len,
     }
     return c;
 }
-
 
 void make_crc_table(int crc_table_computed, unsigned long *crc_table)
 {
@@ -1924,7 +1864,6 @@ void make_crc_table(int crc_table_computed, unsigned long *crc_table)
         *crc_table++ = c;
     }
 }
-
 
 int CryptSeqNo(unsigned char *Data, int Datalen, char *KeyData, int Keylen)
 {
@@ -1949,7 +1888,6 @@ int CryptSeqNo(unsigned char *Data, int Datalen, char *KeyData, int Keylen)
     return 0;
 }
 
-
 void MakeKey(int ID, char *Key, int maclen, char *Wep, int weplen)
 {
     int i, size, pos;
@@ -1965,7 +1903,6 @@ void MakeKey(int ID, char *Key, int maclen, char *Wep, int weplen)
     }
 }
 
-
 void AddKey(char *Key, unsigned char *mac, int maclen)
 {
     int i, size;
@@ -1975,7 +1912,6 @@ void AddKey(char *Key, unsigned char *mac, int maclen)
         mac[size + i] ^= Key[i];
     }
 }
-
 
 void Rotate(unsigned char *mac, int maclen, char *wBuff)
 {
@@ -1987,14 +1923,12 @@ void Rotate(unsigned char *mac, int maclen, char *wBuff)
     AOSS_Memcpy(mac, wBuff, maclen);
 }
 
-
 static int Alloc(int a, int b)
 {
     if (b > 0)
         return (int)AOSSi_Alloc(b);
     return 0;
 }
-
 
 /*
  * Forward b to the handler in the global function pointer at 0x021DCE2C.
@@ -2009,7 +1943,6 @@ static void Free(int a, int b)
     AOSSi_Free((void *)b);
 }
 
-
 int AOSS_SetIPAddr(unsigned long ip, unsigned long sm, unsigned long gw)
 {
     aoss_data.soconfig.addr = AOSS_Htonl(ip);
@@ -2022,14 +1955,12 @@ int AOSS_SetIPAddr(unsigned long ip, unsigned long sm, unsigned long gw)
     return 0;
 }
 
-
 int AOSS_Disconnect(void)
 {
     if (SOC_Cleanup() < 0)
         return -1;
     return -(AOSSi_Disconnect() != 0);
 }
-
 
 int AOSS_Memcmp(void *s1, void *s2, int n)
 {
@@ -2044,25 +1975,21 @@ int AOSS_Memcmp(void *s1, void *s2, int n)
     return diff;
 }
 
-
 void *AOSS_Memcpy(void *dest, void *src, int n)
 {
     MI_CpuCopy8(src, dest, n);
 }
-
 
 void *AOSS_Memset(void *s, int c, int n)
 {
     MI_CpuFill8(s, (u8)c, (u32)n);
 }
 
-
 int AOSS_Recvfrom(int s, void *buf, int len, int flags, void *from, int *fromlen)
 {
     *(unsigned char *)from = (unsigned char)*fromlen;
     return SOC_RecvFrom((int)s, (int)buf, len, flags, from);
 }
-
 
 int AOSS_Select(int nfds, SOCPollFD *readfds, void *writefds, void *exceptfds, struct timeval *timeout)
 {
@@ -2076,13 +2003,11 @@ int AOSS_Select(int nfds, SOCPollFD *readfds, void *writefds, void *exceptfds, s
     return SOC_Poll(fds, 1, timuout_tic);
 }
 
-
 int AOSS_Sendto(int s, void *msg, int len, int flags, void *to, int tolen)
 {
     *(unsigned char *)to = (unsigned char)tolen;
     return SOC_SendTo(s, msg, len, flags, to);
 }
-
 
 /*
  * Empty stub: the routine carries no behaviour (see the call sites for why it exists).
@@ -2096,7 +2021,6 @@ int AOSS_Setsockopt(int s, int level, int optname, void *optval, int optlen)
 {
 }
 
-
 /*
  * Thumb tail-call thunk into SOC_Socket.
  * Addresses are Black-image addresses.
@@ -2109,7 +2033,6 @@ int AOSS_Socket(int domain, int type, int protocol)
 {
     return SOC_Socket(domain, type, protocol);
 }
-
 
 /*
  * Store the length byte at the start of the address, then tail-call SOC_Bind with the same arguments.
@@ -2125,12 +2048,10 @@ int AOSS_Bind(int s, void *addr, int addrlen)
     return SOC_Bind(s, addr, addrlen);
 }
 
-
 int AOSS_Close(int fd)
 {
     return SOC_Close(fd);
 }
-
 
 unsigned long AOSS_Htonl(unsigned long hostlong)
 {
@@ -2138,12 +2059,10 @@ unsigned long AOSS_Htonl(unsigned long hostlong)
            ((hostlong << 8) & 0xff0000) | ((hostlong << 24) & 0xff000000);
 }
 
-
 unsigned short AOSS_Htons(unsigned short hostshort)
 {
     return ((hostshort >> 8) & 0xff) | ((hostshort << 8) & 0xff00);
 }
-
 
 unsigned long AOSS_Ntohl(unsigned long netlong)
 {
@@ -2151,12 +2070,10 @@ unsigned long AOSS_Ntohl(unsigned long netlong)
            ((netlong << 8) & 0xff0000) | ((netlong << 24) & 0xff000000);
 }
 
-
 unsigned short AOSS_Ntohs(unsigned short netshort)
 {
     return ((netshort >> 8) & 0xff) | ((netshort << 8) & 0xff00);
 }
-
 
 int AOSS_Strlen(char *s)
 {
@@ -2166,7 +2083,6 @@ int AOSS_Strlen(char *s)
     return n;
 }
 
-
 static inline void MATH_InitRand16(MATHRandContext16 *context, unsigned long seed)
 {
     context->x = seed;
@@ -2174,13 +2090,11 @@ static inline void MATH_InitRand16(MATHRandContext16 *context, unsigned long see
     context->add = 2531011;
 }
 
-
 static inline unsigned short MATH_Rand16(MATHRandContext16 *context, unsigned short max)
 {
     context->x = context->mul * context->x + context->add;
     return (unsigned short)(max ? (((context->x >> 16) * max) >> 16) : (context->x >> 16));
 }
-
 
 int AOSS_Rand(void)
 {
@@ -2201,7 +2115,6 @@ int AOSS_Rand(void)
     return MATH_Rand16(&aoss_bss.randContext, 0x7fff);
 }
 
-
 /*
  * Clear a u32 and two u16 fields of a small record.
  * Addresses are Black-image addresses.
@@ -2216,7 +2129,6 @@ void AOSS_FD_ZERO(SOCPollFD *pollFd)
     pollFd->events = 0;
     pollFd->revents = 0;
 }
-
 
 int AOSS_FD_SET(int fd, SOCPollFD *pollFd)
 {

@@ -36,7 +36,7 @@
  *   OS_SetIrqFunction  0x02084774  arm
  *   OS_EnableIrqMask  0x02084968  arm
  */
-typedef unsigned int u32;
+#include "../types.h"
 
 /* per-channel NDMA configuration, 16 bytes */
 typedef struct {

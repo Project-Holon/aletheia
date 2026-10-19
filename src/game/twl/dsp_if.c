@@ -16,10 +16,7 @@
  *   OS_RestoreInterrupts  0x0208799C  arm  arm9
  *   OS_SpinWaitSysCycles  0x02087A04  arm  arm9
  */
-typedef unsigned int u32;
-typedef unsigned short u16;
-typedef int s32;
-typedef volatile u16 vu16;
+#include "../types.h"
 
 extern void OS_SpinWaitSysCycles(u32);
 extern u32 OS_DisableInterrupts(void);
@@ -51,9 +48,6 @@ void DSP_MaskSemaphoreCore(u16 v);
 #define REG_MODE (*(vu16 *)0x04004308)
 #define REG_STAT (*(vu16 *)0x0400430C)
 
-
-
-
 void DSP_PowerOnCore(void)
 {
     REG_PWR &= 0xFFFE;
@@ -63,17 +57,11 @@ void DSP_PowerOnCore(void)
     DSP_ResetOnCore();
 }
 
-
-
-
 void DSP_PowerOffCore(void)
 {
     REG_PWR &= 0xFFFE;
     REG_CNT &= 0xFFFD;
 }
-
-
-
 
 void DSP_ResetOnCore(void)
 {
@@ -85,9 +73,6 @@ void DSP_ResetOnCore(void)
     }
 }
 
-
-
-
 void DSP_ResetOffExCore(u32 mask)
 {
     while (REG_STAT & 4) {
@@ -96,9 +81,6 @@ void DSP_ResetOffExCore(u32 mask)
     REG_MODE |= mask << 9;
     REG_MODE &= ~1;
 }
-
-
-
 
 void DSP_ResetInterfaceCore(void)
 {
@@ -113,24 +95,15 @@ void DSP_ResetInterfaceCore(void)
     (void)REG_CH0_C;
 }
 
-
-
-
 u32 DSP_SendDataIsEmptyCore(u32 index)
 {
     return (REG_STAT & ((1u << index) << 13)) ? 0 : 1;
 }
 
-
-
-
 u32 DSP_RecvDataIsReadyCore(u32 index)
 {
     return (REG_STAT & ((1u << index) << 10)) ? 1 : 0;
 }
-
-
-
 
 void DSP_SendDataCore(u32 index, u32 data)
 {
@@ -139,14 +112,12 @@ void DSP_SendDataCore(u32 index, u32 data)
     *(vu16 *)(0x04004300 + index * 8 + 0x20) = data;
 }
 
-
 u16 DSP_RecvDataCore(u32 ch)
 {
     while (!DSP_RecvDataIsReadyCore(ch)) {
     }
     return *(volatile u16 *)(0x04004300 + ch * 8 + 0x24);
 }
-
 
 void DSP_SendFifoExCore(u32 mode, u16 control, u16 *src, s32 count, u16 flags)
 {
@@ -169,7 +140,6 @@ void DSP_SendFifoExCore(u32 mode, u16 control, u16 *src, s32 count, u16 flags)
     }
     OS_RestoreInterrupts(irq);
 }
-
 
 void DSP_RecvFifoExCore(u32 mode, u16 *dst, u16 control, s32 count, u16 flags)
 {

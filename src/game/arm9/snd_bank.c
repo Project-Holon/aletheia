@@ -49,13 +49,7 @@ typedef struct SNDInstPos {
     unsigned int index;
 } SNDInstPos;
 
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned long u32;
-
-typedef int BOOL;
+#include "../types.h"
 
 typedef struct {
     u16 wave[2];
@@ -94,8 +88,6 @@ BOOL SND_GetNextInstData(const SNDBankData *bank, SNDInstData *inst, SNDInstPos 
 void *SNDi_GetBankWaveArcTable(char *bank);
 void SND_SetWaveDataAddress(SNDWaveArc *waveArc, int index, const SNDWaveData *address);
 const SNDWaveData *SND_GetWaveDataAddress(const SNDWaveArc *waveArc, int index);
-
-
 
 /*
  * sdk:      SND_AssignWaveArc (snd_bank.o)
@@ -137,8 +129,6 @@ void SND_AssignWaveArc(SNDBankData *bank, int index, SNDWaveArc *waveArc)
     DC_StoreRange(waveArc, sizeof(SNDWaveArc));
 }
 
-
-
 /*
  * sdk:      SND_DestroyBank (snd_bank.o)
  */
@@ -172,8 +162,6 @@ void SND_DestroyBank(SNDBankData *bank)
     SNDi_UnlockMutex();
 }
 
-
-
 /*
  * sdk:      SND_DestroyWaveArc (snd_bank.o)
  */
@@ -194,8 +182,6 @@ void SND_DestroyWaveArc(SNDWaveArc *waveArc)
     SNDi_UnlockMutex();
 }
 
-
-
 /*
  * note:     snd_bank.o SND_GetFirstInstDataPos.
  */
@@ -208,8 +194,6 @@ SNDInstPos SND_GetFirstInstDataPos(const void *bank)
 
     return pos;
 }
-
-
 
 BOOL SND_GetNextInstData(const SNDBankData *bank, SNDInstData *inst, SNDInstPos *pos)
 {
@@ -255,13 +239,10 @@ BOOL SND_GetNextInstData(const SNDBankData *bank, SNDInstData *inst, SNDInstPos 
     return 0;
 }
 
-
 void *SNDi_GetBankWaveArcTable(char *bank)
 {
     return (void *)((SNDWaveArc *)bank)->waveCount;
 }
-
-
 
 /*
  * sdk:      SND_SetWaveDataAddress (snd_bank.o)
@@ -273,8 +254,6 @@ void SND_SetWaveDataAddress(SNDWaveArc *waveArc, int index, const SNDWaveData *a
     DC_StoreRange(&waveArc->waveOffset[index], sizeof(unsigned long));
     SNDi_UnlockMutex();
 }
-
-
 
 /*
  * sdk:      SND_GetWaveDataAddress (snd_bank.o)

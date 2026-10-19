@@ -120,14 +120,9 @@
  *   _u32_div_f                   0x0209C2B0  arm
  */
 
-typedef unsigned char u8;
-
-typedef unsigned int  u32;
-
-typedef unsigned short u16;
+#include "../types.h"
 
 #include "net_types.h"
-typedef signed int     s32;
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
@@ -167,19 +162,8 @@ int GFL_NET_SYSTEM_InitWork(u32 packetSize, u32 heap, u32 c);
 
 int GFL_NET_SYSTEM_SetSendQueue(u32 command, const void *data, u32 size, u32 isQueued, u32 handleId, u32 destMask, u32 isChunk);
 
-
-
-
-
-
-
-
-
-
 int GFL_NET_HANDLE_GetNetHandleID(GFLNetHandle *a);
 struct GFLNetHandle;
-
-
 
 u32 GFL_NET_HANDLE_IsNegotiationDone(struct GFLNetHandle *handle);
 struct NetNegotiationMsg;
@@ -224,7 +208,6 @@ u32 GFL_NET_COMMAND_SendNextSlot(void);
 
 void GFL_NET_COMMAND_Main(void);
 
-
 GFLNetSession *GFL_NET_GetInitParam(void);
 
 extern struct NetSysWork *_pNetSys;
@@ -244,7 +227,6 @@ extern char g_020A7B20[];
 extern char g_020A7B50[];
 
 extern char  g_020A7B78[];
-
 
 /*
  * Lazy-init wrapper: the 0x22c-byte context at _pCommandWork is allocated on
@@ -280,34 +262,6 @@ void GFL_NET_COMMAND_Init(u32 groupKey, u32 commandList, u32 listNum, u32 userDa
     _pCommandWork->initDone = 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GFL_NET_COMMAND_Exit(void)
 {
     if (_pCommandWork == 0)
@@ -316,34 +270,6 @@ void GFL_NET_COMMAND_Exit(void)
     GFL_HEAP_Free(_pCommandWork);
     _pCommandWork = 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void GFL_NET_COMMAND_AddCommandTable(u32 groupKey, u32 commandList, u32 listNum, u32 userData)
 {
@@ -364,33 +290,6 @@ void GFL_NET_COMMAND_AddCommandTable(u32 groupKey, u32 commandList, u32 listNum,
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GFL_NET_COMMAND_DeleteCommandTable(u32 groupKey)
 {
     struct NetCommandTable *tables = _pCommandWork->commandTables;
@@ -405,35 +304,6 @@ void GFL_NET_COMMAND_DeleteCommandTable(u32 groupKey)
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Bit test against a channel mask: 0xFF is always live, otherwise the bit of
@@ -459,35 +329,6 @@ u32 GFL_NET_COMMAND_GetHeaderSize(u32 destMask)
         return 1;
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * net_command.c's command-record lookup.  The 16-bit command is split into
@@ -544,35 +385,6 @@ struct NetCommandTable *GFL_NET_COMMAND_GetCommandTable(u32 command)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 NetCommandRecvFunc GFL_NET_COMMAND_GetRecvFunc(u32 command)
 {
     struct NetCommandTable *table = GFL_NET_COMMAND_GetCommandTable(command);
@@ -581,35 +393,6 @@ NetCommandRecvFunc GFL_NET_COMMAND_GetRecvFunc(u32 command)
     }
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * The null-tolerant third word of the object GFL_NET_COMMAND_GetCommandTable caches: the
@@ -629,35 +412,6 @@ u32 GFL_NET_COMMAND_GetCommandWork(u32 command)
     return table != 0 ? table->userData : 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 NetCommandSizeFunc GFL_NET_COMMAND_GetSizeFunc(u32 command)
 {
     struct NetCommandTable *table = GFL_NET_COMMAND_GetCommandTable(command);
@@ -666,35 +420,6 @@ NetCommandSizeFunc GFL_NET_COMMAND_GetSizeFunc(u32 command)
     }
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void GFL_NET_COMMAND_CallCommand(u32 netId, u32 destMask, int command, u32 size, u32 data, u32 handle)
 {
@@ -720,102 +445,15 @@ void GFL_NET_COMMAND_CallCommand(u32 netId, u32 destMask, int command, u32 size,
     recvFunc(netId, size, data, GFL_NET_COMMAND_GetCommandWork(command), handle);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int GFL_NET_COMMAND_IsCommandValid(unsigned int command)
 {
     return GFL_NET_COMMAND_GetRecvFunc(command) != 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int GFL_NET_COMMAND_IsHugeCommand(unsigned int command)
 {
     return GFL_NET_COMMAND_GetSizeFunc(command) != 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Indirect dispatch: the first argument names a slot whose function pointer
@@ -840,66 +478,9 @@ u32 GFL_NET_COMMAND_GetHugeBuffer(u32 command, u32 netId, u32 size)
     return getBuffer(netId, GFL_NET_COMMAND_GetCommandWork(command), size);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GFL_NET_COMMAND_NoProc(void)
 {
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * One slot of a network table: index 0xff aliases to slot 8, the incoming
@@ -948,35 +529,6 @@ void GFL_NET_COMMAND_RecvHugeData(int netId, u32 byteCount, void *chunkData, int
     _pCommandWork->aNetHugeRecv[slotIdx].used = 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * net_command.c: register the huge-data header in slot netId (0xff -> 8) of
  * the 0x14-stride aNetHugeRecv table at _pCommandWork + 0xb8, asserting the slot was free
@@ -1023,36 +575,6 @@ void GFL_NET_COMMAND_RecvHugeBuffer(int netId, int unusedArg, const u8 *header, 
     _pCommandWork->aNetHugeRecv[slotIdx].chunkCount = chunkCount;
     _pCommandWork->aNetHugeRecv[slotIdx].chunksReceived = 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * The net_command.c command-queue trio, 0x0203AA94..0x0203AD6C, folded into
@@ -1110,36 +632,6 @@ u32 GFL_NET_COMMAND_SetSendSlot(u32 handle, u32 destMask, u32 command, u32 total
     return slot->state.bits.headerPending;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 u32 GFL_NET_COMMAND_SendNextSlot(void)
 {
     u16 header[6];
@@ -1164,36 +656,6 @@ u32 GFL_NET_COMMAND_SendNextSlot(void)
     }
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void GFL_NET_COMMAND_Main(void)
 {
@@ -1223,32 +685,3 @@ void GFL_NET_COMMAND_Main(void)
     }
     GFL_NET_COMMAND_SendNextSlot();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

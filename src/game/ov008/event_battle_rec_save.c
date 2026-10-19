@@ -106,9 +106,7 @@ struct Desc;
 struct Obj;
 struct GameSystem;
 struct ProcHandle;
-typedef unsigned char u8;
-
-typedef unsigned int  u32;
+#include "../types.h"
 
 typedef struct {
     int trainerId;
@@ -173,8 +171,6 @@ typedef struct EventBattleRecSaveTask {
     int commBattleActive;   /* 0x14: nonzero once the comm battle has started */
 } EventBattleRecSaveTask;
 
-typedef signed int     s32;
-
 extern void  GFL_HEAP_CreateChildHeap(unsigned int a, unsigned int b, unsigned int c);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void *PROCSYS_Create(int heapId);
@@ -224,8 +220,6 @@ extern char d_021EFDAC[];
 extern char d_021BB474[];
 extern char d_0215513C[];
 
-
-
 int EVENT_BATTLE_REC_SAVE_ProcInit(void *procsysOwner)
 {
     EventBattleRecSaveProc *procWork;
@@ -235,8 +229,6 @@ int EVENT_BATTLE_REC_SAVE_ProcInit(void *procsysOwner)
     procWork->procsys = (unsigned int)PROCSYS_Create(0x76);
     return 1;
 }
-
-
 
 int EVENT_BATTLE_REC_SAVE_ProcExit(void *procWork, int unused, char *taskWork, int *procsys)
 {
@@ -249,8 +241,6 @@ int EVENT_BATTLE_REC_SAVE_ProcExit(void *procWork, int unused, char *taskWork, i
     GFL_HEAP_DeleteChecked(0x76);
     return 1;
 }
-
-
 
 /*
  * 2026-10-05 wave P16 lane E10: stage 15 truth value is built after the call
@@ -452,13 +442,10 @@ u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *wo
     return 0;
 }
 
-
 void *EVENT_BATTLE_REC_SAVE_Start(void *gameSystem, const int *args)
 {
     return EVENT_BATTLE_REC_SAVE_CreateEvent(gameSystem, args[0], args[1], args[2]);
 }
-
-
 
 void *EVENT_BATTLE_REC_SAVE_CreateEvent(void *gameSystem, int info, int slots, int flag)
 {
@@ -471,7 +458,6 @@ void *EVENT_BATTLE_REC_SAVE_CreateEvent(void *gameSystem, int info, int slots, i
     work[3] = flag;
     return event;
 }
-
 
 int EVENT_BATTLE_REC_SAVE_EventMain(int unused, int *stage, int *work)
 {

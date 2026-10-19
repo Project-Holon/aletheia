@@ -103,7 +103,7 @@ struct ArcHandle;
 struct CharBuf;
 struct Task;
 struct BmpWin;
-typedef signed short s16;
+#include "../types.h"
 
 struct BgTemplate {
     u32 x;                  /* 0x00 */
@@ -247,9 +247,6 @@ extern const struct BgTemplate sBgTemplate5;
 extern const struct BgTemplate sBgTemplate4;
 extern const struct BgTemplate sBgTemplate6;
 
-
-
-
 CGearPowerOnOffWork *C_GEAR_POWER_ONOFF_Create(FieldSubscreen *subscreen, void *gameSystem, u16 heapId)
 {
     CGearPowerOnOffWork *work = GFL_HEAP_Alloc(heapId, 0x50, 1, sCGearPowerOnOffFileName, 0x12D);
@@ -268,16 +265,9 @@ CGearPowerOnOffWork *C_GEAR_POWER_ONOFF_Create(FieldSubscreen *subscreen, void *
     return work;
 }
 
-
-
 void C_GEAR_POWER_ONOFF_Delete(CGearPowerOnOffWork *work) { C_GEAR_POWER_ONOFF_ExitScreen(work); GFL_HEAP_Free(work); }
 
-
-
 void C_GEAR_POWER_ONOFF_Update(CGearPowerOnOffWork *work, int isInitialUpdate) { if(work->closeRequested==0) { if(sPowerOnOffTable.sceneStep[work->scene](work)) { FIELD_SUBSCREEN_SetPanelResult(work->subscreen,14); work->closeRequested=1; } } PRINTSYS_QUE_Main((struct PrintQueue *)work->printQue); }
-
-
-
 
 void C_GEAR_POWER_ONOFF_InitScreen(CGearPowerOnOffWork *work, u16 heapId)
 {
@@ -292,13 +282,7 @@ void C_GEAR_POWER_ONOFF_InitScreen(CGearPowerOnOffWork *work, u16 heapId)
     FIELD_SUBSCREEN_LoadBackdrop(work->subscreen, heapId);
 }
 
-
-
 void C_GEAR_POWER_ONOFF_ExitScreen(CGearPowerOnOffWork *work) { FIELD_SUBSCREEN_ResumeField(work->subscreen,work->heapId); C_GEAR_POWER_ONOFF_ExitWindows(work); C_GEAR_POWER_ONOFF_DeleteTaskMenuRes(work); C_GEAR_POWER_ONOFF_ExitBgs(work); PRINTSYS_QUE_Clear((struct PrintQueue *)work->printQue); PRINTSYS_QUE_Delete((struct PrintQueue *)work->printQue); MSGDATA_Delete(work->msgBank); GF_FONT_Delete(work->font); }
-
-
-
-
 
 void C_GEAR_POWER_ONOFF_InitBgs(CGearPowerOnOffWork *work, u32 heapId)
 {
@@ -329,10 +313,6 @@ void C_GEAR_POWER_ONOFF_InitBgs(CGearPowerOnOffWork *work, u32 heapId)
     ARC_TOOL_DeleteHandle(arc);
 }
 
-
-
-
-
 void C_GEAR_POWER_ONOFF_ExitBgs(CGearPowerOnOffWork *work)
 {
     unsigned int charAlloc = work->bgCharAlloc;
@@ -345,26 +325,15 @@ void C_GEAR_POWER_ONOFF_ExitBgs(CGearPowerOnOffWork *work)
     BG_SYS_SetPlaneVisible(4, 0);
 }
 
-
-
-
 void C_GEAR_POWER_ONOFF_CreateTaskMenuRes(CGearPowerOnOffWork *work, u16 heapId)
 {
     work->taskMenuRes = APP_TASKMENU_RES_Create(4, 3, (struct GFont *)work->font, (struct PrintQueue *)work->printQue, heapId);
 }
 
-
-
-
-
 void C_GEAR_POWER_ONOFF_DeleteTaskMenuRes(CGearPowerOnOffWork *work)
 {
     APP_TASKMENU_RES_Delete(work->taskMenuRes);
 }
-
-
-
-
 
 void C_GEAR_POWER_ONOFF_InitWindows(CGearPowerOnOffWork *work, int heapId)
 {
@@ -382,9 +351,6 @@ void C_GEAR_POWER_ONOFF_InitWindows(CGearPowerOnOffWork *work, int heapId)
     work->tcbl = TCBL_Create(heapId, heapId, 1, 4);
     work->keyCursor = APP_KEYCURSOR_CreateDefault(0xF, 0, 1, heapId);
 }
-
-
-
 
 /*
  * interface: 0201F614 forwards r0 and splits packed r1 into two halfwords;
@@ -407,10 +373,6 @@ void C_GEAR_POWER_ONOFF_ExitWindows(CGearPowerOnOffWork *work)
     BMP_MENUWORK_FreeTileRun(5, (unsigned int)work->bmpMenuWork);
 }
 
-
-
-
-
 void C_GEAR_POWER_ONOFF_PrintMessage(CGearPowerOnOffWork *work, struct BmpWin *window, int msgId)
 {
     struct Strbuf *msg = MSGDATA_AllocString(work->msgBank, msgId);
@@ -419,10 +381,6 @@ void C_GEAR_POWER_ONOFF_PrintMessage(CGearPowerOnOffWork *work, struct BmpWin *w
     BMP_WIN_TransferChars(window);
     STRBUF_Delete(msg);
 }
-
-
-
-
 
 void C_GEAR_POWER_ONOFF_ResetAndPrintMessage(CGearPowerOnOffWork *work, struct BmpWin *window, int msgId, int height)
 {
@@ -438,10 +396,6 @@ void C_GEAR_POWER_ONOFF_ResetAndPrintMessage(CGearPowerOnOffWork *work, struct B
     STRBUF_Delete(msg);
 }
 
-
-
-
-
 void C_GEAR_POWER_ONOFF_OpenYesNoMenu(CGearPowerOnOffWork *work, int heapId)
 {
     CGearPowerOnOffTable *table = &sPowerOnOffTable;
@@ -455,9 +409,6 @@ void C_GEAR_POWER_ONOFF_OpenYesNoMenu(CGearPowerOnOffWork *work, int heapId)
     STRBUF_Delete(table->noLabel);
 }
 
-
-
-
 void C_GEAR_POWER_ONOFF_CloseMenu(CGearPowerOnOffWork *work)
 {
     if (work->taskMenu != 0) {
@@ -465,9 +416,6 @@ void C_GEAR_POWER_ONOFF_CloseMenu(CGearPowerOnOffWork *work)
         work->taskMenu = 0;
     }
 }
-
-
-
 
 /*
  * extent: followers 021F0364 and 021F0370 already filed separately.
@@ -478,10 +426,6 @@ void C_GEAR_POWER_ONOFF_UpdateMenu(CGearPowerOnOffWork *work)
         APP_TASKMENU_UpdateMenu(work->taskMenu);
 }
 
-
-
-
-
 /*
  * Unlabelled tail-call leaf of C_GEAR_POWER_ONOFF_StepTurnOff (reads the menu handle at +0x44).
  */
@@ -490,18 +434,10 @@ u8 C_GEAR_POWER_ONOFF_GetMenuResult(CGearPowerOnOffWork *work)
     return APP_TASKMENU_GetCursorPos(work->taskMenu);
 }
 
-
-
-
-
 u32 C_GEAR_POWER_ONOFF_IsMenuDecided(CGearPowerOnOffWork *work)
 {
     return APP_TASKMENU_IsFinish(work->taskMenu);
 }
-
-
-
-
 
 int C_GEAR_POWER_ONOFF_StepTurnOn(CGearPowerOnOffWork *work)
 {
@@ -556,10 +492,6 @@ int C_GEAR_POWER_ONOFF_StepTurnOn(CGearPowerOnOffWork *work)
     return 0;
 }
 
-
-
-
-
 int C_GEAR_POWER_ONOFF_StepTurnOff(CGearPowerOnOffWork *work)
 {
     u16 closeComm;
@@ -603,7 +535,6 @@ int C_GEAR_POWER_ONOFF_StepTurnOff(CGearPowerOnOffWork *work)
     C_GEAR_POWER_ONOFF_UpdateMenu(work);
     return 0;
 }
-
 
 int C_GEAR_POWER_ONOFF_RunMessageStep(CGearPowerOnOffWork *work)
 {

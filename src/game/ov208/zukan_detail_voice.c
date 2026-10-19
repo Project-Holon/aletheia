@@ -398,13 +398,11 @@ void ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(struct Ov208Scene *p, u32 on);
 
 struct Ov208Win;
 struct Ov208PalFade;
-typedef unsigned long long u64;
+#include "../types.h"
 extern const u8 data_021C8704[7][9];
 extern const struct ZukanDetailVoiceDigitSlots data_021C86EC;
 
 extern void BG_SYS_MarkTileDirty(u32 bit);
-
-typedef signed char    s8;
 
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 struct MsgBank;

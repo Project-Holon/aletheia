@@ -301,7 +301,6 @@
 
 extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigned int v);
 
-
 extern int MAIL_FindEmptySlot(void *obj, int v);
 
 extern void GFL_USE_SetBgmPaused(u32 value);
@@ -434,9 +433,6 @@ struct LightSlot;
 
 struct Rec12;
 
-
-
-
 struct Packet {
     u32 prefix[8];
     u16 first,second;
@@ -454,11 +450,7 @@ typedef struct {
     u16  count;
 } Trade;
 
-
-
-
 typedef struct {u32 heap;u8 count;u8 pad[3];const void *items;u32 flag;u8 x,y,a,b;} SpriteTemplate;
-
 
 typedef struct { int v[5]; } T5;
 
@@ -472,16 +464,13 @@ typedef struct {int a,b;} Pair;
 
 typedef struct {u32 a,b,c,d;} U32Quad;
 
-typedef int BOOL;
+#include "../types.h"
 
 typedef struct {int a,b,c,d,e,f,g,h;} IntOctet;
 
 typedef struct {int x,y,z;} IntVec3;
 
-typedef int fx32;
-
-
-typedef struct { fx32 m[3][3]; } MtxFx33;
+#include "../sdk_fx.h"
 
 typedef struct { VecFx32 trans; VecFx32 scale; MtxFx33 rot; } Transform;
 
@@ -599,7 +588,6 @@ extern void *GAME_DATA_GetTrainerRecord(struct GameData *gd);
 
 extern struct PlayTime *GAME_DATA_GetPlayTime(struct GameData *gd);
 
-
 extern void *GAME_DATA_GetPerapVoiceSave(struct GameData *gd);
 
 extern u32 MAIL_GetBoxSize(void);
@@ -686,7 +674,6 @@ extern int WIFILIST_FindFriendByStatus(struct WifiList *list, struct MyStatus *s
 extern void POKEPARTY_InitEx(struct Party *p, int capacity);
 
 extern u32 POKEPARTY_Add(struct Party *party, struct PokemonParam *member);
-
 
 extern u8 GAME_DATA_GetSeason(struct GameData *gd);
 

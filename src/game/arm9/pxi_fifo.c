@@ -26,17 +26,9 @@
 #define reg_PXI_SEND_FIFO     (*(vu32 *)0x04000188)
 #define reg_PXI_RECV_FIFO     (*(vu32 *)0x04100000)
 #define reg_PXI_SUBPINTF (*(vu16 *)0x04000180)
-typedef unsigned long u32;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef volatile u32 vu32;
-
-typedef volatile u16 vu16;
-
-typedef int BOOL;
-
-typedef u32 OSIntrMode;
+#include "../sdk_os.h"
 
 typedef union PXIFifoMessage {
     struct {
@@ -53,7 +45,6 @@ typedef void (*PXIFifoCallback)(int tag, u32 data, BOOL err);
 
 typedef enum PXIFifoTag { PXI_FIFO_TAG_EX = 0, PXI_MAX_FIFO_TAG = 32 } PXIFifoTag;
 
-
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 extern u32 OS_ResetRequestIrqMask(u32 intr);
@@ -68,12 +59,10 @@ int PXI_SendWordByFifo(int fifotag, u32 data, BOOL err);
 extern u16 FifoCtrlInit;
 extern PXIFifoCallback FifoRecvCallbackTable[32];
 
-
 void PXI_Init(void)
 {
     PXI_InitFifo();
 }
-
 
 enum {
     PXI_FIFO_SUCCESS = 0,
@@ -83,12 +72,10 @@ enum {
     PXI_FIFO_FAIL_RECV_EMPTY = -4
 };
 
-
 static inline OSSystemWork *OS_GetSystemWork(void)
 {
     return (OSSystemWork *)0x02FFFC00;
 }
-
 
 /*
  * sdk:      PXI_InitFifo (libpxi.TWL.HYB.a pxi_fifo.o)
@@ -140,7 +127,6 @@ void PXI_InitFifo(void)
     (void)OS_RestoreInterrupts(enabled);
 }
 
-
 void PXI_SetFifoRecvCallback(int fifotag, PXIFifoCallback callback)
 {
     OSIntrMode enabled = OS_DisableInterrupts();
@@ -154,7 +140,6 @@ void PXI_SetFifoRecvCallback(int fifotag, PXIFifoCallback callback)
     (void)OS_RestoreInterrupts(enabled);
 }
 
-
 /*
  * sdk:      PXI_IsCallbackReady (libpxi.TWL.HYB.a pxi_fifo.o)
  */
@@ -164,7 +149,6 @@ BOOL PXI_IsCallbackReady(int fifotag, int proc)
 
     return (w->pxiHandleChecker[proc] & (1UL << fifotag)) ? 1 : 0;
 }
-
 
 int PXI_SendWordByFifo(int fifotag, u32 data, BOOL err)
 {
@@ -191,7 +175,6 @@ int PXI_SendWordByFifo(int fifotag, u32 data, BOOL err)
     return 0;
 }
 
-
 static inline int PXIi_SetToFifo(u32 data)
 {
     OSIntrMode enabled;
@@ -210,7 +193,6 @@ static inline int PXIi_SetToFifo(u32 data)
     return PXI_FIFO_SUCCESS;
 }
 
-
 static inline int PXIi_GetFromFifo(u32 *data)
 {
     OSIntrMode enabled;
@@ -228,7 +210,6 @@ static inline int PXIi_GetFromFifo(u32 *data)
     (void)OS_RestoreInterrupts(enabled);
     return PXI_FIFO_SUCCESS;
 }
-
 
 /*
  * sdk:      PXIi_HandlerRecvFifoNotEmpty (libpxi.TWL.HYB.a pxi_fifo.o)

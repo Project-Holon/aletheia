@@ -45,22 +45,7 @@
  */
 #include "nhttp_types.h"
 
-typedef struct {
-    unsigned char len;
-    unsigned char family;
-    unsigned short port;
-    unsigned long addr;
-} SOCSockAddrIn;
-
-typedef struct {
-    char pad[0xa];
-    short h_length;
-    char **h_addr_list;
-} SOCHostEnt;
-
-typedef struct {
-    unsigned long addr;
-} SOCInAddr;
+#include "../sdk_soc.h"
 
 extern void OS_GetLowEntropyData(u32 *buffer);
 extern void CPS_SslAddRandomSeed(void *random_seed, unsigned int len);
@@ -343,8 +328,8 @@ unsigned long NHTTPi_resolveHostname(NHTTPReq *req_p, char *hostname_p)
         addr = inAddr.addr;
     } else {
         hostEnt = SOC_GetHostByName(hostname_p);
-        if (hostEnt && hostEnt->h_length > 0) {
-            NHTTPi_memcpy(&addr, *hostEnt->h_addr_list, 4);
+        if (hostEnt && hostEnt->length > 0) {
+            NHTTPi_memcpy(&addr, *hostEnt->addrList, 4);
         }
     }
     return addr;

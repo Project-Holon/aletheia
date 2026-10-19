@@ -8,53 +8,7 @@
  */
 #include "mb_parent.h"
 
-typedef struct WMCallback {
-    u16 apiid;
-    u16 errcode;
-    u16 wlCmdID;
-    u16 wlResult;
-} WMCallback;
-
-typedef struct WMIndCallback {
-    u16 apiid;
-    u16 errcode;
-    u16 state;
-    u16 reason;
-} WMIndCallback;
-
-typedef struct WMGameInfo {
-    u16 magicNumber;
-    u8 ver;
-    u8 platform;
-    u32 ggid;
-    u16 tgid;
-    u8 userGameInfoLength;
-    u8 gameNameCount_attribute;
-    u16 parentMaxSize;
-    u16 childMaxSize;
-    u16 userGameInfo[56];
-} WMGameInfo;
-
-typedef struct WMBssDesc {
-    u16 length;
-    u16 rssi;
-    u8 bssid[6];
-    u16 ssidLength;
-    u8 ssid[32];
-    u16 capaInfo;
-    struct {
-        u16 basic;
-        u16 support;
-    } rateSet;
-    u16 beaconPeriod;
-    u16 dtimPeriod;
-    u16 channel;
-    u16 cfpPeriod;
-    u16 cfpMaxDuration;
-    u16 gameInfoLength;
-    u16 otherElementCount;
-    WMGameInfo gameInfo;
-} WMBssDesc;
+#include "../sdk_wm.h"
 
 typedef struct WMStartScanCallback {
     u16 apiid;
@@ -71,62 +25,6 @@ typedef struct WMStartScanCallback {
     WMGameInfo gameInfo;
 } WMStartScanCallback;
 
-typedef struct WMStartScanExCallback {
-    u16 apiid;
-    u16 errcode;
-    u16 wlCmdID;
-    u16 wlResult;
-    u16 state;
-    u16 channelList;
-    u8 reserved[2];
-    u16 bssDescCount;
-    WMBssDesc *bssDesc[16];
-    u16 linkLevel[16];
-} WMStartScanExCallback;
-
-typedef struct WMStartConnectCallback {
-    u16 apiid;
-    u16 errcode;
-    u16 wlCmdID;
-    u16 wlResult;
-    u16 state;
-    u16 aid;
-    u16 reason;
-    u16 wlStatus;
-    u8 macAddress[6];
-    u16 parentSize;
-    u16 childSize;
-} WMStartConnectCallback;
-
-typedef struct WMStartMPCallback {
-    u16 apiid;
-    u16 errcode;
-    u16 state;
-    u8 reserved[2];
-    void *recvBuf;
-    u16 timeStamp;
-    u16 rate_rssi;
-    u8 destAdrs[6];
-    u8 srcAdrs[6];
-    u16 seqNum;
-    u16 tmptt;
-    u16 pollbmp;
-    u16 reserved2;
-} WMStartMPCallback;
-
-typedef struct WMScanExParam {
-    WMBssDesc *scanBuf;
-    u16 scanBufSize;
-    u16 channelList;
-    u16 maxChannelTime;
-    u8 bssid[6];
-    u16 scanType;
-    u16 ssidLength;
-    u8 ssid[32];
-    u16 ssidMatchLength;
-    u16 rsv2[7];
-} WMScanExParam;
-
 typedef struct ParentInfo {
     union {
         WMBssDesc parentInfo[1];
@@ -136,22 +34,8 @@ typedef struct ParentInfo {
     u8 reserved1[8];
 } ParentInfo;
 
-/* WMParentParam as embedded in MBiParam: 0x14 bytes after 4-byte alignment */
-typedef struct WMParentParam {
-    u32 ggid;
-    u16 tgid;
-    u16 entryFlag;
-    u16 maxEntry;
-    u16 multiBootFlag;
-    u16 KS_Flag;
-    u16 CS_Flag;
-    u16 beaconPeriod;
-} WMParentParam;
-
 typedef struct MBiParam {
-    u8 pad0[8];
-    WMParentParam parentParam;                  /* 0x008 */
-    u8 pad1C[0x40 - 0x1C];
+    WMParentParam parentParam;                  /* 0x000 */
     u16 sendBuf[512];                           /* 0x040 */
     u8 parentInfoBuf_area[192];                 /* 0x440 */
     u16 p_sendlen;                              /* 0x500 */

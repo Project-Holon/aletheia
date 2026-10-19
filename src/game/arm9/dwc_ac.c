@@ -25,19 +25,9 @@
  *   MIi_CpuCopy32                    0x02082a90 arm
  *   strncmp  0x020949F4  arm
  */
-typedef unsigned char u8;
-
-typedef signed char s8;
-
-typedef unsigned short u16;
-
-typedef unsigned long u32;
-
-typedef long s32;
-
-typedef unsigned long long u64;
-
-typedef int BOOL;
+#define GAME_TYPES_U32_LONG
+#define GAME_TYPES_S32_LONG
+#include "../types.h"
 
 typedef void *(*ACAllocFunc)(u32 name, s32 size);
 
@@ -74,43 +64,9 @@ typedef struct tagACFL {
     u8 b3;
 } ACFL;
 
-typedef struct WMBssDesc {
-    u16 length;
-    u16 rssi;
-    u8 bssid[6];
-    u16 ssidLength;
-    u8 ssid[32];
-    u8 rest[0xc0 - 0x2c];
-} WMBssDesc;
+#include "../sdk_wm.h"
 
-typedef struct NCFGSlotInfo {
-    u8 pad0[0x40];
-    u8 ssid[32];
-    u8 pad1[0x20];
-    u8 wep[0x50];
-    u8 pad2[0x16];
-    u8 wepMode : 2;
-    u8 wepNotation : 6;
-    u8 pad3[3];
-    u16 mtu;
-    u8 pad4[0x100 - 0xec];
-} NCFGSlotInfo;
-
-typedef struct NCFGSlotInfoEx {
-    u8 ispId[0x20];
-    u8 ispPass[0x20];
-    u8 pad0[0xe6 - 0x40];
-    u8 wepMode : 2;
-    u8 wepNotation : 6;
-    u8 wpaMode;
-    u8 pad1[0x181 - 0xe8];
-    u8 wpaSecurity;
-    u8 proxyMode;
-    u8 proxyAuthType;
-    u8 proxyHost[100];
-    u16 proxyPort;
-    u8 pad2[0x200 - 0x1ea];
-} NCFGSlotInfoEx;
+#include "../sdk_ncfg.h"
 
 typedef struct tagACWORK {
     NCFGSlotInfo userInfo[3];
@@ -163,11 +119,7 @@ typedef struct tagDWCACConfig {
     u8 wontExecuteEULACheck;
 } DWCACConfig;
 
-typedef struct DWCNetcheckParam {
-    ACAllocFunc alloc;
-    ACFreeFunc free;
-    void *bmworkarea;
-} DWCNetcheckParam;
+#include "../sdk_dwc.h"
 
 typedef struct ACMem {
     void *wcmBuffer;
@@ -176,10 +128,6 @@ typedef struct ACMem {
     ACHOLD *acHold;
     ACWORK *acWork;
 } ACMem;
-
-typedef struct NCFGApInfo {
-    unsigned char data[0xF0];
-} NCFGApInfo;
 
 extern void *DWCi_AC_GetMemPtr(u32 name);
 extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
@@ -238,12 +186,7 @@ int DWCi_AC_GetError(void);
 void DWCi_AC_SetApType(u8 type);
 void DWCi_AC_CopyExSetting(u8 type);
 
-
-
 static ACMem s_ac_work;
-
-
-
 
 /*
  * sdk:      DWC_AC_Create (dwc_ac.o)
@@ -291,21 +234,21 @@ BOOL DWC_AC_Create(DWCACConfig *config)
         wk->wpaSetting = 0;
         DWCi_BM_GetApInfoEx(wk->userInfoEx);
         if (wk->connectType == 0) {
-            if ((wk->userInfoEx[0].wpaMode >= 0x10 && wk->userInfoEx[0].wpaMode != 0xff) ||
-                (wk->userInfoEx[1].wpaMode >= 0x10 && wk->userInfoEx[1].wpaMode != 0xff) ||
-                (wk->userInfoEx[2].wpaMode >= 0x10 && wk->userInfoEx[2].wpaMode != 0xff)) {
+            if ((wk->userInfoEx[0].ap.setType >= 0x10 && wk->userInfoEx[0].ap.setType != 0xff) ||
+                (wk->userInfoEx[1].ap.setType >= 0x10 && wk->userInfoEx[1].ap.setType != 0xff) ||
+                (wk->userInfoEx[2].ap.setType >= 0x10 && wk->userInfoEx[2].ap.setType != 0xff)) {
                 wk->wpaSetting = 1;
             }
         } else if (wk->connectType == 0xb) {
-            if (wk->userInfoEx[0].wpaMode >= 0x10 && wk->userInfoEx[0].wpaMode != 0xff) {
+            if (wk->userInfoEx[0].ap.setType >= 0x10 && wk->userInfoEx[0].ap.setType != 0xff) {
                 wk->wpaSetting = 1;
             }
         } else if (wk->connectType == 0xc) {
-            if (wk->userInfoEx[1].wpaMode >= 0x10 && wk->userInfoEx[1].wpaMode != 0xff) {
+            if (wk->userInfoEx[1].ap.setType >= 0x10 && wk->userInfoEx[1].ap.setType != 0xff) {
                 wk->wpaSetting = 1;
             }
         } else if (wk->connectType == 0xd) {
-            if (wk->userInfoEx[2].wpaMode >= 0x10 && wk->userInfoEx[1].wpaMode != 0xff) {
+            if (wk->userInfoEx[2].ap.setType >= 0x10 && wk->userInfoEx[1].ap.setType != 0xff) {
                 wk->wpaSetting = 1;
             }
         }
@@ -326,11 +269,6 @@ BOOL DWC_AC_Create(DWCACConfig *config)
     }
     return 1;
 }
-
-
-
-
-
 
 /*
  * sdk:      DWC_AC_Process (dwc_ac.o)
@@ -380,11 +318,6 @@ int DWC_AC_Process(void)
     return 0;
 }
 
-
-
-
-
-
 /*
  * sdk:      DWC_AC_GetStatus (dwc_ac.o)
  */
@@ -403,11 +336,6 @@ int DWC_AC_GetStatus(void)
     return DWCi_AC_GetResult();
 }
 
-
-
-
-
-
 /*
  * sdk:      DWC_AC_GetApType (dwc_ac.o)
  */
@@ -421,11 +349,6 @@ u8 DWC_AC_GetApType(void)
     }
     return type;
 }
-
-
-
-
-
 
 /*
  * sdk:      DWC_AC_GetApSpotInfo (dwc_ac.o)
@@ -444,20 +367,11 @@ BOOL DWC_AC_GetApSpotInfo(u8 *apSpotInfo)
     return result;
 }
 
-
-
-
-
-
 unsigned int DWC_AC_GetSecuritySetting(void)
 {
     unsigned char *hd = (unsigned char *)DWCi_AC_GetMemPtr(1);
     return hd[35];
 }
-
-
-
-
 
 /*
  * sdk:      DWC_AC_Destroy (dwc_ac.o)
@@ -475,10 +389,6 @@ BOOL DWC_AC_Destroy(void)
     return 0;
 }
 
-
-
-
-
 /*
  * sdk:      DWC_AC_SetSpecifyApEx (dwc_ac.o)
  */
@@ -494,12 +404,8 @@ void DWC_AC_SetSpecifyApEx(void *ssid, void *wep, int wepMode, u16 mtu, char *ap
     }
     hd->overrideType = (u8)overrideType;
     DWC_AC_SetSpecifyAp(ssid, wep, wepMode);
-    wk->userInfo[0].mtu = mtu;
+    wk->userInfo[0].ap.mtu = mtu;
 }
-
-
-
-
 
 /*
  * sdk:      DWC_AC_SetSpecifyAp (dwc_ac.o)
@@ -516,10 +422,10 @@ void DWC_AC_SetSpecifyAp(void *ssid, void *wep, int wepMode)
         if (((u8 *)ssid)[i] == 0) {
             break;
         }
-        wk->userInfo[0].ssid[i] = ((u8 *)ssid)[i];
+        wk->userInfo[0].ap.ssid[0][i] = ((u8 *)ssid)[i];
     }
     if (wep == 0 || wepMode == 0) {
-        wk->userInfo[0].wepMode = 0;
+        wk->userInfo[0].ap.wepMode = 0;
         return;
     }
     if (wepMode == 1) {
@@ -529,13 +435,9 @@ void DWC_AC_SetSpecifyAp(void *ssid, void *wep, int wepMode)
     } else {
         len = 0x10;
     }
-    MI_CpuCopy8(wep, wk->userInfo[0].wep, len);
-    wk->userInfo[0].wepMode = (u8)wepMode;
+    MI_CpuCopy8(wep, wk->userInfo[0].ap.wep[0], len);
+    wk->userInfo[0].ap.wepMode = (u8)wepMode;
 }
-
-
-
-
 
 int DWC_AC_CheckWiFiStation(void *ssid, unsigned short len)
 {
@@ -543,10 +445,6 @@ int DWC_AC_CheckWiFiStation(void *ssid, unsigned short len)
         return 0;
     return DWCi_AC_CheckNintendoShopAP(ssid, len);
 }
-
-
-
-
 
 /*
  * sdk:      DWCi_AC_InsertApInfo (dwc_ac.o)
@@ -558,10 +456,6 @@ void DWCi_AC_InsertApInfo(int no, NCFGApInfo *info)
     MIi_CpuCopy32(info, &wk->userInfo[no], sizeof(NCFGApInfo));
 }
 
-
-
-
-
 /*
  * sdk:      DWCi_AC_InvalidatePriorityWPA (dwc_ac.o)
  */
@@ -571,10 +465,6 @@ void DWCi_AC_InvalidatePriorityWPA(void)
 
     wk->wpaSetting = 0;
 }
-
-
-
-
 
 /*
  * sdk:      DWCi_AC_Alloc (dwc_ac.o)
@@ -589,10 +479,6 @@ void *DWCi_AC_Alloc(u32 name, s32 size)
     hd->allocState |= name;
     return hd->alloc(1, size);
 }
-
-
-
-
 
 /*
  * sdk:      DWCi_AC_Free (dwc_ac.o)
@@ -613,10 +499,6 @@ void DWCi_AC_Free(u32 name, void *ptr, s32 size)
         s_ac_work.acHold = 0;
     }
 }
-
-
-
-
 
 /*
  * sdk:      DWCi_AC_FreeAll (dwc_ac.o)
@@ -655,10 +537,6 @@ void DWCi_AC_FreeAll(void)
     }
 }
 
-
-
-
-
 /*
  * sdk:      DWCi_AC_GetMemPtr (dwc_ac.o)
  */
@@ -671,10 +549,6 @@ void *DWCi_AC_GetMemPtr(u32 name)
     if (name & 0x10) return s_ac_work.acWork;
     return 0;
 }
-
-
-
-
 
 /*
  * sdk:      DWCi_AC_SetPhase (dwc_ac.o)
@@ -694,18 +568,10 @@ void DWCi_AC_SetPhase(u8 phase)
     }
 }
 
-
-
-
-
 unsigned char DWCi_AC_GetPhase(void)
 {
     return s_ac_work.acHold ? s_ac_work.acHold->phase : 0;
 }
-
-
-
-
 
 /*
  * sdk:      DWCi_AC_SetError (dwc_ac.o)
@@ -718,17 +584,10 @@ void DWCi_AC_SetError(int error)
     hd->phaseError = DWCi_AC_GetPhase();
 }
 
-
-
-
-
 int DWCi_AC_GetError(void)
 {
     return s_ac_work.acHold->error;
 }
-
-
-
 
 /*
  * sdk:      DWCi_AC_SetApType (dwc_ac.o)
@@ -755,9 +614,6 @@ void DWCi_AC_SetApType(u8 type)
     }
 }
 
-
-
-
 /*
  * sdk:      DWCi_AC_CopyExSetting (dwc_ac.o)
  */
@@ -769,28 +625,25 @@ void DWCi_AC_CopyExSetting(u8 type)
 
     if (ap_type >= 0xa && ap_type <= 0xc && OS_IsRunOnTwl()) {
         ap_type -= 0xa;
-        hd->proxyMode = wk->userInfoEx[ap_type].proxyMode;
-        hd->proxyAuthType = wk->userInfoEx[ap_type].proxyAuthType;
-        hd->proxyPort = wk->userInfoEx[ap_type].proxyPort;
-        MI_CpuCopy8(wk->userInfoEx[ap_type].proxyHost, hd->proxyHost, 100);
-        MI_CpuCopy8(wk->userInfoEx[ap_type].ispId, hd->proxyId, 0x20);
-        MI_CpuCopy8(wk->userInfoEx[ap_type].ispPass, hd->proxyPass, 0x20);
-        if ((u8)(wk->userInfoEx[ap_type].wpaMode + 0xf0) <= 3) {
-            hd->security = wk->userInfoEx[ap_type].wpaSecurity;
+        hd->proxyMode = wk->userInfoEx[ap_type].apEx.proxyMode;
+        hd->proxyAuthType = wk->userInfoEx[ap_type].apEx.proxyAuthType;
+        hd->proxyPort = wk->userInfoEx[ap_type].apEx.proxyPort;
+        MI_CpuCopy8(wk->userInfoEx[ap_type].apEx.proxyHost, hd->proxyHost, 100);
+        MI_CpuCopy8(wk->userInfoEx[ap_type].ap.ispId, hd->proxyId, 0x20);
+        MI_CpuCopy8(wk->userInfoEx[ap_type].ap.ispPass, hd->proxyPass, 0x20);
+        if ((u8)(wk->userInfoEx[ap_type].ap.setType + 0xf0) <= 3) {
+            hd->security = wk->userInfoEx[ap_type].apEx.wpaMode;
         } else {
-            hd->security = wk->userInfoEx[ap_type].wepMode;
+            hd->security = wk->userInfoEx[ap_type].ap.wepMode;
         }
     } else {
         if ((u8)(type + 0xee) <= 1) {
             hd->security = 2;
         } else {
-            hd->security = wk->userInfo[ap_type].wepMode;
+            hd->security = wk->userInfo[ap_type].ap.wepMode;
         }
     }
 }
-
-
-
 
 /*
  * sdk:      DWCi_ConvConnectAPType (dwc_ac.o)
@@ -806,9 +659,6 @@ u8 DWCi_ConvConnectAPType(u8 type)
     return type;
 }
 
-
-
-
 /*
  * sdk:      Free_Disused (dwc_ac.o)
  */
@@ -817,9 +667,6 @@ void Free_Disused(void)
     DWCi_AC_Free(8, s_ac_work.netCheck, 0xc);
     DWCi_AC_Free(0x10, s_ac_work.acWork, sizeof(ACWORK));
 }
-
-
-
 
 /*
  * sdk:      CheckDuplicate (dwc_ac.o)
@@ -848,9 +695,6 @@ BOOL CheckDuplicate(void)
     return 1;
 }
 
-
-
-
 /*
  * sdk:      CheckEULA (dwc_ac.o)
  */
@@ -866,9 +710,6 @@ BOOL CheckEULA(void)
     }
     return 1;
 }
-
-
-
 
 /*
  * sdk:      CheckWirelessPowerON (dwc_ac.o)

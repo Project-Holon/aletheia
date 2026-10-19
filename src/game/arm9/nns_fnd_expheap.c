@@ -30,7 +30,7 @@ struct NNSiFndHeapHead;
 struct ExpHeap;
 struct MBlockList;
 struct ExpHeapLists;
-typedef unsigned short u16;
+#include "../types.h"
 
 struct DList {
     void *head;
@@ -44,18 +44,12 @@ struct DListNode {
     void *next;
 };
 
-typedef unsigned int u32;
-
 struct Elem {
     char pad00[0x0c];
     struct DList sublist;
     u32 min_val;
     u32 max_val;
 };
-
-typedef unsigned char u8;
-
-typedef int BOOL;
 
 struct MBlock {
     u16            signature;
@@ -81,8 +75,6 @@ struct MemRegion {
     int start;
     int end;
 };
-
-typedef signed int     s32;
 
 typedef struct { void *start; void *end; } MemRegion;
 
@@ -168,19 +160,7 @@ u8 NNSi_FndGetMBlockAttribute(char *p);
 extern BOOL sRootListInitialized;
 extern NNSFndList sRootList;
 
-
-
-
-
-
-
 void NNS_FndInitList(int list, int offset){ ((NNSFndList *)list)->headObject = 0; ((NNSFndList *)list)->tailObject = 0; ((NNSFndList *)list)->numObjects = (unsigned short)0; ((NNSFndList *)list)->offset = (unsigned short)offset; }
-
-
-
-
-
-
 
 /*
  * DList: seed an empty list with its first element.  The list header is the
@@ -215,11 +195,6 @@ void NNSi_FndSetFirstObject(volatile struct DList *list, void *elem)
     list->count = list->count + 1;
 }
 
-
-
-
-
-
 /*
  * NitroSystem fnd/list.c, NNS_FndAppendListObject (append at the tail).  The library was identified from
  * the shape (head, tail, u16 count, u16 link offset) and the body follows the
@@ -253,11 +228,6 @@ void NNS_FndAppendListObject(NNSFndList *list, void *object)
     }
 }
 
-
-
-
-
-
 /*
  * NitroSystem fnd/list.c, NNS_FndPrependListObject (prepend at the head).  The library was identified from
  * the shape (head, tail, u16 count, u16 link offset) and the body follows the
@@ -290,12 +260,6 @@ void NNS_FndPrependListObject(NNSFndList *list, void *object)
         list->numObjects++;
     }
 }
-
-
-
-
-
-
 
 /*
  * DList insert-before: splice `elem` into the list immediately ahead of
@@ -347,13 +311,6 @@ void NNS_FndInsertListObject(volatile struct DList *list, void *before, void *el
     list->count = list->count + 1;
 }
 
-
-
-
-
-
-
-
 /*
  * DList remove: unlink `elem` from the list and clear its own link pair.
  * Both ends are handled by the same shape -- a null neighbour means the
@@ -393,11 +350,6 @@ void NNS_FndRemoveListObject(volatile struct DList *list, void *elem)
     list->count = list->count - 1;
 }
 
-
-
-
-
-
 /*
  * A whole translation unit, matched as one byte range.
  *
@@ -415,10 +367,6 @@ void *NNS_FndGetNextListObject(struct DList *list, void *elem)
     return ((struct DListNode *)((char *)elem + list->node_offset))->next;
 }
 
-
-
-
-
 void *NNS_FndGetPrevListObject(struct DList *list, void *elem)
 {
     if (elem == 0) {
@@ -426,10 +374,6 @@ void *NNS_FndGetPrevListObject(struct DList *list, void *elem)
     }
     return ((struct DListNode *)((char *)elem + list->node_offset))->prev;
 }
-
-
-
-
 
 struct Elem *NNSi_FndFindElem(struct DList *list, u32 val)
 {
@@ -446,11 +390,6 @@ struct Elem *NNSi_FndFindElem(struct DList *list, u32 val)
     return 0;
 }
 
-
-
-
-
-
 void *NNSi_FndFindListContainHeap(u32 a)
 {
     void *r = &sRootList;
@@ -462,16 +401,10 @@ void *NNSi_FndFindListContainHeap(u32 a)
     return r;
 }
 
-
-
-
 static inline void SetOptForHeap(NNSiFndHeapHead *pHeapHd, u16 optFlag)
 {
     NNSi_FndSetBitValue(pHeapHd->attribute, 0, 8, optFlag);
 }
-
-
-
 
 /*
  * NitroSystem fnd heapcommon.c, NNSi_FndInitHeapHead: fill the heap header,
@@ -505,20 +438,10 @@ void NNSi_FndInitHeapHead(NNSiFndHeapHead *pHeapHd, u32 signature, void *heapSta
     NNS_FndAppendListObject(NNSi_FndFindListContainHeap((u32)pHeapHd), pHeapHd);
 }
 
-
-
-
-
-
 void NNSi_FndFinalizeHeap(void *p)
 {
     NNS_FndRemoveListObject(NNSi_FndFindListContainHeap((u32)p), p);
 }
-
-
-
-
-
 
 /*
  * Block extent: writes the two ends of a heap block into a two-word result.
@@ -544,10 +467,6 @@ void NNSi_FndGetMBlockRegion(int *out, int *blk)
     out[1] = blk[1] + (int)(blk + 4);
 }
 
-
-
-
-
 void *NNSi_FndRemoveMBlock(int *p, int *node)
 {
     int *a = (int *)node[2];
@@ -562,11 +481,6 @@ void *NNSi_FndRemoveMBlock(int *p, int *node)
         p[1] = (int)a;
     return a;
 }
-
-
-
-
-
 
 void *NNSi_FndInsertMBlock(int *p, void *node, int *a)
 {
@@ -587,9 +501,6 @@ void *NNSi_FndInsertMBlock(int *p, void *node, int *a)
     return node;
 }
 
-
-
-
 void *NNSi_FndInitMBlock(int *p, int v)
 {
     int *q = (int *)p[0];
@@ -600,10 +511,6 @@ void *NNSi_FndInitMBlock(int *p, int v)
     ((struct MBlock *)q)->next = 0;
     return q;
 }
-
-
-
-
 
 /*
  * COMPILER PIN: this function is byte-exact only under `--cc ../2.0/sp2` and
@@ -660,11 +567,6 @@ void *NNSi_FndCreateExpHeap(struct ExpHeap *heap, void *lo, u16 attr)
     heap->usedList.tail = 0;
     return heap;
 }
-
-
-
-
-
 
 /*
  * The expanded heap's carve: the allocator's back end, entered from
@@ -759,14 +661,6 @@ void *NNSi_FndAllocFromExpHeap(struct ExpHeapLists *heap, struct MBlock *block, 
     return ptr;
 }
 
-
-
-
-
-
-
-
-
 /*
  * The head-end half of the expanded-heap allocator that sits under the game's
  * own heap layer: src/matched/GFL_HEAP_AllocMemory.c calls NNS_FndAllocFromExpHeapEx, which
@@ -828,12 +722,6 @@ void *NNSi_FndAllocFromExpHeapHead(struct ExpHeap *heap, u32 size, s32 align)
     return NNSi_FndAllocFromExpHeap((struct ExpHeapLists *)(&heap->freeList), found, foundPtr, size, 0);
 }
 
-
-
-
-
-
-
 /*
  * The tail-end half of the expanded-heap allocator, the mirror of
  * NNSi_FndAllocFromExpHeapHead: NNS_FndAllocFromExpHeapEx dispatches here when the caller asked for a
@@ -893,39 +781,15 @@ void *NNSi_FndAllocFromExpHeapTail(struct ExpHeap *heap, u32 size, s32 align)
     return NNSi_FndAllocFromExpHeap((struct ExpHeapLists *)(&heap->freeList), found, foundPtr, size, 1);
 }
 
-
-
-
-
 static inline void *AddU32ToPtr(void *ptr, u32 val) { return (void *)(val + (u32)ptr); }
-
-
-
-
 
 static inline void *GetMemPtrForMBlock(struct MBlock *p) { return AddU32ToPtr(p, sizeof(struct MBlock)); }
 
-
-
-
-
 static inline void *GetMBlockEndAddr(struct MBlock *p) { return AddU32ToPtr(GetMemPtrForMBlock(p), p->size); }
-
-
-
-
 
 static inline u32 GetOffsetFromPtr(void *start, void *end) { return (u32)end - (u32)start; }
 
-
-
-
-
 static inline struct MBlock *InitFreeMBlock(MemRegion *r) { return NNSi_FndInitMBlock((int *)r, 0x4652); }
-
-
-
-
 
 /*
  * NitroSystem fnd expanded heap, RecycleRegion: return a region to the free
@@ -987,12 +851,6 @@ BOOL NNSi_FndRecycleRegion(ExpHeapHead *pEHHead, const MemRegion *pRegion)
     return 1;
 }
 
-
-
-
-
-
-
 /*
  * The expanded heap's create front door: word-align the arena the caller
  * handed over (start rounded up, end rounded down), reject it if the rounding
@@ -1023,17 +881,7 @@ void *NNS_FndCreateExpHeapEx(void *start, u32 size, u16 attr)
     return NNSi_FndCreateExpHeap((struct ExpHeap *)lo, end, attr);
 }
 
-
-
-
-
-
 void NNSi_FndDestroyExpHeap(void *heap){ NNSi_FndFinalizeHeap(heap); }
-
-
-
-
-
 
 /*
  * The expanded-heap allocator's front door, and the function
@@ -1064,9 +912,6 @@ void *NNS_FndAllocFromExpHeapEx(struct ExpHeap *heap, u32 size, s32 align)
     }
     return NNSi_FndAllocFromExpHeapTail((struct ExpHeap *)heap, size, -align);
 }
-
-
-
 
 /*
  * NNS_FndResizeForMBlockExpHeap shape: resize a used block of the expanded
@@ -1152,9 +997,6 @@ u32 NNS_FndResizeForMBlockExpHeap(struct HeapHead *heap, void *memBlock, u32 siz
     return pMBHead->size;
 }
 
-
-
-
 /*
  * The expanded heap's free primitive: read the block's own extent with
  * NNSi_FndGetMBlockRegion, unlink its header from the heap's used list (+0x2c) and hand
@@ -1191,8 +1033,6 @@ void NNS_FndFreeToExpHeap(struct ExpHeap *heap, void *block)
     NNSi_FndRecycleRegion((ExpHeapHead *)(&heap->freeList), (const MemRegion *)(&end - 1));
 }
 
-
-
 int NNSi_FndGetListTotalSize(int *p)
 {
     int *q = (int *)p[9];
@@ -1205,9 +1045,6 @@ int NNSi_FndGetListTotalSize(int *p)
     } while (q != 0);
     return total;
 }
-
-
-
 
 /*
  * Largest-free-space search over the allocator's block list hanging off the
@@ -1277,9 +1114,6 @@ s32 NNSi_FndGetListAllocatableSize(struct Heap *heap, s32 x)
     return best;
 }
 
-
-
-
 /*
  * Setter: replaces bit 0 of the halfword at +0x36 and returns the old bit 0.
  * 2026-10-05 (wave D7 lane 18): closed by reading the old bit first
@@ -1295,9 +1129,6 @@ u32 NNSi_FndSetAllocModeBit(char *p, u32 v)
     return old;
 }
 
-
-
-
 /*
  * Setter: stores a halfword at +0x34 and returns the old value.
  */
@@ -1307,8 +1138,6 @@ u16 NNSi_FndSetGroupId(char *p, u16 v)
     *(u16 *)(p + 0x34) = v;
     return old;
 }
-
-
 
 void NNSi_FndWalkHeapBlocks(int *p, void (*fn)(void *, void *, int), int ctx)
 {
@@ -1322,12 +1151,7 @@ void NNSi_FndWalkHeapBlocks(int *p, void (*fn)(void *, void *, int), int ctx)
     } while (q != 0);
 }
 
-
-
 int NNSi_FndGetMBlockSize(char *p){ return *(int *)(p - 0xc); }
-
-
-
 
 /*
  * 12-byte ARM leaf right after NNSi_FndGetMBlockSize (its sibling getter on the

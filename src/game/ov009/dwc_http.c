@@ -94,16 +94,9 @@
  */
 #include "dwc_http_types.h"
 
-typedef struct DWCHttpBuffer {
-    char *buffer;
-    char *write_index;
-    char *buffer_tail;
-    unsigned long length;
-} DWCHttpBuffer;
+#include "../sdk_dwc.h"
 
-typedef unsigned char  u8;
-
-typedef unsigned int   u32;
+#include "../types.h"
 
 typedef struct {
     char *base;
@@ -126,14 +119,9 @@ typedef struct CPSSoc {
     char pad10[0x90];
 } CPSSoc;
 
-typedef struct OSMutex { char pad[0x18]; } OSMutex;
+#include "../sdk_os.h"
 
 typedef struct SOCLCaInfo SOCLCaInfo;
-
-typedef struct DWCHttpLabelValue {
-    char *label;
-    char *value;
-} DWCHttpLabelValue;
 
 typedef struct DWCHttpParseResult {
     DWCHttpLabelValue *entry;
@@ -168,7 +156,6 @@ typedef struct DWCHttp {
     DWCHttpLabelValue labelvalue[32];   /* 0x1a74 */
     unsigned char pad1b74[0xdc];        /* 0x1b74 */
 } DWCHttp;
-
 
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
@@ -252,12 +239,6 @@ extern const char gDwcHttpColonSpace[];
 extern const char gDwcHttpEquals[];
 extern const char gDwcHttpAmpersand[];
 
-
-
-
-
-
-
 extern int strlen(u8 *s);
 extern int strncmp(u8 *s1, u8 *s2, u32 n);
 extern int strcmp(const char *s1, const char *s2);
@@ -301,12 +282,6 @@ int DWC_Http_Create(DWCHttp *http, DWCHttpParam *param)
     return http->error;
 }
 
-
-
-
-
-
-
 /*
  * sdk:      DWC_Http_FinishHeader (dwc_http.o)
  */
@@ -328,12 +303,6 @@ int DWC_Http_FinishHeader(char *http)
     return 0;
 }
 
-
-
-
-
-
-
 /*
  * sdk:      DWC_Http_StartThread (dwc_http.o)
  */
@@ -354,12 +323,6 @@ void DWC_Http_StartThread(char *http, unsigned long prio)
     OS_WakeupThreadDirect(http + 0x1b74);
 }
 
-
-
-
-
-
-
 void DWC_Http_Abort(char *http)
 {
     if (*(unsigned char *)(http + 0x1000) != 0xff) {
@@ -369,12 +332,6 @@ void DWC_Http_Abort(char *http)
     *(int *)(http + 0x1c4c) = 1;
     OS_UnlockMutex((struct OSMutex *)(http + 0x1c34));
 }
-
-
-
-
-
-
 
 static int DWCi_Http_Yield(char *http)
 {
@@ -392,12 +349,6 @@ static int DWCi_Http_Yield(char *http)
     return 1;
 }
 
-
-
-
-
-
-
 static void DWCi_Http_InitCpsSocket(char *http)
 {
     MI_CpuFill8(http + 0x1138, 0, 0xa0);
@@ -408,11 +359,6 @@ static void DWCi_Http_InitCpsSocket(char *http)
     CPS_SocRegister((int)(http + 0x1138));
 }
 
-
-
-
-
-
 /*
  * Tail call on the word at +0x1124 of the object.
  */
@@ -420,12 +366,6 @@ u32 DWCi_Http_Resolve(const char *p)
 {
     return CPS_Resolve((char *)(*(const int *)(p + 0x1124)));
 }
-
-
-
-
-
-
 
 /*
  * sdk:      DWCi_Http_CheckHeaderReceived (dwc_http.o)
@@ -462,12 +402,6 @@ int DWCi_Http_CheckHeaderReceived(char *http)
     *content_end = content_temp;
     return 1;
 }
-
-
-
-
-
-
 
 /*
  * sdk:      DWCi_Http_Thread (libdwcauth.TWL.HYB.a dwc_http.o)
@@ -593,11 +527,6 @@ fail:
     CPS_SocUnRegister();
 }
 
-
-
-
-
-
 /*
  * sdk:      DWC_Http_Destroy (dwc_http.o)
  */
@@ -623,11 +552,6 @@ void DWC_Http_Destroy(char *http)
     MI_CpuFill8(http, 0, 0x1c50);
 }
 
-
-
-
-
-
 /*
  * sdk:      DWCi_Http_WriteBasicHeader (dwc_http.o)
  */
@@ -652,11 +576,6 @@ int DWCi_Http_WriteBasicHeader(char *http)
     req->cur += result_len;
     return 0;
 }
-
-
-
-
-
 
 /*
  * sdk:      DWC_Http_Add_HeaderItem (dwc_http.o)
@@ -685,9 +604,6 @@ int DWC_Http_Add_HeaderItem(char *http, char *label, char *data)
     temp_buffer->cur += result_len;
     return 0;
 }
-
-
-
 
 /*
  * sdk:      DWC_Http_Add_PostBase64Item (libdwcauth.TWL.HYB.a dwc_http.o)
@@ -729,12 +645,6 @@ int DWC_Http_Add_PostBase64Item(DWCHttp *http, char *label, char *data, unsigned
     return 0;
 }
 
-
-
-
-
-
-
 /*
  * sdk:      DWC_Http_Add_Body (dwc_http.o)
  */
@@ -762,22 +672,12 @@ int DWC_Http_Add_Body(char *http, char *data)
     return 0;
 }
 
-
-
-
-
-
 int DWCi_Http_CPSCallback(int result)
 {
 	if (result & 0x8000)
 		result &= ~0x8000;
 	return result;
 }
-
-
-
-
-
 
 static int DWCi_Http_AllocBuffer(char *http, char *buf, unsigned long size)
 {
@@ -798,12 +698,6 @@ static int DWCi_Http_AllocBuffer(char *http, char *buf, unsigned long size)
     return 1;
 }
 
-
-
-
-
-
-
 static void DWCi_Http_FreeBuffer(char *http, char *buf)
 {
     void (*free)(unsigned long, void *, long) = *(void (**)(unsigned long, void *, long))(http + 0x1014);
@@ -813,12 +707,6 @@ static void DWCi_Http_FreeBuffer(char *http, char *buf)
     }
     MI_CpuFill8(buf, 0, 0x10);
 }
-
-
-
-
-
-
 
 /*
  * sdk:      DWCi_Http_ReallocBuffer (dwc_http.o)
@@ -849,10 +737,6 @@ int DWCi_Http_ReallocBuffer(char *http, Buf *buf, int size)
     buf->end = newptr + buf->cap;
     return 1;
 }
-
-
-
-
 
 int DWCi_Http_SetHostinfo(DWCHttp *http, char *url)
 {
@@ -895,9 +779,6 @@ int DWCi_Http_SetHostinfo(DWCHttp *http, char *url)
     return 1;
 }
 
-
-
-
 /*
  * sdk:      DWCi_Http_AddResult (libdwcauth.TWL.HYB.a dwc_http.o)
  */
@@ -930,8 +811,6 @@ int DWCi_Http_AddResult(DWCHttp *http, DWCHttpParseResult *result, char *label, 
     }
     return 0;
 }
-
-
 
 /*
  * sdk:      DWC_Http_ParseResult (libdwcauth.TWL.HYB.a dwc_http.o)
@@ -1033,9 +912,6 @@ int DWC_Http_ParseResult(DWCHttp *http, int noparsebody)
     return 1;
 }
 
-
-
-
 char *DWC_Http_GetResult(char *http, char *label)
 {
     int i;
@@ -1048,9 +924,6 @@ char *DWC_Http_GetResult(char *http, char *label)
     }
     return 0;
 }
-
-
-
 
 int DWC_Http_GetBase64DecodedResult(char *http, char *label, char *buffer, unsigned long buffer_len)
 {
@@ -1068,9 +941,6 @@ int DWC_Http_GetBase64DecodedResult(char *http, char *label, char *buffer, unsig
     return result_len;
 }
 
-
-
-
 int DWC_Http_GetRawResult(char *http, char *label, char *buffer, int buffer_len)
 {
     char *value = DWC_Http_GetResult(http, label);
@@ -1085,9 +955,6 @@ int DWC_Http_GetRawResult(char *http, char *label, char *buffer, int buffer_len)
     strcpy(buffer, value);
     return 1;
 }
-
-
-
 
 static void DWCi_Http_DestroyResult(char *http, DWCHttpLabelValue *array_entry, int array_len)
 {

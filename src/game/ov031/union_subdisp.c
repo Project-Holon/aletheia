@@ -113,14 +113,8 @@
  *   KEY_GetRepeat  0x0203633C  arm
  *   _u32_div_f                   0x0209C2B0  arm
  */
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed short   s16;
-typedef signed int     s32;
-typedef struct VecFx32 {
-    s32 x, y, z;
-} VecFx32;
+#include "../types.h"
+#include "../sdk_fx.h"
 
 #include "../ov012/union_comm_types.h"
 #include "union_subdisp_types.h"
@@ -350,9 +344,6 @@ static inline int UNION_SUBDISP_PollLineTransfer(UnionSubdispWork *work, int lin
 }
 void UNION_SUBDISP_PageScrollByButtons(UnionSubdispWork *unused, UnionRoomWork *room);
 
-
-
-
 UnionSubdispWork *UNION_SUBDISP_Create(struct GameSystem *gameSystem)
 {
     struct GameComm *gameComm;
@@ -405,8 +396,6 @@ UnionSubdispWork *UNION_SUBDISP_Create(struct GameSystem *gameSystem)
     return work;
 }
 
-
-
 void UNION_SUBDISP_Delete(UnionSubdispWork *work)
 {
     UnionRoomWork *unionWork;
@@ -426,8 +415,6 @@ void UNION_SUBDISP_Delete(UnionSubdispWork *work)
     GFL_NET_WM_ICON_EasyObjWindowOff();
     REG_DB_DISPCNT_SUB &= 0xFFFF1FFF;
 }
-
-
 
 void UNION_SUBDISP_Draw(UnionSubdispWork *work, int mode)
 {
@@ -454,8 +441,6 @@ void UNION_SUBDISP_Draw(UnionSubdispWork *work, int mode)
         }
     }
 }
-
-
 
 void UNION_SUBDISP_Update(UnionSubdispWork *work, int mode)
 {
@@ -514,7 +499,6 @@ void UNION_SUBDISP_Update(UnionSubdispWork *work, int mode)
         UNION_MAIN_SetAppealNo(unionWork, work->appealNo);
 }
 
-
 /*
  * extent: trailing two-byte zero alignment padding.
  */
@@ -526,7 +510,6 @@ void UNION_SUBDISP_CreateSystems(UnionSubdispWork *work)
     work->msgData = MSGDATA_CreateFromArchive(0, 2, 201, UNION_SUBDISP_HEAP_ID);
 }
 
-
 void UNION_SUBDISP_DeleteSystems(UnionSubdispWork *work)
 {
     MSGDATA_Delete(work->msgData);
@@ -535,8 +518,6 @@ void UNION_SUBDISP_DeleteSystems(UnionSubdispWork *work)
     PRINTSYS_QUE_Delete((struct PrintQueue *)work->printSys);
     CLACT_DeleteUnit(work->clactUnit);
 }
-
-
 
 /*
  * volatile: 0x021F0288 ldr / 0x021F028E str of 0x04001000 (REG_DB_DISPCNT_SUB read-modify-write); 0x021F0294 strh to 0x04001050 (hardware registers)
@@ -567,7 +548,6 @@ void UNION_SUBDISP_InitBgs(UnionSubdispWork *work, void *archive)
     BG_SYS_SetPlaneVisible(5, 1);
 }
 
-
 void UNION_SUBDISP_ExitBgs(UnionSubdispWork *work)
 {
     BG_SYS_SetPlaneVisible(5, 0);
@@ -577,8 +557,6 @@ void UNION_SUBDISP_ExitBgs(UnionSubdispWork *work)
     BG_SYS_FreeLayerBuf(6);
     BG_SYS_FreeLayerBuf(7);
 }
-
-
 
 /*
  * Both copy pointers are u16 element offsets (+0x2A0), not byte offsets:
@@ -609,13 +587,10 @@ void UNION_SUBDISP_LoadFrameBg(UnionSubdispWork *work)
     ARC_TOOL_DeleteHandle(archive);
 }
 
-
 void UNION_SUBDISP_FreeFrameBgChar(UnionSubdispWork *work)
 {
     BG_SYS_FreeTileRun(5, work->bgCharOffset, 128);
 }
-
-
 
 /*
  * Re-reading the just-stored work->lineWin[i] as the source of the second
@@ -635,7 +610,6 @@ void UNION_SUBDISP_CreateLineWindows(UnionSubdispWork *work)
     }
 }
 
-
 void UNION_SUBDISP_DeleteLineWindows(UnionSubdispWork *work)
 {
     int i;
@@ -644,8 +618,6 @@ void UNION_SUBDISP_DeleteLineWindows(UnionSubdispWork *work)
     }
 }
 
-
-
 void UNION_SUBDISP_LoadActorRes(UnionSubdispWork *work, void *archive)
 {
     work->palRes = (struct ClactRes *)CLACT_RegisterPaletteEx(archive, 0x13, 1, 0, 0, 3, UNION_SUBDISP_HEAP_ID);
@@ -653,15 +625,12 @@ void UNION_SUBDISP_LoadActorRes(UnionSubdispWork *work, void *archive)
     work->cellRes = (struct ClactRes *)CLACT_RegisterCellAnim(archive, 0xC, 0xD, UNION_SUBDISP_HEAP_ID);
 }
 
-
 void UNION_SUBDISP_DeleteActorRes(UnionSubdispWork *work)
 {
     CLACT_ReleasePalette((u32)work->palRes);
     CLACT_ReleaseCharacter((u32)work->charRes);
     CLACT_ReleaseCellAnim((u32)work->cellRes);
 }
-
-
 
 void UNION_SUBDISP_CreateActors(UnionSubdispWork *work, void *archive)
 {
@@ -681,7 +650,6 @@ void UNION_SUBDISP_CreateActors(UnionSubdispWork *work, void *archive)
     CLACT_SetActorDrawEnable((struct Actor *)work->actor[UNION_SUBDISP_ACTOR_SCROLL_KNOB], 0);
 }
 
-
 void UNION_SUBDISP_DeleteActors(UnionSubdispWork *work)
 {
     int i;
@@ -689,8 +657,6 @@ void UNION_SUBDISP_DeleteActors(UnionSubdispWork *work)
     for (i = 0; i < UNION_SUBDISP_ACTOR_COUNT; i++)
         CLACT_DeleteActor((struct Actor *)work->actor[i]);
 }
-
-
 
 int UNION_SUBDISP_CheckTouch(UnionSubdispWork *work, UnionRoomWork *unionWork)
 {
@@ -724,8 +690,6 @@ int UNION_SUBDISP_CheckTouch(UnionSubdispWork *work, UnionRoomWork *unionWork)
     return 0;
 }
 
-
-
 /*
  * The store to appealNo is written in both arms of an if/else (keeps the
  * empty `b` to the next instruction), and the loop condition is a
@@ -748,7 +712,6 @@ void UNION_SUBDISP_SelectAppeal(UnionSubdispWork *work, int sel)
             CLACT_SetActorPaletteOffset((struct Actor *)work->actor[i], 0, 1);
     }
 }
-
 
 /* Redraws the lines whose content changed since the last call. */
 void UNION_SUBDISP_UpdateChatLines(UnionSubdispWork *work, UnionChatLog *log)
@@ -1241,7 +1204,6 @@ int UNION_SUBDISP_SetLinePalette(UnionSubdispWork *unused, int lineNo, int highl
     BG_SYS_MarkTileDirty(UNION_SUBDISP_BG_CHAT);
     return 1;
 }
-
 
 /* The L and R buttons scroll the chat log by a page of three lines. */
 void UNION_SUBDISP_PageScrollByButtons(UnionSubdispWork *unused, UnionRoomWork *room)

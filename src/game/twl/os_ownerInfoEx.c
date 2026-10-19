@@ -13,8 +13,7 @@
  * sdk:      libos.TWL.HYB.a os_ownerinfoex.o
  */
 
-typedef unsigned char u8;
-typedef unsigned int u32;
+#include "../types.h"
 
 int OS_IsAvailableWireless_ltdmain(void)
 {

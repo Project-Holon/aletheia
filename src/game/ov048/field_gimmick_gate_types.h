@@ -16,7 +16,7 @@
 
 #include "../ov021/fld_exp_obj_types.h"
 
-typedef signed short s16;
+#include "../types.h"
 
 struct FieldMap;
 struct GameSystem;

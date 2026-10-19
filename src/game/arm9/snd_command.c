@@ -50,9 +50,8 @@
 #define SND_COMMAND_NUM              256
 #define PXI_FIFO_TAG_SOUND           7
 
-typedef unsigned long u32;
-typedef int BOOL;
-typedef u32 OSIntrMode;
+#include "../types.h"
+#include "../sdk_os.h"
 
 typedef struct SNDCommand {
     struct SNDCommand *next;
@@ -110,7 +109,6 @@ extern SNDSharedWork sSharedWork;
 extern SNDSharedWork *SNDi_SharedWork;
 extern SNDCommand *sWaitingCommandListQueue[SND_PXI_FIFO_MESSAGE_BUFSIZE + 1];
 
-
 /*
  * sdk:      SND_CommandInit (libsnd.TWL.HYB.a snd_command.o)
  *           The free-list loop is entered with a b to its bottom test and the constant
@@ -157,7 +155,6 @@ void SND_CommandInit(void)
     SND_PushCommand(command);
     (void)SND_FlushCommand(1);
 }
-
 
 /*
  * sdk:      SND_RecvCommandReply (snd_command.o)
@@ -208,7 +205,6 @@ const SNDCommand *SND_RecvCommandReply(u32 flags)
     return commandList;
 }
 
-
 /*
  * sdk:      SND_AllocCommand (snd_command.o)
  */
@@ -244,7 +240,6 @@ SNDCommand *SND_AllocCommand(u32 flags)
     return command;
 }
 
-
 /*
  * sdk:      SND_PushCommand (snd_command.o)
  */
@@ -262,7 +257,6 @@ void SND_PushCommand(SNDCommand *command)
     command->next = 0;
     (void)OS_RestoreInterrupts(bak_psr);
 }
-
 
 /*
  * sdk:      SND_FlushCommand (snd_command.o)
@@ -336,7 +330,6 @@ BOOL SND_FlushCommand(u32 flags)
     return 1;
 }
 
-
 /*
  * sdk:      SND_WaitForCommandProc (snd_command.o)
  */
@@ -359,7 +352,6 @@ void SND_WaitForCommandProc(u32 tag)
     } while (!SND_IsFinishedCommandTag(tag));
 }
 
-
 /*
  * sdk:      SND_GetCurrentCommandTag (snd_command.o)
  */
@@ -376,7 +368,6 @@ u32 SND_GetCurrentCommandTag(void)
     (void)OS_RestoreInterrupts(bak_psr);
     return tag;
 }
-
 
 /*
  * sdk:      SND_IsFinishedCommandTag (snd_command.o)
@@ -403,7 +394,6 @@ BOOL SND_IsFinishedCommandTag(u32 tag)
     return result;
 }
 
-
 /*
  * sdk:      SND_CountFreeCommand (snd_command.o)
  */
@@ -419,7 +409,6 @@ int SND_CountFreeCommand(void)
     (void)OS_RestoreInterrupts(bak_psr);
     return count;
 }
-
 
 /*
  * sdk:      SND_CountReservedCommand (snd_command.o)
@@ -437,7 +426,6 @@ int SND_CountReservedCommand(void)
     return count;
 }
 
-
 /*
  * note:     snd_command.o SND_CountWaitingCommand.
  */
@@ -449,7 +437,6 @@ int SND_CountWaitingCommand(void)
     return 0x100 - freeCount - reservedCount;
 }
 
-
 /*
  * sdk:      PxiFifoCallback (snd_command.o)
  */
@@ -460,7 +447,6 @@ void PxiFifoCallback(int tag, u32 data, BOOL err)
     SNDi_CallAlarmHandler((int)data);
     (void)OS_RestoreInterrupts(enabled);
 }
-
 
 /*
  * sdk:      InitPXI (snd_command.o)
@@ -478,7 +464,6 @@ void InitPXI(void)
     }
 }
 
-
 /*
  * sdk:      RequestCommandProc (snd_command.o)
  */
@@ -487,7 +472,6 @@ void RequestCommandProc(void)
     while (PXI_SendWordByFifo(7, 0, 0) < 0) {
     }
 }
-
 
 /*
  * sdk:      AllocCommand (snd_command.o)
@@ -508,7 +492,6 @@ SNDCommand *AllocCommand(void)
     (void)OS_RestoreInterrupts(bak_psr);
     return command;
 }
-
 
 #define REG_EMU_COMMAND (*(volatile u32 *)0x04FFF200)
 

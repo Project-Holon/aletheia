@@ -78,15 +78,9 @@
 #include "../../matched/include/G_Ae90.h"
 
 #define PUT(v)  (dst[encode_file_size++] = (unsigned char)(v))
-struct RTCDate;
-struct RTCTime;
-typedef unsigned char  u8;
+#include "../sdk_rtc.h"
 
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef signed int     s32;
+#include "../types.h"
 
 struct DateTime {
     u32 hour;
@@ -125,10 +119,6 @@ typedef struct jpeg_exif_data_structure {
     unsigned long thumb_compressed_data;
     long thumb_compressed_length;
 } jpeg_exif_data_structure;
-
-typedef signed char s8;
-
-typedef signed short s16;
 
 struct Slot
 {
@@ -245,11 +235,6 @@ static char dateTimeData[20] = {0};
 
 static char SSPiSoftware[30] = {0};
 
-
-
-
-
-
 /*
  * SDK provenance: SSP_SetJpegEncoderDateTime (TwlSDK/libssp.TWL.HYB.a,
  * exifenc.o), ov172.
@@ -267,11 +252,6 @@ void SSP_SetJpegEncoderDateTime(u8 *buf)
     dateTimeDataFlag = 1;
 }
 
-
-
-
-
-
 /*
  * 1 when the ARM9 predicate is zero.
  *
@@ -284,11 +264,6 @@ int SSP_GetDateTime(void *a, void *b)
     }
     return 0;
 }
-
-
-
-
-
 
 /*
  * SDK provenance: SSP_SetJpegEncoderDateTimeNow (TwlSDK/libssp.TWL.HYB.a,
@@ -317,20 +292,10 @@ int SSP_SetJpegEncoderDateTimeNow(void)
     return 1;
 }
 
-
-
-
-
-
 void SSP_SetJpegEncoderSoftware(const char *s)
 {
     SSPiSoftwareSize = STD_CopyLString(SSPiSoftware, s, 0x1e) + 1;
 }
-
-
-
-
-
 
 /*
  * sdk:      jpeg_exif_get_tag_size (exifenc.o)
@@ -344,12 +309,6 @@ unsigned long jpeg_exif_get_tag_size(struct exif_tag_entry *entry)
 
     return type_size[entry->type] * entry->count;
 }
-
-
-
-
-
-
 
 void jpeg_exif_set_tag_value(exif_tag_entry *entry)
 {
@@ -412,12 +371,6 @@ void jpeg_exif_set_tag_value(exif_tag_entry *entry)
         break;
     }
 }
-
-
-
-
-
-
 
 void jpeg_encode_ifd_direct(void *unused, exif_ifd_data *ifd, short is_last)
 {
@@ -493,11 +446,6 @@ void jpeg_encode_ifd_direct(void *unused, exif_ifd_data *ifd, short is_last)
         }
     }
 }
-
-
-
-
-
 
 /*
  * sdk:      jpeg_encode_ifd (libssp.TWL.HYB.a exifenc.o)
@@ -587,9 +535,6 @@ void jpeg_encode_ifd(jpeg_exif_data_structure *jexif, exif_ifd_data *ifd, short 
     }
 }
 
-
-
-
 /*
  * sdk:      jpeg_encode_exif (libssp.TWL.HYB.a exifenc.o)
  *
@@ -678,8 +623,6 @@ short jpeg_encode_exif(jpeg_exif_data_structure *jexif, short option,
     }
     return 1;
 }
-
-
 
 /*
  * sdk:      jpeg_encode_main (libssp.TWL.HYB.a(exifenc.o))
@@ -1193,7 +1136,6 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
   }
   return 1;
 }
-
 
 u32 SSP_ExifEncode(int dstBuffer, int width, int height, u8 *thumbSrc, u32 thumbSize)
 {

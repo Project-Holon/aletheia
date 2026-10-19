@@ -100,14 +100,9 @@
  *   WAZA_TOOL_IsAlwaysHit  0x0201C1F4  thumb  arm9
  */
 
-
 #include "p_status_types.h"
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed char s8;
-typedef signed short s16;
+#include "../types.h"
 
 struct Obj;
 struct BmpWin;

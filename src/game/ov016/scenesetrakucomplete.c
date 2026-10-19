@@ -57,7 +57,7 @@
 #define reg_G2S_DB_BG1CNT (*(volatile unsigned short *)0x0400100A)
 #define reg_G2_BG1CNT     (*(volatile unsigned short *)0x0400000A)
 #define reg_G2_BG2CNT     (*(volatile unsigned short *)0x0400000C)
-typedef unsigned short u16;
+#include "../types.h"
 
 typedef struct {
     u16 priority : 2;
@@ -97,7 +97,6 @@ static void endScene(void);
 static void endScene1(void);
 static void wait(void);
 
-
 void DWCi_SceneSetRakuComplete(void)
 {
     Count = 0;
@@ -107,7 +106,6 @@ void DWCi_SceneSetRakuComplete(void)
     DWCi_SNDlPlay(0x10);
     DWCi_ChangeScene(procInit);
 }
-
 
 static void initGraphics(void)
 {
@@ -119,7 +117,6 @@ static void initGraphics(void)
     ((BgCnt *)0x0400000C)->priority = 3;
 }
 
-
 static void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 0x15, 8);
@@ -127,13 +124,11 @@ static void procInit(void)
     DWCi_ChangeScene(procInit1);
 }
 
-
 static void procInit1(void)
 {
     if (!DWCi_EFFlCheck(0))
         DWCi_ChangeScene(DWCi_SceneSetRakuComplete_procScene);
 }
-
 
 /*
  * Call wait, DWCi_SceneSetRakuComplete_draw.
@@ -149,13 +144,11 @@ void DWCi_SceneSetRakuComplete_procScene(void)
     DWCi_SceneSetRakuComplete_draw();
 }
 
-
 void DWCi_SceneSetRakuComplete_draw(void)
 {
 }
 
 static void procScene(void);
-
 
 static void endScene(void)
 {
@@ -163,7 +156,6 @@ static void endScene(void)
     DWCi_EFFlFade(3, 0, 0x15, 8);
     DWCi_ChangeScene(endScene1);
 }
-
 
 static void endScene1(void)
 {
@@ -180,10 +172,8 @@ static void endScene1(void)
     DWCi_ChangeScene(DWCi_SceneSetTestConfirm);
 }
 
-
 static void wait(void)
 {
     if (++Count >= 120)
         DWCi_ChangeScene(endScene);
 }
-

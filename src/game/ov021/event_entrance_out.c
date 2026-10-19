@@ -30,10 +30,7 @@
  *   FIELD_SOUND_SYSTEM_StartFadeInTask  0x020294C0  thumb  arm9
  */
 
-typedef unsigned short u16;
-typedef signed short s16;
-typedef unsigned int u32;
-typedef unsigned char u8;
+#include "../types.h"
 
 #include "event_entrance_in_types.h"
 #include "field_place_name_types.h"

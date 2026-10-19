@@ -47,9 +47,7 @@ struct GameSystem;
 struct GameEvent;
 struct MyStatus;
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../types.h"
 
 /* Parameter block of the name-input process (overlay 0xC2). */
 typedef struct NameInParam {

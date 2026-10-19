@@ -1,6 +1,0 @@
-#ifndef FIELD_PLAYER_GRID_EVENT_SHARED_TYPES_H
-#define FIELD_PLAYER_GRID_EVENT_SHARED_TYPES_H
-
-typedef signed short   s16;
-
-#endif

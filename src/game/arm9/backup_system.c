@@ -46,12 +46,9 @@
  *   SAVEDATA_GetTableMax 0x02033BF0 arm
  */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed int     s32;
+#include "../types.h"
 
-struct MATHCRC16Table;
+#include "../sdk_math.h"
 
 /* The record table built by savedata.c (opaque here). */
 typedef struct SaveDataTable SaveDataTable;
@@ -221,8 +218,6 @@ extern const u8 str_020A7858[];
 extern const u8 str_020A7868[];
 extern const char str_020A7888[];
 
-
-
 /*
  * Blocked at MATCH on the `label`/`matched` classes: all 124 concrete bytes
  * of the body reproduce and 6 of 7 relocation sites resolve, but
@@ -257,8 +252,6 @@ void BACKUP_SYSTEM_Init(u32 heap_id, u32 read_error_func, u32 write_error_func)
     work->write_error_func = write_error_func;
     svsys->flash_exists = FLASH_ACCESS_Identify((u32)work);
 }
-
-
 
 /*
  * backup_system.c.  The save-block constructor; its already-matched caller
@@ -329,8 +322,6 @@ BackupSaveData *BACKUP_SYSTEM_CreateCore(const SaveDataParam *param, u32 heap_id
     return sv;
 }
 
-
-
 /*
  * backup_system.c.  A one-line forwarder: its two arguments go straight
  * through to 0x0203174C together with three zero/one flags, the fifth landing
@@ -349,8 +340,6 @@ BackupSaveData *BACKUP_SYSTEM_Create(const SaveDataParam *param, u32 heap_id)
     return BACKUP_SYSTEM_CreateCore(param, heap_id, 0, 0, 1);
 }
 
-
-
 /*
  * The public constructor for a caller-supplied work buffer: forwards all
  * five arguments.  The FSi_ name is a false SDK match (layout/symbols_sdk.json
@@ -360,8 +349,6 @@ BackupSaveData *BACKUP_SYSTEM_CreateWithWork(const SaveDataParam *param, u32 hea
 {
     return BACKUP_SYSTEM_CreateCore(param, heap_id, svwk, svwk_size, init_mode);
 }
-
-
 
 /*
  * A four-store teardown of one record: release the object at +0x2c, the one
@@ -389,8 +376,6 @@ void BACKUP_SYSTEM_Delete(BackupSaveData *sv)
     GFL_HEAP_Free(sv);
 }
 
-
-
 /*
  * Verified with:
  *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_GetWork.c \\
@@ -402,8 +387,6 @@ u8 *BACKUP_SYSTEM_GetWork(BackupSaveData *sv, u32 *size)
     return sv->svwk;
 }
 
-
-
 /*
  * Verified with:
  *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_GetRecordWork.c \\
@@ -413,8 +396,6 @@ u8 *BACKUP_SYSTEM_GetRecordWork(BackupSaveData *sv, u32 id)
 {
     return SAVEDATA_GetBlockOffset(sv->table, id) + sv->svwk;
 }
-
-
 
 /*
  * promoted: from src/pending on 2026-09-19, no C change: its blocker is filed,
@@ -430,14 +411,10 @@ void BACKUP_SYSTEM_ClearWork(BackupSaveData *sv)
     BACKUP_SYSTEM_FillBlockAreas(sv, 1);
 }
 
-
-
 void BACKUP_SYSTEM_GetDiffSize(BackupSaveData *sv, u32 *diff_size, u32 *total_size)
 {
     BACKUP_SYSTEM_CalcDiffSize(sv, diff_size, total_size);
 }
-
-
 
 /*
  * Erase the whole backup device in 0x1000-byte pages.  A 0x1000-byte scratch
@@ -500,8 +477,6 @@ int BACKUP_SYSTEM_Erase(BackupSaveData *sv, u32 heap_id)
     return 1;
 }
 
-
-
 /*
  * Dispatch one step of the object's state machine: if the manager global's
  * front object is unarmed the call reports 4 immediately; otherwise the
@@ -548,8 +523,6 @@ int BACKUP_SYSTEM_Load(BackupSaveData *sv, u32 heap_id)
     return 4;
 }
 
-
-
 /*
  * Verified with:
  *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_StartSave.c \\
@@ -561,8 +534,6 @@ void BACKUP_SYSTEM_StartSave(BackupSaveData *sv)
         BACKUP_SYSTEM_InitSaveSeq(sv, 1);
     }
 }
-
-
 
 /*
  * Blocked at MATCH on the `label`/`matched` classes: 75 of 76 bytes
@@ -592,8 +563,6 @@ int BACKUP_SYSTEM_MainSave(BackupSaveData *sv)
     return result;
 }
 
-
-
 /*
  * Verified with:
  *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_CancelSave.c \\
@@ -603,8 +572,6 @@ void BACKUP_SYSTEM_CancelSave(BackupSaveData *sv)
 {
     BACKUP_SYSTEM_CancelSaveSeq(sv);
 }
-
-
 
 /*
  * Verified with:
@@ -619,9 +586,6 @@ void BACKUP_SYSTEM_InitLinkedSave(BackupSaveData *main_sv, BackupSaveData *link_
     link_sv->link_seq = 0;
     link_sv->link_result = 2;
 }
-
-
-
 
 /*
  * Drive a two-copy save through BACKUP_SYSTEM_SaveSeqMain (the write state machine),
@@ -703,8 +667,6 @@ int BACKUP_SYSTEM_MainLinkedSave(BackupSaveData *main_sv, BackupSaveData *link_s
     return 0;
 }
 
-
-
 /*
  * Drive one step of the object's state machine.  The engine pointer is read
  * through the global at 0x02146994 twice (`ldr ip,[pc]; ldr ip,[ip]; cmp`),
@@ -765,20 +727,15 @@ int BACKUP_SYSTEM_LoadLinked(BackupSaveData *sv, u32 heap_id, u32 link_count)
     return 4;
 }
 
-
-
 u32 BACKUP_SYSTEM_GetWrittenSize(const BackupSaveData *sv)
 {
     return sv->written_size;
 }
 
-
-
 void * BACKUP_SYSTEM_IsFlashBusy(void)
 {
     return FLASH_ACCESS_GetBusyFlag();
 }
-
 
 /*
  * backup_system.c.  The CRC-16/CCITT of one backup record: the table is the
@@ -801,7 +758,6 @@ u16 BACKUP_SYSTEM_CalcCrcTableCrc(BackupSaveData *sv, u8 *buf)
                                buf + (sv->data_size - 0x10 - sv->crc_table_size),
                                sv->crc_table_size);
 }
-
 
 /*
  * backup_system.c.  The flash address of one copy: area 2 gets the backup
@@ -831,18 +787,15 @@ u32 BACKUP_SYSTEM_GetAreaAddr(BackupSaveData *sv, u32 area)
     return addr;
 }
 
-
 u16 *BACKUP_SYSTEM_GetCrcTable(BackupSaveData *sv)
 {
     return (u16 *)(sv->svwk + ((sv->data_size - 0x10) - sv->crc_table_size));
 }
 
-
 SaveFooter *BACKUP_SYSTEM_GetFooter(BackupSaveData *sv, u8 *buf)
 {
     return (SaveFooter *)(buf + (sv->data_size - 0x10));
 }
-
 
 /*
  * backup_system.c.  Verifies one copy of a backup area and returns 0 when both
@@ -882,7 +835,6 @@ u32 BACKUP_SYSTEM_CheckFooter(BackupSaveData *sv, u8 *buf, u32 area)
     return 0;
 }
 
-
 /*
  * backup_system.c.  Writes the footer descriptor that BACKUP_SYSTEM_CheckFooter verifies,
  * at BACKUP_SYSTEM_GetFooter(p, buf) (buf + p->data_size - 0x10): generation p->save_count,
@@ -907,12 +859,10 @@ void BACKUP_SYSTEM_SetFooter(const BackupSaveData *sv, u8 *buf)
     footer->crc = BACKUP_SYSTEM_CalcCrcTableCrc((BackupSaveData *)sv, buf);
 }
 
-
 void BACKUP_SYSTEM_SetSaveCount(BackupSaveData *sv, u32 save_count)
 {
     sv->save_count = save_count;
 }
-
 
 /*
  * PROMOTED TO EXACT.  This file was parked at MATCH because its only open
@@ -942,13 +892,10 @@ void BACKUP_SYSTEM_GetFooterInfo(u32 *result, BackupSaveData *sv, u8 *buf, u32 a
     result[1] = footer->save_count;
 }
 
-
-
 static inline u16 BACKUP_SYSTEM_GetRecordCount(SaveRecordFooter *rec)
 {
     return rec->count;
 }
-
 
 /*
  * backup_system.c.  The two-copy load: read both copies of the save area
@@ -1139,7 +1086,6 @@ int BACKUP_SYSTEM_LoadDoubleCopy(BackupSaveData *sv, u32 heap_id, u32 mode, u32 
     return 1;
 }
 
-
 /*
  * backup_system.c.  The one-copy load: read copy 1 of the save area into the
  * staging buffer self->svwk (FLASH_ACCESS_Read at BACKUP_SYSTEM_GetAreaAddr(self, 1)); on a
@@ -1228,7 +1174,6 @@ done:
     return 1;
 }
 
-
 /*
  * PARKED AT MATCH.  Every concrete byte is right.  The one open site is the
  * `bl` to 0x02031F54: the image holds exactly one branch to that address,
@@ -1259,7 +1204,6 @@ int BACKUP_SYSTEM_WriteFooterBody(BackupSaveData *sv, u32 area)
     return FLASH_ACCESS_StartWrite(flash_addr, (u32)(work + (data_size - 0x10)), 0xF, (void *)svsys->write_error_func);
 }
 
-
 /*
  * backup_system.c.  The one byte twin of BACKUP_SYSTEM_WriteFooterBody: same area and staging
  * buffer, but it rewrites only the single trailing byte of the record.
@@ -1276,7 +1220,6 @@ int BACKUP_SYSTEM_WriteFooterLastByte(BackupSaveData *sv, u32 area)
 
     return FLASH_ACCESS_StartWrite(end_addr - 1, (u32)(sv->svwk + (data_size - 1)), 1, (void *)svsys->write_error_func);
 }
-
 
 /*
  * backup_system.c.  Opens a new backup generation: clears the two status bytes
@@ -1304,7 +1247,6 @@ void BACKUP_SYSTEM_InitSaveSeq(BackupSaveData *sv, u32 set_busy)
         UI_SetKeepAwakeFlagsGlobal(1);
     }
 }
-
 
 /*
  * backup_system.c.  Walks every record of the save table and reports two running
@@ -1368,7 +1310,6 @@ void BACKUP_SYSTEM_CalcDiffSize(BackupSaveData *sv, u32 *diff_size, u32 *total_s
 
     UI_ClearKeepAwakeFlagsGlobal(1);
 }
-
 
 /*
  * backup_system.c.  One resumable step of a record copy: read the record out of
@@ -1455,7 +1396,6 @@ u32 BACKUP_SYSTEM_CompareRecordStep(BackupSaveData *sv, u32 id, u32 area, u32 *r
     return 2;
 }
 
-
 /*
  * backup_system.c.  Commits one record of a backup generation: refresh the
  * record's CRC through BACKUP_SYSTEM_UpdateRecordCrc (src/matched/BACKUP_SYSTEM_UpdateRecordCrc.c) and file
@@ -1484,7 +1424,6 @@ u16 BACKUP_SYSTEM_WriteRecord(BackupSaveData *sv, u32 id, u32 area, u32 pass)
     FLASH_ACCESS_StartWrite(area_addr + ofs, (u32)record, size + 4, (void *)svsys->write_error_func);
 }
 
-
 /*
  * backup_system.c.  Writes the trailing block of a backup record: the length is
  * the +0x140 field, the destination is that many bytes back from the end
@@ -1506,7 +1445,6 @@ int BACKUP_SYSTEM_WriteCrcTable(BackupSaveData *sv, u32 area)
     crc_table = BACKUP_SYSTEM_GetCrcTable(sv);
     return FLASH_ACCESS_StartWrite(flash_addr, (u32)crc_table, sv->crc_table_size, (void *)svsys->write_error_func);
 }
-
 
 /*
  * The backup_system.c save-write state machine, one step per call, on the
@@ -1646,7 +1584,6 @@ int BACKUP_SYSTEM_SaveSeqMain(BackupSaveData *sv, u32 *pass_done)
     return 0;
 }
 
-
 /*
  * backup_system.c.  The completion callback of a backup write: on result 3 the
  * generation counter is rolled back to the one the write carried, on any
@@ -1672,7 +1609,6 @@ void BACKUP_SYSTEM_EndSave(BackupSaveData *sv, u32 result, u32 clear_busy)
     }
 }
 
-
 /*
  * PARKED AT MATCH.  Every concrete byte is right.  The one open site is the
  * `bl` to 0x0203386C, which has exactly one caller image-wide, this one, so
@@ -1697,7 +1633,6 @@ void BACKUP_SYSTEM_CancelSaveSeq(BackupSaveData *sv)
     UI_ClearKeepAwakeFlagsGlobal(1);
 }
 
-
 /*
  * backup_system.c.  Blanks the sixteen byte footer of a backup record by
  * pushing an all-0xFF block from the stack over it.  The 0x10 is kept in a
@@ -1721,7 +1656,6 @@ u32 BACKUP_SYSTEM_EraseFooter(BackupSaveData *sv, u32 area)
                   svsys->write_error_func);
 }
 
-
 /*
  * backup_system.c.  Bumps the halfword counter that sits at the head of one of
  * the records inside the staging buffer and answers the new value.  The
@@ -1744,7 +1678,6 @@ u16 BACKUP_SYSTEM_IncRecordCount(BackupSaveData *sv, u32 id)
     *count = *count + 1;
     return *count;
 }
-
 
 /*
  * backup_system.c.  Recomputes the CRC-16/CCITT of one record in the staging
@@ -1772,7 +1705,6 @@ u16 BACKUP_SYSTEM_UpdateRecordCrc(BackupSaveData *sv, u32 id)
     return record_footer->crc;
 }
 
-
 /*
  * A whole translation unit, matched as one byte range.
  *
@@ -1791,7 +1723,6 @@ u32 BACKUP_SYSTEM_GetBlockArea(BackupSaveData *sv, u32 block)
 {
     return (sv->block_area[block >> 4] >> ((block & 0xf) * 2)) & 3;
 }
-
 
 /*
  * backup_system.c.  The packed 2-bit-per-slot array SETTER, companion to
@@ -1840,7 +1771,6 @@ void BACKUP_SYSTEM_SetBlockArea(BackupSaveData *sv, u32 block, u32 area)
     sv->block_area[word] &= (3 << ((block & 0xf) * 2)) ^ -1;
     sv->block_area[block >> 4] |= area << shift;
 }
-
 
 /*
  * backup_system.c.  Swaps the two record marks across the whole packed
@@ -1908,12 +1838,10 @@ void BACKUP_SYSTEM_SwapBlockAreas(BackupSaveData *sv)
     } while (block < count_copy);
 }
 
-
 void BACKUP_SYSTEM_ClearBlockAreas(BackupSaveData *sv)
 {
     MIi_CpuClear32(0, sv->block_area, sv->block_area_size);
 }
-
 
 /*
  * backup_system.c.  Fills the whole packed 2-bit-per-slot bitmap at offset
@@ -1972,12 +1900,10 @@ void BACKUP_SYSTEM_FillBlockAreas(BackupSaveData *sv, u32 area)
     } while (block < count_copy);
 }
 
-
 void BACKUP_SYSTEM_WriteFlash(u32 flash_addr, u32 src, u32 size)
 {
     FLASH_ACCESS_Write(flash_addr, src, size, svsys->write_error_func);
 }
-
 
 /*
  * Tail-call accessor, the sibling of BACKUP_SYSTEM_WriteFlash: load the object at
@@ -1990,7 +1916,6 @@ u16 BACKUP_SYSTEM_WriteFlashAsync(u32 flash_addr, u32 src, u32 size)
 {
     return FLASH_ACCESS_StartWrite(flash_addr, src, size, (void *)svsys->write_error_func);
 }
-
 
 /*
  * Tail-call accessor, the sibling of BACKUP_SYSTEM_WriteFlash: load the object at
@@ -2006,7 +1931,6 @@ int BACKUP_SYSTEM_CheckFlashAsync(u16 lock_id, u32 *success)
     return FLASH_ACCESS_PollWrite(lock_id, success, svsys->write_error_func);
 }
 
-
 /*
  * Tail-call thunk: forwards its arguments to FLASH_ACCESS_Read with the word at
  * +0x204 of the object at svsys as the last argument.  No arm9 code
@@ -2017,7 +1941,6 @@ int BACKUP_SYSTEM_ReadFlash(u32 flash_addr, u32 dst, u32 size)
 {
     return FLASH_ACCESS_Read(flash_addr, dst, size, svsys->read_error_func);
 }
-
 
 int BACKUP_SYSTEM_ReadRecordFromFlash(BackupSaveData *sv, u32 id, u32 area_index, u32 dst, u32 size)
 {

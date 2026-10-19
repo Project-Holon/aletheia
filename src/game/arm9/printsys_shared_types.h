@@ -5,7 +5,7 @@
 
 struct ArcFile;
 
-typedef signed   char  s8;
+#include "../types.h"
 
 struct FontInfo {
     u8  fontType;

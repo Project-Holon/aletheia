@@ -30,17 +30,9 @@
  *   MIi_CheckAnotherAutoDMA        0x02082680  arm
  *   MIi_DMAFastCallback            0x02082A1C  arm
  */
-typedef unsigned long u32;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef volatile u32 vu32;
-
-typedef volatile u16 vu16;
-
-typedef int BOOL;
-
-typedef u32 OSIntrMode;
+#include "../sdk_os.h"
 
 typedef void (*MIDmaCallback)(void *arg);
 
@@ -80,20 +72,9 @@ void MIi_FIFOCallback(void);
 void MI_SendGXCommandAsyncFast(u32 dmaNo, const void *src, u32 commandLength, MIDmaCallback callback, void *arg);
 extern MIiGXDmaParams MIi_GXDmaParams;
 
-
-
-
-
 #define reg_G3X_GXSTAT (*(vu32 *)0x04000600)
 
-
-
-
 void (*OS_GetIrqFunction(u32 intrBit))(void);
-
-
-
-
 
 static inline void MIi_CallCallback(MIDmaCallback callback, void *arg)
 {
@@ -102,36 +83,20 @@ static inline void MIi_CallCallback(MIDmaCallback callback, void *arg)
     }
 }
 
-
-
-
-
 static inline u32 G3X_GetFifoStatus(void)
 {
     return (reg_G3X_GXSTAT & 0x07000000) >> 24;
 }
-
-
-
-
 
 static inline GXFifoIntrCond G3X_GetFifoIntrCond(void)
 {
     return (GXFifoIntrCond)((reg_G3X_GXSTAT & 0xC0000000) >> 30);
 }
 
-
-
-
-
 static inline void G3X_SetFifoIntrCond(GXFifoIntrCond cond)
 {
     reg_G3X_GXSTAT = (reg_G3X_GXSTAT & ~0xC0000000) | ((u32)cond << 30);
 }
-
-
-
-
 
 /*
  * sdk:      MI_SendGXCommandAsync (libmi.TWL.HYB.a mi_dma_gxcommand.o)
@@ -173,15 +138,7 @@ void MI_SendGXCommandAsync(u32 dmaNo, const void *src, u32 commandLength, MIDmaC
     }
 }
 
-
-
-
-
 #define REG_GXFIFO_ADDR 0x04000400
-
-
-
-
 
 /*
  * sdk:      MIi_FIFOCallback (libmi.TWL.HYB.a mi_dma_gxcommand.o)
@@ -211,13 +168,7 @@ void MIi_FIFOCallback(void)
     }
 }
 
-
-
-
 #define reg_G3X_GXSTAT (*(vu32 *)0x04000600)
-
-
-
 
 /*
  * sdk:      MIi_DMACallback (libmi.TWL.HYB.a mi_dma_gxcommand.o)
@@ -233,11 +184,7 @@ void MIi_DMACallback(void *arg)
     MIi_CallCallback(MIi_GXDmaParams.callback, MIi_GXDmaParams.arg);
 }
 
-
-
 #define REG_GXFIFO_ADDR 0x04000400
-
-
 
 /*
  * sdk:      MI_SendGXCommandAsyncFast (libmi.TWL.HYB.a mi_dma_gxcommand.o)
@@ -264,7 +211,6 @@ void MI_SendGXCommandAsyncFast(u32 dmaNo, const void *src, u32 commandLength, MI
     OSi_EnterDmaCallback(dmaNo, MIi_DMAFastCallback, 0);
     MIi_DmaSetParameters(dmaNo, (u32)src, REG_GXFIFO_ADDR, 0xFC400000 | (commandLength / 4), 0);
 }
-
 
 /*
  * sdk:      MIi_DMAFastCallback (libmi.TWL.HYB.a mi_dma_gxcommand.o)

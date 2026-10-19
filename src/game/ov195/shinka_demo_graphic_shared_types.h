@@ -5,17 +5,7 @@ struct Node;
 
 struct Light;
 
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef unsigned char u8;
-
-typedef signed short s16;
-
-typedef signed int     s32;
-
-typedef s32 fx32;
+#include "../types.h"
 
 typedef struct Node {
     u16 id;

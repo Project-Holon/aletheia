@@ -185,13 +185,7 @@ struct Proc;
 struct Obj;
 struct Actor;
 struct PtS;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef signed short s16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 typedef struct { u8 *f0; u32 f4; int f8; u32 fC, f10, f14; int f18, f1c; } UnSelectTouchBarParams;
 
@@ -204,8 +198,6 @@ struct TaskMenuTmpl { u32 heapId; u8 count; u8 pad05[3]; const void *unk08; u32 
 typedef struct Obj Obj;
 
 typedef struct Template Template;
-
-typedef signed int     s32;
 
 typedef struct Config Config;
 
@@ -486,10 +478,6 @@ extern struct Config d_021BAB68;
 extern const Config d_021BABC8, d_021BAB98, d_021BABB0, d_021BAB80;
 extern const unsigned short d_021BAED8[];
 
-
-
-
-
 int UN_SELECT_SceneCreate(void *owner,int *state,char *input,u8 *p)
 {
     switch(*state){
@@ -498,10 +486,6 @@ int UN_SELECT_SceneCreate(void *owner,int *state,char *input,u8 *p)
     }
     return 0;
 }
-
-
-
-
 
 int UN_SELECT_SceneDelete(struct Proc *ctx, int *state, void *unused, char *p)
 {
@@ -537,10 +521,6 @@ int UN_SELECT_SceneDelete(struct Proc *ctx, int *state, void *unused, char *p)
     return 0;
 }
 
-
-
-
-
 int UN_SELECT_SceneUpdate(void *ctx, int *state, void *unused, char *p)
 {
     int result = 0;
@@ -562,10 +542,6 @@ int UN_SELECT_SceneUpdate(void *ctx, int *state, void *unused, char *p)
     UN_SELECT_GRAPHIC_Update(((struct UnSelectWork *)p)->graphic);
     return result != 0;
 }
-
-
-
-
 
 void UN_SELECT_LoadBg(u8 *p, u16 heap)
 {
@@ -611,10 +587,6 @@ void UN_SELECT_LoadBg(u8 *p, u16 heap)
     ARC_TOOL_DeleteHandle(h);
 }
 
-
-
-
-
 struct TouchBar *UN_SELECT_CreateTouchBar(int heap, int id)
 {
     Table table = d_021BAC20;
@@ -635,27 +607,15 @@ struct TouchBar *UN_SELECT_CreateTouchBar(int heap, int id)
     return p;
 }
 
-
-
-
-
 void UN_SELECT_Delete(u8 *p)
 {
     TOUCHBAR_Delete(p);
 }
 
-
-
-
-
 void UN_SELECT_UpdateTouchBar(struct TouchBar *p)
 {
     TOUCHBAR_Update(p);
 }
-
-
-
-
 
 struct TaskMenu *UN_SELECT_OpenTaskMenu(void *arg, struct MsgBank *bank, u32 heap)
 {
@@ -682,28 +642,15 @@ struct TaskMenu *UN_SELECT_OpenTaskMenu(void *arg, struct MsgBank *bank, u32 hea
     return menu;
 }
 
-
-
-
-
 void UN_SELECT_CloseTaskMenu(struct TaskMenu *p)
 {
     APP_TASKMENU_CloseMenu((struct TaskMenuWork *)p);
 }
 
-
-
-
-
 void UN_SELECT_UpdateTaskMenu(Obj *p)
 {
     APP_TASKMENU_UpdateMenu((struct TaskMenuWork *)p);
 }
-
-
-
-
-
 
 /*
  * Initialises one record: enable flag 1 through 0x02023F98, then issue the
@@ -718,17 +665,11 @@ int UN_SELECT_InitRecord(void)
     return BRIGHTNESS_ChangeRequest(8, -8, 0, 0x3c, 1);
 }
 
-
-
-
 void UN_SELECT_RequestBrightness(void)
 {
     BRIGHTNESS_ChangeReset(1);
     BRIGHTNESS_ChangeRequest((int)((void *)8), 0, -8, 60, 1);
 }
-
-
-
 
 void *UN_SELECT_Create(u16 heap)
 {
@@ -757,8 +698,6 @@ void *UN_SELECT_Create(u16 heap)
     return p;
 }
 
-
-
 void UN_SELECT_DeleteRecord(char *p)
 {
     if (((struct UnSelectRecord *)p)->printStream.ptr != 0) {
@@ -777,16 +716,11 @@ void UN_SELECT_DeleteRecord(char *p)
     GFL_HEAP_Free(p);
 }
 
-
-
-
 void UN_SELECT_Main(char *p)
 {
     PRINTSYS_QUE_Main(((struct UnSelectRecord *)p)->printQue.ptr);
     TCBL_Main(((struct UnSelectRecord *)p)->tcbl.ptr);
 }
-
-
 
 void UN_SELECT_DrawFrameListRow(p, a, b, cd)
     u8 *p;
@@ -810,7 +744,6 @@ void UN_SELECT_DrawFrameListRow(p, a, b, cd)
     TOUCHBAR_PrintAligned(a, b, 0x1E, r, *(u32 *)(p + d * 4), c, 0x39E0, 0);
 }
 
-
 void UN_SELECT_DrawMessage(char *p, u32 id)
 {
     int value = MSG_SPEED_GetWait();
@@ -825,7 +758,6 @@ void UN_SELECT_DrawMessage(char *p, u32 id)
     BMP_WIN_MakeScreen((struct BmpWin *)obj);
     BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)obj));
 }
-
 
 int UN_SELECT_UpdateMessage(char *p)
 {
@@ -851,37 +783,20 @@ int UN_SELECT_UpdateMessage(char *p)
     return 0;
 }
 
-
-
-
-
 void UN_SELECT_DrawWindowBorder(u8 *p)
 {
     BMP_MENUWORK_DrawWindowBorder(((struct UnSelectRecord *)p)->window,1);
 }
-
-
-
-
 
 void *UN_SELECT_GetMsgData(u8 *p)
 {
     return ((struct UnSelectRecord *)p)->font.ptr;
 }
 
-
-
-
-
 void *UN_SELECT_GetPrintQue(u8 *p)
 {
     return ((struct UnSelectRecord *)p)->printQue.ptr;
 }
-
-
-
-
-
 
 /*
  * Unlabelled leaf in ov218, printed as a .word run right before the next
@@ -892,10 +807,6 @@ u32 UN_SELECT_GetFont(char *p)
 {
     return ((struct UnSelectRecord *)p)->msgBank.handle;
 }
-
-
-
-
 
 void UN_SELECT_UpdateFrameList(u8 *p, u32 a, u32 b, u8 *c, u32 d)
 {
@@ -909,10 +820,6 @@ void UN_SELECT_UpdateFrameList(u8 *p, u32 a, u32 b, u8 *c, u32 d)
     }
 }
 
-
-
-
-
 void UN_SELECT_ScrollFrameList(u8 *p)
 {
     int selected;
@@ -922,10 +829,6 @@ void UN_SELECT_ScrollFrameList(u8 *p)
     selected=FRAME_LIST_GetSelectedIndex(((struct UnSelectWork *)p)->frameList);
     UN_SELECT_SetActorY((char *)p,(int)(((u32)selected-(u32)FRAME_LIST_GetCursor(((struct UnSelectWork *)p)->frameList))*2+92));
 }
-
-
-
-
 
 void UN_SELECT_ScrollFrameListDelta(u8 *p,int delta)
 {
@@ -937,10 +840,6 @@ void UN_SELECT_ScrollFrameListDelta(u8 *p,int delta)
     selected=FRAME_LIST_GetSelectedIndex(((struct UnSelectWork *)p)->frameList);
     UN_SELECT_SetActorY((char *)p,(int)(((u32)selected-(u32)FRAME_LIST_GetCursor(((struct UnSelectWork *)p)->frameList))*2+92));
 }
-
-
-
-
 
 void UN_SELECT_CreateFrameList(char *p)
 {
@@ -979,15 +878,7 @@ void UN_SELECT_CreateFrameList(char *p)
     MSGDATA_Delete(bank);
 }
 
-
-
-
-
 void UN_SELECT_DeleteFrameList(char *p){int i;for(i=0;i<130;i++)STRBUF_Delete(((struct UnSelectRecord *)((struct UnSelectWork *)p)->record)->itemText[i]);FRAME_LIST_Delete(((struct UnSelectWork *)p)->frameList);}
-
-
-
-
 
 char *UN_SELECT_CreateSceneWork(void *owner,char *input)
 {
@@ -1030,10 +921,6 @@ char *UN_SELECT_CreateSceneWork(void *owner,char *input)
     return p;
 }
 
-
-
-
-
 void UN_SELECT_SetMode(u8 *p, int mode)
 {
     switch (mode) {
@@ -1052,15 +939,7 @@ void UN_SELECT_SetMode(u8 *p, int mode)
     }
 }
 
-
-
-
-
 int UN_SELECT_IsListDone(void) { return 1; }
-
-
-
-
 
 int UN_SELECT_SceneStepList(unsigned char *task,char *p)
 {
@@ -1091,15 +970,7 @@ int UN_SELECT_SceneStepList(unsigned char *task,char *p)
     return 0;
 }
 
-
-
-
-
 int UN_SELECT_IsMessageDone(void) { return 1; }
-
-
-
-
 
 u32 UN_SELECT_SceneStepMessage(u8 *a, u8 *b)
 {
@@ -1125,10 +996,6 @@ u32 UN_SELECT_SceneStepMessage(u8 *a, u8 *b)
     return 0;
 }
 
-
-
-
-
 int UN_SELECT_SceneStepMenu(unsigned char *task, char *ctx)
 {
     UN_SELECT_UpdateTaskMenu(((struct UnSelectWork *)ctx)->taskMenu);
@@ -1153,15 +1020,7 @@ int UN_SELECT_SceneStepMenu(unsigned char *task, char *ctx)
     return 0;
 }
 
-
-
-
-
 int UN_SELECT_IsFadeDone(void){if(FADE_IsActive()==1 || BRIGHTNESS_IsFinished(1)==0)return 0;return 1;}
-
-
-
-
 
 int UN_SELECT_SceneStepFade(unsigned char *task, char *ctx)
 {
@@ -1184,19 +1043,10 @@ advance:
     return 0;
 }
 
-
-
-
-
-
 int UN_SELECT_SceneStepMessageIdle(void *unused, char *p)
 {
     return UN_SELECT_UpdateMessage((char *)((struct UnSelectWork *)p)->record) != 0;
 }
-
-
-
-
 
 int UN_SELECT_SceneStepMenuOut(unsigned char *task, char *ctx)
 {
@@ -1205,10 +1055,6 @@ int UN_SELECT_SceneStepMenuOut(unsigned char *task, char *ctx)
     UI_SCENE_SetNextScene((struct UiScene *)task, 0);
     return 1;
 }
-
-
-
-
 
 void UN_SELECT_Callback(void)
 {
@@ -1225,10 +1071,6 @@ void UN_SELECT_Callback(void)
         *(volatile unsigned short *)0x04001052 = 0x0a06;
 }
 
-
-
-
-
 void UN_SELECT_LoadActors(char *ctx)
 {
     unsigned short heap = ((struct UnSelectWork *)ctx)->heapId;
@@ -1243,15 +1085,7 @@ void UN_SELECT_LoadActors(char *ctx)
     ARC_TOOL_DeleteHandle(archive);
 }
 
-
-
-
-
 void UN_SELECT_ReleaseActors(char *p){if(((struct UnSelectWork *)p)->characterId!=-1)CLACT_ReleaseCharacter(((struct UnSelectWork *)p)->characterId);if(((struct UnSelectWork *)p)->paletteId!=-1)CLACT_ReleasePalette(((struct UnSelectWork *)p)->paletteId);if(((struct UnSelectWork *)p)->cellAnimId!=-1)CLACT_ReleaseCellAnim(((struct UnSelectWork *)p)->cellAnimId);}
-
-
-
-
 
 void UN_SELECT_SetupActors(char *p)
 {
@@ -1286,11 +1120,6 @@ void UN_SELECT_SetupActors(char *p)
     ((struct UnSelectWork *)p)->selectorActor=UN_SELECT_CreateActor((u32)manager,(char *)(&e));
 }
 
-
-
-
-
-
 void UN_SELECT_DeleteActor(char *p)
 {
     int i;
@@ -1304,15 +1133,7 @@ void UN_SELECT_DeleteActor(char *p)
     }
 }
 
-
-
-
-
 struct Obj *UN_SELECT_CreateActor(u32 owner,char *p){struct Obj *r;r=(struct Obj *)CLACT_CreateActor(owner,((struct Config *)p)->c,((struct Config *)p)->d,((struct Config *)p)->e,(u32)p,((struct Config *)p)->g,122);CLACT_SetActorAutoAnim((struct Actor *)r,1);return r;}
-
-
-
-
 
 void UN_SELECT_SetActorVisible(char *ctx)
 {
@@ -1332,10 +1153,6 @@ void UN_SELECT_SetActorVisible(char *ctx)
         }
     }
 }
-
-
-
-
 
 static inline void scroll(const char *p,short delta,int space,PtS *pos)
 {
@@ -1359,10 +1176,6 @@ static inline void scroll(const char *p,short delta,int space,PtS *pos)
     }
 }
 
-
-
-
-
 static inline void scrollSecond(const char *p,short delta,int space,PtS *pos)
 {
     long i;
@@ -1385,10 +1198,6 @@ static inline void scrollSecond(const char *p,short delta,int space,PtS *pos)
     }
 }
 
-
-
-
-
 /*
  * checks: 1 actor accessor/unit bodies fix return and three-argument position calls; 2 ov218 A61C confirms PtS ABI, no two-loop twin; 3 long index and const p each unchanged; 4 inline short-parameter helper reproduces both raw-parameter recasts, shared PtS fixes frame; 5 full idiom listing and A61C/other ov218 callers reread.
  * Two manual scheduling variants used; once-only permuter 300/jobs1/types unchanged, emitted baseline agrees at DIFF 200/200 with 9 concrete bytes.
@@ -1400,9 +1209,6 @@ void UN_SELECT_ScrollActorsBy(const char *p,int delta)
     scroll(p,delta,0,&pos);
     scrollSecond(p,delta,1,&pos);
 }
-
-
-
 
 /*
  * single-lever: row base retains ctx+i*4; fields at 244/2DC reproduce rematerialized id offset instead of hoisting a second array base.
@@ -1426,26 +1232,12 @@ void UN_SELECT_InitActorPositions(char *ctx)
     }
 }
 
-
-
-
-
 /*
  * extent: 2 zero alignment bytes at 021BA6BA.
  */
 void UN_SELECT_SetActorX(char *p,int v){PtS pos;s16 y;void *o;o=((struct UnSelectWork *)p)->selectorActor;y=(s16)v;if(y<16)y=16;else if(y>152)y=152;CLACT_GetActorSurfacePos(o,&pos,0);pos.y=y;CLACT_AddActorSurfacePos(o,&pos,0);}
 
-
-
-
-
-
 void UN_SELECT_SetActorY(char *p,int y){PtS pos;void *o=((struct UnSelectWork *)p)->mainActor;CLACT_GetActorSurfacePos(o,&pos,65535);pos.y=y;CLACT_AddActorSurfacePos(o,&pos,65535);}
-
-
-
-
-
 
 void UN_SELECT_SetActorPos(u32 p, int sel, u32 y)
 {
@@ -1467,15 +1259,7 @@ void UN_SELECT_SetActorPos(u32 p, int sel, u32 y)
     }
 }
 
-
-
-
-
 int UN_SELECT_SetActorPosEx(u32 base,u32 i,u32 space,int y){PtS pos;int r;void *o;o=*(void **)(base+i*4);r=0;if(CLACT_GetActorDrawEnable(o)==0){CLACT_SetActorDrawEnable(o,1);r=1;CLACT_GetActorSurfacePos(o,&pos,space);pos.y=y;CLACT_AddActorSurfacePos(o,&pos,space);}return r;}
-
-
-
-
 
 int UN_SELECT_ContainsItem(char *p, int v)
 {
@@ -1489,11 +1273,6 @@ int UN_SELECT_ContainsItem(char *p, int v)
     }
     return 0;
 }
-
-
-
-
-
 
 unsigned int UN_SELECT_FindTableIndex(int v)
 {
@@ -1511,10 +1290,6 @@ unsigned int UN_SELECT_FindTableIndex(int v)
     }
     return i;
 }
-
-
-
-
 
 void UN_SELECT_SetupDisplay(void)
 {

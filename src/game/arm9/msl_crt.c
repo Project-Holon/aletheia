@@ -43,7 +43,7 @@
 extern int OSi_IsRunOnTwl(void);
 
 extern void OS_Terminate(void);
-struct OSMutex;
+#include "../sdk_os.h"
 
 extern void OS_LockMutex(struct OSMutex *mutex);
 

@@ -49,11 +49,7 @@ struct Rec;
 struct U16Vec;
 struct WordSet;
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed   short s16;
-typedef signed long long s64;
+#include "../types.h"
 
 /*
  * The easy-chat input parameter object (0x20 bytes).  inputMode selects what

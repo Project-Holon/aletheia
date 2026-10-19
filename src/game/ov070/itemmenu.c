@@ -309,38 +309,7 @@ struct Bmp;
 struct SurfacePos;
 struct TaskMenuTmpl;
 struct TextStream;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-#include "itemmenu_types.h"
-
-
-
-
-
-typedef signed int     s32;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#include "../types.h"
 
 typedef struct HitRect {
     u8 top;
@@ -358,19 +327,13 @@ typedef struct SortEntry {
     u32 key;
 } SortEntry;
 
-
-
-
 typedef struct ActionMsgIds { int msgIds[11]; } ActionMsgIds;
 
 typedef struct ActionIds { unsigned char ids[4]; } ActionIds;
 
-
 typedef struct PocketTable {
     int pockets[5];
 } PocketTable;
-
-typedef short s16;
 
 typedef struct ItemMenuResult {
     u8 reserved[0x34];
@@ -378,13 +341,7 @@ typedef struct ItemMenuResult {
     u32 selectedItemId;
 } ItemMenuResult;
 
-
-
-
-typedef enum {
-    GX_DISP_SELECT_SUB_MAIN = 0,
-    GX_DISP_SELECT_MAIN_SUB = 1
-} GXDispSelect;
+#include "../sdk_gx.h"
 
 typedef struct BgTemplate {
     u32 w[8];
@@ -398,14 +355,11 @@ typedef struct ActorTemplate {
 
 typedef struct DispConfig { u32 w[4]; } DispConfig;
 
-
-
 typedef signed short TextCoord;
 
 typedef struct SurfacePos {
     unsigned short x, y;
 } SurfacePos;
-
 
 typedef struct ByteTable5 {
     u8 values[5];
@@ -414,8 +368,6 @@ typedef struct ByteTable5 {
 typedef struct ByteTable2 {
     u8 values[2];
 } ByteTable2;
-
-
 
 typedef struct TaskMenuTmpl {
     int heapId;
@@ -429,16 +381,12 @@ typedef struct TaskMenuTmpl {
     u8 height;
 } TaskMenuTmpl;
 
-
-
-
 typedef struct ScreenImage {
     u16 width;
     u16 height;
     u16 reserved[4];
     u16 data[1];
 } ScreenImage;
-
 
 typedef short FadeStep;
 
@@ -453,7 +401,6 @@ typedef struct ItemMenuArgs {
     int bagFilter;
 } ItemMenuArgs;
 struct TaskMenuWork;
-
 
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenuWork *menu);
 extern u8 APP_TASKMENU_GetCursorPos(struct TaskMenuWork *menu);
@@ -885,7 +832,6 @@ int ITEMMENU_FindUseRange(u16 itemId);
 extern const ItemUseRange gItemMenuUseRanges[8];
 extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
-
 
 /* Sets the task function of the screen and the key repeat speed. */
 void ITEMMENU_SetTask(ItemMenuWork *work, ItemMenuTaskFn taskFn)
@@ -1513,15 +1459,6 @@ int ITEMMENU_FindUseRange(u16 itemId)
     return -1;
 }
 
-
-
-
-
-
-
-
-
-
 /*
  * The switch arms are in the original's layout order (0,1,3,4-5,2,8,9,6,7);
  * the table entry at 0x021BB9C8 is gItemMenuUseRanges[i].fn, one extern through
@@ -1623,14 +1560,6 @@ void ITEMMENU_HandleActionMenuChoice(ItemMenuWork *work)
     }
 }
 
-
-
-
-
-
-
-
-
 void ITEMMENU_TaskSelectItem(ItemMenuWork *work)
 {
     u16 *itemIdPtr;
@@ -1670,14 +1599,6 @@ void ITEMMENU_TaskSelectItem(ItemMenuWork *work)
         ITEMMENU_SetTask(work, ITEMMENU_HandleActionMenuChoice);
     }
 }
-
-
-
-
-
-
-
-
 
 void ITEMMENU_TaskBagMain(ItemMenuWork *work)
 {
@@ -1795,13 +1716,6 @@ void ITEMMENU_TaskBagMain(ItemMenuWork *work)
     }
 }
 
-
-
-
-
-
-
-
 void ITEMMENU_TaskActionMenuInput(ItemMenuWork *work)
 {
     if (APP_TASKMENU_IsFinish((struct TaskMenuWork *)work->menuList) == 0)
@@ -1826,20 +1740,7 @@ void ITEMMENU_TaskActionMenuInput(ItemMenuWork *work)
     ITEMMENU_CloseYesNoList(work);
 }
 
-
-
-
-
-
-
 void ITEMMENU_TaskOpenActionMenu(ItemMenuWork *work) { if (ITEMMENU_IsMessageFinished(work)) { ITEMMENU_OpenYesNoList(work); ITEMMENU_SetTask(work,ITEMMENU_TaskActionMenuInput); } }
-
-
-
-
-
-
-
 
 void ITEMMENU_TaskRegisterResultMessage(ItemMenuWork *work)
 {
@@ -1854,19 +1755,7 @@ void ITEMMENU_TaskRegisterResultMessage(ItemMenuWork *work)
     ITEMMENU_SetTask(work, ITEMMENU_TaskOpenActionMenu);
 }
 
-
-
-
-
-
-
 void ITEMMENU_TaskStartRegisterResult(ItemMenuWork *work) { if (ITEMMENU_IsMessageFinished(work)) { GFL_USE_PlaySeDefaultVolume(0x55C); ITEMMENU_SetTask(work,ITEMMENU_TaskRegisterResultMessage); } }
-
-
-
-
-
-
 
 void ITEMMENU_TaskUseNoticeMessage(ItemMenuWork *work)
 {
@@ -1877,12 +1766,6 @@ void ITEMMENU_TaskUseNoticeMessage(ItemMenuWork *work)
     ITEMMENU_ShowMessage(work, 1);
     ITEMMENU_SetTask(work, ITEMMENU_TaskStartRegisterResult);
 }
-
-
-
-
-
-
 
 void ITEMMENU_TaskReturnToListAfterMessage(ItemMenuWork *work)
 {
@@ -1898,18 +1781,7 @@ void ITEMMENU_TaskReturnToListAfterMessage(ItemMenuWork *work)
     }
 }
 
-
-
-
-
-
 void ITEMMENU_TaskBeginReturnToList(ItemMenuWork *work) { if (ITEMMENU_IsMessageFinished(work)) ITEMMENU_SetTask(work,ITEMMENU_TaskReturnToListAfterMessage); }
-
-
-
-
-
-
 
 void ITEMMENU_TaskTossConfirmInput(ItemMenuWork *work)
 {
@@ -1941,18 +1813,7 @@ void ITEMMENU_TaskTossConfirmInput(ItemMenuWork *work)
     }
 }
 
-
-
-
-
-
 void ITEMMENU_TaskOpenTossConfirm(ItemMenuWork *work) { if (ITEMMENU_IsMessageFinished(work)) { ITEMMENU_OpenYesNoList(work); ITEMMENU_SetTask(work,ITEMMENU_TaskTossConfirmInput); } }
-
-
-
-
-
-
 
 void ITEMMENU_TaskTossAskQuantity(ItemMenuWork *work)
 {
@@ -1964,12 +1825,6 @@ void ITEMMENU_TaskTossAskQuantity(ItemMenuWork *work)
     ITEMMENU_ShowMessageDefault(work);
     ITEMMENU_SetTask(work, ITEMMENU_TaskTossQuantityInput);
 }
-
-
-
-
-
-
 
 void ITEMMENU_TaskTossQuantityInput(ItemMenuWork *work)
 {
@@ -2006,12 +1861,6 @@ void ITEMMENU_TaskTossQuantityInput(ItemMenuWork *work)
     }
 }
 
-
-
-
-
-
-
 void ITEMMENU_TaskGiveItem(ItemMenuWork *work)
 {
     unsigned int canHold;
@@ -2045,12 +1894,6 @@ void ITEMMENU_TaskGiveItem(ItemMenuWork *work)
     ITEMMENU_SetTask(work, ITEMMENU_TaskSellQuantityInput);
 }
 
-
-
-
-
-
-
 void ITEMMENU_TaskSellQuantityInput(ItemMenuWork *work)
 {
     int choice;
@@ -2081,12 +1924,6 @@ void ITEMMENU_TaskSellQuantityInput(ItemMenuWork *work)
     }
 }
 
-
-
-
-
-
-
 void ITEMMENU_TaskSellAskConfirm(ItemMenuWork *work)
 {
     int sellTotal;
@@ -2099,11 +1936,6 @@ void ITEMMENU_TaskSellAskConfirm(ItemMenuWork *work)
     ITEMMENU_ShowMessageDefault(work);
     ITEMMENU_SetTask(work, ITEMMENU_TaskSellConfirmInput);
 }
-
-
-
-
-
 
 void ITEMMENU_TaskSellConfirmInput(ItemMenuWork *work)
 {
@@ -2137,11 +1969,6 @@ void ITEMMENU_TaskSellConfirmInput(ItemMenuWork *work)
     }
 }
 
-
-
-
-
-
 void ITEMMENU_TaskWaitMessageDismiss(ItemMenuWork *work)
 {
     if (ITEMMENU_IsMessageFinished(work) == 0)
@@ -2157,12 +1984,6 @@ void ITEMMENU_TaskWaitMessageDismiss(ItemMenuWork *work)
     }
 }
 
-
-
-
-
-
-
 void ITEMMENU_TaskReturnToListFromQuantity(ItemMenuWork *work)
 {
     BG_SYS_ClearSlot(3);
@@ -2175,12 +1996,6 @@ void ITEMMENU_TaskReturnToListFromQuantity(ItemMenuWork *work)
     ITEMMENU_UpdateSideButtons(work, 1);
     ITEMMENU_ReturnToBagMain(work);
 }
-
-
-
-
-
-
 
 void ITEMMENU_RemoveSelectedItems(ItemMenuWork *work, int removeCount)
 {
@@ -2203,22 +2018,9 @@ void ITEMMENU_RemoveSelectedItems(ItemMenuWork *work, int removeCount)
     }
 }
 
-
-
-
-
 void ITEMMENU_ShowQuantityWindows(ItemMenuWork *work, int v) { work->listMode=v; ITEMMENU_LoadSellPalette(work); ITEMMENU_PrintQuantityPrice(work,work->listCount); CLACT_SetActorDrawEnable(work->listWindowA, 1); CLACT_SetActorDrawEnable(work->listWindowB, 1); }
 
-
-
-
-
 void ITEMMENU_HideQuantityWindows(ItemMenuWork *work) { BG_SYS_ClearSlot(3); CLACT_SetActorDrawEnable(work->listWindowA, 0); CLACT_SetActorDrawEnable(work->listWindowB, 0); }
-
-
-
-
-
 
 /*
  * Quantity selector input: touch buttons (hit table sQuantityTouchRects, with
@@ -2298,11 +2100,6 @@ int ITEMMENU_HandleQuantityInput(ItemMenuWork *work)
     return changed;
 }
 
-
-
-
-
-
 int ITEMMENU_CompareSortEntries(SortEntry *left, SortEntry *right)
 {
     if (left->key == right->key)
@@ -2311,11 +2108,6 @@ int ITEMMENU_CompareSortEntries(SortEntry *left, SortEntry *right)
         return 1;
     return -1;
 }
-
-
-
-
-
 
 void ITEMMENU_SortPocket(ItemMenuWork *work)
 {
@@ -2351,31 +2143,14 @@ void ITEMMENU_SortPocket(ItemMenuWork *work)
     GFL_HEAP_Free(ents);
 }
 
-
-
-
-
 void ITEMMENU_ShowInputGuardError(ItemMenuWork *work) { GFL_USE_PlaySeDefaultVolume(0x663); CLACT_SetActorAnimSeq(((work->inputGuard)), 2); }
 
-
-
-
-
 void ITEMMENU_SortAndRedraw(ItemMenuWork *work) { ITEMMENU_SortPocket(work); work->shownItemId=0xFFFF; ITEMMENU_RedrawList(work); }
-
-
-
-
 
 void ITEMMENU_RefreshInputGuard(ItemMenuWork *work)
 {
     ITEMMENU_UpdateInputGuardAnim(work);
 }
-
-
-
-
-
 
 void ITEMMENU_SetCursorActive(ItemMenuWork *work, int flag)
 {
@@ -2396,16 +2171,7 @@ void ITEMMENU_SetCursorActive(ItemMenuWork *work, int flag)
     ITEMMENU_SetMoveTypeIconsVisible(work, flag);
 }
 
-
-
-
-
 int ITEMMENU_IsBrowseMode(ItemMenuWork *work) { int v = work->bagMode; if (v==0 || v==1 || v==3) return 1; return 0; }
-
-
-
-
-
 
 int ITEMMENU_ToggleRegisteredItem(ItemMenuWork *work, int row)
 {
@@ -2431,32 +2197,15 @@ int ITEMMENU_ToggleRegisteredItem(ItemMenuWork *work, int row)
     return 0;
 }
 
-
-
-
-
 int ITEMMENU_GetPocketSortFlag(int pocket)
 {
     int ITEMMENU_PocketToSortFlag(int);
     return ITEMMENU_PocketToSortFlag(pocket);
 }
 
-
-
-
-
 void ITEMMENU_TogglePocketSortFlag(ItemMenuWork *work) { int a; int v; a=ITEMMENU_GetPocketSortFlag(work->currentPocket); v=GAME_DATA_ContainsRecentId(work->saveData,a); GAME_DATA_SetRecentId(work->saveData,a,v^1); GFL_USE_PlaySeDefaultVolume(0x646); ITEMMENU_UpdatePocketSortIcon(work); }
 
-
-
-
-
 void ITEMMENU_UpdatePocketSortIcon(ItemMenuWork *work) { if (work->usingWorkCopy!=1) CLACT_SetActorAnimSeq(((work->sideActor[2])), (unsigned int)GAME_DATA_ContainsRecentId(work->saveData,ITEMMENU_GetPocketSortFlag(work->currentPocket))+6u); }
-
-
-
-
-
 
 void ITEMMENU_CheckItemFilter(ItemMenuWork *work, void *itemData, u16 *itemIdPtr, u8 *filterKind)
 {
@@ -2471,10 +2220,6 @@ void ITEMMENU_CheckItemFilter(ItemMenuWork *work, void *itemData, u16 *itemIdPtr
     if ((u16)(*itemIdPtr + 0xFD98) <= 1)
         *filterKind = 0;
 }
-
-
-
-
 
 void ITEMMENU_BuildActionList(ItemMenuWork *work, unsigned char *actions)
 {
@@ -2506,9 +2251,6 @@ void ITEMMENU_BuildActionList(ItemMenuWork *work, unsigned char *actions)
     }
 }
 
-
-
-
 /*
  * lever: ITEMMENU_OpenPopupList reads the count in r2; passing j keeps it in r2.
  */
@@ -2533,17 +2275,10 @@ void ITEMMENU_OpenActionMenu(ItemMenuWork *work)
     ITEMMENU_OpenPopupList(work, msgIds, j);
 }
 
-
-
-
 int ITEMMENU_IsItemRegistered(ItemMenuWork *work, int value)
 {
     return GAME_DATA_ContainsRecentId(work->saveData, (int)ITEM_GetRegisterFlagId((u16)value));
 }
-
-
-
-
 
 /*
  * Touch-button dispatch of the list screen: buttons 0-4 pick a pocket tab
@@ -2652,10 +2387,6 @@ void ITEMMENU_HandleTouchTarget(u32 idx, int flag, ItemMenuWork *work)
     }
 }
 
-
-
-
-
 void ITEMMENU_VBlankCallback(int unusedArg, ItemMenuWork *work)
 {
     int state = work->screenState;
@@ -2670,10 +2401,6 @@ void ITEMMENU_VBlankCallback(int unusedArg, ItemMenuWork *work)
     CLACT_VBlankSystem();
 }
 
-
-
-
-
 void ITEMMENU_TaskStartFadeIn(ItemMenuWork *work)
 {
     if (PRINTSYS_QUE_IsFinished((struct PrintQueue *)work->printSys)) {
@@ -2682,10 +2409,6 @@ void ITEMMENU_TaskStartFadeIn(ItemMenuWork *work)
         ITEMMENU_SetTask(work, ITEMMENU_TaskWaitFadeIn);
     }
 }
-
-
-
-
 
 /*
  * blocked:
@@ -2699,7 +2422,6 @@ void ITEMMENU_TaskWaitFadeIn(ItemMenuWork *work)
         ITEMMENU_ReturnToBagMain(work);
     }
 }
-
 
 int ITEMMENU_Init(void *proc, int subState, ItemMenuArgs *args)
 {
@@ -2757,7 +2479,6 @@ int ITEMMENU_Init(void *proc, int subState, ItemMenuArgs *args)
     return 1;
 }
 
-
 int ITEMMENU_Main(int procArg, int subState, int unusedArg, ItemMenuWork *work)
 {
     ItemMenuTaskFn currentTask = work->taskFn;
@@ -2780,13 +2501,6 @@ int ITEMMENU_Main(int procArg, int subState, int unusedArg, ItemMenuWork *work)
     TCBL_Main((struct TcblSystem *)work->touchTask);
     return 0;
 }
-
-
-
-
-
-
-
 
 int ITEMMENU_Exit(void *proc, int subState, ItemMenuResult *parentArgs, ItemMenuWork *work)
 {
@@ -2829,36 +2543,17 @@ int ITEMMENU_Exit(void *proc, int subState, ItemMenuResult *parentArgs, ItemMenu
     return 1;
 }
 
-
-
-
-
-
-
 void ITEMMENU_ReturnToBagMain(ItemMenuWork *work)
 {
     ITEMMENU_SetTask(work, ITEMMENU_TaskBagMain);
     KEY_SetRepeatSpeed(3, 6);
 }
 
-
-
-
-
-
-
 int ITEMMENU_ReturnToListInput(ItemMenuWork *work)
 {
     ITEMMENU_SetTask(work, ITEMMENU_TaskListInput);
     return KEY_SetRepeatSpeed(3, 6);
 }
-
-
-
-
-
-
-
 
 void ITEMMENU_CreateBlinkPalAnm(ItemMenuWork *work)
 {
@@ -2870,23 +2565,10 @@ void ITEMMENU_CreateBlinkPalAnm(ItemMenuWork *work)
     ARC_TOOL_DeleteHandle(archive);
 }
 
-
-
-
-
-
-
 void ITEMMENU_DeleteBlinkPalAnm(ItemMenuWork *work)
 {
     BLINK_PALANM_Delete(*(struct BlinkPalAnm * *)&work->blinkPalAnm);
 }
-
-
-
-
-
-
-
 
 void ITEMMENU_TaskSelectItemFlash(ItemMenuWork *work)
 {
@@ -2921,13 +2603,6 @@ void ITEMMENU_TaskSelectItemFlash(ItemMenuWork *work)
     }
 }
 
-
-
-
-
-
-
-
 void ITEMMENU_StartSideButtonPress(ItemMenuWork *work, int button, ItemMenuTaskFn callback)
 {
     int animSeq;
@@ -2952,12 +2627,6 @@ void ITEMMENU_StartSideButtonPress(ItemMenuWork *work, int button, ItemMenuTaskF
     ITEMMENU_SetTask(work, ITEMMENU_TaskWaitSideButtonPress);
 }
 
-
-
-
-
-
-
 void ITEMMENU_TaskWaitSideButtonPress(ItemMenuWork *work)
 {
     if (CLACT_IsActorAnimActive(work->sideActor[work->fadeStep]) == 0) {
@@ -2965,13 +2634,6 @@ void ITEMMENU_TaskWaitSideButtonPress(ItemMenuWork *work)
         ITEMMENU_SetTask(work, work->fadeCallback);
     }
 }
-
-
-
-
-
-
-
 
 void ITEMMENU_StartPocketTabPress(ItemMenuWork *work, int previousPocket, int isNextTab, ItemMenuTaskFn callback)
 {
@@ -2997,12 +2659,6 @@ void ITEMMENU_StartPocketTabPress(ItemMenuWork *work, int previousPocket, int is
     ITEMMENU_SetTask(work, ITEMMENU_TaskWaitPocketTabPress);
 }
 
-
-
-
-
-
-
 void ITEMMENU_TaskWaitPocketTabPress(ItemMenuWork *work)
 {
     if (work->fadeTimer == 0) {
@@ -3012,12 +2668,6 @@ void ITEMMENU_TaskWaitPocketTabPress(ItemMenuWork *work)
         work->fadeTimer -= 1;
     }
 }
-
-
-
-
-
-
 
 /*
  * Return-observed exception: 02035C08's legacy definition says void,
@@ -3032,12 +2682,6 @@ int ITEMMENU_GetYesNoTouchChoice(void)
     return result;
 }
 
-
-
-
-
-
-
 void ITEMMENU_TaskReopenListFromQuantity(ItemMenuWork *work)
 {
     int flag;
@@ -3050,13 +2694,6 @@ void ITEMMENU_TaskReopenListFromQuantity(ItemMenuWork *work)
     ITEMMENU_SetCursorActive(work, flag);
     ITEMMENU_ReturnToBagMain(work);
 }
-
-
-
-
-
-
-
 
 void ITEMMENU_TaskReturnFromQuantity(ItemMenuWork *work)
 {
@@ -3072,12 +2709,6 @@ void ITEMMENU_TaskReturnFromQuantity(ItemMenuWork *work)
     ITEMMENU_SetTask(work, ITEMMENU_TaskReturnToListFromQuantity);
 }
 
-
-
-
-
-
-
 void ITEMMENU_AllocPalAnmSlots(ItemMenuWork *work)
 {
     work->palAnmSlot = PALANM_Create(work->heapId);
@@ -3085,12 +2716,6 @@ void ITEMMENU_AllocPalAnmSlots(ItemMenuWork *work)
     PALANM_AllocSlotBuffers(work->palAnmSlot, 0, 0x20, work->heapId);
     PALANM_CopyHwPaletteToSlot(work->palAnmSlot, 0, 0, 0x20);
 }
-
-
-
-
-
-
 
 /*
  * 02021540 forwards r0 to the allocator's free; name the pointer here
@@ -3102,13 +2727,6 @@ void ITEMMENU_FreePalAnmSlots(ItemMenuWork *work)
     PALANM_FreeSlotBuffers(work->palAnmSlot, 2);
     PALANM_Delete(work->palAnmSlot);
 }
-
-
-
-
-
-
-
 
 void ITEMMENU_TaskInputGuardMessage(ItemMenuWork *work)
 {
@@ -3123,13 +2741,6 @@ void ITEMMENU_TaskInputGuardMessage(ItemMenuWork *work)
         ITEMMENU_SetTask(work, ITEMMENU_TaskWaitMessageThenList);
     }
 }
-
-
-
-
-
-
-
 
 void ITEMMENU_TaskWaitMessageThenList(ItemMenuWork *work)
 {
@@ -3148,12 +2759,6 @@ void ITEMMENU_TaskWaitMessageThenList(ItemMenuWork *work)
     ITEMMENU_ReturnToBagMain(work);
 }
 
-
-
-
-
-
-
 int ITEMMENU_IsCheckModeAllowed(ItemMenuWork *work, int value)
 {
     if (work->bagMode == 3 || work->bagMode == 1)
@@ -3162,13 +2767,6 @@ int ITEMMENU_IsCheckModeAllowed(ItemMenuWork *work, int value)
         return 0;
     return 1;
 }
-
-
-
-
-
-
-
 
 /*
  * Unlabelled tail-call stub (00 4b 18 47 + pool word) after ITEMMENU_IsCheckModeAllowed;
@@ -3179,25 +2777,11 @@ void ITEMMENU_ReturnToBagMainAlias(ItemMenuWork *work)
     ITEMMENU_ReturnToBagMain(work);
 }
 
-
-
-
-
-
-
-
 static inline void GX_SetDispSelect(GXDispSelect sel)
 {
     reg_GX_POWCNT = (u16)((reg_GX_POWCNT & ~REG_GX_POWCNT_DSEL_MASK) |
                           (sel << REG_GX_POWCNT_DSEL_SHIFT));
 }
-
-
-
-
-
-
-
 
 /*
  * BG setup: GX_SetDispSelect(0), then seven 32-byte BG templates copied
@@ -3259,12 +2843,6 @@ void ITEMMENU_InitDisplayBanks(void)
     BG_SYS_ClearSlot(6);
 }
 
-
-
-
-
-
-
 void ITEMMENU_ResetDisplayLayers(void)
 {
     BG_SYS_SetPlaneVisible(0, 1);
@@ -3275,11 +2853,6 @@ void ITEMMENU_ResetDisplayLayers(void)
     BG_SYS_SetPlaneVisible(5, 1);
     BG_SYS_SetPlaneVisible(6, 1);
 }
-
-
-
-
-
 
 void ITEMMENU_LoadBagGraphics(ItemMenuWork *work, int archive)
 {
@@ -3299,14 +2872,6 @@ void ITEMMENU_LoadBagGraphics(ItemMenuWork *work, int archive)
     work->frameCounter = charBase;
     ARC_UTIL_UploadBgPaletteAddFromHandle((void *)archive, screenFileId, 0, 0, (unsigned short)charBase, 0, 0, work->heapId);
 }
-
-
-
-
-
-
-
-
 
 void ITEMMENU_LoadTabGraphics(ItemMenuWork *work, void *archive)
 {
@@ -3328,14 +2893,6 @@ void ITEMMENU_LoadTabGraphics(ItemMenuWork *work, void *archive)
     work->tabCellRes = CLACT_RegisterCellAnim((void *)archive, cellFileId, animFileId, work->heapId);
 }
 
-
-
-
-
-
-
-
-
 static inline void LoadIcons(ItemMenuWork *work)
 {
     void *archive;
@@ -3352,14 +2909,6 @@ static inline void LoadIcons(ItemMenuWork *work)
         work->typeIconRes[i] = CLACT_RegisterCharacter(archive, APP_ICON_GetTypeCellFileId((u8)i), 0, 1, work->heapId);
     ARC_TOOL_DeleteHandle(archive);
 }
-
-
-
-
-
-
-
-
 
 void ITEMMENU_SetupGraphics(ItemMenuWork *work)
 {
@@ -3451,14 +3000,6 @@ void ITEMMENU_SetupGraphics(ItemMenuWork *work)
     ITEMMENU_UpdateInputGuardAnim(work);
 }
 
-
-
-
-
-
-
-
-
 void ITEMMENU_ApplyBgPalettes(ItemMenuWork *work)
 {
     unsigned packedPalette;
@@ -3474,20 +3015,7 @@ void ITEMMENU_ApplyBgPalettes(ItemMenuWork *work)
     BG_SYS_FreeTileRun(1, (unsigned short)packedPalette, (unsigned short)(packedPalette >> 16));
 }
 
-
-
-
-
-
-
-
 void ITEMMENU_SetLayersVisible(void *p, int v) { BG_SYS_SetPlaneVisible(5, v); BG_SYS_SetPlaneVisible(6, v); }
-
-
-
-
-
-
 
 /*
  * blocked: WAZA_TOOL_GetDamageType (arm9 unlabelled leaf, the integrator's; 12 bytes, tail stub)
@@ -3513,13 +3041,6 @@ void ITEMMENU_SetMoveTypeIconsVisible(ItemMenuWork *work, int mode)
         CLACT_SetActorDrawEnable(work->typeActors[WAZA_TOOL_GetType(moveId)], mode);
     }
 }
-
-
-
-
-
-
-
 
 void ITEMMENU_DrawMoveInfo(ItemMenuWork *work)
 {
@@ -3581,14 +3102,6 @@ void ITEMMENU_DrawMoveInfo(ItemMenuWork *work)
     ITEMMENU_CreateMovingCursor(work, *slotPtr);
 }
 
-
-
-
-
-
-
-
-
 void ITEMMENU_HideMoveInfo(ItemMenuWork *work)
 {
     unsigned i;
@@ -3602,14 +3115,6 @@ void ITEMMENU_HideMoveInfo(ItemMenuWork *work)
         CLACT_SetActorDrawEnable(work->typeActors[j], 0);
     }
 }
-
-
-
-
-
-
-
-
 
 void ITEMMENU_FreeGraphics(ItemMenuWork *work)
 {
@@ -3635,22 +3140,7 @@ void ITEMMENU_FreeGraphics(ItemMenuWork *work)
     CLACT_ExitSystem();
 }
 
-
-
-
-
-
-
-
 void ITEMMENU_PrintMenuTitle(ItemMenuWork *work) { MSGDATA_ReadString(work->msgBank, 0x87, work->tempString); ITEMMENU_PrintToWindow(work, &work->listWindows[ITEMMENU_WINDOW_MENU_4], work->tempString, 0, (TextCoord)4, 0x3DC0); }
-
-
-
-
-
-
-
-
 
 void ITEMMENU_InitWindows(ItemMenuWork *work)
 {
@@ -3687,22 +3177,7 @@ void ITEMMENU_InitWindows(ItemMenuWork *work)
     }
 }
 
-
-
-
-
-
-
-
 void ITEMMENU_DestroyMovingCursor(ItemMenuWork *work) { if (work->movingCursorActor) { CLACT_DeleteActor(work->movingCursorActor); CLACT_ReleaseCharacter(work->cellAnimRes); CLACT_ReleasePalette(work->cellRes); *(void * *)&work->movingCursorActor = 0; } }
-
-
-
-
-
-
-
-
 
 void ITEMMENU_CreateMovingCursor(ItemMenuWork *work, int id)
 {
@@ -3725,21 +3200,7 @@ void ITEMMENU_CreateMovingCursor(ItemMenuWork *work, int id)
     CLACT_SetActorDrawEnable(work->movingCursorActor, 1);
 }
 
-
-
-
-
-
-
-
 void ITEMMENU_FreeActionMenuResources(ItemMenuWork *work) { CLACT_DrawSystem(); if (work->menuList) APP_TASKMENU_UpdateMenu((struct TaskMenuWork *)work->menuList); }
-
-
-
-
-
-
-
 
 /*
  * lever:    the loop's array slots are spelled `p + i * 4 + 0x614` (index
@@ -3770,13 +3231,6 @@ void ITEMMENU_LoadPocketGraphics(ItemMenuWork *work)
     work->bagAnimRes = CLACT_RegisterCellAnim(archive, 0x13, 0x12, work->heapId);
     ARC_TOOL_DeleteHandle(archive);
 }
-
-
-
-
-
-
-
 
 void ITEMMENU_CreateCursorActors(ItemMenuWork *work)
 {
@@ -3820,9 +3274,6 @@ void ITEMMENU_CreateCursorActors(ItemMenuWork *work)
     }
 }
 
-
-
-
 int ITEMMENU_GetRowColorKind(u16 itemId)
 {
     if (FILE_UTIL_IsMachineItem(itemId) == 1) {
@@ -3838,14 +3289,6 @@ int ITEMMENU_GetRowColorKind(u16 itemId)
     }
     return 0;
 }
-
-
-
-
-
-
-
-
 
 void ITEMMENU_PrintItemList(ItemMenuWork *work)
 {
@@ -3928,15 +3371,6 @@ void ITEMMENU_PrintItemList(ItemMenuWork *work)
     work->busyCount = 1;
 }
 
-
-
-
-
-
-
-
-
-
 void ITEMMENU_SnapSelectorToCursor(ItemMenuWork *work)
 {
     SurfacePos surfacePos;
@@ -3952,15 +3386,6 @@ void ITEMMENU_SnapSelectorToCursor(ItemMenuWork *work)
     CLACT_SetActorAnimIndex(work->selectorActor, 0);
     CLACT_SetActorAnimIndex(work->cursorActor, 0);
 }
-
-
-
-
-
-
-
-
-
 
 void ITEMMENU_UploadSlotGraphics(ItemMenuWork *work)
 {
@@ -4004,15 +3429,6 @@ void ITEMMENU_UploadSlotGraphics(ItemMenuWork *work)
     }
 }
 
-
-
-
-
-
-
-
-
-
 void ITEMMENU_UpdateCursorFromTouch(ItemMenuWork *work)
 {
     unsigned touchX;
@@ -4030,15 +3446,6 @@ void ITEMMENU_UpdateCursorFromTouch(ItemMenuWork *work)
     }
 }
 
-
-
-
-
-
-
-
-
-
 void ITEMMENU_MoveCursorToRow(ItemMenuWork *work)
 {
     SurfacePos surfacePos;
@@ -4049,14 +3456,6 @@ void ITEMMENU_MoveCursorToRow(ItemMenuWork *work)
         CLACT_AddActorSurfacePos(work->cursorActor, &surfacePos, 0xFFFF);
     }
 }
-
-
-
-
-
-
-
-
 
 void ITEMMENU_CreateSideButtonActors(ItemMenuWork *work)
 {
@@ -4105,14 +3504,6 @@ void ITEMMENU_CreateSideButtonActors(ItemMenuWork *work)
     }
 }
 
-
-
-
-
-
-
-
-
 /*
  * Creates five sprites from three small tables.  The work area must be a
  * struct with the resource triple as an array (args res[1], res[0], res[2]):
@@ -4138,14 +3529,6 @@ void ITEMMENU_CreateTabActors(ItemMenuWork *work)
     }
 }
 
-
-
-
-
-
-
-
-
 void ITEMMENU_SelectTab(ItemMenuWork *work, unsigned selectedTab)
 {
     unsigned i;
@@ -4158,20 +3541,7 @@ void ITEMMENU_SelectTab(ItemMenuWork *work, unsigned selectedTab)
     }
 }
 
-
-
-
-
-
-
 void ITEMMENU_ClearMessageWindow(ItemMenuWork *work) { BMP_MENUWORK_DrawWindowBorder(work->messageWindows[0].window, 1); }
-
-
-
-
-
-
-
 
 void ITEMMENU_OpenPopupList(ItemMenuWork *work, int *msgIds, int entryCount)
 {
@@ -4207,11 +3577,6 @@ void ITEMMENU_OpenPopupList(ItemMenuWork *work, int *msgIds, int entryCount)
     ITEMMENU_UpdateSideButtons(work, 0);
 }
 
-
-
-
-
-
 void ITEMMENU_LoadBgPaletteMode(ItemMenuWork *work, int mode)
 {
     void *archive = ARC_TOOL_CreateHandle(0x58, work->heapId);
@@ -4223,10 +3588,6 @@ void ITEMMENU_LoadBgPaletteMode(ItemMenuWork *work, int mode)
     }
     ARC_TOOL_DeleteHandle((void *)((int)archive));
 }
-
-
-
-
 
 void ITEMMENU_PrintMoveInfoText(ItemMenuWork *work, int moveId)
 {
@@ -4269,11 +3630,6 @@ void ITEMMENU_PrintMoveInfoText(ItemMenuWork *work, int moveId)
     ITEMMENU_FlushWindowAt(infoWindow);
 }
 
-
-
-
-
-
 /*
  * Creates the window at p+0x4FC on first use, clears it, then either prints
  * through PRINTSYS_PrintStream (mode 1) or through ITEMMENU_PrintToWindow, and finishes the
@@ -4303,10 +3659,6 @@ void ITEMMENU_ShowMessage(ItemMenuWork *work, int mode)
     ITEMMENU_FlushWindowAt(win);
 }
 
-
-
-
-
 /*
  * Tail call to ITEMMENU_ShowMessage(p, 0).
  */
@@ -4315,16 +3667,7 @@ void ITEMMENU_ShowMessageDefault(ItemMenuWork *work)
     ITEMMENU_ShowMessage(work, 0);
 }
 
-
-
-
-
 void ITEMMENU_ShowItemUseMessage(ItemMenuWork *work, unsigned v) { MSGDATA_ReadString(work->msgBank, 0x2B, work->tempString); ITEMMENU_RegisterItemName(work, 0, v); WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString); }
-
-
-
-
-
 
 int ITEMMENU_IsMessageFinished(ItemMenuWork *work)
 {
@@ -4360,11 +3703,6 @@ int ITEMMENU_IsMessageFinished(ItemMenuWork *work)
     return 1;
 }
 
-
-
-
-
-
 void ITEMMENU_PrintPocketName(ItemMenuWork *work)
 {
     work->messageWindows[1].window = BMP_WIN_Create(2, 3, 0x15, 0xC, 3, 0xC, 1);
@@ -4374,16 +3712,7 @@ void ITEMMENU_PrintPocketName(ItemMenuWork *work)
     ITEMMENU_SelectTab(work, work->currentPocket);
 }
 
-
-
-
-
 void ITEMMENU_HideSideWindows(ItemMenuWork *work) { BMP_WIN_Delete(work->messageWindows[1].window); BMP_WIN_Delete(work->listWindows[ITEMMENU_WINDOW_MENU_2].window); BMP_WIN_Delete(work->listWindows[ITEMMENU_WINDOW_MENU_1].window); }
-
-
-
-
-
 
 void ITEMMENU_PrintPocketCount(ItemMenuWork *work, int itemCount)
 {
@@ -4397,10 +3726,6 @@ void ITEMMENU_PrintPocketCount(ItemMenuWork *work, int itemCount)
     ITEMMENU_PrintToWindow(work, &work->messageWindows[1], work->messageString, (unsigned short)(freeWidth >> 1), 4, 0x3C40);
     ITEMMENU_FlushWindowAt(&work->messageWindows[1]);
 }
-
-
-
-
 
 void ITEMMENU_PrintMoney(ItemMenuWork *work)
 {
@@ -4416,22 +3741,9 @@ void ITEMMENU_PrintMoney(ItemMenuWork *work)
     ITEMMENU_FlushWindowAt(&work->listWindows[ITEMMENU_WINDOW_MENU_2]);
 }
 
-
-
-
-
 void ITEMMENU_EnterQuantityMode(ItemMenuWork *work) { CLACT_SetActorDrawEnable((work->sideActor[0]), 0); CLACT_SetActorDrawEnable((work->sideActor[1]), 0); BMP_WIN_ClearScreen(work->messageWindows[1].window); ITEMMENU_PrintMoney(work); }
 
-
-
-
-
 void ITEMMENU_LeaveQuantityMode(ItemMenuWork *work) { CLACT_SetActorDrawEnable((work->sideActor[0]), 1); CLACT_SetActorDrawEnable((work->sideActor[1]), 1); BMP_WIN_ClearScreen(work->listWindows[ITEMMENU_WINDOW_MENU_2].window); BMP_WIN_ClearScreen(work->listWindows[ITEMMENU_WINDOW_MENU_1].window); ITEMMENU_PrintPocketCount(work, work->currentPocket); }
-
-
-
-
-
 
 void ITEMMENU_OpenYesNoList(ItemMenuWork *work)
 {
@@ -4465,16 +3777,7 @@ void ITEMMENU_OpenYesNoList(ItemMenuWork *work)
     ITEMMENU_UpdateSideButtons(work, 0);
 }
 
-
-
-
-
 void ITEMMENU_CloseYesNoList(ItemMenuWork *work) { APP_TASKMENU_CloseMenu((struct TaskMenuWork *)work->menuList); work->menuList = 0; }
-
-
-
-
-
 
 void ITEMMENU_LoadSellPalette(ItemMenuWork *work)
 {
@@ -4500,11 +3803,6 @@ void ITEMMENU_LoadSellPalette(ItemMenuWork *work)
     GFL_HEAP_Free((void *)screenData);
     ARC_TOOL_DeleteHandle(archive);
 }
-
-
-
-
-
 
 void ITEMMENU_PrintQuantityPrice(ItemMenuWork *work, int quantity)
 {
@@ -4532,10 +3830,6 @@ void ITEMMENU_PrintQuantityPrice(ItemMenuWork *work, int quantity)
     }
 }
 
-
-
-
-
 int ITEMMENU_PocketToSortFlag(int pocket)
 {
     switch (pocket) {
@@ -4553,11 +3847,6 @@ int ITEMMENU_PocketToSortFlag(int pocket)
     return pocket;
 }
 
-
-
-
-
-
 void ITEMMENU_UpdateSlotActorPosition(ItemMenuWork *work, u32 paletteOffset)
 {
     short selectorPos[2];
@@ -4573,11 +3862,6 @@ void ITEMMENU_UpdateSlotActorPosition(ItemMenuWork *work, u32 paletteOffset)
     }
     CLACT_SetActorPaletteOffset(work->slotActorA[i], (u8)paletteOffset, 0);
 }
-
-
-
-
-
 
 void ITEMMENU_UpdateSideButtons(ItemMenuWork *work, int page)
 {
@@ -4623,22 +3907,9 @@ void ITEMMENU_UpdateSideButtons(ItemMenuWork *work, int page)
     }
 }
 
-
-
-
-
 void ITEMMENU_SetBackButtonAnim(ItemMenuWork *work, int v) { if (v == 1) CLACT_SetActorAnimSeq((work->sideActor[4]), 1); else CLACT_SetActorAnimSeq((work->sideActor[4]), 15); }
 
-
-
-
-
 void ITEMMENU_UpdateInputGuardAnim(ItemMenuWork *work) { if (work->currentPocket == 2 || work->currentPocket == 3 || ITEMMENU_GetItemCount(work) <= 1) CLACT_SetActorAnimSeq((work->inputGuard), 4); else CLACT_SetActorAnimSeq((work->inputGuard), 0); }
-
-
-
-
-
 
 void ITEMMENU_UpdateSideButtonsForMode(ItemMenuWork *work, int mode)
 {
@@ -4667,10 +3938,6 @@ void ITEMMENU_UpdateSideButtonsForMode(ItemMenuWork *work, int mode)
     }
 }
 
-
-
-
-
 /*
  * lever: expand q at the first call but retain q for the second call.
  */
@@ -4693,11 +3960,6 @@ int ITEMMENU_MoveActorToPoint(const char *workBytes)
     return 1;
 }
 
-
-
-
-
-
 void ITEMMENU_PrintToWindow(ItemMenuWork *work, ItemMenuWindow *slot, void *str, u16 x, TextCoord y, u16 color)
 {
     void *print = work->printSys;
@@ -4706,16 +3968,11 @@ void ITEMMENU_PrintToWindow(ItemMenuWork *work, ItemMenuWindow *slot, void *str,
     slot->isDirty = 1;
 }
 
-
-
-
-
 void ITEMMENU_FlushWindowAt(ItemMenuWindow *slot)
 {
     BMP_WIN_MakeScreen(slot->window);
     BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(slot->window));
 }
-
 
 /* Window whose text was printed: once the print system has finished with its
  * buffer, flushes the window to VRAM and clears the dirty flag. */

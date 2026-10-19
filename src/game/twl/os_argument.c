@@ -13,9 +13,7 @@
  * sdk:      libos.TWL.HYB.a os_application_j
  */
 
-typedef unsigned char u8;
-typedef unsigned int u32;
-typedef unsigned long long u64;
+#include "../types.h"
 
 typedef struct {
     u8 count;

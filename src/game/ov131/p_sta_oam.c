@@ -44,13 +44,7 @@
 
 #define REG_DISPCNT_MAIN 0x04000000
 #define REG_DISPCNT_SUB  0x04001000
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef signed short s16;
+#include "../types.h"
 
 extern u32 GFL_HEAP_Free(void *p);
 extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
@@ -88,7 +82,6 @@ unsigned int P_STA_RIBBON_GetRibbonDescMsg(int ribbonNo);
 extern const char P_STA_OAM_FileName[];
 extern const struct StaRibbonInfo P_STA_RIBBON_InfoTable[];
 
-
 struct StaOamManager *P_STA_OAM_CreateManager(u32 heapId, void *clunit) {
     struct StaOamManager *mgr = GFL_HEAP_Alloc(heapId, 0x14, 1, P_STA_OAM_FileName, 0x5d);
     int i;
@@ -98,13 +91,11 @@ struct StaOamManager *P_STA_OAM_CreateManager(u32 heapId, void *clunit) {
     return mgr;
 }
 
-
 void P_STA_OAM_DeleteManager(struct StaOamManager *mgr)
 {
     P_STA_OAM_FreeCellRes(mgr);
     GFL_HEAP_Free(mgr);
 }
-
 
 /*
  * note (2026-10-02): desc is const-qualified; that frees the desc loads from ordering behind the stack
@@ -145,7 +136,6 @@ struct StaOamBitmapActors *P_STA_OAM_CreateBitmapActors(struct StaOamManager *mg
     return grid;
 }
 
-
 void P_STA_OAM_DeleteBitmapActors(struct StaOamBitmapActors *grid)
 {
     u8 i, j;
@@ -158,7 +148,6 @@ void P_STA_OAM_DeleteBitmapActors(struct StaOamBitmapActors *grid)
     GFL_HEAP_Free(grid);
 }
 
-
 void P_STA_OAM_SetBitmapActorsEnabled(struct StaOamBitmapActors *grid, int enable)
 {
     u8 i, j;
@@ -168,7 +157,6 @@ void P_STA_OAM_SetBitmapActorsEnabled(struct StaOamBitmapActors *grid, int enabl
         }
     }
 }
-
 
 void P_STA_OAM_TransferBitmap(struct StaOamBitmapActors *grid)
 {
@@ -204,7 +192,6 @@ void P_STA_OAM_TransferBitmap(struct StaOamBitmapActors *grid)
     }
 }
 
-
 void P_STA_OAM_SetBitmapActorsPos(struct StaOamBitmapActors *grid, s16 x, s16 y)
 {
     struct StaOamPoint pt;
@@ -218,13 +205,11 @@ void P_STA_OAM_SetBitmapActorsPos(struct StaOamBitmapActors *grid, s16 x, s16 y)
     }
 }
 
-
 void P_STA_OAM_SwapInts(int *a, int *b) {
     int tmp = *a;
     *a = *b;
     *b = tmp;
 }
-
 
 /*
  * volatile: hardware register read at 021DBEB4
@@ -245,7 +230,6 @@ int P_STA_OAM_GetCellResMode(struct StaOamManager *mgr, int screen, u32 arc)
     return mode;
 }
 
-
 void P_STA_OAM_FreeCellRes(struct StaOamManager *mgr) {
     int i;
     for (i = 0; i < 3; i++) {
@@ -255,7 +239,6 @@ void P_STA_OAM_FreeCellRes(struct StaOamManager *mgr) {
         }
     }
 }
-
 
 u32 P_STA_RIBBON_GetRibbonInfo(u32 index, u32 field)
 {

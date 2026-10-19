@@ -1,7 +1,7 @@
 #ifndef CIRCLE_GRAPH_H
 #define CIRCLE_GRAPH_H
 
-#include "research_types.h"
+#include "../types.h"
 #include "ring_queue.h"
 
 #define CIRCLE_GRAPH_MAX_ENTRIES 20
@@ -18,11 +18,7 @@
 
 /* Commands pushed to the command queue are state numbers. */
 
-typedef struct VecFx32 {
-    s32 x;
-    s32 y;
-    s32 z;
-} VecFx32;
+#include "../sdk_fx.h"
 
 /* 16-bit fixed point position. */
 struct CircleGraphPosition {

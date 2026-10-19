@@ -17,7 +17,7 @@ struct CharBuf;
 
 struct Slot;
 
-typedef signed int s32;
+#include "../types.h"
 
 typedef struct { void *win; u8 shown; u8 pad[3]; } Slot;
 

@@ -201,7 +201,8 @@ struct GameData;
 struct ScriptStream;
 struct Task;
 struct FieldMap;
-struct VecFx32;
+#include "../sdk_fx.h"
+
 struct MapObj;
 struct BsubwayScoreData;
 struct BsubwayPlayData;
@@ -219,32 +220,11 @@ struct WifiRecordEntry;
 struct Party;
 struct PartyMon;
 struct BattleSystem;
-typedef unsigned char u8;
-
-typedef unsigned int u32;
-
-typedef unsigned short u16;
-
-typedef signed short s16;
-
-typedef signed char    s8;
+#include "../types.h"
 
 typedef int (*TaskFn)(void *task, int *state, void *work);
 
-typedef signed int     s32;
-
 #include "bsubway_scr_types.h"
-
-
-
-
-
-
-
-
-
-
-
 
 /* Work area of the sub-screen task (fade out, run the screen, report whether it was cancelled). */
 typedef struct ScreenTaskWork {
@@ -253,12 +233,6 @@ typedef struct ScreenTaskWork {
     u32 screen;
     u32 arg;
 } ScreenTaskWork;
-
-typedef struct VecFx32 {
-    s32 x;
-    s32 y;
-    s32 z;
-} VecFx32;
 
 /* Seven-word entrance location record (zone, direction, position). */
 typedef struct ReturnLocation {
@@ -314,7 +288,6 @@ typedef struct TrainerNoRange {
     u16 maxNo;
 } TrainerNoRange;
 struct ScrcmdWork;
-
 
 extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *p);
@@ -586,11 +559,6 @@ extern const TrainerNoRange d_021DB3D8[];
 extern const TrainerNoRange d_021DB3E4[];
 extern const TrainerNoRange d_021DB3F4[];
 
-
-
-
-
-
 /*
  * Blocking site: the bl to GAME_DATA_SetCurrentEvent at +0008 of this function.
  *
@@ -604,11 +572,6 @@ int BSUBWAY_SCR_ClearWorkPtr(GameSystem *gameSystem)
 {
     return (int)GAME_DATA_SetCurrentEvent(GAMESYSTEM_GetGameData(gameSystem), 0);
 }
-
-
-
-
-
 
 BsubwayScrWork *BSUBWAY_SCR_CreateWork(GameSystem *gameSystem, int resume, u32 playMode)
 {
@@ -673,11 +636,6 @@ BsubwayScrWork *BSUBWAY_SCR_CreateWork(GameSystem *gameSystem, int resume, u32 p
     return work;
 }
 
-
-
-
-
-
 void BSUBWAY_SCR_DeleteWork(GameSystem *gameSystem, BsubwayScrWork *work)
 {
     if (work != 0) {
@@ -694,11 +652,6 @@ void BSUBWAY_SCR_DeleteWork(GameSystem *gameSystem, BsubwayScrWork *work)
     }
     GAME_DATA_SetCurrentEvent(GAMESYSTEM_GetGameData(gameSystem), 0);
 }
-
-
-
-
-
 
 /*
  * Remaps playMode 2/7 to 3/8, pushes it to the play data and refreshes winCount from the score data.
@@ -721,11 +674,6 @@ void BSUBWAY_SCR_ChangeCommMultiMode(BsubwayScrWork *work)
         BSUBWAY_SCR_ClearWinCount(work);
 }
 
-
-
-
-
-
 /*
  * Pushes playMode, the memberIndex and trainerNo blocks and, for playMode 2/7, the selected partnerResult entry to the play data.
  *
@@ -746,11 +694,6 @@ void BSUBWAY_SCR_SaveRestPlayData(BsubwayScrWork *work)
         BSUBWAY_PLAYDATA_SetField(work->playData, 7, &work->partnerResult[work->stateBits.partnerNo]);
     }
 }
-
-
-
-
-
 
 /*
  * Classifies playMode into memberNum and reads two stats per slot into memberMonsNo and memberItemNo.
@@ -773,11 +716,6 @@ void BSUBWAY_SCR_LoadMembers(BsubwayScrWork *work, u32 unused)
     }
 }
 
-
-
-
-
-
 /*
  * Like 0x021C9BCC with a reset of the play data and without the trainerNo block.
  *
@@ -799,11 +737,6 @@ void BSUBWAY_SCR_SavePlayDataMembers(BsubwayScrWork *work)
     }
 }
 
-
-
-
-
-
 /*
  * Reads the play mode from the play data, clears the play data and resets the score data entry of that mode.
  *
@@ -820,11 +753,6 @@ u32 BSUBWAY_SCR_ResetPlayMode(const struct GameSystem *gameSystem)
     BSUBWAY_SCOREDATA_ResetClearCount((struct BsubwayScoreData *)scoreData, playMode);
     return playMode;
 }
-
-
-
-
-
 
 /*
  * Commits winCount for the current playMode and redraws.
@@ -843,11 +771,6 @@ void BSUBWAY_SCR_SetLoseScore(u32 unused, BsubwayScrWork *work)
     BSUBWAY_SCOREDATA_ResetClearCount(work->scoreData, playMode);
     BSUBWAY_PLAYDATA_ClearRound(work->playData);
 }
-
-
-
-
-
 
 /*
  * Picks a step amount from a 7x10 byte table by playMode and a clamped
@@ -935,11 +858,6 @@ u32 BSUBWAY_SCR_AddBattlePoint(BsubwayScrWork *work)
     return points;
 }
 
-
-
-
-
-
 /*
  * Fills the trainerNo list with distinct draws: 14 for playMode 2, 3, 7, 8, else 7.
  *
@@ -971,11 +889,6 @@ void BSUBWAY_SCR_DrawTrainerNos(BsubwayScrWork *work)
     }
 }
 
-
-
-
-
-
 /*
  * Unless blocked, clamps each slot's selectPos id to 1..6, copies it into memberIndex and reloads the slot's two stats.
  *
@@ -1001,11 +914,6 @@ u32 BSUBWAY_SCR_SetSelectedMembers(BsubwayScrWork *work, u32 unused)
     return 1;
 }
 
-
-
-
-
-
 /*
  * Latches stateBits.winMaxReached once the play data count reaches 7.
  *
@@ -1020,11 +928,6 @@ int BSUBWAY_SCR_IsWinMax(BsubwayScrWork *work)
     }
     return 1;
 }
-
-
-
-
-
 
 /*
  * Commits winCount and the current playMode's level and redraws.
@@ -1043,22 +946,12 @@ void BSUBWAY_SCR_SetClearScore(BsubwayScrWork *work, u32 unused)
     BSUBWAY_PLAYDATA_ClearRound(work->playData);
 }
 
-
-
-
-
-
 int BSUBWAY_SCR_ClearStateBits(BsubwayScrWork *work, u32 unused)
 {
     work->stateBits.winMaxReached = 0;
     work->stateBits.fixedBpMode = 0;
     return (int)work;
 }
-
-
-
-
-
 
 /*
  * Draws the current page of the trainerNo list through 0x021CBED8; playMode 2, 3, 7, 8 draw two pages with the slot tags.
@@ -1094,11 +987,6 @@ void BSUBWAY_SCR_CreateRoundTrainers(BsubwayScrWork *work)
     BSUBWAY_SCR_CreateTrainer(work, &work->trainers[0], work->trainerNo[round], work->memberNum, 0, 0, 0, work->heapId);
 }
 
-
-
-
-
-
 /*
  * Tail-calls into ov010 with trainerType of trainers[i].
  *
@@ -1108,11 +996,6 @@ u32 BSUBWAY_SCR_GetTrainerObjCode(BsubwayScrWork *work, int i)
 {
     return FLD_BTL_INST_TOOL_LookupKeyValue(work->trainers[i].trainerType);
 }
-
-
-
-
-
 
 /*
  * Steps an arm9 object by mode (0, 3, 4) and reports whether it advanced.
@@ -1148,11 +1031,6 @@ int BSUBWAY_SCR_UpdateStageRank(void *scoreData, int unused, int mode)
     return 0;
 }
 
-
-
-
-
-
 /*
  * Releases partyCopy and allocates a fresh one from gameData.
  *
@@ -1164,11 +1042,6 @@ void BSUBWAY_SCR_LoadPartyCopy(BsubwayScrWork *work)
         GFL_HEAP_Free(work->partyCopy);
     work->partyCopy = BATTLE_BOX_CreateParty((struct BoxMonGroup *)BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(work->gameData)), 4);
 }
-
-
-
-
-
 
 /*
  * Returns the party of gameData unless the query on playData is set, then the cached partyCopy.
@@ -1182,11 +1055,6 @@ void *BSUBWAY_SCR_GetParty(BsubwayScrWork *work)
     return work->partyCopy;
 }
 
-
-
-
-
-
 /*
  * Returns winCount.
  */
@@ -1194,11 +1062,6 @@ u16 BSUBWAY_SCR_GetWinCount(BsubwayScrWork *work)
 {
     return work->winCount;
 }
-
-
-
-
-
 
 /*
  * Sets winCount.
@@ -1209,11 +1072,6 @@ void BSUBWAY_SCR_SetWinCount(BsubwayScrWork *work, u16 winCount)
 {
     work->winCount = winCount;
 }
-
-
-
-
-
 
 /*
  * Saturating increment of winCount.
@@ -1227,20 +1085,11 @@ void BSUBWAY_SCR_IncWinCount(BsubwayScrWork *work)
         work->winCount = winCount + 1;
 }
 
-
-
-
-
-
 int BSUBWAY_SCR_ClearWinCount(BsubwayScrWork *work)
 {
     work->winCount = 0;
     return (int)work;
 }
-
-
-
-
 
 void BSUBWAY_SCR_SetWinCountFromRound(BsubwayScrWork *work, u32 stage, u32 round)
 {
@@ -1251,11 +1100,6 @@ void BSUBWAY_SCR_SetWinCountFromRound(BsubwayScrWork *work, u32 stage, u32 round
         winCount = 0xffff;
     work->winCount = winCount;
 }
-
-
-
-
-
 
 int BSUBWAY_SCR_GetMemberNum(u16 playMode)
 {
@@ -1276,11 +1120,6 @@ int BSUBWAY_SCR_GetMemberNum(u16 playMode)
     return 0;
 }
 
-
-
-
-
-
 /*
  * Linear search of a halfword array.
  * Addresses are Black-image addresses.
@@ -1296,20 +1135,10 @@ int BSUBWAY_SCR_IsTrainerNoUsed(const u16 *list, u16 value, u16 count)
     return 0;
 }
 
-
-
-
-
-
 u16 BSUBWAY_SCR_GetStageNo(u16 winCount)
 {
     return (u16)(winCount / 7);
 }
-
-
-
-
-
 
 void BSUBWAY_SCR_SaveRecordParty(BsubwayScrWork *work, u32 saveControl, int unused, u16 winCount)
 {
@@ -1332,11 +1161,6 @@ void BSUBWAY_SCR_SaveRecordParty(BsubwayScrWork *work, u32 saveControl, int unus
     }
 }
 
-
-
-
-
-
 /*
  * Draws the three partnerDraws entries through 0x021CBED8 and stores each result byte in partnerResult.
  *
@@ -1354,11 +1178,6 @@ void BSUBWAY_SCR_CreatePartners(BsubwayScrWork *work, u8 isAltRom)
                                                work->memberMonsNo, work->memberItemNo,
                                                &work->partnerDraws[i], work->heapId);
 }
-
-
-
-
-
 
 /*
  * Packs one party member into a 0x3c-byte slot: species/form, item, four moves with their PP-up bits, ids, stats and nickname.
@@ -1387,10 +1206,6 @@ void BSUBWAY_SCR_PackBattleMon(BattleMon *mon, u32 pokeParam)
     POKE_TOOL_GetPartyValue((void *)pokeParam, 0x74, (u32)mon->nick);
 }
 
-
-
-
-
 /*
  * Packs the three selected party members into a scratch buffer from bsubway_scr.c and hands it to the score data.
  *
@@ -1413,9 +1228,6 @@ void BSUBWAY_SCR_SaveMemberParty(BsubwayScrWork *work, u32 unused, int slot)
     GFL_HEAP_Free(buf);
 }
 
-
-
-
 int BSUBWAY_SCR_CmdCreateWork(u32 script, u32 scriptCtx)
 {
     void *scriptWork = SCRCMD_WORK_GetScriptWork((void *)scriptCtx);
@@ -1428,9 +1240,6 @@ int BSUBWAY_SCR_CmdCreateWork(u32 script, u32 scriptCtx)
     return 0;
 }
 
-
-
-
 int BSUBWAY_SCR_CmdClearWorkPtr(u32 script, u32 scriptCtx)
 {
     void *scriptWork = SCRCMD_WORK_GetScriptWork((void *)scriptCtx);
@@ -1439,9 +1248,6 @@ int BSUBWAY_SCR_CmdClearWorkPtr(u32 script, u32 scriptCtx)
     BSUBWAY_SCR_ClearWorkPtr(SCRIPT_WORK_GetGameSystem(scriptWork));
     return 0;
 }
-
-
-
 
 int BSUBWAY_SCR_CmdDeleteWork(u32 script, u32 scriptCtx)
 {
@@ -1453,10 +1259,6 @@ int BSUBWAY_SCR_CmdDeleteWork(u32 script, u32 scriptCtx)
     BSUBWAY_SCR_DeleteWork((GameSystem *)gameSystem, GAME_DATA_GetCurrentEvent(GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem)));
     return 0;
 }
-
-
-
-
 
 /*
  * Script command dispatcher: reads a command id and two arguments from the
@@ -2241,10 +2043,6 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
     return startedTask;
 }
 
-
-
-
-
 /*
  * Task step: resolves the field's current map object and reports whether its fade has finished.
  *
@@ -2256,10 +2054,6 @@ int BSUBWAY_SCR_WaitCommSend(void *task, void *script)
         return 1;
     return 0;
 }
-
-
-
-
 
 int BSUBWAY_SCR_WaitTimingSync(u32 unused, u32 script)
 {
@@ -2282,10 +2076,6 @@ int BSUBWAY_SCR_WaitTimingSync(u32 unused, u32 script)
     }
     return 0;
 }
-
-
-
-
 
 int BSUBWAY_SCR_WaitCommEntryMenu(u32 unused, u32 script)
 {
@@ -2324,10 +2114,6 @@ int BSUBWAY_SCR_WaitCommEntryMenu(u32 unused, u32 script)
     return zero;
 }
 
-
-
-
-
 int BSUBWAY_SCR_WaitCommEntryMenuSimple(u32 unused, u32 script)
 {
     void *gameData, *saveControl;
@@ -2362,10 +2148,6 @@ int BSUBWAY_SCR_WaitCommEntryMenuSimple(u32 unused, u32 script)
     return zero;
 }
 
-
-
-
-
 int BSUBWAY_SCR_WaitCommRecvEnd(u32 unused, u32 script)
 {
     void *gameData;
@@ -2381,10 +2163,6 @@ int BSUBWAY_SCR_WaitCommRecvEnd(u32 unused, u32 script)
         return 1;
     return 0;
 }
-
-
-
-
 
 /*
  * Task step: closes the message window, optionally resumes the field, then waits for the save to finish.
@@ -2424,10 +2202,6 @@ int BSUBWAY_SCR_CommShutdownMain(void *task, int *state, BsubwayScrWork **work)
     return 0;
 }
 
-
-
-
-
 /*
  * Starts the task 0x021CB8AC with a one-word work area holding the owner.
  *
@@ -2439,10 +2213,6 @@ void *BSUBWAY_SCR_CreateCommShutdownTask(void *gameSystem, u32 script)
     *(u32 *)GAME_EVENT_GetWork(task) = script;
     return task;
 }
-
-
-
-
 
 /*
  * Task step: fades out, runs the ov021 sub-screen on the arg member, stores whether it was cancelled in *result.
@@ -2483,10 +2253,6 @@ int BSUBWAY_SCR_YesNoMenuMain(void *task, int *state, ScreenTaskWork *taskWork)
     return 0;
 }
 
-
-
-
-
 void *BSUBWAY_SCR_CreateYesNoMenuTask(void *gameSystem, u32 script, u32 resultDst, u32 arg)
 {
     void *task = GAME_EVENT_Create(gameSystem, 0, (TaskFn)BSUBWAY_SCR_YesNoMenuMain, 0x10);
@@ -2497,10 +2263,6 @@ void *BSUBWAY_SCR_CreateYesNoMenuTask(void *gameSystem, u32 script, u32 resultDs
     taskWork[3] = arg;
     return task;
 }
-
-
-
-
 
 /*
  * Spawns the marker objects for playMode: in mode 4 up to five from the
@@ -2585,10 +2347,6 @@ void BSUBWAY_SCR_CreateMarkerObjects(BsubwayScrWork *work, void *gameData, void 
     }
 }
 
-
-
-
-
 /*
  * Tail call into ov010 with a fixed second argument of 1 (unlabelled start).
  *
@@ -2598,10 +2356,6 @@ u32 BSUBWAY_SCR_GetMmdlParam(u32 mapObj)
 {
     return FLDMMDL_GetParam((struct Mmdl *)mapObj, 1);
 }
-
-
-
-
 
 /*
  * Whether entry idx of the 16-byte table at 0x021DAEBC is available (never for kind 4; unlabelled start).
@@ -2618,10 +2372,6 @@ u32 BSUBWAY_SCR_IsNpcEntryAvailable(BsubwayScrWork *work, u32 idx)
         return 1;
     return 0;
 }
-
-
-
-
 
 /*
  * Reads the three halfwords of table entry idx, or the empty triple (0, 0, 4) (unlabelled start).
@@ -2648,10 +2398,6 @@ void BSUBWAY_SCR_GetNpcEntryInfo(BsubwayScrWork *work, u32 idx, u16 *infoFirst, 
     *infoSecond = entry->infoSecond;
     *infoThird = entry->infoThird;
 }
-
-
-
-
 
 /*
  * Shows the playMode's message (20/21/22) with msgNumber capped at 9999 and reports whether it ended with 2 or 3.
@@ -2694,10 +2440,6 @@ int BSUBWAY_SCR_WaitBeginSave(u32 unused, u32 script)
     return 0;
 }
 
-
-
-
-
 /*
  * Maps a kind 0..8 to the message id 20, 21 or 22.
  * Addresses are Black-image addresses.
@@ -2724,10 +2466,6 @@ int BSUBWAY_SCR_GetRegulationNo(u32 playMode)
     }
     return id;
 }
-
-
-
-
 
 /*
  * Maps the owner's mode 0x43..0x49 to a small index.
@@ -2765,10 +2503,6 @@ int BSUBWAY_SCR_GetTrainNo(void *fieldMap)
     return trainIndex;
 }
 
-
-
-
-
 /*
  * Builds a party list from the selected slots and runs the ov010 summary on it.
  *
@@ -2789,9 +2523,6 @@ u32 BSUBWAY_SCR_CreateBtlSetup(BsubwayScrWork *work, struct GameSystem *gameSyst
     return result;
 }
 
-
-
-
 /*
  * Unlabelled leaf in ov021 (printed as a `.word` run at 0x021CBD84); the
  * matching byte at 0x021CBD8C is the pool word 0x0000074C.  Six-byte
@@ -2802,19 +2533,11 @@ void *BSUBWAY_SCR_GetNameinEncounterWork(void *work)
     return (char *)work + 0x74c;
 }
 
-
-
-
-
 static inline u16 RandInRange(BsubwayScrWork *work, u32 tbl, u32 round)
 {
     u16 span = ((const TrainerNoRange *)(tbl + round * 4))->maxNo - ((const TrainerNoRange *)(tbl + round * 4))->minNo + 1;
     return BSUBWAY_SCR_Random(work) % span + ((const TrainerNoRange *)(tbl + round * 4))->minNo;
 }
-
-
-
-
 
 /*
  * Picks a battle-subway trainer id: the fixed boss ids on the boss round, otherwise a random id from the per-round range table of the line (normal or super, early or late stages).
@@ -2919,10 +2642,6 @@ done:
     return id;
 }
 
-
-
-
-
 /*
  * Forwarder into ov010 that drops the first argument and returns its byte result.
  *
@@ -2932,10 +2651,6 @@ u8 BSUBWAY_SCR_CreateTrainer(BsubwayScrWork *work, BtlInstTrainer *trainer, u16 
 {
     return FLD_BTL_INST_TOOL_CreateTrainer(trainer, trainerNo, memberNum, monsNo, itemNo, draw, heapId);
 }
-
-
-
-
 
 /*
  * Maps a value to a bracket 3..31 in steps of 20.
@@ -2960,10 +2675,6 @@ u8 BSUBWAY_SCR_GetMonIv(u32 trainerNo)
     return 31;
 }
 
-
-
-
-
 /*
  * Builds the two battle-subway opponent mons in mons[] of the trainer record.
  *
@@ -2981,10 +2692,6 @@ void BSUBWAY_SCR_CreatePartnerMons(BsubwayScrWork *work, BtlInstTrainer *trainer
         FLD_BTL_INST_TOOL_BuildBattleMon(&trainer->mons[i], draw->ids[i], draw->otId, draw->pids[i], iv, i, useItem, heapId);
     GFL_HEAP_Free(trainerData);
 }
-
-
-
-
 
 /*
  * A 16-bit random value: the arm9 random source scaled down by 0xFFFF.

@@ -77,7 +77,7 @@
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   gManualGraphicMainBgLayerTable  0x021BBE4C  data
  */
-#include "manual_data_shared_types.h"
+#include "../types.h"
 #include "manual_common_shared_types.h"
 #include "manual_touchbar_shared_types.h"
 

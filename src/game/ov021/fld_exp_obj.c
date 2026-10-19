@@ -395,7 +395,7 @@ void FLD_EXP_OBJ_SetAnimeEnabled(FldExpObjCnt *cnt, int unitIdx, int modelIdx, i
  */
 int FLD_EXP_OBJ_GetAnimeLastFrame(FldExpObjAnime *anime)
 {
-    return (G3D_SYSTEM_GetAnimeObj(anime->anime)->resAnm->numFrame << 12) - (1 << 12);
+    return (((const NNSG3dResAnmCommon *)G3D_SYSTEM_GetAnimeObj(anime->anime)->resAnm)->numFrame << 12) - (1 << 12);
 }
 
 /*

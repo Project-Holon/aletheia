@@ -10,13 +10,9 @@ struct MmdlSys;
 
 struct Mmdl;
 
-typedef int fx32;
+#include "../types.h"
 
-typedef struct VecFx32 {
-    fx32 x;
-    fx32 y;
-    fx32 z;
-} VecFx32;
+#include "../sdk_fx.h"
 
 typedef int (*GameEventFunc)(struct GameEvent *event, u32 *state, void *work);
 

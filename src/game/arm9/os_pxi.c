@@ -17,9 +17,7 @@
  *   OS_Terminate  0x02088234  arm
  *   PXI_SendWordByFifo  0x02088610  arm
  */
-typedef unsigned short u16;
-
-typedef int BOOL;
+#include "../types.h"
 
 /* os_pxi.o .bss from 0x02150FC8, addressed from one pool word. */
 typedef struct OsPxiBss {
@@ -27,9 +25,7 @@ typedef struct OsPxiBss {
     u16 OSi_IsTerminateOccurred;
 } OsPxiBss;
 
-typedef unsigned long u32;
-
-typedef u32 OSIntrMode;
+#include "../sdk_os.h"
 
 extern void OS_Terminate(void);
 extern int PXI_SendWordByFifo(int fifotag, u32 data, int err);
@@ -39,7 +35,6 @@ void OSi_SendToPxi(u16 data);
 extern OsPxiBss g_02150FC8;
 extern char SDK_AUTOLOAD_DTCM_START[];
 
-
 /*
  * sdk:      OS_IsResetOccurred (os_pxi.o)
  */
@@ -47,7 +42,6 @@ BOOL OS_IsResetOccurred(void)
 {
     return g_02150FC8.OSi_IsResetOccurred;
 }
-
 
 /*
  * sdk:      OSi_CommonCallback (os_pxi.o)
@@ -65,7 +59,6 @@ void OSi_CommonCallback(int tag, u32 data, BOOL err)
         OS_Terminate();
     }
 }
-
 
 void OSi_SendToPxi(u16 data)
 {

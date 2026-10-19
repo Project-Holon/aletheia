@@ -72,7 +72,7 @@
  *   DWCi_SceneOptMenu  0x021C2A3C  arm  ov016
  *   DWCi_SceneOptMovWait  0x021C450C  arm  ov016
  */
-typedef unsigned short u16;
+#include "../types.h"
 
 typedef struct {
     u16 priority : 2;
@@ -121,7 +121,6 @@ void DWCi_SceneOptMovFailure_draw(void);
 extern unsigned char gSceneOptMovFailureState[];
 extern SCENEOPTERASE_BSS sceneopterase_bss;
 
-
 /*
  * sdk:      DWCi_SceneOptMovFailure (libdwcutil.TWL.HYB.a sceneoptmovfailure.o)
  */
@@ -143,7 +142,6 @@ void DWCi_SceneOptMovFailure(void)
     DWCi_ChangeScene(procInit);
 }
 
-
 static void initGraphics(void)
 {
     DWCi_CMNlLoadResource((void *)0x021DB3A4, (void *)0x0207EB78);
@@ -153,7 +151,6 @@ static void initGraphics(void)
     ((BgCnt *)0x0400000A)->priority = 3;
     ((BgCnt *)0x0400000C)->priority = 3;
 }
-
 
 /*
  * sdk:      procInit (libdwcutil.TWL.HYB.a sceneoptmovfailure.o)
@@ -169,13 +166,11 @@ static void procInit(void)
     DWCi_ChangeScene(procInit1);
 }
 
-
 static void procScene(void);
 
 static void procConfirm(void);
 
 static void procConfirm1(void);
-
 
 static void procInit1(void)
 {
@@ -187,7 +182,6 @@ static void procInit1(void)
     DWCi_ChangeScene(procInit2);
 }
 
-
 static void procInit2(void)
 {
     if (DWCi_BTNlGet() == -2)
@@ -198,14 +192,12 @@ static void procInit2(void)
     DWCi_ChangeScene(DWCi_SceneOptMovFailure_procScene);
 }
 
-
 void DWCi_SceneOptMovFailure_procScene(void)
 {
     input();
     DWCi_SceneOptMovFailure_draw();
     button();
 }
-
 
 static void input(void)
 {
@@ -218,7 +210,6 @@ static void input(void)
 void DWCi_SceneOptMovFailure_draw(void)
 {
 }
-
 
 /*
  * sdk:      button (libdwcutil.TWL.HYB.a sceneoptmovfailure.o)
@@ -238,7 +229,6 @@ static void button(void)
     DWCi_ChangeScene(endScene);
 }
 
-
 /*
  * sdk:      endScene (libdwcutil.TWL.HYB.a sceneoptmovfailure.o)
  */
@@ -248,7 +238,6 @@ static void endScene(void)
     DWCi_EFFlWait(8);
     DWCi_ChangeScene(endScene1);
 }
-
 
 /*
  * sdk:      endScene1 (libdwcutil.TWL.HYB.a sceneoptmovfailure.o)
@@ -263,7 +252,6 @@ static void endScene1(void)
     DWCi_EFFlFade(3, 0, 0x15, 8);
     DWCi_ChangeScene(endScene2);
 }
-
 
 /*
  * sdk:      endScene2 (libdwcutil.TWL.HYB.a sceneoptmovfailure.o)

@@ -3,7 +3,7 @@
 
 #include "pms_input_data_shared_types.h"
 
-typedef signed char s8;
+#include "../types.h"
 
 struct PmsInputView;
 

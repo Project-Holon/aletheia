@@ -150,11 +150,7 @@
 #include "pms_input_types.h"
 #include "pmsiv_wordwin_types.h"
 
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 struct Proc;
 
@@ -1269,7 +1265,6 @@ int PMS_INPUT_CategoryHasWords(struct PmsInput *input) { if (PMS_INPUT_DATA_GetC
 /* Moves the browse cursor by the pressed direction key. */
 int PMS_INPUT_MoveCursor(struct PmsInput *input) { return gPmsInputCursorMoveFns[input->browseMode](input); }
 
-
 extern u8 PMSI_SEARCH_GetKeyUp(u32 i);
 
 extern u8 PMSI_SEARCH_GetKeyDown(u32 i);
@@ -1279,7 +1274,6 @@ extern u8 PMSI_SEARCH_GetKeyLeft(u32 i);
 extern int PMSI_SEARCH_GetKeyRight(int n);
 
 extern u8 PMSI_SEARCH_GetKeyKind(u32 i);
-
 
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 
@@ -1322,11 +1316,6 @@ extern u16 PMSI_PARAM_GetWordRaw(const struct PmsData *sentence, u32 index);
 
 extern void *PMSI_PARAM_GetSourceString(const struct PmsData *sentence, u32 heapId);
 
-
-
-
-
-
 extern int PMS_INPUT_HitBackButton(void);
 
 extern const u8 gPmsInputCategoryCursorMap[][4];
@@ -1339,7 +1328,6 @@ int PMS_INPUT_MoveCategoryCursor(PmsInput *input);
 
 int PMS_INPUT_MoveInitialCursor(PmsInput *input);
 
-
 u32 PMS_WORDLIST_GetCellOffset(struct PmsWordListCursor *list);
 
 unsigned PMS_WORDLIST_GetSelectedIndex(struct PmsWordListCursor *list);
@@ -1349,7 +1337,6 @@ u32 PMS_WORDLIST_GetScrollDelta(struct PmsWordListCursor *list);
 u16 PMS_WORDLIST_GetTopRow(struct PmsWordListCursor *list);
 
 u16 PMS_WORDLIST_GetMaxTopRow(struct PmsWordListCursor *list);
-
 
 void PMS_INPUT_HandleWordListKeys(PmsInput *input, unsigned int *state);
 
@@ -1377,12 +1364,7 @@ int PMS_INPUT_PickWord(PmsInput *input);
 
 int PMS_INPUT_HandleFinish(PmsInput *input, unsigned int *state);
 
-
 void PMS_INPUT_ClearSubHandler(PmsInput *input);
-
-
-
-
 
 void PMS_INPUT_SetExitState(struct PmsExitState *exitState, u8 requested, u8 cancelled);
 
@@ -1435,7 +1417,6 @@ int PMS_INPUT_GetSearchState(PmsInput *input);
 void PMS_INPUT_GetInitialWord(PmsInput *input,u32 a,int b);
 
 int PMS_INPUT_CanConfirm(PmsInput *input);
-
 
 /* Moves the category cursor by the repeating direction key. Returns 1 when it moved. */
 int PMS_INPUT_MoveCategoryCursor(PmsInput *input) {

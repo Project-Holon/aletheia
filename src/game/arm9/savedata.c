@@ -29,10 +29,7 @@
  *   savedata_AssertGmdataidInRange  0x020A793C  data
  */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed int     s32;
+#include "../types.h"
 
 typedef u32 (*BlockSizeFunc)(void);
 typedef void (*BlockInitFunc)(u32 block_addr);
@@ -105,7 +102,6 @@ struct SaveDataTable *SAVEDATA_CreateTable(u16 heap_id, struct SaveBlockDef *tab
     return svdt;
 }
 
-
 /*
  * SAVEDATA_DeleteTable: free the layout array, then the table record itself.
  */
@@ -114,7 +110,6 @@ void SAVEDATA_DeleteTable(struct SaveDataTable *svdt)
     GFL_HEAP_Free(svdt->layout);
     GFL_HEAP_Free(svdt);
 }
-
 
 /*
  * SAVEDATA_InitBuffer: clear the whole save buffer, then clear every block
@@ -134,7 +129,6 @@ void SAVEDATA_InitBuffer(u32 buffer_addr, struct SaveDataTable *svdt)
     }
 }
 
-
 /*
  * SAVEDATA_QueryBlockSize: size of block `id`, as reported by the block's own
  * size function, rounded up to a multiple of four.
@@ -150,7 +144,6 @@ u32 SAVEDATA_QueryBlockSize(struct SaveDataTable *svdt, u32 id)
     size_func = table[id].size_func;
     return (size_func() + 3) & ~3;
 }
-
 
 /*
  * SAVEDATA_BuildLayout: lay out the save blocks (id check, per-block size
@@ -201,7 +194,6 @@ void SAVEDATA_BuildLayout(struct SaveDataTable *svdt, u32 block_overhead)
     }
 }
 
-
 /*
  * SAVEDATA_GetBlockOffset: offset of block `gmdataid` inside the save area.
  */
@@ -212,7 +204,6 @@ u32 SAVEDATA_GetBlockOffset(struct SaveDataTable *svdt, u32 gmdataid)
     }
     return svdt->layout[gmdataid].offset;
 }
-
 
 /*
  * SAVEDATA_GetBlockSize: stored (aligned) size of block `gmdataid`.
@@ -225,7 +216,6 @@ u32 SAVEDATA_GetBlockSize(struct SaveDataTable *svdt, u32 gmdataid)
     return svdt->layout[gmdataid].size;
 }
 
-
 /*
  * SAVEDATA_GetTableMax and SAVEDATA_GetTotalSize: plain field accessors on
  * the table record.
@@ -234,7 +224,6 @@ u32 SAVEDATA_GetTableMax(struct SaveDataTable *svdt)
 {
     return svdt->table_max;
 }
-
 
 u32 SAVEDATA_GetTotalSize(struct SaveDataTable *svdt)
 {

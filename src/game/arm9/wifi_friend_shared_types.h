@@ -3,8 +3,6 @@
 
 struct U16String;
 
-typedef unsigned char u8;
-
-typedef unsigned int  u32;
+#include "../types.h"
 
 #endif

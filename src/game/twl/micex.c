@@ -21,9 +21,7 @@
  *   OS_ReceiveMessage  0x02085E50  arm  arm9
  *   data_02150FEC                0x02150FEC  data
  */
-typedef unsigned char u8;
-typedef unsigned int u32;
-typedef signed int s32;
+#include "../types.h"
 
 typedef struct {
     u32 mode;
@@ -47,7 +45,8 @@ typedef struct {
 extern void *MICEXi_GetLimitedSamplingCallback(void);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32);
-struct OSMessageQueue;
+#include "../sdk_os.h"
+
 extern void OS_InitMessageQueue(struct OSMessageQueue *mq, void **msgArray, int msgCount);
 extern int OS_ReceiveMessage(struct OSMessageQueue *mq, void **msg, int flags);
 extern int OS_SendMessage(struct OSMessageQueue *mq, void *msg, int flags);

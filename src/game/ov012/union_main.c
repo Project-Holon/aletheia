@@ -42,7 +42,7 @@
  *   COMM_PLAYER_Resume  0x021676E4  thumb  ov010
  *   COMM_PLAYER_Suspend  0x02167688  thumb  ov010
  */
-typedef struct { int x, y, z; } VecFx32;
+#include "../sdk_fx.h"
 
 #include "union_comm_types.h"
 

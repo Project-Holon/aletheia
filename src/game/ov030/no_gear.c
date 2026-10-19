@@ -116,8 +116,7 @@ extern struct BgTemplate gNoGearBgTemplateMain;
 extern struct BgTemplate gNoGearBgTemplateMid;
 extern struct BgTemplate gNoGearBgTemplateBack;
 extern char str_021F01C0[];
-typedef unsigned short u16;
-typedef unsigned int   u32;
+#include "../types.h"
 struct NoGearWork;
 extern u32 GFL_HEAP_Free(void *block);
 #define REG_DB_BLDCNT_SUB  (*(volatile u16 *)0x04001050)
@@ -127,8 +126,6 @@ void NO_GEAR_StoreStepFunc(void (**slot)(NoGearWork *), void (*stepFunc)(NoGearW
     *slot = stepFunc;
 }
 
-
-
 /*
  * Tail call to the unlabelled ov030 leaf NO_GEAR_StoreStepFunc; its ABS32 pool word
  * is now witnessed by the EXACT shard entry for NO_GEAR_StoreStepFunc (matched x1).
@@ -137,8 +134,6 @@ void NO_GEAR_SetStepFunc(NoGearWork *work, void (*stepFunc)(NoGearWork *), int l
 {
     NO_GEAR_StoreStepFunc(&work->stepFunc, stepFunc);
 }
-
-
 
 void NO_GEAR_LoadGraphics(NoGearWork *work)
 {
@@ -154,8 +149,6 @@ void NO_GEAR_LoadGraphics(NoGearWork *work)
     GFL_NET_RefreshWmIconAtTopRight(0, work->heapId);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
-
-
 
 void NO_GEAR_SetupBackgrounds(void)
 {
@@ -190,15 +183,12 @@ void NO_GEAR_SetupBackgrounds(void)
     }
 }
 
-
 void NO_GEAR_Init(NoGearWork *work)
 {
     NO_GEAR_SetupBackgrounds();
     NO_GEAR_LoadGraphics(work);
     NO_GEAR_SetStepFunc(work, NO_GEAR_Step, 0x149);
 }
-
-
 
 /*
  * (followed by an unlabelled 2-byte `bx lr` stub at 0x021F00C4)
@@ -217,7 +207,6 @@ void NO_GEAR_ReleaseGraphics(NoGearWork *work)
     BG_SYS_SetSubPlaneVisible(0x10, 0);
 }
 
-
 /*
  * extent: empty callback bx lr, two-byte alignment then separate constructor
  * starts 0x021F00C8; callback alone is reproduced.
@@ -227,8 +216,6 @@ void NO_GEAR_ReleaseGraphics(NoGearWork *work)
 void NO_GEAR_Step(NoGearWork *work)
 {
 }
-
-
 
 NoGearWork *NO_GEAR_Create(void *cgearSave, FieldSubscreen *subscreen, struct GameSystem *gameSystem)
 {
@@ -241,7 +228,6 @@ NoGearWork *NO_GEAR_Create(void *cgearSave, FieldSubscreen *subscreen, struct Ga
     return work;
 }
 
-
 /*
  * extent: empty follower NO_GEAR_Hook then two-byte zero padding.
  */
@@ -252,7 +238,6 @@ void NO_GEAR_Update(NoGearWork *work)
     }
     WIH_DWC_PollStatus(GAME_DATA_GetWifiList(GAMESYSTEM_GetGameData(work->gameSystem)));
 }
-
 
 void NO_GEAR_Hook(void)
 {

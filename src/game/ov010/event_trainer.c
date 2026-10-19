@@ -20,9 +20,8 @@
  *   SCRIPT_WORK_GetTrainerEntry  0x02159124  thumb  ov010
  *   TPOKE_DATA_GetRecordField  0x0202A230  thumb
  */
-#include "event_poke_status_shared_types.h"
 
-typedef signed int     s32;
+#include "../types.h"
 
 typedef struct RecordHead24 {
     int word[6];

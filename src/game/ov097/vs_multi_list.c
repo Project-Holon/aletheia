@@ -136,10 +136,7 @@
  *   BGWINFRM_Delete  0x0202CA0C  thumb
  *   TCB_DeleteTask  0x02030EAC  arm  arm9
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed char s8;
+#include "../types.h"
 
 struct Proc;
 struct WinMgr;

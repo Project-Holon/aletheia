@@ -21,56 +21,11 @@
  *   WMi_SendCommand                  0x0208e3a0 arm
  *   MI_CpuCopy8                      0x02082d44 arm
  */
-typedef unsigned long u32;
+#include "../types.h"
 
-typedef unsigned short u16;
+#include "../sdk_os.h"
 
-typedef unsigned char u8;
-
-typedef long s32;
-
-typedef short s16;
-
-typedef int BOOL;
-
-typedef u32 OSIntrMode;
-
-typedef enum WMErrCode {
-    WM_ERRCODE_SUCCESS = 0,
-    WM_ERRCODE_FAILED = 1,
-    WM_ERRCODE_OPERATING = 2,
-    WM_ERRCODE_ILLEGAL_STATE = 3,
-    WM_ERRCODE_WM_DISABLE = 4,
-    WM_ERRCODE_NO_DATASET = 5,
-    WM_ERRCODE_INVALID_PARAM = 6,
-    WM_ERRCODE_NO_ENTRY = 7,
-    WM_ERRCODE_MAX = 0x7FFFFFFF
-} WMErrCode;
-
-typedef void (*WMCallbackFunc)(void *arg);
-
-typedef struct WMArm9Buf {
-    struct WMArm7Buf *WM7;
-    struct WMStatus *status;
-    u32 *indbuf;
-    u32 *fifo9to7;
-    u32 *fifo7to9;
-    u16 dmaNo;
-    u16 scanOnlyFlag;
-    WMCallbackFunc CallbackTable[44];
-    WMCallbackFunc indCallback;
-    WMCallbackFunc portCallbackTable[16];
-    void *portCallbackArgument[16];
-    u32 connectedAidBitmap;
-    u16 myAid;
-    u8 reserved1[174];
-} WMArm9Buf;
-
-typedef struct WMStatus {
-    u16 state;
-    u8 pad02[0xE];
-    u32 dcf_flag;
-} WMStatus;
+#include "../sdk_wm.h"
 
 extern void *WMi_GetSystemWork(void);
 extern WMErrCode WMi_CheckStateEx(s32 paramNum, ...);
@@ -81,7 +36,6 @@ extern WMErrCode WMi_SendCommand(int id, u16 paramNum, ...);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
 WMErrCode WM_SetDCFData(WMCallbackFunc callback, const u8 *destAdr, const u16 *sendData, u16 sendDataSize);
 WMErrCode WM_EndDCF(WMCallbackFunc callback);
-
 
 /*
  * sdk:      WM_StartDCF (libwm.TWL.HYB.a(wm_dcf.o))
@@ -119,7 +73,6 @@ WMErrCode WM_StartDCF(WMCallbackFunc callback, struct WMDcfRecvBuf *recvBuf, u16
     return WM_ERRCODE_OPERATING;
 }
 
-
 /*
  * sdk:      WM_SetDCFData (libwm.TWL.HYB.a(wm_dcf.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
@@ -154,7 +107,6 @@ WMErrCode WM_SetDCFData(WMCallbackFunc callback, const u8 *destAdr, const u16 *s
     }
     return WM_ERRCODE_OPERATING;
 }
-
 
 /*
  * sdk:      WM_EndDCF (libwm.TWL.HYB.a(wm_dcf.o))

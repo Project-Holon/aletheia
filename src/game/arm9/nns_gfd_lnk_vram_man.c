@@ -44,9 +44,7 @@ struct Node02061DFC;
 struct List02061E48;
 struct Pool02061E48;
 struct Blk;
-typedef unsigned int u32;
-
-typedef int BOOL;
+#include "../types.h"
 
 typedef struct Blk {
     u32 addr;
@@ -54,10 +52,6 @@ typedef struct Blk {
     struct Blk *prev;
     struct Blk *next;
 } Blk;
-
-typedef unsigned char u8;
-
-typedef unsigned short u16;
 
 typedef struct Node02061FF8 {
     u32 addr;
@@ -139,10 +133,6 @@ extern u32 NNS_GfdDefaultFuncFreePlttVram;
 extern u32 g_02146BB4;
 extern struct HeapB g_02146BB0_blk;
 
-
-
-
-
 static inline Blk *GetNewBlock_(Blk **pool)
 {
     Blk *b = *pool;
@@ -150,10 +140,6 @@ static inline Blk *GetNewBlock_(Blk **pool)
         *pool = b->next;
     return b;
 }
-
-
-
-
 
 static inline void InitBlock_(Blk *b, u32 addr, u32 size)
 {
@@ -163,10 +149,6 @@ static inline void InitBlock_(Blk *b, u32 addr, u32 size)
     b->next = 0;
 }
 
-
-
-
-
 static inline void InsertBlock_(Blk **list, Blk *b)
 {
     if (*list != 0)
@@ -175,10 +157,6 @@ static inline void InsertBlock_(Blk **list, Blk *b)
     b->prev = 0;
     *list = b;
 }
-
-
-
-
 
 static inline void RemoveBlock_(Blk **list, Blk *b)
 {
@@ -191,10 +169,6 @@ static inline void RemoveBlock_(Blk **list, Blk *b)
     if (next != 0)
         next->prev = prev;
 }
-
-
-
-
 
 /*
  * First-fit allocate with alignment from the free-list engine of
@@ -273,12 +247,6 @@ fail:
     return 0;
 }
 
-
-
-
-
-
-
 void NNSi_GfdMergeFreeBlockList(u32 *pp, u32 *arg)
 {
     Node02061FF8 *n = *(Node02061FF8 **)pp;
@@ -296,13 +264,6 @@ void NNSi_GfdMergeFreeBlockList(u32 *pp, u32 *arg)
         }
     }
 }
-
-
-
-
-
-
-
 
 int NNSi_GfdFreeLnkVram(void *headp, void *freep, int addr, int szByte)
 {
@@ -332,31 +293,11 @@ int NNSi_GfdFreeLnkVram(void *headp, void *freep, int addr, int szByte)
     return 1;
 }
 
-
-
-
-
-
-
 int NNSi_GfdSizeToGranuleTex(int v){ return v << 4; }
-
-
-
-
-
 
 extern void (*NNS_GfdDefaultFuncAllocTexVram)(void);
 
-
-
-
-
 extern void (*NNS_GfdDefaultFuncFreeTexVram)(void);
-
-
-
-
-
 
 /*
  * Closed 2026-09-22 (wave 7, pseudo-family pkt_02061D0C).  The two sites that
@@ -390,13 +331,6 @@ void NNSi_GfdInitTexVramManager(u32 szByte, u32 szByteFor4x4, u32 pManagementWor
     }
 }
 
-
-
-
-
-
-
-
 /*
  * The heap-handle builder that pairs with the validator NNS_GfdFreeTexVram.
  * Round the request up to sixteen (0x10 for zero), refuse 0x7FFF0 and above,
@@ -424,13 +358,6 @@ u32 NNS_GfdAllocTexVram(u32 size, u32 flag)
     return ((n >> 4) << 16) | ((local << 13) >> 16) | (flag << 31);
 }
 
-
-
-
-
-
-
-
 u32 NNS_GfdFreeTexVram(u32 h)
 {
     u32 addr = (h << 16) >> 13;
@@ -449,11 +376,6 @@ u32 NNS_GfdFreeTexVram(u32 h)
     }
     return 2;
 }
-
-
-
-
-
 
 /*
  * The layer-2 (16-byte granule) INITIALISER of docs/families/
@@ -566,18 +488,7 @@ void NNSi_GfdInitTexVramHeap(u32 szByte, u32 szByteFor4x4, u32 pManagementWork, 
     NNSi_GfdMergeFreeBlockList(&g_02146B98, &g_02146B9C);
 }
 
-
-
-
-
-
 int NNSi_GfdSizeToGranulePltt(int v){ return v << 4; }
-
-
-
-
-
-
 
 /*
  * Blocking class: evidence (`literal`/`label`).  Every concrete byte is right; the
@@ -600,10 +511,6 @@ void NNSi_GfdInitPlttVramManager(u32 szByte, u32 pManagementWork, u32 szByteMana
     NNS_GfdDefaultFuncAllocPlttVram = (u32)NNS_GfdAllocPlttVram;
     NNS_GfdDefaultFuncFreePlttVram = (u32)NNS_GfdFreePlttVram;
 }
-
-
-
-
 
 /*
  * Promote-first callee of src/pending/NNSi_GfdInitPlttVramManager.c (parks lane 2).
@@ -659,8 +566,6 @@ u32 NNS_GfdAllocPlttVram(u32 size, u32 flag)
         return 0;
     return ((size >> 3) << 16) | ((addr << 13) >> 16);
 }
-
-
 
 int NNS_GfdFreePlttVram(u32 id)
 {

@@ -761,7 +761,7 @@
  */
 #include "btl_server_types.h"
 #include "../../matched/include/G_StateData.h"
-typedef unsigned long long u64;
+#include "../types.h"
 #include "btl_client_types.h"
 #include "btl_main_types.h"
 #include "btl_pokeparam_types.h"
@@ -791,7 +791,6 @@ struct UtilSlots;
 struct QL;
 struct QI;
 struct S_p12;
-
 
 struct Entry_p11;
 struct BtlvMessage;
@@ -826,18 +825,9 @@ struct Unk021EFD70 { u16 n0; volatile u16 n1; u8 b[6]; };
 
 /* 021B9BF0  ldrb r2,[r0,#0x18]; cmp r1,r2; bhs; lsls r1,#2; ldr r0,[r0,r1] */
 
-
-
-
-
-
-
 /* 021BA08C  movs r1,#0xaf; lsls r1,#2; ldr r0,[r0,r1] */
 
-
-
 /* 021BA5D0  movs r1,#0x11; lsls r1,#6; ldrh r0,[r0,r1] */
-
 
 /* 021BB840  strb r1,[r0,#0xb]; str r2,[r0]; strb r3,[r0,#0xa] */
 
@@ -847,25 +837,11 @@ struct Unk021BE518 { u8 f0; u8 f1[6]; };
 
 struct Buf { u32 wpos, rpos; };
 
-
 struct BtlClientRecord { u32 value; u16 kind; u8 data, flag; };
-
 
 struct Entry { u16 value; u16 id:5; u16 mode:4; u16 type:4; u16 marked:1; u16 special:1; u16 error:1; };
 
-
-
-
-
-
-
-
-
-
-
 struct Entry_p08 { u16 value; u16 id:5, mode:4, type:4, marked:1, special:1, error:1; };
-
-
 
 struct Entry_p11 { u32 value; u8 flag; u8 a, b, c, d, e, f, pad; };
 
@@ -894,16 +870,9 @@ struct S_p12 {
     u32 arr[8];
 };
 
-
-
-
-
-
-
 struct Cmd { u32 a:8; u32 id:5; u32 b:19; };
 
 struct Flags { u32 a:1; u32 b:31; };
-
 
 struct S_p14 {
     unsigned int x : 10;
@@ -936,7 +905,6 @@ typedef struct { u8 id; u8 flag; u16 pad; BtlClientStepFn callbacks[3]; } BtlCom
 
 typedef struct { u32 kind : 4; u32 rest : 28; } Command;
 
-
 typedef enum { OFFSET = 0x19a } Off;
 
 typedef struct { u32 kind:4; u32 sub:3; u32 id:16; u32 rest:9; } Record_td;
@@ -947,10 +915,7 @@ typedef enum { VALUE_ZERO, VALUE_ONE } Value;
 
 struct Unk021D82D0 { u32 kind : 4; u32 sub : 3; u32 id : 16; u32 rest : 9; };
 
-
-
 struct Row { u8 kind; u8 pad; u16 ids[4]; };
-
 
 typedef struct { u8 pad[0x1B3]; volatile u8 count; } CountField;
 
@@ -979,8 +944,6 @@ typedef struct {
     u8 reserved28[0x40];
     u32 reserved68;
 } Out;
-
-
 
 extern int BTL_POKEPARAM_IsFainted(void *m);
 extern u8 BTL_POKEPARAM_GetPokeId(struct BtlPokeParam *p);
@@ -1311,7 +1274,7 @@ unsigned short BTL_MAIN_GetTrainerType(char *p, int i);
 void *BTL_MAIN_GetTrainerSentence(struct BtlMain *main, s32 slot, s32 mode);
 u32 BTL_MAIN_GetField(struct BtlMain *main);
 int BTL_MAIN_CheckSetupStatusFlag(struct BtlMain *main, s32 mask);
-BOOL BTL_MAIN_IsRecordEnabledInComm(struct BtlMain *main);
+Bool BTL_MAIN_IsRecordEnabledInComm(struct BtlMain *main);
 void BTL_MAIN_NotifyLevelUp(struct BtlMain *main, struct BtlPokeParam *poke);
 void BTL_MAIN_NotifyCapture(struct BtlMain *main, u32 *captureInfo);
 u16 BTL_MAIN_GetLimitTimeCommand(struct BtlMain *main);

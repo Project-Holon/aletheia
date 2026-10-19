@@ -58,9 +58,7 @@
  *   _u32_div_f  0x0209C2B0  arm
  */
 
-typedef unsigned int u32;
-typedef unsigned short u16;
-typedef unsigned char u8;
+#include "../types.h"
 
 typedef struct NetWork {
     u8 pad00[0x600];
@@ -196,8 +194,10 @@ static inline unsigned long clz32(unsigned long x)
     return x;
 }
 
-typedef struct OSThreadQueue { void *head; void *tail; } OSThreadQueue;
-typedef struct OSMutex { OSThreadQueue queue; void *thread; long count; void *prev; void *next; } OSMutex;
+#include "../sdk_os_thread.h"
+
+#include "../sdk_os.h"
+
 typedef struct WCMCpsifWork {
     unsigned char initialized;
     unsigned char reserved[3];
@@ -250,13 +250,6 @@ u32 WCMi_NwmifStartupAsync(void)
     return 3;
 }
 
-
-
-
-
-
-
-
 u32 WCMi_NwmifCleanupAsync(void)
 {
     NetWork *w = WCMi_GetSystemWork();
@@ -275,10 +268,6 @@ u32 WCMi_NwmifCleanupAsync(void)
     }
     return 3;
 }
-
-
-
-
 
 int WCMi_NwmifBeginSearchAsync(u32 bssid, u32 essid, u32 option)
 {
@@ -311,11 +300,6 @@ int WCMi_NwmifBeginSearchAsync(u32 bssid, u32 essid, u32 option)
         }
     }
 }
-
-
-
-
-
 
 u32 WCMi_NwmifConnectAsync(void)
 {
@@ -359,12 +343,6 @@ u32 WCMi_NwmifConnectAsync(void)
     return 3;
 }
 
-
-
-
-
-
-
 u32 WCMi_NwmifDisconnectAsync(void)
 {
     NetWork *w = WCMi_GetSystemWork();
@@ -383,12 +361,6 @@ u32 WCMi_NwmifDisconnectAsync(void)
     }
     return 3;
 }
-
-
-
-
-
-
 
 u32 WCMi_NwmifTerminateAsync(void)
 {
@@ -433,12 +405,6 @@ u32 WCMi_NwmifTerminateAsync(void)
     return 3;
 }
 
-
-
-
-
-
-
 u32 WCMi_NwmifSetDCFData(u32 destMac, u32 frame, u32 length, u32 asyncArg)
 {
     NetObj *o = WCMi_GetCpsifWork();
@@ -471,22 +437,10 @@ u32 WCMi_NwmifSetDCFData(u32 destMac, u32 frame, u32 length, u32 asyncArg)
     return length;
 }
 
-
-
-
-
-
-
 u32 WCMi_NwmifGetAllowedChannel(void)
 {
     return (NWM_GetAllowedChannel() << 15) >> 16;
 }
-
-
-
-
-
-
 
 void WcmNwmReset(void)
 {
@@ -547,12 +501,6 @@ void WcmNwmReset(void)
         return;
     }
 }
-
-
-
-
-
-
 
 void WcmNwmcbCommon(u16 *arg)
 {
@@ -635,9 +583,6 @@ void WcmNwmcbCommon(u16 *arg)
     }
 }
 
-
-
-
 void WcmNwmcbScanEx(SendPkt *p)
 {
     int status = 13;
@@ -705,11 +650,6 @@ void WcmNwmcbScanEx(SendPkt *p)
         return;
     }
 }
-
-
-
-
-
 
 void WcmNwmcbConnect(u16 *arg)
 {
@@ -802,11 +742,6 @@ exit_default:
     return;
 }
 
-
-
-
-
-
 void WcmNwmcbDisconnect(u16 *arg)
 {
     NetWork *w = WCMi_GetSystemWork();
@@ -839,10 +774,6 @@ void WcmNwmcbDisconnect(u16 *arg)
         return;
     }
 }
-
-
-
-
 
 void WcmNwmcbSetRecvFrmBuf(Pkt *p)
 {
@@ -884,9 +815,6 @@ void WcmNwmcbSetRecvFrmBuf(Pkt *p)
     }
 }
 
-
-
-
 void WcmNwmcbUnsetRecvFrmBuf(Pkt *p)
 {
     NetWork *w = WCMi_GetSystemWork();
@@ -922,8 +850,6 @@ void WcmNwmcbUnsetRecvFrmBuf(Pkt *p)
     WCMi_SetPhase(11);
     WCMi_Notify(7, w->buf, 0, 1390);
 }
-
-
 
 static void WcmEditScanExParam(u8 *mac, u8 *name, u32 opt)
 {
@@ -962,8 +888,6 @@ static void WcmEditScanExParam(u8 *mac, u8 *name, u32 opt)
     }
     w->sendCount = 0;
 }
-
-
 
 void WcmNwmcbSetDCFData(u16 *arg)
 {

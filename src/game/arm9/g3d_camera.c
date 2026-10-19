@@ -76,11 +76,7 @@ u32 G3D_CAMERA_Delete(void *camera)
     return GFL_HEAP_Free(camera);
 }
 
-typedef struct {
-    int x;
-    int y;
-    int z;
-} VecFx32;
+#include "../sdk_fx.h"
 
 struct G3dCamera {
     u32     mode;

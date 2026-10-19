@@ -51,7 +51,7 @@ struct PlayerProfileSrc;
 
 struct SaveData;
 
-typedef unsigned long long u64;
+#include "../types.h"
 
 typedef struct { u32 w[3]; } DWCFriendData;
 

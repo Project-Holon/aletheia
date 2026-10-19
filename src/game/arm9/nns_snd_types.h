@@ -9,7 +9,7 @@
 
 #include "nns_snd_arc_types.h"
 
-typedef signed short s16;
+#include "../types.h"
 
 /* Linear volume fader: step counts up to duration (same layout as nns_snd_fader.c). */
 typedef struct SndFader {

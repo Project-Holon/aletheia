@@ -17,11 +17,7 @@
  */
 #include "poke_summary_types.h"
 
-typedef unsigned int   u32;
-
-typedef unsigned char u8;
-
-typedef unsigned short u16;
+#include "../types.h"
 
 extern void POKE_SUMMARY_MAIN_StartTextStream(char *p, u32 kind);
 int POKE_SUMMARY_ANIM_ShowTextKind7(int *p);
@@ -29,7 +25,6 @@ int POKE_SUMMARY_ANIM_ShowTextKind8(int *p);
 int POKE_SUMMARY_ANIM_ShowTextKind4(int *p);
 int POKE_SUMMARY_ANIM_ShowTextKind5(u8 *p);
 int POKE_SUMMARY_ANIM_Finish(u8 *p);
-
 
 int POKE_SUMMARY_ANIM_ShowTextKind7(int *work)
 {
@@ -39,7 +34,6 @@ int POKE_SUMMARY_ANIM_ShowTextKind7(int *work)
     return 2;
 }
 
-
 int POKE_SUMMARY_ANIM_ShowTextKind8(int *work)
 {
     POKE_SUMMARY_MAIN_StartTextStream((char *)work, 8);
@@ -47,7 +41,6 @@ int POKE_SUMMARY_ANIM_ShowTextKind8(int *work)
     ((struct PokeSummaryWork *)work)->mon->applyFlag = 1;
     return 2;
 }
-
 
 int POKE_SUMMARY_ANIM_ShowTextKind4(int *work)
 {

@@ -134,15 +134,7 @@ struct Bmp;
 struct Obj;
 struct Vec2;
 struct Rec;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef signed int     s32;
-
-typedef short s16;
+#include "../types.h"
 
 struct Pt { s16 x; s16 y; };
 
@@ -194,8 +186,6 @@ struct Point {
     u8 drawPriority;
     u8 bgPriority;
 };
-
-typedef signed char s8;
 
 /*
  * The Pokedex info screen work object, allocated at 0x2b4 bytes in
@@ -462,9 +452,6 @@ extern u32 tbl_021BC134[];
 extern u16 tbl_021BC1C4[];
 extern u32 tbl_021BC184[];
 
-
-
-
 void *ZUKAN_INFO_CreateFromMon(u16 heap,void *mon,unsigned formTableNeeded,unsigned showCurrent,unsigned mode,unsigned femaleFlag,u8 bgLayerBase,unsigned clactUnit,unsigned font,unsigned unused,unsigned objOverrideA,unsigned objOverrideB,unsigned objOverrideC)
 {
     u16 species,form,rare;
@@ -476,23 +463,11 @@ void *ZUKAN_INFO_CreateFromMon(u16 heap,void *mon,unsigned formTableNeeded,unsig
     return ZUKAN_INFO_Create(heap,species,form,gender,rare,POKE_TOOL_GetPartyValue(mon,0,0),formTableNeeded,showCurrent,mode,femaleFlag,bgLayerBase,clactUnit,font,unused,objOverrideA,objOverrideB,objOverrideC);
 }
 
-
-
-
-
-
-
 static inline void G2_SetWnd0Position(int x1, int y1, int x2, int y2)
 {
     *(volatile u16 *)0x04000040 = (u16)(((x1 << 8) & 0xff00) | (x2 & 0xff));
     *(volatile u16 *)0x04000044 = (u16)(((y1 << 8) & 0xff00) | (y2 & 0xff));
 }
-
-
-
-
-
-
 
 static inline void G2_SetWnd0InsidePlane(int wnd, int effect)
 {
@@ -502,12 +477,6 @@ static inline void G2_SetWnd0InsidePlane(int wnd, int effect)
     *(volatile u16 *)0x04000048 = (u16)tmp;
 }
 
-
-
-
-
-
-
 static inline void G2_SetWndOutsidePlane(int wnd, int effect)
 {
     u32 tmp;
@@ -515,12 +484,6 @@ static inline void G2_SetWndOutsidePlane(int wnd, int effect)
     if (effect) tmp |= 32;
     *(volatile u16 *)0x0400004A = (u16)tmp;
 }
-
-
-
-
-
-
 
 /*
  * note: gender is u16 here (u16 field, strh); the matched caller ZUKAN_INFO_CreateFromMon declares it unsigned.
@@ -667,12 +630,6 @@ void *ZUKAN_INFO_Create(u32 heap, u16 species, u16 form, u16 gender, u16 rare, u
     return p;
 }
 
-
-
-
-
-
-
 void ZUKAN_INFO_Delete(char *p)
 {
     u8 i;
@@ -695,12 +652,6 @@ void ZUKAN_INFO_Delete(char *p)
     PRINTSYS_QUE_Delete(((struct ZukanInfo *)p)->printQue);
     GFL_HEAP_Free(p);
 }
-
-
-
-
-
-
 
 void ZUKAN_INFO_Update(char *p)
 {
@@ -757,12 +708,6 @@ void ZUKAN_INFO_Update(char *p)
     PRINTSYS_QUE_Main(((struct ZukanInfo *)p)->printQue);
 }
 
-
-
-
-
-
-
 void ZUKAN_INFO_ClearDisplay(char *p)
 {
     ZUKAN_INFO_ClearSlotWindows(p);
@@ -771,12 +716,6 @@ void ZUKAN_INFO_ClearDisplay(char *p)
     ZUKAN_INFO_DeleteRow(p,((struct ZukanInfo *)p)->iconEnabled);
 }
 
-
-
-
-
-
-
 void ZUKAN_INFO_ClearActors(char *p)
 {
     ZUKAN_INFO_ClearSlotWindows(p);
@@ -784,33 +723,15 @@ void ZUKAN_INFO_ClearActors(char *p)
     ZUKAN_INFO_DeleteRow(p,((struct ZukanInfo *)p)->iconEnabled);
 }
 
-
-
-
-
-
-
 void ZUKAN_INFO_NotifyMoveDone(char *p)
 {
     ((struct ZukanInfo *)p)->animParam58=1;
 }
 
-
-
-
-
-
-
 void ZUKAN_INFO_NotifyFadeDone(char *p)
 {
     ((struct ZukanInfo *)p)->animParam5C=1;
 }
-
-
-
-
-
-
 
 int ZUKAN_INFO_IsMoving(char *p)
 {
@@ -819,12 +740,6 @@ int ZUKAN_INFO_IsMoving(char *p)
     return result;
 }
 
-
-
-
-
-
-
 int ZUKAN_INFO_IsDone(char *p)
 {
     int result=0;
@@ -832,21 +747,10 @@ int ZUKAN_INFO_IsDone(char *p)
     return result;
 }
 
-
-
-
-
-
-
 void ZUKAN_INFO_Start(char *p)
 {
     if(((struct ZukanInfo *)p)->animState==0) ((struct ZukanInfo *)p)->animState=1;
 }
-
-
-
-
-
 
 void ZUKAN_INFO_SetPokemon(char *p, u16 species, u16 form, u16 gender, u16 rare, int personalParam, int showCurrent)
 {
@@ -885,11 +789,6 @@ void ZUKAN_INFO_SetPokemon(char *p, u16 species, u16 form, u16 gender, u16 rare,
     ZUKAN_INFO_SetSlotDrawEnable((struct ZukanInfo *)p, (((struct ZukanInfo *)p)->hidden != 0) ? 0 : 1);
 }
 
-
-
-
-
-
 void ZUKAN_INFO_ShowPage(char *p,int mode)
 {
     if (((struct ZukanInfo *)p)->iconEnabled) ((struct ZukanInfo *)p)->iconEnabled=0;
@@ -901,11 +800,6 @@ void ZUKAN_INFO_ShowPage(char *p,int mode)
     if(mode==6 || ((struct ZukanInfo *)p)->species>493) ZUKAN_INFO_DrawMainPage(p);
     else ZUKAN_INFO_DrawPage(p,mode);
 }
-
-
-
-
-
 
 void ZUKAN_INFO_SetPokemonPage(char *p, u16 species, u16 form, u16 gender, u16 rare, int personalParam, int showCurrent, int page)
 {
@@ -945,11 +839,6 @@ void ZUKAN_INFO_SetPokemonPage(char *p, u16 species, u16 form, u16 gender, u16 r
     ZUKAN_INFO_SetSlotDrawEnable((struct ZukanInfo *)p, (((struct ZukanInfo *)p)->hidden != 0) ? 0 : 1);
 }
 
-
-
-
-
-
 void ZUKAN_INFO_Show(struct ZukanInfo *p)
 {
     if (!p->hidden) {
@@ -960,11 +849,6 @@ void ZUKAN_INFO_Show(struct ZukanInfo *p)
         ZUKAN_INFO_SetSlotDrawEnable((struct ZukanInfo *)p, p->hidden == 0);
     }
 }
-
-
-
-
-
 
 void ZUKAN_INFO_Hide(struct ZukanInfo *p)
 {
@@ -977,12 +861,6 @@ void ZUKAN_INFO_Hide(struct ZukanInfo *p)
     }
 }
 
-
-
-
-
-
-
 void ZUKAN_INFO_Task(int unused, char *p)
 {
     if (((struct ZukanInfo *)p)->reloadFlag & 1)
@@ -992,11 +870,6 @@ void ZUKAN_INFO_Task(int unused, char *p)
     ((struct ZukanInfo *)p)->tileDirty = 0;
     ((struct ZukanInfo *)p)->reloadFlag = 0;
 }
-
-
-
-
-
 
 void ZUKAN_INFO_CreateWindows(char *p)
 {
@@ -1018,13 +891,6 @@ void ZUKAN_INFO_CreateWindows(char *p)
     }
 }
 
-
-
-
-
-
-
-
 void ZUKAN_INFO_DeleteWindows(char *p)
 {
     int i;
@@ -1035,13 +901,6 @@ void ZUKAN_INFO_DeleteWindows(char *p)
     }
     GFL_HEAP_Free(((struct ZukanInfo *)p)->speciesTable);
 }
-
-
-
-
-
-
-
 
 void ZUKAN_INFO_DrawText(int heap,int window,void *printer,int font,int input,unsigned short right,unsigned short y,unsigned short color,int alignment,int expansion)
 {
@@ -1069,26 +928,12 @@ void ZUKAN_INFO_DrawText(int heap,int window,void *printer,int font,int input,un
     if(expansion) STRBUF_Delete((struct Strbuf *)text);
 }
 
-
-
-
-
-
-
-
 void ZUKAN_INFO_DrawMessage(int heap,int window,struct MsgBank *bank,void *printer,int font,int message,unsigned short x,unsigned short y,unsigned short color,int alignment,int expansion)
 {
     int text=(int)MSGDATA_AllocString(bank,message);
     ZUKAN_INFO_DrawText(heap,window,printer,font,text,x,y,color,alignment,expansion);
     STRBUF_Delete((struct Strbuf *)text);
 }
-
-
-
-
-
-
-
 
 /*
  * note: objs[0] is read first into a local, so its offset is the first constant built and the
@@ -1158,14 +1003,6 @@ void ZUKAN_INFO_DrawMainPage(char *p)
     ZUKAN_INFO_FlushSlotWindows(p);
 }
 
-
-
-
-
-
-
-
-
 void ZUKAN_INFO_DrawPage(char *p, int idx)
 {
     int titleBank = (int)((struct ZukanInfo *)p)->objs[0];
@@ -1227,13 +1064,6 @@ void ZUKAN_INFO_DrawPage(char *p, int idx)
     ZUKAN_INFO_FlushSlotWindows(p);
 }
 
-
-
-
-
-
-
-
 void ZUKAN_INFO_ClearSlotWindows(char *p)
 {
     int i;
@@ -1243,13 +1073,6 @@ void ZUKAN_INFO_ClearSlotWindows(char *p)
         BMP_Clear((struct Bmp *)((int)BMP_WIN_GetBmp((struct BmpWin *)((struct ZukanInfo *)p)->win[i])), 0);
     }
 }
-
-
-
-
-
-
-
 
 void ZUKAN_INFO_FlushSlotWindows(char *p)
 {
@@ -1264,14 +1087,6 @@ void ZUKAN_INFO_FlushSlotWindows(char *p)
         }
     }
 }
-
-
-
-
-
-
-
-
 
 void ZUKAN_INFO_CreateBgBmp(struct ZukanInfo *e)
 {
@@ -1302,26 +1117,11 @@ void ZUKAN_INFO_CreateBgBmp(struct ZukanInfo *e)
     BMP_Delete((struct Bmp *)s);
 }
 
-
-
-
-
-
-
-
 void ZUKAN_INFO_DeleteMainWindows(char *p)
 {
     BMP_WIN_Delete(((struct ZukanInfo *)p)->winMain);
     BMP_WIN_Delete(((struct ZukanInfo *)p)->winAlt);
 }
-
-
-
-
-
-
-
-
 
 void ZUKAN_INFO_FlushMainWindow(void *obj)
 {
@@ -1340,27 +1140,12 @@ void ZUKAN_INFO_FlushMainWindow(void *obj)
     BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)p));
 }
 
-
-
-
-
-
-
-
-
 void ZUKAN_INFO_SetActors(void *info, void *x, void *y, void *slot)
 {
     ZUKAN_INFO_RegisterGfx(info, (int)slot);
     ZUKAN_INFO_CreateActor(info, (int)x, (int)y, (int)slot);
     ZUKAN_INFO_DisableActors(info);
 }
-
-
-
-
-
-
-
 
 void ZUKAN_INFO_ReleaseActor(char *p, int i)
 {
@@ -1371,13 +1156,6 @@ void ZUKAN_INFO_ReleaseActor(char *p, int i)
         *slot = 0;
     }
 }
-
-
-
-
-
-
-
 
 void ZUKAN_INFO_RegisterGfx(char *p,int index)
 {
@@ -1390,26 +1168,12 @@ void ZUKAN_INFO_RegisterGfx(char *p,int index)
     ((struct ZukanInfo *)p)->cellRes[index]=(void *)POKEGRA_RegisterCellAnim(((struct ZukanInfo *)p)->species,((struct ZukanInfo *)p)->form,((struct ZukanInfo *)p)->gender,((struct ZukanInfo *)p)->rare,0,0,2,flag,((struct ZukanInfo *)p)->heap);
 }
 
-
-
-
-
-
-
-
 void ZUKAN_INFO_ReleaseGfx(char *p, int i)
 {
     CLACT_ReleasePalette((u32)((struct ZukanInfo *)p)->palRes[i]);
     CLACT_ReleaseCharacter((u32)((struct ZukanInfo *)p)->charRes[i]);
     CLACT_ReleaseCellAnim((u32)((struct ZukanInfo *)p)->cellRes[i]);
 }
-
-
-
-
-
-
-
 
 void ZUKAN_INFO_CreateActor(char *p,int x,int y,int index)
 {
@@ -1425,24 +1189,10 @@ void ZUKAN_INFO_CreateActor(char *p,int x,int y,int index)
     if(POKE_PERSONAL_GetParam((struct PersonalData *)(((struct ZukanInfo *)p)->x),34)==0) CLACT_SetActorFlip((struct Actor *)(*(int *)(p+0xac+index*4)),1,1);
 }
 
-
-
-
-
-
-
-
 void ZUKAN_INFO_DeleteActor(char *p, int i)
 {
     CLACT_DeleteActor(((struct ZukanInfo *)p)->actors[i]);
 }
-
-
-
-
-
-
-
 
 void ZUKAN_INFO_DisableActors(char *p)
 {
@@ -1453,13 +1203,6 @@ void ZUKAN_INFO_DisableActors(char *p)
         }
     }
 }
-
-
-
-
-
-
-
 
 void ZUKAN_INFO_CreateIconActors(struct ZukanInfo *p)
 {
@@ -1501,12 +1244,6 @@ void ZUKAN_INFO_CreateIconActors(struct ZukanInfo *p)
     }
 }
 
-
-
-
-
-
-
 void ZUKAN_INFO_DeleteIconActors(char *p)
 {
     unsigned char i;
@@ -1522,10 +1259,6 @@ void ZUKAN_INFO_DeleteIconActors(char *p)
     CLACT_ReleasePalette(((struct ZukanInfo *)p)->paletteHandle);
 }
 
-
-
-
-
 void ZUKAN_INFO_ShowFormPair(char *p,int mode,int which)
 {
     void *mon=((struct ZukanInfo *)p)->x;
@@ -1536,10 +1269,6 @@ void ZUKAN_INFO_ShowFormPair(char *p,int mode,int which)
     else ZUKAN_INFO_LayoutFormPairEx((struct ZukanInfo *)p, first, second, mode, which);
     ZUKAN_INFO_DisableOtherRows((struct ZukanInfo *)p);
 }
-
-
-
-
 
 void ZUKAN_INFO_LayoutFormPair(struct ZukanInfo *p, unsigned x, unsigned y, int row)
 {
@@ -1631,15 +1360,6 @@ void ZUKAN_INFO_LayoutFormPair(struct ZukanInfo *p, unsigned x, unsigned y, int 
     }
 }
 
-
-
-
-
-
-
-
-
-
 void ZUKAN_INFO_LayoutFormPairEx(struct ZukanInfo *p, unsigned x, unsigned y, int z, int row)
 {
     ShortRect4 rr[2];
@@ -1702,14 +1422,6 @@ void ZUKAN_INFO_LayoutFormPairEx(struct ZukanInfo *p, unsigned x, unsigned y, in
     }
 }
 
-
-
-
-
-
-
-
-
 void ZUKAN_INFO_DeleteRow(char *p, int index)
 {
     int i;
@@ -1726,14 +1438,6 @@ void ZUKAN_INFO_DeleteRow(char *p, int index)
         }
     }
 }
-
-
-
-
-
-
-
-
 
 /*
  * tail: zero alignment halfword at 0x021BB9DE before 0x021BB9E0.
@@ -1754,14 +1458,6 @@ void ZUKAN_INFO_DisableOtherRows(struct ZukanInfo *p)
     }
 }
 
-
-
-
-
-
-
-
-
 void ZUKAN_INFO_InitFormGfx(struct ZukanInfo *p)
 {
     u8 i;
@@ -1778,14 +1474,6 @@ void ZUKAN_INFO_InitFormGfx(struct ZukanInfo *p)
     p->cellAnimB=CLACT_RegisterCellAnim((void *)owner,ZUKAN_INFO_GetCellAnimFileId(494),ZUKAN_INFO_GetCellAnimMode(494),p->heap);
 }
 
-
-
-
-
-
-
-
-
 void ZUKAN_INFO_DeleteFormGfx(char *p)
 {
     unsigned char i;
@@ -1796,13 +1484,6 @@ void ZUKAN_INFO_DeleteFormGfx(char *p)
     CLACT_ReleaseCellAnim((u32)(((struct ZukanInfo *)p)->cellAnimA));
     CLACT_ReleasePalette((u32)(((struct ZukanInfo *)p)->paletteHandleA));
 }
-
-
-
-
-
-
-
 
 void ZUKAN_INFO_CreateSpeciesActor(struct ZukanInfo *p, u32 a, u32 b, u32 idx)
 {
@@ -1837,13 +1518,6 @@ void ZUKAN_INFO_CreateSpeciesActor(struct ZukanInfo *p, u32 a, u32 b, u32 idx)
     ZUKAN_INFO_DisableUnselected(p);
 }
 
-
-
-
-
-
-
-
 void ZUKAN_INFO_DeleteActorPair(struct ZukanInfo *p, int i)
 {
     if (p->formActor[i] != 0) {
@@ -1852,11 +1526,6 @@ void ZUKAN_INFO_DeleteActorPair(struct ZukanInfo *p, int i)
         p->formActor[i] = 0;
     }
 }
-
-
-
-
-
 
 void ZUKAN_INFO_DisableUnselected(struct ZukanInfo *p)
 {
@@ -1867,11 +1536,6 @@ void ZUKAN_INFO_DisableUnselected(struct ZukanInfo *p)
     }
 }
 
-
-
-
-
-
 void ZUKAN_INFO_RefreshDisplay(struct ZukanInfo *p)
 {
     ZUKAN_INFO_ShowFormPair((char *)p, 6, p->iconEnabled);
@@ -1880,11 +1544,6 @@ void ZUKAN_INFO_RefreshDisplay(struct ZukanInfo *p)
     ZUKAN_INFO_DrawMainPage((char *)p);
 }
 
-
-
-
-
-
 void ZUKAN_INFO_RefreshPage(struct ZukanInfo *p, int v)
 {
     ZUKAN_INFO_ShowFormPair((char *)p, v, p->iconEnabled);
@@ -1892,10 +1551,6 @@ void ZUKAN_INFO_RefreshPage(struct ZukanInfo *p, int v)
     ZUKAN_INFO_SetDrawEnable(p, p->showCurrent);
     ZUKAN_INFO_DrawPage((char *)p, v);
 }
-
-
-
-
 
 s32 ZUKAN_INFO_BlendPalette(struct ZukanInfo *p)
 {
@@ -1924,10 +1579,6 @@ s32 ZUKAN_INFO_BlendPalette(struct ZukanInfo *p)
     return NNS_GfdRegisterNewVramTransferTask((void *)(p->femaleFlag == 0 ? 0xf : 0x1f), 0x22, (u32)p->palBuf, 0xa);
 }
 
-
-
-
-
 void ZUKAN_INFO_SetDrawEnable(struct ZukanInfo *p, int v)
 {
     u8 i;
@@ -1943,10 +1594,6 @@ void ZUKAN_INFO_SetDrawEnable(struct ZukanInfo *p, int v)
     }
 }
 
-
-
-
-
 void ZUKAN_INFO_SetSlotDrawEnable(struct ZukanInfo *p, int v)
 {
     CLACT_SetActorDrawEnable(p->actors[p->selected], v);
@@ -1954,10 +1601,6 @@ void ZUKAN_INFO_SetSlotDrawEnable(struct ZukanInfo *p, int v)
         v = 0;
     ZUKAN_INFO_SetDrawEnable(p, v);
 }
-
-
-
-
 
 void ZUKAN_INFO_LoadResources(struct ZukanInfo *p)
 {
@@ -2012,9 +1655,6 @@ void ZUKAN_INFO_LoadResources(struct ZukanInfo *p)
         p->text.str[i] = MSGDATA_AllocString(p->objs[0], tbl_021BC184[i]);
 }
 
-
-
-
 void ZUKAN_INFO_FreeResources(struct ZukanInfo *p)
 {
     u8 i;
@@ -2045,33 +1685,20 @@ void ZUKAN_INFO_FreeResources(struct ZukanInfo *p)
         ARC_TOOL_DeleteHandle(p->w[i]);
 }
 
-
-
-
 u32 ZUKAN_INFO_GetTypeArchiveId(void)
 {
     return 0xa7;
 }
-
-
-
 
 int ZUKAN_INFO_GetSpeciesCellFileId(int v)
 {
     return v + 5;
 }
 
-
-
-
 int ZUKAN_INFO_GetPaletteFileId(int unused)
 {
     return 0;
 }
-
-
-
-
 
 int ZUKAN_INFO_GetCellAnimFileId(int v)
 {
@@ -2081,10 +1708,6 @@ int ZUKAN_INFO_GetCellAnimFileId(int v)
         return 4;
 }
 
-
-
-
-
 int ZUKAN_INFO_GetCellAnimMode(int v)
 {
     if (v <= 0x1ED)
@@ -2093,14 +1716,10 @@ int ZUKAN_INFO_GetCellAnimMode(int v)
         return 3;
 }
 
-
-
-
 u32 ZUKAN_INFO_GetIconArchiveId(void)
 {
     return 0xe9;
 }
-
 
 u32 ZUKAN_INFO_GetFormFlag(u32 a, u32 b)
 {

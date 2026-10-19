@@ -33,10 +33,7 @@ struct MsgBank;
 struct Rec;
 struct U16Vec;
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed int     s32;
+#include "../types.h"
 
 struct PmsWordSys {
     u32   heapId;

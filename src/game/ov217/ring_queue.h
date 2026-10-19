@@ -1,7 +1,7 @@
 #ifndef RING_QUEUE_H
 #define RING_QUEUE_H
 
-#include "research_types.h"
+#include "../types.h"
 
 /* Ring buffer of 32-bit values, 16 bytes. */
 struct RingQueue {

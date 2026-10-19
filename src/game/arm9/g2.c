@@ -12,61 +12,17 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  */
-typedef long fx32;
+#include "../types.h"
 
-typedef short fx16;
+#include "../sdk_fx.h"
 
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned long u32;
-
-typedef volatile u8 vu8;
-
-typedef volatile u16 vu16;
-
-typedef volatile u32 vu32;
-
-typedef union {
-    struct {
-        fx32 _00, _01;
-        fx32 _10, _11;
-    };
-    fx32 m[2][2];
-    fx32 a[4];
-} MtxFx22;
-
-typedef struct {
-    u16 lcdc;
-    u16 bg;
-    u16 obj;
-    u16 arm7;
-    u16 tex;
-    u16 texPltt;
-    u16 clrImg;
-    u16 bgExtPltt;
-    u16 objExtPltt;
-    u16 sub_bg;
-    u16 sub_obj;
-    u16 sub_bgExtPltt;
-    u16 sub_objExtPltt;
-} GX_VRAMCnt_;
-
-typedef struct {
-    GX_VRAMCnt_ vramCnt;
-} GX_State;
-
-typedef long s32;
-
-typedef int BOOL;
+#include "../sdk_gx.h"
 
 void G2x_SetBGyAffine_(u32 addr, const MtxFx22 *mtx, int centerX, int centerY, int x1, int y1);
 void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
 void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 void G2x_SetBlendBrightnessExt_(u32 addr, int plane1, int plane2, int ev1, int ev2, int brightness);
 void DWCi_WindowG2x_ChangeBlendBrightness_(u32 addr, int brightness);
-
 
 #define reg_GX_VRAMCNT   (*(vu32 *)0x04000240)
 
@@ -78,9 +34,7 @@ void DWCi_WindowG2x_ChangeBlendBrightness_(u32 addr, int brightness);
 
 #define reg_GX_VRAM_HI_CNT (*(vu16 *)0x04000248)
 
-
 #define GX_FX32_FX16(x) ((fx16)((x) >> 4))
-
 
 /*
  * sdk:      G2x_SetBGyAffine_ (libgx.TWL.HYB.a g2.o)
@@ -105,9 +59,7 @@ void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b,
     *reg = (a | 0x40) | (b << 8) | ((c | (d << 8)) << 16);
 }
 
-
 #define reg_GX_DISPSTAT (*(vu16 *)0x04000004)
-
 
 /*
  * sdk:      G2x_SetBlendBrightness_ (libgx.TWL.HYB.a g2.o)
@@ -123,9 +75,7 @@ void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness)
     }
 }
 
-
 #define reg_GX_DISPSTAT (*(vu16 *)0x04000004)
-
 
 /*
  * sdk:      G2x_SetBlendBrightnessExt_ (libgx.TWL.HYB.a g2.o)
@@ -142,9 +92,7 @@ void G2x_SetBlendBrightnessExt_(u32 addr, int plane1, int plane2, int ev1, int e
     }
 }
 
-
 #define reg_GX_DISPSTAT (*(vu16 *)0x04000004)
-
 
 /*
  * sdk:      G2x_ChangeBlendBrightness_ (libgx.TWL.HYB.a g2.o)

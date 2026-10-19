@@ -31,7 +31,7 @@
 #include "scrcmd_otid_shared_types.h"
 #include "intrude_offer_shared_types.h"
 
-typedef signed short s16;
+#include "../types.h"
 
 struct Strbuf;
 

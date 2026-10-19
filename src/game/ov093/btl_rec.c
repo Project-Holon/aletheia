@@ -119,9 +119,7 @@
  *   gBtlFieldFileName  0x021F3AF8  data  a4
  *   BTL_SICKCONT_GetPosition  0x021E8A98  thumb  ov093
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../types.h"
 
 /* Replay buffer of one battle: records are appended after the 8 byte head
  * until 0xC00 bytes are used, then the overflow flag is set. */
@@ -169,7 +167,6 @@ void *BTL_REC_CreateBuffer(u32 heapId)
     return GFL_HEAP_Alloc(heapId, 0xC08, 1, gBtlRecFileName, 0x6b);
 }
 
-
 /*
  * tail-call thunk to GFL_HEAP_Free
  */
@@ -177,7 +174,6 @@ void BTL_REC_DeleteBuffer(void *buffer)
 {
     GFL_HEAP_Free(buffer);
 }
-
 
 void BTL_REC_AppendPacket(BtlRecBuffer *buffer, const u8 *src, int size)
 {
@@ -197,19 +193,16 @@ void BTL_REC_AppendPacket(BtlRecBuffer *buffer, const u8 *src, int size)
     }
 }
 
-
 /*
  * Reads the u8 field at offset 0 of the argument and returns it.
  */
 u8 BTL_REC_GetPacketId(u8 *src) { return *src; }
-
 
 unsigned short *BTL_REC_ReadEntry(unsigned short *entry, unsigned int *outValue)
 {
     *outValue = *entry;
     return entry + 4;
 }
-
 
 void BTL_REC_InitReader(BtlRecReader *reader, u32 bytesAddr, u32 size)
 {
@@ -222,7 +215,6 @@ void BTL_REC_InitReader(BtlRecReader *reader, u32 bytesAddr, u32 size)
         reader->readPos[channel] = 0;
 }
 
-
 void BTL_REC_ResetReader(BtlRecReader *reader)
 {
     u32 channel;
@@ -230,7 +222,6 @@ void BTL_REC_ResetReader(BtlRecReader *reader)
     for (channel = 0; channel < 4; channel++)
         reader->readPos[channel] = 0;
 }
-
 
 /*
  * Stream-record head decoder. Reads the byte at the position of channel
@@ -253,7 +244,6 @@ int BTL_REC_ReadSkipFlag(BtlRecReader *reader, int channel)
     }
     return 0;
 }
-
 
 /*
  * Reads the next record for a channel from a packed byte stream. Header byte:
@@ -330,7 +320,6 @@ u32 *BTL_REC_ReadRecord(BtlRecReader *reader, u32 channel, u8 *outSize, u8 *outF
     return reader->lastRecord[channel];
 }
 
-
 /*
  * Counts the bit7-flagged records in a stream.
  * The buffer is read through reader->bytes in the loop (the compiler hoists
@@ -379,7 +368,6 @@ int BTL_REC_CountFlaggedRecords(BtlRecReader *reader)
     return count;
 }
 
-
 int BTL_REC_IsChannelDone(BtlRecReader *reader, int channel)
 {
     u32 pos;
@@ -393,13 +381,11 @@ int BTL_REC_IsChannelDone(BtlRecReader *reader, int channel)
     return 1;
 }
 
-
 void BTL_REC_InitPacket(BtlRecPacket *packet, int flag)
 {
     MI_CpuFill8(packet, 0, 0x40);
     packet->flag = (u8)flag;
 }
-
 
 u8 *BTL_REC_MakeSkipPacket(BtlRecPacket *packet, u32 *outSize, int flag)
 {
@@ -408,7 +394,6 @@ u8 *BTL_REC_MakeSkipPacket(BtlRecPacket *packet, u32 *outSize, int flag)
     *outSize = 2;
     return packet->data;
 }
-
 
 void BTL_REC_AddRecord(BtlRecPacket *packet, u8 channel, const void *words, u32 count)
 {
@@ -436,7 +421,6 @@ void BTL_REC_AddRecord(BtlRecPacket *packet, u8 channel, const void *words, u32 
     }
 }
 
-
 u8 *BTL_REC_FinishPacket(BtlRecPacket *packet, u8 id, u32 *outSize)
 {
     u8 type;
@@ -452,7 +436,6 @@ u8 *BTL_REC_FinishPacket(BtlRecPacket *packet, u8 id, u32 *outSize)
     return 0;
 }
 
-
 u8 *BTL_REC_MakeResetPacket(BtlRecPacket *packet, u32 *outSize)
 {
     packet->data[0] = 0;
@@ -460,7 +443,6 @@ u8 *BTL_REC_MakeResetPacket(BtlRecPacket *packet, u32 *outSize)
     *outSize = 2;
     return packet->data;
 }
-
 
 void BTL_REC_LoadPacket(BtlRecPacket *packet, const void *src, int size)
 {
@@ -472,7 +454,6 @@ void BTL_REC_LoadPacket(BtlRecPacket *packet, const void *src, int size)
     packet->flag = 0;
     packet->full = 0;
 }
-
 
 int BTL_REC_NextRecord(BtlRecPacket *packet, u32 *pos, u8 *outChannel, u8 *outWords, u32 *dst)
 {

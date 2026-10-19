@@ -23,19 +23,10 @@
 #define GX_GetBGScrOffset()  ((u32)((reg_GX_DISPCNT & 0x38000000) >> 27))
 #define GX_GetBGCharOffset() ((u32)((reg_GX_DISPCNT & 0x07000000) >> 24))
 #define reg_G2_BG1CNT (*(vu16 *)0x0400000A)
-typedef unsigned short u16;
-
-
-typedef volatile u16 vu16;
-
-
-typedef unsigned long u32;
-
-typedef volatile u32 vu32;
+#include "../types.h"
 
 #define reg_GX_DISPCNT (*(vu32 *)0x04000000)
 #define reg_GXS_DB_DISPCNT (*(vu32 *)0x04001000)
-
 
 typedef enum {
     GX_BGMODE_0 = 0,
@@ -46,7 +37,6 @@ typedef enum {
     GX_BGMODE_5 = 5,
     GX_BGMODE_6 = 6
 } GXBGMode;
-
 
 void *G2_GetBG0ScrPtr(void);
 u32 G2S_GetBG0ScrPtr(void);
@@ -65,12 +55,10 @@ void *G2S_GetBG2CharPtr(void);
 void *G2_GetBG3CharPtr(void);
 void *G2S_GetBG3CharPtr(void);
 
-
 static inline int GetBG0ScreenBase(void)
 {
     return (reg_G2_BG0CNT & 0x1F00) >> 8;
 }
-
 
 /*
  * sdk:      G2_GetBG0ScrPtr (libgx.TWL.HYB.a gx_bgcnt.o)
@@ -83,18 +71,15 @@ void *G2_GetBG0ScrPtr(void)
     return (void *)(0x06000000 + baseBlock + screenBase * 0x800);
 }
 
-
 u32 G2S_GetBG0ScrPtr(void)
 {
     return (u32)((((*(volatile unsigned short *)0x04001008 & 0x1f00) >> 8) << 11) + 0x6200000);
 }
 
-
 static inline int GetBG1ScreenBase(void)
 {
     return (reg_G2_BG1CNT & 0x1F00) >> 8;
 }
-
 
 /*
  * sdk:      G2_GetBG1ScrPtr (libgx.TWL.HYB.a gx_bgcnt.o)
@@ -107,12 +92,10 @@ void *G2_GetBG1ScrPtr(void)
     return (void *)(0x06000000 + baseBlock + screenBase * 0x800);
 }
 
-
 u32 G2S_GetBG1ScrPtr(void)
 {
     return (u32)((((*(volatile unsigned short *)0x0400100A & 0x1f00) >> 8) << 11) + 0x6200000);
 }
-
 
 /*
  * sdk:      G2_GetBG2ScrPtr (libgx.TWL.HYB.a gx_bgcnt.o)
@@ -144,7 +127,6 @@ void *G2_GetBG2ScrPtr(void)
     }
 }
 
-
 /*
  * sdk:      G2S_GetBG2ScrPtr (libgx.TWL.HYB.a gx_bgcnt.o)
  */
@@ -173,7 +155,6 @@ void *G2S_GetBG2ScrPtr(void)
         return NULL;
     }
 }
-
 
 /*
  * sdk:      G2_GetBG3ScrPtr (libgx.TWL.HYB.a gx_bgcnt.o)
@@ -205,7 +186,6 @@ void *G2_GetBG3ScrPtr(void)
     }
 }
 
-
 /*
  * sdk:      G2S_GetBG3ScrPtr (libgx.TWL.HYB.a gx_bgcnt.o)
  */
@@ -235,12 +215,10 @@ void *G2S_GetBG3ScrPtr(void)
     }
 }
 
-
 static inline int GetBG0CharBase(void)
 {
     return (reg_G2_BG0CNT & 0x3C) >> 2;
 }
-
 
 /*
  * sdk:      G2_GetBG0CharPtr (libgx.TWL.HYB.a gx_bgcnt.o)
@@ -253,18 +231,15 @@ void *G2_GetBG0CharPtr(void)
     return (void *)(0x06000000 + baseBlock + charBase * 0x4000);
 }
 
-
 u32 G2S_GetBG0CharPtr(void)
 {
     return (u32)((((*(volatile unsigned short *)0x04001008 & 0x3c) >> 2) << 14) + 0x6200000);
 }
 
-
 static inline int GetBG1CharBase(void)
 {
     return (reg_G2_BG1CNT & 0x3C) >> 2;
 }
-
 
 /*
  * sdk:      G2_GetBG1CharPtr (libgx.TWL.HYB.a gx_bgcnt.o)
@@ -277,12 +252,10 @@ void *G2_GetBG1CharPtr(void)
     return (void *)(0x06000000 + baseBlock + charBase * 0x4000);
 }
 
-
 u32 G2S_GetBG1CharPtr(void)
 {
     return (u32)((((*(volatile unsigned short *)0x0400100A & 0x3c) >> 2) << 14) + 0x6200000);
 }
-
 
 /*
  * sdk:      G2_GetBG2CharPtr (libgx.TWL.HYB.a gx_bgcnt.o)
@@ -299,7 +272,6 @@ void *G2_GetBG2CharPtr(void)
     }
 }
 
-
 /*
  * sdk:      G2S_GetBG2CharPtr (libgx.TWL.HYB.a gx_bgcnt.o)
  */
@@ -315,7 +287,6 @@ void *G2S_GetBG2CharPtr(void)
     }
 }
 
-
 /*
  * sdk:      G2_GetBG3CharPtr (libgx.TWL.HYB.a gx_bgcnt.o)
  */
@@ -330,7 +301,6 @@ void *G2_GetBG3CharPtr(void)
         return NULL;
     }
 }
-
 
 /*
  * sdk:      G2S_GetBG3CharPtr (libgx.TWL.HYB.a gx_bgcnt.o)

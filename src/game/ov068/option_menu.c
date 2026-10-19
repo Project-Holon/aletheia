@@ -187,12 +187,7 @@
  *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb
  *   SAVE_CONTROL_WouldOverwriteSave  0x020071F0  thumb
  */
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed char    s8;
-typedef signed short   s16;
-typedef signed int     s32;
+#include "../types.h"
 
 #include "option_menu_types.h"
 

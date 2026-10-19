@@ -88,10 +88,7 @@
  *   _u32_div_f                   0x0209C2B0  arm
  */
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed int s32;
+#include "../types.h"
 
 /*
  * Ground animation: texture animation of the field ground model.
@@ -120,11 +117,7 @@ typedef struct NNSG3dResAnm {
     u16 numFrame;
 } NNSG3dResAnm;
 
-typedef struct NNSG3dAnmObj {
-    int frame;
-    u32 ratio;
-    NNSG3dResAnm *pResAnm;
-} NNSG3dAnmObj;
+#include "../arm9/nns_g3d_anm_calc_types.h"
 
 typedef union GroundAnmFlags {
     u32 word;
@@ -243,11 +236,7 @@ typedef struct TexRes {
     Dict dict;
 } TexRes;
 
-typedef struct VecFx32 {
-    s32 x;
-    s32 y;
-    s32 z;
-} VecFx32;
+#include "../sdk_fx.h"
 
 /* Arguments the caller fills before it creates the ground animation task. */
 typedef struct GroundAnimeArgs {
@@ -635,7 +624,7 @@ int FIELD_GROUND_ANIME_AnmEntryUpdate(GroundAnmEntry *entry, int frame)
     NNSG3dAnmObj *anmObj;
     if (entry->flags.bits.bound) {
         anmObj = entry->anmObj;
-        frame = frame % (anmObj->pResAnm->numFrame << 12);
+        frame = frame % (((NNSG3dResAnm *)anmObj->resAnm)->numFrame << 12);
         anmObj->frame = frame;
     }
     return frame;

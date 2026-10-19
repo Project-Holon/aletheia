@@ -151,7 +151,7 @@ struct FieldVReq;
 #define FIELD_SUBSCREEN_OVERLAY_NO_GEAR ((int)abs_id_1e)
 #define FIELD_SUBSCREEN_OVERLAY_UNION   ((int)abs_id_1f)
 
-typedef signed int     s32;
+#include "../types.h"
 
 /* One row (0x1C bytes) of the mode table. */
 typedef struct FieldSubscreenMode {

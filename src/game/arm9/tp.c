@@ -25,15 +25,7 @@
  *   TP_WaitBusy                    0x0208B220  arm
  *   OS_Terminate                   0x02088234  arm
  */
-typedef unsigned long u32;
-
-typedef unsigned short u16;
-
-typedef unsigned char u8;
-
-typedef signed short s16;
-
-typedef int BOOL;
+#include "../types.h"
 
 typedef void (*TPRecvCallback)(int command, int result, u16 index);
 
@@ -101,22 +93,12 @@ typedef struct NvTpPoints {
     u8 dy2;
 } NvTpPoints;
 
-typedef unsigned long long u64;
-
-typedef volatile u16 vu16;
-
-typedef volatile u32 vu32;
-
-typedef volatile u64 vu64;
-
 typedef struct NvTpData {
     s16 x0;
     s16 y0;
     s16 xDotSize;
     s16 yDotSize;
 } NvTpData;
-
-typedef long long s64;
 
 void PXI_Init(void);
 BOOL PXI_IsCallbackReady(int fifotag, int proc);
@@ -141,12 +123,7 @@ unsigned int TP_CheckError(unsigned int command_flgs);
 extern TpBss g_02152FA4;
 extern void OS_Terminate(void);
 
-
-
 #define tpState g_02152FA4
-
-
-
 
 static inline void TPi_ReadRaw(TPData *data)
 {
@@ -236,7 +213,6 @@ terminate:
     OS_Terminate();
 }
 
-
 /*
  * sdk:      TP_Init (libspi.TWL.HYB.a tp.o)
  */
@@ -261,9 +237,6 @@ void TP_Init(void)
     }
     PXI_SetFifoRecvCallback(6, TPi_TpCallback);
 }
-
-
-
 
 /*
  * sdk:      TP_GetUserInfo (libspi.TWL.HYB.a tp.o)
@@ -296,9 +269,6 @@ BOOL TP_GetUserInfo(TPCalibrateParam *calibrate)
     return 1;
 }
 
-
-
-
 static inline void CP_SetDiv32_32(u32 numer, u32 denom)
 {
     *(vu16 *)0x04000280 = 0;
@@ -306,25 +276,16 @@ static inline void CP_SetDiv32_32(u32 numer, u32 denom)
     *(u64 *)0x04000298 = denom;
 }
 
-
-
-
 static inline void CP_WaitDiv(void)
 {
     while (*(vu16 *)0x04000280 & 0x8000) {
     }
 }
 
-
-
-
 static inline long CP_GetDivResult32(void)
 {
     return *(volatile long *)0x040002A0;
 }
-
-
-
 
 /*
  * sdk:      TP_SetCalibrateParam (libspi.TWL.HYB.a tp.o)
@@ -368,9 +329,6 @@ void TP_SetCalibrateParam(const TPCalibrateParam *param)
     tpState.calibrate_flg = 1;
 }
 
-
-
-
 static inline BOOL TPi_SendData(u32 data)
 {
     if (PXI_SendWordByFifo(6, data, 0) < 0) {
@@ -378,9 +336,6 @@ static inline BOOL TPi_SendData(u32 data)
     }
     return 1;
 }
-
-
-
 
 /*
  * sdk:      TP_RequestSamplingAsync (libspi.TWL.HYB.a tp.o)
@@ -403,9 +358,6 @@ void TP_RequestSamplingAsync(void)
     (void)OS_RestoreInterrupts(enabled);
 }
 
-
-
-
 /*
  * sdk:      TP_WaitRawResult (libspi.TWL.HYB.a tp.o)
  */
@@ -419,9 +371,6 @@ u32 TP_WaitRawResult(TPData *result)
     return 0;
 }
 
-
-
-
 static inline BOOL TPi_SendAutoStart(u16 vcount, u8 frequence)
 {
     if (PXI_SendWordByFifo(6, 0x02000000 | 0x100 | frequence, 0) < 0) {
@@ -432,9 +381,6 @@ static inline BOOL TPi_SendAutoStart(u16 vcount, u8 frequence)
     }
     return 1;
 }
-
-
-
 
 /*
  * sdk:      TP_RequestAutoSamplingStartAsync (libspi.TWL.HYB.a tp.o)
@@ -469,8 +415,6 @@ void TP_RequestAutoSamplingStartAsync(u16 vcount, u16 frequence, TPData sampling
     (void)OS_RestoreInterrupts(enabled);
 }
 
-
-
 /*
  * sdk:      TP_RequestAutoSamplingStopAsync (libspi.TWL.HYB.a tp.o)
  */
@@ -491,8 +435,6 @@ void TP_RequestAutoSamplingStopAsync(void)
     tpState.err_flg &= ~4;
     (void)OS_RestoreInterrupts(enabled);
 }
-
-
 
 /*
  * sdk:      TP_GetLatestRawPointInAuto (libspi.TWL.HYB.a tp.o)
@@ -546,8 +488,6 @@ void TP_GetLatestRawPointInAuto(TPData *result)
     result->touch = 1;
 }
 
-
-
 /*
  * sdk:      TP_GetLatestIndexInAuto (libspi.TWL.HYB.a tp.o)
  */
@@ -555,8 +495,6 @@ u16 TP_GetLatestIndexInAuto(void)
 {
     return tpState.index;
 }
-
-
 
 /*
  * sdk:      TP_CalcCalibrateParam (libspi.TWL.HYB.a tp.o)
@@ -620,8 +558,6 @@ u32 TP_CalcCalibrateParam(NvTpData *calibrate, u16 raw_x1, u16 raw_y1, u16 dx1, 
     return 0;
 }
 
-
-
 /*
  * sdk:      TP_GetCalibratedPoint (libspi.TWL.HYB.a tp.o)
  */
@@ -659,8 +595,6 @@ void TP_GetCalibratedPoint(TPData *disp, const TPData *raw)
     }
 }
 
-
-
 /*
  * note:     spi/ARM9/tp.o TP_WaitBusy.
  */
@@ -669,8 +603,6 @@ void TP_WaitBusy(unsigned int command_flgs)
     while (tpState.command_flg & command_flgs) {
     }
 }
-
-
 
 /*
  * note:     spi/ARM9/tp.o TP_CheckError.

@@ -201,17 +201,7 @@ struct Ctx;
 struct PalAnmSlot;
 struct PalAnmObj;
 struct S02021D50;
-typedef unsigned int u32;
-
-typedef unsigned short u16;
-
-typedef unsigned char u8;
-
-typedef signed char s8;
-
-typedef signed short s16;
-
-typedef signed int s32;
+#include "../types.h"
 
 struct Palette {u16 a,b,c;};
 
@@ -292,7 +282,7 @@ typedef struct {u8 a,b;} Pair;
 
 struct Rect {u16 h[4];};
 
-typedef enum { GX_SHADING_TOON, GX_SHADING_HIGHLIGHT } GXShading;
+#include "../sdk_gx.h"
 
 extern int GF_OVERLAY_Load(int);
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
@@ -516,13 +506,6 @@ extern const u32 d_021BB498[][11];
 extern u32 d_021BB640[][3];
 extern const struct Rect rects[];
 
-
-
-
-
-
-
-
 int BTL_REC_SEL_Create(void *manager,char *state,char * const mgr)
 {
     char *work;
@@ -565,13 +548,6 @@ int BTL_REC_SEL_Create(void *manager,char *state,char * const mgr)
     return 1;
 }
 
-
-
-
-
-
-
-
 int BTL_REC_SEL_Delete(void *mgr,int unused,int state,char *work)
 {
     BTL_REC_SEL_DeletePalanm(state,(u8 *)work);
@@ -597,12 +573,6 @@ int BTL_REC_SEL_Delete(void *mgr,int unused,int state,char *work)
     GF_OVERLAY_Unload((int)ov067_id);
     return 1;
 }
-
-
-
-
-
-
 
 /*
  * note 2026-10-05: no default label (the dispatch bhi lands on case 3's own break stub);
@@ -812,13 +782,6 @@ int BTL_REC_SEL_Main(void *unused,u32 *state,const char *mgr,char *work)
     return 0;
 }
 
-
-
-
-
-
-
-
 void BTL_REC_SEL_StartFade(char *state, int unused, char *work, int nextState, int fadeType, int fadeStart, int fadeEnd, int fadeSpeed, int fadeInstant)
 {
     (*(int *)state) = 0;
@@ -830,27 +793,9 @@ void BTL_REC_SEL_StartFade(char *state, int unused, char *work, int nextState, i
     ((struct BtlRecSel *)work)->fadeInstant = fadeInstant;
 }
 
-
-
-
-
-
-
 void BTL_REC_SEL_StartEntryA(unsigned *state,void *unused,char *work,unsigned nextStateA,unsigned entryA,unsigned flag3C){*state=2;BTL_REC_SEL_SetEntryA(unused,work,nextStateA,entryA,flag3C);}
 
-
-
-
-
-
-
 void BTL_REC_SEL_SetEntryA(void *unused,char *work,unsigned nextStateA,unsigned entryA,unsigned flag3C){((struct BtlRecSel *)work)->nextStateA=nextStateA;((struct BtlRecSel *)work)->entryA=entryA;((struct BtlRecSel *)work)->flag3C=flag3C;}
-
-
-
-
-
-
 
 void BTL_REC_SEL_StartEntryB(int *state, int unused, int work, int nextStateB, int entryB)
 {
@@ -858,22 +803,11 @@ void BTL_REC_SEL_StartEntryB(int *state, int unused, int work, int nextStateB, i
     BTL_REC_SEL_SetEntryB(unused, (char *)work, nextStateB, entryB);
 }
 
-
-
-
-
-
-
 void BTL_REC_SEL_SetEntryB(int unused, char *work, int nextStateB, int entryB)
 {
     ((struct BtlRecSel *)work)->nextStateB = nextStateB;
     ((struct BtlRecSel *)work)->entryB = entryB;
 }
-
-
-
-
-
 
 /*
  * blocker-leaf: sole callback blocker of ov214 021B95A0; no existing source/unit/shard, parent ownership cleared.
@@ -883,20 +817,10 @@ void BTL_REC_SEL_VBlank(void *unused, char *work)
     BTL_REC_SEL_TransferPalettes(work);
 }
 
-
-
-
-
-
 static inline void init_palette(struct Palette *pal)
 {
     pal->a=0x294b; pal->b=0x5694; pal->c=0x7fff;
 }
-
-
-
-
-
 
 void BTL_REC_SEL_InitWindows(void *unused, struct BtlRecSel *work)
 {
@@ -921,11 +845,6 @@ void BTL_REC_SEL_InitWindows(void *unused, struct BtlRecSel *work)
     work->strbuf=0;
 }
 
-
-
-
-
-
 void BTL_REC_SEL_DeleteWindows(int unused,char*work)
 {
     if(*(void* *)&((struct BtlRecSel *)work)->printStream)PRINTSYS_PrintStreamDelete(*(void* *)&((struct BtlRecSel *)work)->printStream);
@@ -936,34 +855,17 @@ void BTL_REC_SEL_DeleteWindows(int unused,char*work)
     BMP_WIN_Delete(*(void* *)&((struct BtlRecSel *)work)->win0);
 }
 
-
-
-
-
-
 /*
  * Tail: two zero alignment bytes at 021BA072.
  */
 void BTL_REC_SEL_MainTcbl(int unused,char *work){TCBL_Main(*(struct Tcbl * *)&((struct BtlRecSel *)work)->tcbl);if(UI_GetFrameRate()==30)TCBL_Main(*(struct Tcbl * *)&((struct BtlRecSel *)work)->tcbl);}
-
-
-
-
 
 /*
  * Parameter evidence: original narrows third input to u16 before BMP_MENUWORK_DrawWindow.
  */
 void BTL_REC_SEL_DrawWindow(int unused,char *work){struct Descriptor *d;BMP_MENUWORK_DrawWindow((struct BmpWin *)(((struct BtlRecSel *)work)->win1),1,(unsigned short)(((struct BtlRecSel *)work)->frameRun),10);d=*(struct Descriptor * *)&((struct BtlRecSel *)work)->win1;BMP_WIN_TransferChars((struct BmpWin *)d);BMP_WIN_MakeScreen((struct BmpWin *)d);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)d));}
 
-
-
-
-
 void BTL_REC_SEL_DrawWindowBorder(int unused,char *work){BMP_MENUWORK_DrawWindowBorder(((struct BtlRecSel *)work)->win1,(int)1);}
-
-
-
-
 
 void BTL_REC_SEL_ClearWindowWhite(int unused, char *work)
 {
@@ -975,18 +877,10 @@ void BTL_REC_SEL_ClearWindowWhite(int unused, char *work)
     BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)d));
 }
 
-
-
-
-
 /*
  * Tail: two zero alignment bytes at 021BA106.
  */
 void BTL_REC_SEL_ClearWindowClear(int unused,char *work){struct Descriptor *d;BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((struct BtlRecSel *)work)->win1)),0);d=*(struct Descriptor * *)&((struct BtlRecSel *)work)->win1;BMP_WIN_TransferChars((struct BmpWin *)d);BMP_WIN_MakeScreen((struct BmpWin *)d);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)d));}
-
-
-
-
 
 /*
  * note: 0201CCE4's r0 remains live and is stored at +5c after the call;
@@ -1005,15 +899,7 @@ void BTL_REC_SEL_PrintEntry(int unused,char*work,unsigned entry,int v)
     ((struct BtlRecSel *)work)->streamWait=v;
 }
 
-
-
-
-
 int BTL_REC_SEL_WaitPrint(int a,char *work){int result=BTL_REC_SEL_PrintStep(a,work);if(result==0){if(UI_GetFrameRate()==30)result=BTL_REC_SEL_PrintStep(a,work);}return result;}
-
-
-
-
 
 int BTL_REC_SEL_PrintStep(int unused,char*work)
 {
@@ -1046,10 +932,6 @@ int BTL_REC_SEL_PrintStep(int unused,char*work)
     return result;
 }
 
-
-
-
-
 void BTL_REC_SEL_PrintQueEntry(void*mgr,char*work,unsigned entry)
 {
     BMP_Clear(BMP_WIN_GetBmp(*(void* *)&((struct BtlRecSel *)work)->win1),15);
@@ -1062,15 +944,7 @@ void BTL_REC_SEL_PrintQueEntry(void*mgr,char*work,unsigned entry)
     BTL_REC_SEL_TryShowEntry((int)mgr,(u8 *)work);
 }
 
-
-
-
-
 u32 BTL_REC_SEL_TryShowEntry(int unused,u8 *work){struct Descriptor *d;if(((struct BtlRecSel *)work)->windowShown==0){if(PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)(*(struct PrintSys * *)&((struct BtlRecSel *)work)->printQue[0]),BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((struct BtlRecSel *)work)->win1)))==0){d=*(struct Descriptor * *)&((struct BtlRecSel *)work)->win1;BMP_WIN_TransferChars((struct BmpWin *)d);BMP_WIN_MakeScreen((struct BmpWin *)d);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)d));((struct BtlRecSel *)work)->windowShown=1;}}return ((struct BtlRecSel *)work)->windowShown;}
-
-
-
-
 
 void BTL_REC_SEL_InitPalette(int unused,char*work)
 {
@@ -1087,21 +961,9 @@ void BTL_REC_SEL_InitPalette(int unused,char*work)
     ((struct BtlRecSel *)work)->yesNo.e=off;
 }
 
-
-
-
-
 void BTL_REC_SEL_Noop(int unused, char *work){}
 
-
-
-
-
 void BTL_REC_SEL_CreateYesNo(int unused,u8 *work){*(struct BmpMenu * *)&((struct BtlRecSel *)work)->yesNoMenu=BMP_MENU_CreateYesNo((const struct WinDat *)&((struct BtlRecSel *)work)->yesNo,((struct BtlRecSel *)work)->frameRun,10,0,((struct BtlRecSel *)work)->heap);}
-
-
-
-
 
 void BTL_REC_SEL_CreateWindows(int unused,char*work)
 {
@@ -1116,10 +978,6 @@ void BTL_REC_SEL_CreateWindows(int unused,char*work)
     ((struct BtlRecSel *)work)->lastValue=0;
 }
 
-
-
-
-
 void BTL_REC_SEL_DeleteWindowList(int unused, char *work)
 {
     unsigned char i;
@@ -1128,9 +986,6 @@ void BTL_REC_SEL_DeleteWindowList(int unused, char *work)
         BMP_WIN_Delete(((struct BtlRecSel *)work)->winHandles[i]);
     }
 }
-
-
-
 
 /*
  * note: BA794's third argument is narrowed at 021BA49A..A0; caller
@@ -1151,9 +1006,6 @@ void BTL_REC_SEL_TickTimer(struct BtlRecSelMgr *mgr,char*work)
         }
     }
 }
-
-
-
 
 /*
  * extent: two bytes zero alignment at 021BA5C6.
@@ -1195,8 +1047,6 @@ void BTL_REC_SEL_ShowWindows(void *unused,struct BtlRecSel *work)
     }
 }
 
-
-
 void BTL_REC_SEL_PrintList(void*mgr,char*work)
 {
     void*h;
@@ -1210,8 +1060,6 @@ void BTL_REC_SEL_PrintList(void*mgr,char*work)
     ((struct BtlRecSel *)work)->winShown[1]=0;
     BTL_REC_SEL_ShowWindows(mgr,(struct BtlRecSel *)work);
 }
-
-
 
 void BTL_REC_SEL_ClearList(int unused,char*work)
 {
@@ -1228,8 +1076,6 @@ void BTL_REC_SEL_ClearList(int unused,char*work)
     }
 }
 
-
-
 void BTL_REC_SEL_StartTimer(void *mgr, char *work, u32 v)
 {
     u32 threshold;
@@ -1243,10 +1089,6 @@ void BTL_REC_SEL_StartTimer(void *mgr, char *work, u32 v)
     ((struct BtlRecSel *)work)->lastValue = 0;
     BTL_REC_SEL_DrawCounter(mgr, (struct BtlRecSel *)work, v);
 }
-
-
-
-
 
 void BTL_REC_SEL_ResetTimer(void*mgr,char*work)
 {
@@ -1267,11 +1109,6 @@ void BTL_REC_SEL_ResetTimer(void*mgr,char*work)
     ((struct BtlRecSel *)work)->lastMode=0;
     ((struct BtlRecSel *)work)->lastValue=0;
 }
-
-
-
-
-
 
 void BTL_REC_SEL_DrawCounter(struct BtlRecSelMgr *mgr, struct BtlRecSel *e, unsigned int v)
 {
@@ -1335,10 +1172,6 @@ void BTL_REC_SEL_DrawCounter(struct BtlRecSelMgr *mgr, struct BtlRecSel *e, unsi
     BTL_REC_SEL_ShowWindows(mgr, (struct BtlRecSel *)e);
 }
 
-
-
-
-
 /*
  * layout: two rows of six 0x28-byte cells, observed nested-loop bounds.
  * prototypes: BAB0C owning matched source; B2A8 own same-region getter.
@@ -1378,11 +1211,6 @@ void BTL_REC_SEL_InitCells(void *unused,struct BtlRecSel *work)
     }
 }
 
-
-
-
-
-
 void BTL_REC_SEL_DeleteCellActors(int unused, int workAddr)
 {
     struct BtlRecSel *w = (struct BtlRecSel *)workAddr;
@@ -1396,10 +1224,6 @@ void BTL_REC_SEL_DeleteCellActors(int unused, int workAddr)
         }
     }
 }
-
-
-
-
 
 int BTL_REC_SEL_CreateActor(int sceneId,u16 heap,int mode,u8 shade,u32 gfxId0,u32 gfxId1,u32 gfxId2,u32 gfxId3,void*sceneWork,u8 x,u8 y,u8 flag,u8 bgPriority,u8 drawPriority)
 {
@@ -1424,10 +1248,6 @@ int BTL_REC_SEL_CreateActor(int sceneId,u16 heap,int mode,u8 shade,u32 gfxId0,u3
     return actorHandle;
 }
 
-
-
-
-
 /*
  * function_starts: 0x021BABB8
  * note: Cleared BABB8 follower occupies 60 bytes through BABF4. The pools
@@ -1439,10 +1259,6 @@ void BTL_REC_SEL_DeleteActor(void*scene,void*actor)
     UI_SCENE_FreeActorGfx(scene);
 }
 
-
-
-
-
 void BTL_REC_SEL_SetMode(int unused,char*work)
 {
     u8 tableIndex=((struct BtlRecSel *)work)->headerParam;
@@ -1452,11 +1268,6 @@ void BTL_REC_SEL_SetMode(int unused,char*work)
     else ((struct BtlRecSel *)work)->mode=0;
 }
 
-
-
-
-
-
 void BTL_REC_SEL_InitBgRun(int unused, char *work)
 {
     void *h = ARC_TOOL_CreateHandle(188, ((struct BtlRecSel *)work)->heap);
@@ -1465,37 +1276,15 @@ void BTL_REC_SEL_InitBgRun(int unused, char *work)
     ARC_TOOL_DeleteHandle(h);
 }
 
-
-
-
-
 void BTL_REC_SEL_DeleteBgRun(int unused,u8 *work){u32 v=((struct BtlRecSel *)work)->bgRunMain;BG_SYS_FreeTileRun(2,(u16)v,(u16)(v>>16));}
-
-
-
-
 
 void BTL_REC_SEL_InitBgGfx1(int unused,u8 *work){ARC_UTIL_UploadBgPaletteFromArchive(188,2,2,(u16)(((struct BtlRecSel *)work)->bgRunMain),0,0,((struct BtlRecSel *)work)->heap);BG_SYS_MarkTileDirty(2);BG_SYS_ChangeScroll(3,3,0);}
 
-
-
-
-
 void BTL_REC_SEL_InitBgGfx2(int unused,u8 *work){enum{K=2}k=K;ARC_UTIL_UploadBgPaletteFromArchive(188,3,k,(u16)(((struct BtlRecSel *)work)->bgRunMain),0,0,((struct BtlRecSel *)work)->heap);BG_SYS_MarkTileDirty(2);k-=10;BG_SYS_ChangeScrollImmediate(3,3,k);}
-
-
-
-
 
 void BTL_REC_SEL_InitBgGfx3(int unused,u8 *work){enum{K=3}k;ARC_UTIL_UploadBgPaletteFromArchive(188,4,2,(u16)(((struct BtlRecSel *)work)->bgRunMain),0,0,((struct BtlRecSel *)work)->heap);BG_SYS_MarkTileDirty(2);k=K;BG_SYS_ChangeScrollImmediate(3,3,k-11);}
 
-
-
-
-
 void BTL_REC_SEL_ClearLayer(void *work, char *unused){BG_SYS_ClearLayerEx(2,0);}
-
-
 
 void BTL_REC_SEL_InitSubBg(void **mgrRef,char *work)
 {
@@ -1531,31 +1320,16 @@ void BTL_REC_SEL_InitSubBg(void **mgrRef,char *work)
     BG_SYS_PushTile(4);
 }
 
-
-
-
 static inline void GXS_SetVisibleWnd(int window){*(volatile u32 *)0x04001000=(*(volatile u32 *)0x04001000&~0xe000u)|(window<<13);}
-
-
-
 
 /*
  * volatile: hardware registers 0x04001050 (021BAE30), 0x04001000 read/write (021BAE34/021BAE3A).
  */
 void BTL_REC_SEL_DeleteSubBg(int unused, char *work){int i;for(i=0;i<1u;i++)BG_SYS_FreeLayerBuf(d_021BB498[i][0]);*(volatile u16 *)0x04001050=0;GXS_SetVisibleWnd(0);}
 
-
-
-
 void BTL_REC_SEL_CreateUiActor(int unused,u8 *work){*(int *)&((struct BtlRecSel *)work)->actor=BTL_REC_SEL_CreateActor(BTL_REC_SEL_GRAPHIC_GetCamera(*(u8 * *)&((struct BtlRecSel *)work)->graphic),((struct BtlRecSel *)work)->heap,0,0,1,0,0,0,((struct BtlRecSel *)work)->uiSceneWork,0,0,0,1,1);}
 
-
-
-
 void BTL_REC_SEL_DeleteUiActor(int unused,u8 *work){BTL_REC_SEL_DeleteActor(((struct BtlRecSel *)work)->uiSceneWork,((struct BtlRecSel *)work)->actor);}
-
-
-
 
 void BTL_REC_SEL_InitPalanm(int unused,char *work)
 {
@@ -1571,13 +1345,7 @@ void BTL_REC_SEL_InitPalanm(int unused,char *work)
     ((struct BtlRecSel *)work)->fadeRequest=0;
 }
 
-
-
-
 void BTL_REC_SEL_DeletePalanm(int unused,u8 *work){PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct BtlRecSel *)work)->palanm,0);PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct BtlRecSel *)work)->palanm,2);PALANM_Delete(((struct BtlRecSel *)work)->palanm);TCB_Noop(((struct BtlRecSel *)work)->tcb);GFL_HEAP_Free(((struct BtlRecSel *)work)->palBuf);}
-
-
-
 
 /*
  * prototype: 0202173C's third parameter is widened to the observed full-word
@@ -1620,9 +1388,6 @@ void BTL_REC_SEL_FadeMain(void *unused,struct BtlRecSel *work)
         break;
     }
 }
-
-
-
 
 void BTL_REC_SEL_TransferPalettes(char *work)
 {

@@ -25,9 +25,7 @@
  *   MSGDATA_ReadString 0x02045CAC arm
  *   STRBUF_GetChars  0x02045A90  arm
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../types.h"
 
 #include "msgsearch_types.h"
 
@@ -48,7 +46,6 @@ u32 MSGSEARCH_Search(MsgSearch *search, u32 bankIndex, u32 unused, struct StrBuf
 int MSGSEARCH_PrefixMatches(struct StrBuf *prefix, struct StrBuf *text, u32 length);
 extern const char d_021B9558[];
 
-
 MsgSearch *MSGSEARCH_Create(struct MsgBank **banks, u32 bankCount, u16 heapId)
 {
     u32 size;
@@ -67,13 +64,11 @@ MsgSearch *MSGSEARCH_Create(struct MsgBank **banks, u32 bankCount, u16 heapId)
     return search;
 }
 
-
 void MSGSEARCH_Delete(MsgSearch *search)
 {
     STRBUF_Delete((struct Strbuf *)search->scratch);
     GFL_HEAP_Free(search);
 }
-
 
 /*
  * Finds the messages of one bank that start with prefix. Fills hits with up to
@@ -111,7 +106,6 @@ u32 MSGSEARCH_Search(MsgSearch *search, u32 bankIndex, u32 unused, struct StrBuf
     }
     return matchCount;
 }
-
 
 /* Returns 1 when both strings are at least length characters long and their first length characters are equal. */
 int MSGSEARCH_PrefixMatches(struct StrBuf *prefix, struct StrBuf *text, u32 length)

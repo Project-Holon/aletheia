@@ -19,9 +19,7 @@
  *   fade_File       0x020A7F8C  data
  *   g_02146A7C      0x02146A7C  data
  */
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed int     s32;
+#include "../types.h"
 
 typedef struct Fade {
     u32 flags;    /* 0x00 */

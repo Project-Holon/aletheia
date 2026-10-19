@@ -20,20 +20,15 @@
  *   OSi_IrqThreadQueue       0x02FE00A0  data
  */
 
-typedef unsigned long u32;
-typedef unsigned short u16;
-typedef int BOOL;
-typedef u32 OSIntrMode;
+#include "../types.h"
+#include "../sdk_os.h"
 
 extern char SDK_AUTOLOAD_DTCM_START[];
 
 /* HW_INTR_CHECK_BUF: the IRQ check word at DTCM + 0x3FF8. */
 #define OSi_IRQ_CHECK_FLAG (*(volatile u32 *)((u32)SDK_AUTOLOAD_DTCM_START + 0x3FF8))
 
-typedef struct OSThreadQueue {
-    void *head;
-    void *tail;
-} OSThreadQueue;
+#include "../sdk_os_thread.h"
 
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);

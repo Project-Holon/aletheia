@@ -55,14 +55,9 @@
  *   GFL_NET_STATE_Idle  0x0203C00C  arm
  */
 
-typedef unsigned char u8;
-
-typedef unsigned int  u32;
-
-typedef unsigned short u16;
+#include "../types.h"
 
 #include "net_types.h"
-typedef signed int     s32;
 
 /* Typed timing-sync state hung off _pBaseWork (0x20 bytes, allocated by GFL_NET_HANDLE_InitWork). */
 struct NetBaseWork {
@@ -135,15 +130,6 @@ void GFL_NET_SYSTEM_ResetMachineBuffer(u32 a);
 
 int GFL_NET_SYSTEM_IsConnectMember(u32 mode);
 
-
-
-
-
-
-
-
-
-
 int GFL_NET_HANDLE_GetNetHandleID(GFLNetHandle *a);
 
 void GFL_NET_HANDLE_ResetHandle(GFLNetHandle *e, u32 idx);
@@ -155,8 +141,6 @@ GFLNetHandle *GFL_NET_HANDLE_CreateHandle(u32 idx);
 void GFL_NET_HANDLE_InitWork(GFLNetSession *unused);
 
 void GFL_NET_HANDLE_ExitWork(GFLNetSession *unused);
-
-
 
 u32 GFL_NET_HANDLE_IsNegotiationDone(GFLNetHandle *handle);
 
@@ -206,7 +190,6 @@ void GFL_NET_HANDLE_SetUserInfo(GFLNetHandle *handle, int timingLow, int timingH
 
 void GFL_NET_HANDLE_SetAllTimingValue(GFLNetHandle *handle, u32 timing);
 
-
 u32 GFL_NET_IsParentAid(void);
 
 u32 GFL_NET_IsHandleReady(GFLNetHandle *e);
@@ -226,11 +209,6 @@ GFLNetSession *GFL_NET_GetInitParam(void);
 
 void GFL_NET_IRC_WIRELESS_AddMacAddress(const u8 *mac);
 
-
-
-
-
-
 extern const char _FileName[];
 
 extern const char _AssertZero[];
@@ -246,7 +224,6 @@ extern const char _AssertTimingSend[];
 extern const char _AssertNetIDNotServer[];
 
 extern const char _AssertNetIDInRange[];
-
 
 /*
  *           0x020A7A68 ends at 0x020A7A75; the 3-byte gap kills the `string`
@@ -272,35 +249,6 @@ int GFL_NET_HANDLE_GetNetHandleID(GFLNetHandle *handle)
     GF_PANIC_Fail(_FileName, 0x6e, _AssertZero);
     return -1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Reset one slot entry while KEEPING its eight resource pointers.  The eight
@@ -356,35 +304,6 @@ void GFL_NET_HANDLE_ResetHandle(GFLNetHandle *handle, u32 netID)
     GFL_NET_SYSTEM_ResetMachineBuffer(netID);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Clears the slot's `0x3e` field, refreshes its `0x40` field from the
  * selector, then clears the 0x10-byte record its indexed pointer names.
@@ -404,35 +323,6 @@ void GFL_NET_HANDLE_ClearTimingMask(GFLNetHandle *handle, u32 netID)
         MI_CpuFill8(rec, 0, 0x10);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * (Re)initialise one slot entry and hand it back.  The entry is wiped to
@@ -502,35 +392,6 @@ GFLNetHandle *GFL_NET_HANDLE_CreateHandle(u32 netID)
     return handle;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Module bring-up, the twin of GFL_NET_HANDLE_ExitWork's teardown: reset all eight
  * peer slots through GFL_NET_HANDLE_CreateHandle, reset the own slot (0xFF) too, assert
@@ -583,34 +444,6 @@ void GFL_NET_HANDLE_InitWork(GFLNetSession *unused)
     _pBaseWork = GFL_HEAP_Alloc(session->init.heapId, 0x20, 1, _FileName, 0xe5);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * The teardown twin of GFL_NET_HANDLE_InitWork: clear every one of the eight peer slots
  * (GFL_NET_HANDLE_ResetHandle on each slot's entry), release the eight resource handles the
@@ -655,36 +488,6 @@ void GFL_NET_HANDLE_ExitWork(GFLNetSession *unused)
     _pBaseWork = 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Resolves a slot index to one of the nine 0x50-byte entries at +0x70 of
  * GFL_NET_GetSession()'s record.  0xff is the "own slot" spelling and names entry
@@ -713,36 +516,6 @@ GFLNetHandle *GFL_NET_HANDLE_GetNetHandle(s32 netID)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * A two-call forwarder: the index GFL_NET_SYSTEM_GetCurrentAid returns goes straight to
  * GFL_NET_HANDLE_GetNetHandle through r0, and that entry is returned.
@@ -754,36 +527,6 @@ GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void)
 {
     return GFL_NET_HANDLE_GetNetHandle(GFL_NET_SYSTEM_GetCurrentAid());
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * A null-tolerant predicate on a slot's +0x4A state.  This is the if/else
@@ -806,35 +549,6 @@ u32 GFL_NET_HANDLE_IsNegotiationDone(GFLNetHandle *handle)
         return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Entry accessor: returns byte 0x4A of a 0x50-byte entry, or 8 for null.
  */
@@ -843,35 +557,6 @@ int GFL_NET_HANDLE_GetNegotiationState(GFLNetHandle *handle)
     if (handle) return handle->state;
     return 8;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Count how many of the eight slots answer non-zero to the probe: when
@@ -909,34 +594,6 @@ int GFL_NET_HANDLE_GetNegotiationNum(void)
     return count;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GFL_NET_HANDLE_RequestNegotiation(int timingNo)
 {
     GFLNetHandle *handle;
@@ -946,35 +603,6 @@ void GFL_NET_HANDLE_RequestNegotiation(int timingNo)
     handle->timingReq[timingNo].timingNo = (char)timingNo;
     handle->timingReq[timingNo].armed = 1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Retire every armed two-byte slot of the own-slot entry: early-out when
@@ -1025,35 +653,6 @@ void GFL_NET_HANDLE_SendNegotiation(void)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Seeds the current record's +0x4a state byte: state 2 re-arms the eight-slot
  * table through GFL_NET_SendToHandle with a 3-byte payload built in a 12-byte stack
@@ -1091,35 +690,6 @@ int GFL_NET_HANDLE_CheckNegotiation(void)
     }
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Record one peer's vote and raise the "everyone agreed" flag when the last
@@ -1182,35 +752,6 @@ void GFL_NET_HANDLE_RecvTimingSync(u32 netID, u32 size, struct NetTimingVoteMsg 
     _pBaseWork->timingSendReady[netID] = 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * A message handler from the dispatch table at 0x020A0870, sharing the
  * five-argument shape of its table neighbour GFL_NET_HANDLE_RecvTimingSync: the first four
@@ -1222,35 +763,6 @@ void GFL_NET_HANDLE_RecvTimingTag(u32 netID, u32 size, struct NetTimingNoMsg *ms
 {
     handle->connectFlags = msg->timingNo;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Arm one pending vote on the record at `p`: park the tag at +0x46, mark the
@@ -1282,35 +794,6 @@ void GFL_NET_HANDLE_StartTimingSync(GFLNetHandle *handle, u16 timingNo)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * A whole translation unit, matched as one byte range.
  *
@@ -1341,64 +824,10 @@ void GFL_NET_HANDLE_SetTimingSyncRange(GFLNetHandle *handle, u32 timingLow, u32 
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 u32 GFL_NET_HANDLE_IsTimingSync(GFLNetHandle *handle, u32 timingNo)
 {
     return handle->connectFlags == timingNo;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 u32 GFL_NET_HANDLE_IsTimingSyncRange(GFLNetHandle *handle, u32 timingLow, u32 timingHigh)
 {
@@ -1407,34 +836,6 @@ u32 GFL_NET_HANDLE_IsTimingSyncRange(GFLNetHandle *handle, u32 timingLow, u32 ti
     }
     return handle->connectFlags == timingLow + (timingHigh << 8);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Sweep the eight slot pointers at +0x8.  A slot that is still marked in use
@@ -1467,34 +868,6 @@ int GFL_NET_HANDLE_SendTimingSyncAll(GFLNetHandle *handle)
     handle->notifiedMask = 0;
     return 1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * The net_handle.c tick (docs/families/net_handle.h).  Closed from the
@@ -1580,33 +953,6 @@ void GFL_NET_HANDLE_Main(void)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * net_handle.c: claim a connection slot for the message a2 (MAC copy,
  * id bytes, OS_GetMacAddress) when this machine owns the table, else mark
@@ -1672,37 +1018,6 @@ void GFL_NET_HANDLE_RecvNegotiation(u32 netID, u32 size, const struct NetNegotia
   handle->joinPhase = 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Conditional state repair: when the context's +0x352 flag is clear the
  * object's +0x4A state is only pushed to 7 if it is not already 5, otherwise
@@ -1725,37 +1040,6 @@ void GFL_NET_HANDLE_SetNegotiationEnd(GFLNetHandle *handle)
         handle->state = 7;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void GFL_NET_HANDLE_RecvNegotiationReturn(int senderID, int size, NetMemberRec *msg, int localNetID, GFLNetHandle *peer)
 {
@@ -1798,38 +1082,6 @@ void GFL_NET_HANDLE_RecvNegotiationReturn(int senderID, int size, NetMemberRec *
     GFL_NET_IRC_WIRELESS_AddMacAddress(msg->ownMac);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * A message-table handler that forwards to GFL_NET_HANDLE_RemoveHandle with the message's
  * first byte as its only argument.  The five-argument table shape puts the
@@ -1850,38 +1102,6 @@ void GFL_NET_HANDLE_RecvRemoveHandle(u32 netID, u32 size, u8 *data, u32 work, u3
 {
     GFL_NET_HANDLE_RemoveHandle(*data);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Set or clear one bit of the 16-bit slot mask, reporting at line 0x391 (913)
@@ -1916,38 +1136,6 @@ u16 GFL_NET_HANDLE_SetBitMask(u16 bitMask, u32 netID, u32 enable)
     return bitMask;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Tests one bit of a channel mask, the 0xFF argument being a non-fatal
  * report at line 0x3AB (939).  The mask is truncated to a byte before the
@@ -1966,38 +1154,6 @@ u32 GFL_NET_HANDLE_IsBitSet(u32 bitMask, u32 netID)
         GF_PANIC_Fail(_FileName, 0x3AB, _AssertNetIDNotServer);
     return (bitMask & (u8)(1 << netID)) != 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Promoted from src/pending/ on lane 1: every concrete byte is right (80 of
@@ -2025,38 +1181,6 @@ void GFL_NET_HANDLE_RemoveHandle(u32 netID)
     GFL_NET_HANDLE_ResetHandle((GFLNetHandle *)GFL_NET_HANDLE_GetNetHandle(netID), netID);
     GFL_NET_HANDLE_ClearTimingMask((GFLNetHandle *)GFL_NET_HANDLE_GetNetHandle(0xFF), netID);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Install a payload into slot `id`: bail out when the receiver is the own
@@ -2108,37 +1232,6 @@ void GFL_NET_HANDLE_RecvInfoData(int netID, u32 size, const void *data, u32 work
     MI_CpuCopy8(data, target->workBuf, size);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GFL_NET_HANDLE_SetUserInfo(GFLNetHandle *handle, int timingLow, int timingHigh, int netID)
 {
     if (handle == 0)
@@ -2150,38 +1243,6 @@ void GFL_NET_HANDLE_SetUserInfo(GFLNetHandle *handle, int timingLow, int timingH
     else
         handle->isRemote = 1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Broadcasts a byte value to the +0xE and +0xF bytes of all nine channel
@@ -2209,35 +1270,3 @@ void GFL_NET_HANDLE_SetAllTimingValue(GFLNetHandle *handle, u32 timing)
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -103,15 +103,9 @@ struct Rec;
 struct WordSet;
 struct Rec160;
 struct Obj;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 typedef struct { u8 image[0x94]; u32 f94, f98; int f9c; u16 fa0, fa2, fa4, fa6, fa8, faa; } Record;
-
-typedef signed int     s32;
 
 typedef struct Work Work;
 
@@ -244,19 +238,14 @@ int DIGITALCARDCHECK_IsInitRecordDone(int *p);
 int DIGITALCARDCHECK_IsInitWorkDone(int *p);
 extern const char d_0217E61C[];
 
-
-
 void DIGITALCARDCHECK_UpdateMenu(void *obj, int a, int b)
 {
     WIFIBATTLEMATCH_UTIL_PrintMessage((struct WifibattlematchUtilWork *)(((struct LiveBattleMatchWork *)obj)->printSys), (void *)(((struct LiveBattleMatchWork *)obj)->menuValue), a, b);
 }
 
-
 int DIGITALCARDCHECK_GetMenuResult(u8 *p){return WIFIBATTLEMATCH_UTIL_GetBusy((struct WifibattlematchUtilWork *)(*(int * *)&((struct LiveBattleMatchWork *)p)->printSys));}
 
-
 void DIGITALCARDCHECK_End(u8 *p,int v){((struct LiveBattleMatchWork *)p)->flowResult=v;WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)(*(int * *)&((struct LiveBattleMatchWork *)p)->proc),(int)LIVEBATTLEMATCH_FLOW_End);}
-
 
 /*
  * extent: two zero alignment bytes at 0217D15E before existing 0217D160.
@@ -293,16 +282,12 @@ void DIGITALCARDCHECK_CreateRecord(u8 *p)
     *(int *)&((struct LiveBattleMatchWork *)p)->record = (int)WIFIBATTLEMATCH_VIEW_CreateDateWindow((char *)(&rec), (void *)x, (void *)table, (void *)(((struct LiveBattleMatchWork *)p)->view), ((struct LiveBattleMatchWork *)p)->font, (void *)(*(int *)&((struct LiveBattleMatchWork *)p)->printQue), (void *)(*(int *)&((struct LiveBattleMatchWork *)p)->mgr), (void *)(((struct LiveBattleMatchWork *)p)->arg2C), (void *)aux, 0, ((struct LiveBattleMatchWork *)p)->heap);
 }
 
-
-
 void DIGITALCARDCHECK_WaitRecord(int *p)
 {
     DIGITALCARDCHECK_CreateRecord((u8 *)p);
     while (DIGITALCARDCHECK_IsRecordDone((u8 *)p) == 0)
         ;
 }
-
-
 
 void DIGITALCARDCHECK_DeleteRecord(int *p)
 {
@@ -312,9 +297,7 @@ void DIGITALCARDCHECK_DeleteRecord(int *p)
     }
 }
 
-
 int DIGITALCARDCHECK_IsRecordDone(u8 *p) {return WIFIBATTLEMATCH_VIEW_StepMainWindow(((struct LiveBattleMatchWork *)p)->record);}
-
 
 /*
  * extent: 12-byte tail stub before labelled 0217D1A0.
@@ -324,13 +307,11 @@ int DIGITALCARDCHECK_IsWorkDone(int *p)
     return WIFIBATTLEMATCH_VIEW_StepMainWindowIdle((Work *)p[4]);
 }
 
-
 /*
  * calls: 021E62CC own source has five inputs, but this caller visibly
  *   stores the sixth at 0217D1B6; retain the zero-extended halfword payload.
  */
 void DIGITALCARDCHECK_SetRecordMode(u8 *p,int mode) {WIFIBATTLEMATCH_VIEW_DrawDateWindow(*(char * *)&((struct LiveBattleMatchWork *)p)->record,mode,((struct LiveBattleMatchWork *)p)->mgr,((struct LiveBattleMatchWork *)p)->printQue,((struct LiveBattleMatchWork *)p)->font,((struct LiveBattleMatchWork *)p)->heap);}
-
 
 /*
  * extent: two bytes of zero alignment padding follow.
@@ -347,12 +328,9 @@ void DIGITALCARDCHECK_CreateRecord2(char *p, int value)
     }
 }
 
-
 void DIGITALCARDCHECK_DeleteRecord2(int *p) {if(*(char * *)&((struct LiveBattleMatchWork *)p)->record2) {WIFIBATTLEMATCH_VIEW_DeleteRecordWindow(*(char * *)&((struct LiveBattleMatchWork *)p)->record2);((struct LiveBattleMatchWork *)p)->record2=0;}}
 
-
 int DIGITALCARDCHECK_IsRecord2Done(u8 *p){return WIFIBATTLEMATCH_VIEW_StepRecordWindow(((struct LiveBattleMatchWork *)p)->record2);}
-
 
 void DIGITALCARDCHECK_CreateRecord3(char *p)
 {
@@ -364,25 +342,13 @@ void DIGITALCARDCHECK_CreateRecord3(char *p)
     }
 }
 
-
 void DIGITALCARDCHECK_DeleteRecord3(u8 *p) {if(*(char * *)&((struct LiveBattleMatchWork *)p)->record3) {WIFIBATTLEMATCH_VIEW_DeletePartyWindow(*(char * *)&((struct LiveBattleMatchWork *)p)->record3);((struct LiveBattleMatchWork *)p)->record3=0;}}
-
 
 int DIGITALCARDCHECK_IsRecord3DoneA(u8 *p){return WIFIBATTLEMATCH_VIEW_StepPartyWindow(((struct LiveBattleMatchWork *)p)->record3);}
 
-
 int DIGITALCARDCHECK_IsRecord3DoneB(u8 *p){return WIFIBATTLEMATCH_VIEW_StepPartyWindowAlt(((struct LiveBattleMatchWork *)p)->record3);}
 
-
-
-
-
 void DIGITALCARDCHECK_CopyRegulation(u8 *p,const void *q) {void *v;v=BATTLE_BOX_CreateParty(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(((struct LiveBattleMatchWork *)p)->save)),((struct LiveBattleMatchWork *)p)->heap);MI_CpuCopy8(v,q,POKE_REGULATION_GetDataSize());GFL_HEAP_Free(v);}
-
-
-
-
-
 
 /*
  *           have no witness outside this range. Both are unlabelled Thumb
@@ -412,19 +378,10 @@ void DIGITALCARDCHECK_BuildBattleRecord(u8 *p, u8 *q)
     ((struct BattleRecord *)p)->cardValue = REGULATION_Card_GetValue((struct RegulationCard *)(((struct LiveBattleMatchWork *)q)->card), 2);
 }
 
-
-
-
-
-
 void DIGITALCARDCHECK_SetBattleRecordValue(int *p, int *q)
 {
     ((struct BattleRecord *)p)->cardValue = REGULATION_Card_GetValue((struct RegulationCard *)(((struct LiveBattleMatchWork *)q)->card), 2);
 }
-
-
-
-
 
 Request *DIGITALCARDCHECK_Create(RequestConfig *p, int heap)
 {
@@ -440,14 +397,7 @@ Request *DIGITALCARDCHECK_Create(RequestConfig *p, int heap)
     return r;
 }
 
-
-
-
 void DIGITALCARDCHECK_Delete(int *p) {WIFIBATTLEMATCH_UTIL_DeleteCallback((void *)p[4]);DIGITALCARDCHECK_DeleteInitRecord(p);WORDSET_Delete((struct WordSet *)p[1]);MSGDATA_Delete((struct MsgBank *)p[0]);GFL_HEAP_Free(p);}
-
-
-
-
 
 /*
  *   WIFIBATTLEMATCH_VIEW_UpdatePokeList (0x021E64C0) stays wildcarded because the target is an
@@ -463,13 +413,7 @@ void DIGITALCARDCHECK_DeleteAlt(int *p)
         WIFIBATTLEMATCH_VIEW_UpdatePokeList((unsigned char *)((Request *)p)->record, (void *)((Request *)p)->config.mgr);
 }
 
-
-
-
 int DIGITALCARDCHECK_GetProcResult(int *p) {return WIFIBATTLEMATCH_UTIL_IsCallbackNull((int **)p[4]);}
-
-
-
 
 void DIGITALCARDCHECK_SelectPhase(int a, int unused, char *p)
 {
@@ -501,8 +445,6 @@ void DIGITALCARDCHECK_SelectPhase(int a, int unused, char *p)
     }
     WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)a, (int)DIGITALCARDCHECK_Phase6);
 }
-
-
 
 void DIGITALCARDCHECK_Phase1(int *a, int *state, int *p)
 {
@@ -552,8 +494,6 @@ void DIGITALCARDCHECK_Phase1(int *a, int *state, int *p)
     }
 }
 
-
-
 void DIGITALCARDCHECK_Phase2(int *a, int *state, int *p)
 {
     int result;
@@ -602,8 +542,6 @@ void DIGITALCARDCHECK_Phase2(int *a, int *state, int *p)
     }
 }
 
-
-
 void DIGITALCARDCHECK_Phase3(int *a, int *state, int *p)
 {
     int result;
@@ -625,8 +563,6 @@ void DIGITALCARDCHECK_Phase3(int *a, int *state, int *p)
     case 8: WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)a, (int)DIGITALCARDCHECK_EndPhase); break;
     }
 }
-
-
 
 /*
  * DFF0 receives the context in r0 even though its forwarding body ignores it.
@@ -652,8 +588,6 @@ void DIGITALCARDCHECK_Phase4(int sys, int *state, int *p)
     }
 }
 
-
-
 void DIGITALCARDCHECK_Phase5(int sys, int *state, int *p)
 {
     int result;
@@ -675,8 +609,6 @@ void DIGITALCARDCHECK_Phase5(int sys, int *state, int *p)
     }
 }
 
-
-
 void DIGITALCARDCHECK_Phase6(int a, int *state, int *p)
 {
     switch (*state) {
@@ -694,11 +626,7 @@ void DIGITALCARDCHECK_Phase6(int a, int *state, int *p)
     }
 }
 
-
-
 void DIGITALCARDCHECK_EndPhase(int a) { WIFIBATTLEMATCH_UTIL_ClearCallback((void *)a); }
-
-
 
 /*
  * Note 2026-10-04 (wD2 lane12): byte-correct. Unresolved: LIVEBATTLEMATCH_SAVE_GetStats and LIVEBATTLEMATCH_SAVE_GetRecord (witness). Filed src/matched/arm9/LIVEBATTLEMATCH_SAVE_GetStats.c and LIVEBATTLEMATCH_SAVE_GetRecord.c (EXACT) this wave; they need a manifest/shard, then this file re-verifies as EXACT with no C change.
@@ -766,8 +694,6 @@ void DIGITALCARDCHECK_InitRecord(int *p)
     }
 }
 
-
-
 void DIGITALCARDCHECK_DeleteInitRecord(int *p)
 {
     if (p[2]) {
@@ -781,10 +707,6 @@ void DIGITALCARDCHECK_DeleteInitRecord(int *p)
     BG_SYS_PushTile(1);
 }
 
-
-
 int DIGITALCARDCHECK_IsInitRecordDone(int *p) { return WIFIBATTLEMATCH_VIEW_StepMainWindow((void *)p[2]); }
-
-
 
 int DIGITALCARDCHECK_IsInitWorkDone(int *p) { return WIFIBATTLEMATCH_VIEW_StepMainWindowIdle((Work *)p[2]); }

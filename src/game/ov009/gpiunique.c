@@ -43,9 +43,7 @@ typedef struct {
     int result;
 } GPRegisterUniqueNickResponseArg;
 
-typedef unsigned int   u32;
-
-typedef unsigned char  u8;
+#include "../types.h"
 
 typedef struct {
     int result;
@@ -65,7 +63,6 @@ extern char gGpiUniqueResponseN[];
 extern char gGpiUniqueErrorUnexpectedData[];
 extern char gGpiUniqueErrorOutOfMemory[];
 extern char gGpiUniqueResponseC[];
-
 
 /*
  * sdk:      gpiProcessRegisterUniqueNick (libdwcgsgp.TWL.HYB.a gpiunique.o)
@@ -99,7 +96,6 @@ int gpiProcessRegisterUniqueNick(void **connection, GPIOperation *operation, cha
     gpiRemoveOperation(connection, (struct GPIOperation *)operation);
     return 0;
 }
-
 
 /*
  * sdk:      gpiProcessRegisterCdKey (libdwcgsgp.TWL.HYB.a gpiunique.o)

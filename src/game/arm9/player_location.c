@@ -20,7 +20,7 @@
  */
 #include "config_shared_types.h"
 
-typedef signed short       s16;
+#include "../types.h"
 
 /* A three-word position, moved as one ldm/stm unit. */
 struct Position {

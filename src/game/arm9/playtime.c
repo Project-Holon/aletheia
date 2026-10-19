@@ -24,18 +24,7 @@
 #include "config_shared_types.h"
 #include "playtime_shared_types.h"
 
-struct RTCDate {
-    u32 year;
-    u32 month;
-    u32 day;
-    u32 week;
-};
-
-struct RTCTime {
-    u32 hour;
-    u32 minute;
-    u32 second;
-};
+#include "../sdk_rtc.h"
 
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 

@@ -34,13 +34,10 @@
  *   AOSSi_Init     0x021B61D0  thumb  ov016
  *   DWCi_HEAPlFree2  0x021D647C  arm
  */
+#define GAME_TYPES_U32_LONG
 #include "../../matched/include/G_AossCtl.h"
 
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned long u32;
+#include "../types.h"
 
 typedef struct {
     u8 version;
@@ -87,7 +84,6 @@ extern struct AossCtl gLibaossBlock1;
 extern char sLibAossDefaultName[12];
 extern void *gLibaossBlock2;
 
-
 /*
  * sdk:      DWCi_AOSSlInit (libdwcutil.TWL.HYB.a(libaoss.o))
  */
@@ -114,7 +110,6 @@ void DWCi_AOSSlInit(void)
         OS_Terminate();
 }
 
-
 void DWCi_AOSSlEnd(int a)
 {
     AOSSi_EndLocal();
@@ -124,7 +119,6 @@ void DWCi_AOSSlEnd(int a)
     }
     DWCi_HEAPlFree_(&gLibaossBlock2);
 }
-
 
 int DWCi_AOSSlStart(void)
 {
@@ -137,12 +131,10 @@ int DWCi_AOSSlStart(void)
     return 2;
 }
 
-
 void *aossAlloc(unsigned long size)
 {
     return DWCi_HEAPlAllocEx(size, 0x20);
 }
-
 
 void aossFree(void *ptr)
 {

@@ -69,10 +69,7 @@
  *   FIELDMAP_ResetBgAffineShowMsg  0x02188DB0  thumb  ov021
  */
 
-
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../types.h"
 
 struct GameSystem;
 struct GameEvent;
@@ -192,7 +189,6 @@ typedef struct ShortcutProcTask {
     u8 pad6C[8];
 } ShortcutProcTask;
 
-
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, void *parent, void *func, u32 size);
 extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
@@ -256,7 +252,6 @@ extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void FIELDMAP_SetBgMode(void);
 extern void FIELDMAP_ResetBgAffineShowMsg(struct FieldMap *fieldMap);
 
-
 int EVENT_SHORTCUT_MENU_HasShortcuts(struct GameSystem *gameSystem);
 struct GameEvent *EVENT_SHORTCUT_MENU_Create(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u16 id);
 int EVENT_SHORTCUT_MENU_MainEvent(struct GameEvent *event, u32 *seq, ShortcutMenuWork *work);
@@ -276,10 +271,8 @@ int EVENT_SHORTCUT_MENU_CallResumeHook(ShortcutHooks *hooks);
 int EVENT_SHORTCUT_MENU_CallSuspendHook(ShortcutHooks *hooks);
 int EVENT_SHORTCUT_MENU_CallExitHook(ShortcutHooks *hooks);
 
-
 extern const char d_02172960[];
 extern ShortcutProc d_021712CC[];
-
 
 /*
  * TRUE when at least one shortcut is registered in the save block.
@@ -291,7 +284,6 @@ int EVENT_SHORTCUT_MENU_HasShortcuts(struct GameSystem *gameSystem)
 
     return 0;
 }
-
 
 /*
  * Creates the shortcut menu event. With exactly one shortcut registered the
@@ -331,7 +323,6 @@ struct GameEvent *EVENT_SHORTCUT_MENU_Create(struct GameSystem *gameSystem, stru
     UI_SetInputMode(0);
     return event;
 }
-
 
 /*
  * Proc main of the ov010 link exchange: a 16-state machine that drives
@@ -501,7 +492,6 @@ int EVENT_SHORTCUT_MENU_MainEvent(struct GameEvent *event, u32 *seq, ShortcutMen
     return 0;
 }
 
-
 /*
  * Nine-state connection sequence; returns 1 when the sequence has ended.
  * EXACT* because the listing extent runs over the unlabelled followers
@@ -613,7 +603,6 @@ int EVENT_SHORTCUT_MENU_ReturnEvent(struct GameEvent *event, u32 *seq, ShortcutM
     return 0;
 }
 
-
 /*
  * Unlabelled (inside EVENT_SHORTCUT_MENU_ReturnEvent's listing extent): maps a registered
  * shortcut id (0..24) to the proc table entry and argument the link should
@@ -721,7 +710,6 @@ int EVENT_SHORTCUT_MENU_ResolveShortcut(ShortcutLink *link, u32 shortcutId)
     return 0;
 }
 
-
 /*
  * Unlabelled (inside EVENT_SHORTCUT_MENU_ReturnEvent's listing extent): translates a
  * shortcut id into the index of its bit in the availability mask; *isUnknownId
@@ -756,7 +744,6 @@ int EVENT_SHORTCUT_MENU_GetAvailBit(u32 shortcutId, u32 *availBit, u32 *isUnknow
     return 0;
 }
 
-
 /*
  * Opens the link session object (once) in the given mode: leaves the
  * current comm state, then creates the session from the player's name.
@@ -775,7 +762,6 @@ void EVENT_SHORTCUT_MENU_OpenLink(int mode, ShortcutMenuWork *work)
         work->commObj = SHORTCUT_MENU_Create(gameData, mode, (unsigned short *)GAME_DATA_GetRtcWork(gameData), 0x50, 0x15);
     }
 }
-
 
 /*
  * unblocked: SHORTCUT_MENU_Delete is ov021's label across the co-resident
@@ -812,7 +798,6 @@ int EVENT_SHORTCUT_MENU_CloseLink(ShortcutMenuWork *work, u32 *seq)
     return 1;
 }
 
-
 /*
  * Resume hook: reopens the link session when shortcuts remain, and
  * returns 1 once the session is ready again (0 while it is opening).
@@ -846,7 +831,6 @@ int EVENT_SHORTCUT_MENU_ResumeLinkHook(ShortcutLink *link, ShortcutMenuWork *wor
     return 0;
 }
 
-
 /*
  * Suspend hook: closes the link session. Unlabelled thunk that
  * tail-calls EVENT_SHORTCUT_MENU_CloseLink with the work as both arguments.
@@ -855,7 +839,6 @@ int EVENT_SHORTCUT_MENU_SuspendLinkHook(ShortcutLink *link, ShortcutMenuWork *wo
 {
     return EVENT_SHORTCUT_MENU_CloseLink(work, (u32 *)work);
 }
-
 
 /*
  * Opens a message window (message 0x7D6) and selects the variant given
@@ -869,7 +852,6 @@ void *EVENT_SHORTCUT_MENU_OpenMessage(struct GameSystem *gameSystem, u32 message
     SCRIPT_WORK_SetParams(SCRIPT_SYS_GetEventScriptWork(msgWindow), messageIndex, 0, 0, 0);
     return msgWindow;
 }
-
 
 /*
  * TRUE when some party member has field 0xA9 set and passes POKE_TOOL_HasRibbonData.
@@ -888,7 +870,6 @@ int EVENT_SHORTCUT_MENU_CheckPartyRibbon(ShortcutMenuWork *work)
     }
     return 0;
 }
-
 
 /*
  * Creates the 0x74-byte task that runs EVENT_SHORTCUT_MENU_ProcEventMain and initialises it
@@ -917,7 +898,6 @@ struct GameEvent *EVENT_SHORTCUT_MENU_CreateProcEvent(ShortcutLink *link, u16 id
     MOVE_POKEMON_InitSkillInfo(task->link->fieldMap, (struct FieldSkillInfo *)(&task->fieldInfo));
     return event;
 }
-
 
 /*
  * The fourteen-state task EVENT_SHORTCUT_MENU_CreateProcEvent creates. The procedure table at
@@ -1046,7 +1026,6 @@ int EVENT_SHORTCUT_MENU_ProcEventMain(struct GameEvent *event, u32 *seq, Shortcu
     return 0;
 }
 
-
 /*
  * Clears a hook table and fills it from the five arguments (the stores
  * run in this order in the original).
@@ -1061,7 +1040,6 @@ void EVENT_SHORTCUT_MENU_InitHooks(ShortcutHooks *hooks, ShortcutLink *link, Sho
     hooks->link = link;
 }
 
-
 /*
  * Runs the onResume hook, or returns 1 when the hook is empty.
  */
@@ -1072,7 +1050,6 @@ int EVENT_SHORTCUT_MENU_CallResumeHook(ShortcutHooks *hooks)
     return 1;
 }
 
-
 /*
  * Runs the onSuspend hook, or returns 1 when the hook is empty.
  */
@@ -1082,7 +1059,6 @@ int EVENT_SHORTCUT_MENU_CallSuspendHook(ShortcutHooks *hooks)
         return hooks->onSuspend(hooks->link, hooks->arg);
     return 1;
 }
-
 
 /*
  * Runs the onExit hook, or returns 1 when the hook is empty.

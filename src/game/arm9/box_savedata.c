@@ -31,7 +31,7 @@
  *   _BoxSavedataFileName  0x020A706C  data
  */
 #include "btl_setup_types.h"
-#include "save_control_shared_types.h"
+#include "../types.h"
 #include "box_savedata_shared_types.h"
 
 struct MsgData;

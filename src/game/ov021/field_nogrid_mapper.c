@@ -54,7 +54,7 @@
  */
 #include "fldmmdl_rail_types.h"
 
-typedef unsigned int u32;
+#include "../types.h"
 
 #define RAIL_ARC_ID 0x4f            /* rail data, then rail attribute data (second half) */
 #define NOGRID_MAPPER_RES_ARC_ID 0x6d

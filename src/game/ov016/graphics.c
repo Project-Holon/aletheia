@@ -27,9 +27,7 @@
             v |= 0x2000; \
         *(vu16 *)(a) = v; \
     } while (0)
-typedef unsigned short u16;
-
-typedef volatile u16 vu16;
+#include "../types.h"
 
 typedef struct {
     u16 x1;
@@ -43,7 +41,6 @@ void DWCi_GXlInvisible(int lcd, int plane);
 void DWCi_GXlSetWndPosition(int lcd, int wnd, Rect *r);
 void DWCi_GXlSetWndPlane(int lcd, int wnd, int plane, int effect);
 
-
 void DWCi_GXlVisible(int lcd, int plane)
 {
     if (lcd == 1) {
@@ -56,7 +53,6 @@ void DWCi_GXlVisible(int lcd, int plane)
         REG_DISPCNT(0x04000000) = (REG_DISPCNT(0x04000000) & ~0x1f00) | ((v | plane) << 8);
     }
 }
-
 
 /*
  * sdk:      DWCi_GXlInvisible (graphics.o)
@@ -78,13 +74,11 @@ void DWCi_GXlInvisible(int lcd, int plane)
     }
 }
 
-
 static inline void SetWin(u16 *reg, u16 x1, u16 y1, u16 x2, u16 y2)
 {
     ((vu16 *)reg)[0] = (u16)(((x1 << 8) & 0xff00) | (x2 & 0xff));
     ((vu16 *)reg)[2] = (u16)(((y1 << 8) & 0xff00) | (y2 & 0xff));
 }
-
 
 /*
  * sdk:      DWCi_GXlSetWndPosition (libdwcutil.TWL.HYB.a(graphics.o))
@@ -103,7 +97,6 @@ void DWCi_GXlSetWndPosition(int lcd, int wnd, Rect *r)
             SetWin((u16 *)0x04000042, r->x1, r->y1, r->x2, r->y2);
     }
 }
-
 
 /*
  * sdk:      DWCi_GXlSetWndPlane (libdwcutil.TWL.HYB.a(graphics.o))

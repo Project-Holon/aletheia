@@ -69,14 +69,13 @@
  *   MANUAL_COMMON_GetTouchbarSelected 0x021BA154 thumb ov225
  *   MANUAL_COMMON_GetTouchbarPressed 0x021BA158 thumb ov225
  */
-#include "manual_data_shared_types.h"
 #include "manual_common_shared_types.h"
 #include "manual_touchbar_shared_types.h"
 #include "manual_list_shared_types.h"
 extern u32 KEY_GetTrg(void);
 extern u32 TOUCHPANEL_GetPointCont(u32 *x, u32 *y);
 
-typedef short s16;
+#include "../types.h"
 
 /* List work object built by MANUAL_COMMON_CreateListWork (0x98). */
 struct ManualListWork {

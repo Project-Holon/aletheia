@@ -39,11 +39,7 @@ typedef struct PlayerWork PlayerWork;
 typedef struct MmdlSys MmdlSys;
 typedef struct EventData EventData;
 
-typedef struct {
-    int x;
-    int y;
-    int z;
-} VecFx32;
+#include "../sdk_fx.h"
 
 /* RailLocation: the rail position record of ov021 fldmmdl_rail. */
 #include "../ov021/fldmmdl_rail_types.h"

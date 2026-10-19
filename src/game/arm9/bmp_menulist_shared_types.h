@@ -1,13 +1,7 @@
 #ifndef BMP_MENULIST_SHARED_TYPES_H
 #define BMP_MENULIST_SHARED_TYPES_H
 
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef signed short   s16;
+#include "../types.h"
 
 struct Bmp;
 

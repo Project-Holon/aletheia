@@ -6,13 +6,9 @@
  * below while the camera follows. Needs fldmmdl_rail_types.h of ov021
  * (u8, u16, s16, RailLocation) from the includer. */
 
-typedef unsigned int u32;
+#include "../types.h"
 
-typedef struct VecFx32 {
-    int x;
-    int y;
-    int z;
-} VecFx32;
+#include "../sdk_fx.h"
 
 struct FieldNogridMapper;
 struct FieldPlayer;

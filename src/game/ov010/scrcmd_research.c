@@ -59,11 +59,9 @@
 
 struct MiscSave;
 
-struct RTCDate;
+#include "../sdk_rtc.h"
 
-struct RTCTime;
-
-typedef unsigned long long u64;
+#include "../types.h"
 
 typedef struct { u32 year, month, day, week; } RTCDateFields;
 

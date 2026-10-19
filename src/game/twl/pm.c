@@ -29,9 +29,7 @@
  *   PMi_ResetLocked  0x02732FA8  data
  */
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../types.h"
 typedef struct PMiGenCallbackInfo PMiGenCallbackInfo;
 
 typedef struct {

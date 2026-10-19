@@ -36,11 +36,7 @@ struct GameSystem;
 struct GameEvent;
 struct GameData;
 struct GameComm;
-typedef unsigned int u32;
-
-typedef unsigned short u16;
-
-typedef unsigned char  u8;
+#include "../types.h"
 
 /* Parameter block read by the arm9 menu proc this event launches. */
 typedef struct MenuProcParam {
@@ -78,8 +74,6 @@ void *GAME_EVENT_GetWork(struct GameEvent *event);
 u32 EVENT_MENUPROC_Main(struct GameEvent *event, u32 *seq, MenuProcEventWork *work);
 void *EVENT_MENUPROC_Create(void *gameSystem, int fieldMap, int procKind);
 void *EVENT_MENUPROC_Entry(void *gameSystem, LaunchRequest *request);
-
-
 
 u32 EVENT_MENUPROC_Main(struct GameEvent *event, u32 *seq, MenuProcEventWork *work)
 {
@@ -122,8 +116,6 @@ u32 EVENT_MENUPROC_Main(struct GameEvent *event, u32 *seq, MenuProcEventWork *wo
     return 0;
 }
 
-
-
 /*
  * Allocator + guard + three-field link setup.
  */
@@ -140,7 +132,6 @@ void *EVENT_MENUPROC_Create(void *gameSystem, int fieldMap, int procKind)
     work->procKind = procKind;
     return event;
 }
-
 
 /* Overlay entry point: unpacks the request and creates the event. */
 void *EVENT_MENUPROC_Entry(void *gameSystem, LaunchRequest *request)

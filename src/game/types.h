@@ -1,0 +1,53 @@
+#ifndef GAME_TYPES_H
+#define GAME_TYPES_H
+
+/*
+ * Base types of the NitroSDK / TwlSDK (include/nitro/types.h): fixed-width
+ * integers, volatile forms, fixed-point scalars, float and BOOL.  Every source
+ * file takes these from here; no file defines its own.
+ *
+ * u32 and s32 are `unsigned int` and `signed int` here.  The compiler treats
+ * `long` and `int` as different types, and a few functions only compile to the
+ * original code when u32 or s32 is spelled `long` (the SDK spelling).  A source
+ * file that needs it defines GAME_TYPES_U32_LONG and/or GAME_TYPES_S32_LONG
+ * before its first include (`grep -rl GAME_TYPES_ src/game` lists them).
+ */
+
+typedef unsigned char      u8;
+typedef unsigned short     u16;
+#ifdef GAME_TYPES_U32_LONG
+typedef unsigned long      u32;
+#else
+typedef unsigned int       u32;
+#endif
+typedef unsigned long long u64;
+
+typedef signed char        s8;
+typedef signed short       s16;
+#ifdef GAME_TYPES_S32_LONG
+typedef signed long        s32;
+#else
+typedef signed int         s32;
+#endif
+typedef signed long long   s64;
+
+typedef volatile u8        vu8;
+typedef volatile u16       vu16;
+typedef volatile u32       vu32;
+typedef volatile u64       vu64;
+
+typedef volatile s8        vs8;
+typedef volatile s16       vs16;
+typedef volatile s32       vs32;
+typedef volatile s64       vs64;
+
+typedef s16                fx16;
+typedef s32                fx32;
+typedef s64                fx64;
+
+typedef float              f32;
+typedef volatile f32       vf32;
+
+typedef int                BOOL;
+
+#endif

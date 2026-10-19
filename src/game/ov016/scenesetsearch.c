@@ -101,9 +101,7 @@ typedef struct {
     unsigned short Count;             /* 0x02 */
 } SCENESETSEARCH_BSS;
 
-typedef unsigned short u16;
-
-typedef unsigned char u8;
+#include "../types.h"
 
 typedef struct {
     u8 pad0[0x28];
@@ -189,7 +187,6 @@ static void endScene2(void);
 static void procError(void);
 static void procError1(void);
 
-
 void DWCi_SceneSetSearch(void)
 {
     scenesetsearch_bss.Count = 0;
@@ -205,7 +202,6 @@ void DWCi_SceneSetSearch(void)
     DWCi_SNDlPlay(0xa);
     DWCi_ChangeScene(procInit);
 }
-
 
 /*
  * Load three tilemaps through DWCi_CMNlLoadResource, then set the low two bits of five
@@ -230,7 +226,6 @@ static void initGraphics(void)
     p[1] = (p[1] & ~3) | 3;
 }
 
-
 static void procInit(void)
 {
     DWCi_EFFlFade(2, 1, 1, 8);
@@ -239,7 +234,6 @@ static void procInit(void)
     DWCi_GXlVisible(0, 0x15);
     DWCi_ChangeScene(procInit1);
 }
-
 
 static void procInit1(void)
 {
@@ -251,7 +245,6 @@ static void procInit1(void)
     DWCi_ChangeScene(procInit2);
 }
 
-
 static void procInit2(void)
 {
     if (DWCi_BTNlGet() == -2) {
@@ -260,7 +253,6 @@ static void procInit2(void)
     DWCi_BTNlEnable();
     DWCi_ChangeScene(procScene);
 }
-
 
 /*
  * Call input, DWCi_SceneSetSearch_draw, button, isEnd.
@@ -277,7 +269,6 @@ static void procScene(void)
     button();
     isEnd();
 }
-
 
 static void isEnd(void)
 {
@@ -315,7 +306,6 @@ static void isEnd(void)
     DWCi_ChangeScene(endScene);
 }
 
-
 static void input(void)
 {
     if (!DWCi_IPTlCheckTrigger(2)) {
@@ -329,7 +319,6 @@ void DWCi_SceneSetSearch_draw(void)
 {
 }
 
-
 static void button(void)
 {
     if (DWCi_BTNlGet())
@@ -339,14 +328,12 @@ static void button(void)
     DWCi_ChangeScene(endScene);
 }
 
-
 static void endScene(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
     DWCi_ChangeScene(endScene1);
 }
-
 
 static void endScene1(void)
 {
@@ -357,7 +344,6 @@ static void endScene1(void)
     DWCi_EFFlFade(3, 0, 0x15, 8);
     DWCi_ChangeScene(endScene2);
 }
-
 
 static void endScene2(void)
 {
@@ -386,7 +372,6 @@ static void endScene2(void)
     }
 }
 
-
 static void procError(void)
 {
     if (DWCi_WINlGet() != 0) {
@@ -398,7 +383,6 @@ static void procError(void)
 }
 
 static void procConfirm(void);
-
 
 static void procError1(void)
 {

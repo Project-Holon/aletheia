@@ -34,11 +34,7 @@ typedef struct FieldWfbcConnectEntry {
     u32 connectIndex;
 } FieldWfbcConnectEntry;
 
-typedef struct {
-    u64 x;
-    u64 mul;
-    u64 add;
-} MATHRandContext32;
+#include "../sdk_math.h"
 
 /* Random source that picks the block variants (0x24 bytes). */
 typedef struct FieldWfbcBlockRand {

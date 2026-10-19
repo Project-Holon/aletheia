@@ -165,8 +165,7 @@ struct Grid;
 
 struct Bmp;
 
-
-typedef s16 fx16;
+#include "../types.h"
 
 typedef struct Cell {
     u32 life;
@@ -269,8 +268,6 @@ typedef struct Owner {
     Work *work;
     u32 useMcss;
 } Owner;
-
-typedef volatile u32 vu32;
 
 typedef struct GlbState {
     u8 pad00[0x3c];

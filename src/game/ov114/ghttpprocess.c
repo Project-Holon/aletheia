@@ -131,12 +131,7 @@
 #define ISSPACE(c) (((unsigned)(c) < 0x80u) ? (__ctype_mapC[c] & 0x100) : 0)
 struct GSIResolveHostnameInfo;
 
-typedef struct {
-    u8 len;
-    u8 family;
-    u16 port;
-    u32 addr;
-} SOCSockAddrIn;
+#include "../sdk_soc.h"
 
 extern int strcspn(const u8 *s, const u8 *reject);
 extern char *goastrdup(char *);

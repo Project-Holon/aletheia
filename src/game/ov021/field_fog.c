@@ -21,9 +21,7 @@
  *   G3X_SetFog  0x0207DC44  arm
  *   G3X_SetFogTable  0x0207DD10  arm
  */
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
+#include "../types.h"
 
 #define FIELD_FOG_TABLE_MAX 32
 

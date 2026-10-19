@@ -14,14 +14,7 @@
  * coincidental byte matches of 16 to 24 byte accessors and belong to this library.
  */
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef unsigned long long u64;
-typedef signed char s8;
-typedef short s16;
-typedef signed int s32;
-typedef long long s64;
+#include "../types.h"
 
 /* Voice chat constants. */
 #define HW_BUTTON_XY_BUF 0x02FFFFA8
@@ -374,7 +367,6 @@ struct EchoState {
     u8 reserved44[0x440];
     s16 ringBuf[2048];
 };
-
 
 /* ---- data shared between the files of the library ---- */
 extern VctLibState gVctState;

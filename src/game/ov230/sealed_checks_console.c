@@ -22,9 +22,7 @@
  *   OS_GetMacAddress  0x02087C6C  arm
  *   OS_GetOwnerInfo  0x02087C88  arm
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../types.h"
 
 /* SDK owner information as the overlay lays it out: the nickname has room for 10 characters and a terminator. */
 typedef struct OvOwnerInfo {

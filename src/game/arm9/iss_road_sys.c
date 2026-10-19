@@ -24,13 +24,11 @@
 
 struct PlayerWork;
 
-typedef unsigned int  u32;
+#include "../types.h"
 
 typedef struct PlayerPosition {
     u32 x, y, z;
 } PlayerPosition;
-
-typedef signed int    s32;
 
 /* Footstep-road sound state: volume rises while the player moves, falls when still. */
 typedef struct IssRoadSys {
@@ -39,8 +37,6 @@ typedef struct IssRoadSys {
     struct PlayerWork *player;
     PlayerPosition lastPosition;
 } IssRoadSys;
-
-typedef unsigned short u16;
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
@@ -146,7 +142,6 @@ void ISS_ROAD_SYS_Deactivate(IssRoadSys *road)
         road->isActive = 0;
     }
 }
-
 
 extern PlayerPosition *GAME_DATA_GetPlayerPosition(struct PlayerWork *player);
 

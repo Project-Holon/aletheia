@@ -47,10 +47,7 @@
  *   UI_Update  0x02034F5C  arm
  */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed int     s32;
+#include "../types.h"
 
 /* One 0xC0-byte beacon record (a WMBssDesc) that the ov014 receive callback queues */
 struct WihBssDesc {
@@ -159,7 +156,6 @@ extern u8 sWihDwcFile[];
 extern u8 ov015_id[];
 extern u8 sWihBeaconSsidTag[];
 
-
 /*
  * wih_dwc.c per-frame system poll: power-exit check, then the sound update
  * and the finished-voice stop, chained through their return values.
@@ -173,7 +169,6 @@ int WIH_DWC_PollSystem(void)
 
     return t3;
 }
-
 
 /*
  * wih_dwc.c constructor: allocates the 0x328-byte object (line 0x49), stores
@@ -234,7 +229,6 @@ struct WihContext *WIH_DWC_Create(int maxBeacons, void *heap)
     GF_OVERLAY_Load((int)ov015_id);
     return context;
 }
-
 
 /*
  * wih_dwc.c teardown, the counterpart of WIH_DWC_Create.  WIH_SetBeaconFoundCallback is an
@@ -300,7 +294,6 @@ void WIH_DWC_Delete(struct WihContext *context)
     GF_OVERLAY_Unload((int)ov015_id);
 }
 
-
 /*
  * Two mirror-image functions: set and clear the flag halfword at +0x30C of
  * the context object.
@@ -328,7 +321,6 @@ void WIH_DWC_PauseTimers(void)
     }
 }
 
-
 void WIH_DWC_ResumeTimers(void)
 {
     struct WihContext *context = gWihDwc.context;
@@ -337,7 +329,6 @@ void WIH_DWC_ResumeTimers(void)
         context->paused = 0;
     }
 }
-
 
 /*
  * wih_dwc.c: append one 0xC0-byte record to the four-slot table at the head
@@ -354,7 +345,6 @@ void WIH_DWC_AddBeacon(const void *beacon)
         gWihDwc.context->beaconCount = gWihDwc.context->beaconCount + 1;
     }
 }
-
 
 /*
  * Per-frame countdown of the four timers at +0x318..+0x324 (the real
@@ -388,7 +378,6 @@ void WIH_DWC_TickTimers(void)
     if (context->securedNetworkTimer > 0)
         context->securedNetworkTimer = context->securedNetworkTimer - 1;
 }
-
 
 /*
  * Three 0x100-byte slots at +0x640 of the buffer behind the context's +0x304;
@@ -447,7 +436,6 @@ int WIH_DWC_IsSsidInFilterList(struct WihBssDesc *beacon)
     return 0;
 }
 
-
 /*
  * Three gates on one record then `return 1`; all false paths share the single
  * `return 0` at the bottom.  The compare is against the 8 bytes at
@@ -478,7 +466,6 @@ int WIH_DWC_IsOpenTaggedBeacon(const struct WihBssDesc *beacon)
     return 0;
 }
 
-
 /*
  * A boolean test of bit 0x10 of the halfword at +0x2C of a record.
  */
@@ -501,7 +488,6 @@ u32 WIH_DWC_IsPrivacyBeacon(const struct WihBssDesc *beacon)
     }
     return 0;
 }
-
 
 /*
  * wih_dwc.c per-frame status poll: returns a flag word (bit 1 always set)
@@ -619,7 +605,6 @@ u32 WIH_DWC_PollStatus(void *searchKey)
     return flags | 2;
 }
 
-
 /*
  * wih_dwc.c: (re)build the second field of the global.  The guard fires when
  * the pointer is ALREADY set (a re-initialisation warning).  The allocator
@@ -648,7 +633,6 @@ void WIH_DWC_CreateFilterBuffer(u32 heapId)
     }
     gWihDwc.filterBuf = GFL_NET_AllocAligned(heapId, 0xA00, (const char *)sWihDwcFile, 0x1C0);
 }
-
 
 /*
  * wih_dwc.c: the sibling of WIH_DWC_CreateFilterBuffer, same guard on the buffer (here it
@@ -681,7 +665,6 @@ void WIH_DWC_ResetFilterState(void)
     }
     NCFG_ReadConfig(gWihDwc.filterBuf->filterState, 0);
 }
-
 
 /*
  * wih_dwc.c: find the first of 16 slots whose ov014 state is 0x20 and whose
@@ -732,7 +715,6 @@ int WIH_DWC_FindSlotByKey(void *searchKey)
     return -1;
 }
 
-
 /*
  * Three unlabelled leaves: a getter of the halfword at +0x312 of the context
  * object (0 when there is none), a raising setter of the halfword at +0x314
@@ -765,7 +747,6 @@ u16 WIH_DWC_GetAlertLevel(void)
     return 0;
 }
 
-
 void WIH_DWC_RequestAlertLevel(u32 level)
 {
     struct WihContext *context = gWihDwc.context;
@@ -773,7 +754,6 @@ void WIH_DWC_RequestAlertLevel(u32 level)
     if (context != 0 && (int)context->pendingAlertLevel < (int)level && level < 4)
         context->pendingAlertLevel = level;
 }
-
 
 void WIH_DWC_Dummy(void)
 {

@@ -35,8 +35,7 @@
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  */
-#include "field_status_shared_types.h"
-#include "zonedata_shared_types.h"
+#include "../types.h"
 
 struct GameSystem;
 

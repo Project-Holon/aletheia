@@ -19,15 +19,9 @@
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   OSi_CountLeadingZeros       0x02087EA0  arm
  */
-typedef unsigned long u32;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef int BOOL;
-
-typedef u32 OSIntrMode;
-
-typedef long s32;
+#include "../sdk_os.h"
 
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
@@ -37,7 +31,6 @@ void OSi_UnlockVram(u16 bank, u16 lockId);
 extern char SDK_AUTOLOAD_DTCM_START[];
 extern u32 OSi_vramExclusive;
 extern u16 OSi_vramLockId[9];
-
 
 /*
  * sdk:      OSi_InitVramExclusive (os_vramexclusive.o)
@@ -51,7 +44,6 @@ void OSi_InitVramExclusive(void)
         OSi_vramLockId[i] = 0;
     }
 }
-
 
 /*
  * sdk:      OSi_UnlockVram (os_vramexclusive.o)

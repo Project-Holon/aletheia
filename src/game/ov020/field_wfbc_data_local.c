@@ -202,23 +202,17 @@ struct RtcDate;
 struct GameEvent;
 struct WordSet;
 struct Mmdl;
-struct VecFx32;
+#include "../sdk_fx.h"
+
 struct FieldMsgHandle;
 struct ScrcmdWork;
 struct FieldYesNoHandle;
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
+#include "../types.h"
 
 struct Location { u32 v[7]; };
 
 typedef short GridCoord;
 
-typedef signed int     s32;
-
-typedef unsigned long long u64;
 #include "../ov010/script_work_types.h"
 #include "../ov021/field_wfbc_types.h"
 #include "../version.h"
@@ -279,7 +273,6 @@ extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSyst
 void *GAME_DATA_GetMyParty(const struct GameData *p);
 #include "../arm9/pokeparty.h"
 #include "../arm9/gf_standard.h"
-typedef signed char s8;
 #include "../arm9/poke_tool.h"
 extern unsigned char FIELD_WFBC_GetCityType(FieldWfbc *wfbc);
 extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);

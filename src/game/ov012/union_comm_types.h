@@ -9,11 +9,7 @@
 #ifndef UNION_COMM_TYPES_H
 #define UNION_COMM_TYPES_H
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef short s16;
-typedef signed int s32;
+#include "../types.h"
 
 /* Sources in a subdirectory (unplaced/) include the ov010 header themselves,
  * since this relative path is resolved from the source file's directory. */

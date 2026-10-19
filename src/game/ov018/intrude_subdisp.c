@@ -254,12 +254,7 @@
 #define REG_DB_DISPCNT_SUB (*(volatile u32 *)0x04001000)
 #define REG_WINOUT_SUB     (*(volatile u16 *)0x0400104A)
 #define REG_DB_BLDCNT_SUB (*(volatile u16 *)0x04001050)
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef signed char s8;
-typedef signed short s16;
-typedef unsigned int u32;
-typedef signed int s32;
+#include "../types.h"
 
 #include "../ov011/intrude_comm_types.h"
 #include "event_comm_common_types.h"
@@ -267,12 +262,7 @@ typedef signed int s32;
 #include "intrude_field_types.h"
 #include "../ov010/fldmmdl_types.h"
 
-typedef struct VecFx32 {
-    s32 x;
-    s32 y;
-    s32 z;
-} VecFx32;
-
+#include "../sdk_fx.h"
 
 /* Work of the brightness fade event (12 bytes, allocated by INTRUDE_SUBDISP_CreateBrightFadeEvent). */
 typedef struct IntrudeBrightFadeWork {
@@ -693,7 +683,6 @@ void INTRUDE_FIELD_InitMmdlCopyAnime(PlayerSpinWork *spinWork, void *gameSystem,
 void EVENT_COMM_COMMON_ChangeTalkedItemSaleEvent(struct GameEvent *event, struct EventCommCommonWork *src);
 void EVENT_COMM_COMMON_ChangeTalkedItemPurchaseEvent(struct GameEvent *event, struct EventCommCommonWork *src);
 
-
 /*
  * Per-frame step of the 0x18-byte record (same layout as INTRUDE_FIELD_StepPlayerSpin's).
  */
@@ -748,7 +737,6 @@ int INTRUDE_FIELD_MainMmdlCopyAnime(PlayerSpinWork *spinWork)
     }
     return 0;
 }
-
 
 int INTRUDE_SUBDISP_MainRequestAnswerSeq(IntrudeCommSys *sys, EventCommCommonWork *work, u8 *state)
 {
@@ -810,14 +798,12 @@ int INTRUDE_SUBDISP_MainRequestAnswerSeq(IntrudeCommSys *sys, EventCommCommonWor
     return 0;
 }
 
-
 void *INTRUDE_SUBDISP_CreatePalaceWarpEvent(void *gameSystem)
 {
     VecFx32 v;
     INTRUDE_FIELD_GetZoneAnchor(0x117, &v);
     return EVENT_MAPCHANGE_CreateWarpEventWithIntrudeOffset(gameSystem, 0x117, (&v));
 }
-
 
 void *INTRUDE_SUBDISP_CreateReturnPalaceEvent(int gameSystem)
 {
@@ -835,7 +821,6 @@ void *INTRUDE_SUBDISP_CreateReturnPalaceEvent(int gameSystem)
     }
     return INTRUDE_SUBDISP_CreatePalaceWarpEvent((void *)gameSystem);
 }
-
 
 int INTRUDE_SUBDISP_CreateDisconnectEvent(void *gameSystem, int cause)
 {
@@ -863,7 +848,6 @@ int INTRUDE_SUBDISP_CreateDisconnectEvent(void *gameSystem, int cause)
     GFL_USE_PlaySeDefaultVolume(0x737);
     return ret;
 }
-
 
 int INTRUDE_SUBDISP_DisconnectEventMain(void *event, int *seq, IntrudeDisconnectWork *work)
 {
@@ -1039,12 +1023,10 @@ int INTRUDE_SUBDISP_DisconnectEventMain(void *event, int *seq, IntrudeDisconnect
     return 0;
 }
 
-
 void *INTRUDE_SUBDISP_CreateGuideScriptEvent(void *gameSystem)
 {
     return GAME_EVENT_Create(gameSystem, 0, INTRUDE_SUBDISP_GuideScriptEventMain, 0);
 }
-
 
 int INTRUDE_SUBDISP_GuideScriptEventMain(void *event, int *state)
 {
@@ -1058,7 +1040,6 @@ int INTRUDE_SUBDISP_GuideScriptEventMain(void *event, int *state)
     }
     return 0;
 }
-
 
 void *INTRUDE_SUBDISP_CreateTownWarpEvent(void *gameSystem, void *fieldMap, u16 zoneId, int mode)
 {
@@ -1075,7 +1056,6 @@ void *INTRUDE_SUBDISP_CreateTownWarpEvent(void *gameSystem, void *fieldMap, u16 
         return EVENT_MAPCHANGE_CreateIntrudeWarpEvent(gameSystem, zoneId, &v, mode);
     return EVENT_MAPCHANGE_CreateWarpEventWithIntrudeOffset(gameSystem, zoneId, &v);
 }
-
 
 void *INTRUDE_SUBDISP_CreatePlayerWarpEvent(void *gameSystem, void *fieldMap, int netId)
 {
@@ -1096,7 +1076,6 @@ void *INTRUDE_SUBDISP_CreatePlayerWarpEvent(void *gameSystem, void *fieldMap, in
     return EVENT_MAPCHANGE_CreateWarpEvent(gameSystem, (int)fieldMap, s, (const int *)(&v), 0, 0);
 }
 
-
 void *INTRUDE_SUBDISP_CreateBrightFadeEvent(void *gameSystem, int fieldMap, int subscreen)
 {
     void *task;
@@ -1107,7 +1086,6 @@ void *INTRUDE_SUBDISP_CreateBrightFadeEvent(void *gameSystem, int fieldMap, int 
     work[1] = subscreen;
     return task;
 }
-
 
 int INTRUDE_SUBDISP_BrightFadeEventMain(int event, int *state, IntrudeBrightFadeWork *work)
 {
@@ -1133,7 +1111,6 @@ int INTRUDE_SUBDISP_BrightFadeEventMain(int event, int *state, IntrudeBrightFade
     return 0;
 }
 
-
 int INTRUDE_SUBDISP_ScriptAddAreaMmdls(void *unused, void *scriptWork)
 {
     void *sys;
@@ -1144,7 +1121,6 @@ int INTRUDE_SUBDISP_ScriptAddAreaMmdls(void *unused, void *scriptWork)
     INTRUDE_FIELD_AddAreaMmdls((struct FieldMap *)obj);
     return 0;
 }
-
 
 int INTRUDE_SUBDISP_ScriptAddAreaMapsAndMarkers(int unused, int scriptWork)
 {
@@ -1169,8 +1145,6 @@ int INTRUDE_SUBDISP_ScriptAddAreaMapsAndMarkers(int unused, int scriptWork)
     INTRUDE_FIELD_AddMarkerMmdls(c);
     return 0;
 }
-
-
 
 IntrudeSubdispWork *INTRUDE_SUBDISP_Init(void *gameSystem)
 {
@@ -1230,7 +1204,6 @@ IntrudeSubdispWork *INTRUDE_SUBDISP_Init(void *gameSystem)
     return work;
 }
 
-
 void INTRUDE_SUBDISP_Exit(IntrudeSubdispWork *work)
 {
     TCB_DeleteTask(work->vblankTask);
@@ -1246,7 +1219,6 @@ void INTRUDE_SUBDISP_Exit(IntrudeSubdispWork *work)
     REG_DB_DISPCNT_SUB &= 0xFFFF1FFF;
     REG_DB_BLDCNT_SUB = 0;
 }
-
 
 void INTRUDE_SUBDISP_Update(IntrudeSubdispWork *work, int mode)
 {
@@ -1334,7 +1306,6 @@ void INTRUDE_SUBDISP_Update(IntrudeSubdispWork *work, int mode)
     }
 }
 
-
 void INTRUDE_SUBDISP_Draw(IntrudeSubdispWork *work)
 {
     void *gameComm;
@@ -1380,7 +1351,6 @@ void INTRUDE_SUBDISP_Draw(IntrudeSubdispWork *work)
     }
 }
 
-
 void *INTRUDE_SUBDISP_EventCheck(IntrudeSubdispWork *work, int touched, int param)
 {
     void *gameComm;
@@ -1418,7 +1388,6 @@ void *INTRUDE_SUBDISP_EventCheck(IntrudeSubdispWork *work, int touched, int para
     return 0;
 }
 
-
 void INTRUDE_SUBDISP_VBlankTask(void *tcb, void *taskWork)
 {
     IntrudeSubdispWork *work = taskWork;
@@ -1437,7 +1406,6 @@ void INTRUDE_SUBDISP_VBlankTask(void *tcb, void *taskWork)
         }
     }
 }
-
 
 void INTRUDE_SUBDISP_SystemSetup(IntrudeSubdispWork *work)
 {
@@ -1459,7 +1427,6 @@ void INTRUDE_SUBDISP_SystemSetup(IntrudeSubdispWork *work)
     work->strbufTitle = STRBUF_Create(0x80, 0x70);
 }
 
-
 void INTRUDE_SUBDISP_SystemExit(IntrudeSubdispWork *work)
 {
     STRBUF_Delete(work->strbufMsg);
@@ -1476,7 +1443,6 @@ void INTRUDE_SUBDISP_SystemExit(IntrudeSubdispWork *work)
     CLACT_DeleteRenderer((struct Renderer *)work->renderer);
     CLACT_DeleteUnit(work->clactUnit);
 }
-
 
 void INTRUDE_SUBDISP_BgSetup(IntrudeSubdispWork *work, void *bg)
 {
@@ -1515,7 +1481,6 @@ void INTRUDE_SUBDISP_BgSetup(IntrudeSubdispWork *work, void *bg)
     BG_SYS_SetPlaneVisible(7, 1);
 }
 
-
 void INTRUDE_SUBDISP_BgExit(IntrudeSubdispWork *work)
 {
     BG_SYS_SetPlaneVisible(6, 0);
@@ -1523,7 +1488,6 @@ void INTRUDE_SUBDISP_BgExit(IntrudeSubdispWork *work)
     BG_SYS_FreeLayerBuf(6);
     BG_SYS_FreeLayerBuf(7);
 }
-
 
 void INTRUDE_SUBDISP_BmpWinSetup(IntrudeSubdispWork *work)
 {
@@ -1545,13 +1509,11 @@ void INTRUDE_SUBDISP_BmpWinSetup(IntrudeSubdispWork *work)
     BG_SYS_PushTile(BMP_WIN_GetBgLayer(win));
 }
 
-
 void INTRUDE_SUBDISP_BmpWinExit(IntrudeSubdispWork *work)
 {
     BMP_WIN_Delete(work->titleWin);
     BMP_WIN_Delete(work->infoWin);
 }
-
 
 void INTRUDE_SUBDISP_ClactResourceLoad(IntrudeSubdispWork *work, void *bg)
 {
@@ -1573,7 +1535,6 @@ void INTRUDE_SUBDISP_ClactResourceLoad(IntrudeSubdispWork *work, void *bg)
     MIi_CpuCopy16((void *)0x05000702, work->palTarget, 8);
 }
 
-
 void INTRUDE_SUBDISP_ClactResourceUnload(IntrudeSubdispWork *work)
 {
     GFL_HEAP_Free(work->numberBuf);
@@ -1585,7 +1546,6 @@ void INTRUDE_SUBDISP_ClactResourceUnload(IntrudeSubdispWork *work)
     CLACT_ReleaseCellAnim((u32)work->cellRes);
     CLACT_ReleaseCellAnim((u32)work->infoCellRes);
 }
-
 
 /*
  * interface: r1 is visibly restored before every call; preserve incoming bg.
@@ -1602,13 +1562,11 @@ void INTRUDE_SUBDISP_ClactActorCreate(IntrudeSubdispWork *work, void *bg)
     INTRUDE_SUBDISP_CreateButtonActors(work, bg);
 }
 
-
 void INTRUDE_SUBDISP_ClactActorDelete(IntrudeSubdispWork *work)
 {
     int i;
     for (i = 0; i < INTRUDE_SUBDISP_ACTOR_COUNT; i++) CLACT_DeleteActor((struct Actor *)work->actors[i]);
 }
-
 
 void INTRUDE_SUBDISP_CreateTownActors(IntrudeSubdispWork *work, void *bg)
 {
@@ -1631,7 +1589,6 @@ void INTRUDE_SUBDISP_CreateTownActors(IntrudeSubdispWork *work, void *bg)
     CLACT_SetActorAutoAnim((struct Actor *)work->actors[8], 1);
 }
 
-
 void INTRUDE_SUBDISP_CreatePlayerMarkActors(IntrudeSubdispWork *work, void *bg)
 {
     IntrudeSubdispActorParam param;
@@ -1644,7 +1601,6 @@ void INTRUDE_SUBDISP_CreatePlayerMarkActors(IntrudeSubdispWork *work, void *bg)
         CLACT_SetActorDrawEnable((struct Actor *)work->actors[i], 0);
     }
 }
-
 
 void INTRUDE_SUBDISP_CreateTownMarkActors(IntrudeSubdispWork *work, void *bg)
 {
@@ -1659,7 +1615,6 @@ void INTRUDE_SUBDISP_CreateTownMarkActors(IntrudeSubdispWork *work, void *bg)
         CLACT_SetActorAutoAnim((struct Actor *)work->actors[i], 1);
     }
 }
-
 
 void INTRUDE_SUBDISP_CreateMyPlayerActor(IntrudeSubdispWork *work, void *bg)
 {
@@ -1677,7 +1632,6 @@ void INTRUDE_SUBDISP_CreateMyPlayerActor(IntrudeSubdispWork *work, void *bg)
     CLACT_SetActorAutoAnim((struct Actor *)work->actors[15], 1);
 }
 
-
 void INTRUDE_SUBDISP_CreatePlayerIconActors(IntrudeSubdispWork *work, void *bg)
 {
     IntrudeSubdispActorParam param;
@@ -1691,7 +1645,6 @@ void INTRUDE_SUBDISP_CreatePlayerIconActors(IntrudeSubdispWork *work, void *bg)
     }
 }
 
-
 void INTRUDE_SUBDISP_CreateInfoIconActor(IntrudeSubdispWork *work, void *bg)
 {
     IntrudeSubdispActorParam param;
@@ -1702,7 +1655,6 @@ void INTRUDE_SUBDISP_CreateInfoIconActor(IntrudeSubdispWork *work, void *bg)
     work->actors[20] = CLACT_CreateActor(work->clactUnit, work->infoCharRes, work->palRes, work->infoCellRes, &param, 0, 0x70);
     CLACT_SetActorDrawEnable((struct Actor *)work->actors[20], infoActive);
 }
-
 
 void INTRUDE_SUBDISP_CreateButtonActors(IntrudeSubdispWork *work, void *bg)
 {
@@ -1733,7 +1685,6 @@ void INTRUDE_SUBDISP_CreateButtonActors(IntrudeSubdispWork *work, void *bg)
     }
 }
 
-
 void INTRUDE_SUBDISP_DeleteButtonBmpOam(IntrudeSubdispWork *work)
 {
     int i;
@@ -1742,7 +1693,6 @@ void INTRUDE_SUBDISP_DeleteButtonBmpOam(IntrudeSubdispWork *work)
         BMP_Delete(work->buttonBitmaps[i]);
     }
 }
-
 
 void INTRUDE_SUBDISP_UpdateTownActors(IntrudeSubdispWork *work, void *target)
 {
@@ -1814,9 +1764,7 @@ void INTRUDE_SUBDISP_UpdateTownActors(IntrudeSubdispWork *work, void *target)
     work->paletteDirty = 1;
 }
 
-
 #pragma opt_propagation off
-
 
 /*
  * final push 2026-10-05 G7L8: closed with opt_propagation off, a named slot
@@ -1883,9 +1831,7 @@ void INTRUDE_SUBDISP_UpdatePlayerMarkActors(IntrudeSubdispWork *work, void *targ
     }
 }
 
-
 #pragma opt_propagation reset
-
 
 void INTRUDE_SUBDISP_UpdatePlayerTownActors(IntrudeSubdispWork *work, IntrudeCommSys *sys, void *target)
 {
@@ -1983,7 +1929,6 @@ void INTRUDE_SUBDISP_UpdatePlayerTownActors(IntrudeSubdispWork *work, IntrudeCom
     }
 }
 
-
 void INTRUDE_SUBDISP_UpdateTownMarkPalette(IntrudeSubdispWork *work)
 {
     int sel;
@@ -2023,7 +1968,6 @@ void INTRUDE_SUBDISP_UpdateTownMarkPalette(IntrudeSubdispWork *work)
         work->peerBlinkCount = 0;
     }
 }
-
 
 void INTRUDE_SUBDISP_UpdateMyPlayerActor(IntrudeSubdispWork *work, void *target, u16 zoneId)
 {
@@ -2074,7 +2018,6 @@ void INTRUDE_SUBDISP_UpdateMyPlayerActor(IntrudeSubdispWork *work, void *target,
     work->peerTowns[idx].zoneId = zoneId;
 }
 
-
 void INTRUDE_SUBDISP_UpdateButtonActors(IntrudeSubdispWork *work, void *target)
 {
     void *gameData;
@@ -2093,7 +2036,6 @@ void INTRUDE_SUBDISP_UpdateButtonActors(IntrudeSubdispWork *work, void *target)
         }
     }
 }
-
 
 void INTRUDE_SUBDISP_UpdateInfoIcon(IntrudeSubdispWork *work, void *target)
 {
@@ -2133,7 +2075,6 @@ void INTRUDE_SUBDISP_UpdateInfoIcon(IntrudeSubdispWork *work, void *target)
     }
     work->digitsDirty = 1;
 }
-
 
 void INTRUDE_SUBDISP_PrintTitle(IntrudeSubdispWork *work, int zoneId)
 {
@@ -2178,7 +2119,6 @@ void INTRUDE_SUBDISP_PrintTitle(IntrudeSubdispWork *work, int zoneId)
     PRINTSYS_PrintQueColor((struct PrintQueue *)printQue, BMP_WIN_GetBmp(work->titleWin), 0, 0, work->strbufTitle, work->font, 0x3C40);
     work->titlePending = 1;
 }
-
 
 void INTRUDE_SUBDISP_PrintInfoMessage(IntrudeSubdispWork *work, IntrudeCommSys *sys, u16 zoneId)
 {
@@ -2376,7 +2316,6 @@ void INTRUDE_SUBDISP_PrintInfoMessage(IntrudeSubdispWork *work, IntrudeCommSys *
     }
 }
 
-
 /*
  * extent: two zero padding bytes at 0x0217EC06.
  * interface: GAME_DATA_GetLastBattleRecSlot tail-forwards GAME_DATA_GetBattleRecSlot's pointer result.
@@ -2393,7 +2332,6 @@ void *INTRUDE_SUBDISP_GetTargetPlayerData(IntrudeSubdispWork *work)
         return GAME_DATA_GetBattleRecSlot(gameData, i);
     }
 }
-
 
 /*
  * lever: integer t initialized to 0x126 and incremented conditionally retains
@@ -2412,7 +2350,6 @@ int INTRUDE_SUBDISP_IsZoneMatch(u16 zone, u16 zoneA, u16 zoneB)
     return 0;
 }
 
-
 void INTRUDE_SUBDISP_SetTouchRect(int x, int y, int halfWidth, int halfHeight, IntrudeSubdispRect *rect)
 {
     rect->top = y - halfHeight;
@@ -2421,13 +2358,11 @@ void INTRUDE_SUBDISP_SetTouchRect(int x, int y, int halfWidth, int halfHeight, I
     rect->right = x + halfWidth;
 }
 
-
 int INTRUDE_SUBDISP_IsInTouchRect(int x, int y, const IntrudeSubdispRect *rect)
 {
     if (rect->left < x && rect->right > x && rect->top < y && rect->bottom > y) return 1;
     return 0;
 }
-
 
 /*
  *           witness: 0x02013DD0 is an unlabelled arm9 leaf inside
@@ -2539,7 +2474,6 @@ void INTRUDE_SUBDISP_UpdateTouch(IntrudeCommSys *sys, IntrudeSubdispWork *work, 
     }
 }
 
-
 void INTRUDE_SUBDISP_ReloadBgScreens(IntrudeSubdispWork *work)
 {
     int changed;
@@ -2568,7 +2502,6 @@ void INTRUDE_SUBDISP_ReloadBgScreens(IntrudeSubdispWork *work)
     }
 }
 
-
 /*
  * interface: r1 holds p[0xd8] at 0x0217EF64 and EF70 reads it.
  */
@@ -2578,7 +2511,6 @@ void INTRUDE_SUBDISP_UpdateBgPalette(IntrudeSubdispWork *work, IntrudeCommSys *s
     GAMESYSTEM_GetGameComm(work->gameSystem);
     if (work->town.homeSlot != work->lastBgPalette) INTRUDE_SUBDISP_SetBgPalette(work, work->town.homeSlot);
 }
-
 
 void INTRUDE_SUBDISP_SetBgPalette(IntrudeSubdispWork *work, int homeSlot)
 {
@@ -2592,7 +2524,6 @@ void INTRUDE_SUBDISP_SetBgPalette(IntrudeSubdispWork *work, int homeSlot)
     BG_SYS_MarkTileDirty(6);
     work->lastBgPalette = homeSlot;
 }
-
 
 /*
  * extent: two zero padding bytes at 0x0217F006.
@@ -2616,7 +2547,6 @@ void INTRUDE_SUBDISP_InitTownState(IntrudeSubdispWork *work, IntrudeCommSys *sys
         INTRUDE_SUBDISP_UpdateTownState(work, sys);
     }
 }
-
 
 void INTRUDE_SUBDISP_UpdateTownState(IntrudeSubdispWork *work, IntrudeCommSys *sys)
 {
@@ -2653,7 +2583,6 @@ void INTRUDE_SUBDISP_UpdateTownState(IntrudeSubdispWork *work, IntrudeCommSys *s
     }
 }
 
-
 void INTRUDE_SUBDISP_StartTownBlink(IntrudeSubdispWork *work)
 {
     int i;
@@ -2663,13 +2592,11 @@ void INTRUDE_SUBDISP_StartTownBlink(IntrudeSubdispWork *work)
     CLACT_SetActorPaletteOffset((struct Actor *)work->actors[8], 6, 1);
 }
 
-
 int INTRUDE_SUBDISP_IsTownBlinking(IntrudeSubdispWork *work)
 {
     if (work->blinkActive == 1 && work->blinkCount < 10) return 1;
     return 0;
 }
-
 
 void INTRUDE_SUBDISP_SetTownCursor(IntrudeSubdispWork *work, int index)
 {
@@ -2693,14 +2620,12 @@ void INTRUDE_SUBDISP_SetTownCursor(IntrudeSubdispWork *work, int index)
     }
 }
 
-
 void INTRUDE_SUBDISP_StartButtonBlink(IntrudeSubdispWork *work)
 {
     work->buttonBlinkCount = 0;
     work->buttonBlinkActive = 1;
     CLACT_SetActorPaletteOffset((struct Actor *)work->actors[16], 6, 1);
 }
-
 
 void INTRUDE_SUBDISP_UpdateButtonBlink(IntrudeSubdispWork *work)
 {
@@ -2717,7 +2642,6 @@ void INTRUDE_SUBDISP_UpdateButtonBlink(IntrudeSubdispWork *work)
     }
 }
 
-
 /*
  * extent: Two bytes of alignment padding at 0x0217F212.
  */
@@ -2731,13 +2655,11 @@ int INTRUDE_SUBDISP_IsInfoActive(IntrudeSubdispWork *work)
     return 0;
 }
 
-
 void INTRUDE_SUBDISP_ClearInfoPanel(void)
 {
     BG_SYS_SetTileEntry(6, 0x3001, 0x14, 0x16, 0xc, 2, 0x11);
     BG_SYS_MarkTileDirty(6);
 }
-
 
 void INTRUDE_SUBDISP_DrawInfoPanel(IntrudeSubdispWork *work, int mode)
 {
@@ -2748,7 +2670,6 @@ void INTRUDE_SUBDISP_DrawInfoPanel(IntrudeSubdispWork *work, int mode)
         BG_SYS_PushTile(6);
     }
 }
-
 
 /*
  * extent: Two bytes of alignment padding at 0x0217F2B2.

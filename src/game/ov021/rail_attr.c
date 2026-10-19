@@ -20,7 +20,7 @@
  */
 #include "fldmmdl_rail_types.h"
 
-typedef unsigned int u32;
+#include "../types.h"
 
 #define RAIL_ATTR_ARC_ID 0x4f       /* archive that holds the rail and rail attribute data */
 #define RAIL_LOCATION_TYPE_LINE 1   /* RailLocation.type of a place on a rail line */

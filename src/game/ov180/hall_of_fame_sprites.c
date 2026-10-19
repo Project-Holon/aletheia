@@ -96,7 +96,7 @@ struct Sub0200852CObj;
 struct Actor;
 struct Bank;
 
-typedef int s32;
+#include "../types.h"
 
 /* Setup block of the actor renderer (32 bytes). */
 typedef struct HofRendererSetup {

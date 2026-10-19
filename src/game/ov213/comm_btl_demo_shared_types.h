@@ -9,11 +9,7 @@
  * as struct CommBtlDemoArgs.
  */
 
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 /* One side of the battle demo: the party list and the per-member flag bytes. */
 struct CommBtlDemoSide {

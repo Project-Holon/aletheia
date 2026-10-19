@@ -30,11 +30,7 @@
 struct GameSystem;
 struct GameEvent;
 struct EncEff;
-typedef unsigned char u8;
-
-typedef unsigned int u32;
-
-typedef signed int s32;
+#include "../types.h"
 
 /*
  * Overlay 73 holds 26 encounter effect builders. Each one is the build
@@ -95,15 +91,11 @@ struct GameEvent *ENCEFF_StartNameCutIn(struct GameSystem *gameSystem, struct Fi
 int ENCEFF_NameCutInEventMain(struct GameEvent *event, int *state);
 int ENCEFF_NameCutInFadeOutEventMain(struct GameEvent *event, int *state);
 
-
-
 /* Build function of effect table row 10 (cut-in table row 0). */
 struct GameEvent *ENCEFF_BuildNameCutInKind10(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
     return ENCEFF_StartNameCutIn(gameSystem, fieldMap, 0, fadeVariant);
 }
-
-
 
 /* Build function of effect table row 11 (cut-in table row 1). */
 struct GameEvent *ENCEFF_BuildNameCutInKind11(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
@@ -111,15 +103,11 @@ struct GameEvent *ENCEFF_BuildNameCutInKind11(struct GameSystem *gameSystem, str
     return ENCEFF_StartNameCutIn(gameSystem, fieldMap, 1, fadeVariant);
 }
 
-
-
 /* Build function of effect table row 12 (cut-in table row 2). */
 struct GameEvent *ENCEFF_BuildNameCutInKind12(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
     return ENCEFF_StartNameCutIn(gameSystem, fieldMap, 2, fadeVariant);
 }
-
-
 
 /* Build function of effect table row 13 (cut-in table row 3). */
 struct GameEvent *ENCEFF_BuildNameCutInKind13(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
@@ -127,15 +115,11 @@ struct GameEvent *ENCEFF_BuildNameCutInKind13(struct GameSystem *gameSystem, str
     return ENCEFF_StartNameCutIn(gameSystem, fieldMap, 3, fadeVariant);
 }
 
-
-
 /* Build function of effect table row 14 (cut-in table row 4). */
 struct GameEvent *ENCEFF_BuildNameCutInKind14(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
     return ENCEFF_StartNameCutIn(gameSystem, fieldMap, 4, fadeVariant);
 }
-
-
 
 /* Build function of effect table row 15 (cut-in table row 5). */
 struct GameEvent *ENCEFF_BuildNameCutInKind15(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
@@ -143,15 +127,11 @@ struct GameEvent *ENCEFF_BuildNameCutInKind15(struct GameSystem *gameSystem, str
     return ENCEFF_StartNameCutIn(gameSystem, fieldMap, 5, fadeVariant);
 }
 
-
-
 /* Build function of effect table row 16 (cut-in table row 6). */
 struct GameEvent *ENCEFF_BuildNameCutInKind16(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
     return ENCEFF_StartNameCutIn(gameSystem, fieldMap, 6, fadeVariant);
 }
-
-
 
 /* Build function of effect table row 17 (cut-in table row 7). */
 struct GameEvent *ENCEFF_BuildNameCutInKind17(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
@@ -159,15 +139,11 @@ struct GameEvent *ENCEFF_BuildNameCutInKind17(struct GameSystem *gameSystem, str
     return ENCEFF_StartNameCutIn(gameSystem, fieldMap, 7, fadeVariant);
 }
 
-
-
 /* Build function of effect table row 18 (cut-in table row 8). */
 struct GameEvent *ENCEFF_BuildNameCutInKind18(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
     return ENCEFF_StartNameCutIn(gameSystem, fieldMap, 8, fadeVariant);
 }
-
-
 
 /* Build function of effect table row 19 (cut-in table row 9). */
 struct GameEvent *ENCEFF_BuildNameCutInKind19(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
@@ -175,15 +151,11 @@ struct GameEvent *ENCEFF_BuildNameCutInKind19(struct GameSystem *gameSystem, str
     return ENCEFF_StartNameCutIn(gameSystem, fieldMap, 9, fadeVariant);
 }
 
-
-
 /* Build function of effect table row 20 (cut-in table row 10). */
 struct GameEvent *ENCEFF_BuildNameCutInKind20(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
     return ENCEFF_StartNameCutIn(gameSystem, fieldMap, 10, fadeVariant);
 }
-
-
 
 /* Build function of effect table row 21 (cut-in table row 11). */
 struct GameEvent *ENCEFF_BuildNameCutInKind21(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
@@ -191,15 +163,11 @@ struct GameEvent *ENCEFF_BuildNameCutInKind21(struct GameSystem *gameSystem, str
     return ENCEFF_StartNameCutIn(gameSystem, fieldMap, 11, fadeVariant);
 }
 
-
-
 /* Build function of effect table row 22 (cut-in table row 12). */
 struct GameEvent *ENCEFF_BuildNameCutInKind22(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
     return ENCEFF_StartNameCutIn(gameSystem, fieldMap, 12, fadeVariant);
 }
-
-
 
 /* Build function of effect table row 23 (cut-in table row 13). */
 struct GameEvent *ENCEFF_BuildNameCutInKind23(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
@@ -207,15 +175,11 @@ struct GameEvent *ENCEFF_BuildNameCutInKind23(struct GameSystem *gameSystem, str
     return ENCEFF_StartNameCutIn(gameSystem, fieldMap, 13, fadeVariant);
 }
 
-
-
 /* Build function of effect table row 24 (cut-in table row 14). */
 struct GameEvent *ENCEFF_BuildNameCutInKind24(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
     return ENCEFF_StartNameCutIn(gameSystem, fieldMap, 14, fadeVariant);
 }
-
-
 
 /* Build function of effect table row 25 (cut-in table row 15). */
 struct GameEvent *ENCEFF_BuildNameCutInKind25(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
@@ -223,15 +187,11 @@ struct GameEvent *ENCEFF_BuildNameCutInKind25(struct GameSystem *gameSystem, str
     return ENCEFF_StartNameCutIn(gameSystem, fieldMap, 15, fadeVariant);
 }
 
-
-
 /* Build function of effect table row 26 (cut-in table row 16). */
 struct GameEvent *ENCEFF_BuildNameCutInKind26(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
     return ENCEFF_StartNameCutIn(gameSystem, fieldMap, 16, fadeVariant);
 }
-
-
 
 /* Build function of effect table row 27 (cut-in table row 17). */
 struct GameEvent *ENCEFF_BuildNameCutInKind27(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
@@ -239,15 +199,11 @@ struct GameEvent *ENCEFF_BuildNameCutInKind27(struct GameSystem *gameSystem, str
     return ENCEFF_StartNameCutIn(gameSystem, fieldMap, 17, fadeVariant);
 }
 
-
-
 /* Build function of effect table row 28 (cut-in table row 18). */
 struct GameEvent *ENCEFF_BuildNameCutInKind28(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
     return ENCEFF_StartNameCutIn(gameSystem, fieldMap, 18, fadeVariant);
 }
-
-
 
 /* Build function of effect table row 29 (cut-in table row 19). */
 struct GameEvent *ENCEFF_BuildNameCutInKind29(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
@@ -255,15 +211,11 @@ struct GameEvent *ENCEFF_BuildNameCutInKind29(struct GameSystem *gameSystem, str
     return ENCEFF_StartNameCutIn(gameSystem, fieldMap, 19, fadeVariant);
 }
 
-
-
 /* Build function of effect table row 30 (cut-in table row 20). */
 struct GameEvent *ENCEFF_BuildNameCutInKind30(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
     return ENCEFF_StartNameCutIn(gameSystem, fieldMap, 20, fadeVariant);
 }
-
-
 
 /* Build function of effect table row 32 (cut-in table row 21). */
 struct GameEvent *ENCEFF_BuildNameCutInKind32(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
@@ -271,15 +223,11 @@ struct GameEvent *ENCEFF_BuildNameCutInKind32(struct GameSystem *gameSystem, str
     return ENCEFF_StartNameCutIn(gameSystem, fieldMap, 21, fadeVariant);
 }
 
-
-
 /* Build function of effect table row 33 (cut-in table row 22). */
 struct GameEvent *ENCEFF_BuildNameCutInKind33(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
     return ENCEFF_StartNameCutIn(gameSystem, fieldMap, 22, fadeVariant);
 }
-
-
 
 /* Build function of effect table row 34 (cut-in table row 23). */
 struct GameEvent *ENCEFF_BuildNameCutInKind34(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
@@ -287,22 +235,17 @@ struct GameEvent *ENCEFF_BuildNameCutInKind34(struct GameSystem *gameSystem, str
     return ENCEFF_StartNameCutIn(gameSystem, fieldMap, 23, fadeVariant);
 }
 
-
-
 /* Build function of effect table row 3 (cut-in table row 24). */
 struct GameEvent *ENCEFF_BuildNameCutInKind03(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
     return ENCEFF_StartNameCutIn(gameSystem, fieldMap, 24, fadeVariant);
 }
 
-
-
 /* Build function of effect table row 4 (cut-in table row 25). */
 struct GameEvent *ENCEFF_BuildNameCutInKind04(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
     return ENCEFF_StartNameCutIn(gameSystem, fieldMap, 25, fadeVariant);
 }
-
 
 /* Starts the name cut-in event for one row of the cut-in table. */
 struct GameEvent *ENCEFF_StartNameCutIn(struct GameSystem *gameSystem, struct FieldMap *unusedFieldMap, int tableIndex, int fadeVariant)
@@ -315,7 +258,6 @@ struct GameEvent *ENCEFF_StartNameCutIn(struct GameSystem *gameSystem, struct Fi
     work->fadeVariant = fadeVariant;
     return GAME_EVENT_Create(gameSystem, 0, ENCEFF_NameCutInEventMain, 0);
 }
-
 
 /*
  * Main step of the name cut-in event. States 0 to 2 flash the screen white
@@ -365,7 +307,6 @@ int ENCEFF_NameCutInEventMain(struct GameEvent *event, int *state)
     }
     return 0;
 }
-
 
 /*
  * Event run when the name cut-in cannot start: fades both screens to black

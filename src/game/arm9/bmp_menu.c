@@ -56,7 +56,7 @@ struct BmpCursor;
 
 struct GfFont;
 
-typedef signed char s8;
+#include "../types.h"
 
 typedef struct {
     struct BmpWin *win;     /* +0x00 */
@@ -96,8 +96,6 @@ typedef struct {
     u16 heapId;             /* +0x34 */
     u16 reserved36;
 } BmpMenu;
-
-typedef int            s32;
 
 typedef struct {
     u8  bgFrame; /* +0 */

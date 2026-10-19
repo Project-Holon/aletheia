@@ -75,10 +75,7 @@
  */
 #include "fieldmap_types.h"
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed int s32;
+#include "../types.h"
 
 typedef struct GameSystem GameSystem;
 typedef struct GameEvent GameEvent;
@@ -631,7 +628,6 @@ void EVENT_FIELDMAP_CONTROL_StartFadeInByFacing(GameSystem *gameSystem, FieldMap
         break;
     }
 }
-
 
 /*
  * Fade-out for the black and white effects: starts the fade and waits for it.

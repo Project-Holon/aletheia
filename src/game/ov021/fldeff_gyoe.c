@@ -66,13 +66,9 @@
  */
 #include "../ov010/fldmmdl_types.h"
 
-typedef int fx32;
+#include "../types.h"
 
-typedef struct VecFx32 {
-    fx32 x;
-    fx32 y;
-    fx32 z;
-} VecFx32;
+#include "../sdk_fx.h"
 
 #include "../ov012/union_comm_types.h"
 
@@ -81,12 +77,6 @@ typedef struct VecFx32 {
 #define FX_F32_TO_FX32(x) ((fx32)(((x) > 0) ? \
                                   ((x) * (1 << 12) + 0.5f) : \
                                   ((x) * (1 << 12) - 0.5f)))
-
-typedef long long fx64;
-
-typedef struct { fx32 m[4][4]; } MtxFx44;
-
-typedef struct { fx32 m[3][3]; } MtxFx33;
 
 #define FLDEFF_GYOE_RES_MAX 4
 

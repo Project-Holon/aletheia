@@ -16,43 +16,11 @@
  *   gGXState   0x02150E4C  data
  */
 
-typedef long fx32;
-typedef short fx16;
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned long u32;
-typedef volatile u8 vu8;
-typedef volatile u16 vu16;
-typedef volatile u32 vu32;
+#include "../types.h"
 
-typedef union {
-    struct {
-        fx32 _00, _01;
-        fx32 _10, _11;
-    };
-    fx32 m[2][2];
-    fx32 a[4];
-} MtxFx22;
+#include "../sdk_fx.h"
 
-typedef struct {
-    u16 lcdc;
-    u16 bg;
-    u16 obj;
-    u16 arm7;
-    u16 tex;
-    u16 texPltt;
-    u16 clrImg;
-    u16 bgExtPltt;
-    u16 objExtPltt;
-    u16 sub_bg;
-    u16 sub_obj;
-    u16 sub_bgExtPltt;
-    u16 sub_objExtPltt;
-} GX_VRAMCnt_;
-
-typedef struct {
-    GX_VRAMCnt_ vramCnt;
-} GX_State;
+#include "../sdk_gx.h"
 
 #define reg_GX_VRAMCNT   (*(vu32 *)0x04000240)
 #define reg_GX_VRAMCNT_E (*(vu8 *)0x04000244)

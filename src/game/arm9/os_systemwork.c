@@ -17,15 +17,9 @@
  *   OS_IsRunOnTwl  0x02085D3C  arm
  *   g_02151360     0x02151360  data
  */
-typedef unsigned long u32;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef unsigned char u8;
-
-typedef int BOOL;
-
-typedef u32 OSIntrMode;
+#include "../sdk_os.h"
 
 /* os_systemwork.o .bss from 0x02151360, addressed from one pool word: the
    function's statics retval and initialized. */
@@ -41,7 +35,6 @@ BOOL OSi_IsCodecTwlMode(void);
 extern char SDK_AUTOLOAD_DTCM_START[];
 extern OsSystemWorkBss g_02151360;
 
-
 u16 OS_GetBootType(void)
 {
     return *(u16 *)OS_GetBootInfo();
@@ -51,7 +44,6 @@ void *OS_GetBootInfo(void)
 {
     return (void *)0x02FFFC40;
 }
-
 
 /*
  * sdk:      OSi_IsCodecTwlMode (os_systemwork.o)

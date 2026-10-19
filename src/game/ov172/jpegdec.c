@@ -50,10 +50,7 @@
  *   SSPiDecodeSignCheckMode 0x021CADA4  data ov172
  */
 
-typedef unsigned char u8;
-typedef signed short s16;
-typedef unsigned int u32;
-typedef signed int s32;
+#include "../types.h"
 
 /*
  * jpegdec.o .bss block; declaration order gives the vendor offsets.
@@ -107,7 +104,6 @@ void decode_block_sub(short *s, short *d, int n);
 int loadbit(u8 *data, int *pos);
 int hloadbit(u8 *b, int *p, int n);
 void writeblock(u8 *d, int x, int y, int dx, int dy);
-
 
 /*
  * Mel_JPEGDecodeExif notes (from the old part 1)

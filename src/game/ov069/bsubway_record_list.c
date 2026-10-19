@@ -287,7 +287,6 @@ extern const u32 sRecordListBgIds[];
 extern const Pos sRecordListFramePositions[];
 extern const struct ActorSystemConfig gClActorInitParam;
 
-
 #define SE_CURSOR_MOVE 0x548
 #define SE_CANCEL      0x551
 #define KEY_B_BUTTON   2
@@ -300,7 +299,7 @@ struct Strbuf;
 struct WordSet;
 struct Vec2;
 
-typedef short s16;
+#include "../types.h"
 
 /* Sprite template: position and the resource indexes (into spriteRes). */
 typedef struct ActorTemplate {
@@ -413,12 +412,9 @@ extern const char sTouchRects[];
 
 struct GfFont;
 
-
 extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 extern void BGWINFRM_PutBmpWin(struct BgWinFrmWork *wk, u32 idx, void *bmpWin);
 extern void BGWINFRM_ShowFrame(struct BgWinFrmWork *wk, u32 idx);
-
-
 
 int BSUBWAY_RECORD_LIST_Init(void *proc, u32 unusedSeq, BsubwayRecordListArgs *args)
 {
@@ -445,7 +441,6 @@ int BSUBWAY_RECORD_LIST_Init(void *proc, u32 unusedSeq, BsubwayRecordListArgs *a
     return 1;
 }
 
-
 int BSUBWAY_RECORD_LIST_Main(u32 proc, u32 unusedSeq, u32 unusedArgs, BsubwayRecordListWork *work)
 {
     if (BSUBWAY_RECORD_LIST_RunInputState(work) == 0)
@@ -455,8 +450,6 @@ int BSUBWAY_RECORD_LIST_Main(u32 proc, u32 unusedSeq, u32 unusedArgs, BsubwayRec
     CLACT_DrawSystem();
     return 0;
 }
-
-
 
 int BSUBWAY_RECORD_LIST_Exit(u32 proc, u32 unusedSeq, u32 unusedArgs, BsubwayRecordListWork *work)
 {
@@ -473,14 +466,11 @@ int BSUBWAY_RECORD_LIST_Exit(u32 proc, u32 unusedSeq, u32 unusedArgs, BsubwayRec
     return 1;
 }
 
-
 void BSUBWAY_RECORD_LIST_VBlankTask(void)
 {
     CLACT_VBlankSystem();
     BG_SYS_Update();
 }
-
-
 
 void BSUBWAY_RECORD_LIST_InitWork(BsubwayRecordListWork *work, BsubwayRecordListArgs *args)
 {
@@ -502,8 +492,6 @@ void BSUBWAY_RECORD_LIST_InitWork(BsubwayRecordListWork *work, BsubwayRecordList
     BSUBWAY_RECORD_LIST_InitPageCount(work);
 }
 
-
-
 void BSUBWAY_RECORD_LIST_FreeWork(BsubwayRecordListWork *work)
 {
     int i;
@@ -519,10 +507,7 @@ void BSUBWAY_RECORD_LIST_FreeWork(BsubwayRecordListWork *work)
     ARC_TOOL_DeleteHandle(work->arcHandle);
 }
 
-
 void BSUBWAY_RECORD_LIST_SetupVramBanks(void) { BG_SYS_SetVramBanks(&sRecordListVramBanks); *(volatile u16 *)0x04000304 = (u16)(*(volatile u16 *)0x04000304 & ~0x8000); }
-
-
 
 void BSUBWAY_RECORD_LIST_SetupBgLayers(BsubwayRecordListWork *unusedWork)
 {
@@ -547,10 +532,7 @@ void BSUBWAY_RECORD_LIST_SetupBgLayers(BsubwayRecordListWork *unusedWork)
     BG_SYS_SetPlaneVisible(3, 0);
 }
 
-
 void BSUBWAY_RECORD_LIST_ReleaseBgLayers(BsubwayRecordListWork *unusedWork) { u32 i; for(i=0;i<5;i++) BG_SYS_FreeLayerBuf((u8)sRecordListBgIds[i]); BG_SYS_Delete(); }
-
-
 
 void BSUBWAY_RECORD_LIST_LoadGraphics(BsubwayRecordListWork *work)
 {
@@ -583,13 +565,10 @@ void BSUBWAY_RECORD_LIST_LoadGraphics(BsubwayRecordListWork *work)
     }
 }
 
-
 void BSUBWAY_RECORD_LIST_DeleteFrames(BsubwayRecordListWork *work)
 {
     BGWINFRM_Delete((struct BgWinFrmWork *)work->frameMgr);
 }
-
-
 
 void BSUBWAY_RECORD_LIST_SetupActors(BsubwayRecordListWork *work)
 {
@@ -611,9 +590,6 @@ void BSUBWAY_RECORD_LIST_SetupActors(BsubwayRecordListWork *work)
     work->spriteRes[5] = CLACT_RegisterCellAnim(spriteArc, cellAnimId, APP_ICON_GetStatusPaletteFileId(0), 0x80);
     ARC_TOOL_DeleteHandle(spriteArc);
 }
-
-
-
 
 /*
  * Creates four sprites from a const 6-word template table (x, y, z, then
@@ -638,8 +614,6 @@ void BSUBWAY_RECORD_LIST_CreateActors(BsubwayRecordListWork *work)
     }
 }
 
-
-
 void BSUBWAY_RECORD_LIST_DeleteActors(BsubwayRecordListWork *work)
 {
     CLACT_ReleaseCharacter(work->spriteRes[4]);
@@ -652,8 +626,6 @@ void BSUBWAY_RECORD_LIST_DeleteActors(BsubwayRecordListWork *work)
     CLACT_DeleteUnit(work->actorBank);
     CLACT_ExitSystem();
 }
-
-
 
 void BSUBWAY_RECORD_LIST_CreateWindows(BsubwayRecordListWork *work)
 {
@@ -678,7 +650,6 @@ void BSUBWAY_RECORD_LIST_CreateWindows(BsubwayRecordListWork *work)
     }
 }
 
-
 /*
  * extent: final two bytes are alignment padding before next labelled function.
  */
@@ -692,8 +663,6 @@ void BSUBWAY_RECORD_LIST_DeleteWindows(BsubwayRecordListWork *work)
         BMP_WIN_Delete(work->windows[BSUBWAY_RECORD_LIST_ENTRIES_PER_PAGE + i]);
     BMP_WIN_Exit();
 }
-
-
 
 void BSUBWAY_RECORD_LIST_InitText(BsubwayRecordListWork *work)
 {
@@ -720,10 +689,7 @@ void BSUBWAY_RECORD_LIST_InitText(BsubwayRecordListWork *work)
     work->printJobs[BSUBWAY_RECORD_LIST_WIN_LABEL_C].isPending = 1;
 }
 
-
 void BSUBWAY_RECORD_LIST_ExitText(BsubwayRecordListWork *work) { PRINTSYS_QUE_Delete((struct PrintQueue *)work->printSys); GF_FONT_Delete(work->font); }
-
-
 
 void BSUBWAY_RECORD_LIST_UpdateText(BsubwayRecordListWork *work)
 {
@@ -742,13 +708,9 @@ void BSUBWAY_RECORD_LIST_UpdateText(BsubwayRecordListWork *work)
     }
 }
 
-
 int BSUBWAY_RECORD_LIST_RunInputState(BsubwayRecordListWork *work) { return sInputStateFuncs[work->state](work); }
 
-
 int BSUBWAY_RECORD_LIST_StateFadeIn(BsubwayRecordListWork *work) { if (WIPE_SYS_EndCheck()) work->state = BSUBWAY_RECORD_LIST_STATE_INPUT; return 1; }
-
-
 
 int BSUBWAY_RECORD_LIST_StateInput(BsubwayRecordListWork *work)
 {
@@ -766,12 +728,9 @@ int BSUBWAY_RECORD_LIST_StateInput(BsubwayRecordListWork *work)
     return 1;
 }
 
-
 int BSUBWAY_RECORD_LIST_StateBackAnim(BsubwayRecordListWork *work) { if (CLACT_IsActorAnimActive(work->actors[BSUBWAY_RECORD_LIST_ACTOR_BACK])==0) work->state = BSUBWAY_RECORD_LIST_STATE_FADE_OUT_START; return 1; }
 
-
 int BSUBWAY_RECORD_LIST_StateFadeOutStart(BsubwayRecordListWork *work) { WIPE_SYS_Start(0,0,0,0,16,1,128); work->state = BSUBWAY_RECORD_LIST_STATE_FADE_OUT_WAIT; return 1; }
-
 
 /*
  * extent: Two bytes of alignment padding follow.
@@ -785,13 +744,11 @@ int BSUBWAY_RECORD_LIST_StateFadeOutWait(BsubwayRecordListWork *work)
     return 1;
 }
 
-
 void BSUBWAY_RECORD_LIST_InitCursor(BsubwayRecordListWork *work)
 {
     work->cursorMove = (struct CursorMove *)CURSOR_MOVE_Create((struct CursorEntry *)sCursorEntries, (struct CursorVtbl *)sCursorCallbacks, (u32)work, 1, 0, 0x80);
     BSUBWAY_RECORD_LIST_PlaceCursorActor(work, 0);
 }
-
 
 /*
  * evidence: 02025D14 forwards r0 to 02030164, whose body reads the pointer
@@ -802,13 +759,10 @@ int BSUBWAY_RECORD_LIST_DeleteCursor(BsubwayRecordListWork *work)
     return CURSOR_MOVE_Delete(work->cursorMove);
 }
 
-
 /* Cursor callback table slots 0 and 1: no action. */
 void BSUBWAY_RECORD_LIST_CursorCallbackNop0(void) {}
 
-
 void BSUBWAY_RECORD_LIST_CursorCallbackNop1(void) {}
-
 
 /* Cursor callback table slot 2: the cursor moved to row "row". */
 void BSUBWAY_RECORD_LIST_CursorCallbackMoved(BsubwayRecordListWork *work, int row)
@@ -818,7 +772,6 @@ void BSUBWAY_RECORD_LIST_CursorCallbackMoved(BsubwayRecordListWork *work, int ro
     GFL_USE_PlaySeDefaultVolume(SE_CURSOR_MOVE);
 }
 
-
 /* Cursor callback table slot 3: same body as slot 2 (two functions, both are table targets). */
 void BSUBWAY_RECORD_LIST_CursorCallbackMovedAlt(BsubwayRecordListWork *work, int row)
 {
@@ -826,7 +779,6 @@ void BSUBWAY_RECORD_LIST_CursorCallbackMovedAlt(BsubwayRecordListWork *work, int
     BSUBWAY_RECORD_LIST_PlaceCursorActor(work, row);
     GFL_USE_PlaySeDefaultVolume(SE_CURSOR_MOVE);
 }
-
 
 void BSUBWAY_RECORD_LIST_PlaceCursorActor(BsubwayRecordListWork *work, int row)
 {
@@ -838,7 +790,6 @@ void BSUBWAY_RECORD_LIST_PlaceCursorActor(BsubwayRecordListWork *work, int row)
     pos.y = entry[1];
     CLACT_AddActorSurfacePos(work->actors[BSUBWAY_RECORD_LIST_ACTOR_CURSOR], (const struct Vec2 *)(&pos), 0);
 }
-
 
 void BSUBWAY_RECORD_LIST_ShowRecordDetails(BsubwayRecordListWork *work, BsubwayWifiRecord *records, int index)
 {
@@ -907,7 +858,6 @@ void BSUBWAY_RECORD_LIST_ShowRecordDetails(BsubwayRecordListWork *work, BsubwayW
     STRBUF_Delete(nameStr);
 }
 
-
 int BSUBWAY_RECORD_LIST_PollTouchAndCancel(BsubwayRecordListWork *work)
 {
     int touched;
@@ -920,8 +870,6 @@ int BSUBWAY_RECORD_LIST_PollTouchAndCancel(BsubwayRecordListWork *work)
     BSUBWAY_RECORD_LIST_HandleAction(work, touched);
     return touched;
 }
-
-
 
 void BSUBWAY_RECORD_LIST_HandleAction(BsubwayRecordListWork *work, int action)
 {
@@ -947,7 +895,6 @@ void BSUBWAY_RECORD_LIST_HandleAction(BsubwayRecordListWork *work, int action)
     }
 }
 
-
 void BSUBWAY_RECORD_LIST_InitPageCount(BsubwayRecordListWork *work)
 {
     work->page = 0;
@@ -955,8 +902,6 @@ void BSUBWAY_RECORD_LIST_InitPageCount(BsubwayRecordListWork *work)
     if (work->entryCount % BSUBWAY_RECORD_LIST_ENTRIES_PER_PAGE != 0)
         (work->pageCount)++;
 }
-
-
 
 void BSUBWAY_RECORD_LIST_UpdateArrowVisibility(BsubwayRecordListWork *work, int page, int pageCount)
 {
@@ -974,7 +919,6 @@ void BSUBWAY_RECORD_LIST_UpdateArrowVisibility(BsubwayRecordListWork *work, int 
         CLACT_SetActorDrawEnable(work->actors[BSUBWAY_RECORD_LIST_ACTOR_NEXT_ARROW], 0);
     }
 }
-
 
 /* direction 0: previous page, 1: next page. Returns 1 when the page changed. */
 int BSUBWAY_RECORD_LIST_ChangePage(BsubwayRecordListWork *work, int direction)
@@ -994,7 +938,6 @@ int BSUBWAY_RECORD_LIST_ChangePage(BsubwayRecordListWork *work, int direction)
     return changed;
 }
 
-
 /*
  * extent: Two bytes of alignment padding follow.
  * lever: Inline the getter result into the sum; a named result reverses
@@ -1008,7 +951,6 @@ void BSUBWAY_RECORD_LIST_ShowPage(BsubwayRecordListWork *work, int page)
     BSUBWAY_RECORD_LIST_ShowRecordDetails(work, work->recordList->records, work->page * 10 + CURSOR_MOVE_GetCurrent((struct Cursor *)work->cursorMove));
 }
 
-
 /*
  * Unlabelled leaf: remaining count after a - 10 per page, capped at 10.
  */
@@ -1020,8 +962,6 @@ int BSUBWAY_RECORD_LIST_GetRowCountOnPage(int page, int pageCountUnused, int ent
         rows = 10;
     return rows;
 }
-
-
 
 void BSUBWAY_RECORD_LIST_DrawPageRows(BsubwayRecordListWork *work)
 {
@@ -1043,7 +983,6 @@ void BSUBWAY_RECORD_LIST_DrawPageRows(BsubwayRecordListWork *work)
         BGWINFRM_HideFrame((struct BgWinFrmWork *)work->frameMgr, i);
     STRBUF_Delete(nameStr);
 }
-
 
 /* Draws the trainer name of one list row into its row window and shows the row frame. */
 void BSUBWAY_RECORD_LIST_DrawRowName(BsubwayRecordListWork *work, int row, struct Strbuf *name, int isFemale)

@@ -20,8 +20,7 @@
  */
 #include "height_ex_types.h"
 
-typedef unsigned char  u8;
-typedef unsigned int   u32;
+#include "../types.h"
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int align, const char *file, unsigned short line);
 extern u32 GFL_HEAP_Free(void *block);

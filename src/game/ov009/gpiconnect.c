@@ -134,20 +134,7 @@
  */
 #include "gpi_types.h"
 
-typedef struct SOCSockAddrIn {
-    unsigned char len;
-    unsigned char family;
-    unsigned short port;
-    unsigned int addr;
-} SOCSockAddrIn;
-
-typedef struct SOCHostEnt {
-    char *name;
-    char **aliases;
-    short addrType;
-    short length;
-    unsigned char **addrList;
-} SOCHostEnt;
+#include "../sdk_soc.h"
 
 typedef struct GPIConnectData {
     char serverChallenge[128];

@@ -47,36 +47,11 @@
  */
 #define NVRAM_RETRY_SPAN 0x20B
 #define NVRAM_TEMP_SIZE 32
-struct OSMessageQueue;
-typedef unsigned long u32;
+#include "../sdk_os.h"
 
-typedef unsigned short u16;
+#include "../types.h"
 
-typedef unsigned char u8;
-
-typedef unsigned long long u64;
-
-typedef int BOOL;
-
-typedef u64 OSTick;
-
-typedef void (*OSAlarmHandler)(void *);
-
-typedef struct OSiAlarm {
-    OSAlarmHandler handler;
-    void *arg;
-    u32 tag;
-    OSTick fire;
-    struct OSiAlarm *prev;
-    struct OSiAlarm *next;
-    OSTick period;
-    OSTick start;
-} OSAlarm;
-
-typedef struct _OSThreadQueue {
-    struct _OSThread *head;
-    struct _OSThread *tail;
-} OSThreadQueue;
+#include "../sdk_os_thread.h"
 
 typedef enum NVRAMResult {
     NVRAM_RESULT_SUCCESS = 0,
@@ -108,23 +83,6 @@ typedef struct NVRAMWork {
     volatile u32 arg[3];
     OSThreadQueue queue;
 } NVRAMWork;
-
-typedef void *OSMessage;
-
-typedef struct OSMessageQueue {
-    OSThreadQueue queueSend;
-    OSThreadQueue queueReceive;
-    OSMessage *msgArray;
-    long msgCount;
-    long firstIndex;
-    long usedCount;
-} OSMessageQueue;
-
-typedef struct OSThreadInfo {
-    u16 isNeedRescheduling;
-    u16 irqDepth;
-    struct _OSThread *current;
-} OSThreadInfo;
 
 /* nvram.o .bss from 0x02150EA0: nvramInitialized at +0, nvramTemp (32-byte
    aligned) at +0x20.  A direct read or write of nvramTemp goes through this
@@ -184,16 +142,10 @@ extern OSThreadInfo OSi_ThreadInfo;
 extern NvramBss nvramBss;
 extern u8 nvramTemp[32];
 
-
-
-
 static inline void OS_InitThreadQueue(OSThreadQueue *queue)
 {
     queue->head = queue->tail = 0;
 }
-
-
-
 
 /*
  * sdk:      NVRAMi_Init (libnvram.TWL.HYB.a nvram.o)
@@ -228,9 +180,6 @@ void NVRAMi_Init(void)
     nvramBss.nvramInitialized = 2;
 }
 
-
-
-
 /*
  * sdk:      NVRAMi_ReadAsync (libnvram.TWL.HYB.a nvram.o)
  */
@@ -263,9 +212,6 @@ NVRAMResult NVRAMi_ReadAsync(u32 address, u32 size, void *pData, NVRAMCallback c
     OS_WakeupThread(&nvramw.queue);
     return NVRAM_RESULT_SEND_ERROR;
 }
-
-
-
 
 void NVRAMi_ReadCallback(u32 data, BOOL err)
 {
@@ -301,9 +247,6 @@ void NVRAMi_ReadCallback(u32 data, BOOL err)
     OS_WakeupThread(&nvramw.queue);
 }
 
-
-
-
 /*
  * sdk:      NVRAMi_Read (libnvram.TWL.HYB.a nvram.o)
  */
@@ -338,9 +281,6 @@ NVRAMResult NVRAMi_Read(u32 address, u32 size, void *pData)
     }
     return result;
 }
-
-
-
 
 /*
  * sdk:      NVRAMi_WriteAsync (libnvram.TWL.HYB.a nvram.o)
@@ -378,16 +318,10 @@ NVRAMResult NVRAMi_WriteAsync(u32 address, u32 size, void *pData, NVRAMCallback 
     return NVRAM_RESULT_SEND_ERROR;
 }
 
-
-
-
 static inline u32 MinU32(u32 a, u32 b)
 {
     return (a < b) ? a : b;
 }
-
-
-
 
 void NVRAMi_WriteCallback(u32 data, BOOL err)
 {
@@ -528,9 +462,6 @@ void NVRAMi_WriteCallback(u32 data, BOOL err)
     OS_WakeupThread(&nvramw.queue);
 }
 
-
-
-
 /*
  * sdk:      NVRAMi_Write (libnvram.TWL.HYB.a nvram.o)
  *
@@ -570,9 +501,6 @@ NVRAMResult NVRAMi_Write(u32 address, u32 size, void *pData)
     return result;
 }
 
-
-
-
 /*
  * sdk:      NVRAMi_VerifyAsync (libnvram.TWL.HYB.a nvram.o)
  */
@@ -609,9 +537,6 @@ NVRAMResult NVRAMi_VerifyAsync(u32 address, u32 size, void *pData, NVRAMCallback
     OS_WakeupThread(&nvramw.queue);
     return NVRAM_RESULT_SEND_ERROR;
 }
-
-
-
 
 void NVRAMi_VerifyCallback(u32 data, BOOL err)
 {
@@ -675,9 +600,6 @@ void NVRAMi_VerifyCallback(u32 data, BOOL err)
     OS_WakeupThread(&nvramw.queue);
 }
 
-
-
-
 /*
  * sdk:      NVRAMi_Verify (libnvram.TWL.HYB.a nvram.o)
  *
@@ -717,16 +639,10 @@ NVRAMResult NVRAMi_Verify(u32 address, u32 size, void *pData)
     return result;
 }
 
-
-
-
 BOOL NVRAMi_IsInitialized(void)
 {
     return nvramBss.nvramInitialized == 2;
 }
-
-
-
 
 void NVRAMi_Callback(int tag, u32 data, BOOL err)
 {
@@ -743,9 +659,6 @@ void NVRAMi_Callback(int tag, u32 data, BOOL err)
     }
 }
 
-
-
-
 /*
  * sdk:      NVRAMi_SyncCallback (libnvram.TWL.HYB.a nvram.o)
  */
@@ -756,16 +669,10 @@ void NVRAMi_SyncCallback(NVRAMResult result, void *arg)
     }
 }
 
-
-
-
 void NVRAMi_AlarmHandler(void *arg)
 {
     NVRAMi_Callback(4, (u32)arg, 0);
 }
-
-
-
 
 BOOL NVRAMi_VerifyDataArray(u8 *data0, u8 *data1, u32 size)
 {
@@ -779,9 +686,6 @@ BOOL NVRAMi_VerifyDataArray(u8 *data0, u8 *data1, u32 size)
     return 1;
 }
 
-
-
-
 BOOL NVRAMi_WriteEnable(void)
 {
     if (0 > PXI_SendWordByFifo(4, 0x03002000, 0)) {
@@ -790,9 +694,6 @@ BOOL NVRAMi_WriteEnable(void)
     return 1;
 }
 
-
-
-
 BOOL NVRAMi_WriteDisable(void)
 {
     if (0 > PXI_SendWordByFifo(4, 0x03002100, 0)) {
@@ -800,9 +701,6 @@ BOOL NVRAMi_WriteDisable(void)
     }
     return 1;
 }
-
-
-
 
 BOOL NVRAMi_ReadStatusRegister(u8 *pData)
 {
@@ -817,9 +715,6 @@ BOOL NVRAMi_ReadStatusRegister(u8 *pData)
     }
     return 1;
 }
-
-
-
 
 BOOL NVRAMi_ReadDataBytes(u32 address, u32 size, u8 *pData)
 {
@@ -844,9 +739,6 @@ BOOL NVRAMi_ReadDataBytes(u32 address, u32 size, u8 *pData)
     return 1;
 }
 
-
-
-
 BOOL NVRAMi_PageWrite(u32 address, u16 size, u8 *pData)
 {
     if (0 > PXI_SendWordByFifo(4, 0x02000000 | 0x2500 | ((address >> 16) & 0x000000FF), 0)) {
@@ -866,9 +758,6 @@ BOOL NVRAMi_PageWrite(u32 address, u16 size, u8 *pData)
     }
     return 1;
 }
-
-
-
 
 BOOL NVRAMi_SoftwareReset(void)
 {

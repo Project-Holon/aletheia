@@ -48,7 +48,7 @@ typedef struct GPIConnection {
     void *extendedInfoKeys;
 } GPIConnection;
 
-typedef unsigned char  u8;
+#include "../types.h"
 
 extern void gsifree(void *ptr);
 struct DArrayImplementation;
@@ -99,10 +99,6 @@ extern char gGpiKeysDebugSaveOom[];
 extern char gGpiKeysStringFmt[];
 extern char gGpiKeysBackslash[];
 
-
-
-
-
 /*
  * sdk:      gpiStatusInfoKeyFree (libdwcgsgp.TWL.HYB.a(gpikeys.o))
  */
@@ -115,10 +111,6 @@ void gpiStatusInfoKeyFree(void *element)
     gsifree(aKey->keyValue);
     aKey->keyValue = 0;
 }
-
-
-
-
 
 /*
  * sdk:      gpiStatusInfoKeysInit (libdwcgsgp.TWL.HYB.a(gpikeys.o))
@@ -135,10 +127,6 @@ int gpiStatusInfoKeysInit(void **connection)
     return result;
 }
 
-
-
-
-
 /*
  * sdk:      gpiStatusInfoKeysDestroy (libdwcgsgp.TWL.HYB.a(gpikeys.o))
  */
@@ -152,18 +140,10 @@ void gpiStatusInfoKeysDestroy(void **connection)
     iconnection->extendedInfoKeys = 0;
 }
 
-
-
-
-
 int gpiStatusInfoKeyCompFunc(char **elem1, char **elem2)
 {
     return strcmp(*elem1, *elem2);
 }
-
-
-
-
 
 /*
  * sdk:      gpiStatusInfoAddKey (libdwcgsgp.TWL.HYB.a(gpikeys.o))
@@ -185,10 +165,6 @@ int gpiStatusInfoAddKey(void **connection, void *keys, char *theKeyName, char *t
     ArrayInsertSorted(keys, &aKey, (int (*)(void *, void *))gpiStatusInfoKeyCompFunc);
     return 0;
 }
-
-
-
-
 
 /*
  * sdk:      gpiStatusInfoSetKey (libdwcgsgp.TWL.HYB.a(gpikeys.o))
@@ -215,8 +191,6 @@ int gpiStatusInfoSetKey(void **connection, void *keys, char *keyName, char *newK
     return 0;
 }
 
-
-
 /*
  * sdk:      gpiStatusInfoCheckKey (libdwcgsgp.TWL.HYB.a(gpikeys.o))
  */
@@ -241,12 +215,10 @@ int gpiStatusInfoCheckKey(void **connection, void *keys, char *keyName, char **k
     return 0;
 }
 
-
 static inline int B64LEN(char *s)
 {
     return ((unsigned long)strlen((const u8 *)s) % 3) ? ((4 - (unsigned long)strlen((const u8 *)s) % 3) + (unsigned long)strlen((const u8 *)s) * 4 / 3) : ((unsigned long)strlen((const u8 *)s) * 4 / 3);
 }
-
 
 static inline void B64ADV(char **p, char *s)
 {
@@ -256,12 +228,10 @@ static inline void B64ADV(char **p, char *s)
         *p += (unsigned long)strlen((const u8 *)s) * 4 / 3;
 }
 
-
 static inline void B64ENC(char *s, char *out)
 {
     B64Encode(s, out, (int)(unsigned long)strlen((const u8 *)s), 2);
 }
-
 
 /*
  * sdk:      gpiSaveKeysToBuffer (gpikeys.o)

@@ -111,7 +111,7 @@
 #define FX_F32_TO_FX32(x) ((fx32)(((x) > 0) ? ((x) * (1 << 12) + 0.5f) : ((x) * (1 << 12) - 0.5f)))
 #define FX_Mul(a, b) ((fx32)(((s64)(a) * (b) + 0x800LL) >> 12))
 
-typedef long long      s64;
+#include "../types.h"
 
 #include "field_gimmick_gate_types.h"
 
@@ -373,7 +373,6 @@ extern u16 gElboardPlaceTable[1];       /* places looked up in the table: {0x71}
 extern u8 gElboardPlaceKinds[3];        /* kinds that qualify: {6, 7, 8} */
 extern const char gElboardFileName[]; /* "gimmick_obj_elboard.c", the __FILE__ string of this unit */
 
-
 /*
  * Put a message on the board and remember its kind in the gate work (the
  * pending list is saved with the gate state, so the board refills the same
@@ -392,7 +391,6 @@ void GIMMICK_OBJ_ELBOARD_AddMessage(GateWork *work, ElboardMessage *msg, int kin
     }
 }
 
-
 void GIMMICK_OBJ_ELBOARD_FillMessages(GateWork *work)
 {
     if (FIELD_GIMMICK_GATE_HasMessagesToShow(work) == 1) {
@@ -405,7 +403,6 @@ void GIMMICK_OBJ_ELBOARD_FillMessages(GateWork *work)
     }
     GIMMICK_OBJ_ELBOARD_FillDefaultMessages(work);
 }
-
 
 void GIMMICK_OBJ_ELBOARD_FillDefaultMessages(GateWork *work)
 {
@@ -424,7 +421,6 @@ void GIMMICK_OBJ_ELBOARD_FillDefaultMessages(GateWork *work)
     }
 }
 
-
 void GIMMICK_OBJ_ELBOARD_FillSavedListMessages(GateWork *work)
 {
     if (GIMMICK_OBJ_ELBOARD_GetLineCount(work->board) == 0) {
@@ -439,7 +435,6 @@ void GIMMICK_OBJ_ELBOARD_FillSavedListMessages(GateWork *work)
         }
     }
 }
-
 
 void GIMMICK_OBJ_ELBOARD_FillNoticeMessages(GateWork *work)
 {
@@ -457,7 +452,6 @@ void GIMMICK_OBJ_ELBOARD_FillNoticeMessages(GateWork *work)
         }
     }
 }
-
 
 void GIMMICK_OBJ_ELBOARD_AddDateMessage(GateWork *work)
 {
@@ -479,7 +473,6 @@ void GIMMICK_OBJ_ELBOARD_AddDateMessage(GateWork *work)
     GIMMICK_OBJ_ELBOARD_AddMessage(work, &locals.msg, 1, 0);
     WORDSET_Delete(wordSet);
 }
-
 
 /*
  * Lists the places the board points out, up to four, as one message with
@@ -565,7 +558,6 @@ void GIMMICK_OBJ_ELBOARD_AddPlaceListMessage(GateWork *work)
     WORDSET_Delete(words);
 }
 
-
 /* Message about the place the player came from (skipped for place 0xFFFF). */
 void GIMMICK_OBJ_ELBOARD_AddLastPlaceMessage(GateWork *work)
 {
@@ -597,7 +589,6 @@ void GIMMICK_OBJ_ELBOARD_AddLastPlaceMessage(GateWork *work)
     WORDSET_Delete(words);
 }
 
-
 /* Daily line 1: the message is picked by the weekday. */
 void GIMMICK_OBJ_ELBOARD_AddDailyMessage1(GateWork *work)
 {
@@ -622,7 +613,6 @@ void GIMMICK_OBJ_ELBOARD_AddDailyMessage1(GateWork *work)
     msg.wordSet = 0;
     GIMMICK_OBJ_ELBOARD_AddMessage(work, &msg, 4, 0);
 }
-
 
 /* Daily line 2: same weekday pick, one entry further in the daily table. */
 void GIMMICK_OBJ_ELBOARD_AddDailyMessage2(GateWork *work)
@@ -649,7 +639,6 @@ void GIMMICK_OBJ_ELBOARD_AddDailyMessage2(GateWork *work)
     GIMMICK_OBJ_ELBOARD_AddMessage(work, &msg, 5, 0);
 }
 
-
 /* Daily line 3: same weekday pick, two entries further in the daily table. */
 void GIMMICK_OBJ_ELBOARD_AddDailyMessage3(GateWork *work)
 {
@@ -675,7 +664,6 @@ void GIMMICK_OBJ_ELBOARD_AddDailyMessage3(GateWork *work)
     GIMMICK_OBJ_ELBOARD_AddMessage(work, &msg, 6, 0);
 }
 
-
 /* Weekly line: one message per weekday, Monday first. */
 void GIMMICK_OBJ_ELBOARD_AddWeekdayMessage(GateWork *work)
 {
@@ -700,7 +688,6 @@ void GIMMICK_OBJ_ELBOARD_AddWeekdayMessage(GateWork *work)
     msg.wordSet = 0;
     GIMMICK_OBJ_ELBOARD_AddMessage(work, &msg, 7, 0);
 }
-
 
 /* Message with the ids stored in the save (up to six), one word-set entry each. */
 void GIMMICK_OBJ_ELBOARD_AddSavedIdsMessage(GateWork *work)
@@ -755,7 +742,6 @@ void GIMMICK_OBJ_ELBOARD_AddNoticeMessages(GateWork *work)
     }
 }
 
-
 /* Put one notice on the board, on the given lane of the layout table. */
 void GIMMICK_OBJ_ELBOARD_AddNoticeMessage(GateWork *work, GateNewsEntry *entry, int lane)
 {
@@ -803,7 +789,6 @@ int GIMMICK_OBJ_ELBOARD_CountHighlights(ElboardHighlights *highlights)
     return count;
 }
 
-
 /*
  * Empties the list: the four place ids get ELBOARD_NO_PLACE and the four
  * kind bytes 0xFF.
@@ -817,7 +802,6 @@ void GIMMICK_OBJ_ELBOARD_ClearHighlights(ElboardHighlights *highlights)
         highlights->kind[i] = 0xFF;
     }
 }
-
 
 /* Two highlights at most: first the G-Power place, then the table places, else the gate defaults. */
 void GIMMICK_OBJ_ELBOARD_CollectHighlights(GateWork *work, ElboardHighlights *out)
@@ -864,7 +848,6 @@ void GIMMICK_OBJ_ELBOARD_CollectHighlights(GateWork *work, ElboardHighlights *ou
         out->kind[k] = FIELDMAP_GetZoneWeatherId(work->fieldMap, out->placeId[k]);
 }
 
-
 /*
  * The one-trip outer loop survives only because its int counter is compared
  * against an unsigned (sizeof) bound: `i < 1` or an unsigned counter is
@@ -893,7 +876,6 @@ void GIMMICK_OBJ_ELBOARD_CollectTableHighlights(GateWork *work, ElboardHighlight
         }
     }
 }
-
 
 /* The place tied to the active G-Power (powers 0x14 and 0x15), if the save holds one. */
 void GIMMICK_OBJ_ELBOARD_CollectGPowerHighlight(GateWork *work, ElboardHighlights *out)
@@ -931,7 +913,6 @@ void GIMMICK_OBJ_ELBOARD_CollectGPowerHighlight(GateWork *work, ElboardHighlight
     }
 }
 
-
 /* Script command: run the camera event of the gate board (SE 0x547 first). */
 int GIMMICK_OBJ_ELBOARD_CmdStartCameraEvent(struct ScriptContext *ctx, struct ScrCmdWork *cmdWork)
 {
@@ -948,7 +929,6 @@ int GIMMICK_OBJ_ELBOARD_CmdStartCameraEvent(struct ScriptContext *ctx, struct Sc
     SCRIPT_SYS_CallEvent(scriptWork, GIMMICK_OBJ_ELBOARD_CreateCameraEvent(gameSystem, fieldMap, frames));
     return 1;
 }
-
 
 GimmickObjElboard *GIMMICK_OBJ_ELBOARD_Create(ElboardConfig *config)
 {
@@ -1004,7 +984,6 @@ void GIMMICK_OBJ_ELBOARD_Advance(GimmickObjElboard *board, int step)
     board->scroll += step;
 }
 
-
 /*
  * int getter, u16 getter, u8 getter.
  */
@@ -1013,18 +992,15 @@ int GIMMICK_OBJ_ELBOARD_GetScroll(GimmickObjElboard *board)
     return board->scroll;
 }
 
-
 int GIMMICK_OBJ_ELBOARD_GetHeapId(GimmickObjElboard *board)
 {
     return board->heapId;
 }
 
-
 int GIMMICK_OBJ_ELBOARD_GetLineCount(GimmickObjElboard *board)
 {
     return board->lineCount;
 }
-
 
 /*
  * Jump the board to a scroll position. The lines run one after another in a
@@ -1094,7 +1070,6 @@ void GIMMICK_OBJ_ELBOARD_SetScroll(GimmickObjElboard *board, int scroll)
     GFL_HEAP_Free(localFrame);
 }
 
-
 /*
  * Build one line: render the message text into the texture of the lane and
  * work out when the line starts, when the next line may start and when it
@@ -1127,7 +1102,7 @@ ElboardLine *GIMMICK_OBJ_ELBOARD_CreateLine(GimmickObjElboard *board, const Elbo
     line->text = EL_SCOREBOARD_CreateLamp(G3D_SYSTEM_GetRenderTexRes(G3D_SYSTEM_GetObjectRender(board->render)), msg->textureName, msg->paletteName, str, board->leadChars * 14, 1, board->heapId);
     GFL_HEAP_Free(str);
     MSGDATA_Delete((struct MsgBank *)msgData);
-    animFrames = G3D_SYSTEM_GetAnimeObj(G3D_SYSTEM_GetObjectAnime(board->render, msg->animIndex))->resAnm->numFrame << 12;
+    animFrames = ((const NNSG3dResAnmCommon *)G3D_SYSTEM_GetAnimeObj(G3D_SYSTEM_GetObjectAnime(board->render, msg->animIndex))->resAnm)->numFrame << 12;
     leadWidth = board->leadChars * 13;
     totalWidth = leadWidth + width;
     textWidth = totalWidth - leadWidth;
@@ -1163,7 +1138,6 @@ void GIMMICK_OBJ_ELBOARD_StartLine(ElboardLine *line)
         G3D_SYSTEM_ResetObjectAnimeFrame(line->render, line->animIndex);
     }
 }
-
 
 /* One step of a line: advance it while it plays, start the next line, or start itself on request. */
 void GIMMICK_OBJ_ELBOARD_UpdateLine(GimmickObjElboard *board, ElboardLine *line, int step)
@@ -1208,7 +1182,6 @@ int GIMMICK_OBJ_ELBOARD_ReadGateInfo(void *dst, u32 archiveId, u32 memberIndex)
     ARC_TOOL_ReadMemberRange(dst, archiveId, memberIndex, 0, 0x7c);
     return 1;
 }
-
 
 /*
  * Camera event of the board: save the camera, move it to a fixed view of the

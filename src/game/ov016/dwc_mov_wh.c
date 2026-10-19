@@ -114,36 +114,9 @@ typedef struct {
     WHWork *wh;
 } DWC_MOV_WH_BSS;
 
-typedef struct { unsigned short apiid; unsigned short errcode; } WMCallback;
+#include "../types.h"
 
-typedef struct {
-    unsigned short apiid;
-    unsigned short errcode;
-    char           pad_04[4];
-    unsigned short state;      /* 0x08 */
-    char           pad_0A[6];
-    unsigned short aid;        /* 0x10 */
-} WMStartParentCallback;
-
-typedef struct {
-    unsigned short apiid;
-    unsigned short errcode;
-    unsigned short state;      /* 0x04 */
-} WMStartMPCallback;
-
-typedef struct {
-    unsigned short apiid;
-    unsigned short errcode;
-    char           pad_04[4];
-    unsigned short channel;        /* 0x08 */
-    unsigned short ccaBusyRatio;   /* 0x0A */
-} WMMeasureChannelCallback;
-
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned long u32;
+#include "../sdk_wm.h"
 
 typedef struct {
     u32 reserved00;
@@ -158,8 +131,6 @@ typedef struct {
     u32 reserved12a0;
     u32 reserved12a4;
 } Wh;
-
-typedef struct { unsigned short apiid; unsigned short errcode; unsigned short state; } WMIndCallback;
 
 extern int WM_SetParentParameter(int, int);
 void DWCi_MOV_WH_SetError(unsigned int v);
@@ -252,7 +223,6 @@ static short SelectChannel(unsigned short bitmap);
 static void DWCi_MOV_WH_IndicateHandler(void *arg);
 static void DWCi_MOV_WH_StateOutInitialize(void *arg);
 
-
 void DWCi_MOV_WH_MemInit(void *mw)
 {
     dwc_mov_wh_bss.wh = (WHWork *)mw;
@@ -262,7 +232,6 @@ void DWCi_MOV_WH_MemInit(void *mw)
     ((WHWork *)dwc_mov_wh_bss.wh)->f_13B0 = 0;
 }
 
-
 static void DWCi_MOV_WH_ChangeSysState(int state)
 {
     if (dwc_mov_wh_bss.wh_trace)
@@ -271,7 +240,6 @@ static void DWCi_MOV_WH_ChangeSysState(int state)
     if (dwc_mov_wh_bss.wh_trace)
         dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_13638, wh_statenames[((WHWork *)dwc_mov_wh_bss.wh)->sysState]);
 }
-
 
 /*
  * Store v unless the state word at +0x40 is 9 or 10.
@@ -288,7 +256,6 @@ void DWCi_MOV_WH_SetError(unsigned int v)
     if (*(unsigned int *)(q + 0x40) - 9 > 1)
         *(unsigned int *)(q + 0x54) = v;
 }
-
 
 /*
  * Select port 3, poll the global tail against the table at 0x021D2AA8, then fall back.
@@ -308,7 +275,6 @@ int DWCi_MOV_WH_StateInSetParentParam(void)
     return 0;
 }
 
-
 static void DWCi_MOV_WH_StateOutSetParentParam(void *arg)
 {
     WMCallback *cb = (WMCallback *)arg;
@@ -327,7 +293,6 @@ static void DWCi_MOV_WH_StateOutSetParentParam(void *arg)
     }
 }
 
-
 static int DWCi_MOV_WH_StateInSetParentWEPKey(void)
 {
     unsigned short wepmode;
@@ -343,7 +308,6 @@ static int DWCi_MOV_WH_StateInSetParentWEPKey(void)
     return 0;
 }
 
-
 static void DWCi_MOV_WH_StateOutSetParentWEPKey(void *arg)
 {
     WMCallback *cb = (WMCallback *)arg;
@@ -356,7 +320,6 @@ static void DWCi_MOV_WH_StateOutSetParentWEPKey(void *arg)
     if (!DWCi_MOV_WH_StateInStartParent())
         DWCi_MOV_WH_ChangeSysState(9);
 }
-
 
 static int DWCi_MOV_WH_StateInStartParent(void)
 {
@@ -373,7 +336,6 @@ static int DWCi_MOV_WH_StateInStartParent(void)
     ((WHWork *)dwc_mov_wh_bss.wh)->bitmap = 1;
     return 1;
 }
-
 
 static void DWCi_MOV_WH_StateOutStartParent(void *arg)
 {
@@ -418,7 +380,6 @@ static void DWCi_MOV_WH_StateOutStartParent(void *arg)
     }
 }
 
-
 static int DWCi_MOV_WH_StateInStartParentMP(void)
 {
     int result;
@@ -434,7 +395,6 @@ static int DWCi_MOV_WH_StateInStartParentMP(void)
     DWCi_MOV_WH_SetError(result);
     return 0;
 }
-
 
 static void DWCi_MOV_WH_StateOutStartParentMP(void *arg)
 {
@@ -482,7 +442,6 @@ static void DWCi_MOV_WH_StateOutStartParentMP(void *arg)
     }
 }
 
-
 /*
  * Select port 6, start key sharing on the global object's tail, then reset on mismatch.
  * Addresses are Black-image addresses.
@@ -500,7 +459,6 @@ int DWCi_MOV_WH_StateInStartParentKeyShare(void)
     return 0;
 }
 
-
 /*
  * Query the global object's tail, then reset on anything but the ready answer.
  * Addresses are Black-image addresses.
@@ -517,7 +475,6 @@ int DWCi_MOV_WH_StateInEndParentKeyShare(void)
     return 0;
 }
 
-
 static int DWCi_MOV_WH_StateInEndParentMP(void)
 {
     int result;
@@ -529,7 +486,6 @@ static int DWCi_MOV_WH_StateInEndParentMP(void)
     DWCi_MOV_WH_SetError(result);
     return 0;
 }
-
 
 static void DWCi_MOV_WH_StateOutEndParentMP(void *arg)
 {
@@ -547,7 +503,6 @@ static void DWCi_MOV_WH_StateOutEndParentMP(void *arg)
     DWCi_MOV_WH_Reset();
 }
 
-
 static int DWCi_MOV_WH_StateInEndParent(void)
 {
     int result;
@@ -559,7 +514,6 @@ static int DWCi_MOV_WH_StateInEndParent(void)
     return 0;
 }
 
-
 static void DWCi_MOV_WH_StateOutEndParent(void *arg)
 {
     WMCallback *cb = (WMCallback *)arg;
@@ -570,7 +524,6 @@ static void DWCi_MOV_WH_StateOutEndParent(void *arg)
     }
     DWCi_MOV_WH_ChangeSysState(1);
 }
-
 
 /*
  * Only in state 6, select port 3 and query the global tail for the ready answer.
@@ -591,7 +544,6 @@ int DWCi_MOV_WH_StateInEndChildKeyShare(void)
     return 0;
 }
 
-
 static int DWCi_MOV_WH_StateInEndChildMP(void)
 {
     int result;
@@ -603,7 +555,6 @@ static int DWCi_MOV_WH_StateInEndChildMP(void)
     DWCi_MOV_WH_SetError(result);
     return 0;
 }
-
 
 static void DWCi_MOV_WH_StateOutEndChildMP(void *arg)
 {
@@ -619,7 +570,6 @@ static void DWCi_MOV_WH_StateOutEndChildMP(void *arg)
     DWCi_MOV_WH_ChangeSysState(9);
 }
 
-
 static int DWCi_MOV_WH_StateInEndChild(void)
 {
     int result;
@@ -633,7 +583,6 @@ static int DWCi_MOV_WH_StateInEndChild(void)
     return 0;
 }
 
-
 static void DWCi_MOV_WH_StateOutEndChild(void *arg)
 {
     WMCallback *cb = (WMCallback *)arg;
@@ -644,7 +593,6 @@ static void DWCi_MOV_WH_StateOutEndChild(void *arg)
     }
     DWCi_MOV_WH_ChangeSysState(1);
 }
-
 
 static int DWCi_MOV_WH_StateInReset(void)
 {
@@ -658,7 +606,6 @@ static int DWCi_MOV_WH_StateInReset(void)
     return 0;
 }
 
-
 static void DWCi_MOV_WH_StateOutReset(void *arg)
 {
     WMCallback *cb = (WMCallback *)arg;
@@ -671,7 +618,6 @@ static void DWCi_MOV_WH_StateOutReset(void *arg)
     DWCi_MOV_WH_ChangeSysState(1);
 }
 
-
 static void DWCi_MOV_WH_StateOutEnd(void *arg)
 {
     WMCallback *cb = (WMCallback *)arg;
@@ -682,7 +628,6 @@ static void DWCi_MOV_WH_StateOutEnd(void *arg)
     }
     DWCi_MOV_WH_ChangeSysState(0);
 }
-
 
 /*
  * Store a word at +0x08 of the object behind the pointer at 0x021DE664.
@@ -699,7 +644,6 @@ void DWCi_MOV_WH_SetGgid(unsigned int v)
     q[1] = v;
 }
 
-
 /*
  * Halfword at +0x52 of the object behind the pointer at 0x021DE664.
  * Addresses are Black-image addresses.
@@ -714,7 +658,6 @@ unsigned short DWCi_MOV_WH_GetBitmap(void)
     unsigned short *q = (unsigned short *)(p[1] + 0x52);
     return *q;
 }
-
 
 /*
  * Word at +0x40 of the object behind the pointer at 0x021DE664.
@@ -731,12 +674,10 @@ unsigned int DWCi_MOV_WH_GetSystemState(void)
     return *q;
 }
 
-
 static inline unsigned long OS_GetVBlankCount(void)
 {
     return *(volatile unsigned long *)0x02FFFC3C;
 }
-
 
 int DWCi_MOV_WH_StartMeasureChannel(void)
 {
@@ -763,7 +704,6 @@ int DWCi_MOV_WH_StartMeasureChannel(void)
     return 1;
 }
 
-
 static unsigned short DWCi_MOV_WH_StateInMeasureChannel(unsigned short channel)
 {
     unsigned short allowedChannel;
@@ -786,7 +726,6 @@ static unsigned short DWCi_MOV_WH_StateInMeasureChannel(unsigned short channel)
     }
     return WHi_MeasureChannel(DWCi_MOV_WH_StateOutMeasureChannel, channel);
 }
-
 
 static void DWCi_MOV_WH_StateOutMeasureChannel(void *arg)
 {
@@ -817,12 +756,10 @@ static void DWCi_MOV_WH_StateOutMeasureChannel(void *arg)
         DWCi_MOV_WH_ChangeSysState(9);
 }
 
-
 static int WHi_MeasureChannel(void (*func)(void *), unsigned short channel)
 {
     return WM_MeasureChannel(func, 3, 17, channel, 30);
 }
-
 
 unsigned short DWCi_MOV_WH_GetMeasureChannel(void)
 {
@@ -834,7 +771,6 @@ unsigned short DWCi_MOV_WH_GetMeasureChannel(void)
         dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_14204, ((WHWork *)dwc_mov_wh_bss.wh)->channel);
     return ((WHWork *)dwc_mov_wh_bss.wh)->channel;
 }
-
 
 static short SelectChannel(unsigned short bitmap)
 {
@@ -864,12 +800,9 @@ static short SelectChannel(unsigned short bitmap)
     return 0;
 }
 
-
 static void *wh_trace = 0;
 
-
 static Wh *wh = 0;
-
 
 /*
  * closed 2026-10-01 (ov SDK wave 4): the tail is `switch (call) { case 0:
@@ -966,7 +899,6 @@ int DWCi_MOV_WH_Initialize(void)
     }
 }
 
-
 static void DWCi_MOV_WH_IndicateHandler(void *arg)
 {
     WMIndCallback *cb = (WMIndCallback *)arg;
@@ -976,7 +908,6 @@ static void DWCi_MOV_WH_IndicateHandler(void *arg)
         OS_Terminate();
     }
 }
-
 
 /*
  * Select port 3, run the 0x021D371C script on the global tail, then fall back.
@@ -996,7 +927,6 @@ int DWCi_MOV_WH_StateInInitialize(void)
     return 0;
 }
 
-
 static void DWCi_MOV_WH_StateOutInitialize(void *arg)
 {
     int result;
@@ -1015,7 +945,6 @@ static void DWCi_MOV_WH_StateOutInitialize(void *arg)
     }
     DWCi_MOV_WH_ChangeSysState(1);
 }
-
 
 int DWCi_MOV_WH_ParentConnect(int mode, unsigned short tgid, unsigned short channel)
 {
@@ -1051,7 +980,6 @@ int DWCi_MOV_WH_ParentConnect(int mode, unsigned short tgid, unsigned short chan
     }
 }
 
-
 /*
  * Store a word at +0x4c of the object behind the pointer at 0x021DE664.
  * Addresses are Black-image addresses.
@@ -1067,7 +995,6 @@ void DWCi_MOV_WH_SetJudgeAcceptFunc(unsigned int v)
     *q = v;
 }
 
-
 /*
  * Tail-call WM_GetSharedDataAddress with two views of the block behind 0x021DE660.
  * Addresses are Black-image addresses.
@@ -1079,7 +1006,6 @@ void DWCi_MOV_WH_GetSharedDataAdr(int a)
 
     WM_GetSharedDataAddress(p + 0x13e0, p + 0x1c00, a);
 }
-
 
 int DWCi_MOV_WH_StepDS(void *data)
 {
@@ -1104,14 +1030,12 @@ int DWCi_MOV_WH_StepDS(void *data)
     return 1;
 }
 
-
 void DWCi_MOV_WH_Reset(void)
 {
     if (DWCi_MOV_WH_StateInReset())
         return;
     DWCi_MOV_WH_ChangeSysState(10);
 }
-
 
 void DWCi_MOV_WH_Finalize(void)
 {
@@ -1149,7 +1073,6 @@ void DWCi_MOV_WH_Finalize(void)
         }
     }
 }
-
 
 /*
  * Wake the sound system when idle, select port 3 and run the 0x021D3200 script.

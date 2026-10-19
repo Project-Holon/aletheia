@@ -275,7 +275,7 @@ typedef struct FieldTaskManager FieldTaskManager;
 typedef struct FieldmapFunc FieldmapFunc;
 typedef struct FieldSubproc FieldSubproc;
 
-typedef int s32;
+#include "../types.h"
 
 typedef struct GameEvent GameEvent;
 

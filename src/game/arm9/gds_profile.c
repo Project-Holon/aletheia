@@ -52,11 +52,7 @@ struct MyStatus;
 struct SaveDataObj;
 struct RecordData;
 struct Strbuf;
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
+#include "../types.h"
 
 struct GdsMonRecord {
     u8 isEgg : 1;
@@ -83,8 +79,6 @@ struct GdsProfile {
     u16 checksum;
     u16 pad7E;
 };
-
-typedef signed int     s32;
 
 struct OwnerInfo {
     u8 favoriteColor;
@@ -141,8 +135,6 @@ struct BsubwayPlayData {
     u8  blob0C[0x1C];
     u8  blob28[0x14];
 };
-
-typedef signed short   s16;
 
 struct BsubwayScoreData {
     u16 battlePoints;
@@ -272,8 +264,6 @@ u32 BSUBWAY_WIFIDATA_IsStampNewer(const struct Stamp *a, const struct Stamp *b);
 int BSUBWAY_WIFIDATA_GetTrainerBit(struct BsubwayWifiData *p, u8 a, u8 b, const struct Stamp *q);
 extern const char func_0200D59C_File[];
 
-
-
 /*
  * A whole translation unit, matched as one byte range.  Written from the
  * disassembly in asm/arm9/src/003_0200CA1C.s.
@@ -318,14 +308,10 @@ struct GdsProfile *GDS_PROFILE_Create(u32 heap)
     return profile;
 }
 
-
-
 void GDS_PROFILE_Delete(struct GdsProfile *profile)
 {
     GFL_HEAP_Free(profile);
 }
-
-
 
 /*
  * 0x0200D5D0..0x0200D6D0, 256 bytes, one function.
@@ -404,8 +390,6 @@ void GDS_PROFILE_Init(struct GdsProfile *profile, void *sys)
     profile->checksum = GF_STANDARD_CalcCrc16((const u8 *)profile, 0x7C);
 }
 
-
-
 /*
  * A whole translation unit, matched as one byte range.  Written from the
  * disassembly in asm/arm9/src/003_0200CA1C.s.
@@ -428,11 +412,6 @@ void *GDS_PROFILE_CreateNameStr(const void *src, u32 tag)
     STRBUF_SetStringN(h, src, 0xF);
     return h;
 }
-
-
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.  Written from the
@@ -476,9 +455,6 @@ u32 GDS_PROFILE_GetEggFlag(struct StoredMon *p)
     return v;
 }
 
-
-
-
 u32 GDS_PROFILE_GetSpecies(struct StoredMon *p)
 {
     u32 v = p->species;
@@ -489,9 +465,6 @@ u32 GDS_PROFILE_GetSpecies(struct StoredMon *p)
     return v;
 }
 
-
-
-
 u32 GDS_PROFILE_GetFormSpecies(struct StoredMon *p)
 {
     if (p->species >= 0x28B) {
@@ -499,9 +472,6 @@ u32 GDS_PROFILE_GetFormSpecies(struct StoredMon *p)
     }
     return POKE_TOOL_FilterSpecies(p->species, p->form);
 }
-
-
-
 
 u32 GDS_PROFILE_GetNicknameFlag(struct StoredMon *p)
 {
@@ -513,9 +483,6 @@ u32 GDS_PROFILE_GetNicknameFlag(struct StoredMon *p)
     return v;
 }
 
-
-
-
 u32 GDS_PROFILE_GetBadEggFlag(struct StoredMon *p)
 {
     u32 v = p->isBadEgg;
@@ -525,11 +492,6 @@ u32 GDS_PROFILE_GetBadEggFlag(struct StoredMon *p)
     }
     return v;
 }
-
-
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.  Written from the
@@ -548,16 +510,10 @@ u32 GDS_PROFILE_GetValidatedCountry(struct GdsProfileRaw *p)
     return NATION_AREA_SanitizeNation(p->country, p->region, GDS_PROFILE_GetLanguage(p));
 }
 
-
-
-
 u32 GDS_PROFILE_GetValidatedRegion(struct GdsProfileRaw *p)
 {
     return NATION_AREA_SanitizeArea(p->country, p->region, GDS_PROFILE_GetLanguage(p));
 }
-
-
-
 
 void *GDS_PROFILE_ExportRecord(struct GdsProfileRaw *p, struct GdsRecord *out, u32 tag)
 {
@@ -599,9 +555,6 @@ void *GDS_PROFILE_ExportRecord(struct GdsProfileRaw *p, struct GdsRecord *out, u
     }
 }
 
-
-
-
 u32 GDS_PROFILE_GetBirthMonth(struct GdsProfileRaw *p)
 {
     u32 v = p->birthMonth;
@@ -612,9 +565,6 @@ u32 GDS_PROFILE_GetBirthMonth(struct GdsProfileRaw *p)
     return v;
 }
 
-
-
-
 u32 GDS_PROFILE_GetTrainerSprite(struct GdsProfileRaw *p)
 {
     u32 v = p->trainerSprite;
@@ -624,9 +574,6 @@ u32 GDS_PROFILE_GetTrainerSprite(struct GdsProfileRaw *p)
     }
     return v;
 }
-
-
-
 
 u32 GDS_PROFILE_GetLanguage(struct GdsProfileRaw *p)
 {
@@ -644,10 +591,6 @@ u32 GDS_PROFILE_GetLanguage(struct GdsProfileRaw *p)
     }
     return 2;
 }
-
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.  Written from the
@@ -698,33 +641,20 @@ u32 BSUBWAY_PLAYDATA_GetSize(void)
     return sizeof(struct BsubwayPlayData);
 }
 
-
-
-
-
 void BSUBWAY_PLAYDATA_Init(struct BsubwayPlayData *p)
 {
     MI_CpuFill8(p, 0, sizeof(struct BsubwayPlayData));
 }
-
-
-
 
 void BSUBWAY_PLAYDATA_SetFlag01(struct BsubwayPlayData *p, u32 v)
 {
     p->flag01 = (u16)v;
 }
 
-
-
-
 u32 BSUBWAY_PLAYDATA_GetFlag01(struct BsubwayPlayData *p)
 {
     return p->flag01;
 }
-
-
-
 
 u32 BSUBWAY_PLAYDATA_GetField(struct BsubwayPlayData *p, u32 id, void *out)
 {
@@ -759,9 +689,6 @@ u32 BSUBWAY_PLAYDATA_GetField(struct BsubwayPlayData *p, u32 id, void *out)
     }
     return 0;
 }
-
-
-
 
 void BSUBWAY_PLAYDATA_SetField(struct BsubwayPlayData *p, u32 id, const void *src)
 {
@@ -805,9 +732,6 @@ void BSUBWAY_PLAYDATA_SetField(struct BsubwayPlayData *p, u32 id, const void *sr
     }
 }
 
-
-
-
 void BSUBWAY_PLAYDATA_AddCounters(struct BsubwayPlayData *p, s32 a, s32 b, s32 c)
 {
     if (p->count03 + a < 255) {
@@ -821,18 +745,12 @@ void BSUBWAY_PLAYDATA_AddCounters(struct BsubwayPlayData *p, s32 a, s32 b, s32 c
     }
 }
 
-
-
-
 void BSUBWAY_PLAYDATA_ClearRound(struct BsubwayPlayData *p)
 {
     u8 v = 0;
 
     BSUBWAY_PLAYDATA_SetField(p, 1, &v);
 }
-
-
-
 
 void BSUBWAY_PLAYDATA_IncRound(struct BsubwayPlayData *p)
 {
@@ -844,17 +762,10 @@ void BSUBWAY_PLAYDATA_IncRound(struct BsubwayPlayData *p)
     BSUBWAY_PLAYDATA_SetField(p, 1, &v);
 }
 
-
-
-
 u16 BSUBWAY_PLAYDATA_GetRound(struct BsubwayPlayData *p)
 {
     return BSUBWAY_PLAYDATA_GetField(p, 1, 0);
 }
-
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.  Written from the
@@ -908,18 +819,11 @@ u32 BSUBWAY_SCOREDATA_GetSize(void)
     return sizeof(struct BsubwayScoreData);
 }
 
-
-
-
-
 void BSUBWAY_SCOREDATA_Init(struct BsubwayScoreData *p)
 {
     MI_CpuFill8(p, 0, sizeof(struct BsubwayScoreData));
     p->level = 1;
 }
-
-
-
 
 void BSUBWAY_SCOREDATA_AddBattlePoints(struct BsubwayScoreData *p, s32 v)
 {
@@ -932,9 +836,6 @@ void BSUBWAY_SCOREDATA_AddBattlePoints(struct BsubwayScoreData *p, s32 v)
     }
 }
 
-
-
-
 void BSUBWAY_SCOREDATA_SubBattlePoints(struct BsubwayScoreData *p, u16 v)
 {
     s16 n = (s16)p->battlePoints - (s16)v;
@@ -946,40 +847,25 @@ void BSUBWAY_SCOREDATA_SubBattlePoints(struct BsubwayScoreData *p, u16 v)
     }
 }
 
-
-
-
 u16 BSUBWAY_SCOREDATA_GetBattlePoints(struct BsubwayScoreData *p)
 {
     return p->battlePoints;
 }
-
-
-
 
 u32 BSUBWAY_SCOREDATA_MapPlayMode(u32 i)
 {
     return i;
 }
 
-
-
-
 u16 BSUBWAY_SCOREDATA_GetWinCount(struct BsubwayScoreData *p, u32 i)
 {
     return p->winCount[BSUBWAY_SCOREDATA_MapPlayMode(i)];
 }
 
-
-
-
 u16 BSUBWAY_SCOREDATA_GetMaxWinCount(struct BsubwayScoreData *p, u32 i)
 {
     return p->maxWinCount[BSUBWAY_SCOREDATA_MapPlayMode(i)];
 }
-
-
-
 
 void BSUBWAY_SCOREDATA_UpdateMaxWinCount(struct BsubwayScoreData *p, u32 i, u16 v)
 {
@@ -990,32 +876,20 @@ void BSUBWAY_SCOREDATA_UpdateMaxWinCount(struct BsubwayScoreData *p, u32 i, u16 
     }
 }
 
-
-
-
 void BSUBWAY_SCOREDATA_SetWinCount(struct BsubwayScoreData *p, u32 i, u16 v)
 {
     p->winCount[BSUBWAY_SCOREDATA_MapPlayMode(i)] = v;
 }
-
-
-
 
 void BSUBWAY_SCOREDATA_ResetClearCount(struct BsubwayScoreData *p, u32 i)
 {
     p->clearCount[BSUBWAY_SCOREDATA_MapPlayMode(i)] = 0;
 }
 
-
-
-
 void BSUBWAY_SCOREDATA_SetFirstClear(struct BsubwayScoreData *p, u32 i)
 {
     p->clearCount[BSUBWAY_SCOREDATA_MapPlayMode(i)] = 1;
 }
-
-
-
 
 u32 BSUBWAY_SCOREDATA_HasCleared(struct BsubwayScoreData *p, u32 i)
 {
@@ -1024,9 +898,6 @@ u32 BSUBWAY_SCOREDATA_HasCleared(struct BsubwayScoreData *p, u32 i)
     }
     return 0;
 }
-
-
-
 
 void BSUBWAY_SCOREDATA_IncClearCount(struct BsubwayScoreData *p, u32 i)
 {
@@ -1037,9 +908,6 @@ void BSUBWAY_SCOREDATA_IncClearCount(struct BsubwayScoreData *p, u32 i)
     }
 }
 
-
-
-
 u16 BSUBWAY_SCOREDATA_GetRepeatClearCount(struct BsubwayScoreData *p, u32 i)
 {
     u16 n = p->clearCount[BSUBWAY_SCOREDATA_MapPlayMode(i)] - 1;
@@ -1049,9 +917,6 @@ u16 BSUBWAY_SCOREDATA_GetRepeatClearCount(struct BsubwayScoreData *p, u32 i)
     }
     return n;
 }
-
-
-
 
 u32 BSUBWAY_SCOREDATA_AccessFlag(struct BsubwayScoreData *p, s32 i, u32 op)
 {
@@ -1077,18 +942,12 @@ u32 BSUBWAY_SCOREDATA_AccessFlag(struct BsubwayScoreData *p, s32 i, u32 op)
     return 0;
 }
 
-
-
-
 void BSUBWAY_SCOREDATA_IncLevel(struct BsubwayScoreData *p)
 {
     if (p->level < 10) {
         p->level = p->level + 1;
     }
 }
-
-
-
 
 void BSUBWAY_SCOREDATA_DecLevel(struct BsubwayScoreData *p)
 {
@@ -1097,16 +956,10 @@ void BSUBWAY_SCOREDATA_DecLevel(struct BsubwayScoreData *p)
     }
 }
 
-
-
-
 u8 BSUBWAY_SCOREDATA_GetLevel(struct BsubwayScoreData *p)
 {
     return p->level;
 }
-
-
-
 
 u8 BSUBWAY_SCOREDATA_UpdateStreak(struct BsubwayScoreData *p, u32 kind)
 {
@@ -1129,9 +982,6 @@ u8 BSUBWAY_SCOREDATA_UpdateStreak(struct BsubwayScoreData *p, u32 kind)
     return p->streak;
 }
 
-
-
-
 void BSUBWAY_SCOREDATA_SetRecordBlob(struct BsubwayScoreData *p, u32 which, const void *src)
 {
     if (which == 0) {
@@ -1141,9 +991,6 @@ void BSUBWAY_SCOREDATA_SetRecordBlob(struct BsubwayScoreData *p, u32 which, cons
     }
 }
 
-
-
-
 void BSUBWAY_SCOREDATA_GetRecordBlob(struct BsubwayScoreData *p, u32 which, void *dest)
 {
     if (which == 0) {
@@ -1152,9 +999,6 @@ void BSUBWAY_SCOREDATA_GetRecordBlob(struct BsubwayScoreData *p, u32 which, void
         MI_CpuCopy8(p->blob44, dest, sizeof(p->blob44));
     }
 }
-
-
-
 
 void BSUBWAY_SCOREDATA_CalcRecordScore(struct BsubwayScoreData *p, const struct GdsScoreSrc *q)
 {
@@ -1178,24 +1022,15 @@ void BSUBWAY_SCOREDATA_CalcRecordScore(struct BsubwayScoreData *p, const struct 
     p->score = a + c + d;
 }
 
-
-
-
 u16 BSUBWAY_SCOREDATA_GetRecordScore(struct BsubwayScoreData *p)
 {
     return p->score;
 }
 
-
-
-
 u8 BSUBWAY_SCOREDATA_GetRecordScoreTier(struct BsubwayScoreData *p)
 {
     return p->score / 1000;
 }
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.  Written from the
@@ -1247,15 +1082,10 @@ u32 BSUBWAY_WIFIDATA_GetSize(void)
     return sizeof(struct BsubwayWifiData);
 }
 
-
-
-
 void BSUBWAY_WIFIDATA_Init(struct BsubwayWifiData *p)
 {
     MI_CpuFill8(p, 0, sizeof(struct BsubwayWifiData));
 }
-
-
 
 /*
  * 100 bytes (0x0200DD28..0x0200DD8C). Sets one bit of the 2000-bit bitmap of
@@ -1273,9 +1103,6 @@ void BSUBWAY_WIFIDATA_SetTrainerBit(u8 *p, u8 a, u8 b, u32 *q) {
     (p + 4)[(u8)(idx / 8)] |= mask;
     *(u32 *)p = (q[0] << 24) | ((q[1] << 24) >> 8) | ((q[2] << 24) >> 16) | q[3];
 }
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.  Written from the
@@ -1318,8 +1145,6 @@ void BSUBWAY_WIFIDATA_ClearStampAndBitmap(struct BsubwayWifiData *p)
     MI_CpuFill8(p, 0, sizeof(p->stamp));
 }
 
-
-
 u32 BSUBWAY_WIFIDATA_IsStampNewer(const struct Stamp *a, const struct Stamp *b)
 {
     if (a->time0 > b->time0) {
@@ -1333,8 +1158,6 @@ u32 BSUBWAY_WIFIDATA_IsStampNewer(const struct Stamp *a, const struct Stamp *b)
     }
     return 0;
 }
-
-
 
 int BSUBWAY_WIFIDATA_GetTrainerBit(struct BsubwayWifiData *p, u8 a, u8 b, const struct Stamp *q)
 {

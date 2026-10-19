@@ -24,13 +24,7 @@
  *   GF_OVERLAY_Unload  0x02034A5C  arm
  */
 
-typedef unsigned int u32;
-
-typedef unsigned short u16;
-
-typedef unsigned char  u8;
-
-typedef signed int     s32;
+#include "../types.h"
 
 struct Proc;
 
@@ -96,12 +90,10 @@ extern char ProcSys_AllocSiteName[];
 extern const char ProcNew_AllocSiteName[];
 extern const char ProcAllocWork_AllocSiteName[];
 
-
 void PROCSYS_CreateGlobal(int heapId)
 {
     g_ProcSys = PROCSYS_CreateInternal(heapId);
 }
-
 
 /*
  * Tail-call forwarder passing g_ProcSys to PROCSYS_MainInternal.
@@ -110,7 +102,6 @@ int PROCSYS_MainGlobal(void)
 {
     return PROCSYS_MainInternal(g_ProcSys);
 }
-
 
 /*
  * Forwarder: passes the object held in g_ProcSys to PROCSYS_PushInternal with
@@ -121,7 +112,6 @@ void PROCSYS_PushGlobal(u32 overlayId, const ProcData *data, void *procWork)
     PROCSYS_PushInternal(g_ProcSys, overlayId, data, procWork);
 }
 
-
 /*
  * Forwarder: passes the object held in g_ProcSys to PROCSYS_QueueReplace with
  * the caller's three arguments.  Formerly mislabelled SDK EL_LinkFileEx.
@@ -131,18 +121,15 @@ void PROCSYS_ReplaceGlobal(u32 overlayId, const ProcData *data, void *procWork)
     PROCSYS_QueueReplace(g_ProcSys, overlayId, data, procWork);
 }
 
-
 void *PROCSYS_Create(int heapId)
 {
     return PROCSYS_CreateInternal(heapId);
 }
 
-
 unsigned int PROCSYS_Main(ProcSys *sys)
 {
     return PROCSYS_MainInternal(sys);
 }
-
 
 /*
  * A four-instruction tail call to PROCSYS_DeleteInternal, attested by the `matched`
@@ -154,12 +141,10 @@ void PROCSYS_Delete(ProcSys *sys)
     PROCSYS_DeleteInternal(sys);
 }
 
-
 void PROCSYS_Push(ProcSys *sys, u32 overlayId, const ProcData *data, void *procWork)
 {
     PROCSYS_PushInternal(sys, overlayId, data, procWork);
 }
-
 
 /*
  * Allocates a 0x20-byte ProcSys and sets it empty: the first halfword is the
@@ -190,7 +175,6 @@ ProcSys *PROCSYS_CreateInternal(int heapId)
     return sys;
 }
 
-
 /*
  * Pushes the queued process on top of the stack as a child of the current
  * one, then clears the queue.
@@ -208,9 +192,6 @@ Proc *PROCSYS_PushQueued(ProcSys *sys)
     sys->nextProcWork = 0;
     return child;
 }
-
-
-
 
 /*
  * procsys.c: advance the process chain one frame.  A pending push
@@ -266,10 +247,6 @@ u32 PROCSYS_MainInternal(ProcSys *sys)
     return (status == 1) ? 2 : 1;
 }
 
-
-
-
-
 /*
  * Frees the current process if present, then frees the ProcSys itself
  * (ENV_SetResourceSet is the heap free).  The same shutdown shape as
@@ -283,10 +260,6 @@ void PROCSYS_DeleteInternal(ProcSys *sys)
     GFL_HEAP_Free(sys);
 }
 
-
-
-
-
 /*
  * Queues a replacement of the current process: marks it pending
  * (replacePending = 1) and stores the new overlay, data and argument.
@@ -299,10 +272,6 @@ void PROCSYS_QueueReplace(ProcSys *sys, u32 overlayId, const ProcData *data, voi
     sys->nextData = data;
     sys->nextProcWork = procWork;
 }
-
-
-
-
 
 /*
  * procsys.c: queue a call for the process at sys, or start it now.  When
@@ -327,9 +296,6 @@ void PROCSYS_PushInternal(ProcSys *sys, u32 overlayId, const ProcData *data, voi
     }
 }
 
-
-
-
 /*
  * Build a 0x20-byte Proc from the allocator and fill it.  The allocator is
  * three-parameter with the size second (see PROCSYS_AllocProcWork), plus
@@ -353,16 +319,10 @@ Proc *PROCSYS_NewProc(u32 overlayId, const ProcData *data, void *procWork, u32 h
     return proc;
 }
 
-
-
-
 void PROCSYS_FreeProc(Proc *proc)
 {
     GFL_HEAP_Free(proc);
 }
-
-
-
 
 /*
  * Allocate the process's work buffer.  The size never reaches a register of
@@ -379,9 +339,6 @@ void *PROCSYS_AllocProcWork(Proc *proc, u32 size, u32 heapId)
     return proc->work;
 }
 
-
-
-
 /*
  * Frees the process's work buffer (ENV_SetResourceSet is the heap free) and
  * clears the field.
@@ -391,9 +348,6 @@ void PROCSYS_FreeProcWork(Proc *proc)
     GFL_HEAP_Free(proc->work);
     proc->work = 0;
 }
-
-
-
 
 /*
  * procsys.c: run one step of a process.  seq walks 0 (load the overlay

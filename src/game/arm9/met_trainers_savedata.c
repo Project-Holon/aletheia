@@ -17,7 +17,7 @@
  *   MI_CpuCopy8  0x02082D44  arm
  *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  */
-#include "misc_savedata_shared_types.h"
+#include "../types.h"
 #include "greeting_savedata_shared_types.h"
 
 /* Save block 0x44 (0xFC bytes): the 32 most recently met trainer ids and a

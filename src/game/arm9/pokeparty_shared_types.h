@@ -3,15 +3,7 @@
 
 struct ArcHandle;
 
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef unsigned char  u8;
-
-typedef signed int     s32;
-
-typedef unsigned long long u64;
+#include "../types.h"
 
 /* One party Pokemon record, 0xDC bytes (layout in poke_tool.c).  Declared
  * as words so that a whole-record assignment is the word ldm/stm loop. */

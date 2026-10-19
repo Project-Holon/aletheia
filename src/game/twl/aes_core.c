@@ -26,10 +26,9 @@
  *   OS_InitMessageQueue  0x02085D94  arm  arm9
  *   PXI_SetFifoRecvCallback  0x020885A0  arm  arm9
  */
-typedef unsigned int u32;
-typedef unsigned short u16;
+#include "../types.h"
 
-typedef struct OSEvent OSEvent;
+#include "../sdk_os.h"
 
 typedef struct {
     u32 msg[1];
@@ -54,7 +53,6 @@ extern Slot data_02735A9C;
    so the original referenced two distinct symbols there. */
 extern u32 data_02735A9C_msg[1];
 extern u32 data_02735AAC[];
-struct OSMessageQueue;
 extern int OS_SendMessage(struct OSMessageQueue *mq, void *msg, int flags);
 extern int OS_ReceiveMessage(struct OSMessageQueue *mq, void **msg, int flags);
 extern void OS_InitMessageQueue(struct OSMessageQueue *mq, void **msgArray, int msgCount);

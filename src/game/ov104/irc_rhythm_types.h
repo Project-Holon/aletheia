@@ -6,18 +6,13 @@
  * that every game of the infrared compatibility check carries as its own
  * copy; the result screen (ov105/irc_result.c) includes this header for it. */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed char    s8;
-typedef signed short   s16;
-typedef signed int     s32;
-typedef s32 fx32;
+#include "../types.h"
 
 #include "../ov101/compatible_irc_sys_types.h"
 #include "../ov101/irc_appbar.h"
 
-typedef struct VecFx32 { fx32 x, y, z; } VecFx32;
+#include "../sdk_fx.h"
+
 typedef struct IrcPoint { int x, y; } IrcPoint;
 
 #define IRC_PALETTE_TARGET 15          /* destination selector of the palette write helper */

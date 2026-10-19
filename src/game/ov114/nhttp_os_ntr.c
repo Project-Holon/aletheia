@@ -28,7 +28,7 @@
  */
 #include "nhttp_types.h"
 
-typedef signed int     s32;
+#include "../types.h"
 
 typedef struct {
     int pad;
@@ -36,7 +36,8 @@ typedef struct {
 } OSInfo;
 
 extern int NHTTPi_IsCreateCommThreadMessageQueue(NHTTPThreadInfo *threadInfo_p);
-struct OSMessageQueue;
+#include "../sdk_os.h"
+
 extern void OS_InitMessageQueue(struct OSMessageQueue *mq, void **msgArray, s32 msgCount);
 extern void NHTTPi_IsCreateCommThreadMessageQueueOn(NHTTPThreadInfo *threadInfo_p);
 extern void OS_CreateThread(void *thread, void (*func)(void *), void *arg, void *stack, unsigned long stackSize, unsigned long prio);
@@ -54,7 +55,6 @@ void NHTTPi_CheckCurrentThread(NHTTPThreadInfo *threadInfo_p, int isCommThread);
 extern void NHTTPi_CommThreadProcMain(void);
 extern OSInfo gMslRefToken;
 
-
 int NHTTPi_createCommThread(NHTTPThreadInfo *threadInfo_p, unsigned long priority, unsigned long *stack_p)
 {
     if (NHTTPi_IsCreateCommThreadMessageQueue(threadInfo_p) == 0) {
@@ -66,14 +66,12 @@ int NHTTPi_createCommThread(NHTTPThreadInfo *threadInfo_p, unsigned long priorit
     return 1;
 }
 
-
 void NHTTPi_destroyCommThread(NHTTPThreadInfo *threadInfo_p, NHTTPBgnEndInfo *bgnEndInfo_p)
 {
     bgnEndInfo_p->isThreadEnd = 1;
     NHTTPi_kickCommThread(threadInfo_p);
     OS_JoinThread(threadInfo_p->commThread);
 }
-
 
 void NHTTPi_idleCommThread(NHTTPThreadInfo *threadInfo_p)
 {
@@ -82,12 +80,10 @@ void NHTTPi_idleCommThread(NHTTPThreadInfo *threadInfo_p)
     OS_ReceiveMessage((struct OSMessageQueue *)threadInfo_p->msgQueue, (void **)(&message), 1);
 }
 
-
 void NHTTPi_kickCommThread(NHTTPThreadInfo *threadInfo_p)
 {
     OS_SendMessage((struct OSMessageQueue *)threadInfo_p->msgQueue, 0, 0);
 }
-
 
 void NHTTPi_CheckCurrentThread(NHTTPThreadInfo *threadInfo_p, int isCommThread)
 {

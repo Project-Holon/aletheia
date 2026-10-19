@@ -190,15 +190,9 @@ struct S02031140;
 struct Proc;
 struct TaskMenu;
 struct TaskMenuState;
-typedef unsigned int u32;
-
-typedef unsigned char u8;
-
-typedef unsigned short u16;
+#include "../types.h"
 
 typedef struct Config { u32 w[8]; } Config;
-
-typedef signed short s16;
 
 typedef struct { int x, y, w, h; } Row;
 
@@ -286,8 +280,6 @@ typedef int (*Fn)(int,u32 *);
 typedef struct { u8 v[3]; } Triple;
 
 typedef struct { u16 x, y, z; u8 mode, layer; } Request;
-
-typedef signed int     s32;
 
 typedef struct { int v[2]; } Pair;
 
@@ -491,27 +483,9 @@ extern Row data_021D5840, data_021D5850, data_021D5860;
 extern u32 data_021D58B0[], data_021D5740[];
 extern const Display data_021D5770;
 
-
-
-
-
-
-
 void INTRUDE_COMM_VIEW_StoreCallback(u32 *slot, u32 value) {*slot=value;}
 
-
-
-
-
-
-
 void INTRUDE_COMM_VIEW_SetCallback(void *p, u32 callback, int id) {INTRUDE_COMM_VIEW_StoreCallback(p,callback);}
-
-
-
-
-
-
 
 void INTRUDE_COMM_VIEW_SetupBackgrounds(void *unused)
 {
@@ -541,12 +515,6 @@ void INTRUDE_COMM_VIEW_SetupBackgrounds(void *unused)
     BG_SYS_SetPlaneVisible(7, 1);
     BG_SYS_PushTile(7);
 }
-
-
-
-
-
-
 
 void INTRUDE_COMM_VIEW_BuildRowList(int count, int *values, IntrudeCommView *p, Row *rows, const int *xs, const int *ys)
 {
@@ -578,12 +546,6 @@ void INTRUDE_COMM_VIEW_BuildRowList(int count, int *values, IntrudeCommView *p, 
     BG_SYS_MarkTileDirty(7);
 }
 
-
-
-
-
-
-
 /*
  * lever: x initialized after construction lets its zero share the outgoing stack argument.
  */
@@ -608,27 +570,9 @@ void INTRUDE_COMM_VIEW_RebuildRow(int i, IntrudeCommView *p, Row *row, const int
     BG_SYS_MarkTileDirty(7);
 }
 
-
-
-
-
-
-
 void INTRUDE_COMM_VIEW_DeleteRowSlot(u32 i,u32 p) {if(*(void **)(p+0x10+i*4)) {BMP_WIN_ClearScreen(*(void **)(p+0x10+i*4));BMP_MENUWORK_DrawWindowBorder(*(void **)(p+0x10+i*4),2);BMP_WIN_Delete(*(void **)(p+0x10+i*4));}*(void **)(p+0x10+i*4)=0;BG_SYS_MarkTileDirty(5);}
 
-
-
-
-
-
-
 void INTRUDE_COMM_VIEW_ResetRowSlot(u32 i,u32 p) {if(*(void **)(p+0x10+i*4)) {BMP_WIN_ClearScreen(*(void **)(p+0x10+i*4));BMP_MENUWORK_DrawWindowBorder(*(void **)(p+0x10+i*4),2);BMP_WIN_Delete(*(void **)(p+0x10+i*4));}*(void **)(p+0x10+i*4)=0;BG_SYS_MarkTileDirty(7);}
-
-
-
-
-
-
 
 /*
  * extent: Two zero padding bytes after the return, next function 021D4630.
@@ -652,19 +596,7 @@ void INTRUDE_COMM_VIEW_DeleteRows(char *p)
     ((IntrudeCommView *)p)->rowCount = 0;
 }
 
-
-
-
-
-
-
 void INTRUDE_COMM_VIEW_InvokeCallback(int value, int index, u32 *p) {if(index==0 && p[1]!=0) {if(((Fn)p[1])(value,p)==0)return;}}
-
-
-
-
-
-
 
 void INTRUDE_COMM_VIEW_BrightenPalette(u16 *p, const u16 *add, int count)
 {
@@ -686,12 +618,6 @@ void INTRUDE_COMM_VIEW_BrightenPalette(u16 *p, const u16 *add, int count)
         }
     }
 }
-
-
-
-
-
-
 
 void INTRUDE_COMM_VIEW_CreateActors(char *p)
 {
@@ -735,12 +661,6 @@ void INTRUDE_COMM_VIEW_CreateActors(char *p)
     CLACT_SetActorObjMode(((IntrudeCommView *)p)->actors[5], 1);
 }
 
-
-
-
-
-
-
 /*
  * ABI: 02049990 argument 5 is u16: original truncates the value at 021D49B4/49D2.
  */
@@ -775,12 +695,6 @@ void INTRUDE_COMM_VIEW_CreateResources(char *p)
     INTRUDE_COMM_VIEW_CreateActors(p);
 }
 
-
-
-
-
-
-
 void INTRUDE_COMM_VIEW_InitMenu(char *p)
 {
     Pair pair = d_021D575C;
@@ -790,12 +704,6 @@ void INTRUDE_COMM_VIEW_InitMenu(char *p)
     INTRUDE_COMM_VIEW_InitStatusText(p);
     INTRUDE_COMM_VIEW_SetCallback(p, (u32)INTRUDE_COMM_VIEW_Update, 0x31b);
 }
-
-
-
-
-
-
 
 void INTRUDE_COMM_VIEW_DeleteResources(char *p)
 {
@@ -815,12 +723,6 @@ void INTRUDE_COMM_VIEW_DeleteResources(char *p)
     BMP_WIN_Delete(((IntrudeCommView *)p)->rowWin);
 }
 
-
-
-
-
-
-
 void INTRUDE_COMM_VIEW_WaitExitWipe(char *p)
 {
     if (WIPE_SYS_EndCheck()) {
@@ -832,12 +734,6 @@ void INTRUDE_COMM_VIEW_WaitExitWipe(char *p)
         }
     }
 }
-
-
-
-
-
-
 
 /*
  * evidence: unlabelled ov014 Thumb setter 0x02178118 is filed separately.
@@ -854,31 +750,14 @@ void INTRUDE_COMM_VIEW_BeginExit(char *p)
     INTRUDE_COMM_VIEW_SetCallback(p, (u32)INTRUDE_COMM_VIEW_WaitExitWipe, 0x35e);
 }
 
-
-
-
-
-
-
 void INTRUDE_COMM_VIEW_StartExit(char *p)
 {
     INTRUDE_COMM_VIEW_SetCallback(p, (u32)INTRUDE_COMM_VIEW_BeginExit, 0x36f);
 }
 
-
-
-
-
-
-
 void INTRUDE_COMM_VIEW_Noop(void)
 {
 }
-
-
-
-
-
 
 void INTRUDE_COMM_VIEW_AnimateSelectedRow(char *p)
 {
@@ -897,11 +776,6 @@ void INTRUDE_COMM_VIEW_AnimateSelectedRow(char *p)
     CLACT_RestartActorAnim(base[i]);
     INTRUDE_COMM_VIEW_SetCallback(p, (u32)INTRUDE_COMM_VIEW_Noop, 0x390);
 }
-
-
-
-
-
 
 int INTRUDE_COMM_VIEW_SelectRow(int value, char *p)
 {
@@ -931,9 +805,6 @@ int INTRUDE_COMM_VIEW_SelectRow(int value, char *p)
     return 1;
 }
 
-
-
-
 void INTRUDE_COMM_VIEW_DrawRowText(int i, int value, int force, int mode, IntrudeCommView *p)
 {
     if (p->rows[i] && !force) return;
@@ -951,8 +822,6 @@ void INTRUDE_COMM_VIEW_DrawRowText(int i, int value, int force, int mode, Intrud
     BMP_WIN_TransferChars(p->rows[i]);
     BMP_WIN_MakeScreen(p->rows[i]);
 }
-
-
 
 /*
  * lever: explicit if/else calls preserve the shared stack home and call ordering.
@@ -1023,11 +892,7 @@ void INTRUDE_COMM_VIEW_UpdatePeerList(char *p)
     BG_SYS_MarkTileDirty(7);
 }
 
-
-
 void INTRUDE_COMM_VIEW_Update(char *p) {if(WIPE_SYS_EndCheck())BUTTON_MAN_UpdateSlots(((IntrudeCommView *)p)->buttonMan);INTRUDE_COMM_VIEW_UpdateActorAnim(p);INTRUDE_COMM_VIEW_UpdatePeerList(p);}
-
-
 
 /*
  * typedef unsigned char u8;
@@ -1094,8 +959,6 @@ void INTRUDE_COMM_VIEW_Update(char *p) {if(WIPE_SYS_EndCheck())BUTTON_MAN_Update
  */
 void INTRUDE_COMM_VIEW_InitStatusText(char *p) {void *t;t=STRBUF_Create(100,((IntrudeCommView *)p)->heapId);((IntrudeCommView *)p)->statusText=t;MSGDATA_ReadString(((IntrudeCommView *)p)->msgBank,9,t);((IntrudeCommView *)p)->statusColor=0x39e3;((IntrudeCommView *)p)->statusFlags=1;STRBUF_Delete(((IntrudeCommView *)p)->statusText);}
 
-
-
 /*
  * extent: zero padding at 0x021D50B2; next function at 0x021D50B4.
  */
@@ -1119,13 +982,9 @@ void INTRUDE_COMM_VIEW_UpdateActorAnim(char *p)
     }
 }
 
-
-
 void INTRUDE_COMM_VIEW_SetFoundPeerMac(char *p, u32 peerIndex) {void *q;GFL_NET_GetInitParam();q=GFL_NET_GetScanResultMac(peerIndex);((IntrudeCommView *)p)->args->active=2;MI_CpuCopy8(q,((IntrudeCommView *)p)->args->foundMac,6);}
 
-
 void INTRUDE_COMM_VIEW_ClearFoundPeerMac(char *p) {u8 buf[6]={0};GFL_NET_GetInitParam();((IntrudeCommView *)p)->args->active=1;MI_CpuCopy8(buf,((IntrudeCommView *)p)->args->foundMac,6);}
-
 
 void INTRUDE_COMM_VIEW_OnScanResult(char *p)
 {
@@ -1169,7 +1028,6 @@ void INTRUDE_COMM_VIEW_OnScanResult(char *p)
     }
 }
 
-
 /*
  * extent: zero padding at 0x021D530E; next function at 0x021D5310.
  */
@@ -1195,12 +1053,9 @@ void INTRUDE_COMM_VIEW_StorePeerRecord(IntrudeCommView *p, const char *data, int
     }
 }
 
-
 void INTRUDE_COMM_VIEW_TickPeerTimers(u8 *p) { int i; for(i=0;i<16;i++) if(((IntrudeCommView *)p)->peers[i].timer) --((IntrudeCommView *)p)->peers[i].timer; }
 
-
 u32 INTRUDE_COMM_VIEW_SumPeerTimers(u8 *p) { int i; int sum; sum=0; for(i=0;i<16;i++) if(((IntrudeCommView *)p)->peers[i].timer) sum+=((IntrudeCommView *)p)->peers[i].tag; return sum; }
-
 
 /*
  * leaf: root-claimed sole callback witness for INTRUDE_COMM_VIEW_Create.
@@ -1209,7 +1064,6 @@ void INTRUDE_COMM_VIEW_VBlankHandler(void)
 {
     CLACT_VBlankSystem();
 }
-
 
 /*
  * volatile: 021D53BA reads hardware DISPCNT, 021D53C0 writes the update.
@@ -1259,7 +1113,6 @@ int INTRUDE_COMM_VIEW_Create(void *owner, void *unused, char *args)
     return 1;
 }
 
-
 /*
  * extent: two-byte zero alignment at 021D55FA, then next labelled function.
  */
@@ -1293,7 +1146,6 @@ int INTRUDE_COMM_VIEW_Main(void *owner, void *unused1, void *unused2, char *p)
     }
     return result;
 }
-
 
 /*
  * function: INTRUDE_COMM_VIEW_Exit

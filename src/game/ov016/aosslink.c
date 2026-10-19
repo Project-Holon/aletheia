@@ -61,7 +61,8 @@
  *   gAosslinkBlock1           0x021DCE60  data
  *   AOSSi_Alloc   0x021DCE20  data
  */
-#include "../../matched/include/G_OSMessageQueue.h"
+#include "../types.h"
+#include "../sdk_os.h"
 #include "../../matched/include/G_AOSSLINK_BSS.h"
 
 struct wlla_ssid {
@@ -86,38 +87,12 @@ struct wlla_bss_info {
 };
 
 typedef struct {
-    unsigned short basic;
-    unsigned short support;
-} WMRateSet;
-
-typedef struct WMBssDesc {
-    unsigned short length;
-    unsigned short rssi;
-    unsigned char  bssid[6];
-    unsigned short ssidLength;
-    unsigned char  ssid[32];
-    unsigned short capaInfo;
-    WMRateSet      rateSet;
-    unsigned short beaconPeriod;
-    unsigned short dtimPeriod;
-    unsigned short channel;
-    unsigned short cfpPeriod;
-    unsigned short cfpMaxDuration;
-    unsigned short gameInfoLength;
-    unsigned short otherElementCount;
-    unsigned char  gameInfo[0x80];   /* struct WMGameInfo, not needed here */
-} WMBssDesc;
-
-typedef struct {
     unsigned short apc;
     unsigned char  wlla;
     unsigned char  dummy;
 } RATESET;
 
-typedef struct _OSThreadQueue {
-    void *head;
-    void *tail;
-} OSThreadQueue;
+#include "../sdk_os_thread.h"
 
 /*
  * aosslink.o's .bss statics from 0x021DCE20: the vendor object addresses AOSSi_Free and
@@ -131,31 +106,14 @@ typedef struct {
     void  (*AOSSi_Free)(void *ptr);
 } AOSSLINK_BSS;
 
-typedef struct OSMessageQueue OSMessageQueue;
-
-typedef struct OSiAlarm {
-    void (*handler)(void *);
-    void *arg;
-    unsigned long tag;
-    unsigned long long fire;
-    struct OSiAlarm *prev;
-    struct OSiAlarm *next;
-    unsigned long long period;
-    unsigned long long start;
-} OSiAlarm;
-
 struct wlla_bss_list {
     unsigned long        Num;
     struct wlla_bss_info BssInfo[1];
 };
 
-typedef unsigned char u8;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef unsigned long u32;
-
-typedef unsigned long long u64;
+#include "../sdk_wm.h"
 
 typedef struct wlla_connect_param {
     u32 ssidLen;            /* +0x00 */
@@ -179,11 +137,11 @@ extern int OS_ReceiveMessage(OSMessageQueue *mq, void **msg, long flags);
 extern int APC_End(void);
 extern int APC_Disconnect(void);
 extern int APC_SearchStart(unsigned char *bssid, unsigned char *essid, int essid_len, unsigned long option);
-extern void OS_CreateAlarm(struct OSiAlarm *alarm);
-extern void OS_SetAlarm(struct OSiAlarm *alarm, unsigned long long tick, void (*handler)(void *), void *arg);
+extern void OS_CreateAlarm(OSAlarm *alarm);
+extern void OS_SetAlarm(OSAlarm *alarm, unsigned long long tick, void (*handler)(void *), void *arg);
 extern int APC_GetAPList(struct WMBssDesc *WMBssdescBuf, int list_max);
 extern int APC_SearchEnd(void);
-extern void OS_CancelAlarm(struct OSiAlarm *alarm);
+extern void OS_CancelAlarm(OSAlarm *alarm);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void WCM_ClearApList(void);
 extern int APC_Connect(WMBssDesc *bd, u8 *wep_buf, u32 option);
@@ -208,7 +166,6 @@ extern struct OSMessageQueue gAosslinkEventQueue;
 static void Set_WLLA_LINK_STAT(unsigned long *link, struct WMBssDesc *bd, unsigned long stat);
 static void aoss_apc_callback(void *event);
 static void alarmCallback(void *event);
-
 
 void Set_WLLA_BSS_INFO(struct WMBssDesc *bd, struct wlla_bss_info *bi)
 {
@@ -238,14 +195,12 @@ void Set_WLLA_BSS_INFO(struct WMBssDesc *bd, struct wlla_bss_info *bi)
         bi->Capability = 0;
 }
 
-
 void Get_WLLA_SSID_PARAM(struct wlla_ssid *ssid, struct WMBssDesc *bd)
 {
     MIi_CpuClear16(0, bd->ssid, 32);
     bd->ssidLength = ssid->Len;
     MI_CpuCopy8(ssid->Ssid, bd->ssid, bd->ssidLength);
 }
-
 
 /*
  * Store c, then tail-call Set_WLLA_BSS_INFO with a and p+1.
@@ -261,18 +216,15 @@ static void Set_WLLA_LINK_STAT(unsigned long *link, struct WMBssDesc *bd, unsign
     Set_WLLA_BSS_INFO(bd, (struct wlla_bss_info *)(link + 1));
 }
 
-
 static void aoss_apc_callback(void *event)
 {
     OS_SendMessage(&gAosslinkEventQueue, event, 0);
 }
 
-
 static void alarmCallback(void *event)
 {
     OS_SendMessage(&gAosslinkEventQueue, event, 0);
 }
-
 
 int AOSSi_InitLocal(void *(*alloc)(unsigned long), void (*free)(void *))
 {
@@ -322,7 +274,6 @@ int AOSSi_InitLocal(void *(*alloc)(unsigned long), void (*free)(void *))
     aosslink_bss.AOSSi_Free(aosslink_bss.aoss_workbuffer);
     return -1;
 }
-
 
 int AOSSi_EndLocal(void)
 {
@@ -378,7 +329,6 @@ int AOSSi_EndLocal(void)
     return rc;
 }
 
-
 int AOSSi_Disconnect(void)
 {
     void *msg;
@@ -400,12 +350,11 @@ int AOSSi_Disconnect(void)
     return rc;
 }
 
-
 int AOSSi_WLANGetBSSList(struct wlla_bss_list **bssList)
 {
     int i;
     void *msg;
-    OSiAlarm alarm;
+    OSAlarm alarm;
     int rc;
     int loop_flag;
     int search_end_flag;
@@ -506,9 +455,7 @@ free_desc:
     return rc;
 }
 
-
 static WMBssDesc gAosslinkBlock1 __attribute__((aligned(32))) = {0};
-
 
 /*
  * sdk:      AOSSi_WLANConnect (libdwcutil.TWL.HYB.a(aosslink.o))
@@ -527,7 +474,7 @@ static WMBssDesc gAosslinkBlock1 __attribute__((aligned(32))) = {0};
 int AOSSi_WLANConnect(wlla_connect_param *conParam, wlla_link_stat *linkStat)
 {
     void *msg;
-    OSiAlarm alarm;
+    OSAlarm alarm;
     int loop_flag;
     int ret_code;
     int connect_retry_count;
@@ -625,14 +572,12 @@ int AOSSi_WLANConnect(wlla_connect_param *conParam, wlla_link_stat *linkStat)
     return ret_code;
 }
 
-
 void AOSSi_Sleep(unsigned int msec)
 {
     OS_Sleep(msec);
 }
 
 extern void (*AOSSi_Alloc[])(int);
-
 
 int AOSSi_Status(int a)
 {

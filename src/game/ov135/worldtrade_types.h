@@ -3,15 +3,7 @@
 /* ov135 world trade: types shared by every part of worldtrade_adapter,
  * worldtrade_box and worldtrade_enter. */
 
-#ifndef OV135_BASIC_TYPES
-#define OV135_BASIC_TYPES
-typedef signed char s8;
-typedef signed short s16;
-typedef signed int s32;
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-#endif
+#include "../types.h"
 
 typedef struct {
     void *str;
@@ -790,10 +782,6 @@ typedef struct {
     u32 used[8];
     u16 heap;
 } MsgSys;
-
-typedef volatile unsigned short vu16;
-
-typedef volatile unsigned int vu32;
 
 typedef struct {
     u16 x;

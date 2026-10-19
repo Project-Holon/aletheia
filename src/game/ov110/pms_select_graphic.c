@@ -164,9 +164,7 @@
  *   APP_TASKMENU_UpdateMenu  0x02027974  thumb  arm9
  *   _u32_div_f                   0x0209C2B0  arm
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../types.h"
 
 #include "../arm9/pms_types.h"
 #include "../ov067/ui_scene_types.h"

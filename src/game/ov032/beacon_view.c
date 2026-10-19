@@ -282,12 +282,7 @@ struct Bank;
 struct Param;
 struct Sys;
 struct Bmp;
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
+#include "../types.h"
 
 typedef struct { u32 x, y; } BeaconPair;
 
@@ -297,11 +292,7 @@ typedef struct { short x,y; } BeaconDelta;
 
 typedef struct BeaconTrainerInfo BeaconTrainerInfo;
 
-typedef signed char s8;
-
 typedef struct BeaconRecord BeaconRecord;
-
-typedef signed int     s32;
 
 #include "../version.h"
 #include "beacon_view_types.h"
@@ -341,7 +332,6 @@ typedef struct {
     short x;
     short y;
 } Pt;
-
 
 /* Sprite template passed to BMP_OAM_Create; same layout as struct Param used
    by the other sprite users in the tree. */
@@ -747,19 +737,6 @@ extern const ResSpec3 d_021F35D4;
 extern T16 d_021F35E0;
 extern Pt d_021F35F0[];
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void BEACON_VIEW_InitList(BeaconViewWork *work)
 {
     int i;
@@ -787,19 +764,6 @@ void BEACON_VIEW_InitList(BeaconViewWork *work)
         BEACON_VIEW_SetActorAnim((void *)(*(int *)&work->actors[0]), 3);
     GFL_NET_RefreshWmIconAtTopRight(0, work->uiHeapId);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int BEACON_VIEW_UpdateListTouch(BeaconViewWork *work)
 {
@@ -843,32 +807,7 @@ int BEACON_VIEW_UpdateListTouch(BeaconViewWork *work)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 int BEACON_VIEW_GetContTouchedRow(BeaconViewWork *work) { u32 pt[2]; if(TOUCHPANEL_GetPointCont(pt,pt+1)) return BEACON_VIEW_HitTestIcon(work,pt); return -1; }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int BEACON_VIEW_CheckLeaveRequest(BeaconViewWork *work)
 {
@@ -890,19 +829,6 @@ int BEACON_VIEW_CheckLeaveRequest(BeaconViewWork *work)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 int BEACON_VIEW_ShowViewFlagMessage(BeaconViewWork *work)
 {
     u16 *f;
@@ -917,32 +843,7 @@ int BEACON_VIEW_ShowViewFlagMessage(BeaconViewWork *work)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 int BEACON_VIEW_ShowNextHistoryPower(BeaconViewWork *work) { unsigned n; n=BEACON_VIEW_PopHistoryId(work); if(n==0x30) return 0; if(n==GPOWER_GetActiveIdOfSameType(n,(struct GPowerData *)(*(u8 * *)&work->powerRecord))) return 0; BEACON_VIEW_ShowPowerAnim(work,n); return 1; }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int BEACON_VIEW_LoadNextRecord(BeaconViewWork *work)
 {
@@ -976,19 +877,6 @@ int BEACON_VIEW_LoadNextRecord(BeaconViewWork *work)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void BEACON_VIEW_SetFadeState(BeaconViewWork *work, int flag)
 {
     if (flag) {
@@ -1002,46 +890,9 @@ void BEACON_VIEW_SetFadeState(BeaconViewWork *work, int flag)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 void BEACON_VIEW_ApplySlideTarget(BeaconViewWork *work) { BEACON_VIEW_ScrollList(work, work->slideTarget); }
 
-
-
-
-
-
-
-
-
-
-
-
-
 void BEACON_VIEW_SetPrintQueueLimit(BeaconViewWork *work,int flag) { if(flag) PRINTSYS_QUE_SetLimitTick((struct PrintQueue *)(work->printQueue),2000,0); else PRINTSYS_QUE_SetLimitTick((struct PrintQueue *)(work->printQueue),500,0); }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int BEACON_VIEW_UpdateRecordArrival(BeaconViewWork *work)
 {
@@ -1089,19 +940,6 @@ int BEACON_VIEW_UpdateRecordArrival(BeaconViewWork *work)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 int BEACON_VIEW_UpdatePowerAnimStart(BeaconViewWork *work)
 {
     int s = work->step;
@@ -1123,19 +961,6 @@ int BEACON_VIEW_UpdatePowerAnimStart(BeaconViewWork *work)
     }
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int BEACON_VIEW_UpdateSelect(BeaconViewWork *work)
 {
@@ -1192,19 +1017,6 @@ int BEACON_VIEW_UpdateSelect(BeaconViewWork *work)
     return 5;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 int BEACON_VIEW_UpdateSelectTouch(BeaconViewWork *work)
 {
     BeaconPair v;
@@ -1233,19 +1045,6 @@ int BEACON_VIEW_UpdateSelectTouch(BeaconViewWork *work)
     return 2;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void BEACON_VIEW_SetArrowAnim(BeaconViewWork *work, int arrowIndex, u32 animOffset)
 {
     u8 m;
@@ -1264,50 +1063,12 @@ void BEACON_VIEW_SetArrowAnim(BeaconViewWork *work, int arrowIndex, u32 animOffs
         BEACON_VIEW_SetActorAnim((void *)((unsigned int)work->actors[3]), (u8)(animOffset + 10));
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 int BEACON_VIEW_IsArrowAnimActive(BeaconViewWork *work, int i) { return CLACT_IsActorAnimActive(*(struct Actor * *)&work->actors[i]); }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void BEACON_VIEW_RefreshActorAnims(BeaconViewWork *work)
 {
     BEACON_VIEW_UpdateActorAnims(work);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void BEACON_VIEW_CountDifferingRecords(BeaconViewWork *work, u8 *outGenderMismatch, u8 *outVersionMismatch)
 {
@@ -1324,19 +1085,6 @@ void BEACON_VIEW_CountDifferingRecords(BeaconViewWork *work, u8 *outGenderMismat
             (*outVersionMismatch)++;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void BEACON_VIEW_UpdateAchievements(BeaconViewWork *work, u32 x, int y)
 {
@@ -1361,35 +1109,10 @@ void BEACON_VIEW_UpdateAchievements(BeaconViewWork *work, u32 x, int y)
     work->previousIdB = v[1];
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * volatile: count byte at +0x8c re-read at 021F07A2 and 021F07BE.
  */
 void BEACON_VIEW_AddHistoryId(BeaconViewWork *work,int powerId) { int n,i; n=*(volatile u8 *)&work->historyCount; for(i=0;i<n;i++) if(powerId==work->historyIds[i]) return; *(volatile u8 *)&work->historyCount=*(volatile u8 *)&work->historyCount+1; work->historyIds[n]=powerId; }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 u32 BEACON_VIEW_PopHistoryId(BeaconViewWork *work)
 {
@@ -1402,19 +1125,6 @@ u32 BEACON_VIEW_PopHistoryId(BeaconViewWork *work)
     work->historyIds[work->historyCount] = 0;
     return d_021F3554[n - 1];
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int BEACON_VIEW_HasRepeatedDigits(u32 x)
 {
@@ -1432,44 +1142,9 @@ int BEACON_VIEW_HasRepeatedDigits(u32 x)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 int BEACON_VIEW_Cross2D(int *lhs, int *rhs) { return lhs[0]*rhs[1] - lhs[1]*rhs[0]; }
 
-
-
-
-
-
-
-
-
-
-
-
-
 void BEACON_VIEW_Sub2D(int *lhs, int *rhs, int *out) { out[0]=lhs[0]-rhs[0]; out[1]=lhs[1]-rhs[1]; }
-
-
-
-
-
-
-
-
-
-
-
 
 int BEACON_VIEW_PointInTriangle(Vec2 *pt, Vec2 *tri)
 {
@@ -1485,16 +1160,6 @@ int BEACON_VIEW_PointInTriangle(Vec2 *pt, Vec2 *tri)
     }
     return 1;
 }
-
-
-
-
-
-
-
-
-
-
 
 int BEACON_VIEW_HitTestRow(BeaconViewWork *work, void *pt)
 {
@@ -1525,16 +1190,6 @@ int BEACON_VIEW_HitTestRow(BeaconViewWork *work, void *pt)
     }
     return -1;
 }
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Tries the point against the triangles of two fixed 5-vertex fans (byte
@@ -1571,16 +1226,6 @@ int BEACON_VIEW_HitTestIcon(BeaconViewWork *work, void *pt)
     return -1;
 }
 
-
-
-
-
-
-
-
-
-
-
 int BEACON_VIEW_HitTestActorTouch(BeaconViewWork *work, u32 *touchPos)
 {
     u8 b[5];
@@ -1603,24 +1248,7 @@ int BEACON_VIEW_HitTestActorTouch(BeaconViewWork *work, u32 *touchPos)
     return -1;
 }
 
-
-
-
-
-
-
-
-
 void BEACON_VIEW_SetupMessageText(BeaconViewWork *work,unsigned messageId) { MSGDATA_ReadString(work->messageBank,messageId,work->messageBuffer); WORDSET_CopyTaggedText((void *)work->wordSet,(void *)work->formatBuffer,work->messageBuffer); }
-
-
-
-
-
-
-
-
-
 
 void BEACON_VIEW_ShowRecordCount(BeaconViewWork *work)
 {
@@ -1629,15 +1257,6 @@ void BEACON_VIEW_ShowRecordCount(BeaconViewWork *work)
     BEACON_VIEW_DrawWindowText(work, &work->windows[2], (void *)(*(int *)&work->formatBuffer), 4, 0, 1, 0x3DC1, 0);
 }
 
-
-
-
-
-
-
-
-
-
 void BEACON_VIEW_ShowPlayTime(BeaconViewWork *work, int messageId, int busyCounter)
 {
     WORDSET_SetSlotNumber((struct WordSet *)(*(int *)&work->wordSet), 0, *(int *)&work->playTime, 5, 0, 1);
@@ -1645,33 +1264,9 @@ void BEACON_VIEW_ShowPlayTime(BeaconViewWork *work, int messageId, int busyCount
     BEACON_VIEW_DrawWindowText(work, &work->windows[1], (void *)(*(int *)&work->formatBuffer), 0, 4, 0, 0x3C40, busyCounter);
 }
 
-
-
-
-
-
-
-
-
 void BEACON_VIEW_ClearWindow(BeaconViewWork *work) { BMP_Clear(work->windows[1].bitmap,0x40); BMP_WIN_TransferChars(work->windows[1].handle); }
 
-
-
-
-
-
-
-
-
 void BEACON_VIEW_ShowWindowText(BeaconViewWork *work,void *text,unsigned busyCounter) { BEACON_VIEW_DrawWindowText(work,&work->windows[0],text,0,0,9,0x449,busyCounter); }
-
-
-
-
-
-
-
-
 
 int BEACON_VIEW_CheckWindowTouch(u8 *touchCounter)
 {
@@ -1693,14 +1288,6 @@ int BEACON_VIEW_CheckWindowTouch(u8 *touchCounter)
     }
     return 0;
 }
-
-
-
-
-
-
-
-
 
 void BEACON_VIEW_CreateTaskMenuButtons(BeaconViewWork *work, int flag)
 {
@@ -1724,14 +1311,6 @@ void BEACON_VIEW_CreateTaskMenuButtons(BeaconViewWork *work, int flag)
                                       work->mainHeapId);
     }
 }
-
-
-
-
-
-
-
-
 
 int BEACON_VIEW_UpdateTaskMenuButtons(BeaconViewWork *work, int flag)
 {
@@ -1770,14 +1349,6 @@ int BEACON_VIEW_UpdateTaskMenuButtons(BeaconViewWork *work, int flag)
     return s;
 }
 
-
-
-
-
-
-
-
-
 int BEACON_VIEW_FinishTaskMenuButtons(BeaconViewWork *work, int i)
 {
     BeaconViewSlot *slotList;
@@ -1795,22 +1366,7 @@ int BEACON_VIEW_FinishTaskMenuButtons(BeaconViewWork *work, int i)
     return 0;
 }
 
-
-
-
-
-
-
-
 void BEACON_VIEW_DeleteTaskMenuButtons(BeaconViewWork *work) { int i; for(i=0;i<3;i++) { APP_TASKMENU_WIN_Delete((struct TaskMenuWin *)(*(unsigned char * *)&work->slots[i].taskMenu)); work->slots[i].taskMenu=0; } }
-
-
-
-
-
-
-
-
 
 int BEACON_VIEW_FinishTaskMenuButtonsAlt(BeaconViewWork *work, int i)
 {
@@ -1829,71 +1385,20 @@ int BEACON_VIEW_FinishTaskMenuButtonsAlt(BeaconViewWork *work, int i)
     return 0;
 }
 
-
-
-
-
-
-
-
 void BEACON_VIEW_DeleteTaskMenuButtonsAlt(BeaconViewWork *work) { int i; for(i=0;i<2;i++) { APP_TASKMENU_WIN_Delete((struct TaskMenuWin *)(*(unsigned char * *)&(&work->slots[3])[i].taskMenu)); (&work->slots[3])[i].taskMenu=0; } }
 
-
-
-
-
-
-
-
 int BEACON_VIEW_GetActionVariant(void *record) { int a; a=GAME_BEACON_ACCESSOR_GetActionNo((struct GameBeaconInfo *)record); if(a==0 || a>=0x33) return 0x12; return a+0x11; }
-
-
-
-
-
-
-
-
 
 void BEACON_VIEW_PlaySe(unsigned int seId)
 {
     GFL_USE_PlaySeDefaultVolume(seId);
 }
 
-
-
-
-
-
-
-
 void BEACON_VIEW_MoveActorSurface(void *actor, short x, short y) { BeaconDelta d; d.x=x; d.y=y; CLACT_AddActorSurfacePos(actor,(const struct Vec2 *)(&d),0); }
-
-
-
-
-
-
-
 
 void BEACON_VIEW_SetActorAnim(void *actor, unsigned short animSeq) { CLACT_SetActorAnimSeq(actor,animSeq); CLACT_RestartActorAnim(actor); }
 
-
-
-
-
-
-
-
 void BEACON_VIEW_SetActorVisible(BeaconViewWork *work, unsigned visible) { int i; for(i=0;i<=3;i++) CLACT_SetActorDrawEnable(work->actors[i],visible); }
-
-
-
-
-
-
-
-
 
 void BEACON_VIEW_UpdateActorAnims(BeaconViewWork *work)
 {
@@ -1909,43 +1414,14 @@ void BEACON_VIEW_UpdateActorAnims(BeaconViewWork *work)
     CLACT_SetActorAnimSeq((struct Actor *)((int)work->actors[5]), 0x14);
 }
 
-
-
-
-
-
-
-
 void BEACON_VIEW_UpdateCountActorAnims(BeaconViewWork *work) { if(work->recordCount==0) CLACT_SetActorAnimSeq(work->actors[2],9); else CLACT_SetActorAnimSeq(work->actors[2],7); }
 
-
-
-
-
-
-
-
 void BEACON_VIEW_SetEntryVisible(BeaconViewEntry *icon,unsigned visible) { BMP_OAM_SetEnabled((struct BmpOam *)(*(unsigned char * *)&icon->textWindow),visible); CLACT_SetActorDrawEnable(icon->iconActor,visible); CLACT_SetActorDrawEnable(icon->panelActor,visible); if(visible==0) BEACON_VIEW_SetEntryStatusVisible(icon,visible); }
-
-
-
-
-
-
-
-
 
 void BEACON_VIEW_SetEntryStatusVisible(BeaconViewEntry *icon, int visible)
 {
     CLACT_SetActorDrawEnable(icon->statusActor, visible);
 }
-
-
-
-
-
-
-
 
 void BEACON_VIEW_ResetEntry(BeaconViewEntry *icon)
 {
@@ -1970,19 +1446,7 @@ void BEACON_VIEW_ResetEntry(BeaconViewEntry *icon)
     }
 }
 
-
-
-
-
-
-
 void BEACON_VIEW_SetEntrySlot(BeaconViewEntry *icon, int peerSlot, int state) { BEACON_VIEW_ResetEntry(icon); *(char *)&icon->peerSlot=peerSlot; *(char *)&icon->state=state; }
-
-
-
-
-
-
 
 BeaconViewEntry *BEACON_VIEW_GetEntry(BeaconViewWork *work, int peerSlot)
 {
@@ -1993,13 +1457,6 @@ BeaconViewEntry *BEACON_VIEW_GetEntry(BeaconViewWork *work, int peerSlot)
     }
     return 0;
 }
-
-
-
-
-
-
-
 
 void BEACON_VIEW_LoadEntryPanel(BeaconViewWork *work, BeaconViewEntry *icon, void *trainerInfo)
 {
@@ -2012,20 +1469,10 @@ void BEACON_VIEW_LoadEntryPanel(BeaconViewWork *work, BeaconViewEntry *icon, voi
                   (u16)((icon->index + 9) << 4), 0x20);
 }
 
-
-
-
-
-
 void BEACON_VIEW_LoadEntryStatus(BeaconViewWork *work, BeaconViewEntry *icon, int statusIndex)
 {
     CLACT_TransferCharacter((*(int * *)&work->statusLists.images.items)[icon->index], (struct Sub0204A9D0 *)(*(int *)&work->statusRes[statusIndex].data));
 }
-
-
-
-
-
 
 int BEACON_VIEW_GetPmVersion(BeaconTrainerInfo *trainerInfo)
 {
@@ -2035,11 +1482,6 @@ int BEACON_VIEW_GetPmVersion(BeaconTrainerInfo *trainerInfo)
     default: return 2;
     }
 }
-
-
-
-
-
 
 void BEACON_VIEW_LoadEntryPanelColor(BeaconViewWork *work, BeaconViewEntry *icon, int trainerInfo)
 {
@@ -2059,27 +1501,10 @@ void BEACON_VIEW_LoadEntryPanelColor(BeaconViewWork *work, BeaconViewEntry *icon
     PALANM_CopyToSlot((struct PalAnmSlot *)(work->paletteAnim), a, 3, (u16)((icon->index + 4) * 16 + 1), 10);
 }
 
-
-
-
-
 void BEACON_VIEW_PrintEntryName(BeaconViewWork *work, BeaconViewEntry *icon, void *text, int busyCounter)
 {
     BEACON_VIEW_DrawEntryText(work, icon, text, 0x3c60, busyCounter);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void BEACON_VIEW_PrintEntryFrames(BeaconViewWork *work, BeaconViewEntry *icon, int force, int busyCounter)
 {
@@ -2097,19 +1522,6 @@ void BEACON_VIEW_PrintEntryFrames(BeaconViewWork *work, BeaconViewEntry *icon, i
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void BEACON_VIEW_PrintEntryRank(BeaconViewWork *work, BeaconViewEntry *icon, int record)
 {
     u8 v;
@@ -2126,19 +1538,6 @@ void BEACON_VIEW_PrintEntryRank(BeaconViewWork *work, BeaconViewEntry *icon, int
     PALANM_CopyToSlot((struct PalAnmSlot *)(work->paletteAnim), work->panelPalette.data + 0x30, (int)3, (u16)((icon->index + 4) * 16 + 8), 10);
     PALANM_CopyToSlot((struct PalAnmSlot *)(work->paletteAnim), work->panelPalette.data + k, (int)3, (u16)((icon->index + 4) * 16 + 8), v * 2);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void BEACON_VIEW_SetupEntry(BeaconViewWork *work, BeaconViewEntry *icon, void *record, int mode, int skip, int busyCounter)
 {
@@ -2176,19 +1575,6 @@ void BEACON_VIEW_SetupEntry(BeaconViewWork *work, BeaconViewEntry *icon, void *r
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void BEACON_VIEW_SetEntryPosition(BeaconViewEntry *icon, short x, short y)
 {
     icon->x = x;
@@ -2198,19 +1584,6 @@ void BEACON_VIEW_SetEntryPosition(BeaconViewEntry *icon, short x, short y)
     BEACON_VIEW_MoveActorSurface(icon->statusActor, x + 0x3c, y + 0x18);
     BMP_OAM_SetPos(icon->textWindow, x + 0x48, y + 0x10);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void BEACON_VIEW_RefreshTopEntry(BeaconViewWork *work)
 {
@@ -2223,19 +1596,6 @@ void BEACON_VIEW_RefreshTopEntry(BeaconViewWork *work)
             BEACON_VIEW_PrintEntryFrames(work, icon, 0, 0);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Byte-correct; the only wildcard is the bl to BEACON_STATUS_SetViewTop (blocker: no
@@ -2270,19 +1630,6 @@ void BEACON_VIEW_ScrollList(BeaconViewWork *work, int dir)
     BEACON_VIEW_StartEntryMove(work, (int)(*(void * *)&work->recordBuffer), idx, (u8)dir, 2);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void BEACON_VIEW_StartSlide(BeaconViewWork *work, int target, u8 result)
 {
     work->animActive = 1;
@@ -2298,19 +1645,6 @@ void BEACON_VIEW_StartSlide(BeaconViewWork *work, int target, u8 result)
     BEACON_VIEW_SetArrowAnim(work, 4, 2);
     BEACON_VIEW_ScrollList(work, target);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void BEACON_VIEW_StartEntryMove(BeaconViewWork *work, int record, int slot, int destSlot, int mode)
 {
@@ -2331,19 +1665,6 @@ void BEACON_VIEW_StartEntryMove(BeaconViewWork *work, int record, int slot, int 
         BEACON_VIEW_SetupEntry(work, icon, (void *)record, mode, 0, (int)((u8 *)&task->timer));
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void BEACON_VIEW_IconMoveTask(void *tcb, BeaconViewIconMoveTask *task)
 {
@@ -2368,19 +1689,6 @@ void BEACON_VIEW_IconMoveTask(void *tcb, BeaconViewIconMoveTask *task)
     TCBL_DeleteTask(tcb);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void BEACON_VIEW_MoveEntryToSlot(BeaconViewWork *work, int mode, BeaconViewEntry *icon, BeaconViewEntry *otherIcon, void *busyCounter)
 {
     int i;
@@ -2403,19 +1711,6 @@ void BEACON_VIEW_MoveEntryToSlot(BeaconViewWork *work, int mode, BeaconViewEntry
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void BEACON_VIEW_MoveEntryToPeer(BeaconViewWork *work, BeaconViewEntry *icon, void *busyCounter)
 {
     int k;
@@ -2429,19 +1724,6 @@ void BEACON_VIEW_MoveEntryToPeer(BeaconViewWork *work, BeaconViewEntry *icon, vo
     BEACON_VIEW_StartEntrySlide(work, icon, 2, (u8)k, busyCounter);
     BEACON_VIEW_MoveEntryToSlot(work, 1, 0, icon, busyCounter);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void BEACON_VIEW_StartEntrySlide(BeaconViewWork *work, BeaconViewEntry *icon, int mode, u8 delay, int *busyCounter)
 {
@@ -2468,19 +1750,6 @@ void BEACON_VIEW_StartEntrySlide(BeaconViewWork *work, BeaconViewEntry *icon, in
     task->busyCounter = busyCounter;
     (*busyCounter)++;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void BEACON_VIEW_IconSlideTask(void *tcb, BeaconViewIconSlideTask *task)
 {
@@ -2520,18 +1789,6 @@ void BEACON_VIEW_IconSlideTask(void *tcb, BeaconViewIconSlideTask *task)
     TCBL_DeleteTask(tcb);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 void BEACON_VIEW_StartScrollStep(BeaconViewWork *work, u8 phase, int *busyCounter)
 {
     BeaconViewScrollStepTask *task;
@@ -2554,17 +1811,6 @@ void BEACON_VIEW_StartScrollStep(BeaconViewWork *work, u8 phase, int *busyCounte
     *busyCounter = *busyCounter + 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 void BEACON_VIEW_ScrollStepTask(void *task, BeaconViewScrollStepTask *taskData)
 {
     u32 old;
@@ -2580,16 +1826,6 @@ void BEACON_VIEW_ScrollStepTask(void *task, BeaconViewScrollStepTask *taskData)
     (*taskData->busyCounter)--;
     TCBL_DeleteTask(task);
 }
-
-
-
-
-
-
-
-
-
-
 
 int BEACON_VIEW_HandleRecordAction(BeaconViewWork *work, int x, int flag)
 {
@@ -2616,14 +1852,6 @@ int BEACON_VIEW_HandleRecordAction(BeaconViewWork *work, int x, int flag)
     return 1;
 }
 
-
-
-
-
-
-
-
-
 void BEACON_VIEW_ShowRecordMessage(BeaconViewWork *work, BeaconRecord *record)
 {
     GAME_BEACON_ACCESSOR_RegisterRecordWords((struct GameBeaconInfo *)record, (struct WordSet *)((void *)work->wordSet), work->uiHeapId);
@@ -2631,28 +1859,11 @@ void BEACON_VIEW_ShowRecordMessage(BeaconViewWork *work, BeaconRecord *record)
     BEACON_VIEW_StartFadeTask(work, work->formatBuffer, (int *)((char *)&work->busyCount));
 }
 
-
-
-
-
-
-
-
-
 void BEACON_VIEW_ShowFormatMessage(BeaconViewWork *work, int messageId)
 {
     BEACON_VIEW_SetupMessageText(work, messageId);
     BEACON_VIEW_StartFadeTask(work, work->formatBuffer, (int *)((char *)&work->busyCount));
 }
-
-
-
-
-
-
-
-
-
 
 void BEACON_VIEW_StartFadeTask(BeaconViewWork *work, u32 text, int *busyCounter)
 {
@@ -2667,15 +1878,6 @@ void BEACON_VIEW_StartFadeTask(BeaconViewWork *work, u32 text, int *busyCounter)
     task->busyCounter = busyCounter;
     (*busyCounter)++;
 }
-
-
-
-
-
-
-
-
-
 
 void BEACON_VIEW_FadeTask(void *task, BeaconViewFadeTask *taskData)
 {
@@ -2703,15 +1905,6 @@ void BEACON_VIEW_FadeTask(void *task, BeaconViewFadeTask *taskData)
     }
 }
 
-
-
-
-
-
-
-
-
-
 int BEACON_VIEW_HandlePowerRecord(BeaconViewWork *work, void *x, int flag)
 {
     int r;
@@ -2730,40 +1923,15 @@ int BEACON_VIEW_HandlePowerRecord(BeaconViewWork *work, void *x, int flag)
     return 1;
 }
 
-
-
-
-
-
-
-
-
 void BEACON_VIEW_ShowActivePower(BeaconViewWork *work)
 {
     BEACON_VIEW_StartPowerAnim(work, work->powerId, 0, (int *)((char *)&work->busyCount));
 }
 
-
-
-
-
-
-
-
-
 void BEACON_VIEW_ShowPowerAnim(BeaconViewWork *work, int powerId)
 {
     BEACON_VIEW_StartPowerAnim(work, powerId, 2, (int *)((char *)&work->busyCount));
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * Byte-correct; the only wildcard is the bl to GPOWER_GetPowerCost (blocker: no
@@ -2820,15 +1988,6 @@ void BEACON_VIEW_StartPowerAnim(BeaconViewWork *work, int powerId, u8 mode, int 
     task->busyCounter = busyCounter;
     (*busyCounter)++;
 }
-
-
-
-
-
-
-
-
-
 
 void BEACON_VIEW_PowerAnimTaskA(void *tcb, BeaconViewPowerAnimTask *task)
 {
@@ -2904,14 +2063,6 @@ void BEACON_VIEW_PowerAnimTaskA(void *tcb, BeaconViewPowerAnimTask *task)
     }
 }
 
-
-
-
-
-
-
-
-
 void BEACON_VIEW_PowerAnimTaskB(void *tcb, BeaconViewPowerAnimTask *task)
 {
     BeaconViewWork *work;
@@ -2982,14 +2133,6 @@ void BEACON_VIEW_PowerAnimTaskB(void *tcb, BeaconViewPowerAnimTask *task)
     }
 }
 
-
-
-
-
-
-
-
-
 void BEACON_VIEW_StartIconWait(BeaconViewWork *work, BeaconViewEntry *icon, void *x, int flag)
 {
     void *t;
@@ -3009,14 +2152,6 @@ void BEACON_VIEW_StartIconWait(BeaconViewWork *work, BeaconViewEntry *icon, void
     BEACON_VIEW_LoadEntryStatus(work, icon, GAME_BEACON_ACCESSOR_GetActionViewVariant(task->timer));
     BEACON_VIEW_SetEntryStatusVisible(icon, flag ? 0 : 1);
 }
-
-
-
-
-
-
-
-
 
 void BEACON_VIEW_IconWaitTask(void *task, BeaconViewIconWaitTask *taskData)
 {
@@ -3039,13 +2174,6 @@ void BEACON_VIEW_IconWaitTask(void *task, BeaconViewIconWaitTask *taskData)
     TCBL_DeleteTask(task);
 }
 
-
-
-
-
-
-
-
 void BEACON_VIEW_ShowTouchedRow(BeaconViewWork *work, int row)
 {
     BeaconViewEntry *icon;
@@ -3055,14 +2183,6 @@ void BEACON_VIEW_ShowTouchedRow(BeaconViewWork *work, int row)
     BEACON_VIEW_StartWindowATask(work, icon, (int *)((char *)&work->busyCount));
     BEACON_VIEW_PlaySe(0x54c);
 }
-
-
-
-
-
-
-
-
 
 void BEACON_VIEW_StartWindowATask(BeaconViewWork *work, BeaconViewEntry *icon, int *busyCounter)
 {
@@ -3080,14 +2200,6 @@ void BEACON_VIEW_StartWindowATask(BeaconViewWork *work, BeaconViewEntry *icon, i
         (*busyCounter)++;
     }
 }
-
-
-
-
-
-
-
-
 
 void BEACON_VIEW_WindowATask(void *task, BeaconViewWindowATask *taskData)
 {
@@ -3110,14 +2222,6 @@ void BEACON_VIEW_WindowATask(void *task, BeaconViewWindowATask *taskData)
     }
 }
 
-
-
-
-
-
-
-
-
 void BEACON_VIEW_DrawWindowText(BeaconViewWork *work, BeaconViewWindow *window, void *text, u16 x, u8 y, u8 fillColor, u16 col, u32 busyCounter)
 {
     u32 w;
@@ -3139,13 +2243,6 @@ void BEACON_VIEW_DrawWindowText(BeaconViewWork *work, BeaconViewWindow *window, 
     BEACON_VIEW_StartWindowBTask(work, window, (int *)busyCounter);
 }
 
-
-
-
-
-
-
-
 void BEACON_VIEW_StartWindowBTask(BeaconViewWork *work, BeaconViewWindow *window, int *busyCounter)
 {
     BeaconViewWindowBTask *task;
@@ -3158,13 +2255,6 @@ void BEACON_VIEW_StartWindowBTask(BeaconViewWork *work, BeaconViewWindow *window
         (*busyCounter)++;
     }
 }
-
-
-
-
-
-
-
 
 void BEACON_VIEW_WindowBTask(void *task, BeaconViewWindowBTask *taskData)
 {
@@ -3190,13 +2280,6 @@ void BEACON_VIEW_WindowBTask(void *task, BeaconViewWindowBTask *taskData)
     }
 }
 
-
-
-
-
-
-
-
 void BEACON_VIEW_DrawEntryText(BeaconViewWork *work, BeaconViewEntry *icon, void *text, u16 col, u32 busyCounter)
 {
     u32 *t;
@@ -3211,13 +2294,6 @@ void BEACON_VIEW_DrawEntryText(BeaconViewWork *work, BeaconViewEntry *icon, void
     PRINTSYS_PrintQueColor((void *)(work->printQueue), (struct Bmp *)t[1], 0, 0, text, (struct GfFont *)work->font, col);
     BEACON_VIEW_StartWindowCTask(work, icon, (int *)busyCounter);
 }
-
-
-
-
-
-
-
 
 void BEACON_VIEW_StartWindowCTask(BeaconViewWork *work, BeaconViewEntry *icon, int *busyCounter)
 {
@@ -3237,12 +2313,6 @@ void BEACON_VIEW_StartWindowCTask(BeaconViewWork *work, BeaconViewEntry *icon, i
     }
 }
 
-
-
-
-
-
-
 void BEACON_VIEW_WindowCTask(void *task, BeaconViewWindowCTask *taskData)
 {
     int *r;
@@ -3255,12 +2325,6 @@ void BEACON_VIEW_WindowCTask(void *task, BeaconViewWindowCTask *taskData)
         TCBL_DeleteTask(task);
     }
 }
-
-
-
-
-
-
 
 BeaconViewWork *BEACON_VIEW_Create(u32 fieldSystem, u32 initArg)
 {
@@ -3292,12 +2356,6 @@ BeaconViewWork *BEACON_VIEW_Create(u32 fieldSystem, u32 initArg)
     return work;
 }
 
-
-
-
-
-
-
 void BEACON_VIEW_Delete(BeaconViewWork *work)
 {
     TCBL_DeleteAllTasks((struct TcblSystem *)(work->taskList));
@@ -3311,10 +2369,6 @@ void BEACON_VIEW_Delete(BeaconViewWork *work)
     ARC_TOOL_DeleteHandle((void *)(unsigned int)work->bgResource);
     GFL_HEAP_Free(work);
 }
-
-
-
-
 
 void BEACON_VIEW_Update(BeaconViewWork *work, int request)
 {
@@ -3373,9 +2427,6 @@ void BEACON_VIEW_Update(BeaconViewWork *work, int request)
     }
 }
 
-
-
-
 /*
  * Byte-correct; the only wildcards are the bls to two unlabelled arm9
  * leaves, the integrator's (blocker: no witness outside the range). Verified leaf C
@@ -3395,7 +2446,6 @@ u32 BEACON_VIEW_MainPrintQueue(BeaconViewWork *work)
 {
     return PRINTSYS_QUE_Main((struct PrintQueue *)(*(struct PrintSys * *)&work->printQueue));
 }
-
 
 void *BEACON_VIEW_CreateLeaveEvent(BeaconViewWork *work, int go)
 {
@@ -3438,27 +2488,15 @@ void *BEACON_VIEW_CreateLeaveEvent(BeaconViewWork *work, int go)
     return r;
 }
 
-
-
-
 void BEACON_VIEW_SetEndRequest(BeaconViewWork *work, int request)
 {
     work->eventFlags = request;
 }
 
-
-
-
 void BEACON_VIEW_ClearEndRequest(BeaconViewWork *work)
 {
     work->eventFlags = 0;
 }
-
-
-
-
-
-
 
 Desc *BEACON_VIEW_CreateTaskProc(BeaconViewWork *work, unsigned eventDesc, unsigned mode, unsigned taskMenu)
 {
@@ -3475,13 +2513,6 @@ Desc *BEACON_VIEW_CreateTaskProc(BeaconViewWork *work, unsigned eventDesc, unsig
     work->endRequest = 1;
     return d;
 }
-
-
-
-
-
-
-
 
 int BEACON_VIEW_TaskProc(int event, int seq, int *eventWork)
 {
@@ -3508,12 +2539,6 @@ int BEACON_VIEW_TaskProc(int event, int seq, int *eventWork)
     return 0;
 }
 
-
-
-
-
-
-
 int BEACON_VIEW_TaskStateArrowAnim(BeaconViewWork *work, int *st)
 {
     switch (st[0]) {
@@ -3529,12 +2554,6 @@ int BEACON_VIEW_TaskStateArrowAnim(BeaconViewWork *work, int *st)
     return 1;
 }
 
-
-
-
-
-
-
 int BEACON_VIEW_TaskStateTasks(BeaconViewWork *work, int *unused)
 {
     TCBL_Main((struct TcblSystem *)(*(struct Tcbl * *)&work->taskList));
@@ -3542,13 +2561,6 @@ int BEACON_VIEW_TaskStateTasks(BeaconViewWork *work, int *unused)
         return 1;
     return 0;
 }
-
-
-
-
-
-
-
 
 int BEACON_VIEW_TaskStateTaskMenu(int work, int *st)
 {
@@ -3570,24 +2582,11 @@ int BEACON_VIEW_TaskStateTaskMenu(int work, int *st)
     return 0;
 }
 
-
-
-
-
-
-
 void BEACON_VIEW_TransferPalettes(int tcb, BeaconViewWork *work)
 {
     if (*(struct S02021D50 * *)&work->paletteAnim)
         PALANM_TransferPalettes(*(struct S02021D50 * *)&work->paletteAnim);
 }
-
-
-
-
-
-
-
 
 int BEACON_VIEW_UpdateList(BeaconViewWork *work)
 {
@@ -3619,12 +2618,6 @@ int BEACON_VIEW_UpdateList(BeaconViewWork *work)
     return r;
 }
 
-
-
-
-
-
-
 int BEACON_VIEW_RunRecordArrival(BeaconViewWork *work)
 {
     if (BEACON_VIEW_UpdateRecordArrival(work) == 0)
@@ -3632,12 +2625,6 @@ int BEACON_VIEW_RunRecordArrival(BeaconViewWork *work)
     work->step = 0;
     return 2;
 }
-
-
-
-
-
-
 
 int BEACON_VIEW_UpdateFadeWait(BeaconViewWork *work)
 {
@@ -3647,13 +2634,6 @@ int BEACON_VIEW_UpdateFadeWait(BeaconViewWork *work)
     BEACON_VIEW_RefreshActorAnims(work);
     return 0;
 }
-
-
-
-
-
-
-
 
 /*
  * note:     BEACON_VIEW_SetArrowAnim takes three arguments (its own matched file); the
@@ -3691,12 +2671,6 @@ int BEACON_VIEW_UpdateSlide(BeaconViewWork *work)
     return 3;
 }
 
-
-
-
-
-
-
 /*
  * note: extent follower 0x021F27CC is already filed separately.
  */
@@ -3708,24 +2682,10 @@ int BEACON_VIEW_RunPowerAnimStart(BeaconViewWork *work)
     return 0;
 }
 
-
-
-
-
-
-
-
 int BEACON_VIEW_RunSelect(BeaconViewWork *work)
 {
     return BEACON_VIEW_UpdateSelect(work);
 }
-
-
-
-
-
-
-
 
 /*
  *           wildcarded because their targets are unlabelled arm9 leaves with no
@@ -3779,12 +2739,6 @@ void BEACON_VIEW_InitWorkFromSave(BeaconViewWork *work)
     BEACON_VIEW_CountDifferingRecords(work, (u8 *)&work->previousIdA, (u8 *)&work->previousIdB);
 }
 
-
-
-
-
-
-
 /*
  * note: two alignment padding bytes at 0x021F2906 follow the body.
  */
@@ -3797,13 +2751,6 @@ void BEACON_VIEW_FreeWorkResources(BeaconViewWork *work)
     GFL_HEAP_Free((void *)work->recordBuffer);
     GFL_HEAP_Free((void *)work->receiveQueue);
 }
-
-
-
-
-
-
-
 
 void BEACON_VIEW_CreateSubSystems(BeaconViewWork *work)
 {
@@ -3824,13 +2771,6 @@ void BEACON_VIEW_CreateSubSystems(BeaconViewWork *work)
     *(void * *)&work->stringList = STRBUF_Create(0xd9, work->mainHeapId);
 }
 
-
-
-
-
-
-
-
 void BEACON_VIEW_DestroySubSystems(BeaconViewWork *work)
 {
     STRBUF_Delete((struct Strbuf *)((int)work->stringList));
@@ -3848,13 +2788,6 @@ void BEACON_VIEW_DestroySubSystems(BeaconViewWork *work)
     TCB_DeleteTask((struct TcbTask *)((int)work->updateTask));
     TCBL_Destroy((struct TcblSystem *)(*(int *)&work->taskList));
 }
-
-
-
-
-
-
-
 
 /*
  * volatile: 0x021F2ACE ldr / 0x021F2AD6 str of 0x04001000 (REG_DB_DISPCNT_SUB read-modify-write); 0x021F2ADC strh to 0x04001050 (hardware registers)
@@ -3881,13 +2814,6 @@ void BEACON_VIEW_InitBackgrounds(BeaconViewWork *work, void *archiveHandle)
     BG_SYS_SetPlaneVisible(7, 1);
 }
 
-
-
-
-
-
-
-
 void BEACON_VIEW_FreeBackgrounds(BeaconViewWork *work)
 {
     unsigned short z = 0;
@@ -3902,13 +2828,6 @@ void BEACON_VIEW_FreeBackgrounds(BeaconViewWork *work)
     BG_SYS_FreeLayerBuf(6);
     BG_SYS_FreeLayerBuf(7);
 }
-
-
-
-
-
-
-
 
 void BEACON_VIEW_CreateTaskMenuRes(BeaconViewWork *work)
 {
@@ -3937,13 +2856,6 @@ void BEACON_VIEW_CreateTaskMenuRes(BeaconViewWork *work)
     } while (i < 2);
 }
 
-
-
-
-
-
-
-
 void BEACON_VIEW_DeleteTaskMenuRes(BeaconViewWork *work)
 {
     int i;
@@ -3963,13 +2875,6 @@ void BEACON_VIEW_DeleteTaskMenuRes(BeaconViewWork *work)
     APP_TASKMENU_RES_Delete((struct TaskMenuRes *)((int)work->taskMenuState));
     APP_KEYCURSOR_Delete((struct KeyCursor *)work->taskMenuCursor);
 }
-
-
-
-
-
-
-
 
 /*
  * Loads the resource lists, palette files and per-icon files of the view.
@@ -4009,13 +2914,6 @@ void BEACON_VIEW_LoadGraphics(BeaconViewWork *work, void *archiveHandle)
     ARC_TOOL_DeleteHandle(h2);
 }
 
-
-
-
-
-
-
-
 void BEACON_VIEW_FreeGraphics(BeaconViewWork *work)
 {
     int i;
@@ -4032,13 +2930,6 @@ void BEACON_VIEW_FreeGraphics(BeaconViewWork *work)
     BEACON_VIEW_FreeResSet(work, &work->statusLists);
     BEACON_VIEW_FreeResSet(work, &work->panelLists);
 }
-
-
-
-
-
-
-
 
 /*
  * note:     CLACT_SetUnitRenderer takes two arguments (twin C_GEAR_LoadGraphics): the
@@ -4061,13 +2952,6 @@ void BEACON_VIEW_CreateActors(BeaconViewWork *work, void *bgResource)
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
-
-
-
-
-
-
-
 void BEACON_VIEW_DeleteActors(BeaconViewWork *work)
 {
     int i;
@@ -4082,11 +2966,6 @@ void BEACON_VIEW_DeleteActors(BeaconViewWork *work)
     CLACT_DeleteUnit((struct Bank *)((int)work->actorBank));
 }
 
-
-
-
-
-
 void BEACON_VIEW_CreateWindow(BeaconViewWindow *window, unsigned bgFrame, unsigned palNo, unsigned charPosX, unsigned char charPosY, unsigned char width, unsigned char height)
 {
     void *w;
@@ -4100,10 +2979,6 @@ void BEACON_VIEW_CreateWindow(BeaconViewWindow *window, unsigned bgFrame, unsign
     BG_SYS_PushTile(BMP_WIN_GetBgLayer(w));
 }
 
-
-
-
-
 void BEACON_VIEW_CreateWindows(BeaconViewWork *work)
 {
     BEACON_VIEW_CreateWindow(&work->windows[0], 6, 1, 2, 0x16, 0x1C, 6);
@@ -4111,19 +2986,12 @@ void BEACON_VIEW_CreateWindows(BeaconViewWork *work)
     BEACON_VIEW_CreateWindow(&work->windows[2], 7, 4, 0, 0x13, 6, 2);
 }
 
-
-
-
 void BEACON_VIEW_DeleteWindows(BeaconViewWork *work)
 {
     int i;
     for (i = 0; i < 3; i++)
         BMP_WIN_Delete((struct BmpWin *)(*(struct Descriptor * *)&work->windows[i].handle));
 }
-
-
-
-
 
 void BEACON_VIEW_LoadResList(BeaconViewWork *work, BeaconViewResList *out, const ResSpec *spec, void *arc)
 {
@@ -4143,9 +3011,6 @@ void BEACON_VIEW_LoadResList(BeaconViewWork *work, BeaconViewResList *out, const
         out[2].items[i] = CLACT_RegisterCellAnim(arc, spec[2].base + i * 2, spec[2].base + 1 + i * 2, work->tempHeapId);
 }
 
-
-
-
 void BEACON_VIEW_FreeResSet(BeaconViewWork *work, BeaconViewResSet *set)
 {
     unsigned i;
@@ -4162,9 +3027,6 @@ void BEACON_VIEW_FreeResSet(BeaconViewWork *work, BeaconViewResSet *set)
     }
 }
 
-
-
-
 void *BEACON_VIEW_CreateIconActor(BeaconViewWork *work, unsigned images, unsigned palettes, unsigned cells, short x, short y, unsigned char width, unsigned char height, unsigned char z)
 {
     Rect r;
@@ -4180,9 +3042,6 @@ void *BEACON_VIEW_CreateIconActor(BeaconViewWork *work, unsigned images, unsigne
     return res;
 }
 
-
-
-
 /*
  * Creates the six decoration actors stored in the actors array of the work.
  */
@@ -4195,8 +3054,6 @@ void BEACON_VIEW_CreatePanelActors(BeaconViewWork *work)
     }
 }
 
-
-
 void BEACON_VIEW_DeletePanelActors(BeaconViewWork *work)
 {
     int i;
@@ -4205,9 +3062,6 @@ void BEACON_VIEW_DeletePanelActors(BeaconViewWork *work)
         CLACT_DeleteActor(work->actors[i]);
     }
 }
-
-
-
 
 /*
  * Builds the 0x34-byte record at +0x1B8 that BEACON_VIEW_DeleteEntry tears down.

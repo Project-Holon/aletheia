@@ -55,29 +55,13 @@
 #define MBC_BLOCK_SIZE_MAX (*(u32 *)(mbc + 0x1318))
 #define MBi_GetSegmentInfo(mdfi, i) \
     ((MbSegmentInfo *)((char *)(mdfi) + 0xc + (i) * 16))
-struct FSFile;
+#include "../sdk_fs.h"
+
 struct MbDownloadFileInfoHeader;
 struct MBGameRegistry;
-typedef unsigned char u8;
+#include "../types.h"
 
-typedef unsigned long u32;
-
-typedef signed int     s32;
-
-typedef struct FSFile {
-    struct FSFile *next;
-    void *userdata;
-    void *arc;
-    u32 stat;
-    void *argument;
-    u32 error;
-    u8 pad[0x48 - 0x18];
-} FSFile;
-
-typedef struct CARDRomRegion {
-    u32 offset;
-    u32 length;
-} CARDRomRegion;
+#include "../sdk_card.h"
 
 typedef struct MBiCacheList {
     u32 lifetime;
@@ -98,8 +82,6 @@ typedef struct MbSegmentHeaderInfo {
     u32 size;
 } MbSegmentHeaderInfo;
 
-typedef unsigned short u16;
-
 typedef struct MbSegmentInfo
 {
     u32 recv_addr;
@@ -116,10 +98,6 @@ typedef struct MbDownloadFileInfoHeader
     u32 reserved;
 }
 MbDownloadFileInfoHeader;
-
-typedef signed char s8;
-
-typedef int BOOL;
 
 typedef struct {
     u32 offset;
@@ -168,7 +146,6 @@ extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
 extern int FS_SeekFile(struct FSFile *file, long offset, int origin);
 extern void *CARD_GetOwnRomHeader(void);
 extern void FS_InitFile(FSFile *file);
-struct FSArchive;
 extern struct FSArchive *FS_FindArchive(char *name, int name_len);
 extern int FS_OpenFileDirect(FSFile *file, struct FSArchive *arc, u32 image_top, u32 image_bottom, u32 id);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
@@ -207,11 +184,6 @@ extern unsigned char *mbc;
 extern const u32 MBi_defaultLoadSegList[];
 extern SegType g_021F6D04[3];
 
-
-
-
-
-
 /*
  * sdk:      MB_GetSegmentLength (libmb.TWL.HYB.a mb_fileinfo.o)
  */
@@ -239,11 +211,6 @@ u32 MB_GetSegmentLength(void *file)
     }
     return ret;
 }
-
-
-
-
-
 
 int MB_ReadSegment(FSFile *file, void *buf, u32 len)
 {
@@ -434,10 +401,6 @@ int MB_ReadSegment(FSFile *file, void *buf, u32 len)
     return ret;
 }
 
-
-
-
-
 /*
  * sdk:      MBi_ReadSegmentHeader (libmb.TWL.HYB.a mb_fileinfo.o)
  */
@@ -459,9 +422,6 @@ void MBi_ReadSegmentHeader(MbSegmentHeaderInfo *p, u32 top, u32 bottom, int clea
     }
     MI_CpuCopy8(p->src + top, p->dst + top, bottom - top);
 }
-
-
-
 
 int MB_RegisterFile(struct MBGameRegistry *game_reg, void *buf)
 {
@@ -531,8 +491,6 @@ int MB_RegisterFile(struct MBGameRegistry *game_reg, void *buf)
     return 1;
 }
 
-
-
 void MBi_MakeDownloadFileInfo(MbDownloadFileInfoHeader *mbdlFileInfop, const void *buf)
 {
     const u32 *loadSegListp;
@@ -555,10 +513,6 @@ void MBi_MakeDownloadFileInfo(MbDownloadFileInfoHeader *mbdlFileInfop, const voi
 
     MI_CpuCopy8((const char *)buf + 0x160, (char *)mbdlFileInfop + 0x3c, 0x88);
 }
-
-
-
-
 
 void MBi_SetSegmentInfo(const RomHeader *hdr, SegType *list, MbSegmentInfo *seg, u32 *child_recv)
 {
@@ -622,9 +576,6 @@ void MBi_SetSegmentInfo(const RomHeader *hdr, SegType *list, MbSegmentInfo *seg,
     }
 }
 
-
-
-
 BOOL MBi_MakeBlockInfoTable(MB_BlockInfoTable *table, MbDownloadFileInfoHeader *mdfi)
 {
     u16 *seg_headB = table->seg_head_blockno;
@@ -668,10 +619,6 @@ BOOL MBi_MakeBlockInfoTable(MB_BlockInfoTable *table, MbDownloadFileInfoHeader *
     return 1;
 }
 
-
-
-
-
 BOOL MBi_get_blockinfo(MB_BlockInfo *bi, MB_BlockInfoTable *table,
                        u32 block, MbDownloadFileInfoHeader *mdfi)
 {
@@ -710,9 +657,6 @@ BOOL MBi_get_blockinfo(MB_BlockInfo *bi, MB_BlockInfoTable *table,
     return 1;
 }
 
-
-
-
 /*
  * sdk:      MBi_IsAbleToRecv (libmb.TWL.HYB.a mb_fileinfo.o)
  */
@@ -740,9 +684,6 @@ int MBi_IsAbleToRecv(u8 segment_no, u32 address, u32 size)
     }
     return 0;
 }
-
-
-
 
 /*
  * sdk:      IsAbleToLoad (libmb.TWL.HYB.a mb_fileinfo.o)

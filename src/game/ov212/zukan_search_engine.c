@@ -30,7 +30,7 @@
  *   g_021C99A8     0x021C99A8  data
  *   g_021C9968     0x021C9968  data
  */
-#include "zukan_shared_types.h"
+#include "../types.h"
 
 struct Query { u8 mode; u8 rule; u8 kind; u8 type1; u8 type2; u8 attr; u8 last; };
 

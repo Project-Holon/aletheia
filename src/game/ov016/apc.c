@@ -93,28 +93,7 @@ struct wlla_bss_info {
     unsigned long       Capability;
 };
 
-typedef struct {
-    unsigned short basic;
-    unsigned short support;
-} WMRateSet;
-
-struct WMBssDesc {
-    unsigned short length;
-    unsigned short rssi;
-    unsigned char  bssid[6];
-    unsigned short ssidLength;
-    unsigned char  ssid[32];
-    unsigned short capaInfo;
-    WMRateSet      rateSet;
-    unsigned short beaconPeriod;
-    unsigned short dtimPeriod;
-    unsigned short channel;
-    unsigned short cfpPeriod;
-    unsigned short cfpMaxDuration;
-    unsigned short gameInfoLength;
-    unsigned short otherElementCount;
-    unsigned char  gameInfo[0x80];   /* struct WMGameInfo, not needed here */
-};
+#include "../sdk_wm.h"
 
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);

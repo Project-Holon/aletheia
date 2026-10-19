@@ -172,24 +172,17 @@ struct BigObj;
 struct Date;
 struct PlayTime;
 struct Sub02008C20Obj;
-struct RTCDate;
+#include "../sdk_rtc.h"
+
 struct Ctrl;
 struct Obj;
 struct Sub020073D8Ctrl;
 struct Sub020072A4Ctrl;
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef unsigned char  u8;
+#include "../types.h"
 
 typedef struct {u16 value;} Init;
 
-typedef signed int     s32;
-
 typedef enum { ST0=0,ST13=13 } State;
-
-typedef signed short   s16;
 
 extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
 extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
@@ -315,7 +308,6 @@ extern const Init init;
 extern const unsigned d_021B9E90[],d_021B9E60[],d_021B9E70[];
 extern const unsigned d_021B9EFC[],d_021B9ECC[],d_021B9EDC[];
 
-
 int SAVE_SCREEN_Init(void *owner,int unused,void **args)
 {
     void *context;
@@ -332,7 +324,6 @@ int SAVE_SCREEN_Init(void *owner,int unused,void **args)
         p->hasSave=1;
     return 1;
 }
-
 
 int SAVE_SCREEN_Main(void *unused,State *state,SaveScreenContext *context,SaveScreenWork *p)
 {
@@ -417,8 +408,6 @@ int SAVE_SCREEN_Main(void *unused,State *state,SaveScreenContext *context,SaveSc
     return 0;
 }
 
-
-
 int SAVE_SCREEN_Exit(void *p)
 {
     PROCSYS_FreeProcWork(p);
@@ -426,9 +415,7 @@ int SAVE_SCREEN_Exit(void *p)
     return 1;
 }
 
-
 void SAVE_SCREEN_Setup(SaveScreenWork *p, SaveScreenContext *context) { BG_SYS_SetLcdSwap(1);GX_SetBankForLCDC(511);MIi_CpuClearFast(0,0x6800000,0xa4000);GX_DisableBankForLCDC();SAVE_SCREEN_SetupBackground(*(u16 *)p);*(struct GfFont **)&p->font=GF_FONT_Create(23,0,0,0,*(u16 *)p);ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,416,32,*(u16 *)p);*(struct MsgBank **)&p->msgBank=MSGDATA_CreateFromArchive(0,2,*(u16 *)((char *)p+2),*(u16 *)p);*(struct WordSet **)&p->wordset=WORDSET_CreateDefault(*(u16 *)p);BMP_MENUWORK_LoadCharAndPltt(0,1,12,0,*(u16 *)p);*(u32 *)&p->bmpWin=(unsigned int)BMP_WIN_Create((unsigned int)0,(unsigned int)2,(unsigned int)18,27,4,13,1);*(struct Tcbl **)&p->tcbl=(struct Tcbl *)TCBL_Create(*(u16 *)p,*(u16 *)p,10,32);*(struct U16Vec **)&p->textBuf=(struct U16Vec *)STRBUF_Create(1024,*(u16 *)p); }
-
 
 void SAVE_SCREEN_Delete(SaveScreenWork *p)
 {
@@ -445,7 +432,6 @@ void SAVE_SCREEN_Delete(SaveScreenWork *p)
     SAVE_SCREEN_DeleteBackground();
 }
 
-
 void SAVE_SCREEN_SetupBackground(u16 heap)
 {
     unsigned zero;
@@ -460,9 +446,7 @@ void SAVE_SCREEN_SetupBackground(u16 heap)
     BMP_WIN_Init(heap);
 }
 
-
 void SAVE_SCREEN_DeleteBackground(void) { BMP_WIN_Exit();BG_SYS_Delete(); }
-
 
 void SAVE_SCREEN_PrintEntry(SaveScreenWork *p,unsigned entry,unsigned index,u16 kind)
 {
@@ -477,9 +461,7 @@ void SAVE_SCREEN_PrintEntry(SaveScreenWork *p,unsigned entry,unsigned index,u16 
     BMP_MENUWORK_DrawWindow(p->bmpWin,2,1,12);
 }
 
-
 void SAVE_SCREEN_SnapshotParty(SaveScreenWork *p) { u32 date[4];void *party,*rec;RTC_GetDate(date);party=GAME_DATA_GetMyParty((struct GameData *)(*(struct BigObj * *)&p->ctx));rec=GAME_DATA_GetSaveBlock42((struct GameData *)(*(void ** *)&p->ctx));DENDOU_SAVEDATA_SetRecord(rec,party,(struct Date *)date,4); }
-
 
 void SAVE_SCREEN_SetTrainerDate(SaveScreenWork *p)
 {
@@ -493,12 +475,9 @@ void SAVE_SCREEN_SetTrainerDate(SaveScreenWork *p)
     RECORD_SetCounterClamped(counter,2,day+(year*10000+month*100));
 }
 
-
 void SAVE_SCREEN_SetTrainerFlag(SaveScreenWork *p) { void *save,*obj;save=GAME_DATA_GetSaveControl((struct GameData *)(*(struct Big * *)&p->ctx));obj=GAME_DATA_GetTrainerRecord((struct GameData *)(*(int * *)&p->ctx));if(SAVE_CONTROL_WouldOverwriteSave(save)==0)RECORD_AddCounter(obj,71,1); }
 
-
 void SAVE_SCREEN_SaveFieldClock(SaveScreenWork *p) { if(RECORD_GetCounterClamped(GAME_DATA_GetTrainerRecord((struct GameData *)(*(int * *)&p->ctx)),71)==0)FIELD_CLOCK_SaveTimestamp((struct GameData *)(*(char * *)&p->ctx)); }
-
 
 void SAVE_SCREEN_AppendPartyRecord(SaveScreenWork *p)
 {
@@ -516,12 +495,9 @@ void SAVE_SCREEN_AppendPartyRecord(SaveScreenWork *p)
     }
 }
 
-
 void SAVE_SCREEN_PartSaveMain(SaveScreenWork *p) { void *save; u32 n;save=GAME_DATA_GetSaveControl((struct GameData *)(*(struct Big * *)&p->ctx));if(SAVE_CONTROL_WouldOverwriteSave(save)==0) { n=GAME_DATA_PartSaveMain((struct GameData *)(*(char * *)&p->ctx),8);if(n-2<=1) { SAVE_CONTROL_DeleteExtraSave(save,8);p->saveDoneFlag=1; } } }
 
-
 int SAVE_SCREEN_NoticeInit(struct ProcOwner *obj,u32 unused,SaveScreenContext *ctx) { SaveScreenNoticeWork *p;GFL_HEAP_CreateChildHeap(1,84,0x40000);p=(SaveScreenNoticeWork *) PROCSYS_AllocProcWork((struct Proc *)obj,28,84);MIi_CpuClear32(0,p,28);p->heapId=84;p->mode=ctx->mode;p->textSrc=ctx->textSrc;return 1; }
-
 
 int SAVE_SCREEN_NoticeMain(void *input,u32 *state,u32 unused,SaveScreenNoticeWork *p)
 {
@@ -562,15 +538,12 @@ int SAVE_SCREEN_NoticeMain(void *input,u32 *state,u32 unused,SaveScreenNoticeWor
     return 0;
 }
 
-
-
 int SAVE_SCREEN_NoticeExit(void *p)
 {
     PROCSYS_FreeProcWork(p);
     GFL_HEAP_DeleteChecked(0x54);
     return 1;
 }
-
 
 void SAVE_SCREEN_SetupNoticeBackground(u16 heap)
 {
@@ -582,7 +555,6 @@ void SAVE_SCREEN_SetupNoticeBackground(u16 heap)
     BG_SYS_LoadPlttEntry(0,0);
     BMP_WIN_Init(heap);
 }
-
 
 void SAVE_SCREEN_DeleteNoticeBackground(void) { BMP_WIN_Exit();BG_SYS_Delete(); }
 

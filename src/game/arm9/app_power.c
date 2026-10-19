@@ -60,7 +60,7 @@
  *   PROCSYS_PushGlobal  0x020312CC  arm
  */
 #include "comm_player_support_shared_types.h"
-#include "blink_palanm_shared_types.h"
+#include "../types.h"
 #include "time_icon_shared_types.h"
 #include "save_event_shared_types.h"
 

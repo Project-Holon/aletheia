@@ -157,11 +157,8 @@
  *   STD_GetStringLength  0x0208CC78  arm  arm9
  */
 #include "fld3d_ci_types.h"
-#include "field_player_grid_event_shared_types.h"
 
-typedef signed char s8;
-
-typedef volatile unsigned short vu16;
+#include "../types.h"
 
 typedef struct Bmp Bmp;
 

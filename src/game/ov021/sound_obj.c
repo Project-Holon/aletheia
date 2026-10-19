@@ -75,15 +75,11 @@ struct Sub02008C20Obj;
 struct Self;
 struct S0201235C;
 
-
-typedef signed char    s8;
-
-
-
-
+#include "../types.h"
 
 typedef struct FieldMap FieldMap;
-typedef struct { fx32 m[3][3]; } MtxFx33;
+#include "../sdk_fx.h"
+
 typedef struct SoundObjTarget {
     VecFx32 pos;
     VecFx32 scale;

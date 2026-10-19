@@ -67,16 +67,9 @@ struct DArrayImplementation;
 struct SOCSockAddr;
 struct Sock;
 GTI2Connection;
-typedef unsigned short u16;
+#include "../types.h"
 
-typedef unsigned int u32;
-
-struct SOCSockAddrIn {
-    unsigned char len;
-    unsigned char family;
-    unsigned short port;
-    unsigned int addr;
-};
+#include "../sdk_soc.h"
 
 struct GTI2IncomingBufferMessage {
     int start;
@@ -147,16 +140,12 @@ void gti2SocketError(GTI2Socket *socket);
 
 static void gti2ConnectionFree(void **elem);
 
-
-
 static int gti2ConnectionHash(void *elem, int numBuckets)
 {
     GTI2Connection *connection = *(GTI2Connection **)elem;
 
     return (connection->ip * connection->port) % (u32)numBuckets;
 }
-
-
 
 static int gti2ConnectionCompare(void *elem1, void *elem2)
 {
@@ -168,13 +157,10 @@ static int gti2ConnectionCompare(void *elem1, void *elem2)
         : (short)(connection1->port - connection2->port);
 }
 
-
 static void gti2ConnectionFree(void **elem)
 {
     gti2ConnectionCleanup(*elem);
 }
-
-
 
 GTI2Connection *gti2SocketFindConnection(GTI2Socket *socket,
                                                 u32 ip, u16 port)
@@ -192,8 +178,6 @@ GTI2Connection *gti2SocketFindConnection(GTI2Socket *socket,
         return *result;
     return 0;
 }
-
-
 
 /*
  * sdk:      gti2CreateSocket (libdwcgsgt2.TWL.HYB.a gt2socket.o)
@@ -280,8 +264,6 @@ int gti2CreateSocket(GTI2Socket **sock, char *localAddress, int outgoingBufferSi
     return 0;
 }
 
-
-
 void gti2CloseSocket(GTI2Socket *socket)
 {
     if (socket->callbackLevel != 0)
@@ -296,13 +278,10 @@ void gti2CloseSocket(GTI2Socket *socket)
     SocketShutDown();
 }
 
-
 void gti2SetConnectAttemptCallback(GTI2Socket *socket, void *connectAttemptCallback)
 {
     socket->connectAttemptCallback = connectAttemptCallback;
 }
-
-
 
 /*
  * Tail call with a constant 0xa0 argument.
@@ -311,10 +290,6 @@ void *gti2CreateConnectionObject(void)
 {
     return gsimalloc(0xa0);
 }
-
-
-
-
 
 /*
  * sdk:      gti2NewSocketConnection (libdwcgsgt2.TWL.HYB.a gt2socket.o)
@@ -381,11 +356,6 @@ failed:
     return 1;
 }
 
-
-
-
-
-
 void gti2FreeSocketConnection(GTI2Connection *connection)
 {
     int len;
@@ -411,11 +381,6 @@ void gti2FreeSocketConnection(GTI2Connection *connection)
         TableRemove(connection->socket->connections, &connection);
     }
 }
-
-
-
-
-
 
 /*
  * sdk:      gti2SocketSend (libdwcgsgt2.TWL.HYB.a gt2socket.o)
@@ -465,10 +430,6 @@ int gti2SocketSend(GTI2Socket *socket, unsigned int ip, unsigned short port, uns
     return 1;
 }
 
-
-
-
-
 static int gti2SocketConnectionsThinkMap(void *elem, void *clientData)
 {
     GTI2Connection *connection = *(GTI2Connection **)elem;
@@ -485,10 +446,6 @@ static int gti2SocketConnectionsThinkMap(void *elem, void *clientData)
     return 1;
 }
 
-
-
-
-
 int gti2SocketConnectionsThink(GTI2Socket *socket)
 {
     unsigned int now = current_time();
@@ -497,10 +454,6 @@ int gti2SocketConnectionsThink(GTI2Socket *socket)
         return 0;
     return 1;
 }
-
-
-
-
 
 void gti2FreeClosedConnections(GTI2Socket *socket)
 {
@@ -511,10 +464,6 @@ void gti2FreeClosedConnections(GTI2Socket *socket)
         gti2FreeSocketConnection(*(GTI2Connection **)
                                      ArrayNth(socket->closedConnections, i));
 }
-
-
-
-
 
 void gti2SocketError(GTI2Socket *socket)
 {

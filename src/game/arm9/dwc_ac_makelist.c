@@ -22,72 +22,9 @@
  *   g_020A80A4 0x020A80A4 data
  *   NINTENDOWFC_SSID 0x020A1628 data
  */
-typedef struct {
-    unsigned char ispId[0x40];
-    unsigned char ssid[2][0x20];
-    unsigned char wep[4][0x10];
-    unsigned char ip[4];
-    unsigned char gateway[4];
-    unsigned char dns[2][4];
-    unsigned char netmask;
-    unsigned char wep40[5];
-    unsigned char wep40More[3][5];
-    unsigned char authType;
-    unsigned char wepMode:2;
-    unsigned char wepNotation:6;
-    unsigned char setType;
-    unsigned char ssidLength[2];
-    unsigned char mtu[2];
-    unsigned char rsv[2];
-    unsigned char flags;
-    unsigned char state;
-} NCFGApInfo;
+#include "../sdk_ncfg.h"
 
-typedef struct {
-    unsigned char passphrase[0x20];
-    unsigned char pmk[0x20];
-    unsigned char ssid[2][0x20];
-    unsigned char ssidLength0; /* aossEx.ssidLength[0] (TKIP); overlays wpa.rsv in WPA records */
-    unsigned char wpaMode;
-    unsigned char proxyMode;
-    unsigned char proxyAuthType;
-    unsigned char proxyHost[100];
-    unsigned char proxyPort[2];
-    unsigned char rsvEx[6];
-} NCFGApInfoEx;
-
-typedef struct {
-    NCFGApInfo ap;
-    unsigned char wifi[14];
-    unsigned short crc;
-} NCFGSlotInfo;
-
-typedef struct {
-    NCFGApInfo ap;
-    unsigned char wifi[14];
-    unsigned short crc;
-    NCFGApInfoEx apEx;
-    unsigned char rsvEx[14];
-    unsigned short crcEx;
-} NCFGSlotInfoEx;
-
-typedef struct {
-    unsigned short length;
-    unsigned short rssi;
-    unsigned char bssid[6];
-    unsigned short ssidLength;
-    unsigned char ssid[32];
-    unsigned short capaInfo;
-    unsigned short rateSet[2];
-    unsigned short beaconPeriod;
-    unsigned short dtimPeriod;
-    unsigned short channel;
-    unsigned short cfpPeriod;
-    unsigned short cfpMaxDuration;
-    unsigned short gameInfoLength;
-    unsigned short otherElementCount;
-    unsigned char gameInfo[0x80];
-} WMBssDesc;
+#include "../sdk_wm.h"
 
 typedef struct {
     unsigned char state;

@@ -88,7 +88,7 @@
  */
 #include "field_sound_system_shared_types.h"
 
-typedef signed int     s32;
+#include "../types.h"
 
 struct GameData;
 

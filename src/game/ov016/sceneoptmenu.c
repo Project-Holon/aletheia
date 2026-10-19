@@ -68,7 +68,6 @@
  *   scenemenu_bss                    0x021DE59C  data
  *   scenemenu_init_20658             0x021DA474  data
  *   scenemenu_rodata                 0x021DA478  data
- *   procScene                        0x021C2D60  arm
  *   gSceneOptMenuButtonRects  0x021DA4B8  data
  *   gSceneOptMenuFocusRects  0x021DA4D0  data
  *   g_021DA4D4  0x021DA4D4  data
@@ -95,22 +94,9 @@
 
 #define BG_PRIORITY_3(reg) (*(vu16 *)(reg) = (u16)((*(vu16 *)(reg) & ~3) | 3))
 struct tagDWCWiFiInfo;
-typedef unsigned char  u8;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef unsigned long long u64;
-
-typedef volatile u16 vu16;
-
-typedef struct tagDWCWiFiInfo {
-    u64 attestedUserId;
-    u64 notAttestedId;
-    u16 pass;
-    u16 randomHistory;
-} DWCWiFiInfo;
+#include "../sdk_dwc.h"
 
 typedef _Bool bool;
 
@@ -217,7 +203,6 @@ static void endScene2(void);
 static void moveFocus(int a);
 static void DWCi_SceneOptMenuDispPush(void);
 
-
 void DWCi_SceneOptMenu(void)
 {
     int q;
@@ -238,7 +223,6 @@ void DWCi_SceneOptMenu(void)
                   gSceneOptMenuFocusRects[i].t, gSceneOptMenuFocusRects[i].b);
     DWCi_ChangeScene(procInit);
 }
-
 
 /*
  * sdk:      initGraphics (libdwcutil.TWL.HYB.a(sceneoptmenu.o))
@@ -280,11 +264,7 @@ static void initGraphics(void)
 }
 
 
-static void procScene(void);
-
-
 static void dispPushButton(void);
-
 
 static void procInit(void)
 {
@@ -294,7 +274,6 @@ static void procInit(void)
     DWCi_GXlVisible(0, 0x14);
     DWCi_ChangeScene(procInit1);
 }
-
 
 static void procInit1(void)
 {
@@ -306,15 +285,13 @@ static void procInit1(void)
     DWCi_ChangeScene(procInit2);
 }
 
-
 static void procInit2(void)
 {
     if (DWCi_BTNlGet() == -2)
         return;
     DWCi_BTNlEnable();
-    DWCi_ChangeScene(procScene);
+    DWCi_ChangeScene(DWCi_SceneOptMenu_procScene);
 }
-
 
 void DWCi_SceneOptMenu_procScene(void)
 {
@@ -322,7 +299,6 @@ void DWCi_SceneOptMenu_procScene(void)
     DWCi_SceneOptMenu_draw();
     button();
 }
-
 
 static void input(void)
 {
@@ -357,7 +333,6 @@ void DWCi_SceneOptMenu_draw(void)
 {
 }
 
-
 static void button(void)
 {
 	WiFiInfoT info;
@@ -383,14 +358,12 @@ static void button(void)
 	DWCi_ChangeScene(endScene);
 }
 
-
 static void endScene(void)
 {
 	DWCi_BTNlDisable();
 	DWCi_EFFlWait(8);
 	DWCi_ChangeScene(endScene1);
 }
-
 
 /*
  * sdk:      endScene1 (libdwcutil.TWL.HYB.a(sceneoptmenu.o))
@@ -405,7 +378,6 @@ static void endScene1(void)
 	DWCi_EFFlFade(3, 0, 0x14, 8);
 	DWCi_ChangeScene(endScene2);
 }
-
 
 /*
  * sdk:      endScene2 (libdwcutil.TWL.HYB.a(sceneoptmenu.o))
@@ -445,7 +417,6 @@ static void endScene2(void)
     }
 }
 
-
 /*
  * Advances the flag byte gSceneOptMenuState.f0 and dispatches the indexed record.
  */
@@ -462,7 +433,6 @@ static void moveFocus(int a)
     DWCi_FOCUSlDisp4(gSceneOptMenuFocusRects[i].l, gSceneOptMenuFocusRects[i].r,
                   gSceneOptMenuFocusRects[i].t, gSceneOptMenuFocusRects[i].b);
 }
-
 
 /*
  * sdk:      DWCi_SceneOptMenuDispPush (libdwcutil.TWL.HYB.a(sceneoptmenu.o))

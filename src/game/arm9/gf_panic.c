@@ -30,13 +30,8 @@
  *   _DebugConsole              0x021469AC  data
  *   _NewlineStr                0x020A796C  data
  */
-#include "vman_shared_types.h"
 
-typedef unsigned char      u8;
-
-typedef volatile u16       vu16;
-
-typedef volatile u32       vu32;
+#include "../types.h"
 
 typedef void (*PanicHookFunc)(void);
 

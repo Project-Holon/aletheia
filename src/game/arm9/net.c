@@ -85,7 +85,7 @@
  *   GFL_NET_IRC_WIRELESS_GetRetryCountValue 0x0203E590 arm arm9
  *   GFL_NET_IRC_WIRELESS_SetGameKindOverride 0x0203E5AC arm arm9
  */
-#include "net_shared_types.h"
+#include "../types.h"
 #include "net_types.h"
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);

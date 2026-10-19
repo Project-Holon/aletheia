@@ -6,30 +6,13 @@
  * view the parts used.
  */
 
-typedef struct SOCInAddr {
-    unsigned int addr;
-} SOCInAddr;
+#include "../sdk_soc.h"
 
 typedef struct SOCSockAddr {
     unsigned char len;
     unsigned char family;
     unsigned char data[6];
 } SOCSockAddr;
-
-typedef struct SOCSockAddrIn {
-    unsigned char len;
-    unsigned char family;
-    unsigned short port;
-    SOCInAddr addr;
-} SOCSockAddrIn;
-
-typedef struct SOCHostEnt {
-    char *name;
-    char **aliases;
-    short addrType;
-    short length;
-    unsigned char **addrList;
-} SOCHostEnt;
 
 typedef enum { key_server, key_player, key_team } qr2_key_type;
 

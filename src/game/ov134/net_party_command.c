@@ -54,11 +54,7 @@
  */
 #include "../ov131/p_status_types.h"
 
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 struct NetHandle;
 struct Party;
@@ -198,14 +194,10 @@ extern const char ov90_id[];
 extern const u32 gPartyListProcData[], gPokeStatusProcData[];
 extern const char ov91_id[], ov131_id[];
 
-
-
 int NET_PARTY_COMMAND_GetEntry(int index, NetPartyEntryTable *table)
 {
     return table->entries[index];
 }
-
-
 
 /*
  * extent: trailing 2-byte alignment padding; early return keeps the final unused compare.
@@ -216,8 +208,6 @@ void NET_PARTY_COMMAND_IsHandleFor(u32 value, u32 a, u32 b, u32 c, void *expecte
         if (value != GFL_NET_GetHandleNetID((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle())) return;
     }
 }
-
-
 
 int NET_PARTY_COMMAND_Init(void *sys, int unused, const NetPartyArgs *args)
 {
@@ -236,8 +226,6 @@ int NET_PARTY_COMMAND_Init(void *sys, int unused, const NetPartyArgs *args)
     return 1;
 }
 
-
-
 int NET_PARTY_COMMAND_Exit(void *proc, u32 unused0, u32 unused1, char *work)
 {
     PLIST_COMM_End(work + 4);
@@ -246,8 +234,6 @@ int NET_PARTY_COMMAND_Exit(void *proc, u32 unused0, u32 unused1, char *work)
     PROCSYS_FreeProcWork(proc);
     return 1;
 }
-
-
 
 int NET_PARTY_COMMAND_Main(void *unused0, void *unused1, u8 *listProc, u8 *work)
 {
@@ -331,8 +317,6 @@ int NET_PARTY_COMMAND_Main(void *unused0, void *unused1, u8 *listProc, u8 *work)
     }
     return 0;
 }
-
-
 
 void NET_PARTY_COMMAND_BuildPartyList(NetPartyArgs *args, void *unused, NetPartyParam *param)
 {

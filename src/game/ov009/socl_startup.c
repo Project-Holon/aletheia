@@ -49,10 +49,7 @@ typedef struct SoclSocketParam {
     unsigned long word[16];
 } SoclSocketParam;
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned long u32;
-typedef unsigned long long u64;
+#include "../types.h"
 
 typedef struct
 {
@@ -135,7 +132,6 @@ void SOCLi_SetMyIP(void);
 int SOCL_LinkIsOn(void);
 static void SOCLi_StartupCPS(void);
 
-
 /*
  * sdk:      SOCL_Startup (libsoc.TWL.HYB.a(socl_startup.o))
  */
@@ -157,7 +153,6 @@ int SOCL_Startup(SOCLConfig *socl_config)
 	}
 	return result;
 }
-
 
 /*
  * sdk:      SOCLi_StartupSOCL (libsoc.TWL.HYB.a(socl_startup.o))

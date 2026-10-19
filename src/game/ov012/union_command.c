@@ -46,7 +46,7 @@
  *   UNION_COMMAND_SendAppLeaveData  0x02174084  thumb  ov012
  *   UNION_COMM_StartConnectSync 0x02172EDC thumb ov012
  */
-typedef struct { int x, y, z; } VecFx32;
+#include "../sdk_fx.h"
 
 #include "union_comm_types.h"
 #include "../arm9/net_types.h"

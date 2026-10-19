@@ -43,7 +43,7 @@
  *   NHTTPi_addRef              0x021befe4 arm
  *   NHTTPi_Connection2Response  0x021bebc8 arm
  */
-typedef unsigned int u32;
+#include "../types.h"
 #include "nhttp_types.h"
 
 extern NHTTPSysInfo *NHTTPi_GetSystemInfoP(void);
@@ -80,7 +80,6 @@ int NHTTP_GetBodyBuffer(void *handle, char **value_pp, unsigned long *size_p);
 void *NHTTP_GetUserParam(void *handle);
 int NHTTP_GetConnectionError(NHTTPConnection *handle_p);
 int NHTTP_GetConnectionProgress(void *handle, unsigned long *received_p, unsigned long *contentlen_p);
-
 
 NHTTPConnection *NHTTP_CreateConnection(char *url_p, int method, char *buf_p, u32 len,
                                int (*callback)(NHTTPConnection *, int, void *), void *userParam_p)
@@ -123,7 +122,6 @@ NHTTPConnection *NHTTP_CreateConnection(char *url_p, int method, char *buf_p, u3
     return connection_p;
 }
 
-
 /*
  * Looks the connection up and deletes it; -1 when the handle is unknown.
  */
@@ -134,7 +132,6 @@ int NHTTP_DeleteConnection(NHTTPConnection *handle_p)
         return -1;
     return NHTTPi_DeleteConnection(connection_p);
 }
-
 
 int NHTTPi_DeleteConnection(NHTTPConnection *connection_p)
 {
@@ -162,7 +159,6 @@ int NHTTPi_DeleteConnection(NHTTPConnection *connection_p)
     return 0;
 }
 
-
 int NHTTP_WaitForConnection(NHTTPConnection *handle_p)
 {
     NHTTPSysInfo *sysInfo_p = NHTTPi_GetSystemInfoP();
@@ -182,7 +178,6 @@ int NHTTP_WaitForConnection(NHTTPConnection *handle_p)
     return 0;
 }
 
-
 int NHTTP_StartConnection(void *handle)
 {
     NHTTPSysInfo *sysInfo_p = NHTTPi_GetSystemInfoP();
@@ -201,7 +196,6 @@ int NHTTP_StartConnection(void *handle)
     return 0;
 }
 
-
 int NHTTP_CancelConnection(void *handle)
 {
     NHTTPSysInfo *sysInfo_p = NHTTPi_GetSystemInfoP();
@@ -216,7 +210,6 @@ int NHTTP_CancelConnection(void *handle)
     return 0;
 }
 
-
 /*
  * Connection status of the handle; -1 when the handle is unknown.
  */
@@ -227,7 +220,6 @@ int NHTTP_GetConnectionStatus(NHTTPConnection *handle_p)
         return -1;
     return connection_p->status;
 }
-
 
 int NHTTP_GetBodyBuffer(void *handle, char **value_pp, unsigned long *size_p)
 {
@@ -250,7 +242,6 @@ fail:
     return -1;
 }
 
-
 void *NHTTP_GetUserParam(void *handle)
 {
     NHTTPMutexInfo *mutexInfo_p;
@@ -268,7 +259,6 @@ fail:
     return 0;
 }
 
-
 /*
  * NHTTP error of the handle's connection; -1 when the handle is unknown.
  */
@@ -279,7 +269,6 @@ int NHTTP_GetConnectionError(NHTTPConnection *handle_p)
         return connection_p->nhttpError;
     return -1;
 }
-
 
 int NHTTP_GetConnectionProgress(void *handle, unsigned long *received_p, unsigned long *contentlen_p)
 {

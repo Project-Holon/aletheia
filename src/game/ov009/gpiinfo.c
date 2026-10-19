@@ -128,11 +128,7 @@
  *   gsifree                          0x0217EAE0 arm
  */
 extern void *__builtin__clear(void *dest, unsigned long size);
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
+#include "../types.h"
 
 typedef struct GPIInfoCache {
     char *nick;
@@ -430,9 +426,6 @@ extern char str15093[];
 extern char gGpiInfoKeyGetProfileSessKey[];
 extern char gGpiInfoKeyId[];
 
-
-
-
 /*
  * Date validity (day, month, year): all-zero is accepted, negatives rejected,
  * month dispatch with February leap handling, then a 1900..2079 window with a
@@ -482,9 +475,6 @@ int gpiIsValidDate(int day, int month, int year)
     return 1;
 }
 
-
-
-
 /*
  * sdk:      gpiIntToDate (gpiinfo.o)
  */
@@ -506,9 +496,6 @@ int gpiIntToDate(void **connection, int date, int *day, int *month, int *year)
     *year = y;
     return 0;
 }
-
-
-
 
 /*
  * sdk:      gpiInfoCacheToArg (gpiinfo.o)
@@ -575,9 +562,6 @@ void gpiInfoCacheToArg(GPIInfoCache *cache, GPGetInfoResponseArg *arg)
     arg->ownership1 = cache->ownership1;
     arg->conntypeid = cache->conntypeid;
 }
-
-
-
 
 /*
  * sdk:      gpiProcessGetInfo (gpiinfo.o)
@@ -774,9 +758,6 @@ int gpiProcessGetInfo(void **connection, GPIOperation_s *operation, char *input)
     return 0;
 }
 
-
-
-
 /*
  * sdk:      gpiAddLocalInfo (libdwcgsgp.TWL.HYB.a(gpiinfo.o))
  */
@@ -803,9 +784,6 @@ int gpiAddLocalInfo(void **connection, void *buffer)
     return 0;
 }
 
-
-
-
 /*
  * sdk:      gpiSendLocalInfo (gpiinfo.o)
  */
@@ -821,8 +799,6 @@ int gpiSendLocalInfo(void **connection, char *info, char *value)
     return 0;
 }
 
-
-
 /*
  * sdk:      gpiSendUserInfo (gpiinfo.o)
  */
@@ -837,8 +813,6 @@ int gpiSendUserInfo(void **connection, char *info, char *value)
         return result;
     return 0;
 }
-
-
 
 _GPResult gpiSetInfoi(void **connection, int info, int value)
 {
@@ -983,8 +957,6 @@ _GPResult gpiSetInfoi(void **connection, int info, int value)
     }
     return 0;
 }
-
-
 
 _GPResult gpiSetInfos(void **connection, int info, char *value)
 {
@@ -1209,8 +1181,6 @@ _GPResult gpiSetInfos(void **connection, int info, char *value)
     return 0;
 }
 
-
-
 int gpiSendGetInfo(void **connection, int profileid, int operationid)
 {
     GPIConnection *iconnection = (GPIConnection *)*connection;
@@ -1224,8 +1194,6 @@ int gpiSendGetInfo(void **connection, int profileid, int operationid)
     gpiAppendStringToBuffer((int *)connection, (int *)&iconnection->outputBuffer, gGpiInfoKeyFinal);
     return 0;
 }
-
-
 
 /*
  * sdk:      gpiGetInfo (gpiinfo.o)
@@ -1281,8 +1249,6 @@ done:
     return 0;
 }
 
-
-
 /*
  * sdk:      gpiSetInfoCache (gpiinfo.o)
  */
@@ -1304,8 +1270,6 @@ int gpiSetInfoCache(void **connection, GPIProfile *profile, GPIInfoCache *cache)
     }
     return profile->cache != 0;
 }
-
-
 
 void gpiFreeInfoCache(GPIProfile *profile)
 {

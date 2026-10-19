@@ -27,7 +27,7 @@
  *   gFieldGimmickCallbackTbl  0x021D9E74  data
  */
 
-typedef signed int s32;
+#include "../types.h"
 
 struct FieldMap;
 struct GameSystem;

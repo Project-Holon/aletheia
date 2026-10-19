@@ -52,13 +52,7 @@
  */
 struct ArcFile;
 struct Strbuf;
-typedef unsigned int u32;
-
-typedef unsigned short u16;
-
-typedef unsigned char u8;
-
-typedef signed int     s32;
+#include "../types.h"
 
 /* String buffer (strbuf.c): capacity in code units, used length, tag, units. */
 struct Strbuf {
@@ -160,9 +154,6 @@ u8 MSGDATA_GetLanguage(void);
 extern char MSGDATA_AllocSite[];
 extern u8 g_Byte_02146A54;
 
-
-
-
 /*
  * The archive-backed constructor for the message bank whose object layout is
  * pinned by src/matched/unit_02045C44.c, and the reason that object carries
@@ -219,9 +210,6 @@ struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u
     return bank;
 }
 
-
-
-
 /*
  * Tear down the record: when the +0x14 handle is live, release the two
  * buffers it owns (the second only if non-NULL) and close the handle, then
@@ -248,9 +236,6 @@ u32 MSGDATA_Delete(struct MsgBank *bank)
     }
     return GFL_HEAP_Free(bank);
 }
-
-
-
 
 /*
  * The whole of pkt_02045C44, 448 bytes with both literal pools: the message
@@ -318,9 +303,6 @@ struct MsgBank *MSGDATA_CreateFromMemory(const void *file, u32 heapId)
     return bank;
 }
 
-
-
-
 void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest)
 {
     u32 size;
@@ -364,9 +346,6 @@ void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest)
     MSGDATA_DecryptStrbuf(dest, index);
 }
 
-
-
-
 /*
  * Advance the object by one: read its current index (STRBUF_GetLength), ask
  * MSGDATA_DecryptUnits for the entry one past it in the list STRBUF_GetChars returns,
@@ -386,9 +365,6 @@ void MSGDATA_DecryptStrbuf(struct Strbuf *str, u32 msgIndex)
 
     STRBUF_Truncate(str, MSGDATA_DecryptUnits(STRBUF_GetChars(str), used + 1, msgIndex));
 }
-
-
-
 
 /*
  * The message-bank string cipher, decrypting a raw UTF-16-code-unit run in
@@ -432,9 +408,6 @@ u32 MSGDATA_DecryptUnits(u16 *str, u32 count, u32 msgIndex)
     return count;
 }
 
-
-
-
 /*
  * Message bank string allocator and loader: given a bank and an entry index,
  * reads the entry descriptor (from the resident array or stream), allocates
@@ -467,9 +440,6 @@ struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index)
     return str;
 }
 
-
-
-
 /*
  * A three-instruction accessor: follow the pointer at +0 of the object and
  * return the halfword at +2 of what it points at.  It saves nothing, so
@@ -488,9 +458,6 @@ u16 MSGDATA_GetMessageCount(const struct MsgBank *bank)
 {
     return bank->file->count;
 }
-
-
-
 
 /*
  * msgdata.c: read string msgIndex into str (at most maxLen characters),
@@ -547,9 +514,6 @@ void MSGDATA_ReadUnits(struct MsgBank *bank, u32 msgIndex, u16 *str, u32 maxLen)
     str[len] = STRBUF_GetEosChar();
 }
 
-
-
-
 /*
  * Read a message file's header out of the archive and keep it.  The fixed
  * twelve-byte part is read onto the stack first because its language count is
@@ -597,8 +561,6 @@ struct MsgFile *MSGDATA_LoadFileHeader(void *stream, u32 origin, u16 heapId)
     return file;
 }
 
-
-
 /*
  * msgdata.c: point the MsgData object at the selected language bank.  The
  * archive header holds one u32 bank offset per language at +0x0C; with no
@@ -627,8 +589,6 @@ void MSGDATA_LoadBank(struct MsgBankLoad *bank)
         ARC_TOOL_ReadHandle(bank->stream, size, bank->base);
     }
 }
-
-
 
 /*
  * Re-read the clamped index for the header at +0 and, if it moved, record
@@ -661,8 +621,6 @@ void MSGDATA_RefreshLanguage(struct MsgBank *bank)
     MSGDATA_LoadBank((struct MsgBankLoad *)bank);
 }
 
-
-
 /*
  * Clamp MSGDATA_GetLanguage's answer to the count the header keeps at +0: past the
  * end wraps back to entry zero.  The comparison is signed (`movge`), so the
@@ -691,7 +649,6 @@ s32 MSGDATA_GetLanguageIndex(const struct MsgFile *file)
     }
     return langIndex;
 }
-
 
 /* Stores the current text language code.  The getter at 0x020461E4 returns
  * this byte; the message bank loader (msgdata.c) clamps it to the language

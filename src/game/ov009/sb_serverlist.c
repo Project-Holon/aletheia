@@ -131,26 +131,9 @@ struct SBSortContext {
 
 struct Ref { char *str; int refcount; };
 
-typedef unsigned int u32;
+#include "../types.h"
 
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef struct SOCSockAddrIn {
-    u8 len;
-    u8 family;
-    u16 port;
-    u32 addr;
-} SOCSockAddrIn;
-
-typedef struct {
-    char *name;
-    char **aliases;
-    short addrType;
-    short length;
-    u8 **addrList;
-} SOCHostEnt;
+#include "../sdk_soc.h"
 
 typedef enum {
     sbe_noerror,
@@ -162,8 +145,6 @@ typedef enum {
     sbe_paramerror,
     sbe_duplicateupdateerror
 } SBError;
-
-typedef signed char s8;
 
 struct KeyEnt { char *keyName; int keyType; };
 
@@ -298,13 +279,6 @@ extern unsigned char __lower_mapC[];
 extern char gSBMasterHostFormat[];
 extern char gSBNatNegMagic[];
 
-
-
-
-
-
-
-
 extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
 extern int strcmp(const char *a, const char *b);
 extern void *memmove(void *dst, const void *src, unsigned int n);
@@ -348,12 +322,6 @@ int prevKeyCompare(SBServer *server1, SBServer *server2)
     return diff;
 }
 
-
-
-
-
-
-
 /*
  * sdk:      IntKeyCompare (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
@@ -373,13 +341,6 @@ int IntKeyCompare(void *entry1, void *entry2)
 		diff = -diff;
 	return diff;
 }
-
-
-
-
-
-
-
 
 /*
  * sdk:      FloatKeyCompare (libdwcgsserverbrowsing.TWL.HYB.a sb_serverlist.o)
@@ -406,12 +367,6 @@ int FloatKeyCompare(void *entry1, void *entry2)
     return 0;
 }
 
-
-
-
-
-
-
 /*
  * sdk:      StrCaseKeyCompare (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
@@ -432,12 +387,6 @@ int StrCaseKeyCompare(void *entry1, void *entry2)
 	return diff;
 }
 
-
-
-
-
-
-
 /*
  * sdk:      StrNoCaseKeyCompare (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
@@ -457,13 +406,6 @@ int StrNoCaseKeyCompare(void *entry1, void *entry2)
 		diff = -diff;
 	return diff;
 }
-
-
-
-
-
-
-
 
 /*
  * sdk:      SBServerListSort (libdwcgsserverbrowsing.TWL.HYB.a sb_serverlist.o)
@@ -500,13 +442,6 @@ void SBServerListSort(SBServerList *slist, int ascending, SBSortInfo sortinfo)
     ArraySort(slist->servers, (int)comparator);
 }
 
-
-
-
-
-
-
-
 /*
  * sdk:      SBServerListAppendServer (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
@@ -515,12 +450,6 @@ void SBServerListAppendServer(SBServerList *slist, SBServer *server)
     ArrayAppend(slist->servers, &server);
     slist->ListCallback(slist, 0, server, slist->instance);
 }
-
-
-
-
-
-
 
 /*
  * sdk:      SBServerListFindServer (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
@@ -534,12 +463,6 @@ int SBServerListFindServer(SBServerList *slist, void *findserver)
 			return i;
 	return -1;
 }
-
-
-
-
-
-
 
 /*
  * sdk:      SBServerListFindServerByIP (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
@@ -558,13 +481,6 @@ int SBServerListFindServerByIP(SBServerList *slist, unsigned int ip, unsigned sh
 	return -1;
 }
 
-
-
-
-
-
-
-
 /*
  * sdk:      AddServerToDeadlist (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
@@ -576,11 +492,6 @@ void AddServerToDeadlist(SBServerList *slist, SBServer *server)
         SBServerSetNext((struct SBServer *)server, slist->deadlist);
     slist->deadlist = server;
 }
-
-
-
-
-
 
 /*
  * sdk:      SBServerListRemoveAt (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
@@ -594,21 +505,10 @@ void SBServerListRemoveAt(SBServerList *slist, int index)
 	AddServerToDeadlist((SBServerList *)slist, (SBServer *)server);
 }
 
-
-
-
-
-
-
 void SBServerListCount(void *list)
 {
     ArrayLength(*(void **)((char *)list + 4));
 }
-
-
-
-
-
 
 /*
  * Returns the server at the given index of the list.
@@ -617,10 +517,6 @@ SBServer *SBServerListNth(SBServerList *slist, int index)
 {
     return *(SBServer **)ArrayNth(slist->servers, index);
 }
-
-
-
-
 
 /*
  * sdk:      SBFreeDeadList (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
@@ -639,10 +535,6 @@ void SBFreeDeadList(SBServerList *slist)
 	slist->deadlist = 0;
 }
 
-
-
-
-
 /*
  * sdk:      SBServerListClear (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
@@ -657,11 +549,6 @@ void SBServerListClear(SBServerList *slist)
 	SBFreeDeadList(slist);
 }
 
-
-
-
-
-
 /*
  * sdk:      SBAllocateServerList (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
@@ -670,10 +557,6 @@ void SBAllocateServerList(SBServerList *slist)
     slist->servers = ArrayNew(4, 100, 0);
     slist->deadlist = 0;
 }
-
-
-
-
 
 /*
  * sdk:      SBRefStr (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
@@ -694,10 +577,6 @@ char *SBRefStr(void *slist, char *str)
 	return ref.str;
 }
 
-
-
-
-
 /*
  * sdk:      SBReleaseStr (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
@@ -713,10 +592,6 @@ void SBReleaseStr(void *slist, char *str)
 		TableRemove(SBRefStrHash(slist), &ref);
 }
 
-
-
-
-
 /*
  * sdk:      NTSLengthSB (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
@@ -730,11 +605,6 @@ int NTSLengthSB(const char *buf, int len)
     }
     return -1;
 }
-
-
-
-
-
 
 /*
  * sdk:      SBServerListInit (libdwcgsserverbrowsing.TWL.HYB.a sb_serverlist.o)
@@ -772,10 +642,6 @@ void SBServerListInit(SBServerList *slist, char *queryForGamename, char *queryFr
     SocketStartUp();
 }
 
-
-
-
-
 /*
  * sdk:      ErrorDisconnect (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
@@ -795,8 +661,6 @@ void ErrorDisconnect(SBServerList *slist)
 	SBServerListDisconnect(slist);
 }
 
-
-
 static int StringHash(char *s, int numbuckets)
 {
     unsigned int hashcode = 0;
@@ -812,12 +676,6 @@ static int StringHash(char *s, int numbuckets)
     }
     return hashcode % numbuckets;
 }
-
-
-
-
-
-
 
 /*
  * sdk:      ServerListConnect (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
@@ -855,12 +713,6 @@ int ServerListConnect(SBServerList *slist)
     return 3;
 }
 
-
-
-
-
-
-
 /*
  * sdk:      BufferAddNTS (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
@@ -875,12 +727,6 @@ void BufferAddNTS(char **buffer, char *str, int *len)
 	*buffer += slen;
 }
 
-
-
-
-
-
-
 /*
  * Stores a byte through the pointer in *p, then advances the pointer and the counter.
  */
@@ -890,12 +736,6 @@ void BufferAddByte(char **buffer, unsigned char value, int *len)
     (*len)++;
     (*buffer)++;
 }
-
-
-
-
-
-
 
 /*
  * sdk:      BufferAddInt (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
@@ -908,12 +748,6 @@ void BufferAddInt(char **buffer, int ival, int *len)
 	*len += 4;
 	*buffer += 4;
 }
-
-
-
-
-
-
 
 /*
  * sdk:      BufferAddIntLE (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
@@ -930,12 +764,6 @@ void BufferAddIntLE(char **buffer, int ival, int *len)
 	BufferAddInt(buffer, ivalBE, len);
 }
 
-
-
-
-
-
-
 /*
  * sdk:      BufferAddData (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
@@ -945,12 +773,6 @@ void BufferAddData(char **buffer, char *data, int dlen, int *len)
     *len += dlen;
     *buffer += dlen;
 }
-
-
-
-
-
-
 
 /*
  * sdk:      SetupListChallenge (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
@@ -971,9 +793,6 @@ void SetupListChallenge(SBServerList *slist)
 			slist->mychallenge[i]++;
 	}
 }
-
-
-
 
 /*
  * sdk:      SendWithRetry (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
@@ -1003,13 +822,6 @@ int SendWithRetry(SBServerList *slist, char *data, int len)
 		return r;
 	}
 }
-
-
-
-
-
-
-
 
 SBError SBServerListConnectAndQuery(SBServerList *slist, char *fieldList, char *serverFilter, int options, int maxServers)
 {
@@ -1067,13 +879,6 @@ SBError SBServerListConnectAndQuery(SBServerList *slist, char *fieldList, char *
     return sbe_noerror;
 }
 
-
-
-
-
-
-
-
 /*
  * sdk:      FreePopularValues (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
@@ -1084,12 +889,6 @@ void FreePopularValues(char *list)
 		SBReleaseStr(list, *(char **)(list + 0x84 + i * 4));
 	*(int *)(list + 0x480) = 0;
 }
-
-
-
-
-
-
 
 /*
  * sdk:      FreeKeyList (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
@@ -1104,11 +903,6 @@ void FreeKeyList(SBServerList *slist)
 	ArrayFree(slist->keylist);
 	slist->keylist = 0;
 }
-
-
-
-
-
 
 /*
  * sdk:      SBServerListDisconnect (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
@@ -1128,12 +922,6 @@ void SBServerListDisconnect(SBServerList *slist)
 	FreePopularValues((char *)slist);
 }
 
-
-
-
-
-
-
 /*
  * sdk:      SBServerListCleanup (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
@@ -1146,11 +934,6 @@ void SBServerListCleanup(SBServerList *slist)
         ArrayFree(slist->servers);
     slist->servers = 0;
 }
-
-
-
-
-
 
 /*
  * sdk:      InitCryptKey (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
@@ -1167,11 +950,6 @@ void InitCryptKey(SBServerList *slist, char *key, int keylen)
 	GOACryptInit((struct GOACryptState *)slist->cryptkey, (unsigned char *)slist->mychallenge, 8);
 }
 
-
-
-
-
-
 /*
  * Maps the flag bits 2, 8, 0x10 and 0x20 to a size code starting at 5.
  */
@@ -1185,12 +963,6 @@ int ServerSizeForFlags(int flags)
     if (flags & 0x20) n += 2;
     return n;
 }
-
-
-
-
-
-
 
 /*
  * Walk a length-bounded string, two decode steps per turn: NTSLengthSB
@@ -1220,12 +992,6 @@ int FullRulesPresent(const char *buf, int len)
         return 0;
     return *buf == 0;
 }
-
-
-
-
-
-
 
 /*
  * sdk:      AllKeysPresent (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
@@ -1268,11 +1034,6 @@ int AllKeysPresent(SBServerList *slist, char *buf, int len)
 	return 1;
 }
 
-
-
-
-
-
 /*
  * sdk:      ParseServerIPPort (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
@@ -1293,12 +1054,6 @@ void ParseServerIPPort(SBServerList *slist, unsigned char *buf, int len, unsigne
 		*port = slist->defaultport;
 	}
 }
-
-
-
-
-
-
 
 /*
  * sdk:      ParseServer (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
@@ -1395,11 +1150,6 @@ int ParseServer(SBServerList *slist, SBServer *server, char *buf, int len, int u
     return holdlen - len;
 }
 
-
-
-
-
-
 /*
  * sdk:      IncomingListParseServer (libdwcgsserverbrowsing.TWL.HYB.a sb_serverlist.o)
  */
@@ -1437,16 +1187,10 @@ int IncomingListParseServer(SBServerList *slist, char *buf, int len)
     return ret;
 }
 
-
-
 void SBServerListSetLastError(SBServerList *slist, char *lastError)
 {
     slist->lasterror = lastError;
 }
-
-
-
-
 
 /*
  * sdk:      ProcessMainListData (libdwcgsserverbrowsing.TWL.HYB.a sb_serverlist.o)
@@ -1583,11 +1327,6 @@ SBError ProcessMainListData(SBServerList *slist)
     return sbe_noerror;
 }
 
-
-
-
-
-
 /*
  * sdk:      ProcessPushKeyList (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
@@ -1618,11 +1357,6 @@ int ProcessPushKeyList(SBServerList *slist, char *buf, int len)
 	}
 	return 0;
 }
-
-
-
-
-
 
 /*
  * sdk:      ProcessPlayerSearch (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
@@ -1671,11 +1405,6 @@ int ProcessPlayerSearch(SBServerList *slist, char *buf, int len)
     return 0;
 }
 
-
-
-
-
-
 /*
  * sdk:      ProcessMaploop (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
@@ -1719,12 +1448,6 @@ int ProcessMaploop(SBServerList *slist, char *buf, int len)
     return 0;
 }
 
-
-
-
-
-
-
 /*
  * sdk:      ProcessDeleteServer (sb_serverlist.o)
  *
@@ -1749,12 +1472,6 @@ SBError ProcessDeleteServer(SBServerList *slist, char *buf, int len)
     SBServerListRemoveAt(slist, i);
     return sbe_noerror;
 }
-
-
-
-
-
-
 
 /*
  * sdk:      ProcessPushServer (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
@@ -1784,13 +1501,6 @@ int ProcessPushServer(SBServerList *slist, char *buf, int len)
 	slist->ListCallback(slist, 1, server, slist->instance);
 	return 0;
 }
-
-
-
-
-
-
-
 
 /*
  * sdk:      ProcessAdHocData (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
@@ -1848,12 +1558,6 @@ int ProcessAdHocData(SBServerList *slist)
     return ret;
 }
 
-
-
-
-
-
-
 int ProcessIncomingData(SBServerList *slist)
 {
 	int err;
@@ -1879,12 +1583,6 @@ int ProcessIncomingData(SBServerList *slist)
 		return ProcessAdHocData(slist);
 	return 0;
 }
-
-
-
-
-
-
 
 /*
  * sdk:      SBSendMessageToServer (libdwcgsserverbrowsing.TWL.HYB.a sb_serverlist.o)
@@ -1915,12 +1613,6 @@ int SBSendMessageToServer(SBServerList *slist, unsigned int ip, unsigned short p
     return ret;
 }
 
-
-
-
-
-
-
 /*
  * SBSendNatNegotiateCookieToServer: fills a 10-byte natneg cookie packet
  * (6 magic bytes + the big-endian cookie) and hands it to SBSendMessageToServer.
@@ -1943,10 +1635,6 @@ int SBSendNatNegotiateCookieToServer(void *slist, unsigned int ip, unsigned shor
 	memcpy(negotiateBuffer + NATNEG_MAGIC_LEN, &cookie, 4);
 	return SBSendMessageToServer(slist, ip, port, (char *)negotiateBuffer, NATNEG_MAGIC_LEN + 4);
 }
-
-
-
-
 
 /*
  * sdk:      ProcessLanData (libdwcgsserverbrowsing.TWL.HYB.a sb_serverlist.o)
@@ -1982,7 +1670,6 @@ int ProcessLanData(SBServerList *slist)
     }
     return 0;
 }
-
 
 int SBListThink(int *slist)
 {

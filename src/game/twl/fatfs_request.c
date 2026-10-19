@@ -27,9 +27,7 @@
  *   data_027343E0                0x027343E0  data
  *   data_0273442C                0x0273442C  data
  */
-typedef unsigned int u32;
-typedef unsigned char u8;
-typedef int BOOL;
+#include "../types.h"
 
 typedef struct FsWait {
     struct FsWait *next;
@@ -66,7 +64,8 @@ extern int PXI_SendWordByFifo(int fifotag, unsigned int data, int err);
 extern u32 OS_GetProcMode(void);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 enable);
-struct OSMutex;
+#include "../sdk_os.h"
+
 extern void OS_LockMutex(struct OSMutex *mutex);
 extern void OS_UnlockMutex(struct OSMutex *mutex);
 extern void PXIi_HandlerRecvFifoNotEmpty(void);

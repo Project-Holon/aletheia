@@ -83,7 +83,7 @@
 #include "fieldmap_types.h"
 #include "fldmmdl_rail_types.h"
 
-typedef signed int s32;
+#include "../types.h"
 
 typedef struct GameSystem GameSystem;
 typedef struct GameData GameData;

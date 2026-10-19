@@ -64,19 +64,9 @@
 #define REG_IF          (*(volatile u32 *)0x04000214)
 #define reg_GX_POWCNT (*(vu16 *)0x04000304)
 struct PMiGenCallbackInfo;
-typedef unsigned long u32;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef unsigned char u8;
-
-typedef volatile u32 vu32;
-
-typedef volatile u16 vu16;
-
-typedef int BOOL;
-
-typedef u32 OSIntrMode;
+#include "../sdk_os.h"
 
 typedef void (*PMCallback)(u32 result, void *arg);
 
@@ -190,11 +180,6 @@ extern int g_0215301C[];
 extern int g_02153004[];
 extern struct PMiGenCallbackInfo *PMi_PostSleepCallbackList;
 
-
-
-
-
-
 void PMi_WaitBusy(void)
 {
     volatile BOOL *p = &g_02153000.work.lock;
@@ -208,10 +193,6 @@ void PMi_WaitBusy(void)
     }
 }
 
-
-
-
-
 /*
  * note:     spi/ARM9/pm.o PMi_DummyCallback.
  */
@@ -221,13 +202,6 @@ void PMi_DummyCallback(u32 result, void *arg)
         *(u32 *)arg = result;
     }
 }
-
-
-
-
-
-
-
 
 void PMi_CallCallbackAndUnlock(u32 result)
 {
@@ -241,18 +215,10 @@ void PMi_CallCallbackAndUnlock(u32 result)
     }
 }
 
-
-
-
-
 static inline u32 OS_GetVBlankCount(void)
 {
     return *(vu32 *)0x02FFFC3C;
 }
-
-
-
-
 
 void PMi_WaitVBlank(void)
 {
@@ -260,7 +226,6 @@ void PMi_WaitVBlank(void)
     while (vcount == OS_GetVBlankCount()) {
     }
 }
-
 
 /*
  * TwlSDK libspi pm.o, the init entry (PM_Init shape): a once-only latch on
@@ -295,13 +260,6 @@ void PM_Init(void)
     PXI_SetFifoRecvCallback(8, PMi_CommonCallback);
     g_02153000.lcdCount = g_02153000.dispOffCount = OS_GetVBlankCount();
 }
-
-
-
-
-
-
-
 
 /*
  * sdk:      PMi_CommonCallback (libspi.TWL.HYB.a pm.o)
@@ -370,38 +328,6 @@ void PMi_CommonCallback(int tag, u32 data, BOOL err)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 u32 PMi_TryToSendPxiData(u32 *sendData, int num, u16 *retValue, PMCallback callback, void *arg)
 {
     OSIntrMode enabled = OS_DisableInterrupts();
@@ -424,25 +350,6 @@ u32 PMi_TryToSendPxiData(u32 *sendData, int num, u16 *retValue, PMCallback callb
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void PMi_TryToSendPxiDataTillSuccess(u32 *sendData, int num)
 {
     volatile u32 result;
@@ -462,25 +369,6 @@ void PMi_TryToSendPxiDataTillSuccess(u32 *sendData, int num)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 u32 PMi_SendSleepStart(u16 trigger, u16 keyIntrData)
 {
     u32 sendData[2];
@@ -498,25 +386,6 @@ u32 PMi_SendSleepStart(u16 trigger, u16 keyIntrData)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 u32 PM_SendUtilityCommandAsync(u32 number, u16 parameter, u16 *retValue, PMCallback callback, void *arg)
 {
     u32 sendData[2];
@@ -525,25 +394,6 @@ u32 PM_SendUtilityCommandAsync(u32 number, u16 parameter, u16 *retValue, PMCallb
     sendData[1] = 0x01010000 | (parameter & 0xFFFF);
     return PMi_TryToSendPxiData(sendData, 2, retValue, callback, arg);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 u32 PM_SendUtilityCommand(u32 number, u16 parameter, u16 *retValue)
 {
@@ -556,22 +406,6 @@ u32 PM_SendUtilityCommand(u32 number, u16 parameter, u16 *retValue)
     }
     return sendResult;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 u32 PMi_SetLEDAsync(int status, PMCallback callback, void *arg)
 {
@@ -597,21 +431,6 @@ u32 PMi_SetLEDAsync(int status, PMCallback callback, void *arg)
     return PM_SendUtilityCommandAsync(command, 0, 0, callback, arg);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 u32 PMi_SetLED(int status)
 {
     u32 commandResult;
@@ -623,20 +442,6 @@ u32 PMi_SetLED(int status)
     }
     return sendResult;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 u32 PM_SetBackLightAsync(int target, int sw, PMCallback callback, void *arg)
 {
@@ -671,19 +476,6 @@ u32 PM_SetBackLightAsync(int target, int sw, PMCallback callback, void *arg)
     return PM_SendUtilityCommandAsync(command, 0, 0, callback, arg);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 u32 PM_SetBackLight(int target, int sw)
 {
     u32 commandResult;
@@ -696,18 +488,6 @@ u32 PM_SetBackLight(int target, int sw)
     return sendResult;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 u32 PM_ForceToPowerOffAsync(PMCallback callback, void *arg)
 {
     g_02153000.exitFactor = 3;
@@ -717,17 +497,6 @@ u32 PM_ForceToPowerOffAsync(PMCallback callback, void *arg)
     }
     return PM_SendUtilityCommandAsync(0xE, 0, 0, callback, arg);
 }
-
-
-
-
-
-
-
-
-
-
-
 
 u32 PMi_ForceToPowerOff(void)
 {
@@ -742,16 +511,6 @@ u32 PMi_ForceToPowerOff(void)
     }
     return sendResult;
 }
-
-
-
-
-
-
-
-
-
-
 
 u32 PM_ForceToPowerOff(void)
 {
@@ -771,17 +530,6 @@ u32 PM_ForceToPowerOff(void)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 /*
  * note:     spi/ARM9/pm.o PM_SetAmp.
  */
@@ -790,18 +538,6 @@ unsigned int PM_SetAmp(unsigned int status)
     g_02153000.ampSwitch = status;
     return PMi_SetAmp(status);
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * note:     spi/ARM9/pm.o PMi_SetAmp.
@@ -814,18 +550,6 @@ unsigned int PMi_SetAmp(unsigned int status)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * note:     spi/ARM9/pm.o PM_SetAmpGain.
  */
@@ -834,18 +558,6 @@ unsigned int PM_SetAmpGain(unsigned int gain)
     return PM_SendUtilityCommand(0x11, (u16)gain, 0);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * note:     spi/ARM9/pm.o PM_SetAmpGainLevel.
  */
@@ -853,24 +565,6 @@ unsigned int PM_SetAmpGainLevel(u8 level)
 {
     return PM_SendUtilityCommand(0x16, (u16)level, 0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 u32 PM_GetBattery(int *batteryBuf)
 {
@@ -885,17 +579,6 @@ u32 PM_GetBattery(int *batteryBuf)
     return result;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 /*
  * note:     spi/ARM9/pm.o PM_GetACAdapter.
  */
@@ -906,17 +589,6 @@ unsigned int PM_GetBatteryLevel(void *isConnectedBuf)
     }
     return 2;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 u32 PM_GetBackLight(int *top, int *bottom)
 {
@@ -934,18 +606,6 @@ u32 PM_GetBackLight(int *top, int *bottom)
     return result;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 u32 PM_GetAmp(int *swBuf)
 {
     u16 status;
@@ -959,30 +619,11 @@ u32 PM_GetAmp(int *swBuf)
     return result;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 void PMi_SendPxiData(u32 data)
 {
     while (PXI_SendWordByFifo(8, data, 0) != 0) {
     }
 }
-
-
-
-
-
-
-
 
 void PMi_PreSleepForDma(void)
 {
@@ -1017,27 +658,9 @@ void PMi_PreSleepForDma(void)
     }
 }
 
-
-
-
-
-
 enum { PM_LCD_POWER_OFF = 0, PM_LCD_POWER_ON = 1 };
 
-
-
-
-
-
 enum { PM_BACKLIGHT_OFF = 0, PM_BACKLIGHT_ON = 1 };
-
-
-
-
-
-
-
-
 
 static inline u16 swap_ime(u16 enable)
 {
@@ -1045,14 +668,6 @@ static inline u16 swap_ime(u16 enable)
     REG_IME = enable;
     return prep;
 }
-
-
-
-
-
-
-
-
 
 void PM_GoSleepMode(u32 trigger, u32 logic, u16 keyPattern)
 {
@@ -1159,14 +774,6 @@ void PM_GoSleepMode(u32 trigger, u32 logic, u16 keyPattern)
     PMi_ExecuteList(g_02153000.postSleepCallbackList);
 }
 
-
-
-
-
-
-
-
-
 BOOL PMi_SetLCDPower(int sw, int led, BOOL skip, BOOL isSync)
 {
     switch (sw) {
@@ -1216,17 +823,6 @@ BOOL PMi_SetLCDPower(int sw, int led, BOOL skip, BOOL isSync)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 BOOL PM_SetLCDPower(int sw)
 {
     if (sw != 1) {
@@ -1238,13 +834,6 @@ BOOL PM_SetLCDPower(int sw)
     return PMi_SetLCDPower(sw, 0, 0, 1);
 }
 
-
-
-
-
-
-
-
 /*
  * note:     spi/ARM9/pm.o PM_GetLCDPower.
  */
@@ -1253,14 +842,6 @@ int PM_GetLCDPower(void)
     return (*(volatile unsigned short *)0x04000304 & 1) ? 1 : 0;
 }
 
-
-
-
-
-
-
-
-
 /*
  * note:     spi/ARM9/pm.o PMi_SendLEDPatternCommand.
  */
@@ -1268,14 +849,6 @@ unsigned int PMi_SendLEDPatternCommand(unsigned int pattern)
 {
     return PM_SendUtilityCommand(0x12, (u16)pattern, 0);
 }
-
-
-
-
-
-
-
-
 
 u32 PM_GetLEDPattern(int *patternBuf)
 {
@@ -1289,10 +862,6 @@ u32 PM_GetLEDPattern(int *patternBuf)
     }
     return result;
 }
-
-
-
-
 
 /*
  * sdk:      PMi_InsertList (libspi.TWL.HYB.a pm.o)
@@ -1333,10 +902,6 @@ void PMi_InsertList(PMGenCallbackInfo **listp, PMGenCallbackInfo *info, int prio
     OS_RestoreInterrupts(intr);
 }
 
-
-
-
-
 /*
  * sdk:      PMi_DeleteList (libspi.TWL.HYB.a pm.o)
  */
@@ -1366,10 +931,6 @@ void PMi_DeleteList(PMGenCallbackInfo **listp, PMGenCallbackInfo *info)
     OS_RestoreInterrupts(intr);
 }
 
-
-
-
-
 /*
  * note:     spi/ARM9/pm.o PMi_ExecuteList.
  */
@@ -1381,10 +942,6 @@ void PMi_ExecuteList(PMGenCallbackInfo *listp)
     }
 }
 
-
-
-
-
 /*
  * note:     spi/ARM9/pm.o PM_PrependPostSleepCallback.
  */
@@ -1392,9 +949,6 @@ void PM_PrependPreSleepCallback(void *info)
 {
     PMi_InsertList((PMGenCallbackInfo **)g_0215301C, info, -255, 1);
 }
-
-
-
 
 /*
  * note:     spi/ARM9/pm.o PM_AppendPostSleepCallback.  Pool word is 0x02153004
@@ -1406,9 +960,6 @@ void PM_AppendPostSleepCallback(void *info)
     PMi_InsertList((PMGenCallbackInfo **)g_02153004, info, 255, 0);
 }
 
-
-
-
 /*
  * sdk:      PMi_InsertPostSleepCallbackEx (libspi.TWL.HYB.a pm.o)
  */
@@ -1417,26 +968,15 @@ void PMi_InsertPreSleepCallbackEx(struct PMiGenCallbackInfo *info, int priority)
     PMi_InsertList(&PMi_PostSleepCallbackList, info, priority, 0);
 }
 
-
-
 void PM_DeletePreSleepCallback(PMGenCallbackInfo *info)
 {
     PMi_DeleteList((PMGenCallbackInfo **)g_0215301C, info);
 }
 
-
-
-
 void PM_DeletePostSleepCallback(PMGenCallbackInfo *info)
 {
     PMi_DeleteList(&g_02153000.postSleepCallbackList, info);
 }
-
-
-
-
-
-
 
 void PMi_LCDOnAvoidReset(void)
 {
@@ -1456,9 +996,6 @@ void PMi_LCDOnAvoidReset(void)
     }
     g_020A8724 = preMethod;
 }
-
-
-
 
 void PMi_SetDispOffCount(void)
 {

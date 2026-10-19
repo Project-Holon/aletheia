@@ -17,7 +17,7 @@
  * symbols:
  *   TOWN_MAP_SPOT_Classify  0x0216FE2C  thumb  ov010
  */
-#include "waza_oshie_shared_types.h"
+#include "../types.h"
 
 struct Rec {
     u8 x;

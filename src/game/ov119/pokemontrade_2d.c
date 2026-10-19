@@ -247,11 +247,7 @@ struct Cmd;
 struct Chan02021FD8;
 struct PalAnmSlot;
 struct Node;
-typedef signed short s16;
-
-typedef signed int s32;
-
-typedef signed long long s64;
+#include "../types.h"
 
 typedef struct { unsigned int w[2]; } Tbl2;
 
@@ -317,12 +313,6 @@ typedef struct { u32 f0, f4, size; u16 data[1]; } Pal;
 typedef struct { short v; void *p; void (*fn)(void *); } Callback;
 
 typedef struct { void *a, *b; u32 size, c, d; } Slot;
-
-typedef signed char        s8;
-
-typedef s32 fx32;
-
-typedef s64 fx64;
 
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
@@ -627,7 +617,6 @@ extern const BgTemplate gCursorBgTemplate;
 extern const PointTable8 gOfferWindowPos;
 extern const ByteTable8 gOfferWindowActorTable;
 
-
 unsigned char POKETRADE_2D_GetMonMarkingIcon(void *mon, unsigned int heap)
 {
     int old;
@@ -654,7 +643,6 @@ unsigned char POKETRADE_2D_GetMonMarkingIcon(void *mon, unsigned int heap)
     return result;
 }
 
-
 void POKETRADE_2D_BuildBoxMarkingTable(char *p, int box, unsigned char *out)
 {
     unsigned char i;
@@ -662,7 +650,6 @@ void POKETRADE_2D_BuildBoxMarkingTable(char *p, int box, unsigned char *out)
     for (i = 0; i < 30; i++)
         out[i] = POKETRADE_2D_GetMonMarkingIcon(BOX_SAVEDATA_GetPokemon((*(void * *)&((TradeWork *)p)->boxManager), box, i), ((TradeWork *)p)->heapId);
 }
-
 
 void POKETRADE_2D_BuildPartyMarkingTable(char *p, void *party, unsigned char *out)
 {
@@ -677,7 +664,6 @@ void POKETRADE_2D_BuildPartyMarkingTable(char *p, void *party, unsigned char *ou
     }
 }
 
-
 int POKETRADE_2D_BuildMarkingTablesFrom(char *p, int i)
 {
     while (i < ((TradeWork *)p)->partyBoxId + 1) {
@@ -691,7 +677,6 @@ int POKETRADE_2D_BuildMarkingTablesFrom(char *p, int i)
     return 0;
 }
 
-
 /*
  * Unlabelled Thumb tail-call wrapper after pool_021E3E3C, seeded so that
  * ov117 POKETRADE_IRCDEMO_StepSetup has a witness: forwards the two ov119 tables and the
@@ -704,7 +689,6 @@ void POKETRADE_2D_InitClactSystemMain(char *p)
     CLACT_InitSystem((struct SysInit *)gClactConfigMain, (struct DispVramCfg *)gClactInitData, ((TradeWork *)p)->heapId);
 }
 
-
 /*
  * Tail call: forward the two ov119 data pointers and *(u16*)(p+0x5f4) to
  * the ARM helper. Non-SDK dep of POKETRADE_SAVE_ResetClactAndBeginEvent's preamble.
@@ -715,7 +699,6 @@ void POKETRADE_2D_InitClactSystemSub(void *p)
 {
     CLACT_InitSystem((struct SysInit *)(&gClactConfigSub), (struct DispVramCfg *)(&gClactInitData), ((TradeWork *)p)->heapId);
 }
-
 
 void POKETRADE_2D_LoadBackgroundGfx(char *p)
 {
@@ -734,7 +717,6 @@ void POKETRADE_2D_LoadBackgroundGfx(char *p)
     ARC_TOOL_DeleteHandle(v);
 }
 
-
 void POKETRADE_2D_FreeBackgroundPalette(char *p)
 {
     u32 v;
@@ -745,7 +727,6 @@ void POKETRADE_2D_FreeBackgroundPalette(char *p)
     (*(unsigned int *)&((TradeWork *)p)->subBgHandle) = 0;
 }
 
-
 void POKETRADE_2D_LoadSubBackgroundGfx(char *p)
 {
     void *v;
@@ -754,14 +735,12 @@ void POKETRADE_2D_LoadSubBackgroundGfx(char *p)
     ARC_TOOL_DeleteHandle(v);
 }
 
-
 /*
  * Empty stub.
  */
 void POKETRADE_2D_NoOp(void *p)
 {
 }
-
 
 void POKETRADE_2D_LoadMainGfxAndMessageWindow(char *p)
 {
@@ -775,12 +754,10 @@ void POKETRADE_2D_LoadMainGfxAndMessageWindow(char *p)
     POKETRADE_2D_LoadBoxScreenData(p, (int)((*(void * *)&((TradeWork *)p)->boxBgHandle)));
 }
 
-
 void POKETRADE_2D_CreateFontResource(char *p)
 {
     (*(void * *)&((TradeWork *)p)->fontBgHandle) = BMP_MENUWORK_LoadFrameGfx((unsigned int)6, 15, 0, ((TradeWork *)p)->heapId);
 }
-
 
 void POKETRADE_2D_FreeMainResources(char *p)
 {
@@ -799,7 +776,6 @@ void POKETRADE_2D_FreeMainResources(char *p)
     }
 }
 
-
 void POKETRADE_2D_RegisterIconCharResources(char *p)
 {
     void *v;
@@ -813,7 +789,6 @@ void POKETRADE_2D_RegisterIconCharResources(char *p)
         ARC_TOOL_DeleteHandle(v);
     }
 }
-
 
 void POKETRADE_2D_LoadSummaryBackground(char *p, int shiftScroll, int bgIndex)
 {
@@ -831,7 +806,6 @@ void POKETRADE_2D_LoadSummaryBackground(char *p, int shiftScroll, int bgIndex)
     BG_SYS_SetPlaneVisible(4, 1);
 }
 
-
 void POKETRADE_2D_ClearSummaryBackground(char *p)
 {
     BG_SYS_SetPlaneVisible(4, 0);
@@ -840,7 +814,6 @@ void POKETRADE_2D_ClearSummaryBackground(char *p)
     BG_SYS_ClearSlot(4);
     BG_SYS_MarkTileDirty(4);
 }
-
 
 unsigned short POKETRADE_2D_GetBoxScreenEntry(int i, int row, char *p, int mode)
 {
@@ -859,7 +832,6 @@ unsigned short POKETRADE_2D_GetBoxScreenEntry(int i, int row, char *p, int mode)
             return (*(unsigned short **)(p + 0x1174))[i + (row * 32 + 18)];
     }
 }
-
 
 /*
  * lever: initialize the inner counter before calculating the two outer cursors.
@@ -887,7 +859,6 @@ int POKETRADE_2D_HitTestBoxGrid(char *p, int x, int y)
     return 0;
 }
 
-
 void POKETRADE_2D_DrawBoxGridScreen(char *p)
 {
     int x, y, n, mode;
@@ -903,7 +874,6 @@ void POKETRADE_2D_DrawBoxGridScreen(char *p)
     ((TradeWork *)p)->redrawNeeded = 1;
     BG_SYS_MarkTileDirty(7);
 }
-
 
 /*
  * 2026-10-03 (wB3 lane07): EXACT. The doubled zero-extension of the loop-invariant
@@ -929,7 +899,6 @@ void POKETRADE_2D_LoadBoxScreenData(char *p, int d)
     POKETRADE_2D_DrawBoxGridScreen(p);
 }
 
-
 void POKETRADE_2D_FreeBoxScreenData(char *p)
 {
     if (((TradeWork *)p)->tilemapE) {
@@ -943,7 +912,6 @@ void POKETRADE_2D_FreeBoxScreenData(char *p)
         ((TradeWork *)p)->tilemap1A = 0;
     }
 }
-
 
 /*
  * arithmetic: count additions wrap unsigned then compare signed results; indexed address uses typed word-pointer addition under valid-object preconditions; the guarded int counter never increments above INT_MAX.
@@ -993,7 +961,6 @@ void POKETRADE_2D_CreateBoxWindows(char *p)
 done:;
 }
 
-
 void POKETRADE_2D_DeleteBoxWindows(char *p)
 {
     int i;
@@ -1004,7 +971,6 @@ void POKETRADE_2D_DeleteBoxWindows(char *p)
         }
     }
 }
-
 
 /*
  * arithmetic: full-word index and scroll ADD/SUB/MUL use modulo-2^32 arithmetic; casts restore the original signed comparisons.
@@ -1051,7 +1017,6 @@ void POKETRADE_2D_DrawBoxNames(char *p)
     BG_SYS_MarkTileDirty(5);
 }
 
-
 void POKETRADE_2D_CreateBoxIconActors(char *p)
 {
     int i, j, z;
@@ -1086,7 +1051,6 @@ void POKETRADE_2D_CreateBoxIconActors(char *p)
     ARC_TOOL_DeleteHandle(arc);
 }
 
-
 /*
  * follower: two zero padding bytes at 0x021E4886 before labelled 021E4888.
  */
@@ -1109,7 +1073,6 @@ void POKETRADE_2D_DeleteBoxIconRow(char *p, int n)
     }
 }
 
-
 void POKETRADE_2D_DeleteAllBoxIcons(char *p)
 {
     int i;
@@ -1126,7 +1089,6 @@ void POKETRADE_2D_DeleteAllBoxIcons(char *p)
     if (((TradeWork *)p)->vramBuf) GFL_HEAP_Free(((TradeWork *)p)->vramBuf);
     ((TradeWork *)p)->vramBuf = 0;
 }
-
 
 void POKETRADE_2D_DeleteOfferIcons(char *p)
 {
@@ -1159,13 +1121,11 @@ void POKETRADE_2D_DeleteOfferIcons(char *p)
     }
 }
 
-
 void POKETRADE_2D_GetGridCellPos(int x, int y, unsigned short *out)
 {
     out[0] = (x + 1) * 0x18;
     out[1] = y * 0x18 + 0x48;
 }
-
 
 int POKETRADE_2D_ResolveGridCell(int v, int a, int b, char *p, int *out)
 {
@@ -1183,7 +1143,6 @@ int POKETRADE_2D_ResolveGridCell(int v, int a, int b, char *p, int *out)
     return 0;
 }
 
-
 char *POKETRADE_2D_GetGridCellMon(int a, int b, char *p)
 {
     int n;
@@ -1195,7 +1154,6 @@ char *POKETRADE_2D_GetGridCellMon(int a, int b, char *p)
         return POKETRADE_PROC_GetSlotMonPtr(((TradeWork *)p)->partyBoxId, a + b * 2, p);
     return 0;
 }
-
 
 void POKETRADE_2D_PlaceBoxIconActors(char *p)
 {
@@ -1215,7 +1173,6 @@ void POKETRADE_2D_PlaceBoxIconActors(char *p)
     }
 }
 
-
 int POKETRADE_2D_IsBoxIconFiltered(char *p, int i)
 {
     int v = ((TradeWork *)p)->filterIndex;
@@ -1225,7 +1182,6 @@ int POKETRADE_2D_IsBoxIconFiltered(char *p, int i)
     return 0;
 }
 
-
 int POKETRADE_2D_IsBoxIconMatch(int i, int x)
 {
     if (x == gBoxIconFilter[i]) {
@@ -1233,7 +1189,6 @@ int POKETRADE_2D_IsBoxIconMatch(int i, int x)
     }
     return 0;
 }
-
 
 /*
  * Normalise the third argument to 0 or 1 and tail call the setter.
@@ -1243,7 +1198,6 @@ void POKETRADE_2D_SetIconObjMode(int unused, int actor, int enable)
     CLACT_SetActorObjMode((struct Actor *)actor, enable != 0);
 }
 
-
 void POKETRADE_2D_UpdateIconObjMode(char *p, int gridSlot, int column, int recordId, int cellKind, int row)
 {
     int flag = 0;
@@ -1252,7 +1206,6 @@ void POKETRADE_2D_UpdateIconObjMode(char *p, int gridSlot, int column, int recor
     }
     POKETRADE_2D_SetIconObjMode((int)p, ((int (*)[5])(p + 0xAC0))[row][column], flag);
 }
-
 
 void POKETRADE_2D_CreateBoxIcon(char *p, int v, int a, int row, int flag)
 {
@@ -1317,7 +1270,6 @@ void POKETRADE_2D_CreateBoxIcon(char *p, int v, int a, int row, int flag)
     }
 }
 
-
 /*
  * lever: a separate adjusted-coordinate local keeps the subtraction before division.
  */
@@ -1340,7 +1292,6 @@ int POKETRADE_2D_GetScrollColumn(char *p)
     return x;
 }
 
-
 int POKETRADE_2D_GetVisibleColumnRange(char *p, int *out)
 {
     int x, hi, n, t;
@@ -1360,7 +1311,6 @@ int POKETRADE_2D_GetVisibleColumnRange(char *p, int *out)
     }
     return 0;
 }
-
 
 /*
  * lever: i before n gives n the earlier spill slot.
@@ -1387,7 +1337,6 @@ void POKETRADE_2D_UpdateVisibleColumns(int a, char *p, int b)
     }
     POKETRADE_2D_UpdateBoxIconPositions(p);
 }
-
 
 /*
  * lever:    the hoisted column sum is written inside the else arm as two statements.
@@ -1436,7 +1385,6 @@ void POKETRADE_2D_UpdateBoxIconPositions(char *p)
     }
 }
 
-
 /*
  * lever: initial guard is a forward goto, with the exit after the body.
  */
@@ -1468,7 +1416,6 @@ done:
     ARC_TOOL_DeleteHandle(a);
 }
 
-
 /*
  * Signed remainder by 12.  The MSL divide helper returns the quotient in r0
  * and the remainder in r1, so `x % 12` moves r1 down to r0.
@@ -1477,7 +1424,6 @@ s32 POKETRADE_2D_WrapIndex12(s32 x)
 {
     return x % 12;
 }
-
 
 /*
  * extent: two zero padding bytes at 0x021E51A2.
@@ -1489,7 +1435,6 @@ void POKETRADE_2D_HideAllBoxIcons(int p)
         for (j = 0; j < 5; j++)
             CLACT_SetActorDrawEnable((struct Actor *)*(int *)(p + i * 20 + j * 4 + 0xac0), 0);
 }
-
 
 /*
  * lever: pos precedes the integer locals; a typed return-base temporary
@@ -1527,7 +1472,6 @@ int POKETRADE_2D_HitTestBoxIcons(char *p,int x,int y,int *outA,int *outB,int *ou
  return 0;
 }
 
-
 /*
  * interface: 02040618's legacy fourth argument is forwarded only to
  * 02042360, whose complete matched body reads r0-r2 and never r3.
@@ -1555,7 +1499,6 @@ void POKETRADE_2D_SetupSummaryBgs(char *p,int mode)
  }
 }
 
-
 void POKETRADE_2D_ExitSummaryBgs(int p)
 {
     if (((TradeWork *)p)->summaryActive != 0) {
@@ -1566,7 +1509,6 @@ void POKETRADE_2D_ExitSummaryBgs(int p)
     }
 }
 
-
 void POKETRADE_2D_InitDisplayAndClact(char *p)
 {
     BG_SYS_SetVramBanks((const struct DispVram *)gClactInitData);
@@ -1575,7 +1517,6 @@ void POKETRADE_2D_InitDisplayAndClact(char *p)
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
 }
-
 
 void POKETRADE_2D_SetupMainBgs(void *unused)
 {
@@ -1592,18 +1533,13 @@ void POKETRADE_2D_SetupMainBgs(void *unused)
  BG_SYS_EnableBg0WithPriority(0);BG_SYS_SetPlaneVisible(0,1);BG_SYS_SetPriority(0,0);
 }
 
-
 static inline void shading(Shading s) { *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~0x3002) | (s << 1)); }
-
 
 static inline void antialias(int b) { if(b) *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~0x3000) | 0x10); else *(volatile u16 *)0x04000060 &= (u16)~0x3010; }
 
-
 static inline void blend(int b) { if(b) *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~0x3000) | 8); else *(volatile u16 *)0x04000060 &= (u16)~0x3008; }
 
-
 static inline void edge(int b) { if(b) *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~0x3000) | 0x20); else *(volatile u16 *)0x04000060 &= (u16)~0x3020; }
-
 
 /*
  * volatile: 0x04000060 reread at 021E552E, 021E553E, 021E554A, 021E5556; 0x04000008 display register; 0x04000580 hardware store at 021E557A.
@@ -1619,7 +1555,6 @@ void POKETRADE_2D_Setup3DRenderState(void)
     for(i=0;i<4;i++) G3D_SYSTEM_SetLight((u8)i,(struct G3dLight *)(gRenderLightTable+i*8));
     *(volatile u16 *)0x04000008 = (u16)((*(volatile u16 *)0x04000008 & ~3) | 2);
 }
-
 
 /*
  * lever: const camera s16 table keeps loads interleaved with stack arguments.
@@ -1638,13 +1573,6 @@ void POKETRADE_2D_InitG3DSystem(char *p)
     G3D_SYSTEM_SetSwapBuffersMode(0,0);
 }
 
-
-
-
-
-
-
-
 void POKETRADE_2D_SetupSubBgs(char *p)
 {
  BgTemplate a,b,c,d;
@@ -1654,13 +1582,6 @@ void POKETRADE_2D_SetupSubBgs(char *p)
  d=gSubBgTemplate6;BG_SYS_InitBgLayer(6,&d,0);BG_SYS_Init(6,0,1,0);BG_SYS_SetTileEntry(6,0,0,0,32,24,17);BG_SYS_PushTile(6);
  p[0x11eb]=1;
 }
-
-
-
-
-
-
-
 
 void POKETRADE_2D_ExitSubBgs(char *p)
 {
@@ -1675,24 +1596,10 @@ void POKETRADE_2D_ExitSubBgs(char *p)
     }
 }
 
-
-
-
-
-
-
-
 void POKETRADE_2D_SetDisplayConfig(int i)
 {
     BG_SYS_SetGraphicsMode((struct DispConfig *)(gDisplayConfig + i * 16));
 }
-
-
-
-
-
-
-
 
 void POKETRADE_2D_RegisterMarkerResources(int p)
 {
@@ -1706,13 +1613,6 @@ void POKETRADE_2D_RegisterMarkerResources(int p)
     }
 }
 
-
-
-
-
-
-
-
 void POKETRADE_2D_ReleaseMarkerResources(char *p)
 {
     if (((TradeWork *)p)->charA != 0) {
@@ -1724,13 +1624,6 @@ void POKETRADE_2D_ReleaseMarkerResources(char *p)
         ((TradeWork *)p)->cellAnimD = 0;
     }
 }
-
-
-
-
-
-
-
 
 void POKETRADE_2D_RegisterIconSpriteResources(char *p)
 {
@@ -1747,26 +1640,12 @@ void POKETRADE_2D_RegisterIconSpriteResources(char *p)
     CLACT_SetActorDrawEnable((struct Actor *)((TradeWork *)p)->cursorActor, 1);
 }
 
-
-
-
-
-
-
-
 void POKETRADE_2D_LoadMainPalette(char *p)
 {
     void *a = ARC_TOOL_CreateHandle(0x66, ((TradeWork *)p)->heapId);
     ARC_UTIL_UploadBgPaletteAddFromHandle(a, (int)0x1d, (int)2, (int)0, (u16)(((TradeWork *)p)->subBgHandle), (int)0, (int)0, ((TradeWork *)p)->heapId);
     ARC_TOOL_DeleteHandle(a);
 }
-
-
-
-
-
-
-
 
 void POKETRADE_2D_CreateTouchbarActors(char *p)
 {
@@ -1819,13 +1698,6 @@ void POKETRADE_2D_CreateTouchbarActors(char *p)
     ARC_TOOL_DeleteHandle(arc);
 }
 
-
-
-
-
-
-
-
 /*
  * lever: first y ternary is b == 0 ? 8 : 12 to retain branch polarity.
  */
@@ -1844,14 +1716,6 @@ void POKETRADE_2D_PlaceTouchbarActors(char *p, int b, int c)
         CLACT_AddActorSurfacePos((struct Obj *)(((TradeWork *)p)->iconActorB), (const struct Vec2 *)(&pos), 1);
     }
 }
-
-
-
-
-
-
-
-
 
 void POKETRADE_2D_DeleteTouchbarActors(void *a)
 {
@@ -1874,13 +1738,6 @@ void POKETRADE_2D_DeleteTouchbarActors(void *a)
     ((TradeWork *)a)->charB = 0;
     ((TradeWork *)a)->charC = 0;
 }
-
-
-
-
-
-
-
 
 void POKETRADE_2D_LoadSubScreenGfx(char *p)
 {
@@ -1907,13 +1764,6 @@ void POKETRADE_2D_LoadSubScreenGfx(char *p)
     BG_SYS_SetPlaneVisible(6, 1);
 }
 
-
-
-
-
-
-
-
 /*
  * lever: byte-pointer base keeps counter in r4, element base in r5.
  */
@@ -1935,13 +1785,6 @@ void POKETRADE_2D_ClearSubScreen(char *p)
     }
     BG_SYS_MarkTileDirty(6);
 }
-
-
-
-
-
-
-
 
 /*
  * interface: x/y are u8 at 021E5ED6..021E5EE2; ov067's own u16 coordinate prototype is narrowed for this caller.
@@ -1991,14 +1834,6 @@ void POKETRADE_2D_CreateMarkingIcon(char *p, int side, void *mon)
     ((struct UiScene *)q)->actor = (void *)UI_SCENE_CreateActor(q,((TradeWork *)p)->clactSystem,x,y,flag,((TradeWork *)p)->heapId);
 }
 
-
-
-
-
-
-
-
-
 void POKETRADE_2D_DeleteMarkingIcon(void *p)
 {
     if (((struct UiScene *)p)->actor) {
@@ -2007,13 +1842,6 @@ void POKETRADE_2D_DeleteMarkingIcon(void *p)
         ((struct UiScene *)p)->actor = 0;
     }
 }
-
-
-
-
-
-
-
 
 /*
  * interface: x is narrowed to u8 at 021E5FE4/021E5FEC although ov067's callee declares u16.
@@ -2048,11 +1876,6 @@ void POKETRADE_2D_CreatePokerusIcon(char *p, int side, int flag, void *mon)
     else ((struct UiScene *)q)->actor = (void *)UI_SCENE_CreateActor(q,((TradeWork *)p)->clactSystem,side*128+108,24,0,((TradeWork *)p)->heapId);
 }
 
-
-
-
-
-
 /*
  * lever: caller truncates x to u8 despite callee's wider x type.
  */
@@ -2077,10 +1900,6 @@ void POKETRADE_2D_CreateCuredPokerusIcon(char *p, int b, void *c)
     UI_SCENE_LoadActorGfx(q, (ActorGfxDesc *)&in, ((TradeWork *)p)->clactSystem, ((TradeWork *)p)->heapId);
     ((struct UiScene *)q)->actor = (void *)UI_SCENE_CreateActor(q, ((TradeWork *)p)->clactSystem, 108 + b * 128, 20, 13, ((TradeWork *)p)->heapId);
 }
-
-
-
-
 
 /*
  * lever: signed long loop index, u8-qualified guard base versus char-qualified creation base, and mutable p keep the byte index live without a cached address spill.
@@ -2141,11 +1960,6 @@ void POKETRADE_2D_CreateSummaryIcons(char *p,void *mon,int flag)
     }
 }
 
-
-
-
-
-
 void POKETRADE_2D_DeleteSummaryIcons(void *p)
 {
     char *q = (char *)p + 0x98c;
@@ -2162,20 +1976,11 @@ void POKETRADE_2D_DeleteSummaryIcons(void *p)
     }
 }
 
-
-
-
-
 void POKETRADE_2D_UploadWindowPalette(char *p, int n, u32 x) {
     int offset = n * 32;
     ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,x,offset,32,((TradeWork *)p)->heapId);
     ARC_UTIL_UploadPaletteFromArchive(APP_ICON_GetArchiveId(),31,x,28,offset+28,4,((TradeWork *)p)->heapId);
 }
-
-
-
-
-
 
 void POKETRADE_2D_DeleteOfferIconActor(TradeWork *p, int a, int b)
 {
@@ -2186,10 +1991,6 @@ void POKETRADE_2D_DeleteOfferIconActor(TradeWork *p, int a, int b)
     }
 }
 
-
-
-
-
 void POKETRADE_2D_SetOfferIconsVisible(TradeWork *p, int a, int v)
 {
     int i;
@@ -2198,9 +1999,6 @@ void POKETRADE_2D_SetOfferIconsVisible(TradeWork *p, int a, int v)
             CLACT_SetActorDrawEnable((struct Actor *)p->offerIconActor[a][i], v);
     }
 }
-
-
-
 
 /*
  * initialization: both coordinate arms initialize x/y; z/a/b are stored before creation.
@@ -2229,9 +2027,6 @@ void POKETRADE_2D_CreateOfferIconActor(char *p,int i,int j,void *mon,int selecte
     ARC_TOOL_DeleteHandle((void *)((int)h));
 }
 
-
-
-
 void POKETRADE_2D_UpdateOfferIconHighlight(void *p, int a, int b) {
     int i,j;
     PointS16 pos;
@@ -2246,10 +2041,6 @@ void POKETRADE_2D_UpdateOfferIconHighlight(void *p, int a, int b) {
     }
 }
 
-
-
-
-
 void POKETRADE_2D_DeleteAllOfferIconActors(void *p)
 {
     int j, i;
@@ -2259,9 +2050,6 @@ void POKETRADE_2D_DeleteAllOfferIconActors(void *p)
             POKETRADE_2D_DeleteOfferIconActor((TradeWork *)p, i, j);
 }
 
-
-
-
 void POKETRADE_2D_CreateFloatingIconActor(int p, int i, int j, int x, int y, void *q) {
     Create c;
     c.x=x; c.y=y; c.z=1; c.a=0; c.b=0;
@@ -2269,13 +2057,7 @@ void POKETRADE_2D_CreateFloatingIconActor(int p, int i, int j, int x, int y, voi
     CLACT_SetActorPaletteOffset((struct Actor *)(((TradeWork *)p)->iconActorC),POKE_TOOL_GetIconPalette(q),1);
 }
 
-
-
-
 static inline int mul(int a,int b) { return (int)(((s64)a*b+0x800LL)>>12); }
-
-
-
 
 /*
  * initialization: 0204B454 writes both signed coordinates; all four vector arguments are fully assigned before 021E7248 reads each three-word object.
@@ -2300,9 +2082,6 @@ void POKETRADE_2D_StartIconFlight(char *p)
     ((TradeWork *)p)->flightTimer=21;
 }
 
-
-
-
 int POKETRADE_2D_UpdateIconFlight(char *p) {
     PointS16 pos;
     if (((TradeWork *)p)->flightTimer) {
@@ -2321,10 +2100,6 @@ int POKETRADE_2D_UpdateIconFlight(char *p) {
     return 0;
 }
 
-
-
-
-
 void POKETRADE_2D_DeleteFloatingIconActor(void *p)
 {
     if (((TradeWork *)p)->iconActorC) {
@@ -2333,17 +2108,10 @@ void POKETRADE_2D_DeleteFloatingIconActor(void *p)
     }
 }
 
-
-
-
-
 void POKETRADE_2D_SetupSubBlend(void *p)
 {
     G2x_SetBlendAlpha_((u32 *)0x04001050, 0, 15, 8, 8);
 }
-
-
-
 
 void POKETRADE_2D_CreateMarkerActor(char *p, int i) {
     Create c;
@@ -2355,16 +2123,10 @@ void POKETRADE_2D_CreateMarkerActor(char *p, int i) {
     CLACT_SetActorDrawEnable((struct Actor *)*(int *)(p+0x10bc+i*4),1);
 }
 
-
-
-
 void POKETRADE_2D_SetMarkerActorVisible(void *p, int i, int a)
 {
     CLACT_SetActorDrawEnable((struct Actor *)*(int *)((char *)p + i * 4 + 0x10bc), a);
 }
-
-
-
 
 void POKETRADE_2D_DeleteMarkerActor(void *p, int i)
 {
@@ -2374,15 +2136,10 @@ void POKETRADE_2D_DeleteMarkerActor(void *p, int i)
     }
 }
 
-
-
-
 void POKETRADE_2D_SetMarkerActorAnim(void *p, int i)
 {
     CLACT_SetActorAnimSeq((struct Actor *)(*(int *)((char *)p + i * 4 + 0x10bc)), (u16)(i + 15));
 }
-
-
 
 void POKETRADE_2D_CreateMarkerButtonActor(Work *p, int z, int i) {
     Create c;
@@ -2404,16 +2161,12 @@ void POKETRADE_2D_CreateMarkerButtonActor(Work *p, int z, int i) {
     }
 }
 
-
-
 static inline void clear(int p, int i) {
     if (*(int *)(p+i*4+0x10ac)) {
         CLACT_DeleteActor((struct Actor *)(*(int *)(p+i*4+0x10ac)));
         *(int *)(p+(unsigned int)i*4+0x10ac)=0;
     }
 }
-
-
 
 /*
  * lever: unsigned cast on the store index prevents address CSE with the signed read index; without it 56 bytes, 37 byte DIFF.
@@ -2423,8 +2176,6 @@ void POKETRADE_2D_DeleteMarkerButtonPair(int p, int n) {
     clear(p,i+1);
     clear(p,i);
 }
-
-
 
 void POKETRADE_2D_MovePickedIconActor(void *p, int i) {
     PointTable6 t=gPickedIconPath;
@@ -2442,9 +2193,6 @@ void POKETRADE_2D_MovePickedIconActor(void *p, int i) {
     }
 }
 
-
-
-
 void POKETRADE_2D_DeletePickedIconActor(char *p)
 {
     if (((TradeWork *)p)->pickedIconActor) {
@@ -2452,8 +2200,6 @@ void POKETRADE_2D_DeletePickedIconActor(char *p)
         ((TradeWork *)p)->pickedIconActor = 0;
     }
 }
-
-
 
 /*
  * output: 0204B454 writes both halfwords via 0204B53C and 0204CF74/0204B0C8.
@@ -2489,8 +2235,6 @@ int POKETRADE_2D_StepCursorSlide(char *p)
     BG_SYS_ChangeScrollImmediate(4,0,((TradeWork *)p)->fadeLevel-128);
     return 0;
 }
-
-
 
 /*
  * lever: split temporary for first loop base and second loop index; 10-byte
@@ -2534,8 +2278,6 @@ void POKETRADE_2D_SetCursorSlidePositions(const char *p)
     BG_SYS_SetPriority(5,3);
 }
 
-
-
 void POKETRADE_2D_SetupCursorBg(char *p)
 {
     void *h;
@@ -2559,7 +2301,6 @@ void POKETRADE_2D_SetupCursorBg(char *p)
     BG_SYS_SetSubVisiblePlanes(0x1f);
 }
 
-
 void POKETRADE_2D_CreateOfferWindows(char *p)
 {
     PointTable8 t = gOfferWindowPos;
@@ -2580,7 +2321,6 @@ void POKETRADE_2D_CreateOfferWindows(char *p)
     ARC_TOOL_DeleteHandle(h);
 }
 
-
 void POKETRADE_2D_DeleteOfferWindowActors(char *p) {
     int i;
     for (i=0;i<8;i++) {
@@ -2597,7 +2337,6 @@ void POKETRADE_2D_DeleteOfferWindowActors(char *p) {
     if (((TradeWork *)p)->paletteE) {CLACT_ReleaseCellAnim(((TradeWork *)p)->cellAnimH);((TradeWork *)p)->paletteE=0;}
 }
 
-
 void POKETRADE_2D_UpdateOfferWindowActors(char *p) {
     ByteTable8 t=gOfferWindowActorTable;
     int i,j;
@@ -2609,7 +2348,6 @@ void POKETRADE_2D_UpdateOfferWindowActors(char *p) {
         for(j=0;j<8;j++) {GXS_LoadOBJ(source+t.v[j]*256,(u32)dest,256);dest+=256;}
     }
 }
-
 
 void POKETRADE_2D_LoadMonPalette(char *p, int side, void *mon)
 {
@@ -2638,9 +2376,7 @@ void POKETRADE_2D_LoadMonPalette(char *p, int side, void *mon)
     BG_SYS_MarkTileDirty(1);
 }
 
-
 void POKETRADE_2D_OnCursorAnimDone(char *p) { p[0x11f5]=1; }
-
 
 void POKETRADE_2D_CreateCursorActor(char *p, int x, int y) {
     Callback cb;
@@ -2655,8 +2391,6 @@ void POKETRADE_2D_CreateCursorActor(char *p, int x, int y) {
     CLACT_ApplyActorAnimCommand((struct Actor *)(((TradeWork *)p)->iconActorD),(const struct Cmd *)(&cb));
 }
 
-
-
 void POKETRADE_2D_DeleteCursorActor(void *p)
 {
     if (((TradeWork *)p)->iconActorD) {
@@ -2666,8 +2400,6 @@ void POKETRADE_2D_DeleteCursorActor(void *p)
     }
 }
 
-
-
 int POKETRADE_2D_ClearCursorIfDisabled(void *p)
 {
     if (*((unsigned char *)p + 0x11f5)) {
@@ -2676,7 +2408,6 @@ int POKETRADE_2D_ClearCursorIfDisabled(void *p)
     }
     return 1;
 }
-
 
 /*
  * interface: 02021540 forwards live r0 to 020307B0, so caller passes s.
@@ -2708,8 +2439,6 @@ void POKETRADE_2D_FadePaletteBank(char *p, int bank, int mask)
     PALANM_Delete(s);
 }
 
-
-
 void POKETRADE_2D_FadePaletteCopy(void *p, int capture, int bank, int mask)
 {
     if (capture != 0) {
@@ -2733,14 +2462,10 @@ void POKETRADE_2D_FadePaletteCopy(void *p, int capture, int bank, int mask)
     }
 }
 
-
-
 void POKETRADE_2D_FadePaletteAll(void *p, int a)
 {
     POKETRADE_2D_FadePaletteCopy(p, a, 3, 0xfffe);
 }
-
-
 
 /*
  * GFL_USE_GetMainTaskList (ARM9, unlabelled Thumb leaf) was filed EXACT by the
@@ -2753,14 +2478,10 @@ void POKETRADE_2D_ScheduleMainPlaneVisible(void *p, int a)
     TCB_AddTask((struct TcbSystem *)GFL_USE_GetMainTaskList(), (void (*)(void))POKETRADE_2D_TaskSetMainPlaneVisible, (void *)a, 0xa);
 }
 
-
-
 void POKETRADE_2D_ScheduleSubPlaneVisible(void *p, int a)
 {
     TCB_AddTask((struct TcbSystem *)GFL_USE_GetMainTaskList(), (void (*)(void))POKETRADE_2D_TaskSetSubPlaneVisible, (void *)a, 0xa);
 }
-
-
 
 void POKETRADE_2D_TaskSetMainPlaneVisible(void *p, int a)
 {
@@ -2768,15 +2489,11 @@ void POKETRADE_2D_TaskSetMainPlaneVisible(void *p, int a)
     TCB_DeleteTask(p);
 }
 
-
-
 void POKETRADE_2D_TaskSetSubPlaneVisible(void *p, int a)
 {
     BG_SYS_SetSubVisiblePlanes(a);
     TCB_DeleteTask(p);
 }
-
-
 
 void POKETRADE_2D_InitBezierCurve(struct BezierCurve *d, VecFx32 *a, VecFx32 *b, VecFx32 *c, VecFx32 *dd, int e)
 {
@@ -2788,7 +2505,6 @@ void POKETRADE_2D_InitBezierCurve(struct BezierCurve *d, VecFx32 *a, VecFx32 *b,
     d->idx = 0;
     d->count = e;
 }
-
 
 int POKETRADE_2D_StepBezierCurve(struct BezierCurve *c)
 {

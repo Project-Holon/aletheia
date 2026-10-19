@@ -29,8 +29,7 @@
  *   LOADER_DECRYPT_ClassifyOpcode  0x02188A0C  arm  ov230
  *   LOADER_DECRYPT_DecodeBlocks  0x02188A48  arm  ov230
  */
-typedef unsigned char u8;
-typedef unsigned int u32;
+#include "../types.h"
 
 extern int LOADER_DECRYPT_ClassifyOpcode(u32 instr);
 extern void LOADER_DECRYPT_DecodeBlocks(u32 *desc);
@@ -82,7 +81,6 @@ void OV230_StreamInit(OvStream *st, const u8 *key, u32 keyLen)
     }
 }
 
-
 /* Next keystream byte: one step of the permutation, offset by the running key word. */
 u8 OV230_StreamNextByte(OvStream *st)
 {
@@ -97,7 +95,6 @@ u8 OV230_StreamNextByte(OvStream *st)
     st->box[x] = b;
     return st->box[(u8)(a + b)];
 }
-
 
 int OV230_FillReverseTable(u8 *table)
 {
@@ -114,7 +111,6 @@ int OV230_FillReverseTable(u8 *table)
     } while (p < end);
     return 0;
 }
-
 
 static inline void SealWord(OvStream *st, u8 *in, u8 *out, const u8 *table)
 {
@@ -165,7 +161,6 @@ int OV230_SealStream(OvStream *st, u8 *src, u8 *dst, u32 size)
     }
     return 0;
 }
-
 
 static inline void OpenWord(OvStream *st, u8 *in, u8 *out, const u8 *table)
 {
@@ -218,7 +213,6 @@ int OV230_OpenStream(OvStream *st, u8 *src, u8 *dst, u32 size)
 }
 #pragma opt_lifetimes reset
 
-
 /* Seals a word buffer with a 16-byte key; the result is 0 or -1 (size not a multiple of 4). */
 int OV230_SealBuffer(const u8 *key, u8 *src, u8 *dst, u32 size)
 {
@@ -228,7 +222,6 @@ int OV230_SealBuffer(const u8 *key, u8 *src, u8 *dst, u32 size)
     return -(OV230_SealStream(&st, src, dst, size) == -1);
 }
 
-
 /* Opens a sealed word buffer with a 16-byte key; the result is 0 or -1 (size not a multiple of 4). */
 int OV230_OpenBuffer(const u8 *key, u8 *src, u8 *dst, u32 size)
 {
@@ -237,7 +230,6 @@ int OV230_OpenBuffer(const u8 *key, u8 *src, u8 *dst, u32 size)
     OV230_StreamInit(&st, key, 16);
     return -(OV230_OpenStream(&st, src, dst, size) == -1);
 }
-
 
 /* hand-written in the original: initialiser entry, r0 = pc + 4 names the range table that follows (the cipher), always nonzero so the bne reaches the decoder; one filler word follows the terminator, never read */
 asm void LOADER_ENTRY_DecryptCipher(void)

@@ -46,8 +46,7 @@
  *   BG_SYS_PushTile  0x020409B4  arm
  *   BG_SYS_FreeTiles  0x02040DA8  arm
  */
-#include "field_g3dobj_shared_types.h"
-#include "event_sweet_scent_shared_types.h"
+#include "../types.h"
 
 /* Sweet Scent field move (021C6068..021C6368)                          */
 #define SWEET_SCENT_NO_POKEMON 6   /* party slots 0..5 are real; 6 and above mean no Pokemon */

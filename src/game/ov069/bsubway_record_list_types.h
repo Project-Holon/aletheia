@@ -7,11 +7,7 @@
  * the screen entry points (Init, Main, Exit) and the setup and teardown of
  * the work; the same file holds the page drawing and the input states. */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed char    s8;
-typedef signed int     s32;
+#include "../types.h"
 
 struct GameData;
 struct WinMgr;

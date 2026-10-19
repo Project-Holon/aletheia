@@ -5,10 +5,7 @@
  * drawn by two expansion-object models (index 0..2 and index 3..5) that each
  * have an "off" animation (0) and an "on" animation (1). */
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed int s32;
+#include "../types.h"
 
 #define FIELD_GIMMICK_SWITCH_TOGGLE_SWITCH_COUNT 3
 #define FIELD_GIMMICK_SWITCH_TOGGLE_SECONDARY_MODEL_OFFSET 3

@@ -22,10 +22,7 @@ struct PalAnmSlot;
 
 typedef enum { SLOT_ZERO, SLOT_LAST = 14 } BtlvSlotIndex;
 
-#ifndef BTLV_U64_DEFINED
-#define BTLV_U64_DEFINED
-typedef unsigned long long u64;
-#endif
+#include "../types.h"
 
 /* Part of the battle setup returned by BTL_MAIN_GetFieldSituation (0x10 bytes): where the battle takes place. */
 typedef struct BtlvEffFieldSituation {

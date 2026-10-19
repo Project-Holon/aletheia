@@ -59,22 +59,11 @@
  *   memcmp  0x020923F0  arm
  */
 #define DWCi_HEAPlFree(p) DWCi_HEAPlFree_((void **)&(p))
-typedef unsigned short u16;
+#include "../types.h"
 
-typedef unsigned long u32;
+#include "../sdk_card.h"
 
-typedef struct CARDRomRegion {
-    u32 offset;
-    u32 length;
-} CARDRomRegion;
-
-typedef struct FSFile {
-    char pad[0x48];
-} FSFile;
-
-typedef struct FSArchive {
-    char pad[0x5c];
-} FSArchive;
+#include "../sdk_fs.h"
 
 typedef struct tagMEMARCHIVE {
     void *table;            /* +0x00 */
@@ -83,8 +72,6 @@ typedef struct tagMEMARCHIVE {
     FSArchive archive;      /* +0x88 */
     u16 lockId;             /* +0xe4 */
 } MEMARCHIVE;
-
-typedef unsigned char  u8;
 
 extern void *DWCi_HEAPlAllocEx(u32 size, int alignment);
 extern void FS_InitFile(FSFile *file);
@@ -129,7 +116,6 @@ extern char sArchiveTable1[4];
 extern MEMARCHIVE *MemArchive;
 extern MEMARCHIVE *MemArchive_b;
 extern char sArchiveTable2[];
-
 
 /*
  * sdk:      DWCi_ARClInit (libdwcutil.TWL.HYB.a(archive.o))
@@ -176,7 +162,6 @@ void DWCi_ARClInit(void)
     FS_ChangeDir(pass);
 }
 
-
 void DWCi_ARClEnd(void)
 {
     FS_ChangeDir("rom:/");
@@ -189,7 +174,6 @@ void DWCi_ARClEnd(void)
     MemArchive->table = 0;
     DWCi_HEAPlFree(MemArchive_b);
 }
-
 
 static int userProc(int unused, unsigned long cmd)
 {
@@ -207,14 +191,12 @@ static int userProc(int unused, unsigned long cmd)
 	}
 }
 
-
 static int cbRead(void *arc, void *dst, unsigned long pos, unsigned long size)
 {
 	unsigned long base = (unsigned int)FS_GetArchiveBase(arc);
 	CARDi_ReadRom(-1, (void *)(pos + base), dst, size, cbReadRom, arc, 1);
 	return 0x100;
 }
-
 
 static void cbReadRom(void *arc)
 {
@@ -225,7 +207,6 @@ int DWCi_ARClCbWrite(void)
 {
     return 1;
 }
-
 
 /*
  * sdk:      DWCi_ARClReadEx (libdwcutil.TWL.HYB.a archive.o)
@@ -263,7 +244,6 @@ void *DWCi_ARClReadEx(char *path, unsigned long *size, int alignment)
     return fle;
 }
 
-
 /*
  * sdk:      DWCi_ARClRelease (libdwcutil.TWL.HYB.a(archive.o))
  */
@@ -272,7 +252,6 @@ void DWCi_ARClRelease(void *file)
 	DWCi_HEAPlFree_(&file);
 	DWCi_QUElPushBack(MemArchive->queue, file);
 }
-
 
 /*
  * sdk:      cmpBack (libdwcutil.TWL.HYB.a(archive.o))

@@ -81,12 +81,7 @@
 extern int strcmp(const char *s1, const char *s2);
 extern int memcmp(unsigned char *s1, unsigned char *s2, unsigned int n);
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed short   s16;
-typedef signed char    s8;
-typedef unsigned long long u64;
+#include "../types.h"
 
 typedef struct {
     int profile;
@@ -289,7 +284,6 @@ void DWCi_BeginCloseStatsConnection(void);
 void DWCi_EndCloseStatsConnection(void);
 void DWCi_GetReverseBuddiesCallback(void **connection, void *argv, void *param);
 
-
 /*
  * Tail call with the last argument moved to the fourth slot.
  */
@@ -297,7 +291,6 @@ u8 DWC_GetFriendStatus(int a, int b)
 {
     return DWC_GetFriendStatusSC((void *)a, 0, 0, (char *)b);
 }
-
 
 /*
  * sdk:      DWC_GetFriendStatusSC (libdwcmatch.TWL.HYB.a(dwc_friend.o))
@@ -345,7 +338,6 @@ u8 DWC_GetFriendStatusSC(void *friendData, u8 *maxEntry, u8 *numEntry, char *sta
     return 0;
 }
 
-
 /*
  * Calls DWC_GetFriendStatusDataSC with two zeroed arguments between the tail arguments.
  */
@@ -354,7 +346,6 @@ unsigned char DWC_GetFriendStatusData(void *p, int a, u8 *b)
     unsigned char DWC_GetFriendStatusDataSC(void *friendData, unsigned char *maxEntry, unsigned char *numEntry, char *statusData, int *size);
     return DWC_GetFriendStatusDataSC(p, 0, 0, (char *)a, (int *)b);
 }
-
 
 /*
  * sdk:      DWC_GetFriendStatusDataSC (libdwcmatch.TWL.HYB.a(dwc_friend.o))
@@ -374,7 +365,6 @@ unsigned char DWC_GetFriendStatusDataSC(void *friendData, unsigned char *maxEntr
 	DWC_Base64Decode(statusString, strlen((const char *)statusString), statusData, *size);
 	return ret;
 }
-
 
 /*
  * sdk:      DWC_SetOwnStatusData (libdwcmatch.TWL.HYB.a(dwc_friend.o))
@@ -397,7 +387,6 @@ int DWC_SetOwnStatusData(char *statusData, unsigned long size)
 	return 0;
 }
 
-
 /*
  * sdk:      DWC_SetBuddyFriendCallback (dwc_friend.o)
  */
@@ -409,7 +398,6 @@ int DWC_SetBuddyFriendCallback(void (*callback)(int, void *), void *param)
     stpFriendCnt->buddyParam = param;
     return 1;
 }
-
 
 void DWCi_FriendInit(FriendCnt *friendCnt, int pGpObj, int userData, int friendList, int friendListLen)
 {
@@ -448,7 +436,6 @@ void DWCi_FriendInit(FriendCnt *friendCnt, int pGpObj, int userData, int friendL
     for (i = 0; i < friendListLen; i++)
         DWCi_SetSentBuddyReqFlag(&stpFriendCnt->friendList[i], 0);
 }
-
 
 /*
  * sdk:      DWCi_FriendProcess (libdwcmatch.TWL.HYB.a dwc_friend.o)
@@ -540,7 +527,6 @@ end:
     stpFriendCnt->stage = 0;
 }
 
-
 /*
  * True when the object at +0xc of the current root exists and its first word
  * is 1.
@@ -553,7 +539,6 @@ int DWCi_IsServerUpdating(void)
     if (p != 0 && p->state == 1) r = 1;
     return r;
 }
-
 
 /*
  * Fill the descriptor hanging off the global at 0x021AA860 (+0x0c): six
@@ -581,7 +566,6 @@ void DWCi_UpdateServersAsync(int authToken, int partnerChallenge, void (*finishC
     stpFriendCnt->stage += 1;
 }
 
-
 /*
  * sdk:      DWCi_StopFriendProcess (dwc_friend.o)
  */
@@ -599,7 +583,6 @@ void DWCi_StopFriendProcess(int error, int errorCode)
     DWCi_CloseFriendProcess();
 }
 
-
 /*
  * sdk:      DWCi_GPRecvBuddyRequestCallback (dwc_friend.o)
  */
@@ -609,7 +592,6 @@ void DWCi_GPRecvBuddyRequestCallback(void **connection, int *arg)
     gpGetInfo(connection, *arg, 0, 0, DWCi_GPGetInfoCallback_RecvBuddyRequest, 0);
 }
 
-
 /*
  * sdk:      DWCi_GPRecvBuddyAuthCallback (dwc_friend.o)
  */
@@ -618,7 +600,6 @@ int DWCi_GPRecvBuddyAuthCallback(void **connection, int *arg)
     gpGetInfo(connection, *arg, 0, 0, DWCi_GPGetInfoCallback_RecvAuthMessage, 0);
     return 1;
 }
-
 
 /*
  * sdk:      DWCi_GPRecvBuddyStatusCallback (libdwcmatch.TWL.HYB.a(dwc_friend.o))
@@ -640,7 +621,6 @@ void DWCi_GPRecvBuddyStatusCallback(void **connection, RecvArg *arg)
 	stpFriendCnt->statusCb(friendIdx, status.status, status.locationString, stpFriendCnt->statusParam);
 }
 
-
 /*
  * DWCi_GetProfileIDFromList: the profile id of a friend list entry, zero when unset or invalid.
  */
@@ -658,7 +638,6 @@ int DWCi_GetProfileIDFromList(int index)
     }
     return 0;
 }
-
 
 /*
  * DWCi_GetFriendListIndex: the friend list index holding a profile id, or -1.
@@ -678,7 +657,6 @@ int DWCi_GetFriendListIndex(int pid)
     return -1;
 }
 
-
 /*
  * sdk:      DWCi_InitGPProcessCount (dwc_friend.o)
  */
@@ -690,7 +668,6 @@ void DWCi_InitGPProcessCount(void)
     p->pollCount = 0;
     stpFriendCnt->lastTick = OS_GetTick();
 }
-
 
 int DWCi_SetGPStatus(int status, const char *statusString, const char *locString)
 {
@@ -709,7 +686,6 @@ int DWCi_SetGPStatus(int status, const char *statusString, const char *locString
     return gpSetStatusA(stpFriendCnt->connection, status, statusString, locString);
 }
 
-
 /*
  * sdk:      DWCi_CallBuddyFriendCallback (libdwcmatch.TWL.HYB.a(dwc_friend.o))
  */
@@ -725,7 +701,6 @@ void DWCi_CallBuddyFriendCallback(int index)
 	stpFriendCnt->statusCb(index, st, status.s, stpFriendCnt->statusParam);
 }
 
-
 /*
  * Clears the word at +0xc of the module state block.
  */
@@ -733,7 +708,6 @@ void DWCi_ShutdownFriend(void)
 {
     stpFriendCnt = 0;
 }
-
 
 /*
  * sdk:      DWCi_GPProcess (libdwcmatch.TWL.HYB.a(dwc_friend.o))
@@ -754,7 +728,6 @@ int DWCi_GPProcess(void)
 	return result;
 }
 
-
 /*
  * Clears the word and the two bytes at +0x1e and +0x1f of the object at
  * +0xc of the current root.
@@ -771,7 +744,6 @@ void DWCi_CloseFriendProcess(void)
     q = stpFriendCnt;
     q->stage = 0;
 }
-
 
 void DWCi_UpdateFriendReq(DWCstAccFriendData *friendList, int friendListLen)
 {
@@ -837,13 +809,11 @@ void DWCi_UpdateFriendReq(DWCstAccFriendData *friendList, int friendListLen)
     }
 }
 
-
 void DWCi_EndUpdateServers(void)
 {
     stpFriendCnt->finishCb(0, stpFriendCnt->changed, stpFriendCnt->finishParam);
     stpFriendCnt->state = 2;
 }
-
 
 void DWCi_DeleteFriendFromList(void *friendData, int deleteIndex, int otherIndex)
 {
@@ -852,7 +822,6 @@ void DWCi_DeleteFriendFromList(void *friendData, int deleteIndex, int otherIndex
     if (stpFriendCnt->deleteCb == 0) return;
     stpFriendCnt->deleteCb(deleteIndex, otherIndex, stpFriendCnt->deleteParam);
 }
-
 
 /*
  * sdk:      DWCi_RefreshFriendListForth (libdwcmatch.TWL.HYB.a(dwc_friend.o))
@@ -877,7 +846,6 @@ int DWCi_RefreshFriendListForth(DWCstAccFriendData *friendList, int index, int p
 	}
 	return 0;
 }
-
 
 /*
  * sdk:      DWCi_RefreshFriendListAll (libdwcmatch.TWL.HYB.a(dwc_friend.o))
@@ -912,7 +880,6 @@ int DWCi_RefreshFriendListAll(DWCstAccFriendData *friendList, int friendListLen,
     return index;
 }
 
-
 /*
  * sdk:      DWCi_GPSendBuddyRequest (dwc_friend.o)
  */
@@ -924,7 +891,6 @@ int DWCi_GPSendBuddyRequest(int profileID)
     DWCi_HandleGPError(gpResult);
     return gpResult;
 }
-
 
 /*
  * closed (2026-10-01, ov SDK wave 2): the dwc_friend.o statics (s_bNeedCloseStatsConnection +0,
@@ -957,7 +923,6 @@ end:
 	return ret;
 }
 
-
 /*
  * sdk:      DWCi_HandleGPError (dwc_friend.o)
  */
@@ -976,7 +941,6 @@ static int DWCi_HandleGPError(int result)
     DWCi_StopFriendProcess(dwcError, errorCode + (int)0xfffeeaa8);
     return result;
 }
-
 
 void DWCi_GPProfileSearchCallback(void **connection, void *argv, void *param)
 {
@@ -1038,7 +1002,6 @@ err:
     stpFriendCnt->phase = 1;
 }
 
-
 static void DWCi_GPGetInfoCallback_RecvBuddyRequest(void **connection, void *argv, void *param)
 {
     GpBuddyRequestArg *arg = argv;
@@ -1093,7 +1056,6 @@ static void DWCi_GPGetInfoCallback_RecvBuddyRequest(void **connection, void *arg
     }
 }
 
-
 /*
  * sdk:      DWCi_GPGetInfoCallback_RecvAuthMessage (libdwcmatch.TWL.HYB.a(dwc_friend.o))
  *
@@ -1144,7 +1106,6 @@ void DWCi_GPGetInfoCallback_RecvAuthMessage(void **connection, void *argv, void 
     stpFriendCnt->changed = 1;
 }
 
-
 /*
  * The word at +0x20 of the block held at +0xc of the module state block.
  */
@@ -1152,7 +1113,6 @@ int DWCi_GetPersCallbackLevel(void)
 {
     return stpFriendCnt->persCallbackLevel;
 }
-
 
 /*
  * Sets the word at +0x10 of the module state block to 1.
@@ -1162,7 +1122,6 @@ void DWCi_BeginCloseStatsConnection(void)
     s_bReverseBuddiesBusy = 1;
 }
 
-
 /*
  * Clears the word at +0x10 of the module state block.
  */
@@ -1170,7 +1129,6 @@ void DWCi_EndCloseStatsConnection(void)
 {
     s_bReverseBuddiesBusy = 0;
 }
-
 
 /*
  * sdk:      DWCi_GetReverseBuddiesCallback (libdwcmatch.TWL.HYB.a(dwc_friend.o))

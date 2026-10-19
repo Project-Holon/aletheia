@@ -143,7 +143,7 @@ struct PmsDraw;
 
 struct MyStatus;
 
-typedef signed short s16;
+#include "../types.h"
 
 typedef struct { int a, b, c, d, e, f; } WifiBattleMatchViewRoot;
 
@@ -352,7 +352,6 @@ extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, un
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 
 extern void GFL_USE_PlaySeDefaultVolume(unsigned);
-
 
 extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 

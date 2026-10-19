@@ -75,7 +75,7 @@
 
 #define REG60 (*(volatile u16 *)0x04000060)
 
-typedef enum {ShadeToon=0,ShadeHighlight=1} GXShading;
+#include "../sdk_gx.h"
 
 extern u32 GFL_HEAP_Free(void *p);
 struct TcbTask;
@@ -116,7 +116,7 @@ void ZUKAN_DETAIL_GRAPHIC_Init3dSettings(void)
     unsigned i;
     BG_SYS_SetMainPlaneVisible(1,1);
     *(volatile u16 *)0x04000008=(*(volatile u16 *)0x04000008 & ~3)|1;
-    SetShading(ShadeHighlight);
+    SetShading(GX_SHADING_HIGHLIGHT);
     AntiAlias(0);
     AlphaTest(0,0);
     AlphaBlend(1);

@@ -104,9 +104,7 @@
  *   FIELD_SAVEANIME_Stop  0x021D11D8  thumb
  *   FIELD_SAVEANIME_Delete  0x021D1194  thumb
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../types.h"
 
 /* Opaque objects owned by other files. */
 typedef struct GameSystem GameSystem;

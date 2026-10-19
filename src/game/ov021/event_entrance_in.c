@@ -42,10 +42,7 @@
  *   FIELD_SOUND_SYSTEM_PostZoneBgmReplace  0x02029D44  thumb  arm9
  */
 
-typedef unsigned short u16;
-typedef signed short s16;
-typedef unsigned int u32;
-typedef unsigned char u8;
+#include "../types.h"
 
 #include "event_entrance_in_types.h"
 

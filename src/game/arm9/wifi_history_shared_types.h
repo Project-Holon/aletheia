@@ -3,6 +3,6 @@
 
 struct MyStatus;
 
-typedef unsigned short u16;
+#include "../types.h"
 
 #endif

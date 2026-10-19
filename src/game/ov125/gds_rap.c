@@ -112,11 +112,7 @@
  *   strcpy  0x02094798  arm  arm9
  */
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef unsigned long long u64;
-typedef signed int s32;
+#include "../types.h"
 
 #include "../version.h"
 #include "gds_rap_types.h"
@@ -271,7 +267,6 @@ int GDS_RAP_Init(GdsRapWork *work, GdsRapInitParams *params)
     return 1;
 }
 
-
 void GDS_RAP_Exit(GdsRapWork *work)
 {
     if (work->session) {
@@ -287,7 +282,6 @@ void GDS_RAP_Exit(GdsRapWork *work)
     GF_OVERLAY_Unload((int)ov114_id);
 }
 
-
 int GDS_RAP_RequestUploadEntry(GdsRapWork *work, const GdsProfileBlock *profile, const GdsPayloadBlock *payload)
 {
     if (!GDS_RAP_IsIdle(work)) return 0;
@@ -298,9 +292,7 @@ int GDS_RAP_RequestUploadEntry(GdsRapWork *work, const GdsProfileBlock *profile,
     return 1;
 }
 
-
 int GDS_RAP_RequestDownloadEntries(GdsRapWork *work, int key) {if(!GDS_RAP_IsIdle(work))return 0;work->arg2.downloadKey=key;work->requestId=GDS_REQUEST_DOWNLOAD_ENTRIES;return 1;}
-
 
 int GDS_RAP_RequestUploadVideo(GdsRapWork *work, void *profile)
 {
@@ -326,7 +318,6 @@ int GDS_RAP_RequestUploadVideo(GdsRapWork *work, void *profile)
     return 1;
 }
 
-
 int GDS_RAP_RequestSearchVideos(GdsRapWork *work, int keyId, unsigned int categoryIndex, int mode, u8 flag)
 {
     if (!GDS_RAP_IsIdle(work)) return 0;
@@ -343,21 +334,15 @@ int GDS_RAP_RequestSearchVideos(GdsRapWork *work, int keyId, unsigned int catego
     return 1;
 }
 
-
 int GDS_RAP_RequestSearchKind1(GdsRapWork *work) {if(!GDS_RAP_IsIdle(work))return 0;work->searchKind=GDS_SEARCH_KIND_1;work->requestId=GDS_REQUEST_SEARCH_VIDEOS;return 1;}
-
 
 int GDS_RAP_RequestSearchKind2(GdsRapWork *work) {if(!GDS_RAP_IsIdle(work))return 0;work->searchKind=GDS_SEARCH_KIND_2;work->requestId=GDS_REQUEST_SEARCH_VIDEOS;return 1;}
 
-
 int GDS_RAP_RequestSearchKind3(GdsRapWork *work) {if(!GDS_RAP_IsIdle(work))return 0;work->searchKind=GDS_SEARCH_KIND_3;work->requestId=GDS_REQUEST_SEARCH_VIDEOS;return 1;}
-
 
 int GDS_RAP_RequestGetVideo(GdsRapWork *work, int dataNumberLo, int dataNumberHi) {if(!GDS_RAP_IsIdle(work))return 0;work->arg2.dataNumber.lo=dataNumberLo;work->arg2.dataNumber.hi=dataNumberHi;work->requestId=GDS_REQUEST_GET_VIDEO;return 1;}
 
-
 int GDS_RAP_RequestMarkVideo(GdsRapWork *work, int dataNumberLo, int dataNumberHi) {if(!GDS_RAP_IsIdle(work))return 0;work->arg2.dataNumber.lo=dataNumberLo;work->arg2.dataNumber.hi=dataNumberHi;work->requestId=GDS_REQUEST_MARK_VIDEO;return 1;}
-
 
 int GDS_RAP_Main(GdsRapWork *work)
 {
@@ -402,8 +387,6 @@ int GDS_RAP_Main(GdsRapWork *work)
     }
     return 1;
 }
-
-
 
 /*
  * 2026-10-05 (wD9r lane109): EXACT. The 0x55F1 inner switch is written out as an expanded inline:
@@ -563,8 +546,6 @@ int GDS_RAP_RunRequest(GdsRapWork *work, int *done)
     return ret;
 }
 
-
-
 int GDS_RAP_UpdateSocketState(GdsRapWork *work)
 {
     unsigned int state;
@@ -599,11 +580,7 @@ int GDS_RAP_UpdateSocketState(GdsRapWork *work)
     return 1;
 }
 
-
-
 int GDS_RAP_PollNothing(GdsRapWork *work, GdsRapPending *pending) { return 1; }
-
-
 
 int GDS_RAP_PollSaveUploadedVideo(GdsRapWork *work, GdsRapPending *pending)
 {
@@ -635,12 +612,7 @@ int GDS_RAP_PollSaveUploadedVideo(GdsRapWork *work, GdsRapPending *pending)
     return 0;
 }
 
-
-
 int GDS_RAP_PollNothingAfterError(GdsRapWork *work, GdsRapPending *pending) { return 1; }
-
-
-
 
 void GDS_RAP_ReleaseSession(GdsRapWork *work, int unused, int scene, int unused2)
 {
@@ -651,8 +623,6 @@ void GDS_RAP_ReleaseSession(GdsRapWork *work, int unused, int scene, int unused2
         work->session = 0;
     }
 }
-
-
 
 int GDS_RAP_FindMember(GdsRapWork *work, int index, int *party, int *member)
 {
@@ -671,11 +641,7 @@ int GDS_RAP_FindMember(GdsRapWork *work, int index, int *party, int *member)
     return 0;
 }
 
-
-
 void GDS_RAP_CopyNickname(const void *src, void *dst, u32 count) {MI_CpuCopy8(src,dst,count*2);}
-
-
 
 int GDS_RAP_ReadReply(GdsRapWork *work)
 {
@@ -722,34 +688,22 @@ int GDS_RAP_ReadReply(GdsRapWork *work)
     return result;
 }
 
-
-
 int GDS_RAP_GetResult(GdsRapWork *work, GdsRapResult **result)
 {
     *result = &work->result;
     return work->result.pending;
 }
 
-
-
 void GDS_RAP_ClearResult(GdsRapWork *work)
 {
     MI_CpuFill8(&work->result, 0, sizeof(GdsRapResult));
 }
 
-
-
 int GDS_RAP_IsIdle(GdsRapWork *work) { if (work->requestId==GDS_REQUEST_NONE && work->finishedRequestId==GDS_REQUEST_NONE) return 1; return 0; }
-
-
 
 int GDS_RAP_CheckUploadEntryReply(GdsRapWork *work, const GdsReply *reply) { int r=0; switch (reply->resultCode) { case 0: r=1; break; case 1: case 2: case 3: case 4: case 5: case 6: break; default: break; } return r; }
 
-
-
 int GDS_RAP_CheckDownloadEntriesReply(GdsRapWork *work, const GdsReply *reply) { int r=0; switch (reply->resultCode) { case 0: r=1; break; case 1: case 2: case 3: break; default: break; } return r; }
-
-
 
 int GDS_RAP_GetDownloadEntries(GdsRapWork *work, void **entries, int max)
 {
@@ -766,20 +720,11 @@ int GDS_RAP_GetDownloadEntries(GdsRapWork *work, void **entries, int max)
     return count;
 }
 
-
-
 int GDS_RAP_CheckUploadVideoReply(GdsRapWork *work, const GdsReply *reply) { int r=0; switch (reply->resultCode) { case 0: r=1; break; case 1: case 2: case 3: case 4: case 5: case 6: case 7: break; default: break; } return r; }
-
-
 
 u64 GDS_RAP_GetUploadedDataNumber(GdsRapWork *work) { GdsReplyUploadVideo *reply=(GdsReplyUploadVideo *)GDS_SOCKET_GetReply(); return reply->dataNumber.value; }
 
-
-
 int GDS_RAP_CheckSearchVideosReply(GdsRapWork *work, const GdsReply *reply) { int r=0; switch (reply->resultCode) { case 0: r=1; break; case 1: case 2: case 3: case 4: break; default: break; } return r; }
-
-
-
 
 /*
  * note: 2026-10-05 (D4-14): the xor/orr equality is a 64-bit compare; written as u64 loads, EXACT.
@@ -812,11 +757,7 @@ int GDS_RAP_GetSearchResults(GdsRapWork *work, char *dst, int max)
     return count;
 }
 
-
-
 int GDS_RAP_CheckGetVideoReply(GdsRapWork *work, const GdsReply *reply) { int r=0; switch (reply->resultCode) { case 0: r=1; break; case 1: case 2: case 3: case 4: break; default: break; } return r; }
-
-
 
 int GDS_RAP_GetVideoReply(GdsRapWork *work, struct BattleRecSave **video)
 {
@@ -833,11 +774,7 @@ int GDS_RAP_GetVideoReply(GdsRapWork *work, struct BattleRecSave **video)
     return reply->entry.dataNumber.half.lo;
 }
 
-
-
 int GDS_RAP_CheckMarkVideoReply(GdsRapWork *work, const GdsReply *reply) { int r=0; switch (reply->resultCode) { case 0: r=1; break; case 1: case 2: case 3: break; default: break; } return r; }
-
-
 
 int GDS_RAP_SaveVideoSeq(struct GameData *gameData, int id, int mode, u16 *state, u16 *seq, u16 heap)
 {
@@ -859,16 +796,12 @@ int GDS_RAP_SaveVideoSeq(struct GameData *gameData, int id, int mode, u16 *state
     return 0;
 }
 
-
-
 void GDS_RAP_EncodeVideoBody(void)
 {
     unsigned int value;
     value = d_0214616C->body.crc;
     BATTLE_REC_Encode(&d_0214616C->body, 0x17dc, value + ((value ^ 0xffff) << 16));
 }
-
-
 
 int GDS_RAP_SaveVideoWithDataNumber(struct GameData *gameData, int dataNumberLo, int dataNumberHi, u16 *state, u16 *seq, u16 heap)
 {
@@ -885,8 +818,6 @@ int GDS_RAP_SaveVideoWithDataNumber(struct GameData *gameData, int dataNumberLo,
     }
     return 0;
 }
-
-
 
 int GDS_RAP_SaveVideoSecured(struct GameData *gameData, int id, u16 *state, u16 *seq, u16 heap)
 {
@@ -906,14 +837,8 @@ int GDS_RAP_SaveVideoSecured(struct GameData *gameData, int id, u16 *state, u16 
     return 0;
 }
 
-
-
 void GDS_RAP_StartVideoSave(struct GameData *gameData, u8 heap, u32 id) {struct SaveControl *save=GAME_DATA_GetSaveControl(gameData); SAVE_CONTROL_LoadExtraSave(save,id,heap); BATTLE_REC_Clear(SAVE_CONTROL_GetExtraSaveRecord(save,id,0)); GAME_DATA_PartSaveStart(gameData,id);}
 
-
-
 int GDS_RAP_StepVideoSave(struct GameData *gameData, int id) {struct SaveControl *save=GAME_DATA_GetSaveControl(gameData); int r=GAME_DATA_PartSaveMain(gameData,id); if(r==2 || r==3) SAVE_CONTROL_DeleteExtraSave(save,id); return r;}
-
-
 
 struct BattleRecSave *GDS_RAP_GetVideoWork(void) { return d_0214616C; }

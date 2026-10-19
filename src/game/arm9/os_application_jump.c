@@ -22,27 +22,9 @@
  *   s_prevTitleId                 0x02732F9C  data
  */
 
-typedef unsigned long long u64;
-typedef unsigned long u32;
-typedef unsigned short u16;
-typedef unsigned char u8;
-typedef int BOOL;
+#include "../types.h"
 
-typedef struct OSDeliverArgHeader {
-    u64 titleId;
-    u8 reserved1;
-    u8 flag;
-    u16 makerCode;
-    u16 argBufferSize;
-    u16 binarySize;
-    u16 crc;
-    u16 sysParam;
-} OSDeliverArgHeader;
-
-typedef struct OSDeliverArgInfo {
-    OSDeliverArgHeader header;
-    u8 buf[748];
-} OSDeliverArgInfo;
+#include "../sdk_os.h"
 
 /* os_argument.o .bss from 0x02151384, addressed from one pool word: sPtr
    (a cursor into the argument buffer), the buffer state and the buffer. */
@@ -53,9 +35,6 @@ typedef struct OsArgumentBss {
 } OsArgumentBss;
 
 extern OsArgumentBss g_02151384;
-
-typedef signed char s8;
-typedef long s32;
 
 extern void OS_InitDeliverArgInfo(OSDeliverArgInfo *info, int binSize);
 extern s32 OS_DecodeDeliverArg(void);

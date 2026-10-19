@@ -17,7 +17,7 @@ struct Rec;
 
 struct DispVram;
 
-typedef signed int s32;
+#include "../types.h"
 
 typedef struct { u8 pad[0x4804]; volatile int previous; } FrameObj;
 

@@ -22,23 +22,9 @@
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  */
-typedef unsigned long long u64;
+#include "../types.h"
 
-typedef unsigned long u32;
-
-typedef unsigned short u16;
-
-typedef int BOOL;
-
-typedef volatile u16 vu16;
-
-typedef volatile u32 vu32;
-
-typedef volatile u64 vu64;
-
-typedef u32 OSIntrMode;
-
-typedef u64 OSTick;
+#include "../sdk_os.h"
 
 /* os_tick.o .bss from 0x02151330, addressed from one pool word. */
 typedef struct OsTickBss {
@@ -60,17 +46,11 @@ OSTick OS_GetTick(void);
 unsigned short OS_GetTickLo(void);
 extern OsTickBss g_02151330;
 
-
-
 #define reg_OS_IF (*(vu32 *)0x04000214)
-
 
 #define reg_OS_TM0CNT_L (*(volatile u16 *)0x04000100)
 
-
 #define reg_OS_TM0CNT_H (*(volatile u16 *)0x04000102)
-
-
 
 /*
  * sdk:      OS_InitTick (os_tick.o)
@@ -96,12 +76,10 @@ void OS_InitTick(void)
     g_02151330.OSi_NeedResetTimer = 0;
 }
 
-
 BOOL OS_IsTickAvailable(void)
 {
     return g_02151330.OSi_UseTick;
 }
-
 
 /*
  * sdk:      OSi_CountUpTick (os_tick.o)

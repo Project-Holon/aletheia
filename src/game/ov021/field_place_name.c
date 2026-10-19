@@ -105,10 +105,7 @@
  *   _fmul                        0x0209C77C  arm
  *   _fsub                        0x0209CB8C  arm
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed int s32;
+#include "../types.h"
 
 #include "field_place_name_types.h"
 

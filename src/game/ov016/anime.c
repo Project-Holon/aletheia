@@ -28,11 +28,7 @@
  */
 #include "../../matched/include/G_Ani.h"
 
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 typedef struct {
 	u32 w0;
@@ -64,7 +60,6 @@ extern const u8 sAnimePaletteByColor[];
 
 static void taskAnime(void);
 
-
 void DWCi_ANIMElInitEx(int color)
 {
 	u32 pal;
@@ -81,7 +76,6 @@ void DWCi_ANIMElInitEx(int color)
 	gAnimeWork->task = DWCi_TSKlForm(1, taskAnime, 0, 0x78);
 }
 
-
 void DWCi_ANIMElEnd(void)
 {
     unsigned char *g = (unsigned char *)0x021DE504;
@@ -90,7 +84,6 @@ void DWCi_ANIMElEnd(void)
     DWCi_OBJlDelete((unsigned int *)(*(int *)(*(int *)g + 4)));
     DWCi_HEAPlFree_((void **)((int)gAnimeWorkSlot));
 }
-
 
 static void taskAnime(void)
 {

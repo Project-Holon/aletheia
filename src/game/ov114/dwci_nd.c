@@ -23,7 +23,6 @@
  *   gDwciNdGameCodeEncoded  0x021D3BCD  data
  *   gDwciNdPasswordEncoded  0x021D3C50  data
  *   gDwciNdApInfoEncoded  0x021D3BF5  data
- *   gDwciNdStatics   0x021D3B9C  data
  *   nhttpCleanupCallback   0x021C64E0  arm
  *   NHTTP_GetConnectionStatus  0x021BF3BC  arm  ov114
  *   NHTTP_DeleteConnection  0x021BF184  arm  ov114
@@ -64,7 +63,6 @@
  *   DWCi_Ndi_encodeBASE64           0x021c60c8 arm
  *   gDwciNdDsGameCodeEncoded   0x021d3bc4 data
  *   gDwciNdUserIdEncoded   0x021d3c0a data
- *   g_021C68BC   0x021c68bc arm
  *   sDwciNdRootCa   0x021cf37c data
  *   sDwciNdUserAgent   0x021cf498 data
  *   sDwciNdGamecd   0x021cf4a4 data
@@ -86,10 +84,8 @@
  *   runHttp                         0x021C70D4  arm  ov114
  *   DWCiNd_action_list              0x021CE0CE  data  ov114
  *   setupHttp  0x021C6C0C  arm  ov114
- *   NHTTP_AddPostDataAscii  0x021BE748  arm  ov114
  *   sDwciNdYUdgvudhm  0x021CE0D7  data
  *   NHTTP_GetConnectionProgress  0x021BF4B0  arm
- *   NHTTP_GetBodyBuffer  0x021BF3E4  arm  ov114
  *   sDwciNdContentLength                     0x021CF528  data  ov114
  *   NHTTP_CleanupAsync  0x021BE680  arm
  *   sDwciNdUserAgentFormat  0x021CF464  data
@@ -164,11 +160,11 @@ extern int NHTTP_AddHeaderField(void *handle, char *label_p, char *value_p);
 extern int NHTTP_AddPostDataAscii(void *handle, char *label_p, char *value_p);
 extern int NHTTP_StartConnection(void *handle);
 extern int NHTTP_GetConnectionProgress(void *handle, unsigned long *received_p, unsigned long *contentlen_p);
-struct OSMutex;
+#include "../sdk_os.h"
+
 extern void OS_InitMutex(struct OSMutex *mutex);
 extern void OS_LockMutex(struct OSMutex *mutex);
 extern void OS_UnlockMutex(struct OSMutex *mutex);
-struct OSMessageQueue;
 extern int OS_SendMessage(struct OSMessageQueue *mq, void *msg, int flags);
 extern void OS_GetMacAddress(unsigned char *macAddress);
 extern int DWCi_Ndi_hexToStrFigure(char *p, unsigned long n, int figure);

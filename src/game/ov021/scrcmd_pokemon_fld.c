@@ -191,7 +191,8 @@ struct Mail;
 struct MyStatus;
 struct MysteryData;
 struct MysteryDataEntry;
-struct OSOwnerInfo;
+#include "../sdk_os.h"
+
 struct FieldMap;
 struct EventDataSystem;
 struct PokemonParam;
@@ -207,7 +208,7 @@ typedef struct ThresholdEntry {
     u16 value;
 } ThresholdEntry;
 
-typedef signed int     s32;
+#include "../types.h"
 
 /* Owner information from the firmware user settings (OS owner info). */
 typedef struct OwnerInfo {
@@ -1546,7 +1547,6 @@ int SCRCMD_POKEMON_FLD_HandleMysteryGift(struct ScriptVm *vm, struct ScrcmdWork 
     return 0;
 }
 
-
 /* Asks the kind handler whether the player can take the gift. 0 when the kind has none. */
 int SCRCMD_POKEMON_FLD_CheckGiftCanReceive(int giftKind, struct ScrcmdWork *work, struct GameData *gameData, MysteryGiftCard *card)
 {
@@ -1557,7 +1557,6 @@ int SCRCMD_POKEMON_FLD_CheckGiftCanReceive(int giftKind, struct ScrcmdWork *work
     }
     return 0;
 }
-
 
 /* Fills the word set for the gift received message and returns its message id.
  * 7 when the kind has no handler. */
@@ -1573,7 +1572,6 @@ int SCRCMD_POKEMON_FLD_PrepareGiftReceiveMessage(int giftKind, MysteryGiftCard *
     }
     return 7;
 }
-
 
 /* Fills the word set for the follow-up message of the gift and returns its
  * message id. 8 when the kind has no handler. */
@@ -1601,7 +1599,6 @@ int SCRCMD_POKEMON_FLD_ReceiveGift(int giftKind, struct ScrcmdWork *work, struct
     }
     return 0;
 }
-
 
 /* Asks the kind handler which scene the script plays for the gift. 0 when the kind has none. */
 int SCRCMD_POKEMON_FLD_GetGiftReceiveType(int giftKind, ScrcmdWork *work, struct GameData *gameData, MysteryGiftCard *card)
@@ -1997,8 +1994,6 @@ int SCRCMD_POKEMON_FLD_AddTableValueToPoints(struct ScriptVm *vm, ScrcmdWork *wo
     GFL_HEAP_Free(table);
     return 0;
 }
-
-
 
 /* Script command: return the gift of the given daily index (0 when out of range). */
 int SCRCMD_POKEMON_FLD_GetDailyGift(void *core, void *work)

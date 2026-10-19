@@ -194,11 +194,7 @@ struct Cfg;
 struct Obj;
 struct ScanContext;
 struct Slot;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 typedef struct {u32 id,value;} Row;
 
@@ -210,21 +206,15 @@ struct BgTemplate {u32 unk_00,unk_04,bufSize,unk_0c;u8 unk_10,unk_11,unk_12,unk_
 
 typedef struct { u32 a,b,c,d,e,f,g; } Entry;
 
-typedef signed int     s32;
-
 typedef struct { u32 heap; u8 count; u8 pad[3]; void *items; u32 zero; u8 a,b,c,d; } Descriptor;
 
 typedef int (*Callback)(u8 *);
 
 typedef struct { Callback a,b; } Pair;
 
-typedef signed short s16;
-
 struct ScanOwner { u8 pad[16]; u16 *table; };
 
 struct ScanContext { struct ScanOwner *owner; };
-
-typedef signed char s8;
 
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 struct Proc;
@@ -438,9 +428,6 @@ extern const Entry d_021B8420[];
 extern Pair d_021B8228[];
 extern const u32 d_021B8350[][11];
 
-
-
-
 int POKE_SUMMARY_MAIN_Create(struct ProcOwner *obj, int unused, u8 *input)
 {
     u8 *p;
@@ -456,9 +443,6 @@ int POKE_SUMMARY_MAIN_Create(struct ProcOwner *obj, int unused, u8 *input)
     GFL_NET_RefreshWmIconAtTopRight(1,79);
     return 1;
 }
-
-
-
 
 /*
  * extent: final 2 bytes are alignment padding
@@ -490,13 +474,7 @@ int POKE_SUMMARY_MAIN_Update(void *unused0,u32 *state,void *unused2,u8 *work)
     return 0;
 }
 
-
-
-
 int POKE_SUMMARY_MAIN_Delete(void *work,u32 unused,u32 args,char *ctx) { POKE_SUMMARY_MAIN_ExitScreen(ctx); TCBL_Destroy(((struct PokeSummaryWork *)ctx)->tcbl); GF_FONT_Delete(((struct PokeSummaryWork *)ctx)->font); PROCSYS_FreeProcWork(work); GFL_HEAP_DeleteChecked(79); return 1; }
-
-
-
 
 void POKE_SUMMARY_MAIN_CreateTaskMenu(u8 *work)
 {
@@ -519,9 +497,6 @@ void POKE_SUMMARY_MAIN_CreateTaskMenu(u8 *work)
     ((struct PokeSummaryWork *)work)->taskMenuWindows[0]=0;((struct PokeSummaryWork *)work)->taskMenuWindows[1]=0;
 }
 
-
-
-
 /*
  * Extent remainder: two zero alignment bytes at 021B638E.
  */
@@ -536,10 +511,6 @@ void POKE_SUMMARY_MAIN_DeleteTaskMenu(u8 *work)
     PRINTSYS_QUE_Delete((struct PrintQueue *)(((struct PokeSummaryWork *)work)->printQueue));
 }
 
-
-
-
-
 void POKE_SUMMARY_MAIN_UpdateTaskMenu(int *work)
 {
     if (((struct PokeSummaryWork *)work)->taskMenuWindows[0]) {
@@ -547,10 +518,6 @@ void POKE_SUMMARY_MAIN_UpdateTaskMenu(int *work)
         APP_TASKMENU_WIN_Update((struct TaskMenuWin *)(((struct PokeSummaryWork *)work)->taskMenuWindows[1]));
     }
 }
-
-
-
-
 
 void POKE_SUMMARY_MAIN_InitScreen(u8 *work)
 {
@@ -579,32 +546,16 @@ void POKE_SUMMARY_MAIN_InitScreen(u8 *work)
     POKE_SUMMARY_MAIN_CreateTaskMenu(work);
 }
 
-
-
-
 void POKE_SUMMARY_MAIN_ExitScreen(char *work) { POKE_SUMMARY_MAIN_DeleteTaskMenu((u8 *)work); POKE_SUMMARY_ACTOR_UpdateSound((int *)work); POKE_SUMMARY_MAIN_DeleteMoveList(work); POKE_SUMMARY_MAIN_DeleteBmpWindows(work); POKE_SUMMARY_MAIN_DeleteMsgWindow((int *)work); POKE_SUMMARY_MAIN_ExitDisplay(); POKE_SUMMARY_MAIN_DeleteText(work); POKE_SUMMARY_ACTOR_DeleteSystem((u8 *)work); TCB_DeleteTask(((struct PokeSummaryWork *)work)->vblankTask); }
-
-
-
 
 static inline void setShared(u32 base,SharedOffset off) { *(u32 *)(base+off)|=1; }
 
-
-
-
 void POKE_SUMMARY_MAIN_VBlankCallback(void *unused,char *work) { POKE_SUMMARY_ACTOR_FlushPendingTransfers(work); BG_SYS_Update(); CLACT_VBlankSystem(); setShared((u32)d_02FE0000,FLAGS_OFFSET); }
-
-
-
-
 
 void POKE_SUMMARY_MAIN_SetVramBanks(void)
 {
     BG_SYS_SetVramBanks((void *)0x021B8250);
 }
-
-
-
 
 void POKE_SUMMARY_MAIN_InitDisplay(void)
 {
@@ -625,9 +576,6 @@ void POKE_SUMMARY_MAIN_InitDisplay(void)
     *(u16 *)0x04000050=0;*(u16 *)0x04001050=0;
 }
 
-
-
-
 /*
  * volatile: 021B66A8 reads and 021B66AE writes hardware halfword.
  */
@@ -643,10 +591,6 @@ void POKE_SUMMARY_MAIN_ExitDisplay(void)
     *(volatile unsigned short *)0x04000304 |= 0x8000;
     BG_SYS_Delete();
 }
-
-
-
-
 
 void POKE_SUMMARY_MAIN_CreateMsgWindows(u8 *work, u8 *archiveHandle)
 {
@@ -667,17 +611,10 @@ void POKE_SUMMARY_MAIN_CreateMsgWindows(u8 *work, u8 *archiveHandle)
     BMP_MENUWORK_LoadCharAndPltt(4, 1, 0xd, 0, 0x4f);
 }
 
-
-
-
-
 int POKE_SUMMARY_MAIN_DeleteMsgWindow(int *work)
 {
     return GFL_HEAP_Free((void *)(((struct PokeSummaryWork *)work)->msgWindow));
 }
-
-
-
 
 void POKE_SUMMARY_MAIN_CreateBmpWindows(u8 *work)
 {
@@ -693,27 +630,14 @@ void POKE_SUMMARY_MAIN_CreateBmpWindows(u8 *work)
     ((struct PokeSummaryWork *)work)->keyCursor=(void *)APP_KEYCURSOR_CreateDefault(15,1,1,79);
 }
 
-
-
-
 /*
  * extent: 2 zero alignment bytes at 0x021B684E follow the 38-byte function; no follower.
  */
 void POKE_SUMMARY_MAIN_DeleteBmpWindows(char *work) { u32 i; APP_KEYCURSOR_Delete(((struct PokeSummaryWork *)work)->keyCursor); for(i=0;i<16;i++) BMP_WIN_Delete(((struct PokeSummaryWork *)work)->bmpWindows[i]); BMP_WIN_Exit(); }
 
-
-
-
 void POKE_SUMMARY_MAIN_CreateText(char *work) { ((struct PokeSummaryWork *)work)->msgBank=MSGDATA_CreateFromArchive(0,2,204,79); ((struct PokeSummaryWork *)work)->wordSet=WORDSET_CreateDefault(79); ((struct PokeSummaryWork *)work)->strBufA=STRBUF_Create(256,79); ((struct PokeSummaryWork *)work)->strBufB=MSGDATA_AllocString(((struct PokeSummaryWork *)work)->msgBank,25); ((struct PokeSummaryWork *)work)->strBufC=MSGDATA_AllocString(((struct PokeSummaryWork *)work)->msgBank,31); }
 
-
-
-
 void POKE_SUMMARY_MAIN_DeleteText(char *work) { MSGDATA_Delete(((struct PokeSummaryWork *)work)->msgBank); WORDSET_Delete(((struct PokeSummaryWork *)work)->wordSet); STRBUF_Delete(((struct PokeSummaryWork *)work)->strBufA); STRBUF_Delete(((struct PokeSummaryWork *)work)->strBufB); STRBUF_Delete(((struct PokeSummaryWork *)work)->strBufC); }
-
-
-
-
 
 int POKE_SUMMARY_MAIN_WaitWipe(int *work)
 {
@@ -721,9 +645,6 @@ int POKE_SUMMARY_MAIN_WaitWipe(int *work)
         return ((struct PokeSummaryWork *)work)->state;
     return 0;
 }
-
-
-
 
 int POKE_SUMMARY_MAIN_HandleInput(char *work)
 {
@@ -772,10 +693,6 @@ int POKE_SUMMARY_MAIN_HandleInput(char *work)
     return 1;
 }
 
-
-
-
-
 int POKE_SUMMARY_MAIN_UpdateText(char *work)
 {
     u32 r = PRINTSYS_PrintStreamGetState(((struct PokeSummaryWork *)work)->printStream);
@@ -795,9 +712,6 @@ int POKE_SUMMARY_MAIN_UpdateText(char *work)
     return 2;
 }
 
-
-
-
 int POKE_SUMMARY_MAIN_OpenMenu(u8 *work)
 {
     Descriptor x;
@@ -814,9 +728,6 @@ int POKE_SUMMARY_MAIN_OpenMenu(u8 *work)
     return 4;
 }
 
-
-
-
 int POKE_SUMMARY_MAIN_UpdateMenu(u8 *work)
 {
     int result=4;
@@ -831,9 +742,6 @@ int POKE_SUMMARY_MAIN_UpdateMenu(u8 *work)
     if (result != 4) APP_TASKMENU_CloseMenu((struct TaskMenuWork *)(((struct PokeSummaryWork *)work)->taskMenu));
     return result;
 }
-
-
-
 
 int POKE_SUMMARY_MAIN_ApplyMove(char **work)
 {
@@ -850,19 +758,12 @@ int POKE_SUMMARY_MAIN_ApplyMove(char **work)
     return 8;
 }
 
-
-
-
-
 int POKE_SUMMARY_MAIN_ShowTextKind6(int *work)
 {
     POKE_SUMMARY_MAIN_StartTextStream((char *)work, 6);
     ((struct PokeSummaryWork *)work)->state = 5;
     return 2;
 }
-
-
-
 
 int POKE_SUMMARY_MAIN_ShowMoveText(char *work)
 {
@@ -877,18 +778,9 @@ int POKE_SUMMARY_MAIN_ShowMoveText(char *work)
     return 2;
 }
 
-
-
-
 int POKE_SUMMARY_MAIN_StartWipe(char *work) { WIPE_SYS_Start(0,0,0,0,6,1,79); ((struct PokeSummaryWork *)work)->state=9; return 0; }
 
-
-
-
 void POKE_SUMMARY_MAIN_RefreshMoveList(char *work) { int n; n=POKE_SUMMARY_MAIN_GetRecordWord((char **)work); if(n!=65535) POKE_SUMMARY_MAIN_DrawMoveDetail(work,n); else POKE_SUMMARY_MAIN_DrawMoveDetail(work,-2); POKE_SUMMARY_ACTOR_LayoutMoveActors(work); }
-
-
-
 
 /*
  * lever: separate u8 width result from u8 coordinate x; otherwise 16 bytes
@@ -919,19 +811,7 @@ u32 POKE_SUMMARY_MAIN_PrintAligned(char *work, int index, u32 font, u16 color, i
     return PRINTSYS_PrintColor(BMP_WIN_GetBmp(((struct PokeSummaryWork *)work)->bmpWindows[index]), x, y, ((struct PokeSummaryWork *)work)->strBufA, (void *)font, color);
 }
 
-
-
-
-
-
-
 void POKE_SUMMARY_MAIN_PrintValue(char *work,u32 idx,u32 number,u32 digits,u8 padding) { void *s; s=MSGDATA_AllocString(((struct PokeSummaryWork *)work)->msgBank,idx); WORDSET_SetSlotNumber(((struct PokeSummaryWork *)work)->wordSet,0,number,digits,padding,1); WORDSET_CopyTaggedText(((struct PokeSummaryWork *)work)->wordSet,((struct PokeSummaryWork *)work)->strBufA,s); STRBUF_Delete(s); }
-
-
-
-
-
-
 
 static inline void flush(void *win)
 {
@@ -939,12 +819,6 @@ static inline void flush(void *win)
     BMP_WIN_MakeScreen(win);
     BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(win));
 }
-
-
-
-
-
-
 
 /*
  * lever: temp,bank,mon declarations restore stack homes; derived wide coord=y+16 restores both narrowing sites and the early coordinate update (existing derived-wide-local idiom).
@@ -1072,23 +946,11 @@ void POKE_SUMMARY_MAIN_DrawMovesPage(char *work)
     STRBUF_Delete(temp);
 }
 
-
-
-
-
-
-
 /*
  * Inline owner/table struct access restores the bound/index register allocation;
  * an extracted table pointer compiled 36 bytes with 18 concrete differences.
  */
 u32 POKE_SUMMARY_MAIN_CountMoves(struct ScanContext *work) { u32 i;for(i=0;i<256;i++)if(work->owner->table[i]==0xffff)break;return i; }
-
-
-
-
-
-
 
 void POKE_SUMMARY_MAIN_DrawMoveRow(char *work,u8 first,u8 row)
 {
@@ -1110,12 +972,6 @@ void POKE_SUMMARY_MAIN_DrawMoveRow(char *work,u8 first,u8 row)
     flush(((struct PokeSummaryWork *)work)->bmpWindows[11]);
 }
 
-
-
-
-
-
-
 void POKE_SUMMARY_MAIN_RedrawMoveList(char *work)
 {
     u32 i;
@@ -1130,12 +986,6 @@ void POKE_SUMMARY_MAIN_RedrawMoveList(char *work)
     BG_SYS_MarkTileDirty(7);
     POKE_SUMMARY_ACTOR_LayoutMoveActors(work);
 }
-
-
-
-
-
-
 
 void POKE_SUMMARY_MAIN_BuildMoveList(char *work)
 {
@@ -1161,34 +1011,16 @@ void POKE_SUMMARY_MAIN_BuildMoveList(char *work)
     POKE_SUMMARY_MAIN_RedrawMoveList(work);
 }
 
-
-
-
-
-
-
 void POKE_SUMMARY_MAIN_DeleteMoveList(char *work)
 {
     BMP_MENUWORK_Delete(((struct PokeSummaryWork *)work)->menuWork);
 }
-
-
-
-
-
-
 
 static inline void clear(void *win)
 {
     BMP_WIN_ClearScreen(win);
     BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(win));
 }
-
-
-
-
-
-
 
 /*
  * blocker-C: 02045CAC verified EXACT, 344B, prior ov070 header arm9-blocker.log;
@@ -1292,12 +1124,6 @@ void POKE_SUMMARY_MAIN_DrawMoveDetail(char *work,int move)
     flush(((struct PokeSummaryWork *)work)->bmpWindows[5]);
 }
 
-
-
-
-
-
-
 void POKE_SUMMARY_MAIN_SetTextByKind(char *work, u32 kind)
 {
     void *str;
@@ -1329,13 +1155,6 @@ void POKE_SUMMARY_MAIN_SetTextByKind(char *work, u32 kind)
     STRBUF_Delete(str);
 }
 
-
-
-
-
-
-
-
 u16 POKE_SUMMARY_MAIN_GetRecordWord(char **work)
 {
     struct PokeSummaryMon *q = (struct PokeSummaryMon *)*work;
@@ -1343,25 +1162,12 @@ u16 POKE_SUMMARY_MAIN_GetRecordWord(char **work)
     return *(u16 *)((char *)q->moveList + (q->scrollIndex + q->selectedIndex) * 2);
 }
 
-
-
-
-
-
-
-
 unsigned short POKE_SUMMARY_MAIN_GetMoveWord(int *work)
 {
     struct PokeSummaryMon *q = ((struct PokeSummaryWork *)work)->mon;
 
     return POKE_TOOL_GetPartyValue((void *)q->party, q->variant + 0x36, 0);
 }
-
-
-
-
-
-
 
 void POKE_SUMMARY_MAIN_StartTextStream(char *work, u32 kind)
 {
@@ -1380,12 +1186,6 @@ void POKE_SUMMARY_MAIN_StartTextStream(char *work, u32 kind)
     BG_SYS_PushTile(BMP_WIN_GetBgLayer(q));
 }
 
-
-
-
-
-
-
 void POKE_SUMMARY_MAIN_ClearWindow(char *work)
 {
     u32 x;
@@ -1395,11 +1195,6 @@ void POKE_SUMMARY_MAIN_ClearWindow(char *work)
     BMP_WIN_ClearScreen((struct BmpWin *)x);
     BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)x));
 }
-
-
-
-
-
 
 int POKE_SUMMARY_MAIN_SoundStateCallback(unsigned int state)
 {
@@ -1424,20 +1219,9 @@ int POKE_SUMMARY_MAIN_SoundStateCallback(unsigned int state)
     return 0;
 }
 
-
-
-
-
-
 u8 POKE_SUMMARY_MAIN_CountFreeMoves(void ***work) {u8 i;for(i=0;i<4;i++)if(!POKE_TOOL_GetPartyValue(**work,i+54,0))break;return i;}
 
-
-
-
 int POKE_SUMMARY_MAIN_ShowTextKind3(u8 *work) {POKE_SUMMARY_MAIN_StartTextStream((char *)work,3);(*(u8 **)work)[27]=POKE_SUMMARY_MAIN_CountFreeMoves((void ***)work);((struct PokeSummaryWork *)work)->state=5;return 2;}
-
-
-
 
 /*
  * Extent runs long: 0x021B75BC is an unlabelled follower leaf, so EXACT*.
@@ -1447,7 +1231,6 @@ int POKE_SUMMARY_MAIN_ClearWindowWaitA(char *work)
     POKE_SUMMARY_MAIN_ClearWindow(work);
     return 1;
 }
-
 
 int POKE_SUMMARY_MAIN_SetFlagReturn8(u8 **pp) { (*pp)[0x1a] = 1; return 8; }
 

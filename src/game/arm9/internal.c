@@ -22,7 +22,7 @@ typedef unsigned int   u32_1;
 
 typedef unsigned int   u32_2;
 
-typedef int BOOL;
+#include "../types.h"
 
 extern int RtcSendPxiCommand(unsigned long command);
 int PXI_SendWordByFifo(int fifotag, unsigned long data, BOOL err);
@@ -47,12 +47,10 @@ int RTCi_ReadRawTimeAsync(void)
     return RtcSendPxiCommand(0x12);
 }
 
-
 int RTCi_WriteRawStatus2Async(void)
 {
     return RtcSendPxiCommand(0x27);
 }
-
 
 /*
  * sdk:      RtcSendPxiCommand (librtc.TWL.HYB.a internal.o)

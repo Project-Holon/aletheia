@@ -13,12 +13,7 @@
  *   GPISearchData   0x1A0 bytes     GPIMessage       0x18 bytes
  */
 
-#ifndef OV009_BASIC_TYPES
-#define OV009_BASIC_TYPES
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-#endif
+#include "../types.h"
 
 typedef enum { _GPIFalse = 0, _GPITrue = 1 } GPIBool;
 typedef int GPEnum;

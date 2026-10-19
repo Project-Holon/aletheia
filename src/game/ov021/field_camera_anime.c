@@ -50,13 +50,9 @@
  *   FIELD_CAMERA_SetAreasEnabled  0x0218F1AC  thumb  ov021
  *   FIELD_CAMERA_GetAreasEnabled  0x0218F1B4  thumb  ov021
  */
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef int            fx32;
+#include "../types.h"
 
 #include "field_camera_types.h"
-
 
 /* Camera anime work (0x20 bytes, heap tag 0xEE). */
 typedef struct FieldCameraAnime {

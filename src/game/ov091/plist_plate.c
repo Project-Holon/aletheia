@@ -83,12 +83,7 @@
  *   POKELIST_PrintExpandedTextSubDirect  0x021B9DC0  thumb
  */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed char    s8;
-typedef signed short   s16;
-typedef signed int     s32;
+#include "../types.h"
 
 #include "pokelist_types.h"
 #include "plist_plate_types.h"
@@ -205,7 +200,6 @@ void PLIST_PLATE_UpdateLabelState(PokelistWork *work, PlistPlate *plate);
 int PLIST_PLATE_CheckSelection(PokelistWork *work, PlistPlate *plate);
 u8 PLIST_PLATE_GetHpBarColor(PlistPlate *plate);
 void PLIST_PLATE_GetActorOffset(PlistPlate *plate, int x, int y, PlistPlatePos *out);
-
 
 extern const char gPlistPlateSourceName[];
 extern const u8 gPlistPlateTileX[];

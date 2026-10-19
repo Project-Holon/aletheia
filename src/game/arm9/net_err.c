@@ -156,11 +156,7 @@
 
 struct NitroResFile;
 
-typedef signed short   s16;
-
-typedef unsigned short u16;
-
-typedef int            BOOL;
+#include "../types.h"
 
 typedef union {
     u32 raw;
@@ -249,15 +245,7 @@ typedef struct {
     u8 _reserve:2;
 } GXWndPlane;
 
-typedef enum { GX_BG_SCRSIZE_TEXT_256x256 = 0 } GXBGScrSizeText;
-
-typedef enum { GX_BG_COLORMODE_16 = 0 } GXBGColorMode;
-
-typedef enum { GX_BG_SCRBASE_0x0000 = 0 } GXBGScrBase;
-
-typedef enum { GX_BG_CHARBASE_0x00000 = 0 } GXBGCharBase;
-
-typedef enum { GX_BG_EXTPLTT_01 = 0 } GXBGExtPltt;
+#include "../sdk_gx.h"
 
 /* One row of the error screen graphics table: the archive and the three files in it. */
 struct NetErrScreenRes {
@@ -286,7 +274,6 @@ struct NitroPlttData {
     void *colors;
 };
 
-typedef signed int     s32;
 struct Strbuf;
 
 extern void STRBUF_Delete(struct Strbuf *strbuf);

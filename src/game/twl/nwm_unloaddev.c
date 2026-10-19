@@ -20,8 +20,7 @@
  *   PXIi_HandlerRecvFifoNotEmpty  0x02088688  arm  arm9
  *   DC_InvalidateRange  0x020862B8  arm  arm9
  */
-typedef unsigned int u32;
-typedef unsigned char u8;
+#include "../types.h"
 
 extern u32 NWMi_CheckState(u32, ...);
 extern u32 NWMi_GetSystemWork(void);

@@ -14,8 +14,7 @@
  * bits in a word, by the parallel pairwise sum.
  */
 
-typedef unsigned long u32;
-typedef unsigned char u8;
+#include "../types.h"
 
 u8 MATH_CountPopulation(u32 x)
 {

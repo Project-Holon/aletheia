@@ -30,15 +30,11 @@
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   WIH_DWC_ResetFilterState 0x020107CC thumb
  */
-typedef unsigned short u16;
+#include "../types.h"
 
-typedef unsigned int   u32;
+#include "../sdk_os.h"
 
-typedef int BOOL;
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
-typedef int s32;
-typedef unsigned char u8;
 #include "../arm9/gfl_heap_wrap.h"
 #include "../arm9/os_emulator.h"
 #include "dwcutil_main.h"
@@ -58,7 +54,6 @@ extern char ov107_id[];
 
 #define REG_IME (*(volatile unsigned short *)0x04000208)
 
-
 void DWC_RAPUTIL_RunUtility(int heapId)
 {
     int savedIrq;
@@ -76,13 +71,11 @@ void DWC_RAPUTIL_RunUtility(int heapId)
 
 int DWC_RAPUTIL_Init(void) { GFL_HEAP_CreateChildHeap(1, 15, 0x40100); NET_DEVICE_TABLE_Select(1); GF_OVERLAY_Load((int)ov107_id); return 1; }
 
-
 int DWC_RAPUTIL_Main(void)
 {
     DWC_RAPUTIL_RunUtility(0xf);
     return 1;
 }
-
 
 int DWC_RAPUTIL_ResetSystem(void)
 {

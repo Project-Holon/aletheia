@@ -88,7 +88,7 @@
     }
 
 struct Node;
-typedef signed long long s64;
+#include "../types.h"
 
 #include "wipe_types.h"
 
@@ -1308,7 +1308,6 @@ void WIPE_SUB_FlipLineMaskTask(void *task, struct LineMask *mask)
     }
     TCB_DeleteTask(task);
 }
-
 
 /*
  * The per-scanline window programmer of the wipe family (1284 bytes with

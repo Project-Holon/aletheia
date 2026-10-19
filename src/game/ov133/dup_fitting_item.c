@@ -29,8 +29,6 @@
  *   _fflt                        0x0209BDBC  arm
  */
 #include "dup_fitting_types.h"
-#include "dup_fitting_types.h"
-
 extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 
 extern u32 GFL_HEAP_Free(void *p);

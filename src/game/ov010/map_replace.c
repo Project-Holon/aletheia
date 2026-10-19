@@ -44,11 +44,7 @@
 struct BigObj;
 struct Ctx;
 struct ArcFile;
-typedef unsigned char u8;
-
-typedef unsigned int u32;
-
-typedef unsigned short u16;
+#include "../types.h"
 
 /*
  * One 16-byte record of the replace archive (a/0/1/0 member 0).  ids[0] is
@@ -131,7 +127,6 @@ extern u16 d_02170FF4[][10];
 extern const WarpDataEntry d_02170FEC[];
 extern const u16 d_02170FF0[][10];
 
-
 MapReplace *MAP_REPLACE_Create(int heapId, int gameSystem)
 {
     MapReplace *replace = GFL_HEAP_Alloc(heapId, sizeof(MapReplace), 1, d_021728BC, 0x77);
@@ -142,11 +137,7 @@ MapReplace *MAP_REPLACE_Create(int heapId, int gameSystem)
     return replace;
 }
 
-
-
 u32 MAP_REPLACE_GetRecordCount(MapReplace *replace) { return replace->recordCount; }
-
-
 
 /* Read record `index` into replace->record and return its matrix id. */
 u32 MAP_REPLACE_LoadRecord(MapReplace *replace, int index)
@@ -155,15 +146,11 @@ u32 MAP_REPLACE_LoadRecord(MapReplace *replace, int index)
     return replace->record.matrixId;
 }
 
-
-
 int MAP_REPLACE_Delete(MapReplace *replace)
 {
     ARC_TOOL_DeleteHandle(replace->arc);
     return GFL_HEAP_Free(replace);
 }
-
-
 
 /*
  * Check the loaded record: returns 0 when the chosen id equals ids[0],
@@ -203,8 +190,6 @@ int MAP_REPLACE_CheckRecord(MapReplace *replace, u32 *oldId, u32 *newId)
     return 0;
 }
 
-
-
 int MAP_REPLACE_GetFlagIndex(int selector)
 {
     unsigned int i;
@@ -214,8 +199,6 @@ int MAP_REPLACE_GetFlagIndex(int selector)
     }
     return -1;
 }
-
-
 
 void MAP_REPLACE_SetupFlags(u8 *variant, int gameSystem)
 {
@@ -236,8 +219,6 @@ void MAP_REPLACE_SetupFlags(u8 *variant, int gameSystem)
     }
 }
 
-
-
 MapReplaceFlagEntry *MAP_REPLACE_FindFlagEntry(int unused, int flagNo)
 {
     unsigned int i;
@@ -248,8 +229,6 @@ MapReplaceFlagEntry *MAP_REPLACE_FindFlagEntry(int unused, int flagNo)
     }
     return 0;
 }
-
-
 
 /*
  * extent: two bytes of zero alignment padding at 0x02159F52.
@@ -267,8 +246,6 @@ void MAP_REPLACE_SetFlag(int gameData, int flagNo, int set)
     }
 }
 
-
-
 int MAP_REPLACE_CheckFlag(int gameData, int flagNo)
 {
     MapReplaceFlagEntry *entry = MAP_REPLACE_FindFlagEntry(gameData, flagNo);
@@ -282,8 +259,6 @@ int MAP_REPLACE_CheckFlag(int gameData, int flagNo)
     }
     return 0;
 }
-
-
 
 /*
  * generated: lane O24 (ov010 leaf/wrapper sweep)
@@ -311,10 +286,6 @@ int MAP_REPLACE_CheckFlag(int gameData, int flagNo)
  */
 int MAP_REPLACE_GetDefaultWarpId(void) { return 1; }
 
-
-
-
-
 /* 1 when warpId is a valid 1-based index of the 17-entry warp table (stand-in: goto form). */
 int MAP_REPLACE_IsValidWarpId(int warpId)
 {
@@ -329,13 +300,11 @@ valid:
 warpId = 1;
     return warpId;}
 
-
 /*
  * addressing: getter result converted to unsigned; scale/add modulo 32 bits
  * preserves the original muls/add address without assuming a valid array index.
  */
 u16 MAP_REPLACE_GetWarpFlagId(int warpId) { return *(u16 *)((unsigned)d_02170FF4 + (unsigned)MAP_REPLACE_WarpIdToIndex(warpId) * 20u); }
-
 
 /*
  * extent: followed by independently matched MAP_REPLACE_FindFlyTargetIndex.c.
@@ -350,14 +319,6 @@ void MAP_REPLACE_ApplyWarpLocation(int warpId, int location)
     u32 zoneId = d_02170FF0[index][0];
     MAP_REPLACE_SetDirectLocation((void *)location, zoneId, 0, entry->gridX, entry->gridZ);
 }
-
-
-
-
-
-
-
-
 
 /*
  * Unlabelled leaf (push {r4,r5} only, so disasm.py prints it as .word
@@ -375,13 +336,6 @@ int MAP_REPLACE_FindFlyTargetIndex(int zoneId)
     return 0;
 }
 
-
-
-
-
-
-
-
 void MAP_REPLACE_SetArriveFlag(void *gameData, int zoneId)
 {
     unsigned i;
@@ -395,13 +349,6 @@ void MAP_REPLACE_SetArriveFlag(void *gameData, int zoneId)
     }
 }
 
-
-
-
-
-
-
-
 /*
  * evidence: owner commit f860957 supplies the matched ARM9 Thumb02014184
  * witness. Recheck the caller against that witness; no owner C compiled.
@@ -413,14 +360,6 @@ void MAP_REPLACE_SetDirectLocation(void *location, int zoneId, int unused, unsig
 {
     ZONEDATA_SetDirectLocation(location, zoneId, 1, gridX << 16, 0, (unsigned)gridZ << 16);
 }
-
-
-
-
-
-
-
-
 
 /* Table index of a 1-based warp id; an out-of-range id falls back to the default id. */
 int MAP_REPLACE_WarpIdToIndex(int warpId)

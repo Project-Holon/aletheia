@@ -20,9 +20,7 @@
 #include "../arm9/script_vm_types.h"
 #include "fieldmap_types.h"
 
-typedef int fx32;
-
-typedef long long s64;
+#include "../types.h"
 
 /* Packed collision tile of a map block (8 bytes of packed indices plus the attribute word). */
 typedef struct PackedTile {

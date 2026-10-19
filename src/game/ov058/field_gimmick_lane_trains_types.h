@@ -22,8 +22,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 typedef int fx32;
-typedef struct { fx32 x, y, z; } VecFx32;
-typedef struct { fx32 m[3][3]; } MtxFx33;
+#include "../sdk_fx.h"
+
 typedef struct FldExpObjCnt FldExpObjCnt;
 typedef struct G3dUtilSetup G3dUtilSetup;
 

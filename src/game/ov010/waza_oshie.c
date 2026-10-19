@@ -20,7 +20,7 @@
  *   d_02172B74 0x02172B74 data ov010 a1
  *   POKE_PERSONAL_LoadDataDirect  0x0201ADD0  thumb
  */
-#include "waza_oshie_shared_types.h"
+#include "../types.h"
 
 typedef struct LearnsetEntry {
     u16 move;

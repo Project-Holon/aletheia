@@ -38,11 +38,7 @@ typedef struct CTable {
     unsigned char b[24];
 } CTable;
 
-typedef struct MATHMD5Context {
-    unsigned long state[4];
-    unsigned long length[2];
-    unsigned char buffer[64];
-} MATHMD5Context;
+#include "../sdk_math.h"
 
 typedef union tagU4B {
     unsigned long l;

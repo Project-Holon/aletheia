@@ -70,6 +70,7 @@
  *   gcd_secret_key               0x021AE11C  data
  *   strncpy                      0x02094860  arm
  */
+#define GAME_TYPES_U32_LONG
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "dwc_cnt_types.h"
 

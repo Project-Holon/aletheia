@@ -3,15 +3,7 @@
 
 #include "btlv_camera_shared_types.h"
 
-#ifndef OV093_BASIC_TYPES
-#define OV093_BASIC_TYPES
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed char s8;
-typedef signed short s16;
-typedef signed int s32;
-#endif
+#include "../types.h"
 
 /*
  * Battle Pokemon and trainer sprites (MCSS = multi-cell sprite system).

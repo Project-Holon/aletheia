@@ -26,7 +26,7 @@
  *   POKEPARTY_GetMember 0x0201AB28 thumb arm9
  */
 #include "pokeparty_shared_types.h"
-#include "natsuki_shared_types.h"
+#include "../types.h"
 
 extern u32   POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 id, u32 arg);
 

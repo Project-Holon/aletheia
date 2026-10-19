@@ -79,7 +79,6 @@
  *   DWCi_WINlGet                     0x021D1568  arm
  *   DWCi_WINlIsInit                  0x021D157C  arm
  *   cbUsb                            0x021CE45C  arm
- *   procScene                        0x021CE23C  arm
  *   DWCi_WINlInitEx  0x021D1208  arm  ov016
  *   procNotFound  0x021CE564  arm  ov016
  *   endScene  0x021CE2D4  arm  ov016
@@ -87,7 +86,8 @@
  *   procConfirm                      0x021C22AC  arm
  *   sceneopterase_bss                0x021DE5A4  data
  */
-struct OSOwnerInfo;
+#include "../sdk_os.h"
+
 typedef struct {
     unsigned char favoriteColor;
     unsigned char pad;
@@ -99,7 +99,7 @@ typedef struct {
     unsigned short commentLength;
 } OwnerInfo;
 
-typedef unsigned short u16;
+#include "../types.h"
 
 typedef _Bool bool;
 
@@ -177,7 +177,6 @@ static void procNotFound1(void);
 static void procBoth(void);
 static void procBoth1(void);
 
-
 /*
  * Bit 15 of the halfword at 0x02FFFFA8 (lid closed), as 0/1: this scene's own
  * copy of the libdwcutil helper.
@@ -205,7 +204,6 @@ void DWCi_SceneSetUsbReady1(void)
     DWCi_ChangeScene(procInit);
 }
 
-
 static void initGraphics(void)
 {
     u16 *p;
@@ -225,16 +223,12 @@ static void initGraphics(void)
 }
 
 
-static void procScene(void);
-
-
 static void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(0, 0x15);
     DWCi_ChangeScene(procInit1);
 }
-
 
 static void procInit1(void)
 {
@@ -244,15 +238,13 @@ static void procInit1(void)
     DWCi_ChangeScene(procInit2);
 }
 
-
 static void procInit2(void)
 {
     if (DWCi_BTNlGet() == -2)
         return;
     DWCi_BTNlEnable();
-    DWCi_ChangeScene(procScene);
+    DWCi_ChangeScene(DWCi_SceneSetUsbReady1Update);
 }
-
 
 void DWCi_SceneSetUsbReady1Update(void)
 {
@@ -260,7 +252,6 @@ void DWCi_SceneSetUsbReady1Update(void)
     DWCi_SceneSetUsbReady1UpdateNop();
     button();
 }
-
 
 static void input(void)
 {
@@ -277,7 +268,6 @@ void DWCi_SceneSetUsbReady1UpdateNop(void)
 {
 }
 
-
 static void button(void)
 {
     if (Choose != 0)
@@ -290,14 +280,12 @@ static void button(void)
     DWCi_ChangeScene(endScene);
 }
 
-
 static void endScene(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
     DWCi_ChangeScene(endScene1);
 }
-
 
 static void endScene1(void)
 {
@@ -309,7 +297,6 @@ static void endScene1(void)
     DWCi_EFFlFade(3, 0, 0x15, 8);
     DWCi_ChangeScene(endScene2);
 }
-
 
 static void endScene2(void)
 {
@@ -338,7 +325,6 @@ static void endScene2(void)
         DWCi_ChangeScene(DWCi_SceneSetUsbComplete);
     }
 }
-
 
 /*
  * sdk:      cbUsb (libdwcutil.TWL.HYB.a scenesetusbready)
@@ -377,7 +363,6 @@ static void cbUsb(int state)
     }
 }
 
-
 static void procNotFound(void)
 {
     if (DWCi_WINlGet() != 0)
@@ -387,9 +372,7 @@ static void procNotFound(void)
     DWCi_ChangeScene(procNotFound1);
 }
 
-
 static void procConfirm(void);
-
 
 static void procNotFound1(void)
 {
@@ -397,7 +380,6 @@ static void procNotFound1(void)
         return;
     DWCi_ChangeScene(endScene);
 }
-
 
 static void procBoth(void)
 {
@@ -417,7 +399,6 @@ static void procBoth(void)
     DWCi_ChangeScene(procBoth1);
 }
 
-
 static void procBoth1(void)
 {
     if (DWCi_WINlIsInit())
@@ -430,5 +411,5 @@ static void procBoth1(void)
     DWCi_BTNlEnable();
     Choose = 0;
     DWCi_USBAPlSetCallback(cbUsb);
-    DWCi_ChangeScene(procScene);
+    DWCi_ChangeScene(DWCi_SceneSetUsbReady1Update);
 }

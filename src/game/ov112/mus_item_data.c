@@ -24,7 +24,7 @@
 
 extern u32 GFL_HEAP_Free(void *p);
 
-typedef signed char s8;
+#include "../types.h"
 
 /* A 12-byte element data record (MUSICAL_MCSS_GetElemPtr stride 0x0C). */
 typedef struct McssElemData {

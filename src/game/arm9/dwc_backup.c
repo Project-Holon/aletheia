@@ -28,87 +28,15 @@
  *   Address     0x02146A90 data a4
  *   g_02146A94  0x02146A94  data
  */
-typedef unsigned char      u8;
+#define GAME_TYPES_U32_LONG
+#define GAME_TYPES_S32_LONG
+#include "../types.h"
 
-typedef unsigned short     u16;
+#include "../sdk_dwc.h"
 
-typedef unsigned long      u32;
+#include "../sdk_ncfg.h"
 
-typedef unsigned long long u64;
-
-typedef struct tagDWCWiFiInfo {
-    u64 attestedUserId;
-    u64 notAttestedId;
-    u16 pass;
-    u16 randomHistory;
-} DWCWiFiInfo;
-
-typedef signed long    s32;
-
-typedef struct NCFGApInfo {
-    u8  ispId[32];
-    u8  ispPass[32];
-    u8  ssid[2][32];
-    u8  wep[4][16];
-    u8  ip[4];
-    u8  gateway[4];
-    u8  dns[2][4];
-    u8  netmask;
-    u8  wep2[4][5];
-    u8  authType;
-    u8  wepMode : 2;
-    u8  wepNotation : 6;
-    u8  setType;
-    u8  ssidLength[2];
-    u16 mtu;
-    u8  rsv[2];
-    u8  flags;
-    u8  state;
-} NCFGApInfo;
-
-typedef struct NCFGSlotInfo {
-    NCFGApInfo ap;
-    u8  wifi[14];
-    u16 crc;
-} NCFGSlotInfo;
-
-typedef struct NCFGApInfoEx {
-    u8  security[0x82];
-    u8  proxyMode;
-    u8  proxyAuthType;
-    u8  proxyHost[100];
-    u16 proxyPort;
-    u8  rsvEx[6];
-} NCFGApInfoEx;
-
-typedef struct NCFGSlotInfoEx {
-    NCFGApInfo   ap;
-    u8           wifi[14];
-    u16          crc;
-    NCFGApInfoEx apEx;
-    u8           rsv[14];
-    u16          crcEx;
-} NCFGSlotInfoEx;
-
-typedef struct NCFGConfig {
-    NCFGSlotInfo slot[3];
-    NCFGSlotInfo rsv;
-} NCFGConfig;
-
-typedef struct NCFGConfigEx {
-    NCFGSlotInfoEx slotEx[3];
-    union {
-        NCFGConfig compat;
-        struct {
-            NCFGSlotInfo slot[3];
-            NCFGSlotInfo rsv;
-        };
-    };
-} NCFGConfigEx;
-
-typedef struct MATHCRC16Table {
-    u16 table[256];
-} MATHCRC16Table;
+#include "../sdk_math.h"
 
 typedef struct tagMEMSWI {
     NCFGSlotInfo   mem;
@@ -154,18 +82,10 @@ static u8 Wifi[14];
 extern DWCBackupStatics Address;
 extern char g_02146A94[];
 
-
-
-
-
 int DWCi_BM_GetApInfo(void *buf)
 {
     return ReadSlotInfo(buf, 0, 3);
 }
-
-
-
-
 
 int DWCi_BM_GetApInfoEx(void *buf)
 {
@@ -173,10 +93,6 @@ int DWCi_BM_GetApInfoEx(void *buf)
         return 1;
     return 0;
 }
-
-
-
-
 
 /*
  * sdk:      DWCi_BM_GetWiFiInfo (libdwcbm.TWL.HYB.a dwc_backup.o)
@@ -194,10 +110,6 @@ void DWCi_BM_GetWiFiInfo(DWCWiFiInfo *buf)
     MI_CpuCopy8(&Wifi[12], &buf->randomHistory, 2);
 }
 
-
-
-
-
 /*
  * sdk:      ReadSlotInfo (libdwcbm.TWL.HYB.a dwc_backup.o)
  */
@@ -212,18 +124,10 @@ int ReadSlotInfo(NCFGSlotInfo *buf, int offset, u32 num)
     return 1;
 }
 
-
-
-
-
 int WriteSlotInfo(NCFGSlotInfo *buf, int index, void *work)
 {
     return NCFG_WriteBackupMemory(index, buf, 256) != -1;
 }
-
-
-
-
 
 /*
  * sdk:      ReadSlotInfoEx (libdwcbm.TWL.HYB.a dwc_backup.o)
@@ -238,10 +142,6 @@ int ReadSlotInfoEx(NCFGSlotInfoEx *buf, int offset, u32 num)
     }
     return 1;
 }
-
-
-
-
 
 /*
  * sdk:      DWCi_BM_SetWiFiInfo (libdwcbm.TWL.HYB.a dwc_backup.o)
@@ -267,18 +167,10 @@ int DWCi_BM_SetWiFiInfo(DWCWiFiInfo *info, void *work)
     return writeDisable() ? 1 : 0;
 }
 
-
-
-
-
 int DWCi_BACKUPlRead(void *mem)
 {
     return ReadSlotInfo(mem, 0, 4);
 }
-
-
-
-
 
 /*
  * sdk:      DWCi_BACKUPlWritePage (libdwcbm.TWL.HYB.a dwc_backup.o)
@@ -296,24 +188,12 @@ int DWCi_BACKUPlWritePage(DWCMemMap *data, int *page, void *work)
     return writeDisable() ? 1 : 0;
 }
 
-
-
-
-
 static unsigned char Wifi[14];
-
-
-
-
 
 void DWCi_BACKUPlSetWiFi(unsigned char *wifi)
 {
     MI_CpuCopy8(wifi, Wifi, 14);
 }
-
-
-
-
 
 /*
  * sdk:      DWCi_BACKUPlConvMaskCidr (libdwcbm.TWL.HYB.a dwc_backup.o)
@@ -335,9 +215,6 @@ u8 DWCi_BACKUPlConvMaskCidr(u8 *mask)
     return (u8)snm;
 }
 
-
-
-
 void DWCi_BACKUPlConvMaskAddr(int mask, unsigned char *buf)
 {
     int i;
@@ -345,10 +222,6 @@ void DWCi_BACKUPlConvMaskAddr(int mask, unsigned char *buf)
     for (i = 0; i < 4; i++)
         buf[i] = (unsigned char)(snm >> (24 - i * 8));
 }
-
-
-
-
 
 /*
  * sdk:      DWC_BACKUPlCheckIp (libdwcbm.TWL.HYB.a dwc_backup.o)
@@ -365,9 +238,6 @@ int DWC_BACKUPlCheckIp(u8 *ip, u8 *mask)
     return (ipa & ~snm) ? 1 : 0;
 }
 
-
-
-
 int DWC_BACKUPlCheckAddress(unsigned char *address)
 {
     unsigned char v = *address;
@@ -382,7 +252,6 @@ int writeDisable(void)
 {
     return 1;
 }
-
 
 /* info is const: this DWARF drops const qualifiers (MI_CpuCopy8's srcp reads `void *`),
  * and without it the byte stores are assumed to clobber *info, which reorders the tmp stores */
@@ -400,7 +269,6 @@ u8 *DWCi_BACKUPlConvWifiInfo(const DWCWiFiInfo *info)
     MI_CpuCopy8(&info->randomHistory, &Wifi[12], 2);
     return Wifi;
 }
-
 
 void *DWCi_BACKUPlGetWifi(void)
 {

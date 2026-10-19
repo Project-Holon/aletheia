@@ -197,12 +197,7 @@
  *   d_021D4A80  0x021D4A80  data  a4
  *   d_021D4A9C  0x021D4A9C  data  a4
  */
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed char    s8;
-typedef signed short   s16;
-typedef signed int     s32;
+#include "../types.h"
 
 #include "../ov010/fldmmdl_types.h"
 

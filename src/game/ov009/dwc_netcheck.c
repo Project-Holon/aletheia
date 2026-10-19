@@ -82,38 +82,11 @@
 
 #include "../../matched/arm9_sdk/libc/string.h"
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef unsigned long long u64;
+#include "../types.h"
 
-typedef struct {
-    char *url;
-    int action;
-    unsigned long len_recvbuf;
-    void *(*alloc)(unsigned long, long);
-    void (*free)(unsigned long, void *, long);
-    int ignoreca;
-    int timeout;
-} DWCHttpParam;
+#include "../sdk_dwc.h"
 
-typedef struct OSThread {
-    u8 pad0[0x6c];
-    int id;
-    u8 pad70[0x50];
-} OSThread;
-
-typedef struct {
-    char *buffer;
-    char *write_index;
-    char *buffer_tail;
-    unsigned long length;
-} DWCHttpBuffer;
-
-typedef struct {
-    char *label;
-    char *value;
-} DWCHttpLabelValue;
+#include "../sdk_os.h"
 
 typedef struct DWCHttp {
     u8 stack[0x1000];
@@ -132,12 +105,6 @@ typedef struct DWCHttp {
 } DWCHttp;
 
 typedef struct {
-    void *(*alloc)(unsigned long, long);
-    void (*free)(unsigned long, void *, long);
-    int extra;
-} DWCNetcheckParam;
-
-typedef struct {
     u8 stack[0x1000];
     int error;                  /* +0x1000 */
     int returncode;             /* +0x1004 */
@@ -148,29 +115,6 @@ typedef struct {
     OSThread thread;            /* +0x111c */
     u8 mutex[0x18];             /* +0x11dc */
 } DWCNetcheck;
-
-typedef struct {
-    u16 ingamesn[26];
-    char gsbrcd[12];
-    void *(*alloc)(unsigned long, long);
-    void (*free)(unsigned long, void *, long);
-} DWCAuthParam;
-
-typedef struct {
-    int returncode;
-    char rest[0x1c0];
-} DWCAuthResult;
-
-typedef struct {
-    u64 attestedUserId;
-    u64 notAttestedId;
-    u16 pass;
-    u16 randomHistory;
-} DWCWiFiInfo;
-
-typedef struct {
-    u8 data[0x94];
-} DWCCalInfo;
 
 typedef struct {
     DWCHttp *http;              /* +0x00 DWChttp */
@@ -187,11 +131,6 @@ typedef struct {
     int bFirst;
     char *url;
 } NetcheckData;
-
-typedef struct {
-    int pad0;
-    void *current;
-} OSThreadInfo;
 
 extern NetcheckBss DWChttp;
 extern NetcheckData _ZZ23DWC_SimpleNetcheckAsynciE6bFirst_0;
@@ -239,7 +178,6 @@ extern int DWC_Http_Add_Body(char *http, char *data);
 extern void OS_Sleep(unsigned long msec);
 
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-struct OSMutex;
 extern void OS_InitMutex(struct OSMutex *mutex);
 extern void OS_LockMutex(struct OSMutex *mutex);
 extern void OS_UnlockMutex(struct OSMutex *mutex);

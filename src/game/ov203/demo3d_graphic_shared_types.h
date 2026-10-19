@@ -9,11 +9,7 @@ struct Bank;
 
 struct Cfg;
 
-typedef unsigned int   u32;
-
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
+#include "../types.h"
 
 /*
  * Graphic context of the demo3d demo (0x18 bytes; DEMO3D_GRAPHIC_Create allocates it

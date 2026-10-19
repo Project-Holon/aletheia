@@ -13,11 +13,7 @@
 
 #include "../arm9/pms_types.h"
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed char s8;
-typedef signed short s16;
+#include "../types.h"
 
 struct Mail;
 struct Strbuf;
@@ -162,7 +158,6 @@ struct MailEditProc {
     /* 0x154 */ struct ClactUnit *pmsClactUnit;
     /* 0x158 */ struct PrintQue *pmsPrintQue;
 };
-
 
 /* Caller's request of the mail box list (first two words; the caller owns the block). */
 struct MailBoxArgs {

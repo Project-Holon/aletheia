@@ -239,7 +239,7 @@ typedef void (*ViewTaskFunc)(void *tcb, struct PmsInputViewTask *task);
 
 typedef struct { ViewTaskFunc entries[PMS_INPUT_VIEW_TASK_COUNT]; } ViewTaskTable;
 
-typedef enum { GX_DISP_SELECT_SUB_MAIN=0, GX_DISP_SELECT_MAIN_SUB=1 } GXDispSelect;
+#include "../sdk_gx.h"
 
 struct ScreenPos { short x, y; };
 

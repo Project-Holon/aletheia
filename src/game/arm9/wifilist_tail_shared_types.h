@@ -3,19 +3,10 @@
 
 struct SaveControl;
 
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
+#include "../types.h"
 
 /* RTC calendar date (the RTCDate of config.c). */
-struct RTCDate {
-    u32 year;
-    u32 month;
-    u32 day;
-    u32 week;
-};
+#include "../sdk_rtc.h"
 
 /* Trainer status record, 0x20 bytes (layout of config.c). */
 #ifndef MYSTATUS_STRUCT_DEFINED

@@ -54,17 +54,13 @@ typedef struct gsLargeInt_s {
     l_word mData[64];
 } gsLargeInt_t;
 
-typedef unsigned int u32;
-
-typedef unsigned long long u64;
+#include "../types.h"
 
 typedef int gsi_bool;
 
 typedef unsigned int gsi_u32;
 
 typedef int gsi_i32;
-
-typedef unsigned char  u8;
 
 extern unsigned int current_time_hires(void);
 static void gsiLargeIntTimerEnter(int id);
@@ -95,12 +91,6 @@ void *gsiMemoryMalloc(unsigned long size);
 void gsiMemoryFree(void *p);
 void *gsiMemoryRealloc(unsigned long block, unsigned long size);
 
-
-
-
-
-
-
 static void gsiLargeIntTimerEnter(int id)
 {
     if (gTimers[id].started == 0)
@@ -111,12 +101,6 @@ static void gsiLargeIntTimerEnter(int id)
     }
 }
 
-
-
-
-
-
-
 static void gsiLargeIntTimerExit(int id)
 {
     if (gTimers[id].started == 1)
@@ -125,12 +109,6 @@ static void gsiLargeIntTimerExit(int id)
         gTimers[id].started = 0;
     }
 }
-
-
-
-
-
-
 
 /*
  * Big-number vector compare.  Both operands are little-endian limbs with the
@@ -158,12 +136,6 @@ int gsiLargeIntCompare(const u32 *a, u32 n, const u32 *b, u32 m)
     return 0;
 }
 
-
-
-
-
-
-
 static int gsiLargeIntStripLeadingZeroes(gsLargeInt_t * lint)
 {
     while (lint->mLength != 0 && lint->mData[lint->mLength - 1] == 0)
@@ -171,11 +143,6 @@ static int gsiLargeIntStripLeadingZeroes(gsLargeInt_t * lint)
 
     return 1;
 }
-
-
-
-
-
 
 /*
  * sdk:      gsiLargeIntAdd (libdwcgscommon.TWL.HYB.a(gslargeint.o))
@@ -232,11 +199,6 @@ int gsiLargeIntAdd(u32 *data1, u32 length1, u32 *data2, u32 length2, u32 *dest, 
     return carry == 0;
 }
 
-
-
-
-
-
 /*
  * sdk:      gsiLargeIntSub (libdwcgscommon.TWL.HYB.a(gslargeint.o))
  */
@@ -272,10 +234,6 @@ int gsiLargeIntSub(u32 *src1, u32 length1, u32 *src2, u32 length2, u32 *dest, u3
     gsiLargeIntTimerExit(4);
     return 1;
 }
-
-
-
-
 
 /*
  * sdk:      gsiLargeIntMult (gslargeint.o)
@@ -328,10 +286,6 @@ static int gsiLargeIntMult(unsigned int *data1, unsigned int length1,
     return 1;
 }
 
-
-
-
-
 /*
  * sdk:      gsLargeIntDiv (gslargeint.o)
  */
@@ -339,10 +293,6 @@ gsi_bool gsLargeIntDiv(const gsLargeInt_t *src1, const gsLargeInt_t *divisor, gs
 {
     return gsiLargeIntDiv((unsigned int *)src1->mData, src1->mLength, (gsLargeInt_t *)divisor, dest, remainder);
 }
-
-
-
-
 
 int gsiLargeIntDiv(unsigned int *src, unsigned int len, gsLargeInt_t *div, gsLargeInt_t *dest, gsLargeInt_t *remainder)
 {
@@ -470,10 +420,6 @@ int gsiLargeIntDiv(unsigned int *src, unsigned int len, gsLargeInt_t *div, gsLar
     return 1;
 }
 
-
-
-
-
 /*
  * sdk:      gsiLargeIntSubDivide (gslargeint.o)
  *
@@ -529,10 +475,6 @@ static int gsiLargeIntSubDivide(unsigned int *src, unsigned int length,
     return 1;
     }
 }
-
-
-
-
 
 /*
  * The six-instruction prologue residue (`squareLen = 0` stored at [sp,#0x14])
@@ -590,9 +532,6 @@ int gsLargeIntSquareMod(const gsLargeInt_t *lint, gsLargeInt_t *mod,
     return result;
     }
 }
-
-
-
 
 int gsLargeIntPowerMod(gsLargeInt_t *b, gsLargeInt_t *p,
                        gsLargeInt_t *m, gsLargeInt_t *dest)
@@ -709,8 +648,6 @@ int gsLargeIntPowerMod(gsLargeInt_t *b, gsLargeInt_t *p,
     return 1;
 }
 
-
-
 /*
  * 2026-10-01: closed. The carry is propagated as `carry >> 32` (upstream
  *   gsLargeInt style): the inner sum adds `(unsigned int)(carry >> 32)`, the
@@ -789,9 +726,6 @@ int gsiLargeIntMultM(gsLargeInt_t *x, gsLargeInt_t *y,
     return 1;
 }
 
-
-
-
 /*
  * sdk:      gsiLargeIntInverseMod (gslargeint.o)
  */
@@ -811,8 +745,6 @@ int gsiLargeIntInverseMod(gsLargeInt_t *mod, unsigned int *dest)
     *dest = (unsigned int)(x - y);
     return 1;
 }
-
-
 
 /*
  * sdk:      gsLargeIntSetFromHexString (gslargeint.o)
@@ -856,7 +788,6 @@ int gsLargeIntSetFromHexString(gsLargeInt_t *lint, char *hexstream)
     return 1;
 }
 
-
 /*
  * Reverses the n*4-byte payload that follows the count word, in place.
  */
@@ -875,8 +806,6 @@ int gsLargeIntReverseBytes(char *p)
     }
     return 1;
 }
-
-
 
 void gsLargeIntAddToMD5(gsLargeInt_t * _lint, struct GSMD5_CTX * md5)
 {
@@ -897,8 +826,6 @@ void gsLargeIntAddToMD5(gsLargeInt_t * _lint, struct GSMD5_CTX * md5)
     GSMD5Update(md5, dataStart, byteLength);
     gsLargeIntReverseBytes((char *)&lint);
 }
-
-
 
 unsigned int gsLargeIntGetByteLength(gsLargeInt_t * lint)
 {

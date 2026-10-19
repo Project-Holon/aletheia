@@ -361,17 +361,11 @@ struct PalAnmSlot;
 struct CodeIn;
 struct Actor;
 struct Vec2;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 typedef struct { u16 v[4]; } Halfwords;
 
 typedef struct { u32 value; u8 kind; u8 pad; u16 detail; u32 tail; } MatchFilterRecord;
-
-typedef signed int     s32;
 
 typedef struct Ctx {
     u8 pad0[0x2C];
@@ -419,8 +413,6 @@ typedef struct Data { u32 w[8]; } Data;
 typedef struct Config { Data *defs; u32 count; int actorSys; u32 bgLayer, bgPlttSlot, actorPlttSlot; int iconSet, skipBgGfx; } Config;
 
 typedef struct PosRecord { u16 x, y, z; u8 a, b; } PosRecord;
-
-typedef signed short s16;
 
 typedef struct Entry { u8 code, x, y, other; } Entry;
 
@@ -767,33 +759,15 @@ extern const Pair d_021D895C,d_021D896C,d_021D894C,d_021D8954,d_021D8944,d_021D8
 extern const Data d_021D8990;
 extern const Entry gGtsnegoEntryTable[];
 
-
-
-
 void GTSNEGO_DISP_SetCallback(void **slot, void *callback) { *slot=callback; }
-
-
-
 
 void GTSNEGO_DISP_SetStateCallback(void *dispCtx, void *callback, int line) { GTSNEGO_DISP_SetCallback(dispCtx, callback); }
 
-
-
-
 void GTSNEGO_DISP_OnTradeSync(u32 netId,int size,const void *data,struct GtsnegoDispCtx *dispCtx,struct Entry *netHandle) { u8 *q; q=*(u8 * *)&dispCtx->parentCtx; if(netHandle==GFL_NET_HANDLE_GetCurrentHandle() && netId!=GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) MI_CpuCopy8(data,q+12,8); }
-
-
-
 
 void GTSNEGO_DISP_OnStatusSync(u32 netId,int size,const void *data,struct GtsnegoDispCtx *dispCtx,struct Entry *netHandle) { u8 *q; q=*(u8 * *)&dispCtx->parentCtx; if(netHandle==GFL_NET_HANDLE_GetCurrentHandle() && netId!=GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) MI_CpuCopy8(data,((struct GtsnegoParentCtx *)q)->partnerStatus,MYSTATUS_GetSize()); }
 
-
-
-
 void GTSNEGO_DISP_OnRecordSync(u32 netId,int size,const void *data,u8 *dispCtx,struct Entry *netHandle) { if(netHandle==GFL_NET_HANDLE_GetCurrentHandle() && netId!=GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) MI_CpuCopy8(data,dispCtx+0x174,12); }
-
-
-
 
 /*
  * extent: existing matched followers 021D435C, 021D437C, 021D439C remain separate.
@@ -820,9 +794,6 @@ int GTSNEGO_DISP_StartTrade(int choice, u8 *dispCtx)
     return 1;
 }
 
-
-
-
 /*
  * follower: separately filed 021D437C.
  */
@@ -831,9 +802,6 @@ void GTSNEGO_DISP_CycleRowB(int delta, char *dispCtx) {
     if(((struct GtsnegoDispCtx *)dispCtx)->rowBIndex>=5) ((struct GtsnegoDispCtx *)dispCtx)->rowBIndex=0;
     else if(((struct GtsnegoDispCtx *)dispCtx)->rowBIndex<0) ((struct GtsnegoDispCtx *)dispCtx)->rowBIndex=4;
 }
-
-
-
 
 /*
  * follower: separately filed 021D439C.
@@ -844,17 +812,11 @@ void GTSNEGO_DISP_CycleRowC(int delta, char *dispCtx) {
     else if(((struct GtsnegoDispCtx *)dispCtx)->rowCIndex<0) ((struct GtsnegoDispCtx *)dispCtx)->rowCIndex=4;
 }
 
-
-
-
 void GTSNEGO_DISP_CycleRowA(int delta, char *dispCtx) {
     ((struct GtsnegoDispCtx *)dispCtx)->rowAIndex+=delta;
     if(((struct GtsnegoDispCtx *)dispCtx)->rowAIndex>=4) ((struct GtsnegoDispCtx *)dispCtx)->rowAIndex=0;
     else if(((struct GtsnegoDispCtx *)dispCtx)->rowAIndex<0) ((struct GtsnegoDispCtx *)dispCtx)->rowAIndex=3;
 }
-
-
-
 
 int GTSNEGO_DISP_MoveRowCursor(int selection, char *dispCtx) {
     int result=0;
@@ -870,25 +832,11 @@ int GTSNEGO_DISP_MoveRowCursor(int selection, char *dispCtx) {
     return result;
 }
 
-
-
-
 int GTSNEGO_DISP_OnRowCursorMoved(int selection,char *dispCtx) { int result; if(*(struct Obj * *)&((struct GtsnegoDispCtx *)dispCtx)->tooltipWin) APP_TASKMENU_WIN_SetActive((struct TaskMenuWin *)(*(struct Obj * *)&((struct GtsnegoDispCtx *)dispCtx)->tooltipWin),0); result=GTSNEGO_DISP_MoveRowCursor(selection,dispCtx); if(result) ((struct GtsnegoDispCtx *)dispCtx)->buttonCursor=result; return 1; }
-
 
 void GTSNEGO_DISP_MoveCursorVertical(int direction,char *dispCtx) { int v; v=((struct GtsnegoDispCtx *)dispCtx)->buttonCursor-2; if(((struct GtsnegoDispCtx *)dispCtx)->buttonCursor>=2 || ((struct GtsnegoDispCtx *)dispCtx)->buttonCursor<=4) GTSNEGO_DISP_MoveRowCursor(direction+v*2,dispCtx); }
 
-
-
-
-
-
 void GTSNEGO_DISP_WaitWipeDone(u8 *dispCtx) { if (WIPE_SYS_EndCheck()) GTSNEGO_DISP_SetStateCallback(dispCtx, 0, 0x213); }
-
-
-
-
-
 
 void GTSNEGO_DISP_StartWipe(struct GtsnegoDispCtx *dispCtx) {
     if (--dispCtx->waitFrames<=0) {
@@ -896,10 +844,6 @@ void GTSNEGO_DISP_StartWipe(struct GtsnegoDispCtx *dispCtx) {
         GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_WaitWipeDone, 0x21e);
     }
 }
-
-
-
-
 
 void GTSNEGO_DISP_ShowTradeReady(u8 *dispCtx)
 {
@@ -913,9 +857,6 @@ void GTSNEGO_DISP_ShowTradeReady(u8 *dispCtx)
     GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_StartWipe, 0x232);
 }
 
-
-
-
 void GTSNEGO_DISP_WaitTradeStart(struct GtsnegoDispCtx *dispCtx)
 {
     --dispCtx->waitFrames;
@@ -927,9 +868,6 @@ void GTSNEGO_DISP_WaitTradeStart(struct GtsnegoDispCtx *dispCtx)
         GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ShowTradeReady, 0x241);
     }
 }
-
-
-
 
 void GTSNEGO_DISP_ShowTradeConfirm(struct GtsnegoDispCtx *dispCtx)
 {
@@ -951,9 +889,6 @@ void GTSNEGO_DISP_ShowTradeConfirm(struct GtsnegoDispCtx *dispCtx)
     dispCtx->waitFrames = 0xb4;
     GTSNEGO_DISP_SetStateCallback(((int *)dispCtx), GTSNEGO_DISP_WaitTradeStart, 0x265);
 }
-
-
-
 
 void GTSNEGO_DISP_ConfirmStatus(struct GtsnegoDispCtx *dispCtx)
 {
@@ -980,9 +915,6 @@ void GTSNEGO_DISP_ConfirmStatus(struct GtsnegoDispCtx *dispCtx)
         GTSNEGO_DISP_SetStateCallback(((int *)dispCtx), GTSNEGO_DISP_ShowTradeConfirm, 0x283);
     }
 }
-
-
-
 
 /*
  * evidence: 020399A8's r0 is consumed by 02039CB4 despite its void definition.
@@ -1012,32 +944,11 @@ void GTSNEGO_DISP_PrepareTrade(u8 *dispCtx)
     }
 }
 
-
-
-
 void GTSNEGO_DISP_StartSync(u8 *dispCtx) { GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),3,34); GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_PrepareTrade, 0x2ac); }
-
-
-
 
 void GTSNEGO_DISP_SendStatus(struct GtsnegoDispCtx *dispCtx) { void *link; int n; link=GFL_NET_HANDLE_GetCurrentHandle(); n=MYSTATUS_GetSize(); if (GFL_NET_SendToHandle(link,0x2201,n,*(u32 *)(*(unsigned int *)&dispCtx->parentCtx+20))) GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_StartSync, 0x2bd); }
 
-
-
-
-
-
-
-
 void GTSNEGO_DISP_SendRecord(u8 *dispCtx) { if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),0x2202,12,(u32)(dispCtx+360))) GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_SendStatus, 0x2cf); }
-
-
-
-
-
-
-
-
 
 void GTSNEGO_DISP_SendHandshake(struct GtsnegoDispCtx *dispCtx)
 {
@@ -1050,14 +961,6 @@ void GTSNEGO_DISP_SendHandshake(struct GtsnegoDispCtx *dispCtx)
             GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_SendRecord, 0x2e7);
     }
 }
-
-
-
-
-
-
-
-
 
 void GTSNEGO_DISP_WaitNegotiation(u8 *dispCtx)
 {
@@ -1085,13 +988,6 @@ void GTSNEGO_DISP_WaitNegotiation(u8 *dispCtx)
     }
 }
 
-
-
-
-
-
-
-
 void GTSNEGO_DISP_CheckNegotiation(int *dispCtx)
 {
     if (GFL_NET_GetRunState() == 0) {
@@ -1101,13 +997,6 @@ void GTSNEGO_DISP_CheckNegotiation(int *dispCtx)
     if (GFL_NET_HANDLE_GetNegotiationNum() != 0 && GFL_NET_HANDLE_CheckNegotiation() != 0)
         GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_WaitNegotiation, 0x322);
 }
-
-
-
-
-
-
-
 
 void GTSNEGO_DISP_WaitPartnerReady(struct GtsnegoDispCtx *dispCtx)
 {
@@ -1128,14 +1017,6 @@ void GTSNEGO_DISP_WaitPartnerReady(struct GtsnegoDispCtx *dispCtx)
         }
     }
 }
-
-
-
-
-
-
-
-
 
 /*
  * Blocker resolved: the call to GFL_NET_STATE_GetWifiState (site +0050) was the only
@@ -1170,13 +1051,6 @@ void GTSNEGO_DISP_HandleTradeKeys(struct GtsnegoDispCtx *dispCtx)
     GTSNEGO_MSG_DeleteConfirmWindow((u8 *)(*(int *)&dispCtx->msgCtx));
     GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_WaitPartnerReady, 0x377);
 }
-
-
-
-
-
-
-
 
 int GTSNEGO_DISP_ScoreMatch(int matchData, u8 *dispCtx)
 {
@@ -1230,13 +1104,6 @@ int GTSNEGO_DISP_ScoreMatch(int matchData, u8 *dispCtx)
     return score;
 }
 
-
-
-
-
-
-
-
 void GTSNEGO_DISP_StartMatchmaking(u8 *dispCtx)
 {
     u32 values[8];
@@ -1286,19 +1153,7 @@ void GTSNEGO_DISP_StartMatchmaking(u8 *dispCtx)
     }
 }
 
-
-
-
-
-
-
 void GTSNEGO_DISP_OnMenuCallback(void *selection,int event,u8 *dispCtx) { if (event==0 && ((struct GtsnegoDispCtx *)dispCtx)->rowInputCallback) { GTSNEGO_DISP_SetCursorState(*(u8 * *)&((struct GtsnegoDispCtx *)dispCtx)->actorSys,((struct GtsnegoDispCtx *)dispCtx)->tooltipWin,9); UI_SetInputMode(1); if ((*(int (**)(void *,void *))(dispCtx+4))(selection,dispCtx)==0) return; } }
-
-
-
-
-
-
 
 void GTSNEGO_DISP_OnConfirmDone(struct GtsnegoDispCtx *dispCtx)
 {
@@ -1315,12 +1170,6 @@ void GTSNEGO_DISP_OnConfirmDone(struct GtsnegoDispCtx *dispCtx)
         GTSNEGO_DISP_SetStateCallback(((int *)dispCtx), GTSNEGO_DISP_StartMatchmaking, 0x460);
     }
 }
-
-
-
-
-
-
 
 void GTSNEGO_DISP_HandleConfirmKeys(u8 *dispCtx)
 {
@@ -1380,12 +1229,6 @@ void GTSNEGO_DISP_HandleConfirmKeys(u8 *dispCtx)
     }
 }
 
-
-
-
-
-
-
 void GTSNEGO_DISP_CreateConfirmUi(u8 *dispCtx)
 {
     ((struct GtsnegoDispCtx *)dispCtx)->tradeMode = 0;
@@ -1407,26 +1250,9 @@ void GTSNEGO_DISP_CreateConfirmUi(u8 *dispCtx)
     GTSNEGO_DISP_SetStateCallback(((int *)dispCtx), GTSNEGO_DISP_HandleConfirmKeys, 0x537);
 }
 
-
-
-
-
-
-
 void *GTSNEGO_DISP_GetEntry(void **list,int index) { int n; n=TRADE_HISTORY_GetPartnerCount(GAME_DATA_GetTradeHistory(list)); if (index>=n || index<0) return 0; return TRADE_HISTORY_GetPartner(GAME_DATA_GetTradeHistory(list),index); }
 
-
-
-
-
-
 void *GTSNEGO_DISP_GetEntryClamped(void **list,int index) { int n; n=TRADE_HISTORY_GetPartnerCount(GAME_DATA_GetTradeHistory(list)); if (index<0) index=0; if (index>=n) index=n-1; return TRADE_HISTORY_GetPartner(GAME_DATA_GetTradeHistory(list),index); }
-
-
-
-
-
-
 
 /*
  * Addresses are Black-image addresses.
@@ -1437,24 +1263,7 @@ void GTSNEGO_DISP_ShowSubPlanes(u8 *dispCtx)
     BG_SYS_SetSubVisiblePlanes(0x1f);
 }
 
-
-
-
-
-
-
-
-
 void GTSNEGO_DISP_Teardown(struct GtsnegoDispCtx *dispCtx) { GTSNEGO_MSG_Teardown(*(u8 * *)&dispCtx->actorSys); GTSNEGO_MSG_DeleteAll(*(char * *)&dispCtx->msgCtx); GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ShowSubPlanes, 0x5c5); }
-
-
-
-
-
-
-
-
-
 
 void GTSNEGO_DISP_OnDisconnect(struct GtsnegoDispCtx *dispCtx)
 {
@@ -1473,15 +1282,6 @@ void GTSNEGO_DISP_OnDisconnect(struct GtsnegoDispCtx *dispCtx)
     }
 }
 
-
-
-
-
-
-
-
-
-
 void GTSNEGO_DISP_OnDisconnectCallback(int unused, int buttonIndex, int *dispCtx)
 {
     if (buttonIndex == 0 && *(void **)dispCtx == GTSNEGO_DISP_HandleTradeKeys) {
@@ -1493,20 +1293,7 @@ void GTSNEGO_DISP_OnDisconnectCallback(int unused, int buttonIndex, int *dispCtx
     }
 }
 
-
-
-
-
-
-
-
 void GTSNEGO_DISP_CreateExitTooltip(struct GtsnegoDispCtx *dispCtx) { dispCtx->tooltipWin=GTSNEGO_MSG_CreateTooltip(*(char * *)&dispCtx->msgCtx,44); GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_HandleListInput, 0x5ff); }
-
-
-
-
-
-
 
 void GTSNEGO_DISP_OnExitMenuDone(struct GtsnegoDispCtx *dispCtx)
 {
@@ -1543,11 +1330,6 @@ void GTSNEGO_DISP_OnExitMenuDone(struct GtsnegoDispCtx *dispCtx)
     }
 }
 
-
-
-
-
-
 void GTSNEGO_DISP_OpenExitMenu(struct GtsnegoDispCtx *dispCtx)
 {
     if (GTSNEGO_MSG_UpdatePrintStream(dispCtx->msgCtx)) {
@@ -1559,14 +1341,6 @@ void GTSNEGO_DISP_OpenExitMenu(struct GtsnegoDispCtx *dispCtx)
     }
 }
 
-
-
-
-
-
-
-
-
 /*
  * lever: The caller has no halfword truncation before GTSNEGO_MSG_PrintWindow;
  * widen its copied u16 argument to int. Explicit calls in both branches
@@ -1574,23 +1348,7 @@ void GTSNEGO_DISP_OpenExitMenu(struct GtsnegoDispCtx *dispCtx)
  */
 void GTSNEGO_DISP_ShowListMessage(struct GtsnegoDispCtx *dispCtx) { if (dispCtx->selectedListIndex==-1) GTSNEGO_MSG_PrintWindow((struct GtsnegoMsgCtx *)(*(u8 * *)&dispCtx->msgCtx),45); else GTSNEGO_MSG_PrintWindow((struct GtsnegoMsgCtx *)(*(u8 * *)&dispCtx->msgCtx),31); GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_OpenExitMenu, 0x646); }
 
-
-
-
-
-
-
-
-
 void GTSNEGO_DISP_EndList(struct GtsnegoDispCtx *dispCtx) { BG_SYS_SetPlaneVisible(4,0); GTSNEGO_MSG_TeardownTileRows(*(u8 * *)&dispCtx->actorSys); GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ShowPartySelect, 0x64e); }
-
-
-
-
-
-
-
-
 
 /*
  * extent: two zero padding bytes at 0x021D5282 precede labelled 0x021D5284.
@@ -1616,14 +1374,6 @@ int GTSNEGO_DISP_ListCursorUp(u8 *dispCtx)
     return result;
 }
 
-
-
-
-
-
-
-
-
 int GTSNEGO_DISP_ListCursorDown(u8 *dispCtx)
 {
     int result = GTSNEGO_MSG_CursorDown(((struct GtsnegoDispCtx *)dispCtx)->actorSys, (int *)(dispCtx + 0x150));
@@ -1641,14 +1391,6 @@ int GTSNEGO_DISP_ListCursorDown(u8 *dispCtx)
     return result;
 }
 
-
-
-
-
-
-
-
-
 void GTSNEGO_DISP_OnListConfirmDone(struct GtsnegoDispCtx *dispCtx)
 {
     if (APP_TASKMENU_WIN_IsFinish(dispCtx->tooltipWin)) {
@@ -1661,15 +1403,6 @@ void GTSNEGO_DISP_OnListConfirmDone(struct GtsnegoDispCtx *dispCtx)
     }
 }
 
-
-
-
-
-
-
-
-
-
 void GTSNEGO_DISP_DeleteMenuWindow(u8 *dispCtx)
 {
     if (((struct GtsnegoDispCtx *)dispCtx)->tooltipWin) {
@@ -1678,14 +1411,6 @@ void GTSNEGO_DISP_DeleteMenuWindow(u8 *dispCtx)
         *(u32 *)&((struct GtsnegoDispCtx *)dispCtx)->tooltipWin = 0;
     }
 }
-
-
-
-
-
-
-
-
 
 void GTSNEGO_DISP_HandleListInput(Ctx *dispCtx)
 {
@@ -1832,13 +1557,6 @@ end:
     }
 }
 
-
-
-
-
-
-
-
 void GTSNEGO_DISP_WaitSelectStart(struct GtsnegoDispCtx *dispCtx)
 {
     if (GTSNEGO_MSG_UpdatePrintStream(dispCtx->msgCtx)) {
@@ -1851,13 +1569,6 @@ void GTSNEGO_DISP_WaitSelectStart(struct GtsnegoDispCtx *dispCtx)
         }
     }
 }
-
-
-
-
-
-
-
 
 void GTSNEGO_DISP_ShowPokemonList(struct GtsnegoDispCtx *dispCtx)
 {
@@ -1888,14 +1599,6 @@ void GTSNEGO_DISP_ShowPokemonList(struct GtsnegoDispCtx *dispCtx)
     GTSNEGO_DISP_SetStateCallback(((int *)dispCtx), GTSNEGO_DISP_HandleListInput, 0x815);
 }
 
-
-
-
-
-
-
-
-
 void GTSNEGO_DISP_ShowPartySelect(u8 *dispCtx)
 {
     GTSNEGO_MSG_SetupRowBg(((struct GtsnegoDispCtx *)dispCtx)->actorSys);
@@ -1922,24 +1625,7 @@ void GTSNEGO_DISP_ShowPartySelect(u8 *dispCtx)
     GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_HandlePartyInput, 0x86c);
 }
 
-
-
-
-
-
-
-
-
 int GTSNEGO_DISP_SelectParty(u8 *dispCtx,int position) { if (GTSNEGO_MSG_SetCursorAnimSeq(((struct GtsnegoDispCtx *)dispCtx)->actorSys,position)) { TOUCHBAR_SetAllButtonsVisible((u8 *)GTSNEGO_DISP_GetTouchbar((u8 *)(((struct GtsnegoDispCtx *)dispCtx)->actorSys)),0); GFL_USE_PlaySeDefaultVolume(1356); return position; } return 9; }
-
-
-
-
-
-
-
-
-
 
 int GTSNEGO_DISP_CheckPartySelect(struct GtsnegoDispCtx *dispCtx, int position)
 {
@@ -1947,14 +1633,6 @@ int GTSNEGO_DISP_CheckPartySelect(struct GtsnegoDispCtx *dispCtx, int position)
         position = 9;
     return position;
 }
-
-
-
-
-
-
-
-
 
 void GTSNEGO_DISP_OnPartySelected(struct GtsnegoDispCtx *dispCtx)
 {
@@ -1971,14 +1649,6 @@ void GTSNEGO_DISP_OnPartySelected(struct GtsnegoDispCtx *dispCtx)
         GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ShowPokemonList, 0x8a7);
     }
 }
-
-
-
-
-
-
-
-
 
 void GTSNEGO_DISP_OnPartyMenuDone(struct GtsnegoDispCtx *dispCtx)
 {
@@ -2008,14 +1678,6 @@ void GTSNEGO_DISP_OnPartyMenuDone(struct GtsnegoDispCtx *dispCtx)
     }
 }
 
-
-
-
-
-
-
-
-
 void GTSNEGO_DISP_OpenPartyMenu(struct GtsnegoDispCtx *dispCtx)
 {
     if (GTSNEGO_MSG_UpdatePrintStream(dispCtx->msgCtx)) {
@@ -2026,14 +1688,6 @@ void GTSNEGO_DISP_OpenPartyMenu(struct GtsnegoDispCtx *dispCtx)
         GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_OnPartyMenuDone, 0x8d4);
     }
 }
-
-
-
-
-
-
-
-
 
 void GTSNEGO_DISP_HandlePartyInput(u8 *dispCtx)
 {
@@ -2079,14 +1733,6 @@ void GTSNEGO_DISP_HandlePartyInput(u8 *dispCtx)
     }
 }
 
-
-
-
-
-
-
-
-
 void GTSNEGO_DISP_ResetScreen(u8 *dispCtx)
 {
     if (((struct GtsnegoParentCtx *)((struct GtsnegoDispCtx *)dispCtx)->parentCtx)->screenState != 1) {
@@ -2106,13 +1752,6 @@ void GTSNEGO_DISP_ResetScreen(u8 *dispCtx)
         GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ShowPartySelect, 0x937);
     }
 }
-
-
-
-
-
-
-
 
 /*
  * volatile: hardware halfword registers written at 0x021D5C78 and 0x021D5C7E.
@@ -2151,13 +1790,6 @@ int GTSNEGO_DISP_Create(void *owner, int unused, u8 *parentCtx)
     GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ShowPartySelect, 0x96a);
     return 1;
 }
-
-
-
-
-
-
-
 
 int GTSNEGO_DISP_Step(int unusedA, int unusedB, int unusedC, u8 *dispCtx)
 {
@@ -2202,13 +1834,6 @@ int GTSNEGO_DISP_Step(int unusedA, int unusedB, int unusedC, u8 *dispCtx)
     return result;
 }
 
-
-
-
-
-
-
-
 /*
  * trailing: 2-byte zero alignment padding at 0x021D5E86.
  */
@@ -2225,13 +1850,6 @@ int GTSNEGO_DISP_Delete(void *owner, int unusedA, int unusedB, struct GtsnegoDis
     GFL_HEAP_DeleteChecked(31);
     return 1;
 }
-
-
-
-
-
-
-
 
 /*
  * interface: arg is a full-word pointer, as matched caller 021D5C60 supplies.
@@ -2267,21 +1885,7 @@ u8 *GTSNEGO_DISP_CreateMsgSystem(u32 heap,void *arg)
     return actorSys;
 }
 
-
-
-
-
-
-
-
 void GTSNEGO_DISP_DrawSystem(struct GtsnegoActorSys *actorSys){CLACT_DrawSystem();if(actorSys->blinkAnimA)BLINK_PALANM_Update(actorSys->blinkAnimA);if(actorSys->blinkAnimB)BLINK_PALANM_Update(actorSys->blinkAnimB);GTSNEGO_MSG_StepIdleFade((struct GtsnegoActorSys *)actorSys);}
-
-
-
-
-
-
-
 
 void GTSNEGO_DISP_DeleteMsgSystem(u8 *actorSys)
 {
@@ -2325,23 +1929,7 @@ void GTSNEGO_DISP_DeleteMsgSystem(u8 *actorSys)
     GF_OVERLAY_Unload((int)ov_id);
 }
 
-
-
-
-
-
-
-
-
 u32 GTSNEGO_DISP_GetUnit(struct GtsnegoActorSys *actorSys){return (u32)actorSys->clactUnit;}
-
-
-
-
-
-
-
-
 
 /*
  * BG-layer init: eight copies of the const template table at 0x021D89B0
@@ -2404,13 +1992,6 @@ void GTSNEGO_DISP_InitBgLayers(u8 *actorSys)
     BG_SYS_PushTile(7);
 }
 
-
-
-
-
-
-
-
 void GTSNEGO_DISP_BlendPalette(struct GtsnegoActorSys *actorSys,int bank,int *offset,int *size,int count)
 {
     int i;
@@ -2436,13 +2017,6 @@ void GTSNEGO_DISP_BlendPalette(struct GtsnegoActorSys *actorSys,int bank,int *of
     PALANM_FreeSlotBuffers(obj,bank);
     PALANM_Delete(obj);
 }
-
-
-
-
-
-
-
 
 /*
  * lever: one-word aggregate locals preserve the early address setup and merge.
@@ -2494,24 +2068,10 @@ void GTSNEGO_DISP_SetTradePalette(struct GtsnegoActorSys *actorSys,int flag,int 
     }
 }
 
-
-
-
-
-
-
-
 /*
  * extent: two-byte zero alignment padding follows.
  */
 void GTSNEGO_DISP_VBlank(void *unused,u8 *actorSys){CLACT_VBlankSystem();if(((struct GtsnegoActorSys *)actorSys)->scrollDirty){BG_SYS_ChangeScrollImmediate(4,3,*(unsigned int *)&((struct GtsnegoActorSys *)actorSys)->scrollOffset+72);BG_SYS_ChangeScrollImmediate(6,3,*(unsigned int *)&((struct GtsnegoActorSys *)actorSys)->scrollOffset+72);((struct GtsnegoActorSys *)actorSys)->scrollDirty=0;}}
-
-
-
-
-
-
-
 
 void GTSNEGO_DISP_RegisterGraphics(u8 *actorSys)
 {
@@ -2551,22 +2111,7 @@ void GTSNEGO_DISP_RegisterGraphics(u8 *actorSys)
     G2x_SetBlendAlpha_((void *)0x04001050,5,24,15,9);
 }
 
-
-
-
-
-
-
-
-
 void GTSNEGO_DISP_Noop(u8 *actorSys, int unusedFlag){}
-
-
-
-
-
-
-
 
 void GTSNEGO_DISP_RedrawActors(u8 *actorSys)
 {
@@ -2584,13 +2129,6 @@ void GTSNEGO_DISP_RedrawActors(u8 *actorSys)
     GTSNEGO_MSG_CreateActorAt(actorSys, 240, 136, 1);
 }
 
-
-
-
-
-
-
-
 /*
  * trailing: 2-byte zero alignment padding at 0x021D692A.
  */
@@ -2604,13 +2142,6 @@ void GTSNEGO_DISP_ResetActors(u8 *actorSys)
     BG_SYS_MarkTileDirty(4);
     ARC_TOOL_DeleteHandle(arcHandle);
 }
-
-
-
-
-
-
-
 
 void GTSNEGO_DISP_CreateTouchbar(u8 *actorSys, int actorPlttSlot)
 {
@@ -2628,23 +2159,7 @@ void GTSNEGO_DISP_CreateTouchbar(u8 *actorSys, int actorPlttSlot)
     ((struct GtsnegoActorSys *)actorSys)->touchbar = TOUCHBAR_Create(&params, ((struct GtsnegoActorSys *)actorSys)->heapId);
 }
 
-
-
-
-
-
-
-
-
 u32 GTSNEGO_DISP_GetTouchbar(u8 *actorSys){return *(unsigned int *)&((struct GtsnegoActorSys *)actorSys)->touchbar;}
-
-
-
-
-
-
-
-
 
 void GTSNEGO_DISP_DeleteTouchbar(u8 *actorSys)
 {
@@ -2653,13 +2168,6 @@ void GTSNEGO_DISP_DeleteTouchbar(u8 *actorSys)
         *(u32 *)&((struct GtsnegoActorSys *)actorSys)->touchbar = 0;
     }
 }
-
-
-
-
-
-
-
 
 void GTSNEGO_DISP_CreateCursorActor(u8 *actorSys)
 {
@@ -2670,13 +2178,6 @@ void GTSNEGO_DISP_CreateCursorActor(u8 *actorSys)
     CLACT_SetActorDrawEnable(((struct GtsnegoActorSys *)actorSys)->cursorActor, 0);
     CLACT_SetActorObjMode(((struct GtsnegoActorSys *)actorSys)->cursorActor, 1);
 }
-
-
-
-
-
-
-
 
 void GTSNEGO_DISP_SetCursorState(u8 *actorSys, void *taskMenuWin, u32 position)
 {

@@ -29,13 +29,8 @@ struct ScriptWorkRef;
 struct ScriptSaveBlock;
 struct MiscSave;
 struct TrainerRec;
-typedef unsigned char u8;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef signed int     s32;
 struct ScrcmdWork;
 struct GameData;
 

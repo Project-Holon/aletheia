@@ -94,13 +94,8 @@
  */
 #include "../ov010/fldmmdl_types.h"
 #include "fld3d_ci_types.h"
-#include "field_player_grid_event_shared_types.h"
 
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
+#include "../types.h"
 
 typedef struct FieldPlayer FieldPlayer;
 
@@ -190,7 +185,6 @@ extern void *TCBL_IsDeletePending(TcblTask *task);
 extern u32 TCB_DeleteTask(TcblTask *task);
 
 extern void MI_CpuFill8(void *dst, int value, int size);
-
 
 extern void FLDMMDL_MOVE_GetMapHeight(Mmdl *mmdl, MmdlVec *pos, int *outHeight);
 

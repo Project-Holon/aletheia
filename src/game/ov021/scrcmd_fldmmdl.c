@@ -108,8 +108,7 @@
 #include "../ov010/fldmmdl_types.h"
 #include "../ov010/script_work_types.h"
 
-typedef signed short s16;
-typedef signed int s32;
+#include "../types.h"
 
 typedef struct ScrcmdWork ScrcmdWork;
 typedef struct GameData GameData;

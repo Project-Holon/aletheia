@@ -22,9 +22,9 @@
  *   s_data_02151454  0x02151454  data
  *   OS_UnlockMutex    0x02086078  arm
  */
-typedef int BOOL;
+#include "../types.h"
 
-typedef struct OSMutex OSMutex;
+#include "../sdk_os.h"
 
 extern void OS_InitMutex(OSMutex *mutex);
 extern void SND_CommandInit(void);
@@ -37,7 +37,6 @@ void SNDi_UnlockMutex(void);
 /* SND_Init's function-local static "initialized" */
 extern BOOL _ZZ8SND_InitvE11initialized;
 extern OSMutex sSndMutex;
-
 
 /*
  * sdk:      SND_Init (snd_main.o)
@@ -53,12 +52,10 @@ void SND_Init(void)
     SND_AlarmInit();
 }
 
-
 void SNDi_LockMutex(void)
 {
     OS_LockMutex(&sSndMutex);
 }
-
 
 void SNDi_UnlockMutex(void)
 {

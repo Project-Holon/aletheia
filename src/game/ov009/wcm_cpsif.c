@@ -49,12 +49,7 @@ typedef struct WcmCpsifWork {
     void (*recvCb)(unsigned char *, unsigned char *, unsigned char *, long);
 } WcmCpsifWork;
 
-typedef struct OSMutex {
-    unsigned long queue;
-    unsigned long queue2;
-    void *thread;
-    long count;
-} OSMutex;
+#include "../sdk_os.h"
 
 extern void MI_CpuFill8(void *dst, unsigned char data, unsigned long size);
 extern void OS_InitMutex(struct OSMutex *mutex);

@@ -240,17 +240,9 @@ struct Sub0200852CObj;
 struct Mon;
 struct Vec2;
 struct Pt;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef signed short s16;
+#include "../types.h"
 
 typedef struct { s16 x,y,z; u8 a,b; } MysteryActorPos;
-
-typedef signed int     s32;
 
 typedef struct {int y,m,d,week;} MysteryRtcDate;
 
@@ -265,8 +257,6 @@ typedef struct { int f0, f4, f8, fc, f10, f14, f18; u16 f1c, f1e, f20, f22; } My
 typedef struct { u32 w[9]; s16 h[7]; u16 pad; void *callback,*arg,*result; } MysteryMessageDesc;
 
 typedef struct { int w[12]; } MysteryPartyDesc;
-
-typedef unsigned long long u64;
 
 typedef struct {u8 iv[6];u16 move[4];MysteryActorPos point;void *resdesc;} MysteryMonWork;
 
@@ -697,10 +687,6 @@ extern const u8 GAME_LANGUAGE_Code;
 extern void *gSpeciesNameBank;
 extern const int d_021DF5E4[];
 
-
-
-
-
 int MYSTERY_Create(void *owner, u32 unused, u32 arg)
 {
     MysteryWork *work;
@@ -730,10 +716,6 @@ int MYSTERY_Create(void *owner, u32 unused, u32 arg)
     return 1;
 }
 
-
-
-
-
 int MYSTERY_Delete(void *a, int b, int c, char *p)
 {
     MYSTERY_ClearScroll(p + 0x138);
@@ -758,10 +740,6 @@ int MYSTERY_Delete(void *a, int b, int c, char *p)
     return 1;
 }
 
-
-
-
-
 /*
  * follower: two zero padding bytes at 0x021D6922.
  */
@@ -784,10 +762,6 @@ int MYSTERY_Main(int a, int b, int c, char *p)
     return 0;
 }
 
-
-
-
-
 /*
  * Extent remainder: two-byte zero alignment padding.
  */
@@ -799,15 +773,7 @@ void MYSTERY_InitBgHeap(u16 *p,u16 heap)
     BG_SYS_SetPlaneVisible(6,1);
 }
 
-
-
-
-
 void MYSTERY_ExitBgHeap(void *work) { }
-
-
-
-
 
 void MYSTERY_SetupBg(u16 *p,int mode)
 {
@@ -848,10 +814,6 @@ void MYSTERY_SetupBg(u16 *p,int mode)
         break;
     }
 }
-
-
-
-
 
 /*
  * follower: two zero padding bytes at 0x021D6C26.
@@ -900,10 +862,6 @@ void MYSTERY_CreateClact(char *p, void *owner, u16 heap)
     CLACT_SetActorDrawEnable(((MysteryClactActor *)p)->actors[34],0);
 }
 
-
-
-
-
 void MYSTERY_DeleteClact(u8 *p)
 {
     int i;
@@ -917,15 +875,7 @@ void MYSTERY_DeleteClact(u8 *p)
     CLACT_ReleaseCellAnim((u32)(((MysteryClactActor *)p)->cellAnim.ptr));
 }
 
-
-
-
-
 void *MYSTERY_GetClactActor(u8 *p,int i) { return *(void **)(p+i*4+12); }
-
-
-
-
 
 void MYSTERY_TransferPalette(u8 *p,int heap)
 {
@@ -936,19 +886,11 @@ void MYSTERY_TransferPalette(u8 *p,int heap)
     GFL_HEAP_Free(raw);
 }
 
-
-
-
-
 static inline int wrap(int n, u16 *p)
 {
     if (*p + n >= 65536) return *p + n - 65536;
     return *(volatile u16 *)p + n;
 }
-
-
-
-
 
 /*
  * follower: two zero padding bytes at 0x021D6CEA.
@@ -962,15 +904,7 @@ void MYSTERY_RotateActors(u8 *p)
         MYSTERY_UTIL_BlendPalette(14, (u16 *)(p + 0x9a) + i, ((MysteryClactActor *)p)->angle, 0, (u8)i, *(u16 *)(p + 0xba + i * 2), *(u16 *)(p + 0xda + i * 2));
 }
 
-
-
-
-
 void MYSTERY_ResetActorAngle(u8 *p) { ((MysteryClactActor *)p)->angle=0; }
-
-
-
-
 
 void MYSTERY_CreateParticle(int *p, int heap)
 {
@@ -982,11 +916,6 @@ void MYSTERY_CreateParticle(int *p, int heap)
     p[0] = (int)PARTICLE_CreateSystemDefault((int)v, 0x4800, 1, heap);
 }
 
-
-
-
-
-
 /*
  * Addresses are Black-image addresses.
  */
@@ -995,11 +924,6 @@ void MYSTERY_DeleteParticle(void *p)
     GFL_HEAP_Free(((MysteryParticle *)p)->buffer);
     MI_CpuFill8(p, 0, 0x10);
 }
-
-
-
-
-
 
 /*
  * Promoted from MATCH by the recursive-unblocker lane: 0x0205121C now has an
@@ -1014,25 +938,12 @@ void MYSTERY_LoadParticle(int *p, int a, int b, int c)
     PARTICLE_SetupSystem((struct ParticleSys *)(*p), (void *)x, 1, 0);
 }
 
-
-
-
-
-
 int MYSTERY_StartParticle(void **p, int x)
 {
     return PARTICLE_StartEffectWithCallback(*p, x, 0, (int)p);
 }
 
-
-
-
-
 void *MYSTERY_IsParticleCreated(u8 *p) { return ((MysteryParticle *)p)->created.ptr; }
-
-
-
-
 
 void MYSTERY_TaskInitSave(void *a,int b,u8 *p)
 {
@@ -1040,10 +951,6 @@ void MYSTERY_TaskInitSave(void *a,int b,u8 *p)
     MYSTERY_CreateCardMenu(p,0,29);
     MYSTERY_UTIL_SetTaskHandler(a,(u32)MYSTERY_TaskFadeToMenu);
 }
-
-
-
-
 
 void MYSTERY_TaskFadeToMenu(void *a, int *state)
 {
@@ -1054,10 +961,6 @@ void MYSTERY_TaskFadeToMenu(void *a, int *state)
     }
 }
 
-
-
-
-
 void MYSTERY_TaskExitAlbum(void *a, int *state)
 {
     switch (*state) {
@@ -1066,10 +969,6 @@ void MYSTERY_TaskExitAlbum(void *a, int *state)
     case 2: MYSTERY_UTIL_SetTaskHandler(a, (u32)MYSTERY_TaskCleanup); break;
     }
 }
-
-
-
-
 
 void MYSTERY_TaskMenu(void *task,u32 *state,u8 *p)
 {
@@ -1187,9 +1086,6 @@ void MYSTERY_TaskMenu(void *task,u32 *state,u8 *p)
     }
 }
 
-
-
-
 void MYSTERY_TaskMenuAction(void *a, int *state, char *p)
 {
     int result;
@@ -1224,9 +1120,6 @@ void MYSTERY_TaskMenuAction(void *a, int *state, char *p)
         break;
     }
 }
-
-
-
 
 void MYSTERY_TaskReceive(void *task,u32 *state,u8 *p)
 {
@@ -1334,9 +1227,6 @@ void MYSTERY_TaskReceive(void *task,u32 *state,u8 *p)
         break;
     }
 }
-
-
-
 
 /*
  * volatile: 0x021D79BC writes the display blend register 0x04000050.
@@ -1459,9 +1349,6 @@ void MYSTERY_TaskAlbum(void *task,u32 *state,u8 *p)
     }
 }
 
-
-
-
 void MYSTERY_TaskAlbumView(void *task,u32 *state,u8 *p)
 {
     MysteryNetAlbumDesc d;
@@ -1528,8 +1415,6 @@ void MYSTERY_TaskAlbumView(void *task,u32 *state,u8 *p)
     }
     if(((MysteryWork *)p)->netAlbum) MYSTERY_ALBUM_UpdateWindows(((MysteryWork *)p)->netAlbum);
 }
-
-
 
 void MYSTERY_TaskNetAlbum(void *task,u32 *state,u8 *p)
 {
@@ -1598,8 +1483,6 @@ void MYSTERY_TaskNetAlbum(void *task,u32 *state,u8 *p)
     }
     if(((MysteryWork *)p)->netAlbum) MYSTERY_ALBUM_UpdateWindows(((MysteryWork *)p)->netAlbum);
 }
-
-
 
 void MYSTERY_TaskNetExit(void *task,u32 *state,u8 *p)
 {
@@ -1671,15 +1554,11 @@ void MYSTERY_TaskNetExit(void *task,u32 *state,u8 *p)
     }
 }
 
-
-
 void MYSTERY_TaskCleanup(void *p,int n,char *q) {
  MYSTERY_DeleteSaveMenu(q);MYSTERY_DeleteCardMenu(q);MYSTERY_DeletePartyMenu(q);
  if(*(char * *)&((MysteryWork *)q)->album) {MYSTERY_ALBUM_Delete((struct MysteryAlbum *)(*(char * *)&((MysteryWork *)q)->album));MYSTERY_ALBUM_DeleteSlotWork(*(void ** *)&((MysteryWork *)q)->albumWork);}
  MYSTERY_UTIL_MarkTaskDone(p);
 }
-
-
 
 void MYSTERY_TaskMessage(void *a, int *state, u8 *p)
 {
@@ -1688,7 +1567,6 @@ void MYSTERY_TaskMessage(void *a, int *state, u8 *p)
     case 1: if (MYSTERY_UTIL_GetMenuState(((MysteryWork *)p)->textBox)) MYSTERY_UTIL_SetTaskHandler(a, (u32)MYSTERY_TaskMenu); break;
     }
 }
-
 
 /*
  * follower: two zero padding bytes at 0x021D8196.
@@ -1712,8 +1590,6 @@ void MYSTERY_CreateSaveMenu(u8 *p, int unused, int heap)
     }
 }
 
-
-
 void MYSTERY_DeleteSaveMenu(char *p)
 {
     void *x = ((MysteryWork *)p)->saveMenu;
@@ -1722,7 +1598,6 @@ void MYSTERY_DeleteSaveMenu(char *p)
         *(u32 *)&((MysteryWork *)p)->saveMenu = 0;
     }
 }
-
 
 void MYSTERY_CreateCardMenu(u8 *p,u32 which,int heap)
 {
@@ -1786,18 +1661,15 @@ void MYSTERY_CreateCardMenu(u8 *p,u32 which,int heap)
     MYSTERY_ResetActorAngle(p+660);
 }
 
-
 void MYSTERY_DeleteCardMenu(char *p) {
  if(((MysteryWork *)p)->msgDialog!=0) {BG_SYS_ClearSlot(2);BG_SYS_PushTile(2);BG_SYS_SetPlaneVisible(2,0);MYSTERY_UTIL_DeleteDetailWindow(((MysteryWork *)p)->msgDialog);*(unsigned *)&((MysteryWork *)p)->msgDialog=0;}
 }
-
 
 int MYSTERY_PollCardMenu(char *p) {
  int n=MYSTERY_UTIL_SetVoice(*(unsigned char * *)&((MysteryWork *)p)->msgDialog);
  MYSTERY_RotateActors((u8 *)(p+0x294));
  return n;
 }
-
 
 /*
  * leaf: sole callback blocker of 021D81B0; root claim granted.
@@ -1806,7 +1678,6 @@ void MYSTERY_CardMenuCallback(char *p)
 {
     MYSTERY_ResetActorAngle((u8 *)(p+660));
 }
-
 
 /*
  * volatile: hardware argument 04001050 passed to blend helper
@@ -1830,7 +1701,6 @@ void MYSTERY_CreatePartyMenu(u8 *p,int heap)
     }
 }
 
-
 void MYSTERY_DeletePartyMenu(char *p) {
  if(((MysteryWork *)p)->menuB) {
   *(unsigned short *)0x04001050=0;
@@ -1839,7 +1709,6 @@ void MYSTERY_DeletePartyMenu(char *p) {
   BG_SYS_PushTile(4);BG_SYS_SetPlaneVisible(6,0);
  }
 }
-
 
 /*
  * note 2026-10-05 (wave D9r lane P7): real extent is 0x744 bytes (1860); the 2004-byte
@@ -2066,12 +1935,10 @@ void MYSTERY_CreateReceivedMon(u8 *out,void *owner,const u8 *desc,void *save,voi
     if(desc[714]) CLACT_SetActorObjMode((void *)O(4),1);
 }
 
-
 static inline void GX_SetVisibleWnd(int window)
 {
     *(volatile u32 *)0x04000000=(*(volatile u32 *)0x04000000&~0xe000)|(window<<13);
 }
-
 
 static inline void G2_SetWnd0InsidePlane(int wnd,int effect)
 {
@@ -2081,7 +1948,6 @@ static inline void G2_SetWnd0InsidePlane(int wnd,int effect)
     *(volatile u16 *)0x04000048=(u16)tmp;
 }
 
-
 static inline void G2_SetWndOutsidePlane(int wnd,int effect)
 {
     u32 tmp;
@@ -2090,13 +1956,11 @@ static inline void G2_SetWndOutsidePlane(int wnd,int effect)
     *(volatile u16 *)0x0400004a=(u16)tmp;
 }
 
-
 static inline void G2_SetWnd0Position(int x1,int y1,int x2,int y2)
 {
     *(volatile u16 *)0x04000040=(u16)(((x1<<8)&0xff00)|(x2&0xff));
     *(volatile u16 *)0x04000044=(u16)(((y1<<8)&0xff00)|(y2&0xff));
 }
-
 
 /*
  * volatile: hardware reads/writes at 021D8C4E..021D8C8A: DISPCNT, WININ, WINOUT, WIN0H/V.
@@ -2121,7 +1985,6 @@ void MYSTERY_InitCardView(u8 *p,int mode)
     G2_SetWnd0Position(0,168,255,192);
 }
 
-
 /*
  * volatile: hardware access at 021D8CB2
  */
@@ -2137,8 +2000,6 @@ void MYSTERY_DeleteCardView(u8 *p)
     MI_CpuFill8(p,0,300);
 }
 
-
-
 void MYSTERY_StepCardView(char *p)
 {
     if (*(void (**)(void))(p + 0x2c) != 0) {
@@ -2148,12 +2009,10 @@ void MYSTERY_StepCardView(char *p)
     }
 }
 
-
 int MYSTERY_IsCardViewDone(char *p)
 {
     return ((MysteryCardView *)p)->done;
 }
-
 
 /*
  * volatile: hardware stores at 021D8D9A and 021D8DEC.
@@ -2219,7 +2078,6 @@ void MYSTERY_CardViewAnimScroll(u8 *p)
         break;
     }
 }
-
 
 /*
  * volatile: hardware stores at 021D8F44, 021D8F96, 021D9062, 021D908E, 021D9116.
@@ -2335,7 +2193,6 @@ void MYSTERY_CardViewAnimReveal(u8 *p)
     }
 }
 
-
 void MYSTERY_CardViewAnimFade(u8 *p)
 {
     switch(((MysteryCardView *)p)->state) {
@@ -2354,7 +2211,6 @@ void MYSTERY_CardViewAnimFade(u8 *p)
     }
 }
 
-
 void MYSTERY_InitScroll(u8 *p,void *q,u16 h)
 {
     int i;
@@ -2371,14 +2227,10 @@ void MYSTERY_InitScroll(u8 *p,void *q,u16 h)
     }
 }
 
-
-
 void MYSTERY_ClearScroll(void *p)
 {
     MI_CpuFill8(p, 0, 0x128);
 }
-
-
 
 void MYSTERY_StepScroll(char *p)
 {
@@ -2389,7 +2241,6 @@ void MYSTERY_StepScroll(char *p)
     }
 }
 
-
 void MYSTERY_StartScroll(char *p,int n) {
  ((MysteryScroll *)p)->active=1;
  ((MysteryScroll *)p)->step=0;
@@ -2397,9 +2248,7 @@ void MYSTERY_StartScroll(char *p,int n) {
  switch(n) {case 0: ((MysteryScroll *)p)->callback.val=(unsigned)MYSTERY_UpdateScrollA;break;case 1:((MysteryScroll *)p)->callback.val=(unsigned)MYSTERY_UpdateScrollB;break;}
 }
 
-
 void MYSTERY_SetScrollParam(unsigned *p,unsigned v) { p[1]=v; }
-
 
 void MYSTERY_UpdateScrollA(u8 *p)
 {
@@ -2427,7 +2276,6 @@ void MYSTERY_UpdateScrollA(u8 *p)
     BG_SYS_ChangeScroll(7,3,((MysteryScroll *)p)->scroll>>12);
 }
 
-
 void MYSTERY_UpdateScrollB(u8 *p)
 {
     int i;
@@ -2453,7 +2301,6 @@ void MYSTERY_UpdateScrollB(u8 *p)
     BG_SYS_ChangeScroll(7,3,((MysteryScroll *)p)->scroll>>12);
 }
 
-
 /*
  * extent: two zero alignment bytes at 021D9486; next function starts 021D9488.
  */
@@ -2472,11 +2319,9 @@ void MYSTERY_CreateOamSprite(u8 *p,const void *q,int n,int k,int x,int y,int z,u
     CLACT_SetActorDrawEnable(MYSTERY_GetClactActor((u8 *)q,34),1);
 }
 
-
 void MYSTERY_DeleteOamSprite(void **p) {
  MYSTERY_UTIL_UpdateActorPair(p[1]);CLACT_SetActorDrawEnable(MYSTERY_GetClactActor(p[2],34),0);MYSTERY_UTIL_DeleteActorPair(p[1]);BMP_OAM_DeleteSys(p[0]);MI_CpuFill8(p,0,12);
 }
-
 
 /*
  * interfaces: named the callee's boolean return; the tail jump forwards it unchanged.
@@ -2485,7 +2330,6 @@ int MYSTERY_PollOamSprite(char *p)
 {
     return MYSTERY_UTIL_IsMenuFinished(((MysteryOamSprite *)p)->sprite);
 }
-
 
 unsigned MYSTERY_MeasureGraChar(int id,int heap)
 {
@@ -2515,12 +2359,10 @@ unsigned MYSTERY_MeasureGraChar(int id,int heap)
     return result;
 }
 
-
 int MYSTERY_IsCardValid(char *p,int n) {
  if(MYSTERY_DATA_CheckPacketCrc((struct MysteryGiftPacket *)p)!=0 && n==0 && (((MysteryPacket *)p)->crc==0 || (((MysteryPacket *)p)->crc&PM_VERSION_MASK)!=0)) return 1;
  return 0;
 }
-
 
 /*
  * volatile: hardware rereads at 021D959A..021D95CA

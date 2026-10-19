@@ -23,7 +23,7 @@
  */
 #define OSi_ROUND(n, a)     (((u32)(n) + (a) - 1) & ~((a) - 1))
 #define OSi_TRUNC(n, a)     (((u32)(n)) & ~((a) - 1))
-typedef unsigned char u8;
+#include "../types.h"
 
 typedef struct Cell Cell;
 
@@ -47,26 +47,7 @@ typedef struct OSHeapInfo {
     HeapDesc *heapArray;
 } OSHeapInfo;
 
-typedef unsigned long u32;
-
-typedef long s32;
-
-typedef int BOOL;
-
-typedef u32 OSIntrMode;
-
-typedef enum OSArenaId {
-    OS_ARENA_MAIN = 0,
-    OS_ARENA_MAIN_SUBPRIV = 1,
-    OS_ARENA_MAINEX = 2,
-    OS_ARENA_ITCM = 3,
-    OS_ARENA_DTCM = 4,
-    OS_ARENA_SHARED = 5,
-    OS_ARENA_WRAM_MAIN = 6,
-    OS_ARENA_WRAM_SUB = 7,
-    OS_ARENA_WRAM_SUBPRIV = 8,
-    OS_ARENA_MAX = 9
-} OSArenaId;
+#include "../sdk_os.h"
 
 /* os_alloc.o .data from 0x020A86AC, addressed from one pool word. */
 typedef struct OsAllocData {
@@ -79,7 +60,6 @@ extern unsigned int OS_DisableInterrupts(void);
 extern unsigned int OS_RestoreInterrupts(unsigned int state);
 
 extern BOOL OS_IsRunOnTwl(void);
-
 
 Cell *DLAddFront(Cell *r0, Cell *r1);
 Cell *DLExtract(Cell *list, Cell *node);
@@ -95,12 +75,6 @@ int OS_IsOnVram(void *ptr);
 extern OSHeapInfo *OSiHeapInfo[9];
 extern OsAllocData g_020A86AC;
 
-
-
-
-
-
-
 Cell *DLAddFront(Cell *r0, Cell *r1)
 {
     r1->next = r0;
@@ -110,9 +84,6 @@ Cell *DLAddFront(Cell *r0, Cell *r1)
     }
     return r1;
 }
-
-
-
 
 Cell *DLExtract(Cell *list, Cell *node)
 {
@@ -126,9 +97,6 @@ Cell *DLExtract(Cell *list, Cell *node)
     }
     return list;
 }
-
-
-
 
 Cell *DLInsert(Cell *list, Cell *cell)
 {
@@ -162,9 +130,6 @@ Cell *DLInsert(Cell *list, Cell *cell)
     }
     return cell;
 }
-
-
-
 
 void *OS_AllocFromHeap(int id, int heap, int size)
 {
@@ -229,9 +194,6 @@ void *OS_AllocFromHeap(int id, int heap, int size)
 
 }
 
-
-
-
 void OS_FreeToHeap(int id, int heap, void *ptr)
 {
     OSHeapInfo *info;
@@ -254,8 +216,6 @@ void OS_FreeToHeap(int id, int heap, void *ptr)
 
     (void)OS_RestoreInterrupts(enabled);
 }
-
-
 
 /*
  * sdk:      OS_InitAlloc (os_alloc.o)
@@ -292,8 +252,6 @@ void *OS_InitAlloc(OSArenaId id, void *arenaStart, void *arenaEnd, int maxHeaps)
     (void)OS_RestoreInterrupts(enabled);
     return heapInfo->arenaStart;
 }
-
-
 
 /*
  * sdk:      OS_CreateHeap (os_alloc.o)
@@ -334,8 +292,6 @@ int OS_CreateHeap(OSArenaId id, void *start, void *end)
     return -1;
 }
 
-
-
 /*
  * sdk:      OS_CreateExtraHeap (os_alloc.o)
  */
@@ -375,16 +331,12 @@ int OS_CreateExtraHeap(OSArenaId id)
     return -1;
 }
 
-
-
 long OS_ReferentSize(int id, void *ptr)
 {
     OS_DisableInterrupts();
     ((void (*)(void))OS_RestoreInterrupts)();
     return ((Cell *)((char *)ptr - 0x20))->size - 0x20;
 }
-
-
 
 /*
  * sdk:      OS_IsOnExtendedMainMemory (os_alloc.o)
@@ -403,7 +355,6 @@ BOOL OS_IsOnExtendedMainMemory(void *ptr)
         return 0;
     }
 }
-
 
 /*
  * note:     os_alloc.o OS_IsOnVram.

@@ -207,7 +207,6 @@
  *   GF_STANDARD_DegToAngle  0x0203F734  arm  arm9
  */
 
-
 struct Big;
 struct Sub0200852CObj;
 struct Sub02009470Obj;
@@ -238,17 +237,9 @@ struct Light;
 struct LightSet;
 struct LightSlot;
 struct Arg;
-typedef unsigned int u32;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef unsigned char u8;
-
-typedef signed int     s32;
-
-typedef enum {GX_VRAM_NONE=0} GXVRam;
-
-typedef enum {GX_OBJVRAMMODE_CHAR_2D=0,GX_OBJVRAMMODE_CHAR_1D_32K=0x10,GX_OBJVRAMMODE_CHAR_1D_64K=0x100010,GX_OBJVRAMMODE_CHAR_1D_128K=0x200010,GX_OBJVRAMMODE_CHAR_1D_256K=0x300010} GXOBJVRamModeChar;
+#include "../sdk_gx.h"
 
 struct DispVram {GXVRam main_bg,main_bg_expltt,sub_bg,sub_bg_expltt,main_obj,main_obj_expltt,sub_obj,sub_obj_expltt,teximage,texpltt;GXOBJVRamModeChar main_mapping,sub_mapping;};
 
@@ -256,21 +247,13 @@ struct DispConfig {unsigned a,b,c,d;};
 
 typedef struct {int words[9];} Matrix;
 
-
-
-
-
 struct BeaconWinLayout {unsigned x,y,z;};
-
 
 struct MenuTemplate {u32 w[13];};
 
 typedef struct {u32 bank,id;} BeaconMenuItem;
 
-
 typedef struct {const void *str;unsigned param;} BeaconMenuWork;
-
-typedef short s16;
 
 typedef struct {u16 index,member;} BeaconRowRef;
 
@@ -643,18 +626,6 @@ extern BeaconLightCfg d_020A1C78;
 extern char d_02185DD4[];
 extern short FX_SinCosTable_[];
 
-
-
-
-
-
-
-
-
-
-
-
-
 int BEACON_DETAIL_Init(void *obj,void *unused,void *ctx)
 {
     char *p;
@@ -687,18 +658,6 @@ int BEACON_DETAIL_Init(void *obj,void *unused,void *ctx)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 int BEACON_DETAIL_Main(void *unused, char *state, int unused2, char *ctx)
 {
     int result;
@@ -711,46 +670,9 @@ int BEACON_DETAIL_Main(void *unused, char *state, int unused2, char *ctx)
     return result;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 void BEACON_DETAIL_WinActivate(u8 *p,u32 i){if(((BeaconDetailWork *)p)->win[i]){if(i==0){APP_TASKMENU_WIN_SetActive(((BeaconDetailWork *)p)->win[0],1);return;}if(i==1)APP_TASKMENU_WIN_SetDecide(((BeaconDetailWork *)p)->win[1],1);}}
 
-
-
-
-
-
-
-
-
-
-
-
-
 void BEACON_DETAIL_WinUpdate(u8 *p){if(((BeaconDetailWork *)p)->win[0])APP_TASKMENU_WIN_Update(((BeaconDetailWork *)p)->win[0]);if(((BeaconDetailWork *)p)->win[1])APP_TASKMENU_WIN_Update(((BeaconDetailWork *)p)->win[1]);}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 static inline void close_win(u8 *p, BeaconMessage *msg)
 {
@@ -760,19 +682,6 @@ static inline void close_win(u8 *p, BeaconMessage *msg)
         msg->active = 0;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * note:     2026-10-04 wave D3 lane 04: complete draft, same size (1884 bytes). The
@@ -1132,18 +1041,6 @@ int BEACON_DETAIL_Update(u8 *p, int *state)
     return ret;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 int BEACON_DETAIL_Exit(struct Proc *controller,void *unused1,void *unused2,char *p)
 {
     unsigned heap=((BeaconDetailWork *)p)->heapId;
@@ -1157,18 +1054,6 @@ int BEACON_DETAIL_Exit(struct Proc *controller,void *unused1,void *unused2,char 
     PROCSYS_FreeProcWork(controller);GFL_HEAP_DeleteChecked((u16)heap);
     return 1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * prototype: 82AC0 SDK asm source reads r0 fill/r1 destination/r2 size;
@@ -1186,18 +1071,6 @@ void BEACON_DETAIL_InitVram(void)
     BG_SYS_SetVramBanks(&cfg);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * prototype: heap forwarded full-width without caller truncation to 3F8F4,
  * 46440 and 45088; widen their legacy narrow parameters accordingly.
@@ -1210,17 +1083,6 @@ void BEACON_DETAIL_InitGraphics(unsigned heap)
     BG_SYS_EnableBg0WithPriority(1);BMP_WIN_Init(heap);BG_SYS_ResetSubDisplay();
 }
 
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Addresses are Black-image addresses.
  */
@@ -1228,15 +1090,6 @@ void BEACON_DETAIL_ExitGraphics(int a)
 {
     BG_SYS_Delete(G3D_SYSTEM_Exit(BMP_WIN_Exit(a)));
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * lever: permuter split-assign(count2) moves the otherwise swapped outer/inner count spill slots; fixed-flag one validates MATCH*258B; trailing2B alignment excluded.
@@ -1280,14 +1133,6 @@ void BEACON_DETAIL_LoadRecords(char *p)
     ARC_TOOL_DeleteHandle(arc);
 }
 
-
-
-
-
-
-
-
-
 /*
  * extent: lead124B followed by separately matched92B BEACON_DETAIL_MarkCurrentRecord; no unit, follower has its own shard.
  * lever: typed48-byte record members keep byte offset live rather than caching p+offset as a raw pointer.
@@ -1306,14 +1151,6 @@ void BEACON_DETAIL_SetRecord(BeaconDetailWork *p,int index,int x,int y,u16 a,u16
     p->records[index].b=b;
 }
 
-
-
-
-
-
-
-
-
 /*
  * lever: full context member offsets preserve the c2f4 pool base; a cast Tail pointer instead hoists p+c2f4 and raw scalar offsets pool c33c.
  * extent: unlabelled92-byte follower inside handed021846B8 extent; next labelled stub02184790 excluded.
@@ -1330,23 +1167,7 @@ void BEACON_DETAIL_MarkCurrentRecord(BeaconDetailWork *p)
     }
 }
 
-
-
-
-
-
-
-
-
 u32 BEACON_DETAIL_GetRecordIndex(u32 key){return NATION_AREA_FindRecordIndex(key);}
-
-
-
-
-
-
-
-
 
 void BEACON_DETAIL_ReadTouchInput(char *p)
 {
@@ -1394,14 +1215,6 @@ void BEACON_DETAIL_ReadTouchInput(char *p)
     }
 }
 
-
-
-
-
-
-
-
-
 /*
  * lever: declare oldx before a named base pointer; this puts oldx in r5
  * and base in r6. Const on the parameter alone left their five-byte swap.
@@ -1426,23 +1239,7 @@ void BEACON_DETAIL_CalcTouchDelta(const char *p,int x,int y,int *xflag,int *xdis
     *yflag=yf;*ydistance=dy&63;
 }
 
-
-
-
-
-
-
-
-
 u32 BEACON_DETAIL_CreateBmpWin(const u8 *p,int flag){u32 q;q=(unsigned int)BMP_WIN_Create((unsigned int)p[0],(unsigned int)p[1],(unsigned int)p[2],p[3],p[4],p[5],1);BMP_Clear((struct Bmp *)BMP_WIN_GetBmp((struct BmpWin *)q),15);if(flag==1)BMP_WIN_MakeScreen((struct BmpWin *)q);return q;}
-
-
-
-
-
-
-
-
 
 /*
  * prototype: explicit original heap shift pairs require narrow extern parameters for D7EC/40B94 despite their full-width own declarations;84968 returns descriptor pointer.
@@ -1482,13 +1279,6 @@ void BEACON_DETAIL_InitMainScreen(char *p,void *arc)
     BEACON_DETAIL_CreateTaskMenu(p);
 }
 
-
-
-
-
-
-
-
 void BEACON_DETAIL_CreateTaskMenu(char *p)
 {
     ((BeaconDetailWork *)p)->strbufA=MSGDATA_AllocString(*(struct MsgBank * *)&((BeaconDetailWork *)p)->msgBank.ptr,13);
@@ -1500,13 +1290,6 @@ void BEACON_DETAIL_CreateTaskMenu(char *p)
     ((BeaconDetailWork *)p)->winData[1].tag=0x39e3;((BeaconDetailWork *)p)->winData[1].value=1;
 }
 
-
-
-
-
-
-
-
 void BEACON_DETAIL_CreateTaskMenuWin(char *p,int i)
 {
     if(*(unsigned *)&((BeaconDetailWork *)p)->win[i]==0){
@@ -1514,21 +1297,7 @@ void BEACON_DETAIL_CreateTaskMenuWin(char *p,int i)
     }
 }
 
-
-
-
-
-
-
-
 void BEACON_DETAIL_DeleteTaskMenuWin(u8 *p,u32 i){u32 off=i*4;u8 *slots=(u8 *)((BeaconDetailWork *)p)->win;if(*(void**)(slots+off)){APP_TASKMENU_WIN_Delete(*(void**)(slots+off));BG_SYS_MarkTileDirty(2);*(void**)(slots+off)=0;}}
-
-
-
-
-
-
-
 
 void BEACON_DETAIL_DeleteMainScreen(char *p)
 {
@@ -1542,13 +1311,6 @@ void BEACON_DETAIL_DeleteMainScreen(char *p)
     GF_FONT_SetTextColor(((BeaconDetailWork *)p)->textColorR,((BeaconDetailWork *)p)->textColorG,((BeaconDetailWork *)p)->textColorB);
 }
 
-
-
-
-
-
-
-
 void BEACON_DETAIL_DrawTextRecord(char *p,BeaconMessage *out,struct Descriptor *d,void *text,u8 x,u8 y)
 {
     struct PrintSys *print;
@@ -1557,13 +1319,6 @@ void BEACON_DETAIL_DrawTextRecord(char *p,BeaconMessage *out,struct Descriptor *
     PRINTSYS_PrintQue(print,(unsigned)BMP_WIN_GetBmp((struct BmpWin *)d),x,y,text,((BeaconDetailWork *)p)->font.id);
     out->active=1;
 }
-
-
-
-
-
-
-
 
 /*
  * blocker-C: 02045CAC verified EXACT, 344B, scratch arm9-blocker.log;
@@ -1673,24 +1428,11 @@ int BEACON_DETAIL_PrintMessage(char *p,u32 message,int force)
     return result;
 }
 
-
-
-
-
-
-
-
 void BEACON_DETAIL_OnMessageDone(int a, int b, int c)
 {
     if (c == 0)
         GFL_USE_PlaySeDefaultVolume(0x547);
 }
-
-
-
-
-
-
 
 /*
  * prototype: retain 1F878 fifth u16 stack argument loaded by this caller, absent from legacy callee declaration; 1FF30 heap explicitly narrowed in caller.
@@ -1721,11 +1463,6 @@ void BEACON_DETAIL_CreateMenuList(char *p,const unsigned char *descriptor,const 
     BMP_WIN_TransferChars(((BeaconDetailWork *)p)->bmp18);
 }
 
-
-
-
-
-
 /*
  * prototype: 20CF8 legacy one parameter; original also visibly sets r1
  * to full-width heap, retained as a second input even though body ignores it.
@@ -1750,25 +1487,9 @@ void BEACON_DETAIL_SetupMenuList(char *p,const struct MenuTemplate *source,unsig
     BMP_WIN_TransferChars((struct BmpWin *)(*(struct Descriptor * *)&((BeaconDetailWork *)p)->bmp18));
 }
 
-
-
-
-
-
 static inline u32 menuMsgIdAt(int i) { return *(const u32 *)((const u8 *)d_02185F7C + i * 4); }
 
-
-
-
-
-
-
 static inline u32 menuMsgIdGet(u32 idx) { return d_02185F7C[idx]; }
-
-
-
-
-
 
 /*
  * 2026-10-05 (user decision): the two spellings of one table read (accessor for one argument, direct index for the other) are accepted as a real source quirk.
@@ -1876,11 +1597,6 @@ void BEACON_DETAIL_CreateMenuItems(u8 *p, const u8 *a, u32 b, u32 c)
     BEACON_DETAIL_SetupMenuList((char *)p, (const struct MenuTemplate *)b, 0x82);
 }
 
-
-
-
-
-
 /*
  * prototype: 45B38 third/fourth original inputs explicitly narrowed u16;
  * 1F878 retains original fifth stack heap input absent from legacy source.
@@ -1897,15 +1613,7 @@ void BEACON_DETAIL_CreateMenuItemsFromIds(char *p,const unsigned char *descripto
     BEACON_DETAIL_SetupMenuList(p, (const struct MenuTemplate *)cfg, count);
 }
 
-
-
-
-
 void BEACON_DETAIL_CloseMenu(u8*p){BMP_MENUWORK_DrawWindowBorder(*(void* *)&((BeaconDetailWork *)p)->bmp18,0);BMP_WIN_Delete((struct BmpWin *)(*(struct Descriptor* *)&((BeaconDetailWork *)p)->bmp18));BMP_MENULIST_Delete((struct BmpMenuList *)(*(struct BmpMenuList* *)&((BeaconDetailWork *)p)->menuList),0,0);BMP_MENUWORK_Delete(*(void* *)&((BeaconDetailWork *)p)->menuWork);}
-
-
-
-
 
 /*
  * prototype: 457B0 heap input is explicitly narrowed to u16 in original;
@@ -1925,10 +1633,6 @@ void BEACON_DETAIL_DrawCurrentArea(char *p)
     BMP_MENUWORK_DrawWindow(((BeaconDetailWork *)p)->bmp40,0,34,7);
     BMP_WIN_TransferChars((struct BmpWin *)(*(struct Descriptor * *)&((BeaconDetailWork *)p)->bmp40));
 }
-
-
-
-
 
 /*
  * prototype: original truncates heap before 020457B0, and stack bytes before 02184D30; extern narrow widths preserve those visible operations.
@@ -1951,22 +1655,12 @@ void BEACON_DETAIL_DrawEntryDetail(char *p,unsigned key,unsigned member)
     BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(object));
 }
 
-
-
-
-
-
 void BEACON_DETAIL_CloseDetailWin(char *p)
 {
     void **q = &((BeaconDetailWork *)p)->bmp40;
     BMP_MENUWORK_DrawWindowBorder(*q, 0);
     BMP_WIN_Delete(*q);
 }
-
-
-
-
-
 
 /*
  * 2026-10-05 (wD9 lane12): EXACT. The wrap value was a ternary local t merged at a join and stored
@@ -2059,10 +1753,6 @@ int BEACON_DETAIL_FindNearestRecord(char *p, u32 *out)
         ret = 1;
     return ret;
 }
-
-
-
-
 
 /*
  * lever: distinct outer buffer and block-scoped first/second buffers settle the eight-byte r4/r6 swap.
@@ -2161,9 +1851,6 @@ void BEACON_DETAIL_DrawCurrentInfo(char *p)
     BMP_WIN_TransferChars(((BeaconDetailWork *)p)->bmp1C);
 }
 
-
-
-
 void BEACON_DETAIL_Create3DObjects(char *p, void *arc)
 {
     unsigned i;
@@ -2182,9 +1869,6 @@ void BEACON_DETAIL_Create3DObjects(char *p, void *arc)
     BEACON_DETAIL_CreateCamera(p);
     BEACON_DETAIL_CreateLight(p);
 }
-
-
-
 
 void BEACON_DETAIL_Delete3DObjects(char *p)
 {
@@ -2206,10 +1890,6 @@ void BEACON_DETAIL_Delete3DObjects(char *p)
     ((BeaconDetailWork *)p)->object[0]=0;
 }
 
-
-
-
-
 void BEACON_DETAIL_Init3DParams(u8 *p)
 {
     ((BeaconDetailWork *)p)->light0.x = 0;
@@ -2226,9 +1906,6 @@ void BEACON_DETAIL_Init3DParams(u8 *p)
     ((BeaconDetailWork *)p)->light2.z = 0x1000;
 }
 
-
-
-
 void BEACON_DETAIL_CreateCamera(char *p)
 {
     BeaconVec3 vec;
@@ -2238,10 +1915,6 @@ void BEACON_DETAIL_CreateCamera(char *p)
     ((BeaconDetailWork *)p)->camera=G3D_CAMERA_Create(0,d_020A1EB8.x,d_020A1EB8.y,5461,0,4096,4194304,0,((BeaconVec3 *)&d_02185E0C),&vec,((BeaconVec3 *)&d_02185DF4),heap);
     G3D_CAMERA_Reset(((BeaconDetailWork *)p)->camera);
 }
-
-
-
-
 
 /*
  * note 2026-10-05 (wD6 lane16): EXACT. The flag block is an if/else-if chain with h == 0 first; tail merging of the duplicate stores gives the bne/b pairs.
@@ -2268,32 +1941,15 @@ void BEACON_DETAIL_SetupCamera(char *p)
         ;
 }
 
-
-
-
-
 void BEACON_DETAIL_CreateLight(char *p)
 {
     ((BeaconDetailWork *)p)->lightSet = G3D_LIGHT_CreateSlots((struct LightSetDesc *)d_02185DD4, (unsigned short)((BeaconDetailWork *)p)->heapId);
     G3D_LIGHT_ApplySlots(((BeaconDetailWork *)p)->lightSet);
 }
 
-
-
-
-
-
-
-
 static inline int sine(u16 a) {return FX_SinCosTable_[(a>>4)*2];}
 
-
-
-
 static inline int cosine(u16 a) {return FX_SinCosTable_[(a>>4)*2+1];}
-
-
-
 
 void BEACON_DETAIL_SetupCalc(Matrix *p,int *angles)
 {
@@ -2305,9 +1961,6 @@ void BEACON_DETAIL_SetupCalc(Matrix *p,int *angles)
     MTX_Concat33(p,&temp,p);
 }
 
-
-
-
 void BEACON_DETAIL_SetupRecordCalc(Matrix *p,int *angles)
 {
     Matrix temp;
@@ -2317,10 +1970,6 @@ void BEACON_DETAIL_SetupRecordCalc(Matrix *p,int *angles)
     MTX_RotZ33_(&temp,cosine(angles[2]),sine(angles[2]));
     MTX_Concat33(p,&temp,p);
 }
-
-
-
-
 
 int BEACON_DETAIL_MoveCursor(u8 *p, u32 a, u32 b)
 {
@@ -2396,9 +2045,6 @@ int BEACON_DETAIL_MoveCursor(u8 *p, u32 a, u32 b)
     return res;
 }
 
-
-
-
 int BEACON_DETAIL_UpdateCamera(char *p)
 {
     Vec position,target,direction;
@@ -2430,10 +2076,6 @@ int BEACON_DETAIL_UpdateCamera(char *p)
     G3D_CAMERA_SetEye(((BeaconDetailWork *)p)->camera,(BeaconVec3 *)&position);
     return done;
 }
-
-
-
-
 
 void BEACON_DETAIL_Draw3D(char *p)
 {
@@ -2480,9 +2122,6 @@ void BEACON_DETAIL_Draw3D(char *p)
     }
 }
 
-
-
-
 /*
  * prototype: caller explicitly truncatesB5B38 member/heap at secondsite; useu16extern for those observed narrow inputs.4790 is tailstubto02025B3C readingonlykey.
  */
@@ -2504,7 +2143,6 @@ int BEACON_DETAIL_GetEntryText(unsigned key,unsigned optional,void *first,void *
     return found;
 }
 
-
 int BEACON_DETAIL_HasEntry(int a)
 {
     return BEACON_DETAIL_GetRecordIndex(a) != 0;
@@ -2522,8 +2160,6 @@ void BEACON_DETAIL_WrapAngle(int *p)
     if(p[1]>=0) p[1]%=65535;
     else p[1]+=(absolute(p[1])/65535+1)*65535;
 }
-
-
 
 int BEACON_DETAIL_CalcDistance(int *p, int *q)
 {

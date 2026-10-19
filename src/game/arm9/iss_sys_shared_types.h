@@ -1,11 +1,7 @@
 #ifndef ISS_SYS_SHARED_TYPES_H
 #define ISS_SYS_SHARED_TYPES_H
 
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 typedef struct {
     int x, y, z;

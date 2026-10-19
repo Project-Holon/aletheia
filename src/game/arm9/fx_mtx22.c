@@ -12,12 +12,9 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  */
-typedef signed int fx32;
+#include "../types.h"
 
-typedef struct {
-    fx32 _00, _01;
-    fx32 _10, _11;
-} MtxFx22;
+#include "../sdk_fx.h"
 
 asm void MTX_Scale22_(void);
 asm void MTX_Rot22_(MtxFx22 *dst, fx32 sin, fx32 cos);
@@ -39,7 +36,6 @@ asm void MTX_Scale22_(void)
     bx lr
 }
 
-
 /* hand-written in the original: fx_mtx22.o (libfx) has one .debug_line row per instruction for MTX_Rot22_ (lines 65-69, 71), the neg on its own line, no DW_TAG_variable; the C ScaleApply22 beside it interleaves lines */
 asm void MTX_Rot22_(MtxFx22 *dst, fx32 sin, fx32 cos)
 {
@@ -52,7 +48,6 @@ asm void MTX_Rot22_(MtxFx22 *dst, fx32 sin, fx32 cos)
 }
 
 #pragma thumb off
-typedef long long fx64;
 typedef union {
     struct {
         fx32 _00, _01;

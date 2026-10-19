@@ -62,8 +62,7 @@ void FIELD_FK_SOUND_ANIME_UpdateAmbientSoundA(struct FieldSubproc *proc, struct 
 void FIELD_FK_SOUND_ANIME_InitAmbientSoundB(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkAmbientSoundWork *work);
 void FIELD_FK_SOUND_ANIME_ExitAmbientSoundB(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkAmbientSoundWork *work);
 void FIELD_FK_SOUND_ANIME_UpdateAmbientSoundB(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkAmbientSoundWork *work);
-typedef unsigned short u16;
-typedef unsigned int   u32;
+#include "../types.h"
 extern int GFL_USE_GetSeSlot(u32 seId);
 extern void GFL_USE_StopSeSlot(int seSlot);
 
@@ -87,12 +86,10 @@ void FIELD_FK_SOUND_ANIME_InitFrameSound(struct FieldSubproc *proc, struct Field
     work->soundSys = GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
 }
 
-
 /* Exit of that proc: nothing to undo. */
 void FIELD_FK_SOUND_ANIME_ExitFrameSound(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkFrameSoundWork *work)
 {
 }
-
 
 /*
  * Update of that proc: when the building animation is at one of the listed
@@ -124,7 +121,6 @@ void FIELD_FK_SOUND_ANIME_UpdateFrameSound(struct FieldSubproc *proc, struct Fie
     }
 }
 
-
 /*
  * Init of the proc that plays an ambient sound (template gFkAmbientSoundATemplate) until the
  * script work variable FK_AMBIENT_STOP_WORK_ID is not 0.
@@ -145,7 +141,6 @@ void FIELD_FK_SOUND_ANIME_InitAmbientSoundA(struct FieldSubproc *proc, struct Fi
     work->stopped = 1;
 }
 
-
 /* Exit of that proc: stops the sound if it still plays. */
 void FIELD_FK_SOUND_ANIME_ExitAmbientSoundA(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkAmbientSoundWork *work)
 {
@@ -153,7 +148,6 @@ void FIELD_FK_SOUND_ANIME_ExitAmbientSoundA(struct FieldSubproc *proc, struct Fi
         FIELD_SOUND_SYSTEM_ReleaseSlot(work->soundSys, FK_SE_AMBIENT_A);
     }
 }
-
 
 /* Update of that proc: stops the sound when the script variable is set. */
 void FIELD_FK_SOUND_ANIME_UpdateAmbientSoundA(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkAmbientSoundWork *work)
@@ -163,7 +157,6 @@ void FIELD_FK_SOUND_ANIME_UpdateAmbientSoundA(struct FieldSubproc *proc, struct 
         work->stopped = 1;
     }
 }
-
 
 /* Same as FIELD_FK_SOUND_ANIME_InitAmbientSoundA for the second ambient sound (template gFkAmbientSoundBTemplate). */
 void FIELD_FK_SOUND_ANIME_InitAmbientSoundB(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkAmbientSoundWork *work)
@@ -182,14 +175,12 @@ void FIELD_FK_SOUND_ANIME_InitAmbientSoundB(struct FieldSubproc *proc, struct Fi
     work->stopped = 1;
 }
 
-
 void FIELD_FK_SOUND_ANIME_ExitAmbientSoundB(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkAmbientSoundWork *work)
 {
     if (work->stopped == 0) {
         FIELD_SOUND_SYSTEM_ReleaseSlot(work->soundSys, FK_SE_AMBIENT_B);
     }
 }
-
 
 void FIELD_FK_SOUND_ANIME_UpdateAmbientSoundB(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkAmbientSoundWork *work)
 {
@@ -198,7 +189,6 @@ void FIELD_FK_SOUND_ANIME_UpdateAmbientSoundB(struct FieldSubproc *proc, struct 
         work->stopped = 1;
     }
 }
-
 
 /*
  * Allocates a 0x1C-byte record from the heap, starts the ICA animation of
@@ -219,7 +209,6 @@ FkSoundAnime *FIELD_FK_SOUND_ANIME_Create(const void *soundIds, u32 arcId, u32 d
     return sound;
 }
 
-
 /*
  * Deletes the sound anime.
  *
@@ -231,7 +220,6 @@ void FIELD_FK_SOUND_ANIME_Delete(FkSoundAnime *sound)
     ICA_ANIME_Delete(sound->anime);
     GFL_HEAP_Free(sound);
 }
-
 
 /*
  * Steps the sound anime by one frame and acts on its nine channels (three
@@ -276,7 +264,6 @@ int FIELD_FK_SOUND_ANIME_Step(FkSoundAnime *sound)
     sound->frame += 0x1000;
     return done;
 }
-
 
 /* Plays the sound effect of a channel, if it has one. */
 void FIELD_FK_SOUND_ANIME_PlaySe(FkSoundAnime *sound, u32 channel)

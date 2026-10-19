@@ -130,21 +130,7 @@ struct CellAnim;
 struct MultiCellAnim;
 struct CellXferState;
 struct AnimSequence;
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef signed short   s16;
-
-typedef signed int     s32;
-
-typedef long long      s64;
-
-typedef float          f32;
-
-typedef volatile u32 vu32;
+#include "../types.h"
 
 /* NNSG2dImageProxy (0x24) */
 struct ImageProxy {
@@ -885,8 +871,6 @@ extern const char s_clact_assert_expr[];
 extern s16 FX_SinCosTable_[];
 extern AnimResetFn g_ClactAnimResetFuncs[];
 
-
-
 /*
  * Blocked at MATCH: all 288 concrete bytes are correct and seven of the ten
  * relocation sites now resolve.  CLACT_InitDefaultRenderer (+0x00C0) was closed by wave
@@ -951,8 +935,6 @@ void CLACT_InitSystem(const struct SysInit *cfg, const struct DispVramCfg *res_c
     CLACT_SetOamPending(1);
 }
 
-
-
 /*
  * Was blocked at MATCH pending CLACT_ExitResources (+0x003C), which was itself
  * capped at MATCH behind VMAN_Delete.  Both are now `matched`
@@ -991,8 +973,6 @@ void CLACT_ExitSystem(void)
     g_ClactSystem = 0;
 }
 
-
-
 /*
  * note:     re-verified 2026-09-20: MATCH; see verify output
  */
@@ -1015,8 +995,6 @@ void CLACT_DrawSystem(void)
 
     CLACT_SetSystemActive(1);
 }
-
-
 
 /*
  * The cell-actor manager's teardown pass, and the exact inverse of
@@ -1048,8 +1026,6 @@ void CLACT_VBlankSystem(void)
     CLACT_SetOamPending(1);
 }
 
-
-
 /*
  * Cell-actor latch-only tick: latch off, flush the actor unit list, latch
  * back on.  No render update compared with CLACT_DrawSystem.
@@ -1063,8 +1039,6 @@ void CLACT_FlushOamIfPending(void)
     CLACT_ResetOamIfPending();
     CLACT_SetSystemActive(1);
 }
-
-
 
 /*
  * Claims the first entry of the display-object table (0x40-byte slots at
@@ -1120,8 +1094,6 @@ found:
     }
     return -1;
 }
-
-
 
 /*
  * Claims the first busy cell (bit 31 of +0x3c) of the singleton's table at
@@ -1184,8 +1156,6 @@ found:
     return -1;
 }
 
-
-
 /*
  * Retire one slot of the 0x40-byte table at +0x10c of the singleton behind
  * 0x02146A74.  The two eight-byte sub-objects at +0x2c and +0x34 are returned
@@ -1242,8 +1212,6 @@ void CLACT_ReleaseCharacter(u32 idx)
     g_ClactSystem->res.chars[idx].vram_size = 0;
 }
 
-
-
 void CLACT_TransferCharacter(int idx, struct CharData *char_data)
 {
     if (NNSi_G2dIsVramHandleSet((const u32 *)((u32)g_ClactSystem->res.chars + (idx << 6)), 1) != 0) {
@@ -1259,8 +1227,6 @@ void CLACT_TransferCharacter(int idx, struct CharData *char_data)
         GXS_LoadOBJ((void *)char_data->raw, (unsigned int)vram_addr, char_data->size);
     }
 }
-
-
 
 void CLACT_TransferCharacterPart(int idx, void *src, u32 size, int offset, int target)
 {
@@ -1282,8 +1248,6 @@ void CLACT_TransferCharacterPart(int idx, void *src, u32 size, int offset, int t
     }
 }
 
-
-
 /*
  * Copy the 36-byte header of a 64-byte-stride record out of the actor
  * table hung off the manager's pointer member at +0x10c into the caller's
@@ -1296,8 +1260,6 @@ void CLACT_GetCharacterProxy(u32 idx, struct ImageProxy *out)
 
     *out = *slot_proxy;
 }
-
-
 
 /*
  * Snapshot one actor record into a local 36-byte buffer and hand it to
@@ -1314,8 +1276,6 @@ int CLACT_GetCharacterVramAddress(u32 idx, u32 flag)
     CLACT_GetCharacterProxy(idx, &buf);
     return NNSi_G2dGetVramHandleValue((int *)(&buf), mode);
 }
-
-
 
 /*
  * The short-form entry point of CLACT_RegisterPaletteEx: same call with the two
@@ -1337,8 +1297,6 @@ s32 CLACT_RegisterPalette(void *archive, u32 file_idx, u32 vram_mode, u32 vram_o
 {
     return CLACT_RegisterPaletteEx(archive, file_idx, vram_mode, vram_offset, 0, 0, heap_id);
 }
-
-
 
 /*
  *           the call inside this function, so `label` has no outside witness
@@ -1372,8 +1330,6 @@ found:
 
     return i;
 }
-
-
 
 /*
  * The clact.c record-claim scan: walk the ClRes cell table for a free slot
@@ -1430,8 +1386,6 @@ found:
     return (int)i;
 }
 
-
-
 /*
  * Reset one entry of the 0x18-byte table hanging off +0x110 of the
  * singleton at 0x02146A74: set the top bit of the word at +0x14 and clear
@@ -1459,8 +1413,6 @@ void CLACT_ReleasePalette(u32 idx)
     g_ClactSystem->res.pltts[idx].free = 1;
     g_ClactSystem->res.pltts[idx].size = 0;
 }
-
-
 
 /*
  * Flush both halves of one slot of the 0x18-byte-stride table at +0x110 of
@@ -1510,8 +1462,6 @@ void CLACT_TransferPalette(u32 idx, struct PaletteData *dest, u32 count)
     }
 }
 
-
-
 /*
  * A getter and its one caller.  CLACT_GetPaletteProxy copies the 0x14-byte record
  * out of slot `idx` of the 0x18-byte-stride table at +0x110 of the
@@ -1530,8 +1480,6 @@ void CLACT_GetPaletteProxy(u32 idx, struct PaletteProxy *dest)
     *dest = g_ClactSystem->res.pltts[idx].proxy;
 }
 
-
-
 int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate)
 {
     struct PaletteProxy record;
@@ -1545,8 +1493,6 @@ int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate)
     CLACT_GetPaletteProxy(idx, &record);
     return NNSi_G2dGetVramHandleEx((char *)(&record), selector);
 }
-
-
 
 /*
  * Claim the first live slot of the 0x14-byte entry pool that lives at
@@ -1610,8 +1556,6 @@ found:
     return idx;
 }
 
-
-
 /*
  * Tear down one entry of the 0x14-byte table hanging off +0x114 of the
  * singleton at 0x02146A74: free the two payload pointers at +0 and +4 if
@@ -1644,8 +1588,6 @@ void CLACT_ReleaseCellAnim(u32 idx)
     slot->free = 1;
 }
 
-
-
 /*
  * clact.c's 0xA0-byte cell-actor allocation helper: carve the record with the
  * three-argument allocator, hand it and the caller's three values to the
@@ -1669,15 +1611,11 @@ struct Renderer *CLACT_CreateRenderer(const struct SurfaceInit *inits, u32 count
     return renderer;
 }
 
-
-
 void CLACT_DeleteRenderer(struct Renderer *renderer)
 {
     CLACT_ExitRenderer(renderer);
     GFL_HEAP_Free(renderer);
 }
-
-
 
 /*
  * Unlabelled arm9 leaf (the label at 0x0204B09C also spans the next leaf at
@@ -1692,8 +1630,6 @@ void CLACT_SetSurfacePos(struct Renderer *renderer, int idx, struct Vec2 *pos)
     surface->x = x << 12;
     surface->y = y << 12;
 }
-
-
 
 /*
  * EXACT*, not EXACT: the listing extent runs 12 bytes long because what
@@ -1719,14 +1655,10 @@ void CLACT_GetSurfacePos(struct Renderer *renderer, u32 surface_idx, struct Vec2
     out->y = surface->y >> 12;
 }
 
-
-
 void CLACT_SetRendererCulling(struct Renderer *renderer, int enable)
 {
     CLACT_SetSurfaceCulling(renderer, enable);
 }
-
-
 
 /*
  * The cell-actor unit constructor.  The __FILE__ pointer is the same
@@ -1777,8 +1709,6 @@ struct Unit *CLACT_CreateUnit(int count, u8 priority, u32 heapId)
     return unit;
 }
 
-
-
 /*
  * The inverse of src/matched/CLACT_CreateUnit.c: quiesce the cell-actor unit,
  * tear down every live actor record, then free the record array and the unit
@@ -1810,8 +1740,6 @@ u32 CLACT_DeleteUnit(struct Unit *unit)
     return GFL_HEAP_Free(unit);
 }
 
-
-
 /*
  * Three leaf accessors of clact.c's unit header, packed end to end with no
  * literal pool between them.  Only the first has a `func_` label in the
@@ -1841,22 +1769,16 @@ void CLACT_SetUnitDrawEnable(struct Unit *unit, u32 enable)
     unit->draw_enable = enable;
 }
 
-
-
 u32 CLACT_GetUnitDrawEnable(struct Unit *unit)
 {
     return unit->draw_enable;
 }
-
-
 
 void CLACT_SetUnitRenderer(struct Unit *unit, void *renderer)
 {
     unit->renderer = renderer;
     unit->source = 1;
 }
-
-
 
 /*
  * The companion of CLACT_SetUnitRenderer in src/matched/unit_0204B22C.c: point the
@@ -1873,8 +1795,6 @@ void CLACT_SetUnitDefaultRenderer(struct Unit *unit)
     unit->renderer = &g_ClactSystem->renderer;
     unit->source = 0;
 }
-
-
 
 /*
  * Build a 0x20-byte request on the stack out of three of the singleton's
@@ -1912,8 +1832,6 @@ struct Actor *CLACT_CreateActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u
     return CLACT_CreateActorCore(unit, init, &req, space, heap_id);
 }
 
-
-
 /*
  * Same request-builder shape as CLACT_CreateActor: a 0x20-byte request is staged
  * on the stack from three of the singleton's parallel tables (0x40-byte
@@ -1937,8 +1855,6 @@ struct Actor *CLACT_CreateAffineActor(struct Unit *unit, u32 char_idx, u32 pltt_
     return CLACT_CreateActorFull(unit, init, &req, space, heap_id);
 }
 
-
-
 /*
  * Tear-down for the 0x0204Bxxx object: hand the handle at +8 and the owner
  * to CLACT_UnlinkActor, run the embedded sub-object at +0x68 through
@@ -1960,8 +1876,6 @@ void CLACT_DeleteActor(struct Actor *actor)
     CLACT_ExitAnimCtl((&actor->ctl));
     CLACT_ClearActor(actor);
 }
-
-
 
 /*
  * A whole translation unit, matched as one byte range.
@@ -1995,14 +1909,10 @@ void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value)
     actor->enabled = value;
 }
 
-
-
 u32 CLACT_GetActorDrawEnable(struct Actor *actor)
 {
     return actor->enabled;
 }
-
-
 
 void CLACT_AddActorSurfacePos(struct Actor *actor, const struct Vec2 *delta, u32 which)
 {
@@ -2014,8 +1924,6 @@ void CLACT_AddActorSurfacePos(struct Actor *actor, const struct Vec2 *delta, u32
     dest.y = delta->y + pos.y;
     CLACT_SetActorPos(actor, (const struct Pt16 *)(&dest));
 }
-
-
 
 /*
  * Read the actor's screen position back in the coordinate space named by
@@ -2040,8 +1948,6 @@ void CLACT_GetActorSurfacePos(struct Actor *actor, struct Vec2 *out, u16 space)
     out->x = out->x - origin.x;
     out->y = out->y - origin.y;
 }
-
-
 
 /*
  * The write side of src/matched/CLACT_GetActorSurfacePosAxis.c: set one axis of the actor's
@@ -2070,8 +1976,6 @@ void CLACT_SetActorSurfacePosAxis(struct Actor *actor, s16 value, u32 space, u32
     CLACT_SetActorPosAxis(actor, value, axis);
 }
 
-
-
 /*
  * The read side of src/matched/CLACT_SetActorSurfacePosAxis.c: one axis of the actor's
  * position, expressed in the coordinate space named by `space`.
@@ -2098,8 +2002,6 @@ s16 CLACT_GetActorSurfacePosAxis(struct Actor *actor, u32 space, u32 axis)
     return pos_value - origin_value;
 }
 
-
-
 /*
  * Store the actor's screen position pair at +0x0c/+0x0e.  Copied field by
  * field rather than as a four-byte aggregate: a struct assignment of this
@@ -2117,8 +2019,6 @@ void CLACT_SetActorPos(struct Actor *actor, const struct Pt16 *pos)
     actor->pos.y = pos->y;
 }
 
-
-
 /*
  * The read side of src/matched/CLACT_SetActorPos.c: copy the actor's screen
  * position pair out of +0x0c/+0x0e, field by field.
@@ -2132,8 +2032,6 @@ void CLACT_GetActorPos(const struct Actor *actor, struct Pt16 *out)
     out->x = actor->pos.x;
     out->y = actor->pos.y;
 }
-
-
 
 /*
  * Write one axis of the actor's screen position: axis 0 is x at +0x0c, any
@@ -2153,8 +2051,6 @@ void CLACT_SetActorPosAxis(struct Actor *actor, signed short value, u32 axis)
         actor->pos.y = value;
     }
 }
-
-
 
 /*
  * The read side of src/matched/CLACT_SetActorPosAxis.c: one axis of the actor's screen
@@ -2181,8 +2077,6 @@ s16 CLACT_GetActorPosAxis(const struct Actor *actor, u32 axis)
     }
 }
 
-
-
 /*
  * Two more leaf accessors of the 0xE4-byte cell actor.  0x0204B588 saves no
  * lr and so carries no label in the listing
@@ -2208,15 +2102,11 @@ void CLACT_SetActorAffineMode(struct Actor *actor, u32 value)
     actor->affine_mode = value;
 }
 
-
-
 void CLACT_SetActorAffineOrigin(struct Actor *actor, const struct Pt16 *origin)
 {
     actor->origin.x = origin->x;
     actor->origin.y = origin->y;
 }
-
-
 
 /*
  * Three leaf accessors on the display object, 56 bytes end to end with no
@@ -2250,8 +2140,6 @@ void CLACT_SetActorAffineOriginAxis(struct Actor *actor, signed short value, u32
     }
 }
 
-
-
 /*
  * Unlabelled ARM leaf: copy two words from src into the pair at +0x14/+0x18
  * of dst.  `ldr r2,[r1]; ldr r1,[r1,#4]; str r2,[r0,#0x14]; str r1,[r0,#0x18]`.
@@ -2263,15 +2151,11 @@ void CLACT_SetActorScale(struct Actor *actor, struct Pair32 *src)
     actor->scale = scale_copy;
 }
 
-
-
 void CLACT_GetActorScale(const struct Actor *actor, struct Pair32 *out_scale)
 {
     out_scale->x = actor->scale.x;
     out_scale->y = actor->scale.y;
 }
-
-
 
 /*
  * Write and read one of the two u32 slots at +0x14 and +0x18 of the cell
@@ -2295,8 +2179,6 @@ void CLACT_SetActorScaleAxis(struct Actor *actor, u32 value, u32 which)
     }
 }
 
-
-
 u32 CLACT_GetActorScaleAxis(const struct Actor *actor, u32 which)
 {
     if (which == 0) {
@@ -2305,8 +2187,6 @@ u32 CLACT_GetActorScaleAxis(const struct Actor *actor, u32 which)
         return actor->scale.y;
     }
 }
-
-
 
 /*
  * The write and read of the u16 at +0x58 of the cell actor.  Neither saves lr,
@@ -2328,14 +2208,10 @@ void CLACT_SetActorRotation(struct Actor *actor, u16 value)
     actor->angle = value;
 }
 
-
-
 u16 CLACT_GetActorRotation(const struct Actor *actor)
 {
     return actor->angle;
 }
-
-
 
 /*
  * The setter side of CLACT_GetActorFlip (src/matched/CLACT_GetActorFlip.c): sets or
@@ -2357,8 +2233,6 @@ void CLACT_SetActorFlip(struct Actor *actor, u32 which, u32 set)
 
     actor->flip |= mask;
 }
-
-
 
 /*
  * The test side of CLACT_SetActorFlip in src/matched/unit_0204B5F4.c: is bit
@@ -2391,8 +2265,6 @@ u32 CLACT_GetActorFlip(const struct Actor *actor, u32 which)
 
     return result;
 }
-
-
 
 /*
  * Two accessors of the cell actor's u32 flag word at +0x60.  0x0204B6E4 saves
@@ -2438,14 +2310,10 @@ void CLACT_SetActorObjMode(struct Actor *actor, u32 value)
     }
 }
 
-
-
 u32 CLACT_GetActorObjMode(const struct Actor *actor)
 {
     return actor->obj_mode;
 }
-
-
 
 /*
  * A whole translation unit, matched as one byte range.
@@ -2479,14 +2347,10 @@ void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 offset, u32 pltt_op)
     actor->pltt_op = pltt_op;
 }
 
-
-
 u32 CLACT_GetActorPaletteOffset(struct Actor *actor)
 {
     return (unsigned char)actor->pltt_offset;
 }
-
-
 
 /*
  * Install a transform into the object at +0x40: query the two axis slots
@@ -2521,19 +2385,13 @@ void CLACT_SetActorPaletteProxy(struct Actor *actor, const struct PaletteProxy *
     actor->palette = *proxy;
 }
 
-
-
 static inline void copy_inline1(const struct ImageProxy *src, struct ImageProxy *dst) {
     *dst = *src;
 }
 
-
-
 static inline void copy_inline2(struct ImageProxy *dst, const struct ImageProxy *src) {
     *dst = *src;
 }
-
-
 
 /*
  * A whole translation unit, matched as one byte range.
@@ -2564,8 +2422,6 @@ void CLACT_GetActorPaletteProxy(const char *actor_base, struct PaletteProxy *dst
     *dst = *proxy;
 }
 
-
-
 void CLACT_SetActorImageProxy(char *actor_base, const struct ImageProxy *proxy)
 {
     struct ImageProxy copy;
@@ -2575,15 +2431,11 @@ void CLACT_SetActorImageProxy(char *actor_base, const struct ImageProxy *proxy)
     *(struct ImageProxy *)(actor_base + 0x1c) = copy;
 }
 
-
-
 void CLACT_GetActorImageProxy(const char *actor_base, struct ImageProxy *dst)
 {
     const struct ImageProxy *proxy = (const struct ImageProxy *)(actor_base + 0x1c);
     *dst = *proxy;
 }
-
-
 
 /*
  * u16 field read at +0x5c.  Unlabelled in the current listings: the prologue
@@ -2596,8 +2448,6 @@ u16 CLACT_GetActorCharacterIndex(struct Actor *actor)
     return actor->char_idx;
 }
 
-
-
 /*
  * Same as CLACT_GetActorCharacterIndex one field up, at +0x5e.  Unlabelled leaf for the
  * same reason.
@@ -2606,8 +2456,6 @@ u16 CLACT_GetActorPaletteIndex(struct Actor *actor)
 {
     return actor->pltt_idx;
 }
-
-
 
 /*
  * Field at +0x60 is an 8-bit bitfield in a whole word: the original is a
@@ -2620,28 +2468,20 @@ void CLACT_SetActorDrawPriority(struct Actor *actor, u32 priority)
     CLACT_LinkActor(actor->owner, actor);
 }
 
-
-
 int CLACT_GetActorDrawPriority(struct Actor *actor)
 {
     return (u8)actor->draw_priority & 0xff;
 }
-
-
 
 void CLACT_SetActorBgPriority(struct Actor *actor, unsigned int priority)
 {
     actor->bg_priority = priority;
 }
 
-
-
 u32 CLACT_GetActorBgPriority(struct Actor *actor)
 {
     return (u8)actor->bg_priority;
 }
-
-
 
 /*
  * Stores a 16-bit value at +0x5a of the object, then runs the sub-object at
@@ -2666,8 +2506,6 @@ void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value)
     CLACT_SetAnimSeq((&actor->ctl), value);
     CLACT_StartActorAnim(actor);
 }
-
-
 
 /*
  * A whole translation unit range, matched as one byte range.
@@ -2705,8 +2543,6 @@ u16 CLACT_GetActorAnimSeq(struct Actor *actor)
     return actor->anim_seq;
 }
 
-
-
 void CLACT_ChangeActorAnimSeq(struct Actor *actor, u16 anim_seq)
 {
     if (anim_seq == actor->anim_seq) {
@@ -2715,8 +2551,6 @@ void CLACT_ChangeActorAnimSeq(struct Actor *actor, u16 anim_seq)
     CLACT_SetActorAnimSeq(actor, anim_seq);
     CLACT_StartActorAnim(actor);
 }
-
-
 
 /*
  * Forward the sub-object embedded at +0x68 of the 0x0204Bxxx object to
@@ -2736,8 +2570,6 @@ void CLACT_SetActorAnimFrame(struct Actor *actor, u32 frame)
 {
     CLACT_SetAnimFrame((&actor->ctl), frame);
 }
-
-
 
 /*
  * Run CLACT_SetAnimSpeed over the sub-object embedded at +0x68 of the
@@ -2761,8 +2593,6 @@ void CLACT_AddActorAnimFrame(struct Actor *actor, u32 frames)
     CLACT_AddAnimFrame((&actor->ctl), 0x1000);
 }
 
-
-
 /*
  * Read +0x10 of the record CLACT_GetAnimObject hands back for the sub-object
  * embedded at +0x68 of the 0x0204Bxxx object (see
@@ -2784,14 +2614,10 @@ u32 CLACT_GetActorAnimFrame(struct Actor *actor)
     return CLACT_GetAnimObject(&actor->ctl)->frame;
 }
 
-
-
 void CLACT_SetActorAnimIndex(struct Actor *actor, u32 anim_idx)
 {
     CLACT_SetAnimIndex(&actor->ctl, anim_idx);
 }
-
-
 
 /*
  * Hand the record CLACT_GetAnimObject returns for the sub-object at +0x68
@@ -2813,8 +2639,6 @@ u16 CLACT_GetActorAnimSeqCount(struct Actor *actor)
     return NNSi_G2dGetCellAnimFrameIdx((struct Node *)(CLACT_GetAnimObject(&actor->ctl)));
 }
 
-
-
 /*
  * A whole translation unit, matched as one byte range.
  *
@@ -2831,14 +2655,10 @@ void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable)
     actor->auto_anim = enable;
 }
 
-
-
 u32 CLACT_GetActorAutoAnim(struct Actor *actor)
 {
     return actor->auto_anim;
 }
-
-
 
 /*
  * A leaf setter for the word at +0x54 of the cell-actor record: two
@@ -2855,8 +2675,6 @@ void CLACT_SetActorAutoAnimSpeed(struct Actor *actor, u32 speed)
 {
     actor->auto_anim_speed = speed;
 }
-
-
 
 /*
  * Set the flag at +0x0c of the animation record CLACT_GetAnimCtrl selects out of
@@ -2875,8 +2693,6 @@ void CLACT_StartActorAnim(struct Actor *actor)
     CLACT_GetAnimCtrl(&actor->ctl)->active = 1;
 }
 
-
-
 /*
  * Set the flag at +0x0c of the animation record CLACT_GetAnimCtrl selects out of
  * the cell actor's +0x68 sub-object.  CLACT_StartActorAnim next door is the same
@@ -2894,8 +2710,6 @@ void CLACT_StopActorAnim(struct Actor *actor)
     CLACT_GetAnimCtrl(&actor->ctl)->active = 0;
 }
 
-
-
 /*
  * Read the u32 at +0x0c of the record CLACT_GetAnimObject selects out of the cell
  * actor's +0x68 sub-object.  The pair CLACT_StartActorAnim / CLACT_StopActorAnim writes the
@@ -2909,8 +2723,6 @@ u32 CLACT_IsActorAnimActive(struct Actor *actor)
 {
     return CLACT_GetAnimObject(&actor->ctl)->active;
 }
-
-
 
 /*
  * Blocked at MATCH: all 36 concrete bytes are correct, but the PC24 at +0x001C
@@ -2932,8 +2744,6 @@ void CLACT_RestartActorAnim(struct Actor *actor)
     CLACT_GetAnimCtrl(&actor->ctl)->active = 1;
     CLACT_ResetAnim(&actor->ctl);
 }
-
-
 
 /*
  * Three functions, 0x0204B9C4 / 0x0204BA00 / 0x0204BA10.  Only the first is
@@ -2978,21 +2788,15 @@ void CLACT_SetActorAnimLoopCount(struct Actor *actor, u32 loop_limit)
     }
 }
 
-
-
 void CLACT_ApplyActorAnimCommand(struct Actor *actor, const struct Cmd *cmd)
 {
     CLACT_ApplyAnimCommand(&actor->ctl, cmd);
 }
 
-
-
 void CLACT_ResetActorAnimCommand(struct Actor *actor)
 {
     CLACT_ResetAnimCommand(&actor->ctl);
 }
-
-
 
 /*
  * Store the logical negation of the argument into bit 0 of the cell actor's
@@ -3017,8 +2821,6 @@ void CLACT_SetActorVisible(struct Actor *actor, u32 visible)
         actor->hidden = 0;
     }
 }
-
-
 
 /*
  * Copy two signed halfword pairs from the caller's array into clact.c's
@@ -3049,8 +2851,6 @@ void CLACT_InitDefaultRenderer(struct Renderer *renderer, const s16 *src, u32 he
 
     CLACT_InitRenderer(renderer, gClactTables.default_surfaces, 2, heap_id);
 }
-
-
 
 /*
  * Record the two VRAM base offsets of a cell-actor resource set in the
@@ -3083,8 +2883,6 @@ void CLACT_SetPaletteBaseOffsets(u32 pltt_proxy, u16 base_offset, u32 pltt_op)
     g_ClactSystem->pltt_op = pltt_op;
 }
 
-
-
 /*
  * Store a word at +0xf8 of the cell-actor singleton, silently doing nothing
  * before the system is constructed.  A leaf: the guarded store predicates to
@@ -3100,8 +2898,6 @@ void CLACT_SetSystemActive(u32 active)
         g_ClactSystem->active = active;
     }
 }
-
-
 
 /*
  * The reader for the word CLACT_SetSystemActive writes, returning 0 before the system
@@ -3123,8 +2919,6 @@ u32 CLACT_IsSystemActive(void)
     }
 }
 
-
-
 /*
  * Store a word at +0xfc of the cell-actor singleton, silently doing nothing
  * before the system is constructed.  A leaf: the guarded store predicates to
@@ -3140,8 +2934,6 @@ void CLACT_SetOamPending(u32 pending)
         g_ClactSystem->oam_pending = pending;
     }
 }
-
-
 
 /*
  * The reader for the word CLACT_SetOamPending writes, returning 0 before the system
@@ -3162,8 +2954,6 @@ u32 CLACT_IsOamPending(void)
         return 0;
     }
 }
-
-
 
 /*
  * Drop the singleton's +0xfc latch: if it is set, release the two OAM
@@ -3192,8 +2982,6 @@ void CLACT_ResetOamIfPending(void)
     CLACT_ResetOamManagers(&g_ClactSystem->oam_mgrs);
     CLACT_SetOamPending(0);
 }
-
-
 
 /*
  * Blocked at MATCH: all 60 concrete bytes are correct, but the PC24 at +0x001C
@@ -3230,8 +3018,6 @@ void CLACT_DrawAllUnits(void)
         unit = unit->next;
     } while (unit != g_ClactSystem->units);
 }
-
-
 
 /*
  * Link a cell-actor unit into the singleton's priority-ordered ring at
@@ -3287,8 +3073,6 @@ found:
     prev_unit->next = unit;
 }
 
-
-
 /*
  * The inverse of src/matched/CLACT_LinkUnit.c: unlink a cell-actor unit from
  * the singleton's ring at +0x100 and NULL both of its own links.  When the
@@ -3325,8 +3109,6 @@ void CLACT_UnlinkUnit(struct Unit *unit)
     unit->prev = 0;
 }
 
-
-
 /*
  * Blocked at MATCH: all 68 concrete bytes are correct and the call to
  * NNS_G2dInitOamManagerModule resolves off the second call site in
@@ -3359,8 +3141,6 @@ void CLACT_InitOamManagers(struct OamManagers *oam_managers, u32 main_base, u32 
     CLACT_InitOamManager(&oam_managers->mgr[1], sub_base, sub_count, 1);
 }
 
-
-
 /*
  * Release both of a cell actor's 0x20-byte OAM sub-records and then flush the
  * hardware tables.  The pair-wise loops live in CLACT_ResetOamManagers and
@@ -3381,8 +3161,6 @@ void CLACT_ExitOamManagers(struct OamManagers *oam_managers)
     NNS_G2dInitOamManagerModule();
 }
 
-
-
 /*
  * Blocked at MATCH: all 36 concrete bytes are correct, but the PC24 at
  * +0x0010 (the call to CLACT_ApplyOamManager) has no witness of any class.  Its only
@@ -3402,8 +3180,6 @@ void CLACT_ApplyOamManagers(struct OamManagers *oam_managers)
     }
 }
 
-
-
 /*
  * Blocked at MATCH: all 36 concrete bytes are correct, but the PC24 at
  * +0x0010 (the call to CLACT_ResetOamManager) has no witness of any class.  Its only
@@ -3421,8 +3197,6 @@ void CLACT_ResetOamManagers(struct OamManagers *oam_managers)
     }
 }
 
-
-
 void CLACT_InitOamManager(struct OamManager *oam_manager, int base, int count, int screen)
 {
     if (count == 0) {
@@ -3432,9 +3206,6 @@ void CLACT_InitOamManager(struct OamManager *oam_manager, int base, int count, i
     NNSi_G2dReserveOamManagerSpan(oam_manager, base, count, screen);
     oam_manager->bound = 1;
 }
-
-
-
 
 /*
  * Blocked at MATCH: all 24 concrete bytes are correct, but the PC24 at +0x0010
@@ -3455,9 +3226,6 @@ void CLACT_ApplyOamManager(struct OamManager *oam_manager)
 
     NNS_G2dApplyOamManagerToHW((struct NNSG2dOamManagerInstance *)oam_manager, oam_manager->bound);
 }
-
-
-
 
 /*
  * Blocked at MATCH: all 24 concrete bytes are correct, but the PC24 at +0x0010
@@ -3480,9 +3248,6 @@ void CLACT_ResetOamManager(struct OamManager *oam_manager)
 
     NNS_G2dResetOamManagerBuffer((struct NNSG2dOamManagerInstance *)oam_manager);
 }
-
-
-
 
 /*
  *           this body (the tool prints "no witness outside 0204BD94..0204BE2C");
@@ -3511,26 +3276,9 @@ void CLACT_InitRenderer(struct Renderer *renderer, const struct SurfaceInit *ini
     }
 }
 
-
-
 void CLACT_ExitRenderer(struct Renderer *renderer){ GFL_HEAP_Free(renderer->surfaces); }
 
-
-
-
-
-
 #define fxmul(a, b) ((s32)((((s64)(a) * (s64)(b)) + 0x800) >> 12))
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Culling on/off for a 0x48-stride element array (the same surfaces/n_surfaces pair
@@ -3557,16 +3305,6 @@ void CLACT_SetSurfaceCulling(struct Renderer *renderer, int enable)
         renderer->surfaces[i].cull = cull_fn;
     }
 }
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Wave 15 (register-tie lane).  Three facts closed the 104-byte residue of
@@ -3606,16 +3344,6 @@ void CLACT_InitSurface(struct Surface *surface, const struct SurfaceInit *init)
     surface->extra_func = (int)funcs.extra_func;
 }
 
-
-
-
-
-
-
-
-
-
-
 /*
  * Blocked at MATCH: all 24 concrete bytes are correct (20 code + the pool
  * word), but the ABS32 at +0x0014 has no witness of any class.  0x020A1388
@@ -3633,16 +3361,6 @@ void CLACT_SetSurfaceType(struct Surface *surface, u32 idx)
 {
     surface->type = g_ClactSurfaceTypeTable[idx];
 }
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Push one OAM entry through the window at `oam_manager`, rewriting its palette field
@@ -3692,16 +3410,6 @@ void CLACT_EntryOam(struct OamManager *oam_manager, struct OamEntry *src_entry, 
     NNSi_G2dEntryOamManagerOam(oam_manager, &entry_copy, mode);
 }
 
-
-
-
-
-
-
-
-
-
-
 /*
  * Forward one command at the manager itself: the manager is the command
  * block, its u16 at +0xf0 is the id and the word at +0xf4 the payload.
@@ -3710,15 +3418,6 @@ void CLACT_EntryOamMain(struct OamEntry *entry, u32 mode)
 {
     CLACT_EntryOam(&g_ClactSystem->oam_mgrs.mgr[0], entry, mode, g_ClactSystem->pltt_base[0], g_ClactSystem->pltt_op);
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * Same forward as CLACT_EntryOamMain, but aimed at the sub-command block at
@@ -3730,14 +3429,6 @@ void CLACT_EntryOamSub(struct OamEntry *entry, u32 mode)
                   g_ClactSystem->pltt_base[1], g_ClactSystem->pltt_op);
 }
 
-
-
-
-
-
-
-
-
 /*
  * Tail call through the singleton pointer: the pool word for the global is
  * loaded, its value passed as the first argument, and the callee reached with
@@ -3747,13 +3438,6 @@ void CLACT_EntryAffineMain(u32 value)
 {
     NNS_G2dEntryOamManagerAffine(&g_ClactSystem->oam_mgrs.mgr[0], value);
 }
-
-
-
-
-
-
-
 
 /*
  * Same forward as CLACT_EntryAffineMain but aimed at the sub-block at +0x20.
@@ -3767,12 +3451,6 @@ void CLACT_EntryAffineSub(u32 value)
 {
     NNS_G2dEntryOamManagerAffine(&g_ClactSystem->oam_mgrs.mgr[1], value);
 }
-
-
-
-
-
-
 
 /*
  * The 2x2-matrix sibling of CLACT_IsCellInView (see docs/notes/pkt_0204C060.c.txt):
@@ -3845,12 +3523,6 @@ int CLACT_IsAffineCellInView(struct CellData *cell, struct Affine2D *affine, str
     return 0;
 }
 
-
-
-
-
-
-
 /*
  * The axis-aligned sibling of CLACT_IsAffineCellInView (clact.c): take the sprite's four
  * half-extents in 20.12 fixed point, translate by the camera delta and cull
@@ -3909,24 +3581,12 @@ int CLACT_IsCellInView(struct CellData *cell, struct Affine2D *affine, struct Vi
     return ay > 0 && ax < view->height && by > 0 && bx < view->width;
 }
 
-
-
-
-
-
-
 static inline s32 RepeatX(s16 x)
 {
     if (x > 0xff)
         x |= ~0xff;
     return x;
 }
-
-
-
-
-
-
 
 static inline s32 RepeatY(s16 y)
 {
@@ -3935,32 +3595,15 @@ static inline s32 RepeatY(s16 y)
     return y;
 }
 
-
-
-
-
-
 static inline u16 SizeX(s32 shape)
 {
     return NNSi_objSizeWTbl[(shape & 0xc000) >> 14][(shape & 0xc0000000) >> 30];
 }
 
-
-
-
-
-
-
 static inline u16 SizeY(s32 shape)
 {
     return NNSi_objSizeHTbl[(shape & 0xc000) >> 14][(shape & 0xc0000000) >> 30];
 }
-
-
-
-
-
-
 
 /*
  * The OAM cull callback CLACT_SetSurfaceCulling installs at element +0x40: read the
@@ -3988,34 +3631,17 @@ void CLACT_CullOam(struct Surface *surface, struct ViewRect *view, s32 unused_ar
                                x0, x1, y0, y1, affine, view) != 0;
 }
 
-
-
-
-
 #undef fxmul
 
-
-
-
 #undef fxmul
-
-
-
-#undef fxmul
-
 
 #undef fxmul
 
 #undef fxmul
 
+#undef fxmul
 
 #define fxmul(a, b) ((s32)((((s64)(a) * (s64)(b)) + 0x800) >> 12))
-
-
-
-
-
-
 
 /*
  * The 2x2-matrix cull test behind CLACT_CullOam (its only caller): transform
@@ -4068,10 +3694,6 @@ int CLACT_IsRectInView(s32 dx, s32 dy, s32 x0, s32 x1, s32 y0, s32 y1,
     return 0;
 }
 
-
-
-
-
 /*
  * promoted: from src/pending 2026-09-19, no C change: blocker 0x02066934 is filed in layout/matched/arm9/pkt_02066890.json and every site resolves (gate: manifest --verify --shard layout/matched/arm9/pkt_0204C060.json, then 0 rewritten).
  *
@@ -4123,10 +3745,6 @@ void CLACT_InitTransferPool(struct TransferPool *pool, u8 count, u32 heapId)
     pool->ready = 1;
 }
 
-
-
-
-
 /*
  * The inverse of src/matched/CLACT_InitTransferPool.c: release the 0x30-byte record
  * array, drop the free-list built over it, and clear the constructed flag at
@@ -4154,10 +3772,6 @@ void CLACT_ExitTransferPool(struct TransferPool *pool)
     CLACT_FreeTransferEntries((struct TransferPool *)pool);
     pool->ready = 0;
 }
-
-
-
-
 
 /*
  * Allocate the pool's parallel array of 0x10-byte entries and zero each one.
@@ -4189,9 +3803,6 @@ void CLACT_AllocTransferEntries(struct TransferPool *pool, u32 count, u32 heapId
     }
 }
 
-
-
-
 /*
  * Release the 0x10-byte entry array CLACT_AllocTransferEntries allocates at +0x04 and NULL
  * the pointer.  The pointer has to survive the free call, so the object is
@@ -4206,9 +3817,6 @@ void CLACT_FreeTransferEntries(struct TransferPool *pool)
     GFL_HEAP_Free(pool->entries);
     pool->entries = 0;
 }
-
-
-
 
 /*
  * Blocked at MATCH: all 96 concrete bytes are correct, but the PC24 at
@@ -4244,9 +3852,6 @@ void CLACT_ExecuteTransfers(struct TransferPool *pool)
     }
 }
 
-
-
-
 /*
  * Find the first free 0x10-byte entry of a pool, free meaning a zero word at
  * +0x00.  Returns NULL when the pool is full.  A leaf: nothing here calls
@@ -4275,9 +3880,6 @@ struct TransferEntry *CLACT_GetFreeTransferEntry(struct TransferPool *pool)
 
     return 0;
 }
-
-
-
 
 /*
  * The per-record callback src/matched/CLACT_InitTransferPool.c hands to NNS_G2dInitCellTransferStateManager,
@@ -4318,9 +3920,6 @@ u32 CLACT_RequestTransfer(u32 kind, u32 dest, u32 src, u32 size)
     return 1;
 }
 
-
-
-
 /*
  * Fill one 0x10-byte pool entry.  A leaf with five arguments, so the last one
  * is read straight back off the caller's stack with no frame at all.
@@ -4342,13 +3941,7 @@ void CLACT_SetTransferEntry(struct TransferEntry *entry, u32 entry_kind, u32 des
     entry->size = size;
 }
 
-
-
-
 extern void (*g_ClactTransferFuncs[])(void *src, u32 arg, u32 size);
-
-
-
 
 /*
  * Blocked at MATCH: all 44 concrete bytes are correct, but the ABS32 at
@@ -4381,9 +3974,6 @@ void CLACT_ExecuteTransfer(struct TransferEntry *entry)
     DC_FlushRange(entry->src, entry->size);
     g_ClactTransferFuncs[entry->kind](entry->src, entry->dest, entry->size);
 }
-
-
-
 
 /*
  * The slot allocator for the 0xe4-byte display object: walk the owner's
@@ -4428,9 +4018,6 @@ struct Actor *CLACT_GetFreeActor(struct Unit *unit)
     return 0;
 }
 
-
-
-
 /*
  * Blocked at MATCH: all 72 concrete bytes are correct and CLACT_UpdateActorAutoAnim
  * resolves `matched`, but the call to CLACT_DrawActor (+0x0028) has no
@@ -4470,9 +4057,6 @@ void CLACT_DrawUnit(struct Unit *unit)
         actor = actor->next;
     } while (actor != unit->head);
 }
-
-
-
 
 /*
  * Sorted insert into a circular doubly-linked list whose head pointer sits
@@ -4520,9 +4104,6 @@ void CLACT_LinkActor(struct Unit *unit, struct Actor *actor)
     insert_after->next = actor;
 }
 
-
-
-
 /*
  * Unlink a node from a doubly linked list whose head pointer lives at +4 of
  * the manager.  A node whose own forward pointer is itself is the only
@@ -4544,9 +4125,6 @@ void CLACT_UnlinkActor(struct Unit *unit, struct Actor *actor)
     actor->next = 0;
     actor->prev = 0;
 }
-
-
-
 
 /*
  * Walk the circular list backwards from `head` and return the payload of
@@ -4580,9 +4158,6 @@ void *CLACT_FindActorBefore(struct Actor *head, u32 priority)
     return head->prev;
 }
 
-
-
-
 /*
  * The forward half of the pair that opens this packet: walk the circular
  * list through its `next` links and return the first node whose key does
@@ -4614,9 +4189,6 @@ struct Actor *CLACT_FindActorAfter(struct Actor *head, u32 priority)
 
     return head->next;
 }
-
-
-
 
 /*
  * The constructor for the 0xe4-byte object this packet operates on: wipe
@@ -4652,9 +4224,6 @@ void CLACT_ClearActor(struct Actor *actor)
     actor->pltt_op = 0;
     actor->affine_mode = 0;
 }
-
-
-
 
 /*
  * Blocked at MATCH on the `label`/`matched` classes: all 108 concrete bytes
@@ -4712,8 +4281,6 @@ void CLACT_DrawActor(struct Actor *actor, struct Renderer *renderer)
     NNS_G2dEndRendering();
 }
 
-
-
 /*
  * Publishes five bitfields of the element's flag word at +0x60 into the
  * render record: the two-bit mode at bits 18-19 through NNS_G2dSetRndCoreAffineOverwriteMode, the
@@ -4757,8 +4324,6 @@ void CLACT_SetupActorDraw(struct Actor *actor, struct Renderer *renderer)
     renderer->obj_mode = actor->obj_mode;
     renderer->bg_priority = (u8)actor->bg_priority;
 }
-
-
 
 /*
  * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
@@ -4839,13 +4404,11 @@ void CLACT_ApplyActorTransform(struct Actor *actor)
     }
 }
 
-
 /*
  * Verified with:
  *   python tools/match.py one --src src/pending/CLACT_ApplyActorTransform.c \
  *       --func CLACT_ApplyActorTransform --addr 0x0204CC6C --cc 1.1p1 --arm
  */
-
 
 /*
  * Run the object through CLACT_AddActorAnimFrame, but only when the flag word at +0x60
@@ -4878,8 +4441,6 @@ void CLACT_UpdateActorAutoAnim(struct Actor *actor)
     }
 }
 
-
-
 /*
  * Apply the seven-field request to the object: the two signed halfwords at
  * +0 and +2 are the two axes of the same setter, selected by a trailing
@@ -4909,8 +4470,6 @@ void CLACT_ApplyActorInit(struct Actor *actor, const struct ActorInit *init, u32
     CLACT_SetActorAnimSeq(actor, init->anim_seq);
     CLACT_StartActorAnim(actor);
 }
-
-
 
 /*
  * Apply a four-field request to the object: the two words at +4 and +8 go
@@ -4942,8 +4501,6 @@ void CLACT_ApplyActorResources(struct Actor *actor, const struct ActorReq *req)
     actor->pltt_idx = req->pltt_idx;
 }
 
-
-
 /*
  * Measure entry `id`, writing the two halfwords of the answer through
  * `out`.  The sentinel id 0xFFFF means "nothing", and zeroes both.
@@ -4967,8 +4524,6 @@ void CLACT_GetSurfaceOrigin(struct Actor *actor, u32 surface_idx, u16 *out)
     }
     CLACT_GetSurfacePos(actor->owner->renderer, surface_idx, (struct Vec2 *)out);
 }
-
-
 
 /*
  * The seven-argument initialiser for the 0x20-byte request record: four
@@ -4998,8 +4553,6 @@ void CLACT_InitActorRequest(struct ActorReq *req, u16 char_idx, u16 pltt_idx, st
     req->mc_anim_bank = 0;
     req->xfer_chars = 0;
 }
-
-
 
 /*
  * Allocate one object out of the owner's pool, back-link it, initialise its
@@ -5043,11 +4596,6 @@ struct Actor *CLACT_CreateActorCore(struct Unit *unit, const struct ActorInit *i
     CLACT_SetActorDrawEnable(actor, 1);
     return actor;
 }
-
-
-
-
-
 
 /*
  * Build the object with CLACT_CreateActorCore, then apply the six remaining fields
@@ -5093,16 +4641,7 @@ struct Actor *CLACT_CreateActorFull(struct Unit *unit, const struct ActorInit *i
     return actor;
 }
 
-
-
-
-
 extern void *(*const g_ClactAnimFuncTable[][3])();
-
-
-
-
-
 
 /*
  * Constructor for the 0x7c-byte sub-object embedded at +0x68 of the
@@ -5132,25 +4671,11 @@ void CLACT_InitAnimCtl(struct AnimCtl *anim_ctl, void *req, u32 heap_id)
     g_ClactAnimFuncTable[6][kind](anim_ctl, req, heap_id);
 }
 
-
-
-
-
-
-
-
-
-
 void CLACT_ExitAnimCtl(struct AnimCtl *anim_ctl)
 {
     g_ClactAnimFuncTable[5][anim_ctl->kind](anim_ctl);
     MI_CpuFill8(anim_ctl, 0, 0x7c);
 }
-
-
-
-
-
 
 /*
  * Classify a request into the small index the sibling CLACT_InitAnimCtl uses to
@@ -5180,11 +4705,6 @@ s32 CLACT_GetAnimCtlKind(const struct ActorReq *req)
     return 0;
 }
 
-
-
-
-
-
 /*
  * Copy the source's two handles into the object's +4/+8 pair, then bind the
  * record at +0xc to them.
@@ -5210,11 +4730,6 @@ void CLACT_InitCellAnimCtl(struct AnimCtl *anim_ctl, const struct ActorReq *req)
     anim_ctl->anim_bank = req->anim_bank;
     NNS_G2dInitCellAnimation((struct CellAnim *)anim_ctl->anim, NNS_G2dGetAnimSequenceByIdx((struct AnimBank *)anim_ctl->anim_bank, 0), (struct CellDataBank *)anim_ctl->cell_bank);
 }
-
-
-
-
-
 
 /*
  * Record builder in clact.c.  Wave 15 (register-tie lane): the last 10
@@ -5252,11 +4767,6 @@ void CLACT_InitMultiCellAnimCtl(struct AnimCtl *anim_ctl, const struct ActorReq 
                   two - 3, main_vram_addr, sub_vram_addr, (int)chars->raw, zero, chars->size);
 }
 
-
-
-
-
-
 /*
  * Record constructor in clact.c.  Wave 15 (register-tie lane): EXACT* (the
  * listing extent runs over the unlabelled fill leaf 0x0204D2C8, filed as
@@ -5287,11 +4797,6 @@ void CLACT_InitVramAnimCtl(struct AnimCtl *anim_ctl, const struct ActorReq *req,
     NNS_G2dSetAnimSequenceToMCAnimation((struct MultiCellAnim *)anim_ctl->anim, NNS_G2dGetAnimSequenceByIdx((struct AnimBank *)anim_ctl->mc_anim_bank, 0));
 }
 
-
-
-
-
-
 /*
  * Unlabelled leaf after CLACT_InitVramAnimCtl in clact.c: clears the 0x7c-byte
  * animation sub-object (the same fill CLACT_ExitMultiCellAnimCtl ends with), as a tail
@@ -5306,11 +4811,6 @@ void CLACT_ExitCellAnimCtl(void *anim)
 {
     MI_CpuFill8(anim, 0, 0x7c);
 }
-
-
-
-
-
 
 /*
  * Destructor for one variant of the 0x7c-byte 0x0204Cxxx/0x0204Dxxx
@@ -5335,11 +4835,6 @@ void CLACT_ExitMultiCellAnimCtl(struct AnimCtl *anim_ctl)
     MI_CpuFill8(anim_ctl, 0, 0x7c);
 }
 
-
-
-
-
-
 /*
  * The sibling of CLACT_ExitMultiCellAnimCtl: same destructor shape for the variant whose
  * owned resource hangs off +0x78 and is freed through the heap entry point
@@ -5355,17 +4850,6 @@ void CLACT_ExitVramAnimCtl(struct AnimCtl *anim_ctl)
     GFL_HEAP_Free(anim_ctl->mc_work);
     MI_CpuFill8(anim_ctl, 0, 0x7c);
 }
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Dispatch on the object's kind word, passing the object and one forwarded
@@ -5407,11 +4891,6 @@ void CLACT_SetAnimSeq(struct AnimCtl *anim_ctl, u32 anim_seq)
     g_ClactAnimFuncTable[3][anim_ctl->kind](anim_ctl, anim_seq);
 }
 
-
-
-
-
-
 /*
  * One of this family's per-slot "apply" hooks: take the handle at +8,
  * resolve it through NNS_G2dGetAnimSequenceByIdx, and feed the result to NNS_G2dSetCellAnimationSequence
@@ -5429,11 +4908,6 @@ void CLACT_SetCellAnimSeq(struct AnimCtl *anim_ctl, u32 idx)
     NNS_G2dSetCellAnimationSequence((struct CellAnim *)anim_ctl->anim, NNS_G2dGetAnimSequenceByIdx((struct AnimBank *)anim_ctl->anim_bank, idx));
 }
 
-
-
-
-
-
 /*
  * The second copy of CLACT_SetCellAnimSeq: same body, same two callees, emitted
  * again thirty-two bytes later.  Two adjacent dispatch-table slots each got
@@ -5449,11 +4923,6 @@ void CLACT_SetMultiCellAnimSeq(struct AnimCtl *anim_ctl, u32 idx)
     NNS_G2dSetCellAnimationSequence((struct CellAnim *)anim_ctl->anim, NNS_G2dGetAnimSequenceByIdx((struct AnimBank *)anim_ctl->anim_bank, idx));
 }
 
-
-
-
-
-
 /*
  * The third member of the CLACT_SetCellAnimSeq / CLACT_SetMultiCellAnimSeq trio, reading the
  * handle from +0x74 instead of +8 and finishing in NNS_G2dSetAnimSequenceToMCAnimation instead of
@@ -5468,10 +4937,6 @@ void CLACT_SetVramAnimSeq(struct AnimCtl *anim_ctl, u32 idx)
 {
     NNS_G2dSetAnimSequenceToMCAnimation((struct MultiCellAnim *)anim_ctl->anim, NNS_G2dGetAnimSequenceByIdx((struct AnimBank *)anim_ctl->mc_anim_bank, idx));
 }
-
-
-
-
 
 /*
  * Set the +0x10 field of the record CLACT_GetAnimCtrl resolves for this object,
@@ -5497,55 +4962,25 @@ void CLACT_SetAnimFrame(struct AnimCtl *anim_ctl, u32 value)
     CLACT_AddAnimFrame(anim_ctl, 0);
 }
 
-
-
-
-
-
-
-
-
-
 void *CLACT_AddAnimFrame(struct AnimCtl *anim_ctl, u32 speed)
 {
     return g_ClactAnimFuncTable[10][anim_ctl->kind](anim_ctl, speed);
 }
-
-
-
-
 
 void CLACT_AddCellAnimFrame(struct AnimCtl *anim_ctl, s32 frames)
 {
     NNS_G2dTickCellAnimation((struct CellAnim *)(anim_ctl->anim), frames);
 }
 
-
-
-
-
 void CLACT_AddMultiCellAnimFrame(struct AnimCtl *anim_ctl, s32 frames)
 {
     NNS_G2dTickCellAnimation((struct CellAnim *)(anim_ctl->anim), frames);
 }
 
-
-
-
-
 void CLACT_AddVramAnimFrame(struct AnimCtl *anim_ctl, s32 frames)
 {
     NNS_G2dTickMCAnimation((struct MultiCellAnim *)anim_ctl->anim, frames);
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * One index-dispatch thunk plus the three handlers it dispatches to, 52
@@ -5577,40 +5012,20 @@ struct AnimCtrl *CLACT_GetAnimCtrl(struct AnimCtl *anim_ctl)
     return g_ClactAnimFuncTable[7][anim_ctl->kind](anim_ctl);
 }
 
-
-
-
-
-
 void *CLACT_GetCellAnimCtrl(struct AnimCtl *anim_ctl)
 {
     return anim_ctl->anim;
 }
-
-
-
-
-
 
 void *CLACT_GetMultiCellAnimCtrl(struct AnimCtl *anim_ctl)
 {
     return anim_ctl->anim;
 }
 
-
-
-
-
-
 void *CLACT_GetVramAnimCtrl(struct AnimCtl *anim_ctl)
 {
     return anim_ctl->anim;
 }
-
-
-
-
-
 
 /*
  * The same shape as src/matched/unit_0204D410.c one row over: the thunk
@@ -5630,49 +5045,20 @@ struct AnimCtrl *CLACT_GetAnimObject(struct AnimCtl *anim_ctl)
     return g_ClactAnimFuncTable[1][anim_ctl->kind](anim_ctl);
 }
 
-
-
-
-
-
 void *CLACT_GetCellAnimObject(struct AnimCtl *anim_ctl)
 {
     return anim_ctl->anim;
 }
-
-
-
-
-
 
 void *CLACT_GetMultiCellAnimObject(struct AnimCtl *anim_ctl)
 {
     return anim_ctl->anim;
 }
 
-
-
-
-
-
 void *CLACT_GetVramAnimObject(struct AnimCtl *anim_ctl)
 {
     return anim_ctl->anim;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Row 0 of the eight-by-three handler table at 0x020A1394, the same shape as
@@ -5703,17 +5089,6 @@ void *CLACT_SetAnimIndex(struct AnimCtl *anim_ctl, u32 anim_idx)
     return g_ClactAnimFuncTable[0][anim_ctl->kind](anim_ctl, anim_idx);
 }
 
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Two identical tail calls to the same callee with the argument biased by
  * 0xc.  Unlabelled leaves; the range 0x0204D494..0x0204D4B4 is contiguous.
@@ -5723,31 +5098,10 @@ void CLACT_SetCellAnimIndex(u8 *anim_base, u32 frame)
     NNS_G2dSetCellAnimationCurrentFrame((struct CellAnim *)(anim_base + 0xc), frame);
 }
 
-
-
-
-
-
-
-
-
-
-
-
 void CLACT_SetMultiCellAnimIndex(u8 *anim_base, u32 frame)
 {
     NNS_G2dSetCellAnimationCurrentFrame((struct CellAnim *)(anim_base + 0xc), frame);
 }
-
-
-
-
-
-
-
-
-
-
 
 /*
  * note:     promoted 2026-09-21: the blocker named below, 0x02064AB4, was
@@ -5776,15 +5130,6 @@ void CLACT_SetVramAnimIndex(struct AnimCtl *anim_ctl, u32 frame)
 {
     NNS_G2dSetMCAnimationCurrentFrame((struct MultiCellAnim *)anim_ctl->anim, frame);
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * A dispatch thunk and the first two of the three handlers its table row
@@ -5816,41 +5161,15 @@ void CLACT_SetAnimSpeed(struct AnimCtl *anim_ctl, u32 frames)
     gClactTables.anim_update[anim_ctl->kind](anim_ctl, frames);
 }
 
-
-
-
-
-
-
-
-
-
 void CLACT_SetCellAnimSpeed(struct AnimCtl *anim_ctl, u32 value)
 {
     NNS_G2dSetCellAnimationSpeed((struct CellAnim *)(anim_ctl->anim), value);
 }
 
-
-
-
-
-
-
-
-
-
 void CLACT_SetMultiCellAnimSpeed(struct AnimCtl *anim_ctl, u32 value)
 {
     NNS_G2dSetCellAnimationSpeed((struct CellAnim *)(anim_ctl->anim), value);
 }
-
-
-
-
-
-
-
-
 
 /*
  * The third handler of the row that src/matched/unit_0204D4C4.c dispatches
@@ -5878,14 +5197,6 @@ void CLACT_SetVramAnimSpeed(struct AnimCtl *anim_ctl, u32 target)
     NNS_G2dSetMCAnimationSpeed((struct MultiCellAnim *)((anim_ctl->anim)), (int)target);
 }
 
-
-
-
-
-
-
-
-
 /*
  * Closes the clact.c fan-in-1 blocker documented in
  * docs/notes/clact_c_fan_in_1_blockers.c.txt: CLACT_RestartActorAnim (its only
@@ -5906,20 +5217,7 @@ void CLACT_ResetAnim(struct AnimCtl *anim_ctl)
     g_ClactAnimResetFuncs[anim_ctl->kind](anim_ctl);
 }
 
-
-
-
-
-
-
-
 void CLACT_ResetCellAnim(void *anim_base){ NNS_G2dRestartCellAnimation((struct CellAnim *)((char *)anim_base + 0xc)); }
-
-
-
-
-
-
 
 /*
  * The same 0xc-biased tail call to the other callee of the pair.
@@ -5928,11 +5226,6 @@ void CLACT_ResetMultiCellAnim(u8 *anim_base)
 {
     NNS_G2dRestartCellAnimation((struct CellAnim *)(anim_base + 0xc));
 }
-
-
-
-
-
 
 /*
  * Tear the actor down and release the sub-object at +0x40: CLACT_ResetCellAnim on
@@ -5956,10 +5249,6 @@ void CLACT_ResetVramAnim(void *anim_base)
     NNSi_G2dSetMCInstanceCurrentFrameZero((struct MCInstance *)((u8 *)anim_base + 0x40));
 }
 
-
-
-
-
 void *CLACT_GetCellUserAttr(struct AnimCtl *anim_ctl, u32 idx)
 {
     UserExtBlock *block = anim_ctl->anim_bank->user_ext;
@@ -5976,10 +5265,6 @@ void *CLACT_GetCellUserAttr(struct AnimCtl *anim_ctl, u32 idx)
     }
     return 0;
 }
-
-
-
-
 
 void *CLACT_GetMultiCellUserAttr(struct AnimCtl *anim_ctl, u32 idx)
 {
@@ -5998,10 +5283,6 @@ void *CLACT_GetMultiCellUserAttr(struct AnimCtl *anim_ctl, u32 idx)
     return 0;
 }
 
-
-
-
-
 void *CLACT_GetVramCellUserAttr(struct AnimCtl *anim_ctl, u32 idx)
 {
     UserExtBlock *block = anim_ctl->mc_anim_bank->user_ext;
@@ -6019,10 +5300,6 @@ void *CLACT_GetVramCellUserAttr(struct AnimCtl *anim_ctl, u32 idx)
     return 0;
 }
 
-
-
-
-
 UserAttrTable *CLACT_GetCellUserAttrTable(struct AnimCtl *anim_ctl)
 {
     UserExtBlock *block = anim_ctl->cell_bank->user_ext;
@@ -6031,10 +5308,6 @@ UserAttrTable *CLACT_GetCellUserAttrTable(struct AnimCtl *anim_ctl)
     }
     return block != 0 ? &block->tbl : 0;
 }
-
-
-
-
 
 UserAttrTable *CLACT_GetMultiCellUserAttrTable(struct AnimCtl *anim_ctl)
 {
@@ -6045,10 +5318,6 @@ UserAttrTable *CLACT_GetMultiCellUserAttrTable(struct AnimCtl *anim_ctl)
     return block != 0 ? &block->tbl : 0;
 }
 
-
-
-
-
 UserAttrTable *CLACT_GetVramCellUserAttrTable(struct AnimCtl *anim_ctl)
 {
     UserExtBlock *block = anim_ctl->mc_bank->mc_user_ext;
@@ -6058,44 +5327,20 @@ UserAttrTable *CLACT_GetVramCellUserAttrTable(struct AnimCtl *anim_ctl)
     return block != 0 ? &block->tbl : 0;
 }
 
-
-
-
-
 u16 CLACT_GetCellBankCount(struct AnimCtl *anim_ctl)
 {
     return *(u16 *)anim_ctl->anim_bank;
 }
-
-
-
-
 
 u16 CLACT_GetMultiCellBankCount(struct AnimCtl *anim_ctl)
 {
     return *(u16 *)anim_ctl->anim_bank;
 }
 
-
-
-
-
 u16 CLACT_GetVramCellBankCount(struct AnimCtl *anim_ctl)
 {
     return *(u16 *)anim_ctl->mc_anim_bank;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Apply one animation command record to the handle behind the cell actor's
@@ -6138,18 +5383,6 @@ void CLACT_ApplyAnimCommand(struct AnimCtl *anim_ctl, const struct Cmd *cmd)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Reset the animation handle behind the cell actor's +0x68 sub-object: the
  * all-zero form of the case-0 arm of CLACT_ApplyAnimCommand next door.
@@ -6166,18 +5399,6 @@ void CLACT_ResetAnimCommand(struct AnimCtl *anim_ctl)
 {
     NNS_G2dSetCellAnimationParam((struct CellAnim *)(CLACT_GetAnimCtrl(anim_ctl)), 0, 0, 0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Blocked at MATCH: all 204 concrete bytes are correct; CLACT_AllocCharacterTable,
@@ -6228,18 +5449,6 @@ void CLACT_InitResources(struct Res *res, u32 heapId, const struct DispVramCfg *
     res->n_main_blocks    = caps->n_main_blocks;
     res->n_sub_blocks = caps->n_sub_blocks;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Was blocked at MATCH: all 264 concrete bytes were correct and the two PC24
@@ -6305,18 +5514,6 @@ void CLACT_ExitResources(struct Res *res)
     res->cells  = 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Two-value compatibility test: value 2 is the wildcard, otherwise the two
  * have to be equal.  A leaf, no relocation.
@@ -6338,18 +5535,6 @@ u32 CLACT_IsVramTypeCompatible(u32 mode, u32 bank_idx)
     }
     return mode == bank_idx;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Load an archive member, optionally decompressing it.  Both arms read the
@@ -6401,18 +5586,6 @@ void *CLACT_LoadArchiveData(void *archive, u32 file_idx, u32 compressed, u32 hea
     return out;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Closes one of the two clact.c fan-in-1 blockers of CLACT_InitResources
  * documented in docs/notes/clact_c_fan_in_1_blockers.c.txt (the other is
@@ -6444,17 +5617,6 @@ void *CLACT_AllocCharacterTable(u32 heapId, u32 count)
 
     return slots;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Upload one 0x40-byte cell's two graphics halves to VRAM. The optional
@@ -6529,32 +5691,10 @@ void CLACT_SetupCharacterVram(struct Res *res, u32 idx, struct CharData *char_da
     slot->vram_size = vram_size;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 void CLACT_FreeCharacterTable(void *chars)
 {
     GFL_HEAP_Free(chars);
 }
-
-
-
-
-
-
-
-
-
-
-
 
 void CLACT_UpdateObjMapping(struct CharData *char_data, int screen)
 {
@@ -6563,15 +5703,6 @@ void CLACT_UpdateObjMapping(struct CharData *char_data, int screen)
         char_data->mapping = mapping_bits;
     }
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * Closes the other of the two clact.c fan-in-1 blockers of CLACT_InitResources
@@ -6604,14 +5735,6 @@ void *CLACT_AllocPaletteTable(u32 heapId, u32 count)
 
     return slots;
 }
-
-
-
-
-
-
-
-
 
 /*
  * Reconfigure one 0x18-byte entry of the holder's table: trim the surface
@@ -6708,13 +5831,6 @@ void CLACT_TransferPaletteData(struct Res *res, int idx, void *file, void *vram_
     }
 }
 
-
-
-
-
-
-
-
 /*
  * The one-surface sibling of CLACT_TransferPaletteData (same entry table, same 0x200
  * large-layer split, same bracketed double upload through CLACT_IsVramTypeCompatible's
@@ -6769,24 +5885,10 @@ void CLACT_TransferPaletteDataEx(struct Res *res, int idx, void *file, void *vra
     ((struct PlttSlot *)((u8 *)res->pltts + slot_off))->bits &= ~0x80000000;
 }
 
-
-
-
-
-
-
-
 void CLACT_FreePaletteTable(void *pltts)
 {
     GFL_HEAP_Free(pltts);
 }
-
-
-
-
-
-
-
 
 /*
  * Allocate the 0x14-byte entry pool and mark every entry free.  The
@@ -6819,13 +5921,6 @@ struct CellSlot *CLACT_AllocCellAnimTable(u32 heap_id, u32 count)
 
     return slots;
 }
-
-
-
-
-
-
-
 
 /*
  * Publish the two handles of one 0x14-byte pool entry.  The entry is
@@ -6863,24 +5958,10 @@ s32 CLACT_LoadCellAnimBanks(struct Res *res, s32 idx, void *cell_file, void *ani
     return 0;
 }
 
-
-
-
-
-
-
-
 void CLACT_FreeCellAnimTable(void *cells)
 {
     GFL_HEAP_Free(cells);
 }
-
-
-
-
-
-
-
 
 /*
  * Resolve a handle through NNS_G2dGetUnpackedCharacterData into a stack temporary and, only

@@ -5,40 +5,11 @@
  * offsets checked against every view the parts had.
  */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef unsigned long long u64;
-typedef signed char    s8;
-typedef signed short   s16;
+#include "../types.h"
 
-typedef struct OSThread OSThread;
-struct OSThread {
-    char pad0[0x68];
-    OSThread *next;                     /* +0x68 */
-    char pad1[0xa4 - 0x6c];
-    void *specific[3];                  /* +0xa4 */
-};
+#include "../sdk_os.h"
 
-typedef struct OSThreadInfo {
-    u16 isNeedRescheduling;             /* +0x0 */
-    u16 irqDepth;                       /* +0x2 */
-    OSThread *current;                  /* +0x4 */
-    OSThread *list;                     /* +0x8 */
-} OSThreadInfo;
-
-typedef struct RTCDate {
-    int year;
-    int month;
-    int day;
-    int week;
-} RTCDate;
-
-typedef struct RTCTime {
-    int hour;
-    int minute;
-    int second;
-} RTCTime;
+#include "../sdk_rtc.h"
 
 struct CPSSslSession {
     unsigned char id[32];

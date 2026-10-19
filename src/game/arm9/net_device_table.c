@@ -26,9 +26,8 @@
  *   ov_id_0E       0x0000000E  data
  *   ov_id_0F       0x0000000F  data
  */
-#include "fldmmdl_save_shared_types.h"
 
-typedef signed int     s32;
+#include "../types.h"
 
 extern void GF_OVERLAY_Unload(s32 handle);
 

@@ -87,13 +87,7 @@
 #include "../../matched/arm9_sdk/libc/string.h"
 
 #define SWAP16(x) ((unsigned short)((((x) >> 8) & 0xff) | (((x) << 8) & 0xff00)))
-typedef short s16;
-
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 typedef int GT2Bool;
 
@@ -120,12 +114,7 @@ typedef struct GTI2IncomingBufferMessage GTI2IncomingBufferMessage;
 
 typedef struct GTI2OutgoingBufferMessage GTI2OutgoingBufferMessage;
 
-struct SOCSockAddrIn {
-    unsigned char  len;
-    unsigned char  family;
-    unsigned short port;
-    unsigned long  addr;
-};
+#include "../sdk_soc.h"
 
 extern void gti2ConnectionClosed(GTI2Connection *connection);
 extern int gti2ConnectedCallback(GTI2Connection *connection, int result, unsigned char *message, int len);
@@ -227,7 +216,6 @@ void gti2Send(int a, int b, int c, int d);
 extern unsigned char gGti2TimeKey[];
 extern unsigned char gGti2PacketMagic[];
 
-
 extern int memcmp(unsigned char *s1, unsigned char *s2, unsigned int n);
 unsigned short gti2UShortFromBuffer(unsigned char *buffer, int pos)
 {
@@ -236,7 +224,6 @@ unsigned short gti2UShortFromBuffer(unsigned char *buffer, int pos)
     s |= buffer[pos + 1];
     return s;
 }
-
 
 /*
  * Stores a word big-endian at p[i].
@@ -247,8 +234,6 @@ void gti2UShortToBuffer(char *p, int i, int v)
     p[i + 1] = (char)v;
 }
 
-
-
 /*
  * Halfword difference, sign extended.
  */
@@ -256,8 +241,6 @@ s16 gti2SNDiff(unsigned short a, unsigned short b)
 {
     return (s16)(a - b);
 }
-
-
 
 int gti2ConnectionError(GTI2Connection *connection, GT2Result result, GT2CloseReason reason)
 {
@@ -288,8 +271,6 @@ ret1:
     return 1;
 }
 
-
-
 /*
  * Tail call with the constant argument pair (7, 2).
  */
@@ -298,16 +279,12 @@ int gti2ConnectionCommunicationError(GTI2Connection *connection)
     return gti2ConnectionError(connection, 7, 2);
 }
 
-
-
 int gti2ConnectionMemoryError(GTI2Connection *connection)
 {
     if (gti2SendClosed((int *)connection) == 0)
         return 0;
     return gti2ConnectionError(connection, 1, 4);
 }
-
-
 
 /*
  * sdk:      gti2HandleESN (libdwcgsgt2.TWL.HYB.a(gt2message.o))
@@ -346,10 +323,6 @@ int gti2HandleESN(GTI2Connection *connection, unsigned short ESN)
 	return 1;
 }
 
-
-
-
-
 /*
  * sdk:      gti2HandleAppUnreliable (libdwcgsgt2.TWL.HYB.a(gt2message.o))
  */
@@ -370,10 +343,6 @@ int gti2HandleAppUnreliable(GTI2Connection *c, unsigned char *msg, int len)
 		ret = 1;
 	return ret;
 }
-
-
-
-
 
 /*
  * sdk:      gti2HandleAppReliable (libdwcgsgt2.TWL.HYB.a(gt2message.o))
@@ -396,9 +365,6 @@ int gti2HandleAppReliable(GTI2Connection *c, unsigned char *message, int len)
 	}
 	return 1;
 }
-
-
-
 
 /*
  * sdk:      gti2HandleClientChallenge (libdwcgsgt2.TWL.HYB.a(gt2message.o))
@@ -426,10 +392,6 @@ int gti2HandleClientChallenge(GTI2Connection *c, unsigned char *message, int len
 	c->state = 3;
 	return 1;
 }
-
-
-
-
 
 /*
  * sdk:      gti2HandleServerChallenge (libdwcgsgt2.TWL.HYB.a(gt2message.o))
@@ -464,10 +426,6 @@ int gti2HandleServerChallenge(GTI2Connection *connection, unsigned char *message
 	return 1;
 }
 
-
-
-
-
 /*
  * sdk:      gti2HandleClientResponse (libdwcgsgt2.TWL.HYB.a(gt2message.o))
  */
@@ -493,8 +451,6 @@ int gti2HandleClientResponse(GTI2Connection *connection, unsigned char *message,
     return gti2ConnectAttemptCallback(connection->socket, connection, connection->ip, connection->port, latency, message + 32, len - 32) != 0;
 }
 
-
-
 int gti2HandleAccept(GTI2Connection *connection)
 {
     if (connection->state != 1)
@@ -502,8 +458,6 @@ int gti2HandleAccept(GTI2Connection *connection)
     connection->state = 5;
     return gti2ConnectedCallback(connection, 0, 0, 0) != 0;
 }
-
-
 
 int gti2HandleReject(GTI2Connection *connection, unsigned char *message, int len)
 {
@@ -517,8 +471,6 @@ int gti2HandleReject(GTI2Connection *connection, unsigned char *message, int len
     return 0;
 }
 
-
-
 int gti2HandleClose(GTI2Connection *connection)
 {
     if (!gti2SendClosed((int *)connection))
@@ -528,8 +480,6 @@ int gti2HandleClose(GTI2Connection *connection)
         return 0;
     return 1;
 }
-
-
 
 int gti2DeliverReliableMessage(GTI2Connection *connection, int type, unsigned char *message, int len)
 {
@@ -572,14 +522,10 @@ int gti2DeliverReliableMessage(GTI2Connection *connection, int type, unsigned ch
     return 1;
 }
 
-
-
 int gti2IncomingBufferMessageCompare(void *elem1, void *elem2)
 {
     return gti2SNDiff(((struct GTI2IncomingBufferMessage *)elem1)->serialNumber, ((struct GTI2IncomingBufferMessage *)elem2)->serialNumber);
 }
-
-
 
 /*
  * sdk:      gti2BufferIncomingMessage (libdwcgsgt2.TWL.HYB.a gt2message.o)
@@ -643,11 +589,6 @@ int gti2BufferIncomingMessage(GTI2Connection *connection, int type, unsigned sho
     return 1;
 }
 
-
-
-
-
-
 /*
  * sdk:      gti2RemoveHoldMessage (libdwcgsgt2.TWL.HYB.a(gt2message.o))
  */
@@ -676,11 +617,6 @@ void gti2RemoveHoldMessage(GTI2Connection *c, struct GTI2IncomingBufferMessage *
 	gti2BufferShorten(&c->incomingBuffer, moveAfter, shortenBy);
 }
 
-
-
-
-
-
 /*
  * sdk:      gti2DeliverHoldMessages (libdwcgsgt2.TWL.HYB.a(gt2message.o))
  */
@@ -702,11 +638,6 @@ again:
 	return 1;
 }
 
-
-
-
-
-
 void gti2SetPendingAck(GTI2Connection *connection)
 {
     if (connection->pendingAck)
@@ -714,9 +645,6 @@ void gti2SetPendingAck(GTI2Connection *connection)
     connection->pendingAck = 1;
     connection->pendingAckTime = current_time();
 }
-
-
-
 
 /*
  * sdk:      gti2HandleReliableMessage (libdwcgsgt2.TWL.HYB.a gt2message.o)
@@ -771,9 +699,6 @@ int gti2HandleReliableMessage(GTI2Connection *connection, int type, unsigned cha
     return 1;
 }
 
-
-
-
 int gti2HandleAck(GTI2Connection *connection, unsigned char *message, int len)
 {
     unsigned short ESN;
@@ -783,9 +708,6 @@ int gti2HandleAck(GTI2Connection *connection, unsigned char *message, int len)
     ESN = gti2UShortFromBuffer(message, 0);
     return gti2HandleESN(connection, ESN) != 0;
 }
-
-
-
 
 /*
  * sdk:      gti2HandleNack (libdwcgsgt2.TWL.HYB.a(gt2message.o))
@@ -821,22 +743,10 @@ int gti2HandleNack(GTI2Connection *connection, unsigned char *message, int len)
 	return 1;
 }
 
-
 int gti2HandlePing(GTI2Connection *connection, unsigned char *message, int len)
 {
     return gti2SendPong(connection, message, len);
 }
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * sdk:      gti2HandlePong (libdwcgsgt2.TWL.HYB.a(gt2message.o))
@@ -862,19 +772,6 @@ int gti2HandlePong(GTI2Connection *c, unsigned char *message, int len)
 	return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 static GT2Bool gti2HandleClosed(GTI2Connection *connection)
 {
     if (connection->state == 7)
@@ -884,19 +781,6 @@ static GT2Bool gti2HandleClosed(GTI2Connection *connection)
         return 0;
     return 1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * sdk:      gti2HandleUnreliableMessage (libdwcgsgt2.TWL.HYB.a(gt2message.o))
@@ -928,18 +812,6 @@ int gti2HandleUnreliableMessage(GTI2Connection *c, int type, unsigned char *mess
 	}
 	return 1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * sdk:      gti2HandleMessage (libdwcgsgt2.TWL.HYB.a gt2message.o)
@@ -1027,17 +899,6 @@ int gti2HandleMessage(GTI2Socket *socket, unsigned char *message, int len, unsig
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 /*
  * sdk:      gti2HandleConnectionReset (libdwcgsgt2.TWL.HYB.a(gt2message.o))
  */
@@ -1068,17 +929,6 @@ int gti2HandleConnectionReset(GTI2Socket *socket, u32 ip, u16 port)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 /*
  * sdk:      gti2HandleHostUnreachable (libdwcgsgt2.TWL.HYB.a(gt2message.o))
  */
@@ -1098,16 +948,6 @@ int gti2HandleHostUnreachable(GTI2Socket *sock, unsigned int ip, unsigned short 
 		send = 0;
 	return send;
 }
-
-
-
-
-
-
-
-
-
-
 
 int gti2ReceiveMessages(GTI2Socket *socket)
 {
@@ -1149,16 +989,6 @@ int gti2ReceiveMessages(GTI2Socket *socket)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
 static int gti2StoreOutgoingReliableMessageInfo(GTI2Connection *connection,
                                                 unsigned short SN, int len)
 {
@@ -1176,15 +1006,6 @@ static int gti2StoreOutgoingReliableMessageInfo(GTI2Connection *connection,
         result = 1;
     return result;
 }
-
-
-
-
-
-
-
-
-
 
 static int gti2BeginReliableMessage(GTI2Connection *connection,
                                     int type, int len, int *overflow)
@@ -1211,15 +1032,6 @@ static int gti2BeginReliableMessage(GTI2Connection *connection,
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
 static int gti2EndReliableMessage(GTI2Connection *connection)
 {
     GTI2OutgoingBufferMessage *message;
@@ -1236,14 +1048,6 @@ static int gti2EndReliableMessage(GTI2Connection *connection)
     return 0;
 }
 
-
-
-
-
-
-
-
-
 int gti2SendAppReliable(GTI2Connection * connection, unsigned char * message, int len)
 {
     int overflow;
@@ -1256,15 +1060,6 @@ int gti2SendAppReliable(GTI2Connection * connection, unsigned char * message, in
     return gti2EndReliableMessage(connection) != 0;
 }
 
-
-
-
-
-
-
-
-
-
 int gti2SendClientChallenge(GTI2Connection * connection, char * challenge)
 {
     int overflow;
@@ -1276,15 +1071,6 @@ int gti2SendClientChallenge(GTI2Connection * connection, char * challenge)
     gti2BufferWriteData(&connection->outgoingBuffer, (unsigned char *)challenge, 0x20);
     return gti2EndReliableMessage(connection) != 0;
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * sdk:      gti2SendServerChallenge (libdwcgsgt2.TWL.HYB.a(gt2message.o))
@@ -1305,13 +1091,6 @@ int gti2SendServerChallenge(GTI2Connection *c, char *response, char *challenge)
 	return 1;
 }
 
-
-
-
-
-
-
-
 int gti2SendClientResponse(GTI2Connection *c, char *response, char *message, int len)
 {
 	int overflow;
@@ -1325,13 +1104,6 @@ int gti2SendClientResponse(GTI2Connection *c, char *response, char *message, int
 	return gti2EndReliableMessage(c) ? 1 : 0;
 }
 
-
-
-
-
-
-
-
 int gti2SendAccept(GTI2Connection *connection)
 {
     int overflow;
@@ -1343,12 +1115,6 @@ int gti2SendAccept(GTI2Connection *connection)
         return 1;
     return gti2EndReliableMessage(connection) != 0;
 }
-
-
-
-
-
-
 
 int gti2SendReject(GTI2Connection *connection, unsigned char *message,
                    int len)
@@ -1365,13 +1131,6 @@ int gti2SendReject(GTI2Connection *connection, unsigned char *message,
     return gti2EndReliableMessage(connection) != 0;
 }
 
-
-
-
-
-
-
-
 int gti2SendClose(GTI2Connection *connection)
 {
     int overflow;
@@ -1384,13 +1143,6 @@ int gti2SendClose(GTI2Connection *connection)
     return gti2EndReliableMessage(connection) != 0;
 }
 
-
-
-
-
-
-
-
 int gti2SendKeepAlive(GTI2Connection *connection)
 {
     int overflow;
@@ -1402,10 +1154,6 @@ int gti2SendKeepAlive(GTI2Connection *connection)
         return 1;
     return gti2EndReliableMessage(connection) != 0;
 }
-
-
-
-
 
 int gti2SendAppUnreliable(GTI2Connection *connection, u8 *message, int len)
 {
@@ -1433,13 +1181,6 @@ int gti2SendAppUnreliable(GTI2Connection *connection, u8 *message, int len)
     gti2BufferShorten(&connection->outgoingBuffer, -1, totalLen);
     return 1;
 }
-
-
-
-
-
-
-
 
 int gti2SendAck(GTI2Connection *connection)
 {
@@ -1478,13 +1219,6 @@ int gti2SendAck(GTI2Connection *connection)
     return 0;
 }
 
-
-
-
-
-
-
-
 /*
  * sdk:      gti2SendNack (libdwcgsgt2.TWL.HYB.a(gt2message.o))
  */
@@ -1514,22 +1248,11 @@ int gti2SendNack(GTI2Connection *connection, unsigned short SNMin, unsigned shor
 	return 1;
 }
 
-
-
-
-
-
-
 int gti2SendPong(GTI2Connection *connection, unsigned char *message, int len)
 {
     message[2] = 0x67;
     return gti2ConnectionSendData(connection, message, len);
 }
-
-
-
-
-
 
 /*
  * Tail call on three fields of the object.
@@ -1538,10 +1261,6 @@ int gti2SendClosed(int *p)
 {
     return gti2SendClosedOnSocket((GTI2Socket *)p[2], p[0], *(unsigned short *)((char *)p + 4));
 }
-
-
-
-
 
 /*
  * sdk:      gti2SendClosedOnSocket (libdwcgsgt2.TWL.HYB.a(gt2message.o))
@@ -1570,9 +1289,6 @@ int gti2SendClosedOnSocket(GTI2Socket *sock, unsigned int ip, unsigned short por
 	return 1;
 }
 
-
-
-
 int gti2ResendMessage(GTI2Connection *connection,
                       GTI2OutgoingBufferMessage *message)
 {
@@ -1589,9 +1305,6 @@ int gti2ResendMessage(GTI2Connection *connection,
         connection->challengeTime = connection->lastSend;
     return 1;
 }
-
-
-
 
 /*
  * Dispatches on the fourth argument.

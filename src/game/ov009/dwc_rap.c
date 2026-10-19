@@ -87,17 +87,12 @@
  *   DWC_SetRecvBuffer  0x021770EC  arm  ov009
  */
 #include "dwc_rap_types.h"
-#include "net_devwifi_shared_types.h"
+#include "../types.h"
 #include "dwc_rap_shared_types.h"
 
-struct OSOwnerInfo;
+#include "../sdk_os.h"
 
 typedef void (*VoidFunc)(void);
-
-typedef struct {
-    u8 language, favoriteColor, month, day;
-    u16 nickName[11], nickNameLength, comment[27], commentLength;
-} OSOwnerInfo;
 
 extern int DWC_GetAIDBitmap(void);
 

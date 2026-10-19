@@ -21,11 +21,7 @@
 
 #include "../ov021/fieldmap_types.h"
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed short   s16;
-typedef signed int     s32;
+#include "../types.h"
 
 struct GameSystem;
 struct GameData;
@@ -84,9 +80,7 @@ struct BuildModelNode;
 #define FK_SE_AMBIENT_B         0x7EF
 
 /* Position, scale and rotation a 3D object is drawn with (same layout as arm9 g3d_system_types.h). */
-typedef struct MtxFx33 {
-    int m[9];
-} MtxFx33;
+#include "../sdk_fx.h"
 
 typedef struct G3dObjectStatus {
     VecFx32 trans;

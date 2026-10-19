@@ -2,12 +2,7 @@
 #ifndef DWCI_ND_TYPES_H
 #define DWCI_ND_TYPES_H
 
-#ifndef OV114_BASIC_TYPES
-#define OV114_BASIC_TYPES
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-#endif
+#include "../types.h"
 
 typedef void *(*NdAlloc)(unsigned int size, int align);
 

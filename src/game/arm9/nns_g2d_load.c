@@ -38,22 +38,12 @@
  *   NNS_G2dResetCellAnimation  0x02062F90  arm
  *   abs  0x02091588  arm
  */
-typedef unsigned int u32;
-
-typedef int BOOL;
+#include "../types.h"
 
 typedef struct {
     u32 sig;
     u32 size;
 } Blk;
-
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef signed int     s32;
-
-typedef s32            fx32;
 
 struct NNSG2dBinaryBlockHeader {
     u32 signature;
@@ -74,8 +64,6 @@ struct Tbl {
     u16   pad02;
     u8  **offsets;              /* 0x04  itself an offset until fixed up     */
 };
-
-typedef long long s64;
 
 /*
  * The NNS G2D cell-animation types, shared with
@@ -144,7 +132,6 @@ u16 NNSi_G2dGetCellAnimFrameIdx(const struct Node *n);
 int NNS_G2dInitAnimCtrl(struct AnimCtrl *pAnimCtrl);
 void NNSi_G2dResetCellAnimationState(AnimCallBack *callBack);
 
-
 BOOL NNS_G2dGetUnpackedScreenData(void *file, void **out)
 {
     Blk *b = 0;
@@ -158,7 +145,6 @@ BOOL NNS_G2dGetUnpackedScreenData(void *file, void **out)
         return 0;
     }
 }
-
 
 void *NNS_G2dFindBinaryBlock(struct NNSG2dBinaryFileHeader *pHeader, u32 signature)
 {
@@ -176,11 +162,6 @@ void *NNS_G2dFindBinaryBlock(struct NNSG2dBinaryFileHeader *pHeader, u32 signatu
 
     return 0;
 }
-
-
-
-
-
 
 /*
  * The NNS G2D offset-fixup pass for one loaded block.  A block that has just
@@ -258,11 +239,6 @@ void NNSi_G2dFixupOffsets(struct Tbl *t)
     }
 }
 
-
-
-
-
-
 static inline u32 getMode(AnimCtrl *s) {
     u32 m = s->overriddenPlayMode;
     if (m == 0) {
@@ -270,10 +246,6 @@ static inline u32 getMode(AnimCtrl *s) {
     }
     return m;
 }
-
-
-
-
 
 /*
  * One step of the NNS G2D cell/animation player: advance the playback cursor,
@@ -396,11 +368,6 @@ void NNSi_G2dCellAnimationEdgeHandler(AnimCtrl *s)
     }
 }
 
-
-
-
-
-
 int NNSi_G2dSetCellAnimationFrame(void *p, u32 i)
 {
     AnimCtrl *s = (AnimCtrl *)p;
@@ -418,11 +385,6 @@ int NNSi_G2dSetCellAnimationFrame(void *p, u32 i)
     return 0;
 }
 
-
-
-
-
-
 /*
  * *
  * Returns the cell-animation's current animation-sequence record: the sequence
@@ -438,40 +400,25 @@ struct NodeRec *NNSi_G2dGetCellAnimationCurrentSequence(AnimCtrl *anim)
     return (struct NodeRec *)anim->pActiveCurrent->pContent;
 }
 
-
-
-
 static inline s32 FX_Mul(s32 a, s32 b)
 {
     return (s32)(((s64)a * b + 0x800) >> 12);
 }
-
-
-
 
 static inline BOOL IsForward_(const AnimCtrl *p)
 {
     return (BOOL)((p->speed > 0) ^ p->bReverse);
 }
 
-
-
-
 static inline BOOL IsReachEndEdge_(const AnimFrameData *cur, const AnimFrameData *arr, u16 n)
 {
     return (BOOL)(cur >= arr + n);
 }
 
-
-
-
 static inline BOOL IsReachStartEdge_(const AnimFrameData *cur, const AnimFrameData *arr, u16 idx)
 {
     return (BOOL)(cur <= arr + idx - 1);
 }
-
-
-
 
 static inline BOOL IsReachedEdge_(const AnimCtrl *p)
 {
@@ -482,16 +429,10 @@ static inline BOOL IsReachedEdge_(const AnimCtrl *p)
         return IsReachStartEdge_(cur, p->pAnimSequence->pAnmFrameArray, p->pAnimSequence->loopStartFrameIdx);
 }
 
-
-
-
 static inline u16 GetCurrentFrameIdx_(const AnimCtrl *p)
 {
     return (u16)(((u32)p->pCurrent - (u32)p->pAnimSequence->pAnmFrameArray) >> 3);
 }
-
-
-
 
 static inline BOOL ShouldAdvance_(const AnimCtrl *p)
 {
@@ -499,9 +440,6 @@ static inline BOOL ShouldAdvance_(const AnimCtrl *p)
         return 1;
     return 0;
 }
-
-
-
 
 static inline void CallbackFuncHandling_(const AnimCallBack *f, u16 idx)
 {
@@ -515,9 +453,6 @@ static inline void CallbackFuncHandling_(const AnimCallBack *f, u16 idx)
         break;
     }
 }
-
-
-
 
 /*
  * The cell-animation controller tick (NitroSystem g2d NNS_G2dTickAnimCtrl
@@ -571,10 +506,6 @@ BOOL NNS_G2dTickAnimCtrl(AnimCtrl *p, fx32 frames)
     return bChanged;
 }
 
-
-
-
-
 int NNSi_G2dSetCellAnimationCurrentFrame(void *s, u32 i)
 {
     u32 r = NNSi_G2dSetCellAnimationFrame(s, i);
@@ -584,10 +515,6 @@ int NNSi_G2dSetCellAnimationCurrentFrame(void *s, u32 i)
     }
     return r;
 }
-
-
-
-
 
 /*
  * Index-of: how far the cursor at +0 of this record sits past the array
@@ -612,8 +539,6 @@ u16 NNSi_G2dGetCellAnimFrameIdx(const struct Node *n)
     return (u16)((n->cursor - n->pOwner->base) >> 3);
 }
 
-
-
 int NNS_G2dInitAnimCtrl(struct AnimCtrl *pAnimCtrl)
 {
     AnimCtrl *c = (AnimCtrl *)pAnimCtrl;
@@ -628,8 +553,6 @@ int NNS_G2dInitAnimCtrl(struct AnimCtrl *pAnimCtrl)
     c->pAnimSequence = 0;
     return 0x1000;
 }
-
-
 
 /*
  * Zeroes a 14-byte animation-playback sub-state: three u32 words and a

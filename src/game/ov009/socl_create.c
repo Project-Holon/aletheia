@@ -131,105 +131,11 @@ typedef struct Sock {
 	signed char f_af;
 } Sock;
 
-typedef unsigned long long u64;
+#include "../types.h"
 
-typedef unsigned long u32;
+#include "../sdk_os.h"
 
-typedef long s32;
-
-typedef unsigned short u16;
-
-typedef unsigned char u8;
-
-typedef struct CPContext {
-	u8 opaque[0x1C];
-} CPContext;
-
-typedef struct OSContext {
-	u32 cpsr;
-	u32 r[13];
-	u32 sp;
-	u32 lr;
-	u32 pc_plus4;
-	u32 sp_svc;
-	CPContext cp_context;
-} OSContext;
-
-typedef enum OSThreadState {
-	OS_THREAD_STATE_WAITING = 0,
-	OS_THREAD_STATE_READY = 1,
-	OS_THREAD_STATE_TERMINATED = 2
-} OSThreadState;
-
-typedef struct _OSThread OSThread;
-
-typedef struct OSMutex OSMutex;
-
-typedef struct OSiAlarm OSAlarm;
-
-typedef struct _OSThreadQueue {
-	OSThread *head;
-	OSThread *tail;
-} OSThreadQueue;
-
-typedef struct _OSThreadLink {
-	OSThread *prev;
-	OSThread *next;
-} OSThreadLink;
-
-typedef struct _OSMutexQueue {
-	OSMutex *head;
-	OSMutex *tail;
-} OSMutexQueue;
-
-typedef struct _OSMutexLink {
-	OSMutex *next;
-	OSMutex *prev;
-} OSMutexLink;
-
-typedef void (*OSAlarmHandler)(void *arg);
-
-struct OSiAlarm {
-	OSAlarmHandler handler;
-	void *arg;
-	u32 tag;
-	u64 fire;
-	OSAlarm *prev;
-	OSAlarm *next;
-	u64 period;
-	u64 start;
-};
-
-struct OSMutex {
-	OSThreadQueue queue;
-	OSThread *thread;
-	s32 count;
-	OSMutexLink link;
-};
-
-struct _OSThread {
-	OSContext context;
-	OSThreadState state;
-	OSThread *next;
-	u32 id;
-	u32 priority;
-	void *profiler;
-	OSThreadQueue *queue;
-	OSThreadLink link;
-	OSMutex *mutex;
-	OSMutexQueue mutexQueue;
-	u32 stackTop;
-	u32 stackBottom;
-	u32 stackWarningOffset;
-	OSThreadQueue joinQueue;
-	void *specific[3];
-	OSAlarm *alarmForSleep;
-	void (*destructor)(void *);
-	void *userParameter;
-	int systemErrno;
-};
-
-typedef void *OSMessage;
+#include "../sdk_os_thread.h"
 
 typedef struct {
 	u16 stackSize;
@@ -278,9 +184,6 @@ extern struct SOCLiResource SOCLi_Resource;
 extern SoclConfig *gSoclConfig;
 extern Sock *SOCLiUDPSendSocket;
 
-
-
-
 int SOCL_CreateSocket(struct SOCLSocketParam *param)
 {
     struct SOCLSocket *socket;
@@ -314,9 +217,6 @@ int SOCL_CreateSocket(struct SOCLSocketParam *param)
     return (int)socket;
 }
 
-
-
-
 /*
  * sdk:      SOCLi_CreateSocketCallBack (libsoc.TWL.HYB.a(socl_create.o))
  */
@@ -347,9 +247,6 @@ int SOCLi_CreateSocketCallBack(void *arg)
 	return 0;
 }
 
-
-
-
 void *SOCLi_StartupSocket(void *param)
 {
 	void *socket;
@@ -367,9 +264,6 @@ void *SOCLi_StartupSocket(void *param)
 	OS_RestoreInterrupts(enable);
 	return socket;
 }
-
-
-
 
 /*
  * sdk:      SOCLi_GetSizeSocket (libsoc.TWL.HYB.a(socl_create.o))
@@ -395,9 +289,6 @@ unsigned long SOCLi_GetSizeSocket(Param *param)
 	return size;
 }
 
-
-
-
 /*
  * sdk:      SOCLi_GetSizeCommandPipe (libsoc.TWL.HYB.a(socl_create.o))
  */
@@ -409,9 +300,6 @@ unsigned long SOCLi_GetSizeCommandPipe(SOCLSocketThreadParam *param)
 	size += SOCLi_RoundUp4(param->stackSize);
 	return size;
 }
-
-
-
 
 /*
  * Two things close the 99 B of register-allocation diff this file carried
@@ -477,8 +365,6 @@ unsigned char *SOCLi_InitSocket(Sock *socket, const Param *param)
 	return ptr;
 }
 
-
-
 /*
  * sdk:      SOCLi_InitSocketBuffer (libsoc.TWL.HYB.a(socl_create.o))
  */
@@ -488,8 +374,6 @@ unsigned char *SOCLi_InitSocketBuffer(unsigned char *ptr, Buf *buf, unsigned lon
 	buf->size = size;
 	return ptr + SOCLi_RoundUp4(size);
 }
-
-
 
 /*
  * w9_nm's 22 B closed: the object issues `ldrb r1,[param,#2]` (the prio, one of

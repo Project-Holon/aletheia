@@ -19,7 +19,7 @@
  *   WORDSET_CopyString   0x0201F41C  thumb
  *   gSpeciesNameBank      0x020A7370  data
  */
-#include "misc_savedata_shared_types.h"
+#include "../types.h"
 
 struct MsgData;
 

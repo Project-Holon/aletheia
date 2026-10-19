@@ -160,7 +160,7 @@ enum {
 #define BREED_SCORE_HIGH 0x46
 
 #define SPECIES_COUNT 0x289
-typedef unsigned long long u64;
+#include "../types.h"
 
 #define DAYCARE_SLOT_COUNT 2
 #define STEPS_PER_EGG_CHECK 0x10

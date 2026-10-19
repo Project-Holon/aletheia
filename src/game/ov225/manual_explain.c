@@ -59,7 +59,7 @@ struct PrintSys;
 
 struct Cfg;
 
-typedef unsigned char u8;
+#include "../types.h"
 
 /* The option/detail work built by MANUAL_CATEGORY_CreateOption. */
 struct ManualOptionWork {
@@ -151,7 +151,6 @@ extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp)
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-
 
 char *MANUAL_CATEGORY_CreateOption(char *p, char *data);
 

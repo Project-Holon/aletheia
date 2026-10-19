@@ -50,10 +50,7 @@
  *   GFL_USE_GetRandom  0x020056EC  thumb
  */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed int     s32;
+#include "../types.h"
 
 struct Link;
 struct SaveControl;
@@ -154,7 +151,6 @@ extern u8 gNetSaveMainProc[];
 extern u8 gNetSaveCheckProc[];
 extern u8 gNetSaveRetryProc[];
 
-
 /*
  * Stores the step callback at the task's +8 field.
  */
@@ -169,7 +165,6 @@ void GFL_NET_SAVE_SetStep(struct NetSaveTask *task, void (*step)(struct NetSaveT
 {
     task->step = step;
 }
-
 
 /*
  * net_save.c task constructors for the 0x14-byte task object, its poll, and
@@ -234,7 +229,6 @@ struct NetSaveTask *GFL_NET_SAVE_Create(u32 heapId, u32 gameData)
     return task;
 }
 
-
 struct NetSaveTask *GFL_NET_SAVE_CreateWithCallback(u32 heapId, u32 gameData, void (*callback)(u32 arg), u32 callbackArg)
 {
     struct NetSaveTask *task;
@@ -247,7 +241,6 @@ struct NetSaveTask *GFL_NET_SAVE_CreateWithCallback(u32 heapId, u32 gameData, vo
     GFL_NET_SAVE_SetStep(task, GFL_NET_SAVE_StepBegin);
     return task;
 }
-
 
 u32 GFL_NET_SAVE_CheckFinished(struct NetSaveTask *task)
 {
@@ -268,7 +261,6 @@ void GFL_NET_SAVE_Delete(struct NetSaveTask *task)
     GFL_HEAP_Free(task);
 }
 
-
 /*
  * Verified with:
  *   python tools/match.py one --src src/matched/GFL_NET_SAVE_StepBegin.c \
@@ -281,7 +273,6 @@ void GFL_NET_SAVE_StepBegin(struct NetSaveTask *task)
         GFL_NET_SAVE_SetStep(task, GFL_NET_SAVE_StepWaitSaveStart);
     }
 }
-
 
 /*
  * Verified with:
@@ -297,7 +288,6 @@ void GFL_NET_SAVE_StepWaitSaveStart(struct NetSaveTask *task)
     }
 }
 
-
 /*
  * Verified with:
  *   python tools/match.py one --src src/matched/GFL_NET_SAVE_StepWaitSync72.c \
@@ -309,7 +299,6 @@ void GFL_NET_SAVE_StepWaitSync72(struct NetSaveTask *task)
         GFL_NET_SAVE_SetStep(task, GFL_NET_SAVE_StepDelay);
     }
 }
-
 
 /*
  * Verified with:
@@ -327,7 +316,6 @@ void GFL_NET_SAVE_StepDelay(struct NetSaveTask *task)
     }
 }
 
-
 /*
  * Verified with:
  *   python tools/match.py one --src src/matched/GFL_NET_SAVE_StepWaitSync73.c \
@@ -339,7 +327,6 @@ void GFL_NET_SAVE_StepWaitSync73(struct NetSaveTask *task)
         GFL_NET_SAVE_SetStep(task, GFL_NET_SAVE_StepProgress);
     }
 }
-
 
 /*
  * Verified with:
@@ -358,7 +345,6 @@ void GFL_NET_SAVE_StepProgress(struct NetSaveTask *task)
     }
 }
 
-
 /*
  * Verified with:
  *   python tools/match.py one --src src/matched/GFL_NET_SAVE_StepFinish.c \
@@ -370,7 +356,6 @@ void GFL_NET_SAVE_StepFinish(struct NetSaveTask *task)
         GFL_NET_SAVE_SetStep(task, 0);
     }
 }
-
 
 int GFL_NET_SAVE_InitWork(void *proc)
 {
@@ -392,7 +377,6 @@ int GFL_NET_SAVE_InitWork(void *proc)
     }
     return 1;
 }
-
 
 /*
  * The net_save.c save task's per-frame step (state word at +0x1D4): case 0

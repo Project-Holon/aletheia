@@ -89,15 +89,7 @@ struct WordSet;
 struct MsgBank;
 struct McssFade;
 struct Bank;
-typedef unsigned int u32;
-
-typedef unsigned short u16;
-
-typedef unsigned char u8;
-
-typedef signed char s8;
-
-typedef int s32;
+#include "../types.h"
 
 typedef struct {
     u32 v[4];
@@ -181,7 +173,6 @@ extern const u8 d_021D52F8[];
 extern const Vec d_021D51DC;
 extern const char d_021D55CC[];
 
-
 void POKETRADE_IRCDEMO_StepStartPlayback(u8 *p)
 {
     void *mon;
@@ -237,7 +228,6 @@ void POKETRADE_IRCDEMO_StepStartPlayback(u8 *p)
     }
 }
 
-
 void POKETRADE_IRCDEMO_PrintMessage(u8 *p)
 {
     GFL_NET_RefreshWmIconAtTopRight(0, ((PokeTradeDemoWork *)p)->heapId);
@@ -258,7 +248,6 @@ void POKETRADE_IRCDEMO_PrintMessage(u8 *p)
     POKETRADE_2D_ScheduleSubPlaneVisible(p, 0x14);
     *(volatile u16 *)0x04001050 = 0;
 }
-
 
 void POKETRADE_IRCDEMO_StepMessage(u8 *p)
 {
@@ -291,7 +280,6 @@ void POKETRADE_IRCDEMO_StepMessage(u8 *p)
     POKETRADE_MCSS_SlideUpdate((void *)SLOT0, (int)p);
 }
 
-
 void POKETRADE_IRCDEMO_StepEndScene(void *p)
 {
     POKETRADE_DEMO_COMMON_ReleaseUnit(p);
@@ -301,7 +289,6 @@ void POKETRADE_IRCDEMO_StepEndScene(void *p)
     ((PokeTradeDemoWork *)p)->animWork = 0;
     POKETRADE_PROC_SetStep(p, (int)POKETRADE_SAVE_ResetClactAndBeginEvent);
 }
-
 
 void POKETRADE_IRCDEMO_SetMonSlide(void *obj, void *p)
 {
@@ -316,7 +303,6 @@ void POKETRADE_IRCDEMO_SetMonSlide(void *obj, void *p)
     MCSS_SetScale(obj, (u32 *)&((PokeTradeAnimWork *)((PokeTradeDemoWork *)p)->animWork)->position);
     MCSS_SetPaletteFade(obj, 0x10, 0x10, 0, 0x7fff);
 }
-
 
 /*
  * Addresses are Black-image addresses.
@@ -354,7 +340,6 @@ void POKETRADE_IRCDEMO_CreateOfferSlide(u8 *p, int idx)
     }
 }
 
-
 void POKETRADE_IRCDEMO_StepStartCompare(u8 *p)
 {
     POKETRADE_DEMO_COMMON_SetFinishFlag(p);
@@ -368,7 +353,6 @@ void POKETRADE_IRCDEMO_StepStartCompare(u8 *p)
     POKETRADE_DEMO_COMMON_SetFrame(p, 0);
     POKETRADE_PROC_SetStep(p, (int)POKETRADE_DEMO_COMMON_StepCompareMons);
 }
-
 
 void POKETRADE_IRCDEMO_StepSetup(u8 *p)
 {
@@ -395,7 +379,6 @@ void POKETRADE_IRCDEMO_StepSetup(u8 *p)
     POKETRADE_PROC_SetStep(p, (int)POKETRADE_IRCDEMO_UpdateScene);
 }
 
-
 extern void POKETRADE_DEMO_COMMON_ShowUnitActor(void *);
 extern void POKETRADE_DEMO_COMMON_LoadUnitResources(void *);
 extern int PARTICLE_StartEffectWithCallback(int *p, int a, int b, int c);
@@ -403,7 +386,6 @@ extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, 
 extern void *POKETRADE_MCSS_SlideCreate(void *mcss, void *frameCount, void *targetPos, u32 heapId);
 extern void POKETRADE_NEGO_PlaySeByKeyB(int);
 extern void POKETRADE_3D_RemoveCurrentUnit(void *);
-
 
 /* IRC demo playback step: palette fades, particle bursts, wipes and MCSS slides. */
 void POKETRADE_IRCDEMO_UpdateScene(u8 *p)

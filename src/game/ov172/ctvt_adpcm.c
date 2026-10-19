@@ -20,10 +20,7 @@
  *   CTVT_ADPCM_Encode  0x021B6A00  thumb  ov172
  *   CTVT_ADPCM_Decode  0x021B6A18  thumb  ov172
  */
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed short   s16;
-typedef signed char    s8;
+#include "../types.h"
 
 /* IMA ADPCM coder state: last predicted sample and the step table index. */
 typedef struct AdpcmState {

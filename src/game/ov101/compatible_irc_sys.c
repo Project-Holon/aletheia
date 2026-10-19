@@ -52,7 +52,8 @@
 struct Req;
 struct Entry;
 struct Link;
-struct OSOwnerInfo;
+#include "../sdk_os.h"
+
 struct RtcDate;
 struct BigObj;
 struct Ctx;

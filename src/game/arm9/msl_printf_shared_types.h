@@ -1,7 +1,7 @@
 #ifndef MSL_PRINTF_SHARED_TYPES_H
 #define MSL_PRINTF_SHARED_TYPES_H
 
-typedef signed short   s16;
+#include "../types.h"
 
 typedef struct { char style; short digits; } decform;
 

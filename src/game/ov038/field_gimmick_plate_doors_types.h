@@ -1,11 +1,7 @@
 #ifndef OV038_FIELD_GIMMICK_PLATE_DOORS_TYPES_H
 #define OV038_FIELD_GIMMICK_PLATE_DOORS_TYPES_H
 
-typedef struct VecFx32 {
-    int x;
-    int y;
-    int z;
-} VecFx32;
+#include "../sdk_fx.h"
 
 /*
  * Runtime state of gimmick 38 (FIELDMAP common work, block 1, 0x24 bytes).

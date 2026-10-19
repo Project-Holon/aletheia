@@ -43,27 +43,9 @@
  *   GX_LoadTexPltt  0x0207FA40  arm
  *   GX_EndLoadTexPltt  0x0207FADC  arm
  */
-typedef unsigned int u32;
+#include "../types.h"
 
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef signed short s16;
-
-typedef int s32;
-
-typedef s32 fx32;
-
-typedef union {
-    struct { u16 attr0; u16 attr1; u16 attr2; u16 attr3; };
-    struct { u32 attr01; u32 attr23; };
-    struct {
-        u32 y:8; u32 rsMode:2; u32 objMode:2; u32 mosaic:1; u32 colorMode:1; u32 shape:2;
-        u32 x:9; u32 rsParam:5; u32 size:2;
-        u32 charNo:10; u32 priority:2; u32 cParam:4; u32 _3:16;
-    };
-} GXOamAttr;
+#include "../sdk_gx.h"
 
 typedef struct OamAttributeCache {
     u16 reservationTable[128];
@@ -94,9 +76,7 @@ struct Span {
 
 struct OamWindow { u32 bank; u16 min_oam; u16 max_oam; u16 cur_oam; };
 
-typedef int BOOL;
-
-typedef struct { fx32 _00, _01, _10, _11; } MtxFx22;
+#include "../sdk_fx.h"
 
 typedef struct {
     u16 _0, _1, _2; s16 PA;
@@ -227,8 +207,6 @@ extern u16 g_02146BC4;
 extern OBJLoadFunction *g_020A81E4[5];  /* GetOBJLoadFunction_'s funcTbl */
 extern u32 GXi_DmaId;                  /* GXi_DmaId */
 
-
-
 /*
  * The sub-engine twin of src/matched/NNSi_G2dCpuLoadOamMain.c, biasing the caller's byte
  * offset by 0x07000400 instead of 0x07000000 and tail-calling the transfer
@@ -263,8 +241,6 @@ void NNSi_G2dCpuLoadOamSub(void *src, u32 offset)
     MIi_CpuCopy16(src, offset + 0x400 + 0x7000000);
 }
 
-
-
 /*
  * An OAM-address thunk: bias the caller's byte offset into an absolute
  * main-engine OAM address and tail-call the transfer routine at
@@ -292,12 +268,6 @@ void NNSi_G2dCpuLoadOamMain(void *src, u32 offset)
 {
     MIi_CpuCopy16(src, offset + 0x07000000);
 }
-
-
-
-
-
-
 
 /*
  * The cell/OAM bank reset: nine MIi_CpuClear16 calls that blank all three
@@ -335,22 +305,10 @@ void NNS_G2dInitOamManagerModule(void)
     MIi_CpuClear16(0xFFFF, g_02146BC8[2].affineCache.reservationTable, 0x40);
 }
 
-
-
-
-
-
-
 static inline void Fill(u16 *tbl, u16 first, u16 last, u16 id)
 {
     MIi_CpuClear16(id, (u8 *)tbl + first * 2, (last - first + 1) * 2);
 }
-
-
-
-
-
-
 
 static inline u32 IsFree(u16 *tbl, u16 first, u16 last)
 {
@@ -362,12 +320,6 @@ static inline u32 IsFree(u16 *tbl, u16 first, u16 last)
     }
     return 1;
 }
-
-
-
-
-
-
 
 /*
  * Reserves a span of OAM entries in bank g_02146BC8[which]: checks that
@@ -427,11 +379,6 @@ u32 NNSi_G2dReserveOamManagerSpan(struct Span *s, u16 first, u16 count, u32 whic
     s->which = which;
     return 1;
 }
-
-
-
-
-
 
 /*
  * Writes one OAM entry (attr0/attr1/attr2) into the next free slot of a
@@ -497,28 +444,16 @@ fail:
     return 0;
 }
 
-
-
-
-
 static inline BOOL IsManageAreaValid_(const NNSG2dOAMManageArea *pArea)
 {
     return (BOOL)((pArea->currentIdx <= pArea->toIdx + 1) &&
                   (pArea->fromIdx <= pArea->toIdx));
 }
 
-
-
-
-
 static inline OamCache *GetOamCachePtr_(NNSG2dOamType type)
 {
     return &g_02146BC8[type];
 }
-
-
-
-
 
 static inline GXOamAttr *GetOamBufferPtr_(NNSG2dOamType type, u16 index)
 {
@@ -529,10 +464,6 @@ static inline GXOamAttr *GetOamBufferPtr_(NNSG2dOamType type, u16 index)
     }
 }
 
-
-
-
-
 static inline GXOamAffine *GetAffineBufferPtr_(NNSG2dOamType type, u16 index)
 {
     {
@@ -541,10 +472,6 @@ static inline GXOamAffine *GetAffineBufferPtr_(NNSG2dOamType type, u16 index)
         return pAff + index;
     }
 }
-
-
-
-
 
 static inline u16 GetCapacity_(const NNSG2dOAMManageArea *pArea)
 {
@@ -555,18 +482,10 @@ static inline u16 GetCapacity_(const NNSG2dOAMManageArea *pArea)
     }
 }
 
-
-
-
-
 static inline BOOL HasEnoughCapacity_(const NNSG2dOAMManageArea *pArea, u16 num)
 {
     return (BOOL)(GetCapacity_(pArea) >= num);
 }
-
-
-
-
 
 static inline void G2_SetOBJAffine(GXOamAffine *oam, const MtxFx22 *mtx)
 {
@@ -576,10 +495,6 @@ static inline void G2_SetOBJAffine(GXOamAffine *oam, const MtxFx22 *mtx)
     oam->PD = (s16)(mtx->_11 >> 4);
 }
 
-
-
-
-
 static inline void SetAffineParams_(NNSG2dOamType type, const MtxFx22 *mtx, u16 idx)
 {
     {
@@ -588,10 +503,6 @@ static inline void SetAffineParams_(NNSG2dOamType type, const MtxFx22 *mtx, u16 
         G2_SetOBJAffine(pAff, mtx);
     }
 }
-
-
-
-
 
 /*
  * NitroSystem g2d_OAM.c NNS_G2dEntryOamManagerAffine(pMan, mtx) -> u16:
@@ -626,16 +537,10 @@ u16 NNS_G2dEntryOamManagerAffine(NNSG2dOamManagerInstance *pMan, const MtxFx22 *
     }
 }
 
-
-
-
 static inline OBJLoadFunction *GetOBJLoadFunction_(NNSG2dOamType type)
 {
     return g_020A81E4[type];
 }
-
-
-
 
 static inline void LoadOneAffine_(const GXOamAffine *pAff, u32 offset, OBJLoadFunction *pOBJLoadFunc)
 {
@@ -646,9 +551,6 @@ static inline void LoadOneAffine_(const GXOamAffine *pAff, u32 offset, OBJLoadFu
     (*pOBJLoadFunc)(&pAff->PC, offset + sizeof(GXOamAttr) * 2, sizeof(u16));
     (*pOBJLoadFunc)(&pAff->PD, offset + sizeof(GXOamAttr) * 3, sizeof(u16));
 }
-
-
-
 
 static inline void LoadOamAndAffineFast_(NNSG2dOamType type, u16 fromIdx, u16 toIdx)
 {
@@ -670,9 +572,6 @@ static inline void LoadOamAndAffineFast_(NNSG2dOamType type, u16 fromIdx, u16 to
     }
 }
 
-
-
-
 static inline void LoadOam_(NNSG2dOamType type, u16 fromIdx, u16 toIdx)
 {
     GXOamAttr *pFrom = GetOamBufferPtr_(type, fromIdx);
@@ -689,9 +588,6 @@ static inline void LoadOam_(NNSG2dOamType type, u16 fromIdx, u16 toIdx)
     }
 }
 
-
-
-
 static inline void LoadAffine_(NNSG2dOamType type, u16 fromIdx, u16 toIdx)
 {
     GXOamAffine *pFrom = GetAffineBufferPtr_(type, fromIdx);
@@ -707,9 +603,6 @@ static inline void LoadAffine_(NNSG2dOamType type, u16 fromIdx, u16 toIdx)
         pFrom++;
     }
 }
-
-
-
 
 /*
  * NitroSystem g2d_OAM.c NNS_G2dApplyOamManagerToHW(pMan).  Fast-transfer
@@ -747,28 +640,20 @@ void NNS_G2dApplyOamManagerToHW(NNSG2dOamManagerInstance *pMan, u32 bound)
     }
 }
 
-
-
 static inline u32 GX_GetDefaultDMA(void)
 {
     return (GXi_DmaId > 3) ? (u32)~0 : GXi_DmaId;
 }
-
-
 
 static inline void MI_DmaFill32(u32 dmaNo, void *dest, u32 data, u32 size)
 {
     MIi_DmaFill32(dmaNo, dest, data, size, 1);
 }
 
-
-
 static inline void MI_CpuFill32(void *dest, u32 data, u32 size)
 {
     MIi_CpuClear32(data, dest, size);
 }
-
-
 
 static inline void NNSi_G2dDmaFill32(u32 dmaNo, void *dest, u32 data, u32 size)
 {
@@ -779,8 +664,6 @@ static inline void NNSi_G2dDmaFill32(u32 dmaNo, void *dest, u32 data, u32 size)
     }
 }
 
-
-
 static inline GXOamAttr *GetOamFromPtr_(NNSG2dOamManagerInstance *pMan)
 {
     {
@@ -790,8 +673,6 @@ static inline GXOamAttr *GetOamFromPtr_(NNSG2dOamManagerInstance *pMan)
     }
 }
 
-
-
 static inline u32 GetSizeOfManageArea_(const NNSG2dOAMManageArea *pArea)
 {
     if (IsManageAreaValid_(pArea)) {
@@ -800,8 +681,6 @@ static inline u32 GetSizeOfManageArea_(const NNSG2dOAMManageArea *pArea)
         return 0;
     }
 }
-
-
 
 static inline void ResetOam_(NNSG2dOamType type, u16 fromIdx, u16 toIdx)
 {
@@ -814,8 +693,6 @@ static inline void ResetOam_(NNSG2dOamType type, u16 fromIdx, u16 toIdx)
         pFrom++;
     }
 }
-
-
 
 /*
  * NitroSystem g2d_OAM.c NNS_G2dResetOamManagerBuffer(pMan).  Fast-transfer
@@ -858,18 +735,7 @@ void NNS_G2dResetOamManagerBuffer(NNSG2dOamManagerInstance *pMan)
     }
 }
 
-
-
-
-
-
 int NNSi_G2dGetVramHandle(unsigned short *p, int i){ return p[i]; }
-
-
-
-
-
-
 
 void NNSi_G2dInitVramHandle(u32 *p)
 {
@@ -880,22 +746,9 @@ void NNSi_G2dInitVramHandle(u32 *p)
     }
 }
 
-
-
-
-
-
 void NNSi_G2dSetVramHandle(int *p, int i, int v){ p[i] = v; }
 
-
-
-
-
 int NNSi_G2dGetVramHandleValue(int *p, int i){ return p[i]; }
-
-
-
-
 
 /*
  * Slot-occupied test of the NNSi_G2dIsVramHandleSetEx accessor family: the word at
@@ -911,11 +764,6 @@ int NNSi_G2dIsVramHandleSet(const u32 *p, u32 i)
     return p[i] != 0xffffffff;
 }
 
-
-
-
-
-
 void NNSi_G2dInitVramHandleEx(u32 *p)
 {
     int i;
@@ -925,21 +773,9 @@ void NNSi_G2dInitVramHandleEx(u32 *p)
     }
 }
 
-
-
-
-
 void NNSi_G2dSetVramHandleEx(char *p, int i, int v){ *(int *)(p + i * 4 + 8) = v; }
 
-
-
-
 int NNSi_G2dGetVramHandleEx(char *p, int i){ return *(int *)(p + i * 4 + 8); }
-
-
-
-
-
 
 /*
  * Neighbour of NNSi_G2dGetVramHandleEx (same accessor family): that one returns the
@@ -947,12 +783,6 @@ int NNSi_G2dGetVramHandleEx(char *p, int i){ return *(int *)(p + i * 4 + 8); }
  * the sentinel -1.
  */
 int NNSi_G2dIsVramHandleSetEx(char *p, int i){ int v = *(int *)(p + i * 4 + 8); int s = -1; return v != s; }
-
-
-
-
-
-
 
 /*
  * Upload one VRAM resource: optionally repoint the 2D/3D VRAM control word,
@@ -1028,12 +858,6 @@ void NNSi_G2dLoadVramResourceMain(struct VramResource *r, u32 dst, int mode, str
     NNSi_G2dSetVramHandle((int *)out, mode, dst);
 }
 
-
-
-
-
-
-
 void NNSi_G2dLoadVramResourceSub(struct VramResource *r, u32 dst, int mode, struct VramHandle *out)
 {
     u32 bank = r->bank;
@@ -1094,12 +918,6 @@ void NNSi_G2dLoadVramResourceSub(struct VramResource *r, u32 dst, int mode, stru
     out->bank = r->bank;
     NNSi_G2dSetVramHandle((int *)out, mode, dst);
 }
-
-
-
-
-
-
 
 /*
  * Upload one VRAM resource: optionally repoint the 2D/3D VRAM control word,
@@ -1164,10 +982,6 @@ void NNSi_G2dSetupVramResource(struct VramResource *r, u32 dst, int mode, struct
     NNSi_G2dSetVramHandle((int *)out, mode, dst);
 }
 
-
-
-
-
 void NNSi_G2dLoadVramResourceBySel(VramResourceSel *self, u32 offset, int sel, VramHandleSel *out)
 {
     u32 a = self->src;
@@ -1205,9 +1019,6 @@ void NNSi_G2dLoadVramResourceBySel(VramResourceSel *self, u32 offset, int sel, V
     out->handle = self->handle;
     NNSi_G2dSetVramHandleEx((char *)out, sel, offset);
 }
-
-
-
 
 /*
  * The LIST form of src/matched/NNSi_G2dLoadVramResourceBySel.c: the same three-arm dispatch on

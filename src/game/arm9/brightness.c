@@ -20,11 +20,7 @@
  *   g_brightnessRecords   0x021468FC  data
  *   g_brightnessSub  0x021468FC  data
  */
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed   short s16;
-typedef signed   char  s8;
+#include "../types.h"
 
 struct BrightnessChange {
     u32 plane;

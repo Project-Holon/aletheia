@@ -1,11 +1,7 @@
 #ifndef OV082_FLD_FACEUP_TYPES_H
 #define OV082_FLD_FACEUP_TYPES_H
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef short          s16;
-typedef signed int     s32;
+#include "../types.h"
 
 /* One step of a blink or lip animation: which image of the strip to show. */
 typedef struct FaceupAnimFrame {

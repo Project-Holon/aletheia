@@ -14,16 +14,13 @@
  * symbols:
  *   gMslRefToken  0x02150FEC  data  arm9
  */
-typedef unsigned int u32;
-typedef struct OSThread OSThread;
-typedef struct {
-    OSThread *head;
-    OSThread *tail;
-} OSThreadQueueLike;
+#include "../types.h"
+#include "../sdk_os.h"
+
 typedef struct {
     OSThread *owner;
     u32 count;
-    OSThreadQueueLike queue;
+    OSThreadQueue queue;
 } SysLockLike;
 typedef struct {
     u32 reserved;

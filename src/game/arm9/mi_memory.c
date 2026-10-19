@@ -19,9 +19,7 @@
  * jump into a byte ladder for up to 8 bytes, otherwise by 32-byte ldm/stm
  * blocks with the source realigned to the destination's byte offset.
  */
-typedef unsigned long u32;
-
-typedef unsigned char u8;
+#include "../types.h"
 
 asm void MIi_CpuClear16(void);
 asm void MIi_CpuCopy16(void);
@@ -42,8 +40,6 @@ asm void MI_CpuCopy(void);
 asm void MI_CpuMove(void);
 asm void MI_Zero36B(void *dst);
 
-
-
 /* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
 asm void MIi_CpuClear16(void)
 {
@@ -55,8 +51,6 @@ loc_02082A4C:
     blt loc_02082A4C
     bx lr
 }
-
-
 
 /* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
 asm void MIi_CpuCopy16(void)
@@ -71,8 +65,6 @@ loc_02082A64:
     bx lr
 }
 
-
-
 /* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
 asm void MIi_CpuClear32(void)
 {
@@ -83,8 +75,6 @@ loc_02082A80:
     blt loc_02082A80
     bx lr
 }
-
-
 
 /* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
 asm void MIi_CpuCopy32(void)
@@ -98,8 +88,6 @@ loc_02082A94:
     bx lr
 }
 
-
-
 /* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
 asm void MIi_CpuSend32(void)
 {
@@ -111,8 +99,6 @@ loc_02082AAC:
     blt loc_02082AAC
     bx lr
 }
-
-
 
 /*
  * sdk:      MIi_CpuClearFast (libmi.TWL.HYB.a mi_memory.o)
@@ -146,8 +132,6 @@ asm void MIi_CpuClearFast(void)
     bx lr
 }
 
-
-
 /*
  * sdk:      MIi_CpuCopyFast (libmi.TWL.HYB.a mi_memory.o)
  * asm:      eight-register fixed ldm/stm block copy (ldmlt r0!, {r2-r9}); DWARF subprogram has no variables.
@@ -175,8 +159,6 @@ asm void MIi_CpuCopyFast(void)
     bx lr
 }
 
-
-
 /*
  * sdk:      MI_Copy32B (libmi.TWL.HYB.a mi_memory.o)
  * asm:      fixed-register ldm/stm block copy (ldm r0!,{r2,r3,r12}) has no C spelling.
@@ -195,8 +177,6 @@ asm void MI_Copy32B(void)
     bx lr
 }
 
-
-
 /* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
 asm void MI_Copy36B(void)
 {
@@ -208,8 +188,6 @@ asm void MI_Copy36B(void)
     stmia r1!, {r2, r3, ip}
     bx lr
 }
-
-
 
 /* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
 asm void MI_Copy48B(void)
@@ -224,8 +202,6 @@ asm void MI_Copy48B(void)
     stmia r1!, {r2, r3, r12}
     bx lr
 }
-
-
 
 /*
  * sdk:      MI_Copy64B (libmi.TWL.HYB.a mi_memory.o)
@@ -246,8 +222,6 @@ asm void MI_Copy64B(void *pSrc, void *pDest)
     stmia r1!, {r0, r2, r3, r12}
     bx lr
 }
-
-
 
 /* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
 asm void MI_CpuFill8(void)
@@ -295,8 +269,6 @@ asm void MI_CpuFill8(void)
     strh r1, [r0]
     bx lr
 }
-
-
 
 /*
  * sdk:      MI_CpuFill (libmi.TWL.HYB.a mi_memory.o)
@@ -370,8 +342,6 @@ asm void MI_CpuFill(void)
     strgeb r1, [r0], #1
     bx lr
 }
-
-
 
 /* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
 asm void MI_CpuCopy8(void)
@@ -464,9 +434,6 @@ asm void MI_CpuCopy8(void)
     bx lr
 }
 
-
-
-
 /*
  * sdk:      MI_CpuComp8 (libmi.TWL.HYB.a mi_memory.o)
  */
@@ -484,7 +451,6 @@ int MI_CpuComp8(const void *mem1, const void *mem2, u32 size)
     }
     return 0;
 }
-
 
 /* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
 asm void MI_CpuCopy(void)
@@ -692,7 +658,6 @@ asm void MI_CpuCopy(void)
     strneb r3, [r1], #1
     bx lr
 }
-
 
 /* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
 asm void MI_CpuMove(void)

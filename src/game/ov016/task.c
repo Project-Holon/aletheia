@@ -79,17 +79,13 @@ typedef struct TCB {
 	unsigned char alloc;
 } TCB;
 
-typedef unsigned int   u32;
+#include "../types.h"
 
 /* Task object of the DWC GUI task list (task.o); only the parameter word is written here. */
 typedef struct TaskObj {
     unsigned char pad00[0x08];
     unsigned int param;
 } TaskObj;
-
-typedef unsigned char u8;
-
-typedef unsigned short u16;
 
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 extern void *DWCi_QUElFormEx(long size, void *data, long dataSize);
@@ -120,7 +116,6 @@ extern unsigned char sTaskTable[2];
 static TCB *formTask(int kind, void (*func)(void *, void *), void *work, unsigned char prio, unsigned char alloc);
 static void deleteTcb(u32 idx, TCB *tcb);
 
-
 void DWCi_TSKlInit(void)
 {
     int i;
@@ -141,7 +136,6 @@ void DWCi_TSKlInit(void)
     }
 }
 
-
 /*
  * sdk:      DWCi_TSKlEnd (libdwcutil.TWL.HYB.a(task.o))
  */
@@ -155,7 +149,6 @@ void DWCi_TSKlEnd(void)
 	}
 	DWCi_HEAPlFree_((void **)0x021DE6E4);
 }
-
 
 void DWCi_TSKlAct(int kind)
 {
@@ -174,12 +167,10 @@ void DWCi_TSKlAct(int kind)
 	}
 }
 
-
 TCB *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio)
 {
     return formTask(kind, func, work, prio, 0);
 }
-
 
 /*
  * sdk:      formTask (libdwcutil.TWL.HYB.a(task.o))
@@ -206,24 +197,20 @@ static TCB *formTask(int kind, void (*func)(void *, void *), void *work, unsigne
 	return tcb;
 }
 
-
 void DWCi_TSKlSetParam(TaskObj *task, unsigned int param)
 {
     task->param = param;
 }
-
 
 void DWCi_TSKlDelete(int kind, void *task)
 {
     DWCi_QUElPushBack(MemTask[kind].delque, task);
 }
 
-
 void DWCi_TSKlDeleteByIndex(unsigned int taskIdx, TCB *task)
 {
     deleteTcb(taskIdx, task);
 }
-
 
 static void deleteTcb(u32 idx, TCB *tcb)
 {
@@ -233,7 +220,6 @@ static void deleteTcb(u32 idx, TCB *tcb)
     DWCi_LSTlErase(tcb);
     DWCi_QUElPushBack(MemTask[idx].que, tcb);
 }
-
 
 void DWCi_TSKlOperate(int kind, unsigned char flag)
 {

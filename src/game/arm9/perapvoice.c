@@ -24,10 +24,9 @@
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  */
 #include "btl_setup_types.h"
-#include "save_control_shared_types.h"
 #include "box_savedata_shared_types.h"
 
-typedef signed char s8;
+#include "../types.h"
 
 struct PokeParty;
 

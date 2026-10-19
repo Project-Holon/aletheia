@@ -48,55 +48,11 @@
  *   OS_IsForceDisableWireless        0x02087e84 arm
  *   PM_DeletePreSleepCallback  0x0208C86C  arm
  */
-typedef unsigned long u32;
+#include "../types.h"
 
-typedef unsigned short u16;
+#include "../sdk_os.h"
 
-typedef unsigned char u8;
-
-typedef long s32;
-
-typedef int BOOL;
-
-typedef u32 OSIntrMode;
-
-typedef enum WMErrCode {
-    WM_ERRCODE_SUCCESS = 0,
-    WM_ERRCODE_FAILED = 1,
-    WM_ERRCODE_OPERATING = 2,
-    WM_ERRCODE_ILLEGAL_STATE = 3,
-    WM_ERRCODE_WM_DISABLE = 4,
-    WM_ERRCODE_NO_DATASET = 5,
-    WM_ERRCODE_INVALID_PARAM = 6,
-    WM_ERRCODE_NO_ENTRY = 7,
-    WM_ERRCODE_FIFO_ERROR = 8,
-    WM_ERRCODE_MAX = 0x7FFFFFFF
-} WMErrCode;
-
-typedef void (*WMCallbackFunc)(void *arg);
-
-typedef struct WMStatus {
-    u16 state;
-    u8 pad02[0x70];
-    u16 mp_recvBufSize;
-} WMStatus;
-
-typedef struct WMArm9Buf {
-    struct WMArm7Buf *WM7;
-    WMStatus *status;
-    u32 *indbuf;
-    u32 *fifo9to7;
-    u32 *fifo7to9;
-    u16 dmaNo;
-    u16 scanOnlyFlag;
-    WMCallbackFunc CallbackTable[44];
-    WMCallbackFunc indCallback;
-    WMCallbackFunc portCallbackTable[16];
-    void *portCallbackArgument[16];
-    u32 connectedAidBitmap;
-    u16 myAid;
-    u8 reserved1[174];
-} WMArm9Buf;
+#include "../sdk_wm.h"
 
 typedef struct PMiGenCallbackInfo {
     void (*callback)(void *);
@@ -112,25 +68,7 @@ typedef struct WmSystemBss {
     PMGenCallbackInfo sleepCbInfo;
 } WmSystemBss;
 
-typedef void *OSMessage;
-
-typedef struct _OSThreadQueue {
-    struct _OSThread *head;
-    struct _OSThread *tail;
-} OSThreadQueue;
-
-typedef struct OSMessageQueue {
-    OSThreadQueue queueSend;
-    OSThreadQueue queueReceive;
-    OSMessage *msgArray;
-    s32 msgCount;
-    s32 firstIndex;
-    s32 usedCount;
-} OSMessageQueue;
-
-typedef enum WMApiid {
-    WM_APIID_MAX = 0x7FFFFFFF
-} WMApiid;
+#include "../sdk_os_thread.h"
 
 typedef char *va_list;
 
@@ -138,103 +76,6 @@ struct WMSystemWork {
     void *reserved;
     void *work;
 };
-
-typedef struct WMCallback {
-    u16 apiid;
-    u16 errcode;
-    u16 wlCmdID;
-    u16 wlResult;
-} WMCallback;
-
-typedef struct WMStartParentCallback {
-    u16 apiid;
-    u16 errcode;
-    u16 wlCmdID;
-    u16 wlResult;
-    u16 state;
-    u8 macAddress[6];
-    u16 aid;
-    u16 reason;
-    u8 ssid[24];
-    u16 parentSize;
-    u16 childSize;
-} WMStartParentCallback;
-
-typedef struct WMStartConnectCallback {
-    u16 apiid;
-    u16 errcode;
-    u16 wlCmdID;
-    u16 wlResult;
-    u16 state;
-    u16 aid;
-    u16 reason;
-    u16 wlStatus;
-    u8 macAddress[6];
-    u16 parentSize;
-    u16 childSize;
-} WMStartConnectCallback;
-
-typedef struct WMStartMPCallback {
-    u16 apiid;
-    u16 errcode;
-    u16 state;
-    u8 reserved[2];
-    struct WMMpRecvBuf *recvBuf;
-    u16 timeStamp;
-    u16 rate_rssi;
-    u8 destAdrs[6];
-    u8 srcAdrs[6];
-    u16 seqNum;
-    u16 tmptt;
-    u16 pollbmp;
-    u16 reserved2;
-} WMStartMPCallback;
-
-typedef struct WMPortSendCallback {
-    u16 apiid;
-    u16 errcode;
-    u16 wlCmdID;
-    u16 wlResult;
-    u16 state;
-    u16 port;
-    u16 destBitmap;
-    u16 restBitmap;
-    u16 sentBitmap;
-    u16 rsv;
-    u16 *data;
-    union {
-        u16 size;
-        u16 length;
-    };
-    u16 seqNo;
-    WMCallbackFunc callback;
-    void *arg;
-    u16 maxSendDataSize;
-    u16 maxRecvDataSize;
-} WMPortSendCallback;
-
-typedef struct WMPortRecvCallback {
-    u16 apiid;
-    u16 errcode;
-    u16 state;
-    u16 port;
-    struct WMMpRecvBuf *recvBuf;
-    u16 *data;
-    u16 length;
-    u16 aid;
-    u8 macAddress[6];
-    u16 seqNo;
-    void *arg;
-    u16 myAid;
-    u16 connectedAidBitmap;
-    u8 ssid[24];
-    u16 reason;
-    u16 rssi;
-    u16 maxSendDataSize;
-    u16 maxRecvDataSize;
-} WMPortRecvCallback;
-
-typedef short s16;
 
 extern WMErrCode WmInitCore(void *wmSysBuf, u16 dmaNo, u32 bufSize);
 extern OSIntrMode OS_DisableInterrupts(void);
@@ -290,10 +131,6 @@ extern struct WMSystemWork gWmSystemWork;
 /* the function-static cb_Port of WmReceiveFifo, in the same .bss */
 extern WMPortRecvCallback g_021530B8;
 
-
-
-
-
 WMErrCode WM_Init(void *wmSysBuf, u16 dmaNo)
 {
     WMErrCode result = WmInitCore(wmSysBuf, dmaNo, 0xF00);
@@ -303,10 +140,6 @@ WMErrCode WM_Init(void *wmSysBuf, u16 dmaNo)
     }
     return result;
 }
-
-
-
-
 
 /*
  * sdk:      WmInitCore (libwm.TWL.HYB.a wm_system.o, static)
@@ -399,12 +232,6 @@ WMErrCode WmInitCore(void *wmSysBuf, u16 dmaNo, u32 bufSize)
     return WM_ERRCODE_SUCCESS;
 }
 
-
-
-
-
-
-
 WMErrCode WM_Finish(void)
 {
     OSIntrMode e;
@@ -430,22 +257,10 @@ WMErrCode WM_Finish(void)
     return WM_ERRCODE_SUCCESS;
 }
 
-
-
-
-
-
-
 void WMi_SetCallbackTable(int id, WMCallbackFunc callback)
 {
     g_02153058.wm9buf->CallbackTable[id] = callback;
 }
-
-
-
-
-
-
 
 u32 *WmGetCommandBuffer4Arm7(void)
 {
@@ -462,34 +277,13 @@ u32 *WmGetCommandBuffer4Arm7(void)
     return 0;
 }
 
-
-
-
-
 #define va_start(v, l) ((v) = (char *)(((unsigned int)&(l) & ~3u) + 4))
-
-
-
-
 
 #define __va_size(t) ((sizeof(t) + 3) & ~3u)
 
-
-
-
-
 #define va_arg(ap, t) (*(t *)((ap += __va_size(t)) - __va_size(t)))
 
-
-
-
-
 #define va_end(v)
-
-
-
-
-
 
 WMErrCode WMi_SendCommand(WMApiid id, u16 paramNum, ...)
 {
@@ -519,14 +313,6 @@ WMErrCode WMi_SendCommand(WMApiid id, u16 paramNum, ...)
     return WM_ERRCODE_OPERATING;
 }
 
-
-
-
-
-
-
-
-
 WMErrCode WMi_SendCommandDirect(void *data, u32 length)
 {
     u32 *tmpAddr;
@@ -547,10 +333,6 @@ WMErrCode WMi_SendCommandDirect(void *data, u32 length)
     return WM_ERRCODE_OPERATING;
 }
 
-
-
-
-
 /*
  * Function matched as standalone.
  *
@@ -565,9 +347,6 @@ void *WMi_GetSystemWork(void)
     return gWmSystemWork.work;
 }
 
-
-
-
 WMErrCode WMi_CheckInitialized(void)
 {
     if (g_02153058.wmInitialized) {
@@ -575,22 +354,6 @@ WMErrCode WMi_CheckInitialized(void)
     }
     return WM_ERRCODE_ILLEGAL_STATE;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 WMErrCode WMi_CheckIdle(void)
 {
@@ -607,63 +370,13 @@ WMErrCode WMi_CheckIdle(void)
     return WM_ERRCODE_SUCCESS;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #define va_start(v, l) ((v) = (char *)(((unsigned int)&(l) & ~3u) + 4))
-
-
-
-
-
-
-
 
 #define __va_size(t) ((sizeof(t) + 3) & ~3u)
 
-
-
-
-
-
-
-
 #define va_arg(ap, t) (*(t *)((ap += __va_size(t)) - __va_size(t)))
 
-
-
-
-
-
-
-
 #define va_end(v)
-
-
-
-
-
-
-
-
 
 WMErrCode WMi_CheckStateEx(s32 paramNum, ...)
 {
@@ -690,28 +403,6 @@ WMErrCode WMi_CheckStateEx(s32 paramNum, ...)
 
     return result;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void WmReceiveFifo(int tag, u32 fifo_buf_adr, BOOL err)
 {
@@ -863,12 +554,6 @@ void WmReceiveFifo(int tag, u32 fifo_buf_adr, BOOL err)
     }
 }
 
-
-
-
-
-
-
 void WmClearFifoRecvFlag(void)
 {
     u16 *flag = (u16 *)0x02FFFF96;
@@ -878,19 +563,6 @@ void WmClearFifoRecvFlag(void)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 WMStatus *WMi_GetStatusAddress(void)
 {
     if (WMi_CheckInitialized() != WM_ERRCODE_SUCCESS) {
@@ -898,19 +570,6 @@ WMStatus *WMi_GetStatusAddress(void)
     }
     return g_02153058.wm9buf->status;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 u16 WM_GetAID(void)
 {
@@ -926,19 +585,6 @@ u16 WM_GetAID(void)
     return myAid;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 u16 WM_GetConnectedAIDs(void)
 {
     u32 connectedAidBitmap;
@@ -953,13 +599,6 @@ u16 WM_GetConnectedAIDs(void)
     return (u16)connectedAidBitmap;
 }
 
-
-
-
-
-
-
-
 void WMi_RegisterSleepCallback(void)
 {
     g_02153058.sleepCbInfo.callback = WmSleepCallback;
@@ -967,20 +606,12 @@ void WMi_RegisterSleepCallback(void)
     PMi_InsertPreSleepCallbackEx(&g_02153058.sleepCbInfo, 1000);
 }
 
-
-
 void WMi_DeleteSleepCallback(void){ PM_DeletePreSleepCallback((void *)0x02153060); }
-
-
-
 
 void WmSleepCallback(void *arg)
 {
     OS_Terminate();
 }
-
-
-
 
 /*
  * sdk:      NWMi_CheckEnableFlag (libnwm.TWL.HYB.a(nwm_init.o))

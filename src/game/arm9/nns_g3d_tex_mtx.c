@@ -19,41 +19,15 @@
  *   gNNSiG3dTexMtxFuncTable  0x020A8458  data
  *   data_020A8478  0x020A8478  data
  */
-#include "nns_g3d_tex_mtx_shared_types.h"
 
-typedef unsigned short u16;
-
-typedef short          s16;
-
-typedef unsigned int   u32;
-
-typedef int            s32;
-
-typedef long long      s64;
+#include "../types.h"
 
 #define NNS_G3D_MATANM_RESULTFLAG_TEXMTX_LOAD      0x08
 
 #define NNS_G3D_MATANM_RESULTFLAG_TEXMTX_FUNC_MASK 0x07
 
 /* Result of the material animation (0x38 bytes). */
-typedef struct {
-    u32 flag;
-    u32 prmMatColor0;
-    u32 prmMatColor1;
-    u32 prmPolygonAttr;
-    u32 prmTexImageParam;
-    u32 prmTexPlttBase;
-    s32 scaleS;
-    s32 scaleT;
-    s16 sinR;
-    s16 cosR;
-    s32 transS;
-    s32 transT;
-    u16 origWidth;
-    u16 origHeight;
-    s32 magW;
-    s32 magH;
-} NNSG3dMatAnmResult;
+#include "nns_g3d_anm_calc_types.h"
 
 /* Texture matrix (MtxFx44 layout); the constructors write m00, m01, m10, m11, m30 and m31. */
 typedef struct {
@@ -590,8 +564,6 @@ void NNSi_G3dTexMtxTrans_Max(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAnm)
 
     pTexMtx->m10 = 0;
 }
-
-typedef signed short   s16;
 
 /*
  * Operand of the (DST, SRC) matrix-constructor family at 0x02071EAC, kept with

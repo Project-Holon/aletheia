@@ -50,7 +50,6 @@
  *   DWCi_CMNlButton   0x021BD264  arm
  *   DWCi_BTNlGet     0x021BCB14  arm
  *   DWCi_BTNlEnable  0x021BCB84  arm
- *   procScene        0x021C28E8  arm
  *   DWCi_SNDlPlay    0x021CFFAC  arm
  *   DWCi_BTNlDisable 0x021BCB9C  arm
  *   DWCi_EFFlWait    0x021D5790  arm
@@ -62,7 +61,7 @@
  *   DWCi_SetParam_      0x021C0E50  arm
  *   DWCi_SceneOptMenu   0x021C2A3C  arm
  */
-typedef unsigned short u16;
+#include "../types.h"
 
 typedef struct {
     u16 priority : 2;
@@ -91,7 +90,7 @@ int DWCi_EFFlCheck(int lcd);
 void DWCi_CMNlButton(int kind);
 int DWCi_BTNlGet(void);
 void DWCi_BTNlEnable(void);
-void procScene(void);
+void DWCi_SceneOptInfo_procScene(void);
 extern int DWCi_IPTlCheckTrigger(unsigned int f);
 extern void DWCi_BTNlSet(signed char v);
 void DWCi_SNDlPlay(int no);
@@ -122,7 +121,6 @@ extern char sSceneOptInfoTable3[];
 static void initGraphics(void);
 static void input(void);
 
-
 void DWCi_SceneOptInfo(void)
 {
     initGraphics();
@@ -131,7 +129,6 @@ void DWCi_SceneOptInfo(void)
     drawInfo();
     DWCi_ChangeScene(procInit);
 }
-
 
 static void initGraphics(void)
 {
@@ -142,7 +139,6 @@ static void initGraphics(void)
     ((BgCnt *)0x0400000A)->priority = 3;
     ((BgCnt *)0x0400000C)->priority = 3;
 }
-
 
 void drawInfo(void)
 {
@@ -179,7 +175,6 @@ void drawInfo(void)
     DWCi_FNTlRenewBg((int)canvas);
 }
 
-
 void procInit(void)
 {
     DWCi_EFFlFade(2, 1, 1, 8);
@@ -189,7 +184,6 @@ void procInit(void)
     DWCi_ChangeScene(procInit1);
 }
 
-
 void procInit1(void)
 {
     if (DWCi_EFFlCheck(1)) return;
@@ -198,14 +192,12 @@ void procInit1(void)
     DWCi_ChangeScene(procInit2);
 }
 
-
 void procInit2(void)
 {
     if (DWCi_BTNlGet() == -2) return;
     DWCi_BTNlEnable();
-    DWCi_ChangeScene(procScene);
+    DWCi_ChangeScene(DWCi_SceneOptInfo_procScene);
 }
-
 
 void DWCi_SceneOptInfo_procScene(void)
 {
@@ -213,7 +205,6 @@ void DWCi_SceneOptInfo_procScene(void)
     DWCi_SceneOptInfo_draw();
     button();
 }
-
 
 static void input(void)
 {
@@ -225,7 +216,6 @@ void DWCi_SceneOptInfo_draw(void)
 {
 }
 
-
 void button(void)
 {
     if (DWCi_BTNlGet() != 0) return;
@@ -233,14 +223,12 @@ void button(void)
     DWCi_ChangeScene(endScene);
 }
 
-
 void endScene(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
     DWCi_ChangeScene(endScene1);
 }
-
 
 void endScene1(void)
 {
@@ -250,7 +238,6 @@ void endScene1(void)
     DWCi_EFFlFade(3, 0, 0x15, 8);
     DWCi_ChangeScene(endScene2);
 }
-
 
 void endScene2(void)
 {

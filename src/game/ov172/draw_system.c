@@ -32,9 +32,7 @@
  *   DRAW_SYSTEM_Nop  0x021B6C48  thumb  ov172
  *   DRAW_SYSTEM_FlushStrokes  0x021B6C4C  thumb  ov172
  */
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
+#include "../types.h"
 
 /* Creation parameters of a draw canvas. */
 typedef struct DrawCanvasParams {

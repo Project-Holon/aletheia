@@ -67,11 +67,7 @@
  *   FIELD_G3D_MAPPER_TintTexture  0x0218D0D8  thumb  ov021
  *   FIELD_G3D_MAPPER_GetOriginOffset  0x0218DC5C  thumb  ov021
  */
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed short   s16;
-typedef signed int     s32;
+#include "../types.h"
 
 struct Sub020140BCObj;
 struct ArcFile;
@@ -255,7 +251,6 @@ typedef struct BuildModelMan {
     BuildModelNode *nodes[BUILDMODEL_NODE_COUNT];
     BuildModelEntry entries[BUILDMODEL_ENTRY_COUNT];
 } BuildModelMan;
-
 
 extern u32 MI_CpuFill8(void *, int, u32);
 extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, char *site, unsigned short tag);

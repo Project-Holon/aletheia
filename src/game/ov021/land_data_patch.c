@@ -21,9 +21,7 @@
  *   MI_CpuCopy8  0x02082D44  arm
  *   FIELD_BUILDMODEL_RegisterObject  0x0218BA04  thumb  ov021
  */
-typedef unsigned char u8;
-typedef unsigned int u32;
-typedef unsigned short u16;
+#include "../types.h"
 
 /* Patch file from archive 0x9C: u16 offset of the attribute block, u16 offset of the build-model block, then the blocks. */
 typedef struct LandDataPatch {

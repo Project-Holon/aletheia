@@ -18,11 +18,7 @@
  *   DSP_RecvFifoExCore  0x02705150  arm
  */
 
-typedef unsigned int u32;
-typedef unsigned short u16;
-typedef unsigned char u8;
-typedef int s32;
-typedef int BOOL;
+#include "../types.h"
 
 #define DSP_CTRL (*(volatile u16 *)0x04004308)
 

@@ -8,10 +8,7 @@
  * kind of the effect table in enceff.c (kinds 0, 1, 5, 6, 31, 35).
  */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed int     s32;
+#include "../types.h"
 
 struct GameSystem;
 struct GameEvent;

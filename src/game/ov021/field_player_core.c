@@ -75,11 +75,7 @@
  */
 #include "field_player_types.h"
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed short s16;
-typedef signed int s32;
+#include "../types.h"
 
 /* Pad keys the avatar direction is read from, and the direction ids. */
 #define FIELD_PLAYER_KEY_RIGHT 0x10

@@ -9,6 +9,6 @@ struct U16Vec;
 
 struct ManualRes;
 
-typedef signed int s32;
+#include "../types.h"
 
 #endif

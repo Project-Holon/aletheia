@@ -44,7 +44,7 @@
 
 #include "nns_g3d_anm_types.h"
 
-typedef int            BOOL;
+#include "../types.h"
 
 /* Header of an animation resource: the two category codes select the init handler. */
 typedef struct {
@@ -62,71 +62,13 @@ typedef struct {
     u32 pad4;
 } NNSiG3dAnmObjInitKey;
 
-/* Render object flag set when an animation is removed from one of its lists. */
-#define NNS_G3D_RENDEROBJ_FLAG_RECORD 0x10
 
 /* Render object (0x54 bytes): the material, joint and visibility animation
  * lists, their blend functions and the masks of entries they drive. */
-typedef struct {
-    u32           flag;
-    void         *resMdl;
-    NNSG3dAnmObj *anmMat;
-    void         *funcBlendMat;
-    NNSG3dAnmObj *anmJnt;
-    void         *funcBlendJnt;
-    NNSG3dAnmObj *anmVis;
-    void         *funcBlendVis;
-    u8            pad20[0x1c];
-    u32           recAnmMat[2];
-    u32           recAnmJnt[2];
-    u32           recAnmVis[2];
-} NNSG3dRenderObj;
+#include "nns_g3d_anm_calc_types.h"
 
 /* Resource dictionary header. */
-typedef struct { u8 revision; u8 numEntry; u16 sizeDictBlk; u16 dummy_; u16 ofsEntry; } NNSG3dResDict;
-
 typedef struct { u16 sizeUnit; u16 sizeTotal; u8 data[4]; } NNSG3dResDictEntryHeader;
-
-typedef struct {
-    u32 vramKey;
-    u16 sizeTex;
-    u16 ofsDict;
-    u16 flag;
-    u16 dummy_;
-    u32 ofsTex;
-} NNSG3dResTexInfo;
-
-typedef struct {
-    u32 vramKey;
-    u16 sizeTex;
-    u16 ofsDict;
-    u16 flag;
-    u16 dummy_;
-    u32 ofsTex;
-    u32 ofsTexPlttIdx;
-} NNSG3dResTex4x4Info;
-
-typedef struct {
-    u32 vramKey;
-    u16 sizePltt;
-    u16 flag;
-    u16 ofsDict;
-    u16 dummy_;
-    u32 ofsPlttData;
-} NNSG3dResPlttInfo;
-
-typedef struct {
-    u32                 sig;
-    u32                 size;
-    NNSG3dResTexInfo    texInfo;
-    NNSG3dResTex4x4Info tex4x4Info;
-    NNSG3dResPlttInfo   plttInfo;
-    NNSG3dResDict       dict;
-} NNSG3dResTex;
-
-typedef struct { u16 ofsDictTexToMatList; u16 ofsDictPlttToMatList; NNSG3dResDict dict; } NNSG3dResMat;
-
-typedef struct { u32 sig; u32 size; u32 ofsMat; } NNSG3dResMdl;
 
 /* Data record of the tex-to-material dictionary. */
 typedef struct { u16 offset; u8 numIdx; u8 flag; } NNSG3dResTexToMatIdx;
@@ -135,19 +77,7 @@ typedef struct { u16 offset; u8 numIdx; u8 flag; } NNSG3dResTexToMatIdx;
 typedef struct { u16 offset; u8 numIdx; u8 flag; } NNSG3dResPlttToMatIdx;
 
 /* Data record of the texture dictionary. */
-typedef struct { u32 texImageParam; u32 extraParam; } NNSG3dResDictTexData;
-
 /* Data record of the palette dictionary. */
-typedef struct { u16 offset; u16 flag; } NNSG3dResDictPlttData;
-
-typedef struct {
-    u16 itemTag; u16 size; u32 diffAmb; u32 specEmi; u32 polyAttr; u32 polyAttrMask;
-    u32 texImageParam; u32 texImageParamMask; u16 texPlttBase; u16 flag;
-    u16 origWidth; u16 origHeight; fx32 magW; fx32 magH;
-} NNSG3dResMatData;
-
-typedef struct { u8 name[16]; } NNSG3dResName;
-
 extern void MIi_CpuClear32(u32 val, void *dst, u32 len);
 extern void GX_BeginLoadTex(void);
 extern void GX_LoadTex(void *src, u32 off, u32 n);
@@ -186,7 +116,6 @@ extern u32 gNNSiG3dFuncBlendVisDefault;
 extern u32 gNNSiG3dFuncBlendJntDefault;
 extern u32 gNNSiG3dFuncBlendMatDefault;
 
-
 /*
  * NNS_G3dAnmObjInit: reset the animation object and call the init handler
  * whose category pair matches the resource header. The handler takes
@@ -223,7 +152,6 @@ next:
     } while (i < n);
 }
 
-
 /*
  * NNS_G3dRenderObjInit: clear the render object (0x54 bytes), store the
  * model and install the default blend functions. The literal for
@@ -237,7 +165,6 @@ void NNS_G3dRenderObjInit(NNSG3dRenderObj *rndObj, u32 resMdl)
     rndObj->funcBlendVis = (void *)gNNSiG3dFuncBlendVisDefault;
     rndObj->resMdl = (void *)resMdl;
 }
-
 
 /*
  * Priority-ordered insert into the singly-linked list rooted at *head,
@@ -294,7 +221,6 @@ void NNSi_G3dAnmObjInsertByPriority(NNSG3dAnmObj **head, NNSG3dAnmObj *item)
     cur->next = item;
 }
 
-
 /*
  * Walk the list from `anmObj` and, for each animation, set bit i of `mask`
  * for every mapData[i] (i < numMapData) that carries the EXIST flag.
@@ -317,7 +243,6 @@ void NNSi_G3dAnmObjCollectMapDataMask(u32 *mask, NNSG3dAnmObj *anmObj)
     } while (anmObj != 0);
 }
 
-
 /*
  * NNS_G3dRenderObjAddAnmObj: dispatch on the category byte of the animation
  * resource ('M' material, 'J' joint, 'V' visibility); each case pairs one
@@ -334,20 +259,19 @@ void NNS_G3dRenderObjAddAnmObj(NNSG3dRenderObj *rndObj, NNSG3dAnmObj *anmObj)
     if (resAnm == 0) return;
     switch (resAnm->category0) {
     case 0x4d:
-        NNSi_G3dAnmObjCollectMapDataMask(rndObj->recAnmMat, anmObj);
+        NNSi_G3dAnmObjCollectMapDataMask(rndObj->matAnmExist, anmObj);
         NNSi_G3dAnmObjInsertByPriority(&rndObj->anmMat, anmObj);
         break;
     case 0x4a:
-        NNSi_G3dAnmObjCollectMapDataMask(rndObj->recAnmJnt, anmObj);
+        NNSi_G3dAnmObjCollectMapDataMask(rndObj->jntAnmExist, anmObj);
         NNSi_G3dAnmObjInsertByPriority(&rndObj->anmJnt, anmObj);
         break;
     case 0x56:
-        NNSi_G3dAnmObjCollectMapDataMask(rndObj->recAnmVis, anmObj);
+        NNSi_G3dAnmObjCollectMapDataMask(rndObj->visAnmExist, anmObj);
         NNSi_G3dAnmObjInsertByPriority(&rndObj->anmVis, anmObj);
         break;
     }
 }
-
 
 /*
  * Unlink `target` from the list rooted at *head, clear the removed node's
@@ -378,7 +302,6 @@ u32 NNSi_G3dAnmObjUnlink(NNSG3dAnmObj **head, NNSG3dAnmObj *target)
     return 0;
 }
 
-
 /*
  * NNS_G3dRenderObjRemoveAnmObj: try the material, joint and visibility lists
  * in turn and set the RECORD flag if one of them held the node. The three
@@ -393,9 +316,8 @@ void NNS_G3dRenderObjRemoveAnmObj(NNSG3dRenderObj *rndObj, NNSG3dAnmObj *anmObj)
             }
         }
     }
-    rndObj->flag |= NNS_G3D_RENDEROBJ_FLAG_RECORD;
+    rndObj->flag |= NNS_G3D_RENDEROBJ_FLAG_RESET_ANMEXIST;
 }
-
 
 /* NNS_G3dTexGetRequiredSize: texture block size in bytes. */
 int NNS_G3dTexGetRequiredSize(void *pTex)
@@ -403,13 +325,11 @@ int NNS_G3dTexGetRequiredSize(void *pTex)
     return pTex ? (((NNSG3dResTex *)pTex)->texInfo.sizeTex << 3) : 0;
 }
 
-
 /* NNS_G3dTex4x4GetRequiredSize: 4x4 compressed texture block size in bytes. */
 int NNS_G3dTex4x4GetRequiredSize(int pTex)
 {
     return pTex ? (((NNSG3dResTex *)pTex)->tex4x4Info.sizeTex << 3) : 0;
 }
-
 
 /* NNS_G3dTexSetTexKey: store the VRAM keys of the texture and 4x4 blocks (when non-zero). */
 void NNS_G3dTexSetTexKey(NNSG3dResTex *pTex, int texKey, int tex4x4Key)
@@ -417,7 +337,6 @@ void NNS_G3dTexSetTexKey(NNSG3dResTex *pTex, int texKey, int tex4x4Key)
     if (texKey) *(int *)&pTex->texInfo.vramKey = texKey;
     if (tex4x4Key) *(int *)&pTex->tex4x4Info.vramKey = tex4x4Key;
 }
-
 
 /*
  * NNS_G3dTexLoad: push the texture block and the 4x4 block into texture VRAM
@@ -470,7 +389,6 @@ void NNS_G3dTexLoad(NNSG3dResTex *pTex, u32 exec)
     }
 }
 
-
 /*
  * NNS_G3dTexReleaseTexKey: for each non-null out-pointer, clear the block's
  * loaded bit, hand back its VRAM key and zero it. Both halves are leaf code
@@ -491,17 +409,14 @@ void NNS_G3dTexReleaseTexKey(NNSG3dResTex *pTex, u32 *pTexKey, u32 *pTex4x4Key)
     }
 }
 
-
 /* NNS_G3dPlttGetRequiredSize: palette block size in bytes (sizePltt is in 8-byte units). */
 u32 NNS_G3dPlttGetRequiredSize(NNSG3dResTex *pTex)
 {
     return pTex ? ((u32)pTex->plttInfo.sizePltt << 3) : 0;
 }
 
-
 /* NNS_G3dPlttSetPlttKey: store the VRAM key of the palette block. */
 void NNS_G3dPlttSetPlttKey(NNSG3dResTex *pTex, u32 plttKey){ pTex->plttInfo.vramKey = plttKey; }
-
 
 /*
  * NNS_G3dPlttLoad: bracket with GX_BeginLoadTexPltt / GX_EndLoadTexPltt when
@@ -530,7 +445,6 @@ void NNS_G3dPlttLoad(NNSG3dResTex *pTex, BOOL exec)
     }
 }
 
-
 /*
  * NNS_G3dPlttReleasePlttKey: clear the "loaded" bit of plttInfo.flag, detach
  * the palette VRAM key and return the old key.
@@ -550,7 +464,6 @@ void *NNS_G3dPlttReleasePlttKey(NNSG3dResTex *pTex)
     return (void *)oldKey;
 }
 
-
 static inline void *NNS_G3dGetResDataByIdx(const NNSG3dResDict *dict, u32 idx)
 {
     if (dict && idx < dict->numEntry) {
@@ -559,7 +472,6 @@ static inline void *NNS_G3dGetResDataByIdx(const NNSG3dResDict *dict, u32 idx)
     }
     return 0;
 }
-
 
 static inline NNSG3dResMatData *NNS_G3dGetMatDataByIdx(NNSG3dResMat *mat, u32 idx)
 {
@@ -571,12 +483,10 @@ static inline NNSG3dResMatData *NNS_G3dGetMatDataByIdx(NNSG3dResMat *mat, u32 id
     return 0;
 }
 
-
 static inline u32 NNS_GfdGetTexKeyAddr(u32 key)
 {
     return (u32)((key & 0xffff) << 3);
 }
-
 
 /*
  * bindMdlTex_Internal_ (static helper of NNS_G3dBindMdlTex): for every
@@ -616,14 +526,12 @@ void NNSi_G3dBindMdlTexInternal(NNSG3dResMat *pMat, NNSG3dResTexToMatIdx *pBindD
     pBindData->flag |= 1;
 }
 
-
 /* NNS_G3dGetMat. Written as an if/return: the ternary form swaps two registers. */
 static inline NNSG3dResMat *NNS_G3dGetMat(NNSG3dResMdl *mdl)
 {
     if (mdl != 0 && mdl->ofsMat != 0) return (NNSG3dResMat *)((u8 *)mdl + mdl->ofsMat);
     return 0;
 }
-
 
 static inline const NNSG3dResName *NNS_G3dGetResNameByIdx(const NNSG3dResDict *dict, u32 idx)
 {
@@ -634,14 +542,12 @@ static inline const NNSG3dResName *NNS_G3dGetResNameByIdx(const NNSG3dResDict *d
     return 0;
 }
 
-
 static inline void *NNS_G3dGetTexDataByName(const NNSG3dResTex *tex, const NNSG3dResName *name)
 {
     if (tex)
-        return NNS_G3dGetResDataByName(&tex->dict, name);
+        return NNS_G3dGetResDataByName(&tex->dictTex, name);
     return 0;
 }
-
 
 /*
  * NNS_G3dBindMdlTex(mdl, tex): for every entry of the material block's
@@ -674,12 +580,10 @@ BOOL NNS_G3dBindMdlTex(NNSG3dResMdl *pMdl, const NNSG3dResTex *pTex)
     return result;
 }
 
-
 static inline u32 NNS_GfdGetPlttKeyAddr(u32 key)
 {
     return (u32)((key & 0xffff) << 3);
 }
-
 
 /*
  * bindMdlPltt_Internal_ (static helper of NNS_G3dBindMdlPltt): for every
@@ -713,14 +617,12 @@ void NNSi_G3dBindMdlPlttInternal(NNSG3dResMat *pMat, NNSG3dResPlttToMatIdx *pBin
     pBindData->flag |= 1;
 }
 
-
 static inline void *NNS_G3dGetPlttDataByName(const NNSG3dResTex *tex, const NNSG3dResName *name)
 {
     if (tex && tex->plttInfo.ofsDict != 0)
         return NNS_G3dGetResDataByName((const NNSG3dResDict *)((const u8 *)tex + tex->plttInfo.ofsDict), name);
     return 0;
 }
-
 
 /*
  * NNS_G3dBindMdlPltt(mdl, tex): the palette twin of NNS_G3dBindMdlTex. Walks the
@@ -751,7 +653,6 @@ BOOL NNS_G3dBindMdlPltt(NNSG3dResMdl *pMdl, const NNSG3dResTex *pTex)
     }
     return result;
 }
-
 
 /*
  * NNS_G3dBindMdlPlttEx: bind one palette (plttDataIdx of the texture's
@@ -800,7 +701,6 @@ int NNS_G3dBindMdlPlttEx(NNSG3dResMdl *pMdl, NNSG3dResTex *pTex, u32 plttToMatId
     }
     return 0;
 }
-
 
 /*
  * NNS_G3dReleaseMdlPltt: clear the "bound" bit (flag bit 0) of every record

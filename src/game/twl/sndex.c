@@ -33,10 +33,7 @@
  *   SNDEXi_PostExitInfo  0x0273446C  data
  *   SNDEXi_PreSleepInfo  0x0273448C  data
  */
-typedef unsigned int u32;
-typedef unsigned short u16;
-typedef unsigned char u8;
-typedef signed int s32;
+#include "../types.h"
 
 typedef void (*Cb)(u32, void *);
 
@@ -80,7 +77,8 @@ extern void PMi_InsertPreSleepCallbackEx(struct PMiGenCallbackInfo *info, s32 pr
 extern s32 OS_IsRunOnTwl(void);
 extern s32 OSi_IsCodecTwlMode(void);
 extern void OS_SpinWaitSysCycles(u32);
-struct OSMessageQueue;
+#include "../sdk_os.h"
+
 extern void OS_InitMessageQueue(struct OSMessageQueue *mq, void **msgArray, s32 msgCount);
 extern s32 OS_ReceiveMessage(struct OSMessageQueue *mq, void **msg, s32 flags);
 extern s32 OS_SendMessage(struct OSMessageQueue *mq, void *msg, s32 flags);
@@ -89,11 +87,6 @@ extern void PXIi_HandlerRecvFifoNotEmpty(void);
 extern State SNDEXi_Work;
 extern u32 SNDEXi_PostExitInfo[];
 extern u32 SNDEXi_PreSleepInfo[];
-typedef struct OSThreadInfo {
-    u16 isNeedRescheduling;
-    u16 irqDepth;
-    void *current;
-} OSThreadInfo;
 extern OSThreadInfo OSi_ThreadInfo;
 
 void SNDEXi_Init(void);

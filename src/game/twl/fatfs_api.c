@@ -17,8 +17,7 @@
  *   FATFSi_PostRequest  0x02704258  arm
  *   FATFSi_WaitForRequest  0x02704264  arm
  */
-typedef unsigned int u32;
-typedef int BOOL;
+#include "../types.h"
 
 typedef struct FsEntry {
     u32 arg;

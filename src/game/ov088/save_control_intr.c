@@ -31,8 +31,7 @@ extern int SAVE_CONTROL_CancelSave(struct SaveControl *saveControl);
 
 struct Sub020071E4Ctrl;
 struct Sub02007168;
-typedef unsigned char u8;
-typedef unsigned int u32;
+#include "../types.h"
 extern u32 GFL_HEAP_Free(void *p);
 extern u8 SAVE_CONTROL_GetOutsideSaveLoaded(const struct Sub020071E4Ctrl *ctrl);
 extern void *GFL_HEAP_Alloc(unsigned int, unsigned int, int, const char *, unsigned short);
@@ -57,11 +56,6 @@ typedef struct SaveControlIntr {
     u32 outsideSaveBroken;
 } SaveControlIntr;
 
-
-
-
-
-
 /*
  * UI_SetIntrDataGlobal (arm) resolves through the matched entry
  * src/matched/arm9/UI_SetIntrDataGlobal.c.
@@ -83,8 +77,6 @@ void SAVE_CONTROL_INTR_Delete(void *p)
     UI_SetIntrDataGlobal(0, 0);
     GFL_HEAP_Free(p);
 }
-
-
 
 void SAVE_CONTROL_INTR_Start(SaveControlIntr *intr)
 {
@@ -144,11 +136,7 @@ void SAVE_CONTROL_INTR_Resume(SaveControlIntr *intr)
         intr->pauseRequested = 0;
 }
 
-
-
 int SAVE_CONTROL_INTR_IsPausedOrFinished(SaveControlIntr *intr){if(intr->cancelled==1||intr->state==3)return 1;if(intr->state==2)return 1;return 0;}
-
-
 
 /*
  * Unlabelled Thumb leaf in a .word run at ov088:021BD39C: `bx lr` (2 bytes),
@@ -158,8 +146,6 @@ int SAVE_CONTROL_INTR_IsPausedOrFinished(SaveControlIntr *intr){if(intr->cancell
 void SAVE_CONTROL_INTR_NoOp(void *intr)
 {
 }
-
-
 
 /*
  * Unlabelled 24-byte predicate. Parent cleared this sole blocker of
@@ -176,7 +162,6 @@ int SAVE_CONTROL_INTR_IsFinished(SaveControlIntr *intr)
         return 1;
     return 0;
 }
-
 
 void SAVE_CONTROL_INTR_Cancel(SaveControlIntr *intr)
 {

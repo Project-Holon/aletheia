@@ -272,14 +272,10 @@
 
 #include "mb_comm_sys.h"
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed int s32;
-typedef short s16;
-typedef signed char s8;
+#include "../types.h"
 
-struct FSFile;
+#include "../sdk_fs.h"
+
 struct DispVram;
 struct DispConfig;
 struct BgTemplate;
@@ -288,7 +284,6 @@ struct ClActInitParam {
     u16 dimensions[6];
 };
 
-typedef enum { FS_OK = 0, FS_ERROR = 1 } FSResult;
 typedef struct File {
     struct File *next;
     void *userdata;

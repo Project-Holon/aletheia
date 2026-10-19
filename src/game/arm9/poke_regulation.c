@@ -47,7 +47,7 @@ struct WordSet;
 
 struct Strbuf;
 
-typedef unsigned long long u64;
+#include "../types.h"
 
 /* Battle regulation data (0x534 bytes in the save; only the fields read here). */
 struct Regulation {

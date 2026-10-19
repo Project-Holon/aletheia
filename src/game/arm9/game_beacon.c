@@ -84,7 +84,7 @@ struct QuestionnaireSave;
 
 struct PmsSave;
 
-typedef signed int     s32;
+#include "../types.h"
 
 /* Per-action priority and display time. */
 typedef struct GameBeaconActionInfo {
@@ -98,16 +98,7 @@ struct WarpLocation {
     s16 zoneId;
 };
 
-typedef struct {
-    u8  language;
-    u8  favoriteColor;
-    u8  month;
-    u8  day;
-    u16 nickName[11];
-    u16 nickNameLength;
-    u16 comment[27];
-    u16 commentLength;
-} OSOwnerInfo;
+#include "../sdk_os.h"
 
 extern void MI_CpuFill8(void *dst, u8 value, u32 size);
 

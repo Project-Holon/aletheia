@@ -24,19 +24,10 @@
  *   AESi_Unlock  0x02707BDC  arm
  *   AESi_RandUnit  0x02707458  arm
  */
-typedef unsigned int u32;
-typedef unsigned long long u64;
-typedef unsigned char u8;
+#include "../types.h"
 
-typedef struct OSThread OSThread;
-typedef struct {
-    OSThread *head;
-    OSThread *tail;
-} OSThreadQueueLike;
-struct OSEvent {
-    OSThreadQueueLike queue;
-    u32 flags;
-};
+#include "../sdk_os.h"
+
 typedef struct OSEvent OSEventLike;
 
 typedef struct {

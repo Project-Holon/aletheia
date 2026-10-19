@@ -143,7 +143,7 @@ struct PmsDraw {
     u8    nullColorPalette;
 };
 
-typedef signed short   s16;
+#include "../types.h"
 
 struct PmsPoint { s16 x; s16 y; };
 
@@ -151,8 +151,6 @@ struct PmsPos {
     u32 x;
     u32 y;
 };
-
-typedef volatile unsigned int vu32;
 
 struct DecoActorInit { u16 x; u16 y; u16 anmSeq; u16 softPri; };
 

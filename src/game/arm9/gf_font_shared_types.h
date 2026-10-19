@@ -7,13 +7,7 @@ struct WordSet;
 
 struct WordTag;
 
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef signed int     s32;
+#include "../types.h"
 
 struct Strbuf {
     u16 capacity;

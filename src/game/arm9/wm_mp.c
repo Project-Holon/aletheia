@@ -25,17 +25,9 @@
  *   DC_StoreRange       0x020862D4  arm
  *   WMi_SendCommand     0x0208E3A0  arm
  */
-typedef unsigned char u8;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef unsigned long u32;
-
-typedef long s32;
-
-typedef int BOOL;
-
-typedef void (*WMCallbackFunc)(void *arg);
+#include "../sdk_wm.h"
 
 typedef struct WMMPParam {
     u32 mask;
@@ -77,63 +69,7 @@ typedef struct WMStartMPReq {
     WMMPTmpParam tmpParam;
 } WMStartMPReq;
 
-typedef short s16;
-
-typedef u32 OSIntrMode;
-
-typedef enum WMErrCode {
-    WM_ERRCODE_SUCCESS = 0,
-    WM_ERRCODE_FAILED = 1,
-    WM_ERRCODE_OPERATING = 2,
-    WM_ERRCODE_ILLEGAL_STATE = 3,
-    WM_ERRCODE_WM_DISABLE = 4,
-    WM_ERRCODE_NO_DATASET = 5,
-    WM_ERRCODE_INVALID_PARAM = 6,
-    WM_ERRCODE_NO_ENTRY = 7,
-    WM_ERRCODE_MAX = 0x7FFFFFFF
-} WMErrCode;
-
-typedef struct WMStatus {
-    u16 state;
-    u8 pad02[0xA];
-    BOOL mp_flag;
-    u8 pad10[0x7C - 0x10];
-    u32 *mp_sendBuf;
-    u16 mp_sendBufSize;
-    u16 mp_ackTime;
-    u16 mp_waitAckFlag;
-    u16 mp_readyBitmap;
-    u8 pad88[0x9C - 0x88];
-    u16 mp_ignoreSizePrecheckMode;
-    u8 pad9E[0xC6 - 0x9E];
-    u16 pwrMgtMode;
-    u8 padC8[0x182 - 0xC8];
-    u16 child_bitmap;
-    struct WMBssDesc *pInfoBuf;
-    u16 aid;
-} WMStatus;
-
-typedef struct WMArm9Buf {
-    struct WMArm7Buf *WM7;
-    struct WMStatus *status;
-    u32 *indbuf;
-    u32 *fifo9to7;
-    u32 *fifo7to9;
-    u16 dmaNo;
-    u16 scanOnlyFlag;
-    WMCallbackFunc CallbackTable[44];
-    WMCallbackFunc indCallback;
-    WMCallbackFunc portCallbackTable[16];
-    void *portCallbackArgument[16];
-    u32 connectedAidBitmap;
-    u16 myAid;
-    u8 reserved1[174];
-} WMArm9Buf;
-
-typedef enum WMApiid {
-    WM_APIID_SET_MP_DATA = 15,
-    WM_APIID_MAX = 0x7FFFFFFF
-} WMApiid;
+#include "../sdk_os.h"
 
 extern void *WMi_GetSystemWork(void);
 extern WMErrCode WMi_CheckStateEx(s32 paramNum, ...);

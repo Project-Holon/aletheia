@@ -13,11 +13,7 @@
 #define REG_BLDCNT_MAIN (*(volatile u16 *)0x04000050)
 #define REG_BLDCNT_SUB (*(volatile u16 *)0x04001050)
 
-typedef short s16;
-
-typedef signed char s8;
-
-typedef int s32;
+#include "../types.h"
 
 /* Handles of the sprite system; the actor table follows in each screen's own sprite set. */
 typedef struct IrcSpriteResources {

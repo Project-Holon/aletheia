@@ -31,11 +31,7 @@
  */
 struct Big;
 struct SaveControl;
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
+#include "../types.h"
 
 /*
  * The C-Gear save object (0x2C bytes), shared with the file that owns
@@ -52,8 +48,6 @@ struct CGearSave {
     u8  commState;
     u8  reserved[2];
 };
-
-typedef signed int     s32;
 
 /* One of the five 0x1A-byte records at +0x120 of the block. */
 struct CgearSaveRecord {
@@ -104,7 +98,6 @@ void BLOCK20_SAVEDATA_SetDateStamp(struct CgearSaveBlock *block, u32 value);
 struct CgearSaveBlock *BLOCK20_SAVEDATA_GetBlock(void *sys);
 struct CgearSaveBlock *BLOCK20_SAVEDATA_GetBlockFromSys(void *p);
 u32 BLOCK20_SAVEDATA_GetBlockSize(void);
-
 
 /*
  * Part of a translation unit, matched as one byte range.  Written from the
@@ -221,9 +214,7 @@ u8 BLOCK20_SAVEDATA_GetPanelState(const struct CGearSave *save)
     return save->commState;
 }
 
-
 #define _CGEAR_BLOCK_ID 0x20
-
 
 /*
  * Part of a translation unit, matched as one byte range.  Written from the
@@ -277,18 +268,15 @@ struct CgearSaveBlock *BLOCK20_SAVEDATA_GetBlock(void *sys)
     return SAVE_CONTROL_GetBlock(sys, _CGEAR_BLOCK_ID);
 }
 
-
 struct CgearSaveBlock *BLOCK20_SAVEDATA_GetBlockFromSys(void *p)
 {
     return BLOCK20_SAVEDATA_GetBlock(GAME_DATA_GetSaveControl(p));
 }
 
-
 u32 BLOCK20_SAVEDATA_GetBlockSize(void)
 {
     return sizeof(struct CgearSaveBlock);
 }
-
 
 void BLOCK20_SAVEDATA_InitBlock(struct CgearSaveBlock *block)
 {

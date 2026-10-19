@@ -20,9 +20,7 @@
 #endif
 #include "../ov037/gimmick_save_types.h"
 
-typedef signed char s8;
-typedef short s16;
-typedef long long s64;
+#include "../types.h"
 
 struct FieldMap;
 struct GameSystem;

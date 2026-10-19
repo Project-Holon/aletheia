@@ -1,7 +1,7 @@
 #ifndef RESEARCH_CLACT_H
 #define RESEARCH_CLACT_H
 
-#include "research_types.h"
+#include "../types.h"
 
 struct ClactUnit;
 struct ClactActor;

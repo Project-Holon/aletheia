@@ -24,11 +24,7 @@
  *   DWCi_CELLlForm  0x021d4e1c  arm  ov016
  *   DWCi_CELLlGetObj  0x021d4fe0  arm  ov016
  */
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned long u32;
+#include "../types.h"
 
 typedef _Bool bool;
 
@@ -53,14 +49,12 @@ GXOamAttr *DWCi_CEINlSetExObj(int lcd, int idx);
 void *DWCi_CEINlSetExCell(int lcd, int idx, bool head);
 extern void *gCellinfoWork[2];
 
-
 void DWCi_CEINlRead(int lcd, char *file)
 {
     unsigned long size;
 
     gCellinfoWork[lcd] = DWCi_ARClReadEx(file, &size, 4);
 }
-
 
 /*
  * sdk:      DWCi_CEINlRelease (libdwcutil.TWL.HYB.a(cellinfo.o))
@@ -70,7 +64,6 @@ void DWCi_CEINlRelease(int lcd)
     DWCi_ARClRelease(gCellinfoWork[lcd]);
     gCellinfoWork[lcd] = 0;
 }
-
 
 void DWCi_CEINlSet(int lcd, int idx, GXOamAttr *obj)
 {
@@ -92,7 +85,6 @@ void DWCi_CEINlSet(int lcd, int idx, GXOamAttr *obj)
     }
 }
 
-
 GXOamAttr *DWCi_CEINlSetExObj(int lcd, int idx)
 {
     GXOamAttr *obj = DWCi_OBJlFormGx(lcd);
@@ -100,7 +92,6 @@ GXOamAttr *DWCi_CEINlSetExObj(int lcd, int idx)
     DWCi_CEINlSet(lcd, idx, obj);
     return obj;
 }
-
 
 /*
  * sdk:      DWCi_CEINlSetExCell (libdwcutil.TWL.HYB.a(cellinfo.o))

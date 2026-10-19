@@ -52,13 +52,7 @@
  *   GXS_EndLoadOBJExtPltt  0x0207F754  arm
  */
 
-typedef unsigned int u32;
-
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef signed int    s32;
+#include "../types.h"
 
 /* Loader for one VRAM destination: (source, destination offset, byte size). */
 typedef void (*NNSiGfdVramLoadFunc)(u32 pSrc, u32 offset, u32 szByte);
@@ -144,14 +138,12 @@ extern NNSiGfdVramLoadFunc gNNSiGfdVramLoadFuncTable[];
 extern NNSiGfdVramTransferTaskQueue sVramTransferTaskQueue;
 extern NNSiGfdVramTransferTaskQueue g_02146B80_cb;
 
-
 void NNSi_GfdLoadMainObjExtPltt(const void *pSrc, u32 offset, u32 szByte)
 {
     GX_BeginLoadOBJExtPltt();
     GX_LoadOBJExtPltt(pSrc, offset, szByte);
     GX_EndLoadOBJExtPltt();
 }
-
 
 void NNSi_GfdLoadMainBgExtPltt(const void *pSrc, u32 offset, u32 szByte)
 {
@@ -160,90 +152,75 @@ void NNSi_GfdLoadMainBgExtPltt(const void *pSrc, u32 offset, u32 szByte)
     GX_EndLoadBGExtPltt();
 }
 
-
 void NNSi_GfdLoadMainOam(const void *pSrc, u32 offset, u32 szByte)
 {
     GX_LoadOAM(pSrc, offset, szByte);
 }
-
 
 void NNSi_GfdLoadMainObjChar(const void *pSrc, u32 offset, u32 szByte)
 {
     GX_LoadOBJ(pSrc, offset, szByte);
 }
 
-
 void NNSi_GfdLoadSubBg0Char(const void *pSrc, u32 offset, u32 szByte)
 {
     GXS_LoadBG0Char(pSrc, offset, szByte);
 }
-
 
 void NNSi_GfdLoadSubBg1Char(const void *pSrc, u32 offset, u32 szByte)
 {
     GXS_LoadBG1Char(pSrc, offset, szByte);
 }
 
-
 void NNSi_GfdLoadSubBg2Char(const void *pSrc, u32 offset, u32 szByte)
 {
     GXS_LoadBG2Char(pSrc, offset, szByte);
 }
-
 
 void NNSi_GfdLoadSubBg3Char(const void *pSrc, u32 offset, u32 szByte)
 {
     GXS_LoadBG3Char(pSrc, offset, szByte);
 }
 
-
 void NNSi_GfdLoadSubBg0Scr(const void *pSrc, u32 offset, u32 szByte)
 {
     GXS_LoadBG0Scr(pSrc, offset, szByte);
 }
-
 
 void NNSi_GfdLoadSubBg1Scr(const void *pSrc, u32 offset, u32 szByte)
 {
     GXS_LoadBG1Scr(pSrc, offset, szByte);
 }
 
-
 void NNSi_GfdLoadSubBg2Scr(const void *pSrc, u32 offset, u32 szByte)
 {
     GXS_LoadBG2Scr(pSrc, offset, szByte);
 }
-
 
 void NNSi_GfdLoadSubBg3Scr(const void *pSrc, u32 offset, u32 szByte)
 {
     GXS_LoadBG3Scr(pSrc, offset, szByte);
 }
 
-
 void NNSi_GfdLoadSubBg2ScrAffine(const void *pSrc, u32 offset, u32 szByte)
 {
     GXS_LoadBG2Scr(pSrc, offset, szByte);
 }
-
 
 void NNSi_GfdLoadSubBg3ScrAffine(const void *pSrc, u32 offset, u32 szByte)
 {
     GXS_LoadBG3Scr(pSrc, offset, szByte);
 }
 
-
 void NNSi_GfdLoadSubObjPltt(const void *pSrc, u32 offset, u32 szByte)
 {
     GXS_LoadOBJPltt(pSrc, offset, szByte);
 }
 
-
 void NNSi_GfdLoadSubBgPltt(const void *pSrc, u32 offset, u32 szByte)
 {
     GXS_LoadBGPltt(pSrc, offset, szByte);
 }
-
 
 void NNSi_GfdLoadSubObjExtPltt(const void *pSrc, u32 offset, u32 szByte)
 {
@@ -252,7 +229,6 @@ void NNSi_GfdLoadSubObjExtPltt(const void *pSrc, u32 offset, u32 szByte)
     GXS_EndLoadOBJExtPltt();
 }
 
-
 void NNSi_GfdLoadSubBgExtPltt(const void *pSrc, u32 offset, u32 szByte)
 {
     GXS_BeginLoadBGExtPltt();
@@ -260,18 +236,15 @@ void NNSi_GfdLoadSubBgExtPltt(const void *pSrc, u32 offset, u32 szByte)
     GXS_EndLoadBGExtPltt();
 }
 
-
 void NNSi_GfdLoadSubOam(const void *pSrc, u32 offset, u32 szByte)
 {
     GXS_LoadOAM(pSrc, offset, szByte);
 }
 
-
 void NNSi_GfdLoadSubObjChar(const void *pSrc, u32 offset, u32 szByte)
 {
     GXS_LoadOBJ(pSrc, offset, szByte);
 }
-
 
 /*
  * Run one transfer task: fetch the loader gNNSiGfdVramLoadFuncTable[taskType] first,
@@ -289,7 +262,6 @@ void NNSi_GfdRunVramTransferTask(NNSiGfdVramTransferTask *pTask)
     loadFunc(pTask->pSrc, pTask->offset, pTask->szByte);
 }
 
-
 /* Reset the queue: head, tail, count and the running byte total. */
 void NNSi_GfdResetVramTransferTaskQueue(NNSiGfdVramTransferTaskQueue *pQueue)
 {
@@ -298,7 +270,6 @@ void NNSi_GfdResetVramTransferTaskQueue(NNSiGfdVramTransferTaskQueue *pQueue)
     pQueue->count = 0;
     pQueue->totalSzByte = 0;
 }
-
 
 /* Push: advance the tail and count (volatile accesses keep the halfword loads and stores). Returns 0 when full. */
 int NNSi_GfdPushVramTransferTask(NNSiGfdVramTransferTaskQueue *pQueue)
@@ -312,20 +283,17 @@ int NNSi_GfdPushVramTransferTask(NNSiGfdVramTransferTaskQueue *pQueue)
     return 1;
 }
 
-
 /* Address of the head task: base plus the head index scaled by the task size (0x10). */
 u32 NNSi_GfdGetHeadVramTransferTask(NNSiGfdVramTransferTaskQueue *pQueue)
 {
     return pQueue->pTaskArray + ((u32)pQueue->head << 4);
 }
 
-
 /* Address of the tail slot (where the next task is written): base plus the tail index scaled by 0x10. */
 u32 NNSi_GfdGetTailVramTransferTask(NNSiGfdVramTransferTaskQueue *pQueue)
 {
     return pQueue->pTaskArray + ((u32)pQueue->tail << 4);
 }
-
 
 /*
  * Pop: advance the head and decrement the count. Returns 0 when empty.
@@ -343,7 +311,6 @@ u32 NNSi_GfdPopVramTransferTask(NNSiGfdVramTransferTaskQueue *pQueue)
     pQueue->count -= 1;
     return 1;
 }
-
 
 /*
  * NNS_GfdInitVramTransferTaskQueue: install the task array base and capacity
@@ -366,7 +333,6 @@ void NNS_GfdInitVramTransferTaskQueue(void *pTaskArray, u32 numTasks)
     g_02146B80_cb.numTasks = numTasks;
     NNSi_GfdResetVramTransferTaskQueue(&sVramTransferTaskQueue);
 }
-
 
 /*
  * NNS_GfdResetVramTransferTaskQueue: unlabelled tail-call stub right after

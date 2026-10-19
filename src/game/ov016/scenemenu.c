@@ -64,7 +64,6 @@
  *   DWCi_SceneEnd                    0x021C1630  arm
  *   DWCi_TPlCheckTrigger             0x021D696C  arm
  *   endScene2                        0x021C1DC4  arm
- *   procScene                        0x021C1BB4  arm
  *   scenemenu_bss                    0x021DE59C  data
  *   scenemenu_init_20658             0x021DA474  data
  *   scenemenu_rodata                 0x021DA478  data
@@ -77,22 +76,14 @@
  *   DWCi_SceneOptMenu  0x021C2A3C  arm
  *   DWCi_SceneMenu  0x021C1984  arm
  *   initGraphics  0x021C1A04  arm
- *   DWCi_SceneMenuProcInit1  0x021C1B50  arm
- *   DWCi_SceneMenuProcInit2  0x021C1B90  arm
  *   DWCi_SceneMenu_procScene  0x021C1BB4  arm
  *   input  0x021C1BC8  arm
  *   DWCi_SceneMenu_draw  0x021C1CF8  arm
  *   button  0x021C1CFC  arm
- *   DWCi_SceneMenuEndScene  0x021C1D4C  arm
- *   DWCi_SceneMenuEndScene1  0x021C1D6C  arm
- *   DWCi_SceneMenuMoveFocus  0x021C1E70  arm
- *   DWCi_SceneMenuDispPushButton  0x021C1EDC  arm
  */
 #include "../../matched/include/G_SCENEMENU_BSS.h"
 
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
+#include "../types.h"
 
 typedef struct {
     char name[0x14];
@@ -174,7 +165,6 @@ extern struct SCENEMENU_BSS scenemenu_bss;
 extern const SCENEMENU_RODATA scenemenu_rodata;
 extern const PALETTE_INIT scenemenu_init_20658;
 
-
 /*
  * Settles the panel and dispatches the record indexed by gSceneMenuWork[0].
  */
@@ -203,7 +193,6 @@ void DWCi_SceneMenu(void)
                   sSceneMenuFocusY0[i][0], sSceneMenuFocusY1[i][0]);
     DWCi_ChangeScene(procInit);
 }
-
 
 /*
  * Copy a 0x16-byte NCL descriptor (name + two flags) from the static table to
@@ -236,9 +225,6 @@ static void initGraphics(void)
 }
 
 
-static void procScene(void);
-
-
 static void procInit(void)
 {
     DWCi_EFFlFade(2, 1, 1, 8);
@@ -247,7 +233,6 @@ static void procInit(void)
     DWCi_GXlVisible(0, 0x14);
     DWCi_ChangeScene(procInit1);
 }
-
 
 static void procInit1(void)
 {
@@ -259,15 +244,13 @@ static void procInit1(void)
     DWCi_ChangeScene(procInit2);
 }
 
-
 static void procInit2(void)
 {
     if (DWCi_BTNlGet() == -2)
         return;
     DWCi_BTNlEnable();
-    DWCi_ChangeScene(procScene);
+    DWCi_ChangeScene(DWCi_SceneMenu_procScene);
 }
-
 
 void DWCi_SceneMenu_procScene(void)
 {
@@ -275,7 +258,6 @@ void DWCi_SceneMenu_procScene(void)
     DWCi_SceneMenu_draw();
     button();
 }
-
 
 static void input(void)
 {
@@ -308,7 +290,6 @@ void DWCi_SceneMenu_draw(void)
 {
 }
 
-
 static void button(void)
 {
     switch (DWCi_BTNlGet()) {
@@ -324,14 +305,12 @@ static void button(void)
     }
 }
 
-
 static void endScene(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
     DWCi_ChangeScene(endScene1);
 }
-
 
 static void endScene1(void)
 {
@@ -341,7 +320,6 @@ static void endScene1(void)
     DWCi_EFFlFade(3, 0, 0x16, 8);
     DWCi_ChangeScene(endScene2);
 }
-
 
 static void endScene2(void)
 {
@@ -366,7 +344,6 @@ static void endScene2(void)
     }
 }
 
-
 static void moveFocus(int dir)
 {
     if (dir != 1 && dir != 3) {
@@ -376,7 +353,6 @@ static void moveFocus(int dir)
                          scenemenu_rodata.R_FOCUS[scenemenu_bss.FocusPos].t, scenemenu_rodata.R_FOCUS[scenemenu_bss.FocusPos].b);
     }
 }
-
 
 static void dispPushButton(void)
 {

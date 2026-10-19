@@ -18,13 +18,9 @@
  *   g_020A5CD4 0x020A5CD4 data
  *   g_02151244  0x02151244  data
  */
-typedef unsigned long u32;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef int BOOL;
-
-typedef u32 OSIntrMode;
+#include "../sdk_os.h"
 
 /* os_emulator.o .data from 0x020A86A4, addressed from one pool word: the
    file-scope OSi_RunningConsoleTypeCache, then OS_GetConsoleType's static
@@ -53,8 +49,6 @@ extern OsSystemBss g_02151244;
 
 static u32 OSi_DetectDeviceType(void);
 
-
-
 /*
  * sdk:      OS_GetConsoleType (os_emulator.o)
  */
@@ -71,20 +65,15 @@ u32 OS_GetConsoleType(void)
     return g_020A86A4.OSi_ConsoleTypeCache;
 }
 
-
 static u32 OSi_DetectDeviceType(void)
 {
     return g_020A5CD4[OS_GetBootType()];
 }
 
-
-
 int OS_IsRunOnEmulator(void)
 {
     return (OS_GetConsoleType() & 0x10000000) ? 1 : 0;
 }
-
-
 
 int OS_IsRunOnTwl(void)
 {
@@ -95,7 +84,6 @@ int OS_IsRunOnTwl(void)
     }
     return g_02151244.isTwl;
 }
-
 
 int OSi_IsRunOnTwl(void)
 {

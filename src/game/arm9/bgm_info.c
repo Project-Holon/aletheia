@@ -19,9 +19,7 @@
  *   bgm_info_File  0x020A7048  data
  *   ARC_TOOL_ReadMemberRange  0x02048F74  arm
  */
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
+#include "../types.h"
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 GFL_HEAP_Free(void *p);
 

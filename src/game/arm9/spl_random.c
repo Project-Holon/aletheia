@@ -20,28 +20,24 @@
  *   VEC_Normalize  0x0207CCA4  arm
  */
 
-typedef int fx32;
+#include "../types.h"
 
-struct VecFx32 {
-    volatile fx32 x;
-    volatile fx32 y;
-    volatile fx32 z;
-};
+#include "../sdk_fx.h"
 
 extern int g_02146A8C;
-extern void VEC_Normalize(const struct VecFx32 *src, struct VecFx32 *dst);
+extern void VEC_Normalize(const VecFx32 *src, VecFx32 *dst);
 
-void SPLRandom_VecFx32_XY(struct VecFx32 *v)
+void SPLRandom_VecFx32_XY(volatile VecFx32 *v)
 {
     g_02146A8C = g_02146A8C * 0x5EEDF715 + 0x1B0CB173;
     v->x = g_02146A8C >> 8;
     g_02146A8C = g_02146A8C * 0x5EEDF715 + 0x1B0CB173;
     v->y = g_02146A8C >> 8;
     v->z = 0;
-    VEC_Normalize(v, v);
+    VEC_Normalize((const VecFx32 *)v, (VecFx32 *)v);
 }
 
-void SPLRandom_VecFx32(struct VecFx32 *v)
+void SPLRandom_VecFx32(volatile VecFx32 *v)
 {
     g_02146A8C = g_02146A8C * 0x5EEDF715 + 0x1B0CB173;
     v->x = g_02146A8C >> 8;
@@ -49,5 +45,5 @@ void SPLRandom_VecFx32(struct VecFx32 *v)
     v->y = g_02146A8C >> 8;
     g_02146A8C = g_02146A8C * 0x5EEDF715 + 0x1B0CB173;
     v->z = g_02146A8C >> 8;
-    VEC_Normalize(v, v);
+    VEC_Normalize((const VecFx32 *)v, (VecFx32 *)v);
 }

@@ -6,11 +6,7 @@
  * machine, its item rows, window templates and list menu template.
  */
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed short s16;
-typedef signed int s32;
+#include "../types.h"
 
 /* Indexes into ShopWork.windows. */
 #define SHOP_WIN_HEADER 0

@@ -46,7 +46,6 @@
  *   DWCi_SceneOptMenu                0x021C2A3C  arm
  *   DWCi_SetParam_                   0x021C0E50  arm
  *   GX_LoadBG2Scr                    0x0207EB78  arm
- *   endScene1                        0x021CDC00  arm
  *   procInit1                        0x021C3C64  arm
  *   procScene                        0x021C3C94  arm
  *   sceneoptmovdisco_str_20611       0x021DB390  data
@@ -57,7 +56,7 @@
 #define reg_G2S_DB_BG1CNT (*(volatile unsigned short *)0x0400100A)
 #define reg_G2_BG1CNT     (*(volatile unsigned short *)0x0400000A)
 #define reg_G2_BG2CNT     (*(volatile unsigned short *)0x0400000C)
-typedef unsigned short u16;
+#include "../types.h"
 
 typedef struct {
     u16 priority : 2;
@@ -93,7 +92,6 @@ extern unsigned char gSceneSetUsbCompleteWaitCount;
 /* the resource file name, the compiler's @20611 in .rodata */
 extern char sceneoptmovdisco_str_20611[];
 
-
 /*
  * sdk:      DWCi_SceneSetUsbComplete (libdwcutil.TWL.HYB.a scenesetusbcompl)
  *
@@ -115,7 +113,6 @@ void DWCi_SceneSetUsbComplete(void)
     DWCi_ChangeScene(procInit);
 }
 
-
 static void initGraphics(void)
 {
     DWCi_CMNlLoadResource((void *)0x021DB828, (void *)0x0207EB78);
@@ -125,7 +122,6 @@ static void initGraphics(void)
     ((BgCnt *)0x0400000A)->priority = 3;
     ((BgCnt *)0x0400000C)->priority = 3;
 }
-
 
 /*
  * sdk:      procInit (libdwcutil.TWL.HYB.a scenesetusbcompl)
@@ -140,14 +136,12 @@ static void procInit(void)
     DWCi_ChangeScene(DWCi_SceneSetUsbComplete_procInit1);
 }
 
-
 void DWCi_SceneSetUsbComplete_procInit1(void)
 {
     if (DWCi_EFFlCheck(0))
         return;
     DWCi_ChangeScene(DWCi_SceneSetUsbCompleteCallback);
 }
-
 
 /*
  * Call wait, DWCi_SceneSetUsbCompleteNop.
@@ -163,7 +157,6 @@ void DWCi_SceneSetUsbCompleteCallback(void)
     DWCi_SceneSetUsbCompleteNop();
 }
 
-
 /*
  * Empty stub: the routine carries no behaviour (see the call sites for why it exists).
  * Addresses are Black-image addresses.
@@ -176,22 +169,17 @@ void DWCi_SceneSetUsbCompleteNop(void)
 {
 }
 
-
 static void procInit1(void);
 
 static void procScene(void);
-
-
-static void endScene1(void);
 
 
 static void endScene(void)
 {
     DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x15, 8);
-    DWCi_ChangeScene(endScene1);
+    DWCi_ChangeScene(DWCi_SceneSetUsbComplete_endScene1);
 }
-
 
 void DWCi_SceneSetUsbComplete_endScene1(void)
 {
@@ -207,7 +195,6 @@ void DWCi_SceneSetUsbComplete_endScene1(void)
     DWCi_SetParam2_(0, (unsigned int)(2));
     DWCi_ChangeScene(DWCi_SceneSetTestConfirm);
 }
-
 
 static void wait(void)
 {

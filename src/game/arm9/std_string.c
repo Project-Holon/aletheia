@@ -15,17 +15,10 @@
  * symbols:
  *   MIi_CpuClear32   0x02082A7C  arm
  */
-typedef unsigned long u32;
+#define GAME_TYPES_U32_LONG
+#include "../types.h"
 
 typedef char *va_list;
-
-typedef unsigned long long u64;
-
-typedef long long s64;
-
-typedef unsigned short u16;
-
-typedef unsigned char u8;
 
 extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
 char *STD_CopyString(char *destp, const char *srcp);
@@ -53,7 +46,6 @@ char *STD_CopyString(char *destp, const char *srcp)
     *destp = '\0';
     return retval;
 }
-
 
 /*
  * sdk:      STD_CopyLString (std_string.o)
@@ -126,7 +118,6 @@ char *STD_SearchString(const char *srcp, const char *str)
     }
     return 0;
 }
-
 
 int STD_GetStringLength(const char *str)
 {
@@ -286,7 +277,6 @@ int STD_CompareNString(const char *str1, const char *str2, int len)
 
 #define va_end(v)
 
-
 int STD_TSScanf(char *dst, const char *fmt, ...)
 {
     int result;
@@ -322,7 +312,6 @@ void STDi_FillBitset(unsigned long *bitset, unsigned long start, unsigned long e
 
 #define va_arg(ap, t) (*(t *)((ap += __va_size(t)) - __va_size(t)))
 
-
 enum {
     flag_plus = 0x0002,
     flag_minus = 0x0008,
@@ -334,9 +323,7 @@ enum {
     flag_ignored = 0x2000
 };
 
-
 #define SET_BIT(set, n) ((set)[(u32)(n) >> 5] |= (1 << ((u32)(n) & 31)))
-
 
 int STD_TVSScanf(const char *src, const char *fmt, va_list vlist)
 {

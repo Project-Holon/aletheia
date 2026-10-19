@@ -147,7 +147,9 @@ enum Kind { K0,K1 };
 
 typedef struct { u8 a, b, c, d; u16 e; } Record;
 
-typedef enum { FALSE, TRUE } BOOL;
+#include "../types.h"
+
+typedef enum { FALSE, TRUE } Bool;
 
 extern u32 WIPE_SYS_EndCheck(void);
 
@@ -606,7 +608,7 @@ void *WIFILOGIN_MSG_CreateYesNo(u8 *p, int mode, int n) {
 
 int WIFILOGIN_MSG_CreateWork(void *ctx,int unused,u8 *q) {
     u8 *p;
-    BOOL flag;
+    Bool flag;
     GFL_HEAP_CreateChildHeap(1,121,0x18000);
     p=PROCSYS_AllocProcWork(ctx,32,121);
     MI_CpuFill8(p,0,32);

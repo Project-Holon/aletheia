@@ -29,7 +29,7 @@
  */
 #include "btl_event_types.h"
 
-typedef signed long long s64;
+#include "../types.h"
 
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void *BTL_SERVER_FLOW_GetPokeParam(s32 *flow, s32 pokeId);
@@ -93,7 +93,6 @@ extern struct BtlEventFactor *gBtlEventFactorFreePool[BTL_EVENT_FACTOR_MAX];
 extern struct BtlEventVarStack gBtlEventVarStack;
 extern char gBtlEventEmptyString[];
 
-
 void BTL_EVENT_InitFactorList(void)
 {
     u32 i;
@@ -114,11 +113,9 @@ void BTL_EVENT_ClearSuspendedFlags(void)
     for (factor = gBtlEventFactorList.head; factor != 0; factor = factor->next) factor->suspended = 0;
 }
 
-
 void BTL_EVENT_DebugPrintFactorList(void)
 {
 }
-
 
 struct BtlEventFactor *BTL_EVENT_AddFactor(int factorType, u32 key, int priority, u32 subPriority, u8 ownerId, u32 handlers, u16 handlerCount)
 {
@@ -189,7 +186,6 @@ void BTL_EVENT_RemoveDeadFactors(void)
     }
 }
 
-
 void BTL_EVENT_RemoveFactor(struct BtlEventFactor *factor)
 {
     if (factor != 0) {
@@ -210,12 +206,10 @@ void BTL_EVENT_RemoveFactor(struct BtlEventFactor *factor)
     }
 }
 
-
 void BTL_EVENT_MarkFactorDead(struct BtlEventFactor *factor)
 {
     factor->factorType = BTL_EVENT_TYPE_DEAD;
 }
-
 
 int BTL_EVENT_IsFactorDead(struct BtlEventFactor *factor)
 {
@@ -223,48 +217,38 @@ int BTL_EVENT_IsFactorDead(struct BtlEventFactor *factor)
     return 0;
 }
 
-
 u16 BTL_EVENT_GetFactorKey(struct BtlEventFactor *factor) { return factor->key; }
-
 
 u8 BTL_EVENT_GetFactorPokeId(struct BtlEventFactor *factor)
 {
     return factor->pokeId;
 }
 
-
 u32 BTL_EVENT_GetFactorWork(struct BtlEventFactor *factor, int index) { return factor->work[index]; }
 
-
 void BTL_EVENT_EnableFactorSpecialEvent(struct BtlEventFactor *factor) { factor->answersSpecial = 1; }
-
 
 void BTL_EVENT_KeepFactorRunning(struct BtlEventFactor *factor)
 {
     if (factor->running) factor->keepRunning = 1;
 }
 
-
 void BTL_EVENT_SetFactorWork(struct BtlEventFactor *factor, int index, u32 value) { factor->work[index] = value; }
-
 
 void BTL_EVENT_DispatchEvent(void *context, int eventId)
 {
     BTL_EVENT_DispatchEventNested(context, eventId, BTL_EVENT_TYPE_ANY, 0);
 }
 
-
 void BTL_EVENT_DispatchEventChecked(void *context, int eventId)
 {
     BTL_EVENT_DispatchEventNested(context, eventId, BTL_EVENT_TYPE_ANY, 1);
 }
 
-
 void BTL_EVENT_DispatchEventToType(int context, int eventId, int factorType)
 {
     BTL_EVENT_DispatchEventNested((void *)context, eventId, factorType, 1);
 }
-
 
 void BTL_EVENT_DispatchEventNested(void *context, int eventId, int factorType, int checkSkip)
 {
@@ -343,15 +327,12 @@ int BTL_EVENT_IsEventBlocked(void *context, struct BtlEventFactor *target, int e
     return 0;
 }
 
-
 void BTL_EVENT_SetFactorSkipCheck(struct BtlEventFactor *factor, BtlEventSkipCheck skipCheck) { factor->skipCheck = skipCheck; }
-
 
 void BTL_EVENT_ClearFactorSkipCheck(struct BtlEventFactor *factor)
 {
     factor->skipCheck = 0;
 }
-
 
 struct BtlEventFactor *BTL_EVENT_FindFactor(int factorType, int ownerId)
 {
@@ -361,7 +342,6 @@ struct BtlEventFactor *BTL_EVENT_FindFactor(int factorType, int ownerId)
     }
     return 0;
 }
-
 
 struct BtlEventFactor *BTL_EVENT_FindNextFactor(struct BtlEventFactor *factor)
 {
@@ -377,7 +357,6 @@ struct BtlEventFactor *BTL_EVENT_FindNextFactor(struct BtlEventFactor *factor)
     return 0;
 }
 
-
 void BTL_EVENT_SuspendPokeFactors(int pokeId)
 {
     struct BtlEventFactor *factor;
@@ -385,7 +364,6 @@ void BTL_EVENT_SuspendPokeFactors(int pokeId)
         if (factor->factorType == 0 && factor->pokeId == pokeId && HAND_WAZA_IsKeptOnSuspend(factor, factor->work) != 0) factor->suspended = 1;
     }
 }
-
 
 void BTL_EVENT_ResumePokeFactors(int pokeId)
 {
@@ -413,25 +391,20 @@ struct BtlEventFactor *BTL_EVENT_AllocFactor(void)
     return gBtlEventFactorList.freePool[i];
 }
 
-
 void BTL_EVENT_FreeFactor(void *factor) { if (gBtlEventFactorList.usedCount) { BTL_EVENT_ClearFactor((int)factor); gBtlEventFactorList.freePool[--gBtlEventFactorList.usedCount] = factor; } }
-
 
 void BTL_EVENT_ClearFactor(int factor)
 {
     MI_CpuFill8((void *)factor, 0, 0x3c);
 }
 
-
 void BTL_EVENT_ResetVarStack(void) { struct BtlEventVarStack *stack = &gBtlEventVarStack; unsigned int i; stack->frameTop = 0; for (i = 0; i < BTL_EVENT_VAR_MAX; i++) stack->keys[i] = 0; }
-
 
 void BTL_EVENT_ResetVarStackIfUsed(void)
 {
     if (gBtlEventVarStack.frameTop != 0)
         BTL_EVENT_ResetVarStack();
 }
-
 
 void BTL_EVENT_PushVarFrame(int line)
 {
@@ -446,7 +419,6 @@ void BTL_EVENT_PushVarFrame(int line)
         GF_PANIC_Fail(gBtlEventEmptyString, 0, gBtlEventEmptyString);
     }
 }
-
 
 void BTL_EVENT_PopVarFrame(int line)
 {
@@ -471,7 +443,6 @@ void BTL_EVENT_PopVarFrame(int line)
     }
 }
 
-
 void BTL_EVENT_SetVar(int key, u32 value)
 {
     u32 i = BTL_EVENT_FindVarSlot(&gBtlEventVarStack, key);
@@ -481,7 +452,6 @@ void BTL_EVENT_SetVar(int key, u32 value)
     gBtlEventVarStack.maxValues[i] = 0;
     gBtlEventVarStack.modes[i] = 0;
 }
-
 
 void BTL_EVENT_SetVarReadOnly(int key, u32 value)
 {
@@ -493,7 +463,6 @@ void BTL_EVENT_SetVarReadOnly(int key, u32 value)
     gBtlEventVarStack.modes[i] = 4;
 }
 
-
 void BTL_EVENT_SetVarOnce(int key, u32 value)
 {
     u32 i = BTL_EVENT_FindVarSlot(&gBtlEventVarStack, key);
@@ -504,7 +473,6 @@ void BTL_EVENT_SetVarOnce(int key, u32 value)
     gBtlEventVarStack.modes[i] = 1;
 }
 
-
 void BTL_EVENT_SetVarRanged(int key, u32 value, u32 minValue, u32 maxValue)
 {
     u32 i = BTL_EVENT_FindVarSlot(&gBtlEventVarStack, key);
@@ -514,7 +482,6 @@ void BTL_EVENT_SetVarRanged(int key, u32 value, u32 minValue, u32 maxValue)
     gBtlEventVarStack.maxValues[i] = maxValue;
     gBtlEventVarStack.modes[i] = 3;
 }
-
 
 int BTL_EVENT_OverwriteVar(int key, u32 value)
 {
@@ -531,7 +498,6 @@ int BTL_EVENT_OverwriteVar(int key, u32 value)
     return 0;
 }
 
-
 void BTL_EVENT_MultiplyVar(int key, s32 multiplier)
 {
     struct BtlEventVarStack *stack = &gBtlEventVarStack;
@@ -543,7 +509,6 @@ void BTL_EVENT_MultiplyVar(int key, s32 multiplier)
         stack->values[i] = BTL_EVENT_ClampVar(stack, i, (s32)((product + 0x800) >> 12));
     }
 }
-
 
 int BTL_EVENT_GetVar(int key)
 {
@@ -564,9 +529,7 @@ int BTL_EVENT_GetVar(int key)
     return 0;
 }
 
-
 int BTL_EVENT_TryGetVar(int key, int *out) { struct BtlEventVarStack *stack = &gBtlEventVarStack; unsigned int i; for(i=stack->frameTop; i<BTL_EVENT_VAR_MAX; i++) { if(key==stack->keys[i]) { *out=stack->values[i]; return 1; } if(stack->keys[i]==0) break; } return 0; }
-
 
 u32 BTL_EVENT_FindVarSlot(struct BtlEventVarStack *stack, int key)
 {
@@ -579,8 +542,6 @@ u32 BTL_EVENT_FindVarSlot(struct BtlEventVarStack *stack, int key)
     return i;
 }
 
-
 int BTL_EVENT_FindVar(struct BtlEventVarStack *stack, int key) { unsigned int i; for (i=stack->frameTop; i<BTL_EVENT_VAR_MAX && stack->keys[i]!=0; i++) { if(key==stack->keys[i]) return i; } return -1; }
-
 
 int BTL_EVENT_ClampVar(struct BtlEventVarStack *stack, int index, int value) { int maxValue = stack->maxValues[index]; if (maxValue || stack->minValues[index]) { if ((int)stack->minValues[index] > value) value = stack->minValues[index]; if (maxValue < value) value=maxValue; } return value; }

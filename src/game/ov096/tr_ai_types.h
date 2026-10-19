@@ -1,10 +1,7 @@
 #ifndef GAME_OV096_TR_AI_TYPES_H
 #define GAME_OV096_TR_AI_TYPES_H
 #include "../arm9/script_vm_types.h"
-typedef signed char s8;
-typedef short s16;
-typedef int s32;
-typedef unsigned long long u64;
+#include "../types.h"
 struct BtlPokeParam;
 /* Trainer AI work area, 0xD8 bytes; every AI script command gets it as its 2nd argument. */
 typedef struct TrAiWork {

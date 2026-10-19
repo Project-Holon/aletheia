@@ -30,9 +30,7 @@
  *   CARD_TryWaitBackupAsync 0x02076B8C  arm
  *   CARD_CancelBackupAsync 0x02076B98  arm
  */
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
+#include "../types.h"
 
 typedef void (*FlashErrorFunc)(u32 no_response);
 
@@ -65,7 +63,6 @@ extern u32 _AccessBusy;
 
 #define FLASH_PROBE_LEN 4
 
-
 /*
  * FLASH_ACCESS_Identify: take a lock id, lock the backup device, ask the card
  * layer to identify the backup type, unlock and release the id.  Returns
@@ -91,7 +88,6 @@ int FLASH_ACCESS_Identify(u32 unused_arg)
     return type != 0;
 }
 
-
 /*
  * FLASH_ACCESS_Write: blocking write.  Starts the asynchronous write and
  * spins until the poll function reports completion.  The retry loop is a
@@ -109,7 +105,6 @@ u32 FLASH_ACCESS_Write(u32 flash_addr, u32 ram_src, u32 size, u32 on_error)
     }
     return success;
 }
-
 
 /*
  * FLASH_ACCESS_Read: blocking read of `size` bytes from flash into RAM
@@ -140,7 +135,6 @@ int FLASH_ACCESS_Read(u32 flash_addr, u32 ram_dst, u32 size, void (*on_error)(vo
     return result;
 }
 
-
 /*
  * FLASH_ACCESS_OnWriteDone: DMA completion callback passed by
  * FLASH_ACCESS_StartWrite; raises the flag that StartWrite lowers before the
@@ -150,7 +144,6 @@ void FLASH_ACCESS_OnWriteDone(void)
 {
     _WriteDone = 1;
 }
-
 
 /*
  * FLASH_ACCESS_StartWrite: take and lock a lock id, probe the device with a
@@ -179,7 +172,6 @@ u16 FLASH_ACCESS_StartWrite(u32 flash_addr, u32 ram_src, u32 size, void *on_erro
     CARDi_RequestStreamCommand(ram_src, flash_addr, size, FLASH_ACCESS_OnWriteDone, 0, 1, 7, 10, 2);
     return (u16)lock_id;
 }
-
 
 /*
  * FLASH_ACCESS_PollWrite: when the write finished, unlock and release the id
@@ -219,7 +211,6 @@ int FLASH_ACCESS_PollWrite(u16 lock_id, u32 *success, u32 on_error)
     return 0;
 }
 
-
 /*
  * FLASH_ACCESS_CancelWrite: if the card layer is not idle, cancel the
  * outstanding request and wait for it; then, if an access is still marked
@@ -239,7 +230,6 @@ void FLASH_ACCESS_CancelWrite(u16 lock_id)
     _AccessBusy = 0;
 }
 
-
 /*
  * FLASH_ACCESS_EndAccess: error exit: unlock, release the lock id, clear
  * _AccessBusy and report to on_error (when set) whether the device gave no
@@ -254,7 +244,6 @@ void FLASH_ACCESS_EndAccess(u16 lock_id, u32 no_response, FlashErrorFunc on_erro
         on_error(no_response);
     }
 }
-
 
 /*
  * FLASH_ACCESS_GetBusyFlag: accessor for _AccessBusy, returned through a

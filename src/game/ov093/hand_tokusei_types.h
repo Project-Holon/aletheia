@@ -26,23 +26,7 @@
  * queue commands on the battle flow.
  */
 
-#ifndef OV093_BASIC_TYPES
-
-#define OV093_BASIC_TYPES
-
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef signed char s8;
-
-typedef signed short s16;
-
-typedef signed int s32;
-
-#endif
+#include "../types.h"
 
 /* Event variable keys read and rewritten by the handlers. */
 
@@ -131,15 +115,9 @@ typedef struct {
  * each kind has its own struct; all of them start with the 32-bit header.
  */
 
-
 struct BtlServerFlow;
 
 /* Record kinds. The two window kinds carry no record: they open and close the ability window. */
-
-
-
-
-
 
 #define HANDEX_KIND_CHANGE_FORM 0x14
 
@@ -158,10 +136,6 @@ struct BtlServerFlow;
 
 /* Status ids as the handlers use them. */
 
-
-
-
-
 /* Value ids for the Pokemon value getter. */
 #define BPP_VALUE_DEFENSE 9
 
@@ -179,7 +153,6 @@ struct BtlServerFlow;
 #define BTL_SLOT_NONE 6
 
 /* Rank (stat stage) kinds used by Download. */
-
 
 #define HANDEX_MESSAGE_SET 2 /* message kind: show a message by id */
 
@@ -348,7 +321,6 @@ enum {
 
 #define SPECIES_CASTFORM 0x15F
 
-
 #define BTL_STAT_SP_ATTACK 3
 
 /* Command kinds that the handlers pass to BTL_SERVER_FLOW_AllocCmdRecord and BTL_SERVER_FLOW_PushCmdRecord. */
@@ -386,7 +358,6 @@ extern int HAND_COMMON_IsMoveTarget(int pokeId);
 
 /* Deprecated names of event variable keys, kept for files not yet cleaned. */
 
-
 /* Services of the battle server flow and the event factor list used by several of these files. */
 
 /*
@@ -399,7 +370,6 @@ extern int HAND_COMMON_IsMoveTarget(int pokeId);
  * work words of the factor. A getter stores the handler count and returns the
  * handler table (event id plus function pairs) of one ability.
  */
-
 
 struct BtlPokeParam;
 
@@ -430,8 +400,6 @@ enum {
 /* Status condition slots of a Pokemon. */
 
 #define BTL_SICK_DISABLE 0xD
-
-
 
 #define BTL_MOVE_SECRET_POWER 290
 
@@ -549,7 +517,6 @@ typedef struct {
 
 /* Value ids for the battle Pokemon value getter. */
 
-
 #define BTL_BPP_VALUE_ABILITY 0x10
 
 /* Types that these handlers test (the battle type list, 0 = normal). */
@@ -627,7 +594,6 @@ extern void HAND_COMMON_EventCounterMove(struct BtlEventFactor *factor, struct B
  * (HANDEX_KIND_*). It fills the record and hands it back to the flow.
  */
 
-
 /* Effect record kinds that the handlers of this file request. */
 enum {
     HANDEX_KIND_ABILITY_WINDOW_IN = 2,
@@ -643,7 +609,6 @@ enum {
 
 /* Ratios are fixed point with 4096 = 1.0. */
 
-
 #define BTL_RATIO_ACCURACY_BOOST 4506
 
 /* Status condition kinds used by the curing berries. */
@@ -655,10 +620,8 @@ enum {
     BTL_SICK_ANY_MAJOR = 0x24
 };
 
-
 /* String record kinds. */
 #define HANDEX_STR_STANDARD 1
-
 
 /* Held-item factor work: slot 6 is set when the item was used from outside. */
 
@@ -736,7 +699,6 @@ extern void BTL_EVENT_KeepFactorRunning(struct BtlEventFactor *factor);
 extern u32 BTL_EVENT_GetFactorWork(struct BtlEventFactor *factor, int index);
 
 extern void BTL_EVENT_SetFactorWork(struct BtlEventFactor *factor, int index, u32 value);
-
 
 extern struct BtlEventFactor *BTL_EVENT_FindFactor(int factorType, int ownerId);
 

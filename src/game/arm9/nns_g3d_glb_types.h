@@ -12,26 +12,11 @@
 #ifndef NNS_G3D_GLB_TYPES_H
 #define NNS_G3D_GLB_TYPES_H
 
-typedef unsigned int u32;
-typedef int          s32;
-typedef s32          fx32;
+#include "../types.h"
 
-typedef struct { fx32 x, y, z; } VecFx32;
+#include "../sdk_fx.h"
 
 /* Matrices are addressable by row and column (m) or by cell name (_rc). */
-typedef union MtxFx33 {
-    struct { fx32 _00, _01, _02, _10, _11, _12, _20, _21, _22; };
-    fx32 m[3][3];
-} MtxFx33;
-typedef union MtxFx43 {
-    struct { fx32 _00, _01, _02, _10, _11, _12, _20, _21, _22, _30, _31, _32; };
-    fx32 m[4][3];
-} MtxFx43;
-typedef union MtxFx44 {
-    struct { fx32 _00, _01, _02, _03, _10, _11, _12, _13, _20, _21, _22, _23, _30, _31, _32, _33; };
-    fx32 m[4][4];
-} MtxFx44;
-
 /* NNS_G3dGlb.flag bits cleared by the base-transform setters: the cached
  * inverse matrices that depend on the base matrix. */
 #define NNS_G3D_GLB_FLAG_BASE_DEPENDENT 0xa4u
@@ -69,7 +54,14 @@ typedef struct {
     u32     pad190[12];       /* 0x190 */
     MtxFx44 invProjMtx;       /* 0x1C0 */
     MtxFx44 invVpMtx;         /* 0x200 inverse projection * inverse camera */
-    MtxFx33 viewFlipMtx;      /* 0x240 constant diag(0, 1.0, -1.0) set at init */
+    union {
+        MtxFx33 viewFlipMtx;  /* 0x240 constant diag(0, 1.0, -1.0) set at init */
+        struct {
+            VecFx32 camPos;   /* 0x240, written by the look-at setter */
+            VecFx32 camUp;    /* 0x24C */
+            VecFx32 camTarget; /* 0x258 */
+        };
+    };
 } NNSG3dGlb;
 
 extern NNSG3dGlb NNS_G3dGlb;

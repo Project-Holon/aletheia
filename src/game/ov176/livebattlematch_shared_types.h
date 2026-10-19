@@ -104,7 +104,6 @@ typedef struct {
     unsigned short heap;    /* 34 heap id */
 } Request;
 
-
 struct GfFont;
 
 struct MsgBank;
@@ -113,15 +112,7 @@ struct Rec;
 
 struct Big;
 
-typedef unsigned int   u32;
-
-typedef unsigned char  u8;
-
-typedef signed char    s8;
-
-typedef unsigned short u16;
-
-typedef signed int     s32;
+#include "../types.h"
 
 /* Partial view of the arm9 regulation card (0x160 bytes); only the BGM byte
  * at 0x15B is read here. The arm9 owner is src/game/arm9/regulation.c. */

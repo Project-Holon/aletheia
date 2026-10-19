@@ -37,9 +37,7 @@
  *   MSL_C_LIB_MemsetPtr                  0x020923B0  arm
  *   gsiDeleteCriticalSection  0x0217F120  arm
  */
-typedef unsigned char u8;
-
-typedef unsigned long u32;
+#include "../types.h"
 
 typedef struct {
     unsigned int mRefCount;
@@ -102,17 +100,10 @@ void gsiCoreCancelTask(GSTask *theTask);
 GSTask *gsiCoreCreateTask(void);
 extern char gGSCoreManager[];
 
-
 void *gsiCoreGetManager(void)
 {
     return gGSCoreManager;
 }
-
-
-
-
-
-
 
 /*
  * Calls gsiDeleteCriticalSection on the block sixteen bytes into the result.
@@ -121,13 +112,6 @@ void gsiCoreAtExitShutdown(void)
 {
     gsiDeleteCriticalSection((char *)gsiCoreGetManager() + 0x10);
 }
-
-
-
-
-
-
-
 
 void gsCoreInitialize(void)
 {
@@ -158,13 +142,6 @@ void gsCoreInitialize(void)
     }
 }
 
-
-
-
-
-
-
-
 /*
  * sdk:      gsiCoreTaskDispatchCallback (gscore.o)
  */
@@ -178,11 +155,6 @@ void gsiCoreTaskDispatchCallback(GSTask *theTask, int theResult)
             cb(theTask->mTaskData, theResult);
     }
 }
-
-
-
-
-
 
 /*
  * sdk:      gsCoreTaskThink (libdwcgscommon.TWL.HYB.a(gscore.o))
@@ -231,12 +203,6 @@ int gsCoreTaskThink(GSTask *theTask)
     return 1;
 }
 
-
-
-
-
-
-
 /*
  * sdk:      gsCoreThink (gscore.o)
  * evidence: +0x98 calls 0x021C204C, where symbols_sdk.json has two rows
@@ -280,13 +246,6 @@ void gsCoreThink(unsigned int theMS)
     gsiLeaveCriticalSection(aCore->mQueueCrit);
 }
 
-
-
-
-
-
-
-
 /*
  * sdk:      gsCoreShutdown (gscore.o)
  */
@@ -310,13 +269,6 @@ void gsCoreShutdown(void)
     gsiLeaveCriticalSection(aCore->mQueueCrit);
 }
 
-
-
-
-
-
-
-
 /*
  * sdk:      gsCoreIsShutdown (gscore.o)
  */
@@ -329,11 +281,6 @@ int gsCoreIsShutdown(void)
         return 2;
     return 0;
 }
-
-
-
-
-
 
 /*
  * sdk:      gsiCoreExecuteTask (gscore.o)
@@ -353,9 +300,6 @@ void gsiCoreExecuteTask(GSTask *theTask, unsigned int theTimeoutMs)
     gsiLeaveCriticalSection(aCore->mQueueCrit);
 }
 
-
-
-
 /*
  * sdk:      gsiCoreCancelTask (gscore.o)
  */
@@ -370,8 +314,6 @@ void gsiCoreCancelTask(GSTask *theTask)
     }
     gsiLeaveCriticalSection(aCore->mQueueCrit);
 }
-
-
 
 /*
  * sdk:      gsiCoreCreateTask (gscore.o)

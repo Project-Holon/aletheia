@@ -19,8 +19,7 @@
  *   MSL_C_LIB_EmptyStub  0x020911D4  arm
  */
 
-typedef unsigned long u32;
-typedef int BOOL;
+#include "../types.h"
 
 extern void CTRDGi_InitCommon(void);
 extern void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int, u32, BOOL));

@@ -20,9 +20,7 @@
  *   MIi_DmaFill32  0x020821C0  arm  arm9
  *   DC_StoreRange  0x020862D4  arm  arm9
  */
-typedef unsigned int u32;
-typedef unsigned char u8;
-typedef unsigned short u16;
+#include "../types.h"
 
 typedef struct TwlMsg {
     u16 w0;

@@ -134,7 +134,7 @@ struct WordSet;
 struct Strbuf;
 struct MsgData;
 
-typedef signed char s8;
+#include "../types.h"
 
 /* Callback of the owner: a member joined or left. */
 typedef void (*CommEntryMemberFunc)(void *work, const void *myStatus, const u8 *mac);
@@ -624,7 +624,6 @@ extern const u16 gCommEntryMsgTable[2][6];
 extern const u8 gCommEntryEmptyMac[6];
 extern const FieldMenuHeader gCommEntryParentListHeader;
 
-
 CommEntryMenu *COMM_ENTRY_MENU_Create(struct MyStatus *myStatus, struct FieldMap *fieldMap, u32 minMembers, u32 maxMembers, u32 heapId, u32 menuMode, u32 isChild, const u8 *mac)
 {
     FieldMsgBg *msgBg;
@@ -667,7 +666,6 @@ CommEntryMenu *COMM_ENTRY_MENU_Create(struct MyStatus *myStatus, struct FieldMap
     return menu;
 }
 
-
 u32 COMM_ENTRY_MENU_Delete(CommEntryMenu *menu)
 {
     u32 acceptedMask;
@@ -693,14 +691,12 @@ u32 COMM_ENTRY_MENU_Delete(CommEntryMenu *menu)
     return acceptedMask;
 }
 
-
 void COMM_ENTRY_MENU_SetCallbacks(CommEntryMenu *menu, void *work, CommEntryMemberFunc onAdd, CommEntryMemberFunc onRemove)
 {
     menu->callbackWork = work;
     menu->onAdd = onAdd;
     menu->onRemove = onRemove;
 }
-
 
 void COMM_ENTRY_MENU_AddMember(CommEntryMenu *menu, int netId, const void *myStatus, u32 autoAccept, const u8 *mac)
 {
@@ -717,7 +713,6 @@ void COMM_ENTRY_MENU_AddMember(CommEntryMenu *menu, int netId, const void *mySta
         menu->onAdd(menu->callbackWork, myStatus, mac);
     }
 }
-
 
 u32 COMM_ENTRY_MENU_Main(CommEntryMenu *menu)
 {
@@ -742,7 +737,6 @@ u32 COMM_ENTRY_MENU_Main(CommEntryMenu *menu)
     }
     return 0;
 }
-
 
 /*
  * Per-frame state machine of the recruit flow (RECRUIT_* states). Scheduling
@@ -956,7 +950,6 @@ int COMM_ENTRY_MENU_MainRecruit(CommEntryMenu *menu)
     return 0;
 }
 
-
 int COMM_ENTRY_MENU_MainMode1(CommEntryMenu *menu)
 {
     switch (menu->state) {
@@ -1099,7 +1092,6 @@ int COMM_ENTRY_MENU_MainMode1(CommEntryMenu *menu)
     return 0;
 }
 
-
 int COMM_ENTRY_MENU_MainMode2(CommEntryMenu *menu)
 {
     switch (menu->state) {
@@ -1193,7 +1185,6 @@ int COMM_ENTRY_MENU_MainMode2(CommEntryMenu *menu)
     }
     return 0;
 }
-
 
 /*
  * In WAIT_REPLY the refused arm calls COMM_ENTRY_ResetLeaveConfirm twice: the original's
@@ -1316,7 +1307,6 @@ int COMM_ENTRY_MENU_MainMode3(CommEntryMenu *menu)
     return 0;
 }
 
-
 void COMM_ENTRY_MENU_ProcessMemberQueues(CommEntryMenu *menu)
 {
     u8 netId;
@@ -1344,7 +1334,6 @@ void COMM_ENTRY_MENU_ProcessMemberQueues(CommEntryMenu *menu)
     }
 }
 
-
 /* Copies the accepted members' names into the roster; returns 1 | mask. */
 u8 COMM_ENTRY_MENU_CollectMemberNames(CommEntryMenu *menu)
 {
@@ -1367,7 +1356,6 @@ u8 COMM_ENTRY_MENU_CollectMemberNames(CommEntryMenu *menu)
     return 1 | mask;
 }
 
-
 void COMM_ENTRY_MENU_CheckDisconnects(CommEntryMenu *menu)
 {
     u8 netId;
@@ -1385,7 +1373,6 @@ void COMM_ENTRY_MENU_CheckDisconnects(CommEntryMenu *menu)
         }
     }
 }
-
 
 void COMM_ENTRY_MENU_UpdateMemberList(CommEntryMenu *menu)
 {
@@ -1426,7 +1413,6 @@ void COMM_ENTRY_MENU_UpdateMemberList(CommEntryMenu *menu)
     }
 }
 
-
 void COMM_ENTRY_MENU_AdvanceMemberStates(CommEntryMenu *menu)
 {
     CommEntryMember *member;
@@ -1452,12 +1438,10 @@ void COMM_ENTRY_MENU_AdvanceMemberStates(CommEntryMenu *menu)
     }
 }
 
-
 void COMM_ENTRY_MENU_ClearMember(CommEntryMenu *menu, int index)
 {
     menu->members[index].state = COMM_ENTRY_MEMBER_EMPTY;
 }
-
 
 /* Latches a join request when none is pending; returns whether it did. */
 int COMM_ENTRY_MENU_LatchRequest(CommEntryMenu *menu, CommEntryMember *member)
@@ -1469,7 +1453,6 @@ int COMM_ENTRY_MENU_LatchRequest(CommEntryMenu *menu, CommEntryMember *member)
     }
     return 0;
 }
-
 
 /*
  * The request base kept in r6 comes from `request` being assigned first.
@@ -1539,7 +1522,6 @@ void COMM_ENTRY_MENU_ProcessRequest(CommEntryMenu *menu)
     }
 }
 
-
 /* Asks whether to start with the members present; returns 1 for yes, 2 for no, else 0. */
 int COMM_ENTRY_MENU_ProcessCancel(CommEntryMenu *menu)
 {
@@ -1578,7 +1560,6 @@ int COMM_ENTRY_MENU_ProcessCancel(CommEntryMenu *menu)
     }
     return 0;
 }
-
 
 /*
  * Asks whether to quit; returns 1 to quit, 2 to stay, else 0. The two
@@ -1662,24 +1643,20 @@ u32 COMM_ENTRY_MENU_ProcessStartConfirm(CommEntryMenu *menu)
     return 0;
 }
 
-
 void COMM_ENTRY_MENU_MarkMemberReady(CommEntryMenu *menu, int netId)
 {
     menu->readyBits |= 1 << netId;
 }
-
 
 void COMM_ENTRY_MENU_SetAcceptFlag(CommEntryMenu *menu)
 {
     menu->acceptFlag = 1;
 }
 
-
 void COMM_ENTRY_MENU_SetCancelFlag(CommEntryMenu *menu)
 {
     menu->cancelFlag = 1;
 }
-
 
 /* Marks the session as locked and the lock as not yet broadcast. */
 void COMM_ENTRY_MENU_SetBusyFlags(CommEntryMenu *menu)
@@ -1688,7 +1665,6 @@ void COMM_ENTRY_MENU_SetBusyFlags(CommEntryMenu *menu)
     menu->lockNotifyPending = 1;
     GFL_NET_SetLoginOption(1);
 }
-
 
 int COMM_ENTRY_MENU_CountAcceptedMembers(CommEntryMenu *menu)
 {
@@ -1700,7 +1676,6 @@ int COMM_ENTRY_MENU_CountAcceptedMembers(CommEntryMenu *menu)
     }
     return count;
 }
-
 
 u32 COMM_ENTRY_MENU_GetAcceptedMask(CommEntryMenu *menu)
 {
@@ -1714,7 +1689,6 @@ u32 COMM_ENTRY_MENU_GetAcceptedMask(CommEntryMenu *menu)
     return mask;
 }
 
-
 /* Emitted from the ov021 instruction shape. */
 int COMM_ENTRY_MENU_IsIdle(CommEntryMenu *menu)
 {
@@ -1725,7 +1699,6 @@ int COMM_ENTRY_MENU_IsIdle(CommEntryMenu *menu)
     }
     return 0;
 }
-
 
 void COMM_ENTRY_MENU_OpenWindows(CommEntryMenu *menu)
 {
@@ -1742,7 +1715,6 @@ void COMM_ENTRY_MENU_OpenWindows(CommEntryMenu *menu)
     FIELD_MSGBG_MsgWinPrintMsg(menu->titleWin, 0, 0, COMM_ENTRY_MSG(menu->isChild, COMM_ENTRY_MSGCOL_TITLE));
 }
 
-
 void COMM_ENTRY_MENU_CloseWindows(CommEntryMenu *menu)
 {
     FieldMsgBg *msgBg = FIELDMAP_GetMsgBg(menu->fieldMap);
@@ -1757,7 +1729,6 @@ void COMM_ENTRY_MENU_CloseWindows(CommEntryMenu *menu)
     FIELD_MSGBG_ClearPrintQue(msgBg);
 }
 
-
 int COMM_ENTRY_MENU_PrintRemaining(CommEntryMenu *menu, int count)
 {
     if (menu->memberWin && FIELD_MSGBG_IsMsgWinTransDone(menu->memberWin) == 1) {
@@ -1770,7 +1741,6 @@ int COMM_ENTRY_MENU_PrintRemaining(CommEntryMenu *menu, int count)
     return 0;
 }
 
-
 void COMM_ENTRY_MENU_UpdateMemberName(CommEntryMenu *menu, CommEntryMember *member, int index)
 {
     MacAddress *macs;
@@ -1781,7 +1751,6 @@ void COMM_ENTRY_MENU_UpdateMemberName(CommEntryMenu *menu, CommEntryMember *memb
     }
 }
 
-
 void COMM_ENTRY_MENU_ClearMemberName(CommEntryMenu *menu, CommEntryMember *member, int index)
 {
     if (GF_STANDARD_CompareBytes((u8 *)menu->memberMacs + index * 6, (u8 *)gCommEntryEmptyMac, 6)) {
@@ -1789,7 +1758,6 @@ void COMM_ENTRY_MENU_ClearMemberName(CommEntryMenu *menu, CommEntryMember *membe
         MI_CpuCopy8(gCommEntryEmptyMac, menu->memberMacs[index].b, 6);
     }
 }
-
 
 /* Prints the name and trainer id of a member on row `row` of the member window. */
 void COMM_ENTRY_MENU_PrintMemberName(CommEntryMenu *menu, const void *myStatus, u32 row)
@@ -1804,14 +1772,12 @@ void COMM_ENTRY_MENU_PrintMemberName(CommEntryMenu *menu, const void *myStatus, 
     }
 }
 
-
 void COMM_ENTRY_MENU_EraseMemberName(CommEntryMenu *menu, u32 row)
 {
     if (menu->memberWin != 0) {
         FIELD_MSGBG_FillMsgWin(menu->memberWin, 0, row << 4, 0x90, 0x10);
     }
 }
-
 
 void COMM_ENTRY_MENU_RefreshNames(CommEntryMenu *menu)
 {
@@ -1826,7 +1792,6 @@ void COMM_ENTRY_MENU_RefreshNames(CommEntryMenu *menu)
     }
 }
 
-
 void COMM_ENTRY_MENU_PrintMessage(CommEntryMenu *menu, u32 msgId)
 {
     struct Strbuf *format;
@@ -1840,7 +1805,6 @@ void COMM_ENTRY_MENU_PrintMessage(CommEntryMenu *menu, u32 msgId)
     FIELD_MSGBG_SysWinPrintStr(menu->sysWin, 0, 0, menu->msgStr);
 }
 
-
 void COMM_ENTRY_MENU_SnapshotStates(CommEntryMenu *menu)
 {
     u8 netId;
@@ -1848,7 +1812,6 @@ void COMM_ENTRY_MENU_SnapshotStates(CommEntryMenu *menu)
         menu->stateSnapshot[netId] = menu->members[netId].state;
     }
 }
-
 
 int COMM_ENTRY_MENU_StatesUnchanged(CommEntryMenu *menu)
 {
@@ -1861,13 +1824,11 @@ int COMM_ENTRY_MENU_StatesUnchanged(CommEntryMenu *menu)
     return 1;
 }
 
-
 void COMM_ENTRY_MENU_ClearPendingBits(CommEntryMenu *menu, int index)
 {
     menu->pendingAddBits &= 0xff ^ (1 << index);
     menu->pendingRemoveBits &= 0xff ^ (1 << index);
 }
-
 
 void COMM_ENTRY_MENU_QueueSend(CommEntryMenu *menu)
 {
@@ -1879,7 +1840,6 @@ void COMM_ENTRY_MENU_QueueSend(CommEntryMenu *menu)
     }
 }
 
-
 CommEntryMenu *COMM_ENTRY_MENU_AckSend(CommEntryMenu *menu)
 {
     menu->sendBusy = 0;
@@ -1888,19 +1848,16 @@ CommEntryMenu *COMM_ENTRY_MENU_AckSend(CommEntryMenu *menu)
     return menu;
 }
 
-
 CommEntryRoster *COMM_ENTRY_MENU_GetNameBuffer(CommEntryMenu *menu)
 {
     return &menu->roster;
 }
-
 
 void COMM_ENTRY_MENU_SetNameBuffer(CommEntryMenu *menu, const CommEntryRoster *roster)
 {
     MI_CpuCopy8(roster, &menu->roster, sizeof(CommEntryRoster));
     menu->namesDirty = 1;
 }
-
 
 void COMM_ENTRY_MENU_StartYesNo(CommEntryMenu *menu)
 {
@@ -1912,7 +1869,6 @@ void COMM_ENTRY_MENU_StartYesNo(CommEntryMenu *menu)
     menu->parentList.state = 0;
 }
 
-
 void COMM_ENTRY_MENU_EndYesNo(CommEntryMenu *menu)
 {
     if (menu->parentList.menu != 0) {
@@ -1921,7 +1877,6 @@ void COMM_ENTRY_MENU_EndYesNo(CommEntryMenu *menu)
         menu->parentList.itemsBuilt = 0;
     }
 }
-
 
 u32 COMM_ENTRY_MENU_MainYesNo(CommEntryMenu *menu)
 {

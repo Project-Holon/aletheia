@@ -161,27 +161,11 @@ struct Sub02009470Obj;
 struct MsgData;
 struct IcaAnime;
 struct Param;
-typedef unsigned char u8;
-
-
-typedef unsigned int   u32;
-
-typedef unsigned short u16;
-
-
-typedef short s16;
-
-typedef signed char s8;
-
+#include "../types.h"
 
 typedef struct { u8 a : 1, b : 1, c : 6; } Bits;
 
 struct Record { unsigned short id:11; unsigned short rest:5; };
-
-
-
-
-
 
 extern int GF_OVERLAY_Load(int handle);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
@@ -455,7 +439,6 @@ u16 WIFI_BSUBWAY_GetRoomNumber(u8 *trainers) { return ((struct WifiBsubwayTraine
 
 u16 WIFI_BSUBWAY_GetPlayerIndex(u8 *trainers) { return ((struct WifiBsubwayTrainers *)trainers)->playerIndex; }
 
-
 u16 WIFI_BSUBWAY_GetDownloadResult(u8 *trainers) { return ((struct WifiBsubwayTrainers *)trainers)->downloadResult; }
 
 int WIFI_BSUBWAY_GetTransferState(unsigned char *trainers)
@@ -699,7 +682,6 @@ int WIFI_BSUBWAY_IsUploadDone(void *unused, u8 *async)
 
 void WIFI_BSUBWAY_AsyncInit(void *async) { MI_CpuFill8(async, 0, 0x14); }
 
-
 void WIFI_BSUBWAY_AsyncReset(u8 *async) { ((struct WifiBsubwayAsync *)async)->timedOut = 0; ((struct WifiBsubwayAsync *)async)->ticks = 0; }
 
 /*
@@ -787,12 +769,9 @@ int WIFI_BSUBWAY_CheckFatalError(int *async) {
     return 0;
 }
 
-
 void WIFI_BSUBWAY_SetDownloadResult(u8 *async, u32 state) { ((struct WifiBsubwayAsync *)async)->state = state; }
 
-
 void WIFI_BSUBWAY_SetHttpError(u8 *async, u32 httpCode) { ((struct WifiBsubwayAsync *)async)->state = 3; ((struct WifiBsubwayAsync *)async)->httpCode = httpCode; }
-
 
 void WIFI_BSUBWAY_ResetUpload(u8 *async) { ((struct WifiBsubwayAsync *)async)->timedOut = 0; ((struct WifiBsubwayAsync *)async)->ticks = 0; }
 

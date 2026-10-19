@@ -17,7 +17,7 @@
  *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  */
 #include "wifilist_tail_shared_types.h"
-#include "musical_save_shared_types.h"
+#include "../types.h"
 
 /*
  * Save block 0x2A, the musical save (0x2A4 bytes): a 100-entry prop

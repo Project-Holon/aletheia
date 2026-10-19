@@ -222,13 +222,8 @@
  *   UNION_CHARA_IsUnionObjId 0x0217AF38 thumb ov019
  *   UNION_CHARA_CheckTalkable 0x0217AF4C thumb ov019
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef short s16;
-typedef signed int s32;
-typedef struct { s32 x, y, z; } VecFx32;
-typedef enum { FALSE, TRUE } BOOL;
+#include "../types.h"
+#include "../sdk_fx.h"
 
 #include "../ov012/union_comm_types.h"
 #include "union_chara_types.h"
@@ -830,7 +825,6 @@ extern int UNION_COMMAND_SendMyStatus(struct UnionRoomWork *work);
 
 extern u8 MATH_CountPopulation(u32 x);
 
-
 struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 struct Party;
 
@@ -977,7 +971,6 @@ void UNION_COMM_ClearBeaconPcs(struct UnionRoomWork *work);
 
 void COLOSSEUM_Delete(struct ColosseumWork *work, void *gameSystem);
 
-
 u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 
 u8 MYSTATUS_GetRomCode(struct MyStatus *mystatus);
@@ -1114,7 +1107,6 @@ int COLOSSEUM_IsAnyFinished(ColosseumWork *colosseum);
 int COLOSSEUM_IsOnCounterPos(void *a);
 
 extern int d_021807E8[];
-
 
 int UNION_ONESELF_ChatInputMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
 

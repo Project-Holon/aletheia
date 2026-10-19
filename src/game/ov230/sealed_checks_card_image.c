@@ -28,10 +28,7 @@
  *   OS_ReleaseLockID  0x02084F10  arm
  *   CARDi_ReadRom  0x020771B4  arm
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef int s32;
+#include "../types.h"
 
 extern s32 OS_GetLockID(void);
 extern void CARD_LockRom(u16 lockId);

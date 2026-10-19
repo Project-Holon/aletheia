@@ -59,13 +59,7 @@ struct GameData;
 struct FieldMap;
 struct FieldSubscreen;
 
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef signed short s16;
+#include "../types.h"
 
 /* One actor of a connected player (0xC bytes). */
 typedef struct FieldCommActor {

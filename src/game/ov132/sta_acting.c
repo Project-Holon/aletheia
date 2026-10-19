@@ -296,11 +296,7 @@ struct Rec3;
 
 struct CharBuf;
 
-
-
-
-
-typedef int BOOL;
+#include "../types.h"
 
 typedef struct { unsigned int w[3]; } Vec3;
 
@@ -308,13 +304,11 @@ typedef struct { Vec3 a,b,c; } Vectors;
 
 typedef struct { unsigned int w[7]; } Blob28;
 
-typedef enum { MAIN_SUB=0,SUB_MAIN=1 } GXDispSelect;
-
+#include "../sdk_gx.h"
 
 struct Slots { u8 pad[0x44]; void *slots[4]; };
 
 typedef struct Object Object;
-
 
 struct Bytes { u8 a, b, c, d; };
 
@@ -1075,7 +1069,7 @@ void STA_ACTING_InitDisplay(u8 *p)
     GX_SetVisiblePlane(0); GXS_SetVisiblePlane(0);
     WIPE_SetBrightnessFadeOut(0,0); WIPE_SetBrightnessFadeOut(1,0);
     WIPE_ResetWndMask(0); WIPE_ResetWndMask((void *)1);
-    GX_SetDispSelect(SUB_MAIN);
+    GX_SetDispSelect(GX_DISP_SELECT_MAIN_SUB);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021FDBA0);
     BG_SYS_Create(*(u16 *)p); BMP_WIN_Init(*(u16 *)p);
     BG_SYS_SetGraphicsMode((struct DispConfig *)d_021FDAA0);

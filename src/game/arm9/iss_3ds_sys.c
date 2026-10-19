@@ -332,9 +332,7 @@ void ISS_3DS_SYS_LeaveImpl(Iss3dsSys *sys)
  * sources/slots, volumeLevel/slotLevelA, panLevel/slotLevelB,
  * records/table, recordCount/tableCount, activeRecord/tableIndex).
  */
-typedef signed int s32;
-
-typedef signed long long s64;
+#include "../types.h"
 
 struct Vec {
     s32 x, y, z;

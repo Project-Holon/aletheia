@@ -39,12 +39,9 @@
  *   GAME_LANGUAGE_Code     0x0209DF0C  data  a1
  *   gSpeciesNameBank     0x020A7370  data
  */
-#include "delivery_irc_shared_types.h"
 #include "mystery_gift_mon_shared_types.h"
 
-typedef int s32;
-
-typedef unsigned long long u64;
+#include "../types.h"
 
 struct PokemonParam;
 

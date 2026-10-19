@@ -85,13 +85,9 @@
  */
 #include "fldmmdl_rail_types.h"
 
-typedef unsigned char u8;
-typedef unsigned int u32;
-typedef signed char s8;
-typedef signed int s32;
-typedef signed long long s64;
+#include "../types.h"
 
-typedef struct { s32 x, y, z; } VecFx32;
+#include "../sdk_fx.h"
 
 /* Opaque types owned by other files. */
 typedef struct Mmdl Mmdl;             /* a field model (fldmmdl.c) */

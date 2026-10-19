@@ -10,13 +10,7 @@
  *  - the musical show sequence (musical_event.c: MusicalEventWork),
  *  - the musical dress-up, stage and show-program objects.
  */
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef signed int s32;
+#include "../types.h"
 
 struct GameEvent;
 

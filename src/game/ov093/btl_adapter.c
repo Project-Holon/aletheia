@@ -27,7 +27,7 @@
  *   BTL_NET_GetServerCmd  0x021D4C6C  thumb  ov093
  *   BTL_NET_SendClientReply  0x021D4C84  thumb  ov093
  */
-#include "btl_adapter_shared_types.h"
+#include "../types.h"
 
 /* Wire packet of the adapter: command, size of data, then the data. */
 struct BtlAdapterPacket {

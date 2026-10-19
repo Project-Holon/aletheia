@@ -37,9 +37,7 @@
  *   ov171_id       0x000000AB  data  a1
  *   gSubProcTable    0x021DEA44  data  ov021  a1
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../types.h"
 
 #include "../ov010/namein_args.h"
 #include "poke_tool_param.h"

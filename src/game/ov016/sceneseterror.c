@@ -65,7 +65,6 @@
  *   DWCi_CMNlButton                  0x021BD264  arm
  *   DWCi_BTNlGet                     0x021BCB14  arm
  *   DWCi_BTNlEnable                  0x021BCB84  arm
- *   procScene                        0x021C8154  arm
  *   DWCi_BTNlDisable                 0x021BCB9C  arm
  *   DWCi_CMNlMsgDraw                 0x021BD29C  arm
  *   DWCi_EFFlWait                    0x021D5790  arm
@@ -84,7 +83,7 @@
  *   DWCi_SceneSetSelectAp            0x021cbc90 arm
  *   DWCi_SceneSetList                0x021c82fc arm
  */
-typedef unsigned short u16;
+#include "../types.h"
 
 typedef struct {
     u16 priority : 2;
@@ -152,14 +151,12 @@ static void endScene(void);
 static void endScene1(void);
 static void endScene2(void);
 
-
 void DWCi_SceneSetError(void)
 {
 	initGraphics();
 	drawMessage();
 	DWCi_ChangeScene(procInit);
 }
-
 
 static void initGraphics(void)
 {
@@ -171,12 +168,9 @@ static void initGraphics(void)
     ((BgCnt *)0x0400000C)->priority = 3;
 }
 
-
 static int ErrorCode = 0;
 
-
 static const unsigned char FONT_TBL[7] = { 0, 1, 1, 1, 1, 1, 0 };
-
 
 /*
  * The vendor .rodata has this rectangle between FONT_TBL and C_CODE. No code
@@ -185,18 +179,15 @@ static const unsigned char FONT_TBL[7] = { 0, 1, 1, 1, 1, 1, 0 };
  */
 static const struct tagRECT { unsigned short x, y, w, h; } R_MSG = { 0xd, 0x3c, 0xe6, 0x5e };
 
-
 static const struct tagCOORD C_CODE[7] = {
     { 0x62, 0x22 }, { 0x62, 0x22 }, { 0x3d, 0x22 }, { 0x65, 0x22 },
     { 0x6c, 0x22 }, { 0x34, 0x22 }, { 0x4e, 0x22 }
 };
 
-
 static inline void drawStr(void *canvas, int x, int y, int color, int interval, u16 *txt, int font)
 {
     DWCi_FNTlDrawStringEx(canvas, x, y, color, interval, txt, font);
 }
-
 
 static void drawMessage(void)
 {
@@ -295,7 +286,6 @@ static void drawMessage(void)
     DWCi_FNTlRenewBg((int)canv);
 }
 
-
 /*
  * sdk:      procInit (libdwcutil.TWL.HYB.a sceneseterror.o)
  */
@@ -305,7 +295,6 @@ static void procInit(void)
     DWCi_GXlVisible(0, 0x15);
     DWCi_ChangeScene(procInit1);
 }
-
 
 static void procInit1(void)
 {
@@ -318,17 +307,13 @@ static void procInit1(void)
 }
 
 
-static void procScene(void);
-
-
 static void procInit2(void)
 {
     if (DWCi_BTNlGet() == -2)
         return;
     DWCi_BTNlEnable();
-    DWCi_ChangeScene(procScene);
+    DWCi_ChangeScene(DWCi_SceneSetError_procScene);
 }
-
 
 void DWCi_SceneSetError_procScene(void)
 {
@@ -336,7 +321,6 @@ void DWCi_SceneSetError_procScene(void)
     DWCi_SceneSetError_draw();
     button();
 }
-
 
 static void input(void)
 {
@@ -348,7 +332,6 @@ void DWCi_SceneSetError_draw(void)
 {
 }
 
-
 static void button(void)
 {
     if (DWCi_BTNlGet() != 0)
@@ -357,14 +340,12 @@ static void button(void)
     DWCi_ChangeScene(endScene);
 }
 
-
 static void endScene(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
     DWCi_ChangeScene(endScene1);
 }
-
 
 static void endScene1(void)
 {
@@ -374,7 +355,6 @@ static void endScene1(void)
     DWCi_EFFlFade(3, 0, 0x15, 8);
     DWCi_ChangeScene(endScene2);
 }
-
 
 static void endScene2(void)
 {

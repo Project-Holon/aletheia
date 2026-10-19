@@ -33,9 +33,7 @@
  *   data_02732F6C                0x02732F6C  data
  */
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../types.h"
 
 #define PIN(g, i) (((volatile u16 (*)[8])data_02732F6C)[g][i])
 
@@ -93,30 +91,25 @@ u32 MIi_GetWramBank_A(u32 bank)
     return *(u8 *)(bank + 0x04004040);
 }
 
-
 u32 MIi_GetWramBank_B(u32 bank)
 {
     return *(u8 *)(bank + 0x04004044);
 }
-
 
 u32 MIi_GetWramBank_C(u32 bank)
 {
     return *(u8 *)(bank + 0x0400404C);
 }
 
-
 void MIi_SetWramBankMaster_A(u32 bank, u32 master)
 {
     *(u8 *)(bank + 0x04004040) = (*(u8 *)(bank + 0x04004040) & ~1) | master;
 }
 
-
 void MIi_SetWramBankMaster_B(u32 bank, u32 master)
 {
     *(u8 *)(bank + 0x04004044) = (*(u8 *)(bank + 0x04004044) & ~3) | master;
 }
-
 
 void MIi_SetWramBankMaster_C(u32 bank, u32 master)
 {
@@ -161,12 +154,10 @@ u32 MI_GetWramBankMaster_A(u32 bank)
     return *(u8 *)(bank + 0x04004040) & 1;
 }
 
-
 u32 MI_GetWramBankMaster_B(u32 bank)
 {
     return *(u8 *)(bank + 0x04004044) & 3;
 }
-
 
 u32 MI_GetWramBankMaster_C(u32 bank)
 {

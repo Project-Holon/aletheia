@@ -57,7 +57,6 @@
  *   DWCi_GXlVisible  0x021D603C  arm
  *   procInit1  0x021CD3B8  arm
  *   DWCi_EFFlCheck                   0x021D5580  arm
- *   procScene                        0x021CD3EC  arm
  *   DWCi_SETTINGlGetMemMap  0x021CFBD4  arm  ov016
  *   DWC_AC_Destroy  0x0205BE6C  arm
  *   DWCi_BACKUPlGetWifi  0x020589C4  arm
@@ -77,9 +76,10 @@
  *   DWCi_HEAPlAllocEx            0x021D6414  arm
  *   DWCi_HEAPlFree2              0x021D647C  arm
  */
-struct NCFGApInfo;
 struct tagDWCACConfig;
-typedef unsigned short u16;
+#include "../types.h"
+
+#include "../sdk_ncfg.h"
 
 typedef struct { unsigned char pad[0xF4]; unsigned char ap; } SettingInfo;
 
@@ -92,27 +92,6 @@ typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
 typedef struct tagAREA { unsigned short l, t, w, h; } AREA;
 
 #include "gx_oam_types.h"
-
-typedef struct NCFGApInfo {
-    unsigned char  ispId[32];         /* 0x00 */
-    unsigned char  ispPass[32];       /* 0x20 */
-    unsigned char  ssid[2][32];       /* 0x40 */
-    unsigned char  wep[4][16];        /* 0x80 */
-    unsigned char  ip[4];             /* 0xC0 */
-    unsigned char  gateway[4];        /* 0xC4 */
-    unsigned char  dns[2][4];         /* 0xC8 */
-    unsigned char  netmask;           /* 0xD0 */
-    unsigned char  wep2[4][5];        /* 0xD1 */
-    unsigned char  authType;          /* 0xE5 */
-    unsigned char  wepMode : 2;       /* 0xE6 */
-    unsigned char  wepNotation : 6;   /* 0xE6 */
-    unsigned char  setType;           /* 0xE7 */
-    unsigned char  ssidLength[2];     /* 0xE8 */
-    unsigned short mtu;               /* 0xEA */
-    unsigned char  rsv[2];            /* 0xEC */
-    unsigned char  flags;             /* 0xEE */
-    unsigned char  state;             /* 0xEF */
-} NCFGApInfo;
 
 typedef struct tagSETTINGINFO {
     NCFGApInfo     ap;                /* 0x00 */
@@ -187,7 +166,6 @@ extern int DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern void DWCi_GXlVisible(int a, int b);
 extern bool DWCi_EFFlCheck(int lcd);
 extern void DWCi_ChangeScene(void (*scene)(void));
-extern void procScene(void);
 extern char *DWCi_SETTINGlGetMemMap(void);
 extern int DWC_AC_Destroy(void);
 extern void *DWCi_BACKUPlGetWifi();
@@ -233,7 +211,6 @@ static void endScene1(void);
 static void endScene2(void);
 static void taskAc(void *task);
 
-
 void DWCi_SceneSetTest(void)
 {
     int scene;
@@ -253,7 +230,6 @@ void DWCi_SceneSetTest(void)
     DWCi_ChangeScene(procInit);
 }
 
-
 static void initGraphics(void)
 {
     u16 *p;
@@ -271,7 +247,6 @@ static void initGraphics(void)
     p[0] = (p[0] & ~3) | 3;
     p[1] = (p[1] & ~3) | 3;
 }
-
 
 /*
  * sdk:      initAc (libdwcutil.TWL.HYB.a scenesettest.o)
@@ -298,7 +273,6 @@ static void initAc(void)
     DWCi_TSKlForm(0, taskAc, 0, 0x78);
 }
 
-
 static void procInit(void)
 {
     int v;
@@ -313,16 +287,14 @@ static void procInit(void)
     DWCi_ChangeScene(procInit1);
 }
 
-
 void procInit1(void)
 {
     if (DWCi_EFFlCheck(1))
         return;
     if (DWCi_EFFlCheck(0))
         return;
-    DWCi_ChangeScene(procScene);
+    DWCi_ChangeScene(DWCi_SceneSetTest_procScene);
 }
-
 
 /*
  * Call DWCi_SceneSetTest_input, DWCi_SceneSetTest_draw, DWCi_SceneSetTest_button.
@@ -339,11 +311,9 @@ void DWCi_SceneSetTest_procScene(void)
     DWCi_SceneSetTest_button();
 }
 
-
 void DWCi_SceneSetTest_input(void)
 {
 }
-
 
 /*
  * Empty stub: the routine carries no behaviour (see the call sites for why it exists).
@@ -357,7 +327,6 @@ void DWCi_SceneSetTest_draw(void)
 {
 }
 
-
 /*
  * Empty stub: the routine carries no behaviour (see the call sites for why it exists).
  * Addresses are Black-image addresses.
@@ -370,13 +339,11 @@ void DWCi_SceneSetTest_button(void)
 {
 }
 
-
 static void endScene(void)
 {
 	DWCi_EFFlFade(3, 0, 0x15, 8);
 	DWCi_ChangeScene(endScene1);
 }
-
 
 /*
  * sdk:      endScene1 (libdwcutil.TWL.HYB.a scenesettest.o)
@@ -390,7 +357,6 @@ static void endScene1(void)
         return;
     DWCi_ChangeScene(endScene2);
 }
-
 
 /*
  * sdk:      endScene2 (libdwcutil.TWL.HYB.a scenesettest.o)
@@ -413,7 +379,6 @@ static void endScene2(void)
         DWCi_ChangeScene(DWCi_SceneSetTestCompletet);
     }
 }
-
 
 /*
  * sdk:      taskAc (libdwcutil.TWL.HYB.a scenesettest.o)
@@ -439,12 +404,10 @@ static void taskAc(void *task)
     DWCi_TSKlDelete(0, task);
 }
 
-
 void *acAlloc(void *unused, unsigned long size)
 {
     return DWCi_HEAPlAllocEx(size, 0x20);
 }
-
 
 void acFree(void *unused, void *ptr)
 {

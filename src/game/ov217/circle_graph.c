@@ -70,7 +70,7 @@
  */
 #include "circle_graph.h"
 
-typedef float f32;
+#include "../types.h"
 typedef double f64;
 
 /* Global state of the 3D engine; only the flag word is used here. */
@@ -79,8 +79,8 @@ struct G3dGlbState {
     u32 flag;
 };
 
-typedef enum { GX_POLYGONMODE_MODULATE = 0 } GXPolygonMode;
-typedef enum { GX_CULL_NONE = 3 } GXCull;
+#include "../sdk_gx.h"
+
 typedef enum { GX_BEGIN_TRIANGLES = 0 } GXBegin;
 
 /* First and last circle point of a slice, in the order the getter writes them. */

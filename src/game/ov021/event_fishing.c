@@ -75,10 +75,7 @@ struct Sub02008C20Obj;
 struct Self;
 struct S0201235C;
 
-
-typedef signed char    s8;
-
-
+#include "../types.h"
 
 typedef struct FieldMap FieldMap;
 

@@ -50,15 +50,13 @@
  *   DWC_RAPCOMMON_DestroyHeap 0x021570B8 thumb ov009
  */
 #include "dwc_rap_types.h"
-#include "net_devwifi_shared_types.h"
 
-typedef int s32;
+#include "../types.h"
 #include "../arm9/gfl_heap_wrap.h"
 
 extern u32 GFL_NET_GetWifiUserData(void);
 
 extern u32 GFL_NET_GetFriendList(void);
-
 
 extern int DWC_GetAIDBitmap(void);
 
@@ -67,7 +65,6 @@ extern int DWC_GetLinkLevel(void);
 #include "../arm9/dwc_error.h"
 
 #include "../arm9/net_state.h"
-
 
 void GFL_NET_DEVWIFI_InitDwc(int heapId);
 
@@ -123,27 +120,7 @@ void *GFL_NET_DEVWIFI_GetDeviceTable(void);
 
 #include "dwc_rap.h"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #include "dwc_rapcommon.h"
-
-
 
 extern int *_pSetupParam;
 

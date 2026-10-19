@@ -49,9 +49,8 @@
  *   g_0209FA3C  0x0209FA3C  data
  *   g_0209FA3D  0x0209FA3D  data
  */
-#include "actor_tool_shared_types.h"
 
-typedef signed short   s16;
+#include "../types.h"
 
 struct Actor;
 

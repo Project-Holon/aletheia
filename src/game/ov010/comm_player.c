@@ -61,27 +61,14 @@ struct SaveBlock;
 struct Sub02014444Obj;
 struct FieldMap;
 struct Tbl;
-struct PlayerPosition;
-typedef unsigned char u8;
+#include "../types.h"
 
-typedef unsigned int u32;
-
-typedef unsigned short u16;
+#include "../sdk_fx.h"
 
 typedef struct Entry32 {
     u32 id : 11;
     u32 rest : 21;
 } Entry32;
-
-typedef unsigned long long u64;
-
-typedef int fx32;
-
-typedef struct PlayerPosition {
-    fx32 x;
-    fx32 y;
-    fx32 z;
-} VecFx32;
 
 /*
  * One remote player as comm_player.c keeps it. The position is a two-word
@@ -181,8 +168,7 @@ extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *out);
 struct MmdlVec;
 extern void FLDMMDL_ACMD_GetDrawPos(struct Mmdl *mmdl, struct MmdlVec *out);
 extern u16 FIELD_PLAYER_GetDirDisp(struct FieldPlayer *player);
-struct PlayerPosition;
-extern struct PlayerPosition *GAME_DATA_GetPlayerPosition(struct PlayerWork *player);
+extern VecFx32 *GAME_DATA_GetPlayerPosition(struct PlayerWork *player);
 extern u16 GAME_DATA_GetPlayerDirectionType(void *pl);
 extern fx32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 extern int FIELD_COMM_ACTOR_CTRL_SearchGridPos(void *playerSys, int, int, int, int, int);
@@ -221,10 +207,6 @@ extern const u8 d_02171F3C[];
 extern const char d_02172A18[];
 extern const char d_02172A28[];
 
-
-
-
-
 /*
  * Record-field accessor (third of the four-leaf run 0x02167358..0x021673A8):
  * returns byte 3 of the 4-byte record for id, 0 when id > 0x1d.  The record
@@ -238,16 +220,7 @@ u8 QUESTIONNAIRE_GetAnswerBitOffset(u32 id)
     return d_02171F5F[id * 4];
 }
 
-
-
-
-
 u8 QUESTIONNAIRE_GetAnswerMax(u32 i) { if (i > 29) return 0; return d_02171F3C[i]; }
-
-
-
-
-
 
 /*
  * Reads the byte at +0x848 of the shared state under its lock
@@ -263,11 +236,6 @@ u8 SYMBOL_MAP_GetGroup(u8 *p)
     return v;
 }
 
-
-
-
-
-
 /*
  * Reads the byte at +0x849 of the shared state under its lock
  * (SYMBOL_SAVE_FinalizeChecksum / SYMBOL_SAVE_UpdateChecksum).
@@ -281,11 +249,6 @@ u8 SYMBOL_MAP_GetSymbolIndex(u8 *p)
     SYMBOL_SAVE_UpdateChecksum((struct SymbolSave *)p);
     return v;
 }
-
-
-
-
-
 
 /*
  * Copies `count` 4-byte entries starting at index `start` out of the
@@ -308,11 +271,6 @@ u8 SYMBOL_MAP_CopyEntryRange(Entry32 *list, Entry32 *out, u32 cap, u32 start, in
     return i;
 }
 
-
-
-
-
-
 /* The first ten entries of page 0. */
 u16 SYMBOL_MAP_GetEntryPage0First(Entry32 *list, Entry32 *out, u32 cap, u8 *count)
 {
@@ -320,22 +278,12 @@ u16 SYMBOL_MAP_GetEntryPage0First(Entry32 *list, Entry32 *out, u32 cap, u8 *coun
     return 0;
 }
 
-
-
-
-
-
 /* The second ten entries of page 0. */
 int SYMBOL_MAP_GetEntryPage0Second(Entry32 *list, Entry32 *out, u32 cap, u8 *count)
 {
     *count = SYMBOL_MAP_CopyEntryRange(list, out, cap, 10, 10);
     return 10;
 }
-
-
-
-
-
 
 /*
  * One of the three 10-entry pages from index 20.
@@ -349,11 +297,6 @@ u16 SYMBOL_MAP_GetEntryPage10(Entry32 *list, Entry32 *out, u32 cap, u32 page, u8
     return start;
 }
 
-
-
-
-
-
 /*
  * One of the 20-entry pages from index 50.
  */
@@ -365,11 +308,6 @@ u16 SYMBOL_MAP_GetEntryPage20(Entry32 *list, Entry32 *out, u32 cap, u32 page, u8
     *n = SYMBOL_MAP_CopyEntryRange(list, out, cap, start, 20);
     return start;
 }
-
-
-
-
-
 
 /*
  * Fetches list page `page` (0: the first twenty entries, 1..3: ten-entry
@@ -396,10 +334,6 @@ u16 SYMBOL_MAP_GetEntryPage(Entry32 *list, Entry32 *out, u32 cap, int page, u8 *
     }
     return start;
 }
-
-
-
-
 
 void *COMM_PLAYER_Create(int playerMax, void *gameSystem, u16 heapId, int sysOption) {
     CommPlayerWork *work;

@@ -48,11 +48,7 @@ struct RecGet;
 struct MsgBank;
 struct WordSet;
 struct BattleRecSave;
-typedef unsigned short u16;
-
-typedef unsigned char u8;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 typedef struct { u32 a,b; } Pair;
 
@@ -97,8 +93,6 @@ int BR_CODEIN_HitTestOptionLeft(struct CodeinSoclWork *menu, int x, int y);
 int BR_CODEIN_HitTestOptionRight(struct CodeinSoclWork *menu, int x, int y);
 extern const Table d_021E3910;
 
-
-
 void BR_CODEIN_ShowMenuText(struct CodeinSoclWork *menu)
 {
     int args[2];
@@ -110,20 +104,11 @@ void BR_CODEIN_ShowMenuText(struct CodeinSoclWork *menu)
     BR_UTIL_StartEffect(menu->introFx, 4, args);
 }
 
-
-
-
 void BR_CODEIN_HideMenuText(struct CodeinSoclWork *menu) { int zero=0;BR_UTIL_StartEffect(menu->introFx, 0, (int *)0);if(menu->textWin){BR_UTIL_DeleteTextWin(menu->textWin,((struct CodeinMenuSub *)menu->arg)->handle);*(int *)&menu->textWin=zero;} }
-
-
-
 
 void BR_CODEIN_GetMenuCallbacks(Pair *out) {
     *out=d_021E3910.callbacks;
 }
-
-
-
 
 void BR_CODEIN_CreateMenuButtons(struct CodeinSoclWork *menu,struct CodeinMenuArg *arg)
 {
@@ -164,13 +149,7 @@ void BR_CODEIN_CreateMenuButtons(struct CodeinSoclWork *menu,struct CodeinMenuAr
     STRBUF_Delete(tmp);STRBUF_Delete(s);STRBUF_Delete(b);
 }
 
-
-
-
 void BR_CODEIN_DeleteMenuButtons(struct CodeinSoclWork *menu,struct CodeinMenuArg *arg) { int i;if(menu->textWin){BR_UTIL_DeleteTextWin(menu->textWin,(int)arg->resource);menu->textWin=0;}for(i=0;i<4;i++){if(menu->button[i]){BR_BTN_DeleteObject(menu->button[i]);menu->button[i]=0;}}BR_RES_ReleaseSprite((struct BrRes *)arg->resource,1); }
-
-
-
 
 int BR_CODEIN_HitTestOptionLeft(struct CodeinSoclWork *menu, int x, int y)
 {
@@ -185,9 +164,6 @@ int BR_CODEIN_HitTestOptionLeft(struct CodeinSoclWork *menu, int x, int y)
     }
     return ok;
 }
-
-
-
 
 int BR_CODEIN_HitTestOptionRight(struct CodeinSoclWork *menu, int x, int y)
 {

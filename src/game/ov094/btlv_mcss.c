@@ -148,8 +148,7 @@
  */
 #include "btlv_mcss_shared_types.h"
 
-typedef unsigned long long u64;
-typedef long long s64;
+#include "../types.h"
 
 /* Value ids of POKE_TOOL_GetPartyValue read by the battle view. */
 #define BTLV_PARTY_VALUE_PERSONAL_RAND 0

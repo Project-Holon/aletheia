@@ -131,7 +131,6 @@
  *   DWCi_SetError  0x02059F54  arm
  *   DWCi_GetFriendListIndex  0x02169038  arm  ov009
  *   DWCi_IsFullMesh                        0x0217695C arm
- *   DWCi_ProcessMatchSynPacketSub_FullMesh 0x0216F008 arm
  *   DWCi_ProcessMatchSynPacketSub_Hybrid   0x0216EC84 arm
  *   DWCi_NodeInfoList_InsertToTop    0x0217604C arm
  *   DWCi_GetMathRand32               0x021685CC arm
@@ -201,7 +200,6 @@
  *   DWCi_CheckResvCommand_Sub                0x02171524 arm   ov009
  *   DWCi_IsServerLocked              0x021767f4 arm
  *   DWCi_IsFriendByIdxList           0x02173b74 arm
- *   DWCi_GetNumEntry                 0x02175760 arm
  *   DWC_GetSuspendMatch              0x0216cb90 arm
  *   _s32_div_f                       0x0209C0A4 arm
  *   DWCi_GetUserData                 0x0216A39C arm
@@ -356,8 +354,9 @@ extern void qr2_register_publicaddress_callback(void *qrec, void *cb);
 extern void qr2_register_natneg_callback(void *qrec, void *cb);
 extern void qr2_register_clientmessage_callback(void *qrec, void *cb);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned int size);
-typedef int BOOL;
-typedef unsigned long long OSTick;
+#include "../types.h"
+#include "../sdk_os.h"
+
 #include "../arm9/os_tick.h"
 extern void DWCi_StopMatch(int error, int errorCode);
 extern int DWCi_RetryReserving(int resendPid);
@@ -409,7 +408,6 @@ static int DWCi_HandleGT2Error(int result);
 extern int DWC_Base64Decode(const char *src, int srclen, void *dst, int dstlen);
 #include "dwc_friend.h"
 extern int DWCi_IsFullMesh(void);
-extern void DWCi_ProcessMatchSynPacketSub_FullMesh(unsigned char aid, unsigned short type, unsigned char *data);
 extern void DWCi_ProcessMatchSynPacketSub_Hybrid(unsigned char aid, unsigned short type, unsigned char *data);
 #include "dwc_common.h"
 extern void DWCi_SendTypeMatchAck(void);
@@ -458,7 +456,6 @@ extern void DWCi_CloseAllConnectionsByTimeout(void);
 extern int DWC_CloseAllConnectionsHard(void);
 extern int DWCi_IsServerLocked(void);
 extern int DWCi_IsFriendByIdxList(int profileID);
-extern int DWCi_GetNumEntry(void);
 extern int DWC_GetSuspendMatch(void);
 extern void * DWCi_GetUserData(void);
 #include "../arm9/dwc_account.h"
@@ -496,7 +493,7 @@ extern int DWCi_ProcessRecvMatchCommand(unsigned char command, int srcPid,
     unsigned int srcIP, unsigned short srcPort, unsigned int *data, int len);
 extern int DWCi_HandleNNResult(int result);
 extern int DWCi_ProcessNNFailure(int ignoreError);
-extern void DWC_GetNumConnectionHost(void);
+extern int DWC_GetNumConnectionHost(void);
 int DWC_CancelMatch(void);
 int DWC_IsValidCancelMatch(void);
 u8 DWC_AddMatchKeyInt(u8 keyID, char *keyString, int *valueSrc);
@@ -568,7 +565,7 @@ void DWCi_NNProgressCallback(void);
 void DWCi_NNCompletedCallback(int result, int unused, struct SOCSockAddrIn *remoteaddr, struct DWCstNNInfo *nnInfo);
 unsigned int DWCi_CreateGroupID(void);
 void DWCi_SetConnectionAttemptParam(void *attemptCallback, unsigned char *connectionUserData, void *attemptParam);
-void DWCi_GetNumConnectionHost(void);
+int DWCi_GetNumConnectionHost(void);
 void DWCi_RequestSuspendMatchInit(int suspend, void (*callback)(int, int, void *), void *suspendResultParam);
 int DWCi_IsServerSuspendEnabled(void);
 int DWCi_IsServerChanging(void);
@@ -639,7 +636,6 @@ extern char g_021A20D4[];
 
 #define MC() DWCi_GetMatchCnt()
 
-
 int DWC_CancelMatch(void)
 {
     int bRet;
@@ -655,7 +651,6 @@ int DWC_CancelMatch(void)
     return bRet;
 }
 
-
 int DWC_IsValidCancelMatch(void)
 {
     if (DWCi_IsError())
@@ -666,7 +661,6 @@ int DWC_IsValidCancelMatch(void)
         return 0;
     return 1;
 }
-
 
 /*
  * DWC_AddMatchKeyInt (dwc_match.o): resolve/create the match-key slot at
@@ -808,7 +802,6 @@ u8 DWC_AddMatchKeyInt(u8 keyID, char *keyString, int *valueSrc)
     return keyID;
 }
 
-
 /*
  * sdk:      DWC_AddMatchKeyString (libdwcmatch.TWL.HYB.a dwc_match.o)
  *
@@ -942,7 +935,6 @@ u8 DWC_AddMatchKeyString(u8 keyID, char *keyString, char *valueSrc)
     return keyID;
 }
 
-
 /*
  * sdk:      DWC_GetMatchIntValue (libdwcmatch.TWL.HYB.a(dwc_match.o))
  */
@@ -959,7 +951,6 @@ int DWC_GetMatchIntValue(int index, char *key, int idefault)
     }
     return idefault;
 }
-
 
 /*
  * sdk:      DWC_GetSuspendMatch (dwc_match.o)
@@ -985,7 +976,6 @@ int DWC_GetSuspendMatch(void)
         DWCi_GetMatchCnt()->suspendMatch = bNew == 1;
     return DWCi_GetMatchCnt()->suspendMatch;
 }
-
 
 /*
  * DWCi_MatchInit (dwc_match.o): seed the match parameter block returned by
@@ -1037,7 +1027,6 @@ void DWCi_MatchInit(DWCstMatchControl *matchCnt, void **pGpObj, void **pGt2Socke
     DWCi_ResetMatchParam(0);
 }
 
-
 /*
  * notes:    the three callback stubs (0x02174C2C PlayerKey, 0x02174C30 TeamKey, 0x02174CF0 Count) were seeded and catalogued by w7_nm from this function's ABS32 pool words
  *
@@ -1078,7 +1067,6 @@ int DWCi_QR2Startup(int profileID)
     qr2_send_statechanged(DWCi_GetMatchCnt()->qr2Obj);
     return qr2Error;
 }
-
 
 void DWCi_ConnectToAnybodyAsync(int topology, unsigned char numEntry, char *addFilter, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *evalCallback, void *evalParam, void *attemptCallback, unsigned char *connectionUserData, void *attemptParam)
 {
@@ -1126,7 +1114,6 @@ void DWCi_ConnectToAnybodyAsync(int topology, unsigned char numEntry, char *addF
     DWCi_HandleSBError(sbError);
 }
 
-
 void DWCi_SetupGameServer(int topology, u8 numEntry, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *attemptCallback, u8 *connectionUserData, void *attemptParam)
 {
     DWCi_SetMatchCommonParam(2, numEntry, matchedCallback, matchedParam);
@@ -1153,7 +1140,6 @@ void DWCi_SetupGameServer(int topology, u8 numEntry, void *matchedCallback, void
     qr2_send_statechanged(DWCi_GetMatchCnt()->qr2Obj);
     DWCi_HandleSBError(DWCi_SBUpdateAsync(DWCi_GetMatchCnt()->profileID));
 }
-
 
 /*
  * sdk:      DWCi_ConnectToGameServerAsync (libdwcmatch.TWL.HYB.a(dwc_match.o))
@@ -1220,7 +1206,6 @@ void DWCi_ConnectToGameServerAsync(int topology, int serverPid, void *matchedCal
     DWCi_HandleMatchCommandError(DWCi_SendResvCommand(serverPid, 0));
 }
 
-
 void DWCi_SendStateChanged(struct qr2_implementation_s *qr2Obj)
 {
     if (qr2Obj == 0)
@@ -1237,13 +1222,11 @@ void DWCi_SendStateChanged(struct qr2_implementation_s *qr2Obj)
     }
 }
 
-
 /* clWaitTime rewound so the next poll fires 6000 ms after now (30000 ms timeout) */
 static inline void DWCi_SetClWaitTime(u64 now)
 {
     DWCi_GetMatchCnt()->clWaitTime = now - (u64)24000 * 33514 / 64;
 }
-
 
 void DWCi_MatchProcess(int fullSpec)
 {
@@ -1583,7 +1566,6 @@ void DWCi_MatchProcess(int fullSpec)
     DWCi_ProcessCancelMatchSynTimeout();
 }
 
-
 /*
  * sdk:      DWCi_GT2UnrecognizedMessageCallback (libdwcmatch.TWL.HYB.a dwc_match.o)
  */
@@ -1596,7 +1578,7 @@ int DWCi_GT2UnrecognizedMessageCallback(int unused, unsigned int ip, unsigned sh
     MIi_CpuClear32(0, &saddr, 8);
     saddr.family = 2;
     saddr.port = (unsigned short)(((port >> 8) & 0xFF) | ((port << 8) & 0xFF00));
-    saddr.addr.addr = ip;
+    saddr.addr = ip;
     ip = message[0];
     if ((ip == 0xFE && message[1] == 0xFD) || ip == 0x5C) {
         if (DWCi_GetMatchCnt()->qr2Obj != 0)
@@ -1608,7 +1590,6 @@ int DWCi_GT2UnrecognizedMessageCallback(int unused, unsigned int ip, unsigned sh
     }
     return 1;
 }
-
 
 void DWCi_GT2ConnectAttemptCallback(void * userdata, void * connection,
                                     unsigned int ip, unsigned short port,
@@ -1677,12 +1658,10 @@ accept:
     DWCi_PostProcessConnection(2);
 }
 
-
 void DWCi_MakeGT2ConnectString(char *buf, int bufLen)
 {
     OS_SNPrintf(buf, bufLen, g_021A207C, DWCi_GetMatchCnt()->profileID);
 }
-
 
 void DWCi_GT2ConnectedCallback(void * connection, int result)
 {
@@ -1762,7 +1741,6 @@ entry:
         DWCi_PostProcessConnection(1);
 }
 
-
 /*
  * sdk:      DWCi_MatchGPRecvBuddyMsgCallback (dwc_match.o)
  */
@@ -1789,7 +1767,6 @@ extern void DWCi_MatchGPRecvBuddyMsgCallback(int unused, int profileID, char *me
     DWCi_ProcessRecvMatchCommand(*(unsigned char *)message, profileID, 0, 0, data, dataLen);
 }
 
-
 /*
  * Arms both module flags.
  */
@@ -1798,7 +1775,6 @@ void DWCi_StopResendingMatchCommand(void)
     DWCi_GetMatchCnt()->cmdCnt.command = 0xff;
     DWCi_GetMatchCnt()->cmdCnt.count = 0;
 }
-
 
 /*
  * DWCi_StopMatch: closes every connection, records the error and reports the failure to the match callback.
@@ -1824,7 +1800,6 @@ void DWCi_StopMatch(int error, int errorCode)
     DWCi_CloseMatch();
 }
 
-
 void DWCi_ClearQR2Key(void)
 {
     if (DWC_GetState() != 3)
@@ -1834,15 +1809,13 @@ void DWCi_ClearQR2Key(void)
     qr2_send_statechanged(DWCi_GetMatchCnt()->qr2Obj);
 }
 
-
 void DWCi_ProcessMatchSynPacket(unsigned char aid, unsigned short type, unsigned char *data)
 {
     if (DWCi_IsFullMesh())
-        DWCi_ProcessMatchSynPacketSub_FullMesh(aid, type, data);
+        DWCi_ProcessMatchSynPacketSub(aid, type, data);
     else
         DWCi_ProcessMatchSynPacketSub_Hybrid(aid, type, data);
 }
-
 
 void DWCi_ProcessMatchSynPacketSub_Hybrid(unsigned char aid, unsigned short type, unsigned char *data)
 {
@@ -1964,7 +1937,6 @@ void DWCi_ProcessMatchSynPacketSub_Hybrid(unsigned char aid, unsigned short type
     }
 }
 
-
 void DWCi_ProcessMatchSynPacketSub(unsigned char aid, unsigned short type, unsigned char *data)
 {
     DWCi_ProcessMatchSynPacketSub_Hybrid(aid, type, data);
@@ -1972,7 +1944,6 @@ void DWCi_ProcessMatchSynPacketSub(unsigned char aid, unsigned short type, unsig
 
 #undef MC
 #define MC() DWCi_GetMatchCnt()
-
 
 /*
  * Hard-closes every aid present now but absent from the given bitmap.
@@ -1992,7 +1963,6 @@ void DWCi_CheckDeadAIDBitmap(unsigned int bitmap)
         }
     }
 }
-
 
 /*
  * DWCi_ProcessMatchPollingPacket: on a client, closes the aids a server poll no longer lists.
@@ -2019,7 +1989,6 @@ void DWCi_ProcessMatchPollingPacket(const Poll *p)
     }
     DWCi_CheckDeadAIDBitmap(bitmap);
 }
-
 
 /*
  * sdk:      DWCi_ProcessMatchClosing (libdwcmatch.TWL.HYB.a dwc_match.o)
@@ -2059,14 +2028,12 @@ int DWCi_ProcessMatchClosing(int error, int errorCode)
     return 1;
 }
 
-
 void DWCi_ProcessMatchSCClosing(int clientPid)
 {
     if (DWCi_GetMatchCnt()->closeState == 1)
         return;
     DWCi_CancelPreConnectedServerProcess(clientPid);
 }
-
 
 /*
  * Builds the match key-value status string and hands it to DWCi_SetGPStatus.
@@ -2092,7 +2059,6 @@ int DWCi_GPSetServerStatus(int status)
     return DWCi_SetGPStatus(status, str, 0);
 }
 
-
 void DWCi_ShutdownMatch(void)
 {
     DWCi_SetMatchCnt(0);
@@ -2103,7 +2069,6 @@ void DWCi_ShutdownMatch(void)
     DWCi_ClearGameMatchKeys();
 }
 
-
 /*
  * Set when the module block is absent.
  */
@@ -2111,7 +2076,6 @@ int DWCi_IsShutdownMatch(void)
 {
     return DWCi_GetMatchCnt() == 0;
 }
-
 
 void DWCi_ResetMatchParam(int level)
 {
@@ -2183,7 +2147,6 @@ void DWCi_ResetMatchParam(int level)
 	MI_CpuFill8(MCP + 0x7bc, 0, 4);
 }
 
-
 /*
  * sdk:      DWCi_SetMatchCommonParam (dwc_match.o)
  */
@@ -2209,7 +2172,6 @@ void DWCi_SetMatchCommonParam(unsigned char matchType, unsigned char numEntry, v
     *(unsigned long long *)((char *)DWCi_GetMatchCnt() + 0x7cc) = 0;
     *(int *)((char *)DWCi_GetMatchCnt() + 0x634) = 0;
 }
-
 
 /*
  * Resets the match state: frees the server browser and negotiation data and clears the node lists.
@@ -2240,9 +2202,6 @@ void DWCi_CloseMatch(void)
     *(int *)((char *)DWCi_GetMatchCnt() + 0x7c4) = 1;
     DWCi_GPSetServerStatus(1);
 }
-
-
-
 
 /*
  * 2026-10-01 (lane 05): rebuilt from the vendor listing, 868/868 bytes and
@@ -2349,7 +2308,6 @@ static SBError DWCi_SBUpdateAsync(int profileID)
     return sbError;
 }
 
-
 /*
  * sdk:      DWCi_GetDefaultMatchFilter (libdwcmatch.TWL.HYB.a dwc_match.o)
  */
@@ -2366,7 +2324,6 @@ int DWCi_GetDefaultMatchFilter(char *filter, int profileID, unsigned char numEnt
                   g_021A2170, matchType, g_021A217C, 0, tempFilter);
     return strlen((const char *)filter);
 }
-
 
 /*
  * sdk:      IsPrivateAddr (dwc_match.o)
@@ -2387,7 +2344,6 @@ int IsPrivateAddr(unsigned int addr_in_netorder)
         return 1;
     return 0;
 }
-
 
 int DWCi_NNStartupAsync(int isQR2, int cookie, DWCstNodeInfo * node)
 {
@@ -2456,7 +2412,6 @@ int DWCi_NNStartupAsync(int isQR2, int cookie, DWCstNodeInfo * node)
     return nnError;
 }
 
-
 /*
  * sdk:      DWCi_DoNatNegotiationAsync (dwc_match.o)
  *
@@ -2485,7 +2440,6 @@ int DWCi_DoNatNegotiationAsync(DWCstNNInfo *nnInfo)
     return nnError;
 }
 
-
 /*
  * Whether a profile id has both a gt2 connection and a node record.
  */
@@ -2501,7 +2455,6 @@ int DWCi_CanSendMatchCommandDirect(unsigned char command, int pid)
     }
     return r;
 }
-
 
 /*
  * DWCi_SendMatchCommand: sends a match command over gt2, as a GP buddy message, or through the server browser.
@@ -2550,7 +2503,6 @@ int DWCi_SendMatchCommand(unsigned char command, int pid, unsigned int ip, unsig
     return result;
 }
 
-
 /*
  * sdk:      DWCi_EncodeBinaryMsgCommand (libdwcmatch.TWL.HYB.a dwc_match.o)
  *
@@ -2576,7 +2528,6 @@ void DWCi_EncodeBinaryMsgCommand(DWCstBinaryMessage *message, unsigned char comm
     message->header.profileID = *(int *)((char *)DWCi_GetMatchCnt() + 0x678);
 }
 
-
 /*
  * Sends a match command to a host through the server browser.
  */
@@ -2598,7 +2549,6 @@ int DWCi_SendSBMsgCommand(unsigned char command, unsigned int ip, unsigned short
     }
     return res;
 }
-
 
 /*
  * Sends a match command to a buddy as a GP buddy message.
@@ -2622,15 +2572,12 @@ int DWCi_SendGPBuddyMsgCommand(void *conn, unsigned char command, int pid, const
     return gpSendBuddyMessageA(conn, pid, msg);
 }
 
-
 /* SDK inlines (calls in the Debug build of dwc_match.o, inlined in Rom):
  * the tick is read before DWCi_GetMatchCnt, as `MC()->x = DWCi_Np_GetTick()`
  * inlines; DWCi_LEtoHl is the identity on the DS */
 static inline u32 DWCi_LEtoHl(u32 x) { return x; }
 
-
 static inline u64 DWCi_Np_GetTick(void) { return OS_GetTick(); }
-
 
 /*
  * sdk:      DWCi_ProcessRecvMatchCommand (libdwcmatch.TWL.HYB.a dwc_match.o)
@@ -2919,7 +2866,7 @@ int DWCi_ProcessRecvMatchCommand(u8 command, int srcPid, u32 srcIP, u16 srcPort,
                 break;
         }
         MC()->cmdCnt.command = 0xff;
-        remoteaddr.addr.addr = ip;
+        remoteaddr.addr = ip;
         remoteaddr.port = SOC_HtoNs(port);
         MC()->nnInfo.clientindex = 1;
         DWCi_NNCompletedCallback(0, gt2GetSocketSOCKET(*MC()->pGt2Socket), &remoteaddr, &MC()->nnInfo);
@@ -3159,7 +3106,6 @@ int DWCi_ProcessRecvMatchCommand(u8 command, int srcPid, u32 srcIP, u16 srcPort,
     return 1;
 }
 
-
 /*
  * sdk:      DWCi_CheckResvCommand (libdwcmatch.TWL.HYB.a dwc_match.o)
  */
@@ -3217,7 +3163,6 @@ u8 DWCi_CheckResvCommand(int profileID, u32 qr2IP, u16 qr2Port, u32 matchType, i
     return sendCommand;
 }
 
-
 unsigned char DWCi_CheckResvCommand_Sub(int profileID, u32 qr2IP, u16 qr2Port,
                                         u32 matchType, int connectGroupID,
                                         u32 topologyType,
@@ -3265,7 +3210,7 @@ unsigned char DWCi_CheckResvCommand_Sub(int profileID, u32 qr2IP, u16 qr2Port,
     }
 
 main:
-    if (DWCi_GetMatchCnt()->qr2NumEntry + 1 == DWCi_GetNumEntry()) {
+    if (DWCi_GetMatchCnt()->qr2NumEntry + 1 == DWCi_GetNumConnectionHost()) {
         sendCommand = 3;
         DWCi_GetMatchCnt()->denyReason = 0x10;
         goto done;
@@ -3338,7 +3283,6 @@ err12:
     return 3;
 }
 
-
 /*
  * sdk:      DWCi_ProcessResvOK (libdwcmatch.TWL.HYB.a dwc_match.o)
  */
@@ -3377,7 +3321,6 @@ int DWCi_ProcessResvOK(int profileID)
     return 0;
 }
 
-
 /*
  * DWCi_HandleMatchCommandError: dispatches to the server-browsing or command error handler.
  */
@@ -3388,7 +3331,6 @@ int DWCi_HandleMatchCommandError(int error)
     }
     return DWCi_HandleGPError(error);
 }
-
 
 int DWCi_SendResvCommand(int profileID, int delay)
 {
@@ -3452,7 +3394,6 @@ send:
     return result;
 }
 
-
 int DWCi_SendResvCommandToFriend(int delay, int init, int resendPid)
 {
     int found = 0;
@@ -3512,7 +3453,6 @@ int DWCi_SendResvCommandToFriend(int delay, int init, int resendPid)
     return 0;
 }
 
-
 /*
  * sdk:      DWCi_RetryReserving (libdwcmatch.TWL.HYB.a dwc_match.o)
  */
@@ -3554,7 +3494,6 @@ int DWCi_RetryReserving(int resendPid)
     return 1;
 }
 
-
 /*
  * Sends command 5 to the new node recorded in the temporary node info.
  */
@@ -3570,7 +3509,6 @@ int DWCi_CancelReservation(int arg)
     *(int *)((char *)DWCi_GetMatchCnt() + 0x67c) = 0;
     return result;
 }
-
 
 /*
  * sdk:      DWCi_CancelPreConnectedServerProcessWithResetLevel (libdwcmatch.TWL.HYB.a dwc_match.o)
@@ -3608,7 +3546,6 @@ int DWCi_CancelPreConnectedServerProcessWithResetLevel(int clientPid, int resetL
     return 1;
 }
 
-
 int DWCi_CancelPreConnectedServerProcess(int clientPid)
 {
     int resetLevel = 2;
@@ -3620,7 +3557,6 @@ int DWCi_CancelPreConnectedServerProcess(int clientPid)
     }
     return DWCi_CancelPreConnectedServerProcessWithResetLevel(clientPid, resetLevel);
 }
-
 
 /*
  * sdk:      DWCi_CancelPreConnectedClientProcess (libdwcmatch.TWL.HYB.a dwc_match.o)
@@ -3666,7 +3602,6 @@ int DWCi_CancelPreConnectedClientProcess(void)
     }
     return result;
 }
-
 
 void DWCi_PostProcessConnection(int type)
 {
@@ -3764,7 +3699,6 @@ void DWCi_PostProcessConnection(int type)
     }
 }
 
-
 void DWCi_PostProcessConnectionSYNFinish(void)
 {
     DWCi_GetMatchCnt()->nnFailureCount = 0;
@@ -3773,7 +3707,6 @@ void DWCi_PostProcessConnectionSYNFinish(void)
     else
         DWCi_PostProcessConnectionSYNFinishHybrid();
 }
-
 
 void DWCi_PostProcessConnectionSYNFinishHybrid(void)
 {
@@ -3809,7 +3742,6 @@ void DWCi_PostProcessConnectionSYNFinishHybrid(void)
     }
 }
 
-
 /*
  * Clears the byte at +0x62f of the module block.
  */
@@ -3819,7 +3751,6 @@ void DWCi_PostProcessConnectionSYNFinishFullmesh(void)
 
     *(unsigned char *)((char *)DWCi_GetMatchCnt() + 0x62f) = 0;
 }
-
 
 /*
  * sdk:      DWCi_PostProcessSVConnectionHybrid (libdwcmatch.TWL.HYB.a dwc_match.o)
@@ -3855,7 +3786,6 @@ int DWCi_PostProcessSVConnectionHybrid(void)
         sbClear = 1;
     return sbClear;
 }
-
 
 int DWCi_PostProcessSVConnectionFullmesh(void)
 {
@@ -3900,7 +3830,6 @@ int DWCi_PostProcessSVConnectionFullmesh(void)
     }
     return 0;
 }
-
 
 /*
  * sdk:      DWCi_DoCancelMatch (libdwcmatch.TWL.HYB.a(dwc_match.o))
@@ -3963,7 +3892,6 @@ static void DWCi_DoCancelMatch(void)
     DWCi_FinishCancelMatch();
 }
 
-
 /*
  * sdk:      DWCi_FinishCancelMatch (dwc_match.o)
  */
@@ -3990,7 +3918,6 @@ void DWCi_FinishCancelMatch(void)
     *(unsigned char *)((char *)DWCi_GetMatchCnt() + 0x62a) = 0;
 }
 
-
 /*
  * sdk:      DWCi_InvalidateReservation (dwc_match.o)
  */
@@ -4009,7 +3936,6 @@ int DWCi_InvalidateReservation(void)
     }
     return result;
 }
-
 
 void DWCi_RestartFromCancel(int level)
 {
@@ -4061,7 +3987,6 @@ void DWCi_RestartFromCancel(int level)
 	}
 }
 
-
 void DWCi_RestartFromTimeout(void)
 {
     if (DWCi_GetMatchCnt()->qr2MatchTypeExt == 2)
@@ -4072,7 +3997,6 @@ void DWCi_RestartFromTimeout(void)
     DWCi_RestartFromCancel(1);
 }
 
-
 int DWCi_ResumeMatch(void)
 {
     DWCi_GetMatchCnt()->qr2Flag18 = 0;
@@ -4081,7 +4005,6 @@ int DWCi_ResumeMatch(void)
     DWCi_RestartFromCancel(1);
     return 0;
 }
-
 
 /*
  * sdk:      DWCi_CloseCancelHostAsync (dwc_match.o)
@@ -4106,7 +4029,6 @@ int DWCi_CloseCancelHostAsync(int profileID)
     return ret;
 }
 
-
 /*
  * DWCi_CloseAllConnectionsByTimeout: closes every gt2 connection with the closing flag raised.
  */
@@ -4116,7 +4038,6 @@ void DWCi_CloseAllConnectionsByTimeout(void)
     gt2CloseAllConnectionsHard((int *)**(int **)((char *)DWCi_GetMatchCnt() + 4));
     ((char *)DWCi_GetMatchCnt())[0x629] = 0;
 }
-
 
 /*
  * sdk:      DWCi_CloseShutdownClientSC (libdwcmatch.TWL.HYB.a(dwc_match.o))
@@ -4197,7 +4118,6 @@ static int DWCi_CloseShutdownClientSC(u32 bitmap)
     ((DWCstMatchControl *)DWCi_GetMatchCnt())->closeState = 0;
     return bRet;
 }
-
 
 void DWCi_SendMatchSynPacket(u8 aid, u16 type)
 {
@@ -4297,9 +4217,7 @@ void DWCi_SendMatchSynPacket(u8 aid, u16 type)
     }
 }
 
-
 DWCstMatchControl;
-
 
 int DWCi_ProcessMatchSynTimeout(void)
 {
@@ -4362,7 +4280,6 @@ int DWCi_ProcessMatchSynTimeout(void)
     return 1;
 }
 
-
 /*
  * sdk:      DWCi_ServerSynTimeoutExec (dwc_match.o)
  */
@@ -4380,7 +4297,6 @@ int DWCi_ServerSynTimeoutExec(void)
     return 1;
 }
 
-
 /*
  * sdk:      DWCi_SendTypeMatchAck (dwc_match.o)
  */
@@ -4396,7 +4312,6 @@ void DWCi_SendTypeMatchAck(void)
         DWCi_SendMatchSynPacket(*(unsigned char *)((char *)DWCi_GetMatchCnt() + 0x56a), 4);
     DWCi_SetMatchStatus(20);
 }
-
 
 int DWCi_SendCancelMatchSynCommand(int profileID, unsigned char command)
 {
@@ -4423,7 +4338,6 @@ int DWCi_SendCancelMatchSynCommand(int profileID, unsigned char command)
     }
     return 1;
 }
-
 
 int DWCi_ProcessCancelMatchSynCommand(int profileID, u8 command, u32 data)
 {
@@ -4480,7 +4394,6 @@ int DWCi_ProcessCancelMatchSynCommand(int profileID, u8 command, u32 data)
     }
     return 1;
 }
-
 
 int DWCi_ProcessCancelMatchSynTimeout(void)
 {
@@ -4542,7 +4455,6 @@ int DWCi_ProcessCancelMatchSynTimeout(void)
     return 1;
 }
 
-
 /*
  * Finds the first empty record (stride 0xc) among 0x9a entries and returns
  * its biased index; 0 when none is free.
@@ -4558,7 +4470,6 @@ u8 DWCi_GetNewMatchKey(void)
     return 0;
 }
 
-
 /*
  * DWCi_ClearGameMatchKeys: frees every game match key value and clears the key table.
  */
@@ -4573,7 +4484,6 @@ void DWCi_ClearGameMatchKeys(void)
     }
     MIi_CpuClear32(0, g_021AAA40, sizeof(DWCstGameMatchKeyData) * 0x9a);
 }
-
 
 /*
  * sdk:      DWCi_IsFriendByIdxList (dwc_match.o)
@@ -4593,7 +4503,6 @@ int DWCi_IsFriendByIdxList(int profileID)
     return 0;
 }
 
-
 /*
  * sdk:      DWCi_CheckDWCServer (dwc_match.o)
  */
@@ -4610,7 +4519,6 @@ int DWCi_CheckDWCServer(void *server)
     return SBServerGetIntValueA(server, g_021A20A4, 0);
 }
 
-
 /*
  * Byte at +0x16 of the block, or 0xff when there is none.
  */
@@ -4622,7 +4530,6 @@ u8 DWCi_GetAIDFromProfileID(int profileID, int idxOnly)
         return 0xff;
     return *(unsigned char *)(p + 0x16);
 }
-
 
 /*
  * sdk:      DWCi_GetAIDBitmask (dwc_match.o)
@@ -4639,7 +4546,6 @@ unsigned int DWCi_GetAIDBitmask(int valid)
     return bitmask;
 }
 
-
 /*
  * DWCi_InitClWaitTimeout: clears the wait flag and stamps the current tick.
  */
@@ -4651,7 +4557,6 @@ void DWCi_InitClWaitTimeout(void)
     t = OS_GetTick();
     *(unsigned long long *)((char *)DWCi_GetMatchCnt() + 0x670) = t;
 }
-
 
 /*
  * Maps a match-command error to a DWC error and stops the match.
@@ -4685,7 +4590,6 @@ static int DWCi_HandleGPError(int error)
     DWCi_StopMatch(dwcError, errorCode + -81000);
     return error;
 }
-
 
 /*
  * DWCi_HandleSBError: maps a server browsing error to a DWC error and stops the match.
@@ -4727,7 +4631,6 @@ int DWCi_HandleSBError(int error)
     DWCi_StopMatch(dwcError, errorCode + -85000);
     return error;
 }
-
 
 /*
  * sdk:      DWCi_HandleQR2Error (libdwcmatch.TWL.HYB.a dwc_match.o)
@@ -4775,7 +4678,6 @@ int DWCi_HandleQR2Error(int error)
     return error;
 }
 
-
 /*
  * DWCi_HandleNNError: maps a NAT negotiation error to a DWC error and stops the match.
  */
@@ -4805,7 +4707,6 @@ int DWCi_HandleNNError(int error)
     return error;
 }
 
-
 int DWCi_HandleNNResult(int result)
 {
     enum E dwcError;
@@ -4827,7 +4728,6 @@ int DWCi_HandleNNResult(int result)
         DWCi_StopMatch(dwcError, -86009);
     return result;
 }
-
 
 /*
  * sdk:      DWCi_HandleGT2Error (dwc_match.o)
@@ -4871,7 +4771,6 @@ static int DWCi_HandleGT2Error(int result)
         DWCi_StopMatch(dwcError, errorCode + -87000);
     return result;
 }
-
 
 /*
  * notes:    the retry tail (state 2 and a fresh timeout tick) is written out at the end of
@@ -5072,7 +4971,6 @@ void DWCi_DebugPrintServerList(void *server)
 {
 }
 
-
 /*
  * sdk:      DWCi_EvaluateServers (libdwcmatch.TWL.HYB.a(dwc_match.o))
  */
@@ -5120,7 +5018,6 @@ static int DWCi_EvaluateServers(int sort)
     return 1;
 }
 
-
 /*
  * sdk:      DWCi_RandomizeServers (libdwcmatch.TWL.HYB.a dwc_match.o)
  */
@@ -5163,7 +5060,6 @@ void DWCi_RandomizeServers(void)
     SBServerAddIntKeyValue(server, g_021A21BC, maxEval);
     ServerBrowserSortA(DWCi_GetMatchCnt()->sbObj, 0, g_021A21BC, 0);
 }
-
 
 /*
  * sdk:      DWCi_QR2ServerKeyCallback (libdwcmatch.TWL.HYB.a dwc_match.o)
@@ -5221,7 +5117,6 @@ void DWCi_QR2ServerKeyCallback(int keyid, void *outbuf)
         qr2_buffer_add_int(outbuf, *(int *)g_021AAA40[index].value);
 }
 
-
 /*
  * sdk:      DWCi_QR2PlayerKeyCallback (libdwcmatch.TWL.HYB.a(dwc_match.o))
  *
@@ -5233,7 +5128,6 @@ void DWCi_QR2PlayerKeyCallback(void)
 {
 }
 
-
 /*
  * sdk:      DWCi_QR2TeamKeyCallback (libdwcmatch.TWL.HYB.a(dwc_match.o))
  *
@@ -5244,7 +5138,6 @@ void DWCi_QR2PlayerKeyCallback(void)
 void DWCi_QR2TeamKeyCallback(void)
 {
 }
-
 
 void DWCi_QR2KeyListCallback(int keytype, void *keybuffer)
 {
@@ -5273,25 +5166,21 @@ void DWCi_QR2KeyListCallback(int keytype, void *keybuffer)
     }
 }
 
-
 int DWCi_QR2CountCallback(void)
 {
     return 0;
 }
-
 
 int DWCi_QR2AddErrorCallback(int error)
 {
     return DWCi_HandleQR2Error(error);
 }
 
-
 void DWCi_QR2PublicAddrCallback(unsigned int ip, unsigned short port)
 {
     DWCi_GetMatchCnt()->qr2IP = ip;
     DWCi_GetMatchCnt()->qr2Port = port;
 }
-
 
 /*
  * sdk:      DWCi_QR2NatnegCallback (libdwcmatch.TWL.HYB.a dwc_match.o)
@@ -5322,7 +5211,6 @@ void DWCi_QR2NatnegCallback(int cookie)
     DWCi_GetMatchCnt()->cmdCnt.command = 0xFF;
 }
 
-
 void DWCi_HandleGT2UnreliableMatchCommandMessage(void *data, int len)
 {
     unsigned int payload[32];
@@ -5340,7 +5228,6 @@ void DWCi_HandleGT2UnreliableMatchCommandMessage(void *data, int len)
             binaryCommand.qr2IP, binaryCommand.qr2Port, payload, binaryCommand.size >> 2);
     }
 }
-
 
 /*
  * sdk:      DWCi_QR2ClientMsgCallback (libdwcmatch.TWL.HYB.a dwc_match.o)
@@ -5382,7 +5269,6 @@ void DWCi_NNProgressCallback(void)
 
 #define MC DWCi_GetMatchCnt()
 
-
 void DWCi_NNCompletedCallback(int result, int unused, struct SOCSockAddrIn *remoteaddr,
                               struct DWCstNNInfo *nnInfo)
 {
@@ -5398,7 +5284,7 @@ void DWCi_NNCompletedCallback(int result, int unused, struct SOCSockAddrIn *remo
 
     if (result == 0) {
         if (nnInfo->clientindex != 0) {
-        MC->tempNewNodeInfo.gt2IP = remoteaddr->addr.addr;
+        MC->tempNewNodeInfo.gt2IP = remoteaddr->addr;
         {
             int p = remoteaddr->port;
             MC->tempNewNodeInfo.gt2Port = ((p >> 8) & 0xff) | ((p << 8) & 0xff00);
@@ -5431,7 +5317,7 @@ void DWCi_NNCompletedCallback(int result, int unused, struct SOCSockAddrIn *remo
         }
 
         if (remoteaddr != 0) {
-            MC->tempNewNodeInfo.gt2IP = remoteaddr->addr.addr;
+            MC->tempNewNodeInfo.gt2IP = remoteaddr->addr;
             {
                 int p = remoteaddr->port;
                 MC->tempNewNodeInfo.gt2Port = ((p >> 8) & 0xff) | ((p << 8) & 0xff00);
@@ -5490,7 +5376,6 @@ void DWCi_NNCompletedCallback(int result, int unused, struct SOCSockAddrIn *remo
     DWCi_CancelPreConnectedServerProcess(MC->tempNewNodeInfo.profileID);
 }
 
-
 /*
  * sdk:      DWCi_ProcessNNFailure (dwc_match.o)
  */
@@ -5506,7 +5391,6 @@ int DWCi_ProcessNNFailure(int ignoreError)
     }
     return 1;
 }
-
 
 /*
  * sdk:      DWCi_SendServerDownQuery (dwc_match.o)
@@ -5537,7 +5421,6 @@ int DWCi_SendServerDownQuery(void)
     return 1;
 }
 
-
 /*
  * DWCi_IsBackupMine: whether node 0 is this host's own profile.
  */
@@ -5552,12 +5435,10 @@ int DWCi_IsBackupMine(void)
     return r;
 }
 
-
 unsigned int DWCi_CreateGroupID(void)
 {
     return DWCi_GetMatchCnt()->profileID + DWCi_GetMathRand32(10000000) + 100000000;
 }
-
 
 /*
  * sdk:      DWCi_SetConnectionAttemptParam (dwc_match.o)
@@ -5571,7 +5452,6 @@ void DWCi_SetConnectionAttemptParam(void *attemptCallback, unsigned char *connec
         memset(MC->connUserData, 0, 4);
     MC->attemptParam = (int)attemptParam;
 }
-
 
 /*
  * sdk:      DWCi_SetupGameServer_InterChange (libdwcmatch.TWL.HYB.a dwc_match.o)
@@ -5607,7 +5487,6 @@ void DWCi_SetupGameServer_InterChange(int init)
     MC->reqProfileID = 0;
 }
 
-
 /*
  * sdk:      DWCi_ConnectToGameServerAsync_InterChange (libdwcmatch.TWL.HYB.a dwc_match.o)
  */
@@ -5630,15 +5509,12 @@ void DWCi_ConnectToGameServerAsync_InterChange(void)
     DWCi_HandleMatchCommandError(result);
 }
 
-
-void DWCi_GetNumConnectionHost(void)
+int DWCi_GetNumConnectionHost(void)
 {
-    DWC_GetNumConnectionHost();
+    return DWC_GetNumConnectionHost();
 }
 
-
 static int DWCi_RequestSuspendMatch(int suspend);
-
 
 int DWCi_SendServerPolling(int immediate)
 {
@@ -5673,7 +5549,6 @@ int DWCi_SendServerPolling(int immediate)
 done:
     return 1;
 }
-
 
 static int DWCi_ProcessRequestMatch(u8 AID, int suspend, int immediate)
 {
@@ -5743,7 +5618,6 @@ static int DWCi_ProcessRequestMatch(u8 AID, int suspend, int immediate)
     return 1;
 }
 
-
 /*
  * sdk:      DWCi_StartMatch (libdwcmatch.TWL.HYB.a dwc_match.o)
  */
@@ -5785,7 +5659,6 @@ int DWCi_StartMatch(void)
     return result;
 }
 
-
 /*
  * sdk:      DWCi_RequestSuspendMatchInit (dwc_match.o)
  */
@@ -5802,7 +5675,6 @@ void DWCi_RequestSuspendMatchInit(int suspend, void (*callback)(int, int, void *
     }
     DWCi_GetMatchCnt()->suspendActive = 1;
 }
-
 
 /*
  * sdk:      DWCi_RequestSuspendMatchProcess (dwc_match.o)
@@ -5829,7 +5701,6 @@ int DWCi_RequestSuspendMatchProcess(void)
     DWCi_RequestSuspendMatch(suspend);
     return 1;
 }
-
 
 /*
  * sdk:      DWCi_RequestSuspendMatch (libdwcmatch.TWL.HYB.a(dwc_match.o))
@@ -5872,7 +5743,6 @@ static int DWCi_RequestSuspendMatch(int suspend)
     return 1;
 }
 
-
 /*
  * sdk:      DWCi_IsServerSuspendEnabled (dwc_match.o)
  */
@@ -5886,7 +5756,6 @@ int DWCi_IsServerSuspendEnabled(void)
     return 1;
 }
 
-
 /*
  * True while the match state is 9, 10 or 11.
  */
@@ -5895,7 +5764,6 @@ int DWCi_IsServerChanging(void)
     unsigned int v = DWCi_GetMatchCnt()->state - 9;
     return v <= 2;
 }
-
 
 /*
  * Stores the match control block and the tick it was stored at.
@@ -5909,7 +5777,6 @@ void DWCi_SetMatchCnt(DWCstMatchControl *a)
     *(int *)(((char *)&g_021AAA20) + 0x1c) = (int)(v >> 32);
 }
 
-
 /*
  * DWCi_GetMatchCnt: the match control block.
  */
@@ -5917,7 +5784,6 @@ DWCstMatchControl *DWCi_GetMatchCnt(void)
 {
     return g_021AAA20.pMatch;
 }
-
 
 /*
  * DWCi_SetMatchStatus: records the new match state, logging a change first.
@@ -5930,7 +5796,6 @@ void DWCi_SetMatchStatus(int state)
     g_021AAA20.pMatch->state = state;
 }
 
-
 void DWCi_SetHostStatus(int host)
 {
     g_021AAA20.pMatch->qr2HostState = host;
@@ -5938,12 +5803,10 @@ void DWCi_SetHostStatus(int host)
         qr2_send_statechanged(DWCi_GetMatchCnt()->qr2Obj);
 }
 
-
 static unsigned char DWCi_GetHostStatus(void)
 {
     return DWCi_GetMatchCnt()->qr2HostState;
 }
-
 
 /*
  * Cleared when the word at +0x7b0 of the module block is one.
@@ -5952,7 +5815,6 @@ int DWCi_IsServerChangeEnabled(void)
 {
     return DWCi_GetMatchCnt()->topologyType != 1;
 }
-
 
 /*
  * DWCi_ResetLastSomeDataRecvTimeByAidAll: restamps every node's transport record.
@@ -5966,7 +5828,6 @@ void DWCi_ResetLastSomeDataRecvTimeByAidAll(void)
     }
 }
 
-
 /*
  * Clears the node count and the node list.
  */
@@ -5975,7 +5836,6 @@ void DWCi_NodeInfoList_Clear(void)
     MI_CpuFill8(&DWCi_GetMatchCnt()->nodeCount, 0, 0x504);
 }
 
-
 /*
  * Word at +0x50 of the block DWCi_GetMatchCnt returns.
  */
@@ -5983,7 +5843,6 @@ int DWCi_NodeInfoList_GetCount(void)
 {
     return DWCi_GetMatchCnt()->nodeCount;
 }
-
 
 /*
  * sdk:      DWCi_NodeInfoList_InsertToTop (dwc_match.o)
@@ -6001,7 +5860,6 @@ int DWCi_NodeInfoList_InsertToTop(DWCstNodeInfo *newNode)
     return 1;
 }
 
-
 /*
  * sdk:      DWCi_NodeInfoList_Append (dwc_match.o)
  */
@@ -6013,7 +5871,6 @@ int DWCi_NodeInfoList_Append(DWCstNodeInfo *newNode)
     DWCi_GetMatchCnt()->nodeCount += 1;
     return 1;
 }
-
 
 /*
  * sdk:      DWCi_NodeInfoList_RemoveAID (TwlDWC/libdwcmatch.TWL.HYB.a(dwc_match.o))
@@ -6051,7 +5908,6 @@ int DWCi_NodeInfoList_RemoveAID(unsigned char aid)
     return 1;
 }
 
-
 /*
  * sdk:      DWCi_NodeInfoList_RemoveProfileID (libdwcmatch.TWL.HYB.a dwc_match.o)
  */
@@ -6073,7 +5929,6 @@ int DWCi_NodeInfoList_RemoveProfileID(int profileID)
     return 1;
 }
 
-
 /*
  * DWCi_NodeInfoList_GetMyNodeInfo: the node record of this host.
  */
@@ -6081,7 +5936,6 @@ DWCstNodeInfo *DWCi_NodeInfoList_GetMyNodeInfo(void)
 {
     return DWCi_NodeInfoList_GetNodeInfoForProfileID(DWCi_GetMatchCnt()->profileID);
 }
-
 
 /*
  * The first node record, or null when the list is empty.
@@ -6093,7 +5947,6 @@ DWCstNodeInfo *DWCi_NodeInfoList_GetServerNodeInfo(void)
     return DWCi_GetMatchCnt()->nodeInfoList;
 }
 
-
 /*
  * DWCi_NodeInfoList_GetNodeInfoForIndex: the node record at an index, or null past the count.
  */
@@ -6104,7 +5957,6 @@ DWCstNodeInfo *DWCi_NodeInfoList_GetNodeInfoForIndex(int index)
     }
     return &DWCi_GetMatchCnt()->nodeInfoList[index];
 }
-
 
 /*
  * DWCi_NodeInfoList_GetNodeInfoForProfileID: the node record whose profile id matches, or null.
@@ -6121,7 +5973,6 @@ DWCstNodeInfo *DWCi_NodeInfoList_GetNodeInfoForProfileID(int pid)
     return 0;
 }
 
-
 /*
  * sdk:      DWCi_NodeInfoList_GetNodeInfoForAID (dwc_match.o)
  *
@@ -6137,7 +5988,6 @@ DWCstNodeInfo *DWCi_NodeInfoList_GetNodeInfoForAID(unsigned char aid)
     }
     return 0;
 }
-
 
 /*
  * sdk:      DWCi_NodeInfoList_GetFreeAID (dwc_match.o)
@@ -6160,7 +6010,6 @@ unsigned char DWCi_NodeInfoList_GetFreeAID(void)
     return 0xff;
 }
 
-
 int DWCi_NodeInfoList_HasNoGT2ConnectionToProfileID(int profileID)
 {
     DWCstNodeInfo *pNodeInfo = DWCi_NodeInfoList_GetNodeInfoForProfileID(profileID);
@@ -6172,7 +6021,6 @@ int DWCi_NodeInfoList_HasNoGT2ConnectionToProfileID(int profileID)
     return DWCi_GetGT2Connection(pNodeInfo->aid) == 0;
 }
 
-
 /*
  * Clears the new-node record.
  */
@@ -6180,7 +6028,6 @@ void DWCi_TempNewNodeInfo_Clear(void)
 {
     DWCi_NodeInfo_Clear(&DWCi_GetMatchCnt()->tempNewNodeInfo);
 }
-
 
 /*
  * True when the new-node record is in use.
@@ -6190,7 +6037,6 @@ int DWCi_TempNewNodeInfo_IsValid(void)
     return DWCi_NodeInfo_IsValid(&DWCi_GetMatchCnt()->tempNewNodeInfo);
 }
 
-
 /*
  * Clears a node record.
  */
@@ -6199,7 +6045,6 @@ void DWCi_NodeInfo_Clear(DWCstNodeInfo *p)
     MI_CpuFill8(p, 0, 0x28);
 }
 
-
 /*
  * True when the node record has a profile id.
  */
@@ -6207,7 +6052,6 @@ int DWCi_NodeInfo_IsValid(const DWCstNodeInfo *p)
 {
     return p->profileID != 0;
 }
-
 
 /*
  * sdk:      DWCi_GetNextMeshMakeTryTick (libdwcmatch.TWL.HYB.a dwc_match.o)
@@ -6242,7 +6086,6 @@ unsigned long long DWCi_GetNextMeshMakeTryTick(void)
     tick += ((unsigned long long)((DWCi_NodeInfoList_GetCount() - 1 - myNodeIndex) * 6000) * 33514) >> 6;
     return tick;
 }
-
 
 /*
  * DWCi_StopMeshMaking: abandons the mesh step in progress, cancelling any NAT negotiation.
@@ -6282,7 +6125,6 @@ int DWCi_StopMeshMaking(void)
     return 1;
 }
 
-
 /*
  * Word at +0x7c4 of the block DWCi_GetMatchCnt returns.
  */
@@ -6290,7 +6132,6 @@ int DWCi_IsFirstServer(void)
 {
     return DWCi_GetMatchCnt()->isFirstServer;
 }
-
 
 /*
  * Whether this host is the server of a running match that has not been the first server.
@@ -6308,7 +6149,6 @@ int DWCi_IsServerLocked(void)
     return 0;
 }
 
-
 /*
  * Word at +0x7b0 of the block DWCi_GetMatchCnt returns.
  */
@@ -6317,13 +6157,11 @@ int DWCi_GetTopologyType(void)
     return DWCi_GetMatchCnt()->topologyType;
 }
 
-
 void DWCi_ClearMeshMakingTempInfo(void)
 {
     DWCi_GetMatchCnt()->backupState = 0;
     MI_CpuFill8(&DWCi_GetMatchCnt()->backupProfileID, 0, 0x28);
 }
-
 
 void DWCi_AutoSuspendComplete(void)
 {
@@ -6335,7 +6173,6 @@ void DWCi_AutoSuspendComplete(void)
         DWCi_GetMatchCnt()->suspendBitmap = 0;
     DWCi_SuspendComplete(0);
 }
-
 
 /*
  * sdk:      DWCi_SuspendComplete (dwc_match.o)
@@ -6350,7 +6187,6 @@ void DWCi_SuspendComplete(int result)
     DWCi_GetMatchCnt()->suspendActive = 0;
 }
 
-
 /*
  * Set when the word at +0x7b0 of the module block is two.
  */
@@ -6359,12 +6195,10 @@ int DWCi_IsFullMesh(void)
     return DWCi_GetMatchCnt()->topologyType == 2;
 }
 
-
 int DWCi_GetNodeInfoCount(void)
 {
     return DWCi_NodeInfoList_GetCount();
 }
-
 
 unsigned char DWCi_IsLockedBuddyStatus(char *buddyStatus)
 {
@@ -6375,7 +6209,6 @@ unsigned char DWCi_IsLockedBuddyStatus(char *buddyStatus)
         r = (unsigned char)(u32)(strtoul((const char *)((u32)buf), (char **)(0), (int)(10)));
     return r;
 }
-
 
 /*
  * sdk:      DWCi_GetResvDenyReasonString (dwc_match.o)
@@ -6406,7 +6239,6 @@ char *DWCi_GetResvDenyReasonString(unsigned char denyReason)
     }
 }
 
-
 /*
  * Stores both words the call returns into the module state block.
  */
@@ -6418,7 +6250,6 @@ void disp_match_state(int a, int b)
     *(int *)(((char *)&g_021AAA20) + 0x1c) = (int)(v >> 32);
 }
 
-
 /*
  * Stores the argument at +0x678 of the module block.
  */
@@ -6426,7 +6257,6 @@ void DWCi_SetMatchmakeProfileId(int v)
 {
     DWCi_GetMatchCnt()->profileID = v;
 }
-
 
 /*
  * sdk:      DWCi_RegisterMatchmakeKeys (dwc_match.o)
@@ -6441,7 +6271,6 @@ void DWCi_RegisterMatchmakeKeys(void)
     qr2_register_keyA(0x37, g_021A20E0);
     qr2_register_keyA(0x38, g_021A217C);
 }
-
 
 void DWCi_NNFreeNegotiateList(void)
 {

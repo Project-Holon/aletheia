@@ -21,9 +21,7 @@
  *   OS_EnableIrqMask  0x02084968  arm
  */
 struct tagLISTCB;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
+#include "../types.h"
 
 typedef struct tagQCB {
     u16 size;
@@ -44,7 +42,6 @@ void DWCi_QUElDelete(struct tagLISTCB *list);
 void DWCi_QUElPushBack(void *queue, void *data);
 void *DWCi_QUElPopBack(void *queue);
 
-
 void *DWCi_QUElForm(long size)
 {
     QCB *qcb;
@@ -55,7 +52,6 @@ void *DWCi_QUElForm(long size)
     qcb->tail = 0;
     return qcb;
 }
-
 
 /*
  * sdk:      DWCi_QUElFormEx (libdwcutil.TWL.HYB.a(deque.o))
@@ -75,12 +71,10 @@ void *DWCi_QUElFormEx(long size, void *data, long dataSize)
     return qcb;
 }
 
-
 void DWCi_QUElDelete(struct tagLISTCB *list)
 {
 	DWCi_HEAPlFree_((void **)&list);
 }
-
 
 /*
  * sdk:      DWCi_QUElPushBack (libdwcutil.TWL.HYB.a(deque.o))
@@ -99,7 +93,6 @@ void DWCi_QUElPushBack(void *queue, void *data)
     qcb->tail = next;
     OS_EnableIrqMask(irq);
 }
-
 
 /*
  * sdk:      DWCi_QUElPopBack (libdwcutil.TWL.HYB.a(deque.o))

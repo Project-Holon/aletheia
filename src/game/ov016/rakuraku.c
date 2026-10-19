@@ -28,8 +28,7 @@
  *   DWCi_HEAPlFree2  0x021D647C  arm  ov016
  */
 #include "../arm9/os_terminate_processor.h"
-typedef int BOOL;
-typedef unsigned int u32;
+#include "../types.h"
 #include "../arm9/os_thread.h"
 extern void DWCi_RAKUl_memFree(void *ptr);
 extern int ATERMi_ApConfigEnd(void);
@@ -50,7 +49,6 @@ extern int DWCi_RakurakuATERMi_ApConfigStart(int priority, int maxAps, void (*no
 void cbConfig(RakuStatus *status);
 extern RakuStatus *gRakuStatus;
 
-
 /*
  * sdk:      DWCi_RAKUlInit (libdwcutil.TWL.HYB.a(rakuraku.o))
  */
@@ -64,7 +62,6 @@ void DWCi_RAKUlInit(void)
 	OS_Sleep(10);
 }
 
-
 /*
  * Post the event at 0x021DE594 when ATERMi_ApConfigEnd does not report one.
  * Addresses are Black-image addresses.
@@ -75,7 +72,6 @@ void DWCi_RAKUlEnd(void)
         OS_Terminate();
     DWCi_HEAPlFree_((void **)&gRakuStatus);
 }
-
 
 /*
  * sdk:      DWCi_RAKUlGetState (libdwcutil.TWL.HYB.a(rakuraku.o))
@@ -105,7 +101,6 @@ int DWCi_RAKUlGetState(void)
 	}
 }
 
-
 /*
  * sdk:      DWCi_RAKUlSetResult (libdwcutil.TWL.HYB.a(rakuraku.o))
  */
@@ -122,7 +117,6 @@ void cbConfig(RakuStatus *status)
 {
     *gRakuStatus = *status;
 }
-
 
 static void *memAlloc(unsigned long size)
 {

@@ -31,7 +31,7 @@
 #include "../ov021/fldmmdl_rail_types.h"
 #include "fldmmdl_types.h"
 
-typedef unsigned int u32;
+#include "../types.h"
 
 /* One return request: the record key it belongs to, the proclink entry it
  * names, and the handler type (index into d_02172990). */

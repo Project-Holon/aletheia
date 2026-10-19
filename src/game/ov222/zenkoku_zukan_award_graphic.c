@@ -64,15 +64,9 @@ struct BgTemplate;
 struct DispConfig;
 struct Bank;
 struct Cfg;
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef unsigned char u8;
+#include "../types.h"
 
 struct ZenkokuZukanAwardGraphicBgRow { u32 id; u8 cfg[32]; u32 type; u32 enable; };
-
-typedef signed short s16;
 
 struct ClactCtx {
     struct Bank *unit;     /* +0x00 CLACT unit from CLACT_CreateUnit */
@@ -194,7 +188,6 @@ void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Delete(char *p)
     GFL_HEAP_Free(p);
 }
 
-
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Update(char *p)
 {
     ZENKOKU_ZUKAN_AWARD_GRAPHIC_Draw(p + 4);
@@ -202,7 +195,6 @@ void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Update(char *p)
 }
 
 u32 ZENKOKU_ZUKAN_AWARD_GRAPHIC_GetActor(char *p) { return ZENKOKU_ZUKAN_AWARD_GRAPHIC_GetValue((const u32 *)(p+4)); }
-
 
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Task(void *unused, char *p)
 {
@@ -232,7 +224,6 @@ void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Noop(void *p) { }
 
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_DrawObjects(void *p) { BG_SYS_Update(); }
 
-
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupClact(unsigned char *p, int a, int b)
 {
     MI_CpuFill8(p, 0, 4);
@@ -242,7 +233,6 @@ void ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupClact(unsigned char *p, int a, int b)
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
-
 
 /*
  * Addresses are Black-image addresses.
@@ -265,7 +255,6 @@ void ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupCamera(u32 **out,u32 heap)
     G3D_SYSTEM_Init(0,1,0,1,0,heap,ZENKOKU_ZUKAN_AWARD_Callback);
     *out=G3D_CAMERA_Create(0,*(s16 *)(dims+12),*(s16 *)(dims+14),0x1555,0,4096,0x400000,0,&vec1,&vec2,&vec3,heap);
 }
-
 
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_DeleteCamera(u32 *p)
 {

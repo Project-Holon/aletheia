@@ -740,7 +740,7 @@ u8 GAME_BEACON_ACCESSOR_GetActionCheckIndex(u16 action)
 
 struct WordSet;
 
-typedef signed int     s32;
+#include "../types.h"
 
 /* How the value of an action is registered for printing. */
 enum BeaconPrintKind {

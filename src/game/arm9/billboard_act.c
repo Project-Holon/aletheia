@@ -43,7 +43,7 @@
  */
 #include "billboard_act_shared_types.h"
 
-typedef signed short   s16;
+#include "../types.h"
 
 struct AreaMan;          /* index range pool (docs/families/areaman.h) */
 

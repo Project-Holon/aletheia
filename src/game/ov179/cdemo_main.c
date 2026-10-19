@@ -40,11 +40,9 @@ struct Proc;
 struct DispVram;
 struct Mtx22;
 struct Node;
-typedef unsigned int u32;
+#include "../types.h"
 
 typedef struct {int m[4];} Mtx;
-
-typedef unsigned char  u8;
 
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
@@ -77,7 +75,6 @@ void CDEMO_MAIN_StopTask(char *p);
 extern unsigned char d_021B6B00[];
 extern int d_021B68E4[];
 
-
 int CDEMO_MAIN_Create(struct ProcSystem *p, u32 b, u32 c)
 {
     struct CdemoState *r;
@@ -90,7 +87,6 @@ int CDEMO_MAIN_Create(struct ProcSystem *p, u32 b, u32 c)
     return 1;
 }
 
-
 int CDEMO_MAIN_Update(int a, int b, int c, int d)
 {
     if (CDEMO_WIPE_RunScript((char *)d))
@@ -98,14 +94,12 @@ int CDEMO_MAIN_Update(int a, int b, int c, int d)
     return 1;
 }
 
-
 int CDEMO_MAIN_Destroy(void *p)
 {
     PROCSYS_FreeProcWork(p);
     GFL_HEAP_DeleteChecked(0x7f);
     return 1;
 }
-
 
 void CDEMO_MAIN_SetupVram(void)
 {
@@ -127,12 +121,10 @@ void CDEMO_MAIN_SetupScreen(char *unused)
  BG_SYS_SetMainPlaneVisible(0x13,0);BG_SYS_SetMainPlaneVisible(0xC,1);
 }
 
-
 void CDEMO_MAIN_HidePlane(void)
 {
     BG_SYS_SetMainPlaneVisible(12, 0);
 }
-
 
 void CDEMO_MAIN_SetScript(char *p)
 {
@@ -147,12 +139,10 @@ void CDEMO_MAIN_Noop(char *p)
 {
 }
 
-
 void CDEMO_MAIN_StartTask(int *p)
 {
     ((struct CdemoState *)p)->task = (void *)GFL_USE_AddMainTask((void *)0x021B6279, p, 0);
 }
-
 
 void CDEMO_MAIN_StopTask(char *p)
 {

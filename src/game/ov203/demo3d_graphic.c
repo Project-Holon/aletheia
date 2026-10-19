@@ -93,7 +93,7 @@ typedef struct Demo3dGraphicClact { struct Bank *unit; } Demo3dGraphicClact;
 /* The g3d sub-section of Demo3dGraphic at 0x08. */
 typedef struct Demo3dGraphicG3d { int tag; struct LightSlot *lightSlots; } Demo3dGraphicG3d;
 
-typedef signed short s16;
+#include "../types.h"
 
 extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, unsigned short);
 

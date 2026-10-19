@@ -67,7 +67,6 @@
  *   scenemenu_bss                    0x021DE59C  data
  *   scenemenu_init_20658             0x021DA474  data
  *   scenemenu_rodata                 0x021DA478  data
- *   procScene                        0x021CCC70  arm
  *   gSceneSetSelectWayButtonRects                       0x021DA818  data
  *   DWCi_BTNlEnd  0x021BCAE4  arm  ov016
  *   endScene2  0x021CCEE4  arm  ov016
@@ -95,11 +94,7 @@
 
 typedef _Bool bool;
 
-typedef signed char s8;
-
-typedef unsigned char u8;
-
-typedef unsigned short u16;
+#include "../types.h"
 
 typedef struct Rect {
     unsigned short left, top, right, bottom;
@@ -207,7 +202,6 @@ static void endScene2(void);
 static void moveFocus(int dir);
 static void DWCi_SceneSetSelectWayDispPush(void);
 
-
 void DWCi_SceneSetSelectWay(void)
 {
     struct tagSETTINGINFO *info;
@@ -232,7 +226,6 @@ void DWCi_SceneSetSelectWay(void)
                      gSceneSetSelectWayFocusRects[DWCi_Flag(1)][gSceneSetSelectWayFocus.cur].bottom);
     DWCi_ChangeScene(procInit);
 }
-
 
 /*
  * Copy a 0x16-byte NCL resource path from the static table into a stack
@@ -265,11 +258,7 @@ static void initGraphics(void)
 }
 
 
-static void procScene(void);
-
-
 static void dispPushButton(void);
-
 
 static void procInit(void)
 {
@@ -279,7 +268,6 @@ static void procInit(void)
     DWCi_GXlVisible(0, 0x14);
     DWCi_ChangeScene(procInit1);
 }
-
 
 static void procInit1(void)
 {
@@ -291,15 +279,13 @@ static void procInit1(void)
     DWCi_ChangeScene(procInit2);
 }
 
-
 static void procInit2(void)
 {
     if (DWCi_BTNlGet() == -2)
         return;
     DWCi_BTNlEnable();
-    DWCi_ChangeScene(procScene);
+    DWCi_ChangeScene(DWCi_SceneSetSelectWay_procScene);
 }
-
 
 void DWCi_SceneSetSelectWay_procScene(void)
 {
@@ -307,7 +293,6 @@ void DWCi_SceneSetSelectWay_procScene(void)
     DWCi_SceneSetSelectWay_draw();
     button();
 }
-
 
 static void input(void)
 {
@@ -352,7 +337,6 @@ void DWCi_SceneSetSelectWay_draw(void)
 {
 }
 
-
 /*
  * sdk:      button (libdwcutil.TWL.HYB.a scenesetselectwa)
  *
@@ -376,7 +360,6 @@ static void button(void)
     DWCi_ChangeScene(endScene);
 }
 
-
 /*
  * sdk:      endScene (libdwcutil.TWL.HYB.a scenesetselectwa)
  *
@@ -389,7 +372,6 @@ static void endScene(void)
     DWCi_EFFlWait(8);
     DWCi_ChangeScene(endScene1);
 }
-
 
 /*
  * sdk:      endScene1 (libdwcutil.TWL.HYB.a scenesetselectwa)
@@ -407,7 +389,6 @@ static void endScene1(void)
     DWCi_EFFlFade(3, 0, 20, 8);
     DWCi_ChangeScene(endScene2);
 }
-
 
 static void endScene2(void)
 {
@@ -449,7 +430,6 @@ static void endScene2(void)
     }
 }
 
-
 /*
  * sdk:      moveFocus (libdwcutil.TWL.HYB.a scenesetselectwa)
  *
@@ -474,7 +454,6 @@ static void moveFocus(int dir)
                   gSceneSetSelectWayFocusRects[DWCi_Flag(1)][gSceneSetSelectWayFocus.cur].top,
                   gSceneSetSelectWayFocusRects[DWCi_Flag(1)][gSceneSetSelectWayFocus.cur].bottom);
 }
-
 
 /*
  * sdk:      DWCi_SceneSetSelectWayDispPush (libdwcutil.TWL.HYB.a scenesetselectwa)

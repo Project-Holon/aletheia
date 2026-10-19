@@ -4,11 +4,7 @@
 /* Screen wipe system shared by wipe.c (the system and its entry points) and
  * wipe_sub.c (the patterns). */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed int     s32;
-typedef signed short   s16;
+#include "../types.h"
 
 /*
  * Window requests.  The wipes drive the DS hardware windows (the two window

@@ -104,11 +104,7 @@ struct BgTemplate;
 struct DispConfig;
 struct Bank;
 struct Cfg;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 typedef enum { SUB_BG_LAYER_FIRST = 0, SUB_BG_LAYER_SECOND = 1 } SubBgLayerIndex;
 
@@ -126,13 +122,9 @@ struct SubwayMapClactUnit {int unit;};
 
 struct SubwayMapScreen {u32 bgState; struct SubwayMapClactUnit clactUnit; void *camera; void *task;};
 
-typedef signed int     s32;
-
-typedef enum { GX_SHADING_TOON = 0, GX_SHADING_HIGHLIGHT = 1 } GXShading;
+#include "../sdk_gx.h"
 
 struct Record { u32 id; u32 bg[8]; u32 kind; u32 visible; };
-
-typedef signed short s16;
 
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(struct Proc *,u32,u32);
@@ -234,16 +226,10 @@ extern struct Record gSubwayMapGraphicMainBgLayerTable[];
 extern const s16 cfg[];
 extern u32 vecA[],vecB[],vecC[];
 
-
-
-
 static inline void GXS_SetMode(SubDisplayMode mode) {
  *(volatile u32 *)0x04001000 &= 0xffff1fff;
  *(volatile u32 *)0x04001000 |= mode<<15;
 }
-
-
-
 
 int SUBWAY_MAP_GRAPHIC_Init(struct Proc *proc,void *unused,void **args)
 {
@@ -291,10 +277,6 @@ int SUBWAY_MAP_GRAPHIC_Init(struct Proc *proc,void *unused,void **args)
  return 1;
 }
 
-
-
-
-
 /*
  * lever: enum do-loop with unsigned bound retains one table iteration; unsigned for-loop folds it, enum for-loop adds an entry guard.
  * volatile: sub-display blend/control reads and writes 021B973C-021B9746.
@@ -311,11 +293,6 @@ int SUBWAY_MAP_GRAPHIC_Exit(void *a,int b,int c,char *p)
     PROCSYS_FreeProcWork(a); GFL_HEAP_DeleteChecked(136);
     return 1;
 }
-
-
-
-
-
 
 int SUBWAY_MAP_GRAPHIC_Main(void *a,unsigned *state,int b,char *p)
 {
@@ -336,17 +313,7 @@ int SUBWAY_MAP_GRAPHIC_Main(void *a,unsigned *state,int b,char *p)
     return 0;
 }
 
-
-
-
-
-
 void SUBWAY_MAP_GRAPHIC_TaskNoop(void) {}
-
-
-
-
-
 
 void SUBWAY_MAP_GRAPHIC_LoadCommonAssets(u16 *work)
 {
@@ -360,59 +327,35 @@ void SUBWAY_MAP_GRAPHIC_LoadCommonAssets(u16 *work)
     BG_SYS_PushTile(2);
 }
 
-
-
-
 void SUBWAY_MAP_GRAPHIC_ReleaseCommonAssets(char *unused) {}
-
-
-
 
 static inline void G2_SetBG0Priority(int priority) {
     *(volatile u16 *)0x04000008 = (u16)((*(volatile u16 *)0x04000008 & ~3) | priority);
 }
 
-
-
-
 static inline void G3X_SetShading(GXShading shading) {
     DISP = (u16)((DISP & ~(2 | 0x1000 | 0x2000)) | (shading << 1));
 }
-
-
-
 
 static inline void G3X_AntiAlias(int enable) {
     if(enable) DISP = (u16)((DISP & ~(0x1000|0x2000)) | 16);
     else DISP &= (u16)~(16|0x1000|0x2000);
 }
 
-
-
-
 static inline void G3X_AlphaTest(int enable,int ref) {
     if(enable) { DISP = (u16)((DISP & ~(0x1000|0x2000)) | 4); *(volatile u16 *)0x04000340 = (u16)ref; }
     else DISP &= (u16)~(4|0x1000|0x2000);
 }
-
-
-
 
 static inline void G3X_AlphaBlend(int enable) {
     if(enable) DISP = (u16)((DISP & ~(0x1000|0x2000)) | 8);
     else DISP &= (u16)~(8|0x1000|0x2000);
 }
 
-
-
-
 static inline void G3X_EdgeMarking(int enable) {
     if(enable) DISP = (u16)((DISP & ~(0x1000|0x2000)) | 32);
     else DISP &= (u16)~(32|0x1000|0x2000);
 }
-
-
-
 
 void SUBWAY_MAP_GRAPHIC_Setup3d(void)
 {
@@ -432,32 +375,17 @@ void SUBWAY_MAP_GRAPHIC_Setup3d(void)
     G3D_SYSTEM_SetSwapBuffersMode(0,0);
 }
 
-
-
-
 static inline void G2_BlendNone(void) { *(volatile u16 *)0x04000050 = 0; }
 
-
-
-
 static inline void G2S_BlendNone(void) { *(volatile u16 *)0x04001050 = 0; }
-
-
-
 
 static inline void GX_SetVisibleWnd(int window) {
     *(volatile u32 *)0x04000000 = (u32)((*(volatile u32 *)0x04000000 & ~0xE000) | (window << 13));
 }
 
-
-
-
 static inline void GXS_SetVisibleWnd(int window) {
     *(volatile u32 *)0x04001000 = (u32)((*(volatile u32 *)0x04001000 & ~0xE000) | (window << 13));
 }
-
-
-
 
 void *SUBWAY_MAP_GRAPHIC_CreateScreen(u32 swap, u32 heap)
 {
@@ -481,9 +409,6 @@ void *SUBWAY_MAP_GRAPHIC_CreateScreen(u32 swap, u32 heap)
     return p;
 }
 
-
-
-
 void SUBWAY_MAP_GRAPHIC_DeleteScreen(char *p)
 {
     TCB_DeleteTask(((struct SubwayMapScreen *)p)->task);
@@ -499,9 +424,6 @@ void SUBWAY_MAP_GRAPHIC_DeleteScreen(char *p)
     GFL_HEAP_Free(p);
 }
 
-
-
-
 void SUBWAY_MAP_GRAPHIC_DrawScreen(void *p)
 {
     void SUBWAY_MAP_GRAPHIC_DrawClactUnit(void *);
@@ -509,9 +431,6 @@ void SUBWAY_MAP_GRAPHIC_DrawScreen(void *p)
     SUBWAY_MAP_GRAPHIC_DrawClactUnit((char *)p + 4);
     SUBWAY_MAP_GRAPHIC_DrawBg(p);
 }
-
-
-
 
 /*
  * Addresses are Black-image addresses.
@@ -521,8 +440,6 @@ void SUBWAY_MAP_GRAPHIC_VBlankScreen(void *unused, char *p)
     SUBWAY_MAP_GRAPHIC_VBlankBg(p);
     SUBWAY_MAP_GRAPHIC_VBlankClactUnit(p + 4);
 }
-
-
 
 void SUBWAY_MAP_GRAPHIC_CreateBg(void *p, u32 heap)
 {
@@ -540,8 +457,6 @@ void SUBWAY_MAP_GRAPHIC_CreateBg(void *p, u32 heap)
     }
 }
 
-
-
 void SUBWAY_MAP_GRAPHIC_DeleteBg(void *p) {
     u32 i;
     for (i=0; i<2; i++) BG_SYS_FreeLayerBuf((u8)(*(const u32 *)((const u8 *)gSubwayMapGraphicMainBgLayerTable+i*44)));
@@ -550,16 +465,9 @@ void SUBWAY_MAP_GRAPHIC_DeleteBg(void *p) {
     MI_CpuFill8(p,0,4);
 }
 
-
-
 void SUBWAY_MAP_GRAPHIC_DrawBg(void *work) {}
 
-
-
 void SUBWAY_MAP_GRAPHIC_VBlankBg(void *work) { BG_SYS_Update(); }
-
-
-
 
 void SUBWAY_MAP_GRAPHIC_CreateClactUnit(unsigned char *p, int a, int b)
 {
@@ -571,9 +479,6 @@ void SUBWAY_MAP_GRAPHIC_CreateClactUnit(unsigned char *p, int a, int b)
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
-
-
-
 void SUBWAY_MAP_GRAPHIC_DeleteClactUnit(char *p)
 {
     CLACT_DeleteUnit((struct Bank *)(((struct SubwayMapClactUnit *)p)->unit));
@@ -581,15 +486,9 @@ void SUBWAY_MAP_GRAPHIC_DeleteClactUnit(char *p)
     MI_CpuFill8(p, 0, 4);
 }
 
-
-
 void SUBWAY_MAP_GRAPHIC_DrawClactUnit(void *work) { CLACT_DrawSystem(); }
 
-
-
 void SUBWAY_MAP_GRAPHIC_VBlankClactUnit(void *work) { CLACT_VBlankSystem(); }
-
-
 
 void SUBWAY_MAP_GRAPHIC_CreateCamera(void **p,u32 heap)
 {
@@ -597,7 +496,6 @@ void SUBWAY_MAP_GRAPHIC_CreateCamera(void **p,u32 heap)
     *p = G3D_CAMERA_Create(0,cfg[6],cfg[7],0x1555,0,0x1000,0x400000,0,
         vecA,vecB,vecC,heap);
 }
-
 
 void SUBWAY_MAP_GRAPHIC_DeleteCamera(u32 *p)
 {

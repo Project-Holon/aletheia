@@ -74,9 +74,9 @@ struct EventDataSystem;
 
 struct EventWork;
 
-typedef signed short s16;
+#include "../types.h"
 
-typedef enum { FALSE, TRUE } BOOL;
+typedef enum { FALSE, TRUE } Bool;
 
 /* Wait callback of a script command: receives the script work as user data. */
 typedef int (*ScriptWorkWaitFn)(ScriptVm *vm, struct ScriptWork *scriptWork);
@@ -247,7 +247,7 @@ int SCRCMD_NETWORK_PickSixDistinctRandom(ScriptVm *vm, struct ScriptWork *script
 
 int SCRCMD_NETWORK_FindNpcTableRow(const NpcTableRow *table, int keyA, int keyB);
 
-BOOL SCRCMD_NETWORK_HasSituationWarpChanged(struct GameData *gameData);
+Bool SCRCMD_NETWORK_HasSituationWarpChanged(struct GameData *gameData);
 
 int SCRCMD_NETWORK_CommProcEventMain(struct GameEvent *event, u32 *seq, void *workArg);
 
@@ -542,7 +542,7 @@ int SCRCMD_NETWORK_FindNpcTableRow(const NpcTableRow *table, int keyA, int keyB)
 }
 
 /* TRUE when the situation warp id differs from the current one. */
-BOOL SCRCMD_NETWORK_HasSituationWarpChanged(struct GameData *gameData)
+Bool SCRCMD_NETWORK_HasSituationWarpChanged(struct GameData *gameData)
 {
     int currentWarpId = MAP_REPLACE_GetDefaultWarpId();
 

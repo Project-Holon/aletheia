@@ -52,13 +52,7 @@
  *   3  0x05000600  sub OBJ
  */
 struct PalAnmSlot;
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef unsigned char  u8;
-
-typedef unsigned long long u64;
+#include "../types.h"
 
 struct PalAnmTimer {
     u32 active;
@@ -116,10 +110,6 @@ extern const char sPalAnmFileName[];
 extern const char sPalAnmFileName[];
 
 struct Node;
-
-typedef signed int     s32;
-
-typedef signed   short s16;
 
 typedef struct {
     u16 paletteBits;

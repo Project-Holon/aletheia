@@ -4,13 +4,7 @@
 /* Shared types of the Wi-Fi club actor module (people walking on the tile map
  * and the cursor that picks one). Module name is a guess from the callees. */
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned long u32;
-typedef signed char s8;
-typedef signed short s16;
-typedef signed long s32;
-typedef int BOOL;
+#include "../types.h"
 
 typedef struct { short x, y; } TilePos;
 typedef struct { u16 w, h; } MapSize;

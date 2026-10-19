@@ -19,7 +19,7 @@
  *   DSP_QuitProcess  0x02705E04  arm
  *   @38  0x02732D7C  data twl a1
  */
-typedef unsigned int u32;
+#include "../types.h"
 
 typedef struct {
     u32 pad0;

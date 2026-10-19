@@ -178,11 +178,7 @@ struct RtcTime{unsigned hour,minute,second;};
 
 typedef enum { SZ0=0,SZ1=1,SZ2=2,SZ3=3 } GXBGScrSize256x16Pltt;
 
-typedef enum { OVER0=0,OVER1=1 } GXBGAreaOver;
-
-typedef enum { SB0=0,SB31=31 } GXBGScrBase;
-
-typedef enum { CB0=0,CB15=15 } GXBGCharBase;
+#include "../sdk_gx.h"
 
 typedef struct { unsigned int words[7]; } ClactInitConfig;
 
@@ -558,8 +554,8 @@ int LOCAL_TVT_SYS_Main(u8 *p)
     if(((struct LocalTvtSys *)p)->frameTimer<20) ((struct LocalTvtSys *)p)->frameTimer++;
     if(((struct LocalTvtSys *)p)->activeChara.asInt==0 && ((struct LocalTvtSys *)p)->charaCursor==4) {
         if(((struct LocalTvtSys *)p)->highBase==0) {charBase2=4;charBase3=10;} else {charBase2=7;charBase3=13;}
-        G2_SetBG2Control256x16Affine(SZ1,OVER1,(GXBGScrBase)13,charBase2);
-        G2_SetBG3Control256x16Affine(SZ1,OVER1,(GXBGScrBase)14,charBase3);
+        G2_SetBG2Control256x16Affine(SZ1,GX_BG_AREAOVER_XLU,(GXBGScrBase)13,charBase2);
+        G2_SetBG3Control256x16Affine(SZ1,GX_BG_AREAOVER_XLU,(GXBGScrBase)14,charBase3);
         ((struct LocalTvtSys *)p)->highBase=((struct LocalTvtSys *)p)->highBase==0?1:0;
         ((struct LocalTvtSys *)p)->charaCursor=0;
         ((struct LocalTvtSys *)p)->frameTimer=0;

@@ -53,9 +53,7 @@
  */
 #include "beacon_status_shared_types.h"
 
-typedef signed short   s16;
-
-typedef signed int     s32;
+#include "../types.h"
 
 struct BmpWin;          /* BG bitmap window */
 

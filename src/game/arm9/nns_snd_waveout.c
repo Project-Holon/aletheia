@@ -46,10 +46,7 @@
  *   SND_WaitForCommandProc   0x02089CD4  arm
  *   SND_SetChannelVolume  0x02089638  arm
  */
-typedef unsigned int u32;
-typedef unsigned long long u64;
-typedef unsigned char  u8;
-typedef unsigned short u16;
+#include "../types.h"
 
 /* Allocator state at 0x0214DEC0. */
 struct NNSSndWaveOutState {

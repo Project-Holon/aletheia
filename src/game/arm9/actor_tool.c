@@ -22,7 +22,7 @@
  *   CLACT_ReleasePalette  0x0204ADA4  arm
  *   CLACT_GetPaletteVramAddress  0x0204AEF4  arm
  */
-#include "actor_tool_shared_types.h"
+#include "../types.h"
 
 /* Slot allocator for actor character/palette runs: two banks (main and sub
  * engine), 16 slots each; 0xFF marks a free slot, an allocated run is

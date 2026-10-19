@@ -29,7 +29,7 @@
  *   MYSTATUS_IsNameEmpty  0x020084BC  thumb
  *   MYSTATUS_GetSex  0x02008550  thumb
  */
-#include "cursor_move_shared_types.h"
+#include "../types.h"
 #include "game_beacon_types.h"
 #include "game_comm_shared_types.h"
 

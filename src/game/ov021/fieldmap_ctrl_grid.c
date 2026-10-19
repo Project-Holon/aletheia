@@ -33,8 +33,7 @@
  */
 #include "fieldmap_types.h"
 
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../types.h"
 
 struct FieldPlayer;
 struct Mmdl;

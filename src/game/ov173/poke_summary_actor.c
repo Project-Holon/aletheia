@@ -100,11 +100,7 @@ struct IcaAnime;
 struct CursorMove;
 struct Sound;
 struct Actor;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 typedef enum { OFFSET=14 } Offset;
 
@@ -229,18 +225,9 @@ extern char k_83[];
 extern u8 d_021B81DC[];
 extern const u8 d_021B83A8[];
 
-
-
-
 void POKE_SUMMARY_ACTOR_InitSystem(u8 *work, void *archiveHandle) {Offset off;struct Bank *b;CLACT_InitSystem((struct SysInit *)(&d_021B820C),(struct DispVramCfg *)d_021B8250,79);off=OFFSET;b=CLACT_CreateUnit(14,0,79);off+=242;*(struct Bank **)(work+off)=b;CLACT_SetUnitDefaultRenderer(b);BG_SYS_SetMainPlaneVisible(16,1);BG_SYS_SetSubPlaneVisible(16,1);}
 
-
-
-
 void POKE_SUMMARY_ACTOR_DeleteSystem(u8 *work) {u32 i;for(i=0;i<14;i++)CLACT_DeleteActor(((struct PokeSummaryWork *)work)->actors[i]);CLACT_DeleteUnit(*(struct Bank * *)&((struct PokeSummaryWork *)work)->unit);CLACT_ExitSystem();ARC_TOOL_DeleteHandle(((struct PokeSummaryWork *)work)->resourceHandle);}
-
-
-
 
 void POKE_SUMMARY_ACTOR_RegisterResources(char *work,void *archiveHandle)
 {
@@ -278,18 +265,9 @@ void POKE_SUMMARY_ACTOR_RegisterResources(char *work,void *archiveHandle)
     ARC_TOOL_DeleteHandle((void *)second);
 }
 
-
-
-
 void POKE_SUMMARY_ACTOR_TransferCharacter(u32 archiveHandle,int charId,u32 memberIdx,u32 heapID,u16 heap) {void *raw;struct Sub0204A9D0 *out;raw=ARC_UTIL_LoadScreenDataFromHandle((void *)archiveHandle,memberIdx,heapID,(&out),heap);CLACT_TransferCharacter(charId,out);GFL_HEAP_Free(raw);}
 
-
-
-
 void POKE_SUMMARY_ACTOR_SetMoveIcon(u8 *work, u16 id, u16 i) {u32 n;n=WAZA_TOOL_GetParam(id,0);((struct PokeSummaryWork *)work)->transfers[i].param=n;((struct PokeSummaryWork *)work)->transfers[i].flag=1;CLACT_SetActorPaletteOffset((struct Actor *)(*(struct Obj **)(work+(i+8)*4+260)),APP_ICON_GetTypePaletteOffset((u8)n),1);}
-
-
-
 
 void POKE_SUMMARY_ACTOR_FlushPendingTransfers(char *work)
 {
@@ -301,9 +279,6 @@ void POKE_SUMMARY_ACTOR_FlushPendingTransfers(char *work)
         }
     }
 }
-
-
-
 
 void POKE_SUMMARY_ACTOR_LayoutMoveActors(char *work)
 {
@@ -326,13 +301,7 @@ void POKE_SUMMARY_ACTOR_LayoutMoveActors(char *work)
     }
 }
 
-
-
-
 void POKE_SUMMARY_ACTOR_SetMoveAnim(u8 *work, u16 id) {CLACT_SetActorAnimSeq((struct Actor *)(*(struct Obj * *)&((struct PokeSummaryWork *)work)->actors[3]),WAZA_TOOL_GetParam(id,2));}
-
-
-
 
 /*
  * abi: B294 returns the Obj pointer stored and used by this caller.
@@ -359,10 +328,6 @@ void POKE_SUMMARY_ACTOR_CreateActors(char *work,void *archiveHandle)
     CLACT_SetActorAutoAnim(((struct PokeSummaryWork *)work)->actors[0],1);
 }
 
-
-
-
-
 void POKE_SUMMARY_ACTOR_PositionMonActor(unsigned char *work, u32 idx, int unused)
 {
     u16 local[2];
@@ -385,13 +350,7 @@ void POKE_SUMMARY_ACTOR_PositionMonActor(unsigned char *work, u32 idx, int unuse
     }
 }
 
-
-
-
 int POKE_SUMMARY_ACTOR_StartWipe(u8 *work) {WIPE_SYS_Start(0,0,0,0,6,1,79);((struct PokeSummaryWork *)work)->state=11;return 0;}
-
-
-
 
 int POKE_SUMMARY_ACTOR_StartProc(char *work)
 {
@@ -414,10 +373,6 @@ int POKE_SUMMARY_ACTOR_StartProc(char *work)
     return 12;
 }
 
-
-
-
-
 int POKE_SUMMARY_ACTOR_StartNetRestart(void *work)
 {
     unsigned char v;
@@ -436,13 +391,7 @@ int POKE_SUMMARY_ACTOR_StartNetRestart(void *work)
     return 0;
 }
 
-
-
-
 void POKE_SUMMARY_ACTOR_CreateSound(u8 *work) {struct CursorMove *q;q=(struct CursorMove *)CURSOR_MOVE_Create((struct CursorEntry *)d_021B83A8,(struct CursorVtbl *)d_021B81DC,(u32)work,1,0,79);((struct PokeSummaryWork *)work)->sound=q;CURSOR_MOVE_ClearSkipBit((struct Cursor *)q,8);POKE_SUMMARY_ACTOR_UpdateScrollArrows((char *)work);}
-
-
-
 
 /*
  *   CURSOR_MOVE_Delete (0x02025D14) stays wildcarded because the target is an
@@ -456,15 +405,9 @@ int POKE_SUMMARY_ACTOR_UpdateSound(int *work)
     return CURSOR_MOVE_Delete((void *)(((struct PokeSummaryWork *)work)->sound));
 }
 
-
-
 void POKE_SUMMARY_ACTOR_Noop(void)
 {
 }
-
-
-
-
 
 void POKE_SUMMARY_ACTOR_SelectRow(char *work,int row,int old)
 {
@@ -502,10 +445,6 @@ void POKE_SUMMARY_ACTOR_SelectRow(char *work,int row,int old)
     } else GFL_USE_PlaySeDefaultVolume(0x54C);
     POKE_SUMMARY_ACTOR_PositionMonActor((u8 *)work,(u8)row,3);
 }
-
-
-
-
 
 /*
  *   one --thumb, no region: EXACT, 10 bytes, blocker260E4.log.
@@ -561,10 +500,6 @@ void POKE_SUMMARY_ACTOR_HandleCursorInput(char *work,int i)
     POKE_SUMMARY_ACTOR_PositionMonActor((u8 *)work,(u8)i,3);
 }
 
-
-
-
-
 /*
  * extent: padding at 0x021B7F4E; separate follower POKE_SUMMARY_ACTOR_IsTaskMenuOpen at 0x021B7F50.
  */
@@ -591,20 +526,12 @@ void POKE_SUMMARY_ACTOR_ToggleTaskMenu(char *work, int flag)
     }
 }
 
-
-
-
-
 int POKE_SUMMARY_ACTOR_IsTaskMenuOpen(char *work)
 {
     if (((struct PokeSummaryWork *)work)->taskMenuWindows[0] != 0)
         return 1;
     return 0;
 }
-
-
-
-
 
 void POKE_SUMMARY_ACTOR_UpdateScrollArrows(char *work)
 {
@@ -626,10 +553,6 @@ void POKE_SUMMARY_ACTOR_UpdateScrollArrows(char *work)
     }
 }
 
-
-
-
-
 void POKE_SUMMARY_ACTOR_SetScrollAnim(u8 *work,int direction)
 {
     CLACT_SetActorAnimFrame(((struct PokeSummaryWork *)work)->actors[1],0);
@@ -644,9 +567,6 @@ void POKE_SUMMARY_ACTOR_SetScrollAnim(u8 *work,int direction)
         CLACT_SetActorAnimSeq(((struct PokeSummaryWork *)work)->actors[0],2);
     }
 }
-
-
-
 
 void POKE_SUMMARY_ACTOR_SetIdleAnim(u8 *work)
 {
@@ -666,10 +586,6 @@ void POKE_SUMMARY_ACTOR_SetIdleAnim(u8 *work)
     }
 }
 
-
-
-
-
 int POKE_SUMMARY_ACTOR_OpenDecideWin(char *work, u16 result)
 {
     char *q = work + 0x1d0;
@@ -681,18 +597,9 @@ int POKE_SUMMARY_ACTOR_OpenDecideWin(char *work, u16 result)
     return 0xd;
 }
 
-
-
-
 int POKE_SUMMARY_ACTOR_ConfirmDecide(u8 *work,u16 result) {u8 *q;q=work+464;((struct PokeSummaryDecide *)q)->active=1;((struct PokeSummaryDecide *)q)->windowIndex=0;((struct PokeSummaryDecide *)q)->result=result;APP_TASKMENU_WIN_SetDecide((struct TaskMenuWin *)(*(char **)(work+((struct PokeSummaryDecide *)q)->windowIndex*4+544)),1);return 13;}
 
-
-
-
 int POKE_SUMMARY_ACTOR_ConfirmDecideById(char *work,unsigned short id) {unsigned short *q=(unsigned short *)(work+0x1d0);q[5]=1;q[3]=1;q[4]=id;APP_TASKMENU_WIN_SetDecide((struct TaskMenuWin *)(*(char **)((unsigned)work+q[3]*4+0x220)),1);return 13;}
-
-
-
 
 int POKE_SUMMARY_ACTOR_WaitDecide(u8 *work)
 {
@@ -709,10 +616,6 @@ int POKE_SUMMARY_ACTOR_WaitDecide(u8 *work)
     return 13;
 }
 
-
-
-
-
 int POKE_SUMMARY_ACTOR_ShowTextKind2(char *work)
 {
     POKE_SUMMARY_MAIN_StartTextStream(work, 2);
@@ -721,11 +624,7 @@ int POKE_SUMMARY_ACTOR_ShowTextKind2(char *work)
     return 2;
 }
 
-
-
-
 int POKE_SUMMARY_ACTOR_ShowTextKind1Or4(char *work) {unsigned char flag;if(POKE_SUMMARY_MAIN_CountFreeMoves((void ***)work)<4) {POKE_SUMMARY_MAIN_StartTextStream(work,1);flag=0;} else {POKE_SUMMARY_MAIN_StartTextStream(work,4);flag=2;}((struct PokeSummaryWork *)work)->textKind=flag;((struct PokeSummaryWork *)work)->state=3;return 2;}
-
 
 void POKE_SUMMARY_ACTOR_SetSubBrightness(int enable)
 {

@@ -30,7 +30,7 @@
  */
 #include "touchpanel_shared_types.h"
 #include "net_types.h"
-#include "net_queue_shared_types.h"
+#include "../types.h"
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 

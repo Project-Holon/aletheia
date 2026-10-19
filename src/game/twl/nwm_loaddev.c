@@ -23,8 +23,7 @@
  *   DC_InvalidateRange  0x020862B8  arm  arm9
  *   NWMi_PostExitInfo                 0x027341A8  data
  */
-typedef unsigned char u8;
-typedef unsigned int u32;
+#include "../types.h"
 
 extern u32 NWMi_CheckState(u32, ...);
 extern u32 NWMi_GetSystemWork(void);

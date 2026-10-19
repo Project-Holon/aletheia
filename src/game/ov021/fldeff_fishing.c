@@ -53,7 +53,8 @@
 #include "field_effect_types.h"
 
 /* Opaque types of other files. */
-typedef struct MtxFx33 { fx32 m[3][3]; } MtxFx33;
+#include "../sdk_fx.h"
+
 typedef struct ArcHandle ArcHandle;
 typedef struct G3dResource G3dResource;                 /* layouts in arm9/g3d_system_types.h */
 typedef struct G3dRender G3dRender;

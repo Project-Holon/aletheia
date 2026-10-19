@@ -19,7 +19,7 @@
  *   MI_CpuCopy8 0x02082D44 arm
  *   sWf2dmapEmptyCell 0x021C600C data a4
  */
-#include "wf2dmap_map_shared_types.h"
+#include "../types.h"
 
 /* Tile grid of the 2D map (wf2dmap_map.c). */
 typedef struct Wf2dmapMapGrid {

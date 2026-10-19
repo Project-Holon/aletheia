@@ -29,7 +29,7 @@
  *   QUESTIONNAIRE_GetAnswerBitWidth  0x02167358  thumb  ov010
  *   GF_STANDARD_XorCryptEx  0x0203F37C  arm
  */
-#include "bsubway_savedata_shared_types.h"
+#include "../types.h"
 
 #define _RANDOM32 (*(volatile u32 *)0x02FFFC3C)
 

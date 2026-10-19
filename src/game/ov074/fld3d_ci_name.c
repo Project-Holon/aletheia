@@ -23,7 +23,7 @@
  * symbols:
  *   g_Fld3dCiNameRows  0x021F54F0  data  ov074  a4
  */
-typedef unsigned int u32;
+#include "../types.h"
 
 typedef struct Fld3dCiNameRow {
     u32 sequenceId;

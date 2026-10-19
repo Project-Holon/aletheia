@@ -70,7 +70,6 @@
  *   MBi_IsTaskAvailable              0x021f6610 arm
  *   MBi_EndTaskThread                0x021f67bc arm
  *   OS_RestoreInterrupts             0x0208799c arm
- *   MBi_OnReset                      0x021f5ed8 arm
  *   WM_Disconnect  0x0208F938  arm
  *   MBi_ClearParentPieceBuffer  0x021F6850  arm  ov107
  *   WM_SetMPDataToPortEx             0x0208fcb4 arm
@@ -87,17 +86,12 @@ static u16 mbi_life_mp = 0x28;
 static int mbi_power_save_mode = 1;
 
 
-struct WMPortRecvCallback {
-    char _0[2];
-    u16 errcode;
-    u16 state;
-};
+#include "../sdk_wm.h"
 
 extern u16 WM_GetAllowedChannel(void);
 extern void MBi_CheckWmErrcode(u16 apiid, int errcode);
 extern int WM_SetIndCallback(void (*callback)(void *));
 extern int WM_SetLifeTime(void (*callback)(void *), u16 tableNumber, u16 camLifeTime, u16 frameLifeTime, u16 mpLifeTime);
-struct WMParentParam;
 extern int WM_SetParentParameter(void (*callback)(void *), struct WMParentParam *pparaBuf);
 extern int WM_SetBeaconIndication(void (*callback)(void *), u16 flag);
 extern int WMi_StartParentEx(void (*callback)(void *), int powerSave);
@@ -776,7 +770,6 @@ extern int WM_Reset(u32 param);
 extern void MBi_CheckWmErrcode(u16 apiid, int errcode);
 extern int MBi_IsTaskAvailable(void);
 extern void MBi_EndTaskThread(void (*callback)(struct MBiTaskInfo *));
-extern void MBi_OnReset(void);
 extern int WM_Disconnect(void (*callback)(void *), u16 aid);
 extern void MBi_ClearParentPieceBuffer(u16 child_aid);
 extern int WM_SetMPDataToPortEx(void (*callback)(void *), void *arg, u16 *sendData, u16 sendDataSize, u16 destBitmap, u16 port, u16 prio);
@@ -1045,7 +1038,7 @@ int MBi_CommEnd(void)
         *(u32 *)(*(char **)(gMbWm + 0xC) + 0x5E4) = 0;
         *(u16 *)(*(char **)(gMbWm + 0xC) + 0x526) = 1;
         if (MBi_IsTaskAvailable()) {
-            MBi_EndTaskThread((void (*)(struct MBiTaskInfo *))MBi_OnReset);
+            MBi_EndTaskThread((void (*)(struct MBiTaskInfo *))MB_ResetWm);
             ret = 0;
         } else {
             ret = MBi_CallReset();

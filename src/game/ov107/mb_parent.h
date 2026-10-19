@@ -7,19 +7,9 @@
  * MB_CommCommonWork that WmBase.ext points at.
  */
 
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-typedef unsigned long u32;
-typedef signed int s32;
-typedef int BOOL;
+#include "../types.h"
 
-typedef struct MBUserInfo {
-    u8 favoriteColour : 4;
-    u8 playerNo : 4;
-    u8 nameLength;
-    u16 name[10];
-} MBUserInfo;
+#include "../sdk_mb.h"
 
 typedef struct MBGameInfo {
     u8 pad0[0x14];
@@ -33,39 +23,6 @@ typedef struct MbDownloadFileInfoHeader {
     u32 arm7EntryAddr;
     u32 reserved;
 } MbDownloadFileInfoHeader;
-
-typedef struct MB_BlockInfoTable {
-    u32 seg_src_offset[3];
-    u16 seg_head_blockno[3];
-    u16 block_num;
-} MB_BlockInfoTable;
-
-typedef struct MBiCacheInfo {
-    u32 src;
-    u32 len;
-    u8 *ptr;
-    u32 state;
-} MBiCacheInfo;
-
-typedef struct MBiCacheList {
-    u32 lifetime;
-    u32 recent;
-    MBiCacheInfo *p_list;
-    u32 size;
-    char arc_name[4];
-    u32 arc_name_len;
-    void *arc_pointer;
-    u8 reserved[20];
-    MBiCacheInfo list[4];
-} MBiCacheList;
-
-typedef struct MBiTaskInfo {
-    struct MBiTaskInfo *next;
-    u32 priority;
-    void (*task)(struct MBiTaskInfo *);
-    void (*callback)(struct MBiTaskInfo *);
-    u32 param[4];
-} MBiTaskInfo;
 
 /* per-file parent state, 0x5D4 bytes */
 typedef struct MBiParentFileInfo {

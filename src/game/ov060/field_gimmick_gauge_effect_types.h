@@ -7,12 +7,7 @@
  * effect that the intrude sub display can show at a position. The gauges sit
  * in the column of the visited player, relative to the own net ID. */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed char    s8;
-typedef signed short   s16;
-typedef signed int     s32;
+#include "../types.h"
 
 #define FIELD_GIMMICK_GAUGE_EFFECT_GAUGE_MODEL_COUNT  0x14   /* models 0..0x13 */
 #define FIELD_GIMMICK_GAUGE_EFFECT_GAUGE_STEP_COUNT   10     /* steps per gauge row */
@@ -20,11 +15,7 @@ typedef signed int     s32;
 #define FIELD_GIMMICK_GAUGE_EFFECT_MODEL_COUNT        0x15
 #define FIELD_GIMMICK_GAUGE_EFFECT_EFFECT_ANIME_COUNT 3
 
-typedef struct VecFx32 {
-    int x;
-    int y;
-    int z;
-} VecFx32;
+#include "../sdk_fx.h"
 
 /* Field map common work (4 bytes), allocated in the setup function. */
 typedef struct FieldGimmickGaugeEffectWork {

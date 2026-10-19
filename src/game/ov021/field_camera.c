@@ -72,13 +72,7 @@
 #define FX_F32_TO_FX32(x) \
     ((int)(((x) > 0) ? (x) * 4096 + 0.5f : (x) * 4096 - 0.5f))
 
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef signed short   s16;
-
-typedef signed int     s32;
+#include "../types.h"
 
 typedef struct { s16 x, y, z; } VecS16;
 

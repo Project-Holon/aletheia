@@ -58,9 +58,7 @@
  */
 #include "field_g3d_map_types.h"
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../types.h"
 
 /* Block of the model file that holds the name dictionary (count and entry table). */
 typedef struct FieldG3dMapDictBlock {

@@ -16,50 +16,12 @@
  *   MI_CpuCopy8 0x02082D44 arm
  *   MIi_CpuCopy16  0x02082A60  arm
  */
-typedef unsigned long u32;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef unsigned char u8;
-
-typedef int BOOL;
-
-typedef struct OSBirthday {
-    u8 month;
-    u8 day;
-} OSBirthday;
-
-typedef struct OSOwnerInfo {
-    u8 language;
-    u8 favoriteColor;
-    OSBirthday birthday;
-    u16 nickName[11];
-    u16 nickNameLength;
-    u16 comment[27];
-    u16 commentLength;
-} OSOwnerInfo;
+#include "../sdk_os.h"
 
 /* The user settings copy in system work at 0x02FFFC80, as far as the
    reads here reach. */
-typedef struct OSiNvramOwner {
-    u8 version;
-    u8 rsv1;
-    u8 favoriteColor : 4;
-    u8 rsv2 : 4;
-    u8 month;
-    u8 day;
-    u8 rsv3;
-    u16 nickName[10];
-    u8 nickNameLength;
-    u8 rsv4;
-    u16 comment[26];
-    u8 commentLength;
-    u8 rsv5;
-    u8 rsv6[0x12];
-    u16 language : 3;
-    u16 rsv7 : 13;
-} OSiNvramOwner;
-
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern BOOL OS_IsRunOnTwl(void);
 extern void MIi_CpuCopy16(const void *src, void *dest, u32 size);
@@ -67,15 +29,12 @@ void OS_GetMacAddress(u8 *macAddress);
 void OS_GetOwnerInfo(OSOwnerInfo *info);
 long long OS_GetOwnerRtcOffset(void);
 
-
 void OS_GetMacAddress(u8 *macAddress)
 {
     MI_CpuCopy8((const void *)0x02FFFCF4, macAddress, 6);
 }
 
-
 #define OSi_NVRAM_OWNER ((OSiNvramOwner *)0x02FFFC80)
-
 
 /*
  * sdk:      OS_GetOwnerInfo (os_ownerinfo.o)

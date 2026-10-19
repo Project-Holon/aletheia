@@ -51,18 +51,9 @@ struct SOCLSocketParam {
     unsigned long w[16];
 };
 
-struct SOCSockAddrIn {
-    unsigned char len;
-    unsigned char family;
-    unsigned short port;
-    unsigned int addr;
-};
+#include "../sdk_soc.h"
 
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
+#include "../types.h"
 
 typedef struct {
 	char *name;
@@ -124,10 +115,6 @@ typedef struct SOCStatics {
     char pad30[0x20];
     SOCLConfig soclConfig;
 } SOCStatics;
-
-struct SOCInAddr {
-    unsigned long addr;
-};
 
 typedef struct {
 	int fd;
@@ -191,20 +178,12 @@ extern SOCLConfig gSoclStartupConfig;
 extern char _ZZ12SOC_InetNtoA9SOCInAddrE6buffer[16];
 extern char gSoclIpv4Format[];
 
-
-
-
-
 int SOC_Socket(int unused, int type)
 {
     if (type == 1)
         return SOCL_CreateSocket(&SOCLSocketParamTCP);
     return SOCL_CreateSocket(&SOCLSocketParamUDP);
 }
-
-
-
-
 
 int SOC_Bind(int s, void *sockAddr)
 {
@@ -214,10 +193,6 @@ int SOC_Bind(int s, void *sockAddr)
                                        | ((port << 8) & 0xff00)));
 }
 
-
-
-
-
 int SOC_Connect(int s, void * sockAddr)
 {
     struct SOCSockAddrIn * addr = (struct SOCSockAddrIn *)sockAddr;
@@ -225,18 +200,10 @@ int SOC_Connect(int s, void * sockAddr)
     return SOCL_Connect(s, SWAP16(addr->port), SWAP32(addr->addr));
 }
 
-
-
-
-
 int SOC_Recv(int s, void *buf, int len, int flags)
 {
     return SOCL_ReadFrom(s, buf, len, 0, 0, flags);
 }
-
-
-
-
 
 /*
  * Ask SOCL_ReadFrom for a two-word header into locals; on success and with a
@@ -261,16 +228,10 @@ int SOC_RecvFrom(int s, int buf, int len, int flags, u8 *sockFrom)
     return r;
 }
 
-
-
-
 int SOC_Send(int s, void *buf, int len, int flags)
 {
     return SOCL_WriteTo(s, buf, len, 0, 0, flags);
 }
-
-
-
 
 int SOC_SendTo(int s, void * buf, int len, int flags, void * sockTo)
 {
@@ -291,8 +252,6 @@ int SOC_SendTo(int s, void * buf, int len, int flags, void * sockTo)
     return SOCL_WriteTo(s, buf, len, port, ip, flags);
 }
 
-
-
 /*
  * Tail-call wrapper: the image spells it `ldr ip, [pc]; bx ip; .word
  * target`, which this compiler emits for a tail call to a callee whose
@@ -306,8 +265,6 @@ int SOC_Shutdown(int s, int how)
     return SOCL_Shutdown(s);
 }
 
-
-
 /*
  * Tail-call wrapper: the image spells it `ldr ip, [pc]; bx ip; .word
  * target`, which this compiler emits for a tail call to a callee whose
@@ -317,9 +274,6 @@ int SOC_Close(int s)
 {
     return SOCL_Close(s);
 }
-
-
-
 
 /*
  * sdk:      SOC_GetHostByName (libsoc.TWL.HYB.a(soc.o))
@@ -344,9 +298,6 @@ HostEnt *SOC_GetHostByName(const char *name)
 	gSocStatics.hostip = SWAP32(ipAddr);
 	return &gSocHostEnt;
 }
-
-
-
 
 /*
  * Fills the socket address at `sockAddr`: length byte 8, family 2, then the
@@ -373,9 +324,6 @@ int SOC_GetSockName(u8 *sock, u8 *sockAddr)
     return 0;
 }
 
-
-
-
 long SOC_GetHostID(void)
 {
     unsigned long hostId = SOCL_GetHostID();
@@ -384,9 +332,6 @@ long SOC_GetHostID(void)
                 | ((hostId << 8) & 0xff0000) | ((hostId << 24) & 0xff000000));
 }
 
-
-
-
 /*
  * sdk:      SOC_SetResolver (libsoc.TWL.HYB.a(soc.o))
  */
@@ -394,9 +339,6 @@ int SOC_SetResolver(unsigned long *dns1, unsigned long *dns2)
 {
 	return SOCL_SetResolver(SWAP32(*dns1), SWAP32(*dns2));
 }
-
-
-
 
 /*
  * sdk:      SOC_Fcntl (libsoc.TWL.HYB.a(soc.o))
@@ -423,9 +365,6 @@ int SOC_Fcntl(Sock *s, int cmd, int flags)
 	return 0;
 }
 
-
-
-
 static void *AllocFunc_SOCL(u32 size)
 {
     unsigned long *m;
@@ -437,8 +376,6 @@ static void *AllocFunc_SOCL(u32 size)
     return m;
 }
 
-
-
 static void FreeFunc_SOCL(void *ptr)
 {
     unsigned long *m;
@@ -448,8 +385,6 @@ static void FreeFunc_SOCL(void *ptr)
     m = (unsigned long *)((char *)ptr - 4);
     gSocStatics.FreeFunc_SOC(0, m, *m);
 }
-
-
 
 /*
  * sdk:      SOC_Startup (libsoc.TWL.HYB.a(soc.o))
@@ -478,7 +413,6 @@ int SOC_Startup(const SOCConfig *config)
     return SOCL_Startup(&gSoclStartupConfig);
 }
 
-
 /*
  * Tail call to SOCL_Cleanup; sits between SOC_Startup and SOC_InetNtoA in
  * soc.o, so it is SOC_Cleanup.
@@ -488,16 +422,11 @@ int SOC_Cleanup(void)
     return SOCL_Cleanup();
 }
 
-
 char *SOC_InetNtoA(struct SOCInAddr in)
 {
     SOC_InetNtoP(2, &in, _ZZ12SOC_InetNtoA9SOCInAddrE6buffer, 16);
     return _ZZ12SOC_InetNtoA9SOCInAddrE6buffer;
 }
-
-
-
-
 
 /*
  * sdk:      SOC_InetAtoN (libsoc.TWL.HYB.a(soc.o))
@@ -516,9 +445,6 @@ int SOC_InetAtoN(char *cp, unsigned long *inp)
 	return 1;
 }
 
-
-
-
 char *SOC_InetNtoP(int af, void *src, char *dst, unsigned int len)
 {
     unsigned long addr32;
@@ -534,8 +460,6 @@ char *SOC_InetNtoP(int af, void *src, char *dst, unsigned int len)
     return dst;
 }
 
-
-
 /*
  * Writes a word big-endian into four bytes.
  */
@@ -546,9 +470,6 @@ void SOC_U32to4U8(unsigned long adr_u32, unsigned char *adr_4u8)
     adr_4u8[2] = (unsigned char)(adr_u32 >> 8);
     adr_4u8[3] = (unsigned char)adr_u32;
 }
-
-
-
 
 /*
  * sdk:      SOC_Poll (libsoc.TWL.HYB.a(soc.o))

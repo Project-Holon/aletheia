@@ -24,13 +24,8 @@
  *   SSPiSoftwareBuffer           0x021CADC4  data
  *   GetAPP1  0x021C0440  arm  ov172
  */
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned long u32;
-
-typedef signed short s16;
+#define GAME_TYPES_U32_LONG
+#include "../types.h"
 
 extern void MI_CpuCopy(void *src, void *dst, u32 size);
 extern short GetAPP1(unsigned char *src, unsigned long src_size, unsigned long cur, long *soi_addr, int option);
@@ -40,27 +35,19 @@ long SSP_ExifDecode(unsigned char *src, unsigned long src_size, int *cur, int op
 
 static u16 SSPiSoftwareBufferSize = 0;
 
-
 static u16 SSPiMakerNoteUserBufferSize = 0;
-
 
 static u16 SSPiMakerNoteBufferSize = 0;
 
-
 static u32 SSPiMakerNoteUserBufferAddr = 0;
-
 
 static u32 SSPiMakerNoteBufferAddr = 0;
 
-
 static u32 SSPiDecodeSignCheckMode = 0;
-
 
 static u8 SSPiDateTime[20] = {0};
 
-
 static char SSPiSoftwareBuffer[30] = {0};
-
 
 unsigned short GetWord(unsigned char *src, unsigned long cur, short Endian)
 {
@@ -75,7 +62,6 @@ unsigned short GetWord(unsigned char *src, unsigned long cur, short Endian)
     }
     return word;
 }
-
 
 /*
  * sdk:      GetLong (exifdec.o)
@@ -97,8 +83,6 @@ unsigned long GetLong(unsigned char *src, unsigned long cur, short Endian)
     }
     return word;
 }
-
-
 
 s16 GetAPP1(u8 *src, u32 src_size, u32 cur, long *soi_addr, int option)
 {
@@ -349,8 +333,6 @@ s16 GetAPP1(u8 *src, u32 src_size, u32 cur, long *soi_addr, int option)
         }
     }
 }
-
-
 
 long SSP_ExifDecode(unsigned char *src, unsigned long src_size, int *cur, int option)
 {

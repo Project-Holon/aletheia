@@ -37,11 +37,7 @@
  *   GX_EndLoadClearImage  0x0207FCE4  arm
  */
 
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
+#include "../types.h"
 
 struct Arena02146B74 {
     u32 cur;    /* 0x00  low  cursor, grows upward   */
@@ -99,7 +95,6 @@ void NNS_GfdFuncLoadBG2ScrDup(u32 a, u32 b, u32 c);
 void NNS_GfdFuncLoadBG3ScrDup(u32 a, u32 b, u32 c);
 void NNS_GfdFuncLoadOBJPltt(u32 a, u32 b, u32 c);
 void NNS_GfdFuncLoadBGPltt(u32 a, u32 b, u32 c);
-
 
 /*
  * VRAM (or comparable fixed-arena) BUMP ALLOCATOR STEP, against the {cur, end}
@@ -253,26 +248,17 @@ done:
     return ((n >> 3) << 16) | ((addr << 13) >> 16);
 }
 
-
-
-
 void NNSi_GfdGetVramManagerWork(struct Arena02146B74 *dst)
 {
     dst->cur = g_02146B74.cur;
     dst->end = g_02146B74.end;
 }
 
-
-
-
 void NNSi_GfdSetVramManagerWork(void *pWork)
 {
     g_02146B74.cur = ((struct Arena02146B74 *)pWork)->cur;
     g_02146B74.end = ((struct Arena02146B74 *)pWork)->end;
 }
-
-
-
 
 /*
  * Returns (value + 1) modulo the +4 word, truncated to a halfword.
@@ -285,9 +271,6 @@ u32 NNSi_GfdRingNextIndex(u8 *p, u32 v)
 {
     return (u16)((v + 1) % ((struct NNSGfdVramRing *)p)->numEntries);
 }
-
-
-
 
 /*
  * Returns whether the +0xc halfword equals the +4 word.
@@ -304,9 +287,6 @@ int NNSi_GfdRingIsFull(u8 *p)
     return a == b ? 1 : 0;
 }
 
-
-
-
 /*
  * Returns whether the +0xc halfword is zero.
  *
@@ -318,8 +298,6 @@ int NNSi_GfdRingIsEmpty(void *p)
 {
     return ((struct NNSGfdVramRing *)p)->count == 0 ? 1 : 0;
 }
-
-
 
 /*
  * Verified with:
@@ -333,8 +311,6 @@ void NNS_GfdFuncLoadTex(u32 a, u32 b, u32 c)
     GX_EndLoadTex();
 }
 
-
-
 /*
  * Verified with:
  *   python tools/match.py one --src src/matched/NNS_GfdFuncLoadTexPltt.c \
@@ -346,8 +322,6 @@ void NNS_GfdFuncLoadTexPltt(u32 a, u32 b, u32 c)
     GX_LoadTexPltt((void *)a, b, c);
     GX_EndLoadTexPltt();
 }
-
-
 
 /*
  *           r2 sweep: still capped -- no EXACT manifest entry covers the site; the matched class has no witness to offer.
@@ -371,8 +345,6 @@ void NNS_GfdFuncLoadClearImageColor(u32 a, u32 b, u32 c)
     GX_EndLoadClearImage();
 }
 
-
-
 /*
  *           r2 sweep: still capped -- no EXACT manifest entry covers the site; the matched class has no witness to offer.
  *
@@ -393,72 +365,60 @@ void NNS_GfdFuncLoadClearImageDepth(u32 a, u32 b, u32 c)
     GX_EndLoadClearImage();
 }
 
-
 void NNS_GfdFuncLoadBG0Char(u32 a, u32 b, u32 c)
 {
     GX_LoadBG0Char((void *)a, b, c);
 }
-
 
 void NNS_GfdFuncLoadBG1Char(u32 a, u32 b, u32 c)
 {
     GX_LoadBG1Char((void *)a, b, c);
 }
 
-
 void NNS_GfdFuncLoadBG2Char(u32 a, u32 b, u32 c)
 {
     GX_LoadBG2Char((void *)a, b, c);
 }
-
 
 void NNS_GfdFuncLoadBG3Char(u32 a, u32 b, u32 c)
 {
     GX_LoadBG3Char((void *)a, b, c);
 }
 
-
 void NNS_GfdFuncLoadBG0Scr(u32 a, u32 b, u32 c)
 {
     GX_LoadBG0Scr((void *)a, b, c);
 }
-
 
 void NNS_GfdFuncLoadBG1Scr(u32 a, u32 b, u32 c)
 {
     GX_LoadBG1Scr((void *)a, b, c);
 }
 
-
 void NNS_GfdFuncLoadBG2Scr(u32 a, u32 b, u32 c)
 {
     GX_LoadBG2Scr((void *)a, b, c);
 }
-
 
 void NNS_GfdFuncLoadBG3Scr(u32 a, u32 b, u32 c)
 {
     GX_LoadBG3Scr((void *)a, b, c);
 }
 
-
 void NNS_GfdFuncLoadBG2ScrDup(u32 a, u32 b, u32 c)
 {
     GX_LoadBG2Scr((void *)a, b, c);
 }
-
 
 void NNS_GfdFuncLoadBG3ScrDup(u32 a, u32 b, u32 c)
 {
     GX_LoadBG3Scr((void *)a, b, c);
 }
 
-
 void NNS_GfdFuncLoadOBJPltt(u32 a, u32 b, u32 c)
 {
     GX_LoadOBJPltt((void *)a, b, c);
 }
-
 
 void NNS_GfdFuncLoadBGPltt(u32 a, u32 b, u32 c)
 {

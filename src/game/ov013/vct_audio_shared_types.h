@@ -3,6 +3,6 @@
 
 #include "vct_types.h"
 
-typedef u32 OSIntrMode;
+#include "../sdk_os.h"
 
 #endif

@@ -50,9 +50,7 @@
  *   GX_ResetBankForSubOBJExtPltt   0x020809F0  arm
  *   GX_SetBankForSubOBJExtPltt 0x0208083C  arm
  */
-typedef unsigned long u32;
-
-typedef int BOOL;
+#include "../types.h"
 
 #define GX_DMA_NOT_USE ((u32)-1)
 
@@ -415,7 +413,6 @@ void GX_LoadOBJExtPltt(const void *pSrc, u32 destSlotAddr, u32 szByte);
 void GX_EndLoadOBJExtPltt(void);
 
 void *GXS_BeginLoadBGExtPltt(void);
-
 
 void GX_BeginLoadOBJExtPltt(void)
 {

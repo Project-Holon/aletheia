@@ -27,9 +27,7 @@
  *   FLDMMDL_SetStatusBitVanish  0x0216DAC8  thumb  ov010
  *   _u32_div_f                   0x0209C2B0  arm
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../types.h"
 
 /* Counts and tables of the loaded rail data, and the rail system limits.
  * Sits at offset 8 of FieldRailLoader (0x30 bytes). */

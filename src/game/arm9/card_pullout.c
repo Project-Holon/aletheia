@@ -31,13 +31,7 @@
  *   PXI_SendWordByFifo 0x02088610  arm
  *   SVC_WaitByLoop 0x02004490  thumb
  */
-typedef unsigned long u32;
-
-typedef int BOOL;
-
-typedef unsigned short u16;
-
-typedef volatile u32 vu32;
+#include "../types.h"
 
 typedef struct CARDPulledOutState {
     u32 slot_reset_count;
@@ -67,7 +61,6 @@ void *CARD_IsPulledOut(void);
 void CARDi_CheckPulledOutCore(u32 id);
 extern CARDPulledOutState CARDiSlotResetCount;
 
-
 /*
  * sdk:      CARD_InitPulledOutCallback (libcard.TWL.HYB.a card_pullout.o)
  */
@@ -79,7 +72,6 @@ void CARD_InitPulledOutCallback(void)
     PXI_SetFifoRecvCallback(14, CARDi_PulledOutCallback);
     CARDiSlotResetCount.callback = 0;
 }
-
 
 /*
  * sdk:      CARDi_PulledOutCallback (libcard.TWL.HYB.a card_pullout.o)
@@ -119,7 +111,6 @@ void CARDi_PulledOutCallback(int tag, u32 data, BOOL err)
     }
 }
 
-
 /*
  * sdk:      CARD_SetPulledOutCallback (libcard.TWL.HYB.a card_pullout.o)
  */
@@ -128,12 +119,10 @@ void CARD_SetPulledOutCallback(int (*callback)(void))
     CARDiSlotResetCount.callback = callback;
 }
 
-
 void *CARD_IsPulledOut(void)
 {
     return (void *)CARDiSlotResetCount.is_pulled_out;
 }
-
 
 /*
  * sdk:      CARD_TerminateForPulledOut (libcard.TWL.HYB.a card_pullout.o)
@@ -157,7 +146,6 @@ void CARD_TerminateForPulledOut(void)
     OS_Terminate();
 }
 
-
 /*
  * sdk:      CARDi_CheckPulledOutCore (libcard.TWL.HYB.a card_pullout.o)
  */
@@ -173,7 +161,6 @@ void CARDi_CheckPulledOutCore(u32 id)
         (void)OS_RestoreInterrupts(bak_cpsr);
     }
 }
-
 
 /*
  * The verdict is EXACT*: 0x02077568 is the last labelled function in the

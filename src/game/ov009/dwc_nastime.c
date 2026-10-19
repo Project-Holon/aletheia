@@ -25,18 +25,7 @@
  *   DWCnastimediffvalid              0x021aa834 data
  */
 
-typedef struct RTCTime_ {
-    unsigned long hour;
-    unsigned long minute;
-    unsigned long second;
-} RTCTime;
-
-typedef struct RTCDate_ {
-    unsigned long year;
-    unsigned long month;
-    unsigned long day;
-    int week;
-} RTCDate;
+#include "../sdk_rtc.h"
 
 typedef struct NasTimeDiff_ {
     int valid;

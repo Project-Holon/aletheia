@@ -45,7 +45,7 @@
 #define DWC_AUTHSERVER_PRODUCTION 1
 #define DWC_ALLOCTYPE_BASE 2
 #define DWC_INIT_WORK_SIZE 0x1000
-typedef unsigned long u32;
+#include "../types.h"
 
 typedef void *(*DWCAllocEx)(int name, u32 size, int align);
 
@@ -83,8 +83,6 @@ extern char gcd_gamename[];
 extern char StatsServerHostname[];
 extern void *s_data_02146AAC;
 
-
-
 /*
  * sdk:      DWC_InitForProduction (libdwccommon.TWL.HYB.a dwc_init.o)
  */
@@ -93,8 +91,6 @@ int DWC_InitForProduction(const char *gameName, u32 gameCode, DWCAllocEx alloc, 
     OSi_ReferSymbol(id_string_production);
     return DWCi_Init(DWC_AUTHSERVER_PRODUCTION, gameName, gameCode, alloc, free);
 }
-
-
 
 /* @16103 "sdkdev.gamespy.com", @16104 "gamestats.gs.nintendowifi.net":
  * both strcpy calls below are expanded inline (see libc/string.h) */
@@ -146,18 +142,12 @@ int DWCi_Init(int authserver, const char *gameName, u32 gameCode, DWCAllocEx all
     return result;
 }
 
-
-
 void *DWCi_GetGamecode(void)
 {
     return s_data_02146AAC;
 }
 
-
-
 static DWCInitState dwc_init_state;
-
-
 
 void DWCi_Np_SetInitFlag(int initialized)
 {

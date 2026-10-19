@@ -79,14 +79,12 @@
  *   Y_IPT                            0x021DA5AC  data
  *   initGraphics                     0x021C66A8  arm
  *   procInit1                        0x021C67CC  arm
- *   procScene                        0x021C686C  arm
  *   scenesetedit32_bss               0x021DE5E0  data
  *   scenesetedit32_init_20570        0x021DA5A8  data
  *   scenesetedit32_init_20639        0x021DA5C4  data
  *   scenesetedit32_init_20694        0x021DB450  data
  *   scenesetedit32_str_20937         0x021DB4B0  data
  *   sSceneSetEdit32PathYbObjKbPltt    0x021DB458  data
- *   GX_LoadOBJPltt    0x0207E51C  data
  *   sSceneSetEdit32PathJbBgStep3Char    0x021DB46C  data
  *   GX_LoadBG2Char    0x0207F0B8  data
  *   sSceneSetEdit32PathYbBgStep3Pltt    0x021DB484  data
@@ -124,9 +122,7 @@ typedef struct { int v[2]; } SSE_MSG;
 
 typedef struct { void (*v[2])(unsigned char *); } SSE_FUNC;
 
-typedef unsigned short u16;
-
-typedef unsigned char u8;
+#include "../types.h"
 
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 extern void DWCi_HEAPlFree_(void **mem);
@@ -194,20 +190,15 @@ extern unsigned short GX_LoadBG2Scr[];
 extern u8  *gMemSse;
 
 
-static void procScene(void);
-
-
 static inline void G2_SetOBJEffect(GXOamAttr *oam, int effect, int affine)
 {
     oam->attr01 = (oam->attr01 & ~(0x0300 | 0x3E000000)) | effect | (affine << 25);
 }
 
-
 static inline void G2_SetOBJPosition(GXOamAttr *oam, int x, int y)
 {
     oam->attr01 = (oam->attr01 & 0xFE00FF00) | (y & 0xFF) | ((x & 0x1FF) << 16);
 }
-
 
 static inline void G2_SetOBJPriority(GXOamAttr *oam, int priority)
 {
@@ -230,7 +221,6 @@ static void procWin1(void);
 static bool isCorrect(void);
 static void procError(void);
 static void procError1(void);
-
 
 void DWCi_SceneSetEdit32(void)
 {
@@ -259,7 +249,6 @@ void DWCi_SceneSetEdit32(void)
     DWCi_ChangeScene(procInit);
 }
 
-
 static void initGraphics(void)
 {
     u16 *p;
@@ -278,7 +267,6 @@ static void initGraphics(void)
     p[1] = (p[1] & ~3) | 3;
 }
 
-
 static void procInit(void)
 {
     DWCi_EFFlFade(2, 1, 1, 8);
@@ -287,7 +275,6 @@ static void procInit(void)
     DWCi_GXlVisible(0, 0x15);
     DWCi_ChangeScene(procInit1);
 }
-
 
 static void procInit1(void)
 {
@@ -308,14 +295,12 @@ static void procInit1(void)
     DWCi_ChangeScene(procInit2);
 }
 
-
 static void procInit2(void)
 {
     if (DWCi_KBlGet() == 0xFF)
         return;
-    DWCi_ChangeScene(procScene);
+    DWCi_ChangeScene(DWCi_SceneSetEdit32_procScene);
 }
-
 
 void DWCi_SceneSetEdit32_procScene(void)
 {
@@ -376,13 +361,11 @@ void DWCi_SceneSetEdit32_draw(void)
 {
 }
 
-
 static void endScene(void)
 {
     DWCi_EFFlWait(8);
     DWCi_ChangeScene(endScene1);
 }
-
 
 static void endScene1(void)
 {
@@ -392,7 +375,6 @@ static void endScene1(void)
     DWCi_SNDlPlay(0x15);
     DWCi_ChangeScene(endScene2);
 }
-
 
 static void endScene2(void)
 {
@@ -414,7 +396,6 @@ static void endScene2(void)
     DWCi_WINlInitEx(MSG.v[sce], 2, 1, -1, 0);
     DWCi_ChangeScene(procWin);
 }
-
 
 static void endScene3(void)
 {
@@ -444,7 +425,6 @@ static void endScene3(void)
     DWCi_HEAPlFree_((void **)&MemSse);
 }
 
-
 static void drawSsid(void)
 {
     AREA a = { 0 };
@@ -472,7 +452,6 @@ static void drawSsid(void)
     DWCi_FNTlRenewBg((int)MemSse->canv);
 }
 
-
 static void dispCaret(void)
 {
     int y;
@@ -486,7 +465,6 @@ static void dispCaret(void)
     }
     G2_SetOBJPosition(MemSse->caret, X_IPT[x], Y_IPT[y]);
 }
-
 
 static void procWin(void)
 {
@@ -505,7 +483,6 @@ static void procWin(void)
     DWCi_ChangeScene(procWin1);
 }
 
-
 static void procWin1(void)
 {
     SSE_FUNC FUNC = scenesetedit32_init_20694;
@@ -522,7 +499,6 @@ static void procWin1(void)
     FUNC.v[prm](MemSse->ssid);
     DWCi_ChangeScene(endScene3);
 }
-
 
 static bool isCorrect(void)
 {
@@ -565,7 +541,6 @@ static bool isCorrect(void)
     return 0;
 }
 
-
 static void procError(void)
 {
     if (DWCi_WINlGet() != 0)
@@ -574,7 +549,6 @@ static void procError(void)
     DWCi_WINlEnd();
     DWCi_ChangeScene(procError1);
 }
-
 
 static void procError1(void)
 {

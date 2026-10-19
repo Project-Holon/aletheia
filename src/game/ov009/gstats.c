@@ -72,8 +72,7 @@
  *   gGstatsTeamOpFormat   0x021A590C  data
  *   gGstatsPlayerOpFormat   0x021A5914  data
  */
-typedef unsigned char  u8;
-typedef unsigned int   u32;
+#include "../types.h"
 
 /* The persistent-stats socket wrapper (vendor object gstats.o). */
 typedef struct StatsSocket {
@@ -184,7 +183,6 @@ extern char gGstatsKeySecSetpdr[];
 extern char gGstatsValueBuffers[];
 extern char gGstatsTeamOpFormat[];
 extern char gGstatsPlayerOpFormat[];
-
 
 /*
  * sdk:      PlayerOpString (libdwcgsgstats.TWL.HYB.a(gstats.o))

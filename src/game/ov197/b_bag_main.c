@@ -205,14 +205,7 @@ struct Rec3;
 struct S02031140;
 struct CursorMove;
 
-
-
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed int s32;
-typedef short s16;
-typedef signed char s8;
+#include "../types.h"
 
 /* one entry of the bag window table: a BMP window handle and a redraw flag */
 struct WinSlot {
@@ -587,16 +580,12 @@ extern const struct BgTemplate d_0220DEE0,d_0220DF20,d_0220DF00,d_0220DEC0;
 extern const u32 d_0220DF90[];
 extern const u32 d_0220DF9C[];
 
-
 void B_BAG_MAIN_InitWindows(char *p) { ((struct BagWork *)p)->itemMsgWin=(void *)BMP_WIN_Create(4,1,19,30,4,12,1); B_BAG_MAIN_CreateWindows(p,*(unsigned char *)(p + 0x532)); }
-
 
 /*
  * Declaring the table pointer before the counter restores r4/r5 allocation.
  */
 void B_BAG_MAIN_CreateWindows(char *p,u8 unused) { const u8 *q; u32 i; q=d_0220DA68; for(i=0;i<35;i++,q+=6) *(u32 *)(p+i*8+0x28)=(unsigned int)BMP_WIN_Create((unsigned int)q[0],(unsigned int)q[1],(unsigned int)q[2],q[3],q[4],q[5],1); }
-
-
 
 void B_BAG_MAIN_DeleteWindows(char *a)
 {
@@ -606,15 +595,11 @@ void B_BAG_MAIN_DeleteWindows(char *a)
         BMP_WIN_Delete((struct BmpWin *)(*(int *)(a + i * 8 + 0x28)));
 }
 
-
-
 void B_BAG_MAIN_ExitWindows(char *a)
 {
     B_BAG_MAIN_DeleteWindows(a);
     BMP_WIN_Delete((struct BmpWin *)(((struct BagWork *)a)->itemMsgWin));
 }
-
-
 
 void B_BAG_MAIN_DrawPage(char *a, int which)
 {
@@ -632,7 +617,6 @@ void B_BAG_MAIN_DrawPage(char *a, int which)
     }
 }
 
-
 void B_BAG_MAIN_PrintLabel(char *p,int i,int id,int y,u16 colour)
 {
     int handle=*(int *)(p+0x28+i*8);
@@ -645,7 +629,6 @@ void B_BAG_MAIN_PrintLabel(char *p,int i,int id,int y,u16 colour)
     (p+i*8)[0x2c]=1;
     STRBUF_Delete((struct Strbuf *)text);
 }
-
 
 /*
  * matching: unsigned loop bound i<=4 preserves the original cmp4/bls; i<5 differs in two bytes.
@@ -675,9 +658,6 @@ void B_BAG_MAIN_DrawLabels(char *p)
     }
     *(const char * *)&*(const void * *)(p + 0x59C)=d_0220DA0D;
 }
-
-
-
 
 /*
  * Width: printer x truncates to signed halfword in original; extern keeps s16 despite owner u32.
@@ -709,9 +689,6 @@ void B_BAG_MAIN_DrawItemName(char *p,u32 i,int id,int w,int unused,int unused2)
         BMP_WIN_TransferChars(handle);
     }
 }
-
-
-
 
 /*
  * Width: original narrows y to signed halfword before printer; corresponding extern keeps s16 despite owner u32.
@@ -751,9 +728,6 @@ void B_BAG_MAIN_DrawItemInfo(char *p, u32 i, int id, int w, int unused, int y, i
   }
 }
 
-
-
-
 /*
  * lever: assign the doubled index after the flag branch; the flag is unsigned byte evidence.
  */
@@ -768,9 +742,6 @@ void B_BAG_MAIN_DrawSlot(char *p,u16 i)
     B_BAG_MAIN_DrawItemInfo(p,i+base,i,row+1+twice,0,4,0);
 }
 
-
-
-
 void B_BAG_MAIN_DrawPocket(char *p)
 {
     u16 i;
@@ -782,9 +753,6 @@ void B_BAG_MAIN_DrawPocket(char *p)
         *(const char * *)&*(const void * *)(p + 0x59C)=d_0220DA19;
     ((u8 *)p)[0x141]^=1;
 }
-
-
-
 
 /*
  * matching: parenthesised byte-pointer plus page keeps the page load before the far-field add; a flat offset sum differs in two bytes.
@@ -821,9 +789,6 @@ void B_BAG_MAIN_DrawHeader(char *p)
     STRBUF_Delete(text);
 }
 
-
-
-
 void B_BAG_MAIN_DrawInfoBox(char *p)
 {
     BMP_Clear((struct Bmp *)((int)BMP_WIN_GetBmp((struct BmpWin *)((struct BagWork *)p)->win[29].handle)),0);
@@ -837,20 +802,12 @@ void B_BAG_MAIN_DrawInfoBox(char *p)
     } else BMP_WIN_TransferChars((struct BmpWin *)((struct BagWork *)p)->win[29].handle);
 }
 
-
-
-
-
 void B_BAG_MAIN_DrawItemsPage(char *a)
 {
     B_BAG_MAIN_DrawPocket(a);
     B_BAG_MAIN_DrawInfoBox(a);
     B_BAG_MAIN_DrawHeader(a);
 }
-
-
-
-
 
 void B_BAG_MAIN_DrawDescription(u8 *p, u32 idx)
 {
@@ -869,9 +826,6 @@ void B_BAG_MAIN_DrawDescription(u8 *p, u32 idx)
     STRBUF_Delete(msg);
 }
 
-
-
-
 /*
  * matching: named row index in Row[36][2] restores base-add-before-column-shift; raw byte row differs in seven bytes.
  */
@@ -889,9 +843,6 @@ void B_BAG_MAIN_DrawItemUsage(char *p,int n)
     ((struct BagWork *)p)->win[33].dirty=1;
     STRBUF_Delete(buf);
 }
-
-
-
 
 /*
  * lever: the scaled index is its own int local added after each field
@@ -919,19 +870,12 @@ void B_BAG_MAIN_DrawOtherPage(char *p)
     *(const u8 **)(p + 0x59c) = d_0220DA08;
 }
 
-
-
-
-
 void B_BAG_MAIN_PrintItemMsg(char *p)
 {
     BMP_MENUWORK_DrawWindow(((struct BagWork *)p)->itemMsgWin, 2, 1, 0xb);
     BMP_Clear(BMP_WIN_GetBmp(((struct BagWork *)p)->itemMsgWin), 0xf);
     B_BAG_MAIN_StartItemMsg(p);
 }
-
-
-
 
 /*
  * lever: MSG_SPEED_GetWait() called inside the argument list (as the ov010
@@ -954,18 +898,10 @@ void B_BAG_MAIN_StartItemMsg(char *p)
     BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(d));
 }
 
-
-
-
-
 int B_BAG_MAIN_UpdateTool(char *a)
 {
     return B_APP_TOOL_Update(a + 0x28, (int)((struct BagWork *)a)->printSys, 0x23);
 }
-
-
-
-
 
 /*
  * Addresses are Black-image addresses.
@@ -975,16 +911,10 @@ u32 B_BAG_MAIN_ShowWindows(u8 *p)
     return B_APP_TOOL_ShowWindows(p + 0x28, (u32)*(const void * *)(p + 0x59C));
 }
 
-
-
-
 /*
  * EXACT* tail: two zero alignment bytes after the function.
  */
 int B_BAG_MAIN_CheckKeyItem(char *p) { char *q; if(*(unsigned short *)(p + 0x540)==0) return 0; q=*(char * *)&((struct BagWork *)p)->itemData; if(MYITEM_SAVEDATA_HasItem((struct MyItem *)(*(u8 * *)&((struct BagMenu *)q)->savedata),*(unsigned short *)(p + 0x540),1,((struct BagMenu *)q)->heapId)==0) { *(unsigned short *)(p + 0x540)=0; *(unsigned char *)(p + 0x542)=0; return 0; } return 1; }
-
-
-
 
 void B_BAG_MAIN_SyncCursorToItem(u8 *p)
 {
@@ -1000,10 +930,6 @@ void B_BAG_MAIN_SyncCursorToItem(u8 *p)
         }
     }
 }
-
-
-
-
 
 /*
  * 2026-10-05 (wD9r lane05): EXACT. The record address is an integer local reused for the row offset:
@@ -1057,9 +983,6 @@ void B_BAG_MAIN_BuildPocketLists(u8 *p)
     }
 }
 
-
-
-
 void B_BAG_MAIN_BuildOtherList(char *p)
 {
     unsigned i;
@@ -1073,10 +996,6 @@ void B_BAG_MAIN_BuildOtherList(char *p)
     *(unsigned char *)(p + 0x539)=(*(unsigned char *)(p + 0x535)-1)/6;
 }
 
-
-
-
-
 void B_BAG_MAIN_InitOtherPage(char *p)
 {
     ((struct BagWork *)p)->rows[2][0][0] = 4;
@@ -1084,9 +1003,6 @@ void B_BAG_MAIN_InitOtherPage(char *p)
     *(unsigned char *)(p + 0x537) = 1;
     *(unsigned char *)(p + 0x53B) = 0;
 }
-
-
-
 
 /*
  * lever: one statement n = (n + k * 6) << 2, then p += index * 0x90 and a
@@ -1105,16 +1021,10 @@ u16 B_BAG_MAIN_GetSlotItem(const char *p, unsigned n)
     return 0;
 }
 
-
-
-
 /*
  * Forward entry r0 as the key. The explicit result truncation requires a wide extern return.
  */
 int B_BAG_MAIN_GetItemFlag(u32 key) { return (u16)ITEM_GFX_GetExtraValue(key); }
-
-
-
 
 void B_BAG_MAIN_InitFrames(char *p)
 {
@@ -1142,21 +1052,10 @@ void B_BAG_MAIN_InitFrames(char *p)
     BGWINFRM_PutFrame(((struct BagWork *)p)->frameMgr,12,37,19);
 }
 
-
-
-
-
-
-
 void B_BAG_MAIN_DeleteFrames(char *a)
 {
     BGWINFRM_Delete((struct BgWinFrmWork *)(*(struct WinMgr * *)&((struct BagWork *)a)->frameMgr));
 }
-
-
-
-
-
 
 /*
  * note 2026-10-05 (wave D4 lane 02): the two window calls 11/12 are written in each if/else
@@ -1223,12 +1122,6 @@ void B_BAG_MAIN_LayoutFrames(char *p, int mode)
     }
 }
 
-
-
-
-
-
-
 void B_BAG_MAIN_StartFrameAnim(char *p, int v)
 {
     ((struct BagWork *)p)->animState = 0;
@@ -1236,11 +1129,6 @@ void B_BAG_MAIN_StartFrameAnim(char *p, int v)
     ((struct BagWork *)p)->animIndex = v;
     ((struct BagWork *)p)->animActive = 1;
 }
-
-
-
-
-
 
 /*
  * matching: naming unsigned index before the u8 palette settles r0/r2;
@@ -1285,17 +1173,7 @@ void B_BAG_MAIN_StepFrameAnim(char *p)
     }
 }
 
-
-
-
-
-
 void B_BAG_MAIN_CreateItemGraphics(char *p) { B_BAG_MAIN_ClearHandles(p); B_BAG_MAIN_RegisterItemChars(p); B_BAG_MAIN_RegisterCursorGraphics(p); B_BAG_MAIN_RegisterIconGraphics(p); B_BAG_MAIN_CreateItemActors(p); B_BAG_MAIN_CreateToolActors(p); B_BAG_MAIN_CreateFingerCursor(p); BG_SYS_SetSubPlaneVisible(16,1); }
-
-
-
-
-
 
 void B_BAG_MAIN_ClearHandles(char *p)
 {
@@ -1304,11 +1182,6 @@ void B_BAG_MAIN_ClearHandles(char *p)
     for(i=0;i<9;i++) *(int *)(p+0x568+i*4)=-1;
     for(i=0;i<3;i++) *(int *)(p+0x58c+i*4)=-1;
 }
-
-
-
-
-
 
 /*
  * matching: arc declared before first/second fixes the three spill homes.
@@ -1334,11 +1207,6 @@ void B_BAG_MAIN_RegisterItemChars(char *p)
     ARC_TOOL_DeleteHandle(arc);
 }
 
-
-
-
-
-
 /*
  * matching: u16 item restores entry spill order without extra truncation; unsigned item differs in eight bytes.
  */
@@ -1357,11 +1225,6 @@ void B_BAG_MAIN_LoadItemGraphic(char *p,u16 item,unsigned slot,unsigned offset)
     ARC_TOOL_DeleteHandle(arc);
 }
 
-
-
-
-
-
 void B_BAG_MAIN_LoadItemPalette(char *p,unsigned item,unsigned slot)
 {
     char *q=*(char * *)&((struct BagWork *)p)->itemData;
@@ -1375,11 +1238,6 @@ void B_BAG_MAIN_LoadItemPalette(char *p,unsigned item,unsigned slot)
     }
 }
 
-
-
-
-
-
 void B_BAG_MAIN_RegisterCursorGraphics(char *p)
 {
     void *arc = ARC_TOOL_CreateHandle(99,(u16)((((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId&0x7fff)|0x8000));
@@ -1389,11 +1247,6 @@ void B_BAG_MAIN_RegisterCursorGraphics(char *p)
     PALANM_LoadHandlePaletteToSlot(((struct BagWork *)p)->palAnm,(void *)((unsigned)arc),14,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId,3,32,112);
     ARC_TOOL_DeleteHandle(arc);
 }
-
-
-
-
-
 
 void B_BAG_MAIN_RegisterIconGraphics(char *p)
 {
@@ -1409,11 +1262,6 @@ void B_BAG_MAIN_RegisterIconGraphics(char *p)
     ARC_TOOL_DeleteHandle(arc);
 }
 
-
-
-
-
-
 /*
  * matching: const indices restores the load/store scheduling; mutable indices differ in 29 bytes.
  */
@@ -1424,21 +1272,11 @@ struct Obj *B_BAG_MAIN_CreateItemActor(char *p,const int *indices)
     return CLACT_CreateActor((void *)*(unsigned *)&((struct BagWork *)p)->itemUnit,*(unsigned *)(p+indices[0]*4+0x544),*(unsigned *)(p+indices[1]*4+0x568),*(unsigned *)(p+indices[2]*4+0x58c),&c,1,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
 }
 
-
-
-
-
-
 /*
  * Raw byte stride i*12 emits muls rather than the flat word-index shift/add.
  * The caller stores live r0 from C3B4; its owner declaration is void.
  */
 void B_BAG_MAIN_CreateItemActors(char *p) { u32 i; *(struct Bank * *)&((struct BagWork *)p)->itemUnit=CLACT_CreateUnit(67,0,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId); for(i=0;i<63;i++) *(u32 *)(p+i*4+0x424)=(u32)B_BAG_MAIN_CreateItemActor(p,(const int *)((u32)d_0220DBBC+i*12)); }
-
-
-
-
-
 
 void B_BAG_MAIN_DeleteItemGraphics(char *p)
 {
@@ -1452,22 +1290,11 @@ void B_BAG_MAIN_DeleteItemGraphics(char *p)
     CLACT_DeleteUnit(*(struct Bank * *)&((struct BagWork *)p)->itemUnit);
 }
 
-
-
-
-
-
-
 void B_BAG_MAIN_PlaceActor(int a, int b)
 {
     CLACT_SetActorDrawEnable((struct Actor *)a, 1);
     CLACT_AddActorSurfacePos((struct Obj *)a, (const struct Vec2 *)b, 1);
 }
-
-
-
-
-
 
 void B_BAG_MAIN_SetDisplayMode(char *p, int mode)
 {
@@ -1481,14 +1308,7 @@ void B_BAG_MAIN_SetDisplayMode(char *p, int mode)
     }
 }
 
-
-
-
 void B_BAG_MAIN_DisplaySingle(char *p) { if(*(unsigned short *)(p + 0x540)!=0) { B_BAG_MAIN_LoadItemGraphic(p,*(unsigned short *)(p + 0x540),6,6); B_BAG_MAIN_PlaceActor((int)((struct BagWork *)p)->itemActors[6],(int)d_0220DB7C); } if(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode==2) B_BAG_MAIN_StartFingerCursor((u8 *)p,192,24); }
-
-
-
-
 
 void B_BAG_MAIN_DisplayList(char *p)
 {
@@ -1508,10 +1328,6 @@ void B_BAG_MAIN_DisplayList(char *p)
     if (((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode == 2) B_BAG_MAIN_StartFingerCursor((u8 *)p, 64, 16);
 }
 
-
-
-
-
 /*
  * caller-width: BB98 takes full signed short promotion; no u16 truncation in this caller.
  */
@@ -1525,26 +1341,12 @@ void B_BAG_MAIN_DisplaySelected(char *p)
     if (((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode == 2) B_BAG_MAIN_StartFingerCursor((u8 *)p, 0x68, 0x98);
 }
 
-
-
-
-
 void B_BAG_MAIN_CreateToolActors(char *p){B_APP_TOOL_CreateActors(*(char * *)&((struct BagWork *)p)->toolActors,*(int *)&((struct BagWork *)p)->itemUnit,*(int *)(p + 0x564),*(int *)(p + 0x588),*(int *)(p + 0x594));B_APP_TOOL_SetActorsVisible(*(char * *)&((struct BagWork *)p)->toolActors,0);}
-
-
-
-
-
 
 void B_BAG_MAIN_DeleteToolActors(char *a)
 {
     B_APP_TOOL_DeleteActors((u8 *)(((struct BagWork *)a)->toolActors));
 }
-
-
-
-
-
 
 void B_BAG_MAIN_CreateFingerCursor(char *a)
 {
@@ -1552,35 +1354,20 @@ void B_BAG_MAIN_CreateFingerCursor(char *a)
                                          *(unsigned short *)(*(int *)&((struct BagWork *)a)->itemData + 0xc));
 }
 
-
-
-
-
 void B_BAG_MAIN_DeleteFingerCursor(char *a)
 {
     BTLV_FINGER_CURSOR_Delete(((struct BagWork *)a)->fingerCursor);
 }
-
-
-
-
 
 void B_BAG_MAIN_StartFingerCursor(u8 *p, u32 a, u32 b)
 {
     BTLV_FINGER_CURSOR_Start((u32)((struct BagWork *)p)->fingerCursor, a, b, 2, 6, 0x14);
 }
 
-
-
-
-
 void B_BAG_MAIN_DeleteFingerCursorActor(char *a)
 {
     BTLV_FINGER_CURSOR_DeleteActor(((struct BagWork *)a)->fingerCursor);
 }
-
-
-
 
 /*
  * matching: pair aggregate copy emits two unsigned halfword transfers;
@@ -1614,10 +1401,6 @@ void B_BAG_MAIN_DrawItemRow(char *p,u16 slot,u8 a,u8 b,const struct Pair *src)
         slot++;
     }
 }
-
-
-
-
 
 /*
  * lever: Size constant held in a local (offsets derived from it), the 0x533 store repeated in each arm instead of one shared tail, and no row-pointer local in the first loop (*(u8 **)p re-read per argument).
@@ -1665,13 +1448,7 @@ void B_BAG_MAIN_Create(u8 *arg)
     }
 }
 
-
-
-
 extern int (*const d_0220DF40[])(char *);
-
-
-
 
 void B_BAG_MAIN_Main(void *task, char *p)
 {
@@ -1687,9 +1464,6 @@ void B_BAG_MAIN_Main(void *task, char *p)
     BGWINFRM_UpdateMoves((struct BgWinFrmWork *)(*(struct WinMgr * *)&((struct BagWork *)p)->frameMgr));
     B_BAG_MAIN_UpdateTool(p);
 }
-
-
-
 
 /*
  * lever: word-address arithmetic reuses the MMIO pool base, as in matched ov197 0220CAAC.
@@ -1725,9 +1499,6 @@ int B_BAG_MAIN_StateInit(char *p)
     return 2;
 }
 
-
-
-
 /*
  * lever: word-address arithmetic reuses MMIO pool base for +0x1c; typed pointer addition pools a second word.
  */
@@ -1760,18 +1531,9 @@ int B_BAG_MAIN_StateInitOther(char *p)
     return 2;
 }
 
-
-
-
 int B_BAG_MAIN_StateWaitPrintWipe(char *p){if(PRINTSYS_QUE_IsFinished((struct PrintQueue *)(*(struct PrintSys * *)&((struct BagWork *)p)->printSys))==1){WIPE_SYS_Start((void *)4,1,1,0,6,1,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);return 3;}return 2;}
 
-
-
-
 int B_BAG_MAIN_StateWipeEnd(char *p){if(WIPE_SYS_EndCheck()==1){if(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode==2)return 17;if(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode==1)return 5;if(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode==3)return 5;return 4;}return 3;}
-
-
-
 
 int B_BAG_MAIN_StateSelectPocket(char *p)
 {
@@ -1818,9 +1580,6 @@ int B_BAG_MAIN_StateSelectPocket(char *p)
 done:
     return 4;
 }
-
-
-
 
 int B_BAG_MAIN_StateSelectItem(char *p)
 {
@@ -1908,9 +1667,6 @@ done:
     return 5;
 }
 
-
-
-
 /*
  * lever: narrow value load then compound add before reading maximum fixes r0/r6 swap.
  */
@@ -1934,13 +1690,7 @@ done:
     return 12;
 }
 
-
-
-
 int B_BAG_MAIN_StateWaitPrintRedraw(char *p){if(PRINTSYS_QUE_IsFinished((struct PrintQueue *)(*(struct PrintSys * *)&((struct BagWork *)p)->printSys))==1){B_BAG_MAIN_ShowWindows((unsigned char *)p);B_BAG_MAIN_SetDisplayMode(p,*(unsigned char *)(p + 0x532));B_BAG_MAIN_LayoutFrames(p,*(unsigned char *)(p + 0x532));return 5;}return 12;}
-
-
-
 
 int B_BAG_MAIN_StateChooseItem(char *p)
 {
@@ -1979,9 +1729,6 @@ int B_BAG_MAIN_StateChooseItem(char *p)
     }
     return 6;
 }
-
-
-
 
 /*
  * Owner unit_02045C44.c omits MSGDATA_ReadString in function:. Verified EXACT344 C
@@ -2093,38 +1840,19 @@ int B_BAG_MAIN_StateShowMessage(char *p)
     return 0x12;
 }
 
-
-
-
 int B_BAG_MAIN_StateShowPocket0(char *p){B_BAG_MAIN_DrawPage(p,0);*(unsigned char *)(p + 0x532)=0;*(unsigned char *)(p + 0x531)=4;return 10;}
-
-
-
 
 int B_BAG_MAIN_StateShowPocket1(char *p){B_BAG_MAIN_DrawPage(p,1);*(unsigned char *)(p + 0x532)=1;*(unsigned char *)(p + 0x531)=5;return 10;}
 
-
-
-
 int B_BAG_MAIN_StateShowPocket2(char *p){B_BAG_MAIN_DrawPage(p,2);*(unsigned char *)(p + 0x532)=2;*(unsigned char *)(p + 0x531)=6;return 10;}
 
-
-
-
 int B_BAG_MAIN_StateWaitPrintSetMode(char *p){if(PRINTSYS_QUE_IsFinished((struct PrintQueue *)(*(struct PrintSys * *)&((struct BagWork *)p)->printSys))==1){B_BAG_MAIN_SwitchPage(p,*(unsigned char *)(p + 0x532));return *(unsigned char *)(p + 0x531);}return 10;}
-
-
-
-
 
 int B_BAG_MAIN_StateStartMessage(char *a)
 {
     BMP_MENUWORK_DrawWindowBorder((void *)(((struct BagWork *)a)->itemMsgWin), 0);
     return 6;
 }
-
-
-
 
 int B_BAG_MAIN_StateMessageInput(char *p)
 {
@@ -2149,9 +1877,6 @@ int B_BAG_MAIN_StateMessageInput(char *p)
     return 14;
 }
 
-
-
-
 /*
  * trailing: larger follower filed as B_BAG_MAIN_StateWaitKey.c (parent cleared).
  */
@@ -2162,9 +1887,6 @@ int B_BAG_MAIN_StateMessageDone(char *p)
         return *(unsigned char *)(p + 0x531);
     return 15;
 }
-
-
-
 
 /*
  * lever: explicit else preserves the nonzero arm after the field-return arm.
@@ -2179,14 +1901,7 @@ int B_BAG_MAIN_StateWaitKey(char *p)
     }
 }
 
-
-
-
 int B_BAG_MAIN_StateFadeOut(char *p){PALANM_RequestFade(*(PalAnmObj * *)&((struct BagWork *)p)->palAnm,10,65535,0,0,16,0,BTLV_EFFECT_GetOwner());return 19;}
-
-
-
-
 
 int B_BAG_MAIN_StateWaitFade(char *a)
 {
@@ -2194,9 +1909,6 @@ int B_BAG_MAIN_StateWaitFade(char *a)
         return 0x14;
     return 0x13;
 }
-
-
-
 
 /*
  * lever: explicit if/else field stores preserve one-first branch and shared store.
@@ -2232,9 +1944,6 @@ int B_BAG_MAIN_StateExit(struct Node *task, char *p)
     GFL_HEAP_Free(p);
     return 1;
 }
-
-
-
 
 int B_BAG_MAIN_StateOtherFlow(char *p)
 {
@@ -2292,9 +2001,6 @@ int B_BAG_MAIN_StateOtherFlow(char *p)
     return 0x11;
 }
 
-
-
-
 void B_BAG_MAIN_InitBg(char *p)
 {
  struct BgVramReq req=d_0220DEB0;
@@ -2309,10 +2015,6 @@ void B_BAG_MAIN_InitBg(char *p)
  BG_SYS_MarkTileDirty(5);BG_SYS_MarkTileDirty(4);BG_SYS_SetSubPlaneVisible(15,1);
 }
 
-
-
-
-
 void B_BAG_MAIN_ExitBg(void)
 {
     BG_SYS_SetSubPlaneVisible(0x1f, 0);
@@ -2321,9 +2023,6 @@ void B_BAG_MAIN_ExitBg(void)
     BG_SYS_FreeLayerBuf(6);
     BG_SYS_FreeLayerBuf(7);
 }
-
-
-
 
 void B_BAG_MAIN_LoadBgGraphics(char *p)
 {
@@ -2338,21 +2037,12 @@ void B_BAG_MAIN_LoadBgGraphics(char *p)
     PALANM_LoadArcPaletteToSlot(*(struct PalAnmSlot * *)&((struct BagWork *)p)->palAnm, 23, 5, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId, 1, 32, 192);
 }
 
-
-
-
 void B_BAG_MAIN_CreateText(char *p){*(struct MsgBank * *)&((struct BagWork *)p)->msgBank=MSGDATA_CreateFromArchive(0,2,17,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);*(struct WordSet * *)&((struct BagWork *)p)->wordSet=WORDSET_CreateDefault(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);((struct BagWork *)p)->printSys=(void *)PRINTSYS_QUE_Create((unsigned int)((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);*(struct U16Vec * *)&((struct BagWork *)p)->strBuf=(struct U16Vec *)STRBUF_Create((unsigned int)512,(unsigned int)(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId));}
-
-
-
 
 /*
  * Tail: two zero alignment bytes at 0x0220D7EE.
  */
 void B_BAG_MAIN_DeleteText(char *p){MSGDATA_Delete(((struct BagWork *)p)->msgBank);WORDSET_Delete(*(struct WordSet * *)&((struct BagWork *)p)->wordSet);PRINTSYS_QUE_Delete((struct PrintQueue *)(*(struct PrintSys * *)&((struct BagWork *)p)->printSys));STRBUF_Delete(((struct BagWork *)p)->strBuf);}
-
-
-
 
 /*
  * trailing: 2 zero alignment bytes at 0x0220D846.
@@ -2375,14 +2065,7 @@ void B_BAG_MAIN_ResetBgSlot(void *unused, int mode)
     }
 }
 
-
-
-
 void B_BAG_MAIN_SwitchPage(char *p,int mode){B_BAG_MAIN_ResetBgSlot(p,mode);BG_SYS_ClearLayerEx(4,0);BG_SYS_ClearLayerEx(5,0);B_BAG_MAIN_ShowWindows((unsigned char *)p);B_BAG_MAIN_LayoutFrames(p,mode);B_BAG_MAIN_RecreateCursor((unsigned char *)p,mode,0);B_BAG_MAIN_SetDisplayMode(p,mode);}
-
-
-
-
 
 int B_BAG_MAIN_CheckCancel(char **p)
 {
@@ -2394,28 +2077,17 @@ int B_BAG_MAIN_CheckCancel(char **p)
     return 0;
 }
 
-
-
-
-
 void B_BAG_MAIN_PlaySe(char **a, int b)
 {
     if (((struct BagMenu *)(*a))->soundOn == 1)
         GFL_USE_PlaySeDefaultVolume(b);
 }
 
-
-
-
-
 void B_BAG_MAIN_PlaySe2(char **a, int b)
 {
     if (((struct BagMenu *)(*a))->soundOn == 1)
         GFL_USE_PlaySeDefaultVolume(b);
 }
-
-
-
 
 void B_BAG_MAIN_CreateCursor(u8 *p, u32 index, u32 value)
 {
@@ -2424,10 +2096,6 @@ void B_BAG_MAIN_CreateCursor(u8 *p, u32 index, u32 value)
     CURSOR_MOVE_SetMode((struct Cursor *)(*(struct CursorMove * *)&((struct BagWork *)p)->cursor));
     B_BAG_MAIN_LayoutCursor(p, value);
 }
-
-
-
-
 
 /*
  *   traced func_ label), so neither label nor sole-ref/code can attest it;
@@ -2439,9 +2107,6 @@ u32 B_BAG_MAIN_DeleteCursor(u8 *p)
 {
     return CURSOR_MOVE_Delete((void *)(((struct BagWork *)p)->cursor));
 }
-
-
-
 
 /*
  * lever: an outer switch preserves the unconditional default-arm branch.
@@ -2462,19 +2127,11 @@ void B_BAG_MAIN_RecreateCursor(u8 *p, int state, int value)
     B_BAG_MAIN_CreateCursor(p, state, value);
 }
 
-
-
-
-
 void B_BAG_MAIN_SetCursorVisible(char *a, int b)
 {
     *(void * *)(a + 0x598) = (void *)b;
     B_APP_TOOL_SetActorsVisible((char *)(*(int *)&((struct BagWork *)a)->toolActors), (void *)b);
 }
-
-
-
-
 
 void B_BAG_MAIN_LayoutCursor(u8 *p, u32 idx)
 {
@@ -2483,26 +2140,13 @@ void B_BAG_MAIN_LayoutCursor(u8 *p, u32 idx)
     B_APP_TOOL_LayoutActors((int *)(((struct BagWork *)p)->toolActors), (u8 *)((u32)t));
 }
 
-
-
-
 void B_BAG_MAIN_ShowCursorAt(u8 *p,u32 i){B_BAG_MAIN_LayoutCursor(p,i);B_BAG_MAIN_SetCursorVisible((char *)p,1);}
-
-
-
 
 void B_BAG_MAIN_HideCursor(char *p){B_BAG_MAIN_SetCursorVisible(p,0);}
 
-
-
-
 void B_BAG_MAIN_HideCursor2(char *p){B_BAG_MAIN_SetCursorVisible(p,0);}
 
-
-
-
 void B_BAG_MAIN_LayoutCursorOnly(u8 *p,u32 i){B_BAG_MAIN_LayoutCursor(p,i);}
-
 
 void B_BAG_MAIN_HandleSelection(char *p, int b)
 {

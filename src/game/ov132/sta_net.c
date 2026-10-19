@@ -28,9 +28,7 @@
 
 struct Entry;
 struct Link;
-typedef unsigned char u8;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 struct Rec {
     u8 pad00[4];
@@ -55,12 +53,6 @@ typedef struct StaNetWork {
     u8 pad158[0x24];
     int transferState;
 } StaNetWork;
-
-typedef unsigned short u16;
-
-typedef signed int     s32;
-
-typedef unsigned long long u64;
 
 extern u32 MUS_COMM_FUNC_SendCommandWait(int unused, int kind, u32 value, u32 id);
 struct GFLNetHandle;
@@ -107,7 +99,6 @@ void STA_NET_SetState18Value(char *p,u32 value);
 u32 STA_NET_GetPairA(char *p);
 u32 STA_NET_GetPairB(char *p);
 
-
 /*
  * 2026-10-05 (wave D9): witness leaf for ov010 MUSICAL_EVENT_RollProgramRewards. Searches the
  * four 48-byte records at +0x60 for one whose id byte (+0x12) equals the key
@@ -123,7 +114,6 @@ u32 STA_NET_FindRecValueByKey(struct Ctx *p, u8 key)
     }
     return 0;
 }
-
 
 /*
  * Unlabelled leaf hidden in a .word run; helper whose address is the
@@ -207,7 +197,6 @@ void *STA_NET_GetChunkPtr(int unused,char *p)
 
 int STA_NET_IsTransferDone(char *p) {if(((struct HostEntry *)(*(char * *)&((struct ActingHost *)p)->hostEntry))->chunkSize/0x3800u<((struct ActingHost *)p)->chunkIndex)return 1;return 0;}
 
-
 /*
  * Addresses are Black-image addresses.
  */
@@ -217,12 +206,10 @@ int STA_NET_NotifyHostKind4(u8 *p)
     return MUS_COMM_FUNC_SendCommandWait((int)p, 4, (u32)(((struct HostEntry *)q)->slot1Size), 0xff);
 }
 
-
 int STA_NET_NotifyHostKind5(char *p)
 {
     return MUS_COMM_FUNC_SendCommandWait((int)p, 5, *(int *)(((struct ActingHost *)p)->hostEntry.s + 0x24), 0xff);
 }
-
 
 int STA_NET_NotifyHostKind6(char *p)
 {
@@ -337,7 +324,6 @@ int STA_NET_SendRandomOrder(u8 *p)
     return MUS_COMM_FUNC_SendCommandWait((int)p, 1, result, 255);
 }
 
-
 void STA_NET_SendKindA(char *p, int value)
 {
     MUS_COMM_FUNC_SendCommand(p, 0xa, value, 0xff);
@@ -348,7 +334,6 @@ u32 STA_NET_GetCurrentSlotValue(char *p) {return *(u8 *)((u32)p+GFL_NET_GetHandl
 u8 STA_NET_GetSlotValueByIndex(char *p, int index) {return *(u8 *)((u32)p+index*0x30+0x72);}
 
 u32 STA_NET_GetSlotWordByIndex(char *p,u32 index){return *(u32 *)((u32)p+index*0x30+0x80);}
-
 
 /*
  * Unlabelled ov132 leaf hidden in a .word run: returns the word at +0x48.

@@ -1,17 +1,13 @@
 #ifndef ALETHEIA_OV021_FLD_EXP_OBJ_TYPES_H
 #define ALETHEIA_OV021_FLD_EXP_OBJ_TYPES_H
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed int s32;
-typedef int fx32;
+#include "../types.h"
 
-typedef struct { fx32 x, y, z; } VecFx32;
-typedef struct { fx32 m[3][3]; } MtxFx33;
-typedef struct NNSFndAllocator { u32 w[4]; } NNSFndAllocator;
-typedef struct NNSG3dRenderObj NNSG3dRenderObj;
-typedef struct NNSG3dAnmObj NNSG3dAnmObj;
+#include "../sdk_fx.h"
+
+#include "../sdk_nnsfnd.h"
+
+#include "../arm9/nns_g3d_anm_calc_types.h"
 
 #include "../arm9/g3d_system_types.h"
 
@@ -21,18 +17,6 @@ struct GameData;
 struct GameEvent;
 struct GimmickWork;
 struct G3dUtil;
-
-/* Partial NitroSystem animation layouts (same as g3d_system.c). */
-typedef struct {
-    u32 anmHeader;
-    u16 numFrame;
-} NNSG3dResAnmCommon;
-
-struct NNSG3dAnmObj {
-    fx32                      frame;
-    fx32                      ratio;
-    const NNSG3dResAnmCommon *resAnm;
-};
 
 /*
  * Setup tables of the 3D utility (g3d_util.c): the resources to load and

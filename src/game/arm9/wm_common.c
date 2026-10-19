@@ -15,10 +15,9 @@
  *   NWMi_CheckInitialized 0x02702698 arm twl
  */
 
-typedef int BOOL;
+#include "../types.h"
 
 extern BOOL OS_IsRunOnTwl(void);
-typedef unsigned int   u32;
 extern u32 NWMi_CheckInitialized(void);
 
 u32 NWM_CheckInitialized(void)

@@ -42,13 +42,7 @@ struct MEMEFFECT {
     struct EFFPRM param[2];
 };
 
-typedef unsigned char u8;
-
-typedef signed char s8;
-
-typedef unsigned short u16;
-
-typedef short s16;
+#include "../types.h"
 
 typedef struct { s8 b[4]; } S4;
 
@@ -73,7 +67,6 @@ extern S4 sEffectTable3;
 extern U4 sEffectTable2;
 extern S4 sEffectTable1;
 
-
 /*
  * Allocate a 0x18-byte block, publish it, and clear two 0x1000-wide register spans.
  * Addresses are Black-image addresses.
@@ -91,7 +84,6 @@ void DWCi_EFFlInit(void)
     G2x_SetBlendBrightness_((unsigned int)(p + 0x800), 0x3f, 0x10);
 }
 
-
 /*
  * Tail-call DWCi_HEAPlFree_ with the address of 0x021DE67C.
  * Addresses are Black-image addresses.
@@ -100,7 +92,6 @@ void DWCi_EFFlEnd(void)
 {
     DWCi_HEAPlFree_((void *)0x021DE67C);
 }
-
 
 bool DWCi_EFFlCheck(int lcd)
 {
@@ -112,7 +103,6 @@ bool DWCi_EFFlCheck(int lcd)
         p = &MemEffect->param[1];
     return p->active;
 }
-
 
 bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame)
 {
@@ -138,7 +128,6 @@ bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame)
     prm->active = ok;
     return ok;
 }
-
 
 /*
  * sdk:      taskFade (libdwcutil.TWL.HYB.a(effect.o))
@@ -170,7 +159,6 @@ static void taskFade(void *task, void *work)
     DWCi_TSKlDelete(1, task);
 }
 
-
 bool DWCi_EFFlWait(int frame)
 {
     struct EFFPRM *prm = MemEffect->param;
@@ -183,7 +171,6 @@ bool DWCi_EFFlWait(int frame)
     prm->active = 1;
     return 1;
 }
-
 
 static void taskWait(void *task, void *work)
 {

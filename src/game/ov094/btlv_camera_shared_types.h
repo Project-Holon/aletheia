@@ -3,7 +3,7 @@
 
 #include "btlv_effvm_types.h"
 
-typedef int fx32;
+#include "../types.h"
 
 struct G3dCamera;
 

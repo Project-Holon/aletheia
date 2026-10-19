@@ -378,55 +378,21 @@ typedef int (*Callback)(int,int,int *,int);
 
 typedef struct { Callback create,other,close; } Table;
 
-typedef signed int     s32;
-
-typedef unsigned int   u32;
-
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-
+#include "../types.h"
 
 typedef struct { u32 w[20]; } Rec80;
 
 typedef struct { Rec80 data; u32 last; } Rec84;
 
-
-
-
 typedef unsigned int ul;
 
-
-
 typedef struct { u32 kind; u16 count,pad; u32 name,total; u16 a,b; } BoxWindowDesc;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 typedef struct { unsigned char a,b,c,d;u32 id;} Request;
 
 typedef struct {char pad[0x104];u32 *ctx;u32 aux;} ObjectView;
 
 typedef struct {char pad[0x48];u32 slots[6];} SlotView;
-
-
 
 /* The match-key sub-record at WifiBattleMatchParams.sub (0x34).  CompStepF
  * fills Buf16 from it: keyA (stat 10,0), keyB and the two halves of keyD
@@ -548,13 +514,7 @@ struct Buf16 {
     u32 keyD;   /* 0x0C */
 };
 
-typedef long long s64;
-
-struct RTCDate { u32 year,month,day,week; };
-
-struct RTCTime { u32 hour,minute,second; };
-
-
+#include "../sdk_rtc.h"
 
 struct Profile {
     u8 name[0x94];
@@ -568,17 +528,7 @@ struct Profile {
     u16 hAA;           /* 0xAA REGULATION_Card_GetValue(card, 11) */
 };
 
-
-
-
-
-
-
-
-
-
 typedef struct Work Work;
-
 
 typedef struct WifibattlematchMenuDesc {
     u32 msgBank;        /* 0x00 message bank */
@@ -595,34 +545,9 @@ typedef struct WifibattlematchMenuDesc {
     u16 row;            /* 0x2E first row (BMP_MENULIST_Create third argument) */
 } WifibattlematchMenuDesc;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 typedef enum { RES_NONE, RES_1, RES_2, RES_3, RES_4 } Res;
 
-
-
 typedef int (*EvalFn)(int index, void *param);
-
-
-
-
-
-
 
 struct MatchKey {
     int  value;
@@ -642,31 +567,9 @@ typedef struct Sys {
     u32 errorCode;   /* 0x0C */
 } Sys;
 
-
-
-
-
 typedef int (*RoundFn)(char *ctx, char *peer, int dir, int flag);
 
-
-
-typedef signed char s8;
-
-
-
-
-
-
-
-
-
-
-
-
 typedef void (*StepFn)(void);
-
-
-
 
 struct Blob { const void *data; u32 size; };
 
@@ -676,62 +579,15 @@ struct Field { const char *name; u32 type; union Payload payload; };
 
 typedef void (*RecordsFn)(int count, struct Field **recs, u32 a, int nfields);
 
-
 struct Record {u32 words[21];};
-
 
 typedef struct DWCstAccUserData DWCstAccUserData;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 typedef struct {u32 a,b;} Pair;
-
 
 typedef struct { char pad[0x1220]; u32 a,b; } Obj;
 
-
 typedef struct { u32 a, b; } W;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 struct WifiBattleMatchComp {
     void *sprite;               /* 0x00 */
@@ -1466,10 +1322,6 @@ extern u32 g_021E3618[];
 
 #define W(base, k) (*(u32 *)((base) + (k)))
 
-
-
-
-
 int WIFIBATTLEMATCH_NET_Create(int a,int b,int *obj,int d)
 {
     GF_OVERLAY_Load((int)ov177_id);
@@ -1479,10 +1331,6 @@ int WIFIBATTLEMATCH_NET_Create(int a,int b,int *obj,int d)
     default: GF_PANIC_Fail(d_021E2DE0,0,d_021E2DE0); return 0;
     }
 }
-
-
-
-
 
 int WIFIBATTLEMATCH_NET_Close(int a,int b,int *obj,int d)
 {
@@ -1497,15 +1345,7 @@ int WIFIBATTLEMATCH_NET_Close(int a,int b,int *obj,int d)
     return result;
 }
 
-
-
-
-
 int WIFIBATTLEMATCH_NET_Other(int a,int b,int *obj,int d) {switch(((int *)obj[2])[2]) {case 1:return d_021E2C74.other(a,b,obj,d);case 0:return d_021E2C80.other(a,b,obj,d);default:GF_PANIC_Fail(d_021E2DE0,0,d_021E2DE0);return 0;}}
-
-
-
-
 
 /*
  * prototype: 0203159C's matched void body leaves allocated r0 live;
@@ -1546,10 +1386,6 @@ int WIFIBATTLEMATCH_NET_TaskCreate(void *sys, int *state, u32 *ctx)
     return 1;
 }
 
-
-
-
-
 int WIFIBATTLEMATCH_NET_TaskDestroy(int sys,int unused,int unused2,int *task)
 {
     WIFIBATTLEMATCH_NET_RestartNet((char *)task[12],0);
@@ -1573,10 +1409,6 @@ int WIFIBATTLEMATCH_NET_TaskDestroy(int sys,int unused,int unused2,int *task)
     GF_OVERLAY_Unload((int)ov067_id);
     return 1;
 }
-
-
-
-
 
 /*
  * Extent tail 021D458A..021D458C is two zero alignment bytes before 021D458C.
@@ -1604,10 +1436,6 @@ int WIFIBATTLEMATCH_NET_TaskMain(unsigned sys,int *state,int unused,int *task)
     return 0;
 }
 
-
-
-
-
 void WIFIBATTLEMATCH_NET_TaskStepRouteByEntryState(unsigned sys,int *state,int *task)
 {
     int *params=(int *)task[16];
@@ -1625,10 +1453,6 @@ void WIFIBATTLEMATCH_NET_TaskStepRouteByEntryState(unsigned sys,int *state,int *
         break;
     }
 }
-
-
-
-
 
 void WIFIBATTLEMATCH_NET_TaskStepMainMenu(u32 sys, int *state, u32 *task)
 {
@@ -1668,10 +1492,6 @@ void WIFIBATTLEMATCH_NET_TaskStepMainMenu(u32 sys, int *state, u32 *task)
     case 7: if (WIFIBATTLEMATCH_UTIL_GetBusy((int *)task[9])) WIFIBATTLEMATCH_UTIL_CommitRequest(sys); break;
     }
 }
-
-
-
-
 
 void WIFIBATTLEMATCH_NET_TaskStepRatingCheckPartyOnServer(u32 sys, int *state, u32 *task)
 {
@@ -1725,8 +1545,6 @@ void WIFIBATTLEMATCH_NET_TaskStepRatingCheckPartyOnServer(u32 sys, int *state, u
     case 14: if (WIFIBATTLEMATCH_UTIL_GetBusy((int *)task[9])) WIFIBATTLEMATCH_UTIL_CommitRequest(sys); break;
     }
 }
-
-
 
 void WIFIBATTLEMATCH_NET_TaskStepRatingFetchGdbRecord(u32 sys, int *state, u32 *task)
 {
@@ -1806,57 +1624,11 @@ void WIFIBATTLEMATCH_NET_TaskStepRatingFetchGdbRecord(u32 sys, int *state, u32 *
     }
 }
 
-
-
 #define CTX(base) ((u32 *)(base)[16])
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #define TIMER(base) (*(u32 *)((base) + 0xe0))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #define TIMEOUT(base) (*(u32 *)((base) + 0xe8))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void WIFIBATTLEMATCH_NET_TaskStepRatingMatchmake(unsigned sys, int *state, char *task)
 {
@@ -2079,22 +1851,6 @@ void WIFIBATTLEMATCH_NET_TaskStepRatingMatchmake(unsigned sys, int *state, char 
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * DA36C receives the live context in r0 here despite its no-argument body.
  */
@@ -2230,22 +1986,6 @@ void WIFIBATTLEMATCH_NET_TaskStepRatingReportAndSave(unsigned sys, int *state, c
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_TaskStepRatingCheckNetError(unsigned sys,int *state,int *task)
 {
     switch(state[0]) {
@@ -2261,22 +2001,6 @@ void WIFIBATTLEMATCH_NET_TaskStepRatingCheckNetError(unsigned sys,int *state,int
     case 2: if(WIFIBATTLEMATCH_UTIL_GetBusy((const int *)task[9])) WIFIBATTLEMATCH_UTIL_CommitRequest(sys); break;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void WIFIBATTLEMATCH_NET_TaskStepRatingAskRetry(unsigned sys, int *state, int *task)
 {
@@ -2314,22 +2038,6 @@ void WIFIBATTLEMATCH_NET_TaskStepRatingAskRetry(unsigned sys, int *state, int *t
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_TaskStepRatingConfirmQuit(unsigned sys,int *state,int *task)
 {
     int result;
@@ -2354,292 +2062,67 @@ void WIFIBATTLEMATCH_NET_TaskStepRatingConfirmQuit(unsigned sys,int *state,int *
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+#undef TIMER
 
 #undef TIMER
 
-
-
-
-
-
-
-
-
-
-
-
-
+#undef TIMER
 
 #undef TIMER
 
-
-
-
-
-
-
-
-
-
-
-
+#undef TIMER
 
 #undef TIMER
 
-
-
-
-
-
-
-
-
-
-
+#undef TIMER
 
 #undef TIMER
 
-
-
-
-
-
-
-
-
-
+#undef TIMER
 
 #undef TIMER
 
-
-
-
-
-
-
-
-
+#undef TIMER
 
 #undef TIMER
 
-
-
-
-
-
-
-
-
 #undef TIMER
-
-
-
-
-
-
-
-
-#undef TIMER
-
-
-
-
-
-
-
-#undef TIMER
-
-
-
-
-
-
-#undef TIMER
-
-
-
-
-
-#undef TIMER
-
-
-
-
-#undef TIMER
-
-
-
-#undef TIMER
-
 
 #undef TIMER
 
 #undef TIMER
 #define TIMER(base) (*(u32 *)((base) + 0xe0))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+#undef TIMEOUT
 
 #undef TIMEOUT
 
-
-
-
-
-
-
-
-
-
-
-
-
+#undef TIMEOUT
 
 #undef TIMEOUT
 
-
-
-
-
-
-
-
-
-
-
-
+#undef TIMEOUT
 
 #undef TIMEOUT
 
-
-
-
-
-
-
-
-
-
-
+#undef TIMEOUT
 
 #undef TIMEOUT
 
-
-
-
-
-
-
-
-
-
+#undef TIMEOUT
 
 #undef TIMEOUT
 
-
-
-
-
-
-
-
-
+#undef TIMEOUT
 
 #undef TIMEOUT
 
-
-
-
-
-
-
-
-
 #undef TIMEOUT
-
-
-
-
-
-
-
-
-#undef TIMEOUT
-
-
-
-
-
-
-
-#undef TIMEOUT
-
-
-
-
-
-
-#undef TIMEOUT
-
-
-
-
-
-#undef TIMEOUT
-
-
-
-
-#undef TIMEOUT
-
-
-
-#undef TIMEOUT
-
 
 #undef TIMEOUT
 
 #undef TIMEOUT
 #define TIMEOUT(base) (*(u32 *)((base) + 0xe8))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * The original loads p[12] before the otherwise parameterless DA36C.
@@ -2688,21 +2171,6 @@ void WIFIBATTLEMATCH_NET_TaskStepRatingSaveAndUploadQuit(unsigned sys, int *stat
         break;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void WIFIBATTLEMATCH_NET_TaskStepFreeCheckPartyOnServer(unsigned sys, int *state, int *task)
 {
@@ -2762,21 +2230,6 @@ void WIFIBATTLEMATCH_NET_TaskStepFreeCheckPartyOnServer(unsigned sys, int *state
         break;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * DC1A0's live return is tested here; DA434/DA36C receive the context r0.
@@ -2947,139 +2400,34 @@ void WIFIBATTLEMATCH_NET_TaskStepFreeMatchmake(unsigned sys, int *state, char *t
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
+#undef TIMER
 
 #undef TIMER
 
-
-
-
-
-
-
-
-
-
-
-
+#undef TIMER
 
 #undef TIMER
 
-
-
-
-
-
-
-
-
-
-
+#undef TIMER
 
 #undef TIMER
 
-
-
-
-
-
-
-
-
-
+#undef TIMER
 
 #undef TIMER
 
-
-
-
-
-
-
-
-
+#undef TIMER
 
 #undef TIMER
 
-
-
-
-
-
-
-
-
 #undef TIMER
 
-
-
-
-
-
-
-
 #undef TIMER
-
-
-
-
-
-
-
-#undef TIMER
-
-
-
-
-
-
-#undef TIMER
-
-
-
-
-
-#undef TIMER
-
-
-
-
-#undef TIMER
-
-
-
-#undef TIMER
-
 
 #undef TIMER
 
 #undef TIMER
 #define TIMER(base) (*(u32 *)((base) + 0xe0))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Lever: source arm order is 0,3,1,2,4..11; numeric ordering differs
@@ -3153,20 +2501,6 @@ void WIFIBATTLEMATCH_NET_TaskStepFreeFinishAndSave(unsigned sys, int *state, cha
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_TaskStepFreeToRetryPrompt(unsigned sys,int *state,int *task)
 {
     switch(state[0]) {
@@ -3176,20 +2510,6 @@ void WIFIBATTLEMATCH_NET_TaskStepFreeToRetryPrompt(unsigned sys,int *state,int *
     case 3: if(WIFIBATTLEMATCH_UTIL_GetBusy((const int *)task[9])) WIFIBATTLEMATCH_UTIL_CommitRequest(sys); break;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void WIFIBATTLEMATCH_NET_TaskStepFreeAskRetry(unsigned sys,int *state,int *task)
 {
@@ -3215,18 +2535,6 @@ void WIFIBATTLEMATCH_NET_TaskStepFreeAskRetry(unsigned sys,int *state,int *task)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_TaskStepFreeConfirmQuit(u32 sys,int *state,u32 *task)
 {
     u32 *params=(u32 *)task[16];
@@ -3251,29 +2559,7 @@ void WIFIBATTLEMATCH_NET_TaskStepFreeConfirmQuit(u32 sys,int *state,u32 *task)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_TaskCleanupA(void *obj,int unused,u8 *task) { ((struct WifiBattleMatchParams *)(*(u8 * *)&((struct WifiBattleMatchNetTask *)task)->ctx))->netState=3; if(((struct WifiBattleMatchNetTask *)task)->net) { WIFIBATTLEMATCH_NET_DeleteNetContext(((struct WifiBattleMatchNetTask *)task)->net); *(u32 *)&((struct WifiBattleMatchNetTask *)task)->net=0; } GFL_NET_ERR_WaitLinkClosed(); WIFIBATTLEMATCH_UTIL_ClearCallback((int)obj); }
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * (it is an unlabelled leaf in the overlapping window: ov093/ov170/ov177 hold
@@ -3291,16 +2577,6 @@ void WIFIBATTLEMATCH_NET_TaskCleanupB(void *a, u32 **pp, char *task)
     }
     WIFIBATTLEMATCH_UTIL_ClearCallback((int)a);
 }
-
-
-
-
-
-
-
-
-
-
 
 void WIFIBATTLEMATCH_NET_TaskStepPostPartyData(u32 sys,int *state,char *task)
 {
@@ -3332,16 +2608,6 @@ void WIFIBATTLEMATCH_NET_TaskStepPostPartyData(u32 sys,int *state,char *task)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_SetupBoxRecord(u32 *task, u32 mode)
 {
     u32 sys;
@@ -3369,17 +2635,6 @@ void WIFIBATTLEMATCH_NET_SetupBoxRecord(u32 *task, u32 mode)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Release path for the ov175 object's 0x18 block pointer: free it
  *     through 0x021E5D40 and clear the field.  Null-safe, so a second call is a
@@ -3395,16 +2650,6 @@ void WIFIBATTLEMATCH_NET_DeleteBoxRecord(char *obj)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
 /*
  * Thunk: hands the +0x18 block to 0x021E64C8 and returns its result.  No
  *     lr save anywhere, so the compiler emitted the call as a pooled
@@ -3415,16 +2660,6 @@ u32 WIFIBATTLEMATCH_NET_IsBoxReady(char *obj)
     return WIFIBATTLEMATCH_VIEW_StepMainWindow(((struct WifiBattleMatchNetTask *)obj)->boxWindow);
 }
 
-
-
-
-
-
-
-
-
-
-
 /*
  * Thunk: hands the +0x18 block to 0x021E65FC and returns its result, the
  *     poll partner of WIFIBATTLEMATCH_NET_IsBoxReady on the same field.
@@ -3434,31 +2669,12 @@ u32 WIFIBATTLEMATCH_NET_IsBoxAnimDone(char *obj)
     return WIFIBATTLEMATCH_VIEW_StepMainWindowIdle(((struct WifiBattleMatchNetTask *)obj)->boxWindow);
 }
 
-
-
-
-
-
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_SetupBoxAndWait(char *obj, u32 arg)
 {
     WIFIBATTLEMATCH_NET_SetupBoxRecord((u32 *)((u32 *)obj), arg);
     while (WIFIBATTLEMATCH_NET_IsBoxReady(obj) == 0)
         ;
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * Only when the +0x18 pointer is live: spin on WIFIBATTLEMATCH_NET_IsBoxAnimDone until it
@@ -3472,14 +2688,6 @@ void WIFIBATTLEMATCH_NET_DeleteBoxAndWait(char *obj)
         WIFIBATTLEMATCH_NET_DeleteBoxRecord(obj);
     }
 }
-
-
-
-
-
-
-
-
 
 /*
  * mode: original assigns constructor selectors only for mode 0 or 1.
@@ -3496,15 +2704,6 @@ void WIFIBATTLEMATCH_NET_CreateRegCardWindow(u32 *task,u32 arg)
     }
 }
 
-
-
-
-
-
-
-
-
-
 /*
  * Release path for the ov175 object's 0x1c pointer: free it through
  *     0x021E7710 and clear the field, null-safe.
@@ -3519,14 +2718,6 @@ void WIFIBATTLEMATCH_NET_DeleteRegCard(char *obj)
     }
 }
 
-
-
-
-
-
-
-
-
 /*
  * Unlabelled blocker leaf for WIFIBATTLEMATCH_NET_TaskStepFreeMatchmake; parent confirmed unowned.
  */
@@ -3534,14 +2725,6 @@ int WIFIBATTLEMATCH_NET_IsRegCardReady(char *task)
 {
     return WIFIBATTLEMATCH_VIEW_StepRecordWindow(*(struct Work * *)&((struct WifiBattleMatchNetTask *)task)->recordWindow);
 }
-
-
-
-
-
-
-
-
 
 int WIFIBATTLEMATCH_NET_GetSetBsubwayStat(u32 save, u32 kind, u32 obj)
 {
@@ -3589,15 +2772,6 @@ int WIFIBATTLEMATCH_NET_GetSetBsubwayStat(u32 save, u32 kind, u32 obj)
     return changed;
 }
 
-
-
-
-
-
-
-
-
-
 /*
  * Thumb jump table over 0..4: modes 1 and 4 pass the constant 1, modes 0 and
  * 3 pass 2, mode 2 and everything above 4 do nothing.
@@ -3622,13 +2796,6 @@ void WIFIBATTLEMATCH_NET_IncBsubwayStat(int a, int b, u32 c)
     }
 }
 
-
-
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_SetupChoiceMenu(u32 *task,int mode)
 {
     struct { u32 x0,x1,x2,x3,x4,x5,x6,x7; u16 a,b,c,d; int enabled; u16 kind,pad; } desc;
@@ -3651,14 +2818,6 @@ void WIFIBATTLEMATCH_NET_SetupChoiceMenu(u32 *task,int mode)
     }
 }
 
-
-
-
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_DeleteChoiceMenu(char *obj)
 {
     u32 menu = ((struct WifiBattleMatchNetTask *)obj)->menu;
@@ -3668,14 +2827,6 @@ void WIFIBATTLEMATCH_NET_DeleteChoiceMenu(char *obj)
         ((struct WifiBattleMatchNetTask *)obj)->menu = 0;
     }
 }
-
-
-
-
-
-
-
-
 
 /*
  * Query brother of WIFIBATTLEMATCH_NET_DeleteChoiceMenu: returns the +0x28 block's handler
@@ -3689,13 +2840,6 @@ int WIFIBATTLEMATCH_NET_PollChoiceMenu(char *obj)
         return WIFIBATTLEMATCH_UTIL_UpdateMenu(menu);
     return -1;
 }
-
-
-
-
-
-
-
 
 void WIFIBATTLEMATCH_NET_CopyBoxRecord(u32 *record,u32 *task)
 {
@@ -3713,13 +2857,6 @@ void WIFIBATTLEMATCH_NET_CopyBoxRecord(u32 *record,u32 *task)
     case 4: record[0]=((u32 *)ctx[14])[2]; break;
     }
 }
-
-
-
-
-
-
-
 
 void WIFIBATTLEMATCH_NET_CopyBoxSave(u32 *record,u32 *task)
 {
@@ -3744,13 +2881,6 @@ void WIFIBATTLEMATCH_NET_CopyBoxSave(u32 *record,u32 *task)
     record[18]=WIFILIST_GetGsProfileId((void *)GAME_DATA_GetWifiList((const struct BigObj *)save));
 }
 
-
-
-
-
-
-
-
 /*
  * extent: two-byte alignment padding at 021D6786.
  */
@@ -3770,13 +2900,6 @@ void WIFIBATTLEMATCH_NET_CopyBsubwayStat(u32 *record, u32 *task)
     }
 }
 
-
-
-
-
-
-
-
 /*
  * Closes the +0x38 stream handle through 0x021E8AA0 and parks the +0x3c
  *     result word at its "no data" sentinel 0xFFFF.
@@ -3787,13 +2910,6 @@ void WIFIBATTLEMATCH_NET_SetWaitCallback(char *obj, void *fn)
     ((struct WifiBattleMatchNetTask *)obj)->waitResult = 0xFFFF;
 }
 
-
-
-
-
-
-
-
 u32 WIFIBATTLEMATCH_NET_PollWaitResult(char *obj)
 {
     WIFIBATTLEMATCH_UTIL_InvokeCallback(((struct WifiBattleMatchNetTask *)obj)->waitStream);
@@ -3801,13 +2917,6 @@ u32 WIFIBATTLEMATCH_NET_PollWaitResult(char *obj)
         return ((struct WifiBattleMatchNetTask *)obj)->waitResult;
     return 0xFFFF;
 }
-
-
-
-
-
-
-
 
 /*
  * NOT byte-correct: MATCH.  Every byte
@@ -3849,13 +2958,6 @@ int WIFIBATTLEMATCH_NET_VerifyPartySignature(char *record, u16 heapId)
     NHTTP_RAP_EvilCheckFreeArray(buf);
     return ret;
 }
-
-
-
-
-
-
-
 
 int WIFIBATTLEMATCH_NET_HandleCancel(char *obj, int trigger, int go)
 {
@@ -3916,13 +3018,6 @@ int WIFIBATTLEMATCH_NET_HandleCancel(char *obj, int trigger, int go)
     return 1;
 }
 
-
-
-
-
-
-
-
 /*
  * Clears the word at +0xe4 (the last-read length) and then tail-calls the
  *     +0x28 release path WIFIBATTLEMATCH_NET_DeleteChoiceMenu, which is why nothing is saved.
@@ -3932,12 +3027,6 @@ void WIFIBATTLEMATCH_NET_ClearError(char *obj)
     ((struct WifiBattleMatchNetTask *)obj)->cancelStep = 0;
     WIFIBATTLEMATCH_NET_DeleteChoiceMenu(obj);
 }
-
-
-
-
-
-
 
 /*
  * PROCSYS_AllocProcWork's r0 is read after the call, requiring a returning declaration.
@@ -3966,11 +3055,6 @@ int WIFIBATTLEMATCH_NET_CompCreate(void *sys,int unused,u32 *ctx)
     return 1;
 }
 
-
-
-
-
-
 int WIFIBATTLEMATCH_NET_CompDestroy(u32 sys,u32 unused,u32 arg,char *comp)
 {
     GFL_HEAP_Free((void *)((struct WifiBattleMatchComp *)comp)->party);
@@ -3987,11 +3071,6 @@ int WIFIBATTLEMATCH_NET_CompDestroy(u32 sys,u32 unused,u32 arg,char *comp)
     GF_OVERLAY_Unload((int)ov114_id); GF_OVERLAY_Unload((int)ov067_id);
     return 1;
 }
-
-
-
-
-
 
 int WIFIBATTLEMATCH_NET_CompMain(unsigned sys,int *state,int unused,int *comp)
 {
@@ -4010,11 +3089,6 @@ int WIFIBATTLEMATCH_NET_CompMain(unsigned sys,int *state,int unused,int *comp)
     return 0;
 }
 
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_CompStepRouteByEntryState(u32 sys,void *unused,char *comp)
 {
     switch (((u32 *)((struct WifiBattleMatchComp *)comp)->ctx)[3]) {
@@ -4028,9 +3102,6 @@ void WIFIBATTLEMATCH_NET_CompStepRouteByEntryState(u32 sys,void *unused,char *co
     case 3: WIFIBATTLEMATCH_NET_SetupCompStatusWindowAndWait(comp); WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys,(int)WIFIBATTLEMATCH_NET_CompStepSaveAfterBattle); break;
     }
 }
-
-
-
 
 void WIFIBATTLEMATCH_NET_CompStepFetchRapPair(u32 sys,int *state,u32 *comp)
 {
@@ -4068,17 +3139,12 @@ void WIFIBATTLEMATCH_NET_CompStepFetchRapPair(u32 sys,int *state,u32 *comp)
     }
 }
 
-
-
 #undef CTX
-
 
 #undef CTX
 
 #undef CTX
 #define CTX(base) (*(u32 **)((base)+offset))
-
-
 
 /*
  * note: The listing stops at the epilogue label 021D76B8; the full body
@@ -4212,11 +3278,6 @@ void WIFIBATTLEMATCH_NET_CompStepReconcileEntryState(int *sys,int *state,char *c
 
 #define W(base, k) (*(u32 *)((base) + (k)))
 
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_CompStepRegisterParty(u32 sys,int *state,char *comp)
 {
     u32 *ctx=(u32 *)W(comp, 0x104);
@@ -4288,12 +3349,6 @@ void WIFIBATTLEMATCH_NET_CompStepRegisterParty(u32 sys,int *state,char *comp)
     }
 }
 
-
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_CompStepMainMenu(u32 sys,int *state,char *comp)
 {
     char *params=*(char * *)&((struct WifiBattleMatchComp *)comp)->ctx;
@@ -4352,13 +3407,6 @@ void WIFIBATTLEMATCH_NET_CompStepMainMenu(u32 sys,int *state,char *comp)
     }
 }
 
-
-
-
-
-
-
-
 static inline void TouchParty(u8 *rec, u8 *buf)
 {
     int i;
@@ -4371,13 +3419,6 @@ static inline void TouchParty(u8 *rec, u8 *buf)
             POKEPARTY_GetMember(party, i);
     }
 }
-
-
-
-
-
-
-
 
 /*
  * The ov175 link-battle main sequence: one step of a 54-state machine over
@@ -4975,12 +4016,6 @@ void WIFIBATTLEMATCH_NET_CompStepMatchmake(u32 sys, int *state, struct WifiBattl
     }
 }
 
-
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_CompStepReportAndUploadResult(u32 sys,int *state,char *comp)
 {
     char *params=*(char * *)&((struct WifiBattleMatchComp *)comp)->ctx;
@@ -5048,12 +4083,6 @@ void WIFIBATTLEMATCH_NET_CompStepReportAndUploadResult(u32 sys,int *state,char *
     }
 }
 
-
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_CompStepSaveAfterBattle(int *a, int *state, char *comp)
 {
     int result;
@@ -5117,12 +4146,6 @@ void WIFIBATTLEMATCH_NET_CompStepSaveAfterBattle(int *a, int *state, char *comp)
     }
 }
 
-
-
-
-
-
-
 /*
  * Lever: the two-value tail dispatch is a switch; if (v==1 || v==2) folds into a range and compiles 316/320 bytes.
  */
@@ -5162,12 +4185,6 @@ void WIFIBATTLEMATCH_NET_CompStepAskRetry(u32 sys,int *state,char *comp)
     }
 }
 
-
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_CompStepConfirmQuit(u32 sys, int *state, char *comp)
 {
     int result;
@@ -5197,11 +4214,6 @@ void WIFIBATTLEMATCH_NET_CompStepConfirmQuit(u32 sys, int *state, char *comp)
     }
 }
 
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_CompStepSaveAndUploadQuit(u32 sys,int *state,char *comp)
 {
     char *params=*(char * *)&((struct WifiBattleMatchComp *)comp)->ctx;
@@ -5221,11 +4233,6 @@ void WIFIBATTLEMATCH_NET_CompStepSaveAndUploadQuit(u32 sys,int *state,char *comp
     case 7:if(WIFIBATTLEMATCH_UTIL_GetBusy((const int *)(((struct WifiBattleMatchComp *)comp)->textObj))) WIFIBATTLEMATCH_UTIL_CommitRequest(sys);break;
     }
 }
-
-
-
-
-
 
 /*
  * follower: 021D905C tail-call stub included; function_starts seed 021D905C.
@@ -5262,27 +4269,12 @@ void WIFIBATTLEMATCH_NET_CompStepCheckPeriodThenSaveQuit(u32 sys, int *state, ch
     }
 }
 
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_CompExit(u32 sys)
 {
     WIFIBATTLEMATCH_UTIL_ClearCallback(sys);
 }
 
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_CompCleanup(void *obj,int unused,u8 *comp) { ((struct WifiBattleMatchParams *)(*(u8 * *)&((struct WifiBattleMatchComp *)comp)->ctx))->netState=3; if(((struct WifiBattleMatchComp *)comp)->net) { WIFIBATTLEMATCH_NET_DeleteNetContext(((struct WifiBattleMatchComp *)comp)->net); *(u32 *)&((struct WifiBattleMatchComp *)comp)->net=0; } GFL_NET_ERR_WaitLinkClosed(); WIFIBATTLEMATCH_UTIL_ClearCallback((int)obj); }
-
-
-
-
-
 
 /*
  * Lever: byte range test uses (u8)(value + 255), preserving adds #255.
@@ -5353,11 +4345,6 @@ void WIFIBATTLEMATCH_NET_CompStepCheckPeriod(u32 sys,int *state,char *comp)
     }
 }
 
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_CompStepWithdrawEntry(u32 sys,int *state,char *comp) {
     char *params=*(char * *)&((struct WifiBattleMatchComp *)comp)->ctx;
     int result;
@@ -5421,11 +4408,6 @@ void WIFIBATTLEMATCH_NET_CompStepWithdrawEntry(u32 sys,int *state,char *comp) {
     }
 }
 
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_CompStepPostPartyData(u32 sys, int *state, char *comp)
 {
     char *save;
@@ -5457,12 +4439,6 @@ void WIFIBATTLEMATCH_NET_CompStepPostPartyData(u32 sys, int *state, char *comp)
     case 4: WIFIBATTLEMATCH_UTIL_ClearCallback(sys); break;
     }
 }
-
-
-
-
-
-
 
 /*
  * Opens the +0x1c profile exchange when none is open: builds a 0xac-byte
@@ -5510,12 +4486,6 @@ void WIFIBATTLEMATCH_NET_SetupCompStatusWindow(struct WifiBattleMatchComp *obj)
     }
 }
 
-
-
-
-
-
-
 /*
  * Release path for the +0x1c block pointer, freed through 0x021E5EF8
  *     and cleared; a second call is a no-op.  The callee address is shared by
@@ -5532,22 +4502,10 @@ void WIFIBATTLEMATCH_NET_DeleteCompStatusWindow(char *obj)
     }
 }
 
-
-
-
-
-
-
 u32 WIFIBATTLEMATCH_NET_IsCompStatusWindowReady(char *obj)
 {
     return WIFIBATTLEMATCH_VIEW_StepMainWindow(((struct WifiBattleMatchComp *)obj)->tradeIcon);
 }
-
-
-
-
-
-
 
 /*
  * Thunk: hands the +0x1c block to 0x021E65FC (ov177) and returns its result.
@@ -5556,12 +4514,6 @@ int WIFIBATTLEMATCH_NET_IsCompStatusWindowIdle(char *obj)
 {
     return WIFIBATTLEMATCH_VIEW_StepMainWindowIdle(((struct WifiBattleMatchComp *)obj)->tradeIcon);
 }
-
-
-
-
-
-
 
 /*
  * Start-op for the ov175 object's +0x1c stream: WIFIBATTLEMATCH_NET_SetupCompStatusWindow, then spin
@@ -5573,12 +4525,6 @@ void WIFIBATTLEMATCH_NET_SetupCompStatusWindowAndWait(char *obj)
     while (WIFIBATTLEMATCH_NET_IsCompStatusWindowReady(obj) == 0)
         ;
 }
-
-
-
-
-
-
 
 /*
  * If the +0x1c block is live, forward it to 0x021E5F24 together with the
@@ -5593,11 +4539,6 @@ void WIFIBATTLEMATCH_NET_DrawCompStatusWindow(char *obj, u32 arg)
                       ((struct WifiBattleMatchComp *)obj)->printQue, ((struct WifiBattleMatchComp *)obj)->font, 0x57);
 }
 
-
-
-
-
-
 /*
  * Lazy create: when the handle at +0x20 is empty, builds it through the eleven-argument ov177 constructor from the +0x0/+0x4/+0x8/+0x10/+0x14/+0x18 words and the heap id at +0x108.
  */
@@ -5609,11 +4550,6 @@ void WIFIBATTLEMATCH_NET_StartRegCardAnim(u32 *obj, u32 arg)
                                REGULATION_Card_GetValue((struct Reg2 *)obj[0x42], 0xb), 0x57);
     }
 }
-
-
-
-
-
 
 /*
  * Release path for the ov175 object's 0x20 pointer: free it through
@@ -5629,11 +4565,6 @@ void WIFIBATTLEMATCH_NET_DeleteCompRegCard(char *obj)
     }
 }
 
-
-
-
-
-
 /*
  * Thunk: hands the +0x20 block to 0x021E777C (ov177) and returns its result.
  */
@@ -5641,10 +4572,6 @@ u32 WIFIBATTLEMATCH_NET_IsCompRegCardReady(char *obj)
 {
     return WIFIBATTLEMATCH_VIEW_StepRecordWindow((void *)(((struct WifiBattleMatchComp *)obj)->regCard));
 }
-
-
-
-
 
 /*
  * tail: 021D98B6..021D98B8 is two zero alignment bytes.
@@ -5657,11 +4584,6 @@ void WIFIBATTLEMATCH_NET_SetupCompPartyWindow(char *ctx)
         ((struct WifiBattleMatchComp *)ctx)->window = WIFIBATTLEMATCH_VIEW_CreatePartyWindow(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(**(void ** *)&((struct WifiBattleMatchParams *)(*(char * *)&((struct WifiBattleMatchComp *)ctx)->ctx))->save)), window, *(int *)&((struct WifiBattleMatchComp *)ctx)->anim, ((struct WifiBattleMatchComp *)ctx)->fontAlt, *(int *)&((struct WifiBattleMatchComp *)ctx)->printQue, *(int *)&((struct WifiBattleMatchComp *)ctx)->msgBank, 87);
     }
 }
-
-
-
-
-
 
 /*
  * Free-and-null on the +0x24 block: hands it to 0x021E82BC (ov177) and
@@ -5676,27 +4598,15 @@ void WIFIBATTLEMATCH_NET_DeleteCompPartyWindow(char *obj)
     }
 }
 
-
-
-
-
 int WIFIBATTLEMATCH_NET_IsCompPartyWindowReady(char *comp)
 {
     return WIFIBATTLEMATCH_VIEW_StepPartyWindow(*(Work * *)&((struct WifiBattleMatchComp *)comp)->window);
 }
 
-
-
-
-
 int WIFIBATTLEMATCH_NET_IsCompPartyWindowIdle(char *comp)
 {
     return WIFIBATTLEMATCH_VIEW_StepPartyWindowAlt(*(Work * *)&((struct WifiBattleMatchComp *)comp)->window);
 }
-
-
-
-
 
 void WIFIBATTLEMATCH_NET_SetupCompChoiceMenu(u32 *comp, int mode) {
     WifibattlematchMenuDesc d;
@@ -5725,11 +4635,6 @@ void WIFIBATTLEMATCH_NET_SetupCompChoiceMenu(u32 *comp, int mode) {
     }
 }
 
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_DeleteCompChoiceMenu(char *obj)
 {
     u32 compSprite = ((struct WifiBattleMatchComp *)obj)->compSprite;
@@ -5739,11 +4644,6 @@ void WIFIBATTLEMATCH_NET_DeleteCompChoiceMenu(char *obj)
         ((struct WifiBattleMatchComp *)obj)->compSprite = 0;
     }
 }
-
-
-
-
-
 
 /*
  * Field query: if the +0x30 pointer is live, hand it to the ov175-adjacent
@@ -5759,21 +4659,11 @@ int WIFIBATTLEMATCH_NET_PollCompChoiceMenu(char *obj)
     return -1;
 }
 
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_SetCompWaitCallback(char *obj, void *fn)
 {
     WIFIBATTLEMATCH_UTIL_SetCallback((int *)(((struct WifiBattleMatchComp *)obj)->waitStream), (int)fn);
     ((struct WifiBattleMatchComp *)obj)->waitResult = 0xFFFF;
 }
-
-
-
-
-
 
 /*
  * Reads back the +0x3c stream: 0x021E8A80 for pending data, 0x021E8A90
@@ -5788,11 +4678,6 @@ u32 WIFIBATTLEMATCH_NET_GetCompWaitResult(char *obj)
     return 0xFFFF;
 }
 
-
-
-
-
-
 /*
  * NOT byte-correct: MATCH.  Every byte
  * matches and the only unmatched site is a
@@ -5803,8 +4688,6 @@ u32 WIFIBATTLEMATCH_NET_GetCompWaitResult(char *obj)
  * which is not a traced function label in any overlay listing.
  */
 
-
-
 void WIFIBATTLEMATCH_NET_CopyCompBox(char *dest, char *ctx)
 {
     void *records;
@@ -5814,11 +4697,6 @@ void WIFIBATTLEMATCH_NET_CopyCompBox(char *dest, char *ctx)
     GFL_HEAP_Free(records);
     ((struct WifiBattleMatchStatRecord *)dest)->boxValue = 100;
 }
-
-
-
-
-
 
 /*
  * Fills a profile record from the save data reached through +0x104: name, a 0x38 record, three words of the +0x34 block, the +0x34 id, a derived word and two values of the +0x108 block.
@@ -5846,10 +4724,6 @@ void WIFIBATTLEMATCH_NET_CopyCompSave(char *dst, char *obj)
     ((struct WifiBattleMatchStatRecord *)dst)->crc = REGULATION_Card_CalcCrc((struct Reg2 *)card);
 }
 
-
-
-
-
 /*
  * leaf: copy128 bytes from response+0x1c to save+0x54.
  */
@@ -5857,11 +4731,6 @@ void WIFIBATTLEMATCH_NET_CopyCompResponse(char *save, char *response)
 {
     MI_CpuCopy8(response + 0x1c, save + 0x54, 128);
 }
-
-
-
-
-
 
 u32 WIFIBATTLEMATCH_NET_VerifyCompSignature(char *obj, void *list, u32 heapId)
 {
@@ -5881,11 +4750,6 @@ u32 WIFIBATTLEMATCH_NET_VerifyCompSignature(char *obj, void *list, u32 heapId)
     return ret;
 }
 
-
-
-
-
-
 int WIFIBATTLEMATCH_NET_CompareParty(u32 a, u32 b)
 {
     u32 count = POKEPARTY_GetCount((void *)a);
@@ -5904,11 +4768,6 @@ int WIFIBATTLEMATCH_NET_CompareParty(u32 a, u32 b)
     }
     return 0;
 }
-
-
-
-
-
 
 /*
  * Quit-confirmation dialog step (state at +0xec): waits for the trigger and the button, prints the question, waits for the message, opens the yes/no window, then on yes prints the goodbye and closes the connection (returns 3 when finished), on no returns 2; returns 1 while the dialog is active and 0 when idle.
@@ -5983,11 +4842,6 @@ int WIFIBATTLEMATCH_NET_CompHandleCancel(char *obj, int trigger, int go)
     }
 }
 
-
-
-
-
-
 /*
  * Clears the +0xec last-read length and tail-calls the +0x30 release path
  *     WIFIBATTLEMATCH_NET_DeleteCompChoiceMenu, so nothing is saved.  Mirrors WIFIBATTLEMATCH_NET_ClearError.
@@ -5997,11 +4851,6 @@ void WIFIBATTLEMATCH_NET_CompClearError(char *obj)
     ((struct WifiBattleMatchComp *)obj)->stepCounter = 0;
     WIFIBATTLEMATCH_NET_DeleteCompChoiceMenu(obj);
 }
-
-
-
-
-
 
 /*
  * Syncs three words of a record (+0x10, +0x8, +0xc) into slots 0..2 of table 10 of the save block at +0x104; returns 1 when any of them differed from what was stored.
@@ -6022,10 +4871,6 @@ int WIFIBATTLEMATCH_NET_GetSetCompStat(char *obj, u32 *rec)
     BSUBWAY_SAVEDATA_SetStat(((struct WifiBattleMatchParams *)(*(char * *)&((struct WifiBattleMatchComp *)obj)->ctx))->bsubwaySave, 10, 2, rec[3]);
     return changed;
 }
-
-
-
-
 
 /*
  *   extern void GFL_NET_SYSTEM_SetWaitMode(int);
@@ -6062,15 +4907,7 @@ char *WIFIBATTLEMATCH_NET_CreateNetContext(u32 netId, void *save, u32 heapId, u1
     return ctx;
 }
 
-
-
-
-
 void WIFIBATTLEMATCH_NET_DeleteNetContext(u8 *ctx) { DWC_RAP_SetErrorHookCallback(0,0); DWC_RAP_SetErrorCallback(0,0); GFL_NET_COMMAND_DeleteCommandTable(0x2400); GFL_HEAP_Free(((struct WifiBattleMatchNetCtx *)ctx)->recBuf); GFL_HEAP_Free(ctx); }
-
-
-
-
 
 /*
  * Empty stub sitting between the WIFIBATTLEMATCH_NET_DeleteNetContext teardown and
@@ -6080,11 +4917,6 @@ void WIFIBATTLEMATCH_NET_DeleteNetContext(u8 *ctx) { DWC_RAP_SetErrorHookCallbac
 void WIFIBATTLEMATCH_NET_Noop(int unused)
 {
 }
-
-
-
-
-
 
 /*
  * Stores the caller's word at +0x14 and forwards its low byte to
@@ -6098,12 +4930,6 @@ void WIFIBATTLEMATCH_NET_SetTimingSyncRange(char *obj, u32 v)
     GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), (unsigned char)((struct WifiBattleMatchNetCtx *)obj)->syncRange, 0x24);
 }
 
-
-
-
-
-
-
 /*
  * Flush partner of WIFIBATTLEMATCH_NET_SetTimingSyncRange: sends the byte the object kept at
  *     +0x14 to 0x02039CB4 with the tick/state and line 0x24.
@@ -6112,12 +4938,6 @@ int WIFIBATTLEMATCH_NET_IsTimingSyncRange(char *obj)
 {
     return GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), (unsigned char)((struct WifiBattleMatchNetCtx *)obj)->syncRange, 0x24);
 }
-
-
-
-
-
-
 
 /*
  * Error poll: while the link is up, classifies the transport error through 0x02157170 (0..4); otherwise classifies the stored error record by its kind, and on a nonzero class shuts the screens down, runs the class action (1 reset, 2 fatal screen, 3 retry) and clears the record.
@@ -6211,17 +5031,7 @@ int WIFIBATTLEMATCH_NET_HandleNetError(char *ctx, void *a, void *b)
     return r;
 }
 
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_ClearErrorFlags(u8 *ctx) { ((struct WifiBattleMatchNetCtx *)ctx)->state=0; ((struct WifiBattleMatchNetCtx *)ctx)->gdbState=0; }
-
-
-
-
-
 
 int WIFIBATTLEMATCH_NET_StepGdbEnsureRecord(char *ctx)
 {
@@ -6251,12 +5061,6 @@ int WIFIBATTLEMATCH_NET_StepGdbEnsureRecord(char *ctx)
     }
     return 0;
 }
-
-
-
-
-
-
 
 /*
  * Sets up a matchmaking attempt: closes any connection, publishes the eight match keys (player count, group, 1, four record words, version 0x20015), formats the filter string and picks the evaluation callback for the mode (1 asserts).
@@ -6301,12 +5105,6 @@ void WIFIBATTLEMATCH_NET_SetMatchKey(char *obj, int mode, int extra, int group, 
         break;
     }
 }
-
-
-
-
-
-
 
 /*
  * Matchmaking step (state at +0x40): 0 starts the search with the evaluation callback, then waits for the match, the peer handshake (with a 3600-tick timeout counted at +0x1a4) and the link check; returns 1 when done, 2 on a fatal error and 0 while still running.
@@ -6401,12 +5199,6 @@ int WIFIBATTLEMATCH_NET_StartMatchmaking(char *obj)
     return 0;
 }
 
-
-
-
-
-
-
 /*
  * Three-call init/reset sequence: 0x0203D7B0(0), 0x0203D7BC(0) and
  *     0x0203C554(1).
@@ -6418,12 +5210,6 @@ void WIFIBATTLEMATCH_NET_DisconnectWifi()
     GFL_NET_STATE_WifiDisconnect(1);
 }
 
-
-
-
-
-
-
 /*
  * Leaf: clears the word at +0x154.
  */
@@ -6431,12 +5217,6 @@ void WIFIBATTLEMATCH_NET_ClearCancelFlag(char *obj)
 {
     ((struct WifiBattleMatchNetCtx *)obj)->shutdownState = 0;
 }
-
-
-
-
-
-
 
 /*
  * Link shutdown sequence stepped by the word at +0x154: sync 0x18, wait for the sync (600 frame timeout on +0x1a0), stop the two link services, wait 30 frames on +0x134, restart the parent service, then report done (1).
@@ -6475,24 +5255,12 @@ int WIFIBATTLEMATCH_NET_StopMatchmaking(char *obj)
     return 0;
 }
 
-
-
-
-
-
-
 int WIFIBATTLEMATCH_NET_SendSessionQuery()
 {
     if (DWC_RAP_IsStateInSession() != 0)
         return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x2402, 4, (u32)g_021E2C8C);
     return 1;
 }
-
-
-
-
-
-
 
 u32 WIFIBATTLEMATCH_NET_TakeSessionResult(char *obj)
 {
@@ -6502,11 +5270,6 @@ u32 WIFIBATTLEMATCH_NET_TakeSessionResult(char *obj)
         ((struct WifiBattleMatchNetCtx *)obj)->sessionResult = 0;
     return sessionResult;
 }
-
-
-
-
-
 
 /*
  * stack: four date words (including weekday), three time words.
@@ -6526,12 +5289,6 @@ void WIFIBATTLEMATCH_NET_GetDateTime(unsigned char *dest)
     dest[5] = time[2];
 }
 
-
-
-
-
-
-
 /*
  * Registers match key i: stores the value, copies the three-byte key name from the table at 0x021E2E10, and keeps the key id DWC_AddMatchKeyInt returns.
  */
@@ -6545,12 +5302,6 @@ void WIFIBATTLEMATCH_NET_AddMatchKey(char *obj, int i, int value)
     matchKey->id = DWC_AddMatchKeyInt(matchKey->id, matchKey->name, &matchKey->value);
 }
 
-
-
-
-
-
-
 /*
  * Matchmaking evaluation callback that forwards to the key-distance scorer WIFIBATTLEMATCH_NET_GetMatchKeyValue (unlabelled; its address is a code pointer in WIFIBATTLEMATCH_NET_SetMatchKey's pool).
  */
@@ -6559,11 +5310,6 @@ int WIFIBATTLEMATCH_NET_GetMatchKeyInt(int index, void *param)
     return WIFIBATTLEMATCH_NET_GetMatchKeyValue(index, param);
 }
 
-
-
-
-
-
 /*
  * Matchmaking evaluation callback that scores every candidate 1000 (unlabelled; its address is a code pointer in WIFIBATTLEMATCH_NET_SetMatchKey's pool).
  */
@@ -6571,12 +5317,6 @@ int WIFIBATTLEMATCH_NET_GetMatchKeyDefault(int index, void *param)
 {
     return 1000;
 }
-
-
-
-
-
-
 
 /*
  * Matchmaking evaluation callback: reads the candidate's keys 3..6; a candidate with none of them scores 0, one whose key 4 differs from ours scores 0, otherwise 1000 less the key 3 distance and 32 times the distance between the two key5*50/(key6+5) ratios, floored at 0.
@@ -6610,12 +5350,6 @@ int WIFIBATTLEMATCH_NET_GetMatchKeyValue(int index, void *param)
     }
     return 0;
 }
-
-
-
-
-
-
 
 /*
  * Arms a storage-server report: resets the report state words, stores mode and the result slot, and picks the report callback at +0x158 from mode (0: plain, 1 with a result slot, or 1 without one, which also stores a3 and the two record words) and kind (0 or 2; anything else asserts).
@@ -6676,12 +5410,6 @@ void WIFIBATTLEMATCH_NET_SetupMatchReport(char *obj, int mode, int kind, u32 tea
         }
     }
 }
-
-
-
-
-
-
 
 int WIFIBATTLEMATCH_NET_ScProcess(char *ctx, u32 *out)
 {
@@ -6958,24 +5686,7 @@ int WIFIBATTLEMATCH_NET_ScProcess(char *ctx, u32 *out)
     return 0;
 }
 
-
-
-
-
-
-
-
-
 u32 WIFIBATTLEMATCH_NET_GetReportState(u8 *ctx) { return ((struct WifiBattleMatchNetCtx *)ctx)->regValue; }
-
-
-
-
-
-
-
-
-
 
 /*
  * Competition-server completion callback: records a nonzero result at +0x15c and drops the pending-request count at +0x134 (unlabelled; its address is a code pointer in WIFIBATTLEMATCH_NET_ScProcess's pool).
@@ -6986,15 +5697,6 @@ void WIFIBATTLEMATCH_NET_OnReportResultA(int result, char *obj)
         ((struct WifiBattleMatchNetCtx *)obj)->reportResult = result;
     (((struct WifiBattleMatchNetCtx *)obj)->pendingCount)--;
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * Report-intention completion callback: on success copies the 0x28-byte session id into the report block (+0x34 of the record at +0x1464), otherwise records the result at +0x15c; then drops the pending-request count at +0x134.
@@ -7010,30 +5712,12 @@ void WIFIBATTLEMATCH_NET_OnReportResultB(int result, char *obj)
     (((struct WifiBattleMatchNetCtx *)obj)->pendingCount)--;
 }
 
-
-
-
-
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_OnReportResultC(int result, char *obj)
 {
     if (result != 0)
         ((struct WifiBattleMatchNetCtx *)obj)->reportResult = result;
     (((struct WifiBattleMatchNetCtx *)obj)->pendingCount)--;
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * Report teardown: when the state word at +0x170 is 1, destroys the report once the +0x12c step is past 0x13, shuts the storage client down once the +0x12c step is 4 or more, and clears the state word.
@@ -7048,15 +5732,6 @@ void WIFIBATTLEMATCH_NET_ShutdownReport(char *obj)
         ((struct WifiBattleMatchNetCtx *)obj)->reportState = 0;
     }
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * One exchange round: bails with the first nonzero status of the four session checks, sends the local record (mode from the peer kind), runs the callback, optionally sends the peer's record back and runs the callback again, then closes with the flag.
@@ -7138,14 +5813,6 @@ int WIFIBATTLEMATCH_NET_SubmitReport(char *ctx, char *other, char *peer, u32 isA
     return DWC_ScReportEnd(((struct WifiBattleMatchReportPlayer *)ctx)->report, isAuthoritative, 0);
 }
 
-
-
-
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_ReportAddRecord(int *ctx,const u32 *record,int invert) {
     int first,second,flip=0,skip=0,present;
     present=record[2]!=0 || record[3]!=0;
@@ -7188,14 +5855,6 @@ void WIFIBATTLEMATCH_NET_ReportAddRecord(int *ctx,const u32 *record,int invert) 
     DWC_ScReportAddIntValue(ctx[1],27,-1);
 }
 
-
-
-
-
-
-
-
-
 /*
  * tail: 021DB216..021DB218 is two zero alignment bytes.
  */
@@ -7219,15 +5878,6 @@ void WIFIBATTLEMATCH_NET_ReportAddTeam(int *ctx, int *input, int invert)
     DWC_ScReportAddIntValue(ctx[1], 0x1c, -1);
 }
 
-
-
-
-
-
-
-
-
-
 /*
  * Report callback: adds byte key 0x1a with value 1 to the report at +0x4.
  */
@@ -7235,15 +5885,6 @@ int WIFIBATTLEMATCH_NET_ReportAddWin(u32 *ctx)
 {
     return DWC_ScReportAddIntValue(ctx[1], 0x1a, 1);
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * Report callback: adds byte key 0x19 with value 1 to the report at +0x4.
@@ -7253,15 +5894,6 @@ int WIFIBATTLEMATCH_NET_ReportAddLoss(u32 *ctx)
     return DWC_ScReportAddIntValue(ctx[1], 0x19, 1);
 }
 
-
-
-
-
-
-
-
-
-
 /*
  * Report callback: adds byte key 0x1b with value -1 to the report at +0x4.
  */
@@ -7270,37 +5902,12 @@ int WIFIBATTLEMATCH_NET_ReportAddDisconnectWin(u32 *ctx)
     return DWC_ScReportAddIntValue(ctx[1], 0x1b, -1);
 }
 
-
-
-
-
-
-
-
-
-
 int WIFIBATTLEMATCH_NET_ReportAddDisconnectLoss(u32 *ctx)
 {
     return DWC_ScReportAddIntValue(ctx[1], 0x1c, -1);
 }
 
-
-
-
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_OnRecvPlayerData(int index,int unused,const void *src,u8 *ctx,int owner) { if(owner==(int)GFL_NET_HANDLE_GetCurrentHandle() && index!=GFL_NET_GetHandleNetID((struct Link *)((int)GFL_NET_HANDLE_GetCurrentHandle()))) { MI_CpuCopy8(src,*(u8 * *)&((struct WifiBattleMatchNetCtx *)ctx)->netIdPtr+0x6c,0x68); ((struct WifiBattleMatchNetCtx *)ctx)->recvPlayerData=1; } }
-
-
-
-
-
-
-
-
 
 void WIFIBATTLEMATCH_NET_OnRecvStatus(int index, int unused, void *dest, char *ctx, int owner)
 {
@@ -7313,14 +5920,6 @@ void WIFIBATTLEMATCH_NET_OnRecvStatus(int index, int unused, void *dest, char *c
     }
 }
 
-
-
-
-
-
-
-
-
 /*
  * Compare the caller's first word with the current 0x0203D1A4 handle of the 0x020399A8 block; a match releases the 0x021E2EF8 pair through 0x02034714, a mismatch yields the +0x218 sub-block.
  */
@@ -7332,15 +5931,6 @@ int WIFIBATTLEMATCH_NET_GetPlayerBuffer(int a, char *b)
     }
     return (int)(b + 0x218);
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * Guarded flag set: only when the caller's fifth argument (on the stack)
@@ -7356,15 +5946,6 @@ void WIFIBATTLEMATCH_NET_OnRecvFlagA(u32 a, u32 b, u32 c, char *d, u32 e)
     ((struct WifiBattleMatchNetCtx *)d)->sessionResult = 1;
 }
 
-
-
-
-
-
-
-
-
-
 /*
  * Guarded flag set: only when the caller's fifth argument (on the stack)
  * matches the tick from 0x020399A8 and the first argument does NOT match
@@ -7379,15 +5960,6 @@ void WIFIBATTLEMATCH_NET_OnRecvFlagB(u32 a, u32 b, u32 c, char *d, u32 e)
     ((struct WifiBattleMatchNetCtx *)d)->regBufferReady = 1;
 }
 
-
-
-
-
-
-
-
-
-
 /*
  * Guarded flag set: only when the caller's fifth argument (on the stack)
  * matches the entry address from 0x020399A8 and the first argument does NOT match
@@ -7401,14 +5973,6 @@ void WIFIBATTLEMATCH_NET_OnRecvFlagC(u32 a, u32 b, u32 c, char *d, u32 e)
         return;
     ((struct WifiBattleMatchNetCtx *)d)->regFlagReady = 1;
 }
-
-
-
-
-
-
-
-
 
 /*
  * Same guard as WIFIBATTLEMATCH_NET_OnRecvFlagA but it moves the word the third argument
@@ -7425,14 +5989,6 @@ void WIFIBATTLEMATCH_NET_OnRecvValue(u32 a, u32 b, u32 *c, char *d, u32 e)
     ((struct WifiBattleMatchNetCtx *)d)->regValue = value;
     ((struct WifiBattleMatchNetCtx *)d)->regValueReady = 1;
 }
-
-
-
-
-
-
-
-
 
 /*
  * Selects a request kind 0..4: stores the table and its count at +0x194/+0x198 and the step callback at +0x17c, after resetting the step word at +0x12c and storing the two arguments.
@@ -7470,14 +6026,6 @@ void WIFIBATTLEMATCH_NET_GdbRequest(char *obj, u32 target, int kind, u32 arg)
         break;
     }
 }
-
-
-
-
-
-
-
-
 
 int WIFIBATTLEMATCH_NET_GdbGetMyRecords(char *obj)
 {
@@ -7575,14 +6123,6 @@ int WIFIBATTLEMATCH_NET_GdbGetMyRecords(char *obj)
     return 0;
 }
 
-
-
-
-
-
-
-
-
 /*
  * Shuts the storage-server database client down (unlabelled; reached by bl from WIFIBATTLEMATCH_NET_GdbGetMyRecords).
  */
@@ -7590,13 +6130,6 @@ void WIFIBATTLEMATCH_NET_GdbShutdown(char *obj)
 {
     DWC_GdbShutdown();
 }
-
-
-
-
-
-
-
 
 void WIFIBATTLEMATCH_NET_SetupGdbRecord(char *ctx)
 {
@@ -7620,14 +6153,6 @@ void WIFIBATTLEMATCH_NET_SetupGdbRecord(char *ctx)
     ((struct WifiBattleMatchNetCtx *)ctx)->fieldCount = 4;
 }
 
-
-
-
-
-
-
-
-
 /*
  * Storage-server records callback: forwards the records to the user callback at +0x17c, then, when no record id is pending (+0x1b0 == -1), scans every field of every record for the id field and stores its value through the pointer at +0x1464.
  */
@@ -7647,12 +6172,6 @@ void WIFIBATTLEMATCH_NET_GdbSortByName(int count, struct Field **recs, char *obj
         }
     }
 }
-
-
-
-
-
-
 
 void WIFIBATTLEMATCH_NET_GdbCopyFieldsA(int count,struct Field **fields,char *ctx,int n) {
     int i,j;
@@ -7685,12 +6204,6 @@ void WIFIBATTLEMATCH_NET_GdbCopyFieldsA(int count,struct Field **fields,char *ct
     }
 }
 
-
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_GdbCopyFieldsB(int count,struct Field **fields,u8 *ctx,int n)
 {
     int i,j;
@@ -7712,12 +6225,6 @@ void WIFIBATTLEMATCH_NET_GdbCopyFieldsB(int count,struct Field **fields,u8 *ctx,
     }
 }
 
-
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_GdbCopyFieldC(int count, char **rows, int *out, int width)
 {
     int i, j;
@@ -7730,10 +6237,6 @@ void WIFIBATTLEMATCH_NET_GdbCopyFieldC(int count, char **rows, int *out, int wid
         }
     }
 }
-
-
-
-
 
 void WIFIBATTLEMATCH_NET_GdbCopyFieldD(int count,struct Field **recs,void *dst,int nfields)
 {
@@ -7748,9 +6251,6 @@ void WIFIBATTLEMATCH_NET_GdbCopyFieldD(int count,struct Field **recs,void *dst,i
     }
 }
 
-
-
-
 void WIFIBATTLEMATCH_NET_GdbCopyFieldE(int count,struct Field **recs,void *dst,int nfields)
 {
     int i,j;
@@ -7763,10 +6263,6 @@ void WIFIBATTLEMATCH_NET_GdbCopyFieldE(int count,struct Field **recs,void *dst,i
         }
     }
 }
-
-
-
-
 
 void WIFIBATTLEMATCH_NET_SetupGdbUpload(u8 *ctx,u32 mode,struct Record *src)
 {
@@ -7818,11 +6314,6 @@ void WIFIBATTLEMATCH_NET_SetupGdbUpload(u8 *ctx,u32 mode,struct Record *src)
     }
 }
 
-
-
-
-
-
 /*
  * lever: PC-relative slot audit binds error/cancel/timeout lines to 0x11a0,0x11be,0x11ca; fixing source constants removes three pool-byte mismatches.
  * extent: existing matched WIFIBATTLEMATCH_NET_GdbClearRecord.c covers the final16 bytes; keep this504-byte lead alone.
@@ -7872,11 +6363,6 @@ int WIFIBATTLEMATCH_NET_GdbUpdateRecord(char *ctx)
     return 0;
 }
 
-
-
-
-
-
 /*
  * leaf: reset request step then prepare four database fields.
  */
@@ -7885,11 +6371,6 @@ void WIFIBATTLEMATCH_NET_GdbClearRecord(char *ctx)
     ((struct WifiBattleMatchNetCtx *)ctx)->state = 0;
     WIFIBATTLEMATCH_NET_SetupGdbRecord(ctx);
 }
-
-
-
-
-
 
 /*
  * lever: PC-relative pool audit binds source-line constants 125c/126f/127b to the success/cancel-error/timeout calls, fixing the prior three concrete pool bytes.
@@ -7938,12 +6419,6 @@ int WIFIBATTLEMATCH_NET_GdbCreateRecord(char *ctx)
     return 0;
 }
 
-
-
-
-
-
-
 /*
  * Two-level dereference: the pointer the object holds at +0x1464, then
  *     the word it points at.  Both loads are register-offset, so the listing
@@ -7953,12 +6428,6 @@ u32 WIFIBATTLEMATCH_NET_GetNetId(char *obj)
 {
     return *(u32 *)(((struct WifiBattleMatchNetCtx *)obj)->netIdPtr);
 }
-
-
-
-
-
-
 
 /*
  * Sends through the eight-argument link routine with arguments (link, flag, 0x2401, size + 0xd4, data, 1, 1, 1); size is 0x0201A918's constant.
@@ -7973,12 +6442,6 @@ u32 WIFIBATTLEMATCH_NET_SendRegData(char *obj, u32 data)
     return GFL_NET_SendData((u32)GFL_NET_HANDLE_GetCurrentHandle(), (u8)flag, 0x2401, POKE_REGULATION_GetDataSize() + 0xd4, data, 1, 1, 1);
 }
 
-
-
-
-
-
-
 /*
  * Take-and-clear: returns the word at +0x13c; when it is set, clears it and hands back the address of the +0x218 block through out.
  */
@@ -7992,11 +6455,6 @@ u32 WIFIBATTLEMATCH_NET_TakeRegData(char *obj, char **out)
     return ready;
 }
 
-
-
-
-
-
 u32 WIFIBATTLEMATCH_NET_SendRegDataAlt(char *ctx,unsigned int data)
 {
     unsigned int busy=GFL_NET_GetHandleNetID((struct Link *)((unsigned int)GFL_NET_HANDLE_GetCurrentHandle()));
@@ -8004,12 +6462,6 @@ u32 WIFIBATTLEMATCH_NET_SendRegDataAlt(char *ctx,unsigned int data)
     if(busy!=0) flag=0;
     return GFL_NET_SendData((unsigned int)GFL_NET_HANDLE_GetCurrentHandle(),(unsigned char)flag,0x2403,POKE_REGULATION_GetDataSize(),data,1,1,1);
 }
-
-
-
-
-
-
 
 /*
  * Takes and clears the +0x144 block; when there was one, calls
@@ -8028,12 +6480,6 @@ u32 WIFIBATTLEMATCH_NET_TakeRegBuffer(char *obj, u32 arg)
     return ready;
 }
 
-
-
-
-
-
-
 /*
  * NOT byte-correct: MATCH.  Every byte
  * matches and the only unmatched site is a
@@ -8044,7 +6490,6 @@ u32 WIFIBATTLEMATCH_NET_TakeRegBuffer(char *obj, u32 arg)
  * listings and no branch to it from outside this function, so it fails
  * both the `label` and `sole-ref/code` classes.  Bytes are exact.
  */
-
 
 /*
  * Sends through the eight-argument link routine with arguments (link, flag, 0x2404, 4, data, 1, 1, 1); flag is 1 unless 0x0203D1A4 reports the link busy.
@@ -8059,12 +6504,6 @@ int WIFIBATTLEMATCH_NET_SendRegFlag(char *obj, u32 data)
     return GFL_NET_SendData((u32)GFL_NET_HANDLE_GetCurrentHandle(), (u8)flag, 0x2404, 4, data, 1, 1, 1);
 }
 
-
-
-
-
-
-
 u32 WIFIBATTLEMATCH_NET_TakeRegFlag(char *obj, u32 arg)
 {
     u32 ready = ((struct WifiBattleMatchNetCtx *)obj)->regFlagReady;
@@ -8076,12 +6515,6 @@ u32 WIFIBATTLEMATCH_NET_TakeRegFlag(char *obj, u32 arg)
     return ready;
 }
 
-
-
-
-
-
-
 /*
  * Tagged log/emit: the tick from 0x020399A8, the id 0x2405, a length of
  *     4 and the caller's pointer go to 0x0203D3A8, which is the four-argument
@@ -8091,12 +6524,6 @@ int WIFIBATTLEMATCH_NET_SendRegValue(u32 ignored, void *ctx)
 {
     return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x2405, 4, (u32)ctx);
 }
-
-
-
-
-
-
 
 /*
  * Take-and-clear: returns the word at +0x14c; when it is set, clears it and hands back the word at +0x150 through out.
@@ -8111,11 +6538,6 @@ u32 WIFIBATTLEMATCH_NET_TakeRegValue(char *obj, u32 *out)
     return ready;
 }
 
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_SetupDownload(char *ctx,unsigned a)
 {
     ((struct WifiBattleMatchNetCtx *)ctx)->state=0;
@@ -8124,11 +6546,6 @@ void WIFIBATTLEMATCH_NET_SetupDownload(char *ctx,unsigned a)
     MI_CpuFill8(ctx+0x1390,0,0xb0);
     STD_TSPrintf(ctx+0x144c,d_021E2FA4,a);
 }
-
-
-
-
-
 
 /*
  * lever: case-local repeated error call+break reproduces merged error block and long-branch layout; tail goto displaced it.
@@ -8208,11 +6625,6 @@ int WIFIBATTLEMATCH_NET_DownloadProcess(u8 *ctx)
     return 0;
 }
 
-
-
-
-
-
 /*
  * lever: unlabelled zero-word test blocking matched caller021DC338.
  */
@@ -8222,12 +6634,6 @@ int WIFIBATTLEMATCH_NET_IsBufferZero(const u32 *buffer,u32 bytes)
     for(i=0;i<(bytes>>2);i++)if(buffer[i]!=0)return 0;
     return 1;
 }
-
-
-
-
-
-
 
 /*
  * note:     the listing extent (72 B) runs into the neighbour's `mov r8,r8`
@@ -8248,22 +6654,11 @@ void WIFIBATTLEMATCH_NET_CleanupDownload(void *ctx, int unused, int kind)
     WIFIBATTLEMATCH_NET_ShutdownReport(ctx);
 }
 
-
-
-
-
-
 u32 WIFIBATTLEMATCH_NET_GetDownloadSize(char *ctx, int a, int kind)
 {
     if (kind == 3 || kind == 6) return *(u32 *)(ctx + 0x1458);
     return 0;
 }
-
-
-
-
-
-
 
 /*
  * note:     the listing extent (148 B) covers the following leaf and pool
@@ -8303,20 +6698,10 @@ int WIFIBATTLEMATCH_NET_DownloadError(unsigned int a)
     }
 }
 
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_GetRegCardName(const char *ctx,void *out)
 {
     MI_CpuCopy8(ctx+0x1230,out,0x160);
 }
-
-
-
-
-
 
 /*
  * lever: unlabelled asynchronous state setter blocking matched caller021DC338.
@@ -8330,31 +6715,11 @@ void WIFIBATTLEMATCH_NET_NdSetState(u8 *ctx,int state)
     ((struct WifiBattleMatchNetCtx *)ctx)->pollCount=0;
 }
 
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_NdCleanupState(u8 *ctx,int state) { d_021E4B80[0]=0; *(u32 *)(d_021E4B80+4)=0; ((struct WifiBattleMatchNetCtx *)ctx)->nextState=state; ((struct WifiBattleMatchNetCtx *)ctx)->state=200; if(DWC_NdCleanupAsync()==0) ((struct WifiBattleMatchNetCtx *)ctx)->nextState=state; }
-
-
-
-
-
 
 void WIFIBATTLEMATCH_NET_NdCancelState(u8 *ctx,int state) { d_021E4B80[0]=0; *(u32 *)(d_021E4B80+4)=0; ((struct WifiBattleMatchNetCtx *)ctx)->nextState=state; ((struct WifiBattleMatchNetCtx *)ctx)->state=300; if(DWC_NdCancelAsync()==0) ((struct WifiBattleMatchNetCtx *)ctx)->nextState=state; }
 
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_NdSetError(void *ctx,u32 kind) { switch(kind) { case 0:case 1:case 2:case 3:case 4:case 5:case 7: break; case 6:case 8: GFL_NET_ERR_HaltIfActive(); break; } d_021E4B80[0]=1; *(u32 *)(d_021E4B80+4)=kind; d_021E4B80[1]=1; }
-
-
-
-
-
 
 void WIFIBATTLEMATCH_NET_CreateHttpRap(char *ctx,unsigned heap)
 {
@@ -8362,11 +6727,6 @@ void WIFIBATTLEMATCH_NET_CreateHttpRap(char *ctx,unsigned heap)
     ((struct WifiBattleMatchNetCtx *)ctx)->state=0;
     ((struct WifiBattleMatchNetCtx *)ctx)->rapHandle=NHTTP_RAP_Create(heap,MYSTATUS_GetProfileId((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(((struct WifiBattleMatchNetCtx *)ctx)->save)),((struct WifiBattleMatchNetCtx *)ctx)->heap);
 }
-
-
-
-
-
 
 /*
  * checks: 1 copied own ov114/DC610 signatures and ARM9 blocker input reads; 2 existing DC8A0 Pair twin used; 3 Pair replaces scalar two-word copy; 4 aggregate-copy idioms applied; 5 fresh directory and ov175 neighbours read. Caller TU MATCH has no viable split; only ARM90200FB4C blocks it.
@@ -8415,11 +6775,6 @@ int WIFIBATTLEMATCH_NET_HttpRapProcess(u8 *ctx)
     return 0;
 }
 
-
-
-
-
-
 /*
  * Pair aggregate assignment preserves the forward load and store order.
  * leaf: coordinated transfer from B10's extent to unblock 021D6C54.
@@ -8429,11 +6784,6 @@ void WIFIBATTLEMATCH_NET_GetRapPair(const Obj *ctx,Pair *out)
     *out=*(const Pair *)((const char *)ctx+0x1220);
 }
 
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_SetupHttpRap(u8 *ctx, const W *src, int x)
 {
     if (*(u32 *)(ctx + 0x121C) != 0)
@@ -8442,11 +6792,6 @@ void WIFIBATTLEMATCH_NET_SetupHttpRap(u8 *ctx, const W *src, int x)
     *(W *)(ctx + 0x1228) = *src;
     *(u32 *)(ctx + 0x12C) = 0;
 }
-
-
-
-
-
 
 int WIFIBATTLEMATCH_NET_HttpRapSend(char *ctx)
 {
@@ -8501,12 +6846,6 @@ int WIFIBATTLEMATCH_NET_HttpRapSend(char *ctx)
     return 0;
 }
 
-
-
-
-
-
-
 /*
  * Starts a profanity check of the string in window a1: copies it into the 20-character buffer at +0x1468 (the terminator code 0x02045A98 returns becomes 0), and submits it with DWC_CheckProfanityExAsync (one word, results at +0x1484/+0x1488, region 0x80).
  */
@@ -8534,12 +6873,6 @@ void WIFIBATTLEMATCH_NET_StartProfanityCheck(char *obj, unsigned long win, u16 t
     STRBUF_Delete((struct U16Vec *)str);
 }
 
-
-
-
-
-
-
 /*
  * Polls the profanity check; once it has finished (state 2) reports whether the +0x1488 count is positive, and when it is, loads message 0x51 for the +0x124 id and hands it to the +0x1490 window.
  */
@@ -8561,11 +6894,6 @@ int WIFIBATTLEMATCH_NET_ProfanityProcess(char *obj, int *out)
     }
     return done;
 }
-
-
-
-
-
 
 void WIFIBATTLEMATCH_NET_SetupPostData(char *ctx,void *party,int mode)
 {
@@ -8593,11 +6921,6 @@ void WIFIBATTLEMATCH_NET_SetupPostData(char *ctx,void *party,int mode)
     }
 }
 
-
-
-
-
-
 static inline void clear(char *ctx)
 {
     if(*(u8 **)(ctx+0x121c)) {
@@ -8606,11 +6929,6 @@ static inline void clear(char *ctx)
         *(u32 *)(ctx+0x12c)=0;
     }
 }
-
-
-
-
-
 
 static inline void release(char *ctx)
 {
@@ -8622,11 +6940,6 @@ static inline void release(char *ctx)
         *(u32 *)(ctx+0x12c)=0;
     }
 }
-
-
-
-
-
 
 /*
  * blocker-C: copied verified32B Thumb EXACT from ov116_func_021D7200.c header, prior scratch blocker-1.log, dsi/1.1p1 -O4,p.
@@ -8684,12 +6997,6 @@ int WIFIBATTLEMATCH_NET_HttpRapPost(char *ctx,u8 *out)
     return 0;
 }
 
-
-
-
-
-
-
 /*
  * The +0x14 sibling of WIFIBATTLEMATCH_NET_SetResultD: stores the caller's word at +0x18,
  *     hard-codes 5 at +0x1c and then calls 0x0203C9AC(0, 0, 0, 0x3F5).
@@ -8700,12 +7007,6 @@ void WIFIBATTLEMATCH_NET_SetErrorA(char *ctx, u32 v, int line)
     ((struct NetErrRecord *)ctx)->errKind = 5;
     GFL_NET_STATE_SetError(0, 0, 0, 0x3F5);
 }
-
-
-
-
-
-
 
 /*
  * Set the word at +0 and mark the object armed at +0x1c, then start the
@@ -8718,12 +7019,6 @@ void WIFIBATTLEMATCH_NET_SetErrorB(char *ctx, int v, int unused)
     GFL_NET_STATE_SetError(0, 0, 0, 0x3f7);
 }
 
-
-
-
-
-
-
 /*
  * Two-word setter: stores the caller's word at +4 and hard-codes 2 at +0x1c.
  */
@@ -8733,23 +7028,11 @@ void WIFIBATTLEMATCH_NET_SetResultA(char *ctx, u32 v, int line)
     ((struct NetErrRecord *)ctx)->errKind = 2;
 }
 
-
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_SetResultB(char *ctx, u32 v, int line)
 {
     ((struct NetErrRecord *)ctx)->resultB = v;
     ((struct NetErrRecord *)ctx)->errKind = 2;
 }
-
-
-
-
-
-
 
 /*
  * Two-word setter: stores the caller's word at +0xc and hard-codes 2 at +0x1c.
@@ -8759,12 +7042,6 @@ void WIFIBATTLEMATCH_NET_SetResultC(char *ctx, u32 v, int line)
     ((struct NetErrRecord *)ctx)->resultC = v;
     ((struct NetErrRecord *)ctx)->errKind = 2;
 }
-
-
-
-
-
-
 
 /*
  * Symbols:
@@ -8779,12 +7056,6 @@ void WIFIBATTLEMATCH_NET_SetResultD(char *ctx, u32 v, u32 unused)
     ((struct NetErrRecord *)ctx)->resultD = v;
     ((struct NetErrRecord *)ctx)->errKind = 4;
 }
-
-
-
-
-
-
 
 /*
  * Maps a code 0..14 to a class: 0 for code 0, 2 for codes 1 to 14; any other code asserts and yields 0.
@@ -8826,12 +7097,6 @@ u32 WIFIBATTLEMATCH_NET_GetErrorMsg(int a)
     GF_PANIC_Fail(d_021E2EF8, 0, d_021E2EF8);
     return 0;
 }
-
-
-
-
-
-
 
 /*
  * Three-level classifier: the first code decides when it can (1 or 2); codes 0 and 20 and unknown ones fall to the second, then the third; 0 when none decides.
@@ -8896,12 +7161,6 @@ u32 WIFIBATTLEMATCH_NET_GetErrorCode(int a, int b, int c)
     return 0;
 }
 
-
-
-
-
-
-
 /*
  * Maps 0, 1, 2 to themselves and everything else to 0.
  */
@@ -8918,12 +7177,6 @@ u32 WIFIBATTLEMATCH_NET_MapErrorCode(u32 v)
     return 0;
 }
 
-
-
-
-
-
-
 /*
  * Tail call: clears the second and third arguments to 0 and 0x20 and
  *  *  hands r0 straight to 0x02082BCC (arm9); no lr save, so the call is a
@@ -8934,24 +7187,12 @@ void WIFIBATTLEMATCH_NET_ClearStruct(void *ctx)
     MI_CpuFill8(ctx, 0, 0x20);
 }
 
-
-
-
-
-
-
 void WIFIBATTLEMATCH_NET_RestartNet(char *ctx, int flag)
 {
     if (flag == 0)
         return;
     GFL_NET_RefreshWmIconAtTopRight(1, ((struct WifiBattleMatchNetCtx *)ctx)->heapTag);
 }
-
-
-
-
-
-
 
 /*
  * Tail call to the arm9 Thumb routine 0x02009CC0 with the object's
@@ -8962,12 +7203,6 @@ u32 WIFIBATTLEMATCH_NET_GetGsProfileId(char *obj)
     return WIFILIST_GetGsProfileId((void *)(((struct WifiBattleMatchNetCtx *)obj)->gsProfileId));
 }
 
-
-
-
-
-
-
 /*
  * Returns the address of the ov175 table at 0x021E3270.
  */
@@ -8975,12 +7210,6 @@ char *WIFIBATTLEMATCH_NET_GetRegNameA(void)
 {
     return d_021E3270;
 }
-
-
-
-
-
-
 
 /*
  * Constant getter: returns 0x15.
@@ -8990,12 +7219,6 @@ u32 WIFIBATTLEMATCH_NET_GetRegKindA(void)
     return 0x15;
 }
 
-
-
-
-
-
-
 /*
  * Returns the address of the ov175 table at 0x021E3250.
  */
@@ -9004,12 +7227,6 @@ char *WIFIBATTLEMATCH_NET_GetRegNameB(void)
     return d_021E3250;
 }
 
-
-
-
-
-
-
 /*
  * Constant getter: returns 8.
  */
@@ -9017,12 +7234,6 @@ u32 WIFIBATTLEMATCH_NET_GetRegKindB(void)
 {
     return 8;
 }
-
-
-
-
-
-
 
 int WIFIBATTLEMATCH_NET_LookupFieldEntry(int a)
 {

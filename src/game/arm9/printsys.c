@@ -60,7 +60,6 @@
  *   STRBUF_GetLength  0x020458F8  arm
  */
 #include "pokeparty_shared_types.h"
-#include "waza_tool_shared_types.h"
 #include "gf_font_shared_types.h"
 #include "printsys_shared_types.h"
 
@@ -1321,7 +1320,7 @@ u32 PRINTSYS_PrintStreamIsOverrideSpeed(const struct TextPrinter *printer)
     return ((u32)printer->flags.raw << 28) >> 31;
 }
 
-typedef signed short   s16;
+#include "../types.h"
 
 extern u16 BMP_GetHeight(const struct Bmp *bmp);
 
@@ -1342,7 +1341,6 @@ extern void STRBUF_AppendChar(struct Strbuf *text, u16 value);
 extern u16 STRBUF_GetLength(struct Strbuf *text);
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-
 
 void PRINTSYS_Apply(struct TextPrinter *printer);
 

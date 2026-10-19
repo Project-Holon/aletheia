@@ -63,13 +63,10 @@
  *   UNION_CHARA_ClearTable  0x0217AE20  thumb  ov019
  *   UNION_ONESELF_SetNextPlayCategoryInMainPhase 0x0217B8F0 thumb ov019
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef short s16;
-typedef signed int s32;
-typedef struct { s32 x, y, z; } VecFx32;
-typedef enum { FALSE, TRUE } BOOL;
+#include "../types.h"
+
+typedef enum { FALSE, TRUE } Bool;
+#include "../sdk_fx.h"
 
 #include "../ov012/union_comm_types.h"
 #include "union_chara_types.h"
@@ -170,7 +167,7 @@ int UNION_CHARA_AddMmdl(UnionRoomWork *work, struct GameData *gameData, u16 trai
 
 u16 UNION_CHARA_MakeObjId(UnionBeaconPc *beaconPc, UnionCharaSlot *slot);
 
-BOOL UNION_CHARA_IsChildObjId(u16 objId);
+Bool UNION_CHARA_IsChildObjId(u16 objId);
 
 u16 UNION_CHARA_GetBeaconIndex(unsigned int objId);
 
@@ -266,7 +263,7 @@ int UNION_CHARA_AddMmdl(UnionRoomWork *work, struct GameData *gameData, u16 trai
 
 u16 UNION_CHARA_MakeObjId(UnionBeaconPc *beaconPc, UnionCharaSlot *slot) { return (beaconPc->index << 8) | (slot->memberIndex + 0x20); }
 
-BOOL UNION_CHARA_IsChildObjId(u16 objId) { if ((u16)((unsigned char)objId - 0x20) == 0) return FALSE; else return TRUE; }
+Bool UNION_CHARA_IsChildObjId(u16 objId) { if ((u16)((unsigned char)objId - 0x20) == 0) return FALSE; else return TRUE; }
 
 u16 UNION_CHARA_GetBeaconIndex(unsigned int objId)
 {

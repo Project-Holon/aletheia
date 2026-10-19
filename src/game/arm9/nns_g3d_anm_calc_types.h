@@ -8,10 +8,7 @@
 #include "../arm9/nns_g3d_anm_types.h"
 #include "../arm9/nns_g3d_glb_types.h"
 
-typedef signed short   s16;
-typedef signed long long s64;
-typedef s16            fx16;
-typedef s64            fx64;
+#include "../types.h"
 
 /* flag bits of NNSG3dResNodeData and of a joint animation record */
 #define NNS_G3D_SRTFLAG_TRANS_ZERO  0x01
@@ -48,6 +45,13 @@ typedef struct NNSG3dSbcNodeDesc {
 #define NNS_G3D_SBC_NODEDESC_FLAG_STORE_SCALE  0x02
 
 /* Dictionary header; entries start at ofsEntry (u16 sizeUnit, u16 ofsName, units). */
+typedef struct NNSG3dResDictTreeNode {
+    u8 refBit;
+    u8 idxLeft;
+    u8 idxRight;
+    u8 idxEntry;
+} NNSG3dResDictTreeNode;
+
 typedef struct NNSG3dResDict {
     u8  revision;
     u8  numEntry;
@@ -84,6 +88,18 @@ typedef struct NNSG3dResMdlInfo {
     u8 dummy_;
     fx32 posScale;
     fx32 invPosScale;
+    u16 numVertex;
+    u16 numPolygon;
+    u16 numTriangle;
+    u16 numQuad;
+    fx16 boxX;
+    fx16 boxY;
+    fx16 boxZ;
+    fx16 boxW;
+    fx16 boxH;
+    fx16 boxD;
+    fx32 boxPosScale;
+    fx32 boxInvPosScale;
 } NNSG3dResMdlInfo;
 
 /* Model resource: block offsets, the info block, then the node dictionary at +0x40. */
@@ -94,7 +110,6 @@ typedef struct NNSG3dResMdl {
     u32 ofsShp;
     u32 ofsEvpMtx;
     NNSG3dResMdlInfo info;
-    u8  reserved24[0x1c];
     NNSG3dResDict nodeInfo;
 } NNSG3dResMdl;
 
@@ -103,6 +118,12 @@ typedef struct NNSG3dResAnmHdr {
     u8  category1;
     u16 revision;
 } NNSG3dResAnmHdr;
+
+/* Common prefix of every animation resource: header and frame count. */
+typedef struct NNSG3dResAnmCommon {
+    NNSG3dResAnmHdr hdr;
+    u16 numFrame;
+} NNSG3dResAnmCommon;
 
 /* Joint animation resource (NSBCA); ofsNodeAnm[] is indexed by node. */
 typedef struct NNSG3dResJntAnm {
@@ -346,8 +367,9 @@ typedef struct NNSG3dRS {
 #define NNS_G3D_ANMTRACK_COUNT_MASK 0x0000ffff
 
 /* Name of a dictionary entry: 16 bytes. */
-typedef struct NNSG3dResName {
+typedef union NNSG3dResName {
     char name[16];
+    u32 val[4];
 } NNSG3dResName;
 
 /* Material color animation (NSBMA): dictionary of NNSG3dResMatAnmData at +8. */

@@ -11,7 +11,7 @@
  * status:   EXACT
  * sdk:      libcamera.TWL.HYB.a camera_util.o
  */
-typedef unsigned int u32;
+#include "../types.h"
 
 u32 CAMERA_SizeToWidthCore(u32 v);
 u32 CAMERA_SizeToHeightCore(u32 v);

@@ -282,8 +282,6 @@
  *   _ull_mul                     0x0209C054  arm
  */
 #include "dup_fitting_types.h"
-#include "dup_fitting_types.h"
-
 #define B(k) (*(u8 *)((u8 *)work+(k)))
 
 #define P(k) (*(u8 **)((u8 *)work+(k)))
@@ -356,15 +354,13 @@ typedef enum { DISP_SUB_MAIN=0, DISP_MAIN_SUB=1 } DispSelect;
 
 typedef struct {short x,y,index;u8 a,b;} DupFittingActorParam;
 
-typedef signed int     s32;
+#include "../types.h"
 
 typedef struct {short y,x;u16 limit;} DupFittingScaleLimit;
 
 typedef struct { short y,x; } DupFittingScaleXY;
 
 typedef enum { I_ZERO = 0, I_LIMIT = 9 } Index;
-
-typedef int fx32;
 
 typedef struct { short s; short c; } SC;
 
@@ -375,8 +371,6 @@ typedef struct { u8 bytes[12]; } Rects;
 typedef struct {short x,y;} Pos;
 
 typedef struct {short x,y;} DupFittingPos;
-
-typedef unsigned long long u64;
 
 struct BmpWin;
 extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, u16 tileBase, u32 palette);
@@ -687,7 +681,6 @@ extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u3
 
 extern int FX_Sqrt(int);
 
-
 extern int TOUCHPANEL_HitTrg(const void *);
 
 extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
@@ -703,7 +696,6 @@ extern u16 FX_Atan2Idx(long,long);
 extern void MUSICAL_SAVE_InitOutfits(struct MusicalSave *musical);
 
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-
 
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 

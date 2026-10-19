@@ -2,15 +2,7 @@
 #define BTL_POKEPARAM_TYPES_H
 /* ov093 battle: the battle-side state of one Pokemon (BtlPokeParam), 0x1f8 bytes. */
 
-#ifndef OV093_BASIC_TYPES
-#define OV093_BASIC_TYPES
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed char s8;
-typedef signed short s16;
-typedef signed int s32;
-#endif
+#include "../types.h"
 
 struct PokemonParam;
 

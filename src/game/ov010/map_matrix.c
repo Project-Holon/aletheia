@@ -31,11 +31,7 @@
  *   MAP_REPLACE_Delete  0x02159DEC  thumb  ov010
  *   MAP_REPLACE_CheckRecord  0x02159E00  thumb  ov010
  */
-typedef unsigned char u8;
-
-typedef unsigned int u32;
-
-typedef unsigned short u16;
+#include "../types.h"
 
 /*
  * Runtime map matrix (0x152C bytes, a/0/0/9 sub-file decoded by
@@ -85,7 +81,6 @@ int MAP_REPLACE_CheckRecord(struct MapReplace *replace, u32 *oldId, u32 *newId);
 void MAP_MATRIX_ApplyReplaceRecord(struct MapMatrix *matrix, struct MapReplace *replace, int heapId);
 extern const char d_021728AC[];
 
-
 struct MapMatrix *MAP_MATRIX_Create(int heapId)
 {
     struct MapMatrix *matrix = GFL_HEAP_Alloc(heapId, sizeof(struct MapMatrix), 1, d_021728AC, 0x4b);
@@ -95,16 +90,12 @@ struct MapMatrix *MAP_MATRIX_Create(int heapId)
     return matrix;
 }
 
-
-
 int MAP_MATRIX_Load(struct MapMatrix *matrix, int matrixId, u16 zoneId, int heapId)
 {
     void *file = ARC_TOOL_LoadMember(9, matrixId, heapId);
     MAP_MATRIX_SetupFromFile(matrix, file, matrixId, zoneId);
     return GFL_HEAP_Free(file);
 }
-
-
 
 /*
  * Thumb tail call into ENV_SetResourceSet (ARM, 0x020307B0): `ldr r3,
@@ -116,8 +107,6 @@ void MAP_MATRIX_Delete(struct MapMatrix *matrix)
 {
     GFL_HEAP_Free(matrix);
 }
-
-
 
 /*
  * Read one cell of the matrix zone grid, row-major over the matrix width.
@@ -134,7 +123,6 @@ u16 MAP_MATRIX_GetZoneId(const struct MapMatrix *matrix, u32 x, u32 z)
     return matrix->zoneGrid[x + z * matrix->width];
 }
 
-
 /* Zone id at a world position: both coordinates go through the block conversion. */
 int MAP_MATRIX_GetZoneIdByPos(const struct MapMatrix *matrix, int posX, int posZ)
 {
@@ -142,8 +130,6 @@ int MAP_MATRIX_GetZoneIdByPos(const struct MapMatrix *matrix, int posX, int posZ
     int blockZ = MAP_MATRIX_PosToBlock(posZ);
     return MAP_MATRIX_GetZoneId(matrix, blockX, blockZ);
 }
-
-
 
 /*
  * Unlabelled leaf accessor (prints as .word): returns the width.
@@ -154,8 +140,6 @@ unsigned short MAP_MATRIX_GetWidth(const struct MapMatrix *matrix)
     return matrix->width;
 }
 
-
-
 /*
  * Unlabelled leaf accessor (prints as .word): returns the height.
  * Sole blocker of ov021 FIELDMAP_SetupMapperParam's MATCH.
@@ -165,8 +149,6 @@ unsigned short MAP_MATRIX_GetHeight(const struct MapMatrix *matrix)
     return matrix->height;
 }
 
-
-
 /*
  * Unlabelled leaf accessor (prints as .word): returns the block count.
  * Sole blocker of ov021 FIELDMAP_SetupMapperParam's MATCH.
@@ -175,8 +157,6 @@ int MAP_MATRIX_GetCount(const struct MapMatrix *matrix)
 {
     return matrix->count;
 }
-
-
 
 /*
  * Set the matrix dimensions, refusing anything that would not fit the two
@@ -207,15 +187,10 @@ void MAP_MATRIX_SetSize(struct MapMatrix *matrix, u32 width, u32 height)
     }
 }
 
-
 u32 *MAP_MATRIX_GetMapGrid(struct MapMatrix *matrix)
 {
     return matrix->mapGrid;
 }
-
-
-
-
 
 int MAP_MATRIX_IsInRange(const struct MapMatrix *matrix, int x, int z)
 {
@@ -224,26 +199,12 @@ int MAP_MATRIX_IsInRange(const struct MapMatrix *matrix, int x, int z)
     return 0;
 }
 
-
-
-
-
-
-
-
 int MAP_MATRIX_IsInRangeByPos(const struct MapMatrix *matrix, int posX, int posZ)
 {
     int blockX = MAP_MATRIX_PosToBlock(posX);
     int blockZ = MAP_MATRIX_PosToBlock(posZ);
     return MAP_MATRIX_IsInRange(matrix, blockX, blockZ);
 }
-
-
-
-
-
-
-
 
 /*
  * Apply the loaded replace record: kind 2 reloads the whole matrix from
@@ -271,13 +232,6 @@ void MAP_MATRIX_ApplyReplaceRecord(struct MapMatrix *matrix, struct MapReplace *
     }
 }
 
-
-
-
-
-
-
-
 void MAP_MATRIX_ApplyReplace(struct MapMatrix *matrix, int gameSystem, int heapId)
 {
     struct MapReplace *replace = MAP_REPLACE_Create(heapId, gameSystem);
@@ -290,13 +244,6 @@ void MAP_MATRIX_ApplyReplace(struct MapMatrix *matrix, int gameSystem, int heapI
     }
     MAP_REPLACE_Delete(replace);
 }
-
-
-
-
-
-
-
 
 /*
  * The map-matrix decoder: unpack one a/0/0/9 sub-file into the runtime matrix.
@@ -335,7 +282,6 @@ void MAP_MATRIX_SetupFromFile(struct MapMatrix *matrix, const struct MatrixFile 
         MIi_CpuClear16(zoneId, zoneGrid, sizeof(matrix->zoneGrid));
     }
 }
-
 
 /*
  * World position (fx32) to matrix block index: one block is 32 grids of 16

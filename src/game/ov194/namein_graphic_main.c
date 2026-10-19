@@ -109,13 +109,7 @@ struct Rec;
 struct Proc;
 struct Obj;
 struct Actor;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef signed short s16;
+#include "../types.h"
 
 typedef struct Rect { int left, top, right, bottom; } Rect;
 
@@ -296,10 +290,6 @@ void NAMEIN_GRAPHIC_SetupCursor(char *p,int mode,const Rect *rect,int flag,int s
 void NAMEIN_GRAPHIC_UpdateCursor(char *p, int sel, const void *rect);
 extern u32 d_021F5780[];
 
-
-
-
-
 u32 NAMEIN_GRAPHIC_Create(struct Proc *a, u32 b, u8 *args)
 {
     u8 *w;
@@ -363,9 +353,6 @@ u32 NAMEIN_GRAPHIC_Create(struct Proc *a, u32 b, u8 *args)
     return 1;
 }
 
-
-
-
 int NAMEIN_GRAPHIC_Delete(void *a,u32 b,u32 c,u8 *d)
 {
     PROF_WORD_Delete(*(u8 * *)&((NameinGraphicWork *)d)->profWord);
@@ -391,13 +378,7 @@ int NAMEIN_GRAPHIC_Delete(void *a,u32 b,u32 c,u8 *d)
     return 1;
 }
 
-
-
-
 int NAMEIN_GRAPHIC_Main(int a,int b,int c,u8 *p) { NAMEIN_GRAPHIC_RunCallback(p+0x2a0);NAMEIN_GRAPHIC_DrawDisplay(*(u8 * *)&((NameinGraphicWork *)p)->display);PRINTSYS_QUE_Main((struct PrintQueue *)(((NameinGraphicWork *)p)->printSys));NAMEIN_GRAPHIC_FlushIconOam(p+0x264);if(NAMEIN_GRAPHIC_GetCallbackState(p+0x2a0))return 1;return 0; }
-
-
-
 
 /*
  * extent: Two trailing zero alignment bytes at 021F1876; existing NAMEIN_GRAPHIC_UpdateBg begins immediately afterward.
@@ -423,17 +404,10 @@ void NAMEIN_GRAPHIC_LoadBgPalette(int unused,u16 heap)
     BMP_MENUWORK_LoadCharAndPltt(4,1,14,0,heap);
 }
 
-
-
-
-
 int NAMEIN_GRAPHIC_UpdateBg(void *unused)
 {
     return BG_SYS_FreeTiles(4, 1, 0);
 }
-
-
-
 
 void NAMEIN_GRAPHIC_CreateActors(char *p,unsigned owner,u16 heap)
 {
@@ -464,18 +438,9 @@ void NAMEIN_GRAPHIC_CreateActors(char *p,unsigned owner,u16 heap)
     }
 }
 
-
-
-
 void NAMEIN_GRAPHIC_DeleteActors(u8 *p) { int i; for(i=0;i<21;i++) { void *q=*(void **)((u32)p+(u32)i*4+12); if(q)CLACT_DeleteActor(q); } CLACT_ReleasePalette(((NameinGraphicActors *)p)->palette);CLACT_ReleaseCharacter((u32)(((NameinGraphicActors *)p)->character));CLACT_ReleaseCellAnim(((NameinGraphicActors *)p)->cellAnim); }
 
-
-
-
 void *NAMEIN_GRAPHIC_GetActor(u8 *p,u32 i) { return *(void **)((u32)p+i*4+12); }
-
-
-
 
 void NAMEIN_GRAPHIC_InitCursor(u8 *a,void *b,void *c,u32 d)
 {
@@ -494,11 +459,7 @@ void NAMEIN_GRAPHIC_InitCursor(u8 *a,void *b,void *c,u32 d)
     GFL_HEAP_Free(p);
 }
 
-
-
-
 void NAMEIN_GRAPHIC_ClearCursor(void *p) { MI_CpuFill8(p,0,180); }
-
 
 /*
  * extent: 478 instruction bytes; 021F1BFA is two-byte zero alignment before021F1BFC.

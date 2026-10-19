@@ -82,11 +82,7 @@
  *   VM_Call  0x020113B4  thumb  arm9
  *   _u32_div_f                   0x0209C2B0  arm
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed int s32;
-typedef unsigned long long u64;
+#include "../types.h"
 
 struct GameSystem;
 struct GameData;

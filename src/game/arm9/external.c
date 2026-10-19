@@ -46,15 +46,9 @@
 #define RTC_RAW_TIME   ((RTCRawTime *)0x02FFFDEC)
 #define RTC_RAW_STAT2  ((RTCRawStatus2 *)0x02FFFDEA)
 #define RTC_RAW_ALARM  ((RTCRawAlarm *)0x02FFFDEC)
-typedef unsigned int u32;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef unsigned char u8;
-
-typedef int BOOL;
-
-typedef u32 OSIntrMode;
+#include "../sdk_os.h"
 
 typedef enum RTCResult {
     RTC_RESULT_SUCCESS = 0,
@@ -67,11 +61,7 @@ typedef enum RTCResult {
     RTC_RESULT_MAX
 } RTCResult;
 
-typedef enum RTCWeek { RTC_WEEK_SUNDAY = 0, RTC_WEEK_MAX = 7 } RTCWeek;
-
-typedef struct RTCDate { u32 year; u32 month; u32 day; RTCWeek week; } RTCDate;
-
-typedef struct RTCTime { u32 hour; u32 minute; u32 second; } RTCTime;
+#include "../sdk_rtc.h"
 
 typedef void (*RTCCallback)(RTCResult result, void *arg);
 
@@ -176,8 +166,6 @@ void RtcCommonCallback(int tag, u32 data, int err);
 unsigned long RtcBCD2HEX(unsigned long bcd);
 extern RtcBss g_02151428;
 
-
-
 /*
  * sdk:      RTC_Init (librtc.TWL.HYB.a external.o)
  */
@@ -199,8 +187,6 @@ void RTC_Init(void)
     }
     PXI_SetFifoRecvCallback(5, RtcCommonCallback);
 }
-
-
 
 /*
  * sdk:      RTC_GetDateAsync (librtc.TWL.HYB.a external.o)
@@ -230,8 +216,6 @@ RTCResult RTC_GetDateAsync(RTCDate *date, RTCCallback callback, void *arg)
     }
 }
 
-
-
 /*
  * sdk:      RTC_GetDate (librtc.TWL.HYB.a external.o)
  */
@@ -243,8 +227,6 @@ RTCResult RTC_GetDate(RTCDate *date)
     }
     return g_02151428.rtcWork.commonResult;
 }
-
-
 
 /*
  * sdk:      RTC_GetTimeAsync (librtc.TWL.HYB.a external.o)
@@ -274,8 +256,6 @@ RTCResult RTC_GetTimeAsync(RTCTime *time, RTCCallback callback, void *arg)
     }
 }
 
-
-
 /*
  * sdk:      RTC_GetTime (catalog: RTC_GetDate) (librtc.TWL.HYB.a external.o)
  */
@@ -287,8 +267,6 @@ RTCResult RTC_GetTime(RTCTime *time)
     }
     return g_02151428.rtcWork.commonResult;
 }
-
-
 
 /*
  * sdk:      RTC_GetDateTimeAsync (librtc.TWL.HYB.a external.o)
@@ -319,8 +297,6 @@ RTCResult RTC_GetDateTimeAsync(RTCDate *date, RTCTime *time, RTCCallback callbac
     }
 }
 
-
-
 /*
  * sdk:      RTC_GetDateTime (catalog: RTC_GetAlarmParam) (librtc.TWL.HYB.a external.o)
  */
@@ -333,14 +309,10 @@ RTCResult RTC_GetDateTime(RTCDate *date, RTCTime *time)
     return g_02151428.rtcWork.commonResult;
 }
 
-
 void *RTCEXi_GetCommonCallback(void)
 {
     return (void *)rtcWork;
 }
-
-
-
 
 void RtcCommonCallback(int tag, u32 data, int err)
 {
@@ -540,8 +512,6 @@ void RtcCommonCallback(int tag, u32 data, int err)
     }
 }
 
-
-
 unsigned long RtcBCD2HEX(unsigned long bcd)
 {
     unsigned long hex = 0;
@@ -559,9 +529,6 @@ unsigned long RtcBCD2HEX(unsigned long bcd)
     return hex;
 }
 
-
-
-
 /*
  * note:     librtc external.o RtcGetResultCallback.
  */
@@ -569,9 +536,6 @@ void RtcGetResultCallback(RTCResult result, void *arg)
 {
     g_02151428.rtcWork.commonResult = result;
 }
-
-
-
 
 /* hand-written in the original: spin-wait on the lock word with the address in ip; mwccarm never picks ip for a leaf load (9 C variants tried) */
 asm void RtcWaitBusy(void)

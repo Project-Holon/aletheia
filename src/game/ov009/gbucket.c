@@ -54,7 +54,7 @@ struct bucketset_s {
     struct HashImplementation *buckets;
 };
 
-typedef unsigned char  u8;
+#include "../types.h"
 
 extern char *goastrdup(char *src);
 extern void TableEnter(struct HashImplementation *table, void *newElem);
@@ -86,9 +86,6 @@ extern char g_021ADFD0[];
 extern char g_021ADFD4[];
 extern char g_021ADFD8[];
 
-
-
-
 void *BucketNew(struct bucketset_s *set, char *name, int type, void *initialvalue)
 {
     struct bucket_s bucket;
@@ -105,9 +102,6 @@ void *BucketNew(struct bucketset_s *set, char *name, int type, void *initialvalu
     return DoGet((char *)DoFind(set, name));
 }
 
-
-
-
 void *BucketSet(struct bucketset_s *set, char *name, void *value)
 {
     struct bucket_s *pbucket;
@@ -119,9 +113,6 @@ void *BucketSet(struct bucketset_s *set, char *name, void *value)
 
     return DoSet(pbucket, value);
 }
-
-
-
 
 /*
  * sdk:      BucketAdd (libdwcgsgstats.TWL.HYB.a(gbucket.o))
@@ -140,9 +131,6 @@ void *BucketAdd(struct bucketset_s *set, char *name, void *value)
     return BucketConcat(set, name, value);
 }
 
-
-
-
 /*
  * sdk:      BucketSub (libdwcgsgstats.TWL.HYB.a(gbucket.o))
  */
@@ -159,9 +147,6 @@ void *BucketSub(struct bucketset_s *set, char *name, void *value)
         return DoSet(pbucket, bfloat(*(double *)DoGet((char *)pbucket) - *(double *)value));
     return DoGet((char *)pbucket);
 }
-
-
-
 
 /*
  * sdk:      BucketMult (libdwcgsgstats.TWL.HYB.a(gbucket.o))
@@ -180,9 +165,6 @@ void *BucketMult(struct bucketset_s *set, char *name, void *value)
     return DoGet((char *)pbucket);
 }
 
-
-
-
 /*
  * sdk:      BucketDiv (libdwcgsgstats.TWL.HYB.a(gbucket.o))
  */
@@ -199,9 +181,6 @@ void *BucketDiv(struct bucketset_s *set, char *name, void *value)
         return DoSet(pbucket, bfloat(*(double *)DoGet((char *)pbucket) / *(double *)value));
     return DoGet((char *)pbucket);
 }
-
-
-
 
 /*
  * strcat (strcat, arm9) attests as matched through unit_02094860, whose
@@ -228,8 +207,6 @@ void *BucketConcat(struct bucketset_s *set, char *name, void *value)
     return DoGet((char *)pbucket);
 }
 
-
-
 void *BucketAvg(struct bucketset_s *set, char *name, void *value)
 {
     struct bucket_s *pbucket;
@@ -253,9 +230,6 @@ void *BucketAvg(struct bucketset_s *set, char *name, void *value)
     return DoGet((char *)pbucket);
 }
 
-
-
-
 /*
  * Stores a word at +4 of the state object and returns the address of the next.
  */
@@ -265,9 +239,6 @@ char *bint(int v)
 
     return g_021ADFD4;
 }
-
-
-
 
 /*
  * Stores a double at +8 of the state object and returns its address.
@@ -282,8 +253,6 @@ void *bfloat(double d)
     return g_021ADFD8;
 }
 
-
-
 char *stripchars(char *s)
 {
     char *p = s;
@@ -297,9 +266,6 @@ char *stripchars(char *s)
 
     return p;
 }
-
-
-
 
 void *DoSet(struct bucket_s *pbucket, void *value)
 {
@@ -321,8 +287,6 @@ void *DoSet(struct bucket_s *pbucket, void *value)
     return DoGet((char *)pbucket);
 }
 
-
-
 /*
  * Pointer at +0xc when the word at +4 is 2, otherwise +0xc itself; null in, null out.
  */
@@ -334,9 +298,6 @@ char *DoGet(char *p)
         return *(char **)(p + 0xc);
     return p + 0xc;
 }
-
-
-
 
 struct bucket_s *DoFind(struct bucketset_s *set, char *name)
 {

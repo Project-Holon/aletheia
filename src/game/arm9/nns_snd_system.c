@@ -39,7 +39,8 @@
  *   SND_ResetMasterPan  0x02089774  arm
  *   SND_WaitForCommandProc  0x02089CD4  arm
  */
-#include "nns_g3d_tex_mtx_shared_types.h"
+
+#include "../types.h"
 
 struct SNDCommand;
 
@@ -58,8 +59,6 @@ struct Sys {
     struct SleepCb cb10;
     struct SleepCb cb20;
 };
-
-typedef signed char s8;
 
 extern void SND_Init(void);
 

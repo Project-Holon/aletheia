@@ -64,7 +64,7 @@
  */
 #include "effect_encount_types.h"
 
-typedef signed char s8;
+#include "../types.h"
 
 struct Mmdl;
 struct MmdlSys;

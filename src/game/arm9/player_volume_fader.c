@@ -18,7 +18,7 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  *   NNS_SndPlayerSetPlayerVolume  0x02072D98  arm
  */
-#include "app_keycursor_shared_types.h"
+#include "../types.h"
 
 /* Nine bytes of mixer state: channel, current and target level, fade length
  * and elapsed frames, mute. */

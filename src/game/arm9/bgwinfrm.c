@@ -34,7 +34,7 @@
 #include "iss_switch_set_shared_types.h"
 #include "bgwinfrm_shared_types.h"
 
-typedef signed char    s8;
+#include "../types.h"
 
 struct BgWinFrame {
     u16 *screen;

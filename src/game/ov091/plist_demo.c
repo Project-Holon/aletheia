@@ -49,11 +49,7 @@
  *   _fflt                        0x0209BDBC  arm
  *   _fsub                        0x0209CB8C  arm
  */
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef short s16;
-typedef signed int     s32;
+#include "../types.h"
 
 #include "pokelist_types.h"
 #include "plist_battle_types.h"
@@ -62,8 +58,6 @@ typedef signed int     s32;
 struct Rec;
 struct RtcTime;
 struct PokemonParam;
-typedef signed char s8;
-typedef unsigned long long u64;
 #include "../arm9/poke_tool.h"
 #include "../arm9/gfl_heap_wrap.h"
 struct TaskMenuWin;
@@ -105,7 +99,6 @@ int PLIST_DEMO_FriendshipItemApplies(void *mon, void *itemRec);
 int PLIST_DEMO_ApplyFriendshipItem(struct PokemonParam *mon, int friendship, int delta, int item, u16 zoneId, int heapId);
 extern u8 d_021BED58[];
 
-
 /*
  * lever: two-halfword coordinate struct keeps its address sp-relative; int alias added 4 B.
  */
@@ -142,13 +135,11 @@ void PLIST_DEMO_CreateParticles(PokelistWork *work)
     for (i = 0; i < count; i++) PARTICLE_StartEffect(work->particleSystem, i, (int)vec);
 }
 
-
 void PLIST_DEMO_DeleteParticles(PokelistWork *work)
 {
     PARTICLE_DeleteSystem(work->particleSystem);
     GFL_NET_FreeAligned(work->particleMemory);
 }
-
 
 int PLIST_DEMO_CheckGiratinaToOrigin(PokelistWork *work, void *unused)
 {
@@ -162,7 +153,6 @@ int PLIST_DEMO_CheckGiratinaToOrigin(PokelistWork *work, void *unused)
     return result;
 }
 
-
 /*
  * Extent tail: two bytes of alignment padding at 0x021BDC5A.
  */
@@ -171,7 +161,6 @@ void PLIST_DEMO_ApplyGiratinaOriginForm(PokelistWork *work, void *mon)
     POKE_TOOL_ChangeForm(mon, 1);
     ZUKAN_SAVE_RegisterCaught(work->arg->zukanSave, mon);
 }
-
 
 int PLIST_DEMO_CheckGiratinaToAltered(PokelistWork *work, void *unused)
 {
@@ -185,7 +174,6 @@ int PLIST_DEMO_CheckGiratinaToAltered(PokelistWork *work, void *unused)
     return result;
 }
 
-
 /*
  * Extent tail: two bytes of alignment padding at 0x021BDCBE.
  */
@@ -194,7 +182,6 @@ void PLIST_DEMO_ApplyGiratinaAlteredForm(PokelistWork *work, void *mon)
     POKE_TOOL_ChangeForm(mon, 0);
     ZUKAN_SAVE_RegisterCaught(work->arg->zukanSave, mon);
 }
-
 
 int PLIST_DEMO_CanUseGracidea(PokelistWork *work, u32 unused)
 {
@@ -217,13 +204,11 @@ int PLIST_DEMO_CanUseGracidea(PokelistWork *work, u32 unused)
     return 1;
 }
 
-
 void PLIST_DEMO_ApplyShayminSkyForm(PokelistWork *work, void *mon)
 {
     POKE_TOOL_ChangeForm(mon, 1);
     ZUKAN_SAVE_RegisterCaught(work->arg->zukanSave, mon);
 }
-
 
 int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId)
 {
@@ -491,7 +476,6 @@ int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId)
   }
 }
 
-
 /*
  * levers: wave 82 R12. Real callee prototypes (02020F34 heap u32, 021BEA48 first int)
  *   with the caller-side (u16)heap narrowing the listing shows before 02020F34; item and
@@ -625,7 +609,6 @@ int PLIST_DEMO_UseItemOnMon(void *mon, u16 item, u16 moveSlot, u16 arg, int heap
     return changed;
 }
 
-
 int PLIST_DEMO_RaiseMovePpUps(void *mon, int moveSlot, int ups)
 {
     int result = 0;
@@ -653,7 +636,6 @@ int PLIST_DEMO_RaiseMovePpUps(void *mon, int moveSlot, int ups)
     return 1;
 }
 
-
 void PLIST_DEMO_RestoreHp(void *mon, u32 hp, u32 maxHp, u32 amount)
 {
     if (maxHp == 1) amount = 1;
@@ -664,7 +646,6 @@ void PLIST_DEMO_RestoreHp(void *mon, u32 hp, u32 maxHp, u32 amount)
     if (hp > maxHp) hp = maxHp;
     POKE_TOOL_SetPartyValue(mon, PLIST_MON_HP, hp);
 }
-
 
 int PLIST_DEMO_AddEv(int ev, int otherEvTotal, int delta, int ignoreCap)
 {
@@ -685,7 +666,6 @@ int PLIST_DEMO_AddEv(int ev, int otherEvTotal, int delta, int ignoreCap)
         ev = 0x1FE - otherEvTotal;
     return ev;
 }
-
 
 int PLIST_DEMO_FriendshipItemApplies(void *mon, void *itemRec)
 {
@@ -710,7 +690,6 @@ int PLIST_DEMO_FriendshipItemApplies(void *mon, void *itemRec)
     }
     return 0;
 }
-
 
 /*
  * Friendship change of an item use: nothing happens when the friendship is

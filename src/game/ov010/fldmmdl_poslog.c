@@ -32,13 +32,10 @@
  */
 
 struct Actor;
-struct VecFx32;
+#include "../sdk_fx.h"
+
 struct ZukanSave;
-typedef unsigned int u32;
-
-typedef unsigned char u8;
-
-typedef unsigned short u16;
+#include "../types.h"
 
 typedef struct { int x,y,z; } MovedPos;
 
@@ -47,18 +44,6 @@ typedef struct
     char pad00[44];
     unsigned int movedPosTable;
 } ObjContext;
-
-typedef short s16;
-
-typedef int s32;
-
-typedef s32 fx32;
-
-typedef struct VecFx32 {
-    fx32 x;
-    fx32 y;
-    fx32 z;
-} VecFx32;
 
 typedef struct {
     u16 x;
@@ -103,7 +88,6 @@ extern const u16 d_02172A70[][4];
 extern u16 d_02172554[][2];
 extern u16 d_02172556[][2];
 
-
 /*
  * Save-table size callback: returns 0x168, the size of the block that
  * FLDMMDL_InitMovedPosSave fills.  Pointer word 0x0216E475 at arm9 0x0209DC90.
@@ -112,11 +96,6 @@ u32 FLDMMDL_GetMovedPosSaveSize(void)
 {
     return 0x168;
 }
-
-
-
-
-
 
 /*
  * Save-table init callback: fills the 0x168-byte block with 0xFF bytes
@@ -128,24 +107,12 @@ void FLDMMDL_InitMovedPosSave(void *block)
     MIi_CpuClear32(0xFFFFFFFF, block, 0x168);
 }
 
-
-
-
-
-
-
-
 int FLDMMDL_IsMovedPosSet(const MovedPos *pos)
 {
     if (pos->x != -1 || pos->y != -1 || pos->z != -1)
         return 1;
     return 0;
 }
-
-
-
-
-
 
 /*
  * lever: declaring x and y before the unsigned-long index restores the
@@ -170,11 +137,6 @@ int FLDMMDL_FindMovedPosSlot(int gridX, int gridZ)
     return 30;
 }
 
-
-
-
-
-
 int FLDMMDL_GetMovedPosSlot(int mmdl)
 {
     int slot = 30;
@@ -183,10 +145,6 @@ int FLDMMDL_GetMovedPosSlot(int mmdl)
         slot = FLDMMDL_FindMovedPosSlot(FLDMMDL_GetZoneId((void *)mmdl), FLDMMDL_GetObjId((void *)mmdl));
     return slot;
 }
-
-
-
-
 
 int FLDMMDL_HasMovedPos(mmdl, unused)
 void *mmdl;
@@ -221,7 +179,6 @@ int FLDMMDL_GetMovedPos(void *mmdl, MovedPos *out)
     return 0;
 }
 
-
 /*
  * lever: binding the getter's pointer result to tmp restores the base
  * load before the stride, while retaining the unsigned raw address sum.
@@ -246,9 +203,6 @@ void FLDMMDL_StoreMovedPos(void *mmdl)
     }
 }
 
-
-
-
 /*
  * Whether the map cell under pos (x, z in whole tiles of 16 units) holds a
  * hit whose check returns 1.
@@ -262,9 +216,6 @@ int FLDMMDL_CheckMovedPosAtMapPos(void *map, const VecFx32 *pos)
     return 0;
 }
 
-
-
-
 /*
  * True for kind 0x6D and 0x2003..0x2005. The range test must be written
  * as `(u16)(id + 0xDFFD) <= 2`: `id >= 0x2003 && id <= 0x2005` keeps two
@@ -276,9 +227,6 @@ int FLDMMDL_IsMovedPosObjCode(u16 objCode)
         return 1;
     return 0;
 }
-
-
-
 
 /*
  * Unlabelled leaf (sole blocker of ov018 INTRUDE_FIELD_InitMmdlCopyAnime): clears the word
@@ -294,9 +242,6 @@ void FLDMMDL_InitPosRecord(PosRecord *rec, u16 x, u16 y, int z)
     pos->y = y;
     pos->z = z;
 }
-
-
-
 
 void FLDMMDL_ApplyBurmyFormForPlace(void *saveData, void *mon, int placeId)
 {

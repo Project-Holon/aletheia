@@ -35,24 +35,9 @@
  *   g_020A1618                       0x020A1618 data
  *   IsValidApnum                     0x0205a8c8 arm
  */
-typedef struct WMBssDesc WMBssDesc;
+#include "../sdk_wm.h"
 
-typedef struct WMScanExParam {
-    WMBssDesc *scanBuf;
-    unsigned short scanBufSize;
-    unsigned short channelList;
-    unsigned short maxChannelTime;
-    unsigned char bssid[6];
-    unsigned short scanType;
-    unsigned short ssidLength;
-    unsigned char ssid[32];
-    unsigned short ssidMatchLength;
-    unsigned char rsv[14];
-} WMScanExParam;
-
-typedef struct MATHCRC16Table {
-    unsigned short table[256];
-} MATHCRC16Table;
+#include "../sdk_math.h"
 
 typedef struct CRYPTORC4Context {
     unsigned char data[0x108];
@@ -93,40 +78,6 @@ typedef struct WDSBriefApInfo {
     unsigned short rssi;
     WDSApInfo apinfo;
 } WDSBriefApInfo;
-
-typedef struct WMGameInfo {
-    unsigned short magicNumber;
-    unsigned char ver;
-    unsigned char platform;
-    unsigned long ggid;
-    unsigned short tgid;
-    unsigned char userGameInfoLength;
-    unsigned char attribute;
-    unsigned short parentMaxSize;
-    unsigned short childMaxSize;
-    unsigned char userGameInfo[0x70];
-} WMGameInfo;
-
-struct WMBssDesc {
-    unsigned short length;
-    unsigned short rssi;
-    unsigned char bssid[6];
-    unsigned char pad[0x36];
-    WMGameInfo gameInfo;
-};
-
-typedef struct WMStartScanExCallback {
-    unsigned short apiid;
-    unsigned short errcode;
-    unsigned short wlCmdID;
-    unsigned short wlResult;
-    unsigned short state;
-    unsigned short channelList;
-    unsigned char reserved[2];
-    unsigned short bssDescCount;
-    WMBssDesc *bssDesc[16];
-    unsigned short linkLevel[16];
-} WMStartScanExCallback;
 
 extern void DC_InvalidateRange(void *startAddr, unsigned long nBytes);
 extern int WDS_DecryptWMBssDesc(CRYPTORC4Context *rc4context, unsigned short *crcContext, MATHCRC16Table *crcTable,

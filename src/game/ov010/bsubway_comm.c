@@ -39,11 +39,7 @@
 struct Req;
 struct NetHandle;
 struct Sub0200852CObj;
-typedef unsigned char u8;
-
-typedef unsigned int u32;
-
-typedef unsigned short u16;
+#include "../types.h"
 
 #include "../ov021/bsubway_scr_types.h"
 
@@ -102,7 +98,6 @@ void BSUBWAY_COMM_RecvWord7(u16 netId, int size, u16 *data, BsubwayScrWork *work
 extern u8 d_02172014[];
 extern const u32 d_02171FD4[];
 
-
 /*
  * Tail call to ARM GFL_NET_StartSession with (&d_02172014, 0, arg). No lr-saving
  * prologue; bl from ov021 BSUBWAY_SCR_CmdTool at 0x021CB4F4.
@@ -111,7 +106,6 @@ void BSUBWAY_COMM_NetInit(void *arg)
 {
     GFL_NET_StartSession((struct Req *)d_02172014, 0, (u32)arg);
 }
-
 
 /*
  * Fills the own comm record (MyStatus copy, MAC address, magic 0x3A0B) and
@@ -128,19 +122,16 @@ void *BSUBWAY_COMM_GetBeaconData(BsubwayScrWork *work)
     return info;
 }
 
-
 int BSUBWAY_COMM_GetBeaconSize(void)
 {
     return 0x28;
 }
-
 
 int BSUBWAY_COMM_CheckConnectService(int a, int b)
 {
     if (a == b) return 1;
     return 0;
 }
-
 
 /*
  * Adds the net command table 0x2C00..0x2C08 with the work as callback
@@ -150,7 +141,6 @@ void BSUBWAY_COMM_AddCommandTable(u32 work)
 {
     GFL_NET_COMMAND_AddCommandTable(0x2c00, (u32)d_02171FD4, 0x2c08, work);
 }
-
 
 /*
  * Unlabelled leaf, blocker of ov021 BSUBWAY_SCR_CommShutdownMain: tail call of GFL_NET_COMMAND_DeleteCommandTable(0x2C00); the argument is ignored.
@@ -165,20 +155,17 @@ void BSUBWAY_COMM_DeleteCommandTable(void *work)
     GFL_NET_COMMAND_DeleteCommandTable(0x2c00);
 }
 
-
 /* Starts the timing sync timingNo on the current net handle. */
 int BSUBWAY_COMM_StartTimingSync(int timingNo)
 {
     return GFL_NET_StartTimingSync(GFL_NET_HANDLE_GetCurrentHandle(), timingNo);
 }
 
-
 /* Checks the timing sync timingNo on the current net handle. */
 int BSUBWAY_COMM_CheckTimingSync(int timingNo)
 {
     return GFL_NET_CheckTimingSync((struct GFLNetHandle *)(GFL_NET_HANDLE_GetCurrentHandle()), timingNo);
 }
-
 
 /* Player data: own sex, the species of the two chosen members and the stage. */
 void BSUBWAY_COMM_SetSendPlayerData(BsubwayScrWork *work, void *gameData)
@@ -195,7 +182,6 @@ void BSUBWAY_COMM_SetSendPlayerData(BsubwayScrWork *work, void *gameData)
     work->sendBuf.player.stage = BSUBWAY_SCR_GetStageNo(BSUBWAY_SCR_GetWinCount((struct BsubwayScrWork *)work));
 }
 
-
 /*
  * Unlabelled Thumb leaf hidden in a word run (no lr saved); callee of ov010 BSUBWAY_COMM_SetSendData.
  */
@@ -204,37 +190,31 @@ void BSUBWAY_COMM_SetSendTrainerData(BsubwayScrWork *work)
     MI_CpuCopy8(work->trainerNo, work->sendBuf.raw, 0x1C);
 }
 
-
 void BSUBWAY_COMM_SetSendRetireSelect(BsubwayScrWork *work, u16 retire)
 {
     work->stateBits.retireSelect = retire;
     work->sendBuf.select.retire = retire;
 }
 
-
 void BSUBWAY_COMM_SetSendPlayMode(BsubwayScrWork *work)
 {
     *(u32 *)work->sendBuf.raw = work->playMode;
 }
-
 
 void BSUBWAY_COMM_SetSendWord5(BsubwayScrWork *work, u32 value)
 {
     *(u32 *)work->sendBuf.raw = value;
 }
 
-
 void BSUBWAY_COMM_SetSendWord6(BsubwayScrWork *work, u32 value)
 {
     *(u32 *)work->sendBuf.raw = value;
 }
 
-
 void BSUBWAY_COMM_SetSendWord7(BsubwayScrWork *work, u32 value)
 {
     *(u32 *)work->sendBuf.raw = value;
 }
-
 
 /*
  * evidence: 0x02008494 is an unlabelled ARM9 thunk ("ldr r3, =MI_CpuCopy8; movs r2, #0x20; bx r3") that the
@@ -285,7 +265,6 @@ void BSUBWAY_COMM_SetSendData(BsubwayScrWork *work, u32 cmd, u16 arg)
     }
 }
 
-
 int BSUBWAY_COMM_SendData(BsubwayScrWork *work)
 {
     u16 command;
@@ -299,7 +278,6 @@ int BSUBWAY_COMM_SendData(BsubwayScrWork *work)
     return 0;
 }
 
-
 /*
  * Byte setter at +0x725. bl from ov021 BSUBWAY_SCR_CmdTool at 0x021CB596.
  */
@@ -307,7 +285,6 @@ void BSUBWAY_COMM_SetRecvMode(BsubwayScrWork *work, u8 mode)
 {
     work->recvMode = mode;
 }
-
 
 int BSUBWAY_COMM_IsRecvEnd(BsubwayScrWork *work, u16 *result)
 {
@@ -325,7 +302,6 @@ int BSUBWAY_COMM_IsRecvEnd(BsubwayScrWork *work, u16 *result)
     }
     return 0;
 }
-
 
 /*
  * lever: Const source halfwords restores c[0]/c[1] load scheduling.
@@ -352,14 +328,12 @@ void BSUBWAY_COMM_RecvPlayerData(int netId, int size, const u16 *data, BsubwaySc
     }
 }
 
-
 void BSUBWAY_COMM_RecvTrainerData(u16 netId, int size, void *data, BsubwayScrWork *work)
 {
     work->recvCount++;
     if (netId != GFL_NET_SYSTEM_GetCurrentAid() && GFL_NET_SYSTEM_GetCurrentAid() != 0)
         MI_CpuCopy8(data, work->trainerNo, 0x1c);
 }
-
 
 void BSUBWAY_COMM_RecvRetireSelect(u16 netId, int size, u16 *data, BsubwayScrWork *work)
 {
@@ -371,14 +345,12 @@ void BSUBWAY_COMM_RecvRetireSelect(u16 netId, int size, u16 *data, BsubwayScrWor
     }
 }
 
-
 void BSUBWAY_COMM_RecvMyStatus(u16 netId, int size, void *data, BsubwayScrWork *work)
 {
     work->recvCount++;
     if (netId != GFL_NET_SYSTEM_GetCurrentAid())
         MI_CpuCopy8(data, &work->partnerMyStatus, 0x20);
 }
-
 
 void BSUBWAY_COMM_RecvPlayMode(u16 netId, int size, u16 *data, BsubwayScrWork *work)
 {
@@ -391,7 +363,6 @@ void BSUBWAY_COMM_RecvPlayMode(u16 netId, int size, u16 *data, BsubwayScrWork *w
     }
 }
 
-
 void BSUBWAY_COMM_RecvWord5(u16 netId, int size, u16 *data, BsubwayScrWork *work)
 {
     work->recvCount++;
@@ -399,14 +370,12 @@ void BSUBWAY_COMM_RecvWord5(u16 netId, int size, u16 *data, BsubwayScrWork *work
         work->recvResult = *data;
 }
 
-
 void BSUBWAY_COMM_RecvWord6(u16 netId, int size, u16 *data, BsubwayScrWork *work)
 {
     work->recvCount++;
     if (netId != GFL_NET_SYSTEM_GetCurrentAid())
         work->recvResult = *data;
 }
-
 
 void BSUBWAY_COMM_RecvWord7(u16 netId, int size, u16 *data, BsubwayScrWork *work)
 {

@@ -1,9 +1,7 @@
 #ifndef FIELD_SUBSCREEN_TYPES_H
 #define FIELD_SUBSCREEN_TYPES_H
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../types.h"
 
 /*
  * Work of the field sub-screen (the lower screen panel: C-Gear and its

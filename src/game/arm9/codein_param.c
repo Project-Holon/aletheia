@@ -19,7 +19,7 @@
  *   STRBUF_Delete  0x02045808  arm
  *   GFL_HEAP_Free  0x020307B0  arm
  */
-#include "codein_param_shared_types.h"
+#include "../types.h"
 
 struct Strbuf;
 

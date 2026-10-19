@@ -120,15 +120,11 @@ struct MovePokemonSave;
 
 struct MovePokemonEntry;
 
-typedef s32 fx32;
+#include "../types.h"
 
-typedef enum { FALSE, TRUE } BOOL;
+typedef enum { FALSE, TRUE } Bool;
 
-typedef struct VecFx32 {
-    fx32 x;
-    fx32 y;
-    fx32 z;
-} VecFx32;
+#include "../sdk_fx.h"
 
 typedef struct Area {
     u16 x;
@@ -939,7 +935,6 @@ void *MOVE_POKEMON_CreateDiveEvent(SkillTarget *target, FieldSkillInfo *info)
 {
     return SWEET_SCENT_CreateEvent(info->gameSys, info->fieldMap, target->id);
 }
-
 
 extern int GAME_BEACON_SEARCH_SetCountValue(u32 seId);
 

@@ -24,31 +24,9 @@
  *   SVC_GetCRC16  0x02004632  thumb
  *   OS_SetDeliverArgStateInvalid  0x02088118  arm
  */
-typedef unsigned long long u64;
+#include "../types.h"
 
-typedef unsigned long u32;
-
-typedef unsigned short u16;
-
-typedef unsigned char u8;
-
-typedef int BOOL;
-
-typedef struct OSDeliverArgHeader {
-    u64 titleId;
-    u8 reserved1;
-    u8 flag;
-    u16 makerCode;
-    u16 argBufferSize;
-    u16 binarySize;
-    u16 crc;
-    u16 sysParam;
-} OSDeliverArgHeader;
-
-typedef struct OSDeliverArgInfo {
-    OSDeliverArgHeader header;
-    u8 buf[748];
-} OSDeliverArgInfo;
+#include "../sdk_os.h"
 
 /* os_argument.o .bss from 0x02151384, addressed from one pool word: sPtr
    (a cursor into the argument buffer), the buffer state and the buffer. */
@@ -63,8 +41,6 @@ extern u16 SVC_GetCRC16(u32 start, const void *data, u32 size);
 
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
-
-
 void OS_SetDeliverArgStateInvalid(void);
 u64 OS_GetTitleIdFromDeliverArg(void);
 BOOL OS_IsValidDeliverArg(void);
@@ -73,7 +49,6 @@ int OS_EncodeDeliverArg(void);
 int OS_DecodeDeliverArg(void);
 extern OsArgumentBss g_02151384;
 extern u64      s_02151390;
-
 
 /*
  * sdk:      OS_InitDeliverArgInfo (os_argument.o)
@@ -132,7 +107,6 @@ int OS_EncodeDeliverArg(void)
     g_02151384.sBufferState = 0;
     return 0;
 }
-
 
 /*
  * 172 bytes, 0x0208806C..0x02088118, every concrete byte reproduced (0

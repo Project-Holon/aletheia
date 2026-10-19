@@ -92,7 +92,7 @@ struct Out;
 
 struct Res;
 
-typedef long long      s64;
+#include "../types.h"
 
 typedef struct {
     u16 id;
@@ -146,26 +146,12 @@ typedef struct { u16 id; u16 pad; s16 dx; s16 dz; } PoseSrc;
 
 typedef struct { u32 addr; u32 f04; u32 f08; u32 s; u32 t; u32 fmt; u32 f18; u32 pltt0; } TexInfo;
 
-typedef enum { GX_TEXFMT_NONE = 0, GX_TEXFMT_PLTT4 = 2 } GXTexFmt;
-
-typedef enum { GX_TEXGEN_NONE = 0, GX_TEXGEN_TEXCOORD = 1 } GXTexGen;
-
-typedef enum { GX_TEXSIZE_S8 = 0 } GXTexSizeS;
-
-typedef enum { GX_TEXSIZE_T8 = 0 } GXTexSizeT;
-
-typedef enum { GX_TEXREPEAT_NONE = 0, GX_TEXREPEAT_ST = 3 } GXTexRepeat;
-
-typedef enum { GX_TEXFLIP_NONE = 0, GX_TEXFLIP_ST = 3 } GXTexFlip;
-
-typedef enum { GX_TEXPLTTCOLOR0_USE = 0, GX_TEXPLTTCOLOR0_TRNS = 1 } GXTexPlttColor0;
+#include "../sdk_gx.h"
 
 /* The sprite set reached as obj+0x6C; its Tab table sits at 0x4. */
 struct McssSpriteSet { int p0; Tab *tbl; };
 
 typedef struct { u32 a:1,b:1,c:1,rest:29; } Flags;
-
-typedef unsigned long long u64;
 
 /*
  * The render pool (allocated 28 bytes by MUSICAL_MCSS_AllocRenderPool). Holds

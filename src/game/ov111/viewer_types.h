@@ -21,16 +21,7 @@
  * function. Every field is a real field of one of these two objects.
  */
 
-typedef unsigned char      u8;
-typedef signed char        s8;
-typedef unsigned short     u16;
-typedef short              s16;
-typedef unsigned int       u32;
-typedef int                s32;
-typedef int                fx32;
-typedef long long          s64;
-typedef unsigned long long u64;
-typedef long long          fx64;
+#include "../types.h"
 
 /*
  * The info block pointed to by ViewerWork.info and ViewerArgs.info. It is the

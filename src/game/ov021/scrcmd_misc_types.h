@@ -6,11 +6,7 @@
  * scrcmd_misc.c. Offsets come from every access in that file.
  */
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed char s8;
-typedef signed short s16;
+#include "../types.h"
 
 struct IcaAnime;
 struct Mmdl;

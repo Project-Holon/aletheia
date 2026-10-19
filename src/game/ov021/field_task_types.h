@@ -1,9 +1,7 @@
 #ifndef FIELD_TASK_TYPES_H
 #define FIELD_TASK_TYPES_H
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../types.h"
 
 /* One queued field task: a state, a work block and a per-frame check callback. */
 typedef int (*FieldTaskCheckFunc)(u32 *work);

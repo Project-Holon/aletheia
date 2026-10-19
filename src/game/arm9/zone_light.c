@@ -26,8 +26,7 @@
  *   TIMEZONE_GetLight  0x02011400  thumb
  *   _u32_div_f                   0x0209C2B0  arm
  */
-#include "field_status_shared_types.h"
-#include "zone_light_shared_types.h"
+#include "../types.h"
 
 /* One 0x34-byte record of the time-of-day light table. */
 struct LightTableEntry {

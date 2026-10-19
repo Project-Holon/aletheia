@@ -98,7 +98,7 @@
 
 struct TcblNode;
 
-typedef signed char    s8;
+#include "../types.h"
 
 typedef struct Entry { int x; unsigned short id, pad; int flag; } Entry;
 
@@ -523,8 +523,6 @@ struct U16Vec;
  * restore it.
  */
 typedef struct Demo3dBgmFadeWork {char *owner;unsigned reserved;unsigned char step,pushPrev,popPrev,mode;int channel,start,end;} Demo3dBgmFadeWork;
-
-
 
 struct Demo3dBrightnessFadeWork { Demo3dCmdContext *owner; int state,mask,kind,duration,start,end,current,step; int *counter; };
 

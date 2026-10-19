@@ -280,16 +280,10 @@
  *   _fsub          0x0209CB8C  arm
  *   _ffix          0x0209C494  arm
  */
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef short          s16;
-typedef signed int     s32;
-typedef unsigned long long u64;
+#include "../types.h"
 
 #include "../version.h"
 #include "event_mapchange_types.h"
-
 
 struct GameSystem;
 struct GameEvent;
@@ -357,7 +351,6 @@ typedef struct {
 struct MsgData;
 struct Strbuf;
 struct Mail;
-
 
 extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 extern void GX_SetBankForLCDC(int a);

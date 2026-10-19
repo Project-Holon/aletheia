@@ -18,24 +18,11 @@
  *   OS_SleepThread        0x020857B0  arm
  *   OS_WakeupThread       0x02085800  arm
  */
-typedef unsigned long u32;
+#include "../types.h"
 
-typedef u32 OSIntrMode;
+#include "../sdk_os.h"
 
-typedef struct OSThreadQueue {
-    void *head;
-    void *tail;
-} OSThreadQueue;
-
-typedef struct OSEvent {
-    volatile u32 flag;
-    OSThreadQueue queue;
-} OSEvent;
-
-typedef enum OSEventMode {
-    OS_EVENT_MODE_AND = 0,
-    OS_EVENT_MODE_OR = 1
-} OSEventMode;
+#include "../sdk_os_thread.h"
 
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
@@ -50,7 +37,6 @@ void OS_InitEvent(OSEvent *event)
     event->queue.head = event->queue.tail = 0;
     event->flag = 0;
 }
-
 
 /*
  * sdk:      OS_WaitEventEx (os_event.o)
@@ -82,7 +68,6 @@ u32 OS_WaitEventEx(OSEvent *event, u32 pattern, OSEventMode mode, u32 clearBit)
     (void)OS_RestoreInterrupts(enable);
     return retval;
 }
-
 
 /*
  * sdk:      OS_SignalEvent (os_event.o)

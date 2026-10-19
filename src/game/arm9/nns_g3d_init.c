@@ -19,7 +19,7 @@
  *   G3X_Init  0x0207D988  arm
  */
 
-typedef unsigned int u32;
+#include "../types.h"
 
 extern void G3X_Init(void);
 extern void NNS_G3dGlbInit(void);

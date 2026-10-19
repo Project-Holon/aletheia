@@ -10,18 +10,9 @@
  * action tables; FldSceneArea (fld_scenearea.c) runs them every frame.
  */
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed short s16;
-typedef signed int s32;
-typedef long long s64;
+#include "../types.h"
 
-typedef struct VecFx32 {
-    s32 x;
-    s32 y;
-    s32 z;
-} VecFx32;
+#include "../sdk_fx.h"
 
 struct FldSceneArea;
 struct FldSceneAreaRec;

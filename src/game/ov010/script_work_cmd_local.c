@@ -13,9 +13,7 @@
  * symbols:
  *   VM_GetU32  0x0201134C  thumb
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../types.h"
 
 /* Script VM context: program counter and the local variable array. */
 #include "../arm9/script_vm_types.h"
@@ -37,7 +35,6 @@ int SCRIPT_WORK_CmdSetLocalU32(ScriptVm *vm, void *user)
     vm->ring[index] = value;
     return 0;
 }
-
 
 /* Script command: ring[dest byte] = ring[source byte]. */
 int SCRIPT_WORK_CmdCopyLocal(ScriptVm *vm)

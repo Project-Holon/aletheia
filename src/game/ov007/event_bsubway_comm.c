@@ -44,11 +44,8 @@ typedef struct BsubwayProcArgs {
     int *resultPtr;
 } BsubwayProcArgs;
 
-typedef unsigned char  u8;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
 struct GameData;
 
 struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
@@ -72,14 +69,10 @@ u32 EVENT_BSUBWAY_COMM_EventMain(void *event, u32 *stage, u32 *work);
 extern char ov116_id[];
 extern char d_021D83A4[];
 
-
-
 int EVENT_BSUBWAY_COMM_Start(int gameSystem, BsubwayProcArgs *args)
 {
     return (int)EVENT_BSUBWAY_COMM_CreateEvent((void *)gameSystem, args->value, (int)args->resultPtr);
 }
-
-
 
 void *EVENT_BSUBWAY_COMM_CreateEvent(void *gameSystem, int value, int resultPtr)
 {
@@ -96,7 +89,6 @@ void *EVENT_BSUBWAY_COMM_CreateEvent(void *gameSystem, int value, int resultPtr)
         GAME_COMM_RequestExitNoCallback((struct GameComm *)GAMESYSTEM_GetGameComm(gameSystem));
     return event;
 }
-
 
 u32 EVENT_BSUBWAY_COMM_EventMain(void *event, u32 *stage, u32 *work)
 {

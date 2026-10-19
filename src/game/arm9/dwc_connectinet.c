@@ -103,36 +103,11 @@ typedef struct {
     unsigned char bssid[6];
 } DWCApInfo;
 
-typedef struct {
-    unsigned short magicNumber;
-    unsigned char ver;
-    unsigned char platform;
-    unsigned long ggid;
-    unsigned short tgid;
-    unsigned char userGameInfoLength;
-} WMGameInfo;
-
-typedef struct {
-    unsigned short length;
-    unsigned short rssi;
-    unsigned char bssid[6];
-    unsigned short ssidLength;
-    unsigned char ssid[32];
-    unsigned short capaInfo;
-    unsigned short rateSet[2];
-    unsigned short beaconPeriod;
-    unsigned short dtimPeriod;
-    unsigned short channel;
-    unsigned short cfpPeriod;
-    unsigned short cfpMaxDuration;
-    unsigned short gameInfoLength;
-    unsigned short otherElementCount;
-    WMGameInfo gameInfo;
-} WMBssDesc;
+#include "../sdk_wm.h"
 
 typedef struct { unsigned char data[0x104]; } CRYPTORC4Context;
 
-typedef struct { unsigned short table[256]; } MATHCRC16Table;
+#include "../sdk_math.h"
 
 typedef struct {
     unsigned char head[0x20];

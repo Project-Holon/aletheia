@@ -125,7 +125,7 @@ struct Ctx;
 
 typedef struct { unsigned short tag; unsigned short pad2; int x,y,z,sx,sy,sz,matrix[9],tail; } Record;
 
-typedef signed int     s32;
+#include "../types.h"
 
 typedef struct {int x,y,z;} EggDemoVec3;
 

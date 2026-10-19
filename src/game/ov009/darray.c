@@ -38,15 +38,7 @@ struct DArrayImplementation {
     void *list;
 };
 
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef signed short   s16;
-
-typedef signed char    s8;
+#include "../types.h"
 
 extern void *gsirealloc(void *ptr, unsigned long size);
 extern void *memcpy(void *dst, const void *src, unsigned long n);
@@ -71,8 +63,6 @@ void ArrayMapBackwards(struct DArrayImplementation *array, void (*fn)(void *, vo
 void *ArrayMapBackwards2(struct DArrayImplementation *array, int (*fn)(void *, void *), void *clientData);
 void ArrayClear(struct DArrayImplementation *array);
 
-
-
 static void FreeElement(struct DArrayImplementation *array, int n)
 {
     if (array->elemfreefn == 0)
@@ -80,22 +70,16 @@ static void FreeElement(struct DArrayImplementation *array, int n)
     array->elemfreefn(ArrayNth(array, n));
 }
 
-
-
 static void ArrayGrow(struct DArrayImplementation *array)
 {
     array->capacity += array->growby;
     array->list = gsirealloc(array->list, array->capacity * array->elemsize);
 }
 
-
-
 static void SetElement(struct DArrayImplementation *array, void *elem, int pos)
 {
     memcpy(ArrayNth(array, pos), elem, array->elemsize);
 }
-
-
 
 struct DArrayImplementation *ArrayNew(int elemSize, int numElemsToAllocate,
                                       void (*elemFreeFn)(void *))
@@ -120,8 +104,6 @@ struct DArrayImplementation *ArrayNew(int elemSize, int numElemsToAllocate,
     return array;
 }
 
-
-
 void ArrayFree(struct DArrayImplementation *array)
 {
     int i;
@@ -138,17 +120,11 @@ int ArrayLength(const int *array)
     return *array;
 }
 
-
 static void *mybsearch(void *elem, void *base, int num, int elemsize,
                        int (*comparator)(void *, void *), int *found);
 
-
 static void *mylsearch(void *key, void *base, int count, int size,
                        int (*comparator)(void *, void *));
-
-
-
-
 
 void *ArrayNth(struct DArrayImplementation *array, int n)
 {
@@ -157,10 +133,6 @@ void *ArrayNth(struct DArrayImplementation *array, int n)
                : (char *)array->list + array->elemsize * n;
 }
 
-
-
-
-
 /*
  * Guarded forward of a word load: calls ArrayInsertAt(p, a, *p) when p is set.
  */
@@ -168,10 +140,6 @@ void ArrayAppend(void *p, void *a)
 {
     if (p) ArrayInsertAt(p, a, (int)*(void **)p);
 }
-
-
-
-
 
 void ArrayInsertAt(struct DArrayImplementation *array, void *newElem, int n)
 {
@@ -183,10 +151,6 @@ void ArrayInsertAt(struct DArrayImplementation *array, void *newElem, int n)
                 (array->count - 1 - n) * array->elemsize);
     SetElement(array, newElem, n);
 }
-
-
-
-
 
 void ArrayInsertSorted(struct DArrayImplementation *array, void *newElem,
                        int (*comparator)(void *, void *))
@@ -200,10 +164,6 @@ void ArrayInsertSorted(struct DArrayImplementation *array, void *newElem,
                   ((char *)res - (char *)array->list) / array->elemsize);
 }
 
-
-
-
-
 void ArrayRemoveAt(struct DArrayImplementation *array, int n)
 {
     if (n < array->count - 1)
@@ -211,10 +171,6 @@ void ArrayRemoveAt(struct DArrayImplementation *array, int n)
                 (array->count - 1 - n) * array->elemsize);
     array->count--;
 }
-
-
-
-
 
 /*
  * Calls the two helpers on both arguments.
@@ -225,19 +181,11 @@ void ArrayDeleteAt(int a, int b)
     ArrayRemoveAt((struct DArrayImplementation *)a, b);
 }
 
-
-
-
-
 void ArrayReplaceAt(struct DArrayImplementation *array, void *newElem, int n)
 {
     FreeElement(array, n);
     SetElement(array, newElem, n);
 }
-
-
-
-
 
 /*
  * Tail call on three fields of the object and the second argument.
@@ -246,10 +194,6 @@ void ArraySort(int *p, int b)
 {
     qsort(p[5], p[0], p[2], b);
 }
-
-
-
-
 
 int ArraySearch(struct DArrayImplementation *array, void *key,
                 int (*comparator)(void *, void *), int fromIndex, int isSorted)
@@ -271,10 +215,6 @@ int ArraySearch(struct DArrayImplementation *array, void *key,
     return ((char *)res - (char *)array->list) / array->elemsize;
 }
 
-
-
-
-
 void ArrayMapBackwards(struct DArrayImplementation *array,
                        void (*fn)(void *, void *), void *clientData)
 {
@@ -283,9 +223,6 @@ void ArrayMapBackwards(struct DArrayImplementation *array,
     for (i = array->count - 1; i >= 0; i--)
         fn(ArrayNth(array, i), clientData);
 }
-
-
-
 
 void *ArrayMapBackwards2(struct DArrayImplementation *array,
                          int (*fn)(void *, void *), void *clientData)
@@ -302,9 +239,6 @@ void *ArrayMapBackwards2(struct DArrayImplementation *array,
     return 0;
 }
 
-
-
-
 void ArrayClear(struct DArrayImplementation *array)
 {
     int i;
@@ -312,8 +246,6 @@ void ArrayClear(struct DArrayImplementation *array)
     for (i = ArrayLength((const int *)array) - 1; i >= 0; i--)
         ArrayDeleteAt((int)array, i);
 }
-
-
 
 static void *mylsearch(void *key, void *base, int count, int size,
                        int (*comparator)(void *, void *))
@@ -327,8 +259,6 @@ static void *mylsearch(void *key, void *base, int count, int size,
     }
     return 0;
 }
-
-
 
 static void *mybsearch(void *elem, void *base, int num, int elemsize,
                        int (*comparator)(void *, void *), int *found)

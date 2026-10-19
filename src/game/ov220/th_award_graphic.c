@@ -57,11 +57,7 @@ struct DispConfig;
 struct BgTemplate;
 struct Bank;
 struct Cfg;
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef unsigned char u8;
+#include "../types.h"
 
 struct ClactCtx {
     struct Bank *unit;     /* +0x00 CLACT unit from CLACT_CreateUnit */
@@ -128,7 +124,6 @@ extern const struct DispVram d_021BA428;
 extern const unsigned d_021BA458[][11];
 extern struct DispConfig d_021BA3FC;
 
-
 void *TH_AWARD_GRAPHIC_Create(unsigned mode,unsigned heap)
 {
     unsigned char *p;
@@ -151,7 +146,6 @@ void *TH_AWARD_GRAPHIC_Create(unsigned mode,unsigned heap)
     return p;
 }
 
-
 void TH_AWARD_GRAPHIC_Delete(unsigned char *p)
 {
     TCB_DeleteTask((struct TcbTask *)(((struct ThAwardGraphic *)p)->proc));
@@ -166,25 +160,19 @@ void TH_AWARD_GRAPHIC_Delete(unsigned char *p)
     GFL_HEAP_Free(p);
 }
 
-
-
 void TH_AWARD_GRAPHIC_Update(char *p)
 {
     TH_AWARD_GRAPHIC_Draw(p + 4);
     TH_AWARD_GRAPHIC_Noop(p);
 }
 
-
 u32 TH_AWARD_GRAPHIC_GetActor(u8*p){return TH_AWARD_GRAPHIC_GetValue((u32*)(p+4));}
-
-
 
 void TH_AWARD_GRAPHIC_Task(void *unused, char *p)
 {
     TH_AWARD_GRAPHIC_DrawObjects(p);
     TH_AWARD_GRAPHIC_VBlank(p + 4);
 }
-
 
 void TH_AWARD_GRAPHIC_SetupBg(void *p, unsigned heap)
 {
@@ -203,16 +191,11 @@ void TH_AWARD_GRAPHIC_SetupBg(void *p, unsigned heap)
     }
 }
 
-
 void TH_AWARD_GRAPHIC_CleanupBg(void*p){u32 i;for(i=0;i<3;i++)BG_SYS_FreeLayerBuf((u8)d_021BA458[i][0]);BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4);}
-
 
 void TH_AWARD_GRAPHIC_Noop(void *p){}
 
-
 void TH_AWARD_GRAPHIC_DrawObjects(void *p){BG_SYS_Update();}
-
-
 
 void TH_AWARD_GRAPHIC_SetupClact(unsigned char *p, int a, int b)
 {
@@ -224,8 +207,6 @@ void TH_AWARD_GRAPHIC_SetupClact(unsigned char *p, int a, int b)
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
-
-
 void TH_AWARD_GRAPHIC_DeleteClact(char *p)
 {
     CLACT_DeleteUnit(((struct ClactCtx *)p)->unit);
@@ -233,10 +214,7 @@ void TH_AWARD_GRAPHIC_DeleteClact(char *p)
     MI_CpuFill8(p, 0, 4);
 }
 
-
 void TH_AWARD_GRAPHIC_Draw(void *p){CLACT_DrawSystem();}
-
-
 
 /*
  * note: 2026-10-05 integrator: label left open after the pengy waves; written from the listing.

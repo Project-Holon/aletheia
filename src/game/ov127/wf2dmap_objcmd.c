@@ -28,9 +28,7 @@
  */
 #include "wf2dmap_obj_types.h"
 
-typedef unsigned char u8;
-
-typedef unsigned short u16;
+#include "../types.h"
 
 typedef int (*Wf2dmapSpawnCallback)(void *,void *,void *,const u8 *,void *);
 
@@ -87,13 +85,7 @@ int WF2DMAP_OBJCMD_SpawnIdle2(u8 *p,int a,int b,const u8 *desc,u8 *out);
 int WF2DMAP_OBJCMD_IsTileOccupied(void *p, void *q, int n);
 extern const Wf2dmapSpawnCallback sWf2dmapSpawnCmdTable[];
 
-
-
-
 extern int (*sWf2dmapObjCmdTable)(u8 *);
-
-
-
 
 void WF2DMAP_OBJCMD_Update(u8 *p)
 {
@@ -101,9 +93,6 @@ void WF2DMAP_OBJCMD_Update(u8 *p)
  (((Wf2dmapObj *)p)->updateCounter)++;
  if(r==1) {WF2DMAP_OBJCMD_Restart((char *)p); ((Wf2dmapObj *)p)->updateCounter=0;}
 }
-
-
-
 
 /*
  * extent: next larger wrapper starts at 0x021C4D34, its initial push
@@ -116,9 +105,6 @@ void WF2DMAP_OBJCMD_StartCmd0(char *p, Wf2dmapPos v, int n)
     WF2DMAP_OBJ_SetSlot(p, 6, n);
     WF2DMAP_OBJ_SetSlot(p, 5, 0);
 }
-
-
-
 
 /*
  * start: corrected from second label at initial push plus two bytes.
@@ -133,9 +119,6 @@ void WF2DMAP_OBJCMD_StartCmd1(char *p, Wf2dmapPos v, int n)
     WF2DMAP_OBJ_SetSlot(p, 9, 2);
 }
 
-
-
-
 void WF2DMAP_OBJCMD_StartCmd2(char *p, Wf2dmapPos v, int n)
 {
     Wf2dmapPos x = WF2DMAP_OBJCMD_OffsetPos(v, n);
@@ -146,9 +129,6 @@ void WF2DMAP_OBJCMD_StartCmd2(char *p, Wf2dmapPos v, int n)
     WF2DMAP_OBJ_SetSlot(p, 8, 0);
     WF2DMAP_OBJ_SetSlot(p, 9, 8);
 }
-
-
-
 
 void WF2DMAP_OBJCMD_StartCmd3(char *p, Wf2dmapPos v, int n)
 {
@@ -161,9 +141,6 @@ void WF2DMAP_OBJCMD_StartCmd3(char *p, Wf2dmapPos v, int n)
     WF2DMAP_OBJ_SetSlot(p, 9, 4);
 }
 
-
-
-
 void WF2DMAP_OBJCMD_StartCmd4(char *p, Wf2dmapPos v, int n)
 {
     WF2DMAP_OBJ_SetPos(p, v);
@@ -171,9 +148,6 @@ void WF2DMAP_OBJCMD_StartCmd4(char *p, Wf2dmapPos v, int n)
     WF2DMAP_OBJ_SetSlot(p, 6, n);
     WF2DMAP_OBJ_SetSlot(p, 5, 4);
 }
-
-
-
 
 void WF2DMAP_OBJCMD_StartCmd5(char *p, Wf2dmapPos v, int n)
 {
@@ -184,9 +158,6 @@ void WF2DMAP_OBJCMD_StartCmd5(char *p, Wf2dmapPos v, int n)
     WF2DMAP_OBJ_SetSlot(p, 8, 0);
     WF2DMAP_OBJ_SetSlot(p, 9, 16);
 }
-
-
-
 
 void WF2DMAP_OBJCMD_StartCmd6(char *p, Wf2dmapPos v, int n)
 {
@@ -199,9 +170,6 @@ void WF2DMAP_OBJCMD_StartCmd6(char *p, Wf2dmapPos v, int n)
     WF2DMAP_OBJ_SetSlot(p, 9, 16);
 }
 
-
-
-
 void WF2DMAP_OBJCMD_StartCmd7(char *p, Wf2dmapPos v, int n)
 {
     Wf2dmapPos x = WF2DMAP_OBJCMD_OffsetPos(v, n);
@@ -213,9 +181,6 @@ void WF2DMAP_OBJCMD_StartCmd7(char *p, Wf2dmapPos v, int n)
     WF2DMAP_OBJ_SetSlot(p, 9, 4);
 }
 
-
-
-
 void WF2DMAP_OBJCMD_StartCmd8(char *p, Wf2dmapPos v, int n)
 {
     WF2DMAP_OBJ_SetDestPos(p, v);
@@ -225,9 +190,6 @@ void WF2DMAP_OBJCMD_StartCmd8(char *p, Wf2dmapPos v, int n)
     WF2DMAP_OBJ_SetSlot(p, 8, 0);
     WF2DMAP_OBJ_SetSlot(p, 9, 2);
 }
-
-
-
 
 void WF2DMAP_OBJCMD_StartCmd9(char *p, Wf2dmapPos v, int n)
 {
@@ -239,9 +201,6 @@ void WF2DMAP_OBJCMD_StartCmd9(char *p, Wf2dmapPos v, int n)
     WF2DMAP_OBJ_SetSlot(p, 9, 4);
 }
 
-
-
-
 void WF2DMAP_OBJCMD_StartCmd10(char *p, Wf2dmapPos v, int n)
 {
     WF2DMAP_OBJ_SetDestPos(p, v);
@@ -251,9 +210,6 @@ void WF2DMAP_OBJCMD_StartCmd10(char *p, Wf2dmapPos v, int n)
     WF2DMAP_OBJ_SetSlot(p, 8, 0);
     WF2DMAP_OBJ_SetSlot(p, 9, 8);
 }
-
-
-
 
 void WF2DMAP_OBJCMD_StartCmd11(void *p, Wf2dmapPos v, int n)
 {
@@ -265,21 +221,12 @@ void WF2DMAP_OBJCMD_StartCmd11(void *p, Wf2dmapPos v, int n)
     WF2DMAP_OBJ_SetSlot(p, 9, 16);
 }
 
-
-
-
 /*
  * extent: handed 021C51CA is the second push after 0F B4 at 021C51C8.
  */
 int WF2DMAP_OBJCMD_StepNoop(void) { return 0; }
 
-
-
-
 int WF2DMAP_OBJCMD_StepAdvance(void *p) { return WF2DMAP_OBJCMD_AdvanceTimer(p); }
-
-
-
 
 int WF2DMAP_OBJCMD_StepAdvanceSnap(void *p)
 {
@@ -291,9 +238,6 @@ int WF2DMAP_OBJCMD_StepAdvanceSnap(void *p)
     return r;
 }
 
-
-
-
 int WF2DMAP_OBJCMD_StepAdvanceSnap2(void *p)
 {
     int r = WF2DMAP_OBJCMD_AdvanceTimer(p);
@@ -304,31 +248,16 @@ int WF2DMAP_OBJCMD_StepAdvanceSnap2(void *p)
     return r;
 }
 
-
-
-
 int WF2DMAP_OBJCMD_StepNoop2(void) { return 0; }
-
-
-
 
 int WF2DMAP_OBJCMD_StepAdvance2(void *p) { return WF2DMAP_OBJCMD_AdvanceTimer(p); }
 
-
-
-
 int WF2DMAP_OBJCMD_StepAdvance3(void *p) { return WF2DMAP_OBJCMD_AdvanceTimer(p); }
-
-
-
 
 Wf2dmapPos WF2DMAP_OBJCMD_OffsetPos(Wf2dmapPos p,int i)
 {
  return WF2DMAP_OBJ_OffsetPos(p,i);
 }
-
-
-
 
 int WF2DMAP_OBJCMD_AdvanceTimer(u8 *p)
 {
@@ -337,28 +266,13 @@ int WF2DMAP_OBJCMD_AdvanceTimer(u8 *p)
  return 1;
 }
 
-
-
-
 void WF2DMAP_OBJCMD_Restart(char *p) { Wf2dmapPos v=WF2DMAP_OBJ_GetPos(p); WF2DMAP_OBJCMD_StartCmd0(p,v,WF2DMAP_OBJ_GetSlot((u8 *)p,6)); }
-
-
-
 
 int WF2DMAP_OBJCMD_Dispatch(void *a, void *b, const u8 *desc, int *out) { return sWf2dmapSpawnCmdTable[*(u16 *)desc](WF2DMAP_OBJ_FindById2(b,desc[3]),a,b,desc,out); }
 
-
-
-
 int WF2DMAP_OBJCMD_SpawnIdle04(u8 *p,int a,int b,const u8 *desc,u8 *out) { int v=WF2DMAP_OBJ_GetSlot(p,5);  if(v==0 || v==4) { WF2DMAP_OBJDRAW_FillSpawnDesc(out,p,((Wf2dmapSpawnCmd *)desc)->kind,desc[3],desc[2]); return 1; } return 0; }
 
-
-
-
 int WF2DMAP_OBJCMD_SpawnIdleNew(u8 *p,int a,int b,const u8 *desc,u8 *out) { int v=WF2DMAP_OBJ_GetSlot(p,5); int w=WF2DMAP_OBJ_GetSlot(p,6); if(v==0 && w!=desc[2]) { WF2DMAP_OBJDRAW_FillSpawnDesc(out,p,((Wf2dmapSpawnCmd *)desc)->kind,desc[3],desc[2]); return 1; } return 0; }
-
-
-
 
 int WF2DMAP_OBJCMD_SpawnIfFree(void *p, void *q, void *r, const u8 *s, void *t)
 {
@@ -374,9 +288,6 @@ int WF2DMAP_OBJCMD_SpawnIfFree(void *p, void *q, void *r, const u8 *s, void *t)
     return 0;
 }
 
-
-
-
 /*
  * Addresses are Black-image addresses.
  */
@@ -385,31 +296,16 @@ void WF2DMAP_OBJCMD_SpawnIfFreeThunk(int a, int b, int c, int d, int e)
     WF2DMAP_OBJCMD_SpawnIfFree((void *)a, (void *)b, (void *)c, (const u8 *)d, (void *)e);
 }
 
-
-
-
 int WF2DMAP_OBJCMD_SpawnIdle(u8 *p,int a,int b,const u8 *desc,u8 *out) { int v=WF2DMAP_OBJ_GetSlot(p,5);  if(v==0) { WF2DMAP_OBJDRAW_FillSpawnDesc(out,p,((Wf2dmapSpawnCmd *)desc)->kind,desc[3],desc[2]); return 1; } return 0; }
 
-
-
-
 int WF2DMAP_OBJCMD_StepNoop3(void) { return 0; }
-
-
-
 
 void WF2DMAP_OBJCMD_SpawnIfFreeThunk2(int a, int b, int c, int d, int e)
 {
     WF2DMAP_OBJCMD_SpawnIfFree((void *)a, (void *)b, (void *)c, (const u8 *)d, (void *)e);
 }
 
-
-
-
 int WF2DMAP_OBJCMD_SpawnIdle2(u8 *p,int a,int b,const u8 *desc,u8 *out) { int v=WF2DMAP_OBJ_GetSlot(p,5);  if(v==0) { WF2DMAP_OBJDRAW_FillSpawnDesc(out,p,((Wf2dmapSpawnCmd *)desc)->kind,desc[3],desc[2]); return 1; } return 0; }
-
-
-
 
 int WF2DMAP_OBJCMD_IsTileOccupied(void *p, void *q, int n)
 {

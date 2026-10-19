@@ -17,8 +17,7 @@
  *   (none)
  */
 
-typedef unsigned char u8;
-typedef unsigned long u32;
+#include "../types.h"
 
 typedef struct CRYPTORC4Context {
     u8 i;

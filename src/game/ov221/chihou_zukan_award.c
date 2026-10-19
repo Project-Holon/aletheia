@@ -137,11 +137,7 @@ struct WordSet;
 struct Rec;
 struct Actor;
 struct PtS;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 typedef struct {u32 id;u8 cfg[32];u32 type,enable;} Row;
 
@@ -150,8 +146,6 @@ typedef struct {u32 a,b,c;} Assets;
 typedef enum { BG_MODE0=0, BG_MODE1=1 } BGMode;
 
 typedef enum { LAYER_FIRST=0,LAYER_LIMIT=1 } Layer;
-
-typedef short s16;
 
 struct Vec2 { short x; short y; };
 
@@ -181,13 +175,9 @@ struct ChihouZukanAwardWork {
     struct Obj *actor;           /* +0x54 CLACT actor */
 };
 
-typedef signed int     s32;
-
 typedef enum Bool { BOOL_FALSE=0,BOOL_TRUE=1 } Bool;
 
-typedef enum { SHADING1 = 1 } GXShading;
-
-typedef int BOOL;
+#include "../sdk_gx.h"
 
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
@@ -311,9 +301,6 @@ extern char d_021BA2D8[];
 extern struct Vec2 d_021BA140;
 extern const unsigned short d_021BA200[][4];
 
-
-
-
 int CHIHOU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input)
 {
  char *p,*settings;
@@ -359,9 +346,6 @@ int CHIHOU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input)
  return 1;
 }
 
-
-
-
 int CHIHOU_ZUKAN_AWARD_Exit(void *owner,void *unused1,void *unused2,char *p)
 {
     Layer i=LAYER_FIRST;
@@ -383,9 +367,6 @@ int CHIHOU_ZUKAN_AWARD_Exit(void *owner,void *unused1,void *unused2,char *p)
     GFL_HEAP_DeleteChecked(0x83);
     return 1;
 }
-
-
-
 
 int CHIHOU_ZUKAN_AWARD_Main(int unused, int *state, int unused2, unsigned char *p)
 {
@@ -424,13 +405,7 @@ int CHIHOU_ZUKAN_AWARD_Main(int unused, int *state, int unused2, unsigned char *
  return 0;
 }
 
-
-
-
 void CHIHOU_ZUKAN_AWARD_Task(void) {}
-
-
-
 
 void CHIHOU_ZUKAN_AWARD_LoadBgAssets(struct ChihouZukanAwardWork *p)
 {
@@ -442,13 +417,7 @@ void CHIHOU_ZUKAN_AWARD_LoadBgAssets(struct ChihouZukanAwardWork *p)
     BG_SYS_PushTile(1);
 }
 
-
-
-
 void CHIHOU_ZUKAN_AWARD_Noop(char *p){}
-
-
-
 
 void CHIHOU_ZUKAN_AWARD_SetupWindows(struct ChihouZukanAwardWork *p)
 {
@@ -494,13 +463,7 @@ void CHIHOU_ZUKAN_AWARD_SetupWindows(struct ChihouZukanAwardWork *p)
     CHIHOU_ZUKAN_AWARD_FlushWindows(p);
 }
 
-
-
-
 void CHIHOU_ZUKAN_AWARD_DeleteWindows(struct ChihouZukanAwardWork *p){unsigned char i;for(i=0;i<5;i++){struct Descriptor *q=p->windows[i];if(q)BMP_WIN_Delete((struct BmpWin *)q);}if(p->msgBank)MSGDATA_Delete((struct MsgBank *)p->msgBank);}
-
-
-
 
 void CHIHOU_ZUKAN_AWARD_FlushWindows(struct ChihouZukanAwardWork *p)
 {
@@ -517,18 +480,12 @@ void CHIHOU_ZUKAN_AWARD_FlushWindows(struct ChihouZukanAwardWork *p)
     }
 }
 
-
-
-
 int CHIHOU_ZUKAN_AWARD_IsWindowsReady(unsigned char *p)
 {
     unsigned char i;
     for(i=0;i<5;i++) if(*(int *)(p+0x30+4*i)==0) return 0;
     return 1;
 }
-
-
-
 
 void CHIHOU_ZUKAN_AWARD_SetupTiles(struct ChihouZukanAwardWork *p)
 {
@@ -555,9 +512,6 @@ void CHIHOU_ZUKAN_AWARD_SetupTiles(struct ChihouZukanAwardWork *p)
  GFL_HEAP_Free(tiles);
 }
 
-
-
-
 void CHIHOU_ZUKAN_AWARD_CreateActor(struct ChihouZukanAwardWork *p)
 {
     void *h=ARC_TOOL_CreateHandle(0xCA,p->heap);
@@ -570,10 +524,6 @@ void CHIHOU_ZUKAN_AWARD_CreateActor(struct ChihouZukanAwardWork *p)
     CLACT_SetActorAutoAnim((struct Actor *)p->actor,1);
 }
 
-
-
-
-
 void CHIHOU_ZUKAN_AWARD_DeleteActor(struct ChihouZukanAwardWork *p)
 {
     CLACT_DeleteActor((struct Actor *)p->actor);
@@ -581,7 +531,6 @@ void CHIHOU_ZUKAN_AWARD_DeleteActor(struct ChihouZukanAwardWork *p)
     CLACT_ReleaseCharacter(p->charId);
     CLACT_ReleasePalette(p->paletteId);
 }
-
 
 /*
  * note: final push 2026-10-05 G1L9: EXACT. The table is read through a block-local short pointer, the same form as the twin ov222 021B9D84 (an integer address local also matched)
@@ -605,7 +554,6 @@ void CHIHOU_ZUKAN_AWARD_SetupActorPos(char *p)
     }
 }
 
-
 void CHIHOU_ZUKAN_AWARD_UpdateActor(struct ChihouZukanAwardWork *p)
 {
     int amount;
@@ -626,38 +574,24 @@ void CHIHOU_ZUKAN_AWARD_UpdateActor(struct ChihouZukanAwardWork *p)
     p->countdown--;
 }
 
-
-
 Bool CHIHOU_ZUKAN_AWARD_IsActorIdle(struct ChihouZukanAwardWork *p){int flag;Bool result;if(p->args->bgmActive)return BOOL_TRUE;flag=1;if(BG_SYS_GetScrollY(1))flag=0;result=BOOL_FALSE;if(flag)result=BOOL_TRUE;return result;}
-
-
 
 static inline void Shading(GXShading mode) { REG3D=(unsigned short)((REG3D & ~0x3002)|(mode<<1)); }
 
-
-
 static inline void AntiAlias(BOOL enable) { if(enable) REG3D=(unsigned short)((REG3D & ~0x3000)|0x10); else REG3D &= (unsigned short)~0x3010; }
-
-
 
 static inline void AlphaTest(BOOL enable,int ref) { if(enable) { REG3D=(unsigned short)((REG3D & ~0x3000)|4); *(volatile unsigned short *)0x04000340=ref; } else REG3D &= (unsigned short)~0x3004; }
 
-
-
 static inline void AlphaBlend(BOOL enable) { if(enable) REG3D=(unsigned short)((REG3D & ~0x3000)|8); else REG3D &= (unsigned short)~0x3008; }
 
-
-
 static inline void EdgeMarking(BOOL enable) { if(enable) REG3D=(unsigned short)((REG3D & ~0x3000)|0x20); else REG3D &= (unsigned short)~0x3020; }
-
-
 
 void CHIHOU_ZUKAN_AWARD_Setup3d(void)
 {
     unsigned i;
     BG_SYS_SetMainPlaneVisible(1,1);
     *(volatile unsigned short *)0x04000008 = *(volatile unsigned short *)0x04000008 & ~3;
-    Shading(SHADING1);
+    Shading(GX_SHADING_HIGHLIGHT);
     AntiAlias(0);
     AlphaTest(0,0);
     AlphaBlend(1);

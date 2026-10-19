@@ -34,33 +34,9 @@
 #define REG_DIV_RESULT  (*(volatile s32 *)0x040002A0)
 #define DIVCNT_MODE_32_32 0x0000
 #define DIVCNT_BUSY       0x8000
-typedef unsigned int u32;
+#include "../types.h"
 
-typedef long fx32;
-
-typedef short fx16;
-
-typedef long long fx64;
-
-typedef unsigned short u16;
-
-typedef unsigned long long u64;
-
-typedef long long s64;
-
-typedef struct {
-    fx32 x, y, z;
-} VecFx32;
-
-typedef struct {
-    fx16 x, y, z;
-} VecFx16;
-
-typedef volatile u32       vu32;
-
-typedef volatile u16       vu16;
-
-typedef signed int         s32;
+#include "../sdk_fx.h"
 
 extern u32 FX_GetDivResult(void);
 extern void FX_InvAsync(fx32 denom);
@@ -76,8 +52,6 @@ u32 FX_GetDivResult(void);
 void FX_DivAsync(u32 numer, u32 denom);
 s32 FX_DivS32(s32 numer, s32 denom);
 fx32 FX_ModS32(fx32 a, fx32 b);
-
-
 
 /*
  * Start the hardware unit through FX_DivAsync with the caller's two
@@ -96,20 +70,11 @@ u32 FX_Div(u32 numer, u32 denom)
     return FX_GetDivResult();
 }
 
-
-
 fx32 FX_Inv(fx32 denom)
 {
     FX_InvAsync(denom);
     return FX_GetDivResult();
 }
-
-
-
-
-
-
-
 
 static inline void CP_SetSqrt64(u64 param)
 {
@@ -117,37 +82,16 @@ static inline void CP_SetSqrt64(u64 param)
     reg_CP_SQRT_PARAM = param;
 }
 
-
-
-
-
-
-
-
 static inline void CP_WaitSqrt(void)
 {
     while (reg_CP_SQRTCNT & 0x8000) {
     }
 }
 
-
-
-
-
-
-
-
 static inline u32 CP_GetSqrtResult32(void)
 {
     return reg_CP_SQRT_RESULT;
 }
-
-
-
-
-
-
-
 
 static inline void CP_SetDiv64_64(u64 numer, u64 denom)
 {
@@ -156,37 +100,16 @@ static inline void CP_SetDiv64_64(u64 numer, u64 denom)
     reg_CP_DIV_DENOM = denom;
 }
 
-
-
-
-
-
-
-
 static inline void CP_WaitDiv(void)
 {
     while (reg_CP_DIVCNT & 0x8000) {
     }
 }
 
-
-
-
-
-
-
-
 static inline s64 CP_GetDivResult64(void)
 {
     return (s64)reg_CP_DIV_RESULT;
 }
-
-
-
-
-
-
-
 
 /*
  * sdk:      FX_InvFx64c (libfx.TWL.HYB.a fx_cp.o); catalog row says FX_DivFx64c, but the image
@@ -198,13 +121,6 @@ fx64 FX_InvFx64c(fx32 denom)
     CP_WaitDiv();
     return *(fx64 *)0x040002A0;
 }
-
-
-
-
-
-
-
 
 /*
  * sdk:      FX_Sqrt (libfx.TWL.HYB.a fx_cp.o)
@@ -218,13 +134,6 @@ fx32 FX_Sqrt(fx32 x)
         return 0;
     }
 }
-
-
-
-
-
-
-
 
 /*
  * sdk:      FX_InvSqrt (libfx.TWL.HYB.a fx_cp.o)
@@ -244,26 +153,12 @@ fx32 FX_InvSqrt(fx32 x)
     }
 }
 
-
-
-
-
-
-
-
 u64 FX_GetDivResultFx64c(void)
 {
     while (*(volatile u16 *)0x04000280 & 0x8000)
         ;
     return *(u64 *)0x040002A0;
 }
-
-
-
-
-
-
-
 
 /*
  * Read the hardware divider result started by FX_DivAsync: poll DIVCNT
@@ -281,11 +176,6 @@ u32 FX_GetDivResult(void)
     return (u32)((v + 0x80000) >> 20);
 }
 
-
-
-
-
-
 /*
  * sdk:      FX_InvAsync (libfx.TWL.HYB.a fx_cp.o)
  */
@@ -296,19 +186,11 @@ void FX_InvAsync(fx32 denom)
     reg_CP_DIV_DENOM = (u32)denom;
 }
 
-
-
-
-
 static inline void CP_SetSqrt64Plain(u64 param)
 {
     reg_CP_SQRTCNT = 1;
     reg_CP_SQRT_PARAM_PLAIN = param;
 }
-
-
-
-
 
 /*
  * sdk:      FX_SqrtAsync (libfx.TWL.HYB.a fx_cp.o)
@@ -324,9 +206,6 @@ void FX_SqrtAsync(fx32 x)
     }
 }
 
-
-
-
 /*
  * sdk:      FX_GetSqrtResult (libfx.TWL.HYB.a fx_cp.o)
  */
@@ -335,9 +214,6 @@ fx32 FX_GetSqrtResult(void)
     CP_WaitSqrt();
     return (fx32)((CP_GetSqrtResult32() + (1 << 9)) >> 10);
 }
-
-
-
 
 /*
  * Start the hardware divider in 64/32 mode: DIVCNT = 1, the 64-bit
@@ -356,9 +232,6 @@ void FX_DivAsync(u32 numer, u32 denom)
     base[7] = 0;
 }
 
-
-
-
 s32 FX_DivS32(s32 numer, s32 denom)
 {
     REG_DIVCNT = DIVCNT_MODE_32_32;
@@ -369,9 +242,6 @@ s32 FX_DivS32(s32 numer, s32 denom)
     }
     return REG_DIV_RESULT;
 }
-
-
-
 
 /*
  * sdk:      FX_ModS32 (libfx.TWL.HYB.a fx_cp.o)

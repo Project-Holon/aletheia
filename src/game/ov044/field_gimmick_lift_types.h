@@ -4,16 +4,9 @@
 /* ov044: field gimmick with one lift. The lift model moves vertically between
  * two heights and carries the player; the camera is detached while it descends. */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed int     s32;
+#include "../types.h"
 
-typedef struct VecFx32 {
-    int x;
-    int y;
-    int z;
-} VecFx32;
+#include "../sdk_fx.h"
 
 /* Field map common work (0x14 bytes), allocated in the setup function. */
 typedef struct FieldGimmickLiftWork {

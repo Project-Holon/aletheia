@@ -115,24 +115,11 @@
  *   GFL_NET_STATE_SetError  0x0203C9AC  arm
  *   GFL_NET_STATE_GetError  0x0203CA98  arm
 
-
-
-
-
-
-
  */
 
-typedef unsigned char u8;
-
-typedef unsigned int  u32;
-
-typedef unsigned short u16;
+#include "../types.h"
 
 #include "net_types.h"
-typedef signed int     s32;
-
-typedef signed short   s16;
 
 /* Output of the send queue: where to write and how much room is left. */
 struct NetPacketSpan {
@@ -143,7 +130,6 @@ struct NetPacketSpan {
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void  MI_CpuFill8(void *dst, u8 val, u32 size);
-
 
 extern void GFL_NET_SYSTEM_SetError(void);
 
@@ -308,24 +294,13 @@ u32 GFL_NET_SYSTEM_GetConnectNum(void);
 
 int GFL_NET_SYSTEM_IsDeviceReady(void);
 
-
-
-
 u32 GFL_NET_SYSTEM_CheckError(void);
 
 int GFL_NET_SYSTEM_IsSendQueueEntry(u32 command, u32 destNetId);
 
 int GFL_NET_SYSTEM_IsSendQueueEmpty(void);
 
-
 void GFL_NET_SYSTEM_SetWaitMode(u32 mode);
-
-
-
-
-
-
-
 
 u32 GFL_NET_COMMAND_GetHeaderSize(u32 commandOption);
 
@@ -338,7 +313,6 @@ int GFL_NET_COMMAND_IsHugeCommand(unsigned int idx);
 u32 GFL_NET_COMMAND_GetHugeBuffer(u32 command, u32 senderID, u32 totalSize);
 
 void GFL_NET_COMMAND_Main(void);
-
 
 void GFL_NET_STATE_WifiMatchStart(void);
 
@@ -364,49 +338,16 @@ extern char _FileName[];
 
 extern struct NetSysWork *_pNetSys;
 
-
 extern char _AssertNetIdRange[];
-
-
-
-
 
 extern char _AssertAlways[];
 
 extern char _AssertNotMpMode[];
 
-
-
-
-
 void GFL_NET_SYSTEM_SetDebugByte(u8 phase, int line)
 {
     _NetPhase[0] = phase;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Resets a sixteen-byte record: both halfwords at +8 and +0x0A become 0xFFFF
@@ -429,30 +370,6 @@ void GFL_NET_SYSTEM_InitRecvState(struct NetRecvCursor *cursor)
     cursor->dest = 0;
     cursor->copied = 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * The current capacity, or the measured one: when the state object's byte at
@@ -480,30 +397,6 @@ u32 GFL_NET_SYSTEM_GetSendSize(void)
         return session->init.parentSendSize;
     return GFL_NET_GetChildSendSize() * GFL_NET_GetMaxConnectNum();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Closes the 4-byte residue docs/notes/pkt_02037288_wave25.c.txt records
@@ -557,30 +450,6 @@ int GFL_NET_SYSTEM_InitWork(u32 packetSize, u32 heapId, u32 useParentSize)
     _pNetSys->noChildError = 0;
     return 1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Second half of net_system init: wipe and re-seed every buffer
@@ -643,28 +512,6 @@ void GFL_NET_SYSTEM_ResetBuffers(void)
     _pNetSys->ircRecvPending = 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Reset one net_system slot (docs/families/net_system.h).  The 8-byte
  * "colouring" residue of docs/notes/pkt_02037288_wave25.c.txt was a wrong
@@ -683,28 +530,6 @@ void GFL_NET_SYSTEM_ResetRecvBuffer(int netId)
     _pNetSys->recvSeq[netId] = 0;
     GFL_NET_SYSTEM_InitRecvState(&_pNetSys->recvCursor[netId]);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Filed on lane 1 as the single-caller callee of src/pending/GFL_NET_STATE_WifiMatchStart.c.
@@ -731,28 +556,6 @@ int GFL_NET_SYSTEM_InitDevice(u32 packetSize, u32 heapId)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * 32-byte hook dispatcher: GFL_NET_GetSession returns the current context, whose
  * word at +0x340 names a vtable whose slot +0x90 is called with the incoming
@@ -772,73 +575,10 @@ u32 GFL_NET_SYSTEM_SetDeviceOption(u32 arg)
     return isFriendWaiting(arg);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 u32 GFL_NET_SYSTEM_RecvCallback(u32 netId, u8 *packet, u32 length)
 {
     return GFL_NET_SYSTEM_RecvData(netId, packet, length);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Verified with:
@@ -868,50 +608,6 @@ u32 GFL_NET_SYSTEM_ConnectDevice(u8 renewTgid)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Reset-and-notify hook: two context getters, the per-slot reset for `arg`,
  * and then the hook at +8 of the first context if it is installed, called with
@@ -934,50 +630,6 @@ void GFL_NET_SYSTEM_ParentConnectHook(u32 netId)
         return;
     hook(session->userArg, netId);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Byte-for-byte twin of GFL_NET_SYSTEM_ParentConnectHook (same 60 bytes, same call order): two
@@ -1004,49 +656,6 @@ void GFL_NET_SYSTEM_ChildConnectHook(u32 netId)
         return;
     hook(session->userArg, netId);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Verified with:
@@ -1084,49 +693,6 @@ u32 GFL_NET_SYSTEM_StartParent(u8 renewTgid, u16 packetSize, u32 sendArg0, u32 s
     sendToParent = session->ops->startParent;
     return sendToParent(sendArg0, sendArg1);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Verified with:
@@ -1170,49 +736,6 @@ u32 GFL_NET_SYSTEM_StartBeaconScan(u32 sendArg, u16 packetSize)
     return result;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Context teardown through three vtable slots at +0x3c, +0xbc and +0x68 of the
  * object the context's word at +0x340 names.  The first and third are handed a
@@ -1239,49 +762,6 @@ int GFL_NET_SYSTEM_EndDevice(u32 packetSize)
     return result;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GFL_NET_SYSTEM_SetDeviceMode(int interval)
 {
     GFLNetSession *session = GFL_NET_GetSession();
@@ -1290,50 +770,6 @@ void GFL_NET_SYSTEM_SetDeviceMode(int interval)
         return;
     ops->startJoinLock(interval);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Verified with:
@@ -1370,50 +806,6 @@ u32 GFL_NET_SYSTEM_ConnectToParent(u32 beaconArg0, u32 beaconArg1, u16 packetSiz
     return sendBeaconData(beaconArg0, beaconArg1, 0, 0, beaconArg2);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Verified with:
  *   python tools/match.py one --src src/matched/GFL_NET_SYSTEM_FreeWork.c \
@@ -1445,48 +837,6 @@ void GFL_NET_SYSTEM_FreeWork(void)
     _pNetSys = 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * 64 bytes gated on the byte at +0x1EC of the object the global pointer names:
  * when it is set, the first getter's non-zero answer runs GFL_NET_SYSTEM_FreeWork and
@@ -1510,48 +860,6 @@ void GFL_NET_SYSTEM_FreeWorkIfAuto(void)
     GFL_NET_SYSTEM_FreeWork();
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Guards the eight-slot table behind the global at 0x021469D0: an unarmed
  * global returns through `popeq`, an index past 7 through `popcs` (the compare
@@ -1572,48 +880,6 @@ void GFL_NET_SYSTEM_ResetMachineBuffer(u32 netId)
         return;
     GFL_NET_SYSTEM_ResetRecvBuffer(netId);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * The net tick dispatcher.  Two shapes are load-bearing: the noSend/0x393D0
@@ -1677,47 +943,6 @@ done:
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Teardown hook for the same global src/matched/GFL_NET_SYSTEM_ResetMachineBuffer.c guards: the
  * armed pointer goes to GFL_NET_SYSTEM_ResetBuffers, an unarmed one is a `popeq`.
@@ -1737,47 +962,6 @@ void GFL_NET_SYSTEM_ResetAll(void)
         return;
     GFL_NET_SYSTEM_ResetBuffers();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int GFL_NET_SYSTEM_PackSendData(int checkPending)
 {
@@ -1805,45 +989,6 @@ int GFL_NET_SYSTEM_PackSendData(int checkPending)
     }
     return result;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void GFL_NET_SYSTEM_SendParentData(void)
 {
@@ -1873,46 +1018,6 @@ void GFL_NET_SYSTEM_SendParentData(void)
         _pNetSys->parentRecvPending = _pNetSys->parentRecvPending + 1;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Declaration order is what closes this one: p must be declared LAST of the
@@ -1960,46 +1065,6 @@ fail:
     _pNetSys->sendReady = 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Fourth entry of this packet's chain, and the one the lane table expected to
  * need two callees filed: it calls GFL_NET_SYSTEM_RecvParentCallback, whose own entry is in this
@@ -2043,46 +1108,6 @@ void GFL_NET_SYSTEM_SendWifi(void)
     GFL_NET_SYSTEM_RecvParentCallback((u32)_pNetSys->sendPacketBuf, value);
     _NetPhase[1] = 4;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Validates one incoming record against the per-slot table reached through
@@ -2130,46 +1155,6 @@ u32 GFL_NET_SYSTEM_RecvData(u32 netId, u8 *packet, u32 length)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Second half of this packet's chain: it calls GFL_NET_SYSTEM_RecvData, whose own entry
  * is in this shard, so the call site is attested by `matched` rather than by
@@ -2214,46 +1199,6 @@ void GFL_NET_SYSTEM_RecvParentCallback(u32 buffer, u32 size)
     GFL_NET_SYSTEM_SetDebugByte(4, 0x40C);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Third entry of this packet's chain, and the one that shows why the object
  * word has to be re-read rather than cached: 0x021469D0 is a pointer word and
@@ -2296,45 +1241,6 @@ void GFL_NET_SYSTEM_SendIrc(void)
     _pNetSys->ircRecvPending = 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Promoted from src/pending/ on lane 1.  All 64 concrete bytes are right; the
  * one open site was the PC24 at +0x0038, the `bl` to GFL_NET_SYSTEM_SendParentData, which had
@@ -2369,43 +1275,6 @@ void GFL_NET_SYSTEM_SendMP(void)
     GFL_NET_SYSTEM_PackSendData(1);
     GFL_NET_SYSTEM_SendParentData();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void GFL_NET_SYSTEM_SendMPParent(void)
 {
@@ -2454,42 +1323,6 @@ last:
     GFL_NET_SYSTEM_SetDebugByte(4, 0x492);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int GFL_NET_SYSTEM_CheckAllChildRecv(void)
 {
     int i;
@@ -2502,43 +1335,6 @@ int GFL_NET_SYSTEM_CheckAllChildRecv(void)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GFL_NET_SYSTEM_ClearChildRecv(void)
 {
     int i;
@@ -2550,43 +1346,6 @@ void GFL_NET_SYSTEM_ClearChildRecv(void)
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * net_system.c.  The outer per-frame entry: it dispatches on the link-state
@@ -2652,43 +1411,6 @@ void GFL_NET_SYSTEM_UpdateMPParent(void)
     GFL_NET_SYSTEM_SendMPParent();
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * The indexed twin of src/matched/GFL_NET_SYSTEM_RecvParentData.c (the own-slot variant):
  * same receive/validate/copy shape, but every global offset is scaled by
@@ -2746,42 +1468,6 @@ int GFL_NET_SYSTEM_RecvChildData(u32 netId, NetPacketHeader *packet, s32 length)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int GFL_NET_SYSTEM_RecvParentData(u32 netId, NetPacketHeader *packet, s32 length)
 {
     struct NetSysWork *work;
@@ -2822,42 +1508,6 @@ int GFL_NET_SYSTEM_RecvParentData(u32 netId, NetPacketHeader *packet, s32 length
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Idempotent bring-up: when the argument is non-zero and the mode byte at
  * 0x020A7A21 still reads 2, it is flipped to 4 and the call is skipped; in
@@ -2890,42 +1540,6 @@ int GFL_NET_SYSTEM_SendCallback(int success)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int GFL_NET_SYSTEM_SendEndCallback(u32 success)
 {
     GFL_NET_GetChildSendSize();
@@ -2938,42 +1552,6 @@ int GFL_NET_SYSTEM_SendEndCallback(u32 success)
     }
     return 1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 s32 GFL_NET_SYSTEM_BuildSendPacket(struct NetPacketHeader *header, NetQueue *queue, s32 packetSize, u8 seq)
 {
@@ -3034,41 +1612,6 @@ body:
 
     return 1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Seven-argument entry to the comms send path.  The seventh argument is a
@@ -3145,118 +1688,15 @@ int GFL_NET_SYSTEM_SetSendQueue(u32 command, const void *data, u32 size, u32 sen
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int GFL_NET_SYSTEM_GetChildRingDataSize(void)
 {
     return GFL_NET_RING_BUFF_GetDataSize(&_pNetSys->sendRing);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int GFL_NET_SYSTEM_GetParentRingDataSize(void)
 {
     return GFL_NET_RING_BUFF_GetDataSize(&_pNetSys->mpParentSendRing);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Addresses are Black-image addresses.
@@ -3281,41 +1721,6 @@ void GFL_NET_SYSTEM_DispatchRecv(int command, u32 size, u32 data, struct NetRecv
 
     GFL_NET_SYSTEM_InitRecvState(cursor);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * net_system.c packet reassembly: drain a slot's receive ring (src, the
@@ -3413,39 +1818,6 @@ void GFL_NET_SYSTEM_ProcessRecvRing(NetRingBuff *ring, s32 senderID, u8 *buf, st
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GFL_NET_SYSTEM_ProcessParentRecv(void)
 {
     int i;
@@ -3465,40 +1837,6 @@ void GFL_NET_SYSTEM_ProcessParentRecv(void)
                       &work->parentRecvCursor, GFL_NET_SYSTEM_GetSendSize());
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * n slots of 0x10 bytes at g+0x4c, each prepared by GFL_NET_RING_BUFF_EndChange and then
@@ -3542,40 +1880,6 @@ void GFL_NET_SYSTEM_ProcessChildRecv(void)
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int GFL_NET_SYSTEM_IsConnectMember(u32 netId)
 {
@@ -3627,40 +1931,6 @@ int GFL_NET_SYSTEM_IsConnectMember(u32 netId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Counts the eight slots whose test function answers non-zero.  The slot
  * number goes in as a `u16` - the `lsl #16` / `lsr #16` pair in the loop is
@@ -3687,40 +1957,6 @@ u32 GFL_NET_SYSTEM_GetConnectNum(void)
     return count;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Returns 1 while the state byte at +0x65 is one to four, but only while the
  * global at 0x021469D0 is live; otherwise it dispatches through the vtable at
@@ -3746,37 +1982,6 @@ int GFL_NET_SYSTEM_IsDeviceReady(void)
 
     return session->ops->isActive();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 u16 GFL_NET_SYSTEM_GetCurrentAid(void)
 {
@@ -3805,36 +2010,6 @@ none:
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int GFL_NET_SYSTEM_GetChildBitmap(void)
 {
     u16 memberBitmap;
@@ -3842,36 +2017,6 @@ int GFL_NET_SYSTEM_GetChildBitmap(void)
     memberBitmap = GFL_NET_GetSession()->ops->getAidBitmap();
     return memberBitmap & 0xFFFE;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Is the link busy?  The +0x1e9 flag on the link state forces a yes, and
@@ -3896,37 +2041,6 @@ int GFL_NET_SYSTEM_IsError(void)
     }
     return session->ops->getLastErrorCode() != 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Asks the transport's +0x88 virtual whether the link is up, falling back to
@@ -3959,37 +2073,6 @@ u32 GFL_NET_SYSTEM_CheckError(void)
     return result;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int GFL_NET_SYSTEM_IsSendQueueEntry(u32 command, u32 destNetId)
 {
     GFLNetSession *initParam = GFL_NET_GetInitParam();
@@ -4001,37 +2084,6 @@ int GFL_NET_SYSTEM_IsSendQueueEntry(u32 command, u32 destNetId)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Leaf that saves no lr: tail-calls GFL_NET_QUEUE_IsEmpty on the 0xCC queue of the
  * net_system record (docs/families/net_system.h, sendQueue).  Reached only through
@@ -4041,36 +2093,6 @@ int GFL_NET_SYSTEM_IsSendQueueEmpty(void)
 {
     return GFL_NET_QUEUE_IsEmpty(&_pNetSys->sendQueue);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * A leaf setter on the link state: store the argument byte at +0x1e7.  It
@@ -4085,36 +2107,6 @@ void GFL_NET_SYSTEM_SetNoChildError(u8 v)
 {
     _pNetSys->noChildError = v;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void GFL_NET_SYSTEM_SetWaitMode(u32 mode)
 {
@@ -4132,36 +2124,6 @@ void GFL_NET_SYSTEM_SetWaitMode(u32 mode)
     _pNetSys->recvPending[1] = 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Set the +0x1e9 flag on the link state.  GFL_NET_SYSTEM_ResetError is the clearing half;
  * the two are byte-for-byte the same but for the stored constant.
@@ -4174,35 +2136,6 @@ void GFL_NET_SYSTEM_SetError(void)
     _pNetSys->errorFlag = 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Clear the +0x1e9 flag GFL_NET_SYSTEM_SetError sets.
  *
@@ -4213,35 +2146,6 @@ void GFL_NET_SYSTEM_ResetError(void)
 {
     _pNetSys->errorFlag = 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Set the +0x1ea flag, but only when the link state has been constructed.
@@ -4258,35 +2162,6 @@ void GFL_NET_SYSTEM_SetNoSend(void)
         _pNetSys->noSend = 1;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * May the caller proceed?  With no link state, or with the +0x64 byte of the
@@ -4320,35 +2195,6 @@ yes:
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Clamp a slot index to the sentinel: anything from 8 up becomes 0xff, and
  * everything below passes through untouched.  Twelve bytes, no prologue.
@@ -4363,33 +2209,3 @@ int GFL_NET_SYSTEM_ClampNetId(int netId)
     }
     return netId;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

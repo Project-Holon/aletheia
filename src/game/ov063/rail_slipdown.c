@@ -107,7 +107,7 @@ RailSlipdown *RAIL_SLIPDOWN_Create(void *gameSystem, void *fieldMap, struct Mmdl
 void RAIL_SLIPDOWN_Delete(RailSlipdown *slipdown);
 int RAIL_SLIPDOWN_IsDone(RailSlipdown *slipdown);
 extern const char gRailSlipdownSourceFile[];
-typedef long long s64;
+#include "../types.h"
 extern void FLDMMDL_RAIL_GetDrawOffset(struct Mmdl *mmdl, s16 *outOffset);
 extern void VEC_Fx16Normalize(SlipdownDir *in, SlipdownDir *out);
 extern void FIELD_RAIL_WORK_GetPos(struct RailWork *railWork, VecFx32 *outPos);

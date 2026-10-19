@@ -466,27 +466,13 @@ struct GfFont;
 struct MsgBank;
 struct Rec;
 struct Sub02008F80Obj;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef unsigned long long u64;
+#include "../types.h"
 
 #include "pokelist_types.h"
 
 typedef struct {
     u16 v[5];
 } PokelistNickname;
-
-typedef signed int     s32;
-
-typedef signed char s8;
-
-typedef short s16;
-
-typedef int BOOL;
 
 typedef struct {
     u8 top;
@@ -516,7 +502,7 @@ typedef struct {
     u32 w[7];
 } PokelistClactConfig;
 
-typedef enum { GX_DISP_SELECT_SUB_MAIN = 0, GX_DISP_SELECT_MAIN_SUB = 1 } GXDispSelect;
+#include "../sdk_gx.h"
 
 typedef struct {
     u16 x;
@@ -897,15 +883,6 @@ extern char d_021BEAC4[];
 extern const u8 d_021BEAB0[];
 extern const u8 d_021BEAAA[];
 
-
-
-
-
-
-
-
-
-
 /*
  * Byte-correct; the one wildcard is the arm9 call to 0x0201A354 (+0x10E).
  *   data run, the integrator's) has no witness outside this range. Verified C for it
@@ -1008,13 +985,6 @@ int POKELIST_Init(struct Proc *procObj, int *seq, PokelistArg *arg, PokelistWork
     return 0;
 }
 
-
-
-
-
-
-
-
 int POKELIST_Exit(int procObj, int procArg, int procState, PokelistWork *work)
 {
     u8 i;
@@ -1038,13 +1008,6 @@ int POKELIST_Exit(int procObj, int procArg, int procState, PokelistWork *work)
     return 1;
 }
 
-
-
-
-
-
-
-
 int POKELIST_Main(int procObj, int procArg, int procState, PokelistWork *work)
 {
     PokelistArg *arg;
@@ -1063,13 +1026,6 @@ int POKELIST_Main(int procObj, int procArg, int procState, PokelistWork *work)
         return 1;
     return 0;
 }
-
-
-
-
-
-
-
 
 /*
  * The 0x160 table is indexed as `work + i * 4 + 0x160` (base plus scaled
@@ -1159,13 +1115,6 @@ int POKELIST_InitWork(PokelistWork *work)
     return 1;
 }
 
-
-
-
-
-
-
-
 int POKELIST_ExitWork(PokelistWork *work)
 {
     u8 i;
@@ -1199,13 +1148,6 @@ int POKELIST_ExitWork(PokelistWork *work)
     UI_SetInputMode(work->touchMode);
     return 1;
 }
-
-
-
-
-
-
-
 
 /*
  * Case 20 is written before case 19: case 19's fallback repeats case 20's
@@ -1327,13 +1269,6 @@ int POKELIST_UpdatePhase(PokelistWork *work)
     return 0;
 }
 
-
-
-
-
-
-
-
 /*
  * Palette fade (u8 step countdown at +0x100, brighten src[3][16] into dst, skipping
  * columns 2..4, then a sine blend of dst[i][2..4] between two 3-colour tables, then
@@ -1432,24 +1367,10 @@ void POKELIST_UpdatePaletteFade(PokelistWork *work)
     NNS_GfdRegisterNewVramTransferTask((void *)15, 0xc0, (u32)work->palDst, 0x60);
 }
 
-
-
-
-
-
-
-
 static inline void GX_SetVisibleWnd(int window)
 {
     reg_GX_DISPCNT = reg_GX_DISPCNT & ~0xE000 | (window << 13);
 }
-
-
-
-
-
-
-
 
 void POKELIST_UpdateWindowMaskTask(void *tcb, PokelistWork *work)
 {
@@ -1460,40 +1381,20 @@ void POKELIST_UpdateWindowMaskTask(void *tcb, PokelistWork *work)
     CLACT_VBlankSystem();
 }
 
-
-
-
-
-
 static inline void GX_SetVisiblePlane(int plane)
 {
     reg_GX_DISPCNT = (u32)((reg_GX_DISPCNT & ~0x1f00) | (plane << 8));
 }
-
-
-
-
-
 
 static inline void GXS_SetVisiblePlane(int plane)
 {
     reg_GXS_DB_DISPCNT = (u32)((reg_GXS_DB_DISPCNT & ~0x1f00) | (plane << 8));
 }
 
-
-
-
-
-
 static inline void GX_SetDispSelect(GXDispSelect sel)
 {
     reg_GX_POWCNT = (u16)((reg_GX_POWCNT & ~0x8000) | (sel << 15));
 }
-
-
-
-
-
 
 void POKELIST_SetupDisplay(PokelistWork *work)
 {
@@ -1539,14 +1440,7 @@ void POKELIST_SetupDisplay(PokelistWork *work)
     NNS_GfdResetVramTransferTaskQueue();
 }
 
-
-
-
 void POKELIST_SetupBgPlanes(PokelistWork *work) { GX_SetGraphicsMode(1,0,0); POKELIST_LoadBgPlane(d_021BEB7C,0,0); }
-
-
-
-
 
 void POKELIST_SetupLight(PokelistWork *work)
 {
@@ -1564,10 +1458,6 @@ void POKELIST_SetupLight(PokelistWork *work)
     G2x_SetBlendAlpha_((u32 *)0x04000050, 4, 0x1e, 0x10, 10);
     PARTICLE_InitManager(work->heapId);
 }
-
-
-
-
 
 /*
  * `ldr ip,[pc,#4]; ldr r0,[pc,#4]; bx ip; .word 0x02061B5C; .word 0x02146B80`,
@@ -1593,24 +1483,14 @@ void POKELIST_ShutdownDisplay(PokelistWork *work)
     BG_SYS_Delete();
 }
 
-
-
-
 void POKELIST_ShutdownBgPlane0(PokelistWork *work)
 {
     BG_SYS_FreeLayerBuf(0);
 }
 
-
-
 void POKELIST_ShutdownLight(PokelistWork *work) { PARTICLE_ExitManager(); G3D_CAMERA_Delete((void *)(work->light)); G3D_SYSTEM_Exit(); BG_SYS_FreeLayerBuf(0); G2x_SetBlendAlpha_((u32 *)0x04000050,20,8,16,10); }
 
-
-
 void POKELIST_LoadBgPlane(const void *work, unsigned id,unsigned type) { BG_SYS_InitBgLayer(id,work,type); BG_SYS_SetPlaneVisible(id,1); BG_SYS_FreeSlot(id); BG_SYS_PushTile(id); }
-
-
-
 
 void POKELIST_CreateClactUnit(PokelistWork *work)
 {
@@ -1652,10 +1532,7 @@ void POKELIST_CreateClactUnit(PokelistWork *work)
     CLACT_SetActorAutoAnim((struct Actor *)x, 1);
 }
 
-
 void POKELIST_DeleteClactUnit(PokelistWork *work) { CLACT_DeleteActor((struct Actor *)work->backButtonActor); CLACT_DeleteActor((struct Actor *)work->switchButtonActor); CLACT_DeleteActor((struct Actor *)work->cursorActor); CLACT_DeleteActor((struct Actor *)work->swapMarkerActor); CLACT_DeleteUnit(work->clactUnit); }
-
-
 
 void POKELIST_CreateFonts(PokelistWork *work)
 {
@@ -1668,10 +1545,7 @@ void POKELIST_CreateFonts(PokelistWork *work)
     GF_FONT_SetDefaultTextColor();
 }
 
-
 void POKELIST_DeleteFonts(PokelistWork *work) { PRINTSYS_QUE_Clear((struct PrintQueue *)(work->printSys)); PRINTSYS_QUE_Delete((struct PrintQueue *)(work->printSys)); MSGDATA_Delete((struct MsgBank *)(work->msgBank)); GF_FONT_Delete(work->fontSub); GF_FONT_Delete(work->fontMain); }
-
-
 
 /*
  * Graphics setup: loads BG/char/screen/palette data from archive 0x4c, the
@@ -1732,8 +1606,6 @@ void POKELIST_LoadGraphics(PokelistWork *work)
     MIi_CpuCopy16((void *)0x050000C0, (u8 *)work->palSrc, 0x60);
 }
 
-
-
 void POKELIST_FreeGraphics(PokelistWork *work)
 {
     u8 i;
@@ -1754,8 +1626,6 @@ void POKELIST_FreeGraphics(PokelistWork *work)
 }
 
 #undef W
-
-
 
 /*
  * lever: one named offset shared across the case 7/8 branch join.
@@ -1867,8 +1737,6 @@ void POKELIST_StartMode(PokelistWork *work)
     }
 }
 
-
-
 /*
  * EXACT*: the listing extent's last two bytes (0x021B7CC2) are alignment
  * padding before the next function, not a follower.
@@ -1932,11 +1800,9 @@ void POKELIST_SetupModeScreen(PokelistWork *work)
     POKELIST_RefreshCursor(work);
 }
 
-
 #undef W
 
 #undef W
-
 
 void POKELIST_ApplySelection(PokelistWork *work)
 {
@@ -2040,13 +1906,9 @@ void POKELIST_ApplySelection(PokelistWork *work)
     }
 }
 
-
 #undef W
 
 #undef W
-
-
-
 
 /*
  * EXACT*: the extent's last two bytes (0x021B83D6) are alignment padding.
@@ -2174,8 +2036,6 @@ void POKELIST_OpenContextMenu(PokelistWork *work)
     PLIST_MENU_Open(work, (struct PlistMenu *)work->contextMenu, buf);
 }
 
-
-
 void POKELIST_UpdateInputStage(PokelistWork *work)
 {
     switch (work->inputStage) {
@@ -2198,13 +2058,9 @@ void POKELIST_UpdateInputStage(PokelistWork *work)
     }
 }
 
-
 #undef W
 
 #undef W
-
-
-
 
 /*
  * The extent's last two bytes are alignment padding (00 00), not a follower.
@@ -2245,13 +2101,9 @@ void POKELIST_RefreshCursor(PokelistWork *work)
     }
 }
 
-
 #undef W
 
 #undef W
-
-
-
 
 /*
  * Case bodies are laid out 3, 0, 1, 2: case 3 is written first.
@@ -2327,13 +2179,9 @@ void POKELIST_HandleCommand(PokelistWork *work)
     }
 }
 
-
 #undef W
 
 #undef W
-
-
-
 
 void POKELIST_UpdateSwapCommand(PokelistWork *work)
 {
@@ -2358,13 +2206,9 @@ void POKELIST_UpdateSwapCommand(PokelistWork *work)
     }
 }
 
-
 #undef W
 
 #undef W
-
-
-
 
 void POKELIST_UpdateHealShareCommand(PokelistWork *work)
 {
@@ -2420,13 +2264,9 @@ void POKELIST_UpdateHealShareCommand(PokelistWork *work)
     GFL_USE_PlaySeDefaultVolume(0x551);
 }
 
-
 #undef W
 
 #undef W
-
-
-
 
 /*
  * The six-byte buffer is a block-scope initialised array
@@ -2491,16 +2331,11 @@ void POKELIST_ConfirmBattleParty(PokelistWork *work)
     GFL_USE_PlaySeDefaultVolume(0x54c);
 }
 
-
 void POKELIST_UpdateCursorInput(PokelistWork *work) { POKELIST_ReadCursorKeys(work); if(work->command==4) POKELIST_HandleTouch(work); if(work->command!=4) work->inputStage=2; if(work->arg->closeRequested==1) { work->inputStage=2; work->command=1; } }
 
-
 #undef W
 
 #undef W
-
-
-
 
 /*
  * The two byte tables resolve as sole-ref only without an overlay token

@@ -30,11 +30,7 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  */
 struct Bmp;
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
+#include "../types.h"
 
 /* Work record of the debug text printer: one rendered 8x8 glyph (4bpp, 0x20
  * bytes), its advance width, and the print cursor. */
@@ -80,8 +76,6 @@ extern const char s_textprint_c[];
 extern u8 g_TextPrintSymbolKeys[];    /* symbol key table: 16 records, key byte */
 extern u16 g_TextPrintSymbolGlyphs[];   /* symbol key table: same records, glyph code at +2 */
 
-
-
 /*
  * Idempotent one-time init of the singleton at 0x02146A78: if it is already
  * live, return; otherwise run SYSTEMFONT_Load and allocate a 0x26-byte record
@@ -120,7 +114,6 @@ void TEXTPRINT_Init(u32 fontId)
         g_TextPrintWork = GFL_HEAP_Alloc(0, 0x26, 0, s_textprint_c, 51);
     }
 }
-
 
 /*
  * textprint.c: draw a u16 string with the fixed 8x8 debug font into
@@ -177,8 +170,6 @@ void TEXTPRINT_PrintCodes(const u16 *codes, TextParam *console)
     BMP_Delete(glyphBmp);
 }
 
-
-
 /*
  * textprint.c's one-shot formatter: carve a 0x200-byte scratch buffer with
  * the three-argument allocator (heap id 0), format into its first 0x100
@@ -207,8 +198,6 @@ void TEXTPRINT_PrintText(char *text, TextParam *console)
     TEXTPRINT_PrintCodes((const u16 *)codeBuf, console);
     GFL_HEAP_Free(codeBuf);
 }
-
-
 
 /*
  *           (the tool prints "no witness outside 0204E388..0204E410"); both
@@ -248,8 +237,6 @@ void TEXTPRINT_SjisToGlyphCodes(char *text, u16 *out, int maxCodes)
     }
     *out = STRBUF_GetEosChar();
 }
-
-
 
 /*
  * Byte-perfect: 176 compiled against 176, ZERO concrete byte mismatches,
@@ -301,8 +288,6 @@ u16 TEXTPRINT_AsciiToGlyphCode(u8 asciiChar)
     }
     return 0x101;
 }
-
-
 
 /*
  * A character-code remap: five contiguous Shift-JIS-style ranges relocated by

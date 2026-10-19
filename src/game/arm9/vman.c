@@ -24,9 +24,8 @@
  *   _UnitSizes                 0x020A07A0  data
  *   _u32_div_f                   0x0209C2B0  arm
  */
-#include "vman_shared_types.h"
 
-typedef signed int         s32;
+#include "../types.h"
 
 /* ---- vman.c: VRAM bank manager on top of AreaMan ---- */
 struct VmanBank {

@@ -41,7 +41,7 @@
  */
 #include "nns_g3d_glb_types.h"
 
-typedef long long fx64;
+#include "../types.h"
 typedef long long fx64c;
 
 extern void MTX_Identity43_(MtxFx43 *);

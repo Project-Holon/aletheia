@@ -74,18 +74,9 @@
  */
 
 struct NetStateWork;
-typedef unsigned char u8;
-
-typedef unsigned int  u32;
-
-typedef unsigned short u16;
+#include "../types.h"
 
 #include "net_types.h"
-typedef signed int     s32;
-
-typedef signed char   s8;
-
-typedef unsigned long long u64;
 
 typedef struct {
     u64 x;
@@ -121,9 +112,7 @@ struct NetStateWork {
     u8   pad5D[7];
 };
 
-struct RTCDate { u32 year; u32 month; u32 day; u32 week; };
-
-struct RTCTime { u32 hour; u32 minute; u32 second; };
+#include "../sdk_rtc.h"
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
@@ -197,20 +186,9 @@ void GFL_NET_SYSTEM_ResetAll(void);
 
 int GFL_NET_SYSTEM_IsDeviceReady(void);
 
-
-
-
-
-
-
-
-
-
 void GFL_NET_HANDLE_InitWork(GFLNetSession *unused);
 
 void GFL_NET_HANDLE_ExitWork(GFLNetSession *unused);
-
-
 
 u32 GFL_NET_HANDLE_IsNegotiationDone(GFLNetHandle *handle);
 
@@ -326,7 +304,6 @@ void GFL_NET_STATE_Exit(u32 exitCallback);
 
 void GFL_NET_STATE_ClearExitFlag(void);
 
-
 void GFL_NET_STATE_EndDevice(void);
 
 GFLNetSession *GFL_NET_STATE_SetMPMode(int netID, int size, u8 *data, int work);
@@ -435,7 +412,6 @@ extern const char _AssertNetState[];
 
 extern const char _AssertWifiBattleError[];
 
-
 /*
  * Setter and its tail-call export in net_state.
  *
@@ -449,67 +425,10 @@ void GFL_NET_STATE_ChangeState(struct NetStateWork *work, void *state, u32 timer
     work->timer = timer;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GFL_NET_STATE_ChangeStateDebug(struct NetStateWork *work, void *state, u32 timer, int line)
 {
     GFL_NET_STATE_ChangeState(work, state, timer);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * One-shot constructor: the singleton must still be NULL (otherwise
@@ -548,70 +467,12 @@ void GFL_NET_STATE_InitWork(u32 heapId)
     GFL_NET_COMMAND_Init(0, 0, 0, 0, heapId);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 static inline void MATH_InitRand64(MATHRandContext64 *context, u64 seed)
 {
     context->x = seed;
     context->mul = 0x5d588b656c078965ULL;
     context->add = 0x269ec3ULL;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Verified with:
@@ -643,35 +504,6 @@ void GFL_NET_STATE_InitRandom(MATHRandContext64 *context)
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Shuts the network down when the transport's +0x74 virtual answers non-zero:
  * tears the tables down, saves the completion callback out of +0x28, drops
@@ -701,35 +533,6 @@ void GFL_NET_STATE_FreeWork(struct NetStateWork *work)
     if (exitCallback != 0)
         exitCallback();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Closes docs/notes/pkt_0203AF40.c.txt, which parked this at "DIFF, 10
@@ -781,30 +584,6 @@ void GFL_NET_STATE_DeviceInitialized(struct NetStateWork *work)
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_Idle, 0, 0x12f);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GFL_NET_STATE_DeviceInitialize(void *heapId, u32 initCallback)
 {
     UI_SetKeepAwakeFlagsGlobal(4);
@@ -812,35 +591,6 @@ void GFL_NET_STATE_DeviceInitialize(void *heapId, u32 initCallback)
     _pNetState->initCallback = (void (*)(u32))initCallback;
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_DeviceInitialized, 0, 0x13F);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Verified with:
@@ -861,68 +611,10 @@ void GFL_NET_STATE_ConnectMacDone(void)
 {
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GFL_NET_STATE_ExtendConnectTimer(void)
 {
     _pNetState->timer += 0x3c;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  *           resolved.  Adding the symbols: block (it had none) let
@@ -967,34 +659,6 @@ void GFL_NET_STATE_ConnectMac(struct NetStateWork *work)
         GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ConnectMacDone, 0xA, 0x169);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Starts a 0x200-byte transfer over channel 1 and reports at line 0x17C
  * (380) when it answers zero.  The report site names GFL_NET_STATE_ConnectMac, the
@@ -1013,34 +677,6 @@ void GFL_NET_STATE_StartConnectMac(void)
         GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ConnectMac, 0, (int)0x17C);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GFL_NET_STATE_ConnectMacAddress(void *mac, int anyParent)
 {
     if ((int)_pNetState->aMacAddress & 1) {
@@ -1056,66 +692,9 @@ void GFL_NET_STATE_ConnectMacAddress(void *mac, int anyParent)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GFL_NET_STATE_BeaconScanIdle(void)
 {
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * The same 0x200-byte channel-1 start as GFL_NET_STATE_StartConnectMac with no context
@@ -1135,35 +714,6 @@ void GFL_NET_STATE_StartBeaconScan(void)
         GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_BeaconScanIdle, 0, 0x1AE);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Tail-call wrapper over GFL_NET_STATE_ChangeStateDebug (the object at 0x021469DC, the
  * callback GFL_NET_STATE_StartBeaconScan, 0, 0x1BC).  An unlabelled ARM leaf, filed as the
@@ -1173,33 +723,6 @@ void GFL_NET_STATE_BeaconScan(void)
 {
     GFL_NET_STATE_ChangeStateDebug(_pNetState, GFL_NET_STATE_StartBeaconScan, 0, 0x1BC);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 u32 GFL_NET_STATE_Main(void)
 {
@@ -1215,125 +738,19 @@ u32 GFL_NET_STATE_Main(void)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GFL_NET_STATE_ParentConnected(void)
 {
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GFL_NET_STATE_ParentWait(void)
 {
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int GFL_NET_STATE_ParentConnectCallback(void)
 {
     GFL_NET_STATE_ChangeStateDebug(_pNetState, GFL_NET_STATE_ParentConnected, 0, 0x1f4);
     return 1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Starts a 0x200-entry transfer over channel 1 and reports through
@@ -1360,92 +777,15 @@ void GFL_NET_STATE_StartParent(void)
         GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ParentWait, 0, 0x205);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GFL_NET_STATE_ChangeParentWait(int heapId)
 {
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ParentWait, 0, 0x214);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GFL_NET_STATE_InitParent(u32 unused)
 {
     GFL_NET_STATE_ChangeStateDebug(_pNetState, GFL_NET_STATE_StartParent, 0, 0x222);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 u32 GFL_NET_STATE_RollChildWaitTime(struct NetStateWork *work)
 {
@@ -1456,32 +796,6 @@ u32 GFL_NET_STATE_RollChildWaitTime(struct NetStateWork *work)
     return (u32)(((u64)randHigh * 40) >> 32) + 0x3c;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 u32 GFL_NET_STATE_RollParentWaitTime(struct NetStateWork *work)
 {
     u32 randHigh;
@@ -1490,32 +804,6 @@ u32 GFL_NET_STATE_RollParentWaitTime(struct NetStateWork *work)
     randHigh = (u32)(randNext >> 32);
     return (u32)(((u64)randHigh * 32) >> 32) + 0xb4;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Closes the residue docs/notes/pkt_0203B390.c.txt recorded ("DIFF, one
@@ -1555,33 +843,6 @@ alt:
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverChildMain, GFL_NET_STATE_RollParentWaitTime(work), scanParam + 0x4a);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Reports at line 0x25D (605) when the transport's +0x78 virtual answers
  * non-zero.  The condition is the negated guard - the `pop` is on the equal
@@ -1598,33 +859,6 @@ void GFL_NET_STATE_ChangeoverWaitDevice(void)
     if (GFL_NET_GetSession()->ops->isIdle() != 0)
         GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverConnect, 0, (int)0x25D);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * The same +0x10 virtual call as GFL_NET_STATE_ChangeoverStopParentRetry, reporting at line 0x265
@@ -1644,33 +878,6 @@ void GFL_NET_STATE_ChangeoverStopParent(void)
         GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverWaitDevice, 0, 0x265);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Calls the transport's +0x10 virtual with (1, 0) and reports at line 0x282
  * (642) when it answers non-zero.  The zero argument and the report's third
@@ -1688,32 +895,6 @@ void GFL_NET_STATE_ChangeoverStopParentRetry(void)
     if (GFL_NET_GetSession()->ops->stepDisconnect(1, 0) != 0)
         GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverConnect, 0, (int)0x282);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Wave 14: the "unresolvable" second tag site was a misread.  The pool word
@@ -1748,29 +929,6 @@ void GFL_NET_STATE_ChangeoverParentConnectWait(struct NetStateWork *work)
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_Idle, 0, 0x2a6);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GFL_NET_STATE_ChangeoverParentMain(struct NetStateWork *work)
 {
     GFLNetSession *session = GFL_NET_GetSession();
@@ -1792,86 +950,16 @@ void GFL_NET_STATE_ChangeoverParentMain(struct NetStateWork *work)
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverStopParent, 0, 0x2d3);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GFL_NET_STATE_ChangeoverParentRestart(struct NetStateWork *work)
 {
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverParentMain, GFL_NET_STATE_RollParentWaitTime(work), 0x2e0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int GFL_NET_STATE_ChangeoverParentCallback(void)
 {
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverParentMain, GFL_NET_STATE_RollParentWaitTime(_pNetState), 0x2E6);
     return 1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Addresses are Black-image addresses.
@@ -1891,30 +979,6 @@ void GFL_NET_STATE_ChangeoverStartParent(struct NetStateWork *work)
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverParentRestart, 0x1E, 0x2FC);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Addresses are Black-image addresses.
  *
@@ -1930,30 +994,6 @@ void GFL_NET_STATE_ChangeoverChildNegotiation(void)
 
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChildNegotiationWait, 0, 0x30E);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Addresses are Black-image addresses.
@@ -1976,29 +1016,6 @@ void GFL_NET_STATE_ChildNegotiationWait(struct NetStateWork *work)
 
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_Idle, 0, 0x325);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Addresses are Black-image addresses.
@@ -2025,29 +1042,6 @@ void GFL_NET_STATE_ParentNegotiationWait(struct NetStateWork *work)
 
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_Idle, 0, 0x33F);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Addresses are Black-image addresses.
@@ -2078,29 +1072,6 @@ void GFL_NET_STATE_ChangeoverChildConnected(struct NetStateWork *work)
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_Idle, 0, 0x35B);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Addresses are Black-image addresses.
  *
@@ -2115,29 +1086,6 @@ void GFL_NET_STATE_ChangeoverStopChild(void)
 
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverStartParent, 0, 0x371);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Addresses are Black-image addresses.
@@ -2164,29 +1112,6 @@ void GFL_NET_STATE_ChangeoverChildMain(struct NetStateWork *work)
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverStopChildDevice, 0, 0x390);
     GFL_NET_STATE_ChangeoverStopChildDevice(work);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * A frame's 64-bit accumulator advanced by a 64-bit multiply: the pair at
@@ -2234,29 +1159,6 @@ void GFL_NET_STATE_ChangeoverChildScan(struct NetStateWork *work)
     session->ops->begin(0);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GFL_NET_STATE_StartChangeover(u16 unusedArg, u32 initCallback, u8 hasMac)
 {
     GFLNetSession *pNetIni = GFL_NET_GetInitParam();
@@ -2288,30 +1190,6 @@ void GFL_NET_STATE_StartChangeover(u16 unusedArg, u32 initCallback, u8 hasMac)
         GFL_NET_STATE_ChangeStateDebug(work, (void *)GFL_NET_STATE_ChangeoverChildMain, delay, delay + 0x3B4);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Two presets that differ only in the state byte they match and the handler
@@ -2347,31 +1225,6 @@ void GFL_NET_STATE_ChangeoverRestart(struct NetStateWork *work)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Addresses are Black-image addresses.
  *
@@ -2395,31 +1248,6 @@ void GFL_NET_STATE_ChangeChangeoverMode(u8 mode, u8 hasMac, const void *mac)
     GFL_NET_STATE_ChangeoverRestart(_pNetState);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Addresses are Black-image addresses.
  *
@@ -2436,31 +1264,6 @@ void GFL_NET_STATE_ChangeoverStopChildDevice(struct NetStateWork *work)
 
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverStopChild, 0, 0x411);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Addresses are Black-image addresses.
@@ -2490,31 +1293,6 @@ void GFL_NET_STATE_SetChangeoverMode(u32 mode, u32 hasMac, u8 *mac)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Addresses are Black-image addresses.
  *
@@ -2540,31 +1318,6 @@ void GFL_NET_STATE_WaitDisconnect(void)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Addresses are Black-image addresses.
  *
@@ -2581,31 +1334,6 @@ void GFL_NET_STATE_RecvExitCommand(u32 netID, u32 size, u32 data, u32 work, u32 
 
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WaitDisconnect, 0, 0x46C);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * "If the state is non-zero, park the card interface."  The result of the
@@ -2632,31 +1360,6 @@ u32 GFL_NET_STATE_ExitIfChild(void)
         result = GFL_NET_Exit(0);
     return result;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Addresses are Black-image addresses.
@@ -2686,31 +1389,6 @@ void GFL_NET_STATE_ExitWait(struct NetStateWork *work)
     GFL_NET_STATE_FreeWork(work);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Addresses are Black-image addresses.
  *
@@ -2727,31 +1405,6 @@ void GFL_NET_STATE_ExitStopDevice(void)
 
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ExitWait, 0, 0x4A4);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * 116 bytes, three functions: the setter, the 28-byte leaf that clears the
@@ -2781,87 +1434,15 @@ void GFL_NET_STATE_Exit(u32 exitCallback)
     GFL_NET_STATE_ChangeStateDebug(_pNetState, ((void *)GFL_NET_STATE_ExitStopDevice), 5, 0x4B7);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GFL_NET_STATE_ClearExitFlag(void)
 {
     if (_pNetState != 0)
         _pNetState->exitRequested = 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GFL_NET_STATE_Idle(void)
 {
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * PROMOTED FROM src/pending/ AT THE END OF WAVE 4 LANE 0x02038000..0x02040000.
@@ -2893,28 +1474,6 @@ void GFL_NET_STATE_EndDevice(void)
     GFL_NET_STATE_ChangeStateDebug(_pNetState, GFL_NET_STATE_Idle, 0, 0x4DA);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 GFLNetSession *GFL_NET_STATE_SetMPMode(int netID, int size, u8 *data, int work)
 {
     GFLNetSession *pNetIni = GFL_NET_GetInitParam();
@@ -2922,27 +1481,6 @@ GFLNetSession *GFL_NET_STATE_SetMPMode(int netID, int size, u8 *data, int work)
     pNetIni->init.bMPMode = *data;
     return pNetIni;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Empty callback (a lone bx lr), one of three adjacent stubs at
@@ -2953,77 +1491,13 @@ void GFL_NET_STATE_WifiError(void)
 {
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GFL_NET_STATE_WifiLoggedOut(void)
 {
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GFL_NET_STATE_WifiFatal(void)
 {
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Calls the virtual at +0xC of the object at *(net context + 0x340) with a
@@ -3043,55 +1517,12 @@ void GFL_NET_STATE_WifiErrorWait(void)
         GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiError, 0, (int)0x52C);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GFL_NET_STATE_WifiStopError(void)
 {
     GFLNetSession *session = GFL_NET_GetSession();
     GFL_NET_SYSTEM_SetNoChildError(1);
     session->ops->update(0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Stores one byte at +0x4E, negating it first unless it is 1005 or 1006.  The
@@ -3112,27 +1543,6 @@ void GFL_NET_STATE_SetWifiErrorCode(struct NetStateWork *work, u32 errorCode)
         errorCode = -errorCode;
     work->wifiErrorCode = (u8)errorCode;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void GFL_NET_STATE_WifiLoginMain(struct NetStateWork *work)
 {
@@ -3178,29 +1588,6 @@ void GFL_NET_STATE_WifiLoginMain(struct NetStateWork *work)
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiError, 0, 1424);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Addresses are Black-image addresses.
  *
@@ -3222,29 +1609,6 @@ void GFL_NET_STATE_WifiLoginStart(struct NetStateWork *work)
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiLoginMain, 0, 0x5AC);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Addresses are Black-image addresses.
  *
@@ -3263,31 +1627,6 @@ int GFL_NET_STATE_WifiEnterLogin(int loginTarget)
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiLoginStart, 0, 0x5C4);
     return 1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Teardown of one half of the net context: flags the +0x48 sentinel as -2
@@ -3313,31 +1652,6 @@ u32 GFL_NET_STATE_WifiEnterRandomMatch(void)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Teardown of one half of the net context: flags the +0x48 sentinel as -2
  * (`mvn r1, #1`, which is only reachable when the field is a signed char -
@@ -3362,60 +1676,11 @@ u32 GFL_NET_STATE_WifiEnterFriendMatch(void)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GFL_NET_STATE_WifiEnterLoginDefault(void)
 {
     _pNetState->loginTarget = -1;
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiLoginStart, 0, 0x60d);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Unlabelled ARM leaf (saves no register, so disasm.py gives it no func_
@@ -3452,59 +1717,11 @@ int GFL_NET_STATE_GetWifiState(void)
     return 2;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GFL_NET_STATE_WifiConnected(void)
 {
     GFL_NET_GetSession();
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiLoginMain, 0, 0x637);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * The other half of the connect/disconnect pair whose partner is
@@ -3542,31 +1759,6 @@ void GFL_NET_STATE_WifiMatchDisconnect(struct NetStateWork *work)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Addresses are Black-image addresses.
  *
@@ -3594,31 +1786,6 @@ void GFL_NET_STATE_WifiDisconnect(u32 hasMatch)
     GFL_NET_STATE_WifiMatchDisconnect(_pNetState);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Arms the sequence: the slot call with a literal 1, then the same 1 into the
  * object's byte at +0x4A.  The 1 lives in r4 across the call, which is why the
@@ -3636,31 +1803,6 @@ void GFL_NET_STATE_WifiDisconnectFinal(void)
     _pNetState->disconnectFinal = 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Unlabelled ARM leaf: byte at +0x4a of the card task object.
  */
@@ -3668,30 +1810,6 @@ int GFL_NET_STATE_IsWifiDisconnectFinal(void)
 {
     return _pNetState->disconnectFinal;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Unlabelled ARM predicate: the callback at +8 of the card task object is GFL_NET_STATE_WifiLoginMain.
@@ -3701,30 +1819,6 @@ int GFL_NET_STATE_IsWifiLoginState(void)
     return _pNetState->state == (void *)GFL_NET_STATE_WifiLoginMain;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Unlabelled ARM predicate: the callback at +8 of the card task object is GFL_NET_STATE_WifiLoginMain or GFL_NET_STATE_WifiConnected.
  */
@@ -3733,30 +1827,6 @@ int GFL_NET_STATE_IsWifiLoginOrConnected(void)
     void *curState = _pNetState->state;
     return curState == (void *)GFL_NET_STATE_WifiLoginMain || curState == (void *)GFL_NET_STATE_WifiConnected;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Addresses are Black-image addresses.
@@ -3793,30 +1863,6 @@ void GFL_NET_STATE_WifiLogoutWait(struct NetStateWork *work)
     GFL_NET_STATE_FreeWork(work);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Addresses are Black-image addresses.
  *
@@ -3834,30 +1880,6 @@ void GFL_NET_STATE_WifiLogoutStop(void)
 
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiLogoutWait, 0, 0x702);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Addresses are Black-image addresses.
@@ -3881,30 +1903,6 @@ void GFL_NET_STATE_WifiLogout(u32 exitCallback)
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiLogoutStop, 5, 0x719);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Addresses are Black-image addresses.
  *
@@ -3924,30 +1922,6 @@ void GFL_NET_STATE_WifiMatchWait(struct NetStateWork *work)
         GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiConnected, 0, 0x737);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Promoted from src/pending/ on lane 1.  Every concrete byte is right; the one
@@ -3972,30 +1946,6 @@ void GFL_NET_STATE_WifiMatchStart(void)
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiMatchWait, 0, 0x74A);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * 140 bytes, three functions.  The middle one, 0x0203C8E8, is a 16-byte leaf
  * that saves nothing and so carries no label in the generated listing; the
@@ -4017,59 +1967,11 @@ void GFL_NET_STATE_WifiStartMatch(void)
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiMatchStart, 0, 0x760);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GFL_NET_STATE_SetAutoExit(u8 autoExit)
 {
     if (_pNetState != 0)
         _pNetState->autoExit = autoExit;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void GFL_NET_STATE_SetLoginOption(u8 option)
 {
@@ -4081,54 +1983,7 @@ void GFL_NET_STATE_SetLoginOption(u8 option)
     session->ops->setWatchDisconnect(option);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GFL_NET_STATE_NoProc(void){ }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Opens the state: with no live object the answer is 0, otherwise the mode
@@ -4154,30 +2009,6 @@ u32 GFL_NET_STATE_SetErrorMode(u8 mode)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Closes the state src/matched/GFL_NET_STATE_SetErrorMode.c opens: clears the mode byte and
  * runs the teardown call.  With no live object it is a bare `popeq`.
@@ -4199,30 +2030,6 @@ void GFL_NET_STATE_ClearErrorMode(void)
     GFL_NET_SYSTEM_ResetError();
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * The mode byte src/matched/GFL_NET_STATE_SetErrorMode.c writes, read back - 0 when there
  * is no object.  Both loads are conditional, so the function is two
@@ -4241,30 +2048,6 @@ u32 GFL_NET_STATE_GetErrorMode(void)
     work = _pNetState;
     return work ? work->errorMode : 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Addresses are Black-image addresses.
@@ -4289,30 +2072,6 @@ void GFL_NET_STATE_SetError(int errorCode, u32 errorArg1, u32 errorArg2, u32 err
     if (errorArg3 != 0)
         GFL_NET_SYSTEM_SetError();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Addresses are Black-image addresses.
@@ -4346,27 +2105,6 @@ void GFL_NET_STATE_SetWifiError(void)
     _pNetState->errorInfo.gameCode = 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Returns the object's work area at +0x30, reporting through GF_PANIC_Fail
  * with the source file at 0x020A7BA8 and line 0x8CA (2250) when the object has
@@ -4386,27 +2124,6 @@ u32 GFL_NET_STATE_GetError(void)
     return (u32)&_pNetState->errorInfo;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Unlabelled ARM assert thunk: tail call GF_PANIC_Fail(_FileName, 0x8D8, _AssertWifiBattleError), the fall-through failure path after GFL_NET_STATE_GetError.
  */
@@ -4414,27 +2131,6 @@ void GFL_NET_STATE_FatalError(void)
 {
     GF_PANIC_Fail(_FileName, 0x8D8, _AssertWifiBattleError);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Unlabelled ARM predicate: the card task object exists and its callback at +8 is GFL_NET_STATE_FatalError.

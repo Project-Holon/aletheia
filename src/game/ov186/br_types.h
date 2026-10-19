@@ -5,12 +5,7 @@
  * Battle record data itself lives in ../arm9/battle_rec_types.h. */
 #include "../arm9/battle_rec_types.h"
 
-typedef unsigned int u32;
-typedef unsigned short u16;
-typedef unsigned char u8;
-typedef signed int s32;
-typedef signed short s16;
-typedef unsigned long long u64;
+#include "../types.h"
 
 #include "../ov125/gds_rap_types.h"
 
@@ -28,7 +23,6 @@ struct BrGraphic {
     u32 unused8;              /* zeroed with the block, never touched */
     void *vblankTask;         /* task that runs draw and vblank handlers */
 };
-
 
 /* One button description row, 12 halfwords (24 bytes), in the section tables. */
 struct BrBtnTemplate {
@@ -68,7 +62,6 @@ struct BrBtnTable {
     struct BrBtnTemplate records[1];  /* sum of section counts rows */
 };
 
-
 struct PalAnmSys;
 
 struct BrFade;
@@ -91,7 +84,6 @@ struct BrFade {
     u32 unused28[5];
     u32 unused3C;             /* initialised to 0xFFFF, never read in ov186 */
 };
-
 
 struct GfFont;
 struct MsgBank;
@@ -117,7 +109,6 @@ struct BrRes {
     volatile u32 useCustomSet;                 /* nonzero: palSet comes from the caller */
     volatile u32 palSet;                       /* index 0..7 into the palette/cell tables */
 };
-
 
 struct GameData;
 struct GdsProfile;
@@ -184,7 +175,6 @@ struct BrNet {
     struct GameData *gameData;
 };
 
-
 struct Actor;
 
 /* Position record read by CLACT_CreateActor. */
@@ -238,7 +228,6 @@ struct BrSidebarSlot {
 struct BrSidebar {
     struct BrSidebarSlot slot[BR_SIDEBAR_SLOT_COUNT];
 };
-
 
 struct PrintSys;
 struct StrBuf;
@@ -307,7 +296,6 @@ struct BrPokeSearch {
     u16 *seenList;            /* species of the chosen group that the player has seen */
     u32 seenCount;
 };
-
 
 /* Opaque objects referenced by the button and process-system code. */
 struct Big;

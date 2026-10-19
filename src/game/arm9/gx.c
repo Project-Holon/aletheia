@@ -24,17 +24,7 @@
  *   PMi_SetDispOffCount              0x0208c944 arm
  *   .word 0x04001000
  */
-typedef unsigned short u16;
-
-typedef unsigned long u32;
-
-typedef long s32;
-
-typedef int BOOL;
-
-typedef volatile u16 vu16;
-
-typedef volatile u32 vu32;
+#include "../types.h"
 
 /* gx.o's .bss statics from sDispMode on */
 typedef struct {
@@ -48,8 +38,6 @@ typedef struct {
     u32 dmaId;
 } GXDataState;
 
-typedef long fx32;
-
 extern void GX_InitGXState(void);
 extern s32 OS_GetLockID(void);
 extern void OS_Terminate(void);
@@ -61,11 +49,9 @@ void GX_SetVCountEqVal(s32 val);
 extern GXBssState sDispMode;
 extern GXDataState sIsDispOn;
 
-
 #define GX_DMA_NOT_USE      ((u32)-1)
 
 #define OS_LOCK_ID_ERROR    (-3)
-
 
 #define reg_GX_DISPCNT      (*(vu32 *)0x04000000)
 
@@ -152,9 +138,6 @@ void GX_Init(void)
     reg_G2S_DB_BG3PD = 0x100;
 }
 
-
-
-
 /*
  * sdk:      GX_SetVCountEqVal (libgx.TWL.HYB.a gx.o)
  */
@@ -178,8 +161,6 @@ long GX_HBlankIntr(int enable)
     return rval;
 }
 
-
-
 /*
  * sdk:      GX_VBlankIntr (gx.o)
  */
@@ -195,14 +176,10 @@ long GX_VBlankIntr(int enable)
     return rval;
 }
 
-
-
 u16 GX_IsDispOn(void)
 {
     return sIsDispOn.isDispOn;
 }
-
-
 
 /*
  * sdk:      GX_DispOff (gx.o)
@@ -233,8 +210,6 @@ void GX_DispOn(void)
     }
 }
 
-
-
 /*
  * sdk:      GX_SetGraphicsMode (libgx.TWL.HYB.a gx.o)
  */
@@ -254,17 +229,10 @@ void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d)
     }
 }
 
-
-
 void GXS_SetGraphicsMode(u32 mode)
 {
     *(volatile u32 *)0x04001000 = (*(volatile u32 *)0x04001000 & ~7) | mode;
 }
-
-
-
-
-
 
 /*
  * sdk:      GXx_SetMasterBrightness_ (libgx.TWL.HYB.a gx.o)
@@ -279,8 +247,6 @@ void GXx_SetMasterBrightness_(vu16 *reg, int brightness)
         *reg = (u16)(0x8000 | -brightness);
     }
 }
-
-
 
 /*
  * sdk:      GXx_GetMasterBrightness_ (libgx.TWL.HYB.a gx.o)
@@ -303,4 +269,3 @@ int GXx_GetMasterBrightness_(vu16 *reg)
     }
     return 0;
 }
-

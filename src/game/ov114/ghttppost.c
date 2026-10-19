@@ -90,7 +90,7 @@ extern u8 *strchr(const u8 *s, int c);
 #define htons(s) ((u16)((((u16)(s) >> 8) & 0x00ff) | (((u16)(s) << 8) & 0xff00)))
 #define htonl(l) ((u32)((((u32)(l) >> 24) & 0x000000ff) | (((u32)(l) >> 8) & 0x0000ff00) | \
                         (((u32)(l) << 8) & 0x00ff0000) | (((u32)(l) << 24) & 0xff000000)))
-typedef signed int s32;
+#include "../types.h"
 
 /* "%XX" escape sequence being built for URL-encoded post strings. */
 typedef struct UrlEscape {
@@ -181,8 +181,6 @@ extern char sGhttpContentDispositionFormDataName2[];
 extern char sGhttpPostLineEnd[];
 extern char sGhttpQrGSDD4[];
 
-
-
 void ghiPostDataFree(void *element)
 {
     GHIPostData *data = element;
@@ -201,8 +199,6 @@ void ghiPostDataFree(void *element)
         gsXmlFreeWriter(data->data.xml.xml);
     }
 }
-
-
 
 /*
  * sdk:      ghiNewPost (ghttppost.o)
@@ -224,14 +220,10 @@ GHIPost *ghiNewPost(void)
     return post;
 }
 
-
 void ghiPostSetAutoFree(GHIPost *post, GHTTPBool autoFree)
 {
     post->autoFree = autoFree;
 }
-
-
-
 
 /*
  * Frees the element array and the post record.
@@ -244,9 +236,6 @@ void ghiFreePost(GHIPost *post)
     gsifree(post);
 }
 
-
-
-
 /*
  * Cleans up the post state of the connection for `request`, then frees `post`.
  */
@@ -257,9 +246,6 @@ void ghiFreePostAndUpdateConnection(int request, GHIPost *post)
         ghiPostCleanupState(connection);
     ghiFreePost(post);
 }
-
-
-
 
 /*
  * sdk:      ghiPostAddFileFromMemory (libdwcgsghttp.TWL.HYB.a ghttppost.o)
@@ -298,9 +284,6 @@ int ghiPostAddFileFromMemory(GHIPost *_post, char *name, char *buffer, int buffe
     return 1;
 }
 
-
-
-
 /*
  * sdk:      ghiPostAddXml (libdwcgsghttp.TWL.HYB.a(ghttppost.o))
  */
@@ -319,9 +302,6 @@ int ghiPostAddXml(struct GHIPost *_post, void *xml)
     return 1;
 }
 
-
-
-
 /*
  * sdk:      ghiPostGetContentType (libdwcgsghttp.TWL.HYB.a(ghttppost.o))
  */
@@ -339,9 +319,6 @@ char *ghiPostGetContentType(struct GHIConnection *connection)
         return sGhttpTextXml;
     return sGhttpApplicationXWwwFormUrlencoded;
 }
-
-
-
 
 /*
  * sdk:      ghiPostGetNoFilesContentLength (libdwcgsghttp.TWL.HYB.a ghttppost.o)
@@ -371,9 +348,6 @@ int ghiPostGetNoFilesContentLength(GHIConnection *connection)
     }
     return total + (num - 1);
 }
-
-
-
 
 /*
  * sdk:      ghiPostGetHasFilesContentLength (libdwcgsghttp.TWL.HYB.a ghttppost.o)
@@ -472,9 +446,6 @@ int ghiPostGetHasFilesContentLength(GHIConnection *connection)
     return total + endLen;
 }
 
-
-
-
 int ghiPostGetContentLength(GHIConnection *connection)
 {
     GHIPost *post = connection->post;
@@ -485,9 +456,6 @@ int ghiPostGetContentLength(GHIConnection *connection)
         return ghiPostGetHasFilesContentLength(connection);
     return ghiPostGetNoFilesContentLength(connection);
 }
-
-
-
 
 int ghiPostStateInit(GHIPostState *state)
 {
@@ -510,11 +478,6 @@ int ghiPostStateInit(GHIPostState *state)
     return 1;
 }
 
-
-
-
-
-
 static void ghiPostStateCleanup(GHIPostState *state)
 {
     int type = state->data->type;
@@ -527,11 +490,6 @@ static void ghiPostStateCleanup(GHIPostState *state)
         fclose(state->state.fileDisk.file);
     state->state.fileDisk.file = 0;
 }
-
-
-
-
-
 
 /*
  * sdk:      ghiPostInitState (libdwcgsghttp.TWL.HYB.a(ghttppost.o))
@@ -577,11 +535,6 @@ int ghiPostInitState(GHIConnection *connection)
     return 1;
 }
 
-
-
-
-
-
 void ghiPostCleanupState(GHIConnection *connection)
 {
     int i;
@@ -604,11 +557,6 @@ void ghiPostCleanupState(GHIConnection *connection)
         connection->post = 0;
     }
 }
-
-
-
-
-
 
 /*
  * sdk:      ghiPostStringStateDoPosting (libdwcgsghttp.TWL.HYB.a(ghttppost.o))
@@ -662,11 +610,6 @@ GHIPostingResult ghiPostStringStateDoPosting(GHIPostState *state, GHIConnection 
     return 1;
 }
 
-
-
-
-
-
 /*
  * sdk:      ghiPostXmlStateDoPosting (libdwcgsghttp.TWL.HYB.a(ghttppost.o))
  */
@@ -701,11 +644,6 @@ GHIPostingResult ghiPostXmlStateDoPosting(GHIPostState *state, GHIConnection *co
         return 0;
     return 1;
 }
-
-
-
-
-
 
 /*
  * sdk:      ghiPostFileDiskStateDoPosting (libdwcgsghttp.TWL.HYB.a(ghttppost.o))
@@ -748,11 +686,6 @@ int ghiPostFileDiskStateDoPosting(GHIPostState *state, GHIConnection *connection
     } while (result == 1);
     return 2;
 }
-
-
-
-
-
 
 /*
  * sdk:      ghiPostFileMemoryStateDoPosting (ghttppost.o, static)
@@ -807,10 +740,6 @@ int ghiPostFileMemoryStateDoPosting(GHIPostState *state, GHIConnection *connecti
         return 2;
     }
 }
-
-
-
-
 
 static GHIPostingResult ghiPostStateDoPosting(GHIPostState *state, GHIConnection *connection,
                                        GHTTPBool first, GHTTPBool last)
@@ -988,10 +917,6 @@ static GHIPostingResult ghiPostStateDoPosting(GHIPostState *state, GHIConnection
         return ghiPostFileDiskStateDoPosting(state, connection);
     return ghiPostFileMemoryStateDoPosting(state, connection);
 }
-
-
-
-
 
 /*
  * sdk:      ghiPostDoPosting (libdwcgsghttp.TWL.HYB.a ghttppost.o)

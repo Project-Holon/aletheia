@@ -16,8 +16,7 @@
  *   BR_MEMBER_COUNT_GetU16Count 0x02200228 thumb ov186
  *   ARC_UTIL_LoadMemberWithSize   0x0204A298  arm
  */
-typedef unsigned int   u32;
-typedef unsigned short u16;
+#include "../types.h"
 
 extern void *ARC_UTIL_LoadMemberWithSize(int archiveID, int memberIdx, int decompress, int memberId, u32 *out);
 

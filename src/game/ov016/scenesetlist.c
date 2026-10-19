@@ -183,26 +183,7 @@ typedef struct tagAREA { unsigned short l, t, w, h; } AREA;
 
 #include "gx_oam_types.h"
 
-typedef struct NCFGApInfo {
-    unsigned char  ispId[32];         /* 0x00 */
-    unsigned char  ispPass[32];       /* 0x20 */
-    unsigned char  ssid[2][32];       /* 0x40 */
-    unsigned char  wep[4][16];        /* 0x80 */
-    unsigned char  ip[4];             /* 0xC0 */
-    unsigned char  gateway[4];        /* 0xC4 */
-    unsigned char  dns[2][4];         /* 0xC8 */
-    unsigned char  netmask;           /* 0xD0 */
-    unsigned char  wep2[4][5];        /* 0xD1 */
-    unsigned char  authType;          /* 0xE5 */
-    unsigned char  wepMode : 2;       /* 0xE6 */
-    unsigned char  wepNotation : 6;   /* 0xE6 */
-    unsigned char  setType;           /* 0xE7 */
-    unsigned char  ssidLength[2];     /* 0xE8 */
-    unsigned short mtu;               /* 0xEA */
-    unsigned char  rsv[2];            /* 0xEC */
-    unsigned char  flags;             /* 0xEE */
-    unsigned char  state;             /* 0xEF */
-} NCFGApInfo;
+#include "../sdk_ncfg.h"
 
 typedef struct tagSETTINGINFO {
     NCFGApInfo     ap;                /* 0x00 */

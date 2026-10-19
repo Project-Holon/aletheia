@@ -26,9 +26,7 @@
  *   DWCi_EndUtility  0x021C0F0C  arm  ov016
  *   gCommentWork  0x021DE598  data
  */
-typedef unsigned int   u32;
-
-typedef unsigned char  u8;
+#include "../types.h"
 
 extern int DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern void DWCi_ChangeScene(unsigned int v);
@@ -44,7 +42,6 @@ extern void DWCi_EndUtility(void);
 void DWCi_SceneEnd(void);
 extern void *gCommentWork;
 
-
 /*
  * sdk:      DWCi_SceneEnd (libdwcutil.TWL.HYB.a(sceneend.o))
  */
@@ -56,7 +53,6 @@ void DWCi_SceneEnd(void)
 	DWCi_EFFlFade(3, 0, 0x3f, 0x14);
 	DWCi_ChangeScene((unsigned int)endScene);
 }
-
 
 static void endScene(void)
 {

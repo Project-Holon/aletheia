@@ -20,14 +20,13 @@
  *   DC_InvalidateRange  0x020862B8  arm  arm9
  *   DC_StoreRange  0x020862D4  arm  arm9
  */
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed int s32;
+#include "../types.h"
 
 extern u32 NWMi_GetSystemWork(void);
 extern void DC_StoreRange(u16 *, u32);
 extern s32 PXI_SendWordByFifo(s32 fifotag, u32 data, s32 err);
-struct OSMessageQueue;
+#include "../sdk_os.h"
+
 extern s32 OS_SendMessage(struct OSMessageQueue *mq, void *msg, s32 flags);
 extern void MI_CpuCopy8(u32, u16 *, u32);
 extern s32 OS_ReceiveMessage(struct OSMessageQueue *mq, void **msg, s32 flags);

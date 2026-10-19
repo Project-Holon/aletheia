@@ -176,13 +176,7 @@ typedef struct BmpWin BmpWin;
 typedef struct PlayerWork PlayerWork;
 typedef struct MyStatus MyStatus;
 
-typedef struct MtxFx33 {
-    s32 m[9];
-} MtxFx33;
-
-typedef struct MtxFx43 {
-    s32 m[12];
-} MtxFx43;
+#include "../sdk_fx.h"
 
 /* Script command that waits: returns 1 when the command is done. */
 typedef int (*ScrcmdWaitFn)(ScriptVm *vm, ScrcmdWork *cmdWork);

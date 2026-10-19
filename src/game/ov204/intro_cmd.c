@@ -105,7 +105,7 @@ struct IntroGameState;
 
 struct Actor;
 
-typedef signed short   s16;
+#include "../types.h"
 
 typedef enum { B_FALSE, B_TRUE } Bool;
 

@@ -9,12 +9,10 @@
  * each other from 0x021A826C to 0x021A82FC.
  */
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned long u32;
-typedef unsigned long long u64;
+#include "../types.h"
 
-struct _OSThread;
+#include "../sdk_os.h"
+
 struct _CPSSoc;
 
 typedef struct CPSSocBuf {
@@ -62,22 +60,6 @@ struct _CPSSoc {
     CPSSocRcvBuf chunks[4];         /* 0x70 */
 };
 typedef struct _CPSSoc CPSSoc;
-
-struct _OSThread {
-    u8 pad0[0x68];
-    struct _OSThread *next;         /* 0x68 */
-    u8 pad6c[0xA4 - 0x6C];
-    struct _CPSSoc *specific[3];    /* 0xA4 */
-    u8 padb0[0xC0 - 0xB0];
-};
-typedef struct _OSThread OSThread;
-
-struct OSThreadInfo {
-    u16 isNeedRescheduling;         /* 0x00 */
-    u16 irqDepth;                   /* 0x02 */
-    OSThread *current;              /* 0x04 */
-    OSThread *list;                 /* 0x08 */
-};
 
 struct CPSNetVars {
     u8 wfailed;                     /* 0x00 */

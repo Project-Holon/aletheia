@@ -34,23 +34,7 @@
  *   DWCi_AC_GetNintendoUSBWepKey 0x0205EB20 arm
  *   DWCi_AC_GetNintendoShopWepKey 0x0205EA44 arm
  */
-typedef struct {
-    unsigned short length;
-    unsigned short rssi;
-    unsigned char bssid[6];
-    unsigned short ssidLength;
-    unsigned char ssid[32];
-    unsigned short capaInfo;
-    unsigned short rateSet[2];
-    unsigned short beaconPeriod;
-    unsigned short dtimPeriod;
-    unsigned short channel;
-    unsigned short cfpPeriod;
-    unsigned short cfpMaxDuration;
-    unsigned short gameInfoLength;
-    unsigned short otherElementCount;
-    unsigned char gameInfo[0x80];
-} WMBssDesc;
+#include "../sdk_wm.h"
 
 typedef struct {
     unsigned char state;
@@ -75,54 +59,7 @@ typedef struct {
     unsigned char key[80];
 } WCMWepDesc;
 
-typedef struct {
-    unsigned char ispId[0x40];
-    unsigned char ssid[2][0x20];
-    unsigned char wep[4][0x10];
-    unsigned char ip[4];
-    unsigned char gateway[4];
-    unsigned char dns[2][4];
-    unsigned char netmask;
-    unsigned char wep40[5];
-    unsigned char wep40More[3][5];
-    unsigned char authType;
-    unsigned char wepMode:2;
-    unsigned char wepNotation:6;
-    unsigned char setType;
-    unsigned char ssidLength[2];
-    unsigned char mtu[2];
-    unsigned char rsv[2];
-    unsigned char flags;
-    unsigned char state;
-} NCFGApInfo;
-
-typedef struct {
-    unsigned char passphrase[0x20];
-    unsigned char pmk[0x20];
-    unsigned char ssid[2][0x20];
-    unsigned char ssidLength0; /* aossEx.ssidLength[0] (TKIP); overlays wpa.rsv in WPA records */
-    unsigned char wpaMode;
-    unsigned char proxyMode;
-    unsigned char proxyAuthType;
-    unsigned char proxyHost[100];
-    unsigned char proxyPort[2];
-    unsigned char rsvEx[6];
-} NCFGApInfoEx;
-
-typedef struct {
-    NCFGApInfo ap;
-    unsigned char wifi[14];
-    unsigned short crc;
-} NCFGSlotInfo;
-
-typedef struct {
-    NCFGApInfo ap;
-    unsigned char wifi[14];
-    unsigned short crc;
-    NCFGApInfoEx apEx;
-    unsigned char rsvEx[14];
-    unsigned short crcEx;
-} NCFGSlotInfoEx;
+#include "../sdk_ncfg.h"
 
 typedef struct {
     NCFGSlotInfo userInfo[3];
@@ -383,7 +320,7 @@ int GetWepKey(ACWORK *wk, unsigned char type, WCMWepDesc *wepkey)
         info++;
     case 3:
         wepkey->mode = 1;
-        MI_CpuCopy8(info->ap.wep40, wepkey->key, 5);
+        MI_CpuCopy8(info->ap.wep2[0], wepkey->key, 5);
         break;
     case 8:
         info2++;
@@ -406,7 +343,7 @@ int GetWepKey(ACWORK *wk, unsigned char type, WCMWepDesc *wepkey)
         info2++;
     case 9:
         wepkey->mode = 1;
-        MI_CpuCopy8(info2->ap.wep40, wepkey->key, 5);
+        MI_CpuCopy8(info2->ap.wep2[0], wepkey->key, 5);
         break;
     case 14:
         info2++;

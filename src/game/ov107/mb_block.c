@@ -22,13 +22,7 @@
 #include "../../matched/include/G_piece.h"
 #include "../../matched/include/G_piece.h"
 
-typedef unsigned short u16;
-
-typedef int s32;
-
-typedef unsigned long u32;
-
-typedef unsigned char u8;
+#include "../types.h"
 
 typedef struct {
     u8 type;
@@ -62,10 +56,6 @@ u8 *MBi_ReceiveRequestDataPiece(ChildBlockHeader *hdr, u16 child);
 extern struct piece d_021F7008;
 extern struct piece g_021F7008;
 
-
-
-
-
 void MBi_SetChildMPMaxSize(u16 childMaxSize)
 {
     s32 n = childMaxSize - 2;
@@ -75,19 +65,11 @@ void MBi_SetChildMPMaxSize(u16 childMaxSize)
     *(s32 *)(((char *)&d_021F7008) + 0x10) = 0x1E;
 }
 
-
-
-
-
 void MBi_SetParentPieceBuffer(void *buf)
 {
     *(void **)(((char *)&d_021F7008) + 4) = buf;
     MI_CpuFill8(buf, 0, 0x21C);
 }
-
-
-
-
 
 /*
  * sdk:      MBi_ClearParentPieceBuffer (libmb.TWL.HYB.a mb_block.o)
@@ -102,9 +84,6 @@ void MBi_ClearParentPieceBuffer(u16 child_aid)
     MI_CpuFill8(((u8 *)g_021F7008.buf) + i * 32, 0, 30);
     *(int *)(((u8 *)g_021F7008.buf) + 0x1E0 + i * 4) = 0;
 }
-
-
-
 
 /*
  * sdk:      MBi_MakeParentSendBuffer (libmb.TWL.HYB.a mb_block.o)
@@ -136,8 +115,6 @@ u8 *MBi_MakeParentSendBuffer(const ParentBlockHeader *hdr, u8 *sendbuf)
     }
     return ptr;
 }
-
-
 
 /*
  * sdk:      MBi_SetRecvBufferFromChild (libmb.TWL.HYB.a mb_block.o)
@@ -179,7 +156,6 @@ u8 *MBi_SetRecvBufferFromChild(u8 *recvbuf, struct hdr *hdr, u16 child_id)
     return ptr;
 }
 
-
 u8 *MBi_ReceiveRequestDataPiece(ChildBlockHeader *hdr, u16 child)
 {
     u8 piece;
@@ -197,7 +173,6 @@ u8 *MBi_ReceiveRequestDataPiece(ChildBlockHeader *hdr, u16 child)
         return ((u8 *)g_021F7008.buf) + (child - 1) * 32;
     return 0;
 }
-
 
 /*
  * sdk:      IsGetAllRequestData (libmb.TWL.HYB.a mb_block.o)

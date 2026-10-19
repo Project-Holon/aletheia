@@ -28,13 +28,7 @@
 #include "cell_anim_types.h"
 
 struct NNSG2dAnimController;
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef int BOOL;
-
-typedef int fx32;
+#include "../types.h"
 
 typedef struct NNSG2dAnimFrameData {
     void *pContent;
@@ -61,9 +55,6 @@ typedef struct NNSG2dAnimController {
     const NNSG2dAnimSequence *pAnimSequence;
 } NNSG2dAnimController;
 
-typedef unsigned char  u8;
-
-typedef signed int     s32;
 struct AnimCtrl;
 
 extern BOOL NNS_G2dTickAnimCtrl(struct AnimCtrl *p, s32 frames);
@@ -73,24 +64,20 @@ void NNS_G2dSetCellAnimationParam(struct CellAnim *anim, int type, int param, in
 void NNS_G2dSetCellAnimationParamTagged(struct CellAnim *anim, u32 param, u32 func, u16 frameIdx);
 s32 NNS_G2dIsCellAnimationBoundingBox(struct CellAnim *anim);
 
-
 static inline BOOL IsForward_(const NNSG2dAnimController *pAnimCtrl)
 {
     return (BOOL)((pAnimCtrl->speed > 0) ^ pAnimCtrl->bReverse);
 }
-
 
 static inline const NNSG2dAnimFrameData *GetFrameBegin_(const NNSG2dAnimSequence *pSeq)
 {
     return pSeq->pAnmFrameArray + pSeq->loopStartFrameIdx;
 }
 
-
 static inline const NNSG2dAnimFrameData *GetFrameEnd_(const NNSG2dAnimSequence *pSeq)
 {
     return pSeq->pAnmFrameArray + pSeq->numFrames;
 }
-
 
 void NNS_G2dResetCellAnimation(NNSG2dAnimController *pAnimCtrl)
 {
@@ -103,8 +90,6 @@ void NNS_G2dResetCellAnimation(NNSG2dAnimController *pAnimCtrl)
     pAnimCtrl->currentTime = 0;
     NNS_G2dTickAnimCtrl((struct AnimCtrl *)pAnimCtrl, 0);
 }
-
-
 
 /*
  * Binds a cell data bank to a cell animation and restarts it. The bind is a
@@ -120,8 +105,6 @@ void NNS_G2dSetCellAnimationBank(struct CellAnim *anim, void *bank)
     NNS_G2dResetCellAnimation((struct NNSG2dAnimController *)anim);
 }
 
-
-
 void NNS_G2dSetCellAnimationParam(struct CellAnim *anim, int type, int param, int func)
 {
     anim->callBackFunc = func;
@@ -129,8 +112,6 @@ void NNS_G2dSetCellAnimationParam(struct CellAnim *anim, int type, int param, in
     anim->callBackType = type;
     anim->callBackFrameIdx = 0;
 }
-
-
 
 /*
  * *
@@ -147,8 +128,6 @@ void NNS_G2dSetCellAnimationParamTagged(struct CellAnim *anim, u32 param, u32 fu
     anim->callBackParam = param;
     anim->callBackFrameIdx = frameIdx;
 }
-
-
 
 /*
  * *

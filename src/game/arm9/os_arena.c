@@ -32,28 +32,9 @@
  *   SDK_SECTION_ARENA_EX_START    0x02400060  data
  *   SDK_SECTION_ARENA_ITCM_START  0x01FF8820  data
  */
-typedef unsigned long u32;
+#include "../types.h"
 
-typedef long s32;
-
-typedef unsigned char u8;
-
-typedef int BOOL;
-
-typedef u32 OSIntrMode;
-
-typedef enum OSArenaId {
-    OS_ARENA_MAIN = 0,
-    OS_ARENA_MAIN_SUBPRIV = 1,
-    OS_ARENA_MAINEX = 2,
-    OS_ARENA_ITCM = 3,
-    OS_ARENA_DTCM = 4,
-    OS_ARENA_SHARED = 5,
-    OS_ARENA_WRAM_MAIN = 6,
-    OS_ARENA_WRAM_SUB = 7,
-    OS_ARENA_WRAM_SUBPRIV = 8,
-    OS_ARENA_MAX = 9
-} OSArenaId;
+#include "../sdk_os.h"
 
 typedef struct Cell Cell;
 
@@ -109,7 +90,6 @@ extern char SDK_SECTION_ARENA_EX_START[];
 extern char SDK_SECTION_ARENA_ITCM_START[];
 extern OSHeapInfo *OSiHeapInfo[OS_ARENA_MAX];
 
-
 void OS_InitArena(void)
 {
     u32 mainArenaId;
@@ -145,11 +125,9 @@ void OS_InitArena(void)
     OS_SetArenaLo(arenaId, (u32)(OS_GetInitArenaLo((int)(arenaId))));
 }
 
-
 #define OSi_ROUND(n, a)     (((u32)(n) + (a) - 1) & ~((a) - 1))
 
 #define OSi_TRUNC(n, a)     (((u32)(n)) & ~((a) - 1))
-
 
 /*
  * sdk:      OS_InitArenaEx (os_arena.o)
@@ -169,18 +147,15 @@ void OS_InitArenaEx(void)
     }
 }
 
-
 u32 OS_GetArenaHi(u32 arenaId)
 {
     return *(u32 *)((arenaId << 2) + 0x02FFFDC4);
 }
 
-
 u32 OS_GetArenaLo(u32 arenaId)
 {
     return *(u32 *)((arenaId << 2) + 0x02FFFDA0);
 }
-
 
 void *OS_GetInitArenaHi(int arenaId)
 {
@@ -240,7 +215,6 @@ void *OS_GetInitArenaHi(int arenaId)
     }
 }
 
-
 void *OS_GetInitArenaLo(int arenaId)
 {
     switch (arenaId) {
@@ -281,18 +255,15 @@ void *OS_GetInitArenaLo(int arenaId)
     }
 }
 
-
 void OS_SetArenaHi(u32 arenaId, u32 newHi)
 {
     *(u32 *)((arenaId << 2) + 0x02FFFDC4) = newHi;
 }
 
-
 void OS_SetArenaLo(u32 arenaId, u32 newLo)
 {
     *(u32 *)((arenaId << 2) + 0x02FFFDA0) = newLo;
 }
-
 
 u32 OS_AllocFromArenaLo(u32 arenaId, u32 size, u32 alignment)
 {

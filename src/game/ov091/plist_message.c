@@ -72,10 +72,7 @@
  *   APP_KEYCURSOR_DrawMark 0x02028618 thumb
  *   PLIST_MESSAGE_SetWordSetItemAlt  0x021BB9BC  thumb
  */
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed int     s32;
+#include "../types.h"
 
 #include "pokelist_types.h"
 #include "plist_message_types.h"

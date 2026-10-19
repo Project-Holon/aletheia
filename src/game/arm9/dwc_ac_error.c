@@ -17,19 +17,7 @@
  *   DWCi_AC_GetError   0x0205C308  arm
  *   GetNotFoundInet    0x0205D1E4  arm
  */
-typedef unsigned char u8;
-
-typedef signed char s8;
-
-typedef unsigned short u16;
-
-typedef unsigned long u32;
-
-typedef long s32;
-
-typedef unsigned long long u64;
-
-typedef int BOOL;
+#include "../types.h"
 
 typedef struct tagACHOLD {
     void *(*alloc)(u32 name, s32 size);
@@ -71,48 +59,9 @@ typedef struct tagACFL {
     u8 searched : 1;
 } ACFL;
 
-typedef struct WMBssDesc {
-    u16 length;
-    u16 rssi;
-    u8 bssid[6];
-    u16 ssidLength;
-    u8 ssid[32];
-    u16 capaInfo;
-    u16 rateSet[2];
-    u16 beaconPeriod;
-    u16 dtimPeriod;
-    u16 channel;
-    u8 rest[0xc0 - 0x38];
-} WMBssDesc;
+#include "../sdk_wm.h"
 
-typedef struct NCFGSlotInfo {
-    u8 pad0[0x40];
-    u8 ssid[32];
-    u8 pad1[0x20];
-    u8 wep[0x50];
-    u8 pad2[0x16];
-    u8 wepMode : 2;
-    u8 wepNotation : 6;
-    u8 pad3[3];
-    u16 mtu;
-    u8 pad4[0x100 - 0xec];
-} NCFGSlotInfo;
-
-typedef struct NCFGSlotInfoEx {
-    u8 ispId[0x20];
-    u8 ispPass[0x20];
-    u8 pad0[0xe6 - 0x40];
-    u8 wepMode : 2;
-    u8 wepNotation : 6;
-    u8 wpaMode;
-    u8 pad1[0x181 - 0xe8];
-    u8 wpaSecurity;
-    u8 proxyMode;
-    u8 proxyAuthType;
-    u8 proxyHost[100];
-    u16 proxyPort;
-    u8 pad2[0x200 - 0x1ea];
-} NCFGSlotInfoEx;
+#include "../sdk_ncfg.h"
 
 typedef struct tagACWORK {
     NCFGSlotInfo userInfo[3];
@@ -159,8 +108,6 @@ int GetProgramaError(int err);
 int GetIrregularError(void);
 int GetNotFoundAP(ACHOLD *hd);
 
-
-
 /*
  * sdk:      DWCi_AC_Error (error.o)
  */
@@ -173,7 +120,6 @@ u8 DWCi_AC_Error(void)
     }
     return 0x11;
 }
-
 
 /*
  * sdk:      DWCi_AC_GetResult (error.o)
@@ -201,7 +147,6 @@ int DWCi_AC_GetResult(void)
     return GetNotFoundInet(hd);
 }
 
-
 int GetProgramaError(int err)
 {
     switch (err) {
@@ -223,7 +168,6 @@ int GetIrregularError(void)
     return ~5;
 }
 
-
 int GetNotFoundAP(ACHOLD *hd)
 {
     if (hd->findAP == 0) {
@@ -231,8 +175,6 @@ int GetNotFoundAP(ACHOLD *hd)
     }
     return -51099;
 }
-
-
 
 /*
  * sdk:      GetNotFoundInet (error.o)

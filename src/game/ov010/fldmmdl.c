@@ -51,13 +51,7 @@
  *   d_021D770C  0x021D770C  data  ov021  a4
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed char s8;
-typedef signed short s16;
-typedef int s32;
-typedef long long s64;
+#include "../types.h"
 #include "fldmmdl_types.h"
 
 /* Current grid position of a field model, as copied out by FLDMMDL_GetGridNowPos. */

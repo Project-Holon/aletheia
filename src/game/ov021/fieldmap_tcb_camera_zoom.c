@@ -34,7 +34,7 @@
  *   _fmul                        0x0209C77C  arm
  *   _fsub                        0x0209CB8C  arm
  */
-#include "field_g3dobj_shared_types.h"
+#include "../types.h"
 
 /* Field camera zoom task (021C6B18..021C6BB4)                          */
 

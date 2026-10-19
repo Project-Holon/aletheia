@@ -93,7 +93,7 @@ struct Personal;
 
 struct Board;
 
-typedef short s16;
+#include "../types.h"
 
 /* Animation state at Elem + 0xF0 (16 bytes). Some animators count with an
    unsigned short and some with a signed short, so the counter is unioned. */
@@ -165,8 +165,6 @@ typedef struct { u8 pad_00[8]; u16 monsNo; u8 pad_0A; u8 form; } MonInput;
 typedef struct { int pad[5]; int flag; } Record;
 
 typedef struct { int m[9]; } Mtx;
-
-typedef long long s64;
 
 typedef struct { short y,x; } Scale;
 

@@ -6,9 +6,7 @@
  * PdcSys is the screen work, PdcMsg is the message window with its fade blend.
  */
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../types.h"
 
 struct GameData;
 struct PokemonParam;

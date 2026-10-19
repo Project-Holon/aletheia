@@ -51,12 +51,11 @@
  *   FX_SinCosTable_    0x020A1B38  data
  *   gBillboardQuad     0x020A1514  data
  */
-#include "double3Ddisp_shared_types.h"
 #include "billboard_types.h"
 
 struct Actor;
 
-typedef unsigned char  u8;
+#include "../types.h"
 
 struct Blk3 {
     u32 w[3];
@@ -373,16 +372,7 @@ struct LightSlot;
 
 /* Head of the NitroSystem texture block (NNSG3dResTex), up to the texel
  * data offset. */
-struct NNSG3dResTex {
-    u32 blockKind;
-    u32 blockSize;
-    u32 texVramKey;
-    u16 texSize;
-    u16 texDictOffset;
-    u16 texFlag;
-    u16 texPad;
-    u32 texelDataOffset;     /* from the start of the block */
-};
+#include "nns_g3d_anm_calc_types.h"
 
 /* One word of a table of (value, pad) pairs. */
 struct TexParamEntry {
@@ -402,11 +392,7 @@ struct BbBoardBytes {
 
 typedef void (*FreeVramFn)(u32 key);
 
-typedef int BOOL;
-
-typedef struct { fx32 m[3][3]; } MtxFx33;
-
-typedef struct { fx32 m[4][3]; } MtxFx43;
+#include "../sdk_fx.h"
 
 struct Quad { fx16 y0, y1, x0, x1; };
 
@@ -415,7 +401,6 @@ extern int G3D_SYSTEM_TransVramTexture(struct G3dResource *resource);
 extern u32 G3D_SYSTEM_GetTexVramKey(struct G3dResource *resource);
 
 extern u32 G3D_SYSTEM_GetPlttVramKey(struct G3dResource *resource);
-
 
 extern struct G3dResource *G3D_SYSTEM_CreateResourceArc(u32 arcId, u32 dataId);
 
@@ -711,7 +696,7 @@ void BILLBOARD_TrimImageResource(struct BbBoard *board, u32 index)
     struct G3dResource  *resource = (struct G3dResource *)image->handle;
     void                *file     = G3D_SYSTEM_GetResourceFile(resource);
     struct NNSG3dResTex *texBlock = G3D_SYSTEM_GetResourceTex(resource);
-    GFL_HEAP_CheckAllocator(file, (u32)((u8 *)texBlock + texBlock->texelDataOffset - (u8 *)file));
+    GFL_HEAP_CheckAllocator(file, (u32)((u8 *)texBlock + texBlock->texInfo.ofsTex - (u8 *)file));
 }
 
 /*

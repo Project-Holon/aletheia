@@ -3,6 +3,6 @@
 
 struct PlayerWork;
 
-typedef unsigned int  u32;
+#include "../types.h"
 
 #endif

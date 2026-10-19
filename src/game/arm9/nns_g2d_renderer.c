@@ -66,21 +66,9 @@ struct Cell;
 struct Host;
 struct Cmd020659D4;
 struct NNSG2dMultiCellInstance;
-typedef unsigned char  u8;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef signed short   s16;
-
-typedef unsigned int   u32;
-
-typedef int            s32;
-
-typedef int            BOOL;
-
-typedef s32            fx32;
-
-typedef struct { fx32 _00, _01, _10, _11; } MtxFx22;
+#include "../sdk_fx.h"
 
 typedef struct { fx32 _00, _01, _10, _11, _20, _21; } MtxFx32;
 
@@ -274,8 +262,6 @@ struct RendererBssHead {
     s32 stackPos_;
 };
 
-typedef long long fx64;
-
 extern int NNSi_G2dGetVramHandle(unsigned short *p, int i);
 extern void NNSi_G2dMCMLoadCurrentMtxToCache(void);
 extern void NNS_G2dSetRndCoreCurrentMtx2D(u32 a, u32 b);
@@ -338,46 +324,16 @@ extern fx32 g_02147B98[];
 extern s16 FX_SinCosTable_[];
 extern MtxFx32 g_02148018[];
 
-
-
-
-
-
-
-
-
-
-
 static inline int GetColorParam(const OamAttr *oam)
 {
     return (oam->attr2 & 0xF000) >> 12;
 }
-
-
-
-
-
-
-
-
-
-
 
 static inline void SetObjMode(OamAttr *oam, int mode, int cParam)
 {
     oam->attr01 = (oam->attr01 & ~0xC00) | (mode << 10);
     oam->attr2 = (u16)((oam->attr2 & ~0xF000) | (cParam << 12));
 }
-
-
-
-
-
-
-
-
-
-
 
 void NNSi_G2dRendererPreDrawOam(struct Cell *c, void *pCellData, void *pOam)
 {
@@ -425,16 +381,6 @@ void NNSi_G2dRendererPreDrawOam(struct Cell *c, void *pCellData, void *pOam)
     v->pBeforeDrawOamBackFunc(o, v, pCellData, pOam, m);
 }
 
-
-
-
-
-
-
-
-
-
-
 static inline MtxFx32 *GetMtx(void)
 {
     if (g_02147B88.bDonotUseSRTransform != 0) {
@@ -444,16 +390,6 @@ static inline MtxFx32 *GetMtx(void)
     }
     return &g_02147D18[g_02147B88.stackPos_];
 }
-
-
-
-
-
-
-
-
-
-
 
 void NNSi_G2dRendererCallSurfaceOamFunc(void *pRend, void *pCellData, void *pOam)
 {
@@ -465,15 +401,6 @@ void NNSi_G2dRendererCallSurfaceOamFunc(void *pRend, void *pCellData, void *pOam
 
     v->pAfterDrawOamBackFunc(o, v, pCellData, pOam, GetMtx());
 }
-
-
-
-
-
-
-
-
-
 
 static inline NNSG2dRndCore2DMtxCache *GetAff(void)
 {
@@ -500,15 +427,6 @@ static inline NNSG2dRndCore2DMtxCache *GetAff(void)
     return aff;
 }
 
-
-
-
-
-
-
-
-
-
 static inline void Finish(void *a)
 {
     int r = !(g_020A81F8.currenVramTransferHandle_ == -1);
@@ -518,15 +436,6 @@ static inline void Finish(void *a)
     else
         NNS_G2dRndCoreDrawCell((u32)a);
 }
-
-
-
-
-
-
-
-
-
 
 static inline void DrawA(void *a, NNSG2dRenderSurface *p)
 {
@@ -544,15 +453,6 @@ static inline void DrawA(void *a, NNSG2dRenderSurface *p)
     NNS_G2dRndCoreEndRendering();
 }
 
-
-
-
-
-
-
-
-
-
 static inline void DrawB(void *a, NNSG2dRendererInstance *o, NNSG2dRenderSurface *p)
 {
     NNSG2dRendererInstance *q = g_02147B88.pCurrentInstance_;
@@ -566,15 +466,6 @@ static inline void DrawB(void *a, NNSG2dRendererInstance *o, NNSG2dRenderSurface
     g_02147B88.pCurrentInstance_->rendererCore.pCurrentTargetSurface = 0;
     NNS_G2dRndCoreEndRendering();
 }
-
-
-
-
-
-
-
-
-
 
 void NNSi_G2dRendererDrawCellToSurfaces(void *a)
 {
@@ -604,15 +495,6 @@ void NNSi_G2dRendererDrawCellToSurfaces(void *a)
     }
 }
 
-
-
-
-
-
-
-
-
-
 static inline void Draw(struct CellDrawCmd *c, void *a)
 {
     int r;
@@ -625,15 +507,6 @@ static inline void Draw(struct CellDrawCmd *c, void *a)
         NNSi_G2dRendererDrawCellToSurfaces(a);
     }
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * The plain draw of one cell actor with its inline transform record, the
@@ -694,15 +567,6 @@ void NNSi_G2dRendererDrawCellTransformed(struct CellDrawCmd *c)
     NNS_G2dPopMtx(1);
 }
 
-
-
-
-
-
-
-
-
-
 void NNSi_G2dRendererDrawCellEntryTransformed(struct Cmd020659D4 *c)
 {
     int a;
@@ -740,36 +604,15 @@ void NNSi_G2dRendererDrawCellEntryTransformed(struct Cmd020659D4 *c)
     NNS_G2dPopMtx(1);
 }
 
-
-
-
-
-
-
-
 static inline void MI_CpuFillFast(void *dest, u32 data, u32 size)
 {
     MIi_CpuClearFast(data, dest, size);
 }
 
-
-
-
-
-
-
-
 static inline void NNS_G2dInitRndCore2DMtxCache(NNSG2dRndCore2DMtxCache *pMtxCache)
 {
     MI_CpuFillFast(pMtxCache->affineIndex, 0xFFFFFFFF, sizeof(pMtxCache->affineIndex));
 }
-
-
-
-
-
-
-
 
 /*
  * Byte-correct under the ../2.0/sp2 pin (0 concrete mismatches at the
@@ -805,25 +648,11 @@ void NNS_G2dInitRenderer(NNSG2dRendererInstance *pRend)
     g_02147B88.bDonotUseSRTransform = 0;
 }
 
-
-
-
-
-
-
-
-
 void NNS_G2dSetRendererTargetSurface(NNSG2dRendererInstance *pRend, NNSG2dRenderSurface *pNew)
 {
     pNew->pNextSurface = pRend->rendererCore.pTargetSurfaceList;
     pRend->rendererCore.pTargetSurfaceList = pNew;
 }
-
-
-
-
-
-
 
 /*
  * Wipe and initialise a 0x48-byte object: MIi_CpuClear16(0, p, 0x48) first,
@@ -854,13 +683,6 @@ void NNS_G2dInitRenderSurface(struct Obj *p)
     p->fn20 = (u32)NNSi_G2dRendererPreDrawOam;
     p->fn24 = (u32)NNSi_G2dRendererCallSurfaceOamFunc;
 }
-
-
-
-
-
-
-
 
 /*
  * Resets the cell-actor manager g_02147B88: attaches the object, clears the
@@ -912,11 +734,6 @@ void NNS_G2dBeginRendering(NNSG2dRendererInstance *obj)
     NNSi_G2dRendererResetMtxSlot();
 }
 
-
-
-
-
-
 /*
  * Teardown tail of the cell-actor / OAM manager: raises the capture-enable
  * bit at 0x04000448, then, if the attached object still carries work bits at
@@ -950,13 +767,6 @@ void NNS_G2dEndRendering(u32 a)
     }
     g_02147B88.pCurrentInstance_ = 0;
 }
-
-
-
-
-
-
-
 
 /*
  * Draws one cell actor.  Exact twin of src/matched/NNSi_G2dRendererDrawCellTransformedZOffset.c with
@@ -996,13 +806,6 @@ void NNSi_G2dRendererDrawCellZOffset(void *pCell)
     }
 }
 
-
-
-
-
-
-
-
 void NNSi_G2dRendererDrawCellTransformedZOffset(void *pCell)
 {
     int saved;
@@ -1023,18 +826,10 @@ void NNSi_G2dRendererDrawCellTransformedZOffset(void *pCell)
     }
 }
 
-
-
-
-
 static inline u16 NNSi_G2dGetMC2NodeCellAinmIdx(const NNSG2dMultiCellHierarchyData *pNodeData)
 {
     return (u16)((0xFF00 & pNodeData->nodeAttr) >> 8);
 }
-
-
-
-
 
 static inline void FlipTranslate_(int x, int y)
 {
@@ -1043,10 +838,6 @@ static inline void FlipTranslate_(int x, int y)
 
     NNS_G2dTranslate(x_ << 12, y_ << 12, 0);
 }
-
-
-
-
 
 static inline void DrawNode2_(const NNSG2dMultiCellInstance *pMC, const NNSG2dMultiCellHierarchyData *pNodeData)
 {
@@ -1062,18 +853,10 @@ static inline void DrawNode2_(const NNSG2dMultiCellInstance *pMC, const NNSG2dMu
     NNS_G2dPopMtx(1);
 }
 
-
-
-
-
 static inline BOOL IsAutoZoffsetEnable_(void)
 {
     return (BOOL)g_02147B88.pCurrentInstance_->spriteZoffsetStep;
 }
-
-
-
-
 
 void NNS_G2dDrawMultiCell(const NNSG2dMultiCellInstance *pMC)
 {
@@ -1128,9 +911,6 @@ void NNS_G2dDrawMultiCell(const NNSG2dMultiCellInstance *pMC)
     }
 }
 
-
-
-
 void NNSi_G2dRendererDrawMultiCellTransformed(struct MultiCellDrawCmd *c)
 {
     if (c->flags == 0) {
@@ -1167,10 +947,6 @@ void NNSi_G2dRendererDrawMultiCellTransformed(struct MultiCellDrawCmd *c)
     NNS_G2dPopMtx(1);
 }
 
-
-
-
-
 static inline void CopySlot(int next)
 {
     if (g_02147B88.bDonotUseSRTransform != 0) {
@@ -1186,10 +962,6 @@ static inline void CopySlot(int next)
     }
     g_02147B88.stackPos_ = next;
 }
-
-
-
-
 
 /*
  * The matrix-slot PUSH, the counterpart of src/matched/NNS_G2dPopMtx.c.
@@ -1247,10 +1019,6 @@ void NNS_G2dPushMtx(void)
     }
 }
 
-
-
-
-
 /*
  * The matrix-slot POP, the counterpart of NNS_G2dPushMtx.  Returns at once
  * when the slot index g_02147B88.stackPos_ (+0x0c) is already 0; otherwise
@@ -1288,9 +1056,6 @@ void NNS_G2dPopMtx(int n)
         g_020A81F8.firstSRTransformedMtxIdx_ = 0xFFFE;
     }
 }
-
-
-
 
 /*
  * Matrix translate.  With the manager's mode word (+0x04) set, the current
@@ -1336,8 +1101,6 @@ void NNS_G2dTranslate(fx32 x, fx32 y, fx32 z)
     g_02147B98[g_02147B88_head.stackPos_] += z;
 }
 
-
-
 static inline void NNSi_G2dSetScale(MtxFx32 *m, fx32 sx, fx32 sy)
 {
     m->_00 = sx;
@@ -1347,10 +1110,6 @@ static inline void NNSi_G2dSetScale(MtxFx32 *m, fx32 sx, fx32 sy)
     m->_20 = 0;
     m->_21 = 0;
 }
-
-
-
-
 
 static inline void NNSi_G2dSetScaleFor2DHW(MtxFx32 *m, fx32 sx, fx32 sy)
 {
@@ -1362,18 +1121,10 @@ static inline void NNSi_G2dSetScaleFor2DHW(MtxFx32 *m, fx32 sx, fx32 sy)
     m->_21 = 0;
 }
 
-
-
-
-
 static inline u16 NNSi_G2dGetMtxStackPos(void)
 {
     return (u16)(g_02147B88.stackPos_);
 }
-
-
-
-
 
 static inline void NNSi_G2dScale(fx32 sx, fx32 sy)
 {
@@ -1386,18 +1137,10 @@ static inline void NNSi_G2dScale(fx32 sx, fx32 sy)
     }
 }
 
-
-
-
-
 static inline void NNSi_G2dSetRndMtxStackSRTransformed(void)
 {
     g_020A81F8.firstSRTransformedMtxIdx_ = NNSi_G2dGetMtxStackPos();
 }
-
-
-
-
 
 static inline BOOL NNSi_G2dIsRndCurrentMtxSRTransformed(void)
 {
@@ -1405,36 +1148,20 @@ static inline BOOL NNSi_G2dIsRndCurrentMtxSRTransformed(void)
                   g_020A81F8.firstSRTransformedMtxIdx_ != 0xFFFE);
 }
 
-
-
-
-
 static inline void SetMtxStateGroupID_(MCMMtxState *pMtxState, u16 groupID)
 {
     pMtxState->groupID = groupID;
 }
-
-
-
-
 
 static inline u16 GetNewGroupID_(void)
 {
     return g_02147B88.groupID_++;
 }
 
-
-
-
-
 static inline MCMMtxState *GetCuurentMtxState_(void)
 {
     return &g_02147B88.mtxStateStack_[NNSi_G2dGetMtxStackPos()];
 }
-
-
-
-
 
 static inline void NNSi_G2dMCMSetCurrentMtxSRChanged(void)
 {
@@ -1454,10 +1181,6 @@ static inline void NNSi_G2dMCMSetCurrentMtxSRChanged(void)
     break;
     }
 }
-
-
-
-
 
 /*
  * NitroSystem g2d_Renderer.c NNS_G2dScale(x, y, z) (z unused): NNSi_G2dScale
@@ -1481,10 +1204,6 @@ void NNS_G2dScale(fx32 x, fx32 y, fx32 z)
     NNSi_G2dMCMSetCurrentMtxSRChanged();
 }
 
-
-
-
-
 static inline void NNSi_G2dSetRotate(MtxFx32 *m, fx32 sin, fx32 cos)
 {
     m->_00 = cos;
@@ -1494,10 +1213,6 @@ static inline void NNSi_G2dSetRotate(MtxFx32 *m, fx32 sin, fx32 cos)
     m->_20 = 0;
     m->_21 = 0;
 }
-
-
-
-
 
 static inline void NNSi_G2dRotate(fx32 sin, fx32 cos)
 {
@@ -1509,10 +1224,6 @@ static inline void NNSi_G2dRotate(fx32 sin, fx32 cos)
         NNSi_G2dMtxConcat32(&temp, &g_02147B88.mtxStackFor2DHW_[g_02147B88.stackPos_], &g_02147B88.mtxStackFor2DHW_[g_02147B88.stackPos_]);
     }
 }
-
-
-
-
 
 /*
  * NitroSystem g2d_Renderer.c NNS_G2dRotZ(sin, cos): NNSi_G2dRotate (the
@@ -1547,18 +1258,9 @@ void NNS_G2dRotZ(fx32 sin, fx32 cos)
     NNSi_G2dMCMSetCurrentMtxSRChanged();
 }
 
-
-
-
 int NNSi_G2dGetCurrentInstanceVramHandle(int *p){ return p[0x1e]; }
 
-
-
-
 void NNSi_G2dSetRndCoreImageProxyVeneer(int *pRnd, int pImgProxy, int pPltProxy){ NNS_G2dSetRndCoreImageProxy((struct NNSG2dRndCoreInstance *)pRnd, (struct NNSG2dImageProxy *)pImgProxy, (struct NNSG2dPaletteProxy *)pPltProxy); }
-
-
-
 
 void NNSi_G2dMtxConcat32(const MtxFx32 *a, const MtxFx32 *b, MtxFx32 *ab)
 {

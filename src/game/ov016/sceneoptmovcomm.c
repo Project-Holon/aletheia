@@ -37,14 +37,12 @@
  *   DWCi_SNDlStop  0x021D0014  arm  ov016
  *   DWCi_MOVlEnd  0x021C115C  arm  ov016
  */
-typedef unsigned short u16;
+#include "../types.h"
 
 typedef struct {
     u16 priority : 2;
     u16 rest : 14;
 } BgCnt;
-
-typedef unsigned char u8;
 
 extern void DWCi_CMNlMsgDraw(int msg);
 extern void DWCi_ANIMElInitEx(int color);
@@ -74,7 +72,6 @@ void DWCi_SceneOptMovComm_input(void);
 void DWCi_SceneOptMovComm_draw(void);
 extern u8   gSceneOptMovCommWork;
 
-
 /*
  * sdk:      DWCi_SceneOptMovComm (libdwcutil.TWL.HYB.a(sceneoptmovcomm.o))
  */
@@ -95,7 +92,6 @@ void DWCi_SceneOptMovComm(void)
 	DWCi_ChangeScene((unsigned int)procInit);
 }
 
-
 static void initGraphics(void)
 {
     DWCi_CMNlLoadResource((void *)0x021DB368, (void *)0x0207EB78);
@@ -105,7 +101,6 @@ static void initGraphics(void)
     ((BgCnt *)0x0400000A)->priority = 3;
     ((BgCnt *)0x0400000C)->priority = 3;
 }
-
 
 /*
  * sdk:      procInit (libdwcutil.TWL.HYB.a(sceneoptmovcomm.o))
@@ -117,7 +112,6 @@ static void procInit(void)
 	DWCi_ChangeScene((unsigned int)procInit1);
 }
 
-
 static void procInit1(void)
 {
 	if (DWCi_EFFlCheck(0))
@@ -126,13 +120,11 @@ static void procInit1(void)
 	DWCi_ChangeScene((unsigned int)DWCi_SceneOptMovComm_procScene);
 }
 
-
 void DWCi_SceneOptMovComm_procScene(void)
 {
     DWCi_SceneOptMovComm_input();
     DWCi_SceneOptMovComm_draw();
 }
-
 
 /*
  * Empty stub: the routine carries no behaviour (see the call sites for why it exists).
@@ -146,7 +138,6 @@ void DWCi_SceneOptMovComm_input(void)
 {
 }
 
-
 /*
  * Empty stub: the routine carries no behaviour (see the call sites for why it exists).
  * Addresses are Black-image addresses.
@@ -159,7 +150,6 @@ void DWCi_SceneOptMovComm_draw(void)
 {
 }
 
-
 /*
  * sdk:      endScene (libdwcutil.TWL.HYB.a(sceneoptmovcomm.o))
  */
@@ -168,7 +158,6 @@ static void endScene(void)
 	DWCi_EFFlFade(3, 0, 0x15, 8);
 	DWCi_ChangeScene((unsigned int)endScene1);
 }
-
 
 static void endScene1(void)
 {
@@ -191,7 +180,6 @@ static void endScene1(void)
     }
     DWCi_ChangeScene((unsigned int)DWCi_SceneOptMovComplete);
 }
-
 
 /*
  * sdk:      DWCi_SceneOptMovCommCbMov (libdwcutil.TWL.HYB.a(sceneoptmovcomm.o))

@@ -25,18 +25,9 @@
  *   gDailyLayoutCompanionCellsB     0x021F3A90  data  a1
  */
 struct RtcDate;
-typedef unsigned char u8;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef struct {
-    u32 year;
-    u32 month;
-    u32 day;
-    u32 week;
-} RTCDate;
+#include "../sdk_rtc.h"
 
 /*
  * Cell deal: pool of the 15 cells not dealt yet (poolLast is the index of the
@@ -93,7 +84,6 @@ typedef struct ExtraEntryDef {
     int valueD;
 } ExtraEntryDef;
 
-typedef int s32;
 #include "../arm9/gf_standard.h"
 extern int DAILY_LAYOUT_DealCells(CellDeck *deck);
 #include "../arm9/gfl_use.h"
@@ -107,7 +97,6 @@ extern const CellFlags gDailyLayoutCellFlags[];
 extern const MainEntryDef gDailyLayoutMainDefs[];
 extern const ExtraEntryDef gDailyLayoutBonusDefs[];
 extern const ExtraEntryDef gDailyLayoutFillerDefs[];
-
 
 /*
  * Builds the daily layout: the number of main entries depends on the weekday,
@@ -209,7 +198,6 @@ void DAILY_LAYOUT_Generate(DailyLayoutWork *work)
         dealtIdx++;
     }
 }
-
 
 /* Picks pickCount distinct values out of 0..poolSize-1 into picks, without repeats. */
 void DAILY_LAYOUT_PickDistinct(int poolSize, int pickCount, unsigned char *scratch, unsigned char *picks)

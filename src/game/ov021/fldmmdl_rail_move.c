@@ -73,14 +73,9 @@
  *   FLDMMDL_RAIL_SetGridPosByDir  0x0219E6C8  thumb  ov021
  *   FLDMMDL_RAIL_GetDrawOffsetByDir  0x0219E784  thumb  ov021
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef signed short s16;
-typedef unsigned int u32;
-typedef signed char s8;
-typedef signed int s32;
+#include "../types.h"
 
-typedef struct VecFx32 { s32 x; s32 y; s32 z; } VecFx32;
+#include "../sdk_fx.h"
 
 /* A field model (opaque here; fldmmdl.c owns the layout). */
 typedef struct Mmdl Mmdl;

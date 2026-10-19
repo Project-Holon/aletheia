@@ -2,12 +2,7 @@
 #define OV114_DWC_ENCSESSION_TYPES_H
 /* Encrypted GameSpy session state (dwc_encsession.o) shared by the two halves of the module. */
 
-#ifndef OV114_BASIC_TYPES
-#define OV114_BASIC_TYPES
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-#endif
+#include "../types.h"
 
 typedef int (*DWCEncResponseCallback)(unsigned int *response, int responseLen);
 

@@ -75,13 +75,11 @@ typedef struct SBKeyValuePair {
     char *value;
 } SBKeyValuePair;
 
-typedef unsigned int   u32;
+#include "../types.h"
 
 typedef struct {
     char *k[2];
 } InvalidKeyList;
-
-typedef unsigned char  u8;
 
 extern int strcmp_nocase(char *s1, char *s2);
 extern void gsifree(void *ptr);
@@ -154,9 +152,6 @@ extern char g_021A8178[];
 extern char g_021A81AC[];
 extern unsigned char __lower_mapC[];
 
-
-
-
 extern int strcmp(const char *a, const char *b);
 extern int atoi(u32 s);
 extern int strnicmp(unsigned char *s1, unsigned char *s2, int n);
@@ -165,26 +160,15 @@ int RefStringHash(void *elem, int numbuckets)
     return StringHash(*(char **)elem, numbuckets);
 }
 
-
-
-
-
 int RefStringCompare(void *entry1, void *entry2)
 {
     return strcmp_nocase(*(char **)entry1, *(char **)entry2);
 }
 
-
-
-
 void RefStringFree(void *elem)
 {
     gsifree(*(void **)elem);
 }
-
-
-
-
 
 struct HashImplementation *SBRefStrHash(void)
 {
@@ -194,10 +178,6 @@ struct HashImplementation *SBRefStrHash(void)
                               RefStringFree);
     return g_021AEAF8[1];
 }
-
-
-
-
 
 void SBRefStrHashCleanup(void)
 {
@@ -209,11 +189,6 @@ void SBRefStrHashCleanup(void)
     g_021AEAF8[1] = 0;
 }
 
-
-
-
-
-
 void SBServerFree(void *elem)
 {
     SBServer *server = *(SBServer **)elem;
@@ -222,11 +197,6 @@ void SBServerFree(void *elem)
     server->keyvals = 0;
     gsifree(server);
 }
-
-
-
-
-
 
 void SBServerAddKeyValue(SBServer *server, char *keyname, char *value)
 {
@@ -238,8 +208,6 @@ void SBServerAddKeyValue(SBServer *server, char *keyname, char *value)
     gsDebugFormat(4, 4, 0x10, g_021A8130, keyname, value);
 }
 
-
-
 void SBServerAddIntKeyValue(SBServer *server, char *keyname, int value)
 {
     char stemp[20];
@@ -247,8 +215,6 @@ void SBServerAddIntKeyValue(SBServer *server, char *keyname, int value)
     OS_SPrintf(stemp, g_021A8154, value);
     SBServerAddKeyValue(server, keyname, stemp);
 }
-
-
 
 /*
  * sdk:      SBServerGetStringValueA (sb_server.o)
@@ -271,13 +237,7 @@ char *SBServerGetStringValueA(SBServer *server, char *keyname, char *def)
     return ptr->value;
 }
 
-
-
-
 static inline int isdigit(unsigned int c) { return (c >= 0x80) ? 0 : (gCtypeMap[c] & 8); }
-
-
-
 
 /*
  * sdk:      SBServerGetIntValueA (libdwcgsserverbrowsing.TWL.HYB.a(sb_server.o))
@@ -298,8 +258,6 @@ int SBServerGetIntValueA(SBServer *server, char *key, int idefault)
     return atoi((u32)s);
 }
 
-
-
 double SBServerGetFloatValueA(SBServer *server, char *key,
                               double fdefault)
 {
@@ -309,7 +267,6 @@ double SBServerGetFloatValueA(SBServer *server, char *key,
         fdefault = atof(s);
     return fdefault;
 }
-
 
 unsigned int SBServerGetPublicInetAddress(const SBServer *server)
 {
@@ -323,7 +280,6 @@ unsigned short SBServerGetPublicQueryPort(const unsigned short *p)
     return (unsigned short)(((v >> 8) & 0xff) | ((v << 8) & 0xff00));
 }
 
-
 unsigned short SBServerGetPublicQueryPortNBO(const SBServer *server)
 {
     return server->publicport;
@@ -333,7 +289,6 @@ int SBServerHasPrivateAddress(const unsigned char *p)
 {
     return (p[0x15] & 2) == 2;
 }
-
 
 unsigned int SBServerGetPrivateInetAddress(const SBServer *server)
 {
@@ -347,7 +302,6 @@ unsigned short SBServerGetPrivateQueryPort(const unsigned short *p)
     return (unsigned short)(((v >> 8) & 0xff) | ((v << 8) & 0xff00));
 }
 
-
 /*
  * Sets the next server in a list.
  */
@@ -356,7 +310,6 @@ void SBServerSetNext(SBServer *server, SBServer *next)
     server->next = next;
 }
 
-
 /*
  * Next server in a list.
  */
@@ -364,11 +317,6 @@ SBServer *SBServerGetNext(const SBServer *server)
 {
     return server->next;
 }
-
-
-
-
-
 
 /*
  * sdk:      CheckValidKey (sb_server.o)
@@ -392,10 +340,6 @@ int CheckValidKey(char *key)
     return 1;
 }
 
-
-
-
-
 char *mytok(char *instr, char delim)
 {
     char *result;
@@ -412,10 +356,6 @@ char *mytok(char *instr, char delim)
         *thestr++ = '\0';
     return result;
 }
-
-
-
-
 
 /*
  * sdk:      SBServerParseKeyVals (libdwcgsserverbrowsing.TWL.HYB.a(sb_server.o))
@@ -435,9 +375,6 @@ void SBServerParseKeyVals(SBServer *server, char *keyvals)
         k = mytok(0, 0x5c);
     }
 }
-
-
-
 
 /*
  * sdk:      SBServerParseQR2FullKeysSingle (sb_server.o)
@@ -512,9 +449,6 @@ void SBServerParseQR2FullKeysSingle(SBServer *server, char *data, int len)
         }
     }
 }
-
-
-
 
 /*
  * sdk:      SBServerParseQR2FullKeysSplit (sb_server.o)
@@ -619,9 +553,6 @@ void SBServerParseQR2FullKeysSplit(SBServer *server, char *data, int len)
     }
 }
 
-
-
-
 static int StringHash(char *s, int numbuckets)
 {
     unsigned int hashcode = 0;
@@ -638,24 +569,16 @@ static int StringHash(char *s, int numbuckets)
     return hashcode % numbuckets;
 }
 
-
-
-
 static void KeyValFree(void *elem)
 {
     SBReleaseStr(0, ((SBKeyValuePair *)elem)->key);
     SBReleaseStr(0, ((SBKeyValuePair *)elem)->value);
 }
 
-
-
 int KeyValHashKey(void *elem, int numbuckets)
 {
     return StringHash(*(char **)elem, numbuckets);
 }
-
-
-
 
 static int KeyValCompareKey(void *entry1, void *entry2)
 {
@@ -666,12 +589,10 @@ static int KeyValCompareKey(void *entry1, void *entry2)
     return 1;
 }
 
-
 int SBServerGetPing(const SBServer *server)
 {
     return server->updatetime;
 }
-
 
 SBServer *SBAllocServer(struct SBServerList *unused, unsigned int publicip, unsigned short publicport)
 {
@@ -697,7 +618,6 @@ SBServer *SBAllocServer(struct SBServerList *unused, unsigned int publicip, unsi
     return server;
 }
 
-
 void SBServerSetFlags(SBServer *server, unsigned char flags)
 {
     server->flags = flags;
@@ -709,7 +629,6 @@ void SBServerSetPrivateAddr(char *p, int v, unsigned short w)
     *(unsigned short *)(p + 0xc) = w;
 }
 
-
 /*
  * Sets the address used for the ICMP ping of a server.
  */
@@ -717,7 +636,6 @@ void SBServerSetICMPIP(SBServer *server, unsigned int icmpIp)
 {
     server->icmpip = icmpIp;
 }
-
 
 /*
  * Sets the state bits of a server.
@@ -727,7 +645,6 @@ void SBServerSetState(SBServer *server, unsigned char state)
     server->state = state;
 }
 
-
 /*
  * State bits of a server.
  */
@@ -735,7 +652,6 @@ unsigned char SBServerGetState(const SBServer *server)
 {
     return server->state;
 }
-
 
 int SBIsNullServer(int v)
 {

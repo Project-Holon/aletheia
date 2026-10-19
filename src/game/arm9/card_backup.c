@@ -74,50 +74,11 @@
 #define CARD_BACKUP_CAPS_WRITE_STATUS    0x4000
 #define CARD_BACKUP_CAPS_ERASE_SUBSECTOR 0x8000
 #define CARD_RESULT_UNSUPPORTED 3
-typedef unsigned char u8;
+#include "../types.h"
 
-typedef unsigned short u16;
+#include "../sdk_os.h"
 
-typedef unsigned int u32;
-
-typedef long s32;
-
-typedef int BOOL;
-
-typedef struct OSThread OSThread;
-
-typedef struct OSThreadQueue
-{
-    OSThread *head;
-    OSThread *tail;
-} OSThreadQueue;
-
-typedef enum CARDBackupType {
-    CARD_BACKUP_TYPE_NOT_USE = 0
-} CARDBackupType;
-
-typedef struct CARDBackupTypeInfo
-{
-    u32 total_size;
-    u32 sect_size;
-    u32 subsect_size;
-    u32 page_size;
-    u32 addr_width;
-    u32 program_page;
-    u32 write_page;
-    u32 write_page_total;
-    u32 erase_chip;
-    u32 erase_chip_total;
-    u32 erase_sector;
-    u32 erase_sector_total;
-    u32 erase_subsector;
-    u32 erase_subsector_total;
-    u32 erase_page;
-    u8 initial_status;
-    u8 padding1[3];
-    u32 caps;
-    u8 padding2[4];
-} CARDBackupTypeInfo;
+#include "../sdk_card.h"
 
 typedef struct CARDiCommandArg
 {
@@ -159,13 +120,6 @@ typedef struct CARDiCommon
     OSThread *current_thread_9;
 } CARDiCommon;
 
-typedef struct OSThreadInfo
-{
-    u16 isNeedRescheduling;
-    u16 irqDepth;
-    OSThread *current;
-} OSThreadInfo;
-
 extern void OS_WakeupThreadDirect(OSThread *thread);
 extern BOOL PXI_IsCallbackReady(int fifotag, int proc);
 extern void OS_SpinWaitSysCycles(u32 cycle);
@@ -201,11 +155,6 @@ extern CARDiCommon cardi_common;
 extern OSThreadInfo OSi_ThreadInfo;
 extern const char cardi_backup_assert[22];
 
-
-
-
-
-
 /*
  * sdk:      CARDi_OnFifoRecv (libcard.TWL.HYB.a card_backup.o)
  */
@@ -221,20 +170,10 @@ void CARDi_OnFifoRecv(int tag, u32 data, BOOL err)
     }
 }
 
-
-
-
-
-
 static inline OSThread *OS_GetCurrentThread(void)
 {
     return OSi_ThreadInfo.current;
 }
-
-
-
-
-
 
 /*
  * sdk:      CARDi_Request (libcard.TWL.HYB.a card_backup.o)
@@ -281,14 +220,7 @@ BOOL CARDi_Request(CARDiCommon *p, int req_type, int retry_count)
     return (p->cmd->result == 0);
 }
 
-
-
-
 extern u8 CARDi_backup_cache_page_buf[256] __attribute__((aligned(32)));
-
-
-
-
 
 /*
  * notes:    CARDi_backup_cache_page_buf is a 256-byte static in card_backup.o .bss with
@@ -364,9 +296,6 @@ void CARDi_RequestStreamCommandCore(CARDiCommon *p)
         p->len -= len;
     } while (p->len > 0);
 }
-
-
-
 
 static void CARDi_IdentifyBackupCore2(CARDBackupType type)
 {
@@ -527,9 +456,6 @@ static void CARDi_IdentifyBackupCore2(CARDBackupType type)
     }
 }
 
-
-
-
 /*
  * sdk:      CARDi_IdentifyBackupCore (libcard.TWL.HYB.a card_backup.o)
  */
@@ -541,9 +467,6 @@ void CARDi_IdentifyBackupCore(CARDiCommon *p)
     p->cmd->len = 1;
     (void)CARDi_Request(p, 6, 1);
 }
-
-
-
 
 /*
  * sdk:      CARDi_BeginBackupCommand (libcard.TWL.HYB.a card_backup.o)
@@ -558,9 +481,6 @@ void CARDi_BeginBackupCommand(u32 level, void (*callback)(void *), void *arg)
     }
     (void)CARDi_WaitForTask(&cardi_common, 1, callback, arg);
 }
-
-
-
 
 /*
  * sdk:      CARDi_RequestStreamCommand (libcard.TWL.HYB.a card_backup.o)
@@ -581,9 +501,6 @@ BOOL CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, void (*callback)(void
     return CARDi_ExecuteOldTypeTask(CARDi_RequestStreamCommandCore, is_async);
 }
 
-
-
-
 /*
  * sdk:      CARD_IdentifyBackup (libcard.TWL.HYB.a card_backup.o)
  */
@@ -598,18 +515,12 @@ BOOL CARD_IdentifyBackup(int type)
     return CARDi_ExecuteOldTypeTask(CARDi_IdentifyBackupCore, 0);
 }
 
-
-
-
 u32 CARD_GetBackupSectorSize(void)
 {
     return cardi_common.cmd->spec.sect_size;
 }
 
-
 void CARD_WaitBackupAsync(void){ CARDi_WaitAsync(); }
-
-
 
 /*
  * Eight bytes of code and its own pool word: a bare tail call, the shortest
@@ -623,7 +534,6 @@ u32 CARD_TryWaitBackupAsync(void)
 {
     return CARDi_TryWaitAsync();
 }
-
 
 void CARD_CancelBackupAsync(void)
 {

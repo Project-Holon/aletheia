@@ -17,10 +17,9 @@
  *   NNS_FndAllocFromAllocator    0x02061330  arm
  *   NNS_FndFreeToAllocator  0x02061344  arm
  */
-struct NNSFndAllocator;
-typedef unsigned int   u32;
-typedef unsigned char  u8;
-typedef unsigned short u16;
+#include "../types.h"
+
+#include "../sdk_nnsfnd.h"
 
 /* NNSG3dResMat: two list offsets, then the material dictionary. */
 typedef struct {

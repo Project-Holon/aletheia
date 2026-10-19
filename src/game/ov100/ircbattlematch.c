@@ -235,17 +235,7 @@ struct PrintSys;
 struct Node;
 struct NetSessionReq;
 struct IrcBattleMatchWork;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef short s16;
-
-typedef signed char s8;
-
-typedef unsigned int u32;
-
-typedef int s32;
+#include "../types.h"
 
 #define PLTT_SUB_BG_ADDR 0x05000400
 #define REG_BLDCNT_ADDR 0x04000050
@@ -642,7 +632,6 @@ extern const MessageRef gIrcBattleMatchMsgIconsParent,gIrcBattleMatchMsgIconsChi
 extern MessageRef gIrcBattleMatchModeMessages[];
 extern const char gIrcBattleMatchFileName[];
 
-
 char *IRCBATTLEMATCH_GetRecvBuffer(void)
 {
     return gIrcBattleMatchRecvBuffer;
@@ -664,7 +653,6 @@ int IRCBATTLEMATCH_IsEqual(int a, int b)
     return 0;
 }
 
-
 void IRCBATTLEMATCH_SetStep(IrcBattleMatchWork *work, IrcBattleMatchStep step) { work->step = step; }
 
 int IRCBATTLEMATCH_AbortSession(IrcBattleMatchWork *work) { work->param->mode=12; GFL_NET_IRC_WIRELESS_Exit(); return GFL_NET_Exit(0); }
@@ -673,7 +661,6 @@ int IRCBATTLEMATCH_AbortSession(IrcBattleMatchWork *work) { work->param->mode=12
  * Extent remainder: two-byte alignment padding.
  */
 void IRCBATTLEMATCH_StepWipeEnd(IrcBattleMatchWork *work) { if(WIPE_SYS_EndCheck()) IRCBATTLEMATCH_SetStep(work,0); }
-
 
 /*
  *          (site +0084) have no witness outside this function's range.
@@ -1030,7 +1017,6 @@ void IRCBATTLEMATCH_StepOpenQuitConfirm(IrcBattleMatchWork *work) {
  GF_FONT_SetDefaultTextColor();
  IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepWaitQuitChoice);
 }
-
 
 void IRCBATTLEMATCH_StepSendMode(IrcBattleMatchWork *work)
 {
@@ -1693,7 +1679,6 @@ void IRCBATTLEMATCH_StepWaitSession(IrcBattleMatchWork *work)
         }
     }
 }
-
 
 int IRCBATTLEMATCH_ProcInit(struct Proc *proc, int seq, IrcBattleMatchParam *param)
 {

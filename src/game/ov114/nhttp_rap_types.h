@@ -5,12 +5,7 @@
  * type; every part that uses one of these includes this header.
  */
 
-#ifndef OV114_BASIC_TYPES
-#define OV114_BASIC_TYPES
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-#endif
+#include "../types.h"
 
 /* Wrapper session (size 0x5a8): one HTTP connection, its receive buffer,
  * the URL text and the post data buffer. */

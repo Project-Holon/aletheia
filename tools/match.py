@@ -152,6 +152,10 @@ def compile_tu(src, version, flags, thumb, lang, workdir, sdk_include=True,
     if os.environ.get("ALETHEIA_VERSION", "black").lower() == "white":
         cmd += ["-d", "VERSION=2"]     # src/game/version.h: VERSION_WHITE
     cmd += ["-ir", os.path.dirname(os.path.abspath(src)) or "."]
+    game_root = os.path.join(ROOT, "src", "game")
+    if os.path.abspath(src).startswith(game_root + os.sep):
+        # headers at the root of src/game (types.h, fx.h, ...) include each other by bare name
+        cmd += ["-i", game_root.replace(os.sep, "/")]
     if sdk_include and os.path.isdir(SDK_INCLUDE):
         cmd += ["-I+" + SDK_INCLUDE]
     for inc in extra_includes:

@@ -37,11 +37,9 @@
  *   TableLookup                      0x0218482C arm
  *   gGpiProfileResponseDpr     0x021a5224  data
  *   TableRemove                      0x021847BC arm
- *   TableRemove  0x021847BC  arm
  *   strcmp                           0x020948E0 arm
  *   TableMapSafe2                    0x021848E4 arm
  *   gpiProfileMapCallback            0x0218FFE0 arm
- *   gpiCheckForBlock                 0x0219003C arm
  *   gpiValueForKeyWithIndex  0x02193378  arm  ov009
  *   strstr  0x02094B20  arm
  *   gpiBuddyDeletedLocally  0x02189300  arm  ov009
@@ -75,7 +73,6 @@ extern void * TableLookup(struct HashImplementation *table, void *elemKey);
 extern int TableRemove(struct HashImplementation *table, void *delElem);
 extern int strcmp(const char * a, const char * b);
 extern void * TableMapSafe2(struct HashImplementation *table, int (*cb)(void *, void *), void *clientData);
-extern int gpiCheckForBlock(void * unused, GPIProfile * profile, void * udata);
 extern int gpiValueForKeyWithIndex(char *command, char *key, int *index, char *value, int len);
 extern unsigned char *strstr(unsigned char *s1, unsigned char *s2);
 extern int gpiBuddyDeletedLocally(void **connection, int id, int isDeleted);
@@ -455,7 +452,7 @@ GPIProfile * gpiFindBuddy(void ** connection, int blockIndex)
 
 	data.blockIndex = blockIndex;
 	data.profile = 0;
-	gpiProfileMap(connection, gpiCheckForBlock, &data);
+	gpiProfileMap(connection, gpiCheckForBuddy, &data);
 	return data.profile;
 }
 

@@ -3,18 +3,9 @@
 
 /* Billboard layers drawn by field_3dbg.c; weather.c owns two of them. */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef signed short   s16;
-typedef unsigned int   u32;
-typedef signed char    s8;
-typedef signed int     s32;
-typedef s32            fx32;
-typedef s16            fx16;
+#include "../types.h"
 
-typedef struct {
-    fx32 m[3][3];
-} MtxFx33;
+#include "../sdk_fx.h"
 
 /* Static description of one billboard (12 bytes per table entry). */
 typedef struct Field3dbgBillboardDesc {

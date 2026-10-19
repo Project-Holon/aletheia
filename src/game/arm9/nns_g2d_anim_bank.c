@@ -20,11 +20,7 @@ struct AnimBank;
 struct NitroFileHeader;
 struct Tbl;
 struct CellDataBank;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 typedef struct AnimFrameData {              /* stride 8 */
     void *pContent;             /* +0x00  offset into the frame-data pool   */
@@ -67,10 +63,6 @@ struct AnimBank {
     u32 pStringBank;               /* +0x10  label bank offset (NNSG2dAnimBankData), never read here */
     u8 *pSubBank;                  /* +0x14 */
 };
-
-typedef signed int     s32;
-
-typedef signed short   s16;
 
 struct CellDataBank {
     u16 numCells;
@@ -153,9 +145,6 @@ s32 NNS_G2dGetUnpackedPaletteCompressInfo(struct NitroFileHeader *file, void **o
 void NNSi_G2dFixupPaletteCompressInfo(u8 *block);
 void NNSi_G2dFixupPaletteData(u8 *block);
 
-
-
-
 /*
  * Blocking class: label.  Every concrete byte is right; the only unresolved site
  * is the tail `bl NNSi_G2dUnpackAnimBank` at 0x02062648, and 0x02062688 -- the packet's own
@@ -177,17 +166,9 @@ int NNS_G2dGetUnpackedAnimBank(u32 a, u32 *out)
     return 1;
 }
 
-
-
-
 void NNS_G2dGetUnpackedAnimBankEx(u32 a, u32 *out){ NNS_G2dGetUnpackedAnimBank(a, out); }
 
-
-
-
 void NNSi_G2dGetUnpackedAnimBank(u32 a, u32 *out){ NNS_G2dGetUnpackedAnimBank(a, out); }
-
-
 
 /*
  * NANR bank fixup ('KNBA' body, NitroSystem NNSi_G2dUnpackNAN shape): turn
@@ -271,10 +252,6 @@ void NNSi_G2dUnpackAnimBank(volatile struct AnimBank *bank)
     }
 }
 
-
-
-
-
 /*
  * *
  * Returns the idx'th animation sequence of an NNS G2D cell-animation bank
@@ -313,7 +290,6 @@ AnimSequenceData *NNS_G2dGetAnimSequenceByIdx(struct AnimBank *bank, u32 idx)
     return 0;
 }
 
-
 void *NNSi_G2dGetCellDataBankOamBase(struct CellDataBank *bank)
 {
     if (bank->bankAttr & 1) {
@@ -323,16 +299,10 @@ void *NNSi_G2dGetCellDataBankOamBase(struct CellDataBank *bank)
     }
 }
 
-
-
-
 void NNSi_G2dFixupCellAnimBankTbl(void *p)
 {
     NNSi_G2dFixupOffsets((struct Tbl *)((u8 *)p + 8));
 }
-
-
-
 
 int NNS_G2dGetUnpackedCellBank(void *a, int *out)
 {
@@ -345,12 +315,6 @@ int NNS_G2dGetUnpackedCellBank(void *a, int *out)
     *out = (int)(o + 8);
     return 1;
 }
-
-
-
-
-
-
 
 /*
  * *
@@ -390,7 +354,6 @@ void *NNS_G2dGetCellDataByIdx(struct CellDataBank *bank, u32 idx)
     return (u8 *)bank->pCells + idx * 8;
 }
 
-
 /*
  * parks lane 2 confirms the blocker and narrows it: 0x02062810 is a linker
  * stub with an argument adjustment, not a function,
@@ -426,8 +389,6 @@ void NNSi_G2dUnpackCellBank(int *p)
     NNSi_G2dFixupCellAnimBankTbl((void *)p[5]);
 }
 
-
-
 /*
  * Blocking class: label.  Same shape as src/pending/NNS_G2dGetUnpackedAnimBank.c one tag over:
  * every concrete byte is right, the only unresolved site is the tail
@@ -447,14 +408,10 @@ int NNS_G2dGetUnpackedMultiCellBank(void *a, u32 *out)
     return 1;
 }
 
-
 void NNSi_G2dFixupMultiCellAnimBankTbl(void *animBank)
 {
     NNSi_G2dFixupOffsets((struct Tbl *)((u8 *)animBank + 8));
 }
-
-
-
 
 /*
  * NNS G2D multi-cell bank (NMCR 'KBCM' block) offset-to-pointer fixup, run
@@ -528,9 +485,6 @@ void NNSi_G2dUnpackMultiCellBank(volatile struct MultiCellBank *bank)
     }
 }
 
-
-
-
 /*
  * *
  * Returns the idx'th multi-cell descriptor of an NNS G2D multi-cell bank
@@ -563,8 +517,6 @@ struct MultiCellData *NNS_G2dGetMultiCellDataByIdx(struct MultiCellBank *bank, u
     return 0;
 }
 
-
-
 /*
  * Finds the 'RAHC' (NCGR character data) block in a loaded NITRO file, runs its
  * offset-to-pointer fixup and hands back the block body (block header + 8).
@@ -587,9 +539,6 @@ s32 NNS_G2dGetUnpackedCharacterData(struct NitroFileHeader *file, void **out)
     return 1;
 }
 
-
-
-
 /*
  * *
  * One-field offset-to-pointer fixup for the character-data bank ('RAHC' / NCGR body): the u32 at +0x14 is a
@@ -602,8 +551,6 @@ void NNSi_G2dFixupCharacterData(u8 *block)
 {
     ((struct NNSG2dCharacterData *)block)->pCharData = ((struct NNSG2dCharacterData *)block)->pCharData + (u32)block;
 }
-
-
 
 /*
  * Finds the 'RAHC' (NCGR character data), second entry point block in a loaded NITRO file, runs its
@@ -627,9 +574,6 @@ s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out)
     return 1;
 }
 
-
-
-
 /*
  * *
  * One-field offset-to-pointer fixup for the second 'RAHC' consumer, same fixup: the u32 at +0x14 is a
@@ -642,8 +586,6 @@ void NNSi_G2dFixupCharacterDataEx(u8 *block)
 {
     ((struct NNSG2dCharacterData *)block)->pCharData = ((struct NNSG2dCharacterData *)block)->pCharData + (u32)block;
 }
-
-
 
 /*
  * Finds the 'TTLP' (NCLR palette data) block in a loaded NITRO file, runs its
@@ -667,8 +609,6 @@ s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out)
     return 1;
 }
 
-
-
 /*
  * Finds the 'PMCP' (palette compression map) block in a loaded NITRO file, runs its
  * offset-to-pointer fixup and hands back the block body (block header + 8).
@@ -691,9 +631,6 @@ s32 NNS_G2dGetUnpackedPaletteCompressInfo(struct NitroFileHeader *file, void **o
     return 1;
 }
 
-
-
-
 /*
  * *
  * One-field offset-to-pointer fixup for the palette-compress-proxy bank ('PMCP' body): the u32 at +0x4 is a
@@ -706,9 +643,6 @@ void NNSi_G2dFixupPaletteCompressInfo(u8 *block)
 {
     ((struct NNSG2dPaletteCompressInfo *)block)->pVramTransfer = ((struct NNSG2dPaletteCompressInfo *)block)->pVramTransfer + (u32)block;
 }
-
-
-
 
 /*
  * *

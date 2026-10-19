@@ -50,13 +50,7 @@
  *   SSPiEncodeSignCheckMode          0x021CADF8  data
  *   Yos_JPEGEncode  0x021C20B0  arm  ov172
  */
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef signed int     s32;
+#include "../types.h"
 
 typedef struct Yos_JpegEncoderHuffmanEncoderBuildTableWork {
     unsigned long mHuffSize[256];
@@ -114,13 +108,9 @@ extern u8 jfif[23];
 extern u8 jsos[14];
 extern int SSPiEncodeSignCheckMode;
 
-
-
 static unsigned long gBitCode = 0;
 
-
 static unsigned long gBitLen = 0;
-
 
 static unsigned long gWriteLimit = 0;
 
@@ -134,10 +124,6 @@ void Yos_BitInit(void)
     gBitCode = 0;
     gBitLen = 8;
 }
-
-
-
-
 
 /*
  * sdk:      Yos_BitWrite (jpegenc.o)
@@ -174,11 +160,6 @@ int Yos_BitWrite(unsigned char *dst, unsigned long *ptr, unsigned long num, unsi
     }
     return 1;
 }
-
-
-
-
-
 
 static void Yos_JpegEncoderForwardDct(unsigned char *data, long *qtable, short *output)
 {
@@ -261,39 +242,10 @@ static void Yos_JpegEncoderForwardDct(unsigned char *data, long *qtable, short *
     }
 }
 
-
-
-
-
-
 extern u8 dc0_tbl[28] __attribute__((aligned(32)));
 extern u8 dc1_tbl[28] __attribute__((aligned(32)));
 extern u8 ac0_tbl[178] __attribute__((aligned(32)));
 extern u8 ac1_tbl[178] __attribute__((aligned(32)));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 static void Yos_JpegEncoderHuffmanEncoderBuildTable(Yos_JpegEncoderHuffmanEncoderBuildTableWork *pWork,
                           huffman_structure *hf, unsigned long idx)
@@ -303,7 +255,6 @@ static void Yos_JpegEncoderHuffmanEncoderBuildTable(Yos_JpegEncoderHuffmanEncode
     unsigned long kk;
     unsigned long si;
     u16 code = 0;
-
 
     MIi_CpuClearFast(0, &hf->mHuffBits[0], 0x428);
 
@@ -351,11 +302,6 @@ static void Yos_JpegEncoderHuffmanEncoderBuildTable(Yos_JpegEncoderHuffmanEncode
     }
 }
 
-
-
-
-
-
 /*
  * Block copier with a running sum: appends the 16 bytes at a0+0x404 to the
  * output buffer a1 (advancing the cursor *a2), accumulates their sum, then
@@ -393,10 +339,6 @@ int Yos_JpegEncoderHuffmanEncoderPrintTable(u8 *huff, u8 *dst, u32 *pos)
     return 1;
 }
 
-
-
-
-
 /*
  * Symbols:
  *   (none)
@@ -415,11 +357,6 @@ int Yos_JpegEncoderHuffmanEncoderOutputSize(unsigned char *p)
 
     return sum + 0x11;
 }
-
-
-
-
-
 
 static int Yos_JpegEncoderComponentSequential(huffman_structure *dc, huffman_structure *ac,
                                               component_structure *component, u8 *dst,
@@ -495,11 +432,6 @@ static int Yos_JpegEncoderComponentSequential(huffman_structure *dc, huffman_str
     return 1;
 }
 
-
-
-
-
-
 void Yos_JpegEncodeSample2to2Component(unsigned char *buffer, long *qTable,
                                        component_structure *component, unsigned long dx)
 {
@@ -535,11 +467,6 @@ void Yos_JpegEncodeSample2to2Component(unsigned char *buffer, long *qTable,
         }
     }
 }
-
-
-
-
-
 
 /*
  * sdk:      Yos_JpegEncodeSample2to1Component (libssp.TWL.HYB.a jpegenc.o)
@@ -580,11 +507,6 @@ void Yos_JpegEncodeSample2to1Component(unsigned char *buffer, long *qTable, comp
         }
     }
 }
-
-
-
-
-
 
 /*
  * sdk:      Yos_JpegEncodeSample1to1Component (libssp.TWL.HYB.a jpegenc.o)
@@ -647,10 +569,6 @@ void Yos_JpegEncodeSample1to1Component(unsigned char *buffer, long *qTable, comp
     }
 }
 
-
-
-
-
 /*
  * notes:    w9_nm2: both mask locals (mx, my) in place of the inline samplingN * 8 - 1 expressions close it; the object holds the masks in r4 and a short-lived r2.
  *
@@ -689,11 +607,6 @@ unsigned long Yos_JPEGGetMemorySize(unsigned long width, unsigned long height, u
     return dx * dy * 3 + ((cx * cy + ((cx / samplingx) * (cy / samplingy)) * 2) << 7) + 0x2b40;
 }
 
-
-
-
-
-
 /*
  * sdk:      SSP_GetJpegEncoderBufferSize (jpegenc.o)
  */
@@ -716,11 +629,6 @@ unsigned long SSP_GetJpegEncoderBufferSize(unsigned long width, unsigned long he
         return mainSize + (thumb ? 0x12c00 : 0);
     return thumbSize + (thumb ? 0x12c00 : 0);
 }
-
-
-
-
-
 
 static int SSPi_JpegEncoderDoSign(u8 *dst, unsigned long ptr)
 {
@@ -801,11 +709,6 @@ static int SSPi_JpegEncoderDoSign(u8 *dst, unsigned long ptr)
     return 1;
 }
 
-
-
-
-
-
 /*
  * sdk:      SSP_JpegEncoderResample (libssp.TWL.HYB.a jpegenc.o)
  *
@@ -865,11 +768,6 @@ void SSP_JpegEncoderResample(const void *src, unsigned long srcWidth, unsigned l
         }
     }
 }
-
-
-
-
-
 
 /*
  * closed (lane 09, 2026-10-01): DWARF homes `src` in r6, so the running pointer is the
@@ -970,10 +868,6 @@ void SSP_RGB555ToYUV888(void *src, unsigned long width, unsigned long height, vo
     }
 }
 
-
-
-
-
 void SSP_YUV422ToYUV888(void *src, unsigned long width, unsigned long height, void *dst)
 {
     unsigned long yuyv;
@@ -997,45 +891,14 @@ void SSP_YUV422ToYUV888(void *src, unsigned long width, unsigned long height, vo
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 static void Yos_JpegEncoderHuffmanEncoderBuildTable(
     Yos_JpegEncoderHuffmanEncoderBuildTableWork *pWork, huffman_structure *hf, unsigned long idx);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 static int Yos_JpegEncoderComponentSequential(huffman_structure *dc, huffman_structure *ac,
                                               component_structure *component, u8 *dst,
                                               unsigned long *ptr, unsigned long col, unsigned long row);
 
-
-
 static int SSPi_JpegEncoderDoSign(u8 *dst, unsigned long ptr);
-
-
-
 
 static unsigned long Yos_JPEGEncode(void *src, u8 *dst, unsigned long limit, u8 *wrk,
                                     unsigned long width, unsigned long height, unsigned long quality,
@@ -1253,9 +1116,6 @@ static unsigned long Yos_JPEGEncode(void *src, u8 *dst, unsigned long limit, u8 
     return ptr;
 }
 
-
-
-
 /*
  * Range/alignment validator for a transfer pair: both addresses must be
  * non-zero and inside 0x10000, then the mode picks which of the two has to be
@@ -1288,9 +1148,6 @@ int SSPi_JpegEncoderCheckWidthHeight(u32 width, u32 height, u32 samplingFormat)
     }
     return 1;
 }
-
-
-
 
 /*
  * sdk:      SSP_StartJpegEncoder (jpegenc.o)

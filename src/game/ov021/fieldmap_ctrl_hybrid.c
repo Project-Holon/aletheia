@@ -83,7 +83,7 @@
 #include "fieldmap_types.h"
 #include "fldmmdl_rail_types.h"
 
-typedef unsigned int u32;
+#include "../types.h"
 
 struct FieldPlayer;
 struct FieldNogridMapper;

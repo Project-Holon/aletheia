@@ -32,79 +32,13 @@
  *   NCFG_ReadBackupMemory 0x0205F72C arm
  *   NCFG_WriteBackupMemory 0x0205F7C8 arm
  */
-struct NCFGConfig;
-typedef unsigned char  u8;
+#define GAME_TYPES_U32_LONG
+#define GAME_TYPES_S32_LONG
+#include "../types.h"
 
-typedef unsigned short u16;
+#include "../sdk_ncfg.h"
 
-typedef unsigned long  u32;
-
-typedef signed long    s32;
-
-typedef struct NCFGApInfo {
-    u8  ispId[32];
-    u8  ispPass[32];
-    u8  ssid[2][32];
-    u8  wep[4][16];
-    u8  ip[4];
-    u8  gateway[4];
-    u8  dns[2][4];
-    u8  netmask;
-    u8  wep2[4][5];
-    u8  authType;
-    u8  wepMode : 2;
-    u8  wepNotation : 6;
-    u8  setType;
-    u8  ssidLength[2];
-    u16 mtu;
-    u8  rsv[2];
-    u8  flags;
-    u8  state;
-} NCFGApInfo;
-
-typedef struct NCFGSlotInfo {
-    NCFGApInfo ap;
-    u8  wifi[14];
-    u16 crc;
-} NCFGSlotInfo;
-
-typedef struct NCFGApInfoEx {
-    u8  security[0x82];
-    u8  proxyMode;
-    u8  proxyAuthType;
-    u8  proxyHost[100];
-    u16 proxyPort;
-    u8  rsvEx[6];
-} NCFGApInfoEx;
-
-typedef struct NCFGSlotInfoEx {
-    NCFGApInfo   ap;
-    u8           wifi[14];
-    u16          crc;
-    NCFGApInfoEx apEx;
-    u8           rsv[14];
-    u16          crcEx;
-} NCFGSlotInfoEx;
-
-typedef struct NCFGConfig {
-    NCFGSlotInfo slot[3];
-    NCFGSlotInfo rsv;
-} NCFGConfig;
-
-typedef struct NCFGConfigEx {
-    NCFGSlotInfoEx slotEx[3];
-    union {
-        NCFGConfig compat;
-        struct {
-            NCFGSlotInfo slot[3];
-            NCFGSlotInfo rsv;
-        };
-    };
-} NCFGConfigEx;
-
-typedef struct MATHCRC16Table {
-    u16 table[256];
-} MATHCRC16Table;
+#include "../sdk_math.h"
 
 typedef struct MEMCHECK {
     NCFGConfig     config;
@@ -138,19 +72,16 @@ u32 NCFG_ReadConfig(NCFGConfig *config);
 s32 NCFG_CheckConfig(void *work);
 s32 NCFG_CheckConfigEx(void *work);
 
-
 u32 NCFG_ReadConfig(NCFGConfig *config)
 {
     return readAllSlots(config) ? 0 : 0xFFFFFFFF;
 }
-
 
 #define NCFG_CHECKCONFIG_WORK_SIZE   0x700
 
 #define NCFG_CHECKCONFIGEX_WORK_SIZE 0x1000
 
 #define NCFG_RESULT_FAILURE          (-10001)
-
 
 /*
  * sdk:      NCFG_CheckConfig (libncfg.TWL.HYB.a info.o)
@@ -169,13 +100,11 @@ s32 NCFG_CheckConfig(void *work)
     return checkConfig(&wk->config, &wk->tbl);
 }
 
-
 #define NCFG_CHECKCONFIG_WORK_SIZE   0x700
 
 #define NCFG_CHECKCONFIGEX_WORK_SIZE 0x1000
 
 #define NCFG_RESULT_FAILURE          (-10001)
-
 
 /*
  * sdk:      NCFG_CheckConfigEx (libncfg.TWL.HYB.a info.o)
@@ -195,7 +124,6 @@ s32 NCFG_CheckConfigEx(void *work)
         return NCFG_RESULT_FAILURE;
     return checkConfigEx(&wk->configEx, &wk->tbl);
 }
-
 
 /*
  * sdk:      checkConfig (libncfg.TWL.HYB.a info.o)
@@ -262,7 +190,6 @@ s32 checkConfig(NCFGConfig *config, MATHCRC16Table *tbl)
     return clear ? -10002 : 0;
 }
 
-
 /*
  * sdk:      checkConfigEx (libncfg.TWL.HYB.a info.o)
  */
@@ -321,7 +248,6 @@ s32 checkConfigEx(NCFGConfigEx *configEx, MATHCRC16Table *tbl)
     return clear ? -10002 : 0;
 }
 
-
 /*
  * sdk:      initPage (libncfg.TWL.HYB.a info.o)
  */
@@ -331,7 +257,6 @@ void initPage(NCFGConfig *config, int page)
     config->slot[page].ap.setType = 0xFF;
 }
 
-
 /*
  * sdk:      initPageEx (libncfg.TWL.HYB.a info.o)
  */
@@ -340,7 +265,6 @@ void initPageEx(NCFGConfigEx *config, int page)
     MIi_CpuClear16(0, &config->slotEx[page], sizeof(NCFGSlotInfoEx));
     config->slotEx[page].ap.setType = 0xFF;
 }
-
 
 /*
  * sdk:      readAllSlots (libncfg.TWL.HYB.a info.o)
@@ -356,7 +280,6 @@ int readAllSlots(NCFGConfig *config)
     return result && NCFG_ReadBackupMemory(&config->rsv, sizeof(NCFGSlotInfo), 3) >= 0;
 }
 
-
 /*
  * sdk:      readAllExSlots (libncfg.TWL.HYB.a info.o)
  */
@@ -370,7 +293,6 @@ int readAllExSlots(NCFGConfigEx *configEx)
     }
     return result;
 }
-
 
 /*
  * sdk:      writeAllSlots (libncfg.TWL.HYB.a info.o)
@@ -387,7 +309,6 @@ int writeAllSlots(NCFGConfig *config, MATHCRC16Table *tbl)
     config->rsv.crc = MATH_CalcCRC16(tbl, &config->rsv, 0xFE);
     return result && NCFG_WriteBackupMemory(3, &config->rsv, sizeof(NCFGSlotInfo)) >= 0;
 }
-
 
 /*
  * sdk:      writeAllExSlots (libncfg.TWL.HYB.a info.o)

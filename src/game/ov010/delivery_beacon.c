@@ -32,9 +32,7 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  *   GFL_NET_Exit  0x0203CEAC  arm
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../types.h"
 
 #include "../arm9/net_types.h"
 
@@ -117,7 +115,6 @@ extern const char gDeliveryBeaconAllocSite[];
 extern char gDeliveryBeaconAssertText[];
 extern GFLNetInitializeStruct gDeliveryBeaconNetInit;
 
-
 DeliveryBeaconSlot *DELIVERY_BEACON_GetCursorSlot(DeliveryBeacon *work)
 {
     int v = work->cursor;
@@ -131,11 +128,9 @@ DeliveryBeaconSlot *DELIVERY_BEACON_GetCursorSlot(DeliveryBeacon *work)
     return &work->slots[page][rem];
 }
 
-
 int DELIVERY_BEACON_GetSlotSize(void) { return 100; }
 
 int DELIVERY_BEACON_IsEqual(int lhs, int rhs) { return lhs == rhs; }
-
 
 /*
  * Recursive MATCH unblocker: matched so the ABS32 site in
@@ -145,7 +140,6 @@ void DELIVERY_BEACON_SetStep(DeliveryBeacon *work, DeliveryBeaconStepFunc step)
 {
     work->step = step;
 }
-
 
 /*
  * Unblocked by matching DELIVERY_BEACON_SetStep (ov010, EXACT). The ABS32 site +0004 now
@@ -160,7 +154,6 @@ void DELIVERY_BEACON_SetStepAtLine(DeliveryBeacon *work, DeliveryBeaconStepFunc 
     DELIVERY_BEACON_SetStep(work, step);
 }
 
-
 /*
  * Unlabelled empty callback (bx lr) hidden in a .word run; witness for the
  * function pointer taken in DELIVERY_BEACON_Start.
@@ -168,7 +161,6 @@ void DELIVERY_BEACON_SetStepAtLine(DeliveryBeacon *work, DeliveryBeaconStepFunc 
 void DELIVERY_BEACON_StepIdle(DeliveryBeacon *work)
 {
 }
-
 
 DeliveryBeacon *DELIVERY_BEACON_Create(DeliveryBeaconParam *param)
 {
@@ -179,13 +171,11 @@ DeliveryBeacon *DELIVERY_BEACON_Create(DeliveryBeaconParam *param)
     return work;
 }
 
-
 void DELIVERY_BEACON_CheckDestSize(DeliveryBeacon *work)
 {
     if (work->param.destSize != 0 && work->param.destSize >= DELIVERY_BEACON_SLOTS_PER_PAGE * DELIVERY_BEACON_PIECE_SIZE)
         GF_PANIC_Fail(gDeliveryBeaconAssertText, 0, gDeliveryBeaconAssertText);
 }
-
 
 /*
  * extent: 58-byte body followed by 2-byte alignment padding.
@@ -205,7 +195,6 @@ int DELIVERY_BEACON_HasAllPieces(DeliveryBeacon *work)
     }
     return 1;
 }
-
 
 /*
  * Wave 75: ov014 leaves 0x021780C4 and 0x02177BCC filed and verified;
@@ -258,7 +247,6 @@ void DELIVERY_BEACON_StepCollectPieces(DeliveryBeacon *work)
     }
 }
 
-
 void DELIVERY_BEACON_DecodePieces(DeliveryBeacon *work)
 {
     int i;
@@ -278,12 +266,10 @@ void DELIVERY_BEACON_DecodePieces(DeliveryBeacon *work)
     }
 }
 
-
 /*
  * extent: 28-byte lead followed by existing matched DELIVERY_BEACON_OnSessionStarted.c.
  */
 void DELIVERY_BEACON_StepStartScan(DeliveryBeacon *work) { GFL_NET_BeaconScanStart(); DELIVERY_BEACON_SetStepAtLine(work, DELIVERY_BEACON_StepCollectPieces, 0x1d7); }
-
 
 /*
  * Unlabelled tail-call thunk hidden in a .word run; witness for the
@@ -293,7 +279,6 @@ void DELIVERY_BEACON_OnSessionStarted(DeliveryBeacon *work)
 {
     DELIVERY_BEACON_SetStepAtLine(work, DELIVERY_BEACON_StepStartScan, 0x1DD);
 }
-
 
 int DELIVERY_BEACON_Start(DeliveryBeacon *work)
 {
@@ -306,7 +291,6 @@ int DELIVERY_BEACON_Start(DeliveryBeacon *work)
     DELIVERY_BEACON_SetStepAtLine(work, DELIVERY_BEACON_StepIdle, 0x1F2);
     return 1;
 }
-
 
 /*
  * Unlabelled leaf, blocker of ov021 TRIAL_HOUSE_DeliveryTaskMain: whether any of 18 slots (stride 100) has its flag byte set.
@@ -328,15 +312,12 @@ int DELIVERY_BEACON_HasAnyPiece(DeliveryBeacon *work)
     return 0;
 }
 
-
 /*
  * extent: 22 bytes of code followed by 2-byte alignment padding.
  */
 int DELIVERY_BEACON_TryComplete(DeliveryBeacon *work) { int r; r = DELIVERY_BEACON_HasAllPieces(work); if (r) DELIVERY_BEACON_DecodePieces(work); return r; }
 
-
 void DELIVERY_BEACON_RunStep(DeliveryBeacon *work) { work->step(work); }
-
 
 int DELIVERY_BEACON_Delete(DeliveryBeacon *work)
 {
@@ -346,7 +327,6 @@ int DELIVERY_BEACON_Delete(DeliveryBeacon *work)
     result = GFL_NET_Exit(0);
     return result;
 }
-
 
 /* Misplaced: sets a field of the delivery_irc work (see script_work.c, neighbours at 0x676). */
 typedef struct DeliveryIrcAckView {

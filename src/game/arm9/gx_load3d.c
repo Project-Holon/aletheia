@@ -32,11 +32,7 @@
  *   g_02150E2C 0x02150E2C data
  *   GX_SetBankForClearImage 0x020804E8  arm
  */
-typedef unsigned long u32;
-
-typedef unsigned short u16;
-
-typedef int BOOL;
+#include "../types.h"
 
 typedef void (*MIDmaCallback)(void *);
 
@@ -87,23 +83,7 @@ extern const GXTexStartAddr sTexStartAddrTable[16];
 extern const u16 sTexPlttStartAddrTable[8];
 extern int g_02150E2C;
 
-
-
-
-
-
-
-
-
 #define GX_DMA_NOT_USE ((u32)-1)
-
-
-
-
-
-
-
-
 
 static inline void MI_DmaCopy32(u32 dmaNo, const void *src, void *dest, u32 size)
 {
@@ -114,14 +94,6 @@ static inline void MI_DmaCopy32(u32 dmaNo, const void *src, void *dest, u32 size
     }
 }
 
-
-
-
-
-
-
-
-
 static inline void MI_DmaCopy32Async(u32 dmaNo, const void *src, void *dest, u32 size, MIDmaCallback callback, void *arg)
 {
     if (dmaNo > 3) {
@@ -130,14 +102,6 @@ static inline void MI_DmaCopy32Async(u32 dmaNo, const void *src, void *dest, u32
         MIi_DmaCopy32Async(dmaNo, src, dest, size, callback, arg, 1);
     }
 }
-
-
-
-
-
-
-
-
 
 static inline void MI_WaitDmaAny(u32 dmaNo)
 {
@@ -148,14 +112,6 @@ static inline void MI_WaitDmaAny(u32 dmaNo)
     }
 }
 
-
-
-
-
-
-
-
-
 static inline void GXi_DmaCopy32(u32 dmaNo, const void *src, void *dest, u32 size)
 {
     if (dmaNo != GX_DMA_NOT_USE && size > 0x30) {
@@ -164,14 +120,6 @@ static inline void GXi_DmaCopy32(u32 dmaNo, const void *src, void *dest, u32 siz
         MIi_CpuCopy32(src, dest, size);
     }
 }
-
-
-
-
-
-
-
-
 
 static inline void GXi_DmaCopy32Async(u32 dmaNo, const void *src, void *dest, u32 size, MIDmaCallback callback, void *arg)
 {
@@ -182,28 +130,12 @@ static inline void GXi_DmaCopy32Async(u32 dmaNo, const void *src, void *dest, u3
     }
 }
 
-
-
-
-
-
-
-
-
 static inline void GXi_WaitDma(u32 dmaNo)
 {
     if (dmaNo != GX_DMA_NOT_USE) {
         MI_WaitDmaAny(dmaNo);
     }
 }
-
-
-
-
-
-
-
-
 
 void GX_BeginLoadTex(void)
 {
@@ -215,23 +147,7 @@ void GX_BeginLoadTex(void)
     sClrImg.szTexBlk1 = (u32)sTexStartAddrTable[tex].szBlk1 << 12;
 }
 
-
-
-
-
-
-
-
-
 #define GX_DMA_NOT_USE ((u32)-1)
-
-
-
-
-
-
-
-
 
 void GX_LoadTex(void *pSrc, u32 destSlotAddr, u32 szByte)
 {
@@ -255,21 +171,7 @@ void GX_LoadTex(void *pSrc, u32 destSlotAddr, u32 szByte)
     GXi_DmaCopy32Async(GXi_DmaId, pSrc, pLCDC, szByte, 0, 0);
 }
 
-
-
-
-
-
-
-
 #define GX_DMA_NOT_USE ((u32)-1)
-
-
-
-
-
-
-
 
 void GX_EndLoadTex(void)
 {
@@ -281,19 +183,7 @@ void GX_EndLoadTex(void)
     sClrImg.tex = 0;
 }
 
-
-
-
-
-
-
 #define GX_DMA_NOT_USE ((u32)-1)
-
-
-
-
-
-
 
 void GX_BeginLoadTexPltt(void)
 {
@@ -303,34 +193,14 @@ void GX_BeginLoadTexPltt(void)
     sClrImg.texPlttLCDCBlk = (u32)sTexPlttStartAddrTable[texPltt >> 4] << 12;
 }
 
-
-
-
-
-
 #define GX_DMA_NOT_USE ((u32)-1)
-
-
-
-
-
 
 void GX_LoadTexPltt(void *pSrc, u32 destSlotAddr, u32 szByte)
 {
     GXi_DmaCopy32Async(GXi_DmaId, pSrc, (void *)(sClrImg.texPlttLCDCBlk + destSlotAddr), szByte, 0, 0);
 }
 
-
-
-
-
-
 #define GX_DMA_NOT_USE ((u32)-1)
-
-
-
-
-
 
 void GX_EndLoadTexPltt(void)
 {
@@ -339,11 +209,6 @@ void GX_EndLoadTexPltt(void)
     sClrImg.texPltt = 0;
     sClrImg.texPlttLCDCBlk = 0;
 }
-
-
-
-
-
 
 void GX_BeginLoadClearImage(void)
 {
@@ -367,33 +232,21 @@ void GX_BeginLoadClearImage(void)
     }
 }
 
-
-
-
 #define GX_DMA_NOT_USE ((u32)-1)
-
-
-
 
 void GX_LoadClearImageColor(void *pSrc, u32 szByte)
 {
     GXi_DmaCopy32Async(GXi_DmaId, pSrc, (void *)sClrImg.clrImgLCDCBlk, szByte, 0, 0);
 }
 
-
-
 #define GX_DMA_NOT_USE ((u32)-1)
-
-
 
 void GX_LoadClearImageDepth(void *pSrc, u32 szByte)
 {
     GXi_DmaCopy32Async(GXi_DmaId, pSrc, (void *)(sClrImg.clrImgLCDCBlk + 0x20000), szByte, 0, 0);
 }
 
-
 #define GX_DMA_NOT_USE ((u32)-1)
-
 
 void GX_EndLoadClearImage(void)
 {

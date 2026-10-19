@@ -134,12 +134,8 @@ extern unsigned char ov_id_0B[];
 extern unsigned char ov_id_0D[];
 
 /* RTC calendar date (config.c layout). */
-struct RTCDate {
-    u32 year;
-    u32 month;
-    u32 day;
-    u32 week;
-};
+#include "../sdk_rtc.h"
+
 struct RtcDate;
 
 extern void GF_STANDARD_GetCachedDate(struct RtcDate *date);

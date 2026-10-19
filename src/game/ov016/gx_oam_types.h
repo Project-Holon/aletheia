@@ -9,17 +9,6 @@
  * (attr01, attr23) so every caller reads the record through the same type.
  * Canonical owner of the record used by every file in src/game/ov016.
  */
-typedef union {
-    struct {
-        unsigned short attr0;
-        unsigned short attr1;
-        unsigned short attr2;
-        unsigned short attr3;
-    };
-    struct {
-        unsigned int attr01;
-        unsigned int attr23;
-    };
-} GXOamAttr;
+#include "../sdk_gx.h"
 
 #endif

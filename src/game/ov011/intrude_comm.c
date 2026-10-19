@@ -206,12 +206,7 @@
  *   GAME_DATA_GetIntrudeId  0x02012B80  thumb
  *   sLinkMarkerPosTemplate     0x02176FD8  data  ov011  a4
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed char s8;
-typedef signed short s16;
-typedef signed int s32;
+#include "../types.h"
 
 #include "../version.h"
 #include "../arm9/game_beacon_types.h"
@@ -755,8 +750,6 @@ extern char d_021EFDAC[];
 extern char sIntrudeLinkProcTable[];
 extern LinkMarkerPos sLinkMarkerPosTemplate;
 
-
-
 IntrudeCommSys *INTRUDE_COMM_Create(void *proc, IntrudeCommParam *param)
 {
     struct GameData *gameData;
@@ -794,13 +787,6 @@ IntrudeCommSys *INTRUDE_COMM_Create(void *proc, IntrudeCommParam *param)
     }
     return work;
 }
-
-
-
-
-
-
-
 
 /*
  * recoup 2026-10-05: the old draft (196 B, work as u8* with work[0x8fd]) failed on register
@@ -846,13 +832,6 @@ int INTRUDE_COMM_StartSession(int *state, IntrudeCommParam *param, IntrudeCommSy
     }
     return 0;
 }
-
-
-
-
-
-
-
 
 /*
  * evidence: 0x02008494 is an unlabelled ARM9 thunk ("ldr r3, =MI_CpuCopy8; movs r2, #0x20; bx r3") that the
@@ -982,13 +961,6 @@ void INTRUDE_COMM_MainStep(int *state, IntrudeCommParam *param, IntrudeCommSys *
     }
 }
 
-
-
-
-
-
-
-
 int INTRUDE_COMM_Shutdown(int *state, IntrudeCommParam *param, IntrudeCommSys *work)
 {
     if (GAME_DATA_IsSaving((struct GameData *)GAME_COMM_GetGameData(param->gameComm)) == 1) {
@@ -1037,13 +1009,6 @@ int INTRUDE_COMM_Shutdown(int *state, IntrudeCommParam *param, IntrudeCommSys *w
     }
     return 0;
 }
-
-
-
-
-
-
-
 
 /*
  * 2026-10-05 (D8 lane19): re-verified, MATCH; unresolved relocations are arm9 0x02026680 and ov010 0x02161F68 (leaf witnesses in the note). Needs label seeds. Source is byte-correct; no C change possible.
@@ -1151,13 +1116,6 @@ int INTRUDE_COMM_Destroy(int unused, void **proc, IntrudeCommSys *work)
     return 0;
 }
 
-
-
-
-
-
-
-
 /*
  * Addresses are Black-image addresses.
  */
@@ -1211,12 +1169,6 @@ void INTRUDE_COMM_ScanCallback(void *whPipe, IntrudeCommSys *work)
     work->foundCount++;
 }
 
-
-
-
-
-
-
 void INTRUDE_COMM_SyncPlayers(IntrudeCommSys *work, IntrudeCommSys *peerWork, int fieldObjectAddr)
 {
     struct GameData *gameData;
@@ -1255,11 +1207,6 @@ void INTRUDE_COMM_SyncPlayers(IntrudeCommSys *work, IntrudeCommSys *peerWork, in
     }
 }
 
-
-
-
-
-
 /*
  * Extent contains followers 02173568, already-filed 02173580, and 0217358C;
  * the lead stays separate to preserve the existing follower file.
@@ -1270,21 +1217,11 @@ void INTRUDE_COMM_SuspendPlayers(int arg, IntrudeCommSys *work)
         COMM_PLAYER_Suspend(work->commPlayer);
 }
 
-
-
-
-
-
-
 void INTRUDE_COMM_OnSessionStarted(IntrudeCommSys *work)
 {
     work->step = 2;
     WIH_SetBeaconFoundCallback((u32)INTRUDE_COMM_ScanCallback);
 }
-
-
-
-
 
 /*
  * Callback leaf: sets the state byte at 0x8FD to 10.  It saves nothing, so
@@ -1297,14 +1234,7 @@ void INTRUDE_COMM_OnSessionExit(IntrudeCommSys *work)
     work->step = 10;
 }
 
-
-
-
 IntrudeBeacon *INTRUDE_COMM_GetBeacon(IntrudeCommSys *work) { return &work->beacon; }
-
-
-
-
 
 void INTRUDE_COMM_InitBeacon(struct GameData *gameData, IntrudeBeacon *beacon, int maxConnect)
 {
@@ -1317,10 +1247,6 @@ void INTRUDE_COMM_InitBeacon(struct GameData *gameData, IntrudeBeacon *beacon, i
     MYSTATUS_Copy((struct MyStatus *)(GAME_DATA_GetMyStatus(gameData)), (struct MyStatus *)beacon->ownerStatus);
 }
 
-
-
-
-
 int INTRUDE_COMM_RefreshBeacon(struct GameData *gameData, IntrudeBeacon *beacon)
 {
     if (beacon->connectNum != GFL_NET_GetNegotiationNum() || beacon->hasNetError != GFL_NET_SYSTEM_CheckError()) {
@@ -1331,8 +1257,6 @@ int INTRUDE_COMM_RefreshBeacon(struct GameData *gameData, IntrudeBeacon *beacon)
     return 0;
 }
 
-
-
 int INTRUDE_COMM_IsEqual(int left, int right)
 {
     if (left == right)
@@ -1340,22 +1264,14 @@ int INTRUDE_COMM_IsEqual(int left, int right)
     return 0;
 }
 
-
-
 void INTRUDE_COMM_RecvQuit(int netId, int size, IntrudeCommSys *work)
 {
     work->quit = 1;
 }
 
-
-
 void INTRUDE_COMM_Nop(void)
 {
 }
-
-
-
-
 
 void INTRUDE_COMM_AgeFoundList(IntrudeCommSys *work)
 {
@@ -1372,50 +1288,23 @@ void INTRUDE_COMM_AgeFoundList(IntrudeCommSys *work)
     }
 }
 
-
-
-
-
 u8 *INTRUDE_COMM_GetStatusArea(int unused, IntrudeCommSys *work) { return work->statusArea; }
-
-
-
 
 IntrudeMemberRecord *INTRUDE_COMM_GetMemberRecord(int index, IntrudeCommSys *work) { return &work->memberRecords[index]; }
 
-
-
-
 IntrudeStatusRecord *INTRUDE_COMM_GetStatusRecord(int index, IntrudeCommSys *work) { return &work->statusRecords[index]; }
 
-
-
-
-
 u8 *INTRUDE_COMM_GetWorkArea(int unused, IntrudeCommSys *work) { return work->workArea; }
-
-
-
-
-
 
 int INTRUDE_COMM_IsLinked(void)
 {
     return INTRUDE_COMM_HasConnectedPeers();
 }
 
-
-
-
-
 void INTRUDE_COMM_RecvShutdownRequest(int netId, int size, int data, IntrudeCommSys *work, unsigned int handle)
 {
     work->shutdownRequested = 1;
 }
-
-
-
-
 
 /*
  * The fifth argument to 021736E0 is visibly written to the outgoing stack slot.
@@ -1430,10 +1319,6 @@ int INTRUDE_COMM_SendShutdownRequest(IntrudeCommSys *work)
     }
     return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x200, 0, 0);
 }
-
-
-
-
 
 /*
  * The loaded byte stays live as r1 into 02012B4C.
@@ -1450,10 +1335,6 @@ void INTRUDE_COMM_RecvMemberCount(unsigned int netId, int size, u8 *data, Intrud
     }
 }
 
-
-
-
-
 /*
  * Handed as 0x0217375A; the function starts at the push {r0-r3} at 0x02173758.
  */
@@ -1464,14 +1345,7 @@ int INTRUDE_COMM_SendMemberCount(IntrudeCommSys *work, int memberCount, ...)
     return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), 0xff, 0x201, 1, &memberCount, 1, 0, 0);
 }
 
-
-
 void INTRUDE_COMM_RecvRecordRequest(int netId, int size, int data, IntrudeCommSys *work) { work->resendRequested = 1; }
-
-
-
-
-
 
 /*
  * Return-valued externs reflect r0 consumed after both forwarding calls.
@@ -1482,12 +1356,6 @@ int INTRUDE_COMM_SendRecordRequest(void)
         return 0;
     return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x202, 0, 0);
 }
-
-
-
-
-
-
 
 void INTRUDE_COMM_RecvStatusRecord(int netId, int size, IntrudeStatusRecord *record, IntrudeCommSys *work)
 {
@@ -1500,12 +1368,6 @@ void INTRUDE_COMM_RecvStatusRecord(int netId, int size, IntrudeStatusRecord *rec
             work->startFlag = 1;
     }
 }
-
-
-
-
-
-
 
 int INTRUDE_COMM_SendStatusRecord(IntrudeCommSys *work)
 {
@@ -1530,11 +1392,6 @@ int INTRUDE_COMM_SendStatusRecord(IntrudeCommSys *work)
     return result;
 }
 
-
-
-
-
-
 /*
  * The index loaded from data remains live in r1 into 02167658.
  */
@@ -1552,12 +1409,6 @@ void INTRUDE_COMM_RecvPeerLeft(int senderNetId, int size, int *data, IntrudeComm
     }
 }
 
-
-
-
-
-
-
 int INTRUDE_COMM_SendPeerLeft(IntrudeCommSys *work, int leavingNetId)
 {
     int selfNetId;
@@ -1570,10 +1421,6 @@ int INTRUDE_COMM_SendPeerLeft(IntrudeCommSys *work, int leavingNetId)
     return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x204, 4, &leavingNetId);
 }
 
-
-
-
-
 void INTRUDE_COMM_RecvPeerStatus(int netId, int size, const IntrudePeer *peer, IntrudeCommSys *work)
 {
     if (netId == GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())) {
@@ -1582,9 +1429,6 @@ void INTRUDE_COMM_RecvPeerStatus(int netId, int size, const IntrudePeer *peer, I
         INTRUDE_COMM_StorePlayerRecord(work, netId, peer, 0);
     }
 }
-
-
-
 
 int INTRUDE_COMM_SendPeerStatus(IntrudeCommSys *work, const IntrudePeer *peer)
 {
@@ -1600,16 +1444,10 @@ int INTRUDE_COMM_SendPeerStatus(IntrudeCommSys *work, const IntrudePeer *peer)
     return result;
 }
 
-
-
 void INTRUDE_COMM_RecvTimeoutWarning(int netId, int size, int data, IntrudeCommSys *work)
 {
     work->warned = 1;
 }
-
-
-
-
 
 int INTRUDE_COMM_SendTimeoutWarning(void)
 {
@@ -1617,20 +1455,10 @@ int INTRUDE_COMM_SendTimeoutWarning(void)
     return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x206, 0, 0);
 }
 
-
-
-
-
-
 void INTRUDE_COMM_RecvRequest(int netId, int size, IntrudeRequestMessage *request, IntrudeCommSys *work)
 {
     if (INTRUDE_COMM_TryStartRequest(work, netId, request->seq) == 1) work->receivedRequest = *request;
 }
-
-
-
-
-
 
 int INTRUDE_COMM_SendRequest(IntrudeCommSys *work, int destNetId, IntrudeMemberRecord *data, int type)
 {
@@ -1655,11 +1483,6 @@ int INTRUDE_COMM_SendRequest(IntrudeCommSys *work, int destNetId, IntrudeMemberR
     return result;
 }
 
-
-
-
-
-
 void INTRUDE_COMM_RecvReply(int netId, int size, u8 *reply, IntrudeCommSys *work)
 {
     u8 seq;
@@ -1667,10 +1490,6 @@ void INTRUDE_COMM_RecvReply(int netId, int size, u8 *reply, IntrudeCommSys *work
     if (seq == work->expectedReplySeq) INTRUDE_COMM_SetRequestResult(work, netId, reply[0], seq);
     else work->pendingReplies[netId] = seq;
 }
-
-
-
-
 
 int INTRUDE_COMM_SendReply(void *unused, int destNetId, int answer, int seq)
 {
@@ -1684,18 +1503,10 @@ int INTRUDE_COMM_SendReply(void *unused, int destNetId, int answer, int seq)
     return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), destNetId, 0x208, 4, message, 0, 0, 0);
 }
 
-
-
-
-
 void INTRUDE_COMM_RecvNotice(int netId, int size, u8 *notice, IntrudeCommSys *work)
 {
     if (work->requestTarget == netId && work->sentRequestSeq == notice[0]) INTRUDE_COMM_SetRequestResult(work, netId, 3, notice[0]);
 }
-
-
-
-
 
 int INTRUDE_COMM_SendNotice(IntrudeCommSys *work, int destNetId, int value)
 {
@@ -1705,15 +1516,10 @@ int INTRUDE_COMM_SendNotice(IntrudeCommSys *work, int destNetId, int value)
     return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), destNetId, 0x209, 1, &value, 0, 0, 0);
 }
 
-
-
 void INTRUDE_COMM_RecvAnswer(int netId, int size, u8 *data, IntrudeCommSys *work)
 {
     INTRUDE_COMM_SetRequestResultAccepted(work, netId, *data);
 }
-
-
-
 
 int INTRUDE_COMM_SendAnswer(int destNetId, int value)
 {
@@ -1723,8 +1529,6 @@ int INTRUDE_COMM_SendAnswer(int destNetId, int value)
     return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), destNetId, 0x20A, 1, &value, 0, 0, 0);
 }
 
-
-
 void INTRUDE_COMM_RecvNoticeBytes(int netId, int size, const u8 *data, IntrudeCommSys *work)
 {
     work->notice.value[0] = data[0];
@@ -1732,9 +1536,6 @@ void INTRUDE_COMM_RecvNoticeBytes(int netId, int size, const u8 *data, IntrudeCo
     work->notice.value[2] = data[2];
     work->notice.value[3] = data[3];
 }
-
-
-
 
 int INTRUDE_COMM_SendNoticeBytes(int destNetId, int value)
 {
@@ -1749,11 +1550,7 @@ int INTRUDE_COMM_SendNoticeBytes(int destNetId, int value)
     return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), destNetId, 0x20B, 4, message, 0, 0, 0);
 }
 
-
-
 void INTRUDE_COMM_RecvReady(int netId, int size, int data, IntrudeCommSys *work) { work->readyMask |= (u8)(1 << netId); }
-
-
 
 int INTRUDE_COMM_SendReady(struct IntrudeCommSys *unused, u8 destNetId)
 {
@@ -1763,13 +1560,10 @@ int INTRUDE_COMM_SendReady(struct IntrudeCommSys *unused, u8 destNetId)
     return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), destNetId, 0x20C, 0, 0, 0, 0, 0);
 }
 
-
-
 void INTRUDE_COMM_RecvRemoteRecord(int netId, int size, IntrudeRemoteRecord *record, IntrudeCommSys *work)
 {
     work->remoteRecord = *record;
 }
-
 
 int INTRUDE_CMD_SendSaveSummary(IntrudeCommSys *w, int sendMask)
 {
@@ -1785,7 +1579,6 @@ int INTRUDE_CMD_SendSaveSummary(IntrudeCommSys *w, int sendMask)
     return GFL_NET_SendDataMask(GFL_NET_HANDLE_GetCurrentHandle(), (unsigned char)sendMask, 0x20D, sizeof(IntrudeProfileData), &summary, 0, 0, 0);
 }
 
-
 /*
  * note: Two alignment bytes follow; existing pkt_ov011_02173D2C covers
  *       the next function's push at 02173D2C. No unit is created.
@@ -1798,7 +1591,6 @@ void INTRUDE_CMD_RecvEntryIndex(u32 netId, int size, int *entryIndex, IntrudeCom
     }
 }
 
-
 int INTRUDE_CMD_SendEntryIndex(struct IntrudeCommSys *unused, int entryIndex)
 {
     if (INTRUDE_COMM_IsLinked() == 0) {
@@ -1806,7 +1598,6 @@ int INTRUDE_CMD_SendEntryIndex(struct IntrudeCommSys *unused, int entryIndex)
     }
     return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x20E, 4, &entryIndex);
 }
-
 
 void INTRUDE_CMD_RecvMemberEntry(int netId, int size, IntrudeMemberEntry *entry, IntrudeCommSys *w)
 {
@@ -1821,7 +1612,6 @@ void INTRUDE_CMD_RecvMemberEntry(int netId, int size, IntrudeMemberEntry *entry,
     }
 }
 
-
 int INTRUDE_CMD_SendMemberEntry(void *unused, IntrudeSession *session, int memberIndex)
 {
     if (INTRUDE_COMM_IsLinked() == 0) {
@@ -1829,7 +1619,6 @@ int INTRUDE_CMD_SendMemberEntry(void *unused, IntrudeSession *session, int membe
     }
     return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), 0xFF, 0x20F, 0x28, &session->members[memberIndex], 0, 0, 1);
 }
-
 
 void INTRUDE_CMD_RecvJoinRequest(int netId, int size, IntrudeJoinRequest *request, IntrudeCommSys *w)
 {
@@ -1847,7 +1636,6 @@ void INTRUDE_CMD_RecvJoinRequest(int netId, int size, IntrudeJoinRequest *reques
     }
 }
 
-
 int INTRUDE_CMD_SendJoinRequest(IntrudeCommSys *w, void *request)
 {
     if (INTRUDE_COMM_IsLinked() == 0) {
@@ -1857,12 +1645,10 @@ int INTRUDE_CMD_SendJoinRequest(IntrudeCommSys *w, void *request)
     return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x210, 0x30, request);
 }
 
-
 void INTRUDE_CMD_RecvJoinReply(int netId, int size, void *reply, IntrudeCommSys *w)
 {
     INTRUDE_COMM_StoreJoinReply(&w->session, reply);
 }
-
 
 int INTRUDE_CMD_SendJoinReply(void *unused, void *reply, int netId)
 {
@@ -1875,13 +1661,11 @@ int INTRUDE_CMD_SendJoinReply(void *unused, void *reply, int netId)
     return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), (unsigned char)netId, 0x211, 0x38, reply, 0, 0, 0);
 }
 
-
 void INTRUDE_CMD_RecvGroupRecord(int netId, int size, IntrudeMemberRecord *record, IntrudeCommSys *w)
 {
     GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(GAME_COMM_GetGameData(w->gameComm)));
     if (INTRUDE_COMM_StoreSessionRequest(w, &w->session, record) == 1) w->entryReceived = 1;
 }
-
 
 int INTRUDE_CMD_SendGroupRecord(IntrudeCommSys *w, IntrudeSession *session)
 {
@@ -1895,14 +1679,12 @@ int INTRUDE_CMD_SendGroupRecord(IntrudeCommSys *w, IntrudeSession *session)
     return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), 0xFF, 0x212, 0x34, &w->recordCopy, 0, 0, 1);
 }
 
-
 void INTRUDE_CMD_RecvRecordEcho(int netId, int size, void *record, IntrudeCommSys *w)
 {
     IntrudeMemberRecord *pending;
     pending = INTRUDE_COMM_GetActiveSessionRequest(&w->session);
     if (pending != 0 && GF_STANDARD_CompareBytes((u8 *)pending, record, 0x34) == 0) INTRUDE_COMM_ClearSessionTicks(&w->session);
 }
-
 
 /*
  * note: The matched void forwarder INTRUDE_COMM_IsLinked leaves r0 live and this
@@ -1915,13 +1697,11 @@ int INTRUDE_CMD_SendRecordEcho(void *unused, IntrudeSession *session)
     return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x213, 0x34, &session->request);
 }
 
-
 void INTRUDE_CMD_RecvRecordAccept(int netId, int size, void *record, IntrudeCommSys *w)
 {
     INTRUDE_COMM_GetActiveSessionRequest(&w->session);
     if (GFL_NET_IsParentAid()) INTRUDE_COMM_AddSessionMember(&w->session, netId);
 }
-
 
 /*
  * note: Lead one run is EXACT*, followed by the root-claimed 02173FE4
@@ -1936,12 +1716,10 @@ int INTRUDE_CMD_SendRecordAccept(int unused, IntrudeSession *session)
     return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x214, 0x34, &session->request);
 }
 
-
 void INTRUDE_CMD_RecvMemberValue(int netId, int size, int *value, IntrudeCommSys *w)
 {
     INTRUDE_COMM_StartSessionTimer(&w->session, *value);
 }
-
 
 int INTRUDE_CMD_SendMemberValue(void *unused, int value, int sendMask)
 {
@@ -1951,12 +1729,10 @@ int INTRUDE_CMD_SendMemberValue(void *unused, int value, int sendMask)
     return GFL_NET_SendDataMask(GFL_NET_HANDLE_GetCurrentHandle(), (unsigned char)sendMask, 0x215, 4, &value, 0, 0, 0);
 }
 
-
 void INTRUDE_CMD_RecvProposal(int netId, int size, IntrudeMemberRecord *record, IntrudeCommSys *w)
 {
     if (GFL_NET_IsParentAid()) INTRUDE_COMM_StoreResultRecord(&w->session, record, netId);
 }
-
 
 int INTRUDE_CMD_SendProposal(IntrudeCommSys *w, IntrudeSession *session)
 {
@@ -1973,12 +1749,10 @@ int INTRUDE_CMD_SendProposal(IntrudeCommSys *w, IntrudeSession *session)
     return result;
 }
 
-
 void INTRUDE_CMD_RecvProposalReply(int netId, int size, int *value, IntrudeCommSys *w)
 {
     INTRUDE_COMM_SetJoinStatus(&w->session, *value);
 }
-
 
 /*
  * Handed as 0x021740AE; the function starts at the push {r0-r3} at 0x021740AC.
@@ -1993,7 +1767,6 @@ int INTRUDE_CMD_SendProposalReply(int unused, int value, int netId, ...)
     }
     return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), netId, 0x217, 4, &value, 0, 0, 0);
 }
-
 
 void INTRUDE_CMD_RecvResultRecord(int netId, int size, IntrudeResultRecord *record, IntrudeCommSys *w)
 {
@@ -2046,7 +1819,6 @@ void INTRUDE_CMD_RecvResultRecord(int netId, int size, IntrudeResultRecord *reco
     INTRUDE_COMM_SetResultRecord(w, &w->session, record);
 }
 
-
 int INTRUDE_CMD_SendResultRecord(IntrudeCommSys *w, IntrudeSession *session)
 {
     if (INTRUDE_COMM_IsLinked() == 0) {
@@ -2059,12 +1831,10 @@ int INTRUDE_CMD_SendResultRecord(IntrudeCommSys *w, IntrudeSession *session)
     return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), 0xff, 0x218, 0x3c, &w->resultCopy, 0, 0, 1);
 }
 
-
 void INTRUDE_CMD_RecvReadyNotice(int netId, int size, int unused, IntrudeCommSys *w)
 {
     INTRUDE_COMM_SetSessionReadyBit(&w->session, netId);
 }
-
 
 int INTRUDE_CMD_SendReadyNotice(IntrudeCommSys *w)
 {
@@ -2075,12 +1845,10 @@ int INTRUDE_CMD_SendReadyNotice(IntrudeCommSys *w)
     return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), 0, 0x219, 0, 0, 0, 0, 0);
 }
 
-
 void INTRUDE_CMD_RecvStartNotice(int netId, int size, int unused, IntrudeCommSys *w)
 {
     INTRUDE_COMM_SetNoticeState(&w->session, 1);
 }
-
 
 int INTRUDE_CMD_SendStartNotice(int sendMask)
 {
@@ -2090,12 +1858,10 @@ int INTRUDE_CMD_SendStartNotice(int sendMask)
     return GFL_NET_SendDataMask(GFL_NET_HANDLE_GetCurrentHandle(), sendMask, 0x21a, 0, 0, 0, 0, 0);
 }
 
-
 void INTRUDE_CMD_RecvEndNotice(int netId, int size, int unused, IntrudeCommSys *w)
 {
     INTRUDE_COMM_SetNoticeState(&w->session, 2);
 }
-
 
 /*
  * note: INTRUDE_COMM_IsLinked's matched void forwarder leaves r0 live and the
@@ -2106,7 +1872,6 @@ u32 INTRUDE_CMD_SendEndNotice(u32 sendMask)
     if (INTRUDE_COMM_IsLinked() == 0) return 1;
     return GFL_NET_SendDataMask(GFL_NET_HANDLE_GetCurrentHandle(), sendMask, 0x21b, 0, 0, 0, 0, 0);
 }
-
 
 void INTRUDE_CMD_RecvProfile(int netId, int size, void *profile, IntrudeCommSys *w)
 {
@@ -2121,7 +1886,6 @@ void INTRUDE_CMD_RecvProfile(int netId, int size, void *profile, IntrudeCommSys 
     }
 }
 
-
 int INTRUDE_CMD_SendProfile(IntrudeCommSys *w)
 {
     void *profile;
@@ -2133,15 +1897,10 @@ int INTRUDE_CMD_SendProfile(IntrudeCommSys *w)
     return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x21c, 0x10, profile);
 }
 
-
 void INTRUDE_CMD_RecvTallyWord(int netId, int size, void *data, IntrudeCommSys *w)
 {
     MI_CpuCopy8(data, &w->partnerTally, 4);
 }
-
-
-
-
 
 int INTRUDE_COMM_SendTally(IntrudeCommSys *work)
 {
@@ -2152,10 +1911,6 @@ int INTRUDE_COMM_SendTally(IntrudeCommSys *work)
     return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x21d, 4, &work->ownTally);
 }
 
-
-
-
-
 void INTRUDE_COMM_RecvBusyBegin(int netId, int size, void *data, IntrudeCommSys *work)
 {
     work->busyCount++;
@@ -2165,10 +1920,6 @@ void INTRUDE_COMM_RecvBusyBegin(int netId, int size, void *data, IntrudeCommSys 
     }
 }
 
-
-
-
-
 u32 INTRUDE_COMM_SendBusyBegin(void)
 {
     if (INTRUDE_COMM_IsLinked() == 0) {
@@ -2176,10 +1927,6 @@ u32 INTRUDE_COMM_SendBusyBegin(void)
     }
     return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), 0, 0x21e, 0, 0, 0, 0, 0);
 }
-
-
-
-
 
 void INTRUDE_COMM_RecvBusyEnd(int netId, int size, void *data, IntrudeCommSys *work)
 {
@@ -2190,10 +1937,6 @@ void INTRUDE_COMM_RecvBusyEnd(int netId, int size, void *data, IntrudeCommSys *w
     }
 }
 
-
-
-
-
 u32 INTRUDE_COMM_SendBusyEnd(void)
 {
     if (INTRUDE_COMM_IsLinked() == 0) {
@@ -2201,10 +1944,6 @@ u32 INTRUDE_COMM_SendBusyEnd(void)
     }
     return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), 0, 0x21f, 0, 0, 0, 0, 0);
 }
-
-
-
-
 
 /*
  * extent: existing follower INTRUDE_COMM_SendPeerFlags.c stays separate.
@@ -2216,10 +1955,6 @@ void INTRUDE_COMM_RecvPeerFlags(int netId, int size, u8 *flags, IntrudeCommSys *
     }
 }
 
-
-
-
-
 /*
  * Handed as 0x021744D2; the function starts at the push {r0-r3} at 0x021744D0.
  */
@@ -2230,10 +1965,6 @@ int INTRUDE_COMM_SendPeerFlags(struct IntrudeCommSys *unused, u8 netId, int flag
     }
     return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), netId, 0x220, 1, &flags, 0, 0, 0);
 }
-
-
-
-
 
 void INTRUDE_COMM_RecvSupportMode(int netId, int size, int *mode, IntrudeCommSys *work)
 {
@@ -2252,10 +1983,6 @@ void INTRUDE_COMM_RecvSupportMode(int netId, int size, int *mode, IntrudeCommSys
     }
 }
 
-
-
-
-
 /*
  * Handed as 0x0217456E; the function starts at the push {r0-r3} at 0x0217456C.
  */
@@ -2267,10 +1994,6 @@ int INTRUDE_COMM_SendSupportMode(struct IntrudeCommSys *unused, u8 netId, int mo
     return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), netId, 0x221, 4, &mode, 0, 0, 0);
 }
 
-
-
-
-
 void INTRUDE_COMM_RecvProfile(int netId, int size, void *profile, IntrudeCommSys *work)
 {
     GAME_COMM_GetGameData(work->gameComm);
@@ -2280,10 +2003,6 @@ void INTRUDE_COMM_RecvProfile(int netId, int size, void *profile, IntrudeCommSys
     }
 }
 
-
-
-
-
 int INTRUDE_COMM_SendProfile(u8 netId, const void *profile)
 {
     if (INTRUDE_COMM_IsLinked() == 0) {
@@ -2291,10 +2010,6 @@ int INTRUDE_COMM_SendProfile(u8 netId, const void *profile)
     }
     return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), netId, 0x222, 0x14, profile, 0, 0, 0);
 }
-
-
-
-
 
 /*
  * extent: existing follower INTRUDE_COMM_SendPairMessage.c stays separate.
@@ -2305,10 +2020,6 @@ void INTRUDE_COMM_RecvPairMessage(int netId, int size, u8 *message, IntrudeCommS
         GAME_COMM_PushPairMessage((struct GameComm *)work->gameComm, netId, *message);
     }
 }
-
-
-
-
 
 /*
  * Handed as 0x02174662; the function starts at the push {r0-r3} at 0x02174660.
@@ -2321,18 +2032,10 @@ int INTRUDE_COMM_SendPairMessage(int message, ...)
     return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x223, 1, &message);
 }
 
-
-
-
-
 void INTRUDE_COMM_RecvUnionInfoRequest(int netId, int size, int data, IntrudeCommSys *work)
 {
     work->unionInfoRequestMask |= (u8)(1 << netId);
 }
-
-
-
-
 
 int INTRUDE_COMM_SendUnionInfoRequest(IntrudeCommSys *work, u8 netId)
 {
@@ -2347,10 +2050,6 @@ int INTRUDE_COMM_SendUnionInfoRequest(IntrudeCommSys *work, u8 netId)
     return sent;
 }
 
-
-
-
-
 void INTRUDE_COMM_RecvUnionInfo(int netId, int size, void *info, IntrudeCommSys *work)
 {
     struct GameData *gameData;
@@ -2362,10 +2061,6 @@ void INTRUDE_COMM_RecvUnionInfo(int netId, int size, void *info, IntrudeCommSys 
     GAME_DATA_TakeUnionInfo((struct GameData *)gameData, info);
     work->unionInfoReceived = 1;
 }
-
-
-
-
 
 int INTRUDE_COMM_SendUnionInfo(IntrudeCommSys *work, int netMask, void *info)
 {
@@ -2379,18 +2074,10 @@ int INTRUDE_COMM_SendUnionInfo(IntrudeCommSys *work, int netMask, void *info)
     return GFL_NET_SendDataMask(GFL_NET_HANDLE_GetCurrentHandle(), netMask & 0xFF, 0x225, 0x1E8, info, 0, 0, 1);
 }
 
-
-
-
-
 void INTRUDE_COMM_RecvReturnResult(int netId, int size, int result, IntrudeCommSys *work)
 {
     EVENT_FIELD_PROCLINK_SetReturnSlotDefaultIfOffline((struct EventSlots *)work->returnSlots, (struct EventSlot *)result);
 }
-
-
-
-
 
 int INTRUDE_COMM_SendReturnResult(void *result, u8 netId)
 {
@@ -2400,18 +2087,10 @@ int INTRUDE_COMM_SendReturnResult(void *result, u8 netId)
     return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), netId, 0x226, 8, result, 0, 0, 0);
 }
 
-
-
-
-
 void INTRUDE_COMM_RecvReturnPending(int netId, int size, int data, IntrudeCommSys *work)
 {
     EVENT_FIELD_PROCLINK_SetReturnSlotIfOffline((struct EventSlots *)work->returnSlots, (u16)netId, (void *)data);
 }
-
-
-
-
 
 int INTRUDE_COMM_SendReturnPending(const void *pending, u8 netId)
 {
@@ -2420,10 +2099,6 @@ int INTRUDE_COMM_SendReturnPending(const void *pending, u8 netId)
     }
     return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), netId, 0x227, 8, pending, 0, 0, 0);
 }
-
-
-
-
 
 /*
  * Stores the page request of the sender (a 4-byte struct copy: both byte
@@ -2434,10 +2109,6 @@ void INTRUDE_COMM_RecvPageRequest(int netId, int size, const IntrudePageRequest 
     work->pageRequests[netId] = *request;
 }
 
-
-
-
-
 int INTRUDE_COMM_SendPageRequest(IntrudeCommSys *work, u8 netId, const void *request)
 {
     if (INTRUDE_COMM_IsLinked() == 0) {
@@ -2447,20 +2118,12 @@ int INTRUDE_COMM_SendPageRequest(IntrudeCommSys *work, u8 netId, const void *req
     return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), netId, 0x228, 4, request, 0, 0, 0);
 }
 
-
-
-
-
 void INTRUDE_COMM_RecvSymbolPage(int netId, int size, IntrudeSymbolPage *page, IntrudeCommSys *work)
 {
     work->peerSymbolPage = *page;
     work->pageReceived = 1;
     work->areaNoticeSeen = 0;
 }
-
-
-
-
 
 int INTRUDE_COMM_SendSymbolPage(IntrudeCommSys *work, u8 netId)
 {
@@ -2469,10 +2132,6 @@ int INTRUDE_COMM_SendSymbolPage(IntrudeCommSys *work, u8 netId)
     }
     return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), netId, 0x229, 0x54, &work->ownSymbolPage, 0, 0, 0);
 }
-
-
-
-
 
 void INTRUDE_COMM_RecvAreaNotice(int netId, int size, int data, IntrudeCommSys *work)
 {
@@ -2485,10 +2144,6 @@ void INTRUDE_COMM_RecvAreaNotice(int netId, int size, int data, IntrudeCommSys *
     }
 }
 
-
-
-
-
 /*
  * lever: caller consumes the live r0 result of legacy void forwarders.
  */
@@ -2499,10 +2154,6 @@ u32 INTRUDE_COMM_SendAreaNotice(const void *notice)
     }
     return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x22a, 4, notice);
 }
-
-
-
-
 
 /*
  * Addresses are Black-image addresses.
@@ -2559,10 +2210,6 @@ void INTRUDE_COMM_UpdateRunning(IntrudeCommSys *work)
     }
 }
 
-
-
-
-
 void INTRUDE_COMM_UpdateSeasonState(IntrudeCommSys *work)
 {
     int mode;
@@ -2581,10 +2228,6 @@ void INTRUDE_COMM_UpdateSeasonState(IntrudeCommSys *work)
     }
 }
 
-
-
-
-
 void INTRUDE_COMM_UpdateMemberJoin(IntrudeCommSys *work)
 {
     int i;
@@ -2601,10 +2244,6 @@ void INTRUDE_COMM_UpdateMemberJoin(IntrudeCommSys *work)
     }
 }
 
-
-
-
-
 void INTRUDE_COMM_UpdateMemberLeave(IntrudeCommSys *work)
 {
     int i;
@@ -2616,10 +2255,6 @@ void INTRUDE_COMM_UpdateMemberLeave(IntrudeCommSys *work)
         }
     }
 }
-
-
-
-
 
 void INTRUDE_COMM_UpdatePendingNotices(IntrudeCommSys *work)
 {
@@ -2647,10 +2282,6 @@ void INTRUDE_COMM_UpdatePendingNotices(IntrudeCommSys *work)
         }
     }
 }
-
-
-
-
 
 /*
  * GAME_COMM_GetGameData returns the argument consumed by GAME_DATA_GetSecondUnionInfo.
@@ -2680,10 +2311,6 @@ void INTRUDE_COMM_UpdateUnionInfoAndReturnSlots(IntrudeCommSys *work)
         }
     }
 }
-
-
-
-
 
 /*
  * The guard's ldrb lands in r1 because GAME_COMM_GetGameData's result is live in r0:
@@ -2716,10 +2343,6 @@ void INTRUDE_COMM_UpdatePageRequests(IntrudeCommSys *work)
     }
 }
 
-
-
-
-
 void INTRUDE_COMM_BuildSymbolPage(IntrudeCommSys *work, const IntrudePageRequest *request)
 {
     IntrudeSymbolPage *page;
@@ -2737,10 +2360,6 @@ void INTRUDE_COMM_BuildSymbolPage(IntrudeCommSys *work, const IntrudePageRequest
     page->page = request->page;
 }
 
-
-
-
-
 void INTRUDE_COMM_SendSaveSummaryToReadyPeers(IntrudeCommSys *work)
 {
     if (work->readyMask != 0) {
@@ -2750,19 +2369,11 @@ void INTRUDE_COMM_SendSaveSummaryToReadyPeers(IntrudeCommSys *work)
     }
 }
 
-
-
-
-
 void INTRUDE_COMM_SetState(IntrudeCommSys *work, int state)
 {
     work->localPeer.state = (u16)state;
     work->peerStatusDirty = 1;
 }
-
-
-
-
 
 /*
  * Compares the 3-bit intrudeId with 0x80, which is never true: kept as in
@@ -2780,10 +2391,6 @@ void INTRUDE_COMM_RefreshSelfRecord(IntrudeCommSys *work)
     }
     work->ownStatus.peer = work->localPeer;
 }
-
-
-
-
 
 void INTRUDE_COMM_ApplyPlayerBeacon(IntrudeCommSys *work, int netId, IntrudeStatusRecord *record)
 {
@@ -2812,10 +2419,6 @@ skip:
     }
 }
 
-
-
-
-
 void INTRUDE_COMM_StorePlayerRecord(IntrudeCommSys *work, int netId, const IntrudePeer *src, int arg)
 {
     IntrudePeer *peer;
@@ -2836,10 +2439,6 @@ void INTRUDE_COMM_StorePlayerRecord(IntrudeCommSys *work, int netId, const Intru
     work->dirtyPeerMask |= (u8)(1 << netId);
 }
 
-
-
-
-
 void INTRUDE_COMM_UpdatePlayerObjects(IntrudeCommSys *work)
 {
     u8 i;
@@ -2856,10 +2455,6 @@ void INTRUDE_COMM_UpdatePlayerObjects(IntrudeCommSys *work)
         }
     }
 }
-
-
-
-
 
 /* Returns 1 when the peer has to be hidden from this player's field. */
 static inline int ShouldHidePeer(IntrudePeer *peer, IntrudePeer *self)
@@ -2888,10 +2483,6 @@ static inline int ShouldHidePeer(IntrudePeer *peer, IntrudePeer *self)
     return 1;
 }
 
-
-
-
-
 void INTRUDE_COMM_UpdatePlayerObject(IntrudeCommSys *work, int netId)
 {
     IntrudePeer *peer;
@@ -2911,10 +2502,6 @@ void INTRUDE_COMM_UpdatePlayerObject(IntrudeCommSys *work, int netId)
         }
     }
 }
-
-
-
-
 
 int INTRUDE_COMM_LookupZonePair(u16 zoneId, IntrudeZonePairInfo *out)
 {
@@ -2937,20 +2524,12 @@ int INTRUDE_COMM_LookupZonePair(u16 zoneId, IntrudeZonePairInfo *out)
     return 0;
 }
 
-
-
-
-
 int INTRUDE_COMM_CompareZonePair(IntrudeZonePairInfo *a, IntrudeZonePairInfo *b)
 {
     if (a->zoneId == b->zoneId) return 0;
     if (a->side != b->side && a->pairIndex == b->pairIndex) return 1;
     return 2;
 }
-
-
-
-
 
 int INTRUDE_COMM_GetRelativeSlot(IntrudeCommSys *work, int netId)
 {
@@ -2960,10 +2539,6 @@ int INTRUDE_COMM_GetRelativeSlot(IntrudeCommSys *work, int netId)
     if (slot < 0) slot += work->memberCount;
     return slot;
 }
-
-
-
-
 
 void INTRUDE_COMM_AdjustRemotePosition(IntrudeCommSys *work, u16 zoneId, int selfX, IntrudePeer *peer)
 {
@@ -2998,10 +2573,6 @@ void INTRUDE_COMM_AdjustRemotePosition(IntrudeCommSys *work, u16 zoneId, int sel
     }
 }
 
-
-
-
-
 void INTRUDE_COMM_AdjustAllRemotePositions(IntrudeCommSys *work, int selfX)
 {
     IntrudePeer *peers;
@@ -3021,10 +2592,6 @@ void INTRUDE_COMM_AdjustAllRemotePositions(IntrudeCommSys *work, int selfX)
         }
     }
 }
-
-
-
-
 
 int INTRUDE_COMM_UpdateSelfRecord(IntrudeCommSys *work)
 {
@@ -3053,10 +2620,6 @@ int INTRUDE_COMM_UpdateSelfRecord(IntrudeCommSys *work)
     return changed;
 }
 
-
-
-
-
 /*
  * Unlabelled Thumb leaf, seeded so that ov018 EVENT_COMM_COMMON_ExitCommonWork has a witness:
  * clears the notice bytes.
@@ -3065,10 +2628,6 @@ void INTRUDE_COMM_ClearNotice(IntrudeCommSys *work)
 {
     MI_CpuFill8(&work->notice, 0, 4);
 }
-
-
-
-
 
 /*
  * Unlabelled Thumb leaf, the follower of INTRUDE_COMM_ClearNotice: returns the notice
@@ -3083,10 +2642,6 @@ unsigned char *INTRUDE_COMM_GetNotice(IntrudeCommSys *work)
     return 0;
 }
 
-
-
-
-
 /*
  * extent: two zero alignment bytes at 0x021753B6 precede the owned 021753B8 function.
  */
@@ -3099,19 +2654,11 @@ void INTRUDE_COMM_InitRequest(IntrudeCommSys *work, int target)
     INTRUDE_COMM_NextRequestToken(work);
 }
 
-
-
-
-
 void INTRUDE_COMM_NextRequestToken(IntrudeCommSys *work)
 {
     work->nextRequestSeq++;
     work->expectedReplySeq = work->nextRequestSeq;
 }
-
-
-
-
 
 int INTRUDE_COMM_TryStartRequest(IntrudeCommSys *work, int netId, u8 seq)
 {
@@ -3135,18 +2682,10 @@ int INTRUDE_COMM_TryStartRequest(IntrudeCommSys *work, int netId, u8 seq)
     return 0;
 }
 
-
-
-
-
 void INTRUDE_COMM_SetRequestOpen(IntrudeCommSys *work)
 {
     work->requestOpen = 1;
 }
-
-
-
-
 
 /*
  * lever: bitfield clear emits bics; byte mask emits ands with 0xEF.
@@ -3155,10 +2694,6 @@ void INTRUDE_COMM_ClearRequestOpen(IntrudeCommSys *work)
 {
     work->requestOpen = 0;
 }
-
-
-
-
 
 void INTRUDE_COMM_UpdateRequest(IntrudeCommSys *work)
 {
@@ -3176,10 +2711,6 @@ void INTRUDE_COMM_UpdateRequest(IntrudeCommSys *work)
     }
 }
 
-
-
-
-
 int INTRUDE_COMM_GetActiveRequestTarget(IntrudeCommSys *work, int *target)
 {
     int netId;
@@ -3192,10 +2723,6 @@ int INTRUDE_COMM_GetActiveRequestTarget(IntrudeCommSys *work, int *target)
     return 0;
 }
 
-
-
-
-
 void INTRUDE_COMM_SetRequestResult(IntrudeCommSys *work, int netId, int result, int seq)
 {
     if (work->requestTarget == netId && work->sentRequestSeq == seq) {
@@ -3204,18 +2731,10 @@ void INTRUDE_COMM_SetRequestResult(IntrudeCommSys *work, int netId, int result, 
     }
 }
 
-
-
-
-
 void INTRUDE_COMM_SetRequestResultAccepted(IntrudeCommSys *work, int netId, int seq)
 {
     INTRUDE_COMM_SetRequestResult(work, netId, 3, seq);
 }
-
-
-
-
 
 /*
  * note:     unlabelled leaf (push {r3,r4}, no lr); callers EVENT_COMM_COMMON_BattleRequestEventMain and
@@ -3235,10 +2754,6 @@ int INTRUDE_COMM_TakeRequestResult(IntrudeCommSys *work)
     return 0;
 }
 
-
-
-
-
 /*
  * Unlabelled leaf (no lr save): clears the reply result.
  */
@@ -3246,10 +2761,6 @@ void INTRUDE_COMM_ClearRequestResult(IntrudeCommSys *work)
 {
     work->replyResult = 0;
 }
-
-
-
-
 
 void INTRUDE_COMM_PickDefaultObjCode(u32 myStatus, u16 *objCode, u8 *form, u8 *sex)
 {
@@ -3269,10 +2780,6 @@ void INTRUDE_COMM_PickDefaultObjCode(u32 myStatus, u16 *objCode, u8 *form, u8 *s
         *sex = 1;
     }
 }
-
-
-
-
 
 u16 INTRUDE_COMM_GetPlayerObjCode(IntrudePeer *peer, u32 myStatus)
 {
@@ -3299,10 +2806,6 @@ u16 INTRUDE_COMM_GetPlayerObjCode(IntrudePeer *peer, u32 myStatus)
     return pick.objCode;
 }
 
-
-
-
-
 /*
  * extent: two zero alignment bytes at 0x02175646 precede existing 02175648 code.
  */
@@ -3312,10 +2815,6 @@ int INTRUDE_COMM_HasConnectedPeers(void)
     if (GFL_NET_GetNegotiationNum() > 1) return 1;
     return 0;
 }
-
-
-
-
 
 void INTRUDE_COMM_BuildLocalProfile(void *saveData, IntrudeProfileData *profile)
 {
@@ -3332,18 +2831,10 @@ void INTRUDE_COMM_BuildLocalProfile(void *saveData, IntrudeProfileData *profile)
     profile->valid = 1;
 }
 
-
-
-
-
 u8 INTRUDE_COMM_GetPartnerTallyValid(IntrudeCommSys *work)
 {
     return work->partnerTally.valid;
 }
-
-
-
-
 
 /*
  * A ternary loop condition keeps the unrotated entry branch.
@@ -3354,10 +2845,6 @@ int INTRUDE_COMM_IsValidObjCode(int objCode)
     for (i = 0; (i < 162) ? 1 : 0; i++) if (objCode == gIntrudeCommValidObjCodes[i]) return 1;
     return 0;
 }
-
-
-
-
 
 /*
  * The 32-byte follower at 021756F0 already has its own matched shard.
@@ -3374,10 +2861,6 @@ int INTRUDE_COMM_IsValidProfileCode(u32 code)
     return 0;
 }
 
-
-
-
-
 /*
  * Unlabelled leaf: sets the lock bit from the low bit of value.
  */
@@ -3385,10 +2868,6 @@ void INTRUDE_COMM_SetLock(IntrudeCommSys *work, u32 value)
 {
     work->lock = (u8)value;
 }
-
-
-
-
 
 /*
  * INTRUDE_COMM_SetSuspended is an unlabelled leaf (the suspended bit).
@@ -3402,18 +2881,10 @@ void INTRUDE_COMM_SetIntrudeId(IntrudeCommSys *work, u32 intrudeId)
     EVENT_FIELD_PROCLINK_SetReturnLinkId((struct EventSlots *)work->returnSlots, (u8)intrudeId);
 }
 
-
-
-
-
 void INTRUDE_COMM_SetSuspended(IntrudeCommSys *work, u32 value)
 {
     work->suspended = (u8)value;
 }
-
-
-
-
 
 void INTRUDE_COMM_InitSession(IntrudeSession *session)
 {
@@ -3426,10 +2897,6 @@ void INTRUDE_COMM_InitSession(IntrudeSession *session)
     INTRUDE_COMM_ClearSessionEntries(session);
 }
 
-
-
-
-
 /*
  * extent: two zero alignment bytes at 0x021757C2 precede existing 021757C4 code.
  */
@@ -3438,10 +2905,6 @@ void INTRUDE_COMM_ClearSessionEntries(IntrudeSession *session)
     int i;
     for (i = 0; i < 3; i++) session->members[i].filled = 0;
 }
-
-
-
-
 
 void INTRUDE_COMM_UpdateSession(IntrudeCommSys *work, IntrudeSession *session)
 {
@@ -3469,10 +2932,6 @@ void INTRUDE_COMM_UpdateSession(IntrudeCommSys *work, IntrudeSession *session)
     INTRUDE_COMM_UpdateSessionJoinNotices(work, session);
 }
 
-
-
-
-
 int INTRUDE_COMM_GetSessionElapsed(IntrudeSession *session)
 {
     u32 now = GF_STANDARD_GetSecondsOfDay();
@@ -3481,10 +2940,6 @@ int INTRUDE_COMM_GetSessionElapsed(IntrudeSession *session)
     return now - start;
 }
 
-
-
-
-
 int INTRUDE_COMM_GetSessionWaitRemaining(IntrudeSession *session)
 {
     int limit = session->request.amount;
@@ -3492,10 +2947,6 @@ int INTRUDE_COMM_GetSessionWaitRemaining(IntrudeSession *session)
     if (remaining < 0) remaining = 0;
     return remaining;
 }
-
-
-
-
 
 int INTRUDE_COMM_GetSessionRemaining(IntrudeSession *session)
 {
@@ -3517,10 +2968,6 @@ int INTRUDE_COMM_GetSessionRemaining(IntrudeSession *session)
     return 0;
 }
 
-
-
-
-
 /*
  * Three one-byte flag setters.
  */
@@ -3529,27 +2976,15 @@ void INTRUDE_COMM_SetSessionEntrySendFlag(IntrudeSession *session, int index)
     session->entrySendPending[index] = 1;
 }
 
-
-
-
-
 void INTRUDE_COMM_SetSessionRequestSendFlag(IntrudeSession *session)
 {
     session->requestSendPending = 1;
 }
 
-
-
-
-
 void INTRUDE_COMM_SetSessionResultSendFlag(IntrudeSession *session)
 {
     session->resultChanged = 1;
 }
-
-
-
-
 
 /* Copies a received member entry (as 20 halfwords) into a free slot. */
 void INTRUDE_COMM_StoreSessionEntry(IntrudeSession *session, const u16 *src, int index)
@@ -3561,10 +2996,6 @@ void INTRUDE_COMM_StoreSessionEntry(IntrudeSession *session, const u16 *src, int
         do { *dst++ = *src++; } while (--n);
     }
 }
-
-
-
-
 
 int INTRUDE_COMM_StoreSessionRequest(void *unused, IntrudeSession *session, IntrudeMemberRecord *src)
 {
@@ -3587,29 +3018,17 @@ int INTRUDE_COMM_StoreSessionRequest(void *unused, IntrudeSession *session, Intr
     return received;
 }
 
-
-
-
-
 void INTRUDE_COMM_ClearSessionTicks(IntrudeSession *session)
 {
     IntrudeMemberRecord *request = INTRUDE_COMM_GetActiveSessionRequest(session);
     if (request != 0) request->ticksLeft = 0;
 }
 
-
-
-
-
 static inline void MarkJoined(IntrudeSession *session, u8 bit)
 {
     session->joinedMask |= bit;
     session->joinNoticeMask |= bit;
 }
-
-
-
-
 
 /*
  * lever: u8 mask conversion through MarkJoined inline preserves the original
@@ -3621,10 +3040,6 @@ void INTRUDE_COMM_AddSessionMember(IntrudeSession *session, u8 netId)
     MarkJoined(session, 1 << netId);
 }
 
-
-
-
-
 /*
  * extent: follower 0x02175A24 already filed separately.
  */
@@ -3635,10 +3050,6 @@ void INTRUDE_COMM_StartSessionTimer(IntrudeSession *session, int seconds)
     if (GFL_NET_IsParentAid() == 0) session->startTick = GF_STANDARD_GetSecondsOfDay();
 }
 
-
-
-
-
 /*
  * Unlabelled leaf (sole blocker of ov018 INTRUDE_FIELD_EventOfferInfo).
  */
@@ -3646,10 +3057,6 @@ int INTRUDE_COMM_IsSessionTimeLimitSet(IntrudeSession *session)
 {
     return session->timeLimitSet;
 }
-
-
-
-
 
 void INTRUDE_COMM_UpdateSessionSends(IntrudeCommSys *work, IntrudeSession *session)
 {
@@ -3676,10 +3083,6 @@ void INTRUDE_COMM_UpdateSessionSends(IntrudeCommSys *work, IntrudeSession *sessi
     }
 }
 
-
-
-
-
 /*
  * prototype: INTRUDE_CMD_SendMemberValue trailing input omitted: full matched body neither
  * reads nor forwards d; original caller supplies no r3 value.
@@ -3692,19 +3095,11 @@ void INTRUDE_COMM_UpdateSessionJoinNotices(IntrudeCommSys *work, IntrudeSession 
     }
 }
 
-
-
-
-
 int INTRUDE_COMM_IsSessionActive(IntrudeSession *session)
 {
     if (session->request.netId == 4 || session->requestReceived == 0) return 0;
     return 1;
 }
-
-
-
-
 
 /*
  * extent: two zero alignment bytes follow the compiled return.
@@ -3717,10 +3112,6 @@ IntrudeMemberRecord *INTRUDE_COMM_GetActiveSessionRequest(IntrudeSession *sessio
     return request;
 }
 
-
-
-
-
 void INTRUDE_COMM_AcceptSession(IntrudeCommSys *work, IntrudeSession *session)
 {
     if (INTRUDE_COMM_IsSessionActive(session) == 1) {
@@ -3731,19 +3122,11 @@ void INTRUDE_COMM_AcceptSession(IntrudeCommSys *work, IntrudeSession *session)
     }
 }
 
-
-
-
-
 int INTRUDE_COMM_IsSessionAccepted(IntrudeSession *session)
 {
     if (INTRUDE_COMM_IsSessionActive(session) == 1) return session->accepted;
     return 0;
 }
-
-
-
-
 
 /*
  * extent: follower 0x02175BBC already filed separately.
@@ -3752,10 +3135,6 @@ void INTRUDE_COMM_SetSessionFinished(IntrudeSession *session)
 {
     session->finished = 1;
 }
-
-
-
-
 
 /*
  * Unlabelled leaf (no lr save, prints as .word data in the listing),
@@ -3766,10 +3145,6 @@ int INTRUDE_COMM_IsSessionFinished(IntrudeSession *session)
     return session->finished;
 }
 
-
-
-
-
 IntrudeResultRecord *INTRUDE_COMM_GetSessionResult(IntrudeSession *session)
 {
     IntrudeResultRecord *result;
@@ -3777,10 +3152,6 @@ IntrudeResultRecord *INTRUDE_COMM_GetSessionResult(IntrudeSession *session)
     else result = &session->result;
     return result;
 }
-
-
-
-
 
 /*
  * INTRUDE_COMM_SetSessionReadyBit is an unlabelled leaf (sets one ready bit).
@@ -3793,10 +3164,6 @@ int INTRUDE_COMM_IsSessionAcceptedOrResultReady(IntrudeSession *session)
     return 0;
 }
 
-
-
-
-
 void INTRUDE_COMM_SetSessionReadyBit(IntrudeSession *session, u32 netId)
 {
     if (session->result.partnerIds[0] == 4) {
@@ -3805,8 +3172,6 @@ void INTRUDE_COMM_SetSessionReadyBit(IntrudeSession *session, u32 netId)
         session->readyBits[1] |= (u8)(1 << netId);
     }
 }
-
-
 
 /* Return the notice state (0 none, 1 start, 2 end) and clear it. */
 int INTRUDE_COMM_TakeNoticeState(IntrudeSession *session)
@@ -3817,12 +3182,10 @@ int INTRUDE_COMM_TakeNoticeState(IntrudeSession *session)
     return noticeState;
 }
 
-
 void INTRUDE_COMM_SetNoticeState(IntrudeSession *session, int noticeState)
 {
     session->noticeState = noticeState;
 }
-
 
 /* Slot for a new result record: 0 when the result is free (partner 0 is 4), 3 when full. */
 int INTRUDE_COMM_FindFreeResultSlot(IntrudeSession *session, IntrudeMemberRecord *record, int netId)
@@ -3830,7 +3193,6 @@ int INTRUDE_COMM_FindFreeResultSlot(IntrudeSession *session, IntrudeMemberRecord
     if (session->result.partnerIds[0] == 4) return 0;
     return 3;
 }
-
 
 int INTRUDE_COMM_StoreResultRecord(IntrudeSession *session, IntrudeMemberRecord *record, int netId)
 {
@@ -3854,7 +3216,6 @@ int INTRUDE_COMM_StoreResultRecord(IntrudeSession *session, IntrudeMemberRecord 
     return 1;
 }
 
-
 /*
  * extent: Two alignment bytes at 02175D1E before D20.
  * note: Outer non-one guard returns the original byte, including values beyond boolean.
@@ -3870,7 +3231,6 @@ int INTRUDE_COMM_GetJoinStatus(IntrudeCommSys *w, IntrudeSession *session)
     return status;
 }
 
-
 /*
  * extent: store-return follower at 02175D2C, claimed by root for this unit.
  */
@@ -3879,12 +3239,10 @@ void INTRUDE_COMM_ClearJoinStatus(IntrudeSession *session)
     session->joinStatus = 0;
 }
 
-
 void INTRUDE_COMM_SetJoinStatus(IntrudeSession *session, int status)
 {
     session->joinStatus = status;
 }
-
 
 void INTRUDE_COMM_PromoteRequestToResult(void *unused, IntrudeSession *session, u8 ownNetId)
 {
@@ -3901,13 +3259,11 @@ void INTRUDE_COMM_PromoteRequestToResult(void *unused, IntrudeSession *session, 
     }
 }
 
-
 void INTRUDE_COMM_SetResultRecord(void *unused, IntrudeSession *session, IntrudeResultRecord *result)
 {
     session->result = *result;
     session->hasResult = 1;
 }
-
 
 int INTRUDE_COMM_HasResult(IntrudeSession *session)
 {
@@ -3917,14 +3273,12 @@ int INTRUDE_COMM_HasResult(IntrudeSession *session)
     return 0;
 }
 
-
 /* Kind of the current request, or 6 when there is none. */
 int INTRUDE_COMM_GetRequestKind(IntrudeSession *session)
 {
     if (INTRUDE_COMM_IsSessionActive(session) == 0) return 6;
     return session->request.head.kind;
 }
-
 
 int INTRUDE_COMM_GetResultCount(IntrudeCommSys *w, IntrudeSession *session)
 {
@@ -3949,7 +3303,6 @@ int INTRUDE_COMM_GetResultCount(IntrudeCommSys *w, IntrudeSession *session)
     return 0;
 }
 
-
 void INTRUDE_COMM_RecordResultOutcome(void *saveData, IntrudeCommSys *w, IntrudeResultRecord *result)
 {
     IntrudeSaveSlot *save;
@@ -3968,7 +3321,6 @@ void INTRUDE_COMM_RecordResultOutcome(void *saveData, IntrudeCommSys *w, Intrude
     }
 }
 
-
 /*
  * interface: DE4 source declares one argument; original E90 visibly sets r1, preserved here.
  */
@@ -3978,7 +3330,6 @@ int INTRUDE_COMM_HasResultReward(IntrudeCommSys *w, IntrudeSession *session)
     if (INTRUDE_COMM_GetResultCount(w, session) > 0) return 1;
     return 0;
 }
-
 
 /*
  * extent: alignment at 02175ED6 then existing filed leaf INTRUDE_COMM_GetLeaveFlag.c.
@@ -3993,7 +3344,6 @@ int INTRUDE_COMM_IsResultConfirmed(IntrudeSession *session)
     return 0;
 }
 
-
 /*
  * Flag getter: bit 4 of the byte at 0x1A5 (the lsls #27 / lsrs #31 pair is
  * a one-bit bitfield read).  A leaf with no lr save, so disasm.py left it as
@@ -4005,7 +3355,6 @@ int INTRUDE_COMM_GetLeaveFlag(IntrudeSession *session)
     return session->leaveFlag;
 }
 
-
 /*
  * extent: Two alignment bytes at 02175EFA before EFC.
  */
@@ -4015,7 +3364,6 @@ void INTRUDE_COMM_ResetMemberName(IntrudeMemberName *name)
     name->netId = 4;
 }
 
-
 void INTRUDE_COMM_FillMemberName(IntrudeCommSys *w, IntrudeMemberName *name, u8 netId)
 {
     int record;
@@ -4024,7 +3372,6 @@ void INTRUDE_COMM_FillMemberName(IntrudeCommSys *w, IntrudeMemberName *name, u8 
     MYSTATUS_CopyNameChars((u16 *)record, (u16 *)name, 8);
     name->gender = MYSTATUS_GetSex((const struct MyStatus *)record);
 }
-
 
 /*
  * note:     the unlabelled 2-instruction leaf at 0x02175FB4 (ldrb r0,[r0,#0x10]; bx lr) follows.
@@ -4053,12 +3400,10 @@ void INTRUDE_COMM_SetMemberEntry(IntrudeCommSys *w, IntrudeSession *session, u32
     }
 }
 
-
 int INTRUDE_COMM_GetMemberNameNetId(IntrudeMemberName *name)
 {
     return name->netId;
 }
-
 
 /* Check every field of a join request against its limits. */
 int INTRUDE_COMM_IsJoinRequestValid(IntrudeSession *session, IntrudeJoinRequest *request)
@@ -4083,7 +3428,6 @@ int INTRUDE_COMM_IsJoinRequestValid(IntrudeSession *session, IntrudeJoinRequest 
     }
     return 1;
 }
-
 
 int INTRUDE_COMM_ReceiveJoinRequest(IntrudeCommSys *w, IntrudeSession *session, IntrudeJoinRequest *request, int senderNetId)
 {
@@ -4119,7 +3463,6 @@ int INTRUDE_COMM_ReceiveJoinRequest(IntrudeCommSys *w, IntrudeSession *session, 
     return 1;
 }
 
-
 /*
  * Lever: split the offset arithmetic and the memset pointer calculation.
  * Once-300 permuter found this semantically unchanged spelling at candidate 74.
@@ -4150,7 +3493,6 @@ void INTRUDE_COMM_SendProposalReplies(IntrudeCommSys *w, IntrudeSession *session
     }
 }
 
-
 /*
  * note:     an unlabelled leaf follows the pool word, at 0x021761C4.
  */
@@ -4165,7 +3507,6 @@ void INTRUDE_COMM_SendPendingReplies(IntrudeCommSys *w, IntrudeSession *session)
     }
 }
 
-
 void INTRUDE_COMM_StoreJoinReply(IntrudeSession *session, IntrudeJoinReply *reply)
 {
     u8 kind = reply->kind;
@@ -4173,7 +3514,6 @@ void INTRUDE_COMM_StoreJoinReply(IntrudeSession *session, IntrudeJoinReply *repl
     if (kind == 1)
         session->request = reply->record;
 }
-
 
 /* Return the join reply kind and clear it. */
 u8 INTRUDE_COMM_TakeJoinReply(IntrudeSession *session)
@@ -4184,12 +3524,10 @@ u8 INTRUDE_COMM_TakeJoinReply(IntrudeSession *session)
     return kind;
 }
 
-
 void INTRUDE_COMM_ClearJoinReply(IntrudeSession *session)
 {
     session->joinReply = 0;
 }
-
 
 /*
  * extent: two alignment bytes at 0217622E.
@@ -4200,7 +3538,6 @@ int INTRUDE_COMM_IsRequestFromNetId(IntrudeSession *session, int netId)
     if (session->request.name.netId == netId) return 1;
     return 0;
 }
-
 
 /*
  * extent: two alignment bytes at 02176256.
@@ -4215,7 +3552,6 @@ u8 INTRUDE_COMM_GetRequesterNetId(IntrudeCommSys *w, IntrudeSession *session)
     return session->request.name.netId;
 }
 
-
 /*
  * extent: two alignment bytes at 0217627E.
  */
@@ -4224,7 +3560,6 @@ int INTRUDE_COMM_IsRequestFromSelf(IntrudeCommSys *w)
     if (INTRUDE_COMM_IsRequestFromNetId(&w->session, GAME_DATA_GetOwnNetId(GAME_COMM_GetGameData(w->gameComm))) == 1) return 1;
     return 0;
 }
-
 
 void INTRUDE_COMM_SetWordSetPlayerName(struct WordSet *wordSet, u32 slot, const IntrudeNameChars *chars, u32 size, u16 heapId, u32 gender)
 {
@@ -4236,12 +3571,10 @@ void INTRUDE_COMM_SetWordSetPlayerName(struct WordSet *wordSet, u32 slot, const 
     STRBUF_Delete((struct Strbuf *)buffer);
 }
 
-
 void INTRUDE_COMM_SetWordSetMemberName(struct WordSet *wordSet, u32 slot, IntrudeMemberName *name, u16 heapId)
 {
     INTRUDE_COMM_SetWordSetPlayerName(wordSet, slot, &name->name, 8, heapId, name->gender);
 }
-
 
 void INTRUDE_COMM_SetWordSetRequest(const IntrudeRequestHead *head, IntrudeMemberName *name, struct WordSet *wordSet, u16 heapId)
 {
@@ -4283,7 +3616,6 @@ void INTRUDE_COMM_SetWordSetRequest(const IntrudeRequestHead *head, IntrudeMembe
     WORDSET_SetSlotNumber(wordSet, 3, count, 4, 0, 1);
 }
 
-
 /*
  * Zeroes the six bytes at +6 one at a time, and after each store lets
  * INTRUDE_COMM_PickEntryForKind fill p[key] for key 0..5.  Called from arm9 INTRUDE_InitOccupy
@@ -4298,7 +3630,6 @@ void INTRUDE_COMM_ResetOutcomes(IntrudeSaveSlot *save)
         INTRUDE_COMM_PickEntryForKind(save, kind);
     }
 }
-
 
 /* Pick the table row for one kind: the first row of that kind that the points allow. */
 void INTRUDE_COMM_PickEntryForKind(IntrudeSaveSlot *save, u32 kind)
@@ -4320,7 +3651,6 @@ void INTRUDE_COMM_PickEntryForKind(IntrudeSaveSlot *save, u32 kind)
     }
 }
 
-
 /* Count the outcomes of the six kinds; 1 once all are done (the picks are then redrawn). */
 int INTRUDE_COMM_TallyOutcomesAndResetIfComplete(IntrudeSaveSlot *save, u8 *doneAsFirst, u8 *doneAsSecond)
 {
@@ -4333,7 +3663,6 @@ int INTRUDE_COMM_TallyOutcomesAndResetIfComplete(IntrudeSaveSlot *save, u8 *done
     INTRUDE_COMM_ResetOutcomes(save);
     return 1;
 }
-
 
 int INTRUDE_COMM_PartyProcInit(struct Proc *proc, int unused, IntrudePartyParam *param)
 {
@@ -4367,7 +3696,6 @@ int INTRUDE_COMM_PartyProcInit(struct Proc *proc, int unused, IntrudePartyParam 
     }
     return 1;
 }
-
 
 /*
  * note:     loads overlay 93 (id 0x5D) in state 2 and passes two ov093-resident
@@ -4444,7 +3772,6 @@ int INTRUDE_COMM_PartyProcMain(void *proc, int *state, IntrudePartyParam *param,
     return 0;
 }
 
-
 /*
  * extent: two alignment bytes at 021766CA.
  * Exit callback of the link proc (init 02176454, main 02176504, table 02176FCC):
@@ -4458,7 +3785,6 @@ int INTRUDE_LINK_ProcExit(void *procWork, int unused1, int unused2, IntrudeLinkP
     return 1;
 }
 
-
 /* Creates the game event step that runs the link proc and stores its two arguments. */
 struct GameEvent *INTRUDE_LINK_CreateEvent(struct GameSystem *gameSystem, void *procArg)
 {
@@ -4470,8 +3796,6 @@ struct GameEvent *INTRUDE_LINK_CreateEvent(struct GameSystem *gameSystem, void *
     eventWork->gameSystem = gameSystem;
     return event;
 }
-
-
 
 /*
  * Lever: case 1 forwards GAMESYSTEM_GetFieldMap's live r0 result into
@@ -4523,8 +3847,6 @@ int INTRUDE_LINK_EventMain(struct GameEvent *event, u32 *state, IntrudeLinkEvent
     return 0;
 }
 
-
-
 /* Returns the link slot of the partner record, or 4 when the record is the local player's. */
 u8 INTRUDE_COMM_GetPartnerSlot(void *comm, void *gameData)
 {
@@ -4550,8 +3872,6 @@ u8 INTRUDE_COMM_GetPartnerSlot(void *comm, void *gameData)
     return 4;
 }
 
-
-
 /* Writes the marker position template, shifted by the slot distance to the partner (wrapped by player count). */
 void INTRUDE_COMM_GetMarkerPosForPartner(void *comm, void *gameData, LinkMarkerPos *outPos)
 {
@@ -4571,7 +3891,6 @@ void INTRUDE_COMM_GetMarkerPosForPartner(void *comm, void *gameData, LinkMarkerP
     outPos->x += slotDistance << 22;
 }
 
-
 /*
  * extent: followers 02176870 and 02176880 already filed separately.
  * Sends the value to the partner (network command 0x228) tagged as enabled.
@@ -4584,15 +3903,11 @@ int INTRUDE_COMM_RequestPartnerSymbolPage(IntrudeCommSys *linkState, u8 value)
     return INTRUDE_COMM_SendPageRequest(linkState, (u8)linkState->localPeer.intrudeId, &message);
 }
 
-
-
 /* Returns the pageReceived flag. */
 u32 INTRUDE_COMM_IsPartnerSymbolPageReceived(IntrudeCommSys *linkState)
 {
     return linkState->pageReceived;
 }
-
-
 
 /*
  * Returns the received partner record (+0x82C).
@@ -4602,8 +3917,6 @@ u8 *INTRUDE_COMM_GetPartnerSymbolPage(IntrudeCommSys *linkState)
 {
     return (u8 *)&linkState->peerSymbolPage;
 }
-
-
 
 /*
  * Stores the value to send and arms the retry flag (areaNoticeValue/areaNoticePending).

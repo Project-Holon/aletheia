@@ -42,17 +42,10 @@
  *   d_02180758       0x02180758  data   ov019 a4
  */
 
-struct VecFx32;
-typedef unsigned char u8;
+#include "../sdk_fx.h"
 
-typedef unsigned int   u32;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef short          s16;
-typedef int            s32;
-
-typedef struct { int x,y,z; } VecFx32;
 #include "../ov012/union_comm_types.h"
 
 #ifndef NULL
@@ -166,10 +159,6 @@ extern u32 d_02180808[];
 extern const char d_02180814[];
 extern const UnionEffDrawStatus d_0218071C;
 extern const UnionEffDrawStatus d_02180758;
-
-
-
-
 
 /*
  * union_eff.c part (anchor 0x0217F8C0): reaction effects drawn over the field

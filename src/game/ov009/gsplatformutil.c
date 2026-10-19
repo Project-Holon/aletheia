@@ -49,13 +49,7 @@
 #define RANa         16807
 #define LONGRAND_MAX 2147483647L
 #define GSI_MIN(a, b) ((a) < (b) ? (a) : (b))
-struct SOCHostEnt {
-    char *name;
-    char **aliases;
-    short addrType;
-    short length;
-    unsigned char **addrList;
-};
+#include "../sdk_soc.h"
 
 struct GSIResolveHostnameInfo {
     void *reserved0;
@@ -74,9 +68,7 @@ struct tm {
     int tm_isdst;
 };
 
-typedef unsigned char u8;
-
-typedef unsigned int   u32;
+#include "../types.h"
 
 typedef struct {
     char *data;
@@ -130,9 +122,6 @@ extern char gGsB64CharsDefault[];
 extern char gGsB64CharsUrl[];
 extern char gGsB64CharsAlt[];
 
-
-
-
 /*
  * sdk:      gsiInt64ToString (gsplatformutil.o)
  */
@@ -140,9 +129,6 @@ void gsiInt64ToString(char *theNumberStr, long long theNumber)
 {
     OS_SPrintf(theNumberStr, gGsInt64Format, theNumber);
 }
-
-
-
 
 /*
  * sdk:      gsiStartResolvingHostname (gsplatformutil.o)
@@ -164,15 +150,10 @@ int gsiStartResolvingHostname(char *hostname, struct GSIResolveHostnameInfo **ha
     return 0;
 }
 
-
-
 void gsiCancelResolvingHostname(void *p)
 {
     gsifree(p);
 }
-
-
-
 
 /*
  * Saves the word at +4, calls the helper and returns it.
@@ -185,9 +166,6 @@ int gsiGetResolvedIP(int *p)
 
     return v;
 }
-
-
-
 
 char *goastrdup(char *src)
 {
@@ -203,9 +181,6 @@ char *goastrdup(char *src)
 
     return res;
 }
-
-
-
 
 /*
  * In-place character remap: for every byte of the NUL-terminated string at
@@ -230,7 +205,6 @@ char *_strlwr(char *s)
     return ret;
 }
 
-
 /*
  * Empty stub; nothing but a return.
  */
@@ -238,12 +212,9 @@ void SocketStartUp(void)
 {
 }
 
-
 void SocketShutDown(void)
 {
 }
-
-
 
 /*
  * current_time: GameSpy's millisecond clock.  The 64-bit tick from
@@ -258,21 +229,15 @@ unsigned int current_time(void)
     return (unsigned int)((t << 6) / 33514);
 }
 
-
-
 unsigned int current_time_hires(void)
 {
     return (unsigned int)((OS_GetTick() * 0xfa00ULL) / 0x82eaULL);
 }
 
-
 void msleep(unsigned int msec)
 {
     OS_Sleep(msec);
 }
-
-
-
 
 /*
  * The whole-day count is read into its own long before tm_mon is stored
@@ -337,9 +302,6 @@ struct tm *gsiSecondsToDate(long *timp)
     return ptb;
 }
 
-
-
-
 /*
  * sdk:      gsiDateToSeconds (gsplatformutil.o)
  */
@@ -402,9 +364,6 @@ long gsiDateToSeconds(struct tm *tb)
     return tmptm1;
 }
 
-
-
-
 /*
  * nextlongrand: one step of the GameSpy Park-Miller LCG (multiplier 16807,
  * modulus 2**31-1), written in 16-bit halves so the product fits a 32-bit
@@ -433,9 +392,6 @@ int nextlongrand(long seed)
     return (int)lo;
 }
 
-
-
-
 /*
  * Advances the generator state and returns the new value.
  */
@@ -449,9 +405,6 @@ int longrand(void)
     return next;
 }
 
-
-
-
 /*
  * probe
  */
@@ -459,9 +412,6 @@ void Util_RandSeed(unsigned int v)
 {
     *(int *)gGsRandState = v ? (int)(v & 0x7fffffff) : 1;
 }
-
-
-
 
 /*
  * Util_RandInt: longrand() modulo (max-min), offset by min.  max==min returns
@@ -484,8 +434,6 @@ unsigned int Util_RandInt(unsigned int min, unsigned int max)
     return r + min;
 }
 
-
-
 /*
  * QuartToTrip: pack up to four signed bytes into three (6-6-6-6 base64
  * bit groups folded into 6-6-2+6 layout).  `char` is signed under the pinned
@@ -500,9 +448,6 @@ void QuartToTrip(char *quart, char *trip, int inlen)
     if (inlen >= 4)
         trip[2] = (char)((quart[2] & 0x3) << 6 | quart[3]);
 }
-
-
-
 
 /*
  * Pack up to three input bytes into four 6-bit values (the base64 index
@@ -523,9 +468,6 @@ void TripToQuart(const char *src, u8 *dst, int n)
     dst[2] = ((buf[1] & 0xf) << 2) | (buf[2] >> 6);
     dst[3] = buf[2] & 0x3f;
 }
-
-
-
 
 /*
  * B64Decode: GameSpy base64 decoder.  Decode characters into 4-byte groups,
@@ -600,9 +542,6 @@ void B64Decode(const char *input, char *output, int inlen, int *outlen, int enco
         *outlen = writepos;
 }
 
-
-
-
 /*
  * B64Encode: GameSpy base64 encoder.  TripToQuart every 3 input bytes, then
  * walk the output backwards mapping each 6-bit group to its character,
@@ -656,9 +595,6 @@ void B64Encode(const char *input, char *output, int inlen, int encodingType)
     }
 }
 
-
-
-
 /*
  * sdk:      B64DecodeLen (gsplatformutil.o)
  */
@@ -696,7 +632,6 @@ void B64InitEncodeStream(int *stream, int input, int inputLength, int position)
     stream[1] = inputLength;
     stream[2] = position;
 }
-
 
 int B64EncodeStream(B64StreamData *data, char *output)
 {

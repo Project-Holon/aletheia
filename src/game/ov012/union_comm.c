@@ -66,7 +66,7 @@
  *   UNION_COMMAND_SendAppEntryRefused 0x02173D88 thumb ov012
  *   UNION_COMMAND_SendAppEntryAccepted 0x02173DBC thumb ov012
  */
-typedef struct { int x, y, z; } VecFx32;
+#include "../sdk_fx.h"
 
 #include "union_comm_types.h"
 #include "../arm9/net_types.h"

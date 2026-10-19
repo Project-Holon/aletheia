@@ -5,7 +5,7 @@
 #ifndef ZUKAN_DETAIL_FORM_TYPES_H
 #define ZUKAN_DETAIL_FORM_TYPES_H
 
-typedef signed int fx32;
+#include "../types.h"
 
 typedef struct {
     fx32 x;

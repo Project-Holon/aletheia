@@ -60,8 +60,6 @@
  *   scenemenu_init_20658             0x021DA474  data
  *   scenemenu_rodata                 0x021DA478  data
  *   DWCi_WINlInitEx                  0x021d1208 arm
- *   input                            0x021ca768 arm
- *   draw                             0x021ca76c arm
  *   DWCi_WINlIsInit                  0x021d157c arm
  *   DWCi_COMMENTlDelete              0x021bd138 arm
  *   DWCi_GXlInvisible                0x021d6090 arm
@@ -70,7 +68,7 @@
  */
 #include "../../matched/include/G_SCENEMENU_BSS.h"
 
-typedef unsigned short u16;
+#include "../types.h"
 
 typedef _Bool bool;
 
@@ -137,7 +135,6 @@ static void procScene(void);
 static void endScene(void);
 static void endScene1(void);
 
-
 void DWCi_SceneSetListSave(void)
 {
     initGraphics();
@@ -145,7 +142,6 @@ void DWCi_SceneSetListSave(void)
     DWCi_SETTINGlSet();
     DWCi_ChangeScene(procInit);
 }
-
 
 /*
  * Load three tilemaps through DWCi_CMNlLoadResource, then set the low two bits of
@@ -168,16 +164,13 @@ static void initGraphics(void)
     p[1] = (p[1] & ~3) | 3;
 }
 
-
 static void procInit2(void);
-
 
 static void endScene2(void);
 
 static void moveFocus(int dir);
 
 static void dispPushButton(void);
-
 
 static void procInit(void)
 {
@@ -187,7 +180,6 @@ static void procInit(void)
     DWCi_GXlVisible(0, 0x14);
     DWCi_ChangeScene(procInit1);
 }
-
 
 static void procInit1(void)
 {
@@ -199,22 +191,16 @@ static void procInit1(void)
 }
 
 
-static void input(void);
-
-
-static void draw(void);
-
 
 static void procScene(void)
 {
-    input();
-    draw();
+    DWCi_SceneSetListSave_input();
+    DWCi_SceneSetListSave_draw();
     if (DWCi_WINlIsInit()) {
         return;
     }
     DWCi_ChangeScene(endScene);
 }
-
 
 /*
  * Empty stub: the routine carries no behaviour (see the call sites for why it exists).
@@ -228,7 +214,6 @@ void DWCi_SceneSetListSave_input(void)
 {
 }
 
-
 /*
  * Empty stub: the routine carries no behaviour (see the call sites for why it exists).
  * Addresses are Black-image addresses.
@@ -241,14 +226,12 @@ void DWCi_SceneSetListSave_draw(void)
 {
 }
 
-
 static void endScene(void)
 {
     DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x14, 8);
     DWCi_ChangeScene(endScene1);
 }
-
 
 static void endScene1(void)
 {
@@ -261,4 +244,3 @@ static void endScene1(void)
     DWCi_SetParam_(2, 1);
     DWCi_ChangeScene((void (*)())&DWCi_SceneSetSelectAp);
 }
-

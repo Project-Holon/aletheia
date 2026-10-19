@@ -21,9 +21,8 @@
  *   NNS_GfdDefaultFuncFreeTexVram      0x020A8144  data
  *   g_020A8158  0x020A8158  data
  */
-#include "nns_fnd_unitheap_shared_types.h"
 
-typedef unsigned short u16;
+#include "../types.h"
 
 typedef void (*NNSiFndMethod)(void *self, u32 value);
 

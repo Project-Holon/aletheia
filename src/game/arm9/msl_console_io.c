@@ -27,9 +27,7 @@
  *   gDestructorChains  0x02153FB8  data
  *   __global_destructor_chain  0x021542B8  data
  */
-typedef unsigned char u8;
-
-typedef unsigned int   u32;
+#include "../types.h"
 
 typedef void (*Handler)(void);
 
@@ -54,7 +52,6 @@ extern int   gDestructorCount;
 extern struct DestructorChain gDestructorChains[];
 extern struct DestructorChain *__global_destructor_chain;
 
-
 /*
  * layout/runtime_arm9.txt lists 0x0209D724 as _runtime_null_stub and claims
  * it is hand-written assembly. It is a bare 4-byte `bx lr`, which an empty
@@ -65,7 +62,6 @@ extern struct DestructorChain *__global_destructor_chain;
 void MSL_CONSOLE_IO_NoopFinalizer(void)
 {
 }
-
 
 /*
  * blocked:  the only occurrences of 0x02153FB4 and 0x02153FB8 in the image are the two
@@ -85,11 +81,9 @@ int MSL_CONSOLE_IO_RegisterDestructor(int destructor)
 
 void MSL_CONSOLE_IO_WriteChar(void *string){ }
 
-
 void MSL_CONSOLE_IO_WriteString(void *string){ }
 
 int MSL_CONSOLE_IO_ReadChar(void){ return 0; }
-
 
 u32 MSL_CONSOLE_IO_ReadConsole(u32 handle, char *dest, u32 *count)
 {
@@ -107,7 +101,6 @@ u32 MSL_CONSOLE_IO_ReadConsole(u32 handle, char *dest, u32 *count)
     }
     return 0;
 }
-
 
 /*
  * MSL console write hook (the __write_console shape: handle, buffer,
@@ -142,12 +135,10 @@ int MSL_CONSOLE_IO_WriteConsole(int handle, u8 *buffer, u32 *count)
     return 0;
 }
 
-
 int MSL_CONSOLE_IO_CloseConsole(int handle)
 {
     return 0;
 }
-
 
 void MSL_CONSOLE_IO_RunInitHandlers(void)
 {
@@ -158,7 +149,6 @@ void MSL_CONSOLE_IO_RunInitHandlers(void)
         handler++;
     }
 }
-
 
 void __register_global_object(u32 object, u32 destructor, struct DestructorChain *chain)
 {

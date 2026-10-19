@@ -134,6 +134,7 @@
  *   strtol10  0x0215C7E0  arm  ov009
  *   CPSDnsIp                 0x021A82DC  data
  */
+#define GAME_TYPES_U32_LONG
 #include "cps_types.h"
 typedef struct CpsArpEntry {
     unsigned long ip;
@@ -172,13 +173,9 @@ typedef struct {
     u32 yield_wait;
 } CPSConfig;
 
-typedef struct {
-    u64 x;
-    u64 mul;
-    u64 add;
-} MATHRandContext32;
+#include "../sdk_math.h"
 
-struct OSiAlarm { u8 opaque[0x2c]; };
+#include "../sdk_os.h"
 
 struct SocBuf {
 	unsigned long len;

@@ -18,7 +18,7 @@
  *   MI_CpuCopy8    0x02082D44  arm
  */
 
-typedef unsigned int u32;
+#include "../types.h"
 #pragma thumb on
 asm void SHA1_HMAC_Init(void *ctx);
 asm void SHA1_HMAC_Update(void *ctx, const void *data, u32 len);
@@ -36,15 +36,12 @@ asm void SHA1_HMAC_Init(void *ctx)
     bx      lr
 }
 
-
-
 /* hand-written in the original: Thumb SVC wrapper around swi 0x25 (BIOS SHA1 update), the original is an asm routine */
 asm void SHA1_HMAC_Update(void *ctx, const void *data, u32 len)
 {
     swi     0x25
     bx      lr
 }
-
 
 /* hand-written in the original: Thumb SVC wrapper around swi 0x26 (BIOS SHA1 get hash), the original is an asm routine */
 asm void SHA1_HMAC_GetHash(void *ctx, void *digest)
@@ -64,10 +61,6 @@ asm void SHA1_HMAC_HashRange(void *dst, const void *src, u32 len)
     bx      lr
 }
 #pragma thumb reset
-
-typedef unsigned short u16;
-
-typedef unsigned char u8;
 
 /* HMAC-SHA1 context: a SHA1 state plus the (possibly hashed) key block */
 typedef struct Sha1HmacCtx {
@@ -121,9 +114,6 @@ void SHA1_HMAC_Start(Sha1HmacCtx *ctx, const void *key, u32 key_len)
     SHA1_HMAC_Update(ctx, ipad, 0x40);
 }
 
-
-
-
 /* HMAC update: guarded SHA1 update */
 void SHA1_HMAC_UpdateData(void *ctx, const void *data, u32 length)
 {
@@ -131,9 +121,6 @@ void SHA1_HMAC_UpdateData(void *ctx, const void *data, u32 length)
         SHA1_HMAC_Update(ctx, data, length);
     }
 }
-
-
-
 
 /* HMAC finish: capture the inner digest, feed the 0x5c outer pad and the
  * inner digest back into SHA1, then read the final digest out */
@@ -168,9 +155,6 @@ void SHA1_HMAC_Finish(Sha1HmacCtx *ctx, u8 *digest)
     SHA1_HMAC_Update(ctx, inner, 0x14);
     SHA1_HMAC_GetHash(ctx, digest);
 }
-
-
-
 
 /* one-shot HMAC-SHA1 over data with key */
 void SHA1_HMAC_Calc(u8 *digest, const void *data, u32 data_len, const void *key, u32 key_len)

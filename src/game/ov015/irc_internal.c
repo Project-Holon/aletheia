@@ -31,9 +31,7 @@
  *   g_0217AC90_b   0x0217AC90  data
  */
 
-typedef unsigned char u8;
-
-typedef unsigned short u16;
+#include "../types.h"
 
 typedef struct IRCParam {
     int reserved00;
@@ -62,11 +60,6 @@ extern struct IRCParam g_0217AC90b;
 extern unsigned char gIrcWriteBuffer[181];
 extern struct IRCParam g_0217AC90_b;
 
-
-
-
-
-
 /*
  * sdk:      IRCi_WaitCommand (libirc.a irc_internal.o)
  */
@@ -79,11 +72,6 @@ void IRCi_WaitCommand(void)
         ;
 }
 
-
-
-
-
-
 /*
  * sdk:      IRCi_Init (libirc.a irc_internal.o)
  */
@@ -95,11 +83,6 @@ void IRCi_Init(void)
     gIrcLockId = OS_GetLockID();
 }
 
-
-
-
-
-
 /*
  * sdk:      IRCi_End (libirc.a irc_internal.o)
  */
@@ -110,10 +93,6 @@ void IRCi_End(void)
     OS_ReleaseLockID(gIrcLockId);
     gIrcLockId = -3;
 }
-
-
-
-
 
 /*
  * sdk:      IRCi_CommWrite (libirc.a irc_internal.o)
@@ -137,8 +116,6 @@ unsigned char IRCi_CommWrite(struct IRCParam *param)
     return tmp;
 }
 
-
-
 /*
  * sdk:      IRCi_CommRead (libirc.a irc_internal.o)
  */
@@ -156,11 +133,7 @@ void IRCi_CommRead(struct IRCParam *param)
     param->recv++;
 }
 
-
-
 #pragma opt_lifetimes off
-
-
 
 /*
  * lane01 (2026-10-01): DWARF types `size` as unsigned char and the return as unsigned char
@@ -262,7 +235,6 @@ int IRCi_Read(u8 *buf)
     CARD_UnlockBackup(gIrcLockId);
     return size;
 }
-
 
 void IRCi_Write(unsigned char *data, unsigned char size)
 {

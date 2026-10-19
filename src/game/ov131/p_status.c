@@ -263,13 +263,7 @@ struct Party;
 struct PartyMon;
 struct SaveData;
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed int s32;
-typedef signed short s16;
-typedef signed char s8;
-typedef unsigned long long u64;
+#include "../types.h"
 
 /* One background layer setup (_BgSetups), passed on as struct BgTemplate. */
 struct BgSetup { u32 data[8]; };
@@ -280,7 +274,7 @@ struct ClactSysSetup { u32 setup[4]; u16 limits[6]; };
 /* Camera position, target and up vector (_CameraVecs). */
 struct Vec3 { u32 x, y, z; };
 
-typedef enum {GX_DISP_SELECT_SUB_MAIN=0, GX_DISP_SELECT_MAIN_SUB=1} GXDispSelect;
+#include "../sdk_gx.h"
 
 /* One byte per button actor (_ButtonPlacement rows: x position, unused row, animation). */
 struct ButtonBytes { u8 v[8]; };
@@ -582,17 +576,6 @@ extern const char _SourceFileName[];
 extern const DebugMoves _DebugMovesParty;
 extern const DebugMoves _DebugMovesArray;
 
-
-
-
-
-
-
-
-
-
-
-
 int P_STATUS_InitWork(PStatusWork *wk)
 {
     u8 i;
@@ -658,17 +641,6 @@ int P_STATUS_InitWork(PStatusWork *wk)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 /*
  * extent: Two zero alignment bytes at 0x021D44C6.
  */
@@ -697,17 +669,6 @@ int P_STATUS_ExitWork(PStatusWork *wk)
     if(wk->tempPP) GFL_HEAP_Free(wk->tempPP);
     return 1;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * interface: 02035CB8 writes fields only on success; their previous values
@@ -794,71 +755,16 @@ int P_STATUS_MainSeq(PStatusWork *wk)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 void P_STATUS_VBlankTask(void) { CLACT_VBlankSystem(); }
-
-
-
-
-
-
-
-
-
-
-
 
 static inline void GX_SetVisiblePlane(int plane)
 { *(volatile u32 *)HW_REG_DISPCNT=(u32)((*(volatile u32 *)HW_REG_DISPCNT & ~0x1f00) | (plane<<8)); }
 
-
-
-
-
-
-
-
-
-
-
-
 static inline void GXS_SetVisiblePlane(int plane)
 { *(volatile u32 *)HW_REG_DISPCNT_SUB=(u32)((*(volatile u32 *)HW_REG_DISPCNT_SUB & ~0x1f00) | (plane<<8)); }
 
-
-
-
-
-
-
-
-
-
-
-
 static inline void GX_SetDispSelect(GXDispSelect sel)
 { *(volatile u16 *)HW_REG_POWCNT1=(u16)((*(volatile u16 *)HW_REG_POWCNT1 & ~0x8000) | (sel<<15)); }
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * interface: complete original 020160C0 bytes 41 64 70 47 store r1 at
@@ -905,21 +811,6 @@ void P_STATUS_InitGraphics(PStatusWork *wk)
     MCSS_SetGlobalScale(wk->mcssSys,0x10000);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * 2026-10-02 R3: closed by the arm9 witness src/matched/arm9/NNS_GfdResetVramTransferTaskQueue.c
  *   (the tail-call stub matches under ../2.0/sp2; see its header).
@@ -944,21 +835,6 @@ void P_STATUS_ExitGraphics(PStatusWork *wk)
     BG_SYS_Delete();
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void P_STATUS_InitBgLayer(struct BgSetup *cfg,u32 bg,u32 mode)
 {
     BG_SYS_InitBgLayer(bg,(const struct BgTemplate *)cfg,mode);
@@ -966,21 +842,6 @@ void P_STATUS_InitBgLayer(struct BgSetup *cfg,u32 bg,u32 mode)
     BG_SYS_FreeSlot(bg);
     BG_SYS_PushTile(bg);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * following: 0x021D4F22 is two bytes of alignment padding before P_STATUS_DeleteObjResource.
@@ -1062,21 +923,6 @@ void P_STATUS_LoadObjResource(PStatusWork *wk)
     ARC_TOOL_DeleteHandle(statusArc);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * extent: Two trailing zero alignment bytes at 0x021D4FBA.
  */
@@ -1092,21 +938,6 @@ void P_STATUS_DeleteObjResource(PStatusWork *wk)
     for(i=PSTATUS_RES_CELL_START;i<=PSTATUS_RES_CELL_END;i++) CLACT_ReleaseCellAnim(wk->objRes[i]);
     for(i=0;i<PSTATUS_TYPE_MAX;i++) CLACT_ReleaseCharacter(wk->typeChrRes[i]);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * lever: real far bank/actor struct fields retain four offset spills.
@@ -1143,21 +974,6 @@ void P_STATUS_CreateButtonActors(PStatusWork *wk)
     P_STA_SKILL_CreateObjects(wk,wk->skillWork);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void P_STATUS_DeleteButtonActors(PStatusWork *wk)
 {
     u8 i;
@@ -1167,21 +983,6 @@ void P_STATUS_DeleteButtonActors(PStatusWork *wk)
     for (i=0;i<8;i++) CLACT_DeleteActor(wk->buttonActor[i]);
     for (i=0;i<2;i++) CLACT_DeleteActor(wk->typeIconActor[i]);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void P_STATUS_InitMessage(PStatusWork *wk)
 {
@@ -1198,21 +999,6 @@ void P_STATUS_InitMessage(PStatusWork *wk)
     wk->printQue=PRINTSYS_QUE_CreateEx(4096,wk->heapId);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void P_STATUS_ExitMessage(PStatusWork *wk)
 {
     PRINTSYS_QUE_Clear(wk->printQue);
@@ -1221,41 +1007,11 @@ void P_STATUS_ExitMessage(PStatusWork *wk)
     GF_FONT_Delete(wk->font);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void P_STATUS_UpdateTouch(PStatusWork *wk)
 {
     struct TpHitTable hitRects = _TouchHitRects;
     wk->tpHit = TOUCHPANEL_HitTrg(&hitRects);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void P_STATUS_UpdateInput(PStatusWork *wk)
 {
@@ -1263,21 +1019,6 @@ void P_STATUS_UpdateInput(PStatusWork *wk)
         P_STATUS_CheckTouch(wk);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int P_STATUS_CheckKey(PStatusWork *wk)
 {
@@ -1356,21 +1097,6 @@ int P_STATUS_CheckKey(PStatusWork *wk)
     }
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * arithmetic: signed p+58 guard accepts negatives; scaled address uses
@@ -1460,21 +1186,6 @@ void P_STATUS_CheckTouch(PStatusWork *wk)
         break;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 s32 P_STATUS_UpdatePaletteAnime(PStatusWork *wk)
 {
@@ -1567,21 +1278,6 @@ s32 P_STATUS_UpdatePaletteAnime(PStatusWork *wk)
     return NNS_GfdRegisterNewVramTransferTask((void *)14, 0x1a0, (u32)wk->markPal, 0x20);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void P_STATUS_SetInputEnable(PStatusWork *wk,int enable)
 {
     wk->isInputEnabled=enable;
@@ -1606,21 +1302,6 @@ void P_STATUS_SetInputEnable(PStatusWork *wk,int enable)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int P_STATUS_ChangePokemon(PStatusWork *wk,int direction)
 {
  unsigned short newPos;
@@ -1635,20 +1316,6 @@ int P_STATUS_ChangePokemon(PStatusWork *wk,int direction)
  }
  return found;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int P_STATUS_SearchPokemon(PStatusWork *wk,int direction,unsigned short *out)
 {
@@ -1674,20 +1341,6 @@ int P_STATUS_SearchPokemon(PStatusWork *wk,int direction,unsigned short *out)
  return found;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void P_STATUS_LoadPokemonState(PStatusWork *wk)
 {
  void *ppSrc=(void *)P_STATUS_GetPokeParaSource(wk);
@@ -1700,20 +1353,6 @@ void P_STATUS_LoadPokemonState(PStatusWork *wk)
  P_STATUS_SetParamDecoded(wk,0);
  wk->playCryReq=one;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * volatile: hardware halfwords reread at 021D5D96, 021D5DA0, 021D5DA6
@@ -1757,20 +1396,6 @@ void P_STATUS_RequestRefresh(PStatusWork *wk)
     P_STATUS_SetParamDecoded(wk,0);
     wk->refreshReq=1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * volatile: byte hardware writes 0400004C at 021D5DE6/021D5E1C
@@ -1865,20 +1490,6 @@ void P_STATUS_UpdateRefresh(PStatusWork *wk)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void *P_STATUS_GetPokePara(PStatusWork *wk)
 {
  switch(wk->param->ppt) {
@@ -1888,19 +1499,6 @@ void *P_STATUS_GetPokePara(PStatusWork *wk)
  default: return 0;
  }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int P_STATUS_GetPokeParaSource(PStatusWork *wk)
 {
@@ -1916,19 +1514,6 @@ int P_STATUS_GetPokeParaSource(PStatusWork *wk)
         return 0;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void P_STATUS_SetParamDecoded(PStatusWork *wk,int fastMode)
 {
@@ -1950,17 +1535,6 @@ void P_STATUS_SetParamDecoded(PStatusWork *wk,int fastMode)
  }
 }
 
-
-
-
-
-
-
-
-
-
-
-
 void P_STATUS_PrintMsg(PStatusWork *wk,int bmpWin,int msgId,int x,unsigned short y,unsigned short color)
 {
  void *text=MSGDATA_AllocString(wk->msgData,msgId);
@@ -1968,30 +1542,10 @@ void P_STATUS_PrintMsg(PStatusWork *wk,int bmpWin,int msgId,int x,unsigned short
  STRBUF_Delete(text);
 }
 
-
-
-
-
-
-
-
-
-
-
 void P_STATUS_PrintMsgToWin(PStatusWork *wk, struct BmpWin *bmpWinData, int msgId, int x, unsigned short y, unsigned short color)
 {
  P_STATUS_PrintMsg(wk,(int)BMP_WIN_GetBmp((struct BmpWin *)bmpWinData),msgId,x,y,color);
 }
-
-
-
-
-
-
-
-
-
-
 
 void P_STATUS_PrintWordSetMsg(PStatusWork *wk,int bmpWin,void *wordSet,int msgId,unsigned short x,unsigned short y,unsigned short color)
 {
@@ -2003,28 +1557,10 @@ void P_STATUS_PrintWordSetMsg(PStatusWork *wk,int bmpWin,void *wordSet,int msgId
  STRBUF_Delete(str);
 }
 
-
-
-
-
-
-
-
-
-
 void P_STATUS_PrintWordSetMsgToWin(PStatusWork *wk, struct BmpWin *bmpWinData, void *wordSet, int msgId, unsigned short x, unsigned short y, unsigned short color)
 {
  P_STATUS_PrintWordSetMsg(wk,(int)BMP_WIN_GetBmp((struct BmpWin *)bmpWinData),wordSet,msgId,x,y,color);
 }
-
-
-
-
-
-
-
-
-
 
 void P_STATUS_PrintWordSetMsgRight(PStatusWork *wk,int bmpWin,void *wordSet,int msgId,unsigned short x,unsigned short y,unsigned short color)
 {
@@ -2038,55 +1574,15 @@ void P_STATUS_PrintWordSetMsgRight(PStatusWork *wk,int bmpWin,void *wordSet,int 
  STRBUF_Delete(str);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void P_STATUS_PrintWordSetMsgRightToWin(PStatusWork *wk, struct BmpWin *bmpWinData, void *wordSet, int msgId, unsigned short x, unsigned short y, unsigned short color)
 {
  P_STATUS_PrintWordSetMsgRight(wk,(int)BMP_WIN_GetBmp((struct BmpWin *)bmpWinData),wordSet,msgId,x,y,color);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int P_STATUS_CanUseButtons(PStatusWork *wk)
 {
     return wk->param->canUseButtons == 1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int P_STATUS_HasRibbon(PStatusWork *wk, void *pp)
 {
@@ -2099,48 +1595,9 @@ int P_STATUS_HasRibbon(PStatusWork *wk, void *pp)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 static inline void SetPartyMoves(void *pokePara, DebugMoves moves) { POKE_TOOL_SetPartyValue(pokePara,0x8e,(u32)(&moves)); }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 static inline void SetArrayMoves(void *pokePara, DebugMoves moves) { POKE_TOOL_SetBoxValue(pokePara,0x8e,(u32)(&moves)); }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int P_STATUS_ProcInit(void *proc,int *seq,PStatusParam *pwk,PStatusWork *mywk)
 {
@@ -2221,19 +1678,6 @@ int P_STATUS_ProcInit(void *proc,int *seq,PStatusParam *pwk,PStatusWork *mywk)
     }
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int P_STATUS_ProcExit(void *proc, int *seq, PStatusParam *pwk, PStatusWork *mywk)
 {

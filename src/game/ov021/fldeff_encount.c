@@ -60,7 +60,7 @@
 #include "../arm9/billboard_act_types.h"
 #include "../ov010/fldmmdl_types.h"
 
-typedef struct MtxFx33 { fx32 m[3][3]; } MtxFx33;
+#include "../sdk_fx.h"
 
 /* Opaque types of other files. */
 typedef struct ArcHandle ArcHandle;

@@ -34,19 +34,7 @@
  *   .bss                             0x02146adc data
  */
 #define NULL ((void *)0)
-typedef unsigned char u8;
-
-typedef signed char s8;
-
-typedef unsigned short u16;
-
-typedef unsigned long u32;
-
-typedef long s32;
-
-typedef unsigned long long u64;
-
-typedef int BOOL;
+#include "../types.h"
 
 typedef struct tagDWCWDSData {
     u8 ssid[32];
@@ -82,7 +70,6 @@ typedef struct DWCWDSWork {
     int selectedIndex;
 } DWCWDSWork;
 
-
 typedef struct NSpotState {
     DWCWDSWork *gDwcWdsWork;
     void *wdsSysBuf;
@@ -111,11 +98,7 @@ int DWC_AC_ProcessGetWDSInfo(void);
 void DWC_AC_CancelGetWDSInfo(void);
 void DWC_AC_CleanupGetWDSInfo(void);
 
-
 static NSpotState s_nspot;
-
-
-
 
 /*
  * sdk:      DWC_AC_StartupGetWDSInfo (nintendospot.o)
@@ -130,9 +113,6 @@ BOOL DWC_AC_StartupGetWDSInfo(DWCWDSData *nspotInfo, u16 dmaNo)
     s_nspot.gAppstate = 0;
     return 1;
 }
-
-
-
 
 /*
  * sdk:      DWC_AC_ProcessGetWDSInfo (nintendospot.o)
@@ -229,25 +209,12 @@ int DWC_AC_ProcessGetWDSInfo(void)
     return result;
 }
 
-
-
-
 void DWC_AC_CancelGetWDSInfo(void)
 {
     if (s_nspot.gAppstate == 4) {
         s_nspot.gAppstate = 5;
     }
 }
-
-
-
-
-
-
-
-
-
-
 
 /*
  * sdk:      DWC_AC_CleanupGetWDSInfo (nintendospot.o)
@@ -264,8 +231,6 @@ void DWC_AC_CleanupGetWDSInfo(void)
     }
 }
 
-
-
 /*
  * sdk:      WDS_Initialize_CB (nintendospot.o)
  */
@@ -273,8 +238,6 @@ void WDS_Initialize_CB(void)
 {
     s_nspot.gAppstate = 2;
 }
-
-
 
 /*
  * sdk:      WDS_StartScan_CB (nintendospot.o)
@@ -284,8 +247,6 @@ void WDS_StartScan_CB(void)
     s_nspot.gAppstate = 4;
 }
 
-
-
 /*
  * sdk:      WDS_EndScan_CB (nintendospot.o)
  */
@@ -294,8 +255,6 @@ void WDS_EndScan_CB(void)
     s_nspot.gAppstate = 7;
 }
 
-
-
 /*
  * sdk:      WDS_End_CB (nintendospot.o)
  */
@@ -303,8 +262,6 @@ void WDS_End_CB(void)
 {
     s_nspot.gAppstate = 9;
 }
-
-
 
 /*
  * sdk:      WDS_Error_End_CB (nintendospot.o)

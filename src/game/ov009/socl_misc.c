@@ -24,7 +24,7 @@
 
 #define IS_A(m, d, a) ((((unsigned int)(a) ^ (d)) & (m)) != 0 || ((d) & ~(m)) != 0)
 #define IS_B(m, d, a) (((((a) ^ (d)) & (m)) != 0 || (~(m) ^ ((d) & ~(m))) != 0) ? 1 : 0)
-typedef unsigned long u32;
+#include "../types.h"
 
 extern void MI_CpuFill8(void *p, int v, int n);
 u32 SOCLi_RoundUp4(u32 size);
@@ -38,12 +38,10 @@ extern unsigned long gCpsMyIp;
 extern unsigned long gCpsGateway;
 extern unsigned long gCpsDnsIp[2];
 
-
 u32 SOCLi_RoundUp4(u32 size)
 {
     return (size + 3) & ~3;
 }
-
 
 /*
  * Clears the eight bytes of the object at 0x021AA4AC.
@@ -52,7 +50,6 @@ void SOCLi_InitResource(void)
 {
     MI_CpuFill8(((char *)&SOCLi_Resource), 0, 8);
 }
-
 
 /*
  * 2026-10-01 lane08: EXACT.  A `(unsigned int)` cast on `addr` in IS_A makes
@@ -94,7 +91,6 @@ int SOCLi_IsIPv4ValidNodeAddr(unsigned long netmask, unsigned long addr)
 		ret = 1;
 	return ret;
 }
-
 
 /*
  * sdk:      SOCLi_CheckNConfig (libsoc.TWL.HYB.a(socl_misc.o))

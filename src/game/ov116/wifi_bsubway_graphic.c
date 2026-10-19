@@ -182,19 +182,9 @@ struct BmpMenu;
 struct DispVram;
 struct BgTemplate;
 struct DispConfig;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef short s16;
-
-typedef unsigned int u32;
-
-typedef signed char s8;
+#include "../types.h"
 
 typedef struct { void (*f[3])(int **, int); } Tbl;
-
-typedef unsigned long long u64;
 
 struct Arc { int f0; int f4; int f8; u8 *fC; };
 struct CodeinParam;
@@ -393,7 +383,6 @@ extern char d_021D83B0[];
 extern char d_021D83F0[];
 extern u8 g_021D83F0[];
 
-
 void WIFI_BSUBWAY_GRAPHIC_SetupTextParam(struct WifiBsubwayWork *p, u32 heap)
 {
     void *obj;
@@ -402,7 +391,6 @@ void WIFI_BSUBWAY_GRAPHIC_SetupTextParam(struct WifiBsubwayWork *p, u32 heap)
     GAMESYSTEM_CallProc(p->parent->proc, (u32)ov129_id, d_021DA62C, obj);
 }
 
-
 void WIFI_BSUBWAY_GRAPHIC_DeleteTextParam(struct WifiBsubwayWork *p)
 {
     if (p->codeInParam) {
@@ -410,7 +398,6 @@ void WIFI_BSUBWAY_GRAPHIC_DeleteTextParam(struct WifiBsubwayWork *p)
         p->codeInParam = 0;
     }
 }
-
 
 u32 WIFI_BSUBWAY_GRAPHIC_ParseCodeIn(struct WifiBsubwayWork *p) {
     u16 end=STRBUF_GetEosChar();
@@ -427,7 +414,6 @@ u32 WIFI_BSUBWAY_GRAPHIC_ParseCodeIn(struct WifiBsubwayWork *p) {
     return value;
 }
 
-
 void WIFI_BSUBWAY_GRAPHIC_StartSaveProc(struct WifiBsubwayWork *p) {
     p->saveControl0=(unsigned int)p->saveControl;
     p->saveValue0=0;
@@ -438,15 +424,12 @@ void WIFI_BSUBWAY_GRAPHIC_StartSaveProc(struct WifiBsubwayWork *p) {
     GAMESYSTEM_CallProc(p->parent->proc,(u32)ov115_id,gNetSaveMainProc,&p->saveControl0);
 }
 
-
 /*
  * extent: two-byte zero alignment padding, then already matched getter WIFI_BSUBWAY_GRAPHIC_GetSaveState.c.
  */
 void WIFI_BSUBWAY_GRAPHIC_Noop(void *work) { }
 
-
 int WIFI_BSUBWAY_GRAPHIC_GetSaveState(struct WifiBsubwayWork *p) { return p->saveState; }
-
 
 void WIFI_BSUBWAY_GRAPHIC_StartRetryProc(struct WifiBsubwayWork *p) {
     p->retryControl0=(unsigned int)p->saveControl;
@@ -456,17 +439,13 @@ void WIFI_BSUBWAY_GRAPHIC_StartRetryProc(struct WifiBsubwayWork *p) {
     GAMESYSTEM_CallProc(p->parent->proc,(u32)ov115_id,gNetSaveRetryProc,&p->retryControl0);
 }
 
-
-
 void WIFI_BSUBWAY_GRAPHIC_NoopRetry(void *work) { }
-
 
 void WIFI_BSUBWAY_GRAPHIC_DispatchTable(int **p, int x)
 {
     Tbl t = d_021D8580;
     t.f[**p](p, x);
 }
-
 
 /*
  * ABI: incoming r1 is forwarded as fourth6E50 argument; 81EC reads
@@ -500,7 +479,6 @@ int WIFI_BSUBWAY_GRAPHIC_Step(struct WifiBsubwayWork *p,int b)
     }
     return 0;
 }
-
 
 int WIFI_BSUBWAY_GRAPHIC_StepWithInput(struct WifiBsubwayWork *p,short heap)
 {
@@ -543,7 +521,6 @@ int WIFI_BSUBWAY_GRAPHIC_StepWithInput(struct WifiBsubwayWork *p,short heap)
     }
     return 0;
 }
-
 
 int WIFI_BSUBWAY_GRAPHIC_StepRetry(struct WifiBsubwayWork *p,short heap)
 {
@@ -593,7 +570,6 @@ int WIFI_BSUBWAY_GRAPHIC_StepRetry(struct WifiBsubwayWork *p,short heap)
     return 0;
 }
 
-
 void WIFI_BSUBWAY_GRAPHIC_InitBt(struct WifiBsubwayWork *p) {
     void *a=WIFILIST_GetWork(p->wifiList);
     void *b;
@@ -607,13 +583,11 @@ void WIFI_BSUBWAY_GRAPHIC_InitBt(struct WifiBsubwayWork *p) {
     p->dpwActive=1;
 }
 
-
 int WIFI_BSUBWAY_GRAPHIC_PollBt(struct WifiBsubwayWork *p)
 {
     int result;
     return WIFI_BSUBWAY_PollAsync((u8 *)&p->async, &result);
 }
-
 
 /*
  * 2026-10-05 (wD4 lane19): still MATCH. Blocked by ov114 ARM 0x021C93D0 (pengy overlay, no witness).
@@ -628,7 +602,6 @@ void WIFI_BSUBWAY_GRAPHIC_CancelBt(struct WifiBsubwayWork *p)
     }
 }
 
-
 int WIFI_BSUBWAY_GRAPHIC_EndBt(struct WifiBsubwayWork *p)
 {
     int result;
@@ -640,7 +613,6 @@ int WIFI_BSUBWAY_GRAPHIC_EndBt(struct WifiBsubwayWork *p)
     }
     return 0;
 }
-
 
 int WIFI_BSUBWAY_GRAPHIC_CheckNetError(struct WifiBsubwayWork *p) {
     int yes=1;
@@ -661,9 +633,7 @@ int WIFI_BSUBWAY_GRAPHIC_CheckNetError(struct WifiBsubwayWork *p) {
     return no;
 }
 
-
 int WIFI_BSUBWAY_GRAPHIC_IsPrintDone(struct WifiBsubwayWork *p) { return WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(&p->graphic); }
-
 
 /*
  * evidence: incoming heap in r1 is forwarded unchanged to 021D821C.
@@ -693,7 +663,6 @@ void WIFI_BSUBWAY_GRAPHIC_CreateWindow(struct WifiBsubwayGraphic *p, short heap)
     GFL_NET_RefreshWmIconAtTopRight(1, heap);
 }
 
-
 void WIFI_BSUBWAY_GRAPHIC_DeleteWindow(struct WifiBsubwayGraphic *p) {
     if(p->active!=0) {
         if(p->printStream) PRINTSYS_PrintStreamDelete(p->printStream);
@@ -716,12 +685,10 @@ void WIFI_BSUBWAY_GRAPHIC_DeleteWindow(struct WifiBsubwayGraphic *p) {
     }
 }
 
-
 void WIFI_BSUBWAY_GRAPHIC_UpdateText(struct WifiBsubwayGraphic *p)
 {
     if (p->active != 0) TCBL_Main(p->tcbl);
 }
-
 
 /*
  * lever: 2026-10-05 (wD9r lane92): the heap parameter is a signed 16-bit value (`short heap`). With u32
@@ -792,7 +759,6 @@ void WIFI_BSUBWAY_GRAPHIC_SetupBgAnim(struct WifiBsubwayGraphic *p, short heap) 
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x180, 0x20, heap);
 }
 
-
 void WIFI_BSUBWAY_GRAPHIC_StepBgAnim(void *unused,struct WifiBsubwayAnim *p) {
     if(p->enabled!=0) {
         p->toggle^=1;
@@ -805,7 +771,6 @@ void WIFI_BSUBWAY_GRAPHIC_StepBgAnim(void *unused,struct WifiBsubwayAnim *p) {
         }
     }
 }
-
 
 void WIFI_BSUBWAY_GRAPHIC_DeleteBgAnim(struct WifiBsubwayGraphic *p) {
     unsigned int x=p->frameGfxA;
@@ -820,7 +785,6 @@ void WIFI_BSUBWAY_GRAPHIC_DeleteBgAnim(struct WifiBsubwayGraphic *p) {
     *(u16 *)0x04000050=0;
 }
 
-
 void WIFI_BSUBWAY_GRAPHIC_PrintMessage(struct WifiBsubwayGraphic *p,unsigned int a) {
  if(p->printStream!=0) {PRINTSYS_PrintStreamDelete(p->printStream); p->printStream=0;}
  MSGDATA_ReadString((struct MsgBank *)p->msgBank,a,(void *)p->strbufA);
@@ -832,7 +796,6 @@ void WIFI_BSUBWAY_GRAPHIC_PrintMessage(struct WifiBsubwayGraphic *p,unsigned int
  BMP_WIN_TransferChars((struct BmpWin *)p->window);
 }
 
-
 int WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(struct WifiBsubwayGraphic *p) {
  int v;
  if(p->printStream==0) return 1;
@@ -842,12 +805,10 @@ int WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(struct WifiBsubwayGraphic *p) {
  return 0;
 }
 
-
 void WIFI_BSUBWAY_GRAPHIC_SetWord(struct WifiBsubwayGraphic *p, unsigned int i, unsigned int a, unsigned int b)
 {
     WORDSET_SetSlotNumber(p->wordSet, i, a, b, 2, 1);
 }
-
 
 /*
  * The duplicated 021D8560 pool words require separate extern names;
@@ -855,21 +816,15 @@ void WIFI_BSUBWAY_GRAPHIC_SetWord(struct WifiBsubwayGraphic *p, unsigned int i, 
  */
 void WIFI_BSUBWAY_GRAPHIC_CreateYesNo(struct WifiBsubwayGraphic *p) { *(u16 *)(gWifiBsubwayCodeInParam+4)=p->frameGfxB; p->yesNoMenu=BMP_MENU_CreateYesNo((const struct WinDat *)d_021D8560_menu,p->frameGfxB,13,0,p->heapId); }
 
-
 unsigned int WIFI_BSUBWAY_GRAPHIC_ProcessYesNo(struct WifiBsubwayGraphic *p) { unsigned int result=-2; if(p->yesNoMenu!=0) { result=BMP_MENU_ProcessYesNo(p->yesNoMenu); if(result!=-1) p->yesNoMenu=0; } return result; }
-
 
 void WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon(struct WifiBsubwayGraphic *p) { p->timeIcon=TIME_ICON_Create((void *)GFL_USE_GetMainTaskList(),p->window,15,16,p->heapId); }
 
-
 void WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(struct WifiBsubwayGraphic *p) { if(p->timeIcon!=0) { TIME_ICON_Delete(p->timeIcon); p->timeIcon=0; } }
-
 
 void WIFI_BSUBWAY_GRAPHIC_StartSave(struct WifiBsubwayWork *p) { (struct GameData *)GAME_DATA_SaveStart((struct GameData *)p->saveControl); p->dpwDone=1; }
 
-
 int WIFI_BSUBWAY_GRAPHIC_UpdateSave(struct WifiBsubwayWork *p) { if(p->dpwDone==0) return 1; if(GAME_DATA_SaveMain((struct GameData *)p->saveControl)==2) { p->dpwDone=0; return 1; } return 0; }
-
 
 /*
  * volatile: hardware registers 0x04000050, 0x04001050, 0x04000000, 0x04001000 are read/written at 021D8244..021D8258 or 021D82C4..021D82DA.
@@ -890,7 +845,6 @@ void *WIFI_BSUBWAY_GRAPHIC_Create(int a,unsigned heap) {
  return p;
 }
 
-
 void WIFI_BSUBWAY_GRAPHIC_Delete(struct WifiBsubwayBg *p) {
  TCB_DeleteTask(p->redrawCallback); WIFI_BSUBWAY_GRAPHIC_TeardownBg(p); GF_FONT_SetDefaultTextColor();
  *(volatile unsigned short *)0x04000050=0;
@@ -901,9 +855,7 @@ void WIFI_BSUBWAY_GRAPHIC_Delete(struct WifiBsubwayBg *p) {
  MI_CpuFill8(p,0,16); GFL_HEAP_Free(p);
 }
 
-
 void WIFI_BSUBWAY_GRAPHIC_OnRedraw(void *a,void *b) {WIFI_BSUBWAY_GRAPHIC_Draw(b);}
-
 
 void WIFI_BSUBWAY_GRAPHIC_SetupBg(struct WifiBsubwayBg *p,unsigned heap) {
  unsigned i; struct WifiBsubwayBgLayer *q; unsigned n;
@@ -916,8 +868,6 @@ void WIFI_BSUBWAY_GRAPHIC_SetupBg(struct WifiBsubwayBg *p,unsigned heap) {
  }
 }
 
-
-
 void WIFI_BSUBWAY_GRAPHIC_TeardownBg(void *work)
 {
     unsigned int i;
@@ -929,8 +879,6 @@ void WIFI_BSUBWAY_GRAPHIC_TeardownBg(void *work)
     BG_SYS_Delete();
     MI_CpuFill8(work, 0, 4);
 }
-
-
 
 extern void BG_SYS_Update(void *);
 void WIFI_BSUBWAY_GRAPHIC_Draw(void *p) { BG_SYS_Update(p); }

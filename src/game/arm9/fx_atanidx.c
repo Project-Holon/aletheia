@@ -21,9 +21,7 @@
  *   FX_AtanIdxTable_  0x020A5B38  data
  */
 
-typedef unsigned short u16;
-typedef short s16;
-typedef long fx32;
+#include "../types.h"
 
 extern fx32 FX_Div(fx32 numer, fx32 denom);
 extern const s16 FX_AtanIdxTable_[129];

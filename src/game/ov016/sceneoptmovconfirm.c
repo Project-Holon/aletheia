@@ -39,7 +39,6 @@
  *   DWCi_CMNlButton                  0x021BD264  arm
  *   DWCi_BTNlGet                     0x021BCB14  arm
  *   DWCi_BTNlEnable                  0x021BCB84  arm
- *   procScene                        0x021C3714  arm
  *   DWCi_BTNlDisable                 0x021BCB9C  arm
  *   DWCi_EFFlWait                    0x021D5790  arm
  *   DWCi_SETTINGlEraseAll            0x021CFC20  arm
@@ -48,7 +47,7 @@
  *   endScene2                        0x021C2528  arm
  *   endScene1                        0x021C3794  arm
  */
-typedef volatile unsigned short vu16;
+#include "../types.h"
 
 typedef _Bool bool;
 
@@ -78,14 +77,12 @@ static void input(void);
 static void button(void);
 static void endScene(void);
 
-
 void DWCi_SceneOptMovConfirm(void)
 {
     initGraphics();
     DWCi_CMNlMsgDraw(0x1a);
     DWCi_ChangeScene(procInit);
 }
-
 
 /*
  * sdk:      initGraphics (libdwcutil.TWL.HYB.a(sceneoptmovcompl))
@@ -99,14 +96,12 @@ static void initGraphics(void)
     *(vu16 *)0x0400000C = (*(vu16 *)0x0400000C & ~3) | 3;
 }
 
-
 static void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(0, 0x15);
     DWCi_ChangeScene(procInit1);
 }
-
 
 static void procInit1(void)
 {
@@ -119,17 +114,13 @@ static void procInit1(void)
 }
 
 
-static void procScene(void);
-
-
 static void procInit2(void)
 {
     if (DWCi_BTNlGet() == -2)
         return;
     DWCi_BTNlEnable();
-    DWCi_ChangeScene(procScene);
+    DWCi_ChangeScene(DWCi_SceneOptMovConfirm_procScene);
 }
-
 
 void DWCi_SceneOptMovConfirm_procScene(void)
 {
@@ -137,7 +128,6 @@ void DWCi_SceneOptMovConfirm_procScene(void)
     DWCi_SceneOptMovConfirm_draw();
     button();
 }
-
 
 static void input(void)
 {
@@ -149,12 +139,9 @@ void DWCi_SceneOptMovConfirm_draw(void)
 {
 }
 
-
 static void endScene1(void);
 
-
 static void endScene2(void);
-
 
 static void button(void)
 {
@@ -163,7 +150,6 @@ static void button(void)
     DWCi_SNDlPlay(6);
     DWCi_ChangeScene(endScene);
 }
-
 
 static void endScene(void)
 {

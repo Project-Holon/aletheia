@@ -14,10 +14,7 @@
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  */
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef signed short s16;
-typedef unsigned int u32;
+#include "../types.h"
 
 struct Obj;
 

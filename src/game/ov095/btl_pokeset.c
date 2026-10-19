@@ -24,11 +24,7 @@
  *   BTL_SERVER_FLOW_CalcPokeSpeedWrapper  0x021C81C8  thumb
  *   BTL_CALC_Random  0x021D78AC  thumb
  */
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 /* A set of up to six pokemon with the damage each one took. */
 typedef struct BtlPokeSet {
@@ -71,13 +67,11 @@ int BTL_POKESET_CopyEnemies(BtlPokeSet *p, void *a, BtlPokeSet *q);
 void BTL_POKESET_RemoveFainted(BtlPokeSet *p);
 void BTL_POKESET_SortBySpeed(BtlPokeSet *p, int ctx);
 
-
 /* Empty the set. */
 void BTL_POKESET_Clear(void *p)
 {
     MI_CpuFill8(p, 0, 0x48);
 }
-
 
 /* Append a pokemon unless it is already in the set or the set is full. */
 void BTL_POKESET_Add(BtlPokeSet *p, void *id)
@@ -101,7 +95,6 @@ void BTL_POKESET_Add(BtlPokeSet *p, void *id)
     }
 }
 
-
 /* Add the pokemon if needed, then add amt to its damage (extra when flag is set). */
 void BTL_POKESET_AddWithDamage(BtlPokeSet *p, void *id, u16 amt, int flag)
 {
@@ -123,7 +116,6 @@ void BTL_POKESET_AddWithDamage(BtlPokeSet *p, void *id, u16 amt, int flag)
     }
 }
 
-
 /* Remove a pokemon and close the gap; the seek cursor steps back with it. */
 void BTL_POKESET_Remove(BtlPokeSet *p, void *id)
 {
@@ -144,7 +136,6 @@ void BTL_POKESET_Remove(BtlPokeSet *p, void *id)
     }
 }
 
-
 /* The pokemon at index i, or 0 when i is past the end. */
 void *BTL_POKESET_Get(BtlPokeSet *p, u32 i)
 {
@@ -153,13 +144,11 @@ void *BTL_POKESET_Get(BtlPokeSet *p, u32 i)
     return 0;
 }
 
-
 /* Reset the seek cursor. */
 void BTL_POKESET_SeekStart(BtlPokeSet *p)
 {
     p->seekIndex = 0;
 }
-
 
 /* Next pokemon of the walk, or 0 at the end. */
 void *BTL_POKESET_SeekNext(BtlPokeSet *p)
@@ -172,7 +161,6 @@ void *BTL_POKESET_SeekNext(BtlPokeSet *p)
     }
     return 0;
 }
-
 
 /*
  * Both lookups reload the count byte on every pass (no common-subexpression
@@ -195,7 +183,6 @@ int BTL_POKESET_GetTotalDamage(BtlPokeSet *p, void *id, u32 *out)
     return 0;
 }
 
-
 /* Plain damage of a pokemon that took only plain damage; returns 1 when found. */
 int BTL_POKESET_GetPlainDamage(BtlPokeSet *p, void *id, u32 *out)
 {
@@ -213,24 +200,20 @@ int BTL_POKESET_GetPlainDamage(BtlPokeSet *p, void *id, u32 *out)
 
 #pragma opt_common_subs reset
 
-
 u32 BTL_POKESET_GetCount(BtlPokeSet *p)
 {
     return p->count;
 }
-
 
 int BTL_POKESET_GetCountMax(BtlPokeSet *p)
 {
     return p->countMax;
 }
 
-
 void BTL_POKESET_SetEmptyMarked(BtlPokeSet *p, u8 v)
 {
     p->emptyMarked = v;
 }
-
 
 /* 1 when the set had members (or was marked) and is now empty. */
 int BTL_POKESET_IsRemovedAll(BtlPokeSet *p)
@@ -242,7 +225,6 @@ int BTL_POKESET_IsRemovedAll(BtlPokeSet *p)
     }
     return 0;
 }
-
 
 /* Copy the pokemon of p that are not fainted into q; returns the count. */
 int BTL_POKESET_CopyAlive(BtlPokeSet *p, BtlPokeSet *q)
@@ -260,7 +242,6 @@ int BTL_POKESET_CopyAlive(BtlPokeSet *p, BtlPokeSet *q)
     }
     return BTL_POKESET_GetCount(q);
 }
-
 
 /* Copy the pokemon of p for which the pair test with a id holds into q. */
 int BTL_POKESET_CopyFriends(BtlPokeSet *p, void *a, BtlPokeSet *q)
@@ -281,7 +262,6 @@ int BTL_POKESET_CopyFriends(BtlPokeSet *p, void *a, BtlPokeSet *q)
     return BTL_POKESET_GetCount(q);
 }
 
-
 /* Copy the pokemon of p for which the pair test with a id fails into q. */
 int BTL_POKESET_CopyEnemies(BtlPokeSet *p, void *a, BtlPokeSet *q)
 {
@@ -301,7 +281,6 @@ int BTL_POKESET_CopyEnemies(BtlPokeSet *p, void *a, BtlPokeSet *q)
     return BTL_POKESET_GetCount(q);
 }
 
-
 /* Remove every fainted pokemon from the set. */
 void BTL_POKESET_RemoveFainted(BtlPokeSet *p)
 {
@@ -314,7 +293,6 @@ void BTL_POKESET_RemoveFainted(BtlPokeSet *p)
         poke = BTL_POKESET_SeekNext(p);
     }
 }
-
 
 /* Sort by speed, fastest first; equal speeds are ordered by a coin flip. */
 void BTL_POKESET_SortBySpeed(BtlPokeSet *p, int ctx)

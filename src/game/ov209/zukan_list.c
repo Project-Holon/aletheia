@@ -244,8 +244,6 @@ struct Rec;
 
 struct Blk37;
 
-
-
 struct Descriptor;
 
 struct Cfg;
@@ -262,17 +260,11 @@ struct Bank;
 
 struct Personal;
 
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "../types.h"
 
 struct DispConfig {u32 w[4];};
 
 struct BgTemplate {u32 w[8];};
-
-typedef signed int s32;
 
 /*
  * Create parameters of the ov067 frame list, owned by
@@ -341,8 +333,6 @@ struct ZukanList {
 struct DtcmIrqFlag { u8 pad[0x3FF8]; unsigned flag; };
 
 typedef struct WordSet WordSet;
-
-typedef signed short s16;
 
 typedef struct PtS {s16 x,y;} PtS;
 

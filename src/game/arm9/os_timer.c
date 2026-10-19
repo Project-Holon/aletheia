@@ -16,10 +16,7 @@
  *   OSi_TimerReserved  0x0215132C  data
  */
 
-typedef unsigned long long u64;
-typedef unsigned long u32;
-typedef unsigned short u16;
-typedef int BOOL;
+#include "../types.h"
 
 /* os_tick.o .bss from 0x02151330, addressed from one pool word. */
 typedef struct OsTickBss {

@@ -13,28 +13,9 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  */
 #define BTX0_SIGNATURE 0x30585442u
-typedef signed int s32;
+#include "../types.h"
 
-typedef unsigned int u32;
-
-typedef unsigned short u16;
-
-typedef unsigned char u8;
-
-typedef struct { u32 val[4]; } NNSG3dResName;
-
-typedef struct { u8 refBit; u8 idxLeft; u8 idxRight; u8 idxEntry; } NNSG3dResDictTreeNode;
-
-typedef struct { u16 sizeUnit; u16 ofsName; u8 data[4]; } NNSG3dResDictEntryHdr;
-
-typedef struct {
-    u8  revision;
-    u8  numEntry;
-    u16 sizeDictBlk;
-    u16 dummy_;
-    u16 ofsEntry;
-    NNSG3dResDictTreeNode node[1];
-} NNSG3dResDict;
+#include "nns_g3d_anm_calc_types.h"
 
 /* NNSG3dResFileHeader: the part these functions read. */
 typedef struct {
@@ -69,7 +50,6 @@ int NNS_G3dGetMdlSet(int pFile);
 unsigned char *NNS_G3dGetTex(unsigned char *pFile);
 u8 *NNS_G3dGetAnmByIdx(u8 *pFile, u32 resIdx);
 
-
 static inline const NNSG3dResName *NNSi_G3dGetResNameByIdx(const NNSG3dResDict *dict, u32 idx)
 {
     if (dict != 0 && idx < dict->numEntry) {
@@ -80,17 +60,15 @@ static inline const NNSG3dResName *NNSi_G3dGetResNameByIdx(const NNSG3dResDict *
     }
 }
 
-
 static inline void *NNSi_G3dGetResDataByIdx(const NNSG3dResDict *dict, u32 idx)
 {
     if (dict != 0 && idx < dict->numEntry) {
         const NNSG3dResDictEntryHdr *hdr = (const NNSG3dResDictEntryHdr *)((const u8 *)dict + dict->ofsEntry);
-        return (void *)((const u8 *)&hdr->data[0] + hdr->sizeUnit * idx);
+        return (void *)((const u8 *)(hdr + 1) + hdr->sizeUnit * idx);
     } else {
         return 0;
     }
 }
-
 
 /*
  * NitroSystem g3d resource-dictionary lookup by 16-byte name, returning the
@@ -117,7 +95,7 @@ void *NNS_G3dGetResDataByName(const NNSG3dResDict *dict, const NNSG3dResName *na
                 return NNSi_G3dGetResDataByIdx(dict, i);
         }
     } else {
-        const NNSG3dResDictTreeNode *base = &dict->node[0];
+        const NNSG3dResDictTreeNode *base = (const NNSG3dResDictTreeNode *)(dict + 1);
         u32 n = base->idxLeft;
         if (n != 0) {
             const NNSG3dResName *p;
@@ -140,7 +118,6 @@ void *NNS_G3dGetResDataByName(const NNSG3dResDict *dict, const NNSG3dResName *na
     }
     return 0;
 }
-
 
 /*
  * NitroSystem g3d resource-dictionary lookup by 16-byte name, returning the
@@ -174,7 +151,7 @@ s32 NNS_G3dGetResDictIdxByName(const NNSG3dResDict *dict, const NNSG3dResName *n
                 return (s32)i;
         }
     } else {
-        const NNSG3dResDictTreeNode *base = &dict->node[0];
+        const NNSG3dResDictTreeNode *base = (const NNSG3dResDictTreeNode *)(dict + 1);
         u32 n = base->idxLeft;
         if (n != 0) {
             const NNSG3dResName *p;
@@ -198,10 +175,8 @@ s32 NNS_G3dGetResDictIdxByName(const NNSG3dResDict *dict, const NNSG3dResName *n
     return -1;
 }
 
-
 /* NNS_G3dGetMdlSet: the file header plus the offset of its first block. */
 int NNS_G3dGetMdlSet(int pFile){ return (pFile + *(int *)((pFile + (((NNSG3dResFileHeader *)pFile)->headerSize << 0)))); }
-
 
 /*
  * NNS_G3dGetTex: the texture block of a model file (BMD0) or texture file
@@ -220,7 +195,6 @@ unsigned char *NNS_G3dGetTex(unsigned char *pFile)
     }
     return pFile + ((NNSG3dResBlockOffsets *)pBlockOffsets)->ofsBlock1;
 }
-
 
 /*
  * NNS_G3dGetAnmByIdx: look up the resource number resIdx of the first block

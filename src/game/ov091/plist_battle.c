@@ -99,11 +99,7 @@ struct PrintSys;
 struct CharBuf;
 struct StrObj;
 struct Strbuf;
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef short s16;
-typedef signed int     s32;
+#include "../types.h"
 
 #include "pokelist_types.h"
 #include "plist_battle_types.h"

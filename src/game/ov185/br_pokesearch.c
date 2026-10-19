@@ -94,13 +94,7 @@
 
 struct PrintSys;
 struct Pair;
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef signed int     s32;
-
-typedef unsigned char  u8;
+#include "../types.h"
 
 typedef struct Cfg {u16 heap;unsigned char rest[6];} Cfg;
 
@@ -223,16 +217,6 @@ int BR_POKESEARCH_HitTab(int a, int b, int c);
 int BR_POKESEARCH_HitPrev(int a, int b, int c);
 extern char ov112_id[];
 
-
-
-
-
-
-
-
-
-
-
 int BR_POKESEARCH_CreateWork(void *procSys,int unused,char *owner)
 {
     char *work;
@@ -254,16 +238,6 @@ int BR_POKESEARCH_CreateWork(void *procSys,int unused,char *owner)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
 int BR_POKESEARCH_DestroyWork(int procSys,int unused,char *owner,char *work)
 {
     int handleIndex;
@@ -283,16 +257,6 @@ int BR_POKESEARCH_DestroyWork(int procSys,int unused,char *owner,char *work)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
 int BR_POKESEARCH_Update(int task,int unused,int unused2,char *work)
 {
     int handleIndex;
@@ -311,15 +275,6 @@ int BR_POKESEARCH_Update(int task,int unused,int unused2,char *work)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
 void BR_POKESEARCH_OpenTask(int task,int *state,char *work)
 {
     switch (*state) {
@@ -329,15 +284,6 @@ void BR_POKESEARCH_OpenTask(int task,int *state,char *work)
     }
 }
 
-
-
-
-
-
-
-
-
-
 void BR_POKESEARCH_CloseTask(int task,int *state,char *work)
 {
     switch (*state) {
@@ -346,16 +292,6 @@ void BR_POKESEARCH_CloseTask(int task,int *state,char *work)
     case 2: BR_UTIL_ClearTaskStep((int *)(((struct BrPokeSearchWork *)work)->task.taskHandle)); BR_PROC_SYS_PopEntry((unsigned int *)(((struct BrDownloadOwner *)(*(char * *)&((struct BrPokeSearchWork *)work)->owner))->proc.procHandle)); break;
     }
 }
-
-
-
-
-
-
-
-
-
-
 
 void BR_POKESEARCH_MainTask(int task, int unused, char *work)
 {
@@ -372,13 +308,6 @@ void BR_POKESEARCH_MainTask(int task, int unused, char *work)
         BR_UTIL_SetTaskStep((int *)task, (int)BR_POKESEARCH_CloseTask);
     }
 }
-
-
-
-
-
-
-
 
 void BR_POKESEARCH_HandleTouch(int task,int unused,char *work)
 {
@@ -404,13 +333,6 @@ void BR_POKESEARCH_HandleTouch(int task,int unused,char *work)
         }
     }
 }
-
-
-
-
-
-
-
 
 void BR_POKESEARCH_NetworkTask(int *task,unsigned *state,char *work)
 {
@@ -457,13 +379,6 @@ void BR_POKESEARCH_NetworkTask(int *task,unsigned *state,char *work)
     }
 }
 
-
-
-
-
-
-
-
 void BR_POKESEARCH_DownloadDoneTask(int task,int *state,char *work)
 {
     switch (*state) {
@@ -475,12 +390,6 @@ void BR_POKESEARCH_DownloadDoneTask(int task,int *state,char *work)
     case 5: ((struct BrPokeSearchWork *)work)->sidebarShown=1; BR_UTIL_SetTaskStep((int *)task,(int)BR_POKESEARCH_HandleTouch); break;
     }
 }
-
-
-
-
-
-
 
 void BR_POKESEARCH_ExitTask(int *task,int *state,char *work)
 {
@@ -505,12 +414,6 @@ void BR_POKESEARCH_ExitTask(int *task,int *state,char *work)
     }
 }
 
-
-
-
-
-
-
 void BR_POKESEARCH_RefreshTask(int *task,int *state,char *work)
 {
     switch(*state) {
@@ -522,12 +425,6 @@ void BR_POKESEARCH_RefreshTask(int *task,int *state,char *work)
     case 5: BR_UTIL_SetTaskStep(task,(int)BR_POKESEARCH_MainTask); break;
     }
 }
-
-
-
-
-
-
 
 void BR_POKESEARCH_EnterListTask(int *task,int *state,char *work)
 {
@@ -545,12 +442,6 @@ void BR_POKESEARCH_EnterListTask(int *task,int *state,char *work)
     case 5: BR_UTIL_SetTaskStep(task,(int)BR_POKESEARCH_NetworkTask); break;
     }
 }
-
-
-
-
-
-
 
 /*
  * abi: 021F8BBC/021F8BD6 load r1 for BR_POKESEARCH_DestroyText, retained despite unused callee input.
@@ -583,10 +474,6 @@ void BR_POKESEARCH_ChangePageTask(int *task,int *state,char *work)
     }
 }
 
-
-
-
-
 /*
  * abi: 021F8C9E passes r1 to BR_POKESEARCH_DestroyText despite its unused second input.
  */
@@ -618,10 +505,6 @@ void BR_POKESEARCH_ChangeCategoryTask(int *task,int *state,char *work)
     }
 }
 
-
-
-
-
 /*
  * Build the scene handle once: flush the three sub-resources and start
  *   0x21F3AF0 on the indexed table entry.
@@ -639,11 +522,7 @@ void BR_POKESEARCH_CreateSidebar(char *work, int *owner)
     }
 }
 
-
-
 void BR_POKESEARCH_ShowBg(char *work,char *owner) { if(((struct BrPokeSearchWork *)work)->scene.scene){MUSICAL_SHOT_SYS_DeleteScene(((struct BrPokeSearchWork *)work)->scene.scene);((struct BrPokeSearchWork *)work)->scene.scene=0;BR_GRAPHIC_End3d(((struct BrDownloadOwner *)owner)->graphic.graphic,((struct BrPokeSearchWork *)work)->heapId);BR_RES_LoadUiPalette(*(char * *)&((struct BrDownloadOwner *)owner)->res.res,0,((struct BrPokeSearchWork *)work)->heapId);BR_RES_LoadBgGraphics(((struct BrDownloadOwner *)owner)->res.res,0,((struct BrPokeSearchWork *)work)->heapId);BR_SIDEBAR_SetVisibleBySpace((int)((char *)(((struct BrDownloadOwner *)owner)->sidebar)), 0, 1);} }
-
-
 
 void BR_POKESEARCH_CreateDetail(char *work,char *owner)
 {
@@ -666,11 +545,7 @@ void BR_POKESEARCH_CreateDetail(char *work,char *owner)
     }
 }
 
-
-
 void BR_POKESEARCH_DestroyDetail(char *work,char *owner) { if(((struct BrPokeSearchWork *)work)->detailWin){BR_RES_ApplyBgSet(*(int *)&((struct BrDownloadOwner *)owner)->res.res,22);BR_BTN_DeleteObject(((struct BrPokeSearchWork *)work)->backButton.backButton);((struct BrPokeSearchWork *)work)->backButton.backButton=0;BR_UTIL_Delete(((struct BrPokeSearchWork *)work)->detailWin);((struct BrPokeSearchWork *)work)->detailWin=0;BR_RES_ApplyBgSet(*(int *)&((struct BrDownloadOwner *)owner)->res.res,22);} }
-
-
 
 /*
  * note: 2026-10-04 (D2-13): body is byte-correct. Callee BR_UTIL_CreateProfileScreen (ov186, 0x021FD1C4) is a 1148-byte function in pengy's ov186 split with no witness (its listing extent shows 64 bytes, a wrong label gap); the relocation cannot resolve until it is filed. No change possible here.
@@ -692,8 +567,6 @@ void BR_POKESEARCH_CreateText(char *work,int *owner)
     }
 }
 
-
-
 void BR_POKESEARCH_DestroyText(char *work, int *unused)
 {
     if (((struct BrPokeSearchWork *)work)->profileScreen.profileScreenHandle != 0) {
@@ -701,7 +574,6 @@ void BR_POKESEARCH_DestroyText(char *work, int *unused)
         ((struct BrPokeSearchWork *)work)->profileScreen.profileScreenHandle = 0;
     }
 }
-
 
 void BR_POKESEARCH_CreateSearch(char *work,int *owner)
 {
@@ -717,13 +589,9 @@ void BR_POKESEARCH_CreateSearch(char *work,int *owner)
     }
 }
 
-
 void BR_POKESEARCH_DestroySearch(char *work,char *owner) { if(((struct BrPokeSearchWork *)work)->search.search){BR_POKESEARCH_Close(((struct BrPokeSearchWork *)work)->search.search);BR_POKESEARCH_Destroy(((struct BrPokeSearchWork *)work)->search.search);((struct BrPokeSearchWork *)work)->search.search=0;BG_SYS_PushTile(4);if(((struct BrPokeSearchWork *)work)->window.window){BR_UTIL_DeleteTextWin(((struct BrPokeSearchWork *)work)->window.window,((struct BrDownloadOwner *)owner)->res.resHandle);((struct BrPokeSearchWork *)work)->window.window=0;}} }
 
-
 void BR_POKESEARCH_CreateMsgbox(char *work, int *owner) { if(!((struct BrPokeSearchWork *)work)->window.window)((struct BrPokeSearchWork *)work)->window.window=BR_UTIL_CreateTextWin((((struct BrDownloadOwner *)owner)->res.res),(void *)(((struct BrPokeSearchWork *)work)->printQue.printQueHandle),((struct BrPokeSearchWork *)work)->heapId);BR_UTIL_SetWindowText(((struct BrPokeSearchWork *)work)->window.window,((struct BrDownloadOwner *)owner)->res.res,(void *)0x146); }
-
-
 
 void BR_POKESEARCH_DestroyMsgbox(char *work, char *owner)
 {
@@ -732,8 +600,6 @@ void BR_POKESEARCH_DestroyMsgbox(char *work, char *owner)
         ((struct BrPokeSearchWork *)work)->window.windowHandle = 0;
     }
 }
-
-
 
 /*
  * Range-gate the pair then hand them to 0x21FD860 as a two-word record.
@@ -751,8 +617,6 @@ int BR_POKESEARCH_HitTab(int work, int touchX, int touchY)
     return inside;
 }
 
-
-
 int BR_POKESEARCH_HitPrev(int a, int b, int c)
 {
     int ok = ((unsigned)(b - 0x18) <= 0x28) & ((unsigned)(c - 0x40) <= 0x28);
@@ -766,7 +630,6 @@ int BR_POKESEARCH_HitPrev(int a, int b, int c)
     return ok;
 }
 
-
 int BR_POKESEARCH_HitNext(char *p,unsigned x,unsigned y)
 {
     int inside=((unsigned)(x-0xb8)<=0x28)&((unsigned)(y-0x40)<=0x28);
@@ -779,4 +642,3 @@ int BR_POKESEARCH_HitNext(char *p,unsigned x,unsigned y)
     }
     return inside;
 }
-

@@ -113,11 +113,7 @@
  */
 #include "field_player_types.h"
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed short s16;
-typedef signed int s32;
+#include "../types.h"
 
 /* A grid position or fixed point vector (three words). */
 typedef struct {

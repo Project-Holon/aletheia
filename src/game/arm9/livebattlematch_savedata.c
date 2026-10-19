@@ -23,10 +23,9 @@
  *   BSUBWAY_SAVEDATA_InitStats  0x0200DFCC  thumb
  *   _u32_div_f                   0x0209C2B0  arm
  */
-#include "misc_savedata_shared_types.h"
 #include "greeting_savedata_shared_types.h"
 
-typedef signed int     s32;
+#include "../types.h"
 
 extern void MI_CpuFill8(void *dst, unsigned char val, unsigned long size);
 struct SaveControl;

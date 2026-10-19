@@ -15,7 +15,7 @@ struct FieldMap;
 
 struct MyStatus;
 
-typedef signed int s32;
+#include "../types.h"
 
 /* Event task callback: (event, sequence counter, work). */
 typedef int (*EventTaskFn)(struct GameEvent *event, u32 *seq, void *work);

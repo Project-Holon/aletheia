@@ -135,7 +135,8 @@ extern void NNS_SndStrmSetVolume(SndStrm *, s32);
 extern s32 NNS_SndFaderGet(SndFader *o);
 extern void NNS_SndFaderUpdate(SndFader *obj);
 extern int NNS_SndFaderIsFinished(SndFader *obj);
-struct OSMutex;
+#include "../sdk_os.h"
+
 extern void OS_LockMutex(struct OSMutex *mutex);
 extern void OS_UnlockMutex(struct OSMutex *mutex);
 extern void NNSi_SndStrmStopIfSetup(SndStrm *o);

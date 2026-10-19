@@ -256,16 +256,9 @@ struct Bmp;
 
 struct Bmp;
 
-
-
 typedef struct BtlvInputVisibilityTask { BtlvInput *owner; int mode; } BtlvInputVisibilityTask;
 
-
 typedef struct BtlvInputBgLayer { char tmplBytes[0x20]; int type; } BtlvInputBgLayer;
-
-
-
-
 
 typedef struct Arg1 {
     BtlvInputSlotInfo a[6];
@@ -292,7 +285,6 @@ typedef struct Arg5 {
     int b[3][4];
 } Arg5;
 
-
 typedef struct {
     char pad0[0xa];
     s8 id;              /* 0x0a */
@@ -305,12 +297,9 @@ typedef struct {
     int *vals;          /* 0x08 */
 } Cmd;
 
-
-
 typedef struct BtlvInputFingerTable {
     BtlvClactPoint pos[3];
 } BtlvInputFingerTable;
-
 
 typedef struct BtlvInputCommandDesc {
     void *buttons;
@@ -331,40 +320,7 @@ typedef struct BtlvInputSectionData {
     BtlvInputCommandDesc db;
 } BtlvInputSectionData;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 typedef struct { int start, end; } BtlvInputWipeOffset;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /* Work of the palette cycle task (allocated by BTLV_INPUT_StartPaletteCycleTask). */
 typedef struct BtlvInputPaletteCycleTask {
@@ -412,7 +368,7 @@ typedef struct BtlvInputBgScrollOffsetTask {
     int bg7;
 } BtlvInputBgScrollOffsetTask;
 
-typedef int BOOL;
+#include "../types.h"
 
 typedef struct BtlvInputTextPos { int x, y; } BtlvInputTextPos;
 
@@ -454,7 +410,6 @@ typedef struct BtlvInputTargetInfo {
     u8 targetGroup;
 } BtlvInputTargetInfo;
 
-
 typedef struct Out {
     u32 pad[3];
     int bgFile;
@@ -465,12 +420,9 @@ typedef struct BtlvInputTargetRes {
     u16 *palette;
 } BtlvInputTargetRes;
 
-
 typedef struct { u16 value[4]; u8 a[4], b[4]; u8 pad10[8]; } Buffer;
 
 typedef struct { u8 first, second; } Palette;
-
-
 
 typedef struct BtlvInputPartyInfo {
     unsigned char pad00[0x98];
@@ -480,20 +432,11 @@ typedef struct BtlvInputPartyInfo {
     int sel;
 } BtlvInputPartyInfo;
 
-
-
 typedef struct Five { int v[5]; } Five;
-
-
-
 
 typedef struct {
     int seq[6];
 } BtlvInputTargetAnim;
-
-
-
-
 
 /* Button table and per-button select flags; callers pass their command
  * descriptor (Cmd/Desc) as this. */
@@ -511,7 +454,6 @@ typedef struct BtlvInputButtonFlashTask {
     int colour;
     int flag;
 } BtlvInputButtonFlashTask;
-
 
 extern u32 GFL_HEAP_Free(void *p);
 struct BtlMain;
@@ -543,7 +485,6 @@ extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 struct TcblSystem;
 
 extern u32 TCBL_IsDeletePending(struct TcblSystem *tcbl);
-
 
 extern u32 KEY_GetTrg(void);
 

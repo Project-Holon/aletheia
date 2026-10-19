@@ -17,43 +17,10 @@ typedef struct G3dObjectStatus {
     int rotate[9];
 } G3dObjectStatus;
 
-typedef struct NNSG3dResTexInfo {
-    u32 vramKey;
-    u16 sizeTex;
-    u16 ofsDict;
-    u16 flag;
-    u16 dummy_;
-    u32 ofsTex;
-} NNSG3dResTexInfo;
-
-typedef struct NNSG3dResTex4x4Info {
-    u32 vramKey;
-    u16 sizeTex;
-    u16 ofsDict;
-    u16 flag;
-    u16 dummy_;
-    u32 ofsTex;
-    u32 ofsTexPlttIdx;
-} NNSG3dResTex4x4Info;
+#include "../arm9/nns_g3d_anm_calc_types.h"
 
 /* Palette block of a texture resource (NSBTX), as in arm9/g3d_system.c. */
-typedef struct NNSG3dResPlttInfo {
-    u32 vramKey;
-    u16 sizePltt;
-    u16 flag;
-    u16 ofsDict;
-    u16 dummy_;
-    u32 ofsPlttData;
-} NNSG3dResPlttInfo;
-
 /* Texture resource, up to the palette block (0x40 bytes before the dictionary). */
-typedef struct NNSG3dResTex {
-    u32 header[2];
-    NNSG3dResTexInfo texInfo;       /* 0x08 */
-    NNSG3dResTex4x4Info tex4x4Info; /* 0x18 */
-    NNSG3dResPlttInfo plttInfo; /* 0x2C */
-} NNSG3dResTex;
-
 /* Animation state of one model animation of a stage or field. */
 #define BTLV_ANIM_LOOP  0   /* plays at normal speed forever */
 #define BTLV_ANIM_TIMED 1   /* plays at a set speed for a set number of updates when armed */

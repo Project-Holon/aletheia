@@ -132,9 +132,7 @@ typedef struct {
     MEMSSSA *MemSssa;                 /* 0x04 */
 } SCENESETSELECTAP_BSS;
 
-typedef unsigned short u16;
-
-typedef unsigned char u8;
+#include "../types.h"
 
 typedef struct {
     char name[0x14];
@@ -148,14 +146,10 @@ typedef struct Rect {
     unsigned short left, top, right, bottom;
 } Rect;
 
-typedef signed char s8;
-
 typedef struct tagSETTINGINFO {
     unsigned char pad[0xE7];
     unsigned char setting;            /* 0xE7 */
 } SETTINGINFO;
-
-typedef unsigned long u32;
 
 #include "gx_oam_types.h"
 
@@ -263,7 +257,6 @@ static void procErase(void);
 static void procErase1(void);
 static void dispPush(void);
 
-
 void DWCi_SceneSetSelectAp(void)
 {
     MEMSSSA *p = DWCi_HEAPlAllocEx(0x20, 4);
@@ -278,7 +271,6 @@ void DWCi_SceneSetSelectAp(void)
     dispFocus();
     DWCi_ChangeScene(procInit);
 }
-
 
 /*
  * Copy a 0x16-byte NCL resource path into a stack buffer, load four
@@ -316,7 +308,6 @@ static void initGraphics(void)
     p[1] = (p[1] & ~3) | 3;
 }
 
-
 /*
  * notes: EXACT at 264 bytes, 10/10 relocations.  The park's 3-line residue
  *        (+0050..+0058: the image computes the C_CELL index `lsl r2, r3, #2`
@@ -350,7 +341,6 @@ static void initObj(void)
     }
 }
 
-
 static void procInit(void)
 {
     DWCi_EFFlFade(2, 1, 1, 8);
@@ -359,7 +349,6 @@ static void procInit(void)
     DWCi_GXlVisible(0, 0x14);
     DWCi_ChangeScene(procInit1);
 }
-
 
 static void procInit1(void)
 {
@@ -370,7 +359,6 @@ static void procInit1(void)
     DWCi_CMNlButton(0);
     DWCi_ChangeScene(procInit2);
 }
-
 
 static void procInit2(void)
 {
@@ -384,14 +372,12 @@ static void procInit2(void)
     DWCi_ChangeScene(procScene);
 }
 
-
 static void procScene(void)
 {
     input();
     draw();
     button();
 }
-
 
 static void input(void)
 {
@@ -423,7 +409,6 @@ static void input(void)
 static void draw(void)
 {
 }
-
 
 static void button(void)
 {
@@ -472,7 +457,6 @@ static void button(void)
     DWCi_ChangeScene(endScene);
 }
 
-
 static void endScene(void)
 {
     if (scenesetselectap_bss.MemSssa->mode == 2) {
@@ -482,7 +466,6 @@ static void endScene(void)
     DWCi_EFFlWait(8);
     DWCi_ChangeScene(endScene1);
 }
-
 
 static void endScene1(void)
 {
@@ -498,7 +481,6 @@ static void endScene1(void)
     DWCi_EFFlFade(3, 0, 0x14, 8);
     DWCi_ChangeScene(endScene2);
 }
-
 
 /*
  * sdk:      endScene2 (libdwcutil.TWL.HYB.a(scenesetselectap))
@@ -557,7 +539,6 @@ static void endScene2(void)
     DWCi_HEAPlFree_((void **)&scenesetselectap_bss.MemSssa);
 }
 
-
 static void dispFocus(void)
 {
     if (scenesetselectap_bss.FocusPos < 4) {
@@ -566,7 +547,6 @@ static void dispFocus(void)
         DWCi_FOCUSlDisp(0, R_FOCUS[scenesetselectap_bss.FocusPos].left, R_FOCUS[scenesetselectap_bss.FocusPos].right, R_FOCUS[scenesetselectap_bss.FocusPos].top);
     }
 }
-
 
 /*
  * sdk:      moveFocus (libdwcutil.TWL.HYB.a(scenesetselectap))
@@ -665,7 +645,6 @@ static void moveFocus(int dir)
     }
 }
 
-
 static void dispPushClear(void)
 {
     int fp = scenesetselectap_bss.FocusPos - 4;
@@ -674,7 +653,6 @@ static void dispPushClear(void)
     DWCi_CELLlSetPosition(scenesetselectap_bss.MemSssa->cellB[fp], -1, C_CELL[fp + 3].x, C_CELL[fp + 3].y);
     DWCi_CELLlSetPriority(scenesetselectap_bss.MemSssa->cellB[fp], -1, 3);
 }
-
 
 static void procErase(void)
 {
@@ -704,7 +682,6 @@ static void procErase(void)
     DWCi_ChangeScene(procErase1);
 }
 
-
 static void procErase1(void)
 {
     if (DWCi_WINlIsInit()) {
@@ -713,7 +690,6 @@ static void procErase1(void)
     DWCi_BTNlEnable();
     DWCi_ChangeScene(procScene);
 }
-
 
 static void dispPush(void)
 {

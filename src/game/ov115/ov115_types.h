@@ -12,10 +12,7 @@
  * own 32-byte WifiloginMsgWork context.
  */
 
-typedef unsigned char u8;
-typedef unsigned int u32;
-typedef unsigned short u16;
-typedef short s16;
+#include "../types.h"
 
 struct Obj;
 struct Proc;

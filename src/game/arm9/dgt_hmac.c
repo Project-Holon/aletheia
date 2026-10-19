@@ -17,20 +17,11 @@
  * the bottom of the frame and new_key at the top.
  */
 
-typedef unsigned long u32;
-typedef unsigned char u8;
+#include "../types.h"
 
 #define MATH_HASH_BLOCK_SIZE_MAX 64
 
-typedef struct MATHiHMACFuncs {
-    u32 dlength;
-    u32 blength;
-    void *context;
-    u8 *hash_buf;
-    void (*HashReset)(void *context);
-    void (*HashSetSource)(void *context, const void *input, u32 length);
-    void (*HashGetDigest)(void *context, void *digest);
-} MATHiHMACFuncs;
+#include "../sdk_math.h"
 
 void MATHi_CalcHMAC(void *mac, const void *message, u32 message_length, const void *key, u32 key_length, MATHiHMACFuncs *funcs)
 {

@@ -15,7 +15,7 @@
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
  */
-#include "misc_savedata_shared_types.h"
+#include "../types.h"
 
 /* The 0x6204-byte Pokedex skin save block (extra save 7): 0x6000 bytes of
  * tile data and 0x200 bytes of palette, then the flag that says a skin was

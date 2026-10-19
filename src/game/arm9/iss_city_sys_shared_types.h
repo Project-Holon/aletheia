@@ -1,13 +1,7 @@
 #ifndef ISS_CITY_SYS_SHARED_TYPES_H
 #define ISS_CITY_SYS_SHARED_TYPES_H
 
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef unsigned char  u8;
-
-typedef signed int     s32;
+#include "../types.h"
 
 /*
  * One 0x28-byte city sound unit, filled from archive 0x84 (one member per

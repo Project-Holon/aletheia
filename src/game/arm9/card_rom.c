@@ -80,17 +80,7 @@
 #define CARD_ACCESS_LEVEL_ROM  0x4
 #define MI_DMA_NOT_USE         ((u32)-1)
 #define MI_DMA_MAX_NUM         3
-typedef unsigned short u16;
-
-typedef unsigned long u32;
-
-typedef volatile u16 vu16;
-
-typedef volatile u32 vu32;
-
-typedef unsigned char u8;
-
-typedef int BOOL;
+#include "../types.h"
 
 typedef struct CARDRomHeaderTWL
 {
@@ -105,42 +95,9 @@ typedef struct CARDRomHeaderTWL
     } access_control;
 } CARDRomHeaderTWL;
 
-typedef long s32;
+#include "../sdk_os.h"
 
-typedef struct OSThread OSThread;
-
-typedef struct OSThreadQueue
-{
-    OSThread *head;
-    OSThread *tail;
-} OSThreadQueue;
-
-typedef enum CARDBackupType {
-    CARD_BACKUP_TYPE_NOT_USE = 0
-} CARDBackupType;
-
-typedef struct CARDBackupTypeInfo
-{
-    u32 total_size;
-    u32 sect_size;
-    u32 subsect_size;
-    u32 page_size;
-    u32 addr_width;
-    u32 program_page;
-    u32 write_page;
-    u32 write_page_total;
-    u32 erase_chip;
-    u32 erase_chip_total;
-    u32 erase_sector;
-    u32 erase_sector_total;
-    u32 erase_subsector;
-    u32 erase_subsector_total;
-    u32 erase_page;
-    u8 initial_status;
-    u8 padding1[3];
-    u32 caps;
-    u8 padding2[4];
-} CARDBackupTypeInfo;
+#include "../sdk_card.h"
 
 typedef struct CARDiCommandArg
 {
@@ -214,8 +171,6 @@ typedef struct CARDiRomState
     CARDTransferInfo dmaReadInfo;
 } CARDiRomState;
 
-typedef u32 OSIntrMode;
-
 typedef void (*MIDmaCallback)(void *);
 
 typedef struct CARDRomHeader
@@ -278,13 +233,6 @@ extern CARDiRomState cardi_rom_base;
 extern CARDTransferInfo CARDiDmaReadInfo[1];
 extern u8 CARDiOwnSignature[136];
 
-
-
-
-
-
-
-
 /*
  * sdk:      CARDi_SetRomOp (libcard.TWL.HYB.a card_rom.o)
  */
@@ -301,13 +249,6 @@ void CARDi_SetRomOp(u32 command, u32 offset)
     reg_MI_MCCMD1 = MI_HToBE32(cmd2);
 }
 
-
-
-
-
-
-
-
 /*
  * sdk:      CARDi_IsNormalMode (libcard.TWL.HYB.a card_rom.o)
  */
@@ -320,13 +261,6 @@ BOOL CARDi_IsNormalMode(void)
            oh->access_control.bit05 &&
            !oh->access_control.bit08;
 }
-
-
-
-
-
-
-
 
 /*
  * sdk:      CARDi_StartRomPageTransfer (libcard.TWL.HYB.a card_rom.o)
@@ -342,13 +276,6 @@ void CARDi_StartRomPageTransfer(u32 offset)
     CARDi_SetRomOp(op, offset);
     reg_MI_MCCNT1 = (CARDi_romctrl & ~0x07000000) | 0xA1000000;
 }
-
-
-
-
-
-
-
 
 /*
  * sdk:      CARDi_ReadRomIDCore (libcard.TWL.HYB.a card_rom.o)
@@ -369,13 +296,6 @@ u32 CARDi_ReadRomIDCore(void)
     return reg_MI_MCD1;
 }
 
-
-
-
-
-
-
-
 /*
  * sdk:      CARDi_ReadRomStatusCore (libcard.TWL.HYB.a card_rom.o)
  */
@@ -392,13 +312,6 @@ u32 CARDi_ReadRomStatusCore(void)
     }
     return reg_MI_MCD1;
 }
-
-
-
-
-
-
-
 
 /*
  * sdk:      CARDi_RefreshRom (libcard.TWL.HYB.a card_rom.o)
@@ -418,13 +331,6 @@ void CARDi_RefreshRom(u32 warn_mask)
     }
 }
 
-
-
-
-
-
-
-
 /*
  * sdk:      CARDi_RefreshRomCore (libcard.TWL.HYB.a card_rom.o)
  */
@@ -437,20 +343,7 @@ void CARDi_RefreshRomCore(void)
     }
 }
 
-
-
-
-
-
-
 extern u8 CARDi_cache_buf[512] __attribute__((aligned(32)));
-
-
-
-
-
-
-
 
 /*
  * notes:    CARDi_cache_buf is a 512-byte static in card_rom.o .bss with sh_addralign 32;
@@ -516,13 +409,6 @@ BOOL CARDi_ReadRomWithCPU(void *userdata, void *buffer, u32 offset, u32 length)
     return retval;
 }
 
-
-
-
-
-
-
-
 /*
  * sdk:      CARDi_DmaReadPageCallback (libcard.TWL.HYB.a card_rom.o)
  */
@@ -554,12 +440,6 @@ void CARDi_DmaReadPageCallback(void)
     }
 }
 
-
-
-
-
-
-
 /*
  * sdk:      CARDi_ReadRomWithDMA (libcard.TWL.HYB.a card_rom.o)
  */
@@ -580,12 +460,6 @@ void CARDi_ReadRomWithDMA(CARDTransferInfo *info)
     CARDi_StartRomPageTransfer(info->src);
 }
 
-
-
-
-
-
-
 /*
  * sdk:      CARDi_DmaReadDone (libcard.TWL.HYB.a card_rom.o)
  */
@@ -597,50 +471,25 @@ void CARDi_DmaReadDone(void *arg)
     CARDi_EndTask(&cardi_common);
 }
 
-
-
-
-
-
 static inline BOOL CARDi_IsNotITCM(const void *dst, u32 len)
 {
     return ((u32)dst + len <= 0x01FF8000) || ((u32)dst >= 0x02000000);
 }
-
-
-
-
-
 
 static inline BOOL CARDi_IsNotDTCM(const void *dst, u32 len)
 {
     return ((u32)dst + len <= (u32)OS_GetDTCMAddress()) || ((u32)dst >= (u32)OS_GetDTCMAddress() + 0x4000);
 }
 
-
-
-
-
-
 static inline BOOL CARDi_IsDmaTarget(u32 dma, const void *dst, u32 len)
 {
     return (dma <= 3) && (len > 0) && (((u32)dst & 31) == 0) && CARDi_IsNotITCM(dst, len);
 }
 
-
-
-
-
-
 static inline BOOL CARDi_IsDmaDestination(u32 dma, const void *dst, u32 len)
 {
     return CARDi_IsDmaTarget(dma, dst, len) && CARDi_IsNotDTCM(dst, len);
 }
-
-
-
-
-
 
 /*
  * sdk:      CARDi_IsRomDmaAvailable (libcard.TWL.HYB.a card_rom.o)
@@ -649,11 +498,6 @@ BOOL CARDi_IsRomDmaAvailable(u32 dma, void *dst, u32 src, u32 len)
 {
     return CARDi_IsDmaDestination(dma, dst, len) && (((src | len) & 0x1FF) == 0);
 }
-
-
-
-
-
 
 /*
  * sdk:      CARDi_ReadRomSyncCore (libcard.TWL.HYB.a card_rom.o)
@@ -665,9 +509,6 @@ void CARDi_ReadRomSyncCore(CARDiCommon *c)
     CARDi_RefreshRom(8);
     cardi_common.cmd->result = 0;
 }
-
-
-
 
 void CARDi_ReadRom(u32 dma, const void *src, void *dst, u32 len, MIDmaCallback callback, void *arg, BOOL is_async)
 {
@@ -721,8 +562,6 @@ void CARDi_ReadRom(u32 dma, const void *src, void *dst, u32 len, MIDmaCallback c
     }
 }
 
-
-
 /*
  * sdk:      CARDi_InitRom (libcard.TWL.HYB.a card_rom.o)
  */
@@ -744,10 +583,7 @@ void CARDi_InitRom(void)
     }
 }
 
-
 void CARD_WaitRomAsync(void){ CARDi_WaitAsync(); }
-
-
 
 /*
  * Getter returning the address of a global (CARDi_GetOwnSignature).  Called

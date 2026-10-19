@@ -109,22 +109,9 @@
  *   MAP_ATTR_GetBattleBackground  0x021AB580  thumb  ov021
  *   _u32_div_f                   0x0209C2B0  arm
  */
-typedef unsigned char u8;
+#include "../types.h"
 
-typedef signed short s16;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
 #include "poke_tool_param.h"
-
-typedef signed int s32;
-
-typedef long long fx64;
-
-typedef int fx32;
-
-typedef int BOOL;
 
 #include "field_encount_types.h"
 #include "../arm9/btl_setup_types.h"

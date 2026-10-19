@@ -74,13 +74,7 @@ struct BgTemplate;
 struct Cfg;
 struct Bank;
 struct Light;
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef unsigned char u8;
-
-typedef short s16;
+#include "../types.h"
 
 typedef struct {u32 x,y,z;} Vec3;
 
@@ -170,7 +164,6 @@ extern const Vec3 d_021BB158;
 extern Vec3 d_021BB164,d_021BB170;
 extern const unsigned char d_020A1EB8[];
 
-
 void *COMM_BTL_DEMO_GRAPHIC_Create(unsigned mode,unsigned heap)
 {
     unsigned char *p;
@@ -194,7 +187,6 @@ void *COMM_BTL_DEMO_GRAPHIC_Create(unsigned mode,unsigned heap)
     return p;
 }
 
-
 void COMM_BTL_DEMO_GRAPHIC_Delete(unsigned char *p)
 {
     TCB_DeleteTask((struct TcbTask *)((struct CommBtlDemoGraphic *)p)->vblankHandle);
@@ -210,25 +202,19 @@ void COMM_BTL_DEMO_GRAPHIC_Delete(unsigned char *p)
     GFL_HEAP_Free(p);
 }
 
-
 /*
  * EXACT* tail: two zero alignment bytes after the function.
  * Preserve the pointer explicitly loaded before the no-op/global helper call.
  */
 void COMM_BTL_DEMO_GRAPHIC_Draw(char *p) { COMM_BTL_DEMO_GRAPHIC_DrawClact(p+4); COMM_BTL_DEMO_GRAPHIC_Noop(p); }
 
-
 void COMM_BTL_DEMO_GRAPHIC_Draw3d(char *p) { COMM_BTL_DEMO_GRAPHIC_DrawG3d((int *)(p+8)); }
-
 
 void COMM_BTL_DEMO_GRAPHIC_DrawEnd(char *p) { COMM_BTL_DEMO_GRAPHIC_DrawG3dEnd(p+8); }
 
-
 u32 COMM_BTL_DEMO_GRAPHIC_GetCamera(char *p) { return (u32)COMM_BTL_DEMO_GRAPHIC_GetClactBank((void **)((u32 *)(p+4))); }
 
-
 void COMM_BTL_DEMO_GRAPHIC_VBlank(void *unused,char *p) { COMM_BTL_DEMO_GRAPHIC_TickDisplay(p); COMM_BTL_DEMO_GRAPHIC_VBlankClact(p+4); }
-
 
 void COMM_BTL_DEMO_GRAPHIC_InitBg(void *p, unsigned heap)
 {
@@ -247,19 +233,14 @@ void COMM_BTL_DEMO_GRAPHIC_InitBg(void *p, unsigned heap)
     }
 }
 
-
 void COMM_BTL_DEMO_GRAPHIC_DeleteBg(void *p){unsigned i;for(i=0;i<6;i++)BG_SYS_FreeLayerBuf((unsigned char)d_021BB1F8[i][0]);BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4);}
-
 
 /*
  * Tail: two zero alignment bytes at 021BAD4E.
  */
 void COMM_BTL_DEMO_GRAPHIC_Noop(void *work){}
 
-
 void COMM_BTL_DEMO_GRAPHIC_TickDisplay(void *work){BG_SYS_Update();}
-
-
 
 void COMM_BTL_DEMO_GRAPHIC_InitClact(void **out, int a, int b)
 {
@@ -271,21 +252,16 @@ void COMM_BTL_DEMO_GRAPHIC_InitClact(void **out, int a, int b)
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
-
 /*
  * Tail: two zero alignment bytes at 021BADB2.
  */
 void COMM_BTL_DEMO_GRAPHIC_DeleteClact(void *p){CLACT_DeleteUnit(((struct CommBtlDemoClact *)p)->bank);CLACT_ExitSystem();MI_CpuFill8(p,0,4);}
 
-
 void COMM_BTL_DEMO_GRAPHIC_DrawClact(void *work){CLACT_DrawSystem();}
-
 
 void COMM_BTL_DEMO_GRAPHIC_VBlankClact(void *work){CLACT_VBlankSystem();}
 
-
 void *COMM_BTL_DEMO_GRAPHIC_GetClactBank(void **p){return *p;}
-
 
 /*
  * lever: const ROM table orders signed halfword loads and pool entries.
@@ -299,14 +275,10 @@ void COMM_BTL_DEMO_GRAPHIC_InitG3d(u32 **p,unsigned heap)
     *p=G3D_CAMERA_Create(0,*(const short *)(d_020A1EB8+12),*(const short *)(d_020A1EB8+14),0x1555,0,0x1000,0x400000,0,&d_021BB170,&copy,&d_021BB164,heap);
 }
 
-
-
 void COMM_BTL_DEMO_GRAPHIC_DeleteG3d(int *p)
 {
     G3D_SYSTEM_Exit(G3D_CAMERA_Delete((void *)(*p)));
 }
-
-
 
 void COMM_BTL_DEMO_GRAPHIC_DrawG3d(int *p)
 {

@@ -117,12 +117,7 @@
 
 #include "p_status_types.h"
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed char s8;
-typedef signed short s16;
-typedef int fx32;
+#include "../types.h"
 
 struct Actor;
 struct Unit;
@@ -135,7 +130,7 @@ struct BoxPokemon;
 struct PokemonParam;
 struct PokePersonal;
 
-typedef struct { fx32 x, y, z; } VecFx32;
+#include "../sdk_fx.h"
 
 /* Direction of a stroke on the touch screen (y grows downward). */
 typedef enum {
@@ -364,7 +359,6 @@ extern const VecFx32 d_021DC180;
 extern const VecFx32 d_021DC1C8;
 extern const VecFx32 d_021DC1EC;
 extern const short d_020A5078[];
-
 
 void *P_STA_SUB_Create(PStatusWork *wk) {
     PStaSubWork *work = GFL_HEAP_Alloc(wk->heapId, 0x9c, 1, P_STA_SUB_FileName, 0x10d);

@@ -107,13 +107,9 @@
 #include "field_event_types.h"
 #include "fld_btl_inst_tool_shared_types.h"
 
-typedef int fx32;
+#include "../types.h"
 
-typedef struct VecFx32 {
-    fx32 x;
-    fx32 y;
-    fx32 z;
-} VecFx32;
+#include "../sdk_fx.h"
 
 /* Opaque types owned by other files. */
 typedef struct GameSystem GameSystem;
@@ -522,7 +518,6 @@ extern void ARC_TOOL_ReadMember(void *dest, u32 archiveId, u32 member);
 extern void *ARC_UTIL_LoadMember(int archiveId, int member, int flag, int heapId);
 
 extern u32 GFL_USE_GetRandom(u32 range);
-
 
 extern Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 

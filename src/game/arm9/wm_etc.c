@@ -25,50 +25,11 @@
  *   WMi_SendCommandDirect            0x0208e44c arm
  *   WMi_CheckInitialized  0x0208E4CC  arm
  */
-typedef unsigned long u32;
+#include "../types.h"
 
-typedef unsigned short u16;
+#include "../sdk_os.h"
 
-typedef unsigned char u8;
-
-typedef long s32;
-
-typedef short s16;
-
-typedef int BOOL;
-
-typedef u32 OSIntrMode;
-
-typedef enum WMErrCode {
-    WM_ERRCODE_SUCCESS = 0,
-    WM_ERRCODE_FAILED = 1,
-    WM_ERRCODE_OPERATING = 2,
-    WM_ERRCODE_ILLEGAL_STATE = 3,
-    WM_ERRCODE_WM_DISABLE = 4,
-    WM_ERRCODE_NO_DATASET = 5,
-    WM_ERRCODE_INVALID_PARAM = 6,
-    WM_ERRCODE_NO_ENTRY = 7,
-    WM_ERRCODE_MAX = 0x7FFFFFFF
-} WMErrCode;
-
-typedef void (*WMCallbackFunc)(void *arg);
-
-typedef struct WMArm9Buf {
-    struct WMArm7Buf *WM7;
-    struct WMStatus *status;
-    u32 *indbuf;
-    u32 *fifo9to7;
-    u32 *fifo7to9;
-    u16 dmaNo;
-    u16 scanOnlyFlag;
-    WMCallbackFunc CallbackTable[44];
-    WMCallbackFunc indCallback;
-    WMCallbackFunc portCallbackTable[16];
-    void *portCallbackArgument[16];
-    u32 connectedAidBitmap;
-    u16 myAid;
-    u8 reserved1[174];
-} WMArm9Buf;
+#include "../sdk_wm.h"
 
 typedef struct WMMeasureChannelReq {
     u16 apiid;
@@ -95,7 +56,6 @@ WMErrCode WM_MeasureChannel(WMCallbackFunc callback, u16 ccaMode, u16 edThreshol
 extern s32 WMi_CheckInitialized(void);
 void WMi_CheckInitializedAfterMeasure(void);
 extern u32 g_02153B00[32];
-
 
 /*
  * sdk:      WM_SetWEPKey (libwm.TWL.HYB.a(wm_etc.o))
@@ -127,7 +87,6 @@ WMErrCode WM_SetWEPKey(WMCallbackFunc callback, u16 wepmode, const u16 *wepkey)
     }
     return WM_ERRCODE_OPERATING;
 }
-
 
 /*
  * sdk:      WM_SetWEPKeyEx (libwm.TWL.HYB.a(wm_etc.o))
@@ -162,7 +121,6 @@ WMErrCode WM_SetWEPKeyEx(WMCallbackFunc callback, u16 wepmode, u16 wepkeyid, con
 
 #define tmpUserGameInfoBuf g_02153B00
 
-
 /*
  * sdk:      WM_SetGameInfo (libwm.TWL.HYB.a(wm_etc.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
@@ -195,7 +153,6 @@ WMErrCode WM_SetGameInfo(WMCallbackFunc callback, const u16 *userGameInfo, u16 u
     return WM_ERRCODE_OPERATING;
 }
 
-
 /*
  * sdk:      WM_SetBeaconIndication (libwm.TWL.HYB.a(wm_etc.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
@@ -221,7 +178,6 @@ WMErrCode WM_SetBeaconIndication(WMCallbackFunc callback, u16 flag)
     return WM_ERRCODE_OPERATING;
 }
 
-
 /*
  * sdk:      WM_SetLifeTime (libwm.TWL.HYB.a(wm_etc.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
@@ -242,7 +198,6 @@ WMErrCode WM_SetLifeTime(WMCallbackFunc callback, u16 tableNumber, u16 camLifeTi
     }
     return WM_ERRCODE_OPERATING;
 }
-
 
 /*
  * sdk:      WM_MeasureChannel (libwm.TWL.HYB.a(wm_etc.o))

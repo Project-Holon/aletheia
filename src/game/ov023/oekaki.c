@@ -200,15 +200,7 @@
  *   MSGDATA_AllocString  0x02045EC0  arm  arm9
  *   MYSTATUS_GetId  0x02008530  thumb  arm9
  */
-typedef unsigned int u32;
-
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef signed int     s32;
-
-typedef signed short   s16;
+#include "../types.h"
 
 #include "../ov022/union_app_types.h"
 typedef struct StrBuf StrBuf;
@@ -547,11 +539,6 @@ void OEKAKI_StoreStroke(StrokeBytes *stroke, StrokeQueue *queue, int index);
 void OEKAKI_PeekStroke(StrokeRec *dst, StrokeQueue *queue);
 void OEKAKI_FillSendGroup(StrokeGroup *sendGroup, StrokeQueue *queue);
 
-
-
-
-
-
 /*
  * Registers the net commands 0x2900..0x2907 of the application.
  */
@@ -559,11 +546,6 @@ void OEKAKI_RegisterNetCommands(OekakiWork *work)
 {
     GFL_NET_COMMAND_AddCommandTable(OEKAKI_CMD_CANVAS_CHUNK, gOekakiCommandTable, 8, work);
 }
-
-
-
-
-
 
 /*
  * Net command 0x2900: a chunk of the canvas arrives.
@@ -599,10 +581,6 @@ void OEKAKI_RecvCanvasChunk(int netId, int size, CanvasChunk *chunk, OekakiWork 
     }
 }
 
-
-
-
-
 /*
  * Net command 0x2901: one stroke of the member netId arrives (parent only).
  */
@@ -611,11 +589,6 @@ void OEKAKI_RecvStroke(int netId, int size, const StrokeRec *stroke, OekakiWork 
     if (netId != 0)
         OEKAKI_StoreStroke((StrokeBytes *)stroke, &work->strokeQueue, netId);
 }
-
-
-
-
-
 
 /*
  * Net command 0x2902: the strokes of all members of one frame arrive (children).
@@ -644,11 +617,6 @@ void OEKAKI_RecvStrokes(int netId, int size, const u8 *strokes, OekakiWork *work
     }
 }
 
-
-
-
-
-
 /*
  * The canvas is cleared and the member list is read again from the
  * union application.
@@ -661,11 +629,6 @@ void OEKAKI_RecvReset(int netId, int size, int unused, OekakiWork *work)
     work->baseJoinedBits = UNION_APP_GetJoinedBits(work->param->app);
     work->syncMode = 1;
 }
-
-
-
-
-
 
 /*
  * The message is copied field by field through a const pointer: that is
@@ -726,11 +689,6 @@ void OEKAKI_RecvSyncMessage(int netId, int size, const OekakiSyncMsg *msg, Oekak
     }
 }
 
-
-
-
-
-
 /*
  * Net command 0x2907: a child answers; its bit is set in ackBits (parent only).
  */
@@ -740,11 +698,6 @@ void OEKAKI_RecvAck(int netId, int size, int unused, OekakiWork *work)
         return;
     work->waitMemberBits |= 1 << netId;
 }
-
-
-
-
-
 
 /*
  * Net command 0x2903: a member joined. The parent then starts to send the
@@ -761,10 +714,6 @@ void OEKAKI_RecvMemberJoined(int netId, int size, u8 *data, OekakiWork *work, in
     }
 }
 
-
-
-
-
 /*
  * Net command 0x2904: the whole canvas was sent.
  */
@@ -774,9 +723,6 @@ void OEKAKI_RecvCanvasDone(int netId, int size, int unused, OekakiWork *work)
     if (GFL_NET_SYSTEM_GetCurrentAid() != 0)
         OEKAKI_HandleEvent(work, 0x12, 0);
 }
-
-
-
 
 /*
  * Sends chunk chunkIndex of the canvas to all members. The extent runs
@@ -803,17 +749,10 @@ u32 OEKAKI_SendCanvasChunk(OekakiWork *work, int chunkIndex, int unused)
     return GFL_NET_COMMAND_SetSendSlot(GFL_NET_HANDLE_GetNetHandle(0xff), joinedBits, OEKAKI_CMD_CANVAS_CHUNK, 0x3f0, &work->sendChunk);
 }
 
-
-
-
 CanvasChunk *OEKAKI_GetRecvChunk(int netId, OekakiWork *work)
 {
     return &work->recvChunk[netId];
 }
-
-
-
-
 
 /*
  * Opens the group to maxCount members (the parent decides how many join).
@@ -822,10 +761,6 @@ void OEKAKI_OpenGroup(OekakiWork *work, int maxCount)
 {
     UNION_APP_OpenLimited(work->param->app, maxCount);
 }
-
-
-
-
 
 /*
  * Step function: builds the application (screens, graphics, resources, net
@@ -873,10 +808,6 @@ int OEKAKI_Init(void *task, int *state, OekakiParam *param)
     }
     return 0;
 }
-
-
-
-
 
 /*
  * Main step. The mode handlers take (work, *state): the switch value,
@@ -949,10 +880,6 @@ int OEKAKI_Main(void *task, int *state, int unused, OekakiWork *work)
     return 0;
 }
 
-
-
-
-
 /*
  * Exit step: frees the resources and the work in order.
  */
@@ -1003,10 +930,6 @@ int OEKAKI_Exit(struct Proc *task, int *seq, void *unused, OekakiWork *work)
     return 0;
 }
 
-
-
-
-
 /*
  * Task that runs every vertical blank.
  */
@@ -1015,9 +938,6 @@ void OEKAKI_VBlankTask(void)
     CLACT_VBlankSystem();
     BG_SYS_Update();
 }
-
-
-
 
 /*
  * Member join callback of the union application (the parent announces the
@@ -1033,9 +953,6 @@ void OEKAKI_OnMemberJoined(int netId, UnionAppEntry *entry, void *arg)
     OEKAKI_RegisterMetPlayers(work);
 }
 
-
-
-
 /*
  * Member leave callback of the union application: nothing to do. An
  * unlabelled empty function (a lone bx lr after OEKAKI_OnMemberJoined's pool);
@@ -1046,10 +963,6 @@ void OEKAKI_OnMemberLeft(int netId, UnionAppEntry *entry, void *work)
 {
 }
 
-
-
-
-
 /*
  * Tail call: apply the VRAM bank descriptor at 0x02186ACC.
  */
@@ -1057,8 +970,6 @@ void OEKAKI_SetVramBanks(void)
 {
     BG_SYS_SetVramBanks(&gOekakiVramBanks);
 }
-
-
 
 void OEKAKI_SetupBgs(void)
 {
@@ -1096,8 +1007,6 @@ void OEKAKI_SetupBgs(void)
     BG_SYS_InitRun(5, 0x20, 0, OEKAKI_HEAP_ID);
 }
 
-
-
 /*
  * Sets the initial values of the work.
  */
@@ -1134,7 +1043,6 @@ void OEKAKI_InitWork(OekakiWork *work)
     work->lastMemberCount = zero;
 }
 
-
 void OEKAKI_FreeWork(OekakiWork *work)
 {
     int i;
@@ -1144,8 +1052,6 @@ void OEKAKI_FreeWork(OekakiWork *work)
     STRBUF_Delete(work->messageText);
     STRBUF_Delete(work->labelText);
 }
-
-
 
 void OEKAKI_ResetDisplay(void)
 {
@@ -1158,8 +1064,6 @@ void OEKAKI_ResetDisplay(void)
     BG_SYS_FreeLayerBuf(0);
     BG_SYS_Delete();
 }
-
-
 
 void OEKAKI_LoadBgGraphics(OekakiWork *work, void *archive)
 {
@@ -1174,8 +1078,6 @@ void OEKAKI_LoadBgGraphics(OekakiWork *work, void *archive)
     BMP_MENUWORK_LoadCharAndPltt(0, 1, 10, 0, OEKAKI_HEAP_ID);
     BMP_MENUWORK_LoadCharAndPltt(0, 0x1F, 11, 0, OEKAKI_HEAP_ID);
 }
-
-
 
 void OEKAKI_LoadSpriteResources(OekakiWork *work, void *archive)
 {
@@ -1197,7 +1099,6 @@ void OEKAKI_LoadSpriteResources(OekakiWork *work, void *archive)
     work->nameTagRes.cellRes = CLACT_RegisterCellAnim(archive, 5, 8, OEKAKI_HEAP_ID);
     ARC_TOOL_DeleteHandle(uiArchive);
 }
-
 
 void OEKAKI_CreateActors(OekakiWork *p)
 {
@@ -2600,7 +2501,6 @@ void OEKAKI_PeekStroke(StrokeRec *dst, StrokeQueue *queue)
         dst->count = 0;
     }
 }
-
 
 /*
  * Fills the stroke group sent to the members: the group at the queue head,

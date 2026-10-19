@@ -26,38 +26,11 @@
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   SDK_AUTOLOAD_DTCM_START  0x02FE0000  data
  */
-typedef unsigned long u32;
+#include "../types.h"
 
-typedef unsigned short u16;
-
-typedef long long s64;
-
-typedef unsigned long long u64;
-
-typedef volatile u16 vu16;
-
-typedef u64 OSTick;
+#include "../sdk_os.h"
 
 typedef u32 OSIrqMask;
-
-typedef struct OSiAlarm OSAlarm;
-
-typedef void (*OSAlarmHandler)(void *arg);
-
-struct OSiAlarm {
-    OSAlarmHandler handler;
-    void *arg;
-    u32 tag;
-    OSTick fire;
-    OSAlarm *prev;
-    OSAlarm *next;
-    OSTick period;
-    OSTick start;
-};
-
-typedef int BOOL;
-
-typedef u32 OSIntrMode;
 
 typedef struct OSAlarmQueue {
     OSAlarm *head;
@@ -94,10 +67,6 @@ extern char SDK_AUTOLOAD_DTCM_START[];
 
 #define reg_OS_TM1CNT_H (*(vu16 *)0x04000106)
 
-
-
-
-
 void OSi_SetTimer(OSAlarm *alarm)
 {
     s64 delta;
@@ -124,11 +93,6 @@ void OSi_SetTimer(OSAlarm *alarm)
     (void)OS_EnableIrqMask(0x10);
 }
 
-
-
-
-
-
 /*
  * sdk:      OS_InitAlarm (os_alarm.o)
  */
@@ -146,31 +110,16 @@ void OS_InitAlarm(void)
     }
 }
 
-
-
-
-
-
 BOOL OS_IsAlarmAvailable(void)
 {
     return g_02151340.OSi_UseAlarm;
 }
-
-
-
-
-
 
 void OS_CreateAlarm(OSAlarm *alarm)
 {
     alarm->handler = 0;
     alarm->tag = 0;
 }
-
-
-
-
-
 
 void OSi_InsertAlarm(OSAlarm *alarm, OSTick fire)
 {
@@ -218,10 +167,6 @@ void OSi_InsertAlarm(OSAlarm *alarm, OSTick fire)
     }
 }
 
-
-
-
-
 void OS_SetAlarm(OSAlarm *alarm, OSTick tick, OSAlarmHandler handler, void *arg)
 {
     OSIntrMode enabled;
@@ -240,9 +185,6 @@ void OS_SetAlarm(OSAlarm *alarm, OSTick tick, OSAlarmHandler handler, void *arg)
 
     (void)OS_RestoreInterrupts(enabled);
 }
-
-
-
 
 /*
  * sdk:      OS_CancelAlarm (os_alarm.o)
@@ -279,9 +221,6 @@ void OS_CancelAlarm(OSAlarm *alarm)
     (void)OS_RestoreInterrupts(enabled);
 }
 
-
-
-
 /* hand-written in the original: OSi_AlarmHandler (os_alarm.o). C was tried: mwccarm always makes the call a tail call (ldr ip,=f; bx ip) at -O2/-O4, and with -O0 or a non-tail call it pads the stack with r3 (push {r3,lr}) and returns with pop {r3,pc}. It never pads with r0 or returns with ldmia + bx lr. The only other code with the {r0,lr} pad is SDK asm (OS_SaveContext, OS_LoadContext, OSi_GetAndDisplayContext). */
 asm void OSi_AlarmHandler(void *arg)
 {
@@ -292,7 +231,6 @@ asm void OSi_AlarmHandler(void *arg)
 }
 
 #define OSi_IRQ_CHECK_FLAG (*(volatile u32 *)((u32)SDK_AUTOLOAD_DTCM_START + 0x3FF8))
-
 
 /*
  * sdk:      OSi_ArrangeTimer (os_alarm.o)

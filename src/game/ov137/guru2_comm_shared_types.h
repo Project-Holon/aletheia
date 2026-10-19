@@ -3,6 +3,6 @@
 
 struct Entry;
 
-typedef signed short s16;
+#include "../types.h"
 
 #endif

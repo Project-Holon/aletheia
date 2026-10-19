@@ -23,8 +23,7 @@
  *   GF_STANDARD_GetDayOfYear  0x0203F540  arm
  */
 #include "wifilist_tail_shared_types.h"
-#include "musical_save_shared_types.h"
-#include "irc_ranking_shared_types.h"
+#include "../types.h"
 
 /*
  * Save block 0x2C, the infrared compatibility ranking (0x34C bytes): 30

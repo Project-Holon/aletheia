@@ -62,30 +62,11 @@
 
 struct WMMpRecvData;
 struct WMMpRecvHeader;
-struct FSArchive;
-struct FSFile;
+#include "../sdk_fs.h"
+
 typedef void (*MBParentStateCallback)(u32, void *);
 
-typedef struct WMStartParentCallback {
-    u16 apiid;                                       /* 0x00 */
-    u16 errcode;                                     /* 0x02 */
-    u16 wlCmdID;                                     /* 0x04 */
-    u16 wlResult;                                    /* 0x06 */
-    u16 state;                                       /* 0x08 */
-    u8 macAddress[6];                                /* 0x0A */
-    u16 aid;                                         /* 0x10 */
-    u16 reason;                                      /* 0x12 */
-    u8 ssid[24];                                     /* 0x14 */
-    u16 parentSize;                                  /* 0x2C */
-    u16 childSize;                                   /* 0x2E */
-} WMStartParentCallback;
-
-typedef struct WMCallback {
-    u16 apiid;
-    u16 errcode;
-    u16 wlCmdID;
-    u16 wlResult;
-} WMCallback;
+#include "../sdk_wm.h"
 
 typedef struct {
     u32 ggid;
@@ -115,13 +96,7 @@ typedef struct {
     u32 ltd_len;
 } RomHeader;
 
-typedef struct {
-    u32 child_address;
-    u32 size;
-    u32 offset;
-    u8 segment_no;
-    u8 pad[3];
-} MB_BlockInfo;
+#include "../sdk_mb.h"
 
 struct bitmap {
     u16 connected;

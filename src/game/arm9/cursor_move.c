@@ -29,7 +29,7 @@
  *   gCursorMoveTouchTag  0x0209FB58  data
  *   UI_SetInputMode  0x020355D8  arm
  */
-#include "cursor_move_shared_types.h"
+#include "../types.h"
 
 /* One row of the 16-entry table at gCursorMoveTable. */
 struct CursorTableRow {

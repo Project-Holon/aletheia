@@ -23,11 +23,8 @@
  *   sWf2dmapCommandTable 0x021C601C data a4
  */
 #include "wf2dmap_obj_types.h"
-#include "wf2dmap_map_shared_types.h"
 
-typedef signed char s8;
-
-typedef signed short s16;
+#include "../types.h"
 
 /* Object list of the 2D map (wf2dmap_obj.c). */
 typedef struct Wf2dmapObjList {

@@ -72,7 +72,7 @@ struct GameComm;
 
 struct NetInitParam;
 
-typedef volatile u16 vu16;
+#include "../types.h"
 
 /* ------------------------------------------------------------------ *
  * game_beacon_search.c: the wireless search for other games' beacons.

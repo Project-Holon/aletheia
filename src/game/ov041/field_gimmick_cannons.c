@@ -88,7 +88,7 @@
 #include "../ov021/fld_exp_obj_types.h"
 #include "field_gimmick_cannons_types.h"
 
-typedef signed short s16;
+#include "../types.h"
 
 /*
  * Same layout as FieldCameraView, FieldCameraMoveChannels and

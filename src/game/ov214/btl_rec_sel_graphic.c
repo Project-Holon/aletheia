@@ -73,15 +73,9 @@ struct DispConfig;
 struct Cfg;
 struct Bank;
 struct Light;
-typedef unsigned int u32;
-
-typedef unsigned short u16;
-
-typedef unsigned char  u8;
+#include "../types.h"
 
 struct Record { u32 id; u8 template_data[32]; u32 type; u32 enabled; };
-
-typedef signed short s16;
 
 struct Vec3 { u32 x,y,z; };
 
@@ -170,11 +164,6 @@ extern const struct Record records[];
 extern const char dims[];
 extern struct Vec3 vec1,vec2,vec3;
 
-
-
-
-
-
 /*
  * volatile: MMIO accesses 021BB19E..021BB1B2
  */
@@ -200,11 +189,6 @@ char *BTL_REC_SEL_GRAPHIC_Create(u32 a,u32 heap)
     return p;
 }
 
-
-
-
-
-
 void BTL_REC_SEL_GRAPHIC_Delete(char *p)
 {
     TCB_DeleteTask((struct TcbTask *)((struct BtlRecSelGraphic *)p)->vblankHandle);
@@ -220,40 +204,15 @@ void BTL_REC_SEL_GRAPHIC_Delete(char *p)
     GFL_HEAP_Free(p);
 }
 
-
-
-
-
-
 void BTL_REC_SEL_GRAPHIC_Draw(u8 *p) { BTL_REC_SEL_GRAPHIC_DrawClact(p+4);BTL_REC_SEL_GRAPHIC_Noop(p); }
-
-
-
-
-
 
 void BTL_REC_SEL_GRAPHIC_Draw3d(u8 *p) { BTL_REC_SEL_GRAPHIC_DrawG3d((u32 *)(p+8)); }
 
-
-
-
-
-
 void BTL_REC_SEL_GRAPHIC_DrawEnd(char *p) { BTL_REC_SEL_GRAPHIC_DrawG3dEnd(p+8); }
-
-
-
-
-
 
 u32 BTL_REC_SEL_GRAPHIC_GetCamera(u8 *p) { return BTL_REC_SEL_GRAPHIC_GetClactBank((u32 *)(p+4)); }
 
-
-
-
 void BTL_REC_SEL_GRAPHIC_VBlank(void *unused,u8 *p) { BTL_REC_SEL_GRAPHIC_TickDisplay(p);BTL_REC_SEL_GRAPHIC_VBlankClact(p+4); }
-
-
 
 /*
  * Caller explicitly narrows both BG identifiers and record fields to u8.
@@ -275,24 +234,11 @@ void BTL_REC_SEL_GRAPHIC_InitBg(void *p,u32 heap)
     }
 }
 
-
-
 void BTL_REC_SEL_GRAPHIC_DeleteBg(void *p) { u32 i;for(i=0;i<3;i++)BG_SYS_FreeLayerBuf((u8)records[i].id);BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4); }
-
-
-
-
 
 void BTL_REC_SEL_GRAPHIC_Noop(void *p) { }
 
-
-
-
 void BTL_REC_SEL_GRAPHIC_TickDisplay(void *p) { BG_SYS_Update(); }
-
-
-
-
 
 void BTL_REC_SEL_GRAPHIC_InitClact(unsigned char *p, int a, int b)
 {
@@ -304,31 +250,16 @@ void BTL_REC_SEL_GRAPHIC_InitClact(unsigned char *p, int a, int b)
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
-
-
-
 void BTL_REC_SEL_GRAPHIC_DeleteClact(void *p) { CLACT_DeleteUnit(((struct BtlRecSelClact *)p)->bank);CLACT_ExitSystem();MI_CpuFill8(p,0,4); }
-
-
-
 
 void BTL_REC_SEL_GRAPHIC_DrawClact(void *p) { CLACT_DrawSystem(); }
 
-
-
-
 void BTL_REC_SEL_GRAPHIC_VBlankClact(void *p) { CLACT_VBlankSystem(); }
-
-
-
 
 /*
  * follower: 021BB3D8 word getter, within handed extent.
  */
 u32 BTL_REC_SEL_GRAPHIC_GetClactBank(u32 *p) { return *p; }
-
-
-
 
 void BTL_REC_SEL_GRAPHIC_InitG3d(u32 **out,u32 heap)
 {
@@ -336,18 +267,10 @@ void BTL_REC_SEL_GRAPHIC_InitG3d(u32 **out,u32 heap)
     *out=G3D_CAMERA_Create(0,*(s16 *)(dims+12),*(s16 *)(dims+14),0x1555,0,4096,0x400000,0,&vec1,&vec2,&vec3,heap);
 }
 
-
-
-
-
 void BTL_REC_SEL_GRAPHIC_DeleteG3d(int *p)
 {
     G3D_SYSTEM_Exit(G3D_CAMERA_Delete((void *)(*p)));
 }
-
-
-
-
 
 void BTL_REC_SEL_GRAPHIC_DrawG3d(unsigned int *p)
 {

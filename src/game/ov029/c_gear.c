@@ -199,11 +199,7 @@
  *   BLOCK20_SAVEDATA_InitPanelMarks  0x020091FC  thumb
  *   ARC_TOOL_ReadHandleMember  0x0204932C  arm
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef short s16;
-typedef signed int s32;
+#include "../types.h"
 
 #include "c_gear_types.h"
 
@@ -587,15 +583,6 @@ extern void *BLOCK20_SAVEDATA_InitPanelMarks(void *cgearSave);
 struct ArcHandle;
 extern void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, unsigned int memberIdx, void *dst);
 
-
-
-
-
-
-
-
-
-
 int C_GEAR_IsColumnRowValid(int col, int row)
 {
     if (col % 2 == 0) {
@@ -608,23 +595,12 @@ int C_GEAR_IsColumnRowValid(int col, int row)
     return 0;
 }
 
-
-
-
-
-
 void C_GEAR_SetStepFunc(CGearWork *work, CGearStepFunc stepFunc)
 {
     work->stepFunc = stepFunc;
     work->phaseTimer = 0;
     work->phase = 0;
 }
-
-
-
-
-
-
 
 /*
  * evidence: C_GEAR_SetStepFunc is ov029's own code (a store leaf ending in bx lr
@@ -640,11 +616,6 @@ void C_GEAR_ChangeStep(CGearWork *work, CGearStepFunc stepFunc, int line)
 {
     C_GEAR_SetStepFunc(work, stepFunc);
 }
-
-
-
-
-
 
 void C_GEAR_GetHexNeighbors(int col, int row, int *outCols, int *outRows)
 {
@@ -679,12 +650,6 @@ void C_GEAR_GetHexNeighbors(int col, int row, int *outCols, int *outRows)
     }
 }
 
-
-
-
-
-
-
 void C_GEAR_SpawnRippleActor(CGearWork *work, int col, int row)
 {
     CGearActorDesc desc;
@@ -713,12 +678,6 @@ void C_GEAR_SpawnRippleActor(CGearWork *work, int col, int row)
     slot->row = row;
 }
 
-
-
-
-
-
-
 CGearActorSlot *C_GEAR_AcquireActorSlot(CGearWork *work)
 {
     int bestSeq = -1;
@@ -743,11 +702,6 @@ CGearActorSlot *C_GEAR_AcquireActorSlot(CGearWork *work)
     return &work->actorSlots[bestIdx];
 }
 
-
-
-
-
-
 int C_GEAR_IsTileActorIdle(CGearWork *work, int col, int row)
 {
     int i;
@@ -758,12 +712,6 @@ int C_GEAR_IsTileActorIdle(CGearWork *work, int col, int row)
     }
     return 1;
 }
-
-
-
-
-
-
 
 int C_GEAR_StepRipple(CGearWork *work)
 {
@@ -808,12 +756,6 @@ int C_GEAR_StepRipple(CGearWork *work)
     return 0;
 }
 
-
-
-
-
-
-
 void C_GEAR_StartRippleFlood(CGearWork *work)
 {
     int kind;
@@ -834,12 +776,6 @@ void C_GEAR_StartRippleFlood(CGearWork *work)
     work->grid[work->selectedCol][work->selectedRow] = 2;
     C_GEAR_StepRipple(work);
 }
-
-
-
-
-
-
 
 /*
  * note 2026-10-05 (wD6 lane14): closed by reusing parameter a for x (the early
@@ -874,12 +810,6 @@ int C_GEAR_HitTestTile(const CGearWork *work, int touchX, int touchY, int *outCo
     return kind;
 }
 
-
-
-
-
-
-
 void C_GEAR_InitTabTimersPowerOn(CGearWork *work)
 {
     CGearTabTimer *timers = work->tabTimers;
@@ -898,12 +828,6 @@ void C_GEAR_InitTabTimersPowerOn(CGearWork *work)
         }
     }
 }
-
-
-
-
-
-
 
 void C_GEAR_InitTabTimersPowerOff(CGearWork *work)
 {
@@ -924,22 +848,11 @@ void C_GEAR_InitTabTimersPowerOff(CGearWork *work)
     }
 }
 
-
-
-
-
-
 void C_GEAR_ResetTabPalettes(CGearWork *work)
 {
     int i;
     for (i = 0; i < 3; i++) C_GEAR_BlendTabPalette(work, i, 0, 31);
 }
-
-
-
-
-
-
 
 /*
  * `const` on the two key/row tables schedules the second table's pool load
@@ -1037,22 +950,11 @@ void C_GEAR_UpdateTabInput(CGearWork *work, int tabKind, int slot, int resetPrio
     }
 }
 
-
-
-
-
-
 int C_GEAR_IsCallTabActive(CGearWork *work)
 {
     if (work->tabVariant == 1 && work->tabMode == 1) return 1;
     return 0;
 }
-
-
-
-
-
-
 
 void C_GEAR_TickTabTimers(CGearWork *work)
 {
@@ -1094,12 +996,6 @@ void C_GEAR_TickTabTimers(CGearWork *work)
     work->refreshFlag = 0;
 }
 
-
-
-
-
-
-
 void C_GEAR_SetTabMode(CGearWork *work, int mode, int variant)
 {
     CGearTabTimer *timers;
@@ -1122,12 +1018,6 @@ void C_GEAR_SetTabMode(CGearWork *work, int mode, int variant)
     work->tabFrame = 0;
     work->tabVariant = variant;
 }
-
-
-
-
-
-
 
 void C_GEAR_UpdateTabPalettes(CGearWork *work)
 {
@@ -1157,12 +1047,6 @@ void C_GEAR_UpdateTabPalettes(CGearWork *work)
     }
 }
 
-
-
-
-
-
-
 void C_GEAR_UpdateTabPaletteKind3(CGearWork *work, int slot, CGearTabTimer *timer)
 {
     unsigned int value = C_GEAR_GetTabTimerCount(timer, slot);
@@ -1173,11 +1057,6 @@ void C_GEAR_UpdateTabPaletteKind3(CGearWork *work, int slot, CGearTabTimer *time
     C_GEAR_BlendTabPalette(work, slot, value, 0x1f);
 }
 
-
-
-
-
-
 void C_GEAR_UpdateTabPaletteKind1(CGearWork *work, int slot, CGearTabTimer *timer)
 {
     unsigned int value = C_GEAR_GetTabTimerCount(timer, slot);
@@ -1186,11 +1065,6 @@ void C_GEAR_UpdateTabPaletteKind1(CGearWork *work, int slot, CGearTabTimer *time
     value = d_021F3255[value];
     C_GEAR_BlendTabPalette(work, slot, value, 31);
 }
-
-
-
-
-
 
 void C_GEAR_UpdateTabPaletteKind2(CGearWork *work, int slot, CGearTabTimer *timer)
 {
@@ -1201,11 +1075,6 @@ void C_GEAR_UpdateTabPaletteKind2(CGearWork *work, int slot, CGearTabTimer *time
     C_GEAR_BlendTabPalette(work, slot, value, 31);
 }
 
-
-
-
-
-
 void C_GEAR_UpdateTabPaletteKind0(CGearWork *work, int slot, CGearTabTimer *timer)
 {
     unsigned int value = C_GEAR_GetTabTimerCount(timer, slot);
@@ -1215,11 +1084,6 @@ void C_GEAR_UpdateTabPaletteKind0(CGearWork *work, int slot, CGearTabTimer *time
     C_GEAR_BlendTabPalette(work, slot, value, 31);
 }
 
-
-
-
-
-
 void C_GEAR_UpdateTabPaletteKind4(CGearWork *work, int slot, CGearTabTimer *timer)
 {
     unsigned int value = C_GEAR_GetTabTimerCount(timer, slot);
@@ -1228,12 +1092,6 @@ void C_GEAR_UpdateTabPaletteKind4(CGearWork *work, int slot, CGearTabTimer *time
     value = d_021F3204[value];
     C_GEAR_BlendTabPalette(work, slot, value, 31);
 }
-
-
-
-
-
-
 
 void C_GEAR_BlendTabPalette(CGearWork *work, int slot, int step, int steps)
 {
@@ -1253,21 +1111,11 @@ void C_GEAR_BlendTabPalette(CGearWork *work, int slot, int step, int steps)
     }
 }
 
-
-
-
-
-
 void C_GEAR_LoadTargetPalette(CGearWork *work, const u8 *paletteFile, int bank)
 {
     int i;
     for (i = 0; i < 5; i++) work->targetPalette[bank][i] = ((const u16 *)(paletteFile + bank * 32 + 0x16))[i];
 }
-
-
-
-
-
 
 int C_GEAR_SelectTabPalette(CGearWork *work, int slot, int paletteIndex, int kind, int wantedKind, int wantedSlot)
 {
@@ -1279,11 +1127,6 @@ int C_GEAR_SelectTabPalette(CGearWork *work, int slot, int paletteIndex, int kin
     return 0;
 }
 
-
-
-
-
-
 void C_GEAR_InitTiles(CGearWork *work)
 {
     int i, j;
@@ -1292,11 +1135,6 @@ void C_GEAR_InitTiles(CGearWork *work)
     }
 }
 
-
-
-
-
-
 void C_GEAR_StepTiles(CGearWork *work)
 {
     int i, j;
@@ -1304,11 +1142,6 @@ void C_GEAR_StepTiles(CGearWork *work)
         for (j = 0; j < 4; j++) C_GEAR_StepTileFlash(&work->tiles[i][j], work);
     }
 }
-
-
-
-
-
 
 int C_GEAR_IsAnyTileFlashing(CGearWork *work)
 {
@@ -1325,11 +1158,6 @@ int C_GEAR_IsAnyTileFlashing(CGearWork *work)
     return result;
 }
 
-
-
-
-
-
 void C_GEAR_StopTileFlashes(CGearWork *work)
 {
     int i, j;
@@ -1340,9 +1168,6 @@ void C_GEAR_StopTileFlashes(CGearWork *work)
     }
 }
 
-
-
-
 void C_GEAR_InitTile(CGearTile *tile, int col, int row)
 {
     MI_CpuFill8(tile, 0, 8);
@@ -1350,16 +1175,12 @@ void C_GEAR_InitTile(CGearTile *tile, int col, int row)
     tile->row = row;
 }
 
-
-
 void C_GEAR_ResetTileFlash(CGearTile *tile, CGearWork *work, int surfaceVariant)
 {
     tile->palRow = 0;
     C_GEAR_DrawTile(work, tile->col, tile->row, surfaceVariant);
     C_GEAR_SetTileFlashStep(tile, 0);
 }
-
-
 
 /*
  * note:     `t = 0` must come first: set after the stores, the third parameter stays in r2
@@ -1387,28 +1208,10 @@ void C_GEAR_StartTileFlash(CGearTile *tile, CGearWork *work, int palRow, int mod
     C_GEAR_SetTileFlashStep(tile, lastStep);
 }
 
-
-
-
-
-
-
-
-
-
 void C_GEAR_StopTileFlash(CGearTile *tile)
 {
     tile->active = 0;
 }
-
-
-
-
-
-
-
-
-
 
 void C_GEAR_StepTileFlash(CGearTile *tile, CGearWork *work)
 {
@@ -1433,15 +1236,6 @@ void C_GEAR_StepTileFlash(CGearTile *tile, CGearWork *work)
     }
 }
 
-
-
-
-
-
-
-
-
-
 void C_GEAR_SetTileFlashStep(CGearTile *tile, int step)
 {
     int tileX, tileY, width;
@@ -1460,40 +1254,16 @@ void C_GEAR_SetTileFlashStep(CGearTile *tile, int step)
     BG_SYS_PushTile(4);
 }
 
-
-
-
-
-
-
-
-
 int C_GEAR_IsTileFlashing(CGearTile *tile)
 {
     return tile->active;
 }
-
-
-
-
-
-
-
-
 
 int C_GEAR_GetTilePalette(CGearWork *work, int palRow, int col, int row)
 {
     if (C_GEAR_IsCellMarked(work, col, row)) return d_021F32B3[palRow][4];
     return d_021F32B3[palRow][col];
 }
-
-
-
-
-
-
-
-
 
 /*
  * lever: enum zero and f2,f4,f0,f6 logical store order recover the
@@ -1511,14 +1281,6 @@ void C_GEAR_InitTabTimer(CGearTabTimer *timer, u16 limit, u8 stagger, u8 resetOn
     timer->running = 1;
 }
 
-
-
-
-
-
-
-
-
 void C_GEAR_TickTabTimer(CGearTabTimer *timer)
 {
     int i;
@@ -1530,82 +1292,31 @@ void C_GEAR_TickTabTimer(CGearTabTimer *timer)
     }
 }
 
-
-
-
-
-
-
-
-
 int C_GEAR_IsTabTimerFull(CGearTabTimer *timer, int slot)
 {
     if (timer->count[slot] >= timer->limit) return 1;
     return 0;
 }
 
-
-
-
-
-
-
-
-
 void C_GEAR_ResetTabTimerCount(CGearTabTimer *timer, int slot)
 {
     if (timer->resetOnFire != 0) timer->count[slot] = 0;
 }
-
-
-
-
-
-
-
-
 
 void C_GEAR_ClearTabTimerCount(CGearTabTimer *timer, int slot)
 {
     timer->count[slot] = 0;
 }
 
-
-
-
-
-
-
-
-
-
 u16 C_GEAR_GetTabTimerCount(CGearTabTimer *timer, int slot)
 {
     return timer->count[slot];
 }
 
-
-
-
-
-
-
-
-
-
 void C_GEAR_SetTabTimerRunning(CGearTabTimer *timer, char running)
 {
     timer->running = running;
 }
-
-
-
-
-
-
-
-
-
 
 void C_GEAR_TileToScreen(int col, int row, int *outX, int *outY)
 {
@@ -1613,14 +1324,6 @@ void C_GEAR_TileToScreen(int col, int row, int *outX, int *outY)
     *outX = col * 4 - 2;
     *outY = rowShift.value[col % 2] + row * 4;
 }
-
-
-
-
-
-
-
-
 
 /*
  * 2026-10-04 (wD2 lane 09): bytes are identical; only the relocation at +0024 is open.
@@ -1638,14 +1341,6 @@ int C_GEAR_IsIdleForInput(CGearWork *work)
     return 0;
 }
 
-
-
-
-
-
-
-
-
 int C_GEAR_CountCellsOfKind(CGearWork *work, int kind)
 {
     int j, i, count;
@@ -1658,15 +1353,6 @@ int C_GEAR_CountCellsOfKind(CGearWork *work, int kind)
     }
     return count;
 }
-
-
-
-
-
-
-
-
-
 
 void C_GEAR_TintPalettes(CGearWork *work, int commEnabled)
 {
@@ -1695,29 +1381,11 @@ void C_GEAR_TintPalettes(CGearWork *work, int commEnabled)
     }
 }
 
-
-
-
-
-
-
-
-
-
 void C_GEAR_StartFlashFade(CGearWork *work)
 {
     PALANM_RequestFade(work->palAnm, 8, 0xFFFF, -120, 0, 0x10,
                   d_021F31B6[work->colorTheme], work->fadeCtx);
 }
-
-
-
-
-
-
-
-
-
 
 void C_GEAR_FadeBackground(CGearWork *work, int faded)
 {
@@ -1730,15 +1398,6 @@ void C_GEAR_FadeBackground(CGearWork *work, int faded)
                   d_021F31B6[work->colorTheme], work->fadeCtx);
 }
 
-
-
-
-
-
-
-
-
-
 void C_GEAR_FadeAccentColors(CGearWork *work, int faded)
 {
     int endLevel = 8;
@@ -1748,43 +1407,17 @@ void C_GEAR_FadeAccentColors(CGearWork *work, int faded)
                   d_021F31B6[work->colorTheme], work->fadeCtx);
 }
 
-
-
-
-
-
-
-
-
-
 void C_GEAR_StartFadeOut(CGearWork *work)
 {
     PALANM_RequestFade(work->palAnm, 8, 0xFFFF, 1, 0, 0x10,
                   d_021F31B6[work->colorTheme], work->fadeCtx);
 }
 
-
-
-
-
-
-
-
-
-
 void C_GEAR_StartFadeIn(CGearWork *work)
 {
     PALANM_RequestFade(work->palAnm, 8, 0xFFFF, 1, 0x10, 0,
                   d_021F31B6[work->colorTheme], work->fadeCtx);
 }
-
-
-
-
-
-
-
-
 
 /*
  * extent: followed by existing C_GEAR_GetFadeRequestBits.c.
@@ -1794,27 +1427,10 @@ void C_GEAR_StopFade(CGearWork *work)
     PALANM_ForceStopFade(work->palAnm);
 }
 
-
-
-
-
-
-
-
-
-
 int C_GEAR_GetFadeRequestBits(CGearWork *work)
 {
     return PALANM_GetFadeRequestBits(work->palAnm);
 }
-
-
-
-
-
-
-
-
 
 void C_GEAR_DrawEmptyBoard(CGearWork *work)
 {
@@ -1828,14 +1444,6 @@ void C_GEAR_DrawEmptyBoard(CGearWork *work)
     }
     BG_SYS_PushTile(4);
 }
-
-
-
-
-
-
-
-
 
 int C_GEAR_StepIntroTiles(CGearWork *work)
 {
@@ -1886,14 +1494,6 @@ int C_GEAR_StepIntroTiles(CGearWork *work)
     return 0;
 }
 
-
-
-
-
-
-
-
-
 /*
  * The byte phaseTimer must be spelled out at each use (no cached pointer
  * local): a local pointer makes the increment reload the pool constant.
@@ -1917,14 +1517,6 @@ int C_GEAR_StepOutroTiles(CGearWork *work)
     return 0;
 }
 
-
-
-
-
-
-
-
-
 void C_GEAR_ResetAllTiles(CGearWork *work)
 {
     CGearParityPair columnRows = d_021F3334;
@@ -1937,14 +1529,6 @@ void C_GEAR_ResetAllTiles(CGearWork *work)
             C_GEAR_ResetTileFlash(&work->tiles[i][j], work, 4);
     }
 }
-
-
-
-
-
-
-
-
 
 /*
  * note 2026-10-05 (wD7 lane15): closed. The table entry is a named block local (w = t.w[c]) in the
@@ -1976,14 +1560,6 @@ void C_GEAR_DrawTile(CGearWork *work, int col, int row, int kind)
         mapRowIdx++;
     }
 }
-
-
-
-
-
-
-
-
 
 int C_GEAR_FindCellOfKind(CGearWork *work, int kind, int *outX, int *outY)
 {
@@ -2023,14 +1599,6 @@ int C_GEAR_FindCellOfKind(CGearWork *work, int kind, int *outX, int *outY)
     return 0;
 }
 
-
-
-
-
-
-
-
-
 void C_GEAR_DrawAllCells(CGearWork *work)
 {
     int columnRows[2];
@@ -2047,14 +1615,6 @@ void C_GEAR_DrawAllCells(CGearWork *work)
     }
     BG_SYS_PushTile(4);
 }
-
-
-
-
-
-
-
-
 
 /*
  * The basePalette table must be a struct member (u16 [3][5]); a raw cast keeps
@@ -2096,14 +1656,6 @@ u32 C_GEAR_LoadSkin(CGearWork *work, int theme, int skin, int loadPalettes)
     return ARC_UTIL_UploadBgPaletteAddFromHandle(work->archive, 2, 6, 0, (u16)work->bgCharBlock, 0, 0, 0x70);
 }
 
-
-
-
-
-
-
-
-
 /*
  * note:     the two tables are `const`: non-const, the copy of p lands after the first
  *           stack-argument store (4 bytes out). The loop needs i = 0 hoisted first, the
@@ -2130,26 +1682,11 @@ void C_GEAR_LoadSpriteResources(CGearWork *work, int theme)
     GFL_NET_RefreshWmIconAtTopRight(0, work->heapId);
 }
 
-
-
-
-
-
-
-
 void C_GEAR_LoadFrameGraphics(CGearWork *work, int customBgLoaded)
 {
     if (customBgLoaded == 0)
         ARC_UTIL_UploadBgPaletteAddFromHandle(work->archive, 1, 5, 0, (u16)work->bgCharBlock, 0, 0, 0x70);
 }
-
-
-
-
-
-
-
-
 
 /*
  * volatile: 0x021F1722 ldr / 0x021F1726 str of 0x04001000 (REG_DB_DISPCNT_SUB read-modify-write, hardware register)
@@ -2193,25 +1730,10 @@ void C_GEAR_SetupBackgrounds(CGearWork *work)
     REG_DB_DISPCNT_SUB &= 0xFFFF1FFF;
 }
 
-
-
-
-
-
-
-
 void C_GEAR_SetupSubScreenBlend(CGearWork *work)
 {
     G2x_SetBlendAlpha_((unsigned int *)0x04001050, 2, 0x15, 9, 0x10);
 }
-
-
-
-
-
-
-
-
 
 /*
  * Stack order: c, d, x, y declared in that order ([sp,#0x10], #0xc, #8, #4).
@@ -2291,26 +1813,11 @@ void C_GEAR_HandleButton(CGearWork *work, int key)
     }
 }
 
-
-
-
-
-
-
-
 void C_GEAR_OnButtonEvent(int key, int buttonState, CGearWork *work)
 {
     if (C_GEAR_IsAnyIndicatorShown(work) == 0 && buttonState == 0)
         C_GEAR_HandleButton(work, key);
 }
-
-
-
-
-
-
-
-
 
 void C_GEAR_SetPaintModeIcon(CGearWork *work, int paintMode)
 {
@@ -2323,14 +1830,6 @@ void C_GEAR_SetPaintModeIcon(CGearWork *work, int paintMode)
         CLACT_SetActorAnimIndex(work->hudActors[9], 1);
     }
 }
-
-
-
-
-
-
-
-
 
 void C_GEAR_CreateHudActors(CGearWork *work)
 {
@@ -2370,27 +1869,12 @@ void C_GEAR_CreateHudActors(CGearWork *work)
     C_GEAR_UpdateTileMarkers(work);
 }
 
-
-
-
-
-
-
-
 void C_GEAR_SetTileMarkersVisible(CGearWork *work, int visible)
 {
     int i;
     for (i = 0; i < 3; i++)
         CLACT_SetActorDrawEnable(work->tileMarkerActors[i], visible);
 }
-
-
-
-
-
-
-
-
 
 void C_GEAR_SetAllActorsVisible(CGearWork *work, int visible)
 {
@@ -2431,27 +1915,12 @@ void C_GEAR_SetAllActorsVisible(CGearWork *work, int visible)
     }
 }
 
-
-
-
-
-
-
-
 void C_GEAR_SetSplashActorsVisible(CGearWork *work, int visible)
 {
     int i;
     for (i = 0; i < 18; i++)
         CLACT_SetActorDrawEnable(work->splashActors[i], visible);
 }
-
-
-
-
-
-
-
-
 
 void C_GEAR_CreateSplashActors(CGearWork *work)
 {
@@ -2473,13 +1942,6 @@ void C_GEAR_CreateSplashActors(CGearWork *work)
     }
 }
 
-
-
-
-
-
-
-
 void C_GEAR_DeleteSplashActors(CGearWork *work)
 {
     int i;
@@ -2491,13 +1953,6 @@ void C_GEAR_DeleteSplashActors(CGearWork *work)
     }
 }
 
-
-
-
-
-
-
-
 int C_GEAR_IsSplashDone(CGearWork *work)
 {
     int i;
@@ -2507,14 +1962,6 @@ int C_GEAR_IsSplashDone(CGearWork *work)
     }
     return 1;
 }
-
-
-
-
-
-
-
-
 
 void C_GEAR_CreateBarActors(CGearWork *work)
 {
@@ -2550,14 +1997,6 @@ void C_GEAR_CreateBarActors(CGearWork *work)
     CLACT_SetActorDrawEnable(work->barActors[2], 0);
     CLACT_SetActorVisible(work->barActors[2], 0);
 }
-
-
-
-
-
-
-
-
 
 void C_GEAR_UpdateBeaconColors(CGearWork *work)
 {
@@ -2601,13 +2040,6 @@ void C_GEAR_UpdateBeaconColors(CGearWork *work)
     }
 }
 
-
-
-
-
-
-
-
 void C_GEAR_DeleteBarActors(CGearWork *work)
 {
     if (work->barActors[0] != 0) {
@@ -2621,14 +2053,6 @@ void C_GEAR_DeleteBarActors(CGearWork *work)
         work->barActors[2] = 0;
     }
 }
-
-
-
-
-
-
-
-
 
 void C_GEAR_LoadGraphics(CGearWork *work, int introMode)
 {
@@ -2654,14 +2078,6 @@ void C_GEAR_LoadGraphics(CGearWork *work, int introMode)
         C_GEAR_SetTileMarkersVisible(work, 1);
     }
 }
-
-
-
-
-
-
-
-
 
 void C_GEAR_DeleteActors(CGearWork *work)
 {
@@ -2695,13 +2111,6 @@ void C_GEAR_DeleteActors(CGearWork *work)
     BG_SYS_FreeTileRun(6, (unsigned short)v, (unsigned short)(v >> 16));
 }
 
-
-
-
-
-
-
-
 void C_GEAR_FreeGraphics(CGearWork *work)
 {
     if (work->buttonTask)
@@ -2717,23 +2126,10 @@ void C_GEAR_FreeGraphics(CGearWork *work)
     BG_SYS_SetPlaneVisible(6, 0);
 }
 
-
-
-
-
-
-
 u8 C_GEAR_GetBatteryFrame(void)
 {
     return d_021F3520[UI_GetPowerState()];
 }
-
-
-
-
-
-
-
 
 static inline void SetActorAnimFrame(struct Actor *actor, int frame)
 {
@@ -2741,13 +2137,6 @@ static inline void SetActorAnimFrame(struct Actor *actor, int frame)
         CLACT_SetActorAnimIndex(actor, (u16)frame);
     }
 }
-
-
-
-
-
-
-
 
 void C_GEAR_UpdateClock(CGearWork *work)
 {
@@ -2788,13 +2177,6 @@ void C_GEAR_UpdateClock(CGearWork *work)
     }
 }
 
-
-
-
-
-
-
-
 void C_GEAR_UpdateTileMarkers(CGearWork *work)
 {
     int i;
@@ -2819,13 +2201,6 @@ void C_GEAR_UpdateTileMarkers(CGearWork *work)
     }
 }
 
-
-
-
-
-
-
-
 void C_GEAR_RunFrame(CGearWork *work)
 {
     BUTTON_MAN_UpdateSlots((struct ButtonMan *)work->buttonTask);
@@ -2843,12 +2218,6 @@ void C_GEAR_RunFrame(CGearWork *work)
     }
 }
 
-
-
-
-
-
-
 void C_GEAR_StepIdle(CGearWork *work)
 {
     if (work->endCallback != 0)
@@ -2858,13 +2227,6 @@ void C_GEAR_StepIdle(CGearWork *work)
     if (C_GEAR_IsIdleForInput(work))
         C_GEAR_RunFrame(work);
 }
-
-
-
-
-
-
-
 
 void C_GEAR_StepIntroEnd(CGearWork *work)
 {
@@ -2881,13 +2243,6 @@ void C_GEAR_StepIntroEnd(CGearWork *work)
     C_GEAR_InitTabTimersPowerOff(work);
     C_GEAR_ChangeStep(work, C_GEAR_StepIdle, 0xF92);
 }
-
-
-
-
-
-
-
 
 void C_GEAR_StepOpen(CGearWork *work)
 {
@@ -2974,13 +2329,6 @@ void C_GEAR_StepOpen(CGearWork *work)
     }
 }
 
-
-
-
-
-
-
-
 void C_GEAR_StepClose(CGearWork *work)
 {
     if (work->phaseTimer == 0) {
@@ -2997,13 +2345,6 @@ void C_GEAR_StepClose(CGearWork *work)
         C_GEAR_ChangeStep(work, C_GEAR_StepIntroEnd, 0x1041);
     }
 }
-
-
-
-
-
-
-
 
 /*
  * base is a u32 holding (u16)work->bgCharBlock and re-cast (u16) in the palette add:
@@ -3048,13 +2389,6 @@ int C_GEAR_LoadCustomBackground(CGearWork *work, struct GameSystem *gameSystem)
     return result;
 }
 
-
-
-
-
-
-
-
 void C_GEAR_OnCommDisconnect(CGearWork *work)
 {
     C_GEAR_StopFade(work);
@@ -3067,33 +2401,16 @@ void C_GEAR_OnCommDisconnect(CGearWork *work)
     work->commEvent = 1;
 }
 
-
-
-
-
-
-
 void C_GEAR_OnCommEvent(CGearWork *work)
 {
     work->commEvent = 2;
 }
-
-
-
-
-
-
 
 void C_GEAR_TransferPalettesTask(void *task, CGearWork *work)
 {
     if (work->palAnm != 0)
         PALANM_TransferPalettes(work->palAnm);
 }
-
-
-
-
-
 
 /*
  * 2026-10-05 (wave D5 lane 02): arm9 UI_SetSleepHookGlobal/UI_SetWakeHookGlobal and their setters UI_SetSleepHook/UI_SetWakeHook are now filed in src/matched/arm9/; the wrappers show MATCH only until the labels exist. Re-run after the integrator labels them.
@@ -3185,11 +2502,6 @@ void C_GEAR_Init(CGearWork *work, struct HexMap *hexMap, int parentWork, struct 
         INTRUDE_COMM_SetCompleted(eventWork);
 }
 
-
-
-
-
-
 void C_GEAR_Cleanup(CGearWork *work)
 {
     void *r = GAMESYSTEM_GetGameComm(work->gameSystem);
@@ -3218,10 +2530,6 @@ void C_GEAR_Cleanup(CGearWork *work)
     MI_CpuFill8(work, 0, sizeof(CGearWork));
 }
 
-
-
-
-
 CGearWork *C_GEAR_Create(struct HexMap *hexMap, int parentWork, struct GameSystem *gameSystem, int introMode)
 {
     CGearWork *work;
@@ -3229,10 +2537,6 @@ CGearWork *C_GEAR_Create(struct HexMap *hexMap, int parentWork, struct GameSyste
     C_GEAR_Init(work, hexMap, parentWork, gameSystem, introMode);
     return work;
 }
-
-
-
-
 
 CGearWork *C_GEAR_Open(struct HexMap *hexMap, int parentWork, struct GameSystem *gameSystem, void (*callback)(int), int callbackArg, int introMode)
 {
@@ -3253,10 +2557,6 @@ CGearWork *C_GEAR_Open(struct HexMap *hexMap, int parentWork, struct GameSystem 
     C_GEAR_UpdateTileMarkers(work);
     return work;
 }
-
-
-
-
 
 /*
  * The listing extent (316 B) runs over an unlabelled 4-byte follower at
@@ -3323,23 +2623,15 @@ void C_GEAR_Update(CGearWork *work, u8 powerOn)
         TCB_Main((struct TcbSystem *)work->fadeCtx);
 }
 
-
-
-
 void C_GEAR_Nop(void)
 {
 }
-
 
 void C_GEAR_Destroy(CGearWork *work)
 {
     C_GEAR_Cleanup(work);
     GFL_HEAP_Free(work);
 }
-
-
-
-
 
 int C_GEAR_Restart(CGearWork *work)
 {
@@ -3356,10 +2648,6 @@ int C_GEAR_Restart(CGearWork *work)
     }
     return 0;
 }
-
-
-
-
 
 /*
  * The listing extent (252 B) runs over the matched follower 0x021F2AB8;
@@ -3416,10 +2704,6 @@ struct GameEvent *C_GEAR_HandleCommand(CGearWork *work, int enabled)
     return event;
 }
 
-
-
-
-
 /*
  * Unlabelled leaf, sole blocker of ov021 FIELD_EVENT_CHECK_StopSoundAfterEvent.
  */
@@ -3432,9 +2716,6 @@ int C_GEAR_IsLastCommandWifi(CGearWork *work)
     return 0;
 }
 
-
-
-
 void C_GEAR_StopRingtone(CGearWork *work)
 {
     if (work != 0) {
@@ -3442,10 +2723,6 @@ void C_GEAR_StopRingtone(CGearWork *work)
         C_GEAR_SetTabMode(work, 0, 0);
     }
 }
-
-
-
-
 
 void C_GEAR_SetCellKind(CGearWork *work, struct HexMap *hexMap, int col, int row, int kind)
 {
@@ -3470,18 +2747,12 @@ void C_GEAR_SetCellKind(CGearWork *work, struct HexMap *hexMap, int col, int row
     C_GEAR_UpdateTileMarkers(work);
 }
 
-
-
-
 u32 C_GEAR_GetCellKind(const CGearWork *work, int col, int row)
 {
     if (work->commEnabled != 0)
         return CGEAR_SAVE_GetPanelValue((struct CGearSave *)work->hexMap, col, row);
     return 0;
 }
-
-
-
 
 int C_GEAR_IsCellMarked(const CGearWork *work, int col, int row)
 {
@@ -3490,16 +2761,12 @@ int C_GEAR_IsCellMarked(const CGearWork *work, int col, int row)
     return 0;
 }
 
-
-
-
 int C_GEAR_IsCellKind(const CGearWork *work, int col, int row, int kind)
 {
     if (work->commEnabled != 0)
         return BLOCK20_SAVEDATA_TestPanelMark((struct CGearSave *)work->hexMap, col, row, kind);
     return 0;
 }
-
 
 int CTRDG_IsAgbCartridge(CGearWork *work)
 {
@@ -3509,9 +2776,6 @@ int CTRDG_IsAgbCartridge(CGearWork *work)
     }
     return 0;
 }
-
-
-
 
 int C_GEAR_StepIconAnim(CGearWork *work)
 {
@@ -3528,7 +2792,6 @@ int C_GEAR_StepIconAnim(CGearWork *work)
     }
     return 0;
 }
-
 
 int C_GEAR_StepFadeIcon(CGearWork *work)
 {
@@ -3559,7 +2822,6 @@ int C_GEAR_StepFadeIcon(CGearWork *work)
 void C_GEAR_NoOp(CGearWork *work)
 {
 }
-
 
 void C_GEAR_ShowOffIndicator(CGearWork *work)
 {
@@ -3625,7 +2887,6 @@ int C_GEAR_IsAnyIndicatorShown(CGearWork *work)
     return 0;
 }
 
-
 void C_GEAR_TickTabFrame(CGearWork *work)
 {
     if (C_GEAR_IsAnyIndicatorShown(work) == 0 && work->tabActive != 0) {
@@ -3639,7 +2900,6 @@ void C_GEAR_TickTabFrame(CGearWork *work)
         }
     }
 }
-
 
 void C_GEAR_CreateFadeFx(CGearWork *work, CGearFadeFx *fx)
 {
@@ -3663,7 +2923,6 @@ void C_GEAR_CreateFadeFx(CGearWork *work, CGearFadeFx *fx)
     fx->fadeCtx = work->fadeCtx;
 }
 
-
 void C_GEAR_DeleteFadeFx(CGearFadeFx *fx)
 {
     CLACT_DeleteActor(fx->actor);
@@ -3678,7 +2937,6 @@ void C_GEAR_StartFadeFx(CGearFadeFx *fx, int palette)
     fx->palette = palette;
 }
 
-
 int C_GEAR_StepFadeFx(CGearFadeFx *fx)
 {
     if (fx->active == 0)
@@ -3692,7 +2950,6 @@ int C_GEAR_StepFadeFx(CGearFadeFx *fx)
                        fx->fadeCtx);
     return 0;
 }
-
 
 struct GameEvent *C_GEAR_StartPanelEvent(CGearWork *work, int kind)
 {
@@ -3722,7 +2979,6 @@ struct GameEvent *C_GEAR_StartPanelEvent(CGearWork *work, int kind)
     }
     return event;
 }
-
 
 int C_GEAR_PanelEventMain(struct GameEvent *event, int *seq, CGearEventWork *req)
 {
@@ -3832,7 +3088,6 @@ void C_GEAR_StepWaitSlots(CGearWork *work)
     }
 }
 
-
 void C_GEAR_SetPowerState(CGearWork *work, int powerOn)
 {
     if (GFL_NET_GetRunState() == 0 && work->commEnabled != 0)
@@ -3847,7 +3102,6 @@ void C_GEAR_SetPowerState(CGearWork *work, int powerOn)
         work->powerOn = powerOn;
     }
 }
-
 
 /* Reads archive member (skinIndex + 0x19) into the buffer of the C-Gear save. */
 void C_GEAR_LoadSkinMember(struct HexMap *hexMap, struct ArcFile *arc, int skinIndex, int heapId)

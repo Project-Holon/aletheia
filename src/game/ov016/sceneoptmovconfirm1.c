@@ -42,12 +42,10 @@
  *   gSceneOptMovConfirm1Work     0x021DE5B8  data
  *   DWCi_CMNlLoadResource  0x021BD1D4  arm
  *   DWCi_GXlVisible  0x021D603C  arm  ov016
- *   procInit1  0x021C3954  arm
  *   DWCi_CMNlButton                  0x021BD264  arm
  *   DWCi_BTNlGet                     0x021BCB14  arm
  *   DWCi_BTNlEnable                  0x021BCB84  arm
  *   DWCi_SNDlPlay  0x021CFFAC  arm
- *   endScene  0x021C3A48  arm
  *   DWCi_BTNlDisable                 0x021BCB9C  arm
  *   DWCi_EFFlWait                    0x021D5790  arm
  *   DWCi_WINlEnd                     0x021D1524  arm
@@ -62,7 +60,7 @@
 
 typedef _Bool bool;
 
-typedef unsigned short u16;
+#include "../types.h"
 
 typedef struct {
     u16 priority : 2;
@@ -74,8 +72,6 @@ typedef struct {
     unsigned char  Choose;            /* 0x00 */
 } SCENEOPTERASE_BSS;
 
-typedef unsigned char u8;
-
 extern bool DWCi_EFFlCheck(int lcd);
 extern void DWCi_BTNlEnd(void);
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
@@ -85,13 +81,11 @@ extern void DWCi_FNTlDeleteBgLcd(int lcd);
 extern void DWCi_GXlInvisible(int lcd, int plane);
 extern void DWCi_SetParam_(unsigned int a, unsigned int b);
 void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
-extern void procInit1(void);
 extern void DWCi_CMNlButton(int kind);
 extern char DWCi_BTNlGet(void);
 extern void DWCi_BTNlEnable(void);
 extern int DWCi_IPTlCheckTrigger(unsigned int f);
 extern void DWCi_BTNlSet(signed char v);
-extern void endScene(void);
 extern void DWCi_BTNlDisable(void);
 extern bool DWCi_EFFlWait(int frame);
 extern void DWCi_GXlVisible(int lcd, int plane);
@@ -123,7 +117,6 @@ static void button(void);
 static void endDisableButtons(void);
 static void endFadeOutBoth(void);
 
-
 static void closeFadeStep(void)
 {
     if (DWCi_EFFlCheck(1))
@@ -133,9 +126,7 @@ static void closeFadeStep(void)
     DWCi_ChangeScene(closeWaitStep);
 }
 
-
 static void DWCi_SceneOptMovWait(void);
-
 
 static void closeWaitStep(void)
 {
@@ -148,7 +139,6 @@ static void closeWaitStep(void)
     DWCi_SetParam_(0, 1);
     DWCi_ChangeScene(DWCi_SceneOptMovWait);
 }
-
 
 /*
  * sdk:      DWCi_SceneOptMovConfirm1 (libdwcutil.TWL.HYB.a sceneoptmovconfirm1.o)
@@ -163,7 +153,6 @@ void DWCi_SceneOptMovConfirm1(void)
     DWCi_ChangeScene(procInit);
 }
 
-
 static void initGraphics(void)
 {
     DWCi_CMNlLoadResource((void *)0x021DB37C, (void *)0x0207EB78);
@@ -174,7 +163,6 @@ static void initGraphics(void)
     ((BgCnt *)0x0400000C)->priority = 3;
 }
 
-
 /*
  * sdk:      procInit (libdwcutil.TWL.HYB.a(sceneoptmovconfi))
  */
@@ -184,9 +172,8 @@ static void procInit(void)
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(1, 1);
     DWCi_GXlVisible(0, 0x15);
-    DWCi_ChangeScene(procInit1);
+    DWCi_ChangeScene(initButtonsStep);
 }
-
 
 static void initButtonsStep(void)
 {
@@ -196,7 +183,6 @@ static void initButtonsStep(void)
     DWCi_ChangeScene(enableButtonsStep);
 }
 
-
 static void enableButtonsStep(void)
 {
     if (DWCi_BTNlGet() == -2)
@@ -205,14 +191,12 @@ static void enableButtonsStep(void)
     DWCi_ChangeScene(DWCi_SceneOptMovConfirm1_procScene);
 }
 
-
 void DWCi_SceneOptMovConfirm1_procScene(void)
 {
     input();
     DWCi_SceneOptMovConfirm1_draw();
     button();
 }
-
 
 static void input(void)
 {
@@ -225,7 +209,6 @@ static void input(void)
 void DWCi_SceneOptMovConfirm1_draw(void)
 {
 }
-
 
 /*
  * sdk:      button (libdwcutil.TWL.HYB.a(sceneoptmovconfi))
@@ -243,9 +226,8 @@ static void button(void)
     default:
         return;
     }
-    DWCi_ChangeScene(endScene);
+    DWCi_ChangeScene(endDisableButtons);
 }
-
 
 static void endDisableButtons(void)
 {
@@ -253,7 +235,6 @@ static void endDisableButtons(void)
     DWCi_EFFlWait(8);
     DWCi_ChangeScene(endFadeOutBoth);
 }
-
 
 static void endFadeOutBoth(void)
 {
@@ -265,7 +246,6 @@ static void endFadeOutBoth(void)
     DWCi_EFFlFade(3, 0, 0x15, 8);
     DWCi_ChangeScene(DWCi_SceneOptMovConfirm1EndScene2);
 }
-
 
 /*
  * The final DWCi_SetParam_(0, 1) is written in both arms: the original emits

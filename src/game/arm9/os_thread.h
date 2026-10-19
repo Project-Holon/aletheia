@@ -3,10 +3,7 @@
 
 /* Public functions of os_thread.c, prototypes copied from their definitions. */
 
-struct OSMutex;
-struct _OSMutexQueue;
-typedef struct OSMutex OSMutex;
-typedef struct _OSMutexQueue OSMutexQueue;
+#include "../sdk_os.h"
 
 int OSi_GetUnusedThreadId(void);
 OSMutex *OSi_RemoveMutexLinkFromQueue(OSMutexQueue *queue);

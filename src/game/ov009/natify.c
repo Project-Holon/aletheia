@@ -62,21 +62,7 @@
 #define NN_NTOHS(x) ((unsigned short)((((x) >> 8) & 0xFF) | (((x) << 8) & 0xFF00)))
 #define NN_NTOHL(x) ((((x) >> 24) & 0xFF) | (((x) >> 8) & 0xFF00) | (((x) << 8) & 0xFF0000) | (((x) << 24) & 0xFF000000))
 struct _NAT;
-typedef struct SOCInAddr {
-    unsigned int addr;
-} SOCInAddr;
-
-typedef struct SOCHostEnt {
-    unsigned char pad0[0xC];
-    SOCInAddr **addrList;
-} SOCHostEnt;
-
-typedef struct SOCSockAddrIn {
-	unsigned char len;
-	unsigned char family;
-	unsigned short port;
-	unsigned int addr;
-} SOCSockAddrIn;
+#include "../sdk_soc.h"
 
 typedef struct _AddressMapping {
     unsigned int privateIp;
@@ -232,7 +218,7 @@ static unsigned int GetLocalIP(void)
     if (!phost)
         return 0;
     for (num_local_ips = 0;; num_local_ips++) {
-        addr = phost->addrList[num_local_ips];
+        addr = (SOCInAddr *)phost->addrList[num_local_ips];
         if (!addr)
             break;
         if (addr->addr != 16777343) {

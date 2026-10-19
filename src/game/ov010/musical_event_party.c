@@ -43,13 +43,7 @@ struct Pokemon;
 struct NetHandle;
 struct MyStatus;
 struct WifiList;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef signed int     s32;
+#include "../types.h"
 
 /* Entry data of the event; only the participant-mode byte is read here. */
 struct MusicalEntryInfo {
@@ -118,7 +112,6 @@ void MUSICAL_EVENT_BindParticipantSlots(struct MusicalEventWork *work, struct Ga
 extern const PositionRemap2 MUSICAL_EVENT_TwoPlayerPositionRemap;
 extern const PositionRemap4 MUSICAL_EVENT_FourPlayerPositionRemap;
 
-
 /*
  * Sets every Pokemon of the party to level 50.
  */
@@ -129,7 +122,6 @@ void MUSICAL_EVENT_SetPartyLevel50(void *party)
     for (i = 0; i < (int)POKEPARTY_GetCount(party); i++)
         POKE_TOOL_SetLevelAndRecalc(POKEPARTY_GetMember(party, i), 50);
 }
-
 
 /*
  * Rebuilds the event party at +0x38: either from the player's own party
@@ -162,7 +154,6 @@ void MUSICAL_EVENT_BuildParty(int partySource, struct MusicalEventWork *work)
     MUSICAL_EVENT_SetPartyLevel50(work->party);
 }
 
-
 /*
  * Trims a party to its first three entries by removing entry 3 until only three remain.
  */
@@ -176,7 +167,6 @@ void MUSICAL_EVENT_TrimPartyToThree(void *party)
         POKEPARTY_RemoveMember(party, 3);
 }
 
-
 /*
  * Trims the event party at +0x38 and the four participant parties at +0x3c to three entries each.
  */
@@ -188,7 +178,6 @@ void MUSICAL_EVENT_TrimAllPartiesToThree(struct MusicalEventWork *work)
     for (i = 0; i < 4; i++)
         MUSICAL_EVENT_TrimPartyToThree(work->participantParties[i]);
 }
-
 
 /*
  * Updates the Wi-Fi friend list entries of the other participants after the
@@ -244,7 +233,6 @@ void MUSICAL_EVENT_UpdateFriendRecords(struct MusicalEventWork *work, struct Gam
         }
     }
 }
-
 
 /*
  * Binds each participant's party list (+0x3c) and player status into the

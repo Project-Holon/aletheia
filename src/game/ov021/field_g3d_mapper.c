@@ -86,11 +86,7 @@
  */
 #include "field_g3d_mapper_types.h"
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed int     s32;
-typedef long long      fx64;
+#include "../types.h"
 
 #define HW_VBLANK_COUNT_BUF (*(volatile u32 *)0x02FFFC3C)
 #define REG_VCOUNT          (*(volatile u16 *)0x04000006)

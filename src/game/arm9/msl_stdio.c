@@ -101,7 +101,7 @@ typedef struct {
     unsigned char pad[8];
     MslFormatHook *hook;
 } MslFormatHookHolder;
-struct OSMutex;
+#include "../sdk_os.h"
 
 extern void OS_LockMutex(struct OSMutex *mutex);
 

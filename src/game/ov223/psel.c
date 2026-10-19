@@ -213,7 +213,7 @@ typedef struct {u8 b[14];} Motion;
 
 typedef struct {u8 b[5];} Files;
 
-typedef signed short s16;
+#include "../types.h"
 
 typedef struct Vec2 { s16 x, y; } Vec2;
 
@@ -462,19 +462,10 @@ extern const PselTableEntry entry_table[];
 extern const u32 d_021BC730[];
 extern const u16 d_021BC710[];
 
-
-
-
-
-
 int PSEL_SetAnimFrame(int anime, int frame)
 {
     return ICA_ANIME_SetFrame(anime, frame / 2);
 }
-
-
-
-
 
 struct Record *PSEL_CreateRecords(u32 heap,u32 count)
 {
@@ -493,15 +484,7 @@ struct Record *PSEL_CreateRecords(u32 heap,u32 count)
     return p;
 }
 
-
-
-
-
 void PSEL_DeleteRecords(void *p) { GFL_HEAP_Free(p); }
-
-
-
-
 
 int PSEL_Init(void *a,int unused,void *c)
 {
@@ -521,10 +504,6 @@ int PSEL_Init(void *a,int unused,void *c)
     ((struct PselWork *)p)->subState=0;
     return 1;
 }
-
-
-
-
 
 int PSEL_Exit(void *a, int unused1, int unused2, u8 *ctx)
 {
@@ -554,15 +533,7 @@ int PSEL_Exit(void *a, int unused1, int unused2, u8 *ctx)
     return 1;
 }
 
-
-
-
-
 extern int (*callbacks[])(char *,int *);
-
-
-
-
 
 int PSEL_Main(void *a,int *state,void *b,char *p)
 {
@@ -582,10 +553,6 @@ int PSEL_Main(void *a,int *state,void *b,char *p)
     return 0;
 }
 
-
-
-
-
 void PSEL_Task(void *unused,char *p)
 {
     if(((struct PselWork *)p)->flags&1) BG_SYS_SetPlaneVisible(3,1);
@@ -599,20 +566,7 @@ void PSEL_Task(void *unused,char *p)
     ((struct PselWork *)p)->flags=0;
 }
 
-
-
-
-
-
-
 void PSEL_DrawObjects(char *p) { u16 i;for(i=0;i<((struct PselWork *)p)->recordCount;i++){char *q=(char *)((struct PselWork *)p)->records+(u32)i*68;if(((struct PselWork *)q)->animStream)G3D_SYSTEM_DrawObject(G3D_UTIL_GetObject(*(u8 * *)&((struct PselWork *)p)->g3dUtil,((struct PselWork *)q)->heapId),(struct G3dObjectStatus *)(q+4));} }
-
-
-
-
-
-
-
 
 void PSEL_CreateG3dUtil(char *p)
 {
@@ -620,19 +574,7 @@ void PSEL_CreateG3dUtil(char *p)
     ((struct PselWork *)p)->recordCount = 0;
 }
 
-
-
-
-
-
-
 void PSEL_DeleteG3dUtil(int *p) { G3D_UTIL_Delete(*(struct Rec * *)&((struct PselWork *)p)->g3dUtil); }
-
-
-
-
-
-
 
 void PSEL_SetupListAnime(u8 *p)
 {
@@ -662,19 +604,7 @@ void PSEL_SetupListAnime(u8 *p)
     *(u32 *)(p + 0x50) = 0;
 }
 
-
-
-
-
-
-
 void PSEL_DeleteListAnime(char *p) { G3D_UTIL_RemoveUnit(*(struct Ctx * *)&((struct PselWork *)p)->g3dUtil,((struct PselWork *)p)->unitId);PSEL_DeleteRecords(((struct PselWork *)p)->records);((struct PselWork *)p)->recordCount=0;ICA_ANIME_Delete(*(struct IcaAnime * *)&((struct PselWork *)p)->animStream); }
-
-
-
-
-
-
 
 void PSEL_UpdateListAnime(char *p)
 {
@@ -690,12 +620,6 @@ void PSEL_UpdateListAnime(char *p)
     ICA_ANIME_SetCameraStatus((void *)PSEL_GRAPHIC_GetCamera(((struct PselWork *)p)->graphicSys),((struct PselWork *)p)->animStream);
     (*(u32 *)&((struct PselWork *)p)->animFrame)++;
 }
-
-
-
-
-
-
 
 void PSEL_SetupSelectAnime(char *p)
 {
@@ -724,19 +648,7 @@ void PSEL_SetupSelectAnime(char *p)
     ((struct PselWork *)p)->animFrame=0;
 }
 
-
-
-
-
-
-
 void PSEL_DeleteSelectAnime(char *p) {G3D_UTIL_RemoveUnit(*(struct Ctx * *)&((struct PselWork *)p)->g3dUtil,((struct PselWork *)p)->unitId2);PSEL_DeleteRecords(((struct PselWork *)p)->records);((struct PselWork *)p)->recordCount=0;ICA_ANIME_Delete(*(struct IcaAnime * *)&((struct PselWork *)p)->animStream);}
-
-
-
-
-
-
 
 void PSEL_UpdateSelectAnime(char *p)
 {
@@ -750,12 +662,6 @@ void PSEL_UpdateSelectAnime(char *p)
     ICA_ANIME_SetCameraStatus((void *)PSEL_GRAPHIC_GetCamera(((struct PselWork *)p)->graphicSys),((struct PselWork *)p)->animStream);
     (((struct PselWork *)p)->animFrame)++;
 }
-
-
-
-
-
-
 
 void PSEL_SetAnimTarget(char *p,int type,int flag)
 {
@@ -771,10 +677,6 @@ void PSEL_SetAnimTarget(char *p,int type,int flag)
     ((struct PselWork *)p)->animTarget=v;
 }
 
-
-
-
-
 int PSEL_IsAnimTargetReached(char *p)
 {
     int select=0;
@@ -782,10 +684,6 @@ int PSEL_IsAnimTargetReached(char *p)
     if(((struct PselWork *)p)->animTarget==table[((struct PselWork *)p)->animTableIndex][select]) return 1;
     return 0;
 }
-
-
-
-
 
 void PSEL_StepAnim(char *p)
 {
@@ -805,10 +703,6 @@ void PSEL_StepAnim(char *p)
     }
 }
 
-
-
-
-
 void PSEL_SetAnimTargetIndex(char *p,unsigned index)
 {
     u16 value;
@@ -823,18 +717,7 @@ void PSEL_SetAnimTargetIndex(char *p,unsigned index)
     ((struct PselWork *)p)->animTarget=value;
 }
 
-
-
-
-
-
 void PSEL_StepAnimIndex(char *p) {if(((struct PselWork *)p)->animTarget!=*(const u16 *)((const u8 *)d_021BC792+((struct PselWork *)p)->animTableIndex*10)) {ICA_ANIME_IncFrameLoop(*(struct IcaAnime * *)&((struct PselWork *)p)->animStream,2048);ICA_ANIME_SetCameraStatus((void *)PSEL_GRAPHIC_GetCamera((unsigned char *)(((struct PselWork *)p)->graphicSys)),((struct PselWork *)p)->animStream);(((struct PselWork *)p)->animTarget)++;}}
-
-
-
-
-
-
 
 void PSEL_SelectUnit(char *p,unsigned next)
 {
@@ -860,12 +743,6 @@ void PSEL_SelectUnit(char *p,unsigned next)
     ((struct PselWork *)p)->fade.state.currentIndex=next;
 }
 
-
-
-
-
-
-
 void PSEL_UpdateUnitAnime(char *p)
 {
     void *object;
@@ -877,12 +754,6 @@ void PSEL_UpdateUnitAnime(char *p)
         for(i=0;i<count;i++) G3D_SYSTEM_LoopObjectAnimeFrame(object,i,2048);
     }
 }
-
-
-
-
-
-
 
 /*
  * lever: bind the file table record before the sprite record to reproduce their address scheduling.
@@ -936,12 +807,6 @@ void PSEL_CreateUnits(char *p)
     ((struct PselWork *)p)->fade.state.fadeAlpha=0;((struct PselWork *)p)->fade.state.fadeState=0;
 }
 
-
-
-
-
-
-
 void PSEL_DeleteUnits(char *p)
 {
     u8 i,j;
@@ -957,12 +822,6 @@ void PSEL_DeleteUnits(char *p)
         }
     }
 }
-
-
-
-
-
-
 
 int PSEL_InterpolateCurve(s16 *pos,int *size,u16 a,u16 b,u8 c,u8 d,u8 e,u8 f,u32 duration,u8 amplitude,u32 time)
 {
@@ -981,12 +840,6 @@ int PSEL_InterpolateCurve(s16 *pos,int *size,u16 a,u16 b,u8 c,u8 d,u8 e,u8 f,u32
     result=(s16)y;
     return result;
 }
-
-
-
-
-
-
 
 void PSEL_UpdateUnitPositions(Main *p)
 {
@@ -1178,12 +1031,6 @@ void PSEL_UpdateUnitPositions(Main *p)
     }
 }
 
-
-
-
-
-
-
 void PSEL_SetUnitVisible(char *p,unsigned selected)
 {
     u8 i;
@@ -1199,12 +1046,6 @@ void PSEL_SetUnitVisible(char *p,unsigned selected)
     }
 }
 
-
-
-
-
-
-
 void PSEL_UpdateFadeUnit(char *p)
 {
     u8 i;
@@ -1216,22 +1057,11 @@ void PSEL_UpdateFadeUnit(char *p)
     G2x_SetBlendAlpha_((u32 *)0x04001050,0,63,alpha,16-alpha);
 }
 
-
-
-
-
-
-
 int PSEL_IsUnitAnimDone(char *p)
 {
     if(((struct PselWork *)p)->fade.state.fadeState==0) return 1;
     return 0;
 }
-
-
-
-
-
 
 void PSEL_UpdateUnitAnime2(char *p)
 {
@@ -1258,11 +1088,6 @@ void PSEL_UpdateUnitAnime2(char *p)
     }
 }
 
-
-
-
-
-
 void PSEL_CreateUnits2(char *p)
 {
     void *object;
@@ -1279,25 +1104,11 @@ void PSEL_CreateUnits2(char *p)
     PSEL_SetActorPosition(p,0);
 }
 
-
-
-
-
-
 void PSEL_DeleteActors(char *p) {u32 off;off=0x224;CLACT_DeleteActor((struct Actor *)(*(struct Obj **)(p+off)));CLACT_ReleaseCellAnim(*(u32 *)(p+off-4));CLACT_ReleaseCharacter(*(u32 *)(p+off-12));off-=8;CLACT_ReleasePalette(*(u32 *)(p+off));}
-
-
 
 void PSEL_SetActorPosition(char *p,int flag) {Vec2 pos;if(flag) {PSEL_UpdateActorPosition(p);}else {pos.x=400;pos.y=300;CLACT_AddActorSurfacePos(*(struct Obj * *)&((struct PselWork *)p)->fade.state.actor,&pos,0);}}
 
-
-
-
 void PSEL_UpdateActorPosition(char *p) {Vec2 pos;u32 idx,off;off=0x228;idx=*(u32 *)(p+off);off-=4;pos.x=d_021BC716[idx].x;pos.y=d_021BC716[idx].y;CLACT_AddActorSurfacePos(*(struct Obj **)(p+off),&pos,0);}
-
-
-
-
 
 void PSEL_CreateBmpWindows(u16 *p)
 {
@@ -1319,14 +1130,7 @@ void PSEL_CreateBmpWindows(u16 *p)
     BMP_Delete(bmp);
 }
 
-
-
-
-
 void PSEL_NopBgWindows(int *unused) {}
-
-
-
 
 /*
  * lever: cast the whole ternary to u16; declare col,row before index.
@@ -1350,10 +1154,6 @@ void PSEL_InitBgLayers(u16 *p)
     GFL_HEAP_Free(buffer);
 }
 
-
-
-
-
 /*
  * Addresses are Black-image addresses.
  */
@@ -1361,9 +1161,6 @@ int PSEL_ClearBgLayer2(void)
 {
     return BG_SYS_ClearLayerEx(2, 0xd000);
 }
-
-
-
 
 void PSEL_DeleteBgLayers(u16 *p)
 {
@@ -1376,13 +1173,7 @@ void PSEL_DeleteBgLayers(u16 *p)
     BG_SYS_PushTile(4);
 }
 
-
-
-
 void PSEL_NopBgDelete(void) {}
-
-
-
 
 void PSEL_SetBgSys(const u16 *p)
 {
@@ -1411,18 +1202,11 @@ void PSEL_SetBgSys(const u16 *p)
     BG_SYS_MarkTileDirty(6);GFL_HEAP_Free(buffer);
 }
 
-
-
-
-
 void PSEL_ClearBgLayerEx(char *unused)
 {
     BG_SYS_ClearLayerEx(2, 0xd000);
     BG_SYS_ClearLayerEx(6, 0);
 }
-
-
-
 
 /*
  * Trailing ADFA halfword is zero alignment padding.
@@ -1440,12 +1224,7 @@ void PSEL_UploadBgPalette(u16 *p)
     BG_SYS_PushTile(5);
 }
 
-
-
-
 void PSEL_NopBgUpdate(char *unused) {}
-
-
 
 void PSEL_CreateWin(char *p)
 {
@@ -1464,8 +1243,6 @@ void PSEL_CreateWin(char *p)
     ((struct PselWork *)p)->printStream=0;((struct PselWork *)p)->strbuf=0;
 }
 
-
-
 void PSEL_DeleteWin(char *p)
 {
     u8 i;
@@ -1479,16 +1256,11 @@ void PSEL_DeleteWin(char *p)
     MSGDATA_Delete((struct MsgBank *)(*(struct Rec * *)&((struct PselWork *)p)->msgBank));
 }
 
-
-
-
 void PSEL_UpdateTcbl(int *p)
 {
     TCBL_Main((struct TcblSystem *)p[0x95]);
     PSEL_UpdateWindows((char *)p);
 }
-
-
 
 /*
  * Trailing AFC2 halfword is zero alignment padding. Forming q = p + i*4
@@ -1517,8 +1289,6 @@ int PSEL_UpdateWindows(char *p)
     return finished;
 }
 
-
-
 void PSEL_SetMode(char *p, int idx)
 {
     struct Descriptor *desc = *(struct Descriptor **)(p + 0x23C);
@@ -1546,9 +1316,6 @@ void PSEL_SetMode(char *p, int idx)
     BMP_WIN_MakeScreen((struct BmpWin *)desc);
     BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)desc));
 }
-
-
-
 
 int PSEL_IsModeDone(char *a)
 {
@@ -1580,8 +1347,6 @@ int PSEL_IsModeDone(char *a)
     return r;
 }
 
-
-
 void PSEL_UpdateSubWindow(char *p)
 {
     struct Descriptor *d;
@@ -1597,8 +1362,6 @@ void PSEL_UpdateSubWindow(char *p)
         STRBUF_Delete((struct Strbuf *)(*(struct U16Vec * *)&((struct PselWork *)p)->strbuf));
     *(int *)&((struct PselWork *)p)->strbuf = 0;
 }
-
-
 
 /*
  * note: 2026-10-05 (wD8 lane03): EXACT. The 0x24C slot is a pointer local `flag = (u32 *)(p + 0x24C)`
@@ -1639,11 +1402,7 @@ void PSEL_PrintSubWindow(char *p, int idx)
     PSEL_UpdateWindows(p);
 }
 
-
-
 void PSEL_ClearWin(char *p) {struct Descriptor *d;u32 off;off=0x240;BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor **)(p+off))),0);d=*(struct Descriptor **)(p+off);BMP_WIN_TransferChars(d);BMP_WIN_MakeScreen((struct BmpWin *)d);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)d));}
-
-
 
 /*
  * Declare width before the zero x initializer: its store shares the
@@ -1671,23 +1430,14 @@ void PSEL_ClearWin2(char *p)
     PSEL_UpdateWindows(p);
 }
 
-
-
 void PSEL_ClearWin3(char *p) {struct Descriptor *d;u32 off;off=0x238;BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor **)(p+off))),0);d=*(struct Descriptor **)(p+off);BMP_WIN_TransferChars(d);BMP_WIN_MakeScreen((struct BmpWin *)d);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)d));}
 
-
-
 void PSEL_CreateTaskRes(char *p) {*(struct TaskMenuRes * *)&((struct PselWork *)p)->taskRes=APP_TASKMENU_RES_Create(3,11,(struct GFont *)(*(u32 *)&((struct PselWork *)p)->font),(struct PrintQueue *)(((struct PselWork *)p)->printQue),((struct PselWork *)p)->heapId);}
-
-
-
 
 int PSEL_DeleteTaskResData(int *p)
 {
     return APP_TASKMENU_RES_Delete((struct TaskMenuState *)p[0x97]);
 }
-
-
 
 /*
  * The lead's EXACT* ends at BB404; two complete 16-byte load/tail-call
@@ -1703,24 +1453,16 @@ void PSEL_ShowTaskRes(char *p)
     STRBUF_Delete(item.text);
 }
 
-
-
 void PSEL_DeleteTaskRes(char *p)
 {
     APP_TASKMENU_WIN_Delete((struct TaskMenuWin *)(*(u8 * *)&((struct PselWork *)p)->win));
 }
-
-
 
 void PSEL_UpdateTaskResWin(char *p)
 {
     APP_TASKMENU_WIN_Update((struct TaskMenuWin *)(*(u8 * *)&((struct PselWork *)p)->win));
 }
 
-
-
 void PSEL_SetTaskResActive(char *p) {u32 off;off=0x260;APP_TASKMENU_WIN_SetActive((struct TaskMenuWin *)(*(struct Obj **)(p+off)),1);APP_TASKMENU_WIN_SetDecide((struct TaskMenuWin *)(*(char **)(p+off)),1);}
-
-
 
 u32 PSEL_IsTaskResFinished(char *p) {return APP_TASKMENU_WIN_IsFinish((struct TaskMenuWin *)(*(u8 * *)&((struct PselWork *)p)->win));}

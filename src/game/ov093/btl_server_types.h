@@ -2,15 +2,7 @@
 #define BTL_SERVER_TYPES_H
 /* ov093 battle server: types shared by every part of btl_server.c. */
 
-#ifndef OV093_BASIC_TYPES
-#define OV093_BASIC_TYPES
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed char s8;
-typedef signed short s16;
-typedef signed int s32;
-#endif
+#include "../types.h"
 
 /* One word describing an action; the two views share the first three fields. */
 typedef union {
@@ -41,7 +33,6 @@ union Slot {
     struct { u32 kind:3; u32 rest:29; } k;
 };
 
-
 /* Types shared by several parts. */
 typedef struct { u16 v; } BtlSickContWord;
 
@@ -54,7 +45,7 @@ typedef struct { unsigned low:10, size:9, high:13; } QueueA;
 typedef struct { unsigned low:13, size:10, high:9; } QueueB;
 typedef struct { unsigned low:28, a:1, b:1, c:1, d:1; } BtlHandExScopeWord;
 
-typedef enum { FALSE = 0, TRUE = 1 } BOOL;
+typedef enum { FALSE = 0, TRUE = 1 } Bool;
 
 struct Copy24 { int x[6]; };
 
@@ -107,7 +98,6 @@ typedef struct {
     u32 tab[4][3];    /* 0xb4 */
     u8 cnt[4];        /* 0xe4 */
 } Obj_td;
-
 
 /* ---- BtlServer: the battle server object (lane L189a) ---- */
 
